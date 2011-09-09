@@ -4,14 +4,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJInterface;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 import org.nakeduml.java.metamodel.utilities.JavaUtil;
-import sun.misc.MetaIndex;
 
 public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElement{
 	public OJAnnotatedOperation(String string,OJPathName ojPathName){

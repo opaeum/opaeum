@@ -10,12 +10,9 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.WorkspaceMappingInfo;
-import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.core.internal.ClassifierDependencyComparator;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
@@ -23,11 +20,9 @@ import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
 public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
-	private static final long serialVersionUID = -825314743586339864L;
 	public static final String META_CLASS = "nakedWorkspace";
 	private NakedUmlLibrary builtInTypes;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
-	private Map<Class<? extends INakedElement>,Set<INakedElement>> elementsByMetaClass = new HashMap<Class<? extends INakedElement>,Set<INakedElement>>();
 	private INakedInterface businessRole;
 	private WorkspaceMappingInfo modelMappingInfo;
 	
@@ -37,7 +32,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	private ErrorMap validator = new ErrorMap();
 	private List<INakedRootObject> generatingRootObjects = new ArrayList<INakedRootObject>();
 	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
-	private String directoryName;
+	private String identifier;
 	private Map<INakedElement,Set<INakedElement>> dependencies = new HashMap<INakedElement,Set<INakedElement>>();
 	public NakedModelWorkspaceImpl(){
 	}
@@ -60,35 +55,12 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		this.modelMappingInfo = modelMappingInfo;
 	}
 	public void putModelElement(INakedElement mw){
-		String metaClass = mw.getMetaClass();
-		if(this.allElementsByModelId.containsKey(mw.getId())){
-			INakedElement clash = this.allElementsByModelId.get(mw.getId());
-			String msg = metaClass + ":" + mw.getName() + " already exists:" + clash;
-			System.out.println(msg);
-		}
-		Class<?> startClass = mw.getClass();
-		while(INakedElement.class.isAssignableFrom(startClass)){
-			for(Class<?> intf:startClass.getInterfaces()){
-				if(INakedElement.class.isAssignableFrom(intf)){
-					Set<INakedElement> set = (Set<INakedElement>) getElementsOfType((Class<? extends INakedElement>) intf);
-					set.add(mw);
-				}
-			}
-			startClass = startClass.getSuperclass();
-		}
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
 		if(mw instanceof INakedRootObject){
 			addOwnedElement((INakedRootObject) mw);
 		}
-	}
-	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> c){
-		Set<INakedElement> set = elementsByMetaClass.get(c);
-		if(set == null){
-			elementsByMetaClass.put(c, set = new HashSet<INakedElement>());
-		}
-		return (Set<T>) set;
 	}
 	public INakedElement getModelElement(Object id){
 		if(id == null){
@@ -115,7 +87,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public MappingInfo getMappingInfo(){
 		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation", false);
 	}
-	public Collection getOwnedElements(){
+	public Collection<? extends INakedElement> getOwnedElements(){
 		return this.children;
 	}
 	public void setName(String string){
@@ -144,21 +116,6 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public ErrorMap getErrorMap(){
 		return validator;
 	}
-	public <E extends INakedComplexStructure>List<E> getClasses(Class<E> c){
-		List<E> result = new ArrayList<E>();
-		ClassElementCollector<E> cec = new ClassElementCollector<E>(c);
-		for(INakedPackage m:getGeneratingModelsOrProfiles()){
-			cec.startVisiting(m);
-			for(E type:cec.getClassElements()){
-				ClassifierDependencyComparator.addTo(c, type, result, 10);
-			}
-		}
-		return result;
-	}
-	@Override
-	public List<INakedComplexStructure> getClassElementsInDependencyOrder(){
-		return getClasses(INakedComplexStructure.class);
-	}
 	@Override
 	public Collection<INakedRootObject> getRootObjects(){
 		return children;
@@ -169,7 +126,6 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	}
 	@Override
 	public void removeOwnedElement(INakedElement element){
-		// TODO remove all recursively from allElementsByModelId
 		this.children.remove(element);
 		this.generatingRootObjects.remove(element);
 		this.primaryRootObjects.remove(element);
@@ -199,10 +155,10 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		primaryRootObjects.add(rootObject);
 	}
 	public void setIdentifier(String directoryName){
-		this.directoryName = directoryName;
+		this.identifier = directoryName;
 	}
 	public String getIdentifier(){
-		return directoryName;
+		return identifier;
 	}
 	@Override
 	public Collection<INakedRootObject> getPrimaryRootObjects(){

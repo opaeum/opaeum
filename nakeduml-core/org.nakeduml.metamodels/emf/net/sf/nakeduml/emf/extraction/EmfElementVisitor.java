@@ -7,6 +7,7 @@ import java.util.List;
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Element;
@@ -15,6 +16,7 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
 
 public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
@@ -43,6 +45,7 @@ public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 			}
 		}
 		if(!(root instanceof EmfWorkspace)){
+			@SuppressWarnings("rawtypes")
 			List contents = StereotypesHelper.getNumlAnnotation(root).getContents();
 			elements.addAll((Collection<? extends Element>) contents);
 		}

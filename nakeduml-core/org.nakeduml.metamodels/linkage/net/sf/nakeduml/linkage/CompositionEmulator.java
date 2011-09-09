@@ -10,16 +10,14 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.AssociationClassToEnd;
 import net.sf.nakeduml.metamodel.core.internal.EndToAssociationClass;
 import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		ProcessIdentifier.class,MappedTypeLinker.class
@@ -59,6 +57,15 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			}
 		}
 	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitDataType(INakedStructuredDataType cp){
+		for(INakedProperty p:cp.getOwnedAttributes()){
+			if(p.getOtherEnd()!=null && p.getOtherEnd().isComposite()){
+				p.setNavigable(false);
+			}
+		}
+	}
+	
 	@VisitBefore(matchSubclasses = true)
 	public void visitParticipant(ICompositionParticipant cp){
 		if(cp instanceof INakedAssociationClass){

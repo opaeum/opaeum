@@ -7,20 +7,19 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.AttributeExpressionGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
-import net.sf.nakeduml.metamodel.activities.ActivityKind;
-import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
@@ -34,12 +33,12 @@ import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.runtime.domain.CompositionNode;
 
 /**
@@ -49,13 +48,13 @@ import org.nakeduml.runtime.domain.CompositionNode;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		CompositionEmulator.class,OperationAnnotator.class
 },after = {
-	OperationAnnotator.class,AttributeExpressionGenerator.class
+		OperationAnnotator.class,AttributeExpressionGenerator.class
 })
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	private static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 	@Override
-	public void initialize(OJAnnotatedPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		super.initialize(javaModel, config, textWorkspace, workspace);
 	}
 	private void visitClass(ICompositionParticipant c){
@@ -110,7 +109,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	public boolean isInterfaceOrAssociationClass(ICompositionParticipant c){
 		return c instanceof INakedInterface || c instanceof INakedAssociationClass;
 	}
-	public void addMarkDeleted(OJAnnotatedClass ojClass,ICompositionParticipant sc){
+	public void addMarkDeleted(OJAnnotatedClass ojClass,INakedClassifier sc){
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation("markDeleted");
 		ojClass.addToOperations(markDeleted);
 		if(sc.hasSupertype()){
@@ -126,9 +125,10 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		markChildrenForDeletion(sc, ojClass, markDeleted);
 		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
 	}
-	private void markChildrenForDeletion(ICompositionParticipant sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
+	private void markChildrenForDeletion(INakedClassifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(INakedProperty np:sc.getEffectiveAttributes()){
-			if(np.getOtherEnd() != null && !np.isDerived() && !np.getOtherEnd().isDerived() && (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){
+			if(np.getOtherEnd() != null && !np.isDerived() && !np.getOtherEnd().isDerived()
+					&& (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
@@ -146,7 +146,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	@VisitAfter(matchSubclasses=true)
+	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(INakedInterface i){
 		if(!i.hasStereotype(StereotypeNames.HELPER) && OJUtil.hasOJClass(i)){
 			OJPathName path = OJUtil.classifierPathname(i);
@@ -206,9 +206,11 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 		if(umlOwner instanceof ICompositionParticipant){
 			visitClass((ICompositionParticipant) umlOwner);
+		}else if(umlOwner instanceof INakedStructuredDataType){
+			addMarkDeleted(findJavaClass(umlOwner), umlOwner);
 		}
 	}
-	public static void invokeOperationRecursively(ICompositionParticipant ew,OJOperation markDeleted,String operationName){
+	public static void invokeOperationRecursively(INakedClassifier ew,OJOperation markDeleted,String operationName){
 		List<? extends INakedProperty> awss = ew.getOwnedAttributes();
 		for(int i = 0;i < awss.size();i++){
 			IModelElement a = (IModelElement) awss.get(i);

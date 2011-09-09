@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.AbstractBehaviorCaller;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.BehaviorCaller;
-import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
@@ -13,7 +13,6 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJPathName;
@@ -34,9 +33,9 @@ public class CallBehaviorActionBuilder extends Jbpm5ActionBuilder<INakedCallBeha
 		}else{
 			OJTryStatement tryStatement = delegate.surroundWithCatchIfNecessary(operation, operation.getBody());
 			if(tryStatement != null){
-				operation.getOwner().addToImports(AbstractEventHandlerInserter.UML_NODE_INSTANCE);
-				OJAnnotatedField waitingNode = new OJAnnotatedField("waitingNode", AbstractEventHandlerInserter.UML_NODE_INSTANCE);
-				waitingNode.setInitExp("(" + AbstractEventHandlerInserter.UML_NODE_INSTANCE.getLast() + ")context.getNodeInstance()");
+				operation.getOwner().addToImports(AbstractEventConsumptionImplementor.UML_NODE_INSTANCE);
+				OJAnnotatedField waitingNode = new OJAnnotatedField("waitingNode", AbstractEventConsumptionImplementor.UML_NODE_INSTANCE);
+				waitingNode.setInitExp("(" + AbstractEventConsumptionImplementor.UML_NODE_INSTANCE.getLast() + ")context.getNodeInstance()");
 				tryStatement.getCatchPart().addToLocals(waitingNode);
 				implementExceptionPins(operation, tryStatement);
 				implementExceptionHandlers(operation, tryStatement);

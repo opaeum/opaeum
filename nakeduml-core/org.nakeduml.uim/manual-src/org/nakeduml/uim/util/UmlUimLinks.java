@@ -18,7 +18,6 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
-import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfPropertyUtil;
 import org.nakeduml.eclipse.EmfStateMachineUtil;
 import org.nakeduml.uim.UimComponent;

@@ -3,16 +3,12 @@ package net.sf.nakeduml.feature.visit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.eclipse.uml2.uml.Element;
-import org.nakeduml.runtime.domain.IntrospectionUtil;
 
 import javassist.ClassPath;
 import javassist.ClassPool;
@@ -85,6 +81,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	};
 	private static EclipseClassPath cp = new EclipseClassPath();
 	protected MethodInvokers methodInvokers;
+	@SuppressWarnings("unchecked")
 	protected VisitorAdapter(){
 		pool.appendSystemPath();
 		pool.appendClassPath(cp);
@@ -132,7 +129,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			sb.append(");}");
 			CtMethod ctm = CtNewMethod.make(sb.toString(), ctClass);
 			ctClass.addMethod(ctm);
-			Class class1 = ctClass.toClass();
+			Class<?> class1 = ctClass.toClass();
 			VisitSpec newInstance = (VisitSpec) class1.newInstance();
 			newInstance.init(m, before);
 			return newInstance;
@@ -161,7 +158,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		visitRecursively(root);
 	}
 	public void visitOnly(NODE o){
-		for(VisitSpec v:methodInvokers. beforeMethods){
+		for(VisitSpec v:methodInvokers.beforeMethods){
 			maybeVisit(o, v);
 		}
 		for(VisitSpec v:methodInvokers.afterMethods){
@@ -195,5 +192,8 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 				});
 			}
 		}
+	}
+	protected boolean visitChildren(NODE o){
+		return true;
 	}
 }

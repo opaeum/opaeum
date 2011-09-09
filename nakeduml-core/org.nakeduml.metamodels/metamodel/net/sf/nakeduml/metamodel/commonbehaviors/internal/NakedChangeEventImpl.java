@@ -25,7 +25,10 @@ public class NakedChangeEventImpl extends NakedEventImpl implements INakedChange
 		return ownedElements;
 	}
 	public void setChangeExpression(INakedValueSpecification changeExpression){
+		removeOwnedElement(this.changeExpression);
 		this.changeExpression = changeExpression;
+		addOwnedElement(changeExpression);
+		changeExpression.setOwnerElement(this);
 	}
 	@Override
 	public String getMetaClass(){
@@ -42,5 +45,9 @@ public class NakedChangeEventImpl extends NakedEventImpl implements INakedChange
 	@Override
 	public INakedTrigger getOwningTrigger(){
 		return (INakedTrigger) getOwnerElement();
+	}
+	@Override
+	public INakedClassifier getContext(){
+		return getBehaviorContext();
 	}
 }

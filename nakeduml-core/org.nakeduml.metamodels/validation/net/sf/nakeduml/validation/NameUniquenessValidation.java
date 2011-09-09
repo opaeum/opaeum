@@ -13,7 +13,6 @@ import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -61,6 +60,14 @@ public class NameUniquenessValidation extends AbstractValidator{
 				getErrorMap().putError(pin, CoreValidationRule.VARIABLE_NAME_CLASH, var.getName());
 			}
 		}
+	}
+	@VisitBefore(matchSubclasses=true)
+	public void visitActivity(INakedActivity a){
+		ensureUniqueness(a, "activity nodes", a.getActivityNodes());
+	}
+	@VisitBefore(matchSubclasses=true)
+	public void visitStructuredActivityNode(INakedStructuredActivityNode a){
+		ensureUniqueness(a, "activity nodes", a.getActivityNodes());
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(INakedStateMachine nc){

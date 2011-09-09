@@ -8,7 +8,6 @@ import java.util.Properties;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
-import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.apache.maven.pom.Dependency;

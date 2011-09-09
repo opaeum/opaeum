@@ -3,8 +3,6 @@ package net.sf.nakeduml.emf.extraction;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
-import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.StateKind;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedRegionImpl;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedStateImpl;

@@ -5,21 +5,20 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.metamodel.components.INakedConnector;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import nl.klasse.octopus.model.IOperation;
 
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -33,7 +32,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void visitEntity(INakedEntity entity){
 		OJPathName pn = OJUtil.classifierPathname(entity);
-		OJAnnotatedPackage pkg = findOrCreatePackage(pn.getHead());
+		OJPackage pkg = findOrCreatePackage(pn.getHead());
 		OJAnnotatedClass test = new OJAnnotatedClass(pn.getLast() + "Test");
 		pkg.addToClasses(test);
 		OJAnnotatedInterface testInterface = new OJAnnotatedInterface(pn.getLast() + "TestContract");
@@ -61,7 +60,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			}
 		}
 		for(INakedConstraint nc:entity.getOwnedRules()){
-			if(!nc.getName().startsWith("uniqueIn") || nc.getName().startsWith("SourcePopulationFor")){
+			if(!(nc.getName().startsWith("uniqueIn") || nc.getName().toLowerCase().startsWith("sourcepopulation"))){
 				addTestMEthod(entity, pn, test, testInterface, "test" + nc.getMappingInfo().getJavaName().getCapped());
 			}
 		}

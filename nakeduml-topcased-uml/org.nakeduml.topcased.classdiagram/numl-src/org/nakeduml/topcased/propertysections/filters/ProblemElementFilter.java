@@ -1,10 +1,5 @@
 package org.nakeduml.topcased.propertysections.filters;
 
-import javax.smartcardio.ATR;
-
-import net.sf.nakeduml.emf.extraction.StereotypesHelper;
-import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -13,9 +8,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Element;
-import org.nakeduml.topcased.uml.editor.NakedUmlErrorMarker;
 
 public class ProblemElementFilter extends AbstractFilter{
 	@Override

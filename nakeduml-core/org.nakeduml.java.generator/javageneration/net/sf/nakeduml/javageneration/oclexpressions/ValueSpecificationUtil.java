@@ -3,7 +3,7 @@ package net.sf.nakeduml.javageneration.oclexpressions;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -26,13 +26,13 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 
 public class ValueSpecificationUtil{
-	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType, boolean isStatic){
+	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType,boolean isStatic){
 		if(valueSpec.isValidOclValue()){
 			String expression = null;
 			ExpressionCreator ec = new ExpressionCreator(ojOwner);
 			IOclContext value = (IOclContext) valueSpec.getValue();
 			expression = ec.makeExpression(value.getExpression(), isStatic, new ArrayList<OJParameter>());
-			expression = buildTypeCastIfNecessary(expression,value.getExpression(),expectedType);
+			expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
 			return expression;
 		}
 		return expressLiterals(valueSpec);
@@ -59,7 +59,7 @@ public class ValueSpecificationUtil{
 			OJBlock body = operationContext.getBody();
 			buildContext(operationContext, value, parameters, body);
 			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
-			expression = buildTypeCastIfNecessary( expression,value.getExpression(), expectedType);
+			expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
 			return expression;
 		}else{
 			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
@@ -68,10 +68,12 @@ public class ValueSpecificationUtil{
 	public static void buildContext(OJOperation operationContext,IOclContext value,List<OJParameter> parameters,OJBlock body){
 		addExtendedKeywords(operationContext, value);
 		for(OJField f:body.getLocals()){
-			OJParameter fake = new OJParameter();
-			fake.setName(f.getName());
-			fake.setType(f.getType());
-			parameters.add(fake);
+			if(!f.getName().equals("result")){// Standard result variable for operations
+				OJParameter fake = new OJParameter();
+				fake.setName(f.getName());
+				fake.setType(f.getType());
+				parameters.add(fake);
+			}
 		}
 	}
 	public static void addExtendedKeywords(OJOperation operationContext,IOclContext value){
@@ -81,7 +83,7 @@ public class ValueSpecificationUtil{
 			operationContext.getBody().addToLocals(now);
 		}
 		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.nakeduml.bpm.BusinessRole"));
+			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.nakeduml.runtime.bpm.BusinessRole"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}
@@ -108,8 +110,6 @@ public class ValueSpecificationUtil{
 			expression = valueSpec.getValue().toString();
 		}else if(valueSpec.getValue() instanceof ParsedOclString){
 			return "OCL INVALID!: " + valueSpec.getValue();
-			// System.out.println(valueSpec.getValue() +
-			// "not suppported in INakedValueSpecification");
 			// TODO instancespecifications
 		}
 		return expression;

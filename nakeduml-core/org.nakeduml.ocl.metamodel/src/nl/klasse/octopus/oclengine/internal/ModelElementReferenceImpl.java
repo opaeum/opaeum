@@ -10,9 +10,6 @@ import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.model.internal.types.AssociationEndImpl;
-import nl.klasse.octopus.model.internal.types.AttributeImpl;
-import nl.klasse.octopus.model.internal.types.OperationImpl;
 import nl.klasse.octopus.oclengine.IModelElementReference;
 
 

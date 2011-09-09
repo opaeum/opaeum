@@ -3,6 +3,7 @@ package org.nakeduml.runtime.domain;
 import java.util.Collection;
 
 public class FailedConstraintsException extends RuntimeException {
+	private static final long serialVersionUID = 9146993200774829479L;
 	Collection<String> failedConstraints;
 	boolean pre;
 

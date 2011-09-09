@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.maps.ActionMap;
 import net.sf.nakeduml.metamodel.actions.INakedStartClassifierBehaviorAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;

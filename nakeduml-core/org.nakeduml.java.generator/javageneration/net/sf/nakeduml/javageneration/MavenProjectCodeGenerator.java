@@ -18,7 +18,6 @@ import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.java.metamodel.OJPackage;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 
 public abstract class MavenProjectCodeGenerator{
 	protected TransformationProcess process = new TransformationProcess();
@@ -89,7 +88,7 @@ public abstract class MavenProjectCodeGenerator{
 	}
 	public void generateIntegrationCode() throws Exception{
 		EmfWorkspace workspace = loadDirectory();
-		process.removeModel(OJAnnotatedPackage.class);
+		process.removeModel(OJPackage.class);
 		process.removeModel(TextWorkspace.class);
 		INakedModelWorkspace nmw = process.findModel(INakedModelWorkspace.class);
 		workspace.setMappingInfo(nmw.getWorkspaceMappingInfo());

@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -57,26 +57,17 @@ public class JpaUtil{
 		owner.addAnnotationIfNew(table);
 		return table;
 	}
-	private static void buildTableAndSchema(String tableName,
-			NakedUmlConfig config, INakedNameSpace ns, OJAnnotationValue table) {
+	private static void buildTableAndSchema(String tableName,NakedUmlConfig config,INakedNameSpace ns,OJAnnotationValue table){
 		if(config.needsSchema()){
 			INakedPackage schema = getNearestSchema(ns);
-			if(config.supportSchema()){
-				table.putAttribute(new OJAnnotationAttributeValue("name", getValidSqlName(tableName)));
-				if(schema != null){
-					table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema.getMappingInfo().getPersistentName() + BACKTICK));
-				}else{
-					table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
-				}
-			}else{
-				if(schema != null){
-					table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + schema.getMappingInfo().getPersistentName() + "_" + tableName + BACKTICK));
-				}else{
-					table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + config.getDefaultSchema() + "_" + tableName + BACKTICK));
-				}
+			table.putAttribute(new OJAnnotationAttributeValue("name", getValidSqlName(tableName)));
+			if(schema != null){
+				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema.getMappingInfo().getPersistentName() + BACKTICK));
+			}else if(config.getDefaultSchema()!=null){
+				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
 			}
 		}else{
-			table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + config.getDefaultSchema() + "_" + tableName + BACKTICK));
+			table.putAttribute(new OJAnnotationAttributeValue("name", BACKTICK + tableName + BACKTICK));
 		}
 	}
 	private static String getValidSqlName(String tableName){
@@ -150,7 +141,7 @@ public class JpaUtil{
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
-	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field, NakedUmlConfig config){
+	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field,NakedUmlConfig config){
 		// ManyToMany or non-navigable XToMany
 		INakedProperty f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);
@@ -173,12 +164,12 @@ public class JpaUtil{
 	}
 	static String calculateKeyToOwnerTable(INakedProperty f){
 		String keyToParentTable = null;
-		if(f instanceof INakedProperty && (f).getAssociation() != null){
+		if(f instanceof INakedProperty && f.getOtherEnd() != null){
 			INakedProperty p = f;
 			keyToParentTable = p.getOtherEnd().getMappingInfo().getPersistentName().getAsIs();
 		}else{
 			INakedClassifier nakedOwner = f.getOwner();
-			keyToParentTable = nakedOwner.getMappingInfo().getPersistentName().toString();
+			keyToParentTable = nakedOwner.getMappingInfo().getPersistentName().toString() + "_id";
 		}
 		return keyToParentTable;
 	}
@@ -221,6 +212,11 @@ public class JpaUtil{
 		if(namedQueryAttr == null){
 			namedQueryAttr = new OJAnnotationAttributeValue("value");
 			namedQueries.putAttribute(namedQueryAttr);
+		}
+		for(OJAnnotationValue v:namedQueryAttr.getAnnotationValues()){
+			if(v.findAttribute("name").getStringValues().get(0).equals(name)){
+				return;
+			}
 		}
 		OJAnnotationValue namedQuery = new OJAnnotationValue(new OJPathName("javax.persistence.NamedQuery"));
 		namedQuery.putAttribute("name", name);

@@ -15,10 +15,8 @@ import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedValuePin;
-import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -37,7 +35,6 @@ import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.INameSpace;
 import nl.klasse.octopus.model.IPackage;
 
 public class EnvironmentFactory{
@@ -59,8 +56,8 @@ public class EnvironmentFactory{
 		return env;
 	}
 	public Environment createInstanceValueEnvironment(INakedValueSpecification instanceValue){
-		INakedElementOwner owner= instanceValue.getOwnerElement();
-		while(owner!=null){
+		INakedElementOwner owner = instanceValue.getOwnerElement();
+		while(owner != null){
 			if(owner instanceof INakedValuePin || owner instanceof INakedAction){
 				return createActivityEnvironment((INakedElement) owner, ((INakedValuePin) owner).getActivity());
 			}else if(owner instanceof INakedTransition){
@@ -69,19 +66,18 @@ public class EnvironmentFactory{
 				addFlowParameters(env, t);
 				return env;
 			}else{
-				owner=((INakedElement) owner).getOwnerElement();
+				owner = ((INakedElement) owner).getOwnerElement();
 			}
 		}
 		return createSelflessEnvironment(instanceValue.getNakedRoot());
-		
 	}
 	public Environment createPreEnvironment(INakedClassifier c,INakedAction action){
 		Environment env = null;
 		env = createSelflessEnvironment(c);
 		// Pins will be made available for pre and post conditions on the action
 		for(INakedInputPin parm:action.getInput()){
-			if(parm.getType() != null){
-				//It could be a value pin where ocl parsing failed and the type is unknown
+			if(parm.getType() != null && parm.getName() != null){
+				// It could be a value pin where ocl parsing failed and the type is unknown
 				env.addElement(parm.getName(), new VariableDeclaration(parm.getName(), parm.getType()), false);
 			}
 		}
@@ -115,7 +111,7 @@ public class EnvironmentFactory{
 		do{
 			addPackageContents(ns, env);
 			// import everything up to the nearest packag
-		}while((ns=ns.getNameSpace()) instanceof INakedClassifier);
+		}while((ns = ns.getNameSpace()) instanceof INakedClassifier);
 		if(ns != null){
 			addPackageContents(ns, env);
 		}
@@ -125,8 +121,6 @@ public class EnvironmentFactory{
 		for(INakedElement ne:workspace.getOwnedElements()){
 			if(ne.getName() != null){
 				parent.addElement(ne.getName(), ne, false);
-			}else{
-				System.out.println(ne.getId() + "has no name!!");
 			}
 		}
 		return env;
@@ -172,10 +166,20 @@ public class EnvironmentFactory{
 	private Environment createSimpleBehavioralContext(IParameterOwner owningBehavior){
 		// TODO Auto-generated method stub
 		INakedElementOwner owner = owningBehavior.getOwnerElement();
-		while(!(owner instanceof INakedClassifier)){
-			owner=((INakedElement) owner).getOwnerElement();
+		while(!(owner instanceof INakedClassifier || owner == null)){
+			owner = ((INakedElement) owner).getOwnerElement();
 		}
-		return createSimpleBehavioralContext( (INakedClassifier) owner, owningBehavior);
+		if(owner == null){
+			owner = owningBehavior.getOwnerElement();
+			while(!(owner instanceof INakedNameSpace)){
+				owner = ((INakedElement) owner).getOwnerElement();
+			}
+			Environment env = createSelflessEnvironment((INakedNameSpace) owner);
+			addTypedElementsAsVariables(env, owningBehavior.getArgumentParameters());
+			return env;
+		}else{
+			return createSimpleBehavioralContext((INakedClassifier) owner, owningBehavior);
+		}
 	}
 	private Environment createSimpleBehavioralContext(INakedClassifier context,IParameterOwner owningBehavior){
 		Environment env = createClassifierEnvironment(context);
@@ -186,7 +190,7 @@ public class EnvironmentFactory{
 		if(edge instanceof INakedObjectFlow){
 			INakedObjectFlow objectFlow = (INakedObjectFlow) edge;
 			INakedObjectNode origin = objectFlow.getOriginatingObjectNode();
-			if(origin != null){
+			if(origin != null && origin.getName() != null && origin.getType() != null){
 				env.addElement(origin.getName(), new VariableDeclaration(origin.getName(), origin.getType()), false);
 			}
 		}else{
@@ -205,13 +209,17 @@ public class EnvironmentFactory{
 	}
 	public void addPostEnvironment(Environment env,INakedAction owner){
 		for(INakedOutputPin p:owner.getOutput()){
-			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+			if(p.getName() != null){
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+			}
 		}
 	}
 	public void addPostEnvironment(Environment env,IParameterOwner owner){
 		for(INakedParameter p:owner.getResultParameters()){
-			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
-			if(p.isReturn()){
+			if(p.getName() != null && p.getType() != null){
+				env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+			}
+			if(p.isReturn() && p.getType() != null){
 				env.addElement("result", new VariableDeclaration("result", p.getType()), false);
 			}
 		}

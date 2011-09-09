@@ -1,6 +1,4 @@
 package net.sf.nakeduml.validation.namegeneration;
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -14,6 +12,8 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
+
+import org.nakeduml.name.NameConverter;
 public abstract class AbstractPersistentNameGenerator extends AbstractNameGenerator {
 	protected final String generateQualifiedPersistentName(INakedElement nme) {
 		if (nme instanceof INakedState) {

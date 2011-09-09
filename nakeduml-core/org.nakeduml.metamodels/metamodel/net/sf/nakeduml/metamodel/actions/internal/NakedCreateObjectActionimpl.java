@@ -1,10 +1,8 @@
 package net.sf.nakeduml.metamodel.actions.internal;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -17,22 +15,20 @@ public class NakedCreateObjectActionimpl extends NakedActionImpl implements INak
 	private static final long serialVersionUID = -7769342738149726492L;
 	INakedClassifier classifier;
 	INakedOutputPin result;
-	public ActionType getActionType() {
-		return ActionType.CREATE_OBJECT_ACTION;
-	}
 	@Override
 	public Collection<INakedElement> getOwnedElements() {
 		Collection<INakedElement> results =super.getOwnedElements();
-		if(this.result!=null){
-			results.add(this.result);
-		}
 		return results;
 	}
 	public Collection<INakedInputPin> getInput(){
 		return new HashSet<INakedInputPin>();
 	}
 	public Collection<INakedOutputPin> getOutput() {
-		return Arrays.asList(result);
+		Collection<INakedOutputPin> results =new HashSet<INakedOutputPin>();
+		if(this.result!=null){
+			results.add(this.result);
+		}
+		return results;
 	}
 
 	public INakedClassifier getClassifier() {

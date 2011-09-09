@@ -40,5 +40,5 @@ public interface IRegionOwner extends INakedNameSpace {
 	 * Returns all states contained by this region owner recursively down the the inner most region's states
 	 * @return
 	 */
-	Set<INakedState> getAllStates();
+	Set<INakedState> getAllStates(); 
 }

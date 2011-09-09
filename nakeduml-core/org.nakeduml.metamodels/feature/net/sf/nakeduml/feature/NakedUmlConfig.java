@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,7 +16,6 @@ public class NakedUmlConfig{
 	private static final String DATA_SOURCE_NAME = "nakeduml.hibernate.ds.name";
 	private static final String LIST_COLUMNS = "nakeduml.list.columns";
 	private static final String NEED_SCHEMA = "nakeduml.needSchema";
-	private static final String SUPPORT_SCHEMA = "nakeduml.supportSchema";
 	private static final String DEFAULT_SCHEMA = "nakeduml.default.schema";
 	private static final String DATA_GENERATION = "nakeduml.data.generation";
 	private static final String REAL_TYPE = "nakeduml.real.type";
@@ -30,11 +28,10 @@ public class NakedUmlConfig{
 	private static final String MAVEN_GROUP_VERSION = "nakeduml.maven.group.version";
 	private static final String GENERATE_MAVEN_POMS = "nakeduml.generate.poms";
 	private static final String SCM_TOOL = "nakeduml.scm.tool";
-	private static final String ATTRIBUTE_IMPLEMENTATION_STRATEGY = "attribute.implementation.strategy";
-	private static final String COMPOSITION_NODE_IMPLEMENTATION_STRATEGY = "composition.node.implementation.strategy";
 	private static final String WORKSPACE_IDENTIFIER = "nakeduml.workspace.identifier";
 	private static final String ADDITIONAL_TRANSFORMATION_STEPS = "nakeduml.additional.transformation.steps";
 	private static final String SOURCE_FOLDER_STRATEGY = "nakeduml.source.folder.strategy";
+	private static final String WORKSPACE_NAME = "nakeduml.workspace.name";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -58,6 +55,9 @@ public class NakedUmlConfig{
 				throw new RuntimeException(e);
 			}
 		}
+	}
+	public File getConfigFile(){
+		return file;
 	}
 	public ISourceFolderStrategy getSourceFolderStrategy(){
 		try{
@@ -124,14 +124,8 @@ public class NakedUmlConfig{
 		if(!this.props.containsKey(SCM_TOOL)){
 			this.props.setProperty(SCM_TOOL, "git");
 		}
-		if(!this.props.containsKey(ATTRIBUTE_IMPLEMENTATION_STRATEGY)){
-			this.props.setProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY, "net.sf.nakeduml.javageneration.basicjava.DefaultAttributeImplementorStrategy");
-		}
-		if(!this.props.containsKey(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY)){
-			this.props.setProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY, "net.sf.nakeduml.javageneration.composition.DefaultCompositionNodeStrategy");
-		}
 		if(!this.props.containsKey(SOURCE_FOLDER_STRATEGY)){
-			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy");
+			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.MultiProjectMavenSourceFolderStrategy");
 		}
 	}
 	public String getJdbcDialect(){
@@ -152,6 +146,9 @@ public class NakedUmlConfig{
 	public String getEMailAddressType(){
 		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
 	}
+	public void calculateOutputRoot(File modelProjectDir){
+		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(file, modelProjectDir,getWorkspaceIdentifier()));
+	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
 //		File t = file;
@@ -169,10 +166,7 @@ public class NakedUmlConfig{
 		return new Integer(this.props.getProperty(LIST_COLUMNS));
 	}
 	public boolean needsSchema(){
-		return Boolean.valueOf(this.props.getProperty(NEED_SCHEMA));
-	}
-	public boolean supportSchema(){
-		return Boolean.valueOf(this.props.getProperty(SUPPORT_SCHEMA));
+		return Boolean.valueOf(this.props.getProperty(NEED_SCHEMA,"true"));
 	}
 	public String getDefaultSchema(){
 		return this.props.getProperty(DEFAULT_SCHEMA);
@@ -220,12 +214,6 @@ public class NakedUmlConfig{
 	public String getScmTool(){
 		return this.props.getProperty(SCM_TOOL);
 	}
-	public String getAttributeImplementationStrategy(){
-		return this.props.getProperty(ATTRIBUTE_IMPLEMENTATION_STRATEGY);
-	}
-	public String getCompositionNodeImplementationStrategy(){
-		return this.props.getProperty(COMPOSITION_NODE_IMPLEMENTATION_STRATEGY);
-	}
 	public String getDbUser(){
 		return this.props.getProperty(DB_USER);
 	}
@@ -235,6 +223,9 @@ public class NakedUmlConfig{
 	}
 	public String getWorkspaceIdentifier(){
 		return this.props.getProperty(WORKSPACE_IDENTIFIER, "");
+	}
+	public String getWorkspaceName(){
+		return this.props.getProperty(WORKSPACE_NAME, "");
 	}
 	public void setWorkspaceIdentifier(String workspaceIdentifier){
 		this.props.setProperty(WORKSPACE_IDENTIFIER, workspaceIdentifier);
@@ -246,6 +237,7 @@ public class NakedUmlConfig{
 	public void setSourceFolderStrategy(String b){
 		this.props.setProperty(SOURCE_FOLDER_STRATEGY, b);
 	}
+	@SuppressWarnings("unchecked")
 	public Set<Class<? extends ITransformationStep>> getAdditionalTransformationSteps(){
 		String property = this.props.getProperty(ADDITIONAL_TRANSFORMATION_STEPS, "");
 		Set<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>();
@@ -270,5 +262,10 @@ public class NakedUmlConfig{
 			this.workspaceMappingInfo=new WorkspaceMappingInfo(new File(file.getParent(), getWorkspaceIdentifier() + ".mappinginfo"));
 		}
 		return this.workspaceMappingInfo;
+	}
+	public void setWorkspaceName(String name){
+		this.props.setProperty(WORKSPACE_NAME, name);
+		store();
+		
 	}
 }

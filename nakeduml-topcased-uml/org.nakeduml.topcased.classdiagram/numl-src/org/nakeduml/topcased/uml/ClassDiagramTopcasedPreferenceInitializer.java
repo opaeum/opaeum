@@ -2,7 +2,6 @@ package org.nakeduml.topcased.uml;
 
 import java.util.HashMap;
 
-import org.eclipse.jface.resource.StringConverter;
 import org.topcased.modeler.preferences.ITopcasedPreferenceInitializer;
 import org.topcased.modeler.uml.classdiagram.ClassElementsVisibilityConstants;
 import org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferenceConstants;

@@ -31,22 +31,14 @@
 #end 
 		<mapping package="${pkg}" />
 #if($requiresJbpm)
-		<mapping class="org.drools.persistence.info.SessionInfo" />
 		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceInfo" />
 		<mapping class="org.jbpm.persistence.processinstance.ProcessInstanceEventInfo" />
-		<mapping class="org.drools.persistence.info.WorkItemInfo" />
-		<mapping class="org.nakeduml.runtime.domain.AbstractRequest"/>
-		<mapping class="org.nakeduml.runtime.domain.TaskRequest"/>
-		<mapping class="org.nakeduml.runtime.domain.ProcessRequest"/>
 #end
 
 
 #if($isAdaptorEnvironment)
 #if($requiresAuditing)
 	    <mapping class="org.nakeduml.runtime.domain.RevisionEntity"/>
-#foreach($c in $persistentClasses)
-		<mapping class="${c}_Audit" />
-#end 
 		<event type="post-insert">
 			<listener class="org.nakeduml.audit.AuditListener" />
 		</event>

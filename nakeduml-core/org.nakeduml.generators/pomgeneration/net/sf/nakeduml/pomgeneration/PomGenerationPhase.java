@@ -120,10 +120,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		return ignoreFile;
 	}
 	@Override
-	public void execute(TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		if(config.generateMavenPoms()){
 			for(PomGenerationStep step:features){
-				if(step.isIntegrationStep() == context.isIntegrationPhase() && !log.isCanceled()){
+				if(step.isIntegrationStep() == context.isIntegrationPhase() && !context.getLog().isCanceled()){
 					step.initialize(config, workspace);
 					if(step.getExampleTargetDir().useWorkspaceName()){
 						String prefix = workspace.getIdentifier();
@@ -140,6 +140,13 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				}
 			}
 			for(DocumentRoot documentRoot:this.rootMap.values()){
+				if(documentRoot.getProject().getArtifactId().equals(this.parentPom.getProject().getArtifactId())){
+					this.parentPom.getProject().setArtifactId(this.parentPom.getProject().getArtifactId() + "-parent");
+					break;
+				}
+			}
+			for(DocumentRoot documentRoot:this.rootMap.values()){
+				documentRoot.getProject().getParent().setArtifactId(this.parentPom.getProject().getArtifactId());
 				outputToFile(documentRoot);
 			}
 			
@@ -277,7 +284,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 		root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 		root.getProject().getParent().setGroupId(config.getMavenGroupId());
-		root.getProject().getParent().setArtifactId(workspace.getIdentifier());
+		root.getProject().getParent().setArtifactId(config.getWorkspaceIdentifier());
 		root.getProject().getParent().setVersion(config.getMavenGroupVersion());
 	}
 	public void outputToFile(DocumentRoot root){

@@ -20,7 +20,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityEdge;
@@ -50,7 +49,7 @@ public class AcceptDeadlineDeadlineSection extends AbstractTabbedPropertySection
 		fd.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[0]));
 		fd.right = new FormAttachment(100);
 		fd.bottom = new FormAttachment(100);
-		fd.top = new FormAttachment(0, 0);
+		this.checkBoxComposite.setLayoutData(fd);
 		checkBoxComposite.setLayoutData(fd);
 		checkBoxComposite.setLayout(new GridLayout(1, true));
 	}
@@ -102,13 +101,13 @@ public class AcceptDeadlineDeadlineSection extends AbstractTabbedPropertySection
 			}
 		}
 		checkBoxComposite.layout();
-		FormData fd = (FormData) checkBoxComposite.getLayoutData();
-		if(checkBoxComposite.getChildren().length > 0){
-			fd.height = checkBoxComposite.getChildren().length * 35;
-		}else{
-			fd.height=20;
-		}
-		parent.setSize(parent.getSize().x, fd.height+5);
+//		FormData fd = (FormData) checkBoxComposite.getLayoutData();
+//		if(checkBoxComposite.getChildren().length > 0){
+//			fd.height = checkBoxComposite.getChildren().length * 35;
+//		}else{
+//			fd.height=20;
+//		}
+//		parent.setSize(parent.getSize().x, fd.height+5);
 		parent.getParent().getParent().layout();
 	}
 	@Override

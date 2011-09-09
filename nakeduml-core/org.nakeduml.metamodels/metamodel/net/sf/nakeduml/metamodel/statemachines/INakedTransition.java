@@ -1,5 +1,6 @@
 package net.sf.nakeduml.metamodel.statemachines;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
@@ -34,16 +35,13 @@ public interface INakedTransition extends INakedElementOwner,GuardedFlow{
 	 * trigger
 	 */
 	List<? extends INakedTypedElement> getParameters();
-	String[] getParameterNames();
 	TransitionKind getKind();
 	INakedStateMachine getStateMachine();
 	PreAndPostConstrained getEffect();
-	INakedTrigger getTrigger();
-	void setTrigger(INakedTrigger trigger);
+	Collection<INakedTrigger> getTriggers();
 	INakedValueSpecification getGuard();
 	boolean hasEffect();
 	void setEffect(INakedBehavior effect);
-	boolean hasTrigger();
 	boolean hasGuard();
 	void setGuardConstraint(INakedConstraint guard);
 	INakedConstraint getGuardConstraint();

@@ -2,10 +2,8 @@ package org.nakeduml.eclipse.starter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -25,17 +23,12 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.Profile;
-import org.eclipse.uml2.uml.UMLPackage;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.EclipseEmfResourceHelper;
@@ -48,6 +41,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 	public static final class LinkingVisitor extends EmfElementVisitor{
 		private LinkingVisitor(){
 		}
+		@SuppressWarnings("unchecked")
 		@VisitBefore(matchSubclasses = true)
 		public void element(Element o){
 			EList<EStructuralFeature> s = o.eClass().getEAllStructuralFeatures();
@@ -82,9 +76,6 @@ public class RegenerateUuids extends AbstractOpiumAction{
 				return new ENotificationImpl((InternalEObject) o, Notification.SET, featureId, ((Double) value).doubleValue(), ((Double) value).doubleValue());
 			}else if(value instanceof Short){
 				return new ENotificationImpl((InternalEObject) o, Notification.SET, featureId, ((Short) value).shortValue(), ((Short) value).shortValue());
-			}
-			if(sf.getFeatureID()==UMLPackage.PARAMETER__IS_EXCEPTION){
-				System.out.println();
 			}
 			return new ENotificationImpl((InternalEObject) o, Notification.SET, sf, null, value);
 		}

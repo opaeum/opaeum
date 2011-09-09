@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.activities.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
@@ -103,11 +102,6 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	@Override
 	public Collection<INakedOutputPin> getOutput() {
 		return this.output;
-	}
-
-	@Override
-	public ActionType getActionType() {
-		return ActionType.STRUCTURED_ACTIVITY_NODE;
 	}
 
 	public void setOutput(Collection<INakedOutputPin> output) {

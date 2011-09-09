@@ -5,7 +5,6 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
 import net.sf.nakeduml.metamodel.components.NakedConnectorKind;
 import net.sf.nakeduml.metamodel.components.internal.NakedConnectorImpl;
-import net.sf.nakeduml.metamodel.core.INakedProperty;
 
 import org.eclipse.uml2.uml.Connector;
 

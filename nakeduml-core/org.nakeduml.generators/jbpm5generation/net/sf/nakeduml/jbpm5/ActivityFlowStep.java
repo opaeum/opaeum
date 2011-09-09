@@ -8,11 +8,11 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActionMap;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.activity.ActivityUtil;
+import net.sf.nakeduml.javageneration.maps.ActionMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.ActionFeatureBridge;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -37,7 +37,6 @@ import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
 import org.drools.drools._5._0.process.ActionNodeType;
@@ -412,7 +411,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	private void addWaitState(NodesType nodes,int i,INakedAcceptEventAction action){
 		StateType state = addState(nodes, i, action.getMappingInfo().getPersistentName().toString(), action.getMappingInfo().getNakedUmlId());
 		ActionMap map = new ActionMap(action);
-		if(action.getTrigger() != null && action.getTrigger().getEvent() instanceof INakedTimeEvent){
+		if(action.requiresEventRequest() && action.getAllEffectiveIncoming().size()>0){
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
 			state.getOnEntry().add(onEntry);
 			createAction(map.doActionMethod(), onEntry.getAction(), true);

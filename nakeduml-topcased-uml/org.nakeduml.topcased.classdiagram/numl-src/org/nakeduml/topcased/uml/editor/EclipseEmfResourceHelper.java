@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.topcased.modeler.utils.ResourceUtils;
 
 public final class EclipseEmfResourceHelper implements EmfResourceHelper{
@@ -81,6 +83,12 @@ public final class EclipseEmfResourceHelper implements EmfResourceHelper{
 						ann.getDetails().put("uuid", uid);
 					}
 				}
+			}
+			if(umlElement instanceof ValueSpecification && umlElement.eContainer().eContainer() instanceof TimeEvent){
+				uid=uid+getId((TimeEvent) umlElement.eContainer().eContainer());
+			}
+			if(umlElement instanceof ValueSpecification && umlElement.eContainer() instanceof org.eclipse.uml2.uml.ChangeEvent){
+				uid=uid+getId((org.eclipse.uml2.uml.ChangeEvent) umlElement.eContainer());
 			}
 			return uid;
 		}

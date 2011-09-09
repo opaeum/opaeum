@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
@@ -44,18 +43,7 @@ public class EmfParameterUtil{
 				}
 			}
 		}else{
-			Property p = (Property) emfParameter;
-			List<Property> ownedAttributes = new ArrayList<Property>();
-			Element owner = p.getOwner();
-			Classifier owningClass = null;
-			if(owner instanceof Association){
-				owningClass = (Classifier) p.getOtherEnd().getType();
-				addInheritiedAttributes(ownedAttributes, owningClass);
-			}else if(owner instanceof Classifier){
-				owningClass = (Classifier) owner;
-				addInheritiedAttributes(ownedAttributes, owningClass);
-			}
-			index = ownedAttributes.indexOf(p);
+			index = getArguments(emfParameter.getOwner()).indexOf(emfParameter);
 		}
 		return index;
 	}
@@ -85,7 +73,7 @@ public class EmfParameterUtil{
 		}
 		for(Association a:((Classifier) owner).getAssociations()){
 			for(Property p:a.getMemberEnds()){
-				if(p.isNavigable() &&  p.getOtherEnd().getType() == owner){
+				if(p.isNavigable() && p.getOtherEnd().getType() == owner){
 					ownedAttributes.add(p);
 				}
 			}
@@ -93,7 +81,9 @@ public class EmfParameterUtil{
 	}
 	private static void addInheritiedAttributes(List<Property> list,Classifier c){
 		for(Generalization g:c.getGeneralizations()){
-			addInheritiedAttributes(list, g.getGeneral());
+			if(g.getGeneral() != null){
+				addInheritiedAttributes(list, g.getGeneral());
+			}
 		}
 		addNonInhertiedAttributes(list, c);
 	}

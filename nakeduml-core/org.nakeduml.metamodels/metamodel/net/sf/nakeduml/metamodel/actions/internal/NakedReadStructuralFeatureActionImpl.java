@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -37,10 +36,6 @@ public class NakedReadStructuralFeatureActionImpl extends NakedStructuralFeature
 		removeOwnedElement(this.result);
 		this.result = result;
 		linkResultToFeature();
-	}
-	@Override
-	public ActionType getActionType(){
-		return ActionType.READ_STRUCTURAL_FEATURE_ACTION;
 	}
 	@Override
 	public Collection<INakedElement> getOwnedElements(){

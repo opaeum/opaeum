@@ -33,16 +33,16 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 		return elements;
 	}
 	@Override
-	public void execute(TransformationProgressLog log,TransformationContext context){
-		log.startTask("Validating Model",validators.size());
+	public void execute(TransformationContext context){
+		context.getLog().startTask("Validating Model",validators.size());
 		for(AbstractValidator v:validators){
-			if(!log.isCanceled()){
-				log.startStep("Executing " + v.getClass().getSimpleName());
+			if(!context.getLog().isCanceled()){
+				context.getLog().startStep("Executing " + v.getClass().getSimpleName());
 				v.startVisiting(modelWorkspace);
-				log.endLastStep();
+				context.getLog().endLastStep();
 			}
 		}
-		log.endLastTask();
+		context.getLog().endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractValidator> features){
@@ -59,6 +59,6 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 		return validators;
 	}
 	public static Set<Class<? extends AbstractValidator>> getAllValidationSteps(){
-		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(NameUniquenessValidation.class, PropertyValidation.class));
+		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(ActionValidator.class, ReservedWordValidator.class, NameUniquenessValidation.class, PropertyValidation.class));
 	}
  }

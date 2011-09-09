@@ -3,27 +3,26 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
-import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedPowerType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -47,8 +46,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private static final long serialVersionUID = -9194358342840031394L;
 	protected List<INakedProperty> ownedAttributes = new ArrayList<INakedProperty>();
 	private List<INakedOperation> ownedOperations = new ArrayList<INakedOperation>();
+	private Set<INakedReception> ownedReceptions = new HashSet<INakedReception>();
 	protected List<INakedGeneralization> generalisations = new ArrayList<INakedGeneralization>();
-	protected List<INakedInterfaceRealization> realization = new ArrayList<INakedInterfaceRealization>();
 	private INakedPowerType powerType;
 	private CodeGenerationStrategy codeGenerationStrategy;
 	private String mappedImplementationType;
@@ -67,6 +66,28 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	@Override
 	public INakedClassifier getNestingClassifier(){
 		return super.getNearestClassifier();
+	}
+	@Override
+	public void removeObsoleteArtificialProperties(){
+		Collection<ArtificialProperty> aps = new HashSet<ArtificialProperty>();
+		ArrayList<INakedProperty> oas = new ArrayList<INakedProperty>(ownedAttributes);
+		for(INakedProperty p:oas){
+			if(p instanceof ArtificialProperty && p.getOtherEnd() != null){
+				aps.add((ArtificialProperty) p);
+			}
+		}
+		for(ArtificialProperty ap:aps){
+			for(INakedProperty p:oas){
+				if(!(p instanceof ArtificialProperty)){
+					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
+							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
+					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
+						removeOwnedElement(ap);
+					}
+					aps.add((ArtificialProperty) p);
+				}
+			}
+		}
 	}
 	@Override
 	public VisibilityKind getVisibility(){
@@ -113,16 +134,22 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	 */
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();
-		for(IClassifier s:getGeneralizations()){
-			List<? extends INakedProperty> superAttributes = (getSupertype()).getEffectiveAttributes();
+		for(INakedGeneralization s:getNakedGeneralizations()){
+			List<? extends INakedProperty> superAttributes = s.getGeneral().getEffectiveAttributes();
 			addEffectiveAttributes(results, superAttributes);
 		}
 		for(IInterface i:getInterfaces()){
 			List<? extends INakedProperty> interfaceAttributes = ((INakedClassifier) i).getEffectiveAttributes();
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
-		List<INakedProperty> ownAttributes = this.ownedAttributes;
-		addEffectiveAttributes(results, ownAttributes);
+		Collections.sort(ownedAttributes, new Comparator<INakedProperty>(){
+
+			@Override
+			public int compare(INakedProperty o1,INakedProperty o2){
+				return o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
+			}
+		});
+		addEffectiveAttributes(results, ownedAttributes);
 		return results;
 	}
 	/**
@@ -135,9 +162,13 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		Iterator<INakedProperty> iter = results.iterator();
 		while(iter.hasNext()){
 			INakedProperty presentProperty = (INakedProperty) iter.next();
-			for(INakedProperty newProperty:attributes){
-				if(presentProperty.getName().equals(newProperty.getName())){
-					iter.remove();
+			if(presentProperty.getName() == null){
+				iter.remove();
+			}else{
+				for(INakedProperty newProperty:attributes){
+					if(presentProperty.getName().equals(newProperty.getName())){
+						iter.remove();
+					}
 				}
 			}
 		}
@@ -250,13 +281,12 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		return StdlibBasic.getBasicType(IOclLibrary.OclAnyTypeName).findOperation(opName, paramTypes);
 	}
-	public List<INakedOperation> getEffectiveOperations(){
-		List<INakedOperation> results = new ArrayList<INakedOperation>(ownedOperations);
-		if(hasSupertype()){
-			results.addAll((getSupertype()).getEffectiveOperations());
-		}
-		for(IInterface i:getInterfaces()){
-			results.addAll(((INakedClassifier) i).getEffectiveOperations());
+	public Collection<INakedOperation> getEffectiveOperations(){
+		HashSet<INakedOperation> results = new HashSet<INakedOperation>(ownedOperations);
+		for(INakedGeneralization g:this.generalisations){
+			if(g.getGeneral() instanceof NakedClassifierImpl){
+				results.addAll(((INakedClassifier) g.getGeneral()).getEffectiveOperations());
+			}
 		}
 		return results;
 	}
@@ -280,10 +310,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	public void setPowerType(INakedPowerType powerType){
 		this.powerType = powerType;
-	}
-	public void addInterfaceRealization(INakedInterfaceRealization ir){
-		this.realization.add(ir);
-		ir.getContract().addImplementingClassifier(this);
 	}
 	@Override
 	protected boolean isNamedMember(INakedElement e){
@@ -369,7 +395,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			comments.remove(element);
 		}else if(element instanceof INakedConstraint){
 			ownedRules.remove(element);
-			;
+		}else if(element instanceof INakedReception){
+			this.ownedReceptions.remove(element);
 		}
 	}
 	@Override
@@ -389,6 +416,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}else if(element instanceof INakedGeneralization){
 			INakedGeneralization generalization = (INakedGeneralization) element;
 			this.generalisations.add(generalization);
+		}else if(element instanceof INakedReception){
+			this.ownedReceptions.add((INakedReception) element);
 		}
 	}
 	public INakedNameSpace getOwner(){
@@ -407,7 +436,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		subClasses.add(c);
 	}
 	public Collection<IClassifier> getSubClasses(){
-		return (Collection) subClasses;
+		return new ArrayList<IClassifier>(subClasses);
 	}
 	public List<IClassifier> getGeneralizations(){
 		List<IClassifier> results = new ArrayList<IClassifier>();
@@ -442,16 +471,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		return null;
 	}
-	public List<INakedInterfaceRealization> getInterfaceRealizations(){
-		return this.realization;
-	}
-	public List<IInterface> getInterfaces(){
-		List<IInterface> results = new ArrayList<IInterface>();
-		for(INakedInterfaceRealization r:this.realization){
-			results.add(r.getContract());
-		}
-		return results;
-	}
 	@Override
 	public boolean conformsTo(IClassifier c){
 		if(this.equals(c)){
@@ -465,21 +484,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		for(IInterface i:getInterfaces()){
 			if(i.conformsTo(c)){
 				return true;
-			}
-		}
-		// HACK !!!!!! OCtopus bug
-		// http://sourceforge.net/forum/forum.php?thread_id=1930599&forum_id=543588
-		if(c instanceof INakedClassifier){
-			INakedClassifier nc = (INakedClassifier) c;
-			for(INakedGeneralization i:nc.getNakedGeneralizations()){
-				if(i.getGeneral().conformsTo(this)){
-					return true;
-				}
-			}
-			for(IInterface i:nc.getInterfaces()){
-				if(i.conformsTo(this)){
-					return true;
-				}
 			}
 		}
 		return false;
@@ -507,6 +511,25 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		oclDefOperations.add(oper);
 	}
 	public List<IState> getStates(){
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
+	}
+	// This methods is masked from INakedClassifier. Republished by INakedInterface and INakedBehavioredClassifier
+	public Collection<INakedReception> getOwnedReceptions(){
+		return ownedReceptions;
+	}
+	// This methods is masked from INakedClassifier. Republished by INakedInterface and INakedBehavioredClassifier
+	public Collection<INakedReception> getEffectiveReceptions(){
+		HashSet<INakedReception> results = new HashSet<INakedReception>(ownedReceptions);
+		for(INakedGeneralization g:this.generalisations){
+			if(g.getGeneral() instanceof NakedClassifierImpl){
+				results.addAll(((NakedClassifierImpl) g.getGeneral()).getEffectiveReceptions());
+			}
+		}
+		return results;
+	}
+	@Override
+	@Deprecated
+	public List<IInterface> getInterfaces(){
+		return Collections.emptyList();
 	}
 }

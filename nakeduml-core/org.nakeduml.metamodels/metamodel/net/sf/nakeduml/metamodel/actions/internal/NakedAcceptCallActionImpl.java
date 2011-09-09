@@ -11,7 +11,6 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implements INakedAcceptCallAction{
 	@Override
 	public Collection<INakedElement> getOwnedElements(){
-		// TODO Auto-generated method stub
 		return super.getOwnedElements();
 	}
 	@Override
@@ -31,7 +30,11 @@ public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implem
 	}
 	@Override
 	public INakedOperation getOperation(){
-		return (INakedOperation) super.getTrigger().getEvent();
+		if(super.getTriggers().isEmpty()){
+			return null;
+		}else{
+			return (INakedOperation) super.getTriggers().iterator().next().getEvent();
+		}
 	}
 	@Override
 	public INakedReplyAction getReplyAction(){

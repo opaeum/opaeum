@@ -39,9 +39,9 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 		return result;
 	}
 	@Override
-	public void execute(TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(AbstractFlowStep step:flowSteps){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				step.startVisiting(workspace);
 			}
 		}

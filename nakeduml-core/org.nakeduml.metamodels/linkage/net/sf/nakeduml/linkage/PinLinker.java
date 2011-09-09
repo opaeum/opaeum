@@ -5,17 +5,14 @@ import java.util.List;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetPin;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
-import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
-import net.sf.nakeduml.metamodel.actions.INakedStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteVariableAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -25,9 +22,8 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -92,69 +88,68 @@ public class PinLinker extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkAcceptEvent(INakedAcceptEventAction action){
-		if(action.getTrigger() != null){
-			if(action.getTrigger().getEvent() instanceof INakedSignal){
-				INakedSignal signal = (INakedSignal) action.getTrigger().getEvent();
-				linkByNameIfRequired(signal, signal.getArgumentParameters(), action.getResult());
-			}else if(action.getTrigger().getEvent() instanceof INakedTimeEvent && action.getResult().size() == 1){
-				INakedOutputPin time = action.getResult().get(0);
-				if(time.getNakedBaseType() == null){
-					time.setBaseType(workspace.getNakedUmlLibrary().getDateType());
-				}
-				time.setType(time.getNakedBaseType());
-			}else if(action instanceof NakedAcceptTaskEventActionImpl && action.getResult().size() >= 1){
-				INakedOutputPin by = action.getResult().get(0);
+		List<? extends INakedTypedElement> parameters = action.getParameters();
+		List<INakedOutputPin> result = action.getResult();
+		if(parameters.size() > 0){
+			INakedElement element = action.getTriggers().iterator().next().getEvent();
+			if(result.size() != parameters.size()){
+				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, element.getName());
+			}else{
+				linkLists(parameters, result);
+			}
+		}
+		if(action.triggeredByTimeEventsOnly() && result.size() == 1){
+			INakedOutputPin time = result.get(0);
+			if(time.getNakedBaseType() == null){
+				time.setBaseType(workspace.getNakedUmlLibrary().getDateType());
+			}
+			time.setType(time.getNakedBaseType());
+		}else if(action instanceof NakedAcceptTaskEventActionImpl && result.size() >= 1){
+			INakedOutputPin by = result.get(0);
+			if(by.getNakedBaseType() == null){
+				by.setBaseType(workspace.getNakedUmlLibrary().getBusinessRole());
+				by.setType(workspace.getNakedUmlLibrary().getBusinessRole());
+			}
+			if(result.size() >= 2){
+				INakedOutputPin to = result.get(1);
 				if(by.getNakedBaseType() == null){
-					by.setBaseType(workspace.getNakedUmlLibrary().getBusinessRole());
-					by.setType(workspace.getNakedUmlLibrary().getBusinessRole());
+					to.setBaseType(workspace.getNakedUmlLibrary().getBusinessRole());
+					to.setType(workspace.getNakedUmlLibrary().getBusinessRole());
 				}
-				if(action.getResult().size() >= 2){
-					INakedOutputPin to = action.getResult().get(1);
-					if(by.getNakedBaseType() == null){
-						to.setBaseType(workspace.getNakedUmlLibrary().getBusinessRole());
-						to.setType(workspace.getNakedUmlLibrary().getBusinessRole());
-					}
-					if(action.getResult().size() >= 3){
-						INakedOutputPin task = action.getResult().get(2);
-						if(by.getNakedBaseType() == null){
-							throw new IllegalStateException("Implement getTaskRequest()");
-							// task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
-							// task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
-						}
-					}
-				}
-			}else if(action instanceof INakedAcceptDeadlineAction && action.getResult().size() >= 1){
-				INakedOutputPin by = action.getResult().get(0);
-				if(by.getNakedBaseType() == null){
-					by.setBaseType(workspace.getNakedUmlLibrary().getDateType());
-					by.setType(workspace.getNakedUmlLibrary().getDateType());
-				}
-				if(action.getResult().size() >= 2){
-					INakedOutputPin task = action.getResult().get(2);
-					if(by.getNakedBaseType() == null){
-						throw new IllegalStateException("Implement getTaskRequest()");
-						// task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
-						// task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
-					}
-				}
-			}else if(action.getTrigger().getEvent() instanceof INakedTimeEvent && action.getResult().size() == 1){
-				INakedOutputPin time = action.getResult().get(0);
-				if(time.getNakedBaseType() == null){
-					time.setBaseType(workspace.getNakedUmlLibrary().getDateType());
-					time.setType(workspace.getNakedUmlLibrary().getDateType());
+				if(result.size() >= 3){
+					INakedOutputPin task = result.get(2);
+					task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
+					task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
 				}
 			}
-		}else{
-			List<INakedTypedElement> args = action.getParameters();
-			for(int i = 0;i < args.size();i++){
-				linkTypedElement(action.getResult().get(i), args.get(i));
+		}else if(action instanceof INakedAcceptDeadlineAction && result.size() >= 1){
+			INakedOutputPin by = result.get(0);
+			if(by.getNakedBaseType() == null){
+				by.setBaseType(workspace.getNakedUmlLibrary().getDateType());
+				by.setType(workspace.getNakedUmlLibrary().getDateType());
 			}
+			if(result.size() >= 2){
+				INakedOutputPin task = result.get(1);
+				if(by.getNakedBaseType() == null){
+					task.setBaseType(workspace.getNakedUmlLibrary().getTaskRequest());
+					task.setType(workspace.getNakedUmlLibrary().getTaskRequest());
+				}
+			}
+		}
+	}
+	private void linkLists(List<? extends INakedTypedElement> parameters,List<? extends INakedPin> result){
+		for(int i = 0;i < parameters.size();i++){
+			linkTypedElement(result.get(i), parameters.get(i));
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkSignal(INakedSendSignalAction action){
 		if(action.getSignal() != null){
-			linkByNameIfRequired(action.getSignal(), action.getSignal().getArgumentParameters(), action.getArguments());
+			if(action.getArguments().size() != action.getSignal().getEffectiveAttributes().size()){
+				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getSignal().getName());
+			}else{
+				linkLists(action.getSignal().getEffectiveAttributes(), action.getArguments());
+			}
 		}
 	}
 	@VisitAfter(matchSubclasses = false)
@@ -181,17 +176,6 @@ public class PinLinker extends AbstractModelElementLinker{
 			}
 		}
 	}
-	private void linkByNameIfRequired(INakedSignal signal,List<INakedProperty> formalArgs,List<? extends INakedPin> actualArgs){
-		if(formalArgs.size() != actualArgs.size()){
-			for(INakedPin ip:actualArgs){
-				linkTypedElement(ip, signal.findEffectiveAttribute(ip.getName()));
-			}
-		}else{
-			for(int i = 0;i < formalArgs.size();i++){
-				linkTypedElement(actualArgs.get(i), formalArgs.get(i));
-			}
-		}
-	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(INakedActivityEdge edge){
 		if(edge.getOwnerElement() != edge.getEffectiveSource().getOwnerElement()){
@@ -202,32 +186,18 @@ public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void linkCallAction(INakedCallAction action){
 		if(action.getCalledElement() != null){
-			if(action.getArguments().size() > action.getCalledElement().getArgumentParameters().size()){
+			List<? extends INakedParameter> argumentParameters = action.getCalledElement().getArgumentParameters();
+			if(action.getArguments().size() != argumentParameters.size()){
 				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getCalledElement().getName());
 			}else{
-				for(INakedParameter p1:action.getCalledElement().getArgumentParameters()){
-					if(action.getArguments().size() < p1.getArgumentIndex() + 1){
-						getErrorMap().putError(action, ActivityValidationRule.PIN_FOR_PARAMETER,
-								"Parameter " + p1.getName() + " of " + action.getCalledElement().getName());
-					}else{
-						linkTypedElement(action.getArguments().get(p1.getArgumentIndex()), p1);
-					}
-				}
+				linkLists(argumentParameters, action.getArguments());
 			}
-			if(action.getResult().size() > action.getCalledElement().getResultParameters().size()){
+			List<? extends INakedParameter> resultParameters = action.getCalledElement().getResultParameters();
+			if(action.getResult().size() != resultParameters.size()){
 				getErrorMap().putError(action, ActivityValidationRule.MORE_PINS_THAN_PARAMETERS, action.getCalledElement().getName());
 			}else{
-				for(INakedParameter p:action.getCalledElement().getResultParameters()){
-					if(action.getResult().size() < p.getResultIndex() + 1){
-						getErrorMap().putError(action, ActivityValidationRule.PIN_FOR_PARAMETER,
-								"Parameter " + p.getName() + " of " + action.getCalledElement().getName());
-					}else{
-						linkTypedElement(action.getResult().get(p.getResultIndex()), p);
-					}
-				}
+				linkLists(resultParameters, action.getResult());
 			}
-		}else{
-			// TODO add error
 		}
 	}
 }

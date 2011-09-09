@@ -7,7 +7,6 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatingElement;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
 @StepDependency(phase = LinkagePhase.class,before = {

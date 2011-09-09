@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.uml2.uml.Activity;
-import org.nakeduml.eclipse.EmfValidationUtil;
-
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedOclAction;
+import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -26,12 +23,9 @@ import net.sf.nakeduml.metamodel.bpm.INakedResponsibilityDefinition;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedContextualEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerEvent;
 import net.sf.nakeduml.metamodel.core.IModifiableTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
@@ -45,10 +39,8 @@ import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
@@ -64,7 +56,6 @@ import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
-import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -75,9 +66,10 @@ import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.oclengine.internal.OclErrContextImpl;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
-import nl.klasse.octopus.stdlib.internal.types.OclLibraryImpl;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
+
+import org.nakeduml.eclipse.EmfValidationUtil;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,
@@ -112,10 +104,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				string.setContext(context, s);
 				Environment env = null;
 				if(slot.getOwningInstance().getClassifier() instanceof INakedEnumeration){
-					env=environmentFactory.createSelflessEnvironment(context);
+					env = environmentFactory.createSelflessEnvironment(context);
 				}else if(slot.getOwningInstance().getOwnerElement() instanceof INakedValueSpecification){
 					// Instance VAlue
-					env=environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
+					env = environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
 				}
 				s.setValue(replaceSingleParsedOclString(string, context, slot.getDefiningFeature().getType(), env));
 			}
@@ -139,6 +131,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			INakedClassifier context = edge.getOwningBehavior().getContext();
 			if(context == null){
 				context = BehaviorUtil.getNearestActualClass(owningBehavior);
+			}
+			if(context == null){
+				context = owningBehavior;
 			}
 			edge.getGuard().setValue(replaceSingleParsedOclString(string, context, booleanType, env));
 		}
@@ -217,15 +212,17 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
-	public void visitContextualEvent(INakedContextualEvent ev){
+	public void visitContextualEvent(INakedTriggerEvent ev){
 		INakedValueSpecification w = null;
 		if(ev instanceof INakedTimeEvent){
 			INakedTimeEvent te = (INakedTimeEvent) ev;
-			w = te.getWhen();
-			if(te.isRelative()){
-				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
-			}else{
-				w.setType(workspace.getNakedUmlLibrary().getDateType());
+			if(te.getWhen() != null){
+				w = te.getWhen();
+				if(te.isRelative()){
+					w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+				}else{
+					w.setType(workspace.getNakedUmlLibrary().getDateType());
+				}
 			}
 		}else{
 			w = ((INakedChangeEvent) ev).getChangeExpression();
@@ -318,6 +315,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		INakedClassifier ctx = activity.getContext();
 		if(ctx == null){
 			ctx = BehaviorUtil.getNearestActualClass(a);
+		}
+		if(ctx == null){
+			ctx = a.getActivity();
 		}
 		Environment inside = environmentFactory.createPreEnvironment(ctx, a);
 		replaceParsedOclConstraints(ctx, a.getPreConditions(), inside);
@@ -431,7 +431,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		ParsedOclString string = (ParsedOclString) pin.getValue().getValue();
 		string.setContext(pin.getActivity(), pin.getValue());
 		Environment env = environmentFactory.createActivityEnvironment(pin, pin.getActivity());
-		pin.getValue().setValue(replaceSingleParsedOclString(string, pin.getActivity(), pin.getType(), env));
+		
+		IClassifier type = pin.getType();
+		if(pin.getAction() instanceof INakedSendSignalAction && pin==((INakedSendSignalAction)pin.getAction()).getTarget()){
+			type=null;
+		}
+		pin.getValue().setValue(replaceSingleParsedOclString(string, pin.getActivity(), type, env));
 	}
 	private void replaceParsedOclConstraints(INakedClassifier c,Collection<? extends INakedConstraint> invs,Environment env){
 		for(INakedConstraint cont:invs){
@@ -489,21 +494,17 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				}
 				return newC;
 			}catch(AnalysisException e){
-				System.out.println(holder.getExpressionString());
-				e.printStackTrace(System.out);
 				putOclError(holder, e);
 				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 				errCtx.setExpressionString(holder.getExpressionString());
 				return errCtx;
 			}catch(Throwable e){
-				System.out.println(holder.getExpressionString());
 				if(localErrors.size() > 0){
 					for(IOclError oe:localErrors){
 						System.out.println(oe);
 					}
 					putErrors(holder, localErrors);
 				}
-				e.printStackTrace();
 				putError(holder, e);
 				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 				errCtx.setExpressionString(holder.getExpressionString());
@@ -518,10 +519,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
 	}
 	private void putError(ParsedOclString holder,Throwable e){
-		e.printStackTrace();
 		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
 		String msg = e.toString();
-		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, 1);
+		this.getErrorMap().putError(ne, CoreValidationRule.OCL, "OCL Not well-formed", 1);
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();

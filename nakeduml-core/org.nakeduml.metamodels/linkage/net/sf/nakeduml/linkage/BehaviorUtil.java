@@ -1,6 +1,7 @@
 package net.sf.nakeduml.linkage;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,12 +36,13 @@ import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 public class BehaviorUtil{
-	Map<INakedOperation,Collection<INakedAcceptCallAction>> callActions;
-	public BehaviorUtil(Map<INakedOperation,Collection<INakedAcceptCallAction>> callActions){
+	private INakedModelWorkspace workspace;
+	public BehaviorUtil(INakedModelWorkspace workspace){
 		super();
-		this.callActions = callActions;
+		this.workspace = workspace;
 	}
 	public static boolean hasMethodsWithStructure(INakedOperation no){
 		Set<? extends INakedBehavior> methods = no.getMethods();
@@ -124,7 +126,7 @@ public class BehaviorUtil{
 					return true;
 				}
 			}
-			Collection<INakedAcceptCallAction> acas = callActions.get(o);
+			Collection<INakedAcceptCallAction> acas = getCallActions(o);
 			if(acas != null){
 				for(INakedAcceptCallAction aca:acas){
 					if(requiresExternalInputBeforeReply(origin, aca, aca.getReplyAction())){
@@ -134,6 +136,15 @@ public class BehaviorUtil{
 			}
 		}
 		return false;
+	}
+	private Collection<INakedAcceptCallAction> getCallActions(INakedOperation o){
+		Set<INakedAcceptCallAction> callActions = new HashSet<INakedAcceptCallAction>();
+		for(INakedElement e:workspace.getDependentElements(o)){
+			if(e instanceof INakedAcceptCallAction){
+				callActions.add((INakedAcceptCallAction) e);
+			}
+		}
+		return callActions;
 	}
 	private boolean requiresExternalInputBeforeReply(INakedActivity origin,INakedActivityNode aca,INakedReplyAction replyAction){
 		Set<INakedActivityEdge> allEffectiveOutgoing = aca.getAllEffectiveOutgoing();
@@ -165,7 +176,7 @@ public class BehaviorUtil{
 					return true;
 				}
 			}
-			Collection<INakedAcceptCallAction> acas = callActions.get(o);
+			Collection<INakedAcceptCallAction> acas = getCallActions(o);
 			if(acas != null){
 				for(INakedAcceptCallAction aca:acas){
 					Set<INakedActivityEdge> allEffectiveOutgoing = aca.getAllEffectiveOutgoing();

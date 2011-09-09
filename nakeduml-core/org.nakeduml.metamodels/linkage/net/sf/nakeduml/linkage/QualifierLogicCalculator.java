@@ -1,10 +1,10 @@
 package net.sf.nakeduml.linkage;
 
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
+
+import org.nakeduml.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {MappedTypeLinker.class,PinLinker.class,
 		ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class},requires = {MappedTypeLinker.class,
@@ -26,7 +26,6 @@ public class QualifierLogicCalculator extends AbstractModelElementLinker{
 				ocl.append(q.getName());
 			}
 			ocl.append(") implies p=self)");
-//			System.out.println("qualifierLogic:" + ocl);
 			ConstraintUtil.buildArtificialConstraint(p, ocl.toString(), "uniqueIn" + NameConverter.capitalize(p.getName()));
 		}
 	}

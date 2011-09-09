@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.topcased.core.topcasednature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Models/models</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/nakeduml-core/org.nakeduml.metamodels/models</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

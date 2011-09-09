@@ -15,6 +15,7 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IPackage;
 
 public class EmulatingElement implements INakedElement{
+	private static final long serialVersionUID = -1375831977226433661L;
 	String documentation;
 	public String getDocumentation(){
 		return documentation;
@@ -77,6 +78,7 @@ public class EmulatingElement implements INakedElement{
 	public Collection<? extends INakedInstanceSpecification> getStereotypes(){
 		return originalElement.getStereotypes();
 	}
+	@SuppressWarnings("unchecked")
 	public <T>T getTaggedValue(String stereotype,String tag){
 		Object o = originalElement.getTaggedValue(stereotype, tag);
 		return (T) o;
@@ -98,6 +100,7 @@ public class EmulatingElement implements INakedElement{
 	public String getName(){
 		return originalElement.getName();
 	}
+	@SuppressWarnings("deprecation")
 	public PathName getPathName(){
 		return originalElement.getPathName();
 	}
@@ -110,17 +113,13 @@ public class EmulatingElement implements INakedElement{
 	}
 	@Override
 	public boolean isStoreMappingInfo(){
-		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
 	public void markForDeletion(){
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public boolean isMarkedForDeletion(){
-		// TODO Auto-generated method stub
 		return false;
 	}
 	public INakedRootObject getRootObject(){

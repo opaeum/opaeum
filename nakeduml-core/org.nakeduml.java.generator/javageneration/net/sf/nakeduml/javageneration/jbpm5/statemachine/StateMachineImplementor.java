@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.NakedStateMap;
@@ -29,8 +28,8 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -43,7 +42,6 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
-import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
@@ -57,7 +55,7 @@ import org.nakeduml.runtime.domain.UmlNodeInstance;
 		OperationAnnotator.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
 },after = {
 	OperationAnnotator.class
-},before=CodeCleanup.class)
+},before = CodeCleanup.class)
 public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	private OJAnnotatedClass javaStateMachine;
 	@VisitBefore(matchSubclasses = true)
@@ -103,11 +101,14 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				implementBehaviorOn(state, state.getExit(), onExit);
 			}
 			for(INakedTransition t:state.getOutgoing()){
-				if(t.getTrigger() != null){
-					if(t.getTrigger().getEvent() instanceof INakedTimeEvent){
-						EventUtil.cancelTimer(onExit.getBody(), (INakedTimeEvent) t.getTrigger().getEvent(), "this");
-					}else if(t.getTrigger().getEvent() instanceof INakedChangeEvent){
-						EventUtil.cancelChangeEvent(onExit.getBody(), (INakedChangeEvent) t.getTrigger().getEvent());
+				Collection<INakedTrigger> triggers = t.getTriggers();
+				for(INakedTrigger trigger:triggers){
+					if(trigger != null){
+						if(trigger.getEvent() instanceof INakedTimeEvent){
+							EventUtil.cancelTimer(onExit.getBody(), (INakedTimeEvent) trigger.getEvent(), "this");
+						}else if(trigger.getEvent() instanceof INakedChangeEvent){
+							EventUtil.cancelChangeEvent(onExit.getBody(), (INakedChangeEvent)trigger.getEvent());
+						}
 					}
 				}
 			}
@@ -120,15 +121,6 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			onEntry.addParam("context", Jbpm5Util.getProcessContext());
 			if(state.getEntry() != null){
 				implementBehaviorOn(state, state.getEntry(), onEntry);
-			}
-			for(INakedTransition t:state.getOutgoing()){
-				if(t.getTrigger() != null){
-					if(t.getTrigger().getEvent() instanceof INakedTimeEvent){
-						EventUtil.implementTimeEventRequest(onEntry, onEntry.getBody(), (INakedTimeEvent) t.getTrigger().getEvent());
-					}else if(t.getTrigger().getEvent() instanceof INakedChangeEvent){
-						EventUtil.implementChangeEventRequest(onEntry, (INakedChangeEvent) t.getTrigger().getEvent());
-					}
-				}
 			}
 			INakedState historyPeer = StateMachineUtil.getHistoryPeer(state);
 			if(historyPeer != null && state.getKind().isRestingState()){
@@ -157,7 +149,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 			Collection<INakedTransition> completionTransitions = state.getCompletionTransitions();
 			if(completionTransitions.size() > 0 && !(state.getKind().isComposite() || state.getKind().isOrthogonal())){
-				defaultTransitions.addToStatements(EventUtil.getEventHandlerName(state) + "()");
+				defaultTransitions.addToStatements(EventUtil.getEventConsumerName(state.getCompletionEvent()) + "()");
 			}
 			if(state.getKind().isFinal() && state.getContainer().getRegionOwner() instanceof INakedState){
 				javaStateMachine.addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
@@ -172,7 +164,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	private void implementBehaviorOn(INakedState state,INakedBehavior behavior,OJAnnotatedOperation onEntry){
 		if(behavior instanceof INakedActivity){
 			SimpleActivityMethodImplementor impl = new SimpleActivityMethodImplementor();
-			impl.initialize(javaModel, config, textWorkspace,workspace);
+			impl.initialize(javaModel, config, textWorkspace, workspace);
 			impl.setWorkspace(workspace);
 			impl.implementActivityOn((INakedActivity) behavior, onEntry);
 		}else if(behavior instanceof INakedOpaqueBehavior){

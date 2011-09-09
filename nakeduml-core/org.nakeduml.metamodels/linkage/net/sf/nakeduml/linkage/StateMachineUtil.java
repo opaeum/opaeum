@@ -1,6 +1,8 @@
 package net.sf.nakeduml.linkage;
 
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 
@@ -25,8 +27,10 @@ public class StateMachineUtil{
 	}
 	public static boolean requestsEvents(INakedState state){
 		for(INakedTransition t:state.getOutgoing()){
-			if(t.getTrigger() != null && t.getTrigger().getEvent() instanceof INakedEvent){
-				return true;
+			for(INakedTrigger tigger:t.getTriggers()){
+				if(tigger.getEvent() instanceof INakedChangeEvent || tigger.getEvent() instanceof INakedTimeEvent){
+					return true;
+				}
 			}
 		}
 		return false;

@@ -24,7 +24,6 @@ import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
-import org.eclipse.uml2.uml.UMLPackage;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractTriggerSection extends AbstractTabbedPropertySection{

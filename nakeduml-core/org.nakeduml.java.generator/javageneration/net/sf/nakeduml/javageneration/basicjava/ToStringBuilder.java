@@ -4,8 +4,8 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
@@ -35,9 +35,6 @@ public class ToStringBuilder extends StereotypeAnnotator{
 	public void visitClass(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
 			OJAnnotatedClass ojClass = findJavaClass(c);
-			if(ojClass ==null){
-				System.out.println(c.getClass().getSimpleName() + ":" + c.getName());
-			}
 			this.buildToString(ojClass, c);
 		}
 	}

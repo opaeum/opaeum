@@ -14,6 +14,8 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
@@ -45,16 +47,21 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		return affectedElements;
 	}
 	@Override
-	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
-		log.startTask("Linking Opium Metadata",linkers.size());
+	public void execute(TransformationContext context){
+		context.getLog().startTask("Linking Opium Metadata",linkers.size());
 		for(AbstractModelElementLinker d:linkers){
-			if(!log.isCanceled()){
-				log.startStep("Executing " + d.getClass().getSimpleName()); 
+			if(!context.getLog().isCanceled()){
+				context.getLog().startStep("Executing " + d.getClass().getSimpleName()); 
 				d.startVisiting(modelWorkspace);
-				log.endLastStep();
+				context.getLog().endLastStep();
 			}
 		}
-		log.endLastTask();
+		for(INakedRootObject r:modelWorkspace.getRootObjects()){
+			if(!r.getStatus().isLinked()){
+				r.setStatus(RootObjectStatus.LINKED);
+			}
+		}
+		context.getLog().endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractModelElementLinker> features){
@@ -93,6 +100,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 			return contains(arg0, (INakedElement) arg1.getOwnerElement());
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends AbstractModelElementLinker>> getAllSteps(){
 		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class, ProcessIdentifier.class, MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, RootEntityLinker.class,
 				CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class, ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class,

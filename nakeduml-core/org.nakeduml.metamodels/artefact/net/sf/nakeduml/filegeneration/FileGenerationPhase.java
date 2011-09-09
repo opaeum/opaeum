@@ -32,9 +32,9 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 		return elements;
 	}
 	@Override
-	public void execute(TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(AbstractTextNodeVisitor feature:features){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				feature.startVisiting(textWorkspace);
 			}
 		}

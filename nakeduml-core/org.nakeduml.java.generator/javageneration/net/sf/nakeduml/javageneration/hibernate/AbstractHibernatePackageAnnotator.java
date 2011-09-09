@@ -8,8 +8,9 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepResolverImplementor;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessComponent;
 import net.sf.nakeduml.metamodel.bpm.INakedBusinessRole;
@@ -29,7 +30,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.hibernate.dialect.Dialect;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
@@ -88,15 +89,14 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	public abstract void visitWorkspace(INakedModelWorkspace root);
 	public abstract void visitModel(INakedModel model);
 	protected void doWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationPhase()){
-			OJAnnotatedPackage pkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
-			createTextPathIfRequired(pkg, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
+		if(isIntegrationRequired()){
+			OJAnnotatedPackageInfo pkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(workspace), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			applyFilter(pkg);
 			MetaDefElementCollector collector = collectElements(workspace.getOwnedElements());
 			Set<INakedInterface> interfaces = collector.interfaces;
 			for(INakedInterface i:interfaces){
 				String metaDefName = HibernateUtil.metadefName((INakedInterface) i);
-				doMetaDef(GeneralizationUtil.getConcreteEntityImplementationsOf(i, (Collection<INakedRootObject>) workspace.getOwnedElements()), metaDefName, pkg);
+				doMetaDef(GeneralizationUtil.getConcreteEntityImplementationsOf(i, workspace.getRootObjects()), metaDefName, pkg);
 			}
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, pkg);
 			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, pkg);
@@ -109,7 +109,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			}
 		}
 	}
-	private void applyFilter(OJAnnotatedPackage ap){
+	private void applyFilter(OJAnnotatedPackageInfo ap){
 		OJAnnotationValue filterDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.FilterDef"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
 		filterDef.putAttribute(new OJAnnotationAttributeValue("defaultCondition", "deleted_on > " + getCurrentTimestampSQLFunction()));
@@ -120,19 +120,14 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		return dialect.getCurrentTimestampSQLFunctionName();
 	}
 	protected void doModel(INakedModel model){
-		if(!isIntegrationPhase()){
-			OJAnnotatedPackage adPkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(true));
-			createTextPathIfRequired(adPkg, JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC);
-			OJAnnotatedPackage domainPkg = findOrCreatePackage(HibernateUtil.getHibernatePackage(false));
-			createTextPathIfRequired(domainPkg, JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC);
-			applyFilter(adPkg);
+		if(!isIntegrationRequired()){
+			OJAnnotatedPackageInfo domainPkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(model),JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			applyFilter(domainPkg);
 			Collection<INakedRootObject> selfAndDependencies = getModelInScope();
 			MetaDefElementCollector collector = collectElements(selfAndDependencies);
 			Set<INakedInterface> interfaces = collector.interfaces;
 			for(INakedInterface i:interfaces){
 				Collection<INakedBehavioredClassifier> generalizations = GeneralizationUtil.getConcreteEntityImplementationsOf(i, selfAndDependencies);
-				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), adPkg);
 				doMetaDef(generalizations, HibernateUtil.metadefName((INakedInterface) i), domainPkg);
 			}
 			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
@@ -141,39 +136,29 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
 				doTypeDefs(collector.allProcesses, "StateResolver", domainPkg);
 			}
-
-			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
-				doTypeDefs(collector.enumerations, "Resolver", adPkg);
-			}
-			if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
-				doTypeDefs(collector.allProcesses, "StateResolver", adPkg);
-			}
-
-			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, adPkg);
 			doMetaDef(collector.tasks, TASK_OBJECT_META_DEF, domainPkg);
-			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, adPkg);
 			doMetaDef(collector.contractedProcesses, OPERATION_PROCESS_META_DEF, domainPkg);
-			doMetaDef(collector.participant, PARTICIPANT_META_DEF, adPkg);
 			doMetaDef(collector.participant, PARTICIPANT_META_DEF, domainPkg);
 		}
 	}
-	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackage p){
-		OJAnnotationValue typeDefs = getTypeDefs(p);
+	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackageInfo p){
+		OJAnnotationAttributeValue typeDefs = getTypeDefs(p);
 		for(INakedClassifier a:processes){
 			OJAnnotationValue typeDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDef"));
 			typeDefs.addAnnotationValue(typeDef);
 			p.putAnnotation(typeDef);
-			typeDef.putAttribute("name", a.getMappingInfo().getQualifiedJavaName() + string);
+			typeDef.putAttribute("name", a.getMappingInfo().getJavaName() + string);
 			typeDef.putAttribute("typeClass", new OJPathName(a.getMappingInfo().getQualifiedJavaName() + string));
 		}
 	}
-	private OJAnnotationValue getTypeDefs(OJAnnotatedPackage p){
+	private OJAnnotationAttributeValue getTypeDefs(OJAnnotatedPackageInfo p){
 		OJAnnotationValue typeDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.TypeDefs"));
 		if(typeDefs == null){
 			typeDefs = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.TypeDefs"));
 			p.putAnnotation(typeDefs);
+			typeDefs.putAttribute(new OJAnnotationAttributeValue("value"));
 		}
-		return typeDefs;
+		return typeDefs.findAttribute("value");
 	}
 	// TODO find another place for this
 	private MetaDefElementCollector collectElements(Collection<? extends INakedElement> ownedElements){
@@ -186,7 +171,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		return collector;
 	}
-	private void doMetaDef(Collection<? extends INakedClassifier> impls,String metaDefName,OJAnnotatedPackage p){
+	private void doMetaDef(Collection<? extends INakedClassifier> impls,String metaDefName,OJAnnotatedPackageInfo p){
 		OJAnnotationValue metaDef = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AnyMetaDef"));
 		OJAnnotationValue anyMetaDefs = getAnyMetaDefs(p);
 		anyMetaDefs.addAnnotationValue(metaDef);
@@ -207,7 +192,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	protected abstract OJPathName getTargetEntity(OJPathName javaTypePath);
 	protected abstract String getIdType();
 	protected abstract String getMetaDefNameSuffix();
-	private OJAnnotationValue getAnyMetaDefs(OJAnnotatedPackage p){
+	private OJAnnotationValue getAnyMetaDefs(OJAnnotatedPackageInfo p){
 		OJAnnotationValue anyMetaDefs = p.findAnnotation(new OJPathName("org.hibernate.annotations.AnyMetaDefs"));
 		if(anyMetaDefs == null){
 			anyMetaDefs = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AnyMetaDefs"));

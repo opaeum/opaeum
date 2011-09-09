@@ -2,9 +2,9 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -18,10 +18,8 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedSignalImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaborationImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
-import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationImpl;
@@ -34,7 +32,6 @@ import net.sf.nakeduml.metamodel.core.internal.NakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.models.internal.NakedModelImpl;
-import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
 import net.sf.nakeduml.metamodel.profiles.internal.NakedProfileImpl;
 import net.sf.nakeduml.metamodel.profiles.internal.NakedStereotypeImpl;
 import net.sf.nakeduml.metamodel.statemachines.StateMachineKind;
@@ -44,6 +41,7 @@ import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
 import net.sf.nakeduml.validation.CoreValidationRule;
+import net.sf.nakeduml.validation.EmfValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 
@@ -103,8 +101,6 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			}
 			System.out.println("Loaded mappings: " + mappedTypesUri);
 		}catch(IOException e1){
-			// System.out.println("Could not load mappedTypes in " + mappedTypesUri);
-			// System.out.println(e);
 		}
 	}
 	@VisitBefore
@@ -143,11 +139,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
 		if(e instanceof Association){
 			for(Property property:((Association) e).getMemberEnds()){
-				if(property.getType() == null){
-					BrokenElement be = new BrokenElement(getId(property));
-					be.addMessage(CoreValidationRule.INVERSE);
-					getErrorMap().getErrors().put(getId(property),be);
-					// broken association a'la topcased
+				if(property.getType() == null || property.getOtherEnd()==null){
+					getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION, e);
 					return null;
 				}
 			}
@@ -192,7 +185,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	@VisitBefore
-	public void visitClass(Class c,NakedClassifierImpl ne){
+	public void visitClass(Class c,INakedClassifier ne){
 		initializeClassifier(ne, c);
 	}
 	private boolean isBusinessService(Classifier c){
@@ -267,7 +260,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(ns, s);
 	}
 	@VisitBefore
-	public void visitDataType(DataType dt,NakedClassifierImpl nsdt){
+	public void visitDataType(DataType dt,INakedClassifier nsdt){
 		initializeClassifier(nsdt, dt);
 	}
 	@VisitBefore

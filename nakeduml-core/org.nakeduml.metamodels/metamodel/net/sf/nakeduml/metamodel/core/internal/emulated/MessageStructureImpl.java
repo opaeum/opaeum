@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
@@ -37,7 +40,8 @@ import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure{
+public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure,INakedBehavioredClassifier{
+	private static final long serialVersionUID = 1445741729804979053L;
 	protected INakedElement element;
 	INakedClassifier owner;
 	private Collection<INakedInterfaceRealization> interfaceRealizations = new HashSet<INakedInterfaceRealization>();
@@ -184,6 +188,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	public IOperation lookupOperation(PathName path,List<IClassifier> types){
 		return owner.lookupOperation(path, types);
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public PathName getPathName(){
 		PathName p = owner.getPathName();
@@ -280,5 +285,32 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 	public INakedNameSpace getParent(){
 		return getNameSpace();
+	}
+	@Override
+	public INakedBehavior getClassifierBehavior(){
+		return null;
+	}
+	@Override
+	public void setClassifierBehavior(INakedBehavior behavior){
+	}
+	@Override
+	public Collection<INakedReception> getOwnedReceptions(){
+		return Collections.emptySet();
+	}
+	@Override
+	public Collection<? extends INakedReception> getEffectiveReceptions(){
+		ArrayList<INakedReception> result = new ArrayList<INakedReception>();
+		for(INakedInterfaceRealization ir:getInterfaceRealizations()){
+			result.addAll(ir.getContract().getEffectiveReceptions());
+		}
+		return result;
+	}
+	@Override
+	public Collection<? extends INakedBehavior> getEffectiveBehaviors(){
+		return Collections.emptySet();
+	}
+	@Override
+	public boolean hasReceptionFor(INakedSignal signal){
+		return false;
 	}
 }

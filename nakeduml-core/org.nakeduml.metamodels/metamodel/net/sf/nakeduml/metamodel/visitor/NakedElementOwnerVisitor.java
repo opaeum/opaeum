@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.uml2.uml.Element;
-
 import net.sf.nakeduml.feature.TransformationContext;
-import net.sf.nakeduml.feature.WorkspaceMappingInfo;
 import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -56,11 +53,14 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
+		setCurrent(o);
+		super.visitRecursively(o);
+	}
+	protected void setCurrent(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.currentRootObject = pkg;
 		}
-		super.visitRecursively(o);
 	}
 	@Override
 	public void visitOnly(INakedElementOwner o){

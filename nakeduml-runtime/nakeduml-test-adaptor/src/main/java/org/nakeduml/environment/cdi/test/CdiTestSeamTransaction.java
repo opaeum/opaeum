@@ -14,7 +14,7 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.nakeduml.environment.adaptor.JbpmKnowledgeSession;
+import org.nakeduml.cdi.CdiHibernateKnowledgeSession;
 
 @RequestScoped
 public class CdiTestSeamTransaction implements UserTransaction {
@@ -40,7 +40,7 @@ public class CdiTestSeamTransaction implements UserTransaction {
 		resetJbpmKnowledgeSession();
 	}
 	private void resetJbpmKnowledgeSession(){
-		JbpmKnowledgeSession component = CdiTestEnvironment.getInstance().getComponent(JbpmKnowledgeSession.class);
+		CdiHibernateKnowledgeSession component = CdiTestEnvironment.getInstance().getComponent(CdiHibernateKnowledgeSession.class);
 		if(component != null){
 			component.clear();
 		}

@@ -63,6 +63,7 @@ public class NakedUmlEclipseContext{
 			this.file = f;
 		}
 	}
+	private Set<ResourceSet> resourceSetsStartedButNotLoaded=new HashSet<ResourceSet>();
 	private Map<ResourceSet,EditingContext> emfWorkspaces = new HashMap<ResourceSet,EditingContext>();
 	private EclipseUmlElementCache umlElementCache;
 	private boolean isOpen = false;
@@ -74,6 +75,7 @@ public class NakedUmlEclipseContext{
 	private NakedUmlErrorMarker errorMarker;
 	private List<Runnable> synchronizationListeners = new ArrayList<Runnable>();
 	private boolean autoSync;
+	private boolean isLoadingDirectory;
 	public NakedUmlEclipseContext(NakedUmlConfig cfg,IContainer umlDirectory){
 		super();
 		isOpen = true;
@@ -102,41 +104,81 @@ public class NakedUmlEclipseContext{
 		for(EditingContext editingContext:this.emfWorkspaces.values()){
 			result.add(editingContext.emfWorkspace);
 		}
+		if(directoryEmfWorkspace!=null){
+			result.add(directoryEmfWorkspace);
+		}
 		return result;
 	}
 	public EclipseUmlElementCache getUmlElementCache(){
 		return umlElementCache;
 	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
-		currentResourceSet = domain.getResourceSet();
-		new Job("Loading Opium Metadata"){
-			@Override
-			protected IStatus run(final IProgressMonitor monitor){
-				monitor.beginTask("Loading Opium  Metadata", 1000);
-				try{
-					if(currentResourceSet != null){
-						Package model = findRootObjectInFile(file, currentResourceSet);
-						EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
-						emfWorkspaces.put(currentResourceSet, new EditingContext(emfWorkspace, domain, model, file));
-						domain.getResourceSet().eAdapters().add(umlElementCache);
-						errorMarker.maybeSchedule();
+		resourceSetsStartedButNotLoaded.add(domain.getResourceSet());
+		if(directoryEmfWorkspace == null){
+			new Job("Loading Opium Metadata"){
+				@Override
+				protected IStatus run(IProgressMonitor monitor){
+					try{
+						final Package model = findRootObjectInFile(file, domain.getResourceSet());
+						loadDirectory(monitor,domain.getResourceSet());
+						if(model != null && model.eResource() != null){// Might have been closed in the meantime
+							currentResourceSet = domain.getResourceSet();
+							NakedUmlConfig cfg = getUmlElementCache().getConfig();
+							EmfWorkspace emfWorkspace = new EmfWorkspace(model, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+							emfWorkspace.setResourceHelper(new EclipseEmfResourceHelper());
+							emfWorkspace.setName(cfg.getWorkspaceName());
+							getUmlElementCache().setCurrentEmfWorkspace(emfWorkspace);
+							newDomainLoaded(domain, file, model, emfWorkspace);
+						}
+						return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
+					}catch(Exception e){
+						return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
+					}finally{
+						monitor.done();
 					}
-					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
-				}catch(Exception e){
-					return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
-				}finally{
-					monitor.done();
 				}
-			}
-		}.schedule();
+
+			}.schedule();
+		}else{
+			new Job("Loading Opium Metadata"){
+				@Override
+				protected IStatus run(final IProgressMonitor monitor){
+					monitor.beginTask("Loading Opium  Metadata", 1000);
+					try{
+						final Package model = findRootObjectInFile(file, domain.getResourceSet());
+						if(model != null){
+							currentResourceSet = domain.getResourceSet();
+							// Will be null if the editingDomain is inactive
+							EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
+							newDomainLoaded(domain, file, model, emfWorkspace);
+						}
+						return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Opium Metadata loaded");
+					}catch(Exception e){
+						return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
+					}finally{
+						monitor.done();
+					}
+				}
+			}.schedule();
+		}
 		return true;
+	}
+	protected void newDomainLoaded(final EditingDomain domain,final IFile file,final Package model,EmfWorkspace emfWorkspace){
+		emfWorkspaces.put(domain.getResourceSet(), new EditingContext(emfWorkspace, domain, model, file));
+		resourceSetsStartedButNotLoaded.add(domain.getResourceSet());
+		domain.getResourceSet().eAdapters().add(umlElementCache);
+		errorMarker.maybeSchedule();
 	}
 	public boolean isOpen(){
 		return isOpen;
 	}
 	public void setCurrentEditContext(EditingDomain rs,IFile file){
 		this.currentResourceSet = rs.getResourceSet();
-		getUmlElementCache().setCurrentEmfWorkspace(emfWorkspaces.get(rs).emfWorkspace);
+		EditingContext editingContext = emfWorkspaces.get(rs.getResourceSet());
+		if(editingContext!=null){
+			getUmlElementCache().setCurrentEmfWorkspace(editingContext.emfWorkspace);
+			//could still be loading
+		}
 	}
 	public void onSave(IProgressMonitor monitor,ResourceSet resourceSet){
 		try{
@@ -149,10 +191,14 @@ public class NakedUmlEclipseContext{
 		}
 	}
 	public void onClose(boolean save,ResourceSet rs){
+		if(isLoadingDirectory){
+			isLoadingDirectory=false;
+			getUmlElementCache().reinitializeProcess(getUmlElementCache().getConfig());
+		}
 		for(NakedUmlContextListener l:listeners){
 			l.onClose(save);
 		}
-		if(umlElementCache != null){
+		if(umlElementCache != null && this.emfWorkspaces.containsKey(rs)){
 			this.emfWorkspaces.remove(rs);
 			rs.eAdapters().remove(umlElementCache);
 			currentResourceSet = null;
@@ -209,23 +255,28 @@ public class NakedUmlEclipseContext{
 		}
 	}
 	public void loadDirectory(IProgressMonitor monitor){
+		loadDirectory(monitor, new ResourceSetImpl());
+		getUmlElementCache().setCurrentEmfWorkspace(directoryEmfWorkspace);
+	}
+	private void loadDirectory(IProgressMonitor monitor,ResourceSet rrst){
+		this.isLoadingDirectory=true;
 		monitor.beginTask("Loading EMF resources", 30);
 		try{
 			if(directoryEmfWorkspace == null){
-				ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 25);
-				currentResourceSet = new ResourceSetImpl();
-				directoryEmfWorkspace = EmfWorkspaceLoader.loadDirectory(currentResourceSet, umlDirectory.getLocation().toFile(), umlElementCache.getConfig(), log);
-				directoryEmfWorkspace.setResourceHelper(new EclipseEmfResourceHelper());
-				currentResourceSet.eAdapters().add(getUmlElementCache());
+				currentResourceSet = rrst;
+				EmfWorkspace dew = EmfWorkspaceLoader.loadDirectory(currentResourceSet, umlDirectory.getLocation().toFile(), umlElementCache.getConfig(), new ProgressMonitorTransformationLog(monitor, 15));
+				dew.setResourceHelper(new EclipseEmfResourceHelper());
+				rrst.eAdapters().add(getUmlElementCache());
 				INakedModelWorkspace nmws = getUmlElementCache().getNakedWorkspace();
 				nmws.clearGeneratingModelOrProfiles();
-				getUmlElementCache().getTransformationProcess().replaceModel(directoryEmfWorkspace);
-				getUmlElementCache().getTransformationProcess().execute(log);
+				getUmlElementCache().getTransformationProcess().replaceModel(dew);
+				getUmlElementCache().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 10));
+				this.directoryEmfWorkspace=dew;
 			}else{
 				monitor.worked(25);
 			}
 			getUmlElementCache().getTransformationProcess().replaceModel(directoryEmfWorkspace);
-			// Ensure ALL models are loaded
+			// Ensure ALL models are loaded TODO why would they not be?
 			for(IResource r:umlDirectory.members()){
 				if(r instanceof IFile && r.getFileExtension().equals("uml")){
 					if(!isNakedRootObjectLoaded((IFile) r)){
@@ -235,6 +286,7 @@ public class NakedUmlEclipseContext{
 				}
 			}
 			monitor.worked(5);
+			this.isLoadingDirectory=false;
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}finally{
@@ -256,7 +308,7 @@ public class NakedUmlEclipseContext{
 		return null;
 	}
 	public boolean isSyncronizingWith(ResourceSet resourceSet){
-		return emfWorkspaces.containsKey(resourceSet);
+		return resourceSetsStartedButNotLoaded.contains(resourceSet) || emfWorkspaces.containsKey(resourceSet);
 	}
 	private class EclipseUmlCacheListener implements UmlCacheListener{
 		public void updateOclReferencesTo(INakedElement ne){
@@ -276,8 +328,8 @@ public class NakedUmlEclipseContext{
 		private void updateOclBody(INakedElement de,final IOclContext oclValue,final EAttribute body,final EAttribute language){
 			for(final EditingContext ew:emfWorkspaces.values()){
 				final NamedElement oe = (NamedElement) ew.emfWorkspace.getElementMap().get(de.getId());
-				//Could be artificially generated OCL
-				if(oe!=null&& !ew.editingDomain.isReadOnly(oe.eResource())){
+				// Could be artificially generated OCL
+				if(oe != null && !ew.editingDomain.isReadOnly(oe.eResource())){
 					Display.getDefault().syncExec(new Runnable(){
 						@Override
 						public void run(){

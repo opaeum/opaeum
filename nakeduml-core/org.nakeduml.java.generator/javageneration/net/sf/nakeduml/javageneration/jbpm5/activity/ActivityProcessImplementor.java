@@ -2,16 +2,16 @@ package net.sf.nakeduml.javageneration.jbpm5.activity;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
-import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractJavaProcessVisitor;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallBehaviorActionBuilder;
@@ -22,6 +22,8 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.SignalMap;
 import net.sf.nakeduml.javageneration.oclexpressions.CodeCleanup;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -47,29 +49,26 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
-import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.runtime.domain.IActiveObject;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
 },after = {
 	OperationAnnotator.class
-},before=CodeCleanup.class)
+},before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void activityEdge(INakedActivityEdge edge){
 		if(edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())){
@@ -107,22 +106,9 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
 	}
-	private void visitSendSignalAction(INakedSendSignalAction a){
-		if(a.getTargetElement() != null){
-			OJAnnotatedClass ojClass = findJavaClass(a.getTargetElement().getNakedBaseType());
-			if(ojClass instanceof OJAnnotatedInterface){
-				((OJAnnotatedInterface) ojClass).addToSuperInterfaces(new OJPathName(IActiveObject.class.getName()));
-			}else if(ojClass != null){
-				ojClass.addToImplementedInterfaces(new OJPathName(IActiveObject.class.getName()));
-				OJBlock body = AbstractEventHandlerInserter.ensureProcessSignalPresent(ojClass).getBody();
-				if(body.getStatements().size() == 0){
-					body.addToStatements("return false");
-				}
-			}
-		}
-	}
 	@VisitBefore(matchSubclasses = true)
 	public void implementActivity(INakedActivity activity){
+		ensureEventHandlerImplementation(activity);
 		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
 			OJAnnotatedClass activityClass = findJavaClass(activity);
 			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
@@ -131,10 +117,33 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			doExecute(activity, activityClass);
 			if(activity.getActivityKind() == ActivityKind.PROCESS){
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
+				OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
+				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes(),getLibrary().getBusinessRole()!=null);
 			}else{
 				Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 				doIsStepActive(activityClass, activity);
 				super.addGetNodeInstancesRecursively(activityClass);
+			}
+		}
+	}
+	private void ensureEventHandlerImplementation(INakedActivity activity){
+		List<INakedActivityNode> activityNodesRecursively = activity.getActivityNodesRecursively();
+		for(INakedActivityNode node:activityNodesRecursively){
+			if(node instanceof INakedSendSignalAction){
+				// TODO this deviates from the UML spec. implement validation to ensure the reception is defined on the target
+				INakedSendSignalAction ssa = (INakedSendSignalAction) node;
+				SignalMap map = new SignalMap(ssa.getSignal());
+				if(ssa.getTargetElement() != null && ssa.getTargetElement().getNakedBaseType() != null){
+					OJAnnotatedClass ojTarget = findJavaClass(ssa.getTargetElement().getNakedBaseType());
+					if(ojTarget != null){
+						if(!ojTarget.getImplementedInterfaces().contains(map.receiverContractTypePath())){
+							ojTarget.addToImplementedInterfaces(map.receiverContractTypePath());
+							OperationAnnotator.findOrCreateJavaReception(ojTarget, map);
+							OperationAnnotator.findOrCreateEventGenerator( (INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(),ojTarget, map);
+							OperationAnnotator.findOrCreateEventConsumer((INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(), ojTarget, map);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -150,9 +159,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode || node instanceof INakedExpansionRegion
 					|| node instanceof INakedExpansionNode){
 				this.implementNodeMethod(activityClass, node);
-				if(node instanceof INakedSendSignalAction){
-					visitSendSignalAction((INakedSendSignalAction) node);
-				}else if(node instanceof ActivityNodeContainer){
+				if(node instanceof ActivityNodeContainer){
 					visitEdges(((ActivityNodeContainer) node).getActivityEdges());
 				}
 			}

@@ -78,7 +78,7 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_1JSzksbwEd-qWtMD5IZMIA" id="stereotypeEdgeObject"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_UjcoMMkJEeCqJJ6VBTMkzg" position="77,226" size="123,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_UjcoMMkJEeCqJJ6VBTMkzg" position="77,226" size="171,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UjcoMckJEeCqJJ6VBTMkzg" presentation="default">
         <element href="OpiumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </semanticModel>

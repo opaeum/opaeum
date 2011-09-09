@@ -3,10 +3,8 @@ package org.nakeduml.topcased.propertysections;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.nakeduml.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
-import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public abstract class AbstractAutoCreatingOclExpressionSection extends AbstractOpaqueExpressionSection{
 	@Override

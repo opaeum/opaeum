@@ -3,7 +3,6 @@ package net.sf.nakeduml.emf.extraction;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
@@ -15,7 +14,6 @@ import net.sf.nakeduml.metamodel.activities.internal.NakedPinImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedValuePinImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
-import nl.klasse.octopus.model.OclUsageType;
 
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
@@ -28,7 +26,8 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValuePin;
 
 public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
-	protected <T extends INakedPin>List<T> populatePins(Activity emfActivity,List emfArguments){
+	@SuppressWarnings("unchecked")
+	protected <T extends INakedPin>List<T> populatePins(Activity emfActivity,List<? extends Pin> emfArguments){
 		List<T> nakedArguments = new ArrayList<T>();
 		for(int i = 0;i < emfArguments.size();i++){
 			Pin arg = (Pin) emfArguments.get(i);
@@ -75,7 +74,9 @@ public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
 			resultingPin.setBaseType(nakedType);
 			resolveMultiplicityAndActualType(resultingPin, emfPin);
 		}
-		resultingPin.setName(emfPin.getName());
+		if(resultingPin != null){
+			resultingPin.setName(emfPin.getName());
+		}
 		return resultingPin;
 	}
 	protected void resolveMultiplicityAndActualType(NakedPinImpl ae,Pin te){

@@ -13,15 +13,14 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.runtime.domain.TaskDelegation;
 
 public class TaskUtil{
-	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.runtime.bpm.BusinessRole");
 	public static void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName){
-		operation.getOwner().addToImports(new OJPathName("org.nakeduml.bpm.TaskParticipationKind"));
-		operation.getOwner().addToImports(new OJPathName("org.nakeduml.bpm.RequestParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.nakeduml.runtime.bpm.TaskParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.nakeduml.runtime.bpm.RequestParticipationKind"));
 		if(td.getPotentialOwners() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialOwners", "potentialOwner");
 			implementTaskRequestAssignment(operation, block, td, taskName, td.getPotentialOwners(), name,"POTENTIALOWNER");

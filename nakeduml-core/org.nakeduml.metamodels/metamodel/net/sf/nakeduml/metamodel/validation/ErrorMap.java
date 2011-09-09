@@ -14,6 +14,10 @@ public class ErrorMap{
 	public Map<String,BrokenElement> getErrors(){
 		return errors;
 	}
+	public void putError(String id,IValidationRule rule,Object...objects){
+		BrokenElement errorListFor = getErrorListFor(id);
+		errorListFor.addMessage(rule, objects);
+	}
 	public void putError(INakedElement holder,IValidationRule rule,Object...objects){
 		BrokenElement errorListFor = getErrorListFor(holder);
 		errorListFor.addMessage(rule, objects);
@@ -26,10 +30,13 @@ public class ErrorMap{
 		}
 	}
 	private BrokenElement getErrorListFor(INakedElement holder){
-		BrokenElement list = this.errors.get(holder.getId());
+		return getErrorListFor(holder.getId());
+	}
+	protected BrokenElement getErrorListFor(String id){
+		BrokenElement list = this.errors.get(id);
 		if(list == null){
-			list = new BrokenElement(holder.getId());
-			this.errors.put(holder.getId(), list);
+			list = new BrokenElement(id);
+			this.errors.put(id, list);
 		}
 		return list;
 	}

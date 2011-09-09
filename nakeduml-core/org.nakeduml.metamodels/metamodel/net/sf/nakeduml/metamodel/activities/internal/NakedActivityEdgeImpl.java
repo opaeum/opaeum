@@ -1,7 +1,6 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 
 import java.util.Collection;
-import java.util.Set;
 
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -83,6 +82,7 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 
 	@Override
 	public void addOwnedElement(INakedElement element) {
+		super.addOwnedElement(element);
 	}
 
 	public INakedActivityNode getEffectiveTarget() {

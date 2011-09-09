@@ -11,7 +11,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageImport;
 
 public class ImportLibraryAction implements IObjectActionDelegate{

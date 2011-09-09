@@ -2,11 +2,11 @@ package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
@@ -34,11 +34,9 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 				}
 			}
 		}else if(c.getNakedGeneralizations().size() > 1){
-			// TODO implement as validation rule
-			System.out.println(c + " has more than one generalization");
 		}
-		if(OJUtil.hasOJClass(c)){
-			for(INakedInterfaceRealization ir:c.getInterfaceRealizations()){
+		if(OJUtil.hasOJClass(c) && c instanceof INakedBehavioredClassifier){
+			for(INakedInterfaceRealization ir:((INakedBehavioredClassifier)c).getInterfaceRealizations()){
 				OJAnnotatedClass myClass = findJavaClass(c);
 				myClass.addToImplementedInterfaces(OJUtil.classifierPathname(ir.getContract()));
 			}

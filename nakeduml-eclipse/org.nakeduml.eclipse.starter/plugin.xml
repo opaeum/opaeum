@@ -24,7 +24,10 @@
        id="lkjl"
        point="org.nakeduml.eclipse.sourceFolderStrategy">
     <sourceFolderStrategy
-          className="net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy">
+          className="net.sf.nakeduml.pomgeneration.MultiProjectMavenSourceFolderStrategy">
+    </sourceFolderStrategy>
+    <sourceFolderStrategy
+          className="net.sf.nakeduml.pomgeneration.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
  <extension
@@ -34,5 +37,14 @@
           class="org.nakeduml.eclipse.starter.OpiumContributionFactory"
           locationURI="popup:org.eclipse.ui.popup.any?before=additions">
     </menuContribution>
+ </extension>
+ <extension
+       point="org.nakeduml.eclipse.transformationStep">
+    <transformationStep
+          className="org.nakeduml.generation.features.PersistenceUsingHibernate">
+    </transformationStep>
+    <transformationStep
+          className="org.nakeduml.generation.features.PersistenceUsingJpa">
+    </transformationStep>
  </extension>
 </plugin>

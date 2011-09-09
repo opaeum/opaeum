@@ -42,7 +42,6 @@ public class Test {
 		// "UML_Standard_Profile.MagicDraw_Profile.profile.uml2");
 		ModelImpl contents = (ModelImpl) resourceSet.getResource(modelFile, true).getContents().get(0);
 		NamedElement ownedType = contents.getOwnedMember("Test");
-		System.out.println(ownedType.getQualifiedName());
 		loadProfile();
 	}
 

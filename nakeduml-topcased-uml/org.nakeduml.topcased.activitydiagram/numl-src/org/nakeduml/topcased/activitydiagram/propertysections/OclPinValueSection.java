@@ -1,11 +1,14 @@
 package org.nakeduml.topcased.activitydiagram.propertysections;
 
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.nakeduml.topcased.propertysections.AbstractOpaqueExpressionSection;
+import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OclPinValueSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -25,6 +28,12 @@ public class OclPinValueSection extends AbstractOpaqueExpressionSection{
 	}
 	@Override
 	protected OpaqueExpression beforeOclChanged(String text){
+		if(!(getValuePin().getValue() instanceof OpaqueExpression)){
+			OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+			oe.getBodies().add(OclBodyComposite.REQUIRED_TEXT);
+			oe.getLanguages().add("OCL");
+			getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getValuePin(), getValueSpecificationFeature(), oe));
+		}
 		return (OpaqueExpression) getValuePin().getValue();
 	}
 }

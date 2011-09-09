@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.core;
 
-import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 
 public interface IModifiableTypedElement extends INakedTypedElement{
 

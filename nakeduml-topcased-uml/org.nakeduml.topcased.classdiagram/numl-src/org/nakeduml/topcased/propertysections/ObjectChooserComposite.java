@@ -6,23 +6,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
-import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.eclipse.EmfParameterUtil;
-import org.nakeduml.topcased.uml.editor.NakedUmlElementLinker;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 
 public abstract class ObjectChooserComposite extends Composite{

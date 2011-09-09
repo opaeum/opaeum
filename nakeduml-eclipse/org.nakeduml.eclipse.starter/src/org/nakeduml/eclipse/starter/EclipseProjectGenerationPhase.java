@@ -8,7 +8,6 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
-import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
@@ -36,7 +35,7 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 		}
 	}
 	@Override
-	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(EclipseProjectGenerationStep step:features){
 			step.startVisiting(textWorkspace);
 		}

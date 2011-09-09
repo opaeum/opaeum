@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.Properties;
 
 import net.sf.nakeduml.feature.ISourceFolderIdentifier;
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
-import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.model.IImportedElement;
@@ -24,6 +24,7 @@ import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 
 public abstract class PomGenerationStep implements ITransformationStep{
+	protected static final String HIBERNATE_VERSION = "3.4.0.GA";
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
 	protected NakedUmlConfig config;
 	protected INakedModelWorkspace workspace;
@@ -94,7 +95,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		Dependency hibernate = POMFactory.eINSTANCE.createDependency();
 		hibernate.setGroupId("org.hibernate");
 		hibernate.setArtifactId("hibernate-core");
-		hibernate.setVersion("${hibernate.version}");
+		hibernate.setVersion("3.3.2.GA");
 		hibernate.setType("jar");
 		hibernate.setScope("provided");
 		// Clashes with slf4j in weld-core-test and weld-se
@@ -341,8 +342,6 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		pluginExecution.setGoals(POMFactory.eINSTANCE.createGoalsType1());
 		pluginExecution.getGoals().getGoal().add("test");
 		pluginExecution.setConfiguration(POMFactory.eINSTANCE.createConfigurationType3());
-		AnyType excludes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "excludes");
-		// PomUtil.addAnyElementWithContent(excludes.getAny(), "exclude", "none");
 		AnyType includes = PomUtil.addEmptyAnyElement(pluginExecution.getConfiguration().getAny(), "includes");
 		PomUtil.addAnyElementWithContent(includes.getAny(), "include", "**/*IntegrationTest.java");
 		plugin.getExecutions().getExecution().add(pluginExecution);

@@ -6,13 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
+import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTriggerImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
@@ -29,9 +28,8 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	protected INakedState source;
 	protected INakedState target;
 	PreAndPostConstrained effect;
-	INakedTrigger trigger;
+	Collection<INakedTrigger> triggers = new HashSet<INakedTrigger>();
 	private INakedConstraint guard;
-	private String[] parameterNames;
 	public NakedTransitionImpl(){
 	}
 	@Override
@@ -41,6 +39,8 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 			effect = null;
 		}else if(element == guard){
 			guard = null;
+		}else if(element instanceof INakedTrigger){
+			triggers.remove(element);
 		}
 	}
 	public INakedState getMainSource(){
@@ -88,28 +88,7 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		this.target = target;
 	}
 	public List<? extends INakedTypedElement> getParameters(){
-		if(getTrigger() == null){
-			return Collections.EMPTY_LIST;
-		}else{
-			if(getTrigger().getEvent() instanceof INakedSignal){
-				return ((INakedSignal) getTrigger().getEvent()).getArgumentParameters();
-			}else if(getTrigger().getEvent() instanceof INakedOperation){
-				return ((INakedOperation) getTrigger().getEvent()).getArgumentParameters();
-			}else{
-				return Collections.EMPTY_LIST;
-			}
-		}
-	}
-	public String[] getParameterNames(){
-		if(this.parameterNames == null){
-			List params = getParameters();
-			this.parameterNames = new String[params.size()];
-			for(int i = 0;i < params.size();i++){
-				INakedTypedElement pw = (INakedTypedElement) params.get(i);
-				this.parameterNames[i] = pw.getName();
-			}
-		}
-		return this.parameterNames;
+		return NakedTriggerImpl.getParameters(getTriggers());
 	}
 	public TransitionKind getKind(){
 		if(getTarget() == null || getSource().equals(getTarget())){
@@ -143,8 +122,13 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	public PreAndPostConstrained getEffect(){
 		return this.effect;
 	}
-	public INakedTrigger getTrigger(){
-		return this.trigger;
+	public Collection<INakedTrigger> getTriggers(){
+		if(!(getSource().getKind().isSimple() || getSource().getKind().isOrthogonal() || getSource().getKind().isComposite()) ||  getTarget().getKind().isJoin()){
+			return Collections.emptySet();
+		}else{
+			
+		}
+		return this.triggers;
 	}
 	public INakedValueSpecification getGuard(){
 		if(this.guard != null){
@@ -159,26 +143,12 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	public void setEffect(INakedBehavior effect){
 		addOwnedElement(effect);
 	}
-	public boolean hasTrigger(){
-		if(!(getSource().getKind().isSimple() || getSource().getKind().isOrthogonal() || getSource().getKind().isComposite())){
-			return false;
-		}else if(getTarget().getKind().isJoin()){
-			return false;
-		}else{
-			return getTrigger() != null;
-		}
-	}
 	public boolean hasGuard(){
 		if(getTarget().getKind().isJoin() || getSource().getKind().isFork()){
 			return false;
 		}else{
 			return this.getGuard() != null;
 		}
-	}
-	@Override
-	public void setTrigger(INakedTrigger trigger){
-		addOwnedElement(trigger);
-		this.trigger = trigger;
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){
@@ -189,6 +159,9 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 			}
 			if(element instanceof INakedConstraint){
 				this.guard = (INakedConstraint) element;
+			}
+			if(element instanceof INakedTrigger){
+				triggers.add((INakedTrigger) element);
 			}
 		}
 	}

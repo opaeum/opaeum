@@ -7,9 +7,9 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
-import net.sf.nakeduml.javageneration.persistence.AbstractEntityImplementor;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.persistence.PersistentObjectImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -69,7 +69,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 			result.setInitExp("new " + owner.getName() + "()");
 			body.addToLocals(result);
 			body.addToStatements("copyShallowState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
-			if(super.transformationContext.isFeatureSelected(AbstractEntityImplementor.class)){
+			if(super.transformationContext.isFeatureSelected(PersistentObjectImplementor.class)){
 				body.addToStatements(new OJSimpleStatement("result.setId(this.getId())"));
 			}
 			body.addToStatements("return result");
@@ -114,7 +114,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addCopyStatements(INakedClassifier classifier,OJClass owner,OJBlock body,boolean deep,boolean shallowCopy){
 		String copyMethodName = shallowCopy ? "makeShallowCopy" : "makeCopy";
-		List properties = classifier.getEffectiveAttributes();
+		List<? extends INakedProperty> properties = classifier.getEffectiveAttributes();
 		// TODO implement containment by value (composition) vs containment
 		// by reference logic
 		// might be helpful for web service, for instance

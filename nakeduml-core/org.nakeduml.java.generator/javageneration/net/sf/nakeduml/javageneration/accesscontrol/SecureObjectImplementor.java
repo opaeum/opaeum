@@ -25,9 +25,9 @@ import org.nakeduml.runtime.domain.CompositionNode;
 	CompositionNodeImplementor.class
 })
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
-	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.bpm.BusinessRole");
-	private static final OJPathName NUML_USER = new OJPathName("org.nakeduml.bpm.NakedUmlUser");
-	public static OJPathName SECURE_OBJECT = new OJPathName("org.nakeduml.bpm.ISecureObject");
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.nakeduml.runtime.bpm.BusinessRole");
+	private static final OJPathName NUML_USER = new OJPathName("org.nakeduml.runtime.bpm.NakedUmlUser");
+	public static OJPathName SECURE_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.ISecureObject");
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity entity){
 		OJAnnotatedClass ojClass = findJavaClass(entity);

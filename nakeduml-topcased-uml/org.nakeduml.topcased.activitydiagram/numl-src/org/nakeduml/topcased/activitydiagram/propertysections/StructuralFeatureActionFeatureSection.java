@@ -10,8 +10,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
-import org.eclipse.uml2.uml.CallEvent;
-import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.UMLPackage;

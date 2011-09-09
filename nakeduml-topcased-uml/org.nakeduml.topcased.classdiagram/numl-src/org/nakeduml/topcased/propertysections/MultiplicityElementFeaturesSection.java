@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.UMLPackage;
 
 public class MultiplicityElementFeaturesSection extends AbstractMultiFeaturePropertySection{
@@ -28,8 +28,8 @@ public class MultiplicityElementFeaturesSection extends AbstractMultiFeatureProp
 	protected Element getFeatureOwner(){
 		return this.getProperty();
 	}
-	protected Property getProperty(){
-		return (Property) getEObject();
+	protected MultiplicityElement getProperty(){
+		return (MultiplicityElement) getEObject();
 	}
 	@Override
 	protected void createWidgets(Composite composite){

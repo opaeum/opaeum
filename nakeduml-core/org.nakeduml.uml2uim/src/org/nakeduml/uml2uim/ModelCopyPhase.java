@@ -3,8 +3,6 @@ package org.nakeduml.uml2uim;
 import java.util.Collection;
 import java.util.List;
 
-import org.nakeduml.bootstrap.BootstrapGenerationPhase;
-
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.IntegrationPhase;
@@ -13,7 +11,6 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = UimSynchronizationPhase.class,before = {
@@ -36,9 +33,9 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 		return elements;
 	}
 	@Override
-	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(ModelCopyStep step:features){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				step.startVisiting(emfWorkspace);
 			}
 		}

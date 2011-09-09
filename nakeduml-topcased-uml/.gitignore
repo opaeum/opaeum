@@ -5,4 +5,5 @@ org.nakeduml.topcased.uml.feature/bin
 org.nakeduml.topcased.propertysections/bin
 org.nakeduml.topcased.statemachinediagram/bin
 org.nakeduml.topcased.validation/bin
+org.nakeduml.topcased.bpmn2/bin
 

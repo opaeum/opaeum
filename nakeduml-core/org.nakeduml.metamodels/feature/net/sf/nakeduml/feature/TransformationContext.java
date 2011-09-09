@@ -10,11 +10,17 @@ public class TransformationContext {
 	boolean isIntegrationPhase;
 	Set<Class<? extends ITransformationStep>> selectedFeatures = new HashSet<Class<? extends ITransformationStep>>();
 	Set<Class<? extends ITransformationStep>> appliedFeatures = new HashSet<Class<? extends ITransformationStep>>();
+	public TransformationProgressLog getLog(){
+		return log;
+	}
 
-	public TransformationContext(Set<Class<? extends ITransformationStep>> selectedFeatures,boolean isIntegrationPhase) {
+	TransformationProgressLog log;
+
+	public TransformationContext(Set<Class<? extends ITransformationStep>> selectedFeatures,boolean isIntegrationPhase,TransformationProgressLog log) {
 		super();
 		this.selectedFeatures = selectedFeatures;
 		this.isIntegrationPhase=isIntegrationPhase;
+		this.log=log;
 	}
 
 	public TransformationContext() {

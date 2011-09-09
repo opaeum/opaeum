@@ -1,5 +1,7 @@
 package org.nakeduml.topcased.propertysections.ocl;
 
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -85,7 +87,7 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
-			Model bpmLib = ImportLibraryAction.findLibrary(context.getModel(), "NakedUMLLibraryForBPM.uml");
+			Model bpmLib = ImportLibraryAction.findLibrary(context.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 			if(bpmLib != null){
 				Type br = bpmLib.getOwnedType("BusinessRole");
 				if(br != null){
@@ -95,7 +97,7 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
-			Model simpleTypes = ImportLibraryAction.findLibrary(context.getModel(), "NakedUMLSimpleTypes.library.uml");
+			Model simpleTypes = ImportLibraryAction.findLibrary(context.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES);
 			if(simpleTypes != null){
 				Type br = simpleTypes.getOwnedType("DateTime");
 				if(br != null){

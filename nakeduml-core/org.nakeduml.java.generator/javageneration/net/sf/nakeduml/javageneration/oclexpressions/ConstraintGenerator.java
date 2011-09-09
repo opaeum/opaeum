@@ -6,10 +6,7 @@ import java.util.List;
 
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.oclengine.IOclContext;
-import nl.klasse.octopus.oclengine.internal.OclErrContextImpl;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;

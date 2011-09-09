@@ -3,9 +3,9 @@ package net.sf.nakeduml.linkage;
 import java.util.Collection;
 import java.util.HashSet;
 
+import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.InputModel;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -34,16 +34,22 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		return this.affectedElements;
 	}
 	public void setCurrentRootObject(INakedRootObject a){
-		this.currentRootObject=a;
+		this.currentRootObject = a;
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		boolean shouldIgnoreBecauseItIsDeleted = o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements();
-		if(!shouldIgnoreBecauseItIsDeleted){
-			if(o instanceof INakedRootObject && workspace.getGeneratingModelsOrProfiles().contains(o)){
-			}
+		if(shouldBeLinked(o)){
 			super.visitRecursively(o);
 		}
+	}
+	protected boolean shouldBeLinked(INakedElementOwner o){
+		boolean shouldIgnoreBecauseItIsDeleted = o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements();
+		//Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
+		boolean isLinkedNonGeneratingObject =  false;
+		if(o instanceof INakedRootObject){
+			isLinkedNonGeneratingObject =!workspace.getGeneratingModelsOrProfiles().contains(o) && ((INakedRootObject)o).getStatus().isLinked();
+		}
+		return !(shouldIgnoreBecauseItIsDeleted || isLinkedNonGeneratingObject);
 	}
 	protected boolean ignoreDeletedElements(){
 		return true;

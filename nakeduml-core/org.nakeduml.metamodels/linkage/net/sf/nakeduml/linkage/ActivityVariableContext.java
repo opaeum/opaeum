@@ -16,9 +16,9 @@ import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
 import net.sf.nakeduml.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public final class ActivityVariableContext extends MessageStructureImpl{
+	private static final long serialVersionUID = -4731155143691216024L;
 	private final INakedBehavior activity;
 	public ActivityVariableContext(INakedClassifier owner,INakedElement element,INakedBehavior activity){
 		super(owner, element);
@@ -69,5 +69,10 @@ public final class ActivityVariableContext extends MessageStructureImpl{
 	}
 	@Override
 	public void setEndToComposite(INakedProperty artificialProperty){
+	}
+	@Override
+	public void removeObsoleteArtificialProperties(){
+		// TODO Auto-generated method stub
+		
 	}
 }

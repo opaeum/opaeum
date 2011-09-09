@@ -4,11 +4,11 @@ package net.sf.nakeduml.javageneration.jbpm5;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
-import net.sf.nakeduml.metamodel.statemachines.INakedState;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -20,17 +20,25 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.runtime.domain.ExceptionHolder;
+import org.nakeduml.runtime.environment.Environment;
 
 public class Jbpm5Util{
-	public static String stepLiteralName(INakedElement s){
-		return (s).getMappingInfo().getJavaName().getAsIs().toUpperCase();
+	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){
+		OJPathName result = new OJPathName(m.getMappingInfo().getQualifiedJavaName());
+		return result.append("util").append(m.getMappingInfo().getJavaName().getCapped() + "KnowledgeBase");
 	}
-	public static OJPathName asyncInterfaceOf(INakedClassifier target){
-		OJPathName result = OJUtil.classifierPathname(target);
-		String name = "IAsync" + result.getLast();
-		result = result.getHead();
-		result.addToNames(name);
-		return result;
+	public static String stepLiteralName(INakedElement s){
+		String sb = "";
+		while(!(s instanceof INakedBehavior)){
+			if(sb.isEmpty()){
+				sb= s.getMappingInfo().getJavaName().getAsIs().toUpperCase();
+			}else{
+				sb= s.getMappingInfo().getJavaName().getAsIs().toUpperCase()+"_" +sb;
+			}
+			s=(INakedElement) s.getOwnerElement();
+			
+		}
+		return sb;
 	}
 	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
@@ -81,10 +89,10 @@ public class Jbpm5Util{
 			ojBehavior.addToImports(getWorkflowProcessImpl());
 			getter.setBody(new OJBlock());
 			OJIfStatement ifNull = new OJIfStatement(
-					"this." + propertyPrefix + "Instance==null || true",
+					"this." + propertyPrefix + "Instance==null",
 					"this."
 							+ propertyPrefix
-							+ "Instance=(WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
+							+ "Instance=(WorkflowProcessInstance)"+Environment.class.getName()+ ".getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
 			OJIfStatement ifNotNull = new OJIfStatement("this." + propertyPrefix + "Instance!=null", "((WorkflowProcessImpl)this." + propertyPrefix
 					+ "Instance.getProcess()).setAutoComplete(true)");
 			ifNull.getThenPart().addToStatements(ifNotNull);
@@ -97,6 +105,13 @@ public class Jbpm5Util{
 		getProcessDefinition.setReturnType(processDefinition);
 		ojBehavior.addToOperations(getProcessDefinition);
 		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");
+		OJAnnotatedField dirty = new OJAnnotatedField("processDirty", new OJPathName("boolean"));
+		dirty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+		
+		ojBehavior.addToFields(dirty);
+		OJAnnotatedOperation isDirty = new OJAnnotatedOperation("isProcessDirty", new OJPathName("boolean"));
+		ojBehavior.addToOperations(isDirty);
+		isDirty.getBody().addToStatements("return this.processDirty");
 	}
 	public static OJPathName getProcessContext(){
 		return new OJPathName("org.drools.runtime.process.ProcessContext");

@@ -64,6 +64,17 @@ public class TextDirectory extends TextOutputNode{
 		}
 		return root;
 	}
+	public TextDirectory findOrCreateTextDirectory(List<String> path){
+		TextDirectory root = (TextDirectory) findNode(path.get(0));
+		if(root == null){
+			root = new TextDirectory(this, path.get(0));
+		}
+		if(path.size() == 1){
+			return root;
+		}else{
+			return ((TextDirectory) root).findOrCreateTextDirectory(path.subList(1, path.size()));
+		}
+	}
 	private TextOutputNode findNode(String name){
 		for(TextOutputNode n:children){
 			if(n.name.equals(name)){

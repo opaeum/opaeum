@@ -2,12 +2,10 @@ package net.sf.nakeduml.validation;
 
 import java.util.Collection;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.ITransformationStep;
-import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
-import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;

@@ -23,6 +23,8 @@ Transformation and selection behavior sections of object flows
 EmbeddedScreenflowtasks should force a single relationship to a single STateMAchine (include deletion? or not?). At least create it.
 Custom ProblemView
 Relink an emf UML model
+Reception.Signal
+Display Operation.name at the top 
 
 
 Refactoring
@@ -44,7 +46,12 @@ Introduce ocl expressions for things such as lookups and security constraints
 
 Processes
 Rethink the queue per signal idea - consider the implications of migration
-Implement asynchronicity through table and threadPoolExecutor 
+Implement expiry logic for events
+Remember to allow ALL events to be retryable - retry until expiry 
+timevents may want to repeat
+Expressions for Change and Time events on IEventHandler
+Node Instance ID on IEventHandler 
+ 
 
 
 TaskManagement
@@ -95,8 +102,9 @@ put MavenArtefatId in profile
 
 Validation
 ModelNameUniqueness
+ModelName not the same as workspace - creates maven chaos
 Asynchronous actions cannot have outputs
-Date type to be specified when using timeevents
+
 
 Runtime
 For BusinessComponent instances, add a property called LDAP Identifier which associates that instance with an ldap entry

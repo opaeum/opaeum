@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.generated.OJOperationGEN;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 

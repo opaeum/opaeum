@@ -1,9 +1,7 @@
 package net.sf.nakeduml.metamodel.components.internal;
 
 import net.sf.nakeduml.metamodel.components.INakedConnectorEnd;
-import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityElement;
 
 public class NakedConnectorEndImpl extends NakedMultiplicityElement implements INakedConnectorEnd{

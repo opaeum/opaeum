@@ -13,9 +13,8 @@ import java.util.Stack;
 
 import net.sf.nakeduml.feature.ISourceFolderIdentifier;
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.SortedProperties;
-import net.sf.nakeduml.feature.TransformationContext;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.javageneration.CharArrayTextSource;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -84,7 +83,7 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		}
 		context.put(element.getMetaClass(), element);
 		context.put("config", this.config);
-		context.put("nakedWorkspace", this.workspace);
+		context.put("workspace", this.workspace);
 		context.put("stack1", new Stack<Object>());
 		context.put("stack2", new Stack<Object>());
 		context.put("stack3", new Stack<Object>());
@@ -96,9 +95,8 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 			template.merge(context, contentWriter);
 			this.ve.evaluate(context, fileNameWriter, templateResource,/* logTag */destinationExpression);
 		}catch(Throwable e){
-			System.out.println(templateResource + " could not merge " + element.getName());
-			System.out.println(new String(contentWriter.toCharArray()));
-			e.printStackTrace();
+			transformationContext.getLog().error(templateResource + " could not merge " + element.getName(), e);
+			transformationContext.getLog().info(new String(contentWriter.toCharArray()));
 		}
 		fileNameWriter.close();
 		List<String> path = Arrays.asList(new String(fileNameWriter.toCharArray()).split("[/]"));

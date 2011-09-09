@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -39,7 +38,6 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 import org.nakeduml.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public class OclConstraintDetailsComposite extends Composite{

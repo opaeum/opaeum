@@ -3,7 +3,6 @@ import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.core.IModifiableTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 public interface INakedObjectNode extends IModifiableTypedElement, INakedActivityNode {
 	void setBaseType(INakedClassifier nakedPeer);
 	void setIsOrdered(boolean ordered);

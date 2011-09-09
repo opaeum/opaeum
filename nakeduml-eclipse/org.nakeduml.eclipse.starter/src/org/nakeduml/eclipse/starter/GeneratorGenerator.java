@@ -2,12 +2,10 @@ package org.nakeduml.eclipse.starter;
 
 import java.util.Set;
 
-import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
-import net.sf.nakeduml.javageneration.AbstractJavaTransformationStep;
 import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
@@ -23,16 +21,14 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.name.NameConverter;
-import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		OJAnnotatedPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
+		OJPackage pkg = findOrCreatePackage(new OJPathName(config.getMavenGroupId() + ".generator"));
 		buildGeneratorClass(pkg);
 	}
 	// TODO generate example Java step

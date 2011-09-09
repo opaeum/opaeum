@@ -5,6 +5,7 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.EnumerationLiteralImplementor;
 import net.sf.nakeduml.javageneration.persistence.AbstractEnumResolverImplementor;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 
 import org.nakeduml.java.metamodel.annotation.OJEnum;
@@ -16,5 +17,10 @@ public class EnumResolverImplementor extends AbstractEnumResolverImplementor{
 		if(!e.getCodeGenerationStrategy().isNone()){
 			createResolver((OJEnum) findJavaClass(e), e.getOwnedLiterals(),e.getMappingInfo().requiresJavaRename()?e.getMappingInfo().getOldQualifiedJavaName():null);
 		}
+	}
+
+	@Override
+	protected String getLiteralName(INakedElement l){
+		return l.getName().toUpperCase();
 	}
 }

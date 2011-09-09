@@ -5,7 +5,7 @@ import java.util.Map;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -40,7 +40,7 @@ import org.w3c.dom.NodeList;
 	Java6ModelGenerator.class
 })
 public class FromXmlBuilder extends AbstractStructureVisitor{
-	@VisitBefore
+	@VisitBefore(matchSubclasses=true)
 	public void visitInterface(INakedInterface i){
 		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
 			OJAnnotatedClass ojClass = findJavaClass(i);

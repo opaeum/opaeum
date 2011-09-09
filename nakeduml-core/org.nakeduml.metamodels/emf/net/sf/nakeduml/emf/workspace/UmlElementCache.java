@@ -37,13 +37,15 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
-import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
@@ -102,6 +104,7 @@ public class UmlElementCache extends EContentAdapter{
 	public EmfWorkspace buildWorkspaces(Package model,TransformationProgressLog log) throws Exception,IOException{
 		EcoreUtil.resolveAll(model);
 		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
+		emfWorkspace.setName(cfg.getWorkspaceName());
 		emfWorkspace.setResourceHelper(this.resourceHelper);
 		emfWorkspaceLoaded(emfWorkspace);
 		this.currentEmfWorkspace = emfWorkspace;
@@ -144,20 +147,22 @@ public class UmlElementCache extends EContentAdapter{
 			if(notification.getFeatureID(EAnnotation.class) != EcorePackage.EMODEL_ELEMENT__EANNOTATIONS){
 				if(notification.getNotifier() instanceof UMLResource){
 					manageResourceEvent(notification);
-				}else if(resourcesBeingLoaded.isEmpty() && notification.getNewValue() instanceof EObject){
-					EObject newValue = (EObject) notification.getNewValue();
-					if(newValue.eIsProxy()){
-						EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
-						// broken references
+				}else if(!resourcesBeingLoaded.isEmpty()){
+					if(notification.getNewValue() instanceof EObject){
+						EObject newValue = (EObject) notification.getNewValue();
+						if(newValue.eIsProxy()){
+							EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
+							// broken references
+						}
 					}
 				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
 					DynamicEObjectImpl sa = (DynamicEObjectImpl) notification.getNotifier();
 					for(EReference eReference:sa.eClass().getEReferences()){
 						if(eReference.getEType().eContainer() instanceof UMLPackage){
 							// Reference to UML element - check if it is a stereotype for this one
-							Element e = (Element) sa.eGet(eReference);
-							if(e != null && e.getStereotypeApplications().contains(sa)){
-								scheduleSynchronization(e);
+							Object e = sa.eGet(eReference);
+							if(e instanceof Element && ((Element) e).getStereotypeApplications().contains(sa)){
+								scheduleSynchronization((Element) e);
 							}
 						}
 					}
@@ -174,8 +179,6 @@ public class UmlElementCache extends EContentAdapter{
 							o = (EObject) notification.getNotifier();
 						}
 						if(o != null && o instanceof Element && o.eContainer() != null){
-							if(notification.getFeatureID(OpaqueExpression.class) == UMLPackage.OPAQUE_EXPRESSION__BODY){
-							}
 							Element syncronizableElement = getSyncronizableElement((Element) o);
 							scheduleSynchronization(syncronizableElement);
 						}
@@ -185,17 +188,12 @@ public class UmlElementCache extends EContentAdapter{
 		}else if(notification.getEventType() == Notification.REMOVE){
 			if(notification.getOldValue() instanceof NamedElement){
 				NamedElement ne = (NamedElement) notification.getOldValue();
-				// if(this.emfChanges.contains(ne)){
-				// ;
-				// }
 				if(!isSynchronizableElement(ne)){
 					EObject e = (EObject) notification.getNotifier();
 					ne = (NamedElement) getSyncronizableElement(e);
 				}
 				if(ne != null){
 					scheduleSynchronization(ne);
-				}else{
-					System.out.println();
 				}
 			}
 		}
@@ -231,9 +229,12 @@ public class UmlElementCache extends EContentAdapter{
 	protected void synchronizationNow(Set<Package> packages){
 	}
 	private void scheduleSynchronization(Element o){
-		synchronized(nakedModelWorspace){
+		synchronized(emfChanges){
 			lastChange = System.currentTimeMillis();
 			this.emfChanges.add(o);
+			if(o instanceof Association){
+				this.emfChanges.addAll(((Association) o).getMemberEnds());
+			}
 			threadPool.schedule(new Runnable(){
 				@Override
 				public void run(){
@@ -250,7 +251,7 @@ public class UmlElementCache extends EContentAdapter{
 			if(isSynchronizableElement(e)){
 				return (Element) e;
 			}else{
-				e = e.eContainer();
+				e = EmfElementFinder.getContainer(e);
 			}
 		}
 		return (Element) e;
@@ -258,7 +259,7 @@ public class UmlElementCache extends EContentAdapter{
 	private boolean isSynchronizableElement(EObject e){
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
 				|| e instanceof Region || e instanceof Operation || e instanceof Property || e instanceof Classifier || e instanceof Transition
-				|| e instanceof ActivityEdge || e instanceof Package;
+				|| e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization || e instanceof InterfaceRealization;
 	}
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);

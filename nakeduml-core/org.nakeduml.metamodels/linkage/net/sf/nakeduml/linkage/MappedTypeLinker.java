@@ -18,7 +18,7 @@ import net.sf.nakeduml.metamodel.core.INakedPrimitiveType;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.metamodel.models.INakedModel;
+import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.workspace.AbstractStrategyFactory;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
@@ -34,6 +34,12 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	static Map<String,AbstractStrategyFactory> strategyFactories = new HashMap<String,AbstractStrategyFactory>();
 	public static void registerStrategyFactory(AbstractStrategyFactory a){
 		strategyFactories.put(a.getClass().getName(), a);
+	}
+	@VisitBefore
+	public void visitStatemachine(INakedStateMachine m){
+		if(m.getName().equals("TaskRequest")){
+			getBuiltInTypes().setTaskRequest(m);
+		}
 	}
 	@VisitBefore
 	public void visitInterface(INakedInterface m){

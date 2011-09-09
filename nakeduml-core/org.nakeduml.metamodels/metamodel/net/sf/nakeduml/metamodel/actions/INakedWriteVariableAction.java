@@ -2,7 +2,9 @@ package net.sf.nakeduml.metamodel.actions;
 
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 
-public interface INakedWriteVariableAction extends INakedVariableAction {
+public interface INakedWriteVariableAction extends INakedVariableAction{
 	INakedInputPin getValue();
 	void setValue(INakedInputPin p);
+	public INakedInputPin getInsertAt();
+	public void setInsertAt(INakedInputPin insertAt);
 }

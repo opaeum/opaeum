@@ -1,14 +1,15 @@
 package net.sf.nakeduml.javageneration.basicjava.simpleactions;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
+import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
+import net.sf.nakeduml.javageneration.maps.ActionMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
-import org.nakeduml.environment.MethodInvocationHolder;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
@@ -22,13 +23,13 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 		if(node.getOperation() == null){
 			block.addToStatements("no operation call!");
 		}else{
+			StringBuilder args = populateArgumentPinsAndBuildArgumentString(operation, node.getArguments());
 			if(node.isSynchronous()){
 				NakedStructuralFeatureMap resultMap = null;
 				INakedPin returnPin = node.getReturnPin();
 				ActionMap actionMap = new ActionMap(node);
 				String firstArg = node.getOperation().isLongRunning() ? "context," : "";
-				String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "(" + firstArg
-						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")";
+				String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "(" + firstArg + args + ")";
 				if(BehaviorUtil.hasMessageStructure(node)){
 					resultMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 				}else if(returnPin != null){
@@ -47,9 +48,12 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 			}else{
 				ActionMap actionMap = new ActionMap(node);
 				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
-				operation.getOwner().addToImports(new OJPathName(MethodInvocationHolder.class.getName()));
-				fs.addToStatements("getOutgoingEvents()" + ".add(new MethodInvocationHolder(new  " + "(" + actionMap.targetName() + ","
-						+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+				OJPathName handler = EventUtil.handlerPathName(node.getOperation());
+				operation.getOwner().addToImports(handler);
+				if(args.length() > 0){
+					args.append(",");
+				}
+				fs.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + actionMap.targetName() + ",new " + handler.getLast() + "(" + args + "false)))");
 			}
 		}
 	}

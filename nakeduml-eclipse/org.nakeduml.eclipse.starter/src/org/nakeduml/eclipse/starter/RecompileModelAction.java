@@ -1,23 +1,19 @@
 package org.nakeduml.eclipse.starter;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Iterator;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
-import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -35,6 +31,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Model;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -64,9 +61,20 @@ public class RecompileModelAction implements IObjectActionDelegate{
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
 								NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+								p.replaceModel(new OJPackage());
+								p.replaceModel(new TextWorkspace());
+								NakedUmlConfig cfg = currentContext.getUmlElementCache().getConfig();
+								
+								if(cfg.getSourceFolderStrategy().isSingleProjectStrategy()){
+									//Temporarily suppress directoryCleaning
+									for(SourceFolderDefinition sfd:cfg.getSourceFolderDefinitions().values()){
+										sfd.dontCleanDirectories();
+									}
+								}
 								p.executeFrom(JavaTransformationPhase.class,new ProgressMonitorTransformationLog(monitor,30));
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 60), p, currentContext);
 								p.findModel(EmfWorkspace.class).saveAll();
+								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 							}
 						}catch(Exception e){

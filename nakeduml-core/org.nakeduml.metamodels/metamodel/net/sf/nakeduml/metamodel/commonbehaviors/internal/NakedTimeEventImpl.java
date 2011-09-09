@@ -2,9 +2,11 @@ package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 public class NakedTimeEventImpl extends AbstractTimeEventImpl implements INakedTimeEvent {
+	private static final long serialVersionUID = 8679314599756152781L;
 	public NakedTimeEventImpl() {
 		super();
 	}
@@ -23,6 +25,10 @@ public class NakedTimeEventImpl extends AbstractTimeEventImpl implements INakedT
 	@Override
 	public INakedTrigger getOwningTrigger(){
 		return (INakedTrigger) getOwnerElement();
+	}
+	@Override
+	public INakedClassifier getContext(){
+		return getBehaviorContext();
 	}
 
 }

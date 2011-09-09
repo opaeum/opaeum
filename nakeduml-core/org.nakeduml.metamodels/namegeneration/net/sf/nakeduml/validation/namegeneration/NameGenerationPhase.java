@@ -13,11 +13,14 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-@PhaseDependency(after={LinkagePhase.class})
+@PhaseDependency(after = {
+	LinkagePhase.class
+})
 public class NameGenerationPhase implements TransformationPhase<AbstractNameGenerator,INakedElement>{
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	private List<AbstractNameGenerator> nameGenerators;
+	private NakedUmlConfig config;
 	public void initialize(NakedUmlConfig config){
 	}
 	@Override
@@ -30,19 +33,19 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 		return elements;
 	}
 	@Override
-	public void execute(net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog log, TransformationContext context){
-		log.startTask("Generating platform-specific names", nameGenerators.size());
+	public void execute(TransformationContext context){
+		context.getLog().startTask("Generating platform-specific names", nameGenerators.size());
 		for(AbstractNameGenerator ng:nameGenerators){
-			log.startStep("Executing " + ng.getClass().getName());
+			context.getLog().startStep("Executing " + ng.getClass().getName());
 			ng.startVisiting(modelWorkspace);
-			log.endLastStep();
+			context.getLog().endLastStep();
 		}
-		log.endLastTask();
+		context.getLog().endLastTask();
 	}
 	@Override
 	public void initialize(NakedUmlConfig config,List<AbstractNameGenerator> features){
-		this.nameGenerators=features;
-		
+		this.nameGenerators = features;
+		this.config = config;
 	}
 	@Override
 	public Collection<AbstractNameGenerator> getSteps(){
@@ -51,8 +54,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	@Override
 	public void initializeSteps(){
 		for(AbstractNameGenerator ng:nameGenerators){
-			ng.initialize();
+			ng.initialize(config);
 		}
 	}
-
 }

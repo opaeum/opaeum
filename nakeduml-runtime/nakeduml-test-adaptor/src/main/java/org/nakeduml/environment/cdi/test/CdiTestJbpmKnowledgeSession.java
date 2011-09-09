@@ -1,17 +1,17 @@
 package org.nakeduml.environment.cdi.test;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.ejb.EJBException;
-import javax.ejb.SessionSynchronization;
-
+import org.drools.marshalling.ObjectMarshallingStrategy;
+import org.drools.runtime.Environment;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.jbpm.persistence.ProcessPersistenceContextManager;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.nakeduml.environment.adaptor.AbstractJbpmKnowledgeSession;
+import org.nakeduml.environment.adaptor.HibernateProcessPersistenceContextManager;
+import org.nakeduml.runtime.jbpm.AbstractJbpmKnowledgeSession;
 
 
 public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession {
@@ -36,8 +36,15 @@ public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession {
 	}
 
 	@Override
-	public Session getHibernateSession(){
-		return CdiTestEnvironment.getInstance().getComponent(Session.class);
+	protected ObjectMarshallingStrategy getPlaceholderResolverStrategy(Environment environment){
+		return null;
 	}
+
+	@Override
+	protected ProcessPersistenceContextManager getPersistenceContextManager(Environment environment){
+		return new HibernateProcessPersistenceContextManager(CdiTestEnvironment.getInstance().getComponent(Session.class));
+	}
+
+	
 
 }

@@ -29,6 +29,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.runtime.domain.IActiveEntity;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
+import org.nakeduml.runtime.environment.Environment;
 
 public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVisitor{
 	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(IProcessObject.class.getName());
@@ -75,8 +76,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		javaMethod.getBody().addToLocals(new OJAnnotatedField("processInstance", Jbpm5Util.getWorkflowProcesInstance()));
 		javaMethod.getBody().addToStatements("params.put(\"processObject\", this)");
 		javaMethod.getBody().addToStatements(
-				"processInstance = (WorkflowProcessInstance)org.nakeduml.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\""
-						+ Jbpm5Util.generateProcessName(parameterOwner) + "\",params)");
+				"processInstance = (WorkflowProcessInstance)" + Environment.class.getName()
+						+ ".getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\"" + Jbpm5Util.generateProcessName(parameterOwner) + "\",params)");
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 		javaMethod.getOwner().addToImports(STATEFUL_KNOWLEDGE_SESSION);
 	}
@@ -100,7 +101,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 	private void doForceToStep(OJClass ojBehavior,OJPathName stepEnumeration,INakedBehavior umlBehavior){
 		OJOperation forceStateChange = new OJAnnotatedOperation("forceToStep");
 		forceStateChange.addParam("step", ABSTRACT_PROCESS_STEP);
-		OJAnnotatedField nextStep = new OJAnnotatedField("nextStep",stepEnumeration);
+		OJAnnotatedField nextStep = new OJAnnotatedField("nextStep", stepEnumeration);
 		nextStep.setInitExp("(" + stepEnumeration.getLast() + ")step");
 		OJBlock body = forceStateChange.getBody();
 		body.addToLocals(nextStep);
@@ -175,7 +176,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		OJPathName set = new OJPathName("java.util.Set");
 		set.addToElementTypes(ABSTRACT_PROCESS_STEP);
 		getActiveLeafStates.setReturnType(set);
-		OJAnnotatedField results = new OJAnnotatedField("results",new OJPathName("Set"));
+		OJAnnotatedField results = new OJAnnotatedField("results", new OJPathName("Set"));
 		ojBehavior.addToImports("java.util.Set");
 		ojBehavior.addToImports("java.util.HashSet");
 		results.setInitExp("new HashSet<" + ABSTRACT_PROCESS_STEP.getLast() + ">()");
@@ -195,8 +196,14 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 			OJAnnotatedField field = new OJAnnotatedField(endNodeFieldName, statePath);
 			ojBehavior.addToFields(field);
 			if(umlBehavior.isPersistent()){
-				HibernateUtil.addEnumResolverAsCustomType(field, statePath);
-				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Enumerated")));
+				if(transformationContext.isFeatureSelected(ProcessStepResolverImplementor.class)){
+					HibernateUtil.addEnumResolverAsCustomType(field, statePath);
+				}else{
+					OJAnnotationValue enumerated = new OJAnnotationValue(new OJPathName("javax.persistence.Enumerated"));
+					field.putAnnotation(enumerated);
+					enumerated.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.EnumType"), "STRING"));
+					
+				}
 			}
 		}
 		for(INakedElement flow:topLevelFlows){
@@ -242,7 +249,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 			ifEnded.setElsePart(new OJBlock());
 			OJIfStatement ifMany = new OJIfStatement("getProcessInstance().getNodeInstances().size()>1", "return null");
 			ifEnded.getElsePart().addToStatements(ifMany);
-			OJAnnotatedField token = new OJAnnotatedField("nodeInstance",Jbpm5Util.getNodeInstance());
+			OJAnnotatedField token = new OJAnnotatedField("nodeInstance", Jbpm5Util.getNodeInstance());
 			token.setInitExp("(" + Jbpm5Util.getNodeInstance().getLast() + ")getProcessInstance().getNodeInstances().iterator().next()");
 			ifEnded.getElsePart().addToLocals(token);
 			OJWhileStatement whileOneChild = new OJWhileStatement();
@@ -263,7 +270,7 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 	}
 	private void copyDefaultConstructor(OJAnnotatedClass activityClass,OJAnnotatedOperation init){
 		OJBlock body = activityClass.getDefaultConstructor().getBody();
-		if(body.getStatements().size()>0 && body.getStatements().get(0).toJavaString().contains("super()")){
+		if(body.getStatements().size() > 0 && body.getStatements().get(0).toJavaString().contains("super()")){
 			body.getStatements().set(0, new OJSimpleStatement("super.init(context)"));
 		}
 		init.setBody(body);

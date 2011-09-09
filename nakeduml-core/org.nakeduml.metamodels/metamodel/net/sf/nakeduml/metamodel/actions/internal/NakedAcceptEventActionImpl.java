@@ -2,50 +2,48 @@ package net.sf.nakeduml.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
+import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTriggerImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 
 public class NakedAcceptEventActionImpl extends NakedActionImpl implements INakedAcceptEventAction{
 	private static final long serialVersionUID = -4255852720379805141L;
-	private INakedTrigger trigger;
-	public boolean isLongRunning(){
-		return true;
-	}
-	public INakedTrigger getTrigger(){
-		return trigger;
-	}
-	public void setTrigger(INakedTrigger trigger){
-		this.trigger = trigger;
-	}
 	private List<INakedOutputPin> result;
+	private Collection<INakedTrigger> triggers=new HashSet<INakedTrigger>();
 	public Set<INakedInputPin> getInput(){
 		return new HashSet<INakedInputPin>();
 	}
-	public ActionType getActionType(){
-		if(getTrigger() == null){
-			return null;
-		}else if(getTrigger().getEvent() instanceof INakedOperation){
-			return ActionType.ACCEPT_CALL_EVENT_ACTION;
-		}else if(getTrigger().getEvent() instanceof INakedSignal){
-			return ActionType.ACCEPT_SIGNAL_EVENT_ACTION;
-		}else if(getTrigger().getEvent() instanceof INakedTimeEvent){
-			return ActionType.ACCEPT_TIME_EVENT_ACTION;
-		}else{
-			throw new RuntimeException("Only supported events are: TimeEvent, CallEvent, SignalEvent");
+	public boolean isLongRunning(){
+		return true;
+	}
+	@Override
+	public void addOwnedElement(INakedElement element){
+		super.addOwnedElement(element);
+		if(element instanceof INakedTrigger){
+			triggers.add((INakedTrigger) element);
 		}
+	}
+	@Override
+	public void removeOwnedElement(INakedElement element){
+		super.removeOwnedElement(element);
+		if(element instanceof INakedTrigger){
+			triggers.remove(element);
+		}
+	}
+	public Collection<INakedTrigger> getTriggers(){
+		return triggers;
 	}
 	public List<INakedOutputPin> getResult(){
 		return this.result;
@@ -57,14 +55,30 @@ public class NakedAcceptEventActionImpl extends NakedActionImpl implements INake
 		removePins(this.result);
 		this.result = result;
 	}
-	public List getParameters(){
-		if(getTrigger() != null){
-			if(getTrigger().getEvent() instanceof INakedOperation){
-				return ((INakedOperation) getTrigger().getEvent()).getArgumentParameters();
-			}else if(getTrigger().getEvent() instanceof INakedSignal){
-				return ((INakedSignal) getTrigger().getEvent()).getArgumentParameters();
+	@Override
+	public boolean requiresEventRequest(){
+		return containsTriggerType(INakedTimeEvent.class) || containsTriggerType(INakedChangeEvent.class);
+	}
+	@Override
+	public List<? extends INakedTypedElement> getParameters(){
+		return NakedTriggerImpl.getParameters(getTriggers());
+	}
+	@Override
+	public boolean containsTriggerType(Class<? extends INakedEvent> t){
+		for(INakedTrigger tr:getTriggers()){
+			if(t.isInstance(tr)){
+				return true;
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return false;
+	}
+	@Override
+	public boolean triggeredByTimeEventsOnly(){
+		for(INakedTrigger tr:getTriggers()){
+			if(!(tr.getEvent() instanceof INakedTimeEvent)){
+				return false;
+			}
+		}
+		return true;
 	}
 }

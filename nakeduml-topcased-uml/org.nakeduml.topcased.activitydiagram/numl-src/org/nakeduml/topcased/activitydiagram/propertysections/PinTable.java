@@ -185,7 +185,12 @@ public class PinTable extends Composite{
 	protected class ParameterNameLabelProvider extends ColumnLabelProvider{
 		@Override
 		public String getText(Object element){
-			return ((Pin) element).getName();
+			
+			Pin pin = (Pin) element;
+			if(!pin.eContainingFeature().isMany()){
+				return pin.eContainingFeature().getName();
+			}
+			return pin.getName();
 		}
 	}
 	protected class ParameterTypeLabelProvider extends ColumnLabelProvider{

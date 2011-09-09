@@ -26,8 +26,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.nakeduml.name.NameConverter;
 
 public class NakedUmlConfigDialog extends TitleAreaDialog{
+	private Label errorMessage;
+	private Text txtWorkspaceName;
 	private Text txtWorkspaceIdentifier;
 	private Text txtCompanyDomain;
 	private Button chkGeneratePoms;
@@ -57,6 +60,10 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		Composite composite = (Composite) super.createDialogArea(parent);
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
+		new Label(panel, 0).setText("Project Name");
+		txtWorkspaceName = new Text(panel, SWT.SINGLE|SWT.BORDER);
+		txtWorkspaceName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		txtWorkspaceName.setText(config.getWorkspaceName());
 		new Label(panel, 0).setText("Identifier for project");
 		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE|SWT.BORDER);
 		txtWorkspaceIdentifier.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -108,6 +115,19 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		}
 	}
 	public void okPressed(){
+		IResource[] members = null;
+		try{
+			members = file.getParent().members();
+		}catch(CoreException e1){
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for(IResource r:members){
+			if(r.getLocation().removeFileExtension().lastSegment().toLowerCase().equals(txtWorkspaceIdentifier.getText().toLowerCase())){
+				this.setErrorMessage("The Project Identifier cannot be the same as the name of one of the models");
+				return;
+			}
+		}
 		config.loadDefaults(txtWorkspaceIdentifier.getText());
 		String domain = txtCompanyDomain.getText();
 		StringBuilder mavenGroup = null;
@@ -121,11 +141,13 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 			}
 		}
 		mavenGroup.append('.');
-		mavenGroup.append(txtWorkspaceIdentifier.getText());
+		mavenGroup.append(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()).toLowerCase());
+		config.setWorkspaceName(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()));
 		config.setAdditionalTransformationSteps(new HashSet<String>(Arrays.asList(lstTransformationSteps.getSelection())));
 		config.setMavenGroupId(mavenGroup.toString());
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
+		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());
 		config.store();
 		try{
 			file.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);

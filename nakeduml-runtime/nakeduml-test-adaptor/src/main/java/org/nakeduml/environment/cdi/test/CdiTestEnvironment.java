@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -30,7 +29,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.connection.ConnectionProviderFactory;
-import org.hibernate.mapping.PersistentClass;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jboss.seam.solder.literal.DefaultLiteral;
 import org.jboss.weld.manager.BeanManagerImpl;
@@ -38,18 +36,15 @@ import org.jboss.weld.mock.MockBeanDeploymentArchive;
 import org.jboss.weld.mock.MockDeployment;
 import org.jboss.weld.mock.MockServletLifecycle;
 import org.jboss.weld.test.BeanManagerLocator;
-import org.nakeduml.environment.AbstractJbpmKnowledgeBase;
-import org.nakeduml.environment.Environment;
-import org.nakeduml.environment.ISignalDispatcher;
-import org.nakeduml.environment.ITimeEventDispatcher;
-import org.nakeduml.hibernate.domain.PostgresDialect;
+import org.nakeduml.runtime.domain.IActiveObject;
+import org.nakeduml.runtime.domain.ISignal;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.environment.Environment;
+import org.nakeduml.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.nakeduml.seam3.persistence.ManagedHibernateSessionFactoryProvider;
 import org.nakeduml.test.adaptor.CditTestLogger;
 
 public class CdiTestEnvironment extends Environment{
-	private MockTimeEventDispatcher timeEventDispatcher = new MockTimeEventDispatcher();
-	private CdiTestSignalDispatcher signalDispatcher = new CdiTestSignalDispatcher();
 	private StatefulKnowledgeSession knowledgeSession;
 	private Session hibernateSession;
 	private SessionFactory sessionFactory;
@@ -71,11 +66,7 @@ public class CdiTestEnvironment extends Environment{
 	@Override
 	public <T>T getComponent(Class<T> clazz,Annotation qualifiers){
 		try{
-			if(clazz == ITimeEventDispatcher.class){
-				return clazz.cast(timeEventDispatcher);
-			}else if(clazz == ISignalDispatcher.class){
-				return clazz.cast(signalDispatcher);
-			}else if(clazz == StatefulKnowledgeSession.class){
+			if(clazz == StatefulKnowledgeSession.class){
 				if(resolveBean(Session.class, DefaultLiteral.INSTANCE) != null){
 					// Hibernate Session present - prepare JBPM appropriately
 					return clazz.cast(resolveBean(CdiTestJbpmKnowledgeSession.class, DefaultLiteral.INSTANCE).getKnowledgeSession());
@@ -95,13 +86,14 @@ public class CdiTestEnvironment extends Environment{
 			throw new RuntimeException(e);
 		}
 	}
-	private <T>T resolveAndWrapBean(Class<T> clazz,Annotation q) throws NoSuchMethodException,InstantiationException,IllegalAccessException,
-			InvocationTargetException{
+	private <T>T resolveAndWrapBean(Class<T> clazz,Annotation q) throws NoSuchMethodException,InstantiationException,IllegalAccessException,InvocationTargetException{
 		final T component = resolveBean(clazz, q);
 		if(component != null){
 			ProxyFactory proxyFactory = new ProxyFactory();
 			if(clazz.isInterface()){
-				proxyFactory.setInterfaces(new Class<?>[]{clazz});
+				proxyFactory.setInterfaces(new Class<?>[]{
+					clazz
+				});
 			}else{
 				proxyFactory.setSuperclass(clazz);
 			}
@@ -164,8 +156,6 @@ public class CdiTestEnvironment extends Environment{
 		return sessionFactory;
 	}
 	public void reset(){
-		signalDispatcher.reset();
-		timeEventDispatcher.reset();
 		knowledgeSession = null;
 		// TODO this should not be necessary
 		abstractJbpmKnowledgeBase = null;
@@ -216,7 +206,6 @@ public class CdiTestEnvironment extends Environment{
 		if(componentStack.isEmpty()){
 			try{
 				resolveBean(CdiTestSeamTransaction.class, DefaultLiteral.INSTANCE).commit();
-				signalDispatcher.prepareSignalsForDispatch();
 				resolveBean(Session.class, DefaultLiteral.INSTANCE).close();
 			}catch(RuntimeException e){
 				throw e;
@@ -225,7 +214,6 @@ public class CdiTestEnvironment extends Environment{
 			}
 			lifecycle.endRequest();
 			lifecycle.endSession();
-			signalDispatcher.deliverAllPendingSignals();
 		}
 	}
 	public void beforeRequest(Object component){
@@ -264,5 +252,17 @@ public class CdiTestEnvironment extends Environment{
 			}
 			return c;
 		}
+	}
+	@Override
+	public void endRequestContext(){
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void startRequestContext(){
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void sendSignal(IActiveObject target,ISignal s){
+		// TODO Auto-generated method stub
 	}
 }

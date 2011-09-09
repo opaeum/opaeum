@@ -36,7 +36,6 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ICollectionType;
 import nl.klasse.octopus.model.INameSpace;
 import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclError;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.oclengine.internal.OclError;

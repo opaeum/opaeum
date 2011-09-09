@@ -8,8 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.auditing.AuditImplementationStep;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
@@ -19,6 +18,7 @@ import net.sf.nakeduml.metamodel.compositestructures.INakedCollaboration;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -54,6 +54,8 @@ import org.nakeduml.name.NameConverter;
 public class OJUtil{
 	public static void clearCache(){
 		structuralFeatureMaps.clear();
+		locallyUniqueFeatureMaps.clear();
+		actionFeatureMaps.clear();
 	}
 	private static final Set<String> BUILT_IN_ATTRIBUTES = new HashSet<String>();
 	static{
@@ -66,6 +68,9 @@ public class OJUtil{
 	private static Map<IActionWithTargetElement,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<IActionWithTargetElement,NakedStructuralFeatureMap>();
 	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
+	}
+	public static OJPathName utilPackagePath(INakedElementOwner e){
+		return new OJPathName(e.getMappingInfo().getQualifiedJavaName()).append("util");
 	}
 	public static OJAnnotatedOperation buildMain(OJAnnotatedClass ojClass){
 		OJAnnotatedOperation main = new OJAnnotatedOperation("main");
@@ -129,15 +134,6 @@ public class OJUtil{
 	public static OJPathName classifierPathname(INakedClassifier classifier){
 		return new OJPathName(AbstractJavaNameGenerator.classifierPathname(classifier));
 	}
-	public static OJPathName classifierAuditPathname(INakedClassifier classifier){
-		if(classifier instanceof INakedClassifier && (classifier).getMappedImplementationType() != null){
-			return new OJPathName(classifier.getMappedImplementationType() + AuditImplementationStep.AUDIT);
-		}else{
-			OJPathName path = packagePathname(classifier.getNameSpace());
-			path.addToNames(classifier.getName());
-			return path;
-		}
-	}
 	public static final OJOperation addMethod(OJClass theClass,String name,String type,String expression){
 		OJOperation get = OJUtil.findOperation(theClass, name);
 		if(get == null){
@@ -182,15 +178,6 @@ public class OJUtil{
 	}
 	// TODO move to annotated class
 	public static OJOperation findOperation(OJClass theClass,String name){
-		// if (theClass.getName().equals("Network")) {
-		// StringBuffer sb = new StringBuffer();
-		// StackTraceElement[] stackTrace = Thread.currentThread()
-		// .getStackTrace();
-		// for (int i = 0; i < stackTrace.length; i++) {
-		// sb.append(stackTrace[i].toString());
-		// }
-		// System.out.println("called " + sb.toString());
-		// }
 		Iterator<OJOperation> iter = theClass.getOperations().iterator();
 		while(iter.hasNext()){
 			OJOperation o = (OJOperation) iter.next();
@@ -226,13 +213,13 @@ public class OJUtil{
 		}
 	}
 	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier umlOwner,INakedObjectNode pin,boolean ensureUniquenes){
-			Map<INakedTypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes?locallyUniqueFeatureMaps: structuralFeatureMaps;
-			NakedStructuralFeatureMap map = maps.get(pin);
-			if(map == null){
-				map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin,ensureUniquenes));
-				maps.put(pin, map);
-			}
-			return map;
+		Map<INakedTypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes ? locallyUniqueFeatureMaps : structuralFeatureMaps;
+		NakedStructuralFeatureMap map = maps.get(pin);
+		if(map == null){
+			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniquenes));
+			maps.put(pin, map);
+		}
+		return map;
 	}
 	public static void removeReturnStatement(OJOperation javaMethod){
 		Collection<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());

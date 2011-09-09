@@ -8,9 +8,10 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.NakedOperationMap;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.SignalMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.linkage.MappedTypeLinker;
@@ -40,13 +41,14 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedInterface;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
 import org.nakeduml.java.metamodel.annotation.OJEnum;
 import org.nakeduml.java.metamodel.annotation.OJEnumLiteral;
-import org.nakeduml.runtime.domain.AbstractSignal;
 import org.nakeduml.runtime.domain.IEnum;
+import org.nakeduml.runtime.domain.ISignal;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {NameUniquenessValidation.class},after = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {
+	NameUniquenessValidation.class
+},after = {})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
 	static{
 		// Because of eclipse classloading issues
@@ -60,6 +62,9 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 		visitClass(umlOwner);
 	}
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	@VisitAfter(matchSubclasses = true,match = {
 			INakedInterface.class,INakedEnumeration.class
 	})
@@ -74,6 +79,8 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
 				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
 			}
+			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
+			OJPackage pack = findOrCreatePackage(path);
 			ClassifierMap classifierMap = new NakedClassifierMap(c);
 			OJAnnotatedClass myClass;
 			if(c instanceof INakedEnumeration){
@@ -103,14 +110,22 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}
 			// TODO find another place
 			if(c instanceof INakedSignal){
-				myClass.setSuperclass(new OJPathName(AbstractSignal.class.getName()));
+				SignalMap signalMap = new SignalMap((INakedSignal) c);
+				OJAnnotatedInterface receiver = new OJAnnotatedInterface(signalMap.receiverContractTypePath().getLast());
+				pack.addToClasses(receiver);
+				OJAnnotatedOperation consumeMethod = new OJAnnotatedOperation(signalMap.eventConsumerMethodName(), new OJPathName("boolean"));
+				consumeMethod.addParam("signal", signalMap.javaTypePath());
+				receiver.addToOperations(consumeMethod);
+				OJAnnotatedOperation receiverMethod = new OJAnnotatedOperation(signalMap.receiveMethodName());
+				receiverMethod.addParam("signal", signalMap.javaTypePath());
+				receiver.addToOperations(receiverMethod);
+				myClass.addToImplementedInterfaces(new OJPathName(ISignal.class.getName()));
+				createTextPath(receiver, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			}
+			pack.addToClasses(myClass);
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());
 			myClass.setComment(c.getDocumentation());
-			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
-			OJPackage pack = findOrCreatePackage(path);
-			pack.addToClasses(myClass);
 			super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			if(c instanceof INakedEnumeration){
 				OJEnum oje = (OJEnum) myClass;
@@ -142,12 +157,11 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		if(p.getMappingInfo().requiresJavaRename()){
 			deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(p.getMappingInfo().getOldQualifiedJavaName()));
 		}
-		OJAnnotatedPackage currentPack = findOrCreatePackage(OJUtil.packagePathname(p));
+		OJPackage currentPack = findOrCreatePackage(OJUtil.packagePathname(p));
 		if(p.getDocumentation() != null){
 			currentPack.setComment(p.getDocumentation());
 		}
-		super.applyStereotypesAsAnnotations(p, currentPack);
-		super.createTextPathIfRequired(currentPack, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		super.applyStereotypesAsAnnotations(p, findOrCreatePackageInfo(currentPack.getPathName(), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC));
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){

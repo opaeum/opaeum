@@ -2,9 +2,6 @@ package org.nakeduml.topcased.classdiagram;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.EditPartFactory;
-import org.eclipse.uml2.uml.UMLPackage;
-import org.topcased.modeler.di.model.GraphElement;
-import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.IPaletteManager;
 import org.topcased.modeler.uml.classdiagram.EditPart2ModelAdapterFactory;

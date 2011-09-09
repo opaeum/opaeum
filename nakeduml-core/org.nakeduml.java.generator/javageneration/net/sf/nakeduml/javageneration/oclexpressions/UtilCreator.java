@@ -12,6 +12,7 @@ import nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors.OclUtilityCrea
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.nakeduml.java.metamodel.OJClassifier;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		Java6ModelGenerator.class,NakedParsedOclStringResolver.class
@@ -24,7 +25,9 @@ public class UtilCreator extends AbstractJavaProducingVisitor{
 		OclUtilityCreator ouc = new OclUtilityCreator(javaModel);
 		ouc.makeOclUtilities(null, workspace.getOclEngine().getOclLibrary());
 		for(OJClassifier c:UtilityCreator.getUtilPack().getClasses()){
-			createTextPath(c, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			if(!(c instanceof OJAnnotatedClass)){
+				createTextPath(c, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			}
 		}
 	}
 }

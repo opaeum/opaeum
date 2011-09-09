@@ -1,6 +1,5 @@
 package net.sf.nakeduml.emf.workspace;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -42,9 +41,6 @@ import org.eclipse.uml2.uml.Stereotype;
  * 
  */
 public class EmfWorkspace implements Element{
-	public Map<String,Element> getElementMap(){
-		return elementMap;
-	}
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
 	private WorkspaceMappingInfo mappingInfo;
@@ -54,11 +50,11 @@ public class EmfWorkspace implements Element{
 	private EmfResourceHelper uriResolver;
 	private Set<Model> libraries = new HashSet<Model>();
 	private Map<String,Element> elementMap = new HashMap<String,Element>();
+	private String name;
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
 		addGeneratingModelOrProfile(model);
-		this.directoryUri = model.eResource().getURI().trimFileExtension().trimSegments(1);
 	}
 	// Load entire resourceSet
 	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier){
@@ -309,7 +305,7 @@ public class EmfWorkspace implements Element{
 		return null;
 	}
 	public String getName(){
-		return this.getIdentifier();
+		return name;
 	}
 	public ResourceSet getResourceSet(){
 		return resourceSet;
@@ -391,5 +387,10 @@ public class EmfWorkspace implements Element{
 	private static boolean isSchemeReadOnly(String scheme){
 		return Arrays.asList("pathmap").contains(scheme);
 	}
-
+	public Map<String,Element> getElementMap(){
+		return elementMap;
+	}
+	public void setName(String workspaceIdentifier){
+		this.name = workspaceIdentifier;
+	}
 }

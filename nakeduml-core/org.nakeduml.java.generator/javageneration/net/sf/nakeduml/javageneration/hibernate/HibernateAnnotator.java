@@ -8,9 +8,9 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.UtilCreator;
 import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -44,6 +44,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 import org.nakeduml.java.metamodel.generated.OJVisibilityKindGEN;
 import org.nakeduml.runtime.domain.HibernateEntity;
+import org.nakeduml.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
@@ -68,10 +69,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitComplexStructure(INakedComplexStructure complexType){
-		if(OJUtil.hasOJClass(complexType)){
-			if(complexType.getName().equals("Cell_ericsson_gsm")){
-				System.out.println();
-			}
+		if(OJUtil.hasOJClass(complexType) && isPersistent(complexType)){
 			OJAnnotatedClass owner = findJavaClass(complexType);
 			addAllInstances(complexType, owner);
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
@@ -296,7 +294,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked = new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("Session session =org.nakeduml.environment.Environment.getInstance().getComponent(Session.class)");
+		ifMocked.getThenPart().addToStatements("Session session ="+Environment.class.getName()+ ".getInstance().getComponent(Session.class)");
 		ifMocked.getThenPart().addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");

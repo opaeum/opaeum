@@ -33,4 +33,14 @@ public class DefaultTransformationLog implements TransformationProgressLog{
 		System.out.println(stepNames.pop() + " took " + (System.currentTimeMillis() - stepStartTimes.pop()) + " ms");
 		
 	}
+	@Override
+	public void error(String string,Throwable t){
+		System.err.println(string);
+		t.printStackTrace();
+	}
+	@Override
+	public void info(String string){
+		System.out.println(string);
+		
+	}
 }

@@ -12,15 +12,12 @@ import net.sf.nakeduml.feature.PhaseDependency;
 import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.TransformationProcess;
-import net.sf.nakeduml.filegeneration.FileGenerationPhase;
-import net.sf.nakeduml.jbpm5.FlowGenerationPhase;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Element;
-import org.nakeduml.bootstrap.BootstrapGenerationPhase;
 
 @PhaseDependency(before={ModelCopyPhase.class})
 public class UimSynchronizationPhase implements TransformationPhase<AbstractUimSynchronizer,Element>{
@@ -60,10 +57,10 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 		return elements;
 	}
 	@Override
-	public void execute(TransformationProcess.TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		ResourceSet resourceSet = new ResourceSetImpl();
 		for(AbstractUimSynchronizer s:features){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				s.startVisiting(workspace);
 			}
 		}

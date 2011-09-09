@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.core;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 import nl.klasse.octopus.model.IOperation;
 
 public interface INakedOperation extends IOperation,INakedPackageableElement,IParameterOwner{

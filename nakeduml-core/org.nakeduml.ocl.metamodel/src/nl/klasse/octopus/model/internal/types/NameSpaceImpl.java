@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import nl.klasse.octopus.expressions.internal.analysis.NamedElement;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;

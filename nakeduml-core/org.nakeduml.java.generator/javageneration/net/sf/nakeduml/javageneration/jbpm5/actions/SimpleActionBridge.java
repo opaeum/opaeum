@@ -3,7 +3,6 @@ package net.sf.nakeduml.javageneration.jbpm5.actions;
 import net.sf.nakeduml.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 

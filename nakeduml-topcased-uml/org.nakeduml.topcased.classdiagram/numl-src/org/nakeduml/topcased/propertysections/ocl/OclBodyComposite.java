@@ -15,7 +15,6 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -44,8 +43,6 @@ import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
 
-import com.sun.org.apache.xerces.internal.impl.dv.DVFactoryException;
-
 public abstract class OclBodyComposite extends Composite{
 	private final class ErrorHighlighter implements Runnable{
 		private boolean stopped;
@@ -53,7 +50,6 @@ public abstract class OclBodyComposite extends Composite{
 		public void run(){
 			if(!stopped){
 				highlightError();
-				System.out.println("OclBodyComposite.ErrorHighlighter.run()" +System.currentTimeMillis());
 				StyledText t = viewer.getTextWidget();
 				if(!(t == null || t.isDisposed()) && (nextRun==0 || System.currentTimeMillis()>=nextRun)){
 					nextRun=System.currentTimeMillis() + 14999;
@@ -215,7 +211,7 @@ public abstract class OclBodyComposite extends Composite{
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
 			UmlElementCache map = NakedUmlEditor.getCurrentContext().getUmlElementCache();
-			INakedModelWorkspace ws = map.getTransformationProcess().findModel(INakedModelWorkspace.class);
+			INakedModelWorkspace ws = map.getNakedWorkspace();
 			ErrorMap errors = ws.getErrorMap();
 			String id = NakedUmlEditor.getCurrentContext().getId(oclBodyOwner);
 			BrokenElement be = errors.getErrors().get(id);

@@ -31,6 +31,7 @@ import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.outline.ModelNavigator;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
+import org.topcased.modeler.uml.actions.DefineProfileAction;
 import org.topcased.modeler.uml.actions.UMLEObjectAction;
 import org.topcased.modeler.uml.editor.outline.UMLNavigator;
 import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
@@ -46,6 +47,9 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		super.close(save);
 		if(save == false && currentContext != null){
 			currentContext.removeNakedModel(getResourceSet());
+		}
+		if(currentContext != null){
+			currentContext.onClose(save, getEditingDomain().getResourceSet());
 		}
 	}
 	@Override
@@ -72,7 +76,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 						for(IContributionItem item:manager.getItems()){
 							if(item instanceof ActionContributionItem){
 								ActionContributionItem actionItem = (ActionContributionItem) item;
-								if(actionItem.getAction() instanceof UMLEObjectAction){
+								if(actionItem.getAction() instanceof UMLEObjectAction && !(actionItem.getAction() instanceof DefineProfileAction)){
 									manager.remove(item);
 								}
 							}
@@ -83,16 +87,25 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		};
 	}
 	public void dispose(){
-		if(currentContext != null){
-			currentContext.onClose(true, getEditingDomain().getResourceSet());
+		try{
+			if(currentContext != null){
+				currentContext.onClose(true, getEditingDomain().getResourceSet());
+			}
+			contexts.remove(getEditingDomain().getResourceSet());
+			super.dispose();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			currentContext = null;
 		}
-		contexts.remove(getEditingDomain().getResourceSet());
-		super.dispose();
-		currentContext = null;
 	}
 	@Override
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
+	}
+	public void refreshOutline(){
+		// Called when this editor's tab has been selected
+		super.refreshOutline();
 		IFileEditorInput f = getFileEditorInput(getEditorInput());
 		currentContext = getContext(f);
 	}
@@ -101,7 +114,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		IFile umlFile = getUmlFile(fe);
 		NakedUmlEclipseContext result = getNakedUmlEclipseContextFor(umlDir);
 		if(result != null){
-			if(result.isSyncronizingWith(getResourceSet())){
+			if(result.isSyncronizingWith(getEditingDomain().getResourceSet())){
 				result.setCurrentEditContext(getEditingDomain(), umlFile);
 			}else{
 				result.startSynch(getEditingDomain(), umlFile);

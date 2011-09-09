@@ -147,7 +147,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-runtime-adaptor</artifactId>
+			<artifactId>nakeduml-runtime-cdi-hibernate</artifactId>
 			<version>${numl.version}</version>
 		</dependency>
 	</dependencies>

@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedContextualEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
@@ -54,7 +54,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			// Events are duplicated and stored under the trigger referencing it and normal stereotype application logic won't find the
 			// correct
 			// naked originalElement
-			INakedContextualEvent nakedPeer = (INakedContextualEvent) nakedWorkspace.getModelElement(getEventId(t));
+			INakedEvent nakedPeer = (INakedEvent) nakedWorkspace.getModelElement(getEventId(t));
 			if(nakedPeer != null){
 				addStereotypes(nakedPeer, t.getEvent());
 				addKeywords(nakedPeer, t.getEvent());
@@ -118,6 +118,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			}
 		}
 	}
+	@SuppressWarnings("unchecked")
 	private INakedInstanceSpecification buildStereotypeApplication(Element modelElement,Stereotype stereotype,INakedStereotype nakedStereotype){
 		String stereotypeApplicationId = getId(modelElement) + "#" + stereotype.getName();
 		INakedInstanceSpecification instanceSpec = (INakedInstanceSpecification) nakedWorkspace.getModelElement(stereotypeApplicationId);
@@ -147,7 +148,8 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 				}
 				slot.setDefiningFeature(attribute);
 				if(value instanceof EList){
-					Iterator<? extends EObject> iter = ((EList<? extends EObject>) value).iterator();
+					EList<? extends EObject> values = (EList<? extends EObject>) value;
+					Iterator<? extends EObject> iter = values.iterator();
 					int i = 0;
 					while(iter.hasNext()){
 						putValue(i, iter.next(), slot);

@@ -53,12 +53,14 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 		return node.getInStructuredNode();
 	}
 	@Override
-	protected Collection<INakedTrigger> getMethodTriggers(INakedElement step){
+	protected Collection<INakedTrigger> getOperationTriggers(INakedElement step){
 		Collection<INakedTrigger> result = new ArrayList<INakedTrigger>();
 		if(step instanceof INakedAcceptEventAction){
 			INakedAcceptEventAction a = (INakedAcceptEventAction) step;
-			if(a.getTrigger() != null && a.getTrigger().getEvent() instanceof INakedOperation){
-				result.add(a.getTrigger());
+			for(INakedTrigger t:a.getTriggers()){
+				if(t.getEvent() instanceof INakedOperation){
+					result.add(t);
+				}
 			}
 		}
 		return result;

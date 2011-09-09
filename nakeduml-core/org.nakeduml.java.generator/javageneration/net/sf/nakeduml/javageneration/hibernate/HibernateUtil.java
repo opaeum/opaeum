@@ -1,11 +1,10 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.dialect.Dialect;
@@ -17,14 +16,6 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
 public class HibernateUtil {
 	private static Dialect dialect;
-
-	public static OJPathName getHibernatePackage(boolean isAdaptor) {
-		if (isAdaptor) {
-			return UtilityCreator.getUtilPathName().append("hibernate").append("adaptor");
-		} else {
-			return UtilityCreator.getUtilPathName().append("hibernate").append("domain");
-		}
-	}
 
 	public static Dialect getHibernateDialect(NakedUmlConfig config) {
 		if (dialect == null) {

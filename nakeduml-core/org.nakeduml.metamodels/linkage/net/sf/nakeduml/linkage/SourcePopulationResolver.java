@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.nakeduml.name.NameConverter;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -26,6 +24,8 @@ import net.sf.nakeduml.metamodel.core.internal.CompositionSiblingsFinder;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
+
+import org.nakeduml.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class,ValueSpecificationTypeResolver.class
@@ -88,11 +88,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			ParsedOclString pcs = (ParsedOclString) constr.getSpecification().getOclValue();
 			String other = p.getOtherEnd().getName();
 			pcs.setExpressionString(pcs.getExpressionString() + "->select(o|o." + other + ".oclIsUndefined() or o." + other + "=self)");
-			// System.out.println("oneToOne:" + pcs.getExpressionString());
 		}else{
 			ParsedOclString pcs = (ParsedOclString) constr.getSpecification().getOclValue();
 			pcs.setExpressionString(pcs.getExpressionString() + "->asSet()");
-			// System.out.println("toMany:" + pcs.getExpressionString());
 		}
 	}
 	private INakedConstraint buildOclConstraint(INakedProperty p,INakedConstraint constr,ICompositionParticipant e){
@@ -151,11 +149,11 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}
 			calculatePathFromOwnerToCommonCompositionsAncestorForAncestor(commonComposite, owner, baseType, pathToCommonComposite);
 		}else{
-			commonComposite = calculatePathFromOwnerToCommonCompositionsAncestor(owner, baseType, pathToCommonComposite);
+			commonComposite = calculatePathFromOwnerToCommonCompositionsAncestor(owner, baseType, pathToCommonComposite,30);
 		}
 		if(commonComposite != null){
 			StringBuilder pathFromCommonComposite = new StringBuilder();
-			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite);
+			calculatePathFromCommonCompositionsAncestorToBaseType(commonComposite, baseType, pathFromCommonComposite,30);
 			ocl = pathToCommonComposite.toString() + pathFromCommonComposite;
 		}else{
 			System.out.println("No compositional ancestor found between " + getPathNameInModel(owner) + " and " + getPathNameInModel(baseType));
@@ -190,29 +188,29 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}
 		}
 	}
-	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestor(ICompositionParticipant owner,ICompositionParticipant type,StringBuilder expression){
-		if(CompositionSiblingsFinder.isCompositionAncestorOf(owner, type)){
+	private ICompositionParticipant calculatePathFromOwnerToCommonCompositionsAncestor(ICompositionParticipant owner,ICompositionParticipant type,StringBuilder expression, int depth){
+		if(CompositionSiblingsFinder.isCompositionAncestorOf(owner, type) || depth==0){
 			return owner;
 		}else{
 			INakedProperty endToComposite = owner.getEndToComposite();
-			if(endToComposite == null){
+			if(endToComposite == null || endToComposite.getBaseType().equals(owner)){
 				return null;
 			}else{
 				expression.append(".");
 				expression.append(endToComposite.getName());
-				return calculatePathFromOwnerToCommonCompositionsAncestor((ICompositionParticipant) endToComposite.getNakedBaseType(), type, expression);
+				return calculatePathFromOwnerToCommonCompositionsAncestor((ICompositionParticipant) endToComposite.getNakedBaseType(), type, expression,--depth);
 			}
 		}
 	}
-	private void calculatePathFromCommonCompositionsAncestorToBaseType(ICompositionParticipant ancestor,ICompositionParticipant baseType,StringBuilder expression){
+	private void calculatePathFromCommonCompositionsAncestorToBaseType(ICompositionParticipant ancestor,ICompositionParticipant baseType,StringBuilder expression, int depth){
 		INakedProperty endToComposite = baseType.getEndToComposite();
-		if(endToComposite == null){
+		if(endToComposite == null || depth==0){
 			return;
 		}else if(endToComposite.getNakedBaseType().conformsTo(ancestor)){
 			expression.append(".");
 			expression.append(endToComposite.getOtherEnd().getName());
 		}else{
-			calculatePathFromCommonCompositionsAncestorToBaseType(ancestor, (ICompositionParticipant) endToComposite.getNakedBaseType(), expression);
+			calculatePathFromCommonCompositionsAncestorToBaseType(ancestor, (ICompositionParticipant) endToComposite.getNakedBaseType(), expression,--depth);
 			expression.append("->collect(c|c.");
 			expression.append(endToComposite.getOtherEnd().getName());
 			expression.append(")");

@@ -3,8 +3,8 @@ package net.sf.nakeduml.filegeneration;
 import java.util.Collection;
 import java.util.Collections;
 
-import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.ITransformationStep;
+import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.textmetamodel.TextDirectory;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;

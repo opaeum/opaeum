@@ -1,6 +1,5 @@
 package net.sf.nakeduml.feature;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 

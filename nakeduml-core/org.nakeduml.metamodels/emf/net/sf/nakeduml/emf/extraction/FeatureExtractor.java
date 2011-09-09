@@ -1,9 +1,6 @@
 package net.sf.nakeduml.emf.extraction;
 
-import java.util.List;
-
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedResponsibilityImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -12,37 +9,27 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedReceptionImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedPortImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedParameterImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-import net.sf.nakeduml.validation.CoreValidationRule;
-import nl.klasse.octopus.model.OclUsageType;
+import net.sf.nakeduml.validation.EmfValidationRule;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.ExtensionEnd;
-import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Port;
-import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfParameterUtil;
 
 /**
@@ -68,6 +55,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			if(p.getAssociation()!=null){
 				for(Property property:p.getAssociation().getMemberEnds()){
 					if(property.getType()==null){
+						getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
 						//broken association a'la topcased
 						return null;
 					}
@@ -139,6 +127,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		np.setDerivedUnion(p.isDerivedUnion());
 		np.setIsOrdered(p.isOrdered());
 		np.setIsUnique(p.isUnique());
+		
 		setOwnedAttributeIndexIfNecessary(p, np);
 		// TODO look at implementing qualifiers as free attributes of the association
 		String[] qualifierNames = new String[p.getQualifiers().size()];
@@ -154,18 +143,12 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			aew.setOwnedAttributeIndex(indexOf);
 		}
 	}
-	private boolean isAllowedAssociationEnd(Type owner,Type thisEndType){
-		// Theoretically ends owned by primitives and enumerations
-		// cannot navigable, and Octopus does not like such an
-		// association, so let's pretend this end and the association do not exist
-		// Associations TO stereotypes are from MetaModel elements and should
-		// not be represented at all associations FROM primitives or enumerations does not make sense to
-		// Octopus, and these will be modelled as attributes instead.
-		return !(owner instanceof PrimitiveType || owner instanceof Enumeration || thisEndType instanceof Stereotype);
-	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitReception(Reception emfRec,NakedReceptionImpl nakedRec){
 		nakedRec.setSignal((INakedSignal) getNakedPeer(emfRec.getSignal()));
+		for(Behavior b:emfRec.getMethods()){
+			nakedRec.addMethod((INakedBehavior) getNakedPeer(b));
+		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(Operation emfOper,NakedOperationImpl nakedOper){
@@ -175,11 +158,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		}
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
-		if(emfOper.getMethods().size() > 0){
 			for(Behavior b:emfOper.getMethods()){
 				nakedOper.addMethod((INakedBehavior) getNakedPeer(b));
 			}
-		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(Parameter emfParameter,NakedParameterImpl nakedParameter){

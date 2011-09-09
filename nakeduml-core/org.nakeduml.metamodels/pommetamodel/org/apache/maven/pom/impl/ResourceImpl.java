@@ -10,13 +10,10 @@ import org.apache.maven.pom.ExcludesType;
 import org.apache.maven.pom.IncludesType;
 import org.apache.maven.pom.POMPackage;
 import org.apache.maven.pom.Resource;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 

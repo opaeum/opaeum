@@ -58,7 +58,6 @@ public class AbstractMavenProjectProcess {
 
 		NakedUmlConfig cfg = new NakedUmlConfig(props, model.getName());
 		transform(model, mavenDirectories, cfg, features);
-		System.out.println(System.currentTimeMillis() - start);
 	}
 
 	public static void transform(Model model, MavenDirectories mavenDirectories, NakedUmlConfig cfg,

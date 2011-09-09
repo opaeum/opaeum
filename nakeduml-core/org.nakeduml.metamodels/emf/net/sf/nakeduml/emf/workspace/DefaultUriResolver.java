@@ -8,7 +8,6 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class DefaultUriResolver implements EmfResourceHelper{

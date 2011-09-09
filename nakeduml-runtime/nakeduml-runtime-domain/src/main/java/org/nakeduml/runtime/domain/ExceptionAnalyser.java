@@ -95,6 +95,9 @@ public class ExceptionAnalyser{
 		}else if(source instanceof SQLException){
 			SQLException e = (SQLException) source;
 			cause = e.getNextException();
+		}else if(source instanceof ExceptionInInitializerError){
+			ExceptionInInitializerError e = (ExceptionInInitializerError) source;
+			cause = e.getException();
 		}
 		if(cause == null){
 			// Fallback case

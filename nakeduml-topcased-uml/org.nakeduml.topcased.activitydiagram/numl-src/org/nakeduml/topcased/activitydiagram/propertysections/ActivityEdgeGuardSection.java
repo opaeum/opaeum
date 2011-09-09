@@ -1,13 +1,10 @@
 package org.nakeduml.topcased.activitydiagram.propertysections;
 
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.nakeduml.topcased.propertysections.AbstractAutoCreatingOclExpressionSection;
-import org.nakeduml.topcased.propertysections.AbstractOpaqueExpressionSection;
 
 public class ActivityEdgeGuardSection extends AbstractAutoCreatingOclExpressionSection{
 	private ActivityEdge getEdge(){

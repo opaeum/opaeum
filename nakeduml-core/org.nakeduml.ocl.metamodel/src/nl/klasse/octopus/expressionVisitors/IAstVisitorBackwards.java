@@ -17,6 +17,7 @@ import nl.klasse.octopus.expressions.IIntegerLiteralExp;
 import nl.klasse.octopus.expressions.IIterateExp;
 import nl.klasse.octopus.expressions.IIteratorExp;
 import nl.klasse.octopus.expressions.ILetExp;
+import nl.klasse.octopus.expressions.IOclExpression;
 import nl.klasse.octopus.expressions.IOclStateLiteralExp;
 import nl.klasse.octopus.expressions.IOclTypeLiteralExp;
 import nl.klasse.octopus.expressions.IOclUndefinedLiteralExp;

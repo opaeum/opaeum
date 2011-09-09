@@ -2,8 +2,6 @@ package net.sf.nakeduml.emf.extraction;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
@@ -12,13 +10,11 @@ import net.sf.nakeduml.feature.visit.VisitSpec;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedDeadlineImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedPackageableElement;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedTypedElementImpl;
@@ -33,25 +29,18 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Comment;
-import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.InstanceValue;
-import org.eclipse.uml2.uml.LiteralBoolean;
-import org.eclipse.uml2.uml.LiteralInteger;
-import org.eclipse.uml2.uml.LiteralString;
-import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.PackageableElement;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
-import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfValidationUtil;
 
@@ -69,6 +58,21 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		}
 	}
 	@Override
+	public void visitRecursively(Element o){
+		if(requiresExtraction(o)){
+			super.visitRecursively(o);
+		}
+	}
+	protected final boolean requiresExtraction(Element o){
+		if(o instanceof Profile || o instanceof Model){
+			boolean b = emfWorkspace.getGeneratingModelsOrProfiles().contains(o) || getNakedPeer(o) == null
+					|| !((INakedRootObject) getNakedPeer(o)).getStatus().isExtracted();
+			return b;
+		}else{
+			return true;
+		}
+	}
+	@Override
 	protected final void maybeVisit(Element o,VisitSpec v){
 		super.maybeVisit(o, v);
 		emfWorkspace.putElement(o);
@@ -77,15 +81,26 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	protected Object resolvePeer(Element o,Class<?> peerClass){
 		Element e = o;
 		INakedElement ne = getNakedPeer(e);
+		Element owner = (Element) EmfElementFinder.getContainer(e);
 		if(ne == null){
 			ne = createElementFor(e, peerClass);
 			if(ne != null){
-				initialize(ne, e, (Element) EmfElementFinder.getContainer(e));
+				initialize(ne, e, owner);
 			}
 		}else if(o instanceof NamedElement){
-			if(EmfElementFinder.getContainer(e) == null && ne.getOwnerElement() != null){
+			if(owner == null && ne.getOwnerElement() != null){
 				ne.getOwnerElement().removeOwnedElement(ne);
 				ne.markForDeletion();
+			}else{
+				INakedElement nakedOwner = getNakedPeer(owner);
+				if(nakedOwner != null){
+					if(ne.getOwnerElement() != null && !(nakedOwner.equals(ne.getOwnerElement()))){
+						ne.getOwnerElement().removeOwnedElement(ne);
+					}
+					if(!nakedOwner.getOwnedElements().contains(ne)){
+						nakedOwner.addOwnedElement(ne);
+					}
+				}
 			}
 			ne.setName(((NamedElement) o).getName());
 		}
@@ -97,11 +112,10 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			nakedElement.getOwnerElement().removeOwnedElement(nakedElement);
 			nakedElement.setOwnerElement(null);
 		}else{
-			INakedElement nakedOwner = getNakedPeer(owner);
 			if(nakedElement.getOwnerElement() != null){
+				// remove from previous ownerElement
 				nakedElement.getOwnerElement().removeOwnedElement(nakedElement);
 			}
-			nakedElement.setOwnerElement(nakedOwner);
 			if(nakedElement instanceof INakedPackageableElement){
 				INakedPackageableElement pe = (INakedPackageableElement) nakedElement;
 				pe.setVisibility(resolveVisibility(modelElement));
@@ -119,10 +133,10 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				Comment comment = modelElement.getOwnedComments().iterator().next();
 				nakedElement.setDocumentation(comment.getBody());
 			}
-			if(nakedElement.getOwnerElement() != null){
+			INakedElement nakedOwner = getNakedPeer(owner);
+			if(nakedOwner != null){
 				// if ownerElement=nul assume linkage will be done elsewher, i.e. state.doActivity etc.
-				nakedElement.getOwnerElement().removeOwnedElement(nakedElement);
-				nakedElement.getOwnerElement().addOwnedElement(nakedElement);
+				nakedOwner.addOwnedElement(nakedElement);
 			}
 		}
 	}
@@ -206,16 +220,16 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	protected void initTimeEvent(TimeEvent emfTimeEvent,AbstractTimeEventImpl nakedTimeEvent){
 		if(emfTimeEvent.getWhen() != null && emfTimeEvent.getWhen().getExpr() instanceof OpaqueExpression){
-			// What else could it be?
+			// TODO NB!!! it could also be an InstanceSpecification
 			OpaqueExpression oe = (OpaqueExpression) emfTimeEvent.getWhen().getExpr();
 			INakedValueSpecification nvs = new NakedValueSpecificationImpl(buildParsedOclString(oe, oe.getLanguages(), oe.getBodies(), OclUsageType.DEF));
-			nvs.initialize(nakedTimeEvent.getId() + getId(oe), oe.getName(), false);
-			nvs.setMappingInfo(nakedTimeEvent.getMappingInfo().getCopy());
-			nvs.getMappingInfo().setIdInModel(nvs.getId());
+			initialize(nvs, oe, emfTimeEvent);
+			nvs.initialize(getId(oe), oe.getName(), false);
 			nakedTimeEvent.setWhen(nvs);
 		}
 		nakedTimeEvent.setRelative(emfTimeEvent.isRelative());
 	}
+	@SuppressWarnings("unchecked")
 	protected void initializeDeadlines(Stereotype responsibility,Element definedResponsibiliti){
 		// NB!!! we are deviating from the pattern of leaving stereotypes for last because we need to get the containment tree the
 		// way NakedML expects it

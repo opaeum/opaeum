@@ -2,7 +2,6 @@ package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
@@ -12,10 +11,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.ValueSpecification;
-import org.nakeduml.topcased.commands.SetOclBodyCommand;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
-import com.sun.org.apache.xalan.internal.xsltc.cmdline.getopt.GetOpt;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{
 	@Override

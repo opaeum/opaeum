@@ -1,10 +1,10 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
-import net.sf.nakeduml.javageneration.NakedClassifierMap;
-import net.sf.nakeduml.javageneration.NakedOperationMap;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.jbpm5.AbstractEventHandlerInserter;
+import net.sf.nakeduml.javageneration.jbpm5.AbstractEventConsumptionImplementor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
+import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
@@ -14,7 +14,6 @@ import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJForStatement;
@@ -55,11 +54,11 @@ public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends
 			completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}
 		complete = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, completeMethodName);
-		activityClass.addToImports(AbstractEventHandlerInserter.UML_NODE_INSTANCE);
+		activityClass.addToImports(AbstractEventConsumptionImplementor.UML_NODE_INSTANCE);
 		if(complete == null){
 			complete = new OJAnnotatedOperation(completeMethodName);
 			activityClass.addToOperations(complete);
-			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", AbstractEventHandlerInserter.UML_NODE_INSTANCE));
+			complete.getBody().addToLocals(new OJAnnotatedField("waitingNode", AbstractEventConsumptionImplementor.UML_NODE_INSTANCE));
 			complete.addParam("completedTask", new NakedClassifierMap(message).javaTypePath());
 		}
 		OJIfStatement ifFound = new OJIfStatement("(waitingNode=(UmlNodeInstance)findNodeInstanceByUniqueId(completedTask.getNodeInstanceUniqueId()))!=null");

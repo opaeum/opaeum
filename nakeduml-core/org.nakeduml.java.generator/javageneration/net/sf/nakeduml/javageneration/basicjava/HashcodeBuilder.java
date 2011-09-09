@@ -6,18 +6,14 @@ import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.NakedStructuralFeatureMap;
-import net.sf.nakeduml.javageneration.StereotypeAnnotator;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
-import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedHelper;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedOperation;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJField;
@@ -41,7 +37,7 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 			this.buildHashcode(ojClass, c);
 		}
 	}
-	@VisitBefore
+	@VisitBefore(matchSubclasses=true)
 	public void visitInterface(INakedInterface i){
 		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
 			OJAnnotatedClass ojClass = findJavaClass(i);

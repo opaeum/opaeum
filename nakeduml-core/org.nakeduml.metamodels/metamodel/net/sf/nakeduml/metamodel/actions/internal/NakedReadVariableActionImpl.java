@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import net.sf.nakeduml.metamodel.actions.ActionType;
 import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -13,9 +12,6 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 public class NakedReadVariableActionImpl extends NakedVariableActionImpl implements INakedReadVariableAction {
 	INakedOutputPin result;
 
-	public ActionType getActionType() {
-		return ActionType.READ_VARIABLE_ACTION;
-	}
 
 	public Set<INakedInputPin> getInput() {
 		return Collections.emptySet();

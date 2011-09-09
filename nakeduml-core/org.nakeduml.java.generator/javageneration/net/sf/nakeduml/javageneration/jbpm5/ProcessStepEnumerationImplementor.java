@@ -28,13 +28,7 @@ import org.nakeduml.runtime.domain.TriggerMethod;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
 	protected abstract INakedElement getEnclosingElement(INakedElement step);
-	protected abstract Collection<INakedTrigger> getMethodTriggers(INakedElement step);
-	interface x{
-		
-	}
-	enum en implements x{
-		
-	}
+	protected abstract Collection<INakedTrigger> getOperationTriggers(INakedElement step);
 	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
 		OJEnum e = new OJEnum(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
@@ -84,7 +78,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		OJUtil.addParameter(l, "uuid", '"' + step.getMappingInfo().getIdInModel()+ '"');
 		OJUtil.addParameter(l, "id", step.getMappingInfo().getNakedUmlId().toString() + 'l');
 		OJUtil.addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
-		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getMethodTriggers(step)));
+		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getOperationTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);
 	}
 	

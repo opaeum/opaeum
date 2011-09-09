@@ -34,9 +34,9 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 		return elements;
 	}
 	@Override
-	public void execute(TransformationProgressLog log,TransformationContext context){
+	public void execute(TransformationContext context){
 		for(AbstractBootstrapStep step:features){
-			if(!log.isCanceled()){
+			if(!context.getLog().isCanceled()){
 				step.setTransformationContext(context);
 				step.startVisiting(workspace);
 			}

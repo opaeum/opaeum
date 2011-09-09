@@ -5,9 +5,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.SendSignalAction;
-import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.VariableAction;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 

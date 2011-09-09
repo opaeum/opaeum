@@ -13,9 +13,6 @@
  *****************************************************************************/
 package org.nakeduml.topcased.activitydiagram.method;
 
-import net.sf.nakeduml.emf.extraction.StereotypesHelper;
-import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.uml2.uml.util.UMLSwitch;

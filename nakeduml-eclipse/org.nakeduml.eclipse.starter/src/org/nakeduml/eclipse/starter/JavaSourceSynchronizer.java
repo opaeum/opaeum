@@ -1,13 +1,11 @@
 package org.nakeduml.eclipse.starter;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.UmlElementCache.NamespaceRenameRequest;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.pomgeneration.PomGenerationPhase;
 import net.sf.nakeduml.textmetamodel.SourceFolder;
@@ -21,8 +19,10 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
@@ -31,10 +31,10 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
+import org.nakeduml.java.metamodel.OJPackage;
+import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.nakeduml.topcased.uml.editor.NakedUmlContextListener;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 
@@ -52,17 +52,25 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 		this.context = ne;
 	}
 	@Override
-	public void onSave(IProgressMonitor monitor){
-		try{
-			monitor.beginTask("Synchronizing Java sources", 1000);
-			if(context.isOpen() && context.getAutoSync()){
-				process.replaceModel(context.getCurrentEmfWorkspace());
-				renamePackages(new SubProgressMonitor(monitor, 500));
-				synchronizeClasses(new SubProgressMonitor(monitor, 500));
+	public void onSave(IProgressMonitor monit){
+		new Job("Synchronizing Java sources"){
+			public IStatus run(IProgressMonitor monitor){
+				try{
+					monitor.beginTask("Synchronizing Java sources", 1000);
+					if(context.isOpen() && context.getAutoSync()){
+						process.replaceModel(context.getCurrentEmfWorkspace());
+						renamePackages(new SubProgressMonitor(monitor, 500));
+						synchronizeClasses(new SubProgressMonitor(monitor, 500));
+					}
+					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Sources Synchronized" );
+				}catch(Exception e){
+					return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Sources NOT Synchronized",e );
+
+				}finally{
+					monitor.done();
+				}
 			}
-		}finally{
-			monitor.done();
-		}
+		}.schedule();
 	}
 	public static boolean hasNewJavaSourceFolders(IWorkspaceRoot workspace,TextWorkspace tws){
 		try{
@@ -113,7 +121,6 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 		return hasSourceFolder;
 	}
 	private void renamePackages(IProgressMonitor monitor){
-		
 		Set<NamespaceRenameRequest> renamedNamespaces2 = context.getUmlElementCache().getRenamedNamespaces();
 		monitor.beginTask("Renaming Packages", renamedNamespaces2.size());
 		for(NamespaceRenameRequest rn:renamedNamespaces2){
@@ -129,10 +136,13 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 			monitor.beginTask("Generating Java Code", 1000);
 			Set<INakedNameSpace> clss = context.getUmlElementCache().getModifiedClasses();
 			if(clss.size() > 0){
+				process.replaceModel(new OJPackage());
+				process.replaceModel(new TextWorkspace());
+
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
 				TextWorkspace tws = process.findModel(TextWorkspace.class);
 				if(hasNewJavaSourceFolders(workspace, tws)){
-					process.executePhase(PomGenerationPhase.class, false,new ProgressMonitorTransformationLog(monitor, 100));
+					process.executePhase(PomGenerationPhase.class, false, new ProgressMonitorTransformationLog(monitor, 100));
 					new JavaProjectGenerator(context.getUmlElementCache().getConfig(), process, workspace).schedule();
 				}
 				for(Object object:processElements){
@@ -141,7 +151,7 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 						monitor.subTask("Emitting " + txt.getName());
 						eclipseGenerator.visitUpFirst(txt);
 					}
-					monitor.worked(500/processElements.size());
+					monitor.worked(500 / processElements.size());
 				}
 				context.getUmlElementCache().clearModifiedClass();
 			}

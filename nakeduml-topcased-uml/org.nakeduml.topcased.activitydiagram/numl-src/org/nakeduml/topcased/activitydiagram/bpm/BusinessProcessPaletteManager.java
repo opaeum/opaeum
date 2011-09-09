@@ -11,12 +11,9 @@ import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.requests.CreationFactory;
-import org.eclipse.gmf.runtime.notation.DrawerStyle;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityParameterNode;
-import org.eclipse.uml2.uml.CentralBufferNode;
 import org.eclipse.uml2.uml.ControlFlow;
-import org.eclipse.uml2.uml.DataStoreNode;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.LiteralBoolean;
@@ -34,7 +31,6 @@ import org.topcased.modeler.editor.palette.ModelerConnectionCreationToolEntry;
 import org.topcased.modeler.editor.palette.ModelerCreationToolEntry;
 import org.topcased.modeler.editor.palette.ModelerPaletteManager;
 import org.topcased.modeler.uml.activitydiagram.ActivityImageRegistry;
-import org.topcased.modeler.uml.activitydiagram.ActivitySimpleObjectConstants;
 import org.topcased.modeler.utils.CustomPaletteArrayList;
 
 /**

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import net.sf.nakeduml.feature.ISourceFolderIdentifier;
-import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 import net.sf.nakeduml.metamodel.models.INakedModel;

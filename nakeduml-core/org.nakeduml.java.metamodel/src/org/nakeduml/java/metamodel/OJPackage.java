@@ -2,20 +2,28 @@ package org.nakeduml.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.nakeduml.java.metamodel.generated.OJPackageGEN;
 
 
 
 public class OJPackage extends OJPackageGEN {
-	
+	private List<OJAnnotatedPackageInfo> packageInfos = new ArrayList<OJAnnotatedPackageInfo>();
 	/******************************************************
 	 * The constructor for this classifier.
 	*******************************************************/	
 	public OJPackage() {
 		super();
 	}
-
+	public OJPackage(String name){
+		this.setName(name);
+	}
+	public void addToPackageInfo(OJAnnotatedPackageInfo pk){
+		packageInfos.add(pk);
+		pk.setMyPackage(this);
+	}
 	public String toJavaString(){
 		StringBuilder packInfo = new StringBuilder();
 		if (!getPathName().toJavaString().equals("")) {

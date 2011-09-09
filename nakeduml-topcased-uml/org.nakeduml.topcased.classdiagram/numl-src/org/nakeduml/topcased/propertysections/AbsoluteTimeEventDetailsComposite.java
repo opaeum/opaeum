@@ -6,7 +6,6 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -222,7 +221,7 @@ public class AbsoluteTimeEventDetailsComposite extends Composite{
 			if(bodies.size() == 0){
 				bodies.add(OclBodyComposite.DEFAULT_TEXT);
 			}
-			expressionComposite.getTextControl().setText(bodies.get(0));
+			expressionComposite.setOclContext(timeEvent, (OpaqueExpression) timeEvent.getWhen().getExpr());
 			nameTxt.setText(timeEvent.getName());
 		}else{
 			nameTxt.setText("");

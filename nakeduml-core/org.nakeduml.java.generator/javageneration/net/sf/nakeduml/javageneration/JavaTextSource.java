@@ -4,8 +4,7 @@ import net.sf.nakeduml.textmetamodel.TextSource;
 
 import org.nakeduml.java.metamodel.OJClassifier;
 import org.nakeduml.java.metamodel.OJElement;
-import org.nakeduml.java.metamodel.OJPackage;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackage;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackageInfo;
 
 
 public class JavaTextSource implements TextSource{
@@ -14,16 +13,16 @@ public class JavaTextSource implements TextSource{
 		super();
 		this.javaSource = javaSource;
 	}
-	public JavaTextSource(OJPackage p){
+	public JavaTextSource(OJAnnotatedPackageInfo p){
 		this.javaSource = p;
 	}
 	public char[] toCharArray(){
-		String string = javaSource instanceof OJAnnotatedPackage ? ((OJAnnotatedPackage) javaSource).toPackageInfoString() : javaSource.toJavaString();
+		String string = javaSource.toJavaString();
 		return string.toCharArray();
 	}
 	public boolean hasContent(){
-		if(javaSource instanceof OJAnnotatedPackage){
-			if(((OJAnnotatedPackage) javaSource).getAnnotations().isEmpty()){
+		if(javaSource instanceof OJAnnotatedPackageInfo){
+			if(((OJAnnotatedPackageInfo) javaSource).getAnnotations().isEmpty()){
 				return false;
 			}
 		}

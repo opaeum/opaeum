@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<process xmlns="http://drools.org/drools-5.0/process" id="opium_library_for_bpm_abstract_request" name="opium_library_for_bpm_abstract_request" package-name="org.nakeduml.runtime.bpm" type="RuleFlow" version="0.0">
+  <header>
+    <variables>
+      <variable name="processObject">
+        <type className="org.nakeduml.runtime.bpm.AbstractRequest" name="org.drools.process.core.datatype.impl.type.ObjectDataType"/>
+      </variable>
+    </variables>
+  </header>
+  <nodes>
+    <start height="50" id="300675" name="artificial_start" width="100" x="50" y="50"/>
+    <actionNode height="50" id="800675" name="init" width="100" x="50" y="50">
+      <action dialect="mvel" type="expression">processObject.init(context)</action>
+    </actionNode>
+    <dynamic height="500" id="199" name="Region1" width="500" x="100" y="100">
+      <nodes/>
+      <connections/>
+    </dynamic>
+    <end height="50" id="500675" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+  </nodes>
+  <connections>
+    <connection from="300675" fromType="DROOLS_DEFAULT" to="800675"/>
+    <connection from="800675" fromType="DROOLS_DEFAULT" to="199"/>
+    <connection from="199" fromType="DROOLS_DEFAULT" to="500675"/>
+  </connections>
+</process>

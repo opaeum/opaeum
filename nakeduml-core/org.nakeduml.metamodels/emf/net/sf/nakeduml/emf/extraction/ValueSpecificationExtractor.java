@@ -1,27 +1,14 @@
 package net.sf.nakeduml.emf.extraction;
 
-import java.util.Iterator;
-import java.util.List;
-
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityEdgeImpl;
-import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
-import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
-import net.sf.nakeduml.metamodel.core.PreAndPostConstrained;
-import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedConstraintImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
-import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
-import net.sf.nakeduml.metamodel.statemachines.internal.NakedTransitionImpl;
-import net.sf.nakeduml.validation.CoreValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.stdlib.IOclLibrary;
@@ -30,30 +17,22 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
-import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.ChangeEvent;
-import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.EnumerationLiteral;
-import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
-import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TimeExpression;
-import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfValidationUtil;
@@ -64,7 +43,7 @@ import org.nakeduml.eclipse.EmfValidationUtil;
  * @author ampie
  * 
  */
-@StepDependency(phase = EmfExtractionPhase.class,requires = InstanceExtractor.class,after = InstanceExtractor.class)
+@StepDependency(phase = EmfExtractionPhase.class,requires = {InstanceExtractor.class,TriggerExtractor.class},after = {InstanceExtractor.class,TriggerExtractor.class})
 public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore()
 	public void visitConstraint(Constraint c,NakedConstraintImpl nc){

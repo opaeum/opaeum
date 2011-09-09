@@ -5,17 +5,13 @@ import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
-import net.sf.nakeduml.metamodel.validation.IValidationRule;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Model;
-import org.nakeduml.eclipse.EmfValidationUtil;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 public class NakedValidator implements org.topcased.validation.core.IValidator{

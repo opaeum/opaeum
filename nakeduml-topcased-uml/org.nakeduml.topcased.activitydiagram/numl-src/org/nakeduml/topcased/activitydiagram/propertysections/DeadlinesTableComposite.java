@@ -38,7 +38,6 @@ import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.topcased.commands.AddAnnotationContentCommand;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.utils.LabelHelper;
