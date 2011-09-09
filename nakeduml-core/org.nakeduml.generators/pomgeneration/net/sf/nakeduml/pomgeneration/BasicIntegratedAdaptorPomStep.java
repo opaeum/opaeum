@@ -11,7 +11,6 @@ import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 
 import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 
 @StepDependency(requires = {},before = {},after = {},phase = PomGenerationPhase.class)
@@ -20,35 +19,23 @@ public class BasicIntegratedAdaptorPomStep extends PomGenerationStep{
 	public boolean isIntegrationStep(){
 		return true;
 	}
-	// TODO properties - jmock
 	@Override
 	public Dependency[] getDependencies(){
 		Collection<Dependency> dependencies = getTestDepedencies();
 		for(INakedRootObject rootObject:workspace.getPrimaryRootObjects()){
 			addDependencyToRootObject(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, rootObject, dependencies);
 		}
-		addNumlTestAdaptor(dependencies);
 		addHibernate(dependencies);
-		addJbossJeeSpec(dependencies);
-		addCdi(dependencies);
-		addSeamConfig(dependencies);
-		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
-		nakedUmlUtil.setGroupId("org.nakeduml");
-		nakedUmlUtil.setArtifactId("nakeduml-runtime-adaptor");
-		nakedUmlUtil.setVersion("${numl.version}");
-		nakedUmlUtil.setType("jar");
-		nakedUmlUtil.setExclusions(POMFactory.eINSTANCE.createExclusionsType());
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 	@Override
-	public Properties getParentPomProperties() {
+	public Properties getParentPomProperties(){
 		Properties p = super.getParentPomProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
-		p.put("numl.version",PomGenerationPhase.NUML_VERSION );
+		p.put("numl.version", PomGenerationPhase.NUML_VERSION);
 		return p;
 	}
-
 	@Override
 	public Plugin[] getPlugins(){
 		Collection<Plugin> result = new ArrayList<Plugin>(Arrays.asList(super.getPlugins()));

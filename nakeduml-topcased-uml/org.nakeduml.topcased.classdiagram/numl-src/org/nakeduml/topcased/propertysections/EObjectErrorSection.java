@@ -23,6 +23,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -141,7 +142,10 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 								public void mouseDoubleClick(MouseEvent e){
 								}
 							});
+							lbl.computeSize(300, lbl.getSize().y);
+							lbl.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
 							lbl.setForeground(ColorConstants.red);
+							lbl.layout(true);
 						}
 					}catch(CoreException e){
 						// TODO Auto-generated catch block

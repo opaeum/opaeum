@@ -84,7 +84,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	}
 	protected void addHsqlDbForTest(Collection<Dependency> dependencies){
 		Dependency dependency = POMFactory.eINSTANCE.createDependency();
-		dependency.setGroupId("org.hsqldb");
+		dependency.setGroupId("hsqldb");
 		dependency.setArtifactId("hsqldb");
 		dependency.setVersion("1.8.0.10");
 		dependency.setType("jar");
@@ -189,7 +189,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		dependency.setType("jar");
 		dependencies.add(dependency);
 	}
-	protected void addJbossJeeSpec(Collection<Dependency> dependencies){
+	protected void addJbossJee6Spec(Collection<Dependency> dependencies){
 		Dependency jboss = POMFactory.eINSTANCE.createDependency();
 		jboss.setGroupId("org.jboss.ejb3");
 		jboss.setArtifactId("jboss-ejb3-ext-api");
@@ -251,27 +251,29 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		return result;
 	}
 	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,INakedRootObject rootObject,Collection<Dependency> result){
-		SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
-		if(sourceFolderDefinition.useWorkspaceName()){
-			Dependency d = POMFactory.eINSTANCE.createDependency();
-			d.setGroupId(config.getMavenGroupId());
-			d.setVersion(getVersionVariable());
-			d.setScope("compile");
-			d.setType("jar");
-			d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
-			result.add(d);
-		}else{
-			if(workspace.isPrimaryModel(rootObject)){
+		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
+			SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
+			if(sourceFolderDefinition.useWorkspaceName()){
 				Dependency d = POMFactory.eINSTANCE.createDependency();
 				d.setGroupId(config.getMavenGroupId());
 				d.setVersion(getVersionVariable());
 				d.setScope("compile");
 				d.setType("jar");
-				d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
+				d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
 				result.add(d);
 			}else{
-				// TODO Model level stereotype, or numlconfig.properties get group
-				// id and version artifactid=filename
+				if(workspace.isPrimaryModel(rootObject)){
+					Dependency d = POMFactory.eINSTANCE.createDependency();
+					d.setGroupId(config.getMavenGroupId());
+					d.setVersion(getVersionVariable());
+					d.setScope("compile");
+					d.setType("jar");
+					d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
+					result.add(d);
+				}else{
+					// TODO Model level stereotype, or numlconfig.properties get group
+					// id and version artifactid=filename
+				}
 			}
 		}
 	}

@@ -38,10 +38,6 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	public List<INakedInterfaceRealization> getInterfaceRealizations(){
 		return this.realizations;
 	}
-	public void addInterfaceRealization(INakedInterfaceRealization ir){
-		this.realizations.add(ir);
-		ir.getContract().addImplementingClassifier(this);
-	}
 	@Override
 	public List<INakedProperty> getEffectiveAttributes(){
 		//NB!!! copied the getEffectiveAttributes from NakedClassifierImpl because the sequence of the attributes is important
@@ -104,6 +100,9 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 		super.addOwnedElement(element);
 		if(element instanceof INakedBehavior){
 			this.ownedBehaviors.add((INakedBehavior) element);
+		}else if(element instanceof INakedInterfaceRealization){
+			INakedInterfaceRealization ir= (INakedInterfaceRealization) element;
+			realizations.add(ir);
 		}
 	}
 	public Collection<INakedBehavior> getOwnedBehaviors(){
@@ -113,6 +112,10 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 		super.removeOwnedElement(element);
 		if(element instanceof INakedBehavior){
 			this.ownedBehaviors.remove(element);
+		}else if(element instanceof INakedInterfaceRealization){
+			INakedInterfaceRealization ir= (INakedInterfaceRealization) element;
+			realizations.remove(ir);
+			ir.getContract().removeImplementingClassifier(this);
 		}
 	}
 	public Collection<INakedBehavior> getEffectiveBehaviors(){

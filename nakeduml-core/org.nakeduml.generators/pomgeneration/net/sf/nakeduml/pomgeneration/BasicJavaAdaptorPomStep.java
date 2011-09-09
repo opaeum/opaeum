@@ -21,11 +21,6 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	public Dependency[] getDependencies() {
 		Collection<Dependency> result = getBasicDependencies(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC);
 		addDependencyToRootObject(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, model, result);
-		addNumlAdaptor(result);
-		addNumlTestAdaptor(result);
-		//Provided dependencies from above projects
-		addCdi(result);
-		addJbossJeeSpec(result);
 		addHibernate(result);
 		addSlf4jLog4j(result);
 		addHsqlDbForTest(result);
@@ -41,15 +36,6 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 		result.add(slf4j);
 	}
 
-	private void addNumlAdaptor(Collection<Dependency> result) {
-//		Dependency numlAdaptor = POMFactory.eINSTANCE.createDependency();
-//		numlAdaptor.setGroupId("org.nakeduml");
-//		numlAdaptor.setArtifactId("nakeduml-runtime-adaptor");
-//		numlAdaptor.setScope("compile");
-//		numlAdaptor.setVersion("${numl.version}");
-//		result.add(numlAdaptor);
-//		excludeSlf4j(numlAdaptor);
-	}
 
 	@Override
 	public Properties getProperties(){

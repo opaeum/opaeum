@@ -126,7 +126,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			}
 			if(nakedElement.getId() == null || nakedElement.getName() == null){
 				// allow callers to do own initilization
-				nakedElement.initialize(getId(modelElement), name, true);
+				nakedElement.initialize(getId(modelElement), name, emfWorkspace.getPrimaryModels().contains(modelElement.getModel()));
 			}
 			this.nakedWorkspace.putModelElement(nakedElement);
 			if(modelElement.getOwnedComments().size() > 0){

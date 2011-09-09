@@ -83,8 +83,11 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
 					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
 						removeOwnedElement(ap);
+						if(ap==endToComposite){
+							endToComposite=p;
+						}
+						break;
 					}
-					aps.add((ArtificialProperty) p);
 				}
 			}
 		}
@@ -318,7 +321,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	@Override
 	public PathName getPathName(){
 		if(getMappedImplementationType() == null){
-			return super.getPathName();
+			PathName pathName = super.getPathName();
+			return pathName;
 		}else{
 			// TODO refactor to ClassifierMap
 			// Still required by OCL2Java generation to resolve
@@ -388,6 +392,9 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		if(element instanceof INakedProperty){
 			INakedProperty p = (INakedProperty) element;
 			this.ownedAttributes.remove(p);
+			if(p==endToComposite){
+				endToComposite=null;
+			}
 		}else if(element instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) element;
 			this.ownedOperations.remove(oper);
@@ -397,6 +404,10 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			ownedRules.remove(element);
 		}else if(element instanceof INakedReception){
 			this.ownedReceptions.remove(element);
+		}else if(element instanceof INakedGeneralization){
+			INakedGeneralization generalization = (INakedGeneralization) element;
+			this.generalisations.remove(generalization);
+			generalization.getGeneral().removeSubClass(this);
 		}
 	}
 	@Override

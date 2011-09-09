@@ -107,6 +107,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			np.setAssociation(nakedAss);
 			if(nakedAss.isMarkedForDeletion()){
 				np.markForDeletion();
+				owner.removeOwnedElement(np);
 			}
 			int index = p.getAssociation().getMemberEnds().indexOf(p);
 			nakedAss.setEnd(index, np);
@@ -114,6 +115,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			for(Type type:endTypes){
 				getAffectedElements().add(getNakedPeer(type));
 			}
+			getAffectedElements().add(getNakedPeer(p.getAssociation()));
 		}
 		np.setNavigable(navigable);
 		populateMultiplicityAndBaseType(p, p.getType(), np);

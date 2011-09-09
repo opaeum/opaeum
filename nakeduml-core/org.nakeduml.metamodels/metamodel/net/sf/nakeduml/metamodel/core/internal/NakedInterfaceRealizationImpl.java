@@ -1,24 +1,29 @@
 package net.sf.nakeduml.metamodel.core.internal;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
+
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
-public class NakedInterfaceRealizationImpl extends NakedElementImpl implements INakedInterfaceRealization {
+
+public class NakedInterfaceRealizationImpl extends NakedElementImpl implements INakedInterfaceRealization{
+	private static final long serialVersionUID = 7528018002930390436L;
 	INakedInterface contract;
-	INakedClassifier implementingClassifier;
 	@Override
-	public String getMetaClass() {
+	public String getMetaClass(){
 		return "interfaceRealization";
 	}
-	public INakedInterface getContract() {
+	public INakedInterface getContract(){
 		return contract;
 	}
-	public void setContract(INakedInterface contract) {
+	public void setContract(INakedInterface contract){
+		if(this.contract != null){
+			contract.removeImplementingClassifier(getImplementingClassifier());
+		}
 		this.contract = contract;
+		if(contract != null){
+			contract.addImplementingClassifier(getImplementingClassifier());
+		}
 	}
-	public INakedClassifier getImplementingClassifier() {
-		return implementingClassifier;
-	}
-	public void setImplementingClassifier(INakedClassifier implementingClassifier) {
-		this.implementingClassifier = implementingClassifier;
+	public INakedBehavioredClassifier getImplementingClassifier(){
+		return (INakedBehavioredClassifier) getOwnerElement();
 	}
 }

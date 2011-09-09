@@ -4,7 +4,7 @@
   <groupId>org.nakeduml.structuretests</groupId>
   <artifactId>structure-parent</artifactId>
   <packaging>pom</packaging>
-  <name>structure</name>
+  <name>structure-parent</name>
   <version>0.0.1</version>
   <build>
     <pluginManagement>
@@ -41,6 +41,7 @@
     </pluginManagement>
   </build>
   <modules>
+    <module>null</module>
     <module>structure</module>
   </modules>
   <repositories>
@@ -185,6 +186,13 @@
         <version>1.5.10</version>
         <scope>compile</scope>
       </dependency>
+      <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>1.8.0.10</version>
+        <type>jar</type>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
@@ -193,5 +201,6 @@
     <structure.version>0.0.1</structure.version>
     <hibernate.version>3.4.0.GA</hibernate.version>
     <numl.version>1.0.0.6-SNAPSHOT</numl.version>
+    <null.version>0.0.1</null.version>
   </properties>
 </project>

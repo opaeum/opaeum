@@ -4,13 +4,19 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import javassist.bytecode.SignatureAttribute.ClassSignature;
+
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
@@ -42,6 +48,15 @@ public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 			}
 			if(e.getWeight() != null){
 				elements.add(e.getWeight());
+			}
+		}else if(root instanceof Classifier){
+			Classifier c=(Classifier) root;
+			for(Association association:c.getAssociations()){
+				for(Property property:association.getNavigableOwnedEnds()){
+					if(c.equals(property.getOtherEnd().getType())){
+						elements.add(property);
+					}
+				}
 			}
 		}
 		if(!(root instanceof EmfWorkspace)){

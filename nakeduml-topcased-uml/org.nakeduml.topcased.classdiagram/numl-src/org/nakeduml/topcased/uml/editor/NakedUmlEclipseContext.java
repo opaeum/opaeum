@@ -183,9 +183,14 @@ public class NakedUmlEclipseContext{
 	public void onSave(IProgressMonitor monitor,ResourceSet resourceSet){
 		try{
 			monitor.beginTask("Saving UML Models", listeners.size() * 100);
+			getUmlElementCache().getConfig().getWorkspaceMappingInfo().store();
+			
 			for(NakedUmlContextListener l:listeners){
 				l.onSave(new SubProgressMonitor(monitor, 100));
 			}
+			getUmlDirectory().refreshLocal(1, null);
+		}catch(CoreException e){
+			e.printStackTrace();
 		}finally{
 			monitor.done();
 		}
@@ -273,6 +278,7 @@ public class NakedUmlEclipseContext{
 				getUmlElementCache().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 10));
 				this.directoryEmfWorkspace=dew;
 			}else{
+				currentResourceSet=directoryEmfWorkspace.getResourceSet();
 				monitor.worked(25);
 			}
 			getUmlElementCache().getTransformationProcess().replaceModel(directoryEmfWorkspace);

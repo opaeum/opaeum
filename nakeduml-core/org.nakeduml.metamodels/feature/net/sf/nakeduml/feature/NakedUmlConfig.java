@@ -266,6 +266,8 @@ public class NakedUmlConfig{
 	public void setWorkspaceName(String name){
 		this.props.setProperty(WORKSPACE_NAME, name);
 		store();
-		
+	}
+	public boolean shouldBeCm1Compatible(){
+		return true;
 	}
 }

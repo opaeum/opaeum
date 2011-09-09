@@ -18,7 +18,7 @@ public class AssociationClassToEnd extends AbstractPropertyBridge{
 		super((INakedClassifier) property.getAssociation(), property.getOtherEnd().getNakedBaseType());
 		this.property = property;
 		this.multiplicity = NakedMultiplicityImpl.ONE_ONE;
-		this.id = property.getAssociation() + property.getId();
+		this.id = ((INakedElement) property.getAssociation()).getId() + property.getId();
 		this.mappingInfo = property.getOtherEnd().getNakedBaseType().getMappingInfo().getCopy();
 		this.mappingInfo.setIdInModel(id);
 	}

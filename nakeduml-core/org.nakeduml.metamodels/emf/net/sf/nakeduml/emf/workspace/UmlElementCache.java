@@ -98,6 +98,7 @@ public class UmlElementCache extends EContentAdapter{
 		this.transformationProcess = new TransformationProcess();
 		this.transformationProcess.initialize(cfg, getTransformationSteps());
 		this.nakedModelWorspace = new NakedModelWorkspaceImpl();
+		this.nakedModelWorspace .setWorkspaceMappingInfo(cfg.getWorkspaceMappingInfo());
 		this.transformationProcess.replaceModel(nakedModelWorspace);
 		this.nakedUmlChanges.clear();
 	}
@@ -258,7 +259,7 @@ public class UmlElementCache extends EContentAdapter{
 	}
 	private boolean isSynchronizableElement(EObject e){
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
-				|| e instanceof Region || e instanceof Operation || e instanceof Property || e instanceof Classifier || e instanceof Transition
+				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation()==null)|| e instanceof Classifier || e instanceof Transition
 				|| e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization || e instanceof InterfaceRealization;
 	}
 	public static void sheduleTask(Runnable r,long l){

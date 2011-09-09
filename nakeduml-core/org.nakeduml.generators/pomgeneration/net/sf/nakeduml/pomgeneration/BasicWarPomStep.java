@@ -31,12 +31,6 @@ public class BasicWarPomStep extends PomGenerationStep{
 	public Dependency[] getDependencies(){
 		List<Dependency> dependencies = new ArrayList<Dependency>();
 		super.addDependencyToRootObject(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, model, dependencies);
-		addJbossJeeSpec(dependencies);
-		addCdi(dependencies);
-		addSeamServlet(dependencies);
-		addSeamServletImpl(dependencies);
-		addSeamConfig(dependencies);
-		addNumlTestAdaptor(dependencies);
 		return dependencies.toArray(new Dependency[dependencies.size()]);
 	}
 	@Override
@@ -58,34 +52,6 @@ public class BasicWarPomStep extends PomGenerationStep{
 	@Override
 	public SourceFolderDefinition getExampleTargetDir(){
 		return config.getSourceFolderDefinition(TextSourceFolderIdentifier.WEBAPP_RESOURCE);
-	}
-	@Override
-	public Profile[] getProfiles(){
-		Profile[] profiles = new Profile[2];
-		profiles[0] = createArquillianProfile();
-		Profile profile = POMFactory.eINSTANCE.createProfile();
-		profile.setId("copy-war");
-		profile.setBuild(POMFactory.eINSTANCE.createBuildBase());
-		profile.getBuild().setPlugins(POMFactory.eINSTANCE.createPluginsType());
-		Plugin plugin = POMFactory.eINSTANCE.createPlugin();
-		plugin.setGroupId("org.apache.maven.plugins");
-		plugin.setArtifactId("maven-antrun-plugin");
-		plugin.setVersion("1.1");
-		plugin.setGoals(POMFactory.eINSTANCE.createGoalsType());
-		profile.getBuild().getPlugins().getPlugin().add(plugin);
-		PomUtil.addAnyElementWithContent(plugin.getGoals().getAny(), "goal", "run");
-		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
-		AnyType taskAnyType = PomUtil.addEmptyAnyElement(plugin.getConfiguration().getAny(), "tasks");
-		AnyType anyType = PomUtil.addEmptyAnyElement(taskAnyType.getAny(), "delete");
-		PomUtil.addAnyAttribute(anyType, "dir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war");
-		anyType = PomUtil.addEmptyAnyElement(taskAnyType.getAny(), "copy");
-		PomUtil.addAnyAttribute(anyType, "todir", "${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.war/");
-		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(), "fileset");
-		PomUtil.addAnyAttribute(anyType, "dir", "target/${project.build.finalName}");
-		anyType = PomUtil.addEmptyAnyElement(anyType.getAny(), "include");
-		PomUtil.addAnyAttribute(anyType, "name", "**/*");
-		profiles[1] = profile;
-		return profiles;
 	}
 	@Override
 	public boolean isIntegrationStep(){

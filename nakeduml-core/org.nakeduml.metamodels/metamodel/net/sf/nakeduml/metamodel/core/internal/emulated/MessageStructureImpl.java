@@ -54,8 +54,8 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	public abstract List<INakedProperty> getOwnedAttributes();
 	public void addInterface(INakedInterface in){
 		NakedInterfaceRealizationImpl t = new NakedInterfaceRealizationImpl();
+		t.setOwnerElement(this);
 		t.setContract(in);
-		t.setImplementingClassifier(this);
 		t.setMappingInfo(in.getMappingInfo().getCopy());
 		t.getMappingInfo().setIdInModel(getId() + in.getId());
 		t.initialize(getId() + in.getId(), "artificalRealization", false);
@@ -63,7 +63,8 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 	protected void addSuperclass(INakedClassifier in){
 		NakedGeneralizationImpl t = new NakedGeneralizationImpl();
-		t.setParentAndChild(in, this);
+		t.setOwnerElement(this);
+		t.setGeneral(in);
 		t.setMappingInfo(in.getMappingInfo().getCopy());
 		t.getMappingInfo().setIdInModel(getId() + in.getId());
 		t.initialize(getId() + in.getId(), "artificalGeneralization", false);

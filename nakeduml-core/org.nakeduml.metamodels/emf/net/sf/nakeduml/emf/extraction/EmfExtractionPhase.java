@@ -75,9 +75,6 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 			nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
 			modelWorkspace.addGeneratingRootObject(nakedPackage);
 		}
-		for(Package gp:emfWorkspace.getPrimaryModels()){
-			modelWorkspace.addPrimaryModel((INakedRootObject) getNakedPackage(gp));
-		}
 		for(INakedRootObject ro:modelWorkspace.getRootObjects()){
 			if(!ro.getStatus().isExtracted()){
 				ro.setStatus(RootObjectStatus.EXTRACTED);

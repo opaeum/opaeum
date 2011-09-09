@@ -44,13 +44,7 @@ public class NakedAssociationImpl extends NakedClassifierImpl implements INakedA
 	}
 	@Override
 	public PathName getPathName(){
-		PathName o = ((INakedNameSpace) getOwnerElement()).getPathName();
-		if(getName() == null){
-			o.addString("AynonymousAssocociation");
-		}else{
-			o.addString(getName());
-		}
-		return o;
+		return super.getPathName();
 	}
 	@Override
 	public INakedProperty findEffectiveAttribute(String name){

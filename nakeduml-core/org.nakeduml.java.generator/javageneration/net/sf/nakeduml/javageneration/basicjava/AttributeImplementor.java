@@ -59,15 +59,15 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			NakedStructuralFeatureMap mapToEnd2 = new NakedStructuralFeatureMap(assocClass.getPropertyToEnd2());
 			constr1.addParam("end1", mapToEnd1.javaTypePath());
 			constr1.addParam("end2", mapToEnd2.javaTypePath());
-			constr1.getBody().addToStatements("this." + mapToEnd1.setter() + "(end1)");
-			constr1.getBody().addToStatements("this." + mapToEnd2.setter() + "(end2)");
+			constr1.getBody().addToStatements("this." + mapToEnd1.internalAdder() + "(end1)");
+			constr1.getBody().addToStatements("this." + mapToEnd2.internalAdder() + "(end2)");
 			ojOwner.addToConstructors(constr1);
 			OJConstructor constr2 = new OJConstructor();
 			ojOwner.addToConstructors(constr2);
 			constr2.addParam("end2", mapToEnd2.javaTypePath());
 			constr2.addParam("end1", mapToEnd1.javaTypePath());
-			constr2.getBody().addToStatements("this." + mapToEnd1.setter() + "(end1)");
-			constr2.getBody().addToStatements("this." + mapToEnd2.setter() + "(end2)");
+			constr2.getBody().addToStatements("this." + mapToEnd1.internalAdder() + "(end1)");
+			constr2.getBody().addToStatements("this." + mapToEnd2.internalAdder() + "(end2)");
 			OJAnnotatedOperation clear = new OJAnnotatedOperation("clear");
 			ojOwner.addToOperations(clear);
 			// TODO this object already exists - find it
@@ -79,9 +79,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			NakedStructuralFeatureMap mapFromEnd2 = new NakedStructuralFeatureMap(end2ToAssocationClass);
 			if(assocClass.getEnd1().isNavigable()){
 				clear.getBody().addToStatements(mapToEnd1.getter() + "()." + mapFromEnd1.internalRemover() + "(this)");
+				clear.getBody().addToStatements("this." + mapToEnd1.internalRemover() + "(" + mapToEnd1.getter() + "())");
 			}
 			if(assocClass.getEnd2().isNavigable()){
 				clear.getBody().addToStatements(mapToEnd2.getter() + "()." + mapFromEnd2.internalRemover() + "(this)");
+				clear.getBody().addToStatements("this." + mapToEnd2.internalRemover() + "(" + mapToEnd2.getter() + "())");
 			}
 		}
 		// Do nothing
@@ -103,8 +105,8 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				buildField(owner, map).setTransient(true);
 				OJOperation getter = buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
-				OJIfStatement ifNull = new OJIfStatement(map.fieldname() + "==null", map.fieldname() + "=(" + map.javaBaseType()
-						+ ")"+Environment.class.getName()+ ".getInstance().getComponent(" + map.javaTypePath() + ".class)");
+				OJIfStatement ifNull = new OJIfStatement(map.fieldname() + "==null", map.fieldname() + "=(" + map.javaBaseType() + ")" + Environment.class.getName()
+						+ ".getInstance().getComponent(" + map.javaTypePath() + ".class)");
 				getter.getBody().addToStatements(ifNull);
 				getter.getBody().addToStatements("return " + map.fieldname());
 				owner.addToImports(map.javaBaseTypePath());
@@ -136,19 +138,38 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	@Override
 	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
+		OJAnnotatedClass owner = findJavaClass(c);
 		if(map.isMany()){
-			OJAnnotatedClass owner = findJavaClass(c);
 			// These are all the same as for normal attributes
 			buildAdder(owner, map);
 			buildAddAll(owner, map);
 			buildRemover(owner, map);
 			buildRemoveAll(owner, map);
 			buildClear(owner, map);
-			buildSetter(c, owner, map);
-			// Here are the deviations from normal attributes
-			buildInternalAdder(owner, aMap);
-			buildInternalRemover(owner, aMap);
-			buildGetter(owner, aMap);
+		}
+		buildSetter(c, owner, map);
+		// Here are the deviations from normal attributes
+		buildInternalAdder(owner, aMap);
+		buildInternalRemover(owner, aMap);
+		buildGetter(owner, aMap);
+		buildGetterFor(owner, aMap);
+	}
+	private void buildGetterFor(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+		NakedStructuralFeatureMap mapToAssocationClass = aMap.getEndToAssocationClassMap();
+		OJAnnotatedOperation getter = new OJAnnotatedOperation(mapToAssocationClass.getter() + "For", mapToAssocationClass.javaBaseTypePath());
+		getter.addParam("match", aMap.getAssocationClassToOtherEndMap().javaBaseTypePath());
+		owner.addToOperations(getter);
+		if(mapToAssocationClass.isMany()){
+			OJForStatement forEach = new OJForStatement("var", mapToAssocationClass.javaBaseTypePath(), mapToAssocationClass.getter() + "()");
+			getter.getBody().addToStatements(forEach);
+			forEach.getBody().addToStatements(new OJIfStatement("var." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(match)", "return var"));
+			getter.getBody().addToStatements("return null");
+		}else{
+			OJIfStatement ifEquals = new OJIfStatement(mapToAssocationClass.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(match)");
+			getter.getBody().addToStatements(ifEquals);
+			ifEquals.getThenPart().addToStatements("return " + mapToAssocationClass.fieldname());
+			ifEquals.setElsePart(new OJBlock());
+			ifEquals.getElsePart().addToStatements("return null");
 		}
 	}
 	private void buildInternalAdder(OJAnnotatedClass owner,AssociationClassEndMap aMap){
@@ -157,8 +178,19 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		internalAdder.addParam(map.fieldname(), map.javaBaseTypePath());
 		NakedStructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
 		internalAdder.setStatic(map.isStatic());
-		internalAdder.getBody().addToStatements(
-				getReferencePrefix(owner, map) + mapToAssClass.fieldname() + ".add(new " + mapToAssClass.javaBaseType() + "(this," + map.fieldname() + "))");
+		String ref = getReferencePrefix(owner, map);
+		OJAnnotatedField newOne = new OJAnnotatedField("newOne", mapToAssClass.javaBaseFacadeTypePath());
+		internalAdder.getBody().addToLocals(newOne);
+		newOne.setInitExp("new " + mapToAssClass.javaBaseType() + "(this," + map.fieldname() + ")");
+		if(map.isMany()){
+			internalAdder.getBody().addToStatements(ref + mapToAssClass.fieldname() + ".add(newOne)");
+		}else{
+			internalAdder.getBody().addToStatements(ref + mapToAssClass.fieldname() + "=newOne");
+		}
+		if(aMap.getOtherEndToAssocationClassMap() != null){
+			//Could be non-navigable
+			internalAdder.getBody().addToStatements("newOne." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(newOne)");
+		}
 		owner.addToOperations(internalAdder);
 	}
 	protected String getReferencePrefix(OJAnnotatedClass o,NakedStructuralFeatureMap map){
@@ -169,17 +201,22 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJOperation internalRemover = new OJAnnotatedOperation(map.internalRemover());
 		internalRemover.addParam(map.fieldname(), map.javaBaseTypePath());
 		internalRemover.setStatic(map.isStatic());
+		StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
 		if(!(owner instanceof OJAnnotatedInterface)){
 			internalRemover.setStatic(map.isStatic());
-			StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
 			String newOne = mapToAssClass.javaDefaultValue();
 			newOne = newOne.substring(0, newOne.length() - 1);
-			OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), newOne + getReferencePrefix(owner, map) + mapToAssClass.fieldname() + ")");
-			internalRemover.getBody().addToStatements(foreach);
-			OJIfStatement ifMatch = new OJIfStatement("cur." + aMap.getAssocationClassToEndMap().getter() + "().equals(" + map.fieldname() + ")");
-			foreach.getBody().addToStatements(ifMatch);
-			ifMatch.getThenPart().addToStatements("cur.clear()");
-			ifMatch.getThenPart().addToStatements("break");
+			if(map.isMany()){
+				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), newOne + getReferencePrefix(owner, map) + mapToAssClass.fieldname()
+						+ ")");
+				internalRemover.getBody().addToStatements(foreach);
+				OJIfStatement ifMatch = new OJIfStatement("cur." + aMap.getAssocationClassToOtherEndMap().getter() + "().equals(" + map.fieldname() + ")");
+				foreach.getBody().addToStatements(ifMatch);
+				ifMatch.getThenPart().addToStatements("cur.clear()");
+				ifMatch.getThenPart().addToStatements("break");
+			}else{
+				internalRemover.getBody().addToStatements(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + ".clear()");
+			}
 		}
 		owner.addToOperations(internalRemover);
 	}
@@ -192,13 +229,17 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			result.setInitExp(map.javaDefaultValue());
 			internalRemover.getBody().addToLocals(result);
 			StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
-			OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), getReferencePrefix(owner, map) + mapToAssClass.getter() + "()");
-			internalRemover.getBody().addToStatements(foreach);
-			INakedProperty otherEnd = map.getProperty().getOtherEnd();
 			INakedAssociationClass assc = (INakedAssociationClass) map.getProperty().getAssociation();
+			INakedProperty otherEnd = map.getProperty().getOtherEnd();
 			INakedProperty fromAssToOtherEnd = assc.getEnd1() == otherEnd ? assc.getPropertyToEnd1() : assc.getPropertyToEnd2();
 			NakedStructuralFeatureMap mapFromAssClassToOtherEnd = new NakedStructuralFeatureMap(fromAssToOtherEnd);
-			foreach.getBody().addToStatements("result.add(cur." + mapFromAssClassToOtherEnd.getter() + "())");
+			if(map.isMany()){
+				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), getReferencePrefix(owner, map) + mapToAssClass.getter() + "()");
+				internalRemover.getBody().addToStatements(foreach);
+				foreach.getBody().addToStatements("result.add(cur." + mapFromAssClassToOtherEnd.getter() + "())");
+			}else{
+				result.setInitExp(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter() + "()");
+			}
 			internalRemover.getBody().addToStatements("return result");
 		}
 		owner.addToOperations(internalRemover);

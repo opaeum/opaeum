@@ -223,7 +223,7 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 
 	public void setOtherEnd(INakedProperty end2){
 		this.otherEnd=end2;
-		if(end2.getOtherEnd()!=this){
+		if(end2!=null && end2.getOtherEnd()!=this){
 			end2.setOtherEnd(this);
 		}
 	}

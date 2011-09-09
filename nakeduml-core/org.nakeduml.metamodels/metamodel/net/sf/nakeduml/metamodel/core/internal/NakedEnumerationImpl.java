@@ -27,6 +27,13 @@ public class NakedEnumerationImpl extends NakedClassifierImpl implements INakedE
 		}
 	}
 	@Override
+	public void removeOwnedElement(INakedElement element) {
+		super.removeOwnedElement(element);
+		if(element instanceof INakedEnumerationLiteral){
+			this.literals.remove((INakedEnumerationLiteral) element);
+		}
+	}
+	@Override
 	protected boolean isNamedMember(INakedElement e){
 		return super.isNamedMember(e) || e instanceof INakedEnumerationLiteral;
 	};

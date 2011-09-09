@@ -33,7 +33,7 @@ import org.nakeduml.name.NameConverter;
 	Java6ModelGenerator.class
 })
 public class ToXmlStringBuilder extends AbstractStructureVisitor{
-	@VisitBefore
+	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(INakedInterface i){
 		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
 			OJAnnotatedClass ojClass = findJavaClass(i);
@@ -52,7 +52,8 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 		OJOperation toString = new OJAnnotatedOperation("toXmlReferenceString");
 		toString.setReturnType(new OJPathName("String"));
 		if(!(owner instanceof OJAnnotatedInterface)){
-			toString.getBody().addToStatements("return \"<" + umlClass.getMappingInfo().getJavaName().getDecapped() + " uid=\\\"\"+getUid() + \"\\\">\"");
+			toString.getBody().addToStatements(
+					"return \"<" + umlClass.getMappingInfo().getJavaName() + " uid=\\\"\"+getUid() + \"\\\"/>\"");
 		}
 		owner.addToOperations(toString);
 	}
@@ -66,11 +67,12 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 			OJAnnotatedField sb = new OJAnnotatedField("sb", new OJPathName("StringBuilder"));
 			sb.setInitExp("new StringBuilder()");
 			toString.getBody().addToLocals(sb);
-			toString.getBody().addToStatements("sb.append(\"<" + umlClass.getMappingInfo().getJavaName().getDecapped() + "\")");
-			toString.getBody().addToStatements("sb.append(\" className=\\\"" + umlClass.getMappingInfo().getQualifiedJavaName() + "\\\" \") ");
-			toString.getBody().addToStatements("sb.append(\"uid=\\\"\" + this.getUid() + \"\\\"\") ");
+			toString.getBody().addToStatements("sb.append(\"<" + umlClass.getMappingInfo().getJavaName() + " \")");
+			toString.getBody().addToStatements("sb.append(\"classUuid=\\\"" + umlClass.getId() + "\\\" \")");
+			toString.getBody().addToStatements("sb.append(\"className=\\\"" + OJUtil.classifierPathname(umlClass) + "\\\" \")");
+			toString.getBody().addToStatements("sb.append(\"uid=\\\"\" + this.getUid() + \"\\\" \")");
 			for(INakedProperty f:umlClass.getEffectiveAttributes()){
-				if((f.getNakedBaseType() instanceof INakedSimpleType || f.getNakedBaseType() instanceof INakedEnumeration) && !(OJUtil.isBuiltIn(f) || f.isDerived())){
+				if(XmlUtil.isXmlAttribute(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
 					if(map.isOne()){
@@ -82,7 +84,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 											+ "(" + map.getter() + "())+\"\\\" \")");
 						}else{
 							// ENumeration
-							ifNotNull.getThenPart().addToStatements("sb.append(\"" + map.umlName() + "=\\\"\"+ " + map.getter() + "() + \"\\\" \")");
+							ifNotNull.getThenPart().addToStatements("sb.append(\"" + map.umlName() + "=\\\"\"+ " + map.getter() + "().name() + \"\\\" \")");
 						}
 					}else{
 						toString.getBody().addToStatements("sb.append(\"" + map.umlName() + "=\\\"\")");
@@ -99,48 +101,42 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 					}
 				}
 			}
-			toString.getBody().addToStatements("sb.append(\">\\n\")");
+			toString.getBody().addToStatements("sb.append(\">\")");
 			for(INakedProperty f:umlClass.getEffectiveAttributes()){
-				if(!(f.getNakedBaseType() instanceof INakedSimpleType || f.getNakedBaseType() instanceof INakedEnumeration
-						|| f.getNakedBaseType() instanceof INakedHelper || OJUtil.isBuiltIn(f) || f.isDerived())){
+				if(XmlUtil.isXmlReference(f) || XmlUtil.isXmlSubElement(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
-					if(f.getOtherEnd() == null || !f.getOtherEnd().isComposite()){
-						if(map.isOne()){
-							OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"<" + map.umlName() + "/>\")");
-							toString.getBody().addToStatements(ifNull);
-							ifNull.setElsePart(new OJBlock());
-							ifNull.getElsePart().addToStatements("sb.append(\"<" + map.umlName() + ">\")");
-							if(f.isComposite()){
-								ifNull.getElsePart().addToStatements("sb.append(" + map.getter() + "().toXmlString())");
-							}else{
-								ifNull.getElsePart().addToStatements("sb.append(" + map.getter() + "().toXmlReferenceString())");
-							}
-							ifNull.getElsePart().addToStatements("sb.append(\"</" + map.umlName() + ">\")");
-							ifNull.getElsePart().addToStatements("sb.append(\"\\n\")");
-						}else if(map.isMany() && !f.isInverse() && (f.isComposite() || (f.getAssociation() instanceof INakedAssociationClass || map.isManyToMany()))){
-							toString.getBody().addToStatements("sb.append(\"<" + map.umlName() + ">\")");
-							toString.getBody().addToStatements("sb.append(\"\\n\")");
-							OJForStatement forEach = new OJForStatement();
-							toString.getBody().addToStatements(forEach);
-							forEach.setElemType(map.javaBaseTypePath());
-							forEach.setElemName(map.umlName());
-							forEach.setCollection(map.getter() + "()");
-							forEach.setBody(new OJBlock());
-							if(f.isComposite() || (f.getAssociation() instanceof INakedAssociationClass && !f.isInverse())){
-								forEach.getBody().addToStatements("sb.append(" + map.umlName() + ".toXmlString())");
-							}else if(map.isManyToMany() && !f.isInverse()){
-								forEach.getBody().addToStatements("sb.append(" + map.umlName() + ".toXmlReferenceString())");
-							}else{
-								// OneToManies will be populate by the other side's manyToOne
-							}
-							forEach.getBody().addToStatements("sb.append(\"\\n\")");
-							toString.getBody().addToStatements("sb.append(\"</" + map.umlName() + ">\")");
+					String openProperty = "sb.append(\"\\n<" + map.umlName() + " propertyId=\\\""+ map.getProperty().getMappingInfo().getNakedUmlId() + "\\\">\")";
+					String closeProperty = "sb.append(\"\\n</" + map.umlName() + ">\")";
+					if(map.isOne()){
+						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"\\n<" + map.umlName() + "/>\")");
+						toString.getBody().addToStatements(ifNull);
+						ifNull.setElsePart(new OJBlock());
+						ifNull.getElsePart().addToStatements(openProperty);
+						if(XmlUtil.isXmlSubElement(f)){
+							ifNull.getElsePart().addToStatements("sb.append(\"\\n\" + " + map.getter() + "().toXmlString())");
+						}else{
+							ifNull.getElsePart().addToStatements("sb.append(\"\\n\" + " + map.getter() + "().toXmlReferenceString())");
 						}
+						ifNull.getElsePart().addToStatements(closeProperty);
+					}else{
+						toString.getBody().addToStatements(openProperty);
+						OJForStatement forEach = new OJForStatement();
+						toString.getBody().addToStatements(forEach);
+						forEach.setElemType(map.javaBaseTypePath());
+						forEach.setElemName(map.umlName());
+						forEach.setCollection(map.getter() + "()");
+						forEach.setBody(new OJBlock());
+						if(XmlUtil.isXmlSubElement(f)){
+							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.umlName() + ".toXmlString())");
+						}else{
+							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.umlName() + ".toXmlReferenceString())");
+						}
+						toString.getBody().addToStatements(closeProperty);
 					}
 				}
 			}
-			toString.getBody().addToStatements("sb.append(\"</" + umlClass.getMappingInfo().getJavaName().getDecapped() + ">\")");
+			toString.getBody().addToStatements("sb.append(\"\\n</" + umlClass.getMappingInfo().getJavaName() + ">\")");
 			toString.getBody().addToStatements("return sb.toString()");
 		}
 	}

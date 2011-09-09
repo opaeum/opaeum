@@ -14,7 +14,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecoretools.tabbedproperties.sections.AbstractEnumerationPropertySection;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.custom.CCombo;
@@ -28,6 +27,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.topcased.modeler.uml.editor.UMLEditor;
+import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 
 public class TimeUnitSection extends AbstractEnumerationPropertySection{
 //	Stereotype stereotype;
@@ -46,7 +46,7 @@ public class TimeUnitSection extends AbstractEnumerationPropertySection{
 				UMLEditor ue = (UMLEditor) e;
 				EList<Resource> resources = ue.getResourceSet().getResources();
 				for(Resource r:resources){
-					if(r.getURI().toString().contains("NakedUMLProfile.")){
+					if(r.getURI().toString().contains("OpiumProfile.")){
 						p = (Profile) r.getContents().get(0);
 						break;
 					}

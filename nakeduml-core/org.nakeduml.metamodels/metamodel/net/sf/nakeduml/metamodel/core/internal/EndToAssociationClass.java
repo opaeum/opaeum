@@ -17,12 +17,11 @@ import org.nakeduml.name.NameConverter;
 public class EndToAssociationClass extends AbstractPropertyBridge{
 	private INakedProperty property;
 	public EndToAssociationClass(INakedProperty property){
-		super(property.getOtherEnd().getNakedBaseType(),(INakedClassifier) property.getAssociation());
+		super(property.getOtherEnd().getNakedBaseType(), (INakedClassifier) property.getAssociation());
 		this.property = property;
 		INakedAssociation association = (INakedAssociation) property.getAssociation();
-		this.id=property.getId() + association.getId();
+		this.id = property.getId() + association.getId();
 		this.mappingInfo.setIdInModel(id);
-
 	}
 	@Override
 	public boolean isNavigable(){
@@ -32,7 +31,6 @@ public class EndToAssociationClass extends AbstractPropertyBridge{
 	public Collection<? extends INakedElement> getOwnedElements(){
 		return Collections.emptySet();
 	}
-
 	@Override
 	public boolean isInverse(){
 		return true;
@@ -42,7 +40,7 @@ public class EndToAssociationClass extends AbstractPropertyBridge{
 		return true;
 	}
 	public String getName(){
-		return  NameConverter.decapitalize(property.getAssociation().getName()) + "_" + property.getName();
+		return NameConverter.decapitalize(property.getAssociation().getName()) + "_" + property.getName();
 	}
 	@Override
 	public Collection<INakedConnectorEnd> getConnectorEnd(){
@@ -50,7 +48,7 @@ public class EndToAssociationClass extends AbstractPropertyBridge{
 	}
 	@Override
 	public void setType(IClassifier type){
-		this.type=type;
+		this.type = type;
 	}
 	@Override
 	public IClassifier getType(){
@@ -72,5 +70,8 @@ public class EndToAssociationClass extends AbstractPropertyBridge{
 	public INakedClassifier getNakedBaseType(){
 		return (INakedClassifier) property.getAssociation();
 	}
-
+	public int getIndexInAssocation(){
+		boolean b = property.getAssociation().getEnd1() == property;
+		return b ? 0 : 1;
+	}
 }

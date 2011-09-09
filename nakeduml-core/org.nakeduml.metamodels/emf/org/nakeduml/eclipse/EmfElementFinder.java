@@ -32,7 +32,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
-		List<TypedElement> result =  new ArrayList<TypedElement>( getPropertiesInScope(c));
+		List<TypedElement> result = new ArrayList<TypedElement>(getPropertiesInScope(c));
 		if(c instanceof Behavior){
 			Behavior b = (Behavior) c;
 			result.addAll(b.getOwnedParameters());
@@ -42,13 +42,20 @@ public class EmfElementFinder{
 		}
 		return result;
 	}
+	public static Classifier getNearestClassifier(Element e){
+		if(e instanceof Classifier){
+			return (Classifier) e;
+		}else{
+			return (Classifier) getContainer(e);
+		}
+	}
 	public static List<TypedElement> getTypedElementsInScope(Element behavioralElement){
 		List<TypedElement> result = new ArrayList<TypedElement>();
 		if(behavioralElement != null){
 			Element a = behavioralElement;
 			if(a instanceof Constraint){
 				if(a.getOwner() instanceof Action){
-					Action act=(Action) a.getOwner();
+					Action act = (Action) a.getOwner();
 					result.addAll(act.getInputs());
 					if(act.getLocalPostconditions().contains(a)){
 						result.addAll(act.getOutputs());
@@ -115,7 +122,7 @@ public class EmfElementFinder{
 			result.addAll(getPropertiesInScope(ir.getGeneral()));
 		}
 		if(c instanceof org.eclipse.uml2.uml.Class){
-			org.eclipse.uml2.uml.Class cls=(Class) c;
+			org.eclipse.uml2.uml.Class cls = (Class) c;
 			for(InterfaceRealization ir:cls.getInterfaceRealizations()){
 				result.addAll(getPropertiesInScope(ir.getContract()));
 			}
@@ -142,18 +149,21 @@ public class EmfElementFinder{
 				}
 			}
 			return null;
-//			throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
+			// throw new IllegalStateException("No context could be found for Event:" + event.getQualifiedName());
 		}else if(s.eContainer() instanceof EAnnotation){
-			return ((EAnnotation)s.eContainer()).getEModelElement();
+			return ((EAnnotation) s.eContainer()).getEModelElement();
 		}else if(s instanceof Property && s.eContainer() instanceof Association){
-			Property p=(Property) s;
-			if(p.isNavigable()){
+			Property p = (Property) s;
+			if(p.getOtherEnd() != null && p.isNavigable()){
 				return p.getOtherEnd().getType();
 			}else{
 				return s.eContainer();
 			}
+		}else if(s instanceof InterfaceRealization){
+			return ((InterfaceRealization) s).getImplementingClassifier();
+		}else if(s instanceof Generalization){
+			return ((Generalization) s).getSpecific();
 		}
 		return s.eContainer();
 	}
-
 }

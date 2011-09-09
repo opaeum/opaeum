@@ -9,37 +9,35 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.dialect.Dialect;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
-public class HibernateUtil {
+public class HibernateUtil{
 	private static Dialect dialect;
-
-	public static Dialect getHibernateDialect(NakedUmlConfig config) {
-		if (dialect == null) {
+	public static Dialect getHibernateDialect(NakedUmlConfig config){
+		if(dialect == null){
 			Dialect d = buildHibernateDialect(config);
 			dialect = d;
 		}
 		return dialect;
 	}
-
-	private static Dialect buildHibernateDialect(NakedUmlConfig config) {
+	private static Dialect buildHibernateDialect(NakedUmlConfig config){
 		Dialect d = null;
-		try {
+		try{
 			d = (Dialect) Class.forName(config.getJdbcDialect()).newInstance();
-		} catch (InstantiationException e) {
+		}catch(InstantiationException e){
 			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+		}catch(IllegalAccessException e){
 			throw new RuntimeException(e);
-		} catch (ClassNotFoundException e) {
+		}catch(ClassNotFoundException e){
 			throw new RuntimeException(e);
 		}
 		return d;
 	}
-
-	public static void addAny(OJAnnotatedField field, NakedStructuralFeatureMap map) {
+	public static void addAny(OJAnnotatedField field,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		String column = p.getMappingInfo().getPersistentName().getAsIs();
 		JpaUtil.addJoinColumn(field, column, false);
@@ -50,15 +48,13 @@ public class HibernateUtil {
 		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(p.getNakedBaseType())));
 		field.addAnnotationIfNew(any);
 	}
-
-	public static void applyFilter(OJAnnotatedField field, Dialect dialect) {
+	public static void applyFilter(OJAnnotatedField field,Dialect dialect){
 		OJAnnotationValue filter = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Filter"));
 		filter.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
 		filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + dialect.getCurrentTimestampSQLFunctionName()));
 		field.addAnnotationIfNew(filter);
 	}
-
-	public static void addCascade(OJAnnotatedField field, CascadeType deleteOrphan) {
+	public static void addCascade(OJAnnotatedField field,CascadeType deleteOrphan){
 		OJAnnotationValue cascade = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Cascade"));
 		OJAnnotationAttributeValue value = new OJAnnotationAttributeValue("value");
 		// Hack, this is due to import clash
@@ -67,9 +63,8 @@ public class HibernateUtil {
 		cascade.putAttribute(value);
 		field.addAnnotationIfNew(cascade);
 	}
-
-	public static void addManyToAny(INakedClassifier umlOwner, OJAnnotatedField field, NakedStructuralFeatureMap map,NakedUmlConfig config) {
-		JpaUtil.addJoinTable(umlOwner, map, field,config);
+	public static void addManyToAny(INakedClassifier umlOwner,OJAnnotatedField field,NakedStructuralFeatureMap map,NakedUmlConfig config){
+		JpaUtil.addJoinTable(umlOwner, map, field, config);
 		OJAnnotationValue any = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.ManyToAny"));
 		OJAnnotationValue metaColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 		INakedProperty p = map.getProperty();
@@ -78,15 +73,13 @@ public class HibernateUtil {
 		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(p.getNakedBaseType())));
 		field.addAnnotationIfNew(any);
 	}
-
-	public static String metadefName(INakedClassifier nakedBaseType) {
+	public static String metadefName(INakedClassifier nakedBaseType){
 		return nakedBaseType.getMappingInfo().getJavaName().getAsIs();
 	}
-
 	public static void addEnumResolverAsCustomType(OJAnnotatedField field,OJPathName pn){
 		field.removeAnnotation(new OJPathName("javax.persistence.Enumerated"));
 		OJAnnotationValue type = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Type"));
-		type.putAttribute("type", pn.toJavaString()+"Resolver");
+		type.putAttribute("type", pn.toJavaString() + "Resolver");
 		field.putAnnotation(type);
 	}
 }

@@ -28,6 +28,7 @@ import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.nakeduml.runtime.jbpm.AbstractJbpmKnowledgeBase;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -59,7 +60,8 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 			Collection<INakedBehavior> processes = new HashSet<INakedBehavior>();
 			OJPathName pn = Jbpm5Util.jbpmKnowledgeBase(workspace);
 			createKnowledgeBase(primaryRootObjects2, processes, pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
-			JpaUtil.addNamedQueries(findOrCreatePackageInfo(pn.getHead(),JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC), "ProcessInstancesWaitingForEvent",
+			OJAnnotatedPackageInfo pkgInfo = findOrCreatePackageInfo(pn.getHead(),JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
+			JpaUtil.addNamedQueries(pkgInfo, "ProcessInstancesWaitingForEvent",
 					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}

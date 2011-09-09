@@ -72,7 +72,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			// do nothing
 		}else{
 			INakedProperty endToComposite = cp.getEndToComposite();
-			if(endToComposite == null){
+			if(endToComposite == null && !cp.getIsAbstract()){
 				if(cp instanceof INakedBehavior){
 					INakedBehavior b = (INakedBehavior) cp;
 					if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
@@ -107,6 +107,9 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 					getAffectedElements().add(cp.getEndToComposite().getNakedBaseType());
 					getAffectedElements().add(cp);
 				}
+			}else  if(cp.getEndToComposite()!=null){
+				cp.removeObsoleteArtificialProperties();
+				cp.getEndToComposite().getNakedBaseType().removeObsoleteArtificialProperties();
 			}
 		}
 	}

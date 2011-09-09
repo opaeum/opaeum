@@ -35,8 +35,9 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-		  <groupId>hsqldb</groupId>
+		  <groupId>org.hsqldb</groupId>
 		  <artifactId>hsqldb</artifactId>
+		  <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>

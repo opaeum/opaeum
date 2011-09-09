@@ -6,10 +6,9 @@ import net.sf.nakeduml.metamodel.core.INakedPowerTypeInstance;
 /**
  * @author Ampie Barnard
  */
-public class NakedGeneralizationImpl extends NakedElementImpl implements INakedElement, INakedGeneralization {
+public class NakedGeneralizationImpl extends NakedElementImpl implements INakedGeneralization {
 	private static final long serialVersionUID = 6461786164692252056L;
 	protected INakedClassifier supertype;
-	protected INakedClassifier subtype;
 	private INakedPowerTypeInstance powerTypeLiteral;
 	public NakedGeneralizationImpl() {
 		super();
@@ -22,15 +21,19 @@ public class NakedGeneralizationImpl extends NakedElementImpl implements INakedE
 		return this.powerTypeLiteral;
 	}
 	public INakedClassifier getSpecific() {
-		return this.subtype;
+		return (INakedClassifier) this.getOwnerElement();
 	}
 	public INakedClassifier getGeneral() {
 		return this.supertype;
 	}
-	public void setParentAndChild(INakedClassifier parent, INakedClassifier child) {
+	public void setGeneral(INakedClassifier parent) {
+		if(this.supertype!=null){
+			this.supertype.removeSubClass(getSpecific());
+		}
 		this.supertype = parent;
-		this.subtype = child;
-		parent.addSubClass(child);
+		if(this.supertype!=null){
+			this.supertype.addSubClass(getSpecific());
+		}
 	}
 	@Override
 	public String getMetaClass() {

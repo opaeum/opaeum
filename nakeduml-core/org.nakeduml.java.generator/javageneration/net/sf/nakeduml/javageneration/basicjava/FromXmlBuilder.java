@@ -21,7 +21,9 @@ import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJTryStatement;
 import org.nakeduml.java.metamodel.OJWhileStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
@@ -30,17 +32,18 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-	Java6ModelGenerator.class,ToXmlStringBuilder.class
+		Java6ModelGenerator.class,ToXmlStringBuilder.class
 },after = {
 	Java6ModelGenerator.class
 })
 public class FromXmlBuilder extends AbstractStructureVisitor{
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitInterface(INakedInterface i){
 		if(OJUtil.hasOJClass(i) && !(i instanceof INakedHelper)){
 			OJAnnotatedClass ojClass = findJavaClass(i);
@@ -51,6 +54,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 	private void visitClass(INakedClassifier c){
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedEnumeration) && c.getStereotype(StereotypeNames.HELPER) == null){
 			OJAnnotatedClass ojClass = findJavaClass(c);
+			ojClass.addToImports(Environment.class.getName());
 			ojClass.addToImports(Node.class.getName());
 			ojClass.addToImports(NodeList.class.getName());
 			ojClass.addToImports(Element.class.getName());
@@ -66,26 +70,17 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
 			for(INakedProperty f:umlClass.getEffectiveAttributes()){
-				if(!(f.getNakedBaseType() instanceof INakedSimpleType || f.getNakedBaseType() instanceof INakedEnumeration
-						|| f.getNakedBaseType() instanceof INakedHelper || f.isDerived())){
+				if(XmlUtil.isXmlReference(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
-					if(!f.isInverse()){
-						if(OJUtil.hasOJClass((INakedClassifier) f.getAssociation())){
-							OJBlock then = iterateThroughPropertyValues(map, whileItems);
-							// TODO instantiate the assocation object and populate it
-							then.addToStatements((map.isMany() ? map.adder() : map.setter()) + "((" + map.javaBaseType()
-									+ ")map.get(((Element)xml).getAttribute(\"uid\")))");
-						}else if(!(f.isComposite() || (f.getOtherEnd() != null && f.getOtherEnd().isComposite()))){
-							OJBlock then = iterateThroughPropertyValues(map, whileItems);
-							then.addToStatements((map.isMany() ? map.adder() : map.setter()) + "((" + map.javaBaseType()
-									+ ")map.get(((Element)xml).getAttribute(\"uid\")))");
-						}
-					}else if(f.isComposite()){
-						OJBlock then = iterateThroughPropertyValues(map, whileItems);
-						then.addToStatements("((" + map.javaBaseType()
-								+ ")map.get(((Element)xml).getAttribute(\"uid\"))).populateReferencesFromXml((Element)currentPropertyValueNode, map)");
-					}
+					OJBlock then = iterateThroughPropertyValues(map, whileItems);
+					then.addToStatements((map.isMany() ? map.adder() : map.setter()) + "((" + map.javaBaseType()
+							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\")))");
+				}else if(XmlUtil.isXmlSubElement(f)){
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+					OJBlock then = iterateThroughPropertyValues(map, whileItems);
+					then.addToStatements("((" + map.javaBaseType()
+							+ ")map.get(((Element)currentPropertyValueNode).getAttribute(\"uid\"))).populateReferencesFromXml((Element)currentPropertyValueNode, map)");
 				}
 			}
 		}
@@ -106,19 +101,16 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			toString.getBody().addToStatements("setUid(xml.getAttribute(\"uid\"))");
 			for(INakedProperty f:umlClass.getEffectiveAttributes()){
-				if((f.getNakedBaseType() instanceof INakedSimpleType || f.getNakedBaseType() instanceof INakedEnumeration) && !(OJUtil.isBuiltIn(f) || f.isDerived())){
+				if(XmlUtil.isXmlAttribute(f)){
 					populateAttributes(owner, rootObjectName, toString, f);
 				}
 			}
 			OJWhileStatement whileItems = iterateThroughProperties(toString);
 			for(INakedProperty f:umlClass.getEffectiveAttributes()){
-				if(!(f.getNakedBaseType() instanceof INakedSimpleType || f.getNakedBaseType() instanceof INakedEnumeration
-						|| f.getNakedBaseType() instanceof INakedHelper || f.isDerived())){
+				if(XmlUtil.isXmlSubElement(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
-					if(f.isComposite() && !OJUtil.hasOJClass((INakedClassifier) f.getAssociation()) &&isPersistent(f.getNakedBaseType()) || f.getNakedBaseType() instanceof INakedInterface){
-						populatePropertyValues(map, whileItems);
-					}
+					populatePropertyValues(map, whileItems);
 				}
 			}
 		}
@@ -143,7 +135,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 	protected void populateAttributes(OJAnnotatedClass owner,String rootObjectName,OJOperation toString,INakedProperty f){
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 		owner.addToImports(map.javaBaseTypePath());
-		OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + map.umlName() + "\")!=null");
+		OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + map.umlName() + "\").length()>0");
 		toString.getBody().addToStatements(ifNotNull);
 		if(map.isOne()){
 			if(f.getNakedBaseType() instanceof INakedSimpleType){
@@ -159,7 +151,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			if(f.getNakedBaseType() instanceof INakedSimpleType){
 				forEach.getBody().addToStatements(map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + f.getNakedBaseType().getName() + "(val))");
 			}else{
-				forEach.getBody().addToStatements(map.adder() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.umlName() + "\")))");
+				forEach.getBody().addToStatements(map.adder() + "(" + map.javaBaseType() + ".valueOf(val))");
 			}
 		}
 	}
@@ -167,15 +159,20 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		OJBlock thenPart = iterateThroughPropertyValues(map, w);
 		OJAnnotatedField curVal = new OJAnnotatedField("curVal", map.javaBaseTypePath());
 		thenPart.addToLocals(curVal);
-		curVal.setInitExp("(" + map.javaBaseType()
-				+ ")IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute(\"className\")))");
+		OJTryStatement tryNewInstance = new OJTryStatement();
+		thenPart.addToStatements(tryNewInstance);
+		tryNewInstance.getTryPart().addToStatements("curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
+		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
+		tryNewInstance.getCatchPart().addToStatements(
+				"curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
+		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
 		String writer = map.isMany() ? map.adder() : map.setter();
 		thenPart.addToStatements("this." + writer + "(curVal)");
-		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
 		thenPart.addToStatements("map.put(curVal.getUid(), curVal)");
 	}
 	protected OJBlock iterateThroughPropertyValues(NakedStructuralFeatureMap map,OJWhileStatement w){
-		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals(\"" + map.umlName() + "\")");
+		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\"" + map.umlName()
+				+ "\") || ((Element)currentPropertyNode).getAttribute(\"propertyId\").equals(\"" + map.getProperty().getMappingInfo().getNakedUmlId() + "\"))");
 		OJAnnotatedField propertyValueNodes = new OJAnnotatedField("propertyValueNodes", new OJPathName(NodeList.class.getName()));
 		ifInstance.getThenPart().addToLocals(propertyValueNodes);
 		propertyValueNodes.setInitExp("currentPropertyNode.getChildNodes()");

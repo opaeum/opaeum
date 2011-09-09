@@ -546,11 +546,14 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			case UMLPackage.ENUMERATION__OWNED_LITERAL:
 				switch(notification.getEventType()){
 				case Notification.ADD:
-					EList<Classifier> classifiers = ((EnumerationLiteral) notification.getNewValue()).getClassifiers();
+					EnumerationLiteral literal = (EnumerationLiteral) notification.getNewValue();
+					StereotypesHelper.getNumlAnnotation(en).getReferences().add(literal);
+					EList<Classifier> classifiers = literal.getClassifiers();
 					if(!classifiers.contains(en)){
+						// This should trigger normal Slot synchronization logic but somehow it doesn't??
 						classifiers.add(en);
+						synchronizeSlots(en, literal);
 					}
-					// This would trigger normal Slot synchronization logic
 					break;
 				case Notification.ADD_MANY:
 					break;

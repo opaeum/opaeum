@@ -20,6 +20,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.components.INakedComponent;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -46,7 +47,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			List<? extends INakedProperty> effectiveAttributes = c.getEffectiveAttributes();
 			for(INakedProperty p:effectiveAttributes){
 				if(p.isNavigable() && (p.getOwner() == c || p.getOwner() instanceof INakedInterface)){
-					if( OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
+					if(OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
 						visitAssociationClassProperty(c, new AssociationClassEndMap(p));
 					}else{
 						visitProperty(c, OJUtil.buildStructuralFeatureMap(p));
@@ -130,7 +131,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		visitFeaturesOf(msg);
 	}
 	public void visitCallAction(INakedCallAction node){
-		if(node.getCalledElement().getContext() == null && node.getMessageStructure()!=null){
+		if(node.getCalledElement().getContext() == null && node.getMessageStructure() != null){
 			// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
 			// persistence
 			INakedComplexStructure umlOwner = node.getMessageStructure();

@@ -6,9 +6,12 @@ import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
+import net.sf.nakeduml.metamodel.core.INakedHelper;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
+import net.sf.nakeduml.metamodel.core.internal.EndToAssociationClass;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
@@ -47,6 +50,7 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 		}
 	}
 	protected final NameWrapper generateSqlName(INakedElement nme) {
+
 		String generatedName = null;
 		INakedValueSpecification existingSqlName = getTaggedValue(nme, "persistentName", "persistenceType");
 		if (existingSqlName != null) {
@@ -61,7 +65,10 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 			if(tew instanceof INakedOutputPin){
 				name=name+"On" + NameConverter.capitalize(tew.getOwnerElement().getName());//TO ensure uniqueness of name
 			}
-			if (tew.getNakedBaseType() instanceof INakedComplexStructure) {
+			//TODO check if this was necessary
+			boolean isCmCompatible=true;
+			boolean isPersistentInterface = tew.getNakedBaseType() instanceof INakedInterface && !(tew.getNakedBaseType() instanceof INakedHelper);
+			if (tew.getNakedBaseType() instanceof INakedComplexStructure || (!isCmCompatible && isPersistentInterface)) {
 				// foreign key
 				// TODO re-evaluate the _id thing
 				generatedName = NameConverter.toUnderscoreStyle(name) + "_id";

@@ -39,7 +39,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		public MappingCollector(INakedModelWorkspace workspace){
 			this.workspace = workspace;
 		}
-		@VisitBefore
+		@VisitBefore(matchSubclasses=true)
 		public void signal(INakedSignal s){
 			signals.add(OJUtil.classifierPathname(s));
 		}

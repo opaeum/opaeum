@@ -17,6 +17,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.hibernate.Session;
 import org.nakeduml.hibernate.domain.EventOccurrence;
 import org.nakeduml.runtime.domain.IActiveObject;
 import org.nakeduml.runtime.domain.ISignal;
@@ -112,6 +113,7 @@ public class StandaloneJpaEnvironment extends Environment {
 	private EntityManager getEntityManager() {
 		if(this.entityManager==null){
 			entityManager=openHibernateSession();
+			((Session)entityManager.getDelegate()).enableFilter("noDeletedObjects");
 		}
 		return entityManager;
 	}

@@ -55,7 +55,7 @@ public class EmfParameterUtil{
 	public static int calculateOwnedAttributeIndex(Property assEnd){
 		List<Property> ownedAttributes = new ArrayList<Property>();
 		Element owner = assEnd.getOwner();
-		if(owner instanceof Association){
+		if(owner == assEnd.getAssociation()  && assEnd.isNavigable()){
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
 		}else if(owner instanceof Classifier){
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) owner);

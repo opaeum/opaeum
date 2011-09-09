@@ -1,8 +1,9 @@
 package net.sf.nakeduml.metamodel.core;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
+
 public interface INakedInterfaceRealization extends INakedElement {
 	INakedInterface getContract();
-	INakedClassifier getImplementingClassifier();
+	INakedBehavioredClassifier getImplementingClassifier();
 	void setContract(INakedInterface c);
-	void setImplementingClassifier(INakedClassifier c);
 }

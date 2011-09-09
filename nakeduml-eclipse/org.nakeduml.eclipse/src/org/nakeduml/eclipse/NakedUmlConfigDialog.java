@@ -124,8 +124,8 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		}
 		for(IResource r:members){
 			if(r.getLocation().removeFileExtension().lastSegment().toLowerCase().equals(txtWorkspaceIdentifier.getText().toLowerCase())){
-				this.setErrorMessage("The Project Identifier cannot be the same as the name of one of the models");
-				return;
+//				this.setErrorMessage("The Project Identifier cannot be the same as the name of one of the models");
+//				return;
 			}
 		}
 		config.loadDefaults(txtWorkspaceIdentifier.getText());

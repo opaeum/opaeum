@@ -41,10 +41,11 @@ import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		AttributeImplementor.class,PersistentNameGenerator.class,ToStringBuilder.class
 },after = {
-	AttributeImplementor.class,ToStringBuilder.class
+		AttributeImplementor.class,ToStringBuilder.class
 })
 public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static boolean DEVELOPMENT_MODE = true;
+	public static boolean isJpa2 = false;
 	protected void visitComplexStructure(INakedComplexStructure complexType){
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
@@ -184,12 +185,14 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		}
 	}
 	private void implementManyForValueTypes(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
-		OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
-		OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetClass", OJUtil.classifierPathname(f.getNakedBaseType()));
-		collectionOfElements.putAttribute(targetElement);
-		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
-		collectionOfElements.putAttribute(lazy);
-		field.addAnnotationIfNew(collectionOfElements);
+		if(isJpa2){
+			OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("javax.persistence.ElementCollection"));
+			OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetClass", OJUtil.classifierPathname(f.getNakedBaseType()));
+			collectionOfElements.putAttribute(targetElement);
+			OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
+			collectionOfElements.putAttribute(lazy);
+			field.addAnnotationIfNew(collectionOfElements);
+		}
 		OJAnnotationValue joinTable = new OJAnnotationValue(new OJPathName("javax.persistence.JoinTable"));
 		INakedElement umlOwner = f.getOwner();
 		String tableName = umlOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
@@ -201,10 +204,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
 		field.addAnnotationIfNew(joinTable);
 	}
-
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = owner.findToString();
-		if(toString==null){
+		if(toString == null){
 			toString = new OJAnnotatedOperation("toString");
 			owner.addToOperations(toString);
 			toString.setReturnType(new OJPathName("String"));

@@ -68,6 +68,7 @@ public class TextDirectory extends TextOutputNode{
 		TextDirectory root = (TextDirectory) findNode(path.get(0));
 		if(root == null){
 			root = new TextDirectory(this, path.get(0));
+			children.add(root);
 		}
 		if(path.size() == 1){
 			return root;

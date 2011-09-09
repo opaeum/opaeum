@@ -33,6 +33,10 @@ public abstract class JavaMetaInfoMap{
 	public Collection<Class<?>> getAllClasses(){
 		return allClasses;
 	}
+	@SuppressWarnings("unchecked")
+	public <T> T newInstance(String uuid){
+		return (T)IntrospectionUtil.newInstance(getClass(uuid));
+	}
 	protected void putMethod(Class<? extends Object> c,String uuid,int nakedUmlId){
 		// Will only be called from the declaring model, so this nakedUmlId
 		// won't be unique, but does serve to identifiy the handler

@@ -189,15 +189,17 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					oper.getBody().addToLocals(result);
 					List<? extends INakedParameter> args = o.getArgumentParameters();
 					for(INakedParameter arg:args){
-						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier)o.getContext(), arg);
+						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier) o.getContext(), arg);
 						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.umlName() + ")");
 					}
 					if(withReturnInfo){
 						oper.getBody().addToStatements("result.setReturnInfo(context)");
 					}
-					if(map.getOperation() instanceof INakedOperation){
+					if(o instanceof INakedOperation){
 						oper.getBody().addToStatements("result.execute()");
-						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
+						if(!((INakedOperation) o).isQuery()){
+							oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
+						}
 					}
 					oper.getBody().addToStatements("return result");
 				}else if(o.getReturnParameter() != null){
@@ -205,9 +207,11 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					OJAnnotatedField result = new OJAnnotatedField("result", map.javaReturnTypePath());
 					result.setInitExp(map.javaReturnDefaultValue());
 					oper.getBody().addToLocals(result);
-					oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
+					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
+						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
+					}
 					oper.getBody().addToStatements("return result");
-				}else{
+				}else if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 					oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 				}
 			}

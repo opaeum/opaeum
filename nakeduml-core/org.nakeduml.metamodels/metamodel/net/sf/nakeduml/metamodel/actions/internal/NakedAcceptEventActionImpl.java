@@ -66,7 +66,7 @@ public class NakedAcceptEventActionImpl extends NakedActionImpl implements INake
 	@Override
 	public boolean containsTriggerType(Class<? extends INakedEvent> t){
 		for(INakedTrigger tr:getTriggers()){
-			if(t.isInstance(tr)){
+			if(t.isInstance(tr.getEvent())){
 				return true;
 			}
 		}

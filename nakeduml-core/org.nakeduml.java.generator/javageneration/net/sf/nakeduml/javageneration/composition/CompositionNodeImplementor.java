@@ -9,6 +9,7 @@ import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
+import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.AttributeExpressionGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
@@ -99,9 +100,14 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			ICompositionParticipant entity = (ICompositionParticipant) c;
 			if(entity.hasComposite() && !entity.getEndToComposite().isDerived()){
 				INakedProperty endToComposite = entity.getEndToComposite();
-				StructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
-				StructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
-				addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "((" + ojClass.getName() + ")this)");
+				if(endToComposite.getAssociation() instanceof INakedAssociationClass){
+					AssociationClassEndMap aMap = new AssociationClassEndMap(endToComposite);
+					addToOwningObject.getBody().addToStatements(aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + aMap.getEndToAssocationClassMap().getter() + "())");
+				}else{
+					StructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
+					StructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
+					addToOwningObject.getBody().addToStatements(featureMap.getter() + "()." + otherFeatureMap.internalAdder() + "((" + ojClass.getName() + ")this)");
+				}
 			}
 		}
 		ojClass.addToOperations(addToOwningObject);

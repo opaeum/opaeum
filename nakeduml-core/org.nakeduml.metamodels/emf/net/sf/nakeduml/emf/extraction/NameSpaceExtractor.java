@@ -18,6 +18,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedSignalImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaborationImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
@@ -72,6 +73,7 @@ import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UseCase;
+import org.nakeduml.eclipse.EmfPropertyUtil;
 
 /**
  * Builds all classifier and the namespaces required to hostr them
@@ -90,6 +92,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		populateTypesMappedIn(p);
 	}
 	private void populateTypesMappedIn(Package p){
+		if(emfWorkspace.getPrimaryModels().contains(p)){
+			nakedWorkspace.addPrimaryModel((INakedRootObject) getNakedPeer(p));
+		}
 		URI mappedTypesUri = p.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 		try{
 			InputStream inStream = p.eResource().getResourceSet().getURIConverter().createInputStream(mappedTypesUri);
@@ -138,13 +143,21 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
 		if(e instanceof Association){
+			boolean hasManyInterface = false;
 			for(Property property:((Association) e).getMemberEnds()){
-				if(property.getType() == null || property.getOtherEnd()==null){
+				if(property.getType() == null || property.getOtherEnd() == null){
 					getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION, e);
 					return null;
 				}
+				if(property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
+					hasManyInterface = true;
+				}
 			}
-			return super.createElementFor(e, peerClass);
+			if(hasManyInterface){
+				return new NakedAssociationClassImpl();
+			}else{
+				return super.createElementFor(e, peerClass);
+			}
 		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior || e instanceof Collaboration
 				|| e instanceof PrimitiveType){
 			return super.createElementFor(e, peerClass);
@@ -267,11 +280,12 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitAssociation(Association a,NakedAssociationImpl na){
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
+		EList<Property> memberEnds = a.getMemberEnds();
 		if(a.getName() == null){
 			// HACK!!! to avoid nullpointerexceptiosn in
 			// NAkedParsedOclStringResolver
 			// Something wrong with the phases
-			na.setName(a.getMemberEnds().get(0).getName() + "To" + a.getMemberEnds().get(1).getName());
+			na.setName(memberEnds.get(0).getName() + "To" + memberEnds.get(1).getName());
 		}
 	}
 	@VisitBefore

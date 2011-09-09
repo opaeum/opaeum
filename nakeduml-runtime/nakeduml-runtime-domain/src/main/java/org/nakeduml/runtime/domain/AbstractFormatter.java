@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class AbstractFormatter{
 	SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd z");
 	DecimalFormat realFormat = new DecimalFormat("#0.00000000000000");
 	NumberFormat integerFormat = NumberFormat.getIntegerInstance();
 	public String formatDateTime(Date dateTime){
@@ -110,6 +111,50 @@ public class AbstractFormatter{
 		return parseInteger(value);
 	}
 	public Integer parseshort(String value){
+		return parseInteger(value);
+	}
+
+
+	public String formatDate(Date value) {
+		return dateFormat.format(value);
+	}
+
+
+	public String formatDayOfMonth(Integer value) {
+		return formatInteger(value);
+	}
+
+
+	public String formatHourOfDay(Integer value) {
+		return formatInteger(value);
+	}
+
+
+	public String formatMinuteOfHour(Integer value) {
+		return formatInteger(value);
+	}
+
+
+	public Date parseDate(String value) {
+		try{
+			return dateFormat.parse(value);
+		}catch(ParseException e){
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	public Integer parseDayOfMonth(String value) {
+		return parseInteger(value);
+	}
+
+
+	public Integer parseHourOfDay(String value) {
+		return parseInteger(value);
+	}
+
+
+	public Integer parseMinuteOfHour(String value) {
 		return parseInteger(value);
 	}
 }

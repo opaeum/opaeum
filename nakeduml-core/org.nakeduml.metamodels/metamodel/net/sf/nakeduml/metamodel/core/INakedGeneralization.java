@@ -3,6 +3,6 @@ public interface INakedGeneralization extends INakedElement {
 	INakedPowerTypeInstance getPowerTypeLiteral();
 	INakedClassifier getSpecific();
 	INakedClassifier getGeneral();
-	void setParentAndChild(INakedClassifier parent, INakedClassifier child);
+	void setGeneral(INakedClassifier parent);
 	void setPowerTypeLiteral(INakedPowerTypeInstance powerTypeLiteral);
 }

@@ -13,7 +13,6 @@ public interface INakedBehavioredClassifier extends INakedClassifier{
 	Collection<? extends INakedBehavior> getOwnedBehaviors();
 	Collection<? extends INakedBehavior> getEffectiveBehaviors();
 	Collection<? extends INakedInterfaceRealization> getInterfaceRealizations();
-	void addInterfaceRealization(INakedInterfaceRealization in);
 
 	boolean hasReceptionFor(INakedSignal signal);
 

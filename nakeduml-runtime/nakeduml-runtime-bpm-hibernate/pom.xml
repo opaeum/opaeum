@@ -13,6 +13,10 @@
   <version>1.0.0.6-SNAPSHOT</version>
   <build>
     <plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-source-plugin</artifactId>
+		</plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -84,10 +88,6 @@
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-runtime-bpm-hibernate</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
     </dependency>
@@ -118,35 +118,15 @@
     </dependency>
     <dependency>
       <groupId>org.nakeduml</groupId>
-      <artifactId>nakeduml-test-adaptor</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.nakeduml</groupId>
       <artifactId>nakeduml-generators</artifactId>
-      	<version>${numl.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.enterprise</groupId>
-      <artifactId>cdi-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.ejb3</groupId>
-      <artifactId>jboss-ejb3-ext-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.spec</groupId>
-      <artifactId>jboss-javaee-6.0</artifactId>
-      <version>1.0.0.Final</version>
-      <type>pom</type>
+      <version>${numl.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
     </dependency>
   </dependencies>
-  <dependencyManagement>
-    <dependencies/>
-  </dependencyManagement>
   <properties>
     <numl.version>1.0.0.6-SNAPSHOT</numl.version>
   </properties>

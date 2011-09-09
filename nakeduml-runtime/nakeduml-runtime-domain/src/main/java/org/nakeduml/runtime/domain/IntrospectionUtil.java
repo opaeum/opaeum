@@ -128,7 +128,7 @@ public class IntrospectionUtil{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getClass(String entityToCreate){
+	public static <T>Class<T> getClass(String entityToCreate){
 		try{
 			return (Class<T>) Thread.currentThread().getContextClassLoader().loadClass(entityToCreate);
 		}catch(ClassNotFoundException e){
@@ -245,7 +245,7 @@ public class IntrospectionUtil{
 		return classes;
 	}
 	@SuppressWarnings("unchecked")
-	public static <T> Class<? extends T> classForName(String name){
+	public static <T>Class<? extends T> classForName(String name){
 		try{
 			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 			if(contextClassLoader != null){
@@ -283,6 +283,10 @@ public class IntrospectionUtil{
 			}
 		}
 		return null;
+	}
+	@SuppressWarnings("unchecked")
+	public static <T>T newInstance(String className){
+		return (T) newInstance(classForName(className));
 	}
 	public static <T>T newInstance(Class<T> class1){
 		try{

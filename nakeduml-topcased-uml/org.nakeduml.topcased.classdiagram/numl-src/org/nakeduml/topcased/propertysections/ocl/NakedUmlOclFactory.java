@@ -16,6 +16,7 @@ import org.eclipse.ocl.uml.UMLFactory;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.options.EvaluationMode;
 import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -34,6 +35,7 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.nakeduml.eclipse.EmfElementFinder;
+import org.nakeduml.eclipse.EmfPropertyUtil;
 import org.nakeduml.eclipse.ImportLibraryAction;
 import org.topcased.modeler.uml.oclinterpreter.DelegatingPackageRegistry;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
@@ -58,25 +60,25 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 		public UMLEnvironment createEnvironment(){
 			NakedUmlEnvironment result = new NakedUmlEnvironment(getResourceSet().getPackageRegistry(), getResourceSet());
 			result.setFactory(this);
-			if(context instanceof Property && context.getOwner() instanceof Classifier){
-				Element owningObject = context.getOwner().getOwner();
-				// TODO check if there is an end to composite first
-				while(!(owningObject instanceof Classifier || owningObject == null)){
-					owningObject = owningObject.getOwner();
-				}
-				if(owningObject instanceof Classifier){
-					Variable var = UMLFactory.eINSTANCE.createVariable();
-					var.setType((Type) owningObject);
-					var.setName("owningObject");
-					result.addElement(var.getName(), var, true);
-				}
-			}else{
+			Classifier nearestClassifier = EmfElementFinder.getNearestClassifier(context);
+			if(nearestClassifier instanceof Behavior){
 				Classifier contextObject = EmfBehaviorUtil.getContext(context);
 				if(contextObject != null){
 					Variable var = UMLFactory.eINSTANCE.createVariable();
 					var.setType(contextObject);
 					var.setName("contextObject");
 					result.addElement(var.getName(), var, true);
+				}
+			}else if(!(nearestClassifier == null || nearestClassifier.isAbstract())){
+				if(EmfPropertyUtil.getEndToComposite(nearestClassifier) == null){
+					Classifier owningObject = null;
+					owningObject = EmfElementFinder.getNearestClassifier(nearestClassifier.getOwner());
+					if(owningObject != null){
+						Variable var = UMLFactory.eINSTANCE.createVariable();
+						var.setType((Type) owningObject);
+						var.setName("owningObject");
+						result.addElement(var.getName(), var, true);
+					}
 				}
 			}
 			for(TypedElement te:EmfElementFinder.getTypedElementsInScope(context)){

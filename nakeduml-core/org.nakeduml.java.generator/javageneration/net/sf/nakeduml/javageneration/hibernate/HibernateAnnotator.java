@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -13,8 +14,10 @@ import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.UtilCreator;
 import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
+import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.InverseCalculator;
+import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
 import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
@@ -56,10 +59,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		INakedAssociationClass.class
 	})
 	public void visitAssociationClass(INakedAssociationClass entity){
-		if(super.isPersistent(entity) && OJUtil.hasOJClass(entity)){
-			mapXToOne(entity, new NakedStructuralFeatureMap(entity.getEnd1()));
-			mapXToOne(entity, new NakedStructuralFeatureMap(entity.getEnd2()));
-		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(INakedInterface cl){
@@ -72,6 +71,12 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		if(OJUtil.hasOJClass(complexType) && isPersistent(complexType)){
 			OJAnnotatedClass owner = findJavaClass(complexType);
 			addAllInstances(complexType, owner);
+			if(complexType instanceof ICompositionParticipant){
+				INakedProperty endToComposite = ((ICompositionParticipant) complexType).getEndToComposite();
+				if(endToComposite != null && (endToComposite.getOwner() == complexType || endToComposite.getOwner() instanceof INakedInterface)){
+					setDeletedOn(OJUtil.buildStructuralFeatureMap(endToComposite), owner);
+				}
+			}
 			OJAnnotationValue table = owner.findAnnotation(new OJPathName("javax.persistence.Table"));
 			OJAnnotationValue entity = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Entity"));
 			entity.setImportType(false);
@@ -108,6 +113,10 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				owner.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));
 				owner.addToImports("java.util.Date");
 			}
+			if(complexType instanceof INakedAssociationClass){
+				OJOperation clear = owner.findOperation("clear", Collections.emptyList());
+				clear.getBody().addToStatements("markDeleted()");
+			}
 			enableHibernateProxy(complexType, owner);
 			owner.addToImplementedInterfaces(new OJPathName(HibernateEntity.class.getName()));
 		}
@@ -123,6 +132,13 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				OJEnumValue TRUE = new OJEnumValue(new OJPathName("org.hibernate.annotations.LazyCollectionOption"), "TRUE");
 				OJAnnotationValue lazyCollection = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.LazyCollection"), TRUE);
 				field.addAnnotationIfNew(lazyCollection);
+				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
+					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
+					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
+					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName() + "_type="
+							+ (config.shouldBeCm1Compatible() ?  "'" + ojOwner.getPathName().toString() +"'" : owner.getMappingInfo().getNakedUmlId().toString()));
+					field.addAnnotationIfNew(where);
+				}
 				if(f.isOrdered()){
 					implementListSemantics(f, map, field);
 				}else if(map.isManyToMany()){
@@ -137,6 +153,14 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}else{
 					// owner.addAnnotation(field, new OJAnnotation(new
 					// OJPathName("javax.persistence.Transient")));
+				}
+				if(f.getNakedBaseType() instanceof INakedEnumeration || f.getNakedBaseType() instanceof INakedSimpleType){
+					OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
+					OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement", OJUtil.classifierPathname(f.getNakedBaseType()));
+					collectionOfElements.putAttribute(targetElement);
+					OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
+					collectionOfElements.putAttribute(lazy);
+					field.addAnnotationIfNew(collectionOfElements);
 				}
 				if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 					HibernateUtil.addManyToAny(owner, field, map, config);
@@ -174,6 +198,16 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));
 			}
 		}
+		if(map.isOneToOne() && f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
+			// NB! for CM both sides need to be non-inverse
+			JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
+			OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
+			if(oneToOne == null){
+				field.findAnnotation(new OJPathName("javax.persistence.ManyToOne")).removeAttribute("mappedBy");
+			}else{
+				oneToOne.removeAttribute("mappedBy");
+			}
+		}
 		OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
 		if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse() && field.findAnnotation(indexPathName) == null){
 			OJAnnotationValue index = new OJAnnotationValue(indexPathName);
@@ -181,7 +215,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());
 			field.putAnnotation(index);
 		}
-		setDeletedOn(map, ojOwner);
 	}
 	private void implementListSemantics(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
 		OJAnnotationValue index = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.IndexColumn"));
@@ -294,7 +327,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked = new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("Session session ="+Environment.class.getName()+ ".getInstance().getComponent(Session.class)");
+		ifMocked.getThenPart().addToStatements("Session session =" + Environment.class.getName() + ".getInstance().getComponent(Session.class)");
 		ifMocked.getThenPart().addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
