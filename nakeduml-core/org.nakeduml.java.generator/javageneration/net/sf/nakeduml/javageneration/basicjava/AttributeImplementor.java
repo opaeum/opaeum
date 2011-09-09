@@ -119,7 +119,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean b){
+	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean b){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
@@ -154,7 +154,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		buildGetter(owner, aMap);
 		buildGetterFor(owner, aMap);
 	}
-	private void buildGetterFor(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+	protected void buildGetterFor(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap mapToAssocationClass = aMap.getEndToAssocationClassMap();
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(mapToAssocationClass.getter() + "For", mapToAssocationClass.javaBaseTypePath());
 		getter.addParam("match", aMap.getAssocationClassToOtherEndMap().javaBaseTypePath());
@@ -172,7 +172,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			ifEquals.getElsePart().addToStatements("return null");
 		}
 	}
-	private void buildInternalAdder(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+	protected void buildInternalAdder(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
 		OJOperation internalAdder = new OJAnnotatedOperation(map.internalAdder());
 		internalAdder.addParam(map.fieldname(), map.javaBaseTypePath());
@@ -196,7 +196,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	protected String getReferencePrefix(OJAnnotatedClass o,NakedStructuralFeatureMap map){
 		return map.isStatic() ? o.getName() + "." : "this.";
 	}
-	private void buildInternalRemover(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+	protected void buildInternalRemover(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
 		OJOperation internalRemover = new OJAnnotatedOperation(map.internalRemover());
 		internalRemover.addParam(map.fieldname(), map.javaBaseTypePath());
@@ -220,7 +220,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		owner.addToOperations(internalRemover);
 	}
-	private void buildGetter(OJAnnotatedClass owner,AssociationClassEndMap aMap){
+	protected void buildGetter(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
 		OJOperation internalRemover = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
@@ -244,7 +244,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		owner.addToOperations(internalRemover);
 	}
-	private void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+	protected void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = null;
@@ -273,7 +273,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void buildInternalRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected void buildInternalRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
 		remover.addParam("val", map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
@@ -289,7 +289,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		owner.addToOperations(remover);
 	}
-	private void buildInternalAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected void buildInternalAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 		adder.addParam("val", map.javaBaseTypePath());
@@ -312,18 +312,18 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		owner.addToFields(field);
 		return field;
 	}
-	private void applySimnpleTypesAnnotations(OJAnnotatedField field,INakedClassifier baseType){
+	protected void applySimnpleTypesAnnotations(OJAnnotatedField field,INakedClassifier baseType){
 		applyStereotypesAsAnnotations(baseType, field);
 		for(INakedGeneralization g:baseType.getNakedGeneralizations()){
 			applySimnpleTypesAnnotations(field, g.getGeneral());
 		}
 	}
-	private void buildInitExpression(OJAnnotatedClass owner,NakedStructuralFeatureMap map,OJAnnotatedField field){
+	protected void buildInitExpression(OJAnnotatedClass owner,NakedStructuralFeatureMap map,OJAnnotatedField field){
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		owner.addToImports(defaultValue);
 		field.setInitExp("new " + defaultValue.getCollectionTypeName() + "()");
 	}
-	private OJOperation buildAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.adder());
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
@@ -355,7 +355,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		owner.addToOperations(adder);
 		return adder;
 	}
-	private OJOperation buildRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation remover = new OJAnnotatedOperation(map.remover());
 		remover.addParam(map.fieldname(), map.javaBaseTypePath());
 		INakedProperty p = map.getProperty();
@@ -377,7 +377,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		return remover;
 	}
-	private OJOperation buildRemoveAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildRemoveAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.removeAll());
 		adder.addParam(map.fieldname(), map.javaTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
@@ -397,7 +397,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		return adder;
 	}
-	private OJOperation buildClear(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildClear(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.clearer());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
@@ -407,7 +407,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		owner.addToOperations(adder);
 		return adder;
 	}
-	private OJOperation buildAddAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildAddAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.allAdder());
 		adder.addParam(map.fieldname(), map.javaTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
