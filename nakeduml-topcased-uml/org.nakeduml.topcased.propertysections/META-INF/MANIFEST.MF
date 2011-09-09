@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.nakeduml.topcased.propertysections.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.emf.ecoretools.tabbedproperties,
  org.topcased.tabbedproperties,
  org.eclipse.uml2.uml,
  org.nakeduml.eclipse;visibility:=reexport,

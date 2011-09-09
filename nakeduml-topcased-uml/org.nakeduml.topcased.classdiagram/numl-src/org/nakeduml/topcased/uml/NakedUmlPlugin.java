@@ -2,12 +2,8 @@ package org.nakeduml.topcased.uml;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.draw2d.SWTGraphics;
-import org.eclipse.gmf.runtime.lite.svg.SVGFigure;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
@@ -22,19 +18,20 @@ import org.topcased.modeler.uml.UMLPlugin;
 public class NakedUmlPlugin extends UMLPlugin{
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg){
-		Image img = new Image(getWorkbench().getDisplay(), 32, 32);
-		GC gc = new GC(img);
-		SVGFigure svgFigure = new SVGFigure();
-		svgFigure.setOpaque(false);
-		svgFigure.setSize(32, 32);
-		svgFigure.setURI(getBundle().getEntry("icons/objsvg/Process.svg").toString());
-		SWTGraphics graphics = new SWTGraphics(gc);
-		svgFigure.paint(graphics);
-		ImageData data = img.getImageData();
-		data.transparentPixel = 16777215;
-		ImageData maskData = data.getTransparencyMask();
-		img = new Image(getWorkbench().getDisplay(), data, maskData);
-		reg.put("Actor", img);
+ImageDescriptor img;
+		//		Image img = new Image(getWorkbench().getDisplay(), 32, 32);
+//		GC gc = new GC(img);
+//		SVGFigure svgFigure = new SVGFigure();
+//		svgFigure.setOpaque(false);
+//		svgFigure.setSize(32, 32);
+//		svgFigure.setURI(getBundle().getEntry("icons/objsvg/Process.svg").toString());
+//		SWTGraphics graphics = new SWTGraphics(gc);
+//		svgFigure.paint(graphics);
+//		ImageData data = img.getImageData();
+//		data.transparentPixel = 16777215;
+//		ImageData maskData = data.getTransparencyMask();
+//		img = new Image(getWorkbench().getDisplay(), data, maskData);
+//		reg.put("Actor", img);
 	}
 	public static void saveAllOpenFilesIn(final NakedUmlEclipseContext currentContext,final IProgressMonitor monitor){
 		if(NakedUmlPlugin.getActivePage() != null){
