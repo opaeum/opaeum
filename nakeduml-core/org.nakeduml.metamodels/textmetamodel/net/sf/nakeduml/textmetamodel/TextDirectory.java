@@ -22,7 +22,7 @@ public class TextDirectory extends TextOutputNode{
 	public SourceFolder getSourceFolder(){
 		return ((TextDirectory) getParent()).getSourceFolder();
 	}
-	public TextFile findOrCreateTextFile(List<String> path,TextSource source,boolean overwrite){
+	public synchronized TextFile findOrCreateTextFile(List<String> path,TextSource source,boolean overwrite){
 		TextOutputNode root = findNode(path.get(0));
 		if(path.size() == 1){
 			if(root == null){

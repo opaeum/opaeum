@@ -57,12 +57,12 @@ public final class JavaProjectGenerator extends Job{
 					for(SourceFolder sourceFolder:tp.getSourceFolders()){
 						sourceFolders.add(sourceFolder);
 					}
-					monitor.worked(20/tws.getTextProjects().size());
+					monitor.worked(20 / tws.getTextProjects().size());
 				}
 				monitor.subTask("Writing Java sources");
 				for(SourceFolder sourceFolder:sourceFolders){
 					eclipseGen.visitSourceFolder(sourceFolder);
-					monitor.worked(20/sourceFolders.size());
+					monitor.worked(20 / sourceFolders.size());
 				}
 				if(hasNewJavaSourceFolders){
 					PomGenerationPhase pgp = process.getPhase(PomGenerationPhase.class);
@@ -111,18 +111,22 @@ public final class JavaProjectGenerator extends Job{
 		return result;
 	}
 	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext) throws CoreException{
-		monitor.beginTask("Updating resources", 6);
-		TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
-		if(!monitor.isCanceled()){
-			monitor.setTaskName("Writing Text Files");
-			TextFileGenerator textFileGenerator = new TextFileGenerator();
-			textFileGenerator.initialize(currentContext.getUmlElementCache().getConfig());
-			textFileGenerator.startVisiting(textWorkspace);
+		try{
+			monitor.beginTask("Updating resources", 6);
+			TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
+			if(!monitor.isCanceled()){
+				monitor.setTaskName("Writing Text Files");
+				TextFileGenerator textFileGenerator = new TextFileGenerator();
+				textFileGenerator.initialize(currentContext.getUmlElementCache().getConfig());
+				textFileGenerator.startVisiting(textWorkspace);
+				monitor.worked(3);
+			}
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			monitor.setTaskName("Refreshing Projects");
+			new JavaProjectGenerator(currentContext.getUmlElementCache().getConfig(), p, root).schedule();
 			monitor.worked(3);
+		}finally{
+			monitor.done();
 		}
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		monitor.setTaskName("Refreshing Projects");
-		new JavaProjectGenerator(currentContext.getUmlElementCache().getConfig(), p, root).schedule();
-		monitor.worked(3);
 	}
 }

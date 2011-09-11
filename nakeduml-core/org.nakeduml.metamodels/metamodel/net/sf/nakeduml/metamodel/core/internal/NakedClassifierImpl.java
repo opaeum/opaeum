@@ -57,7 +57,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private List<IOclContext> definitions = new ArrayList<IOclContext>();
 	private List<IAttribute> oclDefAttributes = new ArrayList<IAttribute>();
 	private boolean isAbstract;
-	private List<IOperation> oclDefOperations = new ArrayList<IOperation>();
 	private VisibilityKind visibility;
 	private INakedProperty endToComposite;
 	public List<INakedGeneralization> getNakedGeneralizations(){
@@ -83,8 +82,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
 					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
 						removeOwnedElement(ap);
-						if(ap==endToComposite){
-							endToComposite=p;
+						if(ap == endToComposite){
+							endToComposite = p;
 						}
 						break;
 					}
@@ -146,7 +145,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
 		Collections.sort(ownedAttributes, new Comparator<INakedProperty>(){
-
 			@Override
 			public int compare(INakedProperty o1,INakedProperty o2){
 				return o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
@@ -392,8 +390,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		if(element instanceof INakedProperty){
 			INakedProperty p = (INakedProperty) element;
 			this.ownedAttributes.remove(p);
-			if(p==endToComposite){
-				endToComposite=null;
+			if(p == endToComposite){
+				endToComposite = null;
 			}
 		}else if(element instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) element;
@@ -519,7 +517,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		this.oclDefAttributes.add(attr);
 	}
 	public void addOclDefOperation(IOperation oper){
-		oclDefOperations.add(oper);
 	}
 	public List<IState> getStates(){
 		return Collections.emptyList();

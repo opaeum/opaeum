@@ -76,11 +76,11 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.util.UMLSwitch;
-import org.nakeduml.eclipse.ApplyProfileAction;
 import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfParameterUtil;
 import org.nakeduml.eclipse.EmfValidationUtil;
-import org.nakeduml.eclipse.ImportLibraryAction;
+import org.nakeduml.eclipse.LibraryImporter;
+import org.nakeduml.eclipse.ProfileApplier;
 import org.nakeduml.topcased.propertysections.ocl.OclBodyComposite;
 
 public class NakedUmlElementLinker extends EContentAdapter{
@@ -186,9 +186,11 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					p = (Property) notification.getNewValue();
-					synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
-					if(p.getOtherEnd().getType() instanceof Signal){
-						synchronizeSignalPins((Signal) p.getOtherEnd().getType());
+					if(p.getOtherEnd() != null){
+						synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
+						if(p.getOtherEnd().getType() instanceof Signal){
+							synchronizeSignalPins((Signal) p.getOtherEnd().getType());
+						}
 					}
 					break;
 				case Notification.REMOVE:
@@ -682,13 +684,13 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 							aea.getResults().add(outputPin);
 						}
-						outputPin.setType(ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES).getOwnedType("DateTime"));
+						outputPin.setType(LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES).getOwnedType("DateTime"));
 						outputPin.setName("time");
 						while(1 < aea.getResults().size()){
 							aea.getResults().remove(1);
 						}
 						if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_DEADLINE_ACTION)){
-							Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+							Model lib = LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 							if(aea.getResults().size() >= 2){
 								outputPin = aea.getResults().get(1);
 							}else{
@@ -700,7 +702,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							outputPin.setName("task");
 						}
 					}else if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_TASK_EVENT_ACTION)){
-						Model lib = ImportLibraryAction.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+						Model lib = LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 						OutputPin outputPin;
 						if(aea.getResults().size() >= 1){
 							outputPin = aea.getResults().get(0);
@@ -997,7 +999,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 	}
 	private static void applyRelativeTimeEventStereotype(TimeEvent te,Element eModelElement){
 		if(te.isRelative()){
-			Profile pr = ApplyProfileAction.applyProfile(eModelElement.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
+			Profile pr = ProfileApplier.applyProfile(eModelElement.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
 			Stereotype st = pr.getOwnedStereotype(StereotypeNames.RELATIVE_TIME_EVENT);
 			if(!te.isStereotypeApplied(st)){
 				StereotypesHelper.applyStereotype(te, st);
@@ -1025,7 +1027,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 	}
 	private static void applyStereotypeIfNecessary(Element parent,Element ass,String stereotypeName,String profileName){
 		if(StereotypesHelper.hasKeyword(ass, stereotypeName)){
-			Profile pr = ApplyProfileAction.applyProfile(parent.getModel(), profileName);
+			Profile pr = ProfileApplier.applyProfile(parent.getModel(), profileName);
 			Stereotype st = pr.getOwnedStereotype(stereotypeName);
 			if(!(ass instanceof Pin) && ass instanceof NamedElement && parent instanceof Namespace){
 				setUniqueName(stereotypeName, (NamedElement) ass);
@@ -1036,7 +1038,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			if(ass instanceof Classifier){
 				Classifier specific = (Classifier) ass;
 				if(StereotypesHelper.hasStereotype(specific, stereotypeName)){
-					Classifier general = (Classifier) ImportLibraryAction.importLibraryIfNecessary(specific.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY).getOwnedType(
+					Classifier general = (Classifier) LibraryImporter.importLibraryIfNecessary(specific.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY).getOwnedType(
 							stereotypeName);
 					if(general != null){
 						if(general instanceof Interface && specific instanceof BehavioredClassifier){

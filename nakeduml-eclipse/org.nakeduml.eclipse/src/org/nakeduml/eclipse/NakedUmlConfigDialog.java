@@ -1,6 +1,5 @@
 package org.nakeduml.eclipse;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.StringTokenizer;
@@ -9,9 +8,6 @@ import net.sf.nakeduml.feature.ISourceFolderStrategy;
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -29,7 +25,6 @@ import org.eclipse.swt.widgets.Text;
 import org.nakeduml.name.NameConverter;
 
 public class NakedUmlConfigDialog extends TitleAreaDialog{
-	private Label errorMessage;
 	private Text txtWorkspaceName;
 	private Text txtWorkspaceIdentifier;
 	private Text txtCompanyDomain;
@@ -37,17 +32,9 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 	private CCombo cboSourceFolderStrategy;
 	private List lstTransformationSteps;
 	private NakedUmlConfig config;
-	private IFile file;
-	public NakedUmlConfigDialog(Shell shell,IFile file2){
+	public NakedUmlConfigDialog(Shell shell,NakedUmlConfig config){
 		super(shell);
-		this.file=file2;
-		if(!file2.exists()){
-			config=new NakedUmlConfig(new File( file2.getParent().getLocation().toFile() ,"nakeduml.properties"));
-			config.loadDefaults("ProjectXYZ");
-		}else{
-			this.config = new NakedUmlConfig(file2.getLocation().toFile());
-
-		}
+		this.config = config;
 	}
 	protected Control createContents(Composite parent){
 		Control contents = super.createContents(parent);
@@ -61,15 +48,15 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		Composite panel = new Composite(composite, 0);
 		panel.setLayout(new GridLayout(2, true));
 		new Label(panel, 0).setText("Project Name");
-		txtWorkspaceName = new Text(panel, SWT.SINGLE|SWT.BORDER);
+		txtWorkspaceName = new Text(panel, SWT.SINGLE | SWT.BORDER);
 		txtWorkspaceName.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtWorkspaceName.setText(config.getWorkspaceName());
 		new Label(panel, 0).setText("Identifier for project");
-		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE|SWT.BORDER);
+		txtWorkspaceIdentifier = new Text(panel, SWT.SINGLE | SWT.BORDER);
 		txtWorkspaceIdentifier.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtWorkspaceIdentifier.setText(config.getWorkspaceIdentifier());
 		new Label(panel, 0).setText("Company domain name");
-		txtCompanyDomain = new Text(panel, SWT.SINGLE|SWT.BORDER);
+		txtCompanyDomain = new Text(panel, SWT.SINGLE | SWT.BORDER);
 		txtCompanyDomain.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtCompanyDomain.setText(getDomainName());
 		new Label(panel, 0).setText("Generate Maven POMS");
@@ -84,9 +71,8 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		}
 		cboSourceFolderStrategy.setText(config.getSourceFolderStrategy().getClass().getName());
 		new Label(panel, 0).setText("Additional Transformation Steps");
-		lstTransformationSteps = new List(panel, SWT.MULTI|SWT.BORDER);
+		lstTransformationSteps = new List(panel, SWT.MULTI | SWT.BORDER);
 		lstTransformationSteps.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
-		
 		for(Class<? extends ITransformationStep> t:NakedUmlEclipsePlugin.getDefault().getTransformationSteps()){
 			lstTransformationSteps.add(t.getName());
 		}
@@ -95,7 +81,6 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 			if(config.getAdditionalTransformationSteps().contains(config.getClass(items[i]))){
 				lstTransformationSteps.select(i);
 			}
-			
 		}
 		return composite;
 	}
@@ -115,19 +100,6 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		}
 	}
 	public void okPressed(){
-		IResource[] members = null;
-		try{
-			members = file.getParent().members();
-		}catch(CoreException e1){
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		for(IResource r:members){
-			if(r.getLocation().removeFileExtension().lastSegment().toLowerCase().equals(txtWorkspaceIdentifier.getText().toLowerCase())){
-//				this.setErrorMessage("The Project Identifier cannot be the same as the name of one of the models");
-//				return;
-			}
-		}
 		config.loadDefaults(txtWorkspaceIdentifier.getText());
 		String domain = txtCompanyDomain.getText();
 		StringBuilder mavenGroup = null;
@@ -149,12 +121,6 @@ public class NakedUmlConfigDialog extends TitleAreaDialog{
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
 		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());
 		config.store();
-		try{
-			file.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
-		}catch(CoreException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		super.okPressed();
 	}
 	protected void createButtonsForButtonBar(Composite parent){

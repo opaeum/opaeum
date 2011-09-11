@@ -1,6 +1,5 @@
 package net.sf.nakeduml.metamodel.core.internal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedPowerTypeInstance;
 /**

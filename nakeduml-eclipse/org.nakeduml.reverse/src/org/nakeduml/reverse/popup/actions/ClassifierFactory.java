@@ -1,7 +1,6 @@
 package org.nakeduml.reverse.popup.actions;
 
 import java.beans.IntrospectionException;
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import java.math.BigDecimal;
 import java.math.BigInteger;

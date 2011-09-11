@@ -52,11 +52,11 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			return new NakedPortImpl();
 		}else if(e instanceof Property){
 			Property p = (Property) e;
-			if(p.getAssociation()!=null){
+			if(p.getAssociation() != null){
 				for(Property property:p.getAssociation().getMemberEnds()){
-					if(property.getType()==null){
+					if(property.getType() == null){
 						getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
-						//broken association a'la topcased
+						// broken association a'la topcased
 						return null;
 					}
 				}
@@ -88,9 +88,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 				// force bidirectionality for composition between two classes
 				navigable = true;
 			}
-//			if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
-//				navigable = false;
-//			}
+			// if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
+			// navigable = false;
+			// }
 			INakedClassifier owner = null;
 			np.getOwner().removeOwnedElement(np);
 			if(navigable){
@@ -104,18 +104,21 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			np.setOwnerElement(owner);
 			owner.addOwnedElement(np);
 			INakedAssociation nakedAss = (INakedAssociation) getNakedPeer(p.getAssociation());
-			np.setAssociation(nakedAss);
-			if(nakedAss.isMarkedForDeletion()){
-				np.markForDeletion();
-				owner.removeOwnedElement(np);
+			if(nakedAss != null){
+				//sometimes during deletion the association is null
+				np.setAssociation(nakedAss);
+				if(nakedAss.isMarkedForDeletion()){
+					np.markForDeletion();
+					owner.removeOwnedElement(np);
+				}
+				getAffectedElements().add(nakedAss);
+				int index = p.getAssociation().getMemberEnds().indexOf(p);
+				nakedAss.setEnd(index, np);
 			}
-			int index = p.getAssociation().getMemberEnds().indexOf(p);
-			nakedAss.setEnd(index, np);
 			EList<Type> endTypes = p.getAssociation().getEndTypes();
 			for(Type type:endTypes){
 				getAffectedElements().add(getNakedPeer(type));
 			}
-			getAffectedElements().add(getNakedPeer(p.getAssociation()));
 		}
 		np.setNavigable(navigable);
 		populateMultiplicityAndBaseType(p, p.getType(), np);
@@ -129,7 +132,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		np.setDerivedUnion(p.isDerivedUnion());
 		np.setIsOrdered(p.isOrdered());
 		np.setIsUnique(p.isUnique());
-		
 		setOwnedAttributeIndexIfNecessary(p, np);
 		// TODO look at implementing qualifiers as free attributes of the association
 		String[] qualifierNames = new String[p.getQualifiers().size()];
@@ -160,9 +162,9 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		}
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
-			for(Behavior b:emfOper.getMethods()){
-				nakedOper.addMethod((INakedBehavior) getNakedPeer(b));
-			}
+		for(Behavior b:emfOper.getMethods()){
+			nakedOper.addMethod((INakedBehavior) getNakedPeer(b));
+		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(Parameter emfParameter,NakedParameterImpl nakedParameter){

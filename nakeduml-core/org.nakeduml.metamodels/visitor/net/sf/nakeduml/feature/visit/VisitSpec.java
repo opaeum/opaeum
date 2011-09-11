@@ -71,7 +71,7 @@ public class VisitSpec{
 			throw new RuntimeException(e);
 		}
 	}
-	private Method getMethod(VisitorAdapter va){
+	public Method getMethod(VisitorAdapter va){
 		return m;
 	}
 	private Class<?>[] getParameterTypes(){

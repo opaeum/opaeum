@@ -1,6 +1,7 @@
 package net.sf.nakeduml.emf.extraction;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ import org.nakeduml.eclipse.EmfValidationUtil;
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements ITransformationStep{
 	protected INakedModelWorkspace nakedWorkspace;
 	protected EmfWorkspace emfWorkspace;
-	private Set<INakedElement> affectedElements = new HashSet<INakedElement>();
+	private Set<INakedElement> affectedElements = Collections.synchronizedSet(new HashSet<INakedElement>());
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
@@ -65,7 +66,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	protected final boolean requiresExtraction(Element o){
 		if(o instanceof Profile || o instanceof Model){
-			boolean b = emfWorkspace.getGeneratingModelsOrProfiles().contains(o) || getNakedPeer(o) == null
+			boolean b = /*emfWorkspace.getGeneratingModelsOrProfiles().contains(o) || */getNakedPeer(o) == null
 					|| !((INakedRootObject) getNakedPeer(o)).getStatus().isExtracted();
 			return b;
 		}else{

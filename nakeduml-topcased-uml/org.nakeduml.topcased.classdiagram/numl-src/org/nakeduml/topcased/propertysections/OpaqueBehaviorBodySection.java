@@ -26,7 +26,7 @@ public class OpaqueBehaviorBodySection extends AbstractOclBodyBodySection{
 		}
 		@Override
 		protected EditingDomain getEditingDomain(){
-			return OpaqueBehaviorBodyComposite.this.getEditingDomain();
+			return OpaqueBehaviorBodySection.this.getEditingDomain();
 		}
 	}
 	@Override

@@ -10,7 +10,6 @@ import net.sf.nakeduml.javageneration.composition.CompositionNodeImplementor;
 import net.sf.nakeduml.javageneration.composition.CopyMethodImplementor;
 import net.sf.nakeduml.javageneration.composition.FactoryMethodCreator;
 import net.sf.nakeduml.linkage.CompositionEmulator;
-import net.sf.nakeduml.pomgeneration.BasicJavaAdaptorPomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		CompositionEmulator.class,CompositionNodeImplementor.class,ComponentInitializer.class,CopyMethodImplementor.class,

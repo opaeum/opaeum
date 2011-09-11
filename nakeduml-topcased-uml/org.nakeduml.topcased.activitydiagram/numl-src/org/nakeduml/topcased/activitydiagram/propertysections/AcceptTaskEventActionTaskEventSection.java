@@ -30,7 +30,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.nakeduml.eclipse.ImportLibraryAction;
+import org.nakeduml.eclipse.LibraryImporter;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropertySection{
@@ -110,7 +110,7 @@ public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropert
 		super.setInput(part, selection);
 		if(this.taskEvents == null){
 			this.taskEvents = new ArrayList<CallEvent>();
-			Model lib = ImportLibraryAction.importLibraryIfNecessary(getAction().getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+			Model lib = LibraryImporter.importLibraryIfNecessary(getAction().getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 			for(PackageableElement pe:lib.getNestedPackage("events").getPackagedElements()){
 				if(pe instanceof CallEvent){
 					this.taskEvents.add((CallEvent) pe);

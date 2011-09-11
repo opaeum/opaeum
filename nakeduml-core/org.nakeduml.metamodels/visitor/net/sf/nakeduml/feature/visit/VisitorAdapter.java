@@ -6,9 +6,12 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javassist.ClassPath;
 import javassist.ClassPool;
@@ -34,6 +37,7 @@ import javassist.NotFoundException;
  *            This it the class of the root node of the tree.
  */
 public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
+	int depth = 0;
 	static Map<Class<?>,MethodInvokers> metaInfoMap = new HashMap<Class<?>,VisitorAdapter.MethodInvokers>();
 	private static final class EclipseClassPath implements ClassPath{
 		Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
@@ -81,6 +85,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	};
 	private static EclipseClassPath cp = new EclipseClassPath();
 	protected MethodInvokers methodInvokers;
+	private Map<NODE,String> currentVisitSpec = Collections.synchronizedMap(new HashMap<NODE,String>());
 	@SuppressWarnings("unchecked")
 	protected VisitorAdapter(){
 		pool.appendSystemPath();
@@ -107,6 +112,9 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		return result;
 	}
 	private VisitSpec buildVisitSpec(Method m,boolean before){
+		if(false){
+			return new VisitSpec(m, before);
+		}
 		try{
 			cp.addClass(getClass());
 			cp.addClass(m.getParameterTypes()[0]);
@@ -155,6 +163,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		throw new RuntimeException("not implemented");
 	}
 	public void startVisiting(ROOT root){
+		depth = 0;
 		visitRecursively(root);
 	}
 	public void visitOnly(NODE o){
@@ -166,16 +175,40 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		}
 	}
 	public void visitRecursively(NODE o){
+		depth++;
 		for(VisitSpec v:methodInvokers.beforeMethods){
+			currentVisitSpec.put(o, v.getMethod(this).getName());
 			maybeVisit(o, v);
 		}
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
-		for(NODE child:children){
-			visitRecursively(child);
+		if(depth == 1 && getThreadPoolSize() > 1){
+			ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(getThreadPoolSize());
+			depth = 1000000;
+			for(final NODE child:children){
+				exec.schedule(new Runnable(){
+					@Override
+					public void run(){
+						visitRecursively(child);
+					}
+				}, 0, TimeUnit.MICROSECONDS);
+			}
+			try{
+				exec.shutdown();
+				exec.awaitTermination(10, TimeUnit.MINUTES);
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		}else{
+			for(final NODE child:children){
+				visitRecursively(child);
+			}
 		}
 		for(VisitSpec v:methodInvokers.afterMethods){
+			currentVisitSpec.put(o, v.getMethod(this).getName());
 			maybeVisit(o, v);
 		}
+		currentVisitSpec.remove(o);
+		depth--;
 	}
 	protected void maybeVisit(NODE o,VisitSpec v){
 		if(v.matches(o)){
@@ -195,5 +228,8 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	}
 	protected boolean visitChildren(NODE o){
 		return true;
+	}
+	protected int getThreadPoolSize(){
+		return 1;
 	}
 }

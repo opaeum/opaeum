@@ -2,20 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
  <extension
-          point="org.eclipse.ui.popupMenus">
-        <objectContribution
-             id="org.nakeduml.eclipse.starter.actions.generate"
-             objectClass="org.eclipse.uml2.uml.Model">
-          <action
-                class="org.nakeduml.eclipse.starter.RecompileModelAction"
-                enablesFor="*"
-                id="org.nakeduml.eclipse.starter.RecompileModelAction"
-                label="Recompile model"
-                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
-          </action>         
-       </objectContribution>
-    </extension>
- <extension
        point="org.eclipse.ui.startup">
     <startup
           class="org.nakeduml.eclipse.starter.JavaTransformationProcessManager"></startup>
@@ -46,5 +32,31 @@
     <transformationStep
           className="org.nakeduml.generation.features.PersistenceUsingJpa">
     </transformationStep>
+ </extension>
+ <extension
+       point="org.nakeduml.eclipse.modelLibrary">
+    <modelLibrary
+          name="Opium Simple Types"
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpiumSimpleTypes.library.uml">
+    </modelLibrary>
+    <modelLibrary
+          name="Opium BPM and Business Calendar Library"
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpiumSimpleTypes.library.uml">
+    </modelLibrary>
+ </extension>
+ <extension
+       point="org.nakeduml.eclipse.profile">
+    <profile
+          name="Opium Standard Profile"
+          uri="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml">
+    </profile>
+    <profile
+          name="Opium BPM Profile"
+          uri="pathmap://NAKEDUML_MODELS/profiles/OpiumBPMProfile.uml">
+    </profile>
+    <profile
+          name="javax.validation"
+          uri="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml">
+    </profile>
  </extension>
 </plugin>

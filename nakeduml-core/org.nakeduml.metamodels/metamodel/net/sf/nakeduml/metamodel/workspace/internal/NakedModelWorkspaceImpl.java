@@ -36,11 +36,11 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	private Map<INakedElement,Set<INakedElement>> dependencies = new HashMap<INakedElement,Set<INakedElement>>();
 	public NakedModelWorkspaceImpl(){
 	}
-	public void markDependency(INakedElement from,INakedElement to){
+	public synchronized void markDependency(INakedElement from,INakedElement to){
 		Set<INakedElement> set = getDependentElements(to);
 		set.add(from);
 	}
-	public Set<INakedElement> getDependentElements(INakedElement to){
+	public synchronized  Set<INakedElement> getDependentElements(INakedElement to){
 		Set<INakedElement> set = this.dependencies.get(to);
 		if(set == null){
 			set = new HashSet<INakedElement>();
@@ -54,7 +54,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public void setWorkspaceMappingInfo(WorkspaceMappingInfo modelMappingInfo){
 		this.modelMappingInfo = modelMappingInfo;
 	}
-	public void putModelElement(INakedElement mw){
+	public synchronized void putModelElement(INakedElement mw){
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
@@ -98,7 +98,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public String getName(){
 		return this.name;
 	}
-	public void addOwnedElement(INakedElement element){
+	public synchronized void addOwnedElement(INakedElement element){
 		if(this.children.contains(element)){
 			this.children.remove(element);
 		}

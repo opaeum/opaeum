@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.text.AttributedCharacterIterator;
 
 import javax.swing.JComponent;
@@ -28,7 +27,6 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.ui.internal.Workbench;
 import org.topcased.draw2d.figures.ILabelFigure;
 
-import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 

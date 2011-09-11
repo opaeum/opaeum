@@ -93,7 +93,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	private void recalculateUtilityPackage(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
-			this.currentRootObject = pkg;
+			this.setCurrentRootObject(pkg);
 			if(javaModel != null){
 				OJPathName utilPath = calculateUtilPath(pkg);
 				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
@@ -119,7 +119,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 		return utilPath;
 	}
-	public TextFile createTextPath(OJClassifier c,ISourceFolderIdentifier id){
+	public synchronized TextFile createTextPath(OJClassifier c,ISourceFolderIdentifier id){
 		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
 		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = c.getPathName().getHead().getNames();
@@ -130,8 +130,8 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		this.textFiles.add(file);
 		return file;
 	}
-	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentRootObject.getIdentifier();
+	protected synchronized SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
+		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : getCurrentRootObject().getIdentifier();
 		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;

@@ -247,6 +247,16 @@
                 menubarPath="org.nakeduml.graphic.menu/numlActionsGroup">
           </action>
        </objectContribution>
+       <objectContribution
+             adaptable="false"
+             id="org.nakeduml.uim2uim.actions.objectContribution1"
+             objectClass="org.eclipse.uml2.uml.Element">
+          <menu
+                id="org.nakeduml.outline.menu"
+                label="UI Model"
+                path="numlActionsGroup">
+          </menu>
+       </objectContribution>
     </extension>
  <extension
        id="sfads.asf.asf..dfs.adf."

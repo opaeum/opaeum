@@ -12,18 +12,26 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionDelta;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IRegistryChangeEvent;
 import org.eclipse.core.runtime.IRegistryChangeListener;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 
 public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeListener{
 	public static final String TRANSFORMATION_STEP_EXTENSION_POINT_ID = "transformationStep";
 	public static final String SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID = "sourceFolderStrategy";
+	public static final String MODEL_LIBRARY_EXTENSION_POINT_ID = "modelLibrary";
+	private static final String PROFILE_EXTENSION_POINT_ID = "profile";
 	private static NakedUmlEclipsePlugin plugin;
 	private ResourceBundle resourceBundle;
 	private Set<Class<? extends ITransformationStep>> transformationSteps = new HashSet<Class<? extends ITransformationStep>>();
 	private Set<ISourceFolderStrategy> sourceFolderStrategies = new HashSet<ISourceFolderStrategy>();
+	private Set<ModelLibrary> modelLibraries = new HashSet<ModelLibrary>();
+	private Set<ModelLibrary> profiles = new HashSet<ModelLibrary>();
 	public NakedUmlEclipsePlugin(){
 		super();
 		plugin = this;
@@ -32,10 +40,15 @@ public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeList
 		}catch(MissingResourceException x){
 			resourceBundle = null;
 		}
-		addTransformationSteps(Platform.getExtensionRegistry().getConfigurationElementsFor("org.nakeduml.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID));
-		addSourceFolderStrategies(Platform.getExtensionRegistry().getConfigurationElementsFor("org.nakeduml.eclipse",
-				SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID));
-		Platform.getExtensionRegistry().addRegistryChangeListener(this);
+		IExtensionRegistry r = Platform.getExtensionRegistry();
+		addTransformationSteps(r.getConfigurationElementsFor("org.nakeduml.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID));
+		addSourceFolderStrategies(r.getConfigurationElementsFor("org.nakeduml.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID));
+		addModelLibraries(r.getConfigurationElementsFor("org.nakeduml.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID));
+		addProfiles(r.getConfigurationElementsFor("org.nakeduml.eclipse", PROFILE_EXTENSION_POINT_ID));
+		r.addRegistryChangeListener(this);
+	}
+	public static void logError(String message,Throwable t){
+		getDefault().getLog().log(new Status(IStatus.ERROR, getPluginId(), message, t));
 	}
 	public static NakedUmlEclipsePlugin getDefault(){
 		return plugin;
@@ -68,6 +81,28 @@ public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeList
 				addSourceFolderStrategies(delta.getExtension().getConfigurationElements());
 			}
 		}
+		extensionDeltas = event.getExtensionDeltas("org.nakeduml.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID);
+		for(IExtensionDelta delta:extensionDeltas){
+			if(delta.getKind() == IExtensionDelta.ADDED){
+				addModelLibraries(delta.getExtension().getConfigurationElements());
+			}
+		}
+		extensionDeltas = event.getExtensionDeltas("org.nakeduml.eclipse", PROFILE_EXTENSION_POINT_ID);
+		for(IExtensionDelta delta:extensionDeltas){
+			if(delta.getKind() == IExtensionDelta.ADDED){
+				addProfiles(delta.getExtension().getConfigurationElements());
+			}
+		}
+	}
+	private void addModelLibraries(IConfigurationElement[] configurationElements){
+		for(IConfigurationElement ce:configurationElements){
+			this.modelLibraries.add(new ModelLibrary(URI.createURI(ce.getAttribute("uri")), ce.getAttribute("name")));
+		}
+	}
+	private void addProfiles(IConfigurationElement[] configurationElements){
+		for(IConfigurationElement ce:configurationElements){
+			this.profiles.add(new ModelLibrary(URI.createURI(ce.getAttribute("uri")), ce.getAttribute("name")));
+		}
 	}
 	public void addSourceFolderStrategies(IConfigurationElement[] configurationElements){
 		try{
@@ -83,6 +118,7 @@ public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeList
 	public Set<ISourceFolderStrategy> getSourceFolderStrategies(){
 		return sourceFolderStrategies;
 	}
+	@SuppressWarnings("unchecked")
 	public void addTransformationSteps(IConfigurationElement[] configurationElements){
 		try{
 			for(IConfigurationElement ce:configurationElements){
@@ -96,5 +132,11 @@ public class NakedUmlEclipsePlugin extends Plugin implements IRegistryChangeList
 	}
 	public Set<Class<? extends ITransformationStep>> getTransformationSteps(){
 		return transformationSteps;
+	}
+	public Set<ModelLibrary> getModelLibraries(){
+		return modelLibraries;
+	}
+	public Set<ModelLibrary> getProfiles(){
+		return profiles;
 	}
 }

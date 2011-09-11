@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.activities.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +16,6 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedActivityPartition;
 import net.sf.nakeduml.metamodel.activities.INakedActivityVariable;
 import net.sf.nakeduml.metamodel.activities.INakedParameterNode;
-import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
-import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
@@ -34,10 +33,10 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	private static final long serialVersionUID = -8111895180462880035L;
 	public static final String META_CLASS = "activity";
 	private ActivityKind activityKind;
-	private Set<INakedActivityEdge> activityEdges = new HashSet<INakedActivityEdge>();
-	private Set<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>();
-	private Set<INakedActivityPartition> partitions = new HashSet<INakedActivityPartition>();
-	private Set<INakedActivityVariable> variables = new HashSet<INakedActivityVariable>();
+	private Set<INakedActivityEdge> activityEdges = Collections.synchronizedSet(new HashSet<INakedActivityEdge>());
+	private Set<INakedActivityNode> activityNodes = Collections.synchronizedSet(new HashSet<INakedActivityNode>());
+	private Set<INakedActivityPartition> partitions = Collections.synchronizedSet(new HashSet<INakedActivityPartition>());
+	private Set<INakedActivityVariable> variables = Collections.synchronizedSet(new HashSet<INakedActivityVariable>());
 	public Set<INakedActivityPartition> getPartitions(){
 		return this.partitions;
 	}

@@ -110,7 +110,7 @@ public class EmfElementFinder{
 		}
 	}
 	public static List<Property> getPropertiesInScope(Classifier c){
-		List<Property> result = new ArrayList<Property>(c.getAllAttributes());
+		List<Property> result = new ArrayList<Property>(c.getAttributes());
 		for(Association a:c.getAssociations()){
 			for(Property end:a.getNavigableOwnedEnds()){
 				if(end.getOtherEnd().getType().equals(c)){

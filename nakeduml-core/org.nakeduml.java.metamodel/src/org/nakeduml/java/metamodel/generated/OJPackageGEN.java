@@ -133,17 +133,17 @@ abstract public class OJPackageGEN extends OJElement {
 	 * 
 	 * @param element
 	 */
-	public void addToClasses(OJClass element) {
+	public  void addToClasses(OJClass element) {
 		if (element == null) {
 			return;
 		}
 		if (this.f_classes.contains(element)) {
 			this.f_classes.remove(element);
 		}
-		this.f_classes.add(element);
 		if (element.getMyPackage() != null) {
 			element.getMyPackage().z_internalRemoveFromClasses(element);
 		}
+		this.f_classes.add(element);
 		element.z_internalAddToMyPackage((OJPackage) ((OJPackage) this));
 	}
 
@@ -275,10 +275,10 @@ abstract public class OJPackageGEN extends OJElement {
 		if (this.f_interfaces.contains(element)) {
 			this.f_interfaces.remove(element);
 		}
-		this.f_interfaces.add(element);
 		if (element.getMyPackage() != null) {
 			element.getMyPackage().z_internalRemoveFromInterfaces(element);
 		}
+		this.f_interfaces.add(element);
 		element.z_internalAddToMyPackage((OJPackage) ((OJPackage) this));
 	}
 
@@ -447,17 +447,17 @@ abstract public class OJPackageGEN extends OJElement {
 	 * 
 	 * @param element
 	 */
-	public void addToSubpackages(OJPackage element) {
+	public synchronized void addToSubpackages(OJPackage element) {
 		if (element == null) {
 			return;
 		}
 		if (this.f_subpackages.contains(element)) {
 			this.f_subpackages.remove(element);
 		}
-		this.f_subpackages.add(element);
 		if (element.getParent() != null) {
 			element.getParent().z_internalRemoveFromSubpackages(element);
 		}
+		this.f_subpackages.add(element);
 		element.z_internalAddToParent((OJPackage) ((OJPackage) this));
 	}
 

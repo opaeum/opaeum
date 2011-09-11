@@ -19,9 +19,8 @@ public enum CoreValidationRule implements IValidationRule{
 			"{0} does not specialise any of the supported primitive types (String, Boolean, Real or Integer)"),
 	PRIMITIVE_MUST_SPECIALIZE_PRIMITIVES("Primitive types have to extend other primitive types","{0} does not specialize (extend) a primitive"),
 	NAME_UNIQUENESS("Certain named elements must have unique names within a specified context","{0} does not have a unique name within the {1} of {2}"),
-	NAME_REQIURED("Certain named elements must have a name in order for the resulting code to function properly","{0}: {1} does not have a name"), 
-	VARIABLE_NAME_CLASH("Variables and pins need to have unique names within its local context","The name of {0} clashes with the name of in scope variable {1}"), 
-	SUBSETTED_PROPERTY_NO_UNION("Subsetted properties must be marked as derived unions", "{0} is not marked as a derived union but is subsetted by {1}::{2}");
+	NAME_REQIURED("Certain named elements must have a name in order for the resulting code to function properly","{0}: {1} does not have a name"),
+	VARIABLE_NAME_CLASH("Variables and pins need to have unique names within its local context","The name of {0} clashes with the name of in scope variable {1}");
 	private String description;
 	private String messagePattern;
 	private CoreValidationRule(String description,String messagePattern){

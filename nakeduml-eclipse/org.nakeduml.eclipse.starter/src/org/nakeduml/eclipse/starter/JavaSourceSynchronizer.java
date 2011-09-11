@@ -62,10 +62,9 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 						renamePackages(new SubProgressMonitor(monitor, 500));
 						synchronizeClasses(new SubProgressMonitor(monitor, 500));
 					}
-					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Sources Synchronized" );
+					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Sources Synchronized");
 				}catch(Exception e){
-					return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Sources NOT Synchronized",e );
-
+					return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Sources NOT Synchronized", e);
 				}finally{
 					monitor.done();
 				}
@@ -121,15 +120,18 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 		return hasSourceFolder;
 	}
 	private void renamePackages(IProgressMonitor monitor){
-		Set<NamespaceRenameRequest> renamedNamespaces2 = context.getUmlElementCache().getRenamedNamespaces();
-		monitor.beginTask("Renaming Packages", renamedNamespaces2.size());
-		for(NamespaceRenameRequest rn:renamedNamespaces2){
-			monitor.subTask("Renaming " + rn.getOldName());
-			renamePackages(rn);
-			monitor.worked(1);
+		try{
+			Set<NamespaceRenameRequest> renamedNamespaces2 = context.getUmlElementCache().getRenamedNamespaces();
+			monitor.beginTask("Renaming Packages", renamedNamespaces2.size());
+			for(NamespaceRenameRequest rn:renamedNamespaces2){
+				monitor.subTask("Renaming " + rn.getOldName());
+				renamePackages(rn);
+				monitor.worked(1);
+			}
+			context.getUmlElementCache().clearRenamedNamespaces();
+		}finally{
+			monitor.done();
 		}
-		context.getUmlElementCache().clearRenamedNamespaces();
-		monitor.done();
 	}
 	private void synchronizeClasses(IProgressMonitor monitor){
 		try{
@@ -138,7 +140,6 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 			if(clss.size() > 0){
 				process.replaceModel(new OJPackage());
 				process.replaceModel(new TextWorkspace());
-
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
 				TextWorkspace tws = process.findModel(TextWorkspace.class);
 				if(hasNewJavaSourceFolders(workspace, tws)){

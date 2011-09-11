@@ -121,7 +121,7 @@ abstract public class OJClassGEN extends OJClassifier {
 	 * 
 	 * @param element 
 	 */
-	public void addToFields(OJField element) {
+	public  void addToFields(OJField element) {
 		if ( element == null ) {
 			return;
 		}

@@ -6,7 +6,6 @@ import java.util.List;
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -27,7 +26,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.nakeduml.eclipse.ApplyProfileAction;
+import org.nakeduml.eclipse.ProfileApplier;
 
 public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsComposite{
 	private CLabel timeUnitLabel;
@@ -124,7 +123,7 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 			}
 		}
 		if(this.stereotype == null || this.timeUnit==null){
-			Profile p = ApplyProfileAction.applyProfile(e.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
+			Profile p = ProfileApplier.applyProfile(e.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
 			this.stereotype = (Stereotype) p.getOwnedType(stereotypeName);
 			this.timeUnit=(Enumeration) p.getOwnedType("TimeUnit");
 		}

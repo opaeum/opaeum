@@ -3,8 +3,6 @@ package net.sf.nakeduml.feature;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
-
 public interface TransformationPhase<FEATURE extends ITransformationStep,ELEMENT>{
 	/**
 	 * Executes the entire phase

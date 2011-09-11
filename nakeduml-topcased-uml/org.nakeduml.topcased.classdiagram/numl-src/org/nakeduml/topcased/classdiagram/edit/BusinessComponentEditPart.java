@@ -25,7 +25,7 @@ public class BusinessComponentEditPart extends ClassEditPart{
 		ClassFigure fig = (ClassFigure) getFigure();
 		ComposedLabel lbl = (ComposedLabel) fig.getLabel();
 		lbl.setPrefix("<<businessComponent>>");
-		lbl.setPrefixIcon(NakedUmlPlugin.getDefault().getImageRegistry().get("Actor"));
+//		lbl.setPrefixIcon(NakedUmlPlugin.getDefault().getImageRegistry().get("Actor"));
 	}
 	@Override
 	protected IFigure createFigure(){

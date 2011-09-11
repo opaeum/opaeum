@@ -41,7 +41,6 @@
     </pluginManagement>
   </build>
   <modules>
-    <module>null</module>
     <module>structure</module>
   </modules>
   <repositories>

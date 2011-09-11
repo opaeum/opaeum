@@ -7,12 +7,16 @@ import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
 public class ToggleAutomaticSynchronization extends AbstractOpiumAction{
 	public ToggleAutomaticSynchronization(IStructuredSelection selection2){
-		super(selection2, NakedUmlEditor.getNakedUmlEclipseContextFor((IContainer) selection2.getFirstElement()).getAutoSync()?"Turn off Auto Synchronization":"Turn on Auto Synchronization");
+		super(selection2, calculateName(selection2));
+	}
+	private static String calculateName(IStructuredSelection selection2){
+		NakedUmlEclipseContext ctx = NakedUmlEditor.getContextFor((IContainer) selection2.getFirstElement());
+		return ctx!=null &&  ctx.getAutoSync()?"Turn off Auto Synchronization":"Turn on Auto Synchronization";
 	}
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getNakedUmlEclipseContextFor(folder);
+		final NakedUmlEclipseContext currentContext = NakedUmlEditor.findOrCreateContextFor(folder);
 		currentContext.setAutoSync(!currentContext.getAutoSync());
 	}
 }

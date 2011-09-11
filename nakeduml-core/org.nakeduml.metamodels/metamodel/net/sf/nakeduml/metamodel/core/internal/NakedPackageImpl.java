@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 		this.codeGenerationStrategy = codeGenerationStrategy;
 	}
 	@Override
-	public void addOwnedElement(INakedElement element){
+	public synchronized void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
 		element.setOwnerElement(this);
 		if(element instanceof INakedPackage){

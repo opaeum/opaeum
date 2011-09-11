@@ -88,17 +88,16 @@ public class UmlElementCache extends EContentAdapter{
 	long lastChange = System.currentTimeMillis();
 	private Set<UMLResource> resourcesBeingLoaded = new HashSet<UMLResource>();
 	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
-	// private Set<EObject> resourceChanges = new HashSet<EObject>();
 	public UmlElementCache(EmfResourceHelper helper,NakedUmlConfig cfg){
 		this.resourceHelper = helper;
-		reinitializeProcess(cfg);
-	}
-	public void reinitializeProcess(NakedUmlConfig cfg){
 		this.cfg = cfg;
+		reinitializeProcess();
+	}
+	public void reinitializeProcess(){
 		this.transformationProcess = new TransformationProcess();
 		this.transformationProcess.initialize(cfg, getTransformationSteps());
 		this.nakedModelWorspace = new NakedModelWorkspaceImpl();
-		this.nakedModelWorspace .setWorkspaceMappingInfo(cfg.getWorkspaceMappingInfo());
+		this.nakedModelWorspace.setWorkspaceMappingInfo(cfg.getWorkspaceMappingInfo());
 		this.transformationProcess.replaceModel(nakedModelWorspace);
 		this.nakedUmlChanges.clear();
 	}
@@ -113,6 +112,7 @@ public class UmlElementCache extends EContentAdapter{
 		this.transformationProcess.execute(log);
 		return emfWorkspace;
 	}
+	@SuppressWarnings("unchecked")
 	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
 		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(StereotypeApplicationExtractor.class,
 				JavaNameRegenerator.class, PersistentNameGenerator.class));
@@ -259,8 +259,9 @@ public class UmlElementCache extends EContentAdapter{
 	}
 	private boolean isSynchronizableElement(EObject e){
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
-				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation()==null)|| e instanceof Classifier || e instanceof Transition
-				|| e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization || e instanceof InterfaceRealization;
+				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation() == null) || e instanceof Classifier
+				|| e instanceof Transition || e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization
+				|| e instanceof InterfaceRealization;
 	}
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);

@@ -182,14 +182,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		OJAnnotatedField newOne = new OJAnnotatedField("newOne", mapToAssClass.javaBaseFacadeTypePath());
 		internalAdder.getBody().addToLocals(newOne);
 		newOne.setInitExp("new " + mapToAssClass.javaBaseType() + "(this," + map.fieldname() + ")");
-		if(map.isMany()){
-			internalAdder.getBody().addToStatements(ref + mapToAssClass.fieldname() + ".add(newOne)");
-		}else{
-			internalAdder.getBody().addToStatements(ref + mapToAssClass.fieldname() + "=newOne");
-		}
+		internalAdder.getBody().addToStatements(ref + mapToAssClass.internalAdder() + "(newOne)");
 		if(aMap.getOtherEndToAssocationClassMap() != null){
-			//Could be non-navigable
-			internalAdder.getBody().addToStatements("newOne." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(newOne)");
+			// Could be non-navigable
+			internalAdder.getBody().addToStatements(
+					"newOne." + aMap.getAssocationClassToOtherEndMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(newOne)");
 		}
 		owner.addToOperations(internalAdder);
 	}
@@ -330,7 +327,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			INakedProperty p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-			if(!(p.getOtherEnd() != null || p.getOtherEnd().isDerived())&& p.getOtherEnd().isNavigable()){
+			if(!(p.getOtherEnd() != null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 				if(otherMap.isMany()){
 					if(!OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){

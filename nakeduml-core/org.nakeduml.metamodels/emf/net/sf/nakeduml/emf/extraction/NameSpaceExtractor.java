@@ -39,9 +39,7 @@ import net.sf.nakeduml.metamodel.statemachines.StateMachineKind;
 import net.sf.nakeduml.metamodel.statemachines.internal.NakedStateMachineImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedActorImpl;
 import net.sf.nakeduml.metamodel.usecases.internal.NakedUseCaseImpl;
-import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.workspace.MappedType;
-import net.sf.nakeduml.validation.CoreValidationRule;
 import net.sf.nakeduml.validation.EmfValidationRule;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
@@ -208,7 +206,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		});
 		if(!representsUser){
 			for(Dependency o:c.getClientDependencies()){
-				if(o.getSuppliers().get(0) instanceof Actor){
+				if(o.getSuppliers().size()==1 &&  o.getSuppliers().get(0) instanceof Actor){
 					representsUser = true;
 				}
 			}

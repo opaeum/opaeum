@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
 
 /**
  * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
@@ -50,6 +51,7 @@ public class EmfWorkspace implements Element{
 	private EmfResourceHelper uriResolver;
 	private Set<Model> libraries = new HashSet<Model>();
 	private Map<String,Element> elementMap = new HashMap<String,Element>();
+	private Map<Resource,Map<String,Element>> modelElementMap = new HashMap<Resource,Map<String,Element>>();
 	private String name;
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
@@ -69,7 +71,13 @@ public class EmfWorkspace implements Element{
 		this.identifier = identifier;
 	}
 	public final void putElement(Element e){
-		elementMap.put(getId(e), e);
+		elementMap=null;
+		Map<String,Element> map = modelElementMap.get(e.eResource());
+		if(map==null){
+			map = new HashMap<String,Element>();
+			modelElementMap.put(e.eResource(), map);
+		}
+		map.put(getId(e), e);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -370,13 +378,19 @@ public class EmfWorkspace implements Element{
 		for(Resource resource:getResourceSet().getResources()){
 			if(!isReadOnly(resource)){
 				try{
+					saveStereotypes(resource);
 					resource.save(new HashMap<Object,Object>());
+					
 				}catch(IOException e){
 					throw new RuntimeException(e);
 				}
 			}
 		}
 	}
+	private static void saveStereotypes(Resource r){
+		//see StereotypeApplicationHelper;
+	}
+
 	private static boolean isReadOnly(Resource resource){
 		URI uri = resource.getURI();
 		return isSchemeReadOnly(uri.scheme()) || isPluginModel(uri);
@@ -388,9 +402,35 @@ public class EmfWorkspace implements Element{
 		return Arrays.asList("pathmap").contains(scheme);
 	}
 	public Map<String,Element> getElementMap(){
+		if(elementMap==null){
+			elementMap=new HashMap<String,Element>();
+			for(Map<String,Element> map:modelElementMap.values()){
+				elementMap.putAll(map);
+			}
+		}
 		return elementMap;
 	}
 	public void setName(String workspaceIdentifier){
 		this.name = workspaceIdentifier;
+	}
+	public Model findOwnedModel(String string){
+		for(Model model:getOwnedModels()){
+			if(model.getName().equals(string)){
+				return model;
+			}
+		}
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+	public Profile findOwnedProfile(String string){
+		for(Profile model:getOwnedProfiles()){
+			if(model.getName().equals(string)){
+				return model;
+			}
+		}
+		return null;
+		// TODO Auto-generated method stub
+		
 	}
 }

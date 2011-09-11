@@ -79,7 +79,7 @@ public class OJUtil{
 		ojClass.addToOperations(main);
 		return main;
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier owner,INakedTypedElement typedAndOrdered){
+	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(INakedClassifier owner,INakedTypedElement typedAndOrdered){
 		NakedStructuralFeatureMap linkedParameter;
 		if(typedAndOrdered instanceof INakedProperty){
 			linkedParameter = OJUtil.buildStructuralFeatureMap((INakedProperty) typedAndOrdered);
@@ -93,7 +93,7 @@ public class OJUtil{
 		}
 		return linkedParameter;
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(INakedProperty sf){
+	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(INakedProperty sf){
 		NakedStructuralFeatureMap map = structuralFeatureMaps.get(sf);
 		if(map == null){
 			map = new NakedStructuralFeatureMap(sf);
@@ -101,7 +101,7 @@ public class OJUtil{
 		}
 		return map;
 	}
-	public static NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,NakedUmlLibrary lib){
+	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,NakedUmlLibrary lib){
 		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
 		if(map == null){
 			ActionFeatureBridge bridge = buildActionBridge(action, lib);

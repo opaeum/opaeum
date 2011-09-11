@@ -36,7 +36,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.nakeduml.eclipse.EmfBehaviorUtil;
 import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfPropertyUtil;
-import org.nakeduml.eclipse.ImportLibraryAction;
+import org.nakeduml.eclipse.LibraryImporter;
 import org.topcased.modeler.uml.oclinterpreter.DelegatingPackageRegistry;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.UMLOCLFactory;
@@ -89,7 +89,7 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
-			Model bpmLib = ImportLibraryAction.findLibrary(context.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+			Model bpmLib = LibraryImporter.findLibrary(context.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 			if(bpmLib != null){
 				Type br = bpmLib.getOwnedType("BusinessRole");
 				if(br != null){
@@ -99,7 +99,7 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
-			Model simpleTypes = ImportLibraryAction.findLibrary(context.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES);
+			Model simpleTypes = LibraryImporter.findLibrary(context.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES);
 			if(simpleTypes != null){
 				Type br = simpleTypes.getOwnedType("DateTime");
 				if(br != null){

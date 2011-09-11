@@ -9,7 +9,6 @@ import java.util.Map;
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.name.NameConverter;
 import org.nakeduml.runtime.domain.EnumResolver;
-import org.nakeduml.runtime.domain.ExceptionAnalyser;
 import org.nakeduml.runtime.domain.IEnum;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IProcessObject;

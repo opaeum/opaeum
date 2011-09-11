@@ -61,11 +61,16 @@ public class NakedUmlConfig{
 	}
 	public ISourceFolderStrategy getSourceFolderStrategy(){
 		try{
-			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.MavenSourceFolderStrategy");
+			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "net.sf.nakeduml.pomgeneration.SingleProjectMavenSourceFolderStrategy");
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
-			return null;
+			Class<?> c = getClass("net.sf.nakeduml.pomgeneration.SingleProjectMavenSourceFolderStrategy");
+			try{
+				return (ISourceFolderStrategy) c.newInstance();
+			}catch(Exception e1){
+				return null;
+			}
 		}
 	}
 	public static Class<?> getClass(String name){

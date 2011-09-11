@@ -102,25 +102,39 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	}
 	private Set<Element> filterChildrenOut(Collection<EObject> elements){
 		Set<Element> elementsToProcess = new HashSet<Element>();
-		outer:for(EObject element1:elements){
-			EObject o = element1;
-			while(!(canBeProcessedIndividually(o) || o == null)){
-				o = getContainer(o);
+		if(elements.size() > 300){
+			for(EObject eObject:elements){
+				if(eObject instanceof Element){
+					elementsToProcess.add(((Element) eObject).getNearestPackage());
+				}
 			}
-			if(o != null){
-				for(EObject element2:elements){
-					if(contains(element2, o)){
+		}else{
+			Set<Element> containers = new HashSet<Element>();
+			for(EObject element1:elements){
+				EObject o = element1;
+				while(!(canBeProcessedIndividually(o) || o == null)){
+					o = getContainer(o);
+				}
+				if(o != null){
+					containers.add((Element) o);
+				}
+			}
+			outer:for(Element element:containers){
+				for(EObject element2:containers){
+					if(contains(element2, element)){
 						// skip - parent will be processed
 						continue outer;
 					}
 				}
-				elementsToProcess.add((Element) o);
+				elementsToProcess.add((Element) element);
 			}
 		}
 		return elementsToProcess;
 	}
 	private boolean contains(EObject arg0,EObject arg1){
-		if(arg1.eContainer() == null){
+		if(arg1 == arg0){
+			return false;
+		}else if(arg1.eContainer() == null){
 			return false;
 		}else if(arg0.equals(arg1.eContainer())){
 			return true;
@@ -139,6 +153,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return o.eContainer();
 	}
 	private boolean canBeProcessedIndividually(EObject e){
+		// TODO et latest logic from UmlElementCache and consolidate
 		return e instanceof Action || e instanceof Property || e instanceof Operation || e instanceof Classifier || e instanceof State || e instanceof Transition
 				|| e instanceof ActivityEdge || e instanceof Package;
 	}

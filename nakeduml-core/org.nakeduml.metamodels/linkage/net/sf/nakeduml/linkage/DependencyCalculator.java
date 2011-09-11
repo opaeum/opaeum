@@ -1,6 +1,5 @@
 package net.sf.nakeduml.linkage;
 
-import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;

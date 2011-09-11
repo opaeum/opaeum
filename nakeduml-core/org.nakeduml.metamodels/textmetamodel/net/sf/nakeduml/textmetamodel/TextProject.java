@@ -14,7 +14,7 @@ public class TextProject extends TextOutputNode{
 	}
 
 
-	public SourceFolder findOrCreateSourceFolder(String name, boolean shouldClean) {
+	public synchronized SourceFolder findOrCreateSourceFolder(String name, boolean shouldClean) {
 		for (SourceFolder r : sourceFolders) {
 			if (r.name.equals(name)) {
 				return r;

@@ -3,6 +3,7 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,10 +36,10 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	 */
 	protected String id;
 	protected MappingInfo mappingInfo;
-	private Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
+	private Map<String,INakedInstanceSpecification> stereotypes = Collections.synchronizedMap(new HashMap<String,INakedInstanceSpecification>());
 	private INakedElementOwner ownerElement;
-	private Collection<INakedElement> ownedElements = new HashSet<INakedElement>();
-	private List<INakedComment> comments = new ArrayList<INakedComment>();
+	private Collection<INakedElement> ownedElements = Collections.synchronizedSet(new HashSet<INakedElement>());
+	private List<INakedComment> comments = Collections.synchronizedList(new ArrayList<INakedComment>());
 	private String name;
 	private String documentation;
 	private boolean storeMappingInfo;

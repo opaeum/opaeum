@@ -291,7 +291,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	private void setDeletedOn(NakedStructuralFeatureMap map,OJAnnotatedClass ojOwner){
 		if(map.getFeature() instanceof INakedProperty){
 			INakedProperty p = (INakedProperty) map.getFeature();
-			if(p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
+			if(!p.isDerived() && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
 				OJOperation setter = OJUtil.findOperation(ojOwner, map.setter());
 				for(OJStatement s:setter.getBody().getStatements()){
 					if(s instanceof OJIfStatement && AttributeImplementor.IF_PARAM_NOT_NULL.equals(s.getName())){

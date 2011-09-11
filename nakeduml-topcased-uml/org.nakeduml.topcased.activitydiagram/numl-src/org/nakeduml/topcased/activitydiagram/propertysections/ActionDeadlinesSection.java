@@ -30,7 +30,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
-import org.nakeduml.eclipse.ApplyProfileAction;
+import org.nakeduml.eclipse.ProfileApplier;
 import org.nakeduml.topcased.propertysections.AbsoluteTimeEventDetailsComposite;
 import org.nakeduml.topcased.propertysections.RelativeTimeEventDetailsComposite;
 import org.topcased.modeler.editor.MixedEditDomain;
@@ -151,7 +151,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 		Action action = (Action) getEObject();
-		Profile p = ApplyProfileAction.applyProfile(action.getModel(), StereotypeNames.OPIUM_BPM_PROFILE);
+		Profile p = ProfileApplier.applyProfile(action.getModel(), StereotypeNames.OPIUM_BPM_PROFILE);
 		Enumeration kind = (Enumeration) p.getOwnedType("DeadlineKind");
 		this.deadlineStereotype = p.getOwnedStereotype(StereotypeNames.DEADLINE);
 		this.taskStereotype = p.getOwnedStereotype(action instanceof OpaqueAction ? StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK

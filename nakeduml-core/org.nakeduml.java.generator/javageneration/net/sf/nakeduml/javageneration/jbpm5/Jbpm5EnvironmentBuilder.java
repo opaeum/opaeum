@@ -36,6 +36,10 @@ import org.nakeduml.runtime.jbpm.AbstractJbpmKnowledgeBase;
 },after = {})
 public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static class ProcessCollector extends VisitorAdapter<INakedElement,INakedModel>{
+		@Override
+		protected int getThreadPoolSize(){
+			return 1;
+		}
 		private Collection<INakedBehavior> processes = new ArrayList<INakedBehavior>();
 		@VisitBefore(matchSubclasses = true)
 		public void visitBehavior(INakedBehavior b){

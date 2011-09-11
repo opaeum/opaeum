@@ -46,7 +46,8 @@ public class NakedUmlItemProviderAdapterFactory extends UMLItemProviderAdapterFa
 				}
 				@Override
 				public Object getImage(Object object){
-					return overlayImage(object, NakedUmlPlugin.getDefault().getImageRegistry().getDescriptor("Actor")); //$NON-NLS-1$
+					return super.getImage(object);
+//					return overlayImage(object, NakedUmlPlugin.getDefault().getImageRegistry().getDescriptor("Actor")); //$NON-NLS-1$
 				}
 			};
 		}

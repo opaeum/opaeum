@@ -12,10 +12,7 @@ import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
-import org.apache.maven.pom.Profile;
-import org.eclipse.emf.ecore.xml.type.AnyType;
 
 @StepDependency(phase = PomGenerationPhase.class,requires = {
 	BasicIntegratedAdaptorPomStep.class

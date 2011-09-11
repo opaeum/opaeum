@@ -12,33 +12,38 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
+import org.eclipse.uml2.uml.Model;
 
 public class DynamicOpiumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
 	@Override
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
-		List<ActionContributionItem> actions = new ArrayList<ActionContributionItem>();
-		if(hasUmlModels(selection)){
-			EditOpiumConfigAction action = new EditOpiumConfigAction(selection);
-			actions.add(new ActionContributionItem(action));
-			if(hasConfigFile(selection)){
-				action.setText("Edit Opium Settings");
-				ClearOpiumCacheACtion clc = new ClearOpiumCacheACtion(selection);
-				actions.add(new ActionContributionItem(clc));
-				RecompileModelDirectoryAction rmda = new RecompileModelDirectoryAction(selection);
-				actions.add(new ActionContributionItem(rmda));
-				ToggleAutomaticSynchronization t= new ToggleAutomaticSynchronization(selection);
-				actions.add(new ActionContributionItem(t));
-				RegenerateUuids ru= new RegenerateUuids(selection);
-				actions.add(new ActionContributionItem(ru));
-				UpdateClasspathAction uc= new UpdateClasspathAction(selection);
-				actions.add(new ActionContributionItem(uc));
-			}else{
-				action.setText("Convert to  Opium Model Directory");
+		List<IContributionItem> actions = new ArrayList<IContributionItem>();
+		if(selection.getFirstElement() instanceof Model){
+			actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
+		}else if(selection.getFirstElement() instanceof IContainer){
+			if(hasUmlModels(selection)){
+				EditOpiumConfigAction action = new EditOpiumConfigAction(selection);
+				actions.add(new ActionContributionItem(action));
+				if(hasConfigFile(selection)){
+					action.setText("Edit Opium Settings");
+					ClearOpiumCacheACtion clc = new ClearOpiumCacheACtion(selection);
+					actions.add(new ActionContributionItem(clc));
+					RecompileModelDirectoryAction rmda = new RecompileModelDirectoryAction(selection);
+					actions.add(new ActionContributionItem(rmda));
+					ToggleAutomaticSynchronization t = new ToggleAutomaticSynchronization(selection);
+					actions.add(new ActionContributionItem(t));
+					RegenerateUuids ru = new RegenerateUuids(selection);
+					actions.add(new ActionContributionItem(ru));
+					UpdateClasspathAction uc = new UpdateClasspathAction(selection);
+					actions.add(new ActionContributionItem(uc));
+				}else{
+					action.setText("Convert to  Opium Model Directory");
+				}
 			}
 		}
-		return (ActionContributionItem[]) actions.toArray(new ActionContributionItem[actions.size()]);
+		return (IContributionItem[]) actions.toArray(new IContributionItem[actions.size()]);
 	}
 	public static boolean hasUmlModels(IStructuredSelection selection2){
 		IContainer firstElement = (IContainer) selection2.getFirstElement();

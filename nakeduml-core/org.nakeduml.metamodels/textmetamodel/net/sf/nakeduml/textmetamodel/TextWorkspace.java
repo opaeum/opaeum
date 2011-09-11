@@ -11,7 +11,7 @@ public class TextWorkspace extends TextOutputNode {
 		super("Workspace");
 	}
 
-	public TextProject findOrCreateTextProject(String name) {
+	public synchronized TextProject findOrCreateTextProject(String name) {
 		TextProject result = findTextProject(name);
 		if (result == null) {
 			result = new TextProject(this, name);

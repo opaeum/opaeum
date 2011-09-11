@@ -65,9 +65,8 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			process = new TransformationProcess();
 			// Load classes for config
 			NakedUmlEclipsePlugin.getDefault();
-			NakedUmlConfig cfg = ne.getUmlElementCache().getConfig();
 			ne.addContextListener(new JavaSourceSynchronizer(ne, process));
-			reinitializeProcess(process, cfg,ne);
+			reinitializeProcess(process, ne);
 			processes.put(ne, process);
 		}
 		if(process!=null && ne.getCurrentEmfWorkspace() !=null && process.findModel(EmfWorkspace.class) != ne.getCurrentEmfWorkspace()){
@@ -76,15 +75,15 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		currentTransformationProcess = process;
 		return process;
 	}
-	public static void reinitializeProcess(TransformationProcess process,NakedUmlConfig cfg, NakedUmlEclipseContext ne){
-		Set<Class<? extends ITransformationStep>> steps = getAllSteps(cfg);
-		cfg .calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
-		mapAdditionalOutputRoots(cfg);
+	public static void reinitializeProcess(TransformationProcess process, NakedUmlEclipseContext ne){
+		Set<Class<? extends ITransformationStep>> steps = getAllSteps(ne.getUmlElementCache().getConfig());
+		ne.getUmlElementCache().getConfig().calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
+		mapAdditionalOutputRoots(ne.getUmlElementCache().getConfig());
 		process.removeModel(OJPackage.class);
 		process.removeModel(TextWorkspace.class);
 		process.removeModel(EmfWorkspace.class);
 		process.removeModel(INakedModelWorkspace.class);
-		process.initialize(cfg, steps);
+		process.initialize(ne.getUmlElementCache().getConfig(), steps);
 		process.replaceModel(ne.getUmlElementCache().getNakedWorkspace());
 	}
 	public static Set<Class<? extends ITransformationStep>> getAllSteps(NakedUmlConfig cfg){
@@ -132,6 +131,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return toSet(HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class,JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(IContainer folder){
-		return getTransformationProcess(NakedUmlEditor.getNakedUmlEclipseContextFor(folder));
+		return getTransformationProcess(NakedUmlEditor.findOrCreateContextFor(folder));
 	}
 }

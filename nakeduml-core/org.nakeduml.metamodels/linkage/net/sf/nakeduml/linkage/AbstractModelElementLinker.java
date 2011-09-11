@@ -34,7 +34,7 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		return this.affectedElements;
 	}
 	public void setCurrentRootObject(INakedRootObject a){
-		this.currentRootObject = a;
+		super.setCurrentRootObject(a);
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
@@ -47,7 +47,7 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		//Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
 		boolean isLinkedNonGeneratingObject =  false;
 		if(o instanceof INakedRootObject){
-			isLinkedNonGeneratingObject =!workspace.getGeneratingModelsOrProfiles().contains(o) && ((INakedRootObject)o).getStatus().isLinked();
+			isLinkedNonGeneratingObject =/*!workspace.getGeneratingModelsOrProfiles().contains(o) &&*/ ((INakedRootObject)o).getStatus().isLinked();
 		}
 		return !(shouldIgnoreBecauseItIsDeleted || isLinkedNonGeneratingObject);
 	}

@@ -17,7 +17,6 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.internal.EndToAssociationClass;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor implements ITransformationStep{

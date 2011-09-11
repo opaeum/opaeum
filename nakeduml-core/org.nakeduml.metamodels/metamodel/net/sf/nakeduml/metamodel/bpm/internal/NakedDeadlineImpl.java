@@ -1,13 +1,13 @@
 package net.sf.nakeduml.metamodel.bpm.internal;
 
-import org.nakeduml.runtime.domain.DeadlineKind;
-
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
 import net.sf.nakeduml.metamodel.bpm.INakedDefinedResponsibility;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+
+import org.nakeduml.runtime.domain.DeadlineKind;
 
 public class NakedDeadlineImpl extends AbstractTimeEventImpl implements INakedDeadline{
 	private static final long serialVersionUID = -2226272827359217290L;

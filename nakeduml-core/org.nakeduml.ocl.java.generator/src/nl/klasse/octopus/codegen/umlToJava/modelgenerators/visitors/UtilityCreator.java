@@ -14,45 +14,46 @@ import org.nakeduml.java.metamodel.OJPathName;
  * ModelTransformer :
  */
 public class UtilityCreator {
-	static private OJPathName utilPath = new OJPathName("utilities");
-	static private OJPackage utilPack = null;
+	static private ThreadLocal<OJPathName> utilPath =  new ThreadLocal<OJPathName>();
+	static private ThreadLocal<OJPackage> utilPack = new ThreadLocal<OJPackage>();
 
 	/**
 	 * 
 	 */
 	public UtilityCreator() {
 		super();
+		utilPath.set(new OJPathName("utilities"));
 	}
 
 	public OJPackage makeUtilPack(OJPackage javamodel) {
-		utilPack = GenerationHelpers.createPackage(javamodel, utilPath);
-		utilPath = utilPack.getPathName();
-		return utilPack;
+		utilPack.set(GenerationHelpers.createPackage(javamodel, utilPath.get()));
+		utilPath.set(utilPack.get().getPathName());
+		return utilPack.get();
 	}
 
 	/**
 	 * @return
 	 */
 	public static OJPathName getUtilPathName() {
-		return utilPath.getCopy();
+		return utilPath.get().getCopy();
 	}
 
 	/**
 	 * @param name
 	 */
 	public static void setUtilPathName(OJPathName name) {
-		utilPath = name;
+		utilPath.set(name);
 	}
 
 	/**
 	 * @return
 	 */
 	public static OJPackage getUtilPack() {
-		return utilPack;
+		return utilPack.get();
 	}
 
 	public static void setUtilPackage(OJPackage findPackage) {
-		utilPack = findPackage;
-		utilPath=findPackage.getPathName();
+		utilPack.set(findPackage);
+		utilPath.set(findPackage.getPathName());
 	}
 }

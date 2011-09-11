@@ -179,10 +179,10 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 		if ( this.f_operations.contains(element) ) {
 			this.f_operations.remove(element);
 		}
-		this.f_operations.add(element);
 		if ( element.getOwner() != null ) {
 			element.getOwner().z_internalRemoveFromOperations(element);
 		}
+		this.f_operations.add(element);
 		element.z_internalAddToOwner( (OJClassifier)((OJClassifier)this) );
 	}
 	

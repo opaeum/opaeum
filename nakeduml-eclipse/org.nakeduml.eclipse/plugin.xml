@@ -3,66 +3,6 @@
 <plugin>
    <extension-point id="org.nakeduml.eclipse.transformationStep" name="TransformationStep" schema="schema/transformationStep.exsd"/>
    <extension-point id="org.nakeduml.eclipse.sourceFolderStrategy" name="SourceFolderStrategy" schema="schema/sourceFolderStrategy.exsd"/>
- <extension
-          point="org.eclipse.ui.popupMenus">
-       <objectContribution
-             adaptable="true"
-             id="net.sf.nakeduml.uml2uim.actions.graphic.menu"
-             objectClass="org.topcased.modeler.uml.alldiagram.edit.ElementEditPart">
-          <menu
-                id="org.nakeduml.graphic.menu"
-                label="Opium">
-             <groupMarker
-                   name="numlActionsGroup">
-             </groupMarker>
-          </menu>
-       </objectContribution>
-       <objectContribution
-             adaptable="false"
-             id="net.sf.nakeduml.uml2uim.actions.outline.menu"
-             objectClass="org.eclipse.uml2.uml.NamedElement">
-          <menu
-                id="org.nakeduml.outline.menu"
-                label="Opium">
-             <groupMarker
-                   name="numlActionsGroup">
-             </groupMarker>
-          </menu>
-       </objectContribution>       
-    </extension>
-    <extension
-          point="org.eclipse.ui.popupMenus">
-        <objectContribution
-             id="org.nakeduml.eclipse.actions.importsimpletypes"
-             objectClass="org.eclipse.uml2.uml.Model">
-          <action
-                class="org.nakeduml.eclipse.ImportLibraryAction"
-                enablesFor="*"
-                id="org.nakeduml.eclipse.ImportSimpleTypesAction"
-                label="Import Opium Simple Types"
-                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
-          </action>         
-       </objectContribution>
-    </extension>
-    <extension
-          point="org.eclipse.ui.popupMenus">
-        <objectContribution
-             id="org.nakeduml.eclipse.applysimpletypes"
-             objectClass="org.eclipse.uml2.uml.Model">
-          <action
-                class="org.nakeduml.eclipse.ApplyProfileAction"
-                enablesFor="*"
-                id="org.nakeduml.eclipse.ApplyNakedUMLProfileAction"
-                label="Apply Opium Profile"
-                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
-          </action>
-          <action
-                class="org.nakeduml.eclipse.ApplyProfileAction"
-                enablesFor="*"
-                id="org.nakeduml.eclipse.ApplyNakedUMLProfileForBPMAction"
-                label="Apply Opium BPM Profile"
-                menubarPath="org.nakeduml.outline.menu/numlActionsGroup">
-          </action>
-       </objectContribution>
-    </extension>
+   <extension-point id="org.nakeduml.eclipse.modelLibrary" name="modelLibrary" schema="schema/modelLibrary.exsd"/>
+   <extension-point id="org.nakeduml.eclipse.profile" name="Profile" schema="schema/profile.exsd"/>
 </plugin>

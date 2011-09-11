@@ -10,8 +10,6 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
-import org.nakeduml.runtime.domain.TimeUnit;
-
 public abstract class AbstractTimeEventImpl extends NakedEventImpl{
 	static public final String TIME_UNIT = "timeUnit";
 	private static final long serialVersionUID = -4132717082708308377L;

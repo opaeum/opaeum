@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_BDIgMKWcEeC1jO7mb0dnpQ/1" xmlns:NakedUMLProfileForBPM="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7" xmlns:OpiumBPMProfile="http:///schemas/OpiumBPMProfile/_rdGuoM46EeCF9om6LCXd3w/0" xmlns:OpiumBPMProfile_1="http:///schemas/OpiumBPMProfile/_2aeOMNfJEeCXQPv0AMhLcg/1" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0" xmlns:OpiumStandardProfile_1="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_BDIgMKWcEeC1jO7mb0dnpQ/1 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_BDMKkKWcEeC1jO7mb0dnpQ http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7 pathmap://NAKEDUML_MODELS/profiles/OpiumBPMProfile.uml#_GHwXMJSyEeChgI0v02SJHQ http:///schemas/OpiumBPMProfile/_rdGuoM46EeCF9om6LCXd3w/0 pathmap://NAKEDUML_MODELS/profiles/OpiumBPMProfile.uml#_rdH8wM46EeCF9om6LCXd3w http:///schemas/OpiumBPMProfile/_2aeOMNfJEeCXQPv0AMhLcg/1 pathmap://NAKEDUML_MODELS/profiles/OpiumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_XjuT8M47EeC2p-F-aJf6AA http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpiumBPMProfile="http:///schemas/OpiumBPMProfile/1.0.0.6" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpiumBPMProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="structuretests">
     <eAnnotations xmi:id="_NwyzkM42EeCd6PY8fuVk-w" source="http://www.nakeduml.org">
       <details xmi:id="_Nwyzkc42EeCd6PY8fuVk-w" key="uuid" value="0d868eef_5f51_4ed3_802b_5172cafe6bc4"/>
@@ -91,7 +91,7 @@
         </lowerValue>
       </ownedAttribute>
     </packagedElement>
-    <packagedElement xmi:type="uml:Component" xmi:id="_GXyegKTdEeCJw_uhYL7KOA" name="StructuredBusinessUnit" clientDependency="_Gq6O0KTdEeCJw_uhYL7KOA _lDNuAc4yEeCNN6tsVGP8qA">
+    <packagedElement xmi:type="uml:Component" xmi:id="_GXyegKTdEeCJw_uhYL7KOA" name="StructuredBusinessUnit" clientDependency="_lDNuAc4yEeCNN6tsVGP8qA">
       <eAnnotations xmi:id="_NwzaqM42EeCd6PY8fuVk-w" source="http://www.nakeduml.org">
         <details xmi:id="_Nw0BsM42EeCd6PY8fuVk-w" key="uuid" value="a0a0955d_a840_4908_99f7_5bfeb273a84e"/>
         <details xmi:id="_Nw0Bsc42EeCd6PY8fuVk-w" key="BusinessComponent" value=""/>
@@ -948,13 +948,6 @@
           </weight>
         </edge>
       </ownedBehavior>
-      <interfaceRealization xmi:id="_Gq6O0KTdEeCJw_uhYL7KOA" name="isABusinessComponent" client="_GXyegKTdEeCJw_uhYL7KOA">
-        <eAnnotations xmi:id="_Nw3FBM42EeCd6PY8fuVk-w" source="http://www.nakeduml.org">
-          <details xmi:id="_Nw3FBc42EeCd6PY8fuVk-w" key="uuid" value="dd70a889_1d67_4c72_81f3_e6c54c9d3ba4"/>
-        </eAnnotations>
-        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/NakedUMLLibraryForBPM.uml#_uVek8IoVEeCLqpffVZYAlw"/>
-        <contract href="pathmap://NAKEDUML_MODELS/libraries/NakedUMLLibraryForBPM.uml#_uVek8IoVEeCLqpffVZYAlw"/>
-      </interfaceRealization>
       <interfaceRealization xmi:id="_lDNuAc4yEeCNN6tsVGP8qA" name="isABusinessComponent" client="_GXyegKTdEeCJw_uhYL7KOA">
         <eAnnotations xmi:id="_Nw46MM42EeCd6PY8fuVk-w" source="http://www.nakeduml.org">
           <details xmi:id="_Nw46Mc42EeCd6PY8fuVk-w" key="uuid" value="ba3f553e_8604_47cb_bf99_3212296df703"/>
@@ -1711,22 +1704,16 @@
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <NakedUMLProfileForBPM:BusinessComponent xmi:id="_vrAEsM41EeCd6PY8fuVk-w" base_Component="_GXyegKTdEeCJw_uhYL7KOA"/>
-  <NakedUMLProfileForBPM:BusinessRole xmi:id="_vrBS0M41EeCd6PY8fuVk-w" base_Class="_KB7N8KTdEeCJw_uhYL7KOA"/>
-  <NakedUMLProfileForBPM:BusinessService xmi:id="_vrBS0c41EeCd6PY8fuVk-w" base_Interface="_MO2YgKTdEeCJw_uhYL7KOA"/>
-  <NakedUMLProfileForBPM:BusinessRole xmi:id="_vrB54M41EeCd6PY8fuVk-w" base_Class="_r0Su8Mj9EeCI7JpDeqDs_w"/>
-  <NakedUMLProfileForBPM:EmbeddedSingleScreenTask xmi:id="_vrE9MM41EeCd6PY8fuVk-w" base_OpaqueAction="_X7AxEMgxEeClwtChKyHx4g"/>
-  <NakedUMLProfile:Package xmi:id="_OuP6UM42EeCd6PY8fuVk-w" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.testworkspace.test2"/>
-  <OpiumStandardProfile:Package xmi:id="_bWPQgNGiEeCHG-dhmp-krw" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.testworkspace.test2"/>
-  <OpiumStandardProfile:RelativeTimeEvent xmi:id="_WWeIQNINEeCy-ZqdUqaTCg" timeUnit="BUSINESS_HOUR" base_TimeEvent="_GoqdgNILEeClk9YZNT6d5g"/>
+  <OpiumStandardProfile:Package xmi:id="_bWPQgNGiEeCHG-dhmp-krw" mappedImplementationPackage="org.nakeduml.testworkspace.test2" base_Package="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpiumStandardProfile:RelativeTimeEvent xmi:id="_WWeIQNINEeCy-ZqdUqaTCg" base_TimeEvent="_GoqdgNILEeClk9YZNT6d5g"/>
   <OpiumStandardProfile:RelativeTimeEvent xmi:id="_1iBSkNI_EeCFA9wDIDCv_w" base_TimeEvent="_1htJgNI_EeCFA9wDIDCv_w"/>
   <OpiumBPMProfile:EmbeddedSingleScreenTask xmi:id="_cXeaENJdEeCmwMFM19SqTw"/>
-  <OpiumBPMProfile_1:EmbeddedSingleScreenTask xmi:id="_fbe9oNJdEeCmwMFM19SqTw" base_OpaqueAction="_X7AxEMgxEeClwtChKyHx4g"/>
-  <OpiumBPMProfile_1:EmbeddedSingleScreenTask xmi:id="_ps_CoNJdEeCmwMFM19SqTw" deadlines="_1G28kNJrEeC6YNwDdLi-bg _zXtdsNJsEeCxavS5bFQdwg" base_OpaqueAction="_ps9NcNJdEeCmwMFM19SqTw"/>
+  <OpiumBPMProfile:EmbeddedSingleScreenTask xmi:id="_fbe9oNJdEeCmwMFM19SqTw" base_OpaqueAction="_X7AxEMgxEeClwtChKyHx4g"/>
+  <OpiumBPMProfile:EmbeddedSingleScreenTask xmi:id="_ps_CoNJdEeCmwMFM19SqTw" deadlines="_1G28kNJrEeC6YNwDdLi-bg _zXtdsNJsEeCxavS5bFQdwg" base_OpaqueAction="_ps9NcNJdEeCmwMFM19SqTw"/>
   <OpiumBPMProfile:Deadline xmi:id="_tG0FMNJdEeCmwMFM19SqTw"/>
-  <OpiumBPMProfile_1:AcceptDeadlineAction xmi:id="_ysGxYNJrEeC6YNwDdLi-bg" base_AcceptEventAction="_ysAqwNJrEeC6YNwDdLi-bg"/>
-  <OpiumStandardProfile:RelativeTimeEvent xmi:id="_1G3jodJrEeC6YNwDdLi-bg" timeUnit="ACTUAL_MINUTE" base_TimeEvent="_1G28kNJrEeC6YNwDdLi-bg"/>
-  <OpiumStandardProfile:RelativeTimeEvent xmi:id="_zXvS4dJsEeCxavS5bFQdwg" timeUnit="BUSINESS_HOUR" base_TimeEvent="_zXtdsNJsEeCxavS5bFQdwg"/>
-  <OpiumStandardProfile_1:Model xmi:id="__AK90Nh7EeCkKPIk8r-p8A" mappedImplementationPackage="org.nakeduml.structuretests.test2" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
-  <OpiumBPMProfile_1:BusinessRole xmi:id="_psaTINlpEeCOp5HGxiLYAQ" base_Class="_psLCkNlpEeCOp5HGxiLYAQ"/>
+  <OpiumBPMProfile:AcceptDeadlineAction xmi:id="_ysGxYNJrEeC6YNwDdLi-bg" base_AcceptEventAction="_ysAqwNJrEeC6YNwDdLi-bg"/>
+  <OpiumStandardProfile:RelativeTimeEvent xmi:id="_1G3jodJrEeC6YNwDdLi-bg" base_TimeEvent="_1G28kNJrEeC6YNwDdLi-bg"/>
+  <OpiumStandardProfile:RelativeTimeEvent xmi:id="_zXvS4dJsEeCxavS5bFQdwg" base_TimeEvent="_zXtdsNJsEeCxavS5bFQdwg"/>
+  <OpiumStandardProfile:Model xmi:id="__AK90Nh7EeCkKPIk8r-p8A" mappedImplementationPackage="org.nakeduml.structuretests.test2" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpiumBPMProfile:BusinessRole xmi:id="_psaTINlpEeCOp5HGxiLYAQ" base_Class="_psLCkNlpEeCOp5HGxiLYAQ"/>
 </xmi:XMI>

@@ -14,6 +14,13 @@ import net.sf.nakeduml.textmetamodel.TextProject;
 @StepDependency(phase = FileGenerationPhase.class)
 public class TextFileGenerator extends AbstractTextNodeVisitor implements ITransformationStep {
 
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
+
+
+
 	public TextFileGenerator() {
 	}
 

@@ -18,7 +18,7 @@ import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
 public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace>{
-	protected INakedRootObject currentRootObject;
+	private ThreadLocal<INakedRootObject> currentRootObject=new ThreadLocal<INakedRootObject>();
 	protected TransformationContext transformationContext;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
@@ -59,7 +59,7 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 	protected void setCurrent(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
-			this.currentRootObject = pkg;
+			this.setCurrentRootObject(pkg);
 		}
 	}
 	@Override
@@ -67,7 +67,7 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 		INakedElementOwner parent = o;
 		while(parent instanceof INakedElement){
 			if(parent instanceof INakedRootObject){
-				currentRootObject = (INakedRootObject) parent;
+				setCurrentRootObject((INakedRootObject) parent);
 				break;
 			}else{
 				parent = ((INakedElement) parent).getOwnerElement();
@@ -76,11 +76,17 @@ public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,
 		super.visitOnly(o);
 	}
 	protected Collection<INakedRootObject> getModelInScope(){
-		Set<INakedRootObject> result = new HashSet<INakedRootObject>(currentRootObject.getAllDependencies());
-		result.add(currentRootObject);
+		Set<INakedRootObject> result = new HashSet<INakedRootObject>(getCurrentRootObject().getAllDependencies());
+		result.add(getCurrentRootObject());
 		return result;
 	}
 	public final void setTransformationContext(TransformationContext c){
 		this.transformationContext = c;
+	}
+	protected INakedRootObject getCurrentRootObject(){
+		return currentRootObject.get();
+	}
+	protected void setCurrentRootObject(INakedRootObject currentRootObject){
+		this.currentRootObject.set(currentRootObject);
 	}
 }

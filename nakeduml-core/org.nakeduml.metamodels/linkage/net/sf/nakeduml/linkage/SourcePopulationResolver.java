@@ -52,7 +52,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(INakedProperty p){
 		if(p.getOwner() instanceof INakedEntity){
-			if(workspace.isPrimaryModel(currentRootObject)){
+			if(workspace.isPrimaryModel(getCurrentRootObject())){
 				super.getAffectedElements().add(p.getOwner());
 			}
 			buildSourcePopulationConstraint((ICompositionParticipant) p.getOwner(), p);

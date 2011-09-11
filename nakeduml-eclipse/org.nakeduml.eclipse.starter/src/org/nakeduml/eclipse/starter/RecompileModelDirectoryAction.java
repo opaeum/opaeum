@@ -28,7 +28,7 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getNakedUmlEclipseContextFor(folder);
+		final NakedUmlEclipseContext currentContext = NakedUmlEditor.findOrCreateContextFor(folder);
 		new Job("Recompiling model directory"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){

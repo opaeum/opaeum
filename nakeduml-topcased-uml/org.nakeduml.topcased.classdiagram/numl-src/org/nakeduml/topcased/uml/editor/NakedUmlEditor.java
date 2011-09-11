@@ -1,5 +1,6 @@
 package org.nakeduml.topcased.uml.editor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,8 @@ import net.sf.nakeduml.feature.NakedUmlConfig;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -16,8 +19,11 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -44,12 +50,17 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	}
 	@Override
 	public void close(boolean save){
-		super.close(save);
-		if(save == false && currentContext != null){
-			currentContext.removeNakedModel(getResourceSet());
-		}
-		if(currentContext != null){
-			currentContext.onClose(save, getEditingDomain().getResourceSet());
+		if(currentContext != null && currentContext.isLoading()){
+			MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opium is still initializing",
+					"Cannot close the model while the Opium tooling is still initializing. Please try again shortly.");
+		}else{
+			super.close(save);
+			if(save == false && currentContext != null){
+				currentContext.removeNakedModel(getResourceSet());
+			}
+			if(currentContext != null){
+				currentContext.onClose(save, getEditingDomain().getResourceSet());
+			}
 		}
 	}
 	@Override
@@ -74,9 +85,14 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 					protected void createSingleSelectionMenu(IMenuManager manager,Object selection){
 						super.createSingleSelectionMenu(manager, selection);
 						for(IContributionItem item:manager.getItems()){
+							if(item instanceof MenuManager && ((MenuManager) item).getMenuText().equals("Generate Primitive Types")){
+								manager.remove(item);
+							}
 							if(item instanceof ActionContributionItem){
 								ActionContributionItem actionItem = (ActionContributionItem) item;
-								if(actionItem.getAction() instanceof UMLEObjectAction && !(actionItem.getAction() instanceof DefineProfileAction)){
+								IAction act = actionItem.getAction();
+								boolean isTopcasedAction = act instanceof UMLEObjectAction;
+								if(isTopcasedAction && !(act instanceof DefineProfileAction)){
 									manager.remove(item);
 								}
 							}
@@ -112,7 +128,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	private NakedUmlEclipseContext getContext(final IFileEditorInput fe){
 		IContainer umlDir = fe.getFile().getParent();
 		IFile umlFile = getUmlFile(fe);
-		NakedUmlEclipseContext result = getNakedUmlEclipseContextFor(umlDir);
+		NakedUmlEclipseContext result = findOrCreateContextFor(umlDir);
 		if(result != null){
 			if(result.isSyncronizingWith(getEditingDomain().getResourceSet())){
 				result.setCurrentEditContext(getEditingDomain(), umlFile);
@@ -122,28 +138,38 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		}
 		return result;
 	}
-	public static NakedUmlEclipseContext getNakedUmlEclipseContextFor(IContainer umlDir){
-		NakedUmlEclipseContext result = contexts.get(umlDir);
+	public static NakedUmlEclipseContext findOrCreateContextFor(IContainer umlDir){
+		NakedUmlEclipseContext result = getContextFor(umlDir);
 		if(result == null){
 			NakedUmlConfig cfg = null;
 			final IFile propsFile = (IFile) umlDir.getFile(new Path("nakeduml.properties"));
-			if(!propsFile.exists()){
-				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getDefault().getActiveShell(), propsFile);
-				if(dlg.open() == SWT.OK){
-					cfg = dlg.getConfig();
+			boolean newContext = !propsFile.exists();
+			if(newContext){
+				cfg = new NakedUmlConfig(new File(umlDir.getLocation().toFile(), "nakeduml.properties"));
+				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getDefault().getActiveShell(), cfg);
+				if(dlg.open() != SWT.OK){
+					return null;
+				}
+				try{
+					umlDir.refreshLocal(IResource.DEPTH_INFINITE, null);
+				}catch(CoreException e){
+					e.printStackTrace();
 				}
 			}else{
 				// Load classes
 				NakedUmlEclipsePlugin.getDefault();
 				cfg = new NakedUmlConfig(propsFile.getLocation().toFile());
 			}
-			if(cfg != null){
-				final NakedUmlEclipseContext newOne = new NakedUmlEclipseContext(cfg, umlDir);
-				contexts.put(umlDir, newOne);
-				result = newOne;
-			}
+			cfg.calculateOutputRoot(umlDir.getProject().getLocation().toFile());
+			final NakedUmlEclipseContext newOne = new NakedUmlEclipseContext(cfg, umlDir, newContext);
+			contexts.put(umlDir, newOne);
+			result = newOne;
 		}
 		currentContext = result;
+		return result;
+	}
+	public static NakedUmlEclipseContext getContextFor(IContainer umlDir){
+		NakedUmlEclipseContext result = contexts.get(umlDir);
 		return result;
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){

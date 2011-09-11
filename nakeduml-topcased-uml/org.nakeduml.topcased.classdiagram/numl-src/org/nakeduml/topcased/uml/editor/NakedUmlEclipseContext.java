@@ -75,17 +75,22 @@ public class NakedUmlEclipseContext{
 	private NakedUmlErrorMarker errorMarker;
 	private List<Runnable> synchronizationListeners = new ArrayList<Runnable>();
 	private boolean autoSync;
-	private boolean isLoadingDirectory;
-	public NakedUmlEclipseContext(NakedUmlConfig cfg,IContainer umlDirectory){
+	private boolean isLoading;
+	private boolean newlyCreated;
+	public NakedUmlEclipseContext(NakedUmlConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
 		isOpen = true;
+		this.newlyCreated=newlyCreated;
 		umlElementCache = new EclipseUmlElementCache(cfg, new EclipseUmlCacheListener());
 		this.umlDirectory = umlDirectory;
 		this.errorMarker = new NakedUmlErrorMarker(this);
 	}
-	public void reinitialize(NakedUmlConfig cfg){
+	public boolean isNewlyCreated(){
+		return newlyCreated;
+	}
+	public void reinitialize(){
 		directoryEmfWorkspace = null;
-		umlElementCache.reinitializeProcess(cfg);
+		umlElementCache.reinitializeProcess();
 		ArrayList<EditingContext> arrayList = new ArrayList<EditingContext>(emfWorkspaces.values());
 		this.emfWorkspaces.clear();
 		for(EditingContext editingContext:arrayList){
@@ -118,6 +123,7 @@ public class NakedUmlEclipseContext{
 			new Job("Loading Opium Metadata"){
 				@Override
 				protected IStatus run(IProgressMonitor monitor){
+					isLoading=true;
 					try{
 						final Package model = findRootObjectInFile(file, domain.getResourceSet());
 						loadDirectory(monitor,domain.getResourceSet());
@@ -134,6 +140,7 @@ public class NakedUmlEclipseContext{
 					}catch(Exception e){
 						return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
 					}finally{
+						isLoading=false;
 						monitor.done();
 					}
 				}
@@ -143,6 +150,7 @@ public class NakedUmlEclipseContext{
 			new Job("Loading Opium Metadata"){
 				@Override
 				protected IStatus run(final IProgressMonitor monitor){
+					isLoading=true;
 					monitor.beginTask("Loading Opium  Metadata", 1000);
 					try{
 						final Package model = findRootObjectInFile(file, domain.getResourceSet());
@@ -156,6 +164,7 @@ public class NakedUmlEclipseContext{
 					}catch(Exception e){
 						return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Opium Metadata not loaded", e);
 					}finally{
+						isLoading=false;
 						monitor.done();
 					}
 				}
@@ -196,10 +205,6 @@ public class NakedUmlEclipseContext{
 		}
 	}
 	public void onClose(boolean save,ResourceSet rs){
-		if(isLoadingDirectory){
-			isLoadingDirectory=false;
-			getUmlElementCache().reinitializeProcess(getUmlElementCache().getConfig());
-		}
 		for(NakedUmlContextListener l:listeners){
 			l.onClose(save);
 		}
@@ -241,7 +246,7 @@ public class NakedUmlEclipseContext{
 		return result;
 	}
 	public void loadFile(IFile f){
-		Resource r = currentResourceSet.getResource(URI.createPlatformResourceURI(f.getFullPath().toString(), true), true);
+		currentResourceSet.getResource(URI.createPlatformResourceURI(f.getFullPath().toString(), true), true);
 		// The UMLElementCache will synchronously update the INAkedModelWorkspace with all loaded elements
 	}
 	public Package getCurrentModelOrProfile(){
@@ -264,7 +269,7 @@ public class NakedUmlEclipseContext{
 		getUmlElementCache().setCurrentEmfWorkspace(directoryEmfWorkspace);
 	}
 	private void loadDirectory(IProgressMonitor monitor,ResourceSet rrst){
-		this.isLoadingDirectory=true;
+		this.isLoading=true;
 		monitor.beginTask("Loading EMF resources", 30);
 		try{
 			if(directoryEmfWorkspace == null){
@@ -292,10 +297,10 @@ public class NakedUmlEclipseContext{
 				}
 			}
 			monitor.worked(5);
-			this.isLoadingDirectory=false;
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}finally{
+			this.isLoading=false;
 			monitor.done();
 		}
 	}
@@ -369,5 +374,18 @@ public class NakedUmlEclipseContext{
 	}
 	public void setAutoSync(boolean b){
 		this.autoSync = b;
+	}
+	public boolean isLoading(){
+		return this.isLoading;
+	}
+	public EditingDomain getEditingDomain(){
+		if(currentResourceSet!=null && emfWorkspaces.get(currentResourceSet)!=null){
+			 EditingContext editingContext = emfWorkspaces.get(currentResourceSet);
+			 return editingContext.editingDomain;
+		}else{
+			return null;
+		}
+		// TODO Auto-generated method stub
+		
 	}
 }

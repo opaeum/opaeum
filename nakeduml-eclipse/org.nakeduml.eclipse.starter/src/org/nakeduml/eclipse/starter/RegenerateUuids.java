@@ -117,7 +117,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getNakedUmlEclipseContextFor(folder);
+		final NakedUmlEclipseContext currentContext = NakedUmlEditor.findOrCreateContextFor(folder);
 		new Job("Regenerating UUIDS"){
 			@Override
 			protected IStatus run(IProgressMonitor monitor){

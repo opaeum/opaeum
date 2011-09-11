@@ -19,7 +19,7 @@ public class UpdateClasspathAction extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getNakedUmlEclipseContextFor(folder);
+		final NakedUmlEclipseContext currentContext = NakedUmlEditor.findOrCreateContextFor(folder);
 		new Job("Updating Workspace Classpaths"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){

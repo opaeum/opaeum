@@ -3,7 +3,6 @@ package org.nakeduml.hibernate.domain;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.WeakHashMap;
 
@@ -23,7 +22,6 @@ import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.OutgoingEvent;
 import org.nakeduml.runtime.environment.Environment;
-import org.nakeduml.runtime.event.IEventHandler;
 
 public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener, FlushEventListener, PostInsertEventListener {
 	private static final long serialVersionUID = -8583155822068850343L;

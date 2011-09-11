@@ -13,7 +13,6 @@ import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.nakeduml.generation.features.JavaPersistence;
 
 @StepDependency(requires = { }, before = {}, after = {}, phase = PomGenerationPhase.class)
 public class BasicJavaAdaptorPomStep extends PomGenerationStep {

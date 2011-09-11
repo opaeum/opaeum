@@ -4,13 +4,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import javassist.bytecode.SignatureAttribute.ClassSignature;
-
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.visit.VisitorAdapter;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Association;

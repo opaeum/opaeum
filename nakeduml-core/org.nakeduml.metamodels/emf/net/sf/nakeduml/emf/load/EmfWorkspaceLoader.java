@@ -3,7 +3,12 @@ package net.sf.nakeduml.emf.load;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Resources;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.DefaultTransformationLog;
@@ -32,22 +37,37 @@ public class EmfWorkspaceLoader{
 	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,NakedUmlConfig cfg){
 		return loadDirectory(resourceSet, dir, cfg, new DefaultTransformationLog());
 	}
-	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,NakedUmlConfig cfg, TransformationProgressLog log){
+	public static EmfWorkspace loadDirectory(final ResourceSet resourceSet,File dir,NakedUmlConfig cfg,TransformationProgressLog log){
 		File[] files = dir.listFiles();
-		log.startTask("Loading Emf Resources", files.length+2);
+		log.startTask("Loading Emf Resources", files.length + 2);
 		String ext = UMLResource.FILE_EXTENSION;
 		long time = System.currentTimeMillis();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(ext, UMLResource.Factory.INSTANCE);
-		URI dirUri = findDirUri(resourceSet, dir, ext);
-		for(File file:files){
-			log.startStep("Loading " +file.getName());
+		final URI dirUri = findDirUri(resourceSet, dir, ext);
+		for(final File file:files){
+			log.startStep("Loading " + file.getName());
 			if(file.getName().endsWith(ext)){
-				load(resourceSet, dirUri.appendSegment(file.getName()));
+						load(resourceSet, dirUri.appendSegment(file.getName()));
 			}
 			log.endLastStep();
 		}
 		log.startStep("Resolving EMF Proxies");
-		EcoreUtil.resolveAll(resourceSet);
+		ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(4);
+		for(final Resource r:new ArrayList<Resource>( resourceSet.getResources())){
+//			exec.schedule(new Runnable(){
+//				@Override
+//				public void run(){
+					EcoreUtil.resolveAll(r);
+//				}
+//			}, 1, TimeUnit.MILLISECONDS);
+		}
+//		try{
+//			exec.shutdown();
+//			exec.awaitTermination(100, TimeUnit.SECONDS);
+//		}catch(InterruptedException e){
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		log.endLastStep();
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
 		log.startStep("Loading Opium Mapping Information");
@@ -55,14 +75,13 @@ public class EmfWorkspaceLoader{
 		log.endLastStep();
 		EmfWorkspace result = new EmfWorkspace(dirUri, resourceSet, workspaceMappingInfo, cfg.getWorkspaceIdentifier());
 		result.guessGeneratingModelsAndProfiles(dirUri);
-		if(cfg.getWorkspaceName()!=null){
+		if(cfg.getWorkspaceName() != null){
 			result.setName(cfg.getWorkspaceName());
 		}else{
 			result.setName(cfg.getWorkspaceIdentifier());
 		}
 		log.endLastTask();
 		return result;
-		
 	}
 	private static URI findDirUri(ResourceSet resourceSet,File dir,String extension){
 		URI dirUri = null;
@@ -86,7 +105,7 @@ public class EmfWorkspaceLoader{
 		URI dirUri = findDirUri(resourceSet, dir, ext);
 		Model model = loadModel(resourceSet, dirUri.appendSegment(modelFile.getName()));
 		EmfWorkspace result = new EmfWorkspace(model, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
-		if(cfg.getWorkspaceName()!=null){
+		if(cfg.getWorkspaceName() != null){
 			result.setName(cfg.getWorkspaceName());
 		}else{
 			result.setName(cfg.getWorkspaceIdentifier());
@@ -142,7 +161,7 @@ public class EmfWorkspaceLoader{
 				// eclipse jar
 				jar = findJar(loader, "org.nakeduml.metamodels_");
 				uri = URI.createURI(jar);
-				uri=uri.appendSegment("models");
+				uri = uri.appendSegment("models");
 			}
 			uriMap.put(URI.createURI(StereotypeNames.MODELS_PATHMAP), uri.appendSegment(""));
 		}
