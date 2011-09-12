@@ -13,10 +13,9 @@ import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.RedefinitionImplementor;
 import net.sf.nakeduml.javageneration.basicjava.SimpleActivityMethodImplementor;
 import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
-import net.sf.nakeduml.javageneration.basicjava.ToStringBuilder;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		OperationAnnotator.class,AttributeImplementor.class,ToStringBuilder.class,EnumerationLiteralImplementor.class,
+		OperationAnnotator.class,AttributeImplementor.class,EnumerationLiteralImplementor.class,
 		SimpleActivityMethodImplementor.class,HierarchicalSourcePopulationImplementor.class,HashcodeBuilder.class,JavaMetaInfoMapGenerator.class,
 		SpecificationImplementor.class,RedefinitionImplementor.class,DerivedUnionImplementor.class
 })

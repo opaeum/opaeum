@@ -1,5 +1,6 @@
 package org.nakeduml.eclipse;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InterfaceRealization;
@@ -12,7 +13,7 @@ public class EmfClassifierUtil{
 			return true;
 		}else if(from instanceof BehavioredClassifier){
 			for(InterfaceRealization i:((BehavioredClassifier) from).getInterfaceRealizations()){
-				if(i.getContract().allParents().contains(to)){
+				if(i.getContract().equals(to)|| i.getContract().allParents().contains(to)){
 					return true;
 				}
 			}

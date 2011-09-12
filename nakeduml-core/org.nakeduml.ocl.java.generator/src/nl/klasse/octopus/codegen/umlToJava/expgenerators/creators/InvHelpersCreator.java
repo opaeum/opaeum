@@ -25,6 +25,7 @@ import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJSimpleStatement;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.utilities.JavaPathNames;
 
 
@@ -104,16 +105,16 @@ public class InvHelpersCreator {
 /* <octel> */ 
 
 /* <field> */ 
-OJField field1 = new OJField();
+OJField field1 = new OJAnnotatedField("instance",JavaPathNames.Object);
 result.addToFields(field1);
 
 /* <type> */ 
-field1.setType(JavaPathNames.Object);
+//field1.setType(JavaPathNames.Object);
 
 /* <type/> */ 
 
 /* <name> */ 
-field1.setName("instance");
+//field1.setName("instance");
 
 /* <name/> */ 
 
@@ -125,16 +126,16 @@ field1.setInitExp("null");
 /* <field/> */ 
 
 /* <field> */ 
-OJField field2 = new OJField();
+OJField field2 = new OJAnnotatedField("message",JavaPathNames.String);
 result.addToFields(field2);
 
 /* <type> */ 
-field2.setType(JavaPathNames.String);
+//field2.setType(JavaPathNames.String);
 
 /* <type/> */ 
 
 /* <name> */ 
-field2.setName("message");
+//field2.setName("message");
 
 /* <name/> */ 
 

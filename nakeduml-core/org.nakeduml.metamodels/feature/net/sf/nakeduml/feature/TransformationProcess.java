@@ -217,12 +217,6 @@ public class TransformationProcess{
 			for(Class<? extends ITransformationStep> c:selectedFeatures){
 				ensureRequiredDependenciesPresent(c);
 			}
-			for(Class<? extends ITransformationStep> c:selectedFeatures){
-				StepDependency annotation = c.getAnnotation(StepDependency.class);
-				for(Class<? extends ITransformationStep> replaced:annotation.replaces()){
-					selectedFeatures.remove(replaced);
-				}
-			}
 			return actualClasses;
 		}catch(RuntimeException e){
 			throw e;

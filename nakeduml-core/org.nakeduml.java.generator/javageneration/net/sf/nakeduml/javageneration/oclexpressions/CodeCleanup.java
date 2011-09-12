@@ -67,15 +67,4 @@ public class CodeCleanup extends AbstractJavaProducingVisitor{
 		failedConstraintsException.addToConstructors(c);
 		util.addToClasses(failedConstraintsException);
 	}
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c){
-		if(OJUtil.hasOJClass(c)){
-			OJClass ojClass = findJavaClass(c);
-			ojClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
-			OJOperation o = OJUtil.findOperation(ojClass, "hashCode");
-			if(o != null){
-				// ojClass.removeFromOperations(o);
-			}
-		}
-	}
 }

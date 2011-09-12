@@ -132,4 +132,8 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
 		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new PropertiesSource(outputBuilder), outputRoot.overwriteFiles());
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
 }

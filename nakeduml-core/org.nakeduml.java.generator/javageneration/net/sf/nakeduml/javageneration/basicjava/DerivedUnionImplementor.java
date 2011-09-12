@@ -31,6 +31,11 @@ public class DerivedUnionImplementor extends AbstractJavaProducingVisitor{
 	public void property(INakedProperty p){
 		visitProperty(p.getOwner(), p);
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;//Does work across multiple models
+	}
+
 	@VisitBefore(matchSubclasses = true,match = {
 			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class
 	})

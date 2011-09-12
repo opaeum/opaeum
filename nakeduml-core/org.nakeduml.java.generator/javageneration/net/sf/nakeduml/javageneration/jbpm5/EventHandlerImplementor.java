@@ -119,6 +119,11 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			}
 		}
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
+
 	private void visitChangeEvent(INakedChangeEvent e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());

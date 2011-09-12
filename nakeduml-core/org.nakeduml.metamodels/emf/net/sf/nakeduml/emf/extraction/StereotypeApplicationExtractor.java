@@ -61,6 +61,12 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			}
 		}
 	}
+	
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
+
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
 		NakedElementImpl nakedPeer = (NakedElementImpl) getNakedPeer(element);

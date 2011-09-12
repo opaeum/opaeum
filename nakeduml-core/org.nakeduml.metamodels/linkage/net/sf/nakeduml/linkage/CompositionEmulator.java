@@ -119,6 +119,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			INakedMessageStructure b = o.getMessageStructure();
 			if(b == null){
 				o.initMessageStructure();
+				workspace.putModelElement(o.getMessageStructure());
 				b = o.getMessageStructure();
 				((EmulatedCompositionMessageStructure) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
 				getAffectedElements().add(b);
@@ -143,6 +144,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			INakedMessageStructure b = o.getMessageStructure();
 			if(b == null){
 				o.initMessageStructure();
+				workspace.putModelElement(o.getMessageStructure());
 			}
 		}
 	}
@@ -152,6 +154,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		if(b == null){
 			o.initMessageStructure();
 			b = o.getMessageStructure();
+			workspace.putModelElement(o.getMessageStructure());
 			((EmulatedCompositionMessageStructure) b).addInterface(workspace.getNakedUmlLibrary().getTaskObject());
 			getAffectedElements().add(b);
 		}else{

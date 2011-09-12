@@ -26,10 +26,18 @@ public class ConnectorEndExtractor extends AbstractExtractorFromEmf{
 		if(np != null){
 			//Could be an extension end which is not represented in nakeduml
 			for(Property sp:p.getSubsettedProperties()){
-				np.getSubsettedProperties().add((INakedProperty) getNakedPeer(sp));
+				INakedProperty nakedPeer = (INakedProperty) getNakedPeer(sp);
+				if(nakedPeer==null){
+					System.out.println();
+				}
+				np.getSubsettedProperties().add(nakedPeer);
 			}
 			for(Property sp:p.getRedefinedProperties()){
-				np.getRedefinedProperties().add((INakedProperty) getNakedPeer(sp));
+				INakedProperty nakedPeer = (INakedProperty) getNakedPeer(sp);
+				if(nakedPeer==null){
+					System.out.println();
+				}
+				np.getRedefinedProperties().add(nakedPeer);
 			}
 		}
 	}

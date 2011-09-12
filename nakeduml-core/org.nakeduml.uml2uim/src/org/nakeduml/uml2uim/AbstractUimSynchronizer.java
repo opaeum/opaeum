@@ -75,5 +75,9 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	protected AbstractFolder getFolderFor(Namespace class_){
 		return null;
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
 	
 }

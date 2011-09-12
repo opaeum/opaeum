@@ -149,7 +149,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 						HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
 					}
 				}else if(isPersistent(f.getNakedBaseType())){
-					HibernateUtil.applyFilter(field, HibernateUtil.getHibernateDialect(this.config));
+					HibernateUtil.applyFilter(field, this.config.getDbDialect());
 				}else{
 					// owner.addAnnotation(field, new OJAnnotation(new
 					// OJPathName("javax.persistence.Transient")));

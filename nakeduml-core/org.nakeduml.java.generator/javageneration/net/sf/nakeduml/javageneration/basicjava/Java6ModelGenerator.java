@@ -59,6 +59,10 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		StdlibMap.javaRealObjectType.replaceTail("Double");
 	}
 	@Override
+	protected int getThreadPoolSize(){
+		return 1;// adds too many entries to shared non-synchronized collections;
+	}
+	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 		visitClass(umlOwner);
 	}
@@ -122,6 +126,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				myClass.addToImplementedInterfaces(new OJPathName(ISignal.class.getName()));
 				createTextPath(receiver, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			}
+			myClass.addToImports(new OJPathName("java.util.ArrayList"));// Octopus bug
 			pack.addToClasses(myClass);
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());

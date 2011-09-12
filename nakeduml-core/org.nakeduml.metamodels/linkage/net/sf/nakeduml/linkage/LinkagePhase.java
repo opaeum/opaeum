@@ -26,6 +26,10 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		public void visitElement(INakedElement e){
 			modelWorkspace.getErrorMap().getErrors().remove(e.getId());
 		}
+		@Override
+		protected int getThreadPoolSize(){
+			return 1;
+		}
 	}
 	private NakedUmlConfig config;
 	@InputModel
@@ -48,10 +52,10 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	}
 	@Override
 	public void execute(TransformationContext context){
-		context.getLog().startTask("Linking Opium Metadata",linkers.size());
+		context.getLog().startTask("Linking Opium Metadata", linkers.size());
 		for(AbstractModelElementLinker d:linkers){
 			if(!context.getLog().isCanceled()){
-				context.getLog().startStep("Executing " + d.getClass().getSimpleName()); 
+				context.getLog().startStep("Executing " + d.getClass().getSimpleName());
 				d.startVisiting(modelWorkspace);
 				context.getLog().endLastStep();
 			}
@@ -102,8 +106,9 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	}
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends AbstractModelElementLinker>> getAllSteps(){
-		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class, ProcessIdentifier.class, MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, RootEntityLinker.class,
-				CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class, ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class,
-				EnumerationValuesAttributeAdder.class,TypeResolver.class, SourcePopulationResolver.class));
+		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class, ProcessIdentifier.class,
+				MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class,
+				ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class, EnumerationValuesAttributeAdder.class, TypeResolver.class,
+				SourcePopulationResolver.class));
 	}
 }

@@ -24,6 +24,11 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		this.workspace = workspace;
 		this.config = config;
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
+
 	protected NakedUmlLibrary getBuiltInTypes(){
 		return workspace.getNakedUmlLibrary();
 	}

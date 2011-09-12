@@ -62,7 +62,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			this.buildPopulateReferencesFromXml(ojClass, c);
 		}
 	}
-	private void buildPopulateReferencesFromXml(OJAnnotatedClass owner,INakedClassifier umlClass){
+	protected void buildPopulateReferencesFromXml(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = new OJAnnotatedOperation("populateReferencesFromXml");
 		owner.addToOperations(toString);
 		addParameters(toString);
@@ -91,7 +91,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		type.addToElementTypes(new OJPathName("Object"));
 		toString.addParam("map", type);
 	}
-	private void buildBuildTreeFromXml(OJAnnotatedClass owner,INakedClassifier umlClass){
+	protected void buildBuildTreeFromXml(OJAnnotatedClass owner,INakedClassifier umlClass){
 		String rootObjectName = NameConverter.capitalize(umlClass.getRootObject().getName());
 		owner.addToImports(UtilityCreator.getUtilPathName() + "." + rootObjectName + "Formatter");
 		OJOperation toString = new OJAnnotatedOperation("buildTreeFromXml");

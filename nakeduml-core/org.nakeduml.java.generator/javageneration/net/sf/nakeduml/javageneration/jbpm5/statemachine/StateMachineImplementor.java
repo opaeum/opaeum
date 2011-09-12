@@ -57,13 +57,13 @@ import org.nakeduml.runtime.domain.UmlNodeInstance;
 	OperationAnnotator.class
 },before = CodeCleanup.class)
 public class StateMachineImplementor extends AbstractJavaProcessVisitor{
-	private OJAnnotatedClass javaStateMachine;
+	private ThreadLocal<OJAnnotatedClass> javaStateMachine=new ThreadLocal<OJAnnotatedClass>();
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(INakedStateMachine umlStateMachine){
-		javaStateMachine = findJavaClass(umlStateMachine);
-		addImports(javaStateMachine);
-		implementProcessInterfaceOperations(javaStateMachine, new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"), umlStateMachine);
-		OJOperation execute = implementExecute(javaStateMachine, umlStateMachine);
+		setJavaStateMachine(findJavaClass(umlStateMachine));
+		addImports(getJavaStateMachine());
+		implementProcessInterfaceOperations(getJavaStateMachine(), new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"), umlStateMachine);
+		OJOperation execute = implementExecute(getJavaStateMachine(), umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		visitRegions(umlStateMachine.getRegions());
 	}
@@ -72,30 +72,30 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		if(state.getKind().isRestingState()){
 			OJOperation getter = new OJAnnotatedOperation("get" + state.getStatePath().toString().replace("::", "_"));
 			getter.setReturnType(new OJPathName("boolean"));
-			javaStateMachine.addToOperations(getter);
+			getJavaStateMachine().addToOperations(getter);
 			if(state.getStateMachine().isClassifierBehavior()){
 				OJAnnotatedClass context = findJavaClass(state.getStateMachine().getContext());
 				OJOperation copy = getter.getCopy();
 				copy.getBody().addToStatements("return getClassifierBehavior()!=null && getClassifierBehavior()." + copy.getName() + "()");
 				context.addToOperations(copy);
 			}
-			getter.getBody().addToStatements("return isStepActive(" + javaStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
+			getter.getBody().addToStatements("return isStepActive(" + getJavaStateMachine().getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
 		}
 		implementOnEntryIfRequired(state, map);
 		implementOnExitIfRequired(state, map);
 		if(state.getKind().isShallowHistory() || state.getKind().isDeepHistory()){
 			String fieldName = state.getMappingInfo().getJavaName().getAsIs();
-			OJPathName statePat = new OJPathName(javaStateMachine.getPathName().toJavaString() + "State");
-			OJAnnotatedField historyField = OJUtil.addProperty(javaStateMachine, fieldName, statePat, true);
+			OJPathName statePat = new OJPathName(getJavaStateMachine().getPathName().toJavaString() + "State");
+			OJAnnotatedField historyField = OJUtil.addProperty(getJavaStateMachine(), fieldName, statePat, true);
 			OJAnnotationValue enumeratd = new OJAnnotationValue(new OJPathName(Type.class.getName()));
-			enumeratd.putAttribute("type", javaStateMachine.getName() + "StateResolver");
+			enumeratd.putAttribute("type", getJavaStateMachine().getName() + "StateResolver");
 			historyField.putAnnotation(enumeratd);
 		}
 	}
 	private void implementOnExitIfRequired(INakedState state,NakedStateMap map){
 		if(StateMachineUtil.doesWorkOnExit(state)){
 			OJAnnotatedOperation onExit = new OJAnnotatedOperation(map.getOnExitMethod());
-			javaStateMachine.addToOperations(onExit);
+			getJavaStateMachine().addToOperations(onExit);
 			onExit.addParam("context", Jbpm5Util.getProcessContext());
 			if(state.getExit() != null){
 				implementBehaviorOn(state, state.getExit(), onExit);
@@ -117,7 +117,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	private void implementOnEntryIfRequired(INakedState state,NakedStateMap map){
 		if(StateMachineUtil.doesWorkOnEntry(state)){
 			OJAnnotatedOperation onEntry = new OJAnnotatedOperation(map.getOnEntryMethod());
-			javaStateMachine.addToOperations(onEntry);
+			getJavaStateMachine().addToOperations(onEntry);
 			onEntry.addParam("context", Jbpm5Util.getProcessContext());
 			if(state.getEntry() != null){
 				implementBehaviorOn(state, state.getEntry(), onEntry);
@@ -128,7 +128,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				if(state.getKind().isFinal()){
 					onEntry.getBody().addToStatements(setter + "(null)");
 				}else{
-					onEntry.getBody().addToStatements(setter + "(" + javaStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
+					onEntry.getBody().addToStatements(setter + "(" + getJavaStateMachine().getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
 				}
 			}
 			if(state.getDoActivity() != null){
@@ -138,7 +138,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			if(state.getKind().isShallowHistory()){
 				String stateGetter = "get" + state.getMappingInfo().getJavaName().getCapped().getAsIs();
 				OJAnnotatedField umlState = new OJAnnotatedField("umlState", new OJPathName("org.nakeduml.runtime.domain.UmlNodeInstance"));
-				javaStateMachine.addToImports(new OJPathName(UmlNodeInstance.class.getName()));
+				getJavaStateMachine().addToImports(new OJPathName(UmlNodeInstance.class.getName()));
 				umlState.setInitExp("(UmlNodeInstance)context.getNodeInstance()");
 				onEntry.getBody().addToLocals(umlState);
 				OJIfStatement ifNotNul = new OJIfStatement(stateGetter + "()!=null");
@@ -152,7 +152,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				defaultTransitions.addToStatements(EventUtil.getEventConsumerName(state.getCompletionEvent()) + "()");
 			}
 			if(state.getKind().isFinal() && state.getContainer().getRegionOwner() instanceof INakedState){
-				javaStateMachine.addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
+				getJavaStateMachine().addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
 				onEntry.getBody().addToStatements(
 						"((NodeInstanceContainer)context.getNodeInstance().getNodeInstanceContainer()).removeNodeInstance((NodeInstanceImpl)context.getNodeInstance())");
 				onEntry.getBody()
@@ -177,7 +177,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		if(transition.getGuard() != null && transition.getGuard().isValidOclValue() && transition.getSource().getKind().isChoice()){
 			OJOperation getter = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(transition));
 			getter.setReturnType(new OJPathName("boolean"));
-			javaStateMachine.addToOperations(getter);
+			getJavaStateMachine().addToOperations(getter);
 			IClassifier booleanType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);
 			String expression = ValueSpecificationUtil.expressValue(getter, transition.getGuard(), transition.getStateMachine(), booleanType);
 			getter.getBody().addToStatements("return " + expression);
@@ -206,5 +206,11 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	@Override
 	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior){
 		return ((INakedStateMachine) umlBehavior).getRegions();
+	}
+	private OJAnnotatedClass getJavaStateMachine(){
+		return javaStateMachine.get();
+	}
+	private void setJavaStateMachine(OJAnnotatedClass javaStateMachine){
+		this.javaStateMachine.set(javaStateMachine);
 	}
 }

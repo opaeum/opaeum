@@ -45,6 +45,10 @@ import org.nakeduml.eclipse.EmfValidationUtil;
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = {InstanceExtractor.class,TriggerExtractor.class},after = {InstanceExtractor.class,TriggerExtractor.class})
 public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
 	@VisitBefore()
 	public void visitConstraint(Constraint c,NakedConstraintImpl nc){
 		getAffectedElements().add(getNakedPeer(c.getOwner()));

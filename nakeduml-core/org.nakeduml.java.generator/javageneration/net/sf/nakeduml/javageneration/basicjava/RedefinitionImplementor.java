@@ -46,6 +46,12 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 			}
 		}
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;//Works across models
+	}
+
+
 	private void visitProperty(INakedClassifier owner,INakedProperty p){
 		if(p.isNavigable()){
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);

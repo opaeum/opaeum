@@ -11,7 +11,7 @@ import net.sf.nakeduml.javageneration.jbpm5.statemachine.StateMachineEventConsum
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		Jbpm5EnvironmentBuilder.class,ActivityNodeEnumerationImplementor.class,StateEnumerationImplementor.class,ResponsibilityImplementor.class,
-		ActivityEventConsumptionImplementor.class,StateMachineEventConsumptionImplementor.class,ProcessStepResolverImplementor.class,EventHandlerImplementor.class
+		ActivityEventConsumptionImplementor.class,StateMachineEventConsumptionImplementor.class,EventHandlerImplementor.class
 })
 public class Jbpm5JavaStep extends JavaFeature{
 }

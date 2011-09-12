@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SortedProperties;
@@ -19,6 +20,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -33,37 +35,6 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.runtime.environment.Environment;
 
 public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,IntegrationCodeGenerator{
-	public final class MappingCollector extends AbstractJavaProducingVisitor{
-		final HashSet<OJPathName> classes = new HashSet<OJPathName>();
-		final HashSet<OJPathName> signals = new HashSet<OJPathName>();
-		public MappingCollector(INakedModelWorkspace workspace){
-			this.workspace = workspace;
-		}
-		@VisitBefore(matchSubclasses=true)
-		public void signal(INakedSignal s){
-			signals.add(OJUtil.classifierPathname(s));
-		}
-		@VisitBefore(matchSubclasses = true)
-		public void visitClassifier(INakedClassifier c){
-			if(isPersistent(c)){
-				classes.add(OJUtil.classifierPathname(c));
-			}
-		}
-		@VisitBefore(matchSubclasses = true)
-		public void visitOpaqueAction(INakedEmbeddedTask a){
-			classes.add(OJUtil.classifierPathname(a.getMessageStructure()));
-		}
-		@VisitBefore(matchSubclasses = true)
-		public void visitOperation(INakedOperation o){
-			if(o.isLongRunning()){
-				classes.add(OJUtil.classifierPathname(o.getMessageStructure()));
-			}
-		}
-		@Override
-		public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
-			return super.getChildren(root);
-		}
-	}
 	public AbstractPersistenceConfigGenerator(){
 		super();
 	}
@@ -108,13 +79,13 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
 			properties.setProperty(Environment.DBMS, "POSTGRESQL");
 			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
-			properties.setProperty("nakeduml.jdbc.connection.url", "jdbc:hsqldb:mem:"+owner.getName()+"DB");
+			properties.setProperty("nakeduml.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
 		}else{
 			properties.setProperty(Environment.DBMS, "HSQL");
 			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
 			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
-//			properties.setProperty(Environment.JDBC_CONNECTION_URL, "jdbc:hsqldb:mem:"+owner.getName()+"DB");
-			properties.setProperty("nakeduml.jdbc.connection.url", "jdbc:hsqldb:mem:"+owner.getName()+"DB");
+			// properties.setProperty(Environment.JDBC_CONNECTION_URL, "jdbc:hsqldb:mem:"+owner.getName()+"DB");
+			properties.setProperty("nakeduml.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
 		}
 		properties.setProperty(Environment.DB_USER, config.getDbUser());
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? getAdaptorEnvironmentImplementation()
@@ -131,16 +102,21 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
 		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class));
 		vars.put("persistenceConfigName", getConfigName(owner));
-		MappingCollector collector = new MappingCollector(workspace);
-		// do all models
-		for(INakedElement element:models){
-			if(element instanceof INakedModel){
-				collector.visitRecursively(element);
+		Collection<INakedClassifier> persistentClasses = new HashSet<INakedClassifier>();
+		for(INakedElement e:workspace.getAllElements()){
+			if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){
+				persistentClasses.add((INakedClassifier) e);
+			}else if(e instanceof INakedOperation && ((INakedOperation) e).isLongRunning() && isGeneratingElement(e)){
+				persistentClasses.add(((INakedOperation) e).getMessageStructure());
+			}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
+				persistentClasses.add(((INakedEmbeddedTask) e).getMessageStructure());
 			}
 		}
-		vars.put("persistentClasses", collector.classes);
-		vars.put("signals", collector.signals);
+		vars.put("persistentClasses", persistentClasses);
 		vars.put("pkg", OJUtil.utilPackagePath(owner));
 		return vars;
+	}
+	private boolean isGeneratingElement(INakedElement e){
+		return workspace.getGeneratingModelsOrProfiles().contains(e.getRootObject());
 	}
 }

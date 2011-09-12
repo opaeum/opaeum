@@ -317,4 +317,9 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 	public Collection<? extends TextFile> getTextFiles(){
 		return textFiles;
 	}
+
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
 }

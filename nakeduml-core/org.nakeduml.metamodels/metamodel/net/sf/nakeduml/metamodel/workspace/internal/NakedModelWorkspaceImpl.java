@@ -10,6 +10,8 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.WorkspaceMappingInfo;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;

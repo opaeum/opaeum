@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.hibernate;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
+import net.sf.nakeduml.feature.SqlDialect;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
@@ -15,27 +16,6 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
 public class HibernateUtil{
-	private static Dialect dialect;
-	public static Dialect getHibernateDialect(NakedUmlConfig config){
-		if(dialect == null){
-			Dialect d = buildHibernateDialect(config);
-			dialect = d;
-		}
-		return dialect;
-	}
-	private static Dialect buildHibernateDialect(NakedUmlConfig config){
-		Dialect d = null;
-		try{
-			d = (Dialect) Class.forName(config.getJdbcDialect()).newInstance();
-		}catch(InstantiationException e){
-			throw new RuntimeException(e);
-		}catch(IllegalAccessException e){
-			throw new RuntimeException(e);
-		}catch(ClassNotFoundException e){
-			throw new RuntimeException(e);
-		}
-		return d;
-	}
 	public static void addAny(OJAnnotatedField field,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		String column = p.getMappingInfo().getPersistentName().getAsIs();
@@ -47,10 +27,10 @@ public class HibernateUtil{
 		any.putAttribute(new OJAnnotationAttributeValue("metaDef", metadefName(p.getNakedBaseType())));
 		field.addAnnotationIfNew(any);
 	}
-	public static void applyFilter(OJAnnotatedField field,Dialect dialect){
+	public static void applyFilter(OJAnnotatedField field,SqlDialect sqlDialect){
 		OJAnnotationValue filter = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Filter"));
 		filter.putAttribute(new OJAnnotationAttributeValue("name", "noDeletedObjects"));
-		filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + dialect.getCurrentTimestampSQLFunctionName()));
+		filter.putAttribute(new OJAnnotationAttributeValue("condition", "deleted_on > " + sqlDialect.getCurrentTimeStampString()));
 		field.addAnnotationIfNew(filter);
 	}
 	public static void addCascade(OJAnnotatedField field,CascadeType deleteOrphan){

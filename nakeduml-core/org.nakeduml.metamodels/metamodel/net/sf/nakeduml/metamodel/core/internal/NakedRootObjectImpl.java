@@ -1,9 +1,13 @@
 package net.sf.nakeduml.metamodel.core.internal;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.RootObjectStatus;
@@ -14,6 +18,7 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 	private static final long serialVersionUID = 7779979219779726122L;
 	private String fileName;
 	private RootObjectStatus status=RootObjectStatus.CREATED;
+	private Map<Class<? extends INakedElement>,Set<? extends INakedElement>> typeMap = new HashMap<Class<? extends INakedElement>,Set<? extends INakedElement>>();
 
 	public RootObjectStatus getStatus(){
 		return status;
@@ -67,5 +72,29 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 	@Override
 	public INakedRootObject getRootObject(){
 		return this;
+	}
+	@Override
+	public void addDirectlyAccessibleElement(INakedElement c){
+		addClassifier(c, c.getClass());
+	}
+	@SuppressWarnings("unchecked")
+	private void addClassifier(INakedElement c,Class<? extends INakedElement> class1){
+		for(Class<?> intf:class1.getInterfaces()){
+			if(INakedClassifier.class.isAssignableFrom(intf)){
+				@SuppressWarnings("rawtypes")
+				Set classifiersOfType = getDirectlyAccessibleElementOfType((Class<? extends INakedClassifier>) intf);
+				classifiersOfType.add(c);
+				addClassifier(c,(Class<? extends INakedClassifier>) intf);
+			}
+		}
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends INakedElement> Set<T> getDirectlyAccessibleElementOfType(Class<T> intf){
+		Set<T> set = (Set<T>) typeMap.get(intf);
+		if(set == null){
+			typeMap.put((Class<T>) intf, set = new HashSet<T>());
+		}
+		return set;
 	}
 }

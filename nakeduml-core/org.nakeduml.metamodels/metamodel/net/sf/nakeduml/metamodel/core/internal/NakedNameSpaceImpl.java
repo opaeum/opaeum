@@ -50,6 +50,7 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 		}
 		if(element instanceof INakedClassifier){
 			this.nestedClassifiers.add((INakedClassifier) element);
+			getRootObject().addDirectlyAccessibleElement(element);
 		}
 	}
 	public void removeOwnedElement(INakedElement element){

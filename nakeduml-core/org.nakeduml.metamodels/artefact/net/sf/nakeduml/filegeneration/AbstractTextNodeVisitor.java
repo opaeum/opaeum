@@ -30,4 +30,8 @@ public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode,TextW
 			return Collections.emptySet();
 		}
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
 }

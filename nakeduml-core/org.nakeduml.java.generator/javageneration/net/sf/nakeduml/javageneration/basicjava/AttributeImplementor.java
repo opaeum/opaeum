@@ -50,6 +50,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		super.initialize(javaModel, config, textWorkspace, workspace);
 	}
 	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
+
+	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 		if(umlOwner instanceof INakedAssociationClass){
 			OJAnnotatedClass ojOwner = findJavaClass(umlOwner);

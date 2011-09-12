@@ -17,7 +17,7 @@ import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
 
-public class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
+public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<? extends Element> getChildren(Element root){

@@ -276,11 +276,11 @@ public class NakedUmlEclipseContext{
 				currentResourceSet = rrst;
 				EmfWorkspace dew = EmfWorkspaceLoader.loadDirectory(currentResourceSet, umlDirectory.getLocation().toFile(), umlElementCache.getConfig(), new ProgressMonitorTransformationLog(monitor, 15));
 				dew.setResourceHelper(new EclipseEmfResourceHelper());
-				rrst.eAdapters().add(getUmlElementCache());
 				INakedModelWorkspace nmws = getUmlElementCache().getNakedWorkspace();
 				nmws.clearGeneratingModelOrProfiles();
 				getUmlElementCache().getTransformationProcess().replaceModel(dew);
 				getUmlElementCache().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 10));
+				rrst.eAdapters().add(getUmlElementCache());
 				this.directoryEmfWorkspace=dew;
 			}else{
 				currentResourceSet=directoryEmfWorkspace.getResourceSet();

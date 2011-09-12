@@ -47,27 +47,29 @@ public class EmfWorkspaceLoader{
 		for(final File file:files){
 			log.startStep("Loading " + file.getName());
 			if(file.getName().endsWith(ext)){
-						load(resourceSet, dirUri.appendSegment(file.getName()));
+				load(resourceSet, dirUri.appendSegment(file.getName()));
 			}
 			log.endLastStep();
 		}
 		log.startStep("Resolving EMF Proxies");
 		ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(4);
-		for(final Resource r:new ArrayList<Resource>( resourceSet.getResources())){
-//			exec.schedule(new Runnable(){
-//				@Override
-//				public void run(){
-					EcoreUtil.resolveAll(r);
-//				}
-//			}, 1, TimeUnit.MILLISECONDS);
+		for(final Resource r:new ArrayList<Resource>(resourceSet.getResources())){
+			if(r.getURI() != null && r.getURI().fileExtension().equals("uml")){
+//				exec.schedule(new Runnable(){
+//					@Override
+//					public void run(){
+						EcoreUtil.resolveAll(r);
+//					}
+//				}, 1, TimeUnit.MILLISECONDS);
+			}
 		}
-//		try{
-//			exec.shutdown();
-//			exec.awaitTermination(100, TimeUnit.SECONDS);
-//		}catch(InterruptedException e){
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try{
+			exec.shutdown();
+			exec.awaitTermination(100, TimeUnit.SECONDS);
+		}catch(InterruptedException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		log.endLastStep();
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
 		log.startStep("Loading Opium Mapping Information");

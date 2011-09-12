@@ -45,6 +45,11 @@ import org.nakeduml.runtime.environment.JavaMetaInfoMap;
 	JavaNameRegenerator.class
 },after = {})
 public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
+
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace ws){
 		if(isIntegrationRequired()){

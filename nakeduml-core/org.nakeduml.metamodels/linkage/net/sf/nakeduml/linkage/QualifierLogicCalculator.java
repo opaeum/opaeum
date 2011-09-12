@@ -7,8 +7,8 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import org.nakeduml.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {MappedTypeLinker.class,PinLinker.class,
-		ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class},requires = {MappedTypeLinker.class,
-		PinLinker.class,ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class},before = NakedParsedOclStringResolver.class)
+		ReferenceResolver.class,TypeResolver.class},requires = {MappedTypeLinker.class,
+		PinLinker.class,ReferenceResolver.class,TypeResolver.class},before = NakedParsedOclStringResolver.class)
 public class QualifierLogicCalculator extends AbstractModelElementLinker{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedProperty p){

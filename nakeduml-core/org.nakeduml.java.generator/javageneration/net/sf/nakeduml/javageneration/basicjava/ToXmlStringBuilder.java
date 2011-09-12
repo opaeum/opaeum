@@ -47,7 +47,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 			this.buildToXmlReferenceString(ojClass, c);
 		}
 	}
-	private void buildToXmlReferenceString(OJAnnotatedClass owner,INakedClassifier umlClass){
+	protected void buildToXmlReferenceString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		OJOperation toString = new OJAnnotatedOperation("toXmlReferenceString");
 		toString.setReturnType(new OJPathName("String"));
 		if(!(owner instanceof OJAnnotatedInterface)){
@@ -56,7 +56,7 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 		}
 		owner.addToOperations(toString);
 	}
-	private void buildToXmlString(OJAnnotatedClass owner,INakedClassifier umlClass){
+	protected void buildToXmlString(OJAnnotatedClass owner,INakedClassifier umlClass){
 		String rootObjectName = NameConverter.capitalize(umlClass.getRootObject().getName());
 		owner.addToImports(UtilityCreator.getUtilPathName() + "." + rootObjectName + "Formatter");
 		OJOperation toString = new OJAnnotatedOperation("toXmlString");

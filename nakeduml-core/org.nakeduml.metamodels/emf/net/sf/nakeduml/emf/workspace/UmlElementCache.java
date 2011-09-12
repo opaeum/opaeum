@@ -19,7 +19,10 @@ import net.sf.nakeduml.feature.Steps;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.feature.TransformationProcess.TransformationProgressLog;
+import net.sf.nakeduml.linkage.AbstractModelElementLinker;
 import net.sf.nakeduml.linkage.LinkagePhase;
+import net.sf.nakeduml.linkage.QualifierLogicCalculator;
+import net.sf.nakeduml.linkage.SourcePopulationResolver;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
@@ -116,7 +119,11 @@ public class UmlElementCache extends EContentAdapter{
 	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
 		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(StereotypeApplicationExtractor.class,
 				JavaNameRegenerator.class, PersistentNameGenerator.class));
-		result.addAll(LinkagePhase.getAllSteps());
+		Set<Class<? extends AbstractModelElementLinker>> allSteps = LinkagePhase.getAllSteps();
+		//TODO ignore linkage steps as they will  be included from Javatransformations
+		allSteps.remove(SourcePopulationResolver.class);
+		allSteps.remove(QualifierLogicCalculator.class);
+		result.addAll(allSteps);
 		result.addAll(ValidationPhase.getAllValidationSteps());
 		result.add(JavaNameRegenerator.class);
 		result.add(PersistentNameGenerator.class);

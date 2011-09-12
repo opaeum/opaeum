@@ -4,14 +4,15 @@ public enum RootObjectStatus{
 	CREATED,
 	EXTRACTED,
 	LINKED,
-	VALIDATED;
+	VALIDATED,
+	NAMED;
 	public boolean isExtracted(){
-		return this == EXTRACTED || this == LINKED || this == VALIDATED;
+		return this == EXTRACTED || this == LINKED || this == VALIDATED||this==NAMED;
 	}
 	public boolean isLinked(){
-		return this == LINKED || this == VALIDATED;
+		return this == LINKED || this == VALIDATED||this==NAMED;
 	}
 	public boolean isValidated(){
-		return this == VALIDATED;
+		return this == VALIDATED||this==NAMED;
 	}
 }

@@ -12,6 +12,10 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Element;
 
 public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
 	protected List<INakedTypedElement> getEnvironment(Element node){
 		Behavior activity = getActivity(node);
 		// TODO add variables from containing StructuredNodes

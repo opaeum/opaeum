@@ -121,7 +121,8 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			if(m.getParameterTypes().length > 1){
 				cp.addClass(m.getParameterTypes()[1]);
 			}
-			CtClass ctClass = pool.makeClass(VisitSpec.class.getName() + (++classCount), pool.get(VisitSpec.class.getName()));
+			long random = Math.round(Math.random() * 1000000);
+			CtClass ctClass = pool.makeClass(VisitSpec.class.getName() + random, pool.get(VisitSpec.class.getName()));
 			StringBuilder sb = new StringBuilder("public void visit(" + VisitorAdapter.class.getName() + " vi, Object[] o) {((");
 			sb.append(getClass().getName());
 			sb.append(")vi).");
@@ -181,7 +182,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			maybeVisit(o, v);
 		}
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
-		if(depth == 1 && getThreadPoolSize() > 1){
+		if(shouldMultiThread(children)){
 			ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(getThreadPoolSize());
 			depth = 1000000;
 			for(final NODE child:children){
@@ -210,26 +211,39 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		currentVisitSpec.remove(o);
 		depth--;
 	}
+	protected boolean shouldMultiThread(ArrayList<NODE> children){
+		return depth == 1 && getThreadPoolSize() > 1 && children.size()>4;
+	}
 	protected void maybeVisit(NODE o,VisitSpec v){
-		if(v.matches(o)){
-			if(v.resolvePeer()){
-				Object peer = resolvePeer(o, v.getPeerClass());
-				if(peer != null){
+		try{
+			if(v.matches(o)){
+				if(v.resolvePeer()){
+					Object peer = resolvePeer(o, v.getPeerClass());
+					if(peer != null){
+						v.visit(this, new Object[]{
+								o,peer
+						});
+					}
+				}else{
 					v.visit(this, new Object[]{
-							o,peer
+						o
 					});
 				}
-			}else{
-				v.visit(this, new Object[]{
-					o
-				});
 			}
+		}catch(RuntimeException e){
+			if(getThreadPoolSize()>1){
+				e.printStackTrace();
+			}
+			throw e;
+		}catch(Error e){
+			if(getThreadPoolSize()>1){
+				e.printStackTrace();
+			}
+			throw e;
 		}
 	}
 	protected boolean visitChildren(NODE o){
 		return true;
 	}
-	protected int getThreadPoolSize(){
-		return 1;
-	}
+	protected abstract int getThreadPoolSize();
 }

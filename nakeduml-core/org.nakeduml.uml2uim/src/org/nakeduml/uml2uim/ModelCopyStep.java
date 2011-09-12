@@ -87,4 +87,8 @@ public class ModelCopyStep extends EmfElementVisitor implements ITransformationS
 		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
 		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new CharArrayTextSource(outputBuilder), outputRoot.overwriteFiles());
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
 }

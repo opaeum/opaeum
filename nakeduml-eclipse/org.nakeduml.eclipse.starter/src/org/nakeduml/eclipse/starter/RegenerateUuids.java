@@ -79,6 +79,10 @@ public class RegenerateUuids extends AbstractOpiumAction{
 			}
 			return new ENotificationImpl((InternalEObject) o, Notification.SET, sf, null, value);
 		}
+		@Override
+		protected int getThreadPoolSize(){
+			return 1;
+		}
 	}
 	public static final class UuidRemover extends EmfElementVisitor{
 		public UuidRemover(EmfWorkspace currentEmfWorkspace){
@@ -109,6 +113,10 @@ public class RegenerateUuids extends AbstractOpiumAction{
 			for(String string:keywords){
 				ann.getDetails().put(string, "");
 			}
+		}
+		@Override
+		protected int getThreadPoolSize(){
+			return 1;
 		}
 	}
 	public RegenerateUuids(IStructuredSelection selection2){

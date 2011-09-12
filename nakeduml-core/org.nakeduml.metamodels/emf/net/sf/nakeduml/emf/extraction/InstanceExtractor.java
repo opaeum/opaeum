@@ -31,6 +31,11 @@ import org.eclipse.uml2.uml.Slot;
 })
 public class InstanceExtractor extends AbstractExtractorFromEmf{
 	@Override
+	protected int getThreadPoolSize(){
+		return 12;
+	}
+
+	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
 		if(e instanceof EnumerationLiteral){
 			EnumerationLiteral el = (EnumerationLiteral) e;

@@ -11,6 +11,8 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 @PhaseDependency(after = {
@@ -39,6 +41,9 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 			context.getLog().startStep("Executing " + ng.getClass().getName());
 			ng.startVisiting(modelWorkspace);
 			context.getLog().endLastStep();
+		}
+		for(INakedRootObject ro:modelWorkspace.getRootObjects()){
+			ro.setStatus(RootObjectStatus.NAMED);
 		}
 		context.getLog().endLastTask();
 	}

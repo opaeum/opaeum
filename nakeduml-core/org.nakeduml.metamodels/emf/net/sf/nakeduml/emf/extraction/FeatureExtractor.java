@@ -37,6 +37,9 @@ import org.nakeduml.eclipse.EmfParameterUtil;
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = GeneralizationExtractor.class,after = GeneralizationExtractor.class)
 public class FeatureExtractor extends AbstractExtractorFromEmf{
+	public int getThreadPoolSize(){
+		return 12;
+	}
 	@Override
 	public void visitRecursively(Element o){
 		super.visitRecursively(o);

@@ -75,10 +75,14 @@ import org.nakeduml.eclipse.EmfValidationUtil;
 		EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,
 		ProcessIdentifier.class
 },requires = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class,UmlNameRegenerator.class,
+		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,UmlNameRegenerator.class,
 		EnumerationValuesAttributeAdder.class
 })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;//FOr some reason this is required TODO investigate why because it takes a while to execute
+	}
 	// TODO optimize to take constraints individually
 	EnvironmentFactory environmentFactory;
 	@Override

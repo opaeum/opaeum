@@ -1,14 +1,11 @@
 package net.sf.nakeduml.javageneration.persistence;
 
-import java.util.List;
-
 import javax.persistence.GenerationType;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.AttributeImplementor;
-import net.sf.nakeduml.javageneration.basicjava.ToStringBuilder;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -25,23 +22,18 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
 import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
-import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
-import org.nakeduml.java.metamodel.OJIfStatement;
-import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
-import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
-import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 import org.nakeduml.java.metamodel.annotation.OJEnumValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
-		AttributeImplementor.class,PersistentNameGenerator.class,ToStringBuilder.class
+		AttributeImplementor.class,PersistentNameGenerator.class
 },after = {
-		AttributeImplementor.class,ToStringBuilder.class
+		AttributeImplementor.class
 })
 public class JpaAnnotator extends AbstractJpaAnnotator{
 	public static boolean DEVELOPMENT_MODE = true;
@@ -205,64 +197,64 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		field.addAnnotationIfNew(joinTable);
 	}
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
-		OJOperation toString = owner.findToString();
-		if(toString == null){
-			toString = new OJAnnotatedOperation("toString");
-			owner.addToOperations(toString);
-			toString.setReturnType(new OJPathName("String"));
-		}
-		toString.setBody(new OJBlock());
-		toString.setReturnType(new OJPathName("String"));
-		toString.setName("toString");
-		OJAnnotatedField sb = new OJAnnotatedField("sb", new OJPathName("StringBuilder"));
-		sb.setInitExp("new StringBuilder()");
-		toString.getBody().addToLocals(sb);
-		List<? extends INakedProperty> features = umlClass.getEffectiveAttributes();
-		for(INakedProperty f:features){
-			if(!f.isDerived()){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
-				if(map.isOne() && !f.isInverse()){
-					if(isPersistent(f.getNakedBaseType())){
-						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.umlName() + "=null\")");
-						ifNull.setElsePart(new OJBlock());
-						ifNull.getElsePart().addToStatements("sb.append(\"" + map.umlName() + ".id=\")");
-						OJSimpleStatement b = new OJSimpleStatement("sb.append(" + map.getter() + "().getId())");
-						ifNull.getElsePart().addToStatements(b);
-						ifNull.getElsePart().addToStatements("sb.append(\";\")");
-						toString.getBody().addToStatements(ifNull);
-					}else{
-						toString.getBody().addToStatements("sb.append(\"" + map.umlName() + "=\")");
-						toString.getBody().addToStatements("sb.append(" + map.getter() + "())");
-						toString.getBody().addToStatements("sb.append(\";\")");
-					}
-				}
-			}
-		}
-		toString.getBody().addToStatements("return sb.toString()");
-		owner.addToOperations(toString);
+//		OJOperation toString = owner.findToString();
+//		if(toString == null){
+//			toString = new OJAnnotatedOperation("toString");
+//			owner.addToOperations(toString);
+//			toString.setReturnType(new OJPathName("String"));
+//		}
+//		toString.setBody(new OJBlock());
+//		toString.setReturnType(new OJPathName("String"));
+//		toString.setName("toString");
+//		OJAnnotatedField sb = new OJAnnotatedField("sb", new OJPathName("StringBuilder"));
+//		sb.setInitExp("new StringBuilder()");
+//		toString.getBody().addToLocals(sb);
+//		List<? extends INakedProperty> features = umlClass.getEffectiveAttributes();
+//		for(INakedProperty f:features){
+//			if(!f.isDerived()){
+//				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
+//				if(map.isOne() && !f.isInverse()){
+//					if(isPersistent(f.getNakedBaseType())){
+//						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.umlName() + "=null\")");
+//						ifNull.setElsePart(new OJBlock());
+//						ifNull.getElsePart().addToStatements("sb.append(\"" + map.umlName() + ".id=\")");
+//						OJSimpleStatement b = new OJSimpleStatement("sb.append(" + map.getter() + "().getId())");
+//						ifNull.getElsePart().addToStatements(b);
+//						ifNull.getElsePart().addToStatements("sb.append(\";\")");
+//						toString.getBody().addToStatements(ifNull);
+//					}else{
+//						toString.getBody().addToStatements("sb.append(\"" + map.umlName() + "=\")");
+//						toString.getBody().addToStatements("sb.append(" + map.getter() + "())");
+//						toString.getBody().addToStatements("sb.append(\";\")");
+//					}
+//				}
+//			}
+//		}
+//		toString.getBody().addToStatements("return sb.toString()");
+//		owner.addToOperations(toString);
 	}
 	// TODO move elsewhere??
 	public static void addEquals(OJClass ojClass){
-		OJOperation equals = OJUtil.findOperation(ojClass, "equals");
-		if(equals == null){
-			equals = new OJAnnotatedOperation("equals");
-			ojClass.addToOperations(equals);
-		}else{
-			equals.removeAllFromParameters();
-			equals.setBody(new OJBlock());
-		}
-		equals.addParam("o", new OJPathName("Object"));
-		equals.setReturnType(new OJPathName("boolean"));
-		OJIfStatement ifThis = new OJIfStatement("this==o", "return true");
-		OJIfStatement ifNotInstance = new OJIfStatement("!(o instanceof " + ojClass.getName() + ")", "return false");
-		ifThis.addToElsePart(ifNotInstance);
-		OJAnnotatedField other = new OJAnnotatedField("other", ojClass.getPathName());
-		other.setInitExp("(" + ojClass.getName() + ")o");
-		ifNotInstance.setElsePart(new OJBlock());
-		ifNotInstance.getElsePart().addToLocals(other);
-		OJIfStatement ifIdNull = new OJIfStatement("getId()==null", "return false");
-		ifNotInstance.addToElsePart(ifIdNull);
-		ifIdNull.addToElsePart("return getId().equals(other.getId())");
-		equals.getBody().addToStatements(ifThis);
+//		OJOperation equals = OJUtil.findOperation(ojClass, "equals");
+//		if(equals == null){
+//			equals = new OJAnnotatedOperation("equals");
+//			ojClass.addToOperations(equals);
+//		}else{
+//			equals.removeAllFromParameters();
+//			equals.setBody(new OJBlock());
+//		}
+//		equals.addParam("o", new OJPathName("Object"));
+//		equals.setReturnType(new OJPathName("boolean"));
+//		OJIfStatement ifThis = new OJIfStatement("this==o", "return true");
+//		OJIfStatement ifNotInstance = new OJIfStatement("!(o instanceof " + ojClass.getName() + ")", "return false");
+//		ifThis.addToElsePart(ifNotInstance);
+//		OJAnnotatedField other = new OJAnnotatedField("other", ojClass.getPathName());
+//		other.setInitExp("(" + ojClass.getName() + ")o");
+//		ifNotInstance.setElsePart(new OJBlock());
+//		ifNotInstance.getElsePart().addToLocals(other);
+//		OJIfStatement ifIdNull = new OJIfStatement("getId()==null", "return false");
+//		ifNotInstance.addToElsePart(ifIdNull);
+//		ifIdNull.addToElsePart("return getId().equals(other.getId())");
+//		equals.getBody().addToStatements(ifThis);
 	}
 }

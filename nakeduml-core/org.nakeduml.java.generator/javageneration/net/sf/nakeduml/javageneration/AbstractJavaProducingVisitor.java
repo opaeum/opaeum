@@ -51,28 +51,15 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected TextWorkspace textWorkspace;
 	private Set<TextOutputNode> textFiles;
 	protected INakedModelWorkspace workspace;
-	public static class ElementCollector<T extends INakedElement> extends NakedElementOwnerVisitor{
-		Class<? extends INakedElement> cls;
-		Collection<T> collection = new HashSet<T>();
-		@SuppressWarnings("unchecked")
-		@Override
-		public void visitRecursively(INakedElementOwner o){
-			if(cls.isInstance(o)){
-				collection.add((T) o);
-			}
-			super.visitRecursively(o);
-		}
-	}
 	public Set<TextOutputNode> getTextFiles(){
 		return textFiles;
 	}
-	public <T extends INakedElement> Collection<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
-		ElementCollector<T> elementCollector = new ElementCollector<T>();
-		elementCollector.cls = type;
+	public <T extends INakedElement> Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
+		Set<T> result=new HashSet<T>();
 		for(INakedRootObject r:roots){
-			elementCollector.visitRecursively(r);
+			result.addAll(r.getDirectlyAccessibleElementOfType(type));
 		}
-		return elementCollector.collection;
+		return result;
 	}
 	@Override
 	public void initialize(OJPackage pac,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
@@ -270,5 +257,9 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	@Override
 	protected boolean visitChildren(INakedElementOwner o){
 		return o instanceof INakedNameSpace;
+	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
 	}
 }

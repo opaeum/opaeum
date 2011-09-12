@@ -28,9 +28,9 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import org.nakeduml.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class,ValueSpecificationTypeResolver.class
+		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class
 },requires = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,ValueSpecificationTypeResolver.class,CompositionEmulator.class
+		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class
 },before = NakedParsedOclStringResolver.class)
 public class SourcePopulationResolver extends AbstractModelElementLinker{
 	private Map<INakedClassifier,Collection<INakedClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier,Collection<INakedClassifier>>();

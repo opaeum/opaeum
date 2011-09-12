@@ -17,7 +17,7 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
-public class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace>{
+public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace>{
 	private ThreadLocal<INakedRootObject> currentRootObject=new ThreadLocal<INakedRootObject>();
 	protected TransformationContext transformationContext;
 	@Override

@@ -1,33 +1,39 @@
 package net.sf.nakeduml.filegeneration;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.textmetamodel.TextDirectory;
-import net.sf.nakeduml.textmetamodel.TextFile;
-import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
 
-@StepDependency(phase = FileGenerationPhase.class,requires = TextFileDeleter.class,after = TextFileDeleter.class)
-public class TextFileGenerator extends AbstractTextNodeVisitor implements ITransformationStep{
+@StepDependency(phase = FileGenerationPhase.class)
+public class TextFileDeleter extends AbstractTextNodeVisitor implements ITransformationStep{
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-	public TextFileGenerator(){
-	}
-	@Override
-	protected boolean shouldMultiThread(ArrayList<TextOutputNode> children){
-		return children.size() >= 4;//TODO make it more clever, look at the grandchildren
+	public TextFileDeleter(){
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTextFileDirectory(TextDirectory textDir){
 		File dir = getDirectoryFor(textDir);
+		if(!dir.exists()){
+			if(textDir.hasContent()){
+				dir.mkdir();
+			}
+		}else{
+			for(File child:dir.listFiles()){
+				if(textDir.getSourceFolder().shouldClean() && !textDir.hasChild(child.getName()) && isSourceDirectory(child)){
+					deleteTree(child);
+				}
+			}
+		}
+	}
+	private boolean isSourceDirectory(File child){
+		boolean b = !child.isHidden() && !child.getName().startsWith(".");
+		return b;
 	}
 	private File getDirectoryFor(TextDirectory textDir){
 		try{
@@ -47,18 +53,25 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements ITrans
 			throw new RuntimeException(e);
 		}
 	}
-	@VisitBefore(matchSubclasses = false)
-	public void visitTextFile(TextFile textFile) throws IOException{
-		if(textFile.hasContent()){
-			File dir = getDirectoryFor(textFile.getParent());
-			dir.mkdirs();
-			File osFile = new File(dir, textFile.getName());
-			if(!osFile.exists() || textFile.overwrite()){
-				FileWriter fw = new FileWriter(osFile);
-				fw.write(textFile.getContent());
-				fw.flush();
-				fw.close();
+	private void deleteTree(File tree){
+		if(tree.isDirectory()){
+			for(File f:tree.listFiles()){
+				if(!f.getName().startsWith(".")){
+					// don't mess around with eclipse internal files
+					if(f.isFile() || (f.isDirectory() && f.list().length == 0)){
+						try{
+							f.delete();
+						}catch(Exception e){
+						}
+					}else{
+						deleteTree(f);
+					}
+				}
 			}
+		}
+		try{
+			tree.delete();
+		}catch(Exception e){
 		}
 	}
 }

@@ -28,6 +28,11 @@ import org.nakeduml.runtime.domain.TriggerMethod;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
 	protected abstract INakedElement getEnclosingElement(INakedElement step);
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
+
 	protected abstract Collection<INakedTrigger> getOperationTriggers(INakedElement step);
 	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
 		OJEnum e = new OJEnum(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");

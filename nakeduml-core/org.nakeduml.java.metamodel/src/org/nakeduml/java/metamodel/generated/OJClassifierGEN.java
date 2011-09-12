@@ -28,7 +28,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 	private int f_uniqueNumber = 0;
 	private boolean f_isDerived = false;
 	private boolean f_isAbstract = false;
-	private Set<OJOperation> f_operations = new HashSet<OJOperation>();
+	protected Set<OJOperation> f_operations = new HashSet<OJOperation>();
 	private Set<OJPathName> f_imports = new HashSet<OJPathName>();
 	private OJPackage f_myPackage = null;
 	static protected boolean usesAllInstances = false;

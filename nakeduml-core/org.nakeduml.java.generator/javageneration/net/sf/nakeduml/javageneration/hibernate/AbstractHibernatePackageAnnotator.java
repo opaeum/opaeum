@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
@@ -15,7 +14,6 @@ import net.sf.nakeduml.linkage.GeneralizationUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -29,27 +27,10 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
-	public static final class MetaDefElementCollector extends AbstractJavaProducingVisitor{
+	public static final class MetaDefElementCollector {
 		Set<INakedInterface> interfaces = new HashSet<INakedInterface>();
 		Set<INakedBehavior> allProcesses = new HashSet<INakedBehavior>();
 		Set<INakedEnumeration> enumerations = new HashSet<INakedEnumeration>();
-		public MetaDefElementCollector(INakedModelWorkspace workspace){
-			super.workspace = workspace;
-		}
-		@VisitBefore(matchSubclasses=true)
-		public void visitEnumeration(INakedEnumeration i){
-			enumerations.add(i);
-		}
-		@VisitBefore(matchSubclasses=true)
-		public void visitInterface(INakedInterface i){
-			interfaces.add(i);
-		}
-		@VisitBefore(matchSubclasses = true)
-		public void visitProcess(INakedBehavior b){
-			if(b.isProcess()){
-				allProcesses.add(b);
-			}
-		}
 	}
 	public abstract void visitWorkspace(INakedModelWorkspace root);
 	public abstract void visitModel(INakedModel model);
@@ -78,8 +59,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		ap.putAnnotation(filterDef);
 	}
 	private String getCurrentTimestampSQLFunction(){
-		Dialect dialect = HibernateUtil.getHibernateDialect(this.config);
-		return dialect.getCurrentTimestampSQLFunctionName();
+		return config.getDbDialect().getCurrentTimeStampString();
 	}
 	protected void doModel(INakedModel model){
 		if(!isIntegrationRequired()){
@@ -119,14 +99,11 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		}
 		return typeDefs.findAttribute("value");
 	}
-	private MetaDefElementCollector collectElements(Collection<? extends INakedElement> ownedElements){
-		MetaDefElementCollector collector = new MetaDefElementCollector(workspace);
-		for(INakedElement e:ownedElements){
-			if(e instanceof INakedModel){
-				INakedModel model = (INakedModel) e;
-				collector.visitRecursively(model);
-			}
-		}
+	private MetaDefElementCollector collectElements(Collection<INakedRootObject> ownedElements){
+		MetaDefElementCollector collector = new MetaDefElementCollector();
+		collector.allProcesses=getElementsOfType(INakedBehavior.class, ownedElements);
+		collector.enumerations =getElementsOfType(INakedEnumeration.class, ownedElements);
+		collector.interfaces=getElementsOfType(INakedInterface.class, ownedElements);
 		return collector;
 	}
 	private void doMetaDef(Collection<? extends INakedClassifier> impls,String metaDefName,OJAnnotatedPackageInfo p){

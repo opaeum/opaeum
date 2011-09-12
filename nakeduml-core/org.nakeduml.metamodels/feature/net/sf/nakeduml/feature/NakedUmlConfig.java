@@ -275,4 +275,12 @@ public class NakedUmlConfig{
 	public boolean shouldBeCm1Compatible(){
 		return true;
 	}
+	public SqlDialect getDbDialect(){
+		return new SqlDialect(){
+			@Override
+			public String getCurrentTimeStampString(){
+				return "current_timestamp";
+			}
+		};
+	}
 }

@@ -3,7 +3,6 @@ package net.sf.nakeduml.javageneration.basicjava;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
@@ -38,11 +37,40 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	}
 	protected abstract void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap);
 	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
-	@VisitAfter(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class,INakedSignal.class,INakedComponent.class,INakedEnumeration.class
+	@VisitBefore(matchSubclasses = true,match = {
+			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class,INakedSignal.class,INakedComponent.class,INakedEnumeration.class,
+			INakedBehavior.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
+			if(c instanceof INakedComplexStructure){
+				visitComplexStructure((INakedComplexStructure) c);
+				if(c instanceof INakedBehavior){
+					INakedBehavior umlOwner = (INakedBehavior) c;
+					if(BehaviorUtil.hasExecutionInstance(umlOwner)){
+						if(umlOwner.getSpecification() == null){
+							for(INakedParameter parm:umlOwner.getOwnedParameters()){
+								visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, parm));
+							}
+						}
+					}
+					if(umlOwner instanceof INakedActivity){
+						INakedActivity a = (INakedActivity) umlOwner;
+						visitVariables(a.getVariables());
+						for(INakedActivityNode n:a.getActivityNodesRecursively()){
+							if(n instanceof INakedOutputPin){
+								visitOutputPin((INakedOutputPin) n);
+							}else if(n instanceof INakedExpansionNode){
+								visitExpansionNode((INakedExpansionNode) n);
+							}else if(n instanceof INakedEmbeddedTask){
+								visitTask((INakedEmbeddedTask) n);
+							}else if(n instanceof INakedCallAction){
+								visitCallAction((INakedCallAction) n);
+							}
+						}
+					}
+				}
+			}
 			List<? extends INakedProperty> effectiveAttributes = c.getEffectiveAttributes();
 			for(INakedProperty p:effectiveAttributes){
 				if(p.isNavigable() && (p.getOwner() == c || p.getOwner() instanceof INakedInterface)){
@@ -60,34 +88,11 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 	}
-	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap map){
+	@Override
+	protected int getThreadPoolSize(){
+		return 12;
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior umlOwner){
-		if(BehaviorUtil.hasExecutionInstance(umlOwner)){
-			visitFeaturesOf(umlOwner);
-			visitComplexStructure(umlOwner);
-			if(umlOwner.getSpecification() == null){
-				for(INakedParameter parm:umlOwner.getOwnedParameters()){
-					visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, parm));
-				}
-			}
-		}
-		if(umlOwner instanceof INakedActivity){
-			INakedActivity a = (INakedActivity) umlOwner;
-			visitVariables(a.getVariables());
-			for(INakedActivityNode n:a.getActivityNodesRecursively()){
-				if(n instanceof INakedOutputPin){
-					visitOutputPin((INakedOutputPin) n);
-				}else if(n instanceof INakedExpansionNode){
-					visitExpansionNode((INakedExpansionNode) n);
-				}else if(n instanceof INakedEmbeddedTask){
-					visitTask((INakedEmbeddedTask) n);
-				}else if(n instanceof INakedCallAction){
-					visitCallAction((INakedCallAction) n);
-				}
-			}
-		}
+	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap map){
 	}
 	private void visitVariables(Collection<INakedActivityVariable> vars){
 		for(INakedActivityVariable var:vars){
@@ -114,12 +119,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			visitComplexStructure(umlOwner);
 			visitFeaturesOf(umlOwner);
 		}
-	}
-	@VisitBefore(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedSignal.class,INakedComponent.class,INakedAssociationClass.class
-	})
-	public void visitClassifier(INakedClassifier umlOwner){
-		visitComplexStructure((INakedComplexStructure) umlOwner);
 	}
 	public void visitTask(INakedEmbeddedTask node){
 		INakedMessageStructure msg = node.getMessageStructure();

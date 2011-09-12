@@ -28,4 +28,9 @@ public abstract class AbstractValidator extends NakedElementOwnerVisitor impleme
 	protected ErrorMap getErrorMap(){
 		return workspace.getErrorMap();
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		//It is read-only
+		return 12;
+	}
 }

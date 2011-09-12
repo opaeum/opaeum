@@ -103,6 +103,11 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		knowledgeBase.addToFields(instance);
 		knowledgeBase.setSuperclass(new OJPathName(AbstractJbpmKnowledgeBase.class.getName()));
 	}
+	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
+
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model){
 		if(!transformationContext.isIntegrationPhase()){

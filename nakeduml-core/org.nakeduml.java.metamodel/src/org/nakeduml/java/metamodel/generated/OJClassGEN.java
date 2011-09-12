@@ -6,9 +6,12 @@ package org.nakeduml.java.metamodel.generated;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.nakeduml.java.metamodel.OJClass;
@@ -19,41 +22,42 @@ import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.utilities.InvariantError;
 
-
-/** Class ...
+/**
+ * Class ...
  */
-abstract public class OJClassGEN extends OJClassifier {
+abstract public class OJClassGEN extends OJClassifier{
 	private boolean f_needsSuppress = false;
-	private List<OJField> f_fields = new ArrayList<OJField>();
+	protected Map<String,OJField> f_fields = new HashMap<String,OJField>();
 	private OJPackage f_myPackage = null;
 	private Set<OJConstructor> f_constructors = new HashSet<OJConstructor>();
 	private Set<OJPathName> f_implementedInterfaces = new HashSet<OJPathName>();
 	private OJPathName f_superclass = null;
 	static protected boolean usesAllInstances = false;
 	static protected List<OJClass> allInstances = new ArrayList<OJClass>();
-
-	/** Default constructor for OJClass
+	/**
+	 * Default constructor for OJClass
 	 */
-	protected OJClassGEN() {
+	protected OJClassGEN(){
 		super();
-		if ( usesAllInstances ) {
-			allInstances.add(((OJClass)this));
+		if(usesAllInstances){
+			allInstances.add(((OJClass) this));
 		}
 	}
-	
-	/** Constructor for OJClassGEN
+	/**
+	 * Constructor for OJClassGEN
 	 * 
-	 * @param name 
-	 * @param comment 
-	 * @param isStatic 
-	 * @param isFinal 
-	 * @param isVolatile 
-	 * @param uniqueNumber 
-	 * @param isDerived 
-	 * @param isAbstract 
-	 * @param needsSuppress 
+	 * @param name
+	 * @param comment
+	 * @param isStatic
+	 * @param isFinal
+	 * @param isVolatile
+	 * @param uniqueNumber
+	 * @param isDerived
+	 * @param isAbstract
+	 * @param needsSuppress
 	 */
-	protected OJClassGEN(String name, String comment, boolean isStatic, boolean isFinal, boolean isVolatile, int uniqueNumber, boolean isDerived, boolean isAbstract, boolean needsSuppress) {
+	protected OJClassGEN(String name,String comment,boolean isStatic,boolean isFinal,boolean isVolatile,int uniqueNumber,boolean isDerived,boolean isAbstract,
+			boolean needsSuppress){
 		super();
 		super.setName(name);
 		super.setComment(comment);
@@ -64,439 +68,429 @@ abstract public class OJClassGEN extends OJClassifier {
 		super.setDerived(isDerived);
 		super.setAbstract(isAbstract);
 		this.setNeedsSuppress(needsSuppress);
-		if ( usesAllInstances ) {
-			allInstances.add(((OJClass)this));
+		if(usesAllInstances){
+			allInstances.add(((OJClass) this));
 		}
 	}
-
-	/** Implements the user defined operation '+ getDefaultConstructor() : OJConstructor'
+	/**
+	 * Implements the user defined operation '+ getDefaultConstructor() : OJConstructor'
 	 */
-	public OJConstructor getDefaultConstructor() {
+	public OJConstructor getDefaultConstructor(){
 		return any1();
 	}
-	
-	/** Implements the user defined operation '+ findField( name: String ) : OJField'
+	/**
+	 * Implements the user defined operation '+ findField( name: String ) : OJField'
 	 * 
-	 * @param name 
+	 * @param name
 	 */
-	public OJField findField(String name) {
-		return any2(name);
+	public OJField findField(String name){
+		return f_fields.get(name);
 	}
-	
-	/** Implements the getter for attribute '+ needsSuppress : Boolean'
+	/**
+	 * Implements the getter for attribute '+ needsSuppress : Boolean'
 	 */
-	public boolean getNeedsSuppress() {
+	public boolean getNeedsSuppress(){
 		return f_needsSuppress;
 	}
-	
-	/** Implements the setter for attribute '+ needsSuppress : Boolean'
+	/**
+	 * Implements the setter for attribute '+ needsSuppress : Boolean'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void setNeedsSuppress(boolean element) {
-		if ( f_needsSuppress != element ) {
+	public void setNeedsSuppress(boolean element){
+		if(f_needsSuppress != element){
 			f_needsSuppress = element;
 		}
 	}
-	
-	/** XXXX implements the setter for association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * XXXX implements the setter for association end '+ fields : OrderedSet(OJField)'
 	 * 
-	 * @param elements 
+	 * @param elements
 	 */
-	public void setFields(List<OJField> elements) {
-		if ( this.f_fields != elements ) {
-			for ( OJField _internal : this.f_fields ) {
-				_internal.z_internalRemoveFromOwner(((OJClass)this));
-			}
-			this.f_fields = elements;
-			if ( f_fields != null ) {
-				for ( OJField _internal : f_fields ) {
-					_internal.z_internalAddToOwner(((OJClass)this));
-				}
-			}
+	public void setFields(Collection<OJField> elements){
+		for(OJField _internal:this.f_fields.values()){
+			_internal.z_internalRemoveFromOwner(((OJClass) this));
+		}
+		for(OJField _internal:elements){
+			addToFields(_internal);
 		}
 	}
-	
-	/** Implements addition of a single element to association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * Implements addition of a single element to association end '+ fields : OrderedSet(OJField)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public  void addToFields(OJField element) {
-		if ( element == null ) {
+	public void addToFields(OJField element){
+		if(element == null){
 			return;
 		}
-		if ( this.f_fields.contains(element) ) {
-			this.f_fields.remove(element);
-		}
-		if ( element.getOwner() != null ) {
+		if(element.getOwner() != null){
 			element.getOwner().z_internalRemoveFromFields(element);
 		}
-		this.f_fields.add(element);
-		element.z_internalAddToOwner(((OJClass)this));
+		this.f_fields.put(element.getName(), element);
+		element.z_internalAddToOwner(((OJClass) this));
 	}
-	
-	/** Implements removal of a single element from association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * Implements removal of a single element from association end '+ fields : OrderedSet(OJField)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void removeFromFields(OJField element) {
-		if ( element == null ) {
+	public void removeFromFields(OJField element){
+		if(element == null){
 			return;
 		}
 		this.f_fields.remove(element);
-		element.z_internalRemoveFromOwner(((OJClass)this));
+		element.z_internalRemoveFromOwner(((OJClass) this));
 	}
-	
-	/** Implements the getter for association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * Implements the getter for association end '+ fields : OrderedSet(OJField)'
 	 */
-	public List<OJField> getFields() {
-		if ( f_fields != null ) {
-			return Collections.unmodifiableList(f_fields);
-		} else {
+	public Collection<OJField> getFields(){
+		if(f_fields != null){
+			return Collections.unmodifiableCollection(f_fields.values());
+		}else{
 			return null;
 		}
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+	/**
+	 * This operation should NOT be used by clients. It implements the correct addition of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void z_internalAddToFields(OJField element) {
-		this.f_fields.add(element);
+	public void z_internalAddToFields(OJField element){
+		this.f_fields.put(element.getName(),element);
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+	/**
+	 * This operation should NOT be used by clients. It implements the correct removal of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void z_internalRemoveFromFields(OJField element) {
+	public void z_internalRemoveFromFields(OJField element){
 		this.f_fields.remove(element);
 	}
-	
-	/** XXXX implements the addition of a number of elements to association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * XXXX implements the addition of a number of elements to association end '+ fields : OrderedSet(OJField)'
 	 * 
-	 * @param newElems 
+	 * @param newElems
 	 */
-	public void addToFields(Collection<OJField> newElems) {
-		for ( OJField item : newElems ) {
+	public void addToFields(Collection<OJField> newElems){
+		for(OJField item:newElems){
 			this.addToFields(item);
 		}
 	}
-	
-	/** Implements the removal of a number of elements from association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * Implements the removal of a number of elements from association end '+ fields : OrderedSet(OJField)'
 	 * 
-	 * @param oldElems 
+	 * @param oldElems
 	 */
-	public void removeFromFields(Collection<OJField> oldElems) {
-		for ( OJField item : oldElems ) {
+	public void removeFromFields(Collection<OJField> oldElems){
+		for(OJField item:oldElems){
 			this.removeFromFields(item);
 		}
 	}
-	
-	/** Implements the removal of all elements from association end '+ fields : OrderedSet(OJField)'
+	/**
+	 * Implements the removal of all elements from association end '+ fields : OrderedSet(OJField)'
 	 */
-	public void removeAllFromFields() {
-		/* make a copy of the collection in order to avoid a ConcurrentModificationException*/
-		for ( OJField item : new ArrayList<OJField>(getFields()) ) {
+	public void removeAllFromFields(){
+		/* make a copy of the collection in order to avoid a ConcurrentModificationException */
+		for(OJField item:new ArrayList<OJField>(getFields())){
 			this.removeFromFields(item);
 		}
 	}
-	
-	/** Implements the setter of association end '+ myPackage : OJPackage'
+	/**
+	 * Implements the setter of association end '+ myPackage : OJPackage'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void setMyPackage(OJPackage element) {
-		if ( this.f_myPackage != element ) {
-			if ( this.f_myPackage != null ) {
-				this.f_myPackage.z_internalRemoveFromClasses(((OJClass)this));
+	public void setMyPackage(OJPackage element){
+		if(this.f_myPackage != element){
+			if(this.f_myPackage != null){
+				this.f_myPackage.z_internalRemoveFromClasses(((OJClass) this));
 			}
 			this.f_myPackage = element;
-			if ( element != null ) {
-				element.z_internalAddToClasses(((OJClass)this));
+			if(element != null){
+				element.z_internalAddToClasses(((OJClass) this));
 			}
 		}
 	}
-	
-	/** Implements the getter for association end '+ myPackage : OJPackage'
+	/**
+	 * Implements the getter for association end '+ myPackage : OJPackage'
 	 */
-	public OJPackage getMyPackage() {
+	public OJPackage getMyPackage(){
 		return f_myPackage;
 	}
-	
-	/** Should NOT be used by clients! Implements the correct setting of the link for association end '+ myPackage : OJPackage' 
-						when a single element is added to it.
+	/**
+	 * Should NOT be used by clients! Implements the correct setting of the link for association end '+ myPackage : OJPackage' when a single
+	 * element is added to it.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void z_internalAddToMyPackage(OJPackage element) {
+	public void z_internalAddToMyPackage(OJPackage element){
 		this.f_myPackage = element;
 	}
-	
-	/** Should NOT be used by clients! Implements the correct setting of the link for association end '+ myPackage : OJPackage' 
-						when a single element is removed to it.
+	/**
+	 * Should NOT be used by clients! Implements the correct setting of the link for association end '+ myPackage : OJPackage' when a single
+	 * element is removed to it.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void z_internalRemoveFromMyPackage(OJPackage element) {
+	public void z_internalRemoveFromMyPackage(OJPackage element){
 		this.f_myPackage = null;
 	}
-	
-	/** XXXX implements the setter for association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * XXXX implements the setter for association end '+ constructors : Set(OJConstructor)'
 	 * 
-	 * @param elements 
+	 * @param elements
 	 */
-	public void setConstructors(Set<OJConstructor> elements) {
-		if ( this.f_constructors != elements ) {
-			for ( OJConstructor _internal : this.f_constructors ) {
-				_internal.z_internalRemoveFromOwningClass(((OJClass)this));
+	public void setConstructors(Set<OJConstructor> elements){
+		if(this.f_constructors != elements){
+			for(OJConstructor _internal:this.f_constructors){
+				_internal.z_internalRemoveFromOwningClass(((OJClass) this));
 			}
 			this.f_constructors = elements;
-			if ( f_constructors != null ) {
-				for ( OJConstructor _internal : f_constructors ) {
-					_internal.z_internalAddToOwningClass(((OJClass)this));
+			if(f_constructors != null){
+				for(OJConstructor _internal:f_constructors){
+					_internal.z_internalAddToOwningClass(((OJClass) this));
 				}
 			}
 		}
 	}
-	
-	/** Implements addition of a single element to association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * Implements addition of a single element to association end '+ constructors : Set(OJConstructor)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void addToConstructors(OJConstructor element) {
-		if ( element == null ) {
+	public void addToConstructors(OJConstructor element){
+		if(element == null){
 			return;
 		}
-		if ( this.f_constructors.contains(element) ) {
+		if(this.f_constructors.contains(element)){
 			this.f_constructors.remove(element);
 		}
-		if ( element.getOwningClass() != null ) {
+		if(element.getOwningClass() != null){
 			element.getOwningClass().z_internalRemoveFromConstructors(element);
 		}
 		this.f_constructors.add(element);
-		element.z_internalAddToOwningClass(((OJClass)this));
+		element.z_internalAddToOwningClass(((OJClass) this));
 	}
-	
-	/** Implements removal of a single element from association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * Implements removal of a single element from association end '+ constructors : Set(OJConstructor)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void removeFromConstructors(OJConstructor element) {
-		if ( element == null ) {
+	public void removeFromConstructors(OJConstructor element){
+		if(element == null){
 			return;
 		}
 		this.f_constructors.remove(element);
-		element.z_internalRemoveFromOwningClass(((OJClass)this));
+		element.z_internalRemoveFromOwningClass(((OJClass) this));
 	}
-	
-	/** Implements the getter for association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * Implements the getter for association end '+ constructors : Set(OJConstructor)'
 	 */
-	public Set<OJConstructor> getConstructors() {
-		if ( f_constructors != null ) {
+	public Set<OJConstructor> getConstructors(){
+		if(f_constructors != null){
 			return Collections.unmodifiableSet(f_constructors);
-		} else {
+		}else{
 			return null;
 		}
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct addition of an element in an association.
+	/**
+	 * This operation should NOT be used by clients. It implements the correct addition of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void z_internalAddToConstructors(OJConstructor element) {
+	public void z_internalAddToConstructors(OJConstructor element){
 		this.f_constructors.add(element);
 	}
-	
-	/** This operation should NOT be used by clients. It implements the correct removal of an element in an association.
+	/**
+	 * This operation should NOT be used by clients. It implements the correct removal of an element in an association.
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void z_internalRemoveFromConstructors(OJConstructor element) {
+	public void z_internalRemoveFromConstructors(OJConstructor element){
 		this.f_constructors.remove(element);
 	}
-	
-	/** XXXX implements the addition of a number of elements to association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * XXXX implements the addition of a number of elements to association end '+ constructors : Set(OJConstructor)'
 	 * 
-	 * @param newElems 
+	 * @param newElems
 	 */
-	public void addToConstructors(Collection<OJConstructor> newElems) {
-		for ( OJConstructor item : newElems ) {
+	public void addToConstructors(Collection<OJConstructor> newElems){
+		for(OJConstructor item:newElems){
 			this.addToConstructors(item);
 		}
 	}
-	
-	/** Implements the removal of a number of elements from association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * Implements the removal of a number of elements from association end '+ constructors : Set(OJConstructor)'
 	 * 
-	 * @param oldElems 
+	 * @param oldElems
 	 */
-	public void removeFromConstructors(Collection<OJConstructor> oldElems) {
-		for ( OJConstructor item : oldElems ) {
+	public void removeFromConstructors(Collection<OJConstructor> oldElems){
+		for(OJConstructor item:oldElems){
 			this.removeFromConstructors(item);
 		}
 	}
-	
-	/** Implements the removal of all elements from association end '+ constructors : Set(OJConstructor)'
+	/**
+	 * Implements the removal of all elements from association end '+ constructors : Set(OJConstructor)'
 	 */
-	public void removeAllFromConstructors() {
-		/* make a copy of the collection in order to avoid a ConcurrentModificationException*/
-		for ( OJConstructor item : new HashSet<OJConstructor>(getConstructors()) ) {
+	public void removeAllFromConstructors(){
+		/* make a copy of the collection in order to avoid a ConcurrentModificationException */
+		for(OJConstructor item:new HashSet<OJConstructor>(getConstructors())){
 			this.removeFromConstructors(item);
 		}
 	}
-	
-	/** Implements the getter for association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the getter for association end '+ implementedInterfaces : Set(OJPathName)'
 	 */
-	public Set<OJPathName> getImplementedInterfaces() {
+	public Set<OJPathName> getImplementedInterfaces(){
 		return f_implementedInterfaces;
 	}
-	
-	/** Implements the setter for association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the setter for association end '+ implementedInterfaces : Set(OJPathName)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void setImplementedInterfaces(Set<OJPathName> element) {
-		if ( f_implementedInterfaces != element ) {
+	public void setImplementedInterfaces(Set<OJPathName> element){
+		if(f_implementedInterfaces != element){
 			f_implementedInterfaces = element;
 		}
 	}
-	
-	/** Implements the add element function for association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the add element function for association end '+ implementedInterfaces : Set(OJPathName)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void addToImplementedInterfaces(OJPathName element) {
-		if ( f_implementedInterfaces.contains(element) ) {
+	public void addToImplementedInterfaces(OJPathName element){
+		if(f_implementedInterfaces.contains(element)){
 			return;
 		}
 		f_implementedInterfaces.add(element);
 	}
-	
-	/** Implements the remove element function for association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the remove element function for association end '+ implementedInterfaces : Set(OJPathName)'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void removeFromImplementedInterfaces(OJPathName element) {
+	public void removeFromImplementedInterfaces(OJPathName element){
 		f_implementedInterfaces.remove(element);
 	}
-	
-	/** Implements the addition of a number of elements to association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the addition of a number of elements to association end '+ implementedInterfaces : Set(OJPathName)'
 	 * 
-	 * @param newElems 
+	 * @param newElems
 	 */
-	public void addToImplementedInterfaces(Collection<OJPathName> newElems) {
-		for ( OJPathName item : newElems ) {
+	public void addToImplementedInterfaces(Collection<OJPathName> newElems){
+		for(OJPathName item:newElems){
 			addToImplementedInterfaces(item);
 		}
 	}
-	
-	/** Implements the removal of a number of elements from association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the removal of a number of elements from association end '+ implementedInterfaces : Set(OJPathName)'
 	 * 
-	 * @param oldElems 
+	 * @param oldElems
 	 */
-	public void removeFromImplementedInterfaces(Collection<OJPathName> oldElems) {
-		for ( OJPathName item : oldElems ) {
+	public void removeFromImplementedInterfaces(Collection<OJPathName> oldElems){
+		for(OJPathName item:oldElems){
 			removeFromImplementedInterfaces(item);
 		}
 	}
-	
-	/** Implements the removal of all elements from association end '+ implementedInterfaces : Set(OJPathName)'
+	/**
+	 * Implements the removal of all elements from association end '+ implementedInterfaces : Set(OJPathName)'
 	 */
-	public void removeAllFromImplementedInterfaces() {
-		/* make a copy of the collection in order to avoid a ConcurrentModificationException*/
-		for ( OJPathName item : new HashSet<OJPathName>(getImplementedInterfaces()) ) {
+	public void removeAllFromImplementedInterfaces(){
+		/* make a copy of the collection in order to avoid a ConcurrentModificationException */
+		for(OJPathName item:new HashSet<OJPathName>(getImplementedInterfaces())){
 			removeFromImplementedInterfaces(item);
 		}
 	}
-	
-	/** Implements the getter for association end '+ superclass : OJPathName'
+	/**
+	 * Implements the getter for association end '+ superclass : OJPathName'
 	 */
-	public OJPathName getSuperclass() {
+	public OJPathName getSuperclass(){
 		return f_superclass;
 	}
-	
-	/** Implements the setter for association end '+ superclass : OJPathName'
+	/**
+	 * Implements the setter for association end '+ superclass : OJPathName'
 	 * 
-	 * @param element 
+	 * @param element
 	 */
-	public void setSuperclass(OJPathName element) {
-		if ( f_superclass != element ) {
+	public void setSuperclass(OJPathName element){
+		if(f_superclass != element){
 			f_superclass = element;
 		}
 	}
-	
-	/** Implements ->any( c : OJConstructor | c.parameters->isEmpty() )
+	/**
+	 * Implements ->any( c : OJConstructor | c.parameters->isEmpty() )
 	 */
-	private OJConstructor any1() {
+	private OJConstructor any1(){
 		OJConstructor result = null;
 		Iterator it = this.getConstructors().iterator();
-		while ( it.hasNext() ) {
+		while(it.hasNext()){
 			OJConstructor c = (OJConstructor) it.next();
-			if ( c.getParameters().isEmpty() ) {
+			if(c.getParameters().isEmpty()){
 				return c;
 			}
 		}
 		return result;
 	}
-	
-	/** Implements ->any( f : OJField | f.name = name )
+	/**
+	 * Implements ->any( f : OJField | f.name = name )
 	 * 
-	 * @param name 
+	 * @param name
 	 */
-	private OJField any2(String name) {
+	private OJField any2(String name){
 		OJField result = null;
 		Iterator it = this.getFields().iterator();
-		while ( it.hasNext() ) {
+		while(it.hasNext()){
 			OJField f = (OJField) it.next();
-			if ( f.getName().equals(name) ) {
+			if(f.getName().equals(name)){
 				return f;
 			}
 		}
 		return result;
 	}
-	
-	/** Checks all invariants of this object and returns a list of messages about broken invariants
+	/**
+	 * Checks all invariants of this object and returns a list of messages about broken invariants
 	 */
-	public List<InvariantError> checkAllInvariants() {
+	public List<InvariantError> checkAllInvariants(){
 		List<InvariantError> result = new ArrayList<InvariantError>();
 		return result;
 	}
-	
-	/** Implements a check on the multiplicities of all attributes and association ends
+	/**
+	 * Implements a check on the multiplicities of all attributes and association ends
 	 */
-	public List<InvariantError> checkMultiplicities() {
+	public List<InvariantError> checkMultiplicities(){
 		List<InvariantError> result = new ArrayList<InvariantError>();
-		if ( getMyPackage() == null ) {
+		if(getMyPackage() == null){
 			String message = "Mandatory feature 'myPackage' in object '";
 			message = message + this.getIdString();
 			message = message + "' of type '" + this.getClass().getName() + "' has no value.";
-			result.add(new InvariantError(((OJClass)this), message));
+			result.add(new InvariantError(((OJClass) this), message));
 		}
-		if ( getConstructors().size() < 1 ) {
+		if(getConstructors().size() < 1){
 			String message = "Lower bound of feature 'constructors' in object '";
 			message = message + this.getIdString();
-			message = message + "' of type '" + this.getClass().getName() + "' is 1" +
-			  			", yet it has size " + getConstructors().size() + ".";
-			result.add(new InvariantError(((OJClass)this), message));
+			message = message + "' of type '" + this.getClass().getName() + "' is 1" + ", yet it has size " + getConstructors().size() + ".";
+			result.add(new InvariantError(((OJClass) this), message));
 		}
 		return result;
 	}
-	
-	/** Returns the default identifier for OJClass
+	/**
+	 * Returns the default identifier for OJClass
 	 */
-	public String getIdString() {
+	public String getIdString(){
 		String result = "";
 		result = super.getIdString();
 		return result;
 	}
-	
-	/** Implements the OCL allInstances operation
+	/**
+	 * Implements the OCL allInstances operation
 	 */
-	static public List allInstances() {
-		if ( !usesAllInstances ) {
+	static public List allInstances(){
+		if(!usesAllInstances){
 			throw new RuntimeException("allInstances is not implemented for ((OJClass)this) class. Set usesAllInstances to true, if you want allInstances() implemented.");
 		}
 		return allInstances;
 	}
-
 }

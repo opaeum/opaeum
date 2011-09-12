@@ -50,6 +50,10 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	protected EmfWorkspace emfWorkspace;
 	private Set<INakedElement> affectedElements = Collections.synchronizedSet(new HashSet<INakedElement>());
 	@Override
+	protected int getThreadPoolSize(){
+		return 1;
+	}
+	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
 			return ((EmfWorkspace) root).getOwnedElements();
@@ -242,6 +246,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			NakedDeadlineImpl deadline = new NakedDeadlineImpl();
 			initialize(deadline, timeEvent, definedResponsibiliti);
 			initTimeEvent(timeEvent, deadline);
+			deadline.getRootObject().addDirectlyAccessibleElement(deadline);
 		}
 	}
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
