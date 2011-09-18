@@ -38,7 +38,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	public void execute(TransformationContext context){
 		context.getLog().startTask("Generating platform-specific names", nameGenerators.size());
 		for(AbstractNameGenerator ng:nameGenerators){
-			context.getLog().startStep("Executing " + ng.getClass().getName());
+			context.getLog().startStep("Executing " + ng.getClass().getSimpleName());
 			ng.startVisiting(modelWorkspace);
 			context.getLog().endLastStep();
 		}

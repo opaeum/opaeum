@@ -5,6 +5,10 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedMultiplicityElement;
 
 public class NakedConnectorEndImpl extends NakedMultiplicityElement implements INakedConnectorEnd{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6692848840616896126L;
 	private INakedProperty role;
 	private INakedProperty partWitPort;
 	@Override

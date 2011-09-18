@@ -17,6 +17,7 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.profiles.INakedStereotype;
 
 public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl implements INakedEmbeddedSingleScreenTask{
+	private static final long serialVersionUID = -1263880243304275436L;
 	private INakedMessageStructure asClass;
 	private INakedResponsibilityDefinition taskDefinition;
 	private List<INakedOutputPin> outputValues;
@@ -25,7 +26,7 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
 		if(stereotype.getName().equalsIgnoreCase(StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK) && stereotype.getClassifier() instanceof INakedStereotype){
-			removeOwnedElement(this.taskDefinition);
+			removeOwnedElement(this.taskDefinition, true);
 			this.taskDefinition=new NakedResponsibilityDefinitionImpl(stereotype);
 			addOwnedElement(this.taskDefinition);
 		}
@@ -67,5 +68,9 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 	}
 	public void setSynchronous(boolean isSynchronous){
 		this.isSynchronous = isSynchronous;
+	}
+	@Override
+	public boolean isLongRunning(){
+		return true;
 	}
 }

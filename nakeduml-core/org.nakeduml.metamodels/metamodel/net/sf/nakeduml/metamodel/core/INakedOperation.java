@@ -1,5 +1,6 @@
 package net.sf.nakeduml.metamodel.core;
 
+import java.util.Collection;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -21,4 +22,5 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	INakedConstraint getBodyCondition();
 	void initMessageStructure();
 	INakedMessageStructure getMessageStructure();
+	Collection<INakedClassifier> getRaisedExceptions();
 }

@@ -86,7 +86,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 	// TODO make configurable
 	public CodeGenerationStrategy getCodeGenerationStrategy(){
-		return CodeGenerationStrategy.all;
+		return CodeGenerationStrategy.ALL;
 	}
 	@Override
 	public String getName(){

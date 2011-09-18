@@ -8,6 +8,11 @@ import net.sf.nakeduml.metamodel.core.internal.NakedTypedElementImpl;
 
 public class NakedActivityVariable extends NakedTypedElementImpl implements INakedActivityVariable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6296648779971906917L;
+
 	@Override
 	public INakedActivity getActivity() {
 		INakedElementOwner element = getOwnerElement();

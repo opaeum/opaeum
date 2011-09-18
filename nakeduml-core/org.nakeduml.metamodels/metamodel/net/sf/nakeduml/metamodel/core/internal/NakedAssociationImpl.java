@@ -106,4 +106,23 @@ public class NakedAssociationImpl extends NakedClassifierImpl implements INakedA
 	public void setDerived(boolean t){
 		this.isDerived = t;
 	}
+	@Override
+	public boolean hasComposite() {
+		return true;
+	}
+
+	@Override
+	public INakedProperty getEndToComposite() {
+		return getPropertyToEnd1();
+	}
+	@Override
+	public List<INakedProperty> getEffectiveAttributes(){
+		List<INakedProperty> effectiveAttributes = super.getEffectiveAttributes();
+		effectiveAttributes.removeAll(getEnds());
+		return effectiveAttributes;
+	}
+	@Override
+	public boolean isPersistent(){
+		return isClass();
+	}
 }

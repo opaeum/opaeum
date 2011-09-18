@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_-jWgMcPwEd-SNsUNWzjz5A" activeDiagram="_-jaxoMPwEd-SNsUNWzjz5A">
   <model href="OpiumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-  <diagrams xmi:id="_-jaxoMPwEd-SNsUNWzjz5A" position="0,0" size="100,100" name="NakedUMLSimpleTypes" viewport="0,80">
+  <diagrams xmi:id="_-jaxoMPwEd-SNsUNWzjz5A" position="0,0" size="100,100" name="NakedUMLSimpleTypes" viewport="0,340">
     <property xmi:id="__I1L0MPwEd-SNsUNWzjz5A" key="pageFormatName" value="A4"/>
     <property xmi:id="__I1y4MPwEd-SNsUNWzjz5A" key="diagramWidth" value="840"/>
     <property xmi:id="__I1y4cPwEd-SNsUNWzjz5A" key="diagramHeight" value="1188"/>
@@ -101,7 +101,7 @@
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_mmoKUDsuEeC5OLJvkS0EWA" position="204,286" size="209,-1">
-      <anchorage xmi:id="_riHz8DsuEeC5OLJvkS0EWA" graphEdge="_WG5JINYIEeCIftwUy_ucRw _dmQdsNYIEeCIftwUy_ucRw _UZS3gNYLEeCIftwUy_ucRw"/>
+      <anchorage xmi:id="_riHz8DsuEeC5OLJvkS0EWA" graphEdge="_WG5JINYIEeCIftwUy_ucRw _dmQdsNYIEeCIftwUy_ucRw _UZS3gNYLEeCIftwUy_ucRw _ZDXiAOEkEeCZsvOjs18MJw"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mmoKUTsuEeC5OLJvkS0EWA" presentation="default">
         <element href="OpiumStandardProfile.uml#_mmu4ADsuEeC5OLJvkS0EWA"/>
       </semanticModel>
@@ -264,7 +264,7 @@
       </semanticModel>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_WsHWENYIEeCIftwUy_ucRw" position="332,428" size="120,-1">
-      <anchorage xmi:id="_auFWsNYIEeCIftwUy_ucRw" graphEdge="_auIaANYIEeCIftwUy_ucRw"/>
+      <anchorage xmi:id="_auFWsNYIEeCIftwUy_ucRw" graphEdge="_auIaANYIEeCIftwUy_ucRw _9aj9gOEkEeCBS9H2w0zISQ"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WsHWEdYIEeCIftwUy_ucRw" presentation="default">
         <element href="OpiumStandardProfile.uml#_WseicNYIEeCIftwUy_ucRw"/>
       </semanticModel>
@@ -331,6 +331,73 @@
         <element href="OpiumStandardProfile.uml#_XQaOkNYLEeCIftwUy_ucRw"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_XQP2gtYLEeCIftwUy_ucRw" id="requiredFieldEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_igXQ0N7HEeCmRficbXEeTA" position="206,959" size="120,-1">
+      <anchorage xmi:id="_o-1wId7HEeCmRficbXEeTA" graphEdge="_o-7PsN7HEeCmRficbXEeTA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_igXQ0d7HEeCmRficbXEeTA" presentation="default">
+        <element href="OpiumStandardProfile.uml#_igcJUN7HEeCmRficbXEeTA"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_l63o0N7HEeCmRficbXEeTA" position="514,958" size="120,-1">
+      <anchorage xmi:id="_o-1wIN7HEeCmRficbXEeTA" graphEdge="_o-7PsN7HEeCmRficbXEeTA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_l63o0d7HEeCmRficbXEeTA" presentation="default">
+        <element href="OpiumStandardProfile.uml#_l69IYN7HEeCmRficbXEeTA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_l63o0t7HEeCmRficbXEeTA">
+        <property xmi:id="_l63o097HEeCmRficbXEeTA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_l63o1N7HEeCmRficbXEeTA" presentation="default">
+          <element href="OpiumStandardProfile.uml#_l69IYN7HEeCmRficbXEeTA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_mlq5UN7HEeCmRficbXEeTA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mlq5Ud7HEeCmRficbXEeTA" presentation="default">
+            <element href="OpiumStandardProfile.uml#_mlujsN7HEeCmRficbXEeTA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_o-7PsN7HEeCmRficbXEeTA" anchor="_o-1wIN7HEeCmRficbXEeTA _o-1wId7HEeCmRficbXEeTA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_o-7Psd7HEeCmRficbXEeTA" presentation="default">
+        <element href="OpiumStandardProfile.uml#_o-72wN7HEeCmRficbXEeTA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_o-7Pst7HEeCmRficbXEeTA" id="requiredFieldEdgeObject"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_9nQLIOEjEeCZsvOjs18MJw" position="383,638" size="193,-1">
+      <anchorage xmi:id="_ZDUesOEkEeCZsvOjs18MJw" graphEdge="_ZDXiAOEkEeCZsvOjs18MJw _9aj9gOEkEeCBS9H2w0zISQ"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9nQLIeEjEeCZsvOjs18MJw" presentation="default">
+        <element href="OpiumStandardProfile.uml#_9nyWoOEjEeCZsvOjs18MJw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_9nQLIuEjEeCZsvOjs18MJw">
+        <property xmi:id="_9nQLI-EjEeCZsvOjs18MJw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9nQLJOEjEeCZsvOjs18MJw" presentation="default">
+          <element href="OpiumStandardProfile.uml#_9nyWoOEjEeCZsvOjs18MJw"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="__Mo0kOEjEeCZsvOjs18MJw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__Mo0keEjEeCZsvOjs18MJw" presentation="default">
+            <element href="OpiumStandardProfile.uml#__MrQ0OEjEeCZsvOjs18MJw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_GZKFoOEkEeCZsvOjs18MJw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GZKFoeEkEeCZsvOjs18MJw" presentation="default">
+            <element href="OpiumStandardProfile.uml#_GZMh4OEkEeCZsvOjs18MJw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_ZrnNwOEkEeCZsvOjs18MJw" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZrnNweEkEeCZsvOjs18MJw" presentation="default">
+            <element href="OpiumStandardProfile.uml#_ZrpC8OEkEeCZsvOjs18MJw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_ZDXiAOEkEeCZsvOjs18MJw" anchor="_ZDUesOEkEeCZsvOjs18MJw _riHz8DsuEeC5OLJvkS0EWA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZDXiAeEkEeCZsvOjs18MJw" presentation="default">
+        <element href="OpiumStandardProfile.uml#_ZDuHUOEkEeCZsvOjs18MJw"/>
+      </semanticModel>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_9aj9gOEkEeCBS9H2w0zISQ" anchor="_ZDUesOEkEeCZsvOjs18MJw _auFWsNYIEeCIftwUy_ucRw">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9aj9geEkEeCBS9H2w0zISQ" presentation="default">
+        <element href="OpiumStandardProfile.uml#_9akkkOEkEeCBS9H2w0zISQ"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_9aj9guEkEeCBS9H2w0zISQ" id="requiredFieldEdgeObject"/>
     </contained>
   </diagrams>
 </diagrams:Diagrams>

@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +30,6 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar;
 import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
@@ -36,7 +37,9 @@ import org.nakeduml.runtime.domain.CompositionNode;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -47,39 +50,39 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="recurring_holiday")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.recurring_holiday",uuid="OpiumBPM.library.uml@_TFKVQNb_EeCJ0dmaHEVVnw")
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.recurring_holiday",uuid="252060@_TFKVQNb_EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class RecurringHoliday implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 641;
-	@Column(name="day")
-	@Min(message="",value=1,payload={},groups={})
-	@Max(message="",value=31,payload={},groups={})
-	private Integer day;
-	@Enumerated(javax.persistence.EnumType.STRING)
-	@Column(name="month",nullable=true)
-	private Month month;
-	@Column(name="name")
-	private String name;
-	@Index(name="idx_recurring_holiday_business_calendar_id",columnNames="business_calendar_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="business_calendar_id",nullable=true)
-	private BusinessCalendar businessCalendar;
-	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
-	@Id
-	private Long id;
-	@Column(name="object_version")
-	@Version
-	private int objectVersion;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static private Set<RecurringHoliday> mockedAllInstances;
+	private String uid;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	private String uid;
+	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
+	@Id
+	private Long id;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Column(name="object_version")
+	@Version
+	private int objectVersion;
+	@Index(name="idx_recurring_holiday_business_calendar_id",columnNames="business_calendar_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="business_calendar_id",nullable=true)
+	private BusinessCalendar businessCalendar;
+	@Column(name="name")
+	private String name;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Enumerated(javax.persistence.EnumType.STRING)
+	@Column(name="month",nullable=true)
+	private Month month;
+	static final private long serialVersionUID = 893;
+	static private Set<RecurringHoliday> mockedAllInstances;
+	@Column(name="day")
+	@Min(message="",value=1,payload={},groups={})
+	@Max(message="",value=31,payload={},groups={})
+	private Integer day;
 
 	/** Default constructor for RecurringHoliday
 	 */
@@ -110,16 +113,16 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("day")!=null ) {
+		if ( xml.getAttribute("day").length()>0 ) {
 			setDay(OpiumLibraryForBPMFormatter.getInstance().parseDayOfMonth(xml.getAttribute("day")));
 		}
-		if ( xml.getAttribute("month")!=null ) {
-			setMonth(Month.valueOf(xml.getAttribute("month")));
-		}
-		if ( xml.getAttribute("name")!=null ) {
+		if ( xml.getAttribute("name").length()>0 ) {
 			setName(OpiumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
+		}
+		if ( xml.getAttribute("month").length()>0 ) {
+			setMonth(Month.valueOf(xml.getAttribute("month")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -131,14 +134,14 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 	
 	public void copyShallowState(RecurringHoliday from, RecurringHoliday to) {
 		to.setDay(from.getDay());
-		to.setMonth(from.getMonth());
 		to.setName(from.getName());
+		to.setMonth(from.getMonth());
 	}
 	
 	public void copyState(RecurringHoliday from, RecurringHoliday to) {
 		to.setDay(from.getDay());
-		to.setMonth(from.getMonth());
 		to.setName(from.getName());
+		to.setMonth(from.getMonth());
 	}
 	
 	public void createComponents() {
@@ -151,7 +154,7 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 		return false;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.business_calendar_id",uuid="OpiumBPM.library.uml@_xu4wQdcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.business_calendar_id",uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		return businessCalendar;
 	}
@@ -160,7 +163,7 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 		return this.cancelledEvents;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.day",uuid="OpiumBPM.library.uml@_DtECgNcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.day",uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	public Integer getDay() {
 		return day;
 	}
@@ -173,12 +176,12 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.month",uuid="OpiumBPM.library.uml@_EgnmYNcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.month",uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	public Month getMonth() {
 		return month;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.name",uuid="OpiumBPM.library.uml@_8kV24NcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="recurring_holiday.name",uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		return name;
 	}
@@ -235,7 +238,7 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -298,25 +301,26 @@ public class RecurringHoliday implements IEventGenerator, HibernateEntity, Compo
 	}
 	
 	public String toXmlReferenceString() {
-		return "<recurringHoliday uid=\""+getUid() + "\">";
+		return "<RecurringHoliday uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<recurringHoliday");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.businesscalendar.RecurringHoliday\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
+		sb.append("<RecurringHoliday ");
+		sb.append("classUuid=\"252060@_TFKVQNb_EeCJ0dmaHEVVnw\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.businesscalendar.RecurringHoliday\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getDay()!=null ) {
 			sb.append("day=\""+ OpiumLibraryForBPMFormatter.getInstance().formatDayOfMonth(getDay())+"\" ");
-		}
-		if ( getMonth()!=null ) {
-			sb.append("month=\""+ getMonth() + "\" ");
 		}
 		if ( getName()!=null ) {
 			sb.append("name=\""+ OpiumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
 		}
-		sb.append(">\n");
-		sb.append("</recurringHoliday>");
+		if ( getMonth()!=null ) {
+			sb.append("month=\""+ getMonth().name() + "\" ");
+		}
+		sb.append(">");
+		sb.append("\n</RecurringHoliday>");
 		return sb.toString();
 	}
 	

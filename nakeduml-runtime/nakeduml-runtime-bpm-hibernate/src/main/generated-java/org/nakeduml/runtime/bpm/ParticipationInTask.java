@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
@@ -31,6 +34,7 @@ import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -41,11 +45,20 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="participation_in_task")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_task",uuid="OpiumBPM.library.uml@_vZOC4I6UEeCne5ArYLDbiA")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_task",uuid="252060@_vZOC4I6UEeCne5ArYLDbiA")
 @AccessType("field")
 @DiscriminatorValue("participation_in_task")
 public class ParticipationInTask extends Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 668;
+		// Initialise to 1000 from 1970
+	@Column(name="deleted_on")
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	static final private long serialVersionUID = 859;
+	static private Set<ParticipationInTask> mockedAllInstances;
 	@Index(name="idx_participation_in_task_task_request_id",columnNames="task_request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="task_request_id",nullable=true)
@@ -53,15 +66,6 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 	@Enumerated(javax.persistence.EnumType.STRING)
 	@Column(name="kind",nullable=true)
 	private TaskParticipationKind kind;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static private Set<ParticipationInTask> mockedAllInstances;
-		// Initialise to 1000 from 1970
-	@Column(name="deleted_on")
-	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
-	private Date deletedOn = Stdlib.FUTURE;
 
 	/** Default constructor for ParticipationInTask
 	 */
@@ -92,28 +96,16 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("kind")!=null ) {
+		if ( xml.getAttribute("kind").length()>0 ) {
 			setKind(TaskParticipationKind.valueOf(xml.getAttribute("kind")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participant") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						Participant curVal = (Participant)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.setParticipant(curVal);
-						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						map.put(curVal.getUid(), curVal);
-					}
-				}
-			}
+		
 		}
 	}
 	
@@ -144,7 +136,7 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_task.kind",uuid="OpiumBPM.library.uml@_2tlBVI6UEeCne5ArYLDbiA")
+	@NumlMetaInfo(qualifiedPersistentName="participation_in_task.kind",uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
 	public TaskParticipationKind getKind() {
 		return kind;
 	}
@@ -161,7 +153,7 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		return getTaskRequest();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_task.task_request_id",uuid="OpiumBPM.library.uml@_BCPvEY6VEeCne5ArYLDbiA")
+	@NumlMetaInfo(qualifiedPersistentName="participation_in_task.task_request_id",uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
 	public TaskRequest getTaskRequest() {
 		return taskRequest;
 	}
@@ -204,18 +196,18 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participant") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("935")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						setParticipant((Participant)map.get(((Element)xml).getAttribute("uid")));
+						setParticipant((Participant)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -257,27 +249,27 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 	}
 	
 	public String toXmlReferenceString() {
-		return "<participationInTask uid=\""+getUid() + "\">";
+		return "<ParticipationInTask uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<participationInTask");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.ParticipationInTask\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
+		sb.append("<ParticipationInTask ");
+		sb.append("classUuid=\"252060@_vZOC4I6UEeCne5ArYLDbiA\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.ParticipationInTask\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getKind()!=null ) {
-			sb.append("kind=\""+ getKind() + "\" ");
+			sb.append("kind=\""+ getKind().name() + "\" ");
 		}
-		sb.append(">\n");
+		sb.append(">");
 		if ( getParticipant()==null ) {
-			sb.append("<participant/>");
+			sb.append("\n<participant/>");
 		} else {
-			sb.append("<participant>");
-			sb.append(getParticipant().toXmlReferenceString());
-			sb.append("</participant>");
-			sb.append("\n");
+			sb.append("\n<participant propertyId=\"935\">");
+			sb.append("\n" + getParticipant().toXmlReferenceString());
+			sb.append("\n</participant>");
 		}
-		sb.append("</participationInTask>");
+		sb.append("\n</ParticipationInTask>");
 		return sb.toString();
 	}
 	

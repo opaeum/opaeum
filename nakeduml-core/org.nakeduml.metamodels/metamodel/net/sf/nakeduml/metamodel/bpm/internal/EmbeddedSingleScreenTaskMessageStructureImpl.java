@@ -14,6 +14,10 @@ import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompositionMessageStructure {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1536992747207231274L;
 	INakedEmbeddedSingleScreenTask action;
 
 	public INakedEmbeddedSingleScreenTask getAction(){

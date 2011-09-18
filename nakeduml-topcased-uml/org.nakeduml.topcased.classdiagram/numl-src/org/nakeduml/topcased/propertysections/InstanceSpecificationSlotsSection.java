@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.nakeduml.name.NameConverter;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySection{
@@ -39,14 +40,13 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 			SlotComposite last = null;
 			SlotComposite first = null;
 			for(Slot slot:is.getSlots()){
-				Label lbl = getWidgetFactory().createLabel(slotsGroup, slot.getDefiningFeature().getName());
-				lbl.setLayoutData(new GridData(STANDARD_LABEL_WIDTH+55, 25));
+				Label lbl = getWidgetFactory().createLabel(slotsGroup, NameConverter.separateWords(NameConverter.capitalize(slot.getDefiningFeature().getName())));
+				lbl.setAlignment(SWT.TOP|SWT.LEFT);
+				lbl.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+				lbl.setLayoutData(new GridData(STANDARD_LABEL_WIDTH + 55, 25));
 				SlotComposite sc = new SlotComposite(slotsGroup, SWT.BORDER, getWidgetFactory(), getEditingDomain());
-				GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, false);
-				layoutData.minimumHeight=25;
-				sc.setLayoutData(layoutData);
 				sc.setInput(slot);
-				if(last != null && sc.getCurrentOclText() != null){
+				if(last != null && last.getCurrentOclText()!=null&& sc.getCurrentOclText() != null){
 					last.getCurrentOclText().setTabTo(sc.getCurrentOclText().getTextControl());
 				}
 				if(last == null){
@@ -54,16 +54,20 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 				}
 				last = sc;
 			}
-			if(last != null && first != null){
-				last.getCurrentOclText().setTabTo(first.getCurrentOclText().getTextControl());
+			if(last != null && first != null && last.getCurrentOclText() != null){
+				last.getCurrentOclText().setTabTo(first.getControl());
 			}
-			slotsGroup.layout();
-			int height = slotsGroup.getChildren().length*35;
-			if(height==0){
-				height=25;
+			Control[] children = slotsGroup.getChildren();
+			for(Control control:children){
+				if(control instanceof SlotComposite){
+					final SlotComposite slotComposite = (SlotComposite) control;
+					slotComposite.pack();
+					GridData layoutData = new GridData(SWT.FILL, SWT.TOP, true, false);
+					slotComposite.setLayoutData(layoutData);
+				}
 			}
-			slotsGroup.getParent().setSize(slotsGroup.getParent().getSize().x, height+5);
-			slotsGroup.getParent().getParent().getParent().layout();
+			slotsGroup.pack();
+			slotsGroup.getParent().layout();
 		}
 	}
 	protected InstanceSpecification getInstanceSpecification(){

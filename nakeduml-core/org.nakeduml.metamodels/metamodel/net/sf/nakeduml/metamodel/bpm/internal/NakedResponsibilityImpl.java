@@ -7,6 +7,10 @@ import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 public class NakedResponsibilityImpl extends NakedOperationImpl implements INakedResponsibility{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3576293633166379156L;
 	private INakedResponsibilityDefinition taskDefinition;
 	@Override
 	public boolean isLongRunning(){

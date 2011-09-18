@@ -19,7 +19,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.components.INakedComponent;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
@@ -38,7 +38,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	protected abstract void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap);
 	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
 	@VisitBefore(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class,INakedAssociationClass.class,INakedSignal.class,INakedComponent.class,INakedEnumeration.class,
+			INakedEntity.class,INakedStructuredDataType.class,INakedAssociation.class,INakedSignal.class,INakedComponent.class,INakedEnumeration.class,
 			INakedBehavior.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
@@ -114,9 +114,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		}
 	}
 	private void visitOperation(INakedOperation o){
-		if(o.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(o)){
+		if(BehaviorUtil.hasExecutionInstance(o)){
 			INakedMessageStructure umlOwner = o.getMessageStructure();
-			visitComplexStructure(umlOwner);
 			visitFeaturesOf(umlOwner);
 		}
 	}
@@ -125,7 +124,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		if((BehaviorUtil.mustBeStoredOnActivity(node))){
 			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
 		}
-		visitComplexStructure(msg);
 		visitFeaturesOf(msg);
 	}
 	public void visitCallAction(INakedCallAction node){
@@ -133,7 +131,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
 			// persistence
 			INakedComplexStructure umlOwner = node.getMessageStructure();
-			visitComplexStructure(umlOwner);
 			visitFeaturesOf(umlOwner);
 		}else if((BehaviorUtil.mustBeStoredOnActivity(node))){
 			// Their classes will be built elsewhere, so just visit the output pin as an artificial association

@@ -1,5 +1,8 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedResponsibilityImpl;
@@ -95,7 +98,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			// navigable = false;
 			// }
 			INakedClassifier owner = null;
-			np.getOwner().removeOwnedElement(np);
+			np.getOwnerElement().removeOwnedElement(np, false);
 			if(navigable){
 				// The classifier should be the owner of navigable ends
 				owner = (INakedClassifier) getNakedPeer(opposite.getType());
@@ -105,22 +108,26 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 				owner = (INakedClassifier) getNakedPeer(p.getAssociation());
 			}
 			np.setOwnerElement(owner);
-			owner.addOwnedElement(np);
+			if(owner == null){
+				System.err.println("The owner of property" + p.getQualifiedName() + " could not be found");
+			}else{
+				owner.addOwnedElement(np);
+			}
 			INakedAssociation nakedAss = (INakedAssociation) getNakedPeer(p.getAssociation());
 			if(nakedAss != null){
-				//sometimes during deletion the association is null
+				// sometimes during deletion the association is null
 				np.setAssociation(nakedAss);
 				if(nakedAss.isMarkedForDeletion()){
 					np.markForDeletion();
-					owner.removeOwnedElement(np);
+					owner.removeOwnedElement(np, true);
 				}
-				getAffectedElements().add(nakedAss);
+				addAffectedElement(nakedAss);
 				int index = p.getAssociation().getMemberEnds().indexOf(p);
 				nakedAss.setEnd(index, np);
 			}
 			EList<Type> endTypes = p.getAssociation().getEndTypes();
 			for(Type type:endTypes){
-				getAffectedElements().add(getNakedPeer(type));
+				addAffectedElement(getNakedPeer(type));
 			}
 		}
 		np.setNavigable(navigable);
@@ -168,6 +175,11 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		for(Behavior b:emfOper.getMethods()){
 			nakedOper.addMethod((INakedBehavior) getNakedPeer(b));
 		}
+		Collection<INakedClassifier> raisedExceptions = new HashSet<INakedClassifier>();
+		for(Type type:emfOper.getRaisedExceptions()){
+			raisedExceptions.add((INakedClassifier) getNakedPeer(type));
+		}
+		nakedOper.setRaisedExceptions(raisedExceptions);
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParameter(Parameter emfParameter,NakedParameterImpl nakedParameter){

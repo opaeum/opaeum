@@ -8,9 +8,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.validation.BrokenRule;
 import net.sf.nakeduml.metamodel.validation.IValidationRule;
+import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -22,9 +24,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
 import org.nakeduml.eclipse.EmfValidationUtil;
 
-public class NakedUmlErrorMarker{
+public class NakedUmlErrorMarker implements NakedUmlSynchronizationListener{
 	public static final String VALIDATION_MARKER_TYPE = "org.eclipse.emf.validation.problem"; //$NON-NLS-1$
 	public static final String RULE_ATTRIBUTE = "rule"; //$NON-NLS-1$
+	//TODO eliminate dependency on context
 	private NakedUmlEclipseContext context;
 	private long nextMarked = 0;
 	private long lastMarked = 0;
@@ -80,7 +83,7 @@ public class NakedUmlErrorMarker{
 	}
 	public Set<String> calcBrokenElements(){
 		Set<String> brokenUris = new HashSet<String>();
-		for(Entry<String,BrokenElement> entry:context.getUmlElementCache().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
+		for(Entry<String,BrokenElement> entry:context.getEmfToNakedUmlSynchronizer().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
 			EObject o = findElement(entry.getKey());
 			if(o != null && o.eResource() != null){
 				for(Entry<IValidationRule,BrokenRule> entry2:entry.getValue().getBrokenRules().entrySet()){
@@ -143,11 +146,15 @@ public class NakedUmlErrorMarker{
 		EObject o = null;
 		for(EmfWorkspace emfWorkspace:context.getEmfWorkspaces()){
 			// Doesn't matter which workspace it comes from - where after the file really
-			o = emfWorkspace.getElementMap().get(id);
+			o = emfWorkspace.getElement(id);
 			if(o != null){
 				break;
 			}
 		}
 		return o;
+	}
+	@Override
+	public void synchronizationComplete(INakedModelWorkspace workspace,Set<INakedElement> affectedElements){
+		maybeSchedule();
 	}
 }

@@ -2552,7 +2552,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_u8ViYNb9EeCJ0dmaHEVVnw">
     <model href="OpiumBPM.library.uml#_j0-zcNb9EeCJ0dmaHEVVnw"/>
-    <diagrams xmi:id="_u8WwgNb9EeCJ0dmaHEVVnw" position="0,0" size="100,100" name="businesscalendar" viewport="0,80">
+    <diagrams xmi:id="_u8WwgNb9EeCJ0dmaHEVVnw" position="0,0" size="100,100" name="businesscalendar" viewport="0,0">
       <property xmi:id="_u-dCQNb9EeCJ0dmaHEVVnw" key="pageFormatName" value="A4"/>
       <property xmi:id="_u-dCQdb9EeCJ0dmaHEVVnw" key="diagramWidth" value="840"/>
       <property xmi:id="_u-dCQtb9EeCJ0dmaHEVVnw" key="diagramHeight" value="1188"/>

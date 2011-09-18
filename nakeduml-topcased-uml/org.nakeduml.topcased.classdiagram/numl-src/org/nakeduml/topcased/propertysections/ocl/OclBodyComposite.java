@@ -1,6 +1,5 @@
 package org.nakeduml.topcased.propertysections.ocl;
 
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.validation.ErrorMap;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
@@ -46,13 +45,13 @@ import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
 public abstract class OclBodyComposite extends Composite{
 	private final class ErrorHighlighter implements Runnable{
 		private boolean stopped;
-		private long nextRun=0;
+		private long nextRun = 0;
 		public void run(){
 			if(!stopped){
 				highlightError();
 				StyledText t = viewer.getTextWidget();
-				if(!(t == null || t.isDisposed()) && (nextRun==0 || System.currentTimeMillis()>=nextRun)){
-					nextRun=System.currentTimeMillis() + 14999;
+				if(!(t == null || t.isDisposed()) && (nextRun == 0 || System.currentTimeMillis() >= nextRun)){
+					nextRun = System.currentTimeMillis() + 14999;
 					Display.getDefault().timerExec(15000, this);
 				}
 			}
@@ -130,13 +129,16 @@ public abstract class OclBodyComposite extends Composite{
 	private KeyListener keyListener;
 	private ErrorHighlighter highlighter;
 	public OclBodyComposite(Composite parent,FormToolkit toolkit){
+		this(parent, toolkit,SWT.BORDER);
+	}
+	public OclBodyComposite(Composite parent,FormToolkit toolkit,int textControlStyle){
 		super(parent, SWT.NONE);
 		setBackground(parent.getBackground());
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		setLayout(layout);
-		viewer = new NakedOclViewer(this, new ColorManager(), SWT.MULTI | SWT.V_SCROLL | SWT.BORDER);
+		viewer = new NakedOclViewer(this, new ColorManager(), SWT.MULTI | SWT.V_SCROLL | textControlStyle);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		document = new OCLDocument();
 		factory = new NakedUmlOclFactory();
@@ -195,7 +197,7 @@ public abstract class OclBodyComposite extends Composite{
 			factory.setContext(context);
 			document.setOCLContext(EmfBehaviorUtil.getSelf(context));
 			manageContentAssist();
-			Display.getDefault().timerExec(1000,this.highlighter);
+			Display.getDefault().timerExec(1000, this.highlighter);
 		}
 	}
 	public void dispose(){
@@ -210,8 +212,7 @@ public abstract class OclBodyComposite extends Composite{
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
-			UmlElementCache map = NakedUmlEditor.getCurrentContext().getUmlElementCache();
-			INakedModelWorkspace ws = map.getNakedWorkspace();
+			INakedModelWorkspace ws = NakedUmlEditor.getCurrentContext().getNakedWorkspace();
 			ErrorMap errors = ws.getErrorMap();
 			String id = NakedUmlEditor.getCurrentContext().getId(oclBodyOwner);
 			BrokenElement be = errors.getErrors().get(id);
@@ -225,7 +226,7 @@ public abstract class OclBodyComposite extends Composite{
 					};
 				}
 				for(StyleRange sr:srs){
-					if(i==0 || ( sr.start <= i && sr.start + sr.length > i)){
+					if(i == 0 || (sr.start <= i && sr.start + sr.length > i)){
 						sr.underline = true;
 						sr.underlineStyle = SWT.UNDERLINE_ERROR;
 						sr.underlineColor = ColorConstants.red;

@@ -30,9 +30,11 @@ public class OpiumContributionFactory extends ExtensionContributionFactory{
 						if(DynamicOpiumMenu.hasUmlModels(selection) || DynamicOpiumMenu.hasConfigFile(selection)){
 							return EvaluationResult.TRUE;
 						}
+						System.out.println("NO UML Models");
 					}else if(selection.getFirstElement() instanceof Model){
 						return EvaluationResult.TRUE;
 					}
+					System.out.println(selection);
 				}
 				return EvaluationResult.FALSE;
 			}

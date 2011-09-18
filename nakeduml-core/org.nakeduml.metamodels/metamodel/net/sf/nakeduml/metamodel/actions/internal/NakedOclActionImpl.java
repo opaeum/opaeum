@@ -10,18 +10,18 @@ import net.sf.nakeduml.metamodel.core.internal.NakedValueSpecificationImpl;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedOclActionImpl extends NakedOpaqueActionImpl implements INakedOclAction{
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1463905559300356236L;
 	private INakedOutputPin returnPin;
 	private IOclContext bodyExpression;
-	public IOclContext getBodyExpression() {
+	public IOclContext getBodyExpression(){
 		return bodyExpression;
 	}
-
-	public void setBodyExpression(IOclContext bodyExpression) {
+	public void setBodyExpression(IOclContext bodyExpression){
 		this.bodyExpression = bodyExpression;
 	}
-
-
 	@Override
 	public Collection<INakedOutputPin> getOutput(){
 		Collection<INakedOutputPin> result = new ArrayList<INakedOutputPin>();
@@ -35,8 +35,10 @@ public class NakedOclActionImpl extends NakedOpaqueActionImpl implements INakedO
 		return this.returnPin;
 	}
 	public void setReturnPin(INakedOutputPin returnPin){
-		removeOwnedElement(this.returnPin);
-		this.returnPin = returnPin;
+		if(this.returnPin != returnPin){
+			removeOwnedElement(this.returnPin, true);
+			this.returnPin = returnPin;
+		}
 	}
 	@Override
 	public INakedValueSpecification getBody(){

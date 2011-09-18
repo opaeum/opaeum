@@ -6,6 +6,7 @@ public class Steps extends SequenceCalculator<ITransformationStep>{
 	@Override
 	public void initializeFromClasses(Set<Class<? extends ITransformationStep>> selectedExecutionUnits){
 		super.initializeFromClasses(selectedExecutionUnits);
+		super.initializeFromClasses(selectedExecutionUnits);
 		for(Class<? extends ITransformationStep> cls:selectedExecutionUnits){
 			Class<? extends ITransformationStep>[] replaces = cls.getAnnotation(StepDependency.class).replaces();
 			if(replaces.length > 0){

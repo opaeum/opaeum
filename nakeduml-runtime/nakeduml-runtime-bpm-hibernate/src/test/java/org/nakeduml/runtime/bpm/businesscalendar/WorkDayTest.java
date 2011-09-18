@@ -8,7 +8,7 @@ public class WorkDayTest implements WorkDayTestContract {
 
 	@Test
 	public void testminutesPerDayInitialValue() {
-		org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar parent = new org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar();
+		org.nakeduml.runtime.bpm.businesscalendar.BusinessCalendar parent = new org.nakeduml.runtime.bpm.businesscalendar.BusinessCalendar();
 		WorkDay object = new WorkDay(parent);
 	}
 

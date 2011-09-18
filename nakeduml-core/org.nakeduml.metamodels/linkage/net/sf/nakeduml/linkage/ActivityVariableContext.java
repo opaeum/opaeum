@@ -75,4 +75,9 @@ public final class ActivityVariableContext extends MessageStructureImpl{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public String getImplementationCode(){
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

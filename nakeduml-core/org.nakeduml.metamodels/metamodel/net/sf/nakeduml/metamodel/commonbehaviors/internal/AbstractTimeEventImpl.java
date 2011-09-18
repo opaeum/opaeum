@@ -29,10 +29,12 @@ public abstract class AbstractTimeEventImpl extends NakedEventImpl{
 		return this.timeUnit;
 	}
 	public void setWhen(INakedValueSpecification when){
-		removeOwnedElement(this.when);
-		this.when = when;
-		addOwnedElement(when);
-		when.setOwnerElement(this);
+		if(this.when != when){
+			removeOwnedElement(this.when, true);
+			this.when = when;
+			addOwnedElement(when);
+			when.setOwnerElement(this);
+		}
 	}
 	public INakedValueSpecification getWhen(){
 		return this.when;
@@ -41,7 +43,7 @@ public abstract class AbstractTimeEventImpl extends NakedEventImpl{
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
 		if(stereotype.hasValueForFeature(TIME_UNIT)){
-			this.timeUnit=(INakedEnumerationLiteral) stereotype.getFirstValueFor(TIME_UNIT).getValue();
+			this.timeUnit = (INakedEnumerationLiteral) stereotype.getFirstValueFor(TIME_UNIT).getValue();
 		}
 	}
 	@Override

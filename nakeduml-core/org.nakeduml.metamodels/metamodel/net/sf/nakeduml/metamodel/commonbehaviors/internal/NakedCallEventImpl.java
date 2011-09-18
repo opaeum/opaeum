@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 
 public class NakedCallEventImpl extends NakedEventImpl implements INakedCallEvent{
+	private static final long serialVersionUID = -4805579769388763854L;
 	INakedOperation operation;
 	public INakedOperation getOperation(){
 		return operation;

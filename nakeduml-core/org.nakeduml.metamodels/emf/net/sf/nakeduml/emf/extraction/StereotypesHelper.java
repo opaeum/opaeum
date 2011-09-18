@@ -47,6 +47,9 @@ public class StereotypesHelper{
 			while(iter.hasNext()){
 				s = (Stereotype) iter.next();
 				if(s.getName().toLowerCase().endsWith(name)){
+					if(s.getName().toLowerCase().equals("helper")){
+						System.out.println(c + " is a helper :" + s);
+					}
 					return s;
 				}
 			}

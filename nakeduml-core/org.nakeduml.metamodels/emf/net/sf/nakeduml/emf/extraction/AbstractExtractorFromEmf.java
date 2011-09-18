@@ -1,7 +1,6 @@
 package net.sf.nakeduml.emf.extraction;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +11,7 @@ import net.sf.nakeduml.metamodel.bpm.internal.NakedDeadlineImpl;
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedPackageableElement;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -29,9 +29,10 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
@@ -42,13 +43,17 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.EmfValidationUtil;
 
 public abstract class AbstractExtractorFromEmf extends EmfElementVisitor implements ITransformationStep{
 	protected INakedModelWorkspace nakedWorkspace;
 	protected EmfWorkspace emfWorkspace;
-	private Set<INakedElement> affectedElements = Collections.synchronizedSet(new HashSet<INakedElement>());
+	private Set<INakedElement> affectedElements = new HashSet<INakedElement>();
+	protected synchronized void addAffectedElement(INakedElement a){
+		affectedElements.add(a);
+	}
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;
@@ -70,7 +75,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	protected final boolean requiresExtraction(Element o){
 		if(o instanceof Profile || o instanceof Model){
-			boolean b = /*emfWorkspace.getGeneratingModelsOrProfiles().contains(o) || */getNakedPeer(o) == null
+			boolean b = emfWorkspace.getGeneratingModelsOrProfiles().contains(o) || getNakedPeer(o) == null
 					|| !((INakedRootObject) getNakedPeer(o)).getStatus().isExtracted();
 			return b;
 		}else{
@@ -80,11 +85,11 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	@Override
 	protected final void maybeVisit(Element o,VisitSpec v){
 		super.maybeVisit(o, v);
-		emfWorkspace.putElement(o);
 	}
 	@Override
 	protected Object resolvePeer(Element o,Class<?> peerClass){
 		Element e = o;
+		e = o;
 		INakedElement ne = getNakedPeer(e);
 		Element owner = (Element) EmfElementFinder.getContainer(e);
 		if(ne == null){
@@ -93,14 +98,16 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				initialize(ne, e, owner);
 			}
 		}else if(o instanceof NamedElement){
-			if(owner == null && ne.getOwnerElement() != null){
-				ne.getOwnerElement().removeOwnedElement(ne);
+			if((owner == null || getId(owner) == null) && ne.getOwnerElement() != null){
+				ne.getOwnerElement().removeOwnedElement(ne, true);
+				ne.setOwnerElement(null);
 				ne.markForDeletion();
+				nakedWorkspace.removeModelElement(ne);
 			}else{
 				INakedElement nakedOwner = getNakedPeer(owner);
 				if(nakedOwner != null){
 					if(ne.getOwnerElement() != null && !(nakedOwner.equals(ne.getOwnerElement()))){
-						ne.getOwnerElement().removeOwnedElement(ne);
+						ne.getOwnerElement().removeOwnedElement(ne, false);
 					}
 					if(!nakedOwner.getOwnedElements().contains(ne)){
 						nakedOwner.addOwnedElement(ne);
@@ -113,36 +120,27 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	// /Visiting logic ends---//
 	protected void initialize(INakedElement nakedElement,Element modelElement,Element owner){
-		if((owner == null || getId(owner) == null) && nakedElement.getOwnerElement() != null){
-			nakedElement.getOwnerElement().removeOwnedElement(nakedElement);
-			nakedElement.setOwnerElement(null);
-		}else{
-			if(nakedElement.getOwnerElement() != null){
-				// remove from previous ownerElement
-				nakedElement.getOwnerElement().removeOwnedElement(nakedElement);
-			}
-			if(nakedElement instanceof INakedPackageableElement){
-				INakedPackageableElement pe = (INakedPackageableElement) nakedElement;
-				pe.setVisibility(resolveVisibility(modelElement));
-			}
-			String name = null;
-			if(modelElement instanceof NamedElement){
-				name = ((NamedElement) modelElement).getName();
-			}
-			if(nakedElement.getId() == null || nakedElement.getName() == null){
-				// allow callers to do own initilization
-				nakedElement.initialize(getId(modelElement), name, emfWorkspace.getPrimaryModels().contains(modelElement.getModel()));
-			}
-			this.nakedWorkspace.putModelElement(nakedElement);
-			if(modelElement.getOwnedComments().size() > 0){
-				Comment comment = modelElement.getOwnedComments().iterator().next();
-				nakedElement.setDocumentation(comment.getBody());
-			}
-			INakedElement nakedOwner = getNakedPeer(owner);
-			if(nakedOwner != null){
-				// if ownerElement=nul assume linkage will be done elsewher, i.e. state.doActivity etc.
-				nakedOwner.addOwnedElement(nakedElement);
-			}
+		if(nakedElement instanceof INakedPackageableElement){
+			INakedPackageableElement pe = (INakedPackageableElement) nakedElement;
+			pe.setVisibility(resolveVisibility(modelElement));
+		}
+		String name = null;
+		if(modelElement instanceof NamedElement){
+			name = ((NamedElement) modelElement).getName();
+		}
+		if(nakedElement.getId() == null || nakedElement.getName() == null){
+			// allow callers to do own initilization
+			nakedElement.initialize(getId(modelElement), name, true);
+		}
+		if(modelElement.getOwnedComments().size() > 0){
+			Comment comment = modelElement.getOwnedComments().iterator().next();
+			nakedElement.setDocumentation(comment.getBody());
+		}
+		this.nakedWorkspace.putModelElement(nakedElement);
+		INakedElement nakedOwner = getNakedPeer(owner);
+		if(nakedOwner != null){
+			// if ownerElement=nul assume linkage will be done elsewher, i.e. state.doActivity etc.
+			nakedOwner.addOwnedElement(nakedElement);
 		}
 	}
 	private VisibilityKind resolveVisibility(Element modelElement){
@@ -160,9 +158,9 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return octopusKind;
 	}
 	String getEventId(Trigger t){
-		return getId(t) + getId(t.getEvent());
+		return getId(t.getEvent()) + getId(t);
 	}
-	public String getId(EModelElement e){
+	public String getId(EObject e){
 		return emfWorkspace.getId(e);
 	}
 	protected INakedElement getNakedPeer(Element e){
@@ -224,12 +222,25 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return StereotypesHelper.hasStereotype(t, StereotypeNames.DEADLINE);
 	}
 	protected void initTimeEvent(TimeEvent emfTimeEvent,AbstractTimeEventImpl nakedTimeEvent){
-		if(emfTimeEvent.getWhen() != null && emfTimeEvent.getWhen().getExpr() instanceof OpaqueExpression){
-			// TODO NB!!! it could also be an InstanceSpecification
-			OpaqueExpression oe = (OpaqueExpression) emfTimeEvent.getWhen().getExpr();
-			INakedValueSpecification nvs = new NakedValueSpecificationImpl(buildParsedOclString(oe, oe.getLanguages(), oe.getBodies(), OclUsageType.DEF));
-			initialize(nvs, oe, emfTimeEvent);
-			nvs.initialize(getId(oe), oe.getName(), false);
+		if(emfTimeEvent.getWhen() != null && emfTimeEvent.getWhen().getExpr() != null){
+			ValueSpecification vs= emfTimeEvent.getWhen().getExpr() ;
+			String id = getId(vs) + nakedTimeEvent.getId();
+			INakedValueSpecification nvs = (INakedValueSpecification) nakedWorkspace.getModelElement(id);
+			if(nvs == null){
+				nvs = new NakedValueSpecificationImpl();
+				nvs.initialize(id, vs.getName(), false);
+				nakedWorkspace.putModelElement(nvs);
+			}
+			if(emfTimeEvent.getWhen().getExpr() instanceof OpaqueExpression){
+				OpaqueExpression oe = (OpaqueExpression) emfTimeEvent.getWhen().getExpr();
+				nvs.setValue(buildParsedOclString(oe, oe.getLanguages(), oe.getBodies(), OclUsageType.DEF));
+			}else if(emfTimeEvent.getWhen().getExpr() instanceof InstanceValue){
+				INakedElement instance = getNakedPeer(((InstanceValue) emfTimeEvent.getWhen().getExpr()).getInstance());
+				nvs.setValue(instance);
+				if(!(instance instanceof INakedEnumerationLiteral)){
+					nvs.addOwnedElement(instance);
+				}
+			}
 			nakedTimeEvent.setWhen(nvs);
 		}
 		nakedTimeEvent.setRelative(emfTimeEvent.isRelative());
@@ -258,7 +269,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			throw new RuntimeException(e1);
 		}
 	}
-	protected Set<INakedElement> getAffectedElements(){
+	Set<INakedElement> getAffectedElements(){
 		return affectedElements;
 	}
 	protected boolean ignoreDeletedElements(){

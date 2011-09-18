@@ -3,7 +3,6 @@ package net.sf.nakeduml.javageneration.persistence;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -62,7 +61,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 		}
 		// TODO with oneToOne components map a relationship
 		// table.
-		if (f.isInverse() && !(f.getAssociation() instanceof INakedAssociationClass)) {
+		if (f.isInverse() && !(f.getAssociation()!=null && f.getAssociation().isClass())) {
 			// Implies navigable other end and INakedProperty
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((f).getOtherEnd());
 			toOne.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherMap.umlName()));

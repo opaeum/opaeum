@@ -23,8 +23,8 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 		return this.guardExpression;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element) {
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively) {
+		super.removeOwnedElement(element, recursively);
 		if(element==guardExpression){
 			guardExpression=null;
 		}else if(element==weight){

@@ -43,15 +43,6 @@ public class BehaviorUtil{
 		super();
 		this.workspace = workspace;
 	}
-	public static boolean hasMethodsWithStructure(INakedOperation no){
-		Set<? extends INakedBehavior> methods = no.getMethods();
-		for(INakedBehavior method:methods){
-			if(BehaviorUtil.hasExecutionInstance(method)){
-				return true;
-			}
-		}
-		return false;
-	}
 	public boolean requiresExternalInput(INakedActivity a){
 		return requiresExternalInput(a, a);
 	}
@@ -79,6 +70,8 @@ public class BehaviorUtil{
 					return parameterOwnerRequiresExternalInput(origin, b.getClassifierBehavior());
 				}
 			}
+		}else if(node instanceof INakedEmbeddedTask){
+			return true;
 		}else if(node instanceof INakedCallAction){
 			INakedCallAction callAction = (INakedCallAction) node;
 			if(!callAction.isSynchronous()){
@@ -252,10 +245,22 @@ public class BehaviorUtil{
 	public static boolean hasExecutionInstance(IParameterOwner owner){
 		if(owner == null){
 			return false;
+		}else if(owner instanceof INakedOperation){
+			INakedOperation no=(INakedOperation) owner;
+			if(no.isLongRunning()){
+				return true;
+			}else{
+				Set<? extends INakedBehavior> methods = no.getMethods();
+				for(INakedBehavior method:methods){
+					if(BehaviorUtil.hasExecutionInstance(method)){
+						return true;
+					}
+				}
+			}
+			return false;
 		}else{
 			return owner instanceof INakedStateMachine || owner.hasMultipleConcurrentResults()
-					|| (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)
-					|| (owner instanceof INakedOperation && ((INakedOperation) owner).isLongRunning());
+					|| (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD);
 		}
 	}
 	public static boolean hasMessageStructure(INakedAction action){
@@ -340,7 +345,7 @@ public class BehaviorUtil{
 		}
 	}
 	public static boolean shouldSurrounWithTry(INakedCallAction node){
-		return !node.isLongRunning() && node.hasExceptions();
+		return !node.isLongRunning() && node.hasExceptions() && node.isSynchronous();
 	}
 	public static boolean isEffectiveFinalNode(INakedActivityNode node2){
 		boolean hasExceptionHandler = node2 instanceof INakedAction && ((INakedAction) node2).getHandlers().size() > 0;

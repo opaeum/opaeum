@@ -10,8 +10,6 @@ import java.util.Set;
 
 import net.sf.nakeduml.feature.MappingInfo;
 import net.sf.nakeduml.feature.WorkspaceMappingInfo;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
-import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
@@ -50,13 +48,19 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		}
 		return set;
 	}
+	@Override
 	public IOclEngine getOclEngine(){
 		return this.oclEngine;
 	}
+	@Override
 	public void setWorkspaceMappingInfo(WorkspaceMappingInfo modelMappingInfo){
 		this.modelMappingInfo = modelMappingInfo;
 	}
+	@Override
 	public synchronized void putModelElement(INakedElement mw){
+		if(this.allElementsByModelId.containsKey(mw.getId())){
+			throw new IllegalStateException("Element " + mw.getName() + " is already in the workspace");
+		}
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
 		mw.setMappingInfo(vi);
@@ -64,6 +68,16 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 			addOwnedElement((INakedRootObject) mw);
 		}
 	}
+	@Override
+	public synchronized void removeModelElement(INakedElement mw){
+		this.allElementsByModelId.put(mw.getId(), mw);
+		for(INakedElement child:mw.getOwnedElements()){
+			removeModelElement(child);
+			
+		}
+		this.modelMappingInfo.removeMappingInfo(mw.getId());
+	}
+	@Override
 	public INakedElement getModelElement(Object id){
 		if(id == null){
 			return null;
@@ -123,11 +137,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		return children;
 	}
 	@Override
-	public void removeElementById(String id){
-		allElementsByModelId.remove(id);
-	}
-	@Override
-	public void removeOwnedElement(INakedElement element){
+	public void removeOwnedElement(INakedElement element, boolean recursively){
 		this.children.remove(element);
 		this.generatingRootObjects.remove(element);
 		this.primaryRootObjects.remove(element);

@@ -162,16 +162,13 @@ public class DependencyCalculator extends AbstractModelElementLinker{
 				workspace.markDependency(nc, p.getNakedBaseType());
 			}
 		}
-		getAffectedElements().add(p.getOwner());
 	}
 	@VisitBefore
 	public void visitGeneralization(INakedGeneralization g){
 		workspace.markDependency(g.getSpecific(), g.getGeneral());
-		getAffectedElements().add(g.getGeneral());
 	}
 	@VisitBefore
 	public void visitInterfaceRealization(INakedInterfaceRealization g){
 		workspace.markDependency(g.getImplementingClassifier(), g.getContract());
-		getAffectedElements().add(g.getImplementingClassifier());
 	}
 }

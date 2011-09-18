@@ -13,6 +13,8 @@ import net.sf.nakeduml.feature.TransformationContext;
 import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.linkage.LinkagePhase;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedRootObject;
+import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.validation.namegeneration.NameGenerationPhase;
 
@@ -40,6 +42,9 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 				v.startVisiting(modelWorkspace);
 				context.getLog().endLastStep();
 			}
+		}
+		for(INakedRootObject ro:modelWorkspace.getGeneratingModelsOrProfiles()){
+			ro.setStatus(RootObjectStatus.VALIDATED);
 		}
 		context.getLog().endLastTask();
 	}

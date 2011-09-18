@@ -15,6 +15,10 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
 public abstract class NakedCallActionImpl extends NakedInvocationActionImpl implements INakedCallAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8555291693076129281L;
 	boolean isSynchronous;
 	private List<INakedOutputPin> result = new ArrayList<INakedOutputPin>();
 

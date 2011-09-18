@@ -30,6 +30,7 @@ public class TransformationProcess{
 	Set<Object> changedElements = new HashSet<Object>();
 	Set<Class<? extends ITransformationStep>> actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 	private Phases phases;
+	private NakedUmlConfig config;
 	public void integrate(TransformationProgressLog log){
 		TransformationContext context = new TransformationContext(actualClasses, true,log);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
@@ -85,17 +86,22 @@ public class TransformationProcess{
 	public void executeFrom(Class<? extends TransformationPhase<?,?>> c,TransformationProgressLog log){
 		TransformationContext context = new TransformationContext(actualClasses, false,log);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
-		log.startTask("Executing Transformation Phases", getPhases().size());
+		List<TransformationPhase< ?,?>> phases = new ArrayList<TransformationPhase<?,?>>();
 		boolean start = false;
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
 			if(start || (start = c.isInstance(phase))){
-				executePhase(context, phase);
+				phases.add(phase);
 			}
+		}
+		log.startTask("Executing Transformation Phases", phases.size());
+		for(TransformationPhase<?,?> phase:phases){
+			executePhase(context, phase);
 		}
 		log.endLastTask();
 	}
 	public void initialize(NakedUmlConfig config,Set<Class<? extends ITransformationStep>> proposedStepClasses){
 		this.models.clear();
+		this.config=config;
 		this.actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 		this.phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
@@ -249,5 +255,8 @@ public class TransformationProcess{
 	public void replaceModel(Object model){
 		removeModel(model.getClass());
 		this.models.add(model);
+	}
+	public NakedUmlConfig getConfig(){
+		return this.config;
 	}
 }

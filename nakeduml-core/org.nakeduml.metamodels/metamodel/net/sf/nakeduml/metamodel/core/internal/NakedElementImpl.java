@@ -3,7 +3,6 @@ package net.sf.nakeduml.metamodel.core.internal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,10 +35,10 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	 */
 	protected String id;
 	protected MappingInfo mappingInfo;
-	private Map<String,INakedInstanceSpecification> stereotypes = Collections.synchronizedMap(new HashMap<String,INakedInstanceSpecification>());
+	private Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
 	private INakedElementOwner ownerElement;
-	private Collection<INakedElement> ownedElements = Collections.synchronizedSet(new HashSet<INakedElement>());
-	private List<INakedComment> comments = Collections.synchronizedList(new ArrayList<INakedComment>());
+	private Collection<INakedElement> ownedElements = new HashSet<INakedElement>();
+	private List<INakedComment> comments = new ArrayList<INakedComment>();
 	private String name;
 	private String documentation;
 	private boolean storeMappingInfo;
@@ -77,14 +76,20 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		}
 		element.setOwnerElement(this);
 	}
-	public void removeOwnedElement(INakedElement element){
+	public void removeOwnedElement(INakedElement element, boolean recursively){
 		ownedElements.remove(element);
 		if(element instanceof INakedComment){
 			comments.remove(element);
-		}else if(element instanceof INakedValueSpecification){
-			INakedValueSpecification sa = (INakedValueSpecification) element;
-			if(stereotypes.containsKey(element)){
+		}else if(element instanceof INakedInstanceSpecification){
+			INakedInstanceSpecification sa = (INakedInstanceSpecification) element;
+			if(stereotypes.containsKey(sa.getName())){
 				stereotypes.remove(sa.getName());
+			}
+		}
+		if(element != null && recursively){
+			for(INakedElement child:new ArrayList<INakedElement>( element.getOwnedElements())){
+				element.removeOwnedElement(child, recursively);
+				child.markForDeletion();
 			}
 		}
 	}
@@ -220,8 +225,9 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	}
 	public INakedRootObject getRootObject(){
 		if(getOwnerElement() instanceof INakedElement){
-			return ((INakedElement)getOwnerElement()).getRootObject();
+			return ((INakedElement) getOwnerElement()).getRootObject();
 		}
 		return null;
 	}
+
 }

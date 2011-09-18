@@ -7,7 +7,7 @@ public interface INakedElementOwner {
 	Collection<? extends INakedElement> getOwnedElements();
 	void setName(String string);
 	void addOwnedElement(INakedElement element);
-	void removeOwnedElement(INakedElement element);
+	void removeOwnedElement(INakedElement element, boolean recursively);
 	String getMetaClass();
 	String getName();
 }

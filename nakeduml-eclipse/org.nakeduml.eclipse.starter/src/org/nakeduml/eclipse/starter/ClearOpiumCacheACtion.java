@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
+import org.nakeduml.eclipse.javasync.JavaTransformationProcessManager;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -20,6 +21,7 @@ public class ClearOpiumCacheACtion extends AbstractOpiumAction{
 		IContainer umlDir = (IContainer) selection.getFirstElement();
 		NakedUmlEclipseContext ne = NakedUmlEditor.findOrCreateContextFor(umlDir);
 		ne.reinitialize();
+		
 		TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);
 		System.gc();
 		if(process != null){

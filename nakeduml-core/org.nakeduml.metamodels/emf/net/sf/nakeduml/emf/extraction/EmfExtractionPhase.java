@@ -22,15 +22,21 @@ import net.sf.nakeduml.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Pseudostate;
+import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
-import org.eclipse.uml2.uml.Trigger;
+import org.nakeduml.eclipse.EmfElementFinder;
 
 @PhaseDependency(before = {
 	LinkagePhase.class
@@ -48,8 +54,9 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<EObject> elements){
 		Collection<INakedElement> result = new HashSet<INakedElement>();
+		final Set<Element> effectiveElementsToProcess = filterChildrenOut(calculateAffectedElements(elements));
 		for(AbstractExtractorFromEmf v:extractors){
-			for(Element element:filterChildrenOut(elements)){
+			for(Element element:effectiveElementsToProcess){
 				v.visitRecursively((Element) element);
 				result.add(modelWorkspace.getModelElement(emfWorkspace.getId((Element) element)));
 			}
@@ -70,14 +77,16 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 			}
 			context.getLog().endLastStep();
 		}
-		for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
-			INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
-			nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
-			modelWorkspace.addGeneratingRootObject(nakedPackage);
-		}
-		for(INakedRootObject ro:modelWorkspace.getRootObjects()){
-			if(!ro.getStatus().isExtracted()){
-				ro.setStatus(RootObjectStatus.EXTRACTED);
+		if(!context.getLog().isCanceled()){
+			for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
+				INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
+				nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
+				modelWorkspace.addGeneratingRootObject(nakedPackage);
+			}
+			for(INakedRootObject ro:modelWorkspace.getRootObjects()){
+				if(!ro.getStatus().isExtracted()){
+					ro.setStatus(RootObjectStatus.EXTRACTED);
+				}
 			}
 		}
 		context.getLog().endLastTask();
@@ -100,61 +109,62 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	public Collection<AbstractExtractorFromEmf> getSteps(){
 		return this.extractors;
 	}
-	private Set<Element> filterChildrenOut(Collection<EObject> elements){
-		Set<Element> elementsToProcess = new HashSet<Element>();
+	private Set<Element> calculateAffectedElements(Collection<EObject> elements){
+		Set<Element> result = new HashSet<Element>();
 		if(elements.size() > 300){
 			for(EObject eObject:elements){
 				if(eObject instanceof Element){
-					elementsToProcess.add(((Element) eObject).getNearestPackage());
+					result.add(((Element) eObject).getNearestPackage());
 				}
 			}
 		}else{
-			Set<Element> containers = new HashSet<Element>();
-			for(EObject element1:elements){
-				EObject o = element1;
+			for(EObject eObject:elements){
+				EObject o = eObject;
 				while(!(canBeProcessedIndividually(o) || o == null)){
-					o = getContainer(o);
+					o = EmfElementFinder.getContainer(o);
 				}
 				if(o != null){
-					containers.add((Element) o);
+					result.add((Element) o);
+				}
+				if(eObject instanceof Association){
+					// TODO NakedUML Metamodel still follows UML2.0 where navigable ends are contained by the class
+					result.addAll(((Association) eObject).getMemberEnds());
 				}
 			}
-			outer:for(Element element:containers){
-				for(EObject element2:containers){
-					if(contains(element2, element)){
-						// skip - parent will be processed
-						continue outer;
-					}
+		}
+		return result;
+	}
+	private Set<Element> filterChildrenOut(Collection<Element> elements){
+		Set<Element> elementsToProcess = new HashSet<Element>();
+		outer:for(Element element:elements){
+			for(EObject element2:elements){
+				if(contains(element2, element)){
+					// skip - parent will be processed
+					continue outer;
 				}
-				elementsToProcess.add((Element) element);
 			}
+			elementsToProcess.add((Element) element);
 		}
 		return elementsToProcess;
 	}
-	private boolean contains(EObject arg0,EObject arg1){
-		if(arg1 == arg0){
+	private boolean contains(EObject parent,EObject child){
+		if(child == parent){
 			return false;
-		}else if(arg1.eContainer() == null){
-			return false;
-		}else if(arg0.equals(arg1.eContainer())){
-			return true;
 		}else{
-			return contains(arg0, arg1.eContainer());
-		}
-	}
-	protected EObject getContainer(EObject o){
-		if(o instanceof Event && o.eContainer() instanceof org.eclipse.uml2.uml.Package){
-			for(EObject eObject:StereotypesHelper.getNumlAnnotation((Element) o).getReferences()){
-				if(eObject instanceof Trigger){
-					return eObject;
-				}
+			final EObject childsContainer = EmfElementFinder.getContainer(child);
+			if(childsContainer == null){
+				return false;
+			}else if(parent.equals(childsContainer)){
+				return true;
+			}else{
+				return contains(parent, childsContainer);
 			}
 		}
-		return o.eContainer();
 	}
 	private boolean canBeProcessedIndividually(EObject e){
-		// TODO et latest logic from UmlElementCache and consolidate
-		return e instanceof Action || e instanceof Property || e instanceof Operation || e instanceof Classifier || e instanceof State || e instanceof Transition
-				|| e instanceof ActivityEdge || e instanceof Package;
+		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
+				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation() == null) || e instanceof Classifier
+				|| e instanceof Transition || e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization
+				|| e instanceof InterfaceRealization;
 	}
 }

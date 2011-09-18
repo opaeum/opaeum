@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpiumLibraryForBPM">
     <eAnnotations xmi:id="_VOtz8NfJEeCXQPv0AMhLcg" source="http://www.nakeduml.org">
       <details xmi:id="_VOtz8dfJEeCXQPv0AMhLcg" key="uid" value="dda3da7f_ebff_4423_9c8b_050dd6d302e6"/>
+      <details xmi:id="_vlGBIODlEeCsDuwu_RQvSA" key="uuid" value="252060"/>
     </eAnnotations>
     <eAnnotations xmi:id="_TBl50c5tEeCLs7vQmm8tBQ" source="http://www.nakeduml.org">
       <details xmi:id="_TBl50s5tEeCLs7vQmm8tBQ" key="uuid" value="94dec0b4_18b1_42f8_af63_b9a73f21d288"/>
@@ -3616,7 +3617,7 @@
     </packagedElement>
     <profileApplication xmi:id="_515RUNYKEeCJushKW8isXg">
       <eAnnotations xmi:id="_519iwNYKEeCJushKW8isXg" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw"/>
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
       </eAnnotations>
       <eAnnotations xmi:id="_yG7lENYLEeC8udM0v1mVxg" source="http://www.nakeduml.org">
         <details xmi:id="_uioW4NYWEeC66bERGJ3NDw" key="uuid" value="16af1394_5b6e_4804_9bbb_ba92e57ce153"/>
@@ -3633,7 +3634,6 @@
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <OpiumStandardProfile:Model xmi:id="_yEtXgNYLEeC8udM0v1mVxg" persistentName="" mappedImplementationPackage="org.nakeduml.runtime.bpm" identifier="nakeduml-runtime-bpm-hibernate" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
   <JavaxValidation:Max xmi:id="_rHYGMNcBEeCJ0dmaHEVVnw" value="59" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>
   <JavaxValidation:Max xmi:id="_LS1hENcCEeCJ0dmaHEVVnw" value="31" base_DataType="_FvE9kNcCEeCJ0dmaHEVVnw" base_PrimitiveType="_FvE9kNcCEeCJ0dmaHEVVnw"/>
   <JavaxValidation:Min xmi:id="_M_i6gNcCEeCJ0dmaHEVVnw" value="1" base_DataType="_FvE9kNcCEeCJ0dmaHEVVnw" base_PrimitiveType="_FvE9kNcCEeCJ0dmaHEVVnw"/>
@@ -3641,4 +3641,6 @@
   <OpiumStandardProfile:ValueType xmi:id="_rIKT4NcCEeCJ0dmaHEVVnw" base_DataType="_qJQboNcCEeCJ0dmaHEVVnw" mappedImplementationType="java.util.Date"/>
   <JavaxValidation:DecimalMax xmi:id="_fIu4ANcDEeCJ0dmaHEVVnw" value="" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
   <JavaxValidation:DecimalMin xmi:id="_fmQhgNcDEeCJ0dmaHEVVnw" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
+  <OpiumStandardProfile:Entity xmi:id="_iGlYIODmEeCsDuwu_RQvSA" base_Class="_x9fmQNb9EeCJ0dmaHEVVnw" persistentName="" generateAbstractSupertype="true"/>
+  <OpiumStandardProfile:ModelLibrary xmi:id="_s3ewQOElEeCp-KZHwwR6Dg" persistentName="opium_bpm" mappedImplementationPackage="org.nakeduml.runtime.bpm" isSchema="true" regenerate="true" groupIdentifier="org.opium" artifactIdentifier="opium-bpm" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
 </xmi:XMI>

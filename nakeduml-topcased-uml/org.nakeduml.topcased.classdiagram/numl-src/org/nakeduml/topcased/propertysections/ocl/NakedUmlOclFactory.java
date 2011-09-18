@@ -124,18 +124,23 @@ public final class NakedUmlOclFactory extends UMLOCLFactory{
 	}
 	@Override
 	public OCL<?,?,?,?,?,?,?,?,?,?,?,?> createOCL(ModelingLevel level){
-		UMLEnvironmentFactory factory = new NakedUmlEnvironmentFactory(new DelegatingPackageRegistry(getContext().eResource().getResourceSet().getPackageRegistry(),
-				EPackage.Registry.INSTANCE), getContext().eResource().getResourceSet());
-		OCL<?,?,?,?,?,?,?,?,?,?,?,?> result = OCL.newInstance(factory);
-		switch(level){
-		case M2:
-			EvaluationOptions.setOption(result.getEvaluationEnvironment(), UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
-			break;
-		default:
-			EvaluationOptions.setOption(result.getEvaluationEnvironment(), UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.INSTANCE_MODEL);
-			break;
+		try{
+			UMLEnvironmentFactory factory = new NakedUmlEnvironmentFactory(new DelegatingPackageRegistry(getContext().eResource().getResourceSet().getPackageRegistry(),
+					EPackage.Registry.INSTANCE), getContext().eResource().getResourceSet());
+			OCL<?,?,?,?,?,?,?,?,?,?,?,?> result = OCL.newInstance(factory);
+			switch(level){
+			case M2:
+				EvaluationOptions.setOption(result.getEvaluationEnvironment(), UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
+				break;
+			default:
+				EvaluationOptions.setOption(result.getEvaluationEnvironment(), UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.INSTANCE_MODEL);
+				break;
+			}
+			return result;
+		}catch(Exception e){
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-		return result;
 	}
 	@Override
 	public OCL<?,?,?,?,?,?,?,?,?,?,?,?> createOCL(ModelingLevel level,Resource res){

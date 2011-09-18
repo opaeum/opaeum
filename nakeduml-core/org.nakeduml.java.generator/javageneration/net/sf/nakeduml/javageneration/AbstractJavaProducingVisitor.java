@@ -49,15 +49,22 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected OJPackage javaModel;
 	protected NakedUmlConfig config;
 	protected TextWorkspace textWorkspace;
-	private Set<TextOutputNode> textFiles;
+	protected Set<TextOutputNode> textFiles;
 	protected INakedModelWorkspace workspace;
 	public Set<TextOutputNode> getTextFiles(){
 		return textFiles;
 	}
-	public <T extends INakedElement> Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
-		Set<T> result=new HashSet<T>();
+	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
+		Set<T> result = new HashSet<T>();
 		for(INakedRootObject r:roots){
 			result.addAll(r.getDirectlyAccessibleElementOfType(type));
+		}
+		final Iterator<T> iterator = result.iterator();
+		while(iterator.hasNext()){
+			T t = (T) iterator.next();
+			if(t.isMarkedForDeletion()){
+				iterator.remove();
+			}
 		}
 		return result;
 	}
@@ -129,12 +136,12 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		List<String> names = packageName.getNames();
 		TextDirectory txtDir = or.findOrCreateTextDirectory(names);
 		TextFile txtFile = txtDir.findOrCreateTextFile(Arrays.asList("package-info.java"), null, sourceFolderDefinition.overwriteFiles());
-		if(txtFile.getTextSource() ==null){
+		if(txtFile.getTextSource() == null){
 			OJAnnotatedPackageInfo pkgInfo = new OJAnnotatedPackageInfo();
 			findOrCreatePackage(packageName).addToPackageInfo(pkgInfo);
 			txtFile.setTextSource(new JavaTextSource(pkgInfo));
 		}
-		return (OJAnnotatedPackageInfo) ((JavaTextSource)txtFile.getTextSource()).javaSource;
+		return (OJAnnotatedPackageInfo) ((JavaTextSource) txtFile.getTextSource()).getJavaSource();
 	}
 	protected final OJPackage findOrCreatePackage(OJPathName packageName){
 		OJPackage parent = this.javaModel;

@@ -15,6 +15,10 @@ import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedCompositionMessageStructure{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6315866156366007965L;
 	INakedEmbeddedScreenFlowTask action;
 	ArtificialProperty endToStateMachine;
 	public INakedEmbeddedScreenFlowTask getAction(){

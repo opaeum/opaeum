@@ -51,8 +51,10 @@ public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl i
 		return this.object;
 	}
 	public void setObject(INakedInputPin object){
-		removeOwnedElement(this.object);
-		this.object = object;
+		if(this.object != object){
+			removeOwnedElement(this.object, true);
+			this.object = object;
+		}
 	}
 	@Override
 	public Collection<INakedElement> getOwnedElements(){

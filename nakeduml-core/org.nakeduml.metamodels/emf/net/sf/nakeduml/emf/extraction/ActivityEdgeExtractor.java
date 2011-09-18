@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.internal.NakedExceptionHandlerImpl;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
@@ -41,7 +40,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
 		if(e instanceof ExceptionHandler){
-			INakedExceptionHandler neh = (INakedExceptionHandler) e;
+			ExceptionHandler neh = (ExceptionHandler) e;
 			if(neh.getHandlerBody() != null && neh.getExceptionInput() != null){
 				return new NakedExceptionHandlerImpl();
 			}else{
@@ -58,6 +57,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		initializeEdge(f, nc, nakedObjectFlow);
 		nakedObjectFlow.setTransformation((INakedBehavior) getNakedPeer(f.getTransformation()));
 		nakedObjectFlow.setSelection((INakedBehavior) getNakedPeer(f.getSelection()));
+		
 	}
 	@VisitBefore
 	public void visitControlFlow(ControlFlow f,NakedActivityEdgeImpl nce){
@@ -67,7 +67,6 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	}
 	@VisitBefore
 	public void visitExceptionHandler(ExceptionHandler h,NakedExceptionHandlerImpl nakedHandler){
-		initialize(nakedHandler, h, h.getProtectedNode());
 		nakedHandler.setExceptionInput((INakedObjectNode) getNakedPeer(h.getExceptionInput()));
 		nakedHandler.setHandlerBody((INakedAction) getNakedPeer(h.getHandlerBody()));
 		EList<Classifier> types = h.getExceptionTypes();
@@ -80,6 +79,9 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
+		if(nae.getSource()==null || nae.getTarget()==null){
+			throw new IllegalStateException(ae.getSource() + "<-"+ ae + "->" + ae.getTarget());
+		}
 	}
 	/**
 	 * Interim solution to ensure that a node is always guarranteed. If none is found to be built yet, this method creates an opaqy action

@@ -36,12 +36,11 @@ public class NameConverter{
 					&& i > 0;
 			boolean lowerUpper = i > 0 && Character.isLowerCase(name.charAt(i - 1)) && Character.isUpperCase(name.charAt(i));
 			if((upperLower || lowerUpper)){
-				if(sb.length() == 0 || sb.charAt(sb.length() - 1) != '_'){
+//				if(sb.length() == 0 || sb.charAt(sb.length() - 1) != '_'){
 					// avoid duplicate underscores
 					sb.append('_');
-				}
+//				}
 			}
-			// avoid duplicate underscores
 			sb.append(name.charAt(i));
 		}
 		return sb.toString().toLowerCase();

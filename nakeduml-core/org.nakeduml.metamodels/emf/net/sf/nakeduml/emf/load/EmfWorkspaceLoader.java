@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resources;
-
 import net.sf.nakeduml.emf.workspace.EmfWorkspace;
 import net.sf.nakeduml.feature.DefaultTransformationLog;
 import net.sf.nakeduml.feature.NakedUmlConfig;
@@ -29,6 +27,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
+@SuppressWarnings("unchecked")
 public class EmfWorkspaceLoader{
 	protected static ResourceSet RESOURCE_SET;
 	protected static void registerResourceFactories(){
@@ -55,12 +54,12 @@ public class EmfWorkspaceLoader{
 		ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(4);
 		for(final Resource r:new ArrayList<Resource>(resourceSet.getResources())){
 			if(r.getURI() != null && r.getURI().fileExtension().equals("uml")){
-//				exec.schedule(new Runnable(){
-//					@Override
-//					public void run(){
-						EcoreUtil.resolveAll(r);
-//					}
-//				}, 1, TimeUnit.MILLISECONDS);
+				// exec.schedule(new Runnable(){
+				// @Override
+				// public void run(){
+				EcoreUtil.resolveAll(r);
+				// }
+				// }, 1, TimeUnit.MILLISECONDS);
 			}
 		}
 		try{
@@ -149,21 +148,28 @@ public class EmfWorkspaceLoader{
 		if(!Thread.currentThread().getContextClassLoader().getClass().getName().equals("org.eclipse.core.runtime.internal.adaptor.ContextFinder")){
 			resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+			@SuppressWarnings("rawtypes")
 			Map uriMap = resourceSet.getURIConverter().getURIMap();
 			URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-			URI uri = URI.createURI(findJar(loader, "nakeduml-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources"));
+			URI uri = URI.createURI(findLocation(loader, true, "nakeduml-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources"));
 			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
-			String jar = findJar(loader, "nakeduml-metamodels");
-			if(jar != null){
-				// Maven jar found
-				uri = URI.createURI(jar);
+			String jar = findLocation(loader, false, "org.nakeduml.metamodels/target/classes");
+			if(jar == null){
+				jar = findLocation(loader, true, "nakeduml-metamodels");
+				if(jar == null){
+					// eclipse jar
+					jar = findLocation(loader, true, "org.nakeduml.metamodels_");
+					uri = URI.createURI(jar);
+					uri = uri.appendSegment("models");
+				}else{
+					// Maven jar found
+					uri = URI.createURI(jar);
+				}
 			}else{
-				// eclipse jar
-				jar = findJar(loader, "org.nakeduml.metamodels_");
+				// Workspace dir found
 				uri = URI.createURI(jar);
-				uri = uri.appendSegment("models");
 			}
 			uriMap.put(URI.createURI(StereotypeNames.MODELS_PATHMAP), uri.appendSegment(""));
 		}
@@ -171,28 +177,42 @@ public class EmfWorkspaceLoader{
 	}
 	@Deprecated
 	public static String findUml2ResourceJar(URLClassLoader s){
-		return findJar(s, "nakeduml-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources");
+		return findLocation(s, true, "nakeduml-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources");
 	}
-	public static String findJar(URLClassLoader s,String...names){
-		URL[] urls = s.getURLs();
-		String UML2JAR = null;
-		outer:for(URL url:urls){
-			for(String string:names){
-				String ext = url.toExternalForm();
-				if(ext.contains(string) && ext.endsWith(".jar")){
-					File file = new File(url.getFile());
-					System.out.println(url.getFile());
-					UML2JAR = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";
-					break outer;
+	public static String findLocation(URLClassLoader s,boolean jar,String...names){
+		try{
+			URL[] urls = s.getURLs();
+			String location = null;
+			outer:for(URL url:urls){
+				for(String string:names){
+					String ext = url.toExternalForm();
+					if(ext.contains(string)){
+						File file = new File(url.getFile());
+						if(ext.endsWith(".jar")){
+							if(jar){
+								System.out.println(ext);
+								location = "jar:file:///" + file.getAbsolutePath().replace('\\', '/') + "!/";
+							}
+						}else{
+							if(!jar){
+								System.out.println(ext);
+								location = "file:///" + file.getAbsolutePath().replace('\\', '/');
+							}
+						}
+						break outer;
+					}
 				}
 			}
+			if(location == null && s.getParent() instanceof URLClassLoader && s.getParent() != s){
+				location = findLocation((URLClassLoader) s.getParent(), jar, names);
+			}
+//			if(location == null && s != (URLClassLoader) ClassLoader.getSystemClassLoader()){
+//				location = findLocation((URLClassLoader) ClassLoader.getSystemClassLoader(), jar, names);
+//			}
+			return location;
+		}catch(Throwable t){
+			System.out.println(t.toString());
+			return null;
 		}
-		if(UML2JAR == null && s.getParent() instanceof URLClassLoader){
-			UML2JAR = findJar((URLClassLoader) s.getParent(), names);
-		}
-		if(UML2JAR == null){
-			UML2JAR = findUml2ResourceJar((URLClassLoader) ClassLoader.getSystemClassLoader());
-		}
-		return UML2JAR;
 	}
 }

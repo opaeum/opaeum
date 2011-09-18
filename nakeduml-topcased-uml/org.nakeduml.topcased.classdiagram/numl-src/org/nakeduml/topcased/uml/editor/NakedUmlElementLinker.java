@@ -288,6 +288,11 @@ public class NakedUmlElementLinker extends EContentAdapter{
 							}
 						}
 					}
+				}else if(notification.getNewValue() instanceof Constraint){
+					Constraint p = (Constraint) notification.getNewValue();
+					if(p.getSpecification() == null){
+						p.setSpecification(createOclExpression(p.getName()));
+					}
 				}
 			}
 			return null;

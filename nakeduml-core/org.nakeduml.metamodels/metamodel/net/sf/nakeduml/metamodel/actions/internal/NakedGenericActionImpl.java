@@ -7,6 +7,10 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedGenericActionImpl extends NakedActionImpl{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4911926111906947171L;
 	private Collection<INakedInputPin> input;
 	private Collection<INakedOutputPin> output;
 	@Override

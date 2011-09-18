@@ -28,7 +28,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 @StepDependency(phase = JavaTransformationPhase.class,after = {
 		DerivedUnionImplementor.class,JpaAnnotator.class,HibernateAnnotator.class
 })
-//NB!!! needs to execute after all Steps that expect the OJField's presence since it removes the redefined field
+// NB!!! needs to execute after all Steps that expect the OJField's presence since it removes the redefined field
 public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void property(INakedProperty p){
@@ -48,10 +48,8 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 	}
 	@Override
 	protected int getThreadPoolSize(){
-		return 1;//Works across models
+		return 1;// Works across models
 	}
-
-
 	private void visitProperty(INakedClassifier owner,INakedProperty p){
 		if(p.isNavigable()){
 			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
@@ -66,6 +64,8 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 		OJField f = c.findField(redefinedMap.umlName());
 		if(f != null){
 			c.removeFromFields(f);
+		}
+		if(!(redefiningMap.getProperty().isReadOnly() || redefiningMap.getProperty().isDerived() || redefinedProperty.isReadOnly() || redefinedProperty.isDerived())){
 			redefineOperation(c, redefinedMap.setter(), redefiningMap.setter(), redefinedMap.javaTypePath());
 			redefineOperation(c, redefinedMap.adder(), redefiningMap.adder(), redefinedMap.javaBaseTypePath());
 			redefineOperation(c, redefinedMap.remover(), redefiningMap.remover(), redefinedMap.javaBaseTypePath());

@@ -29,6 +29,8 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor {
+	//oyoyoyoyoy Jbpm
+	public static final String EXCEPTION_FIELD = "currentException";
 	@Override
 	public boolean pinsAvailableAsVariables(){
 		return true;
@@ -155,6 +157,10 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor 
 
 	protected String initForResultVariable(NakedStructuralFeatureMap map) {
 		return map.getter() + "()";
+	}
+	public String expressExceptionInput(OJBlock block,INakedObjectNode pin){
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin,true);
+		return "(" + map.javaType() + ")"+EXCEPTION_FIELD;
 	}
 
 

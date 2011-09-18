@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,12 +34,14 @@ public class NakedUmlConfig{
 	private static final String ADDITIONAL_TRANSFORMATION_STEPS = "nakeduml.additional.transformation.steps";
 	private static final String SOURCE_FOLDER_STRATEGY = "nakeduml.source.folder.strategy";
 	private static final String WORKSPACE_NAME = "nakeduml.workspace.name";
+	private static final String ADDITIONAL_PERSISTENT_CLASSES = "nakeduml.additional.persistent.classes";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
 	private Map<ISourceFolderIdentifier,SourceFolderDefinition> sourceFolderDefinitions = new HashMap<ISourceFolderIdentifier,SourceFolderDefinition>();
 	private File file;
 	private WorkspaceMappingInfo workspaceMappingInfo;
+	private SqlDialect sqlDialect;
 	public NakedUmlConfig(File file){
 		this.file = file;
 		if(file.exists()){
@@ -152,26 +156,26 @@ public class NakedUmlConfig{
 		return this.props.getProperty(EMAIL_ADDRESS_TYPE);
 	}
 	public void calculateOutputRoot(File modelProjectDir){
-		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(file, modelProjectDir,getWorkspaceIdentifier()));
+		setOutputRoot(getSourceFolderStrategy().calculateOutputRoot(file, modelProjectDir, getWorkspaceIdentifier()));
 	}
 	public void setOutputRoot(File destination){
 		this.outputRoot = destination;
-//		File t = file;
-//		t.c
-//		while(t.getParentFile() != null){
-//			// Ensure that the output root does not coincide with the model directory
-//			if(t.equals(outputRoot)){
-//				outputRoot = new File(outputRoot.getParent(), outputRoot.getName() + "-project");
-//				break;
-//			}
-//			t = t.getParentFile();
-//		}
+		// File t = file;
+		// t.c
+		// while(t.getParentFile() != null){
+		// // Ensure that the output root does not coincide with the model directory
+		// if(t.equals(outputRoot)){
+		// outputRoot = new File(outputRoot.getParent(), outputRoot.getName() + "-project");
+		// break;
+		// }
+		// t = t.getParentFile();
+		// }
 	}
 	public int getNumberOfColumns(){
 		return new Integer(this.props.getProperty(LIST_COLUMNS));
 	}
 	public boolean needsSchema(){
-		return Boolean.valueOf(this.props.getProperty(NEED_SCHEMA,"true"));
+		return Boolean.valueOf(this.props.getProperty(NEED_SCHEMA, "true"));
 	}
 	public String getDefaultSchema(){
 		return this.props.getProperty(DEFAULT_SCHEMA);
@@ -263,10 +267,15 @@ public class NakedUmlConfig{
 		this.props.setProperty(ADDITIONAL_TRANSFORMATION_STEPS, sb.toString());
 	}
 	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
-		if(this.workspaceMappingInfo==null){
-			this.workspaceMappingInfo=new WorkspaceMappingInfo(new File(file.getParent(), getWorkspaceIdentifier() + ".mappinginfo"));
+		if(this.workspaceMappingInfo == null){
+			this.workspaceMappingInfo = new WorkspaceMappingInfo(new File(file.getParent(), getWorkspaceIdentifier() + ".mappinginfo"));
 		}
 		return this.workspaceMappingInfo;
+	}
+	public void reset(){
+		workspaceMappingInfo=null;
+		this.sqlDialect=null;
+		this.sqlDialect=null;
 	}
 	public void setWorkspaceName(String name){
 		this.props.setProperty(WORKSPACE_NAME, name);
@@ -276,11 +285,17 @@ public class NakedUmlConfig{
 		return true;
 	}
 	public SqlDialect getDbDialect(){
-		return new SqlDialect(){
-			@Override
-			public String getCurrentTimeStampString(){
-				return "current_timestamp";
-			}
-		};
+		if(this.sqlDialect == null){
+			this.sqlDialect = new SqlDialect(){
+				@Override
+				public String getCurrentTimeStampString(){
+					return "current_timestamp";
+				}
+			};
+		}
+		return this.sqlDialect;
+	}
+	public Collection<String> getAdditionalPersistentClasses(){
+		return Arrays.asList(this.props.getProperty(ADDITIONAL_PERSISTENT_CLASSES, "com.rorotika.cm.audit.NetworkElementAuditEntry").split(";"));
 	}
 }

@@ -1,6 +1,5 @@
 package org.nakeduml.eclipse;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InterfaceRealization;

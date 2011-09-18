@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.nakeduml.topcased.uml.editor.NakedUmlItemProviderAdapterFactory;
+import org.nakeduml.topcased.uml.editor.NakedUmlQualifiedNameLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
@@ -25,7 +26,6 @@ public class TypedElementTypeSection extends AbstractChooserPropertySection{
 		return "Type:";
 	}
 	protected Object[] getComboFeatureValues(){
-		
 		List<Object> choices = new ArrayList<Object>();
 		choices.add("");
 		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
@@ -37,12 +37,7 @@ public class TypedElementTypeSection extends AbstractChooserPropertySection{
 		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
 	}
 	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new NakedUmlItemProviderAdapterFactory()){
-			public String getText(Object object){
-				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object, IItemQualifiedTextProvider.class);
-				return itemQualifiedTextProvider != null ? itemQualifiedTextProvider.getQualifiedText(object) : super.getText(object);
-			}
-		};
+		return new NakedUmlQualifiedNameLabelProvider(new NakedUmlItemProviderAdapterFactory());
 	}
 	protected Object getFeatureValue(){
 		return ((TypedElement) getEObject()).getType();

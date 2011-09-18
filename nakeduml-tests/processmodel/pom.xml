@@ -2,7 +2,7 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.nakeduml.processmodel</groupId>
-  <artifactId>processmodel</artifactId>
+  <artifactId>processmodel-parent</artifactId>
   <packaging>pom</packaging>
   <name>processmodel</name>
   <version>0.0.1</version>
@@ -41,11 +41,7 @@
     </pluginManagement>
   </build>
   <modules>
-    <module>processmodel-adaptor</module>
-    <module>processmodel-domain</module>
-    <module>processmodel-integrated</module>
-    <module>processmodel-web</module>
-    <module>processmodel-generator</module>
+    <module>processmodel</module>
   </modules>
   <repositories>
     <repository>
@@ -125,7 +121,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
-        <version>${hibernate.version}</version>
+        <version>3.3.2.GA</version>
         <type>jar</type>
         <scope>provided</scope>
         <exclusions>
@@ -255,14 +251,55 @@
         <type>jar</type>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.nakeduml</groupId>
+        <artifactId>nakeduml-runtime-bpm-hibernate</artifactId>
+        <version>${numl.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>3.4.0.GA</version>
+        <type>jar</type>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nakeduml</groupId>
+        <artifactId>nakeduml-runtime-jpa</artifactId>
+        <version>${numl.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-annotations</artifactId>
+        <version>3.4.0.GA</version>
+        <type>jar</type>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>1.8.0.10</version>
+        <type>jar</type>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
     <processmodel.version>0.0.1</processmodel.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
     <drools.version>5.2.0.M1</drools.version>
-    <hibernate.version>3.6.0.Final</hibernate.version>
-    <numl.version>1.0.0.5-SNAPSHOT</numl.version>
+    <hibernate.version>3.4.0.GA</hibernate.version>
+    <numl.version>1.0.0.6-SNAPSHOT</numl.version>
     <jboss.domain>default</jboss.domain>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>

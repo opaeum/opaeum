@@ -6,18 +6,12 @@ import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
-public class EmbeddedScreenFlowTaskBuilder extends PotentialTaskActionBuilder<INakedEmbeddedScreenFlowTask>{
-	private EmbeddedScreenFlowTaskCaller delegate;
+public class EmbeddedScreenFlowTaskBuilder extends AbstractCallActionBuilder<INakedEmbeddedScreenFlowTask>{
 	public EmbeddedScreenFlowTaskBuilder(NakedUmlLibrary oclEngine,INakedEmbeddedScreenFlowTask node){
-		super(oclEngine, node);
-		this.delegate=new EmbeddedScreenFlowTaskCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
+		super(oclEngine, node,new EmbeddedScreenFlowTaskCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine)));
 	}
 	@Override
-	public boolean isTask(){
+	public boolean isLongRunning(){
 		return true;
-	}
-	@Override
-	public void implementActionOn(OJAnnotatedOperation oper){
-		delegate.implementActionOn(oper, oper.getBody());
 	}
 }

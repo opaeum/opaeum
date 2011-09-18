@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -222,12 +223,10 @@ public class OJUtil{
 		return map;
 	}
 	public static void removeReturnStatement(OJOperation javaMethod){
-		Collection<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());
-		for(OJStatement st:sts){
-			if(st instanceof OJStatement && st.toJavaString().contains("return ")){
-				javaMethod.getBody().removeFromStatements(st);
-				break;
-			}
+		List<OJStatement> sts = new ArrayList<OJStatement>(javaMethod.getBody().getStatements());
+		OJStatement last = sts.get(sts.size() - 1);
+		if(last.toJavaString().startsWith("return ")){
+			javaMethod.getBody().removeFromStatements(last);
 		}
 	}
 	public static OJPathName classifierPathname(INakedEmbeddedScreenFlowTask origin){

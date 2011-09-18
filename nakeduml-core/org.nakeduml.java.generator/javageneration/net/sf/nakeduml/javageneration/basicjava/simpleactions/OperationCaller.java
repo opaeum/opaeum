@@ -23,13 +23,12 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 		if(node.getOperation() == null){
 			block.addToStatements("no operation call!");
 		}else{
-			StringBuilder args = populateArgumentPinsAndBuildArgumentString(operation, node.getArguments());
+			StringBuilder args = populateArgumentPinsAndBuildArgumentString(operation, node.getOperation().isLongRunning(), node.getArguments());
 			if(node.isSynchronous()){
 				NakedStructuralFeatureMap resultMap = null;
 				INakedPin returnPin = node.getReturnPin();
 				ActionMap actionMap = new ActionMap(node);
-				String firstArg = node.getOperation().isLongRunning() ? "context," : "";
-				String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "(" + firstArg + args + ")";
+				String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "(" + args + ")";
 				if(BehaviorUtil.hasMessageStructure(node)){
 					resultMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 				}else if(returnPin != null){

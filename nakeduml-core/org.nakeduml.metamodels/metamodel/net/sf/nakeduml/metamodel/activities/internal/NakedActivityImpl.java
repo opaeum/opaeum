@@ -2,7 +2,6 @@ package net.sf.nakeduml.metamodel.activities.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,10 +32,10 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	private static final long serialVersionUID = -8111895180462880035L;
 	public static final String META_CLASS = "activity";
 	private ActivityKind activityKind;
-	private Set<INakedActivityEdge> activityEdges = Collections.synchronizedSet(new HashSet<INakedActivityEdge>());
-	private Set<INakedActivityNode> activityNodes = Collections.synchronizedSet(new HashSet<INakedActivityNode>());
-	private Set<INakedActivityPartition> partitions = Collections.synchronizedSet(new HashSet<INakedActivityPartition>());
-	private Set<INakedActivityVariable> variables = Collections.synchronizedSet(new HashSet<INakedActivityVariable>());
+	private Set<INakedActivityEdge> activityEdges = new HashSet<INakedActivityEdge>();
+	private Set<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>();
+	private Set<INakedActivityPartition> partitions = new HashSet<INakedActivityPartition>();
+	private Set<INakedActivityVariable> variables = new HashSet<INakedActivityVariable>();
 	public Set<INakedActivityPartition> getPartitions(){
 		return this.partitions;
 	}
@@ -51,7 +50,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 					results.add(node);
 				}
 			}else if(node.getAllEffectiveIncoming().isEmpty()){
-				if(!(node instanceof INakedAction && ((INakedAction) node).handlesException() ) || node instanceof INakedAcceptEventAction){
+				if(!(node instanceof INakedAction && ((INakedAction) node).handlesException()) || node instanceof INakedAcceptEventAction){
 					results.add(node);
 				}
 			}
@@ -81,8 +80,8 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			this.variables.add((INakedActivityVariable) element);
 		}
 	}
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element,boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedActivityPartition){
 			this.partitions.remove((INakedActivityPartition) element);
 		}
@@ -91,8 +90,10 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		}
 		if(element instanceof INakedActivityEdge){
 			INakedActivityEdge e = (INakedActivityEdge) element;
-			e.setSource(null);
-			e.setTarget(null);
+			if(recursively){
+				e.setSource(null);
+				e.setTarget(null);
+			}
 			this.activityEdges.remove((INakedActivityEdge) element);
 		}
 		if(element instanceof INakedActivityVariable){
@@ -132,24 +133,24 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		return this.activityNodes;
 	}
 	public Set<INakedMessageEvent> getAllMessageEvents(){
-		boolean messageEvents=true;
+		boolean messageEvents = true;
 		Set<INakedMessageEvent> results = getEvents(messageEvents);
 		return results;
 	}
 	@SuppressWarnings("unchecked")
-	protected <T> Set<T> getEvents(boolean messageEvents){
+	protected <T>Set<T> getEvents(boolean messageEvents){
 		Set<T> results = new HashSet<T>();
 		for(INakedActivityNode node:getActivityNodesRecursively()){
 			if(node instanceof INakedAcceptEventAction){
 				INakedAcceptEventAction acceptEventAction = (INakedAcceptEventAction) node;
 				for(INakedTrigger t:acceptEventAction.getTriggers()){
-					if(messageEvents?t.getEvent() instanceof INakedMessageEvent:true){
-						results.add((T)t.getEvent());
+					if(messageEvents ? t.getEvent() instanceof INakedMessageEvent : true){
+						results.add((T) t.getEvent());
 					}
 				}
 			}
 			if(node instanceof INakedEmbeddedTask){
-				results.addAll((Collection)((INakedEmbeddedTask) node).getTaskDefinition().getDeadlines());
+				results.addAll((Collection) ((INakedEmbeddedTask) node).getTaskDefinition().getDeadlines());
 			}
 		}
 		return results;

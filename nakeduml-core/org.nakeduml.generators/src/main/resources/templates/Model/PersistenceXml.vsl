@@ -32,11 +32,17 @@
 			<property name="hibernate.dialect" value="${config.jdbcDialect}"/>
 #else
 #end
-			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+			<!--property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
 			<property name="hibernate.connection.username" value="sa"/>
 			<property name="hibernate.connection.password" value=""/>
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:mem:${workspace.name}DB"/>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/-->
+			<property name="hibernate.dialect" value="com.rorotika.cm.ria.hql.CmPostgreSQLDialect" />
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+			<property name="hibernate.connection.username" value="cmtest"/>
+			<property name="hibernate.connection.password" value="cmtest"/>
+			<property name="hibernate.hbm2ddl.auto" value="validate"/>
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost/cmtest"/>
 		
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="true" />

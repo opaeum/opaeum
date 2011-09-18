@@ -14,11 +14,19 @@ import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import nl.klasse.octopus.model.IImportedElement;
 
 public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootObject {
-
+	
 	private static final long serialVersionUID = 7779979219779726122L;
-	private String fileName;
+	private String identifier;
 	private RootObjectStatus status=RootObjectStatus.CREATED;
 	private Map<Class<? extends INakedElement>,Set<? extends INakedElement>> typeMap = new HashMap<Class<? extends INakedElement>,Set<? extends INakedElement>>();
+	private String fileName;
+	public String getFileName(){
+		return fileName;
+	}
+
+	public void setFileName(String fileName){
+		this.fileName = fileName;
+	}
 
 	public RootObjectStatus getStatus(){
 		return status;
@@ -29,7 +37,7 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 	}
 
 	public void setIdentifier(String modelFile) {
-		this.fileName = modelFile;
+		this.identifier = modelFile;
 	}
 
 	@Override
@@ -46,7 +54,7 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 
 	@Override
 	public String getIdentifier() {
-		return fileName;
+		return identifier;
 	}
 
 	public Collection<INakedRootObject> getAllDependencies() {

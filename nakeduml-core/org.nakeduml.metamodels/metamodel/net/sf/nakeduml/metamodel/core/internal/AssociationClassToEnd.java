@@ -12,6 +12,10 @@ import net.sf.nakeduml.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import nl.klasse.octopus.model.IClassifier;
 
 public class AssociationClassToEnd extends AbstractPropertyBridge{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6946143562782045457L;
 	private INakedProperty property;
 	private INakedMultiplicity multiplicity;
 	public AssociationClassToEnd(INakedProperty property){

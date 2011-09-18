@@ -23,6 +23,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -70,7 +71,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 	protected void createWidgets(Composite composite){
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		this.group = getWidgetFactory().createGroup(composite, "Errors");
-		this.group.setLayout(new GridLayout(1, true));
+		this.group.setLayout(new GridLayout());
 		hide();
 	}
 	@Override
@@ -81,11 +82,14 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 	@Override
 	public void setInput(IWorkbenchPart part,org.eclipse.jface.viewers.ISelection selection){
 		super.setInput(part, selection);
-		String string = getEObject().eResource().getURI().toPlatformString(false);
-		if(string != null){
-			Path path = new Path(string);
-			// Could be plugin resource
-			this.file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+		if(getEObject().eResource() != null){
+			// could be deleting
+			String string = getEObject().eResource().getURI().toPlatformString(false);
+			if(string != null){
+				Path path = new Path(string);
+				// Could be plugin resource
+				this.file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			}
 		}
 	};
 	@Override
@@ -125,7 +129,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 					try{
 						String msg = (String) entry.getValue().getAttribute(IMarker.MESSAGE);
 						if(msg != null){
-							Hyperlink lbl = getWidgetFactory().createHyperlink(group, msg, SWT.BORDER);
+							Hyperlink lbl = getWidgetFactory().createHyperlink(group, msg, SWT.NONE);
 							lbl.addMouseListener(new MouseListener(){
 								@Override
 								public void mouseUp(MouseEvent e){
@@ -142,10 +146,9 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 								public void mouseDoubleClick(MouseEvent e){
 								}
 							});
-							lbl.computeSize(300, lbl.getSize().y);
-							lbl.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
+							lbl.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,false));
 							lbl.setForeground(ColorConstants.red);
-							lbl.layout(true);
+							lbl.pack();
 						}
 					}catch(CoreException e){
 						// TODO Auto-generated catch block
@@ -157,9 +160,9 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				fd.right = new FormAttachment(100);
 				fd.bottom = new FormAttachment(100);
 				this.group.setLayoutData(fd);
-				group.layout();
+				group.pack();
 			}
-			getSectionComposite().getParent().getParent().layout();
+//			getSectionComposite().getParent().pack();
 		}
 	}
 	protected void hide(){

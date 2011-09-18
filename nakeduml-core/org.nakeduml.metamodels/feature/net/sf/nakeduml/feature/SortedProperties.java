@@ -10,7 +10,12 @@ import java.util.Properties;
 import java.util.TreeSet;
 
 public class SortedProperties extends Properties {
-	public synchronized Enumeration<Object> keys() {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Enumeration<Object> keys() {
 		final Iterator<Object> iter = new TreeSet<Object>(super.keySet()).iterator();
 		return new Enumeration<Object>() {
 			@Override

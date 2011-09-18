@@ -12,6 +12,10 @@ import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedReplyActionImpl extends NakedActionImpl implements INakedReplyAction{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8009311922922903715L;
 	private INakedInputPin returnInfo;
 	private List<INakedInputPin> replyValues;
 	public List<INakedInputPin> getReplyValues(){

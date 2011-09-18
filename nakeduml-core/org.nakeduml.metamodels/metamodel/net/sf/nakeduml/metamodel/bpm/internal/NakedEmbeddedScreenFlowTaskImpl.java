@@ -9,6 +9,7 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 
 public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl implements INakedEmbeddedScreenFlowTask{
+	private static final long serialVersionUID = 2669838847662466125L;
 	private INakedResponsibilityDefinition taskDefinition;
 	private EmbeddedScreenFlowTaskMessageStructureImpl messageStructure;
 	@Override
@@ -18,6 +19,10 @@ public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl
 	@Override
 	public INakedStateMachine getScreenFlow(){
 		return (INakedStateMachine) getBehavior();
+	}
+	@Override
+	public boolean isLongRunning(){
+		return true;
 	}
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){

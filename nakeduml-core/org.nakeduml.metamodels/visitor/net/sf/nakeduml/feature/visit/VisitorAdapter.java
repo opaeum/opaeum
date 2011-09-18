@@ -6,10 +6,12 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,10 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
+
+import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+
+import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 /**
  * VisitorAdapter is an abstract adapter class that traverses a tree starting with the root. Subclasses have to annotate methods that serve
@@ -37,6 +43,8 @@ import javassist.NotFoundException;
  *            This it the class of the root node of the tree.
  */
 public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
+	public static ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(8);
+	private Throwable throwable;
 	int depth = 0;
 	static Map<Class<?>,MethodInvokers> metaInfoMap = new HashMap<Class<?>,VisitorAdapter.MethodInvokers>();
 	private static final class EclipseClassPath implements ClassPath{
@@ -85,7 +93,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	};
 	private static EclipseClassPath cp = new EclipseClassPath();
 	protected MethodInvokers methodInvokers;
-	private Map<NODE,String> currentVisitSpec = Collections.synchronizedMap(new HashMap<NODE,String>());
+	private Map<NODE,String> currentVisitSpec = new HashMap<NODE,String>();
 	@SuppressWarnings("unchecked")
 	protected VisitorAdapter(){
 		pool.appendSystemPath();
@@ -121,7 +129,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			if(m.getParameterTypes().length > 1){
 				cp.addClass(m.getParameterTypes()[1]);
 			}
-			long random = Math.round(Math.random() * 1000000);
+			long random = Math.round(Math.random() * 10000000000l);
 			CtClass ctClass = pool.makeClass(VisitSpec.class.getName() + random, pool.get(VisitSpec.class.getName()));
 			StringBuilder sb = new StringBuilder("public void visit(" + VisitorAdapter.class.getName() + " vi, Object[] o) {((");
 			sb.append(getClass().getName());
@@ -178,26 +186,35 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	public void visitRecursively(NODE o){
 		depth++;
 		for(VisitSpec v:methodInvokers.beforeMethods){
-			currentVisitSpec.put(o, v.getMethod(this).getName());
 			maybeVisit(o, v);
 		}
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
 		if(shouldMultiThread(children)){
-			ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(getThreadPoolSize());
 			depth = 1000000;
+			throwable = null;
+			Set<ScheduledFuture<?>> jobs = new HashSet<ScheduledFuture<?>>();
 			for(final NODE child:children){
-				exec.schedule(new Runnable(){
+				jobs.add(exec.schedule(new Runnable(){
 					@Override
 					public void run(){
-						visitRecursively(child);
+						try{
+							visitRecursively(child);
+						}catch(Throwable t){
+							t.printStackTrace();
+							throwable = t;
+						}
 					}
-				}, 0, TimeUnit.MICROSECONDS);
+				}, 0, TimeUnit.MICROSECONDS));
 			}
-			try{
-				exec.shutdown();
-				exec.awaitTermination(10, TimeUnit.MINUTES);
-			}catch(InterruptedException e){
-				e.printStackTrace();
+			for(ScheduledFuture<?> j:jobs){
+				try{
+					j.get();
+				}catch(Exception e){
+					new ExceptionAnalyser(e).throwRootCause();
+				}
+				if(throwable!=null){
+					new ExceptionAnalyser(throwable).throwRootCause();
+				}
 			}
 		}else{
 			for(final NODE child:children){
@@ -205,41 +222,27 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			}
 		}
 		for(VisitSpec v:methodInvokers.afterMethods){
-			currentVisitSpec.put(o, v.getMethod(this).getName());
 			maybeVisit(o, v);
 		}
-		currentVisitSpec.remove(o);
 		depth--;
 	}
 	protected boolean shouldMultiThread(ArrayList<NODE> children){
-		return depth == 1 && getThreadPoolSize() > 1 && children.size()>4;
+		return depth == 1 && getThreadPoolSize() > 1 && children.size() > 4;
 	}
 	protected void maybeVisit(NODE o,VisitSpec v){
-		try{
-			if(v.matches(o)){
-				if(v.resolvePeer()){
-					Object peer = resolvePeer(o, v.getPeerClass());
-					if(peer != null){
-						v.visit(this, new Object[]{
-								o,peer
-						});
-					}
-				}else{
+		if(v.matches(o)){
+			if(v.resolvePeer()){
+				Object peer = resolvePeer(o, v.getPeerClass());
+				if(peer != null){
 					v.visit(this, new Object[]{
-						o
+							o,peer
 					});
 				}
+			}else{
+				v.visit(this, new Object[]{
+					o
+				});
 			}
-		}catch(RuntimeException e){
-			if(getThreadPoolSize()>1){
-				e.printStackTrace();
-			}
-			throw e;
-		}catch(Error e){
-			if(getThreadPoolSize()>1){
-				e.printStackTrace();
-			}
-			throw e;
 		}
 	}
 	protected boolean visitChildren(NODE o){

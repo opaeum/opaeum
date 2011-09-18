@@ -3,7 +3,6 @@ package org.nakeduml.topcased.validation;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.sf.nakeduml.emf.workspace.UmlElementCache;
 import net.sf.nakeduml.metamodel.validation.BrokenElement;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
@@ -18,13 +17,12 @@ public class NakedValidator implements org.topcased.validation.core.IValidator{
 	@Override
 	public boolean validate(EObject rootEObject,DiagnosticChain arg1,IProgressMonitor arg2) throws CoreException{
 		if(rootEObject instanceof Model){
-			UmlElementCache cache = NakedUmlEditor.getCurrentContext().getUmlElementCache();
-			INakedModelWorkspace workspace = cache.getTransformationProcess().findModel(INakedModelWorkspace.class);
+			INakedModelWorkspace workspace = NakedUmlEditor.getCurrentContext().getNakedWorkspace();
 			Set<Entry<String,BrokenElement>> errors = workspace.getErrorMap().getErrors().entrySet();
 			int i = 999;
 			for(Entry<String,BrokenElement> brokenElement:errors){
 				String key = brokenElement.getKey();
-				EObject obj = NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace().getElementMap().get(key);
+				EObject obj = NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace().getElement(key);
 				if(obj != null){//Could be an artificial element
 					if(obj.eResource().getURI().isPlatformResource()){
 //						Set<Entry<IValidationRule,Object[]>> brokenRules = brokenElement.getValue().getBrokenRules().entrySet();

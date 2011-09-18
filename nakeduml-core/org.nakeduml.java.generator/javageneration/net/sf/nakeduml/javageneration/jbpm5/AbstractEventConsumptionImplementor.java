@@ -154,12 +154,19 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	 */
 	private void implementEventConsumer(INakedTriggerContainer behavior,OJAnnotatedClass activityClass,ElementsWaitingForEvent eventActions){
 		OJAnnotatedOperation consumer = createEventConsumerSignature(behavior, activityClass, eventActions);
-		OJIfStatement ifProcessActive = new OJIfStatement("getProcessInstance()!=null");
-		consumer.getBody().addToStatements(ifProcessActive);
-		OJAnnotatedField nodes = new OJAnnotatedField("waitingNode", UML_NODE_INSTANCE);
-		activityClass.addToImports(UML_NODE_INSTANCE);
-		ifProcessActive.getThenPart().addToLocals(nodes);
-		implementEventConsumerBody(eventActions, consumer, ifProcessActive);
+		OJIfStatement ifProcessActive = (OJIfStatement) consumer.getBody().findStatementRecursive("ifProcessActive");
+		if(ifProcessActive == null){
+			ifProcessActive = new OJIfStatement("getProcessInstance()!=null");
+			ifProcessActive.setName("ifProcessActive");
+			consumer.getBody().addToStatements(ifProcessActive);
+			OJAnnotatedField nodes = new OJAnnotatedField("waitingNode", UML_NODE_INSTANCE);
+			activityClass.addToImports(UML_NODE_INSTANCE);
+			ifProcessActive.getThenPart().addToLocals(nodes);
+			implementEventConsumerBody(eventActions, consumer, ifProcessActive);
+		}else{
+			OJUtil.removeReturnStatement(consumer);
+			implementEventConsumerBody(eventActions, consumer, ifProcessActive);
+		}
 		consumer.getBody().addToStatements("return consumed");
 	}
 	protected void consumeEventWithoutSourceNodeInstanceUniqueId(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
@@ -186,40 +193,37 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 				map1 = new SignalMap(((INakedSignalEvent) event).getSignal());
 			}
 			OJAnnotatedOperation listener = OperationAnnotator.findOrCreateEventConsumer(behavior, activityClass, map1);
-			List<OJStatement> s = listener.getBody().getStatements();
-			listener.getBody().removeFromStatements(s.get(s.size() - 1));
+			OJUtil.removeReturnStatement(listener);
 			return listener;
 		}else{
 			// TODO if the behavior's superBehavior reacts to this event to, initialise consumed:boolean to super.consumeEventxyz
 			String methodName = EventUtil.getEventConsumerName(event);
-			OJAnnotatedOperation listener = new OJAnnotatedOperation(methodName);
-			activityClass.addToOperations(listener);
-			listener.setReturnType(new OJPathName("boolean"));
-			OJAnnotatedField processed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
-			processed.setInitExp("false");
-			listener.getBody().addToLocals(processed);
-			if(event instanceof INakedCallEvent){
-				for(INakedTypedElement param:(List<? extends INakedTypedElement>) ((INakedMessageEvent) event).getEventParameters()){
-					ClassifierMap map = new NakedClassifierMap(param.getType());
-					listener.addParam(param.getMappingInfo().getJavaName().toString(), map.javaTypePath());
+			OJAnnotatedOperation listener = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, methodName);
+			if(listener == null){
+				listener = new OJAnnotatedOperation(methodName);
+				listener.setReturnType(new OJPathName("boolean"));
+				activityClass.addToOperations(listener);
+				OJAnnotatedField processed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
+				processed.setInitExp("false");
+				listener.getBody().addToLocals(processed);
+				if(event instanceof INakedDeadline){
+					INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
+					OJPathName pn = null;
+					if(origin instanceof INakedOperation){
+						pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure());
+					}else if(origin instanceof INakedEmbeddedSingleScreenTask){
+						pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
+					}else{
+						pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
+					}
+					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getNakedUmlLibrary().getDateType()).javaTypePath());
+					listener.addParam("source", pn);
+				}else if(event instanceof INakedChangeEvent){
+					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+				}else if(event instanceof INakedTimeEvent){
+					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
+					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getNakedUmlLibrary().getDateType()).javaTypePath());
 				}
-			}else if(event instanceof INakedDeadline){
-				INakedDefinedResponsibility origin = ((INakedDeadline) event).getOrigin();
-				OJPathName pn = null;
-				if(origin instanceof INakedOperation){
-					pn = OJUtil.classifierPathname(((INakedOperation) origin).getMessageStructure());
-				}else if(origin instanceof INakedEmbeddedSingleScreenTask){
-					pn = OJUtil.classifierPathname(((INakedEmbeddedSingleScreenTask) origin).getMessageStructure());
-				}else{
-					pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
-				}
-				listener.addParam("triggerDate", new NakedClassifierMap(workspace.getNakedUmlLibrary().getDateType()).javaTypePath());
-				listener.addParam("source", pn);
-			}else if(event instanceof INakedChangeEvent){
-				listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-			}else if(event instanceof INakedTimeEvent){
-				listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-				listener.addParam("triggerDate", new NakedClassifierMap(workspace.getNakedUmlLibrary().getDateType()).javaTypePath());
 			}
 			return listener;
 		}

@@ -16,6 +16,7 @@ import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteVariableAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
+import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
@@ -24,6 +25,7 @@ import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicity;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
@@ -177,9 +179,11 @@ public class PinLinker extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(INakedActivityEdge edge){
-		if(edge.getOwnerElement() != edge.getEffectiveSource().getOwnerElement()){
-			edge.getOwnerElement().removeOwnedElement(edge);
-			edge.getEffectiveSource().getOwnerElement().addOwnedElement(edge);
+		final INakedActivityNode effectiveSource = edge.getEffectiveSource();
+		final INakedElementOwner ownerElement = effectiveSource.getOwnerElement();
+		if(edge.getOwnerElement() != ownerElement){
+			edge.getOwnerElement().removeOwnedElement(edge, false);
+			ownerElement.addOwnedElement(edge);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

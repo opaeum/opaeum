@@ -6,7 +6,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 public class AbstractOpiumAction extends Action{
-	IStructuredSelection selection;
+	protected IStructuredSelection selection;
 
 	public AbstractOpiumAction(IStructuredSelection selection, String name){
 		super(name);

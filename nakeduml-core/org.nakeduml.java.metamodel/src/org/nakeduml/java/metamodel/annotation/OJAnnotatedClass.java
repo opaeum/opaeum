@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJElement;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
+import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 import org.nakeduml.java.metamodel.utilities.JavaUtil;
@@ -236,5 +238,57 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	}
 	public void removeFromFields(String name){
 		super.f_fields.remove(name);
+	}
+	public String toAbstractSuperclassJavaString(){
+		String name = getName();
+		setName(name + "Generated");
+		String result = toJavaString();
+		result=result.replaceAll("(this)([\\,;\\s)])", "("+ name +")this$2");
+		setName(name);
+		return result;
+	}
+	public static void main(String[] args){
+		System.out.println("this,this;this this)this.".replaceAll("(this)([\\,;\\s)])", "bla$2"));
+	}
+	public String toConcreteImplementationJavaString(){
+		this.calcImports();
+		StringBuilder classInfo = new StringBuilder();
+		classInfo.append(this.getMyPackage().toJavaString());
+		classInfo.append("\n");
+		classInfo.append(this.imports());
+		classInfo.append("\n");
+		this.addJavaDocComment(classInfo);
+		if(this.getAnnotations().size() > 0){
+			classInfo.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(this.getAnnotations(), "\n"), 0));
+			classInfo.append("\n");
+		}
+		if(this.isAbstract()){
+			classInfo.append("abstract ");
+		}
+		classInfo.append(this.visToJava(this) + " ");
+		classInfo.append("class ");
+		classInfo.append(this.getName());
+		classInfo.append(" extends " + this.getName() + "Generated");
+		classInfo.append(" {\n");
+		final Set<OJConstructor> constructors = getConstructors();
+		Collection<OJConstructor> tempConstructors = new ArrayList<OJConstructor>();
+		for(OJConstructor ojConstructor:constructors){
+			OJConstructor e = ojConstructor.getDeepCopy();
+			e.setBody(new OJBlock());
+			final Iterator<OJParameter> iterator = e.getParameters().iterator();
+			StringBuilder sb  = new StringBuilder("super(");
+			while(iterator.hasNext()){
+				OJParameter ojParameter = (OJParameter) iterator.next();
+				sb.append(ojParameter.getName());
+				if(iterator.hasNext()){
+					sb.append(",");
+				}
+			}
+			sb.append(")");
+			tempConstructors.add(e);
+		}
+		classInfo.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(tempConstructors,"\n"), 1));
+		classInfo.append("\n}");
+		return classInfo.toString();
 	}
 }

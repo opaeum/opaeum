@@ -20,6 +20,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 
 public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
+	private static final long serialVersionUID = -8598466207353218533L;
 	private INakedEvent event;
 	private boolean isHumanTrigger;
 	@Override
@@ -27,9 +28,9 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 		return "trigger";
 	}
 	public void setEvent(INakedEvent event){
-		if(!(event instanceof INakedDeadline)){
+		if(!(event instanceof INakedDeadline || this.event==event)){
 			//Deadlines could be reused
-			removeOwnedElement(this.event);
+			removeOwnedElement(this.event, true);
 			addOwnedElement(event);
 			event.setOwnerElement(this);
 		}

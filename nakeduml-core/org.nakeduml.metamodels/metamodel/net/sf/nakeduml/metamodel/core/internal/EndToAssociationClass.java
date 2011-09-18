@@ -15,6 +15,10 @@ import nl.klasse.octopus.model.IClassifier;
 import org.nakeduml.name.NameConverter;
 
 public class EndToAssociationClass extends AbstractPropertyBridge{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6359772681105953184L;
 	private INakedProperty property;
 	public EndToAssociationClass(INakedProperty property){
 		super(property.getOtherEnd().getNakedBaseType(), (INakedClassifier) property.getAssociation());

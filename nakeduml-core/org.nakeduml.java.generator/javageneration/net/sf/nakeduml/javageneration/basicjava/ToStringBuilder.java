@@ -40,7 +40,7 @@ public class ToStringBuilder extends StereotypeAnnotator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
-		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
+		if(BehaviorUtil.hasExecutionInstance(no)){
 			this.visitClass(no.getMessageStructure());
 		}
 	}

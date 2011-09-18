@@ -17,8 +17,10 @@ public class NakedStartClassifierBehaviorActionImpl extends NakedActionImpl impl
 		return object;
 	}
 	public void setObject(INakedInputPin object){
-		this.removeOwnedElement(this.object);
-		this.object = object;
+		if(this.object != object){
+			this.removeOwnedElement(this.object, true);
+			this.object = object;
+		}
 	}
 	public Collection<INakedOutputPin> getOutput(){
 		return new HashSet<INakedOutputPin>();

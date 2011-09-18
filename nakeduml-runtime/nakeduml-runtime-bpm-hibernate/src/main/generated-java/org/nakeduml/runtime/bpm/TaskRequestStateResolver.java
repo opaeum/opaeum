@@ -11,52 +11,52 @@ public class TaskRequestStateResolver extends AbstractEnumResolver implements En
 	public IEnum fromNakedUmlId(int i) {
 		IEnum result = null;
 		switch ( i ) {
-			case 821:
-				result = TaskRequestState.INPROGRESS;
+			case 1055:
+				result = TaskRequestState.TASKINSTANCEREGION_SUSPENDED_REGION1_INPROGRESSBUTSUSPENDED;
 			break;
 		
-			case 817:
-				result = TaskRequestState.ACTIVE;
+			case 1045:
+				result = TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_FINALSTATE1;
 			break;
 		
-			case 816:
-				result = TaskRequestState.OBSOLETE;
+			case 1056:
+				result = TaskRequestState.TASKINSTANCEREGION_SUSPENDED_REGION1_READYBUTSUSPENDED;
 			break;
 		
-			case 819:
-				result = TaskRequestState.RESERVED;
+			case 1050:
+				result = TaskRequestState.TASKINSTANCEREGION_COMPLETED;
 			break;
 		
-			case 818:
-				result = TaskRequestState.FINALSTATE1;
+			case 1052:
+				result = TaskRequestState.TASKINSTANCEREGION_SUSPENDED;
 			break;
 		
-			case 814:
-				result = TaskRequestState.RESERVEDBUTSUSPENDED;
+			case 1058:
+				result = TaskRequestState.TASKINSTANCEREGION_OBSOLETE;
 			break;
 		
-			case 823:
-				result = TaskRequestState.COMPLETED;
+			case 1042:
+				result = TaskRequestState.TASKINSTANCEREGION_ACTIVE;
 			break;
 		
-			case 815:
-				result = TaskRequestState.READYBUTSUSPENDED;
+			case 1047:
+				result = TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_INPROGRESS;
 			break;
 		
-			case 822:
-				result = TaskRequestState.CREATED;
+			case 1049:
+				result = TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_READY;
 			break;
 		
-			case 820:
-				result = TaskRequestState.READY;
+			case 1054:
+				result = TaskRequestState.TASKINSTANCEREGION_SUSPENDED_REGION1_RESERVEDBUTSUSPENDED;
 			break;
 		
-			case 812:
-				result = TaskRequestState.SUSPENDED;
+			case 1044:
+				result = TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_RESERVED;
 			break;
 		
-			case 813:
-				result = TaskRequestState.INPROGRESSBUTSUSPENDED;
+			case 1051:
+				result = TaskRequestState.TASKINSTANCEREGION_CREATED;
 			break;
 		
 		}
@@ -71,52 +71,52 @@ public class TaskRequestStateResolver extends AbstractEnumResolver implements En
 	public int toNakedUmlId(IEnum en) {
 		int result = -1;
 		switch ( (TaskRequestState)en ) {
-			case INPROGRESS:
-				result = 821;
+			case TASKINSTANCEREGION_SUSPENDED_REGION1_INPROGRESSBUTSUSPENDED:
+				result = 1055;
 			break;
 		
-			case ACTIVE:
-				result = 817;
+			case TASKINSTANCEREGION_ACTIVE_REGION1_FINALSTATE1:
+				result = 1045;
 			break;
 		
-			case OBSOLETE:
-				result = 816;
+			case TASKINSTANCEREGION_SUSPENDED_REGION1_READYBUTSUSPENDED:
+				result = 1056;
 			break;
 		
-			case RESERVED:
-				result = 819;
+			case TASKINSTANCEREGION_COMPLETED:
+				result = 1050;
 			break;
 		
-			case FINALSTATE1:
-				result = 818;
+			case TASKINSTANCEREGION_SUSPENDED:
+				result = 1052;
 			break;
 		
-			case RESERVEDBUTSUSPENDED:
-				result = 814;
+			case TASKINSTANCEREGION_OBSOLETE:
+				result = 1058;
 			break;
 		
-			case COMPLETED:
-				result = 823;
+			case TASKINSTANCEREGION_ACTIVE:
+				result = 1042;
 			break;
 		
-			case READYBUTSUSPENDED:
-				result = 815;
+			case TASKINSTANCEREGION_ACTIVE_REGION1_INPROGRESS:
+				result = 1047;
 			break;
 		
-			case CREATED:
-				result = 822;
+			case TASKINSTANCEREGION_ACTIVE_REGION1_READY:
+				result = 1049;
 			break;
 		
-			case READY:
-				result = 820;
+			case TASKINSTANCEREGION_SUSPENDED_REGION1_RESERVEDBUTSUSPENDED:
+				result = 1054;
 			break;
 		
-			case SUSPENDED:
-				result = 812;
+			case TASKINSTANCEREGION_ACTIVE_REGION1_RESERVED:
+				result = 1044;
 			break;
 		
-			case INPROGRESSBUTSUSPENDED:
-				result = 813;
+			case TASKINSTANCEREGION_CREATED:
+				result = 1051;
 			break;
 		
 		}

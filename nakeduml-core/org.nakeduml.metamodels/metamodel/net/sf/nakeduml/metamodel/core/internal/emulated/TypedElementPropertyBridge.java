@@ -20,6 +20,10 @@ import nl.klasse.octopus.model.IClassifier;
  * 
  */
 public class TypedElementPropertyBridge extends AbstractPropertyBridge implements INakedProperty{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 211415204864858873L;
 	protected INakedTypedElement parameter;
 	boolean ensureLocallyUniqueName = true;
 	public TypedElementPropertyBridge(INakedClassifier owner,INakedTypedElement parameter){

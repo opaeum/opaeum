@@ -31,7 +31,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
 import org.nakeduml.eclipse.ProgressMonitorTransformationLog;
 import org.nakeduml.topcased.uml.NakedUmlPlugin;
-import org.nakeduml.topcased.uml.editor.EclipseEmfResourceHelper;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 import org.nakeduml.topcased.uml.editor.NakedUmlElementLinker;
@@ -103,7 +102,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 					e.getEAnnotations().remove(a);
 				}
 			}
-			populateAnnotation(e, keywords);
+//			populateAnnotation(e, keywords);
 		}
 		private void populateAnnotation(Element o,Set<String> keywords){
 			// FIrst generate the ID appropriately
@@ -134,10 +133,9 @@ public class RegenerateUuids extends AbstractOpiumAction{
 					NakedUmlPlugin.saveAllOpenFilesIn(currentContext, new SubProgressMonitor(monitor, 1));
 					monitor.subTask("Removing UUIDS");
 					File dir = currentContext.getUmlDirectory().getLocation().toFile();
-					NakedUmlConfig cfg = currentContext.getUmlElementCache().getConfig();
+					NakedUmlConfig cfg = currentContext.getConfig();
 					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 3);
 					final EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(new ResourceSetImpl(), dir, cfg, log);
-					workspace.setResourceHelper(new EclipseEmfResourceHelper());
 					// No cache listening - just linking
 					NakedUmlElementLinker linker = new NakedUmlElementLinker();
 					workspace.getResourceSet().eAdapters().add(linker);
@@ -148,7 +146,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 					monitor.subTask("Generating new UUIDS");
 					LinkingVisitor v2 = new LinkingVisitor();
 					for(Element element:workspace.getOwnedElements()){
-						v2.visitRecursively(element);
+//						v2.visitRecursively(element);
 					}
 					monitor.worked(1);
 					monitor.subTask("Saving All Models");

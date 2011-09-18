@@ -18,7 +18,6 @@ import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
-import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor implements ITransformationStep{
@@ -37,7 +36,7 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		if(!(o instanceof INakedRootObject && ((INakedRootObject) o).getStatus() == RootObjectStatus.NAMED)){
+		if(!(o instanceof INakedRootObject && ((INakedRootObject) o).getStatus().isNamed())){
 			super.visitRecursively(o);
 			if(o instanceof INakedOperation && BehaviorUtil.hasExecutionInstance((IParameterOwner) o)){
 				visitRecursively(((INakedOperation) o).getMessageStructure());

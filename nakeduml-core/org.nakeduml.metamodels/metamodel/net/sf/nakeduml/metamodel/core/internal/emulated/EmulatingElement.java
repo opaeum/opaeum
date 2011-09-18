@@ -40,7 +40,7 @@ public class EmulatingElement implements INakedElement{
 			if(other == this){
 				return true;
 			}else{
-				return this.originalElement.equals(((EmulatingElement) other).originalElement);
+				return ((EmulatingElement) other).getId().equals(getId());
 			}
 		}else{
 			return false;
@@ -109,7 +109,7 @@ public class EmulatingElement implements INakedElement{
 	}
 	public void addOwnedElement(INakedElement element){
 	}
-	public void removeOwnedElement(INakedElement element){
+	public void removeOwnedElement(INakedElement element, boolean recursively){
 	}
 	@Override
 	public boolean isStoreMappingInfo(){

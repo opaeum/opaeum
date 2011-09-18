@@ -1,10 +1,17 @@
 package net.sf.nakeduml.emf.extraction;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
@@ -17,10 +24,10 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedOpaqueBehaviorImp
 import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedSignalImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 import net.sf.nakeduml.metamodel.compositestructures.internal.NakedCollaborationImpl;
+import net.sf.nakeduml.metamodel.core.CodeGenerationStrategy;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedRootObject;
-import net.sf.nakeduml.metamodel.core.internal.NakedAssociationClassImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
+import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationImpl;
@@ -29,6 +36,7 @@ import net.sf.nakeduml.metamodel.core.internal.NakedInterfaceImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPackageImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPowerTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedPrimitiveType;
+import net.sf.nakeduml.metamodel.core.internal.NakedRootObjectImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.NakedValueTypeImpl;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -46,6 +54,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
@@ -59,6 +68,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
@@ -78,6 +88,7 @@ import org.nakeduml.eclipse.EmfPropertyUtil;
  */
 @StepDependency(phase = EmfExtractionPhase.class)
 public class NameSpaceExtractor extends AbstractExtractorFromEmf{
+	private static ThreadLocal<ZipFile> implementationZips = new ThreadLocal<ZipFile>();
 	public static final String MAPPINGS_EXTENSION = "mappings";
 	/**
 	 * For imported profiles. Put them at the top level of the nakedWorkspace
@@ -87,12 +98,13 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		p.getName();
 		// Different versions of the same profile may occur
 		np.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		populateTypesMappedIn(p);
+		populateRootObject(p, np);
 	}
-	private void populateTypesMappedIn(Package p){
+	private void populateRootObject(Package p,NakedRootObjectImpl nakedPeer){
 		if(emfWorkspace.getPrimaryModels().contains(p)){
-			nakedWorkspace.addPrimaryModel((INakedRootObject) getNakedPeer(p));
+			nakedWorkspace.addPrimaryModel(nakedPeer);
 		}
+		nakedPeer.setFileName(p.eResource().getURI().lastSegment());
 		URI mappedTypesUri = p.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 		try{
 			InputStream inStream = p.eResource().getResourceSet().getURIConverter().createInputStream(mappedTypesUri);
@@ -113,8 +125,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitModel(Model p,NakedModelImpl nm){
 		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		nm.setLibrary(emfWorkspace.isLibrary(p));
-		this.populateTypesMappedIn(p);
+		nm.setLibrary(emfWorkspace.isLibrary(p) || StereotypesHelper.hasStereotype(p, StereotypeNames.MODEL_LIBRARY));
+		this.populateRootObject(p, nm);
+		extractImplementationCodeFor(p, nm);
 	}
 	@VisitBefore
 	public void visitPackage(Package p,NakedPackageImpl np){
@@ -141,22 +154,20 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
 		if(e instanceof Association){
-			boolean hasManyInterface = false;
+			if(e instanceof Extension){
+				return null;
+			}
+			if(((Association) e).getMemberEnds().size() < 2){
+				getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION, e);
+				return null;
+			}
 			for(Property property:((Association) e).getMemberEnds()){
 				if(property.getType() == null || property.getOtherEnd() == null){
 					getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION, e);
 					return null;
 				}
-				boolean isDerived = property.isDerived() || property.isDerivedUnion() || property.getAssociation().isDerived();
-				if(!isDerived && property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
-					hasManyInterface = true;
-				}
 			}
-			if(hasManyInterface){
-				return new NakedAssociationClassImpl();
-			}else{
-				return super.createElementFor(e, peerClass);
-			}
+			return super.createElementFor(e, peerClass);
 		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior || e instanceof Collaboration
 				|| e instanceof PrimitiveType){
 			return super.createElementFor(e, peerClass);
@@ -197,8 +208,40 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	@VisitBefore
-	public void visitClass(Class c,INakedClassifier ne){
+	public void visitClass(Class c,NakedClassifierImpl ne){
 		initializeClassifier(ne, c);
+		final Stereotype entity = StereotypesHelper.getStereotype(c, StereotypeNames.ENTITY);
+		if(entity != null){
+			if(Boolean.TRUE.equals(c.getValue(entity, "generateAbstractSupertype"))){
+				ne.setCodeGenerationStrategy(CodeGenerationStrategy.ABSTRACT_SUPERTYPE_ONLY);
+			}
+		}
+	}
+	private void extractImplementationCodeFor(Model m,NakedModelImpl model){
+		try{
+			URI uri = m.eResource().getURI().trimFileExtension().appendFileExtension("zip");
+			uri = m.eResource().getResourceSet().getURIConverter().normalize(uri);
+			File file = emfWorkspace.getUriToFileConverter().resolveUri(uri);
+			if(file != null){
+				ZipFile zipFile = new ZipFile(file);
+				java.util.Enumeration<? extends ZipEntry> entries = zipFile.entries();
+				while(entries.hasMoreElements()){
+					ZipEntry zipEntry = entries.nextElement();
+					if(!zipEntry.isDirectory()){
+						BufferedReader reader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(zipEntry)));
+						StringBuilder sb = new StringBuilder();
+						String line;
+						while((line = reader.readLine()) != null){
+							sb.append(line);
+							sb.append("\n");
+						}
+						model.putImplementationCode(zipEntry.getName(), sb.toString());
+					}
+				}
+			}
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	private boolean isBusinessService(Classifier c){
 		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{
@@ -206,7 +249,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		});
 		if(!representsUser){
 			for(Dependency o:c.getClientDependencies()){
-				if(o.getSuppliers().size()==1 &&  o.getSuppliers().get(0) instanceof Actor){
+				if(o.getSuppliers().size() == 1 && o.getSuppliers().get(0) instanceof Actor){
 					representsUser = true;
 				}
 			}
@@ -275,7 +318,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitDataType(DataType dt,INakedClassifier nsdt){
 		initializeClassifier(nsdt, dt);
 	}
-	@VisitBefore
+	@VisitBefore(matchSubclasses = true)
 	public void visitAssociation(Association a,NakedAssociationImpl na){
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
@@ -286,11 +329,19 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			// Something wrong with the phases
 			na.setName(memberEnds.get(0).getName() + "To" + memberEnds.get(1).getName());
 		}
-	}
-	@VisitBefore
-	public void visitAssociationClass(AssociationClass a,NakedAssociationClassImpl na){
 		na.setDerived(a.isDerived());
 		initializeClassifier(na, a);
+		if(a instanceof AssociationClass){
+			na.setClass(true);
+		}else{
+			for(Property property:memberEnds){
+				boolean isDerived = property.isDerived() || property.isDerivedUnion() || property.getOtherEnd().isDerived() || property.getAssociation().isDerived();
+				if(!isDerived && property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
+					na.setClass(true);
+					break;
+				}
+			}
+		}
 	}
 	protected void initializeClassifier(INakedClassifier classifier,Classifier emfClassifier){
 		if(classifier instanceof INakedBehavior && classifier.getOwnerElement() == null){

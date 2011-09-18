@@ -18,7 +18,7 @@ import net.sf.nakeduml.javageneration.persistence.JpaUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.InverseCalculator;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
@@ -55,11 +55,6 @@ import org.nakeduml.runtime.environment.Environment;
 		JpaAnnotator.class,UtilCreator.class
 },before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
-	@VisitAfter(matchSubclasses = true,match = {
-		INakedAssociationClass.class
-	})
-	public void visitAssociationClass(INakedAssociationClass entity){
-	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitInterface(INakedInterface cl){
 		if(!cl.hasStereotype(StereotypeNames.HELPER) && OJUtil.hasOJClass(cl)){
@@ -113,7 +108,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				owner.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));
 				owner.addToImports("java.util.Date");
 			}
-			if(complexType instanceof INakedAssociationClass){
+			if(complexType instanceof INakedAssociation){
 				OJOperation clear = owner.findOperation("clear", Collections.emptyList());
 				clear.getBody().addToStatements("markDeleted()");
 			}

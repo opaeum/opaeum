@@ -5,4 +5,9 @@ import net.sf.nakeduml.metamodel.actions.INakedRemoveStructuralFeatureValueActio
 public class NakedRemoveStructuralFeatureValueActionImpl extends NakedWriteStructuralFeatureActionImpl implements
 		INakedRemoveStructuralFeatureValueAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4137213238051882474L;
+
 }

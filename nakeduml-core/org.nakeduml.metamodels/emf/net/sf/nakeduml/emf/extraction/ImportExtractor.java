@@ -11,9 +11,9 @@ import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.PackageImport;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		TransitionExtractor.class,ActivityEdgeExtractor.class
+	NameSpaceExtractor.class
 },after = {
-		ActivityEdgeExtractor.class,TransitionExtractor.class
+	NameSpaceExtractor.class
 })
 public class ImportExtractor extends AbstractExtractorFromEmf{
 	@Override

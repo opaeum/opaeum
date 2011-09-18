@@ -16,7 +16,9 @@ import org.eclipse.ui.internal.Workbench;
 import org.eclipse.uml2.uml.ActionInputPin;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.InputPin;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
@@ -54,48 +56,51 @@ public class NakedUmlEditorMenu extends UMLEditorMenu{
 		Collection<IAction> actions = new ArrayList<IAction>();
 		if(theDescriptors != null){
 			for(CommandParameter descriptor:(Collection<CommandParameter>) theDescriptors){
-				CreateChildAction actio = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-						descriptor);
-				if(descriptor.getValue() instanceof ValuePin){
-					ValuePin oclPin = UMLFactory.eINSTANCE.createValuePin();
-					CreateChildAction actio2 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-							new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), oclPin));
-					String name = actio.getText().split("\\|")[0];
-					actio2.setText(name + "|Ocl Input");
-					StereotypesHelper.getNumlAnnotation(oclPin).getDetails().put(StereotypeNames.OCL_INPUT, "");
-					actions.add(actio2);
-					ValuePin newObjectPin = UMLFactory.eINSTANCE.createValuePin();
-					CreateChildAction actio3 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-							new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), newObjectPin));
-					actio3.setText(name + "|New Object Input");
-					StereotypesHelper.getNumlAnnotation(newObjectPin).getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
-					actions.add(actio3);
-				}else if(descriptor.getValue() instanceof InputPin && !(descriptor.getValue() instanceof ActionInputPin)){
-					String name = actio.getText().split("\\|")[0];
-					actio.setText(name + "|Object Flow Input");
-					actions.add(actio);
-				}else{
-					actions.add(actio);
-					if(descriptor.getValue() instanceof Operation){
-						Operation responsibility = UMLFactory.eINSTANCE.createOperation();
+				if(!(descriptor.getValue() instanceof Model || descriptor.getValue() instanceof Profile)){
+					CreateChildAction actio = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
+							descriptor);
+					if(descriptor.getValue() instanceof ValuePin){
+						ValuePin oclPin = UMLFactory.eINSTANCE.createValuePin();
 						CreateChildAction actio2 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-								new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), responsibility));
-						actio2.setText("Owned Operation|Responsibility");
-						StereotypesHelper.getNumlAnnotation(responsibility).getDetails().put(StereotypeNames.RESPONSIBILITY, "");
+								new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), oclPin));
+						String name = actio.getText().split("\\|")[0];
+						actio2.setText(name + "|Ocl Input");
+						StereotypesHelper.getNumlAnnotation(oclPin).getDetails().put(StereotypeNames.OCL_INPUT, "");
 						actions.add(actio2);
-					}else if(descriptor.getValue() instanceof Activity && descriptor.getFeature().equals(UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior())){
-						Activity businessProcess = UMLFactory.eINSTANCE.createActivity();
-						CreateChildAction actio2 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-								new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessProcess));
-						actio2.setText("Owned Behavior|Business Process");
-						StereotypesHelper.getNumlAnnotation(businessProcess).getDetails().put(StereotypeNames.BUSINES_PROCESS, "");
-						actions.add(actio2);
-						Activity method = UMLFactory.eINSTANCE.createActivity();
+						ValuePin newObjectPin = UMLFactory.eINSTANCE.createValuePin();
 						CreateChildAction actio3 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-								new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), method));
-						actio3.setText("Owned Behavior|Method");
-						StereotypesHelper.getNumlAnnotation(method).getDetails().put(StereotypeNames.METHOD, "");
+								new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), newObjectPin));
+						actio3.setText(name + "|New Object Input");
+						StereotypesHelper.getNumlAnnotation(newObjectPin).getDetails().put(StereotypeNames.NEW_OBJECT_INPUT, "");
 						actions.add(actio3);
+					}else if(descriptor.getValue() instanceof InputPin && !(descriptor.getValue() instanceof ActionInputPin)){
+						String name = actio.getText().split("\\|")[0];
+						actio.setText(name + "|Object Flow Input");
+						actions.add(actio);
+					}else{
+						actions.add(actio);
+						if(descriptor.getValue() instanceof Operation){
+							Operation responsibility = UMLFactory.eINSTANCE.createOperation();
+							CreateChildAction actio2 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(),
+									selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), responsibility));
+							actio2.setText("Owned Operation|Responsibility");
+							StereotypesHelper.getNumlAnnotation(responsibility).getDetails().put(StereotypeNames.RESPONSIBILITY, "");
+							actions.add(actio2);
+						}else if(descriptor.getValue() instanceof Activity
+								&& descriptor.getFeature().equals(UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior())){
+							Activity businessProcess = UMLFactory.eINSTANCE.createActivity();
+							CreateChildAction actio2 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(),
+									selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessProcess));
+							actio2.setText("Owned Behavior|Business Process");
+							StereotypesHelper.getNumlAnnotation(businessProcess).getDetails().put(StereotypeNames.BUSINES_PROCESS, "");
+							actions.add(actio2);
+							Activity method = UMLFactory.eINSTANCE.createActivity();
+							CreateChildAction actio3 = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(),
+									selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), method));
+							actio3.setText("Owned Behavior|Method");
+							StereotypesHelper.getNumlAnnotation(method).getDetails().put(StereotypeNames.METHOD, "");
+							actions.add(actio3);
+						}
 					}
 				}
 			}

@@ -11,7 +11,7 @@ import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedDataType;
@@ -53,7 +53,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			}
 			// All classes get default strategy
 			annotateInheritanceType(ojClass);
-			if(complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly() || complexType.getCodeGenerationStrategy().isAbstractLibraryOnly()){
+			if(complexType.getCodeGenerationStrategy().isAbstractSupertypeOnly() ){
 				OJAnnotationValue mappedSuperclass = new OJAnnotationValue(new OJPathName("javax.persistence.MappedSuperclass"));
 				ojClass.addAnnotationIfNew(mappedSuperclass);
 			}else{
@@ -104,7 +104,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		owner.addAnnotationIfNew(discriminator);
 	}
 	@VisitBefore
-	public void visitAssociationClass(INakedAssociationClass ac){
+	public void visitAssociationClass(INakedAssociation ac){
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitCallAction(INakedCallAction node){
@@ -144,10 +144,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 			OJAnnotationValue toMany = null;
 			OJPathName baseTypePath = OJUtil.classifierPathname(p.getNakedBaseType());
 			OJAnnotationAttributeValue targetEntity = new OJAnnotationAttributeValue("targetEntity", baseTypePath);
-			if(p.isInverse() || p.getAssociation() instanceof INakedAssociationClass){
+			if(p.isInverse()){
 				// Can only be bidirectional - implies the presence of
-				// non-inverse other
-				// end
+				// non-inverse other end
 				toMany = new OJAnnotationValue(new OJPathName("javax.persistence." + (map.isOneToMany() ? "OneToMany" : "ManyToMany")));
 				if(p.isOrdered() && map.isOneToMany()){
 					// Map as non-inverse to allow hibernate to update index -

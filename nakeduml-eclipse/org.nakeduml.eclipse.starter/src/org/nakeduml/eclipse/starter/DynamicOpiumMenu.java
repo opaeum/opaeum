@@ -13,6 +13,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.uml2.uml.Model;
+import org.nakeduml.eclipse.javasync.RecompileModelAction;
+import org.nakeduml.eclipse.javasync.RecompileModelDirectoryAction;
+import org.nakeduml.eclipse.javasync.ToggleAutomaticSynchronization;
 
 public class DynamicOpiumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;

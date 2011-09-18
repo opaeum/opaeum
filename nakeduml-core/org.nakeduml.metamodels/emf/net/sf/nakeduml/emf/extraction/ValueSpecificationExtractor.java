@@ -35,7 +35,6 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.nakeduml.eclipse.EmfValidationUtil;
 
 /**
  * THe constraint extraction is done AFTER all possible constrained elements have been populated
@@ -43,7 +42,11 @@ import org.nakeduml.eclipse.EmfValidationUtil;
  * @author ampie
  * 
  */
-@StepDependency(phase = EmfExtractionPhase.class,requires = {InstanceExtractor.class,TriggerExtractor.class},after = {InstanceExtractor.class,TriggerExtractor.class})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {
+		InstanceExtractor.class,TriggerExtractor.class,ActivityEdgeExtractor.class
+},after = {
+		InstanceExtractor.class,TriggerExtractor.class,ActivityEdgeExtractor.class
+})
 public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	@Override
 	protected int getThreadPoolSize(){
@@ -51,7 +54,7 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitBefore()
 	public void visitConstraint(Constraint c,NakedConstraintImpl nc){
-		getAffectedElements().add(getNakedPeer(c.getOwner()));
+		addAffectedElement(getNakedPeer(c.getOwner()));
 	}
 	@VisitAfter()
 	public void visitConstraintAfter(Constraint c,NakedConstraintImpl nc){
@@ -148,23 +151,6 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 		return OclUsageType.DERIVE;
 	}
 	protected ParsedOclString buildParsedOclString(NamedElement oe,EList<String> languages,EList<String> bodies,OclUsageType usage){
-		String body = null;
-		for(int i = 0;i < languages.size();i++){
-			String language = languages.get(i);
-			if(language.equals("OCL") && bodies.size() > i){
-				body = bodies.get(i);
-				break;
-			}
-		}
-		if(body == null && bodies.size() == 1){
-			body = bodies.get(0);
-		}
-		ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usage);
-		if(body != null && body.trim().length() > 0 && !body.equals(EmfValidationUtil.TYPE_EXPRESSION_HERE)){
-			string.setExpressionString(body);
-		}else{
-			// will generate an error in NakedParsedOclStringResolver
-		}
-		return string;
+		return super.buildParsedOclString(oe, languages, bodies, usage);
 	}
 }

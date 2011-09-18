@@ -1248,6 +1248,7 @@
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.propertysections.OperationIsQuerySection"
+		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 				class="org.nakeduml.topcased.propertysections.OperationBooleanFeaturesSection"
 				tab="org.nakeduml.eclipse.numlTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
@@ -1264,6 +1265,20 @@
 				class="org.nakeduml.topcased.propertysections.constraints.OperationPostconditionsSection"
 				tab="org.nakeduml.eclipse.postconditionsTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.GeneralizationGeneralSection"
+		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				class="org.nakeduml.topcased.propertysections.GeneralizationGeneralSection"
+				tab="org.nakeduml.eclipse.numlTab">
+         		<input type="org.eclipse.uml2.uml.Generalization"/>
+			</propertySection>
+			<propertySection
+				id="org.nakeduml.topcased.propertysections.InterfaceRealizationContractSection"
+		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				class="org.nakeduml.topcased.propertysections.InterfaceRealizationContractSection"
+				tab="org.nakeduml.eclipse.numlTab">
+         		<input type="org.eclipse.uml2.uml.InterfaceRealization"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.propertysections.constraints.OperationPreconditionsSection"

@@ -1,7 +1,6 @@
 package net.sf.nakeduml.metamodel.statemachines.internal;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -18,8 +17,8 @@ import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
 public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 	private static final long serialVersionUID = 7711042727363444332L;
 	private static final String META_CLASS = "region";
-	private List<INakedState> states = Collections.synchronizedList(new ArrayList<INakedState>());
-	private List<INakedTransition> transitions= Collections.synchronizedList(new ArrayList<INakedTransition>());
+	private List<INakedState> states = new ArrayList<INakedState>();
+	private List<INakedTransition> transitions= new ArrayList<INakedTransition>();
 	private INakedState initial;
 	public NakedRegionImpl(){
 		super();
@@ -121,8 +120,8 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 		return false;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element) {
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively) {
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedState){
 			this.states.remove((INakedState) element);
 		}else if(element instanceof INakedTransition){

@@ -12,9 +12,11 @@ import net.sf.nakeduml.textmetamodel.TextDirectory;
 import net.sf.nakeduml.textmetamodel.TextFile;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
+import net.sf.nakeduml.textmetamodel.TextWorkspace;
 
 @StepDependency(phase = FileGenerationPhase.class,requires = TextFileDeleter.class,after = TextFileDeleter.class)
 public class TextFileGenerator extends AbstractTextNodeVisitor implements ITransformationStep{
+	boolean hasForked;
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
@@ -22,8 +24,17 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements ITrans
 	public TextFileGenerator(){
 	}
 	@Override
+	public void startVisiting(TextWorkspace root){
+		hasForked = false;
+		super.startVisiting(root);
+	}
+	@Override
 	protected boolean shouldMultiThread(ArrayList<TextOutputNode> children){
-		return children.size() >= 4;//TODO make it more clever, look at the grandchildren
+		final boolean b = !hasForked && children.size() >= 4;
+		if(b){
+			hasForked = true;
+		}
+		return b;// TODO make it more clever, look at the grandchildren
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTextFileDirectory(TextDirectory textDir){

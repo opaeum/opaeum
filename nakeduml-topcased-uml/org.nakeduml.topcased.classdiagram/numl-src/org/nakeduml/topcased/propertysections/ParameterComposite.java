@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.swt.SWT;
@@ -23,8 +24,11 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.nakeduml.topcased.uml.editor.NakedUmlItemProviderAdapterFactory;
+import org.nakeduml.topcased.uml.editor.NakedUmlQualifiedNameLabelProvider;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
+import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
@@ -44,7 +48,7 @@ public class ParameterComposite extends Composite{
 		widgetFactory.adapt(this);
 		createContents(this);
 		hookListeners();
-		setEnabled(this,false);
+		setEnabled(this, false);
 	}
 	private void setEnabled(Composite control,boolean enable){
 		for(Control c:control.getChildren()){
@@ -55,9 +59,8 @@ public class ParameterComposite extends Composite{
 			}
 		}
 	}
-
 	public void setParameter(Parameter parameter){
-		setEnabled(this, parameter!=null);
+		setEnabled(this, parameter != null);
 		this.parameter = parameter;
 		loadData();
 	}
@@ -70,7 +73,8 @@ public class ParameterComposite extends Composite{
 		parameterNameTxt.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Type : ");
 		parameterType = new CSingleObjectChooser(parent, widgetFactory, SWT.NONE);
-		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory()));
+		parameterType.setAdvancedLabelProvider(new NakedUmlQualifiedNameLabelProvider(new NakedUmlItemProviderAdapterFactory()));
+		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new NakedUmlItemProviderAdapterFactory()));
 		parameterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Direction : ");
 		parameterDirectionCb = widgetFactory.createCCombo(parent, SWT.BORDER | SWT.FLAT);
@@ -120,11 +124,14 @@ public class ParameterComposite extends Composite{
 				if(v != parameter.isException()){
 					mixedEditDomain.getEMFEditingDomain().getCommandStack()
 							.execute(SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_IsException(), v));
-					if(v && parameter.getDirection()!=ParameterDirectionKind.OUT_LITERAL){
-						mixedEditDomain.getEMFEditingDomain().getCommandStack()
-						.execute(SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_Direction(), ParameterDirectionKind.OUT_LITERAL));
+					if(v && parameter.getDirection() != ParameterDirectionKind.OUT_LITERAL){
+						mixedEditDomain
+								.getEMFEditingDomain()
+								.getCommandStack()
+								.execute(
+										SetCommand.create(mixedEditDomain.getEMFEditingDomain(), parameter, UMLPackage.eINSTANCE.getParameter_Direction(),
+												ParameterDirectionKind.OUT_LITERAL));
 						parameterDirectionCb.select(parameter.getDirection().ordinal());
-
 					}
 					parameterDirectionCb.setEnabled(!parameter.isException());
 				}

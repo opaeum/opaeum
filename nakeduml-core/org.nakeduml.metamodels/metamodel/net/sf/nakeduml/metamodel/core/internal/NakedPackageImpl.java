@@ -2,7 +2,6 @@ package net.sf.nakeduml.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 	private static final long serialVersionUID = 4916604812046576007L;
 	public static final String META_CLASS = "package";
 	private String mappedImplementationPackage;
-	private CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.all;
+	private CodeGenerationStrategy codeGenerationStrategy = CodeGenerationStrategy.ALL;
 	private boolean isRootPackage;
 	private List<INakedPackage> subpackages = new ArrayList<INakedPackage>();
 	private boolean isSchema;
@@ -80,7 +79,7 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 			if(getOwnerElement() instanceof INakedPackage && !isRootPackage()){
 				return ((INakedPackage) getOwnerElement()).getCodeGenerationStrategy();
 			}else{
-				return CodeGenerationStrategy.all;
+				return CodeGenerationStrategy.ALL;
 			}
 		}else{
 			return this.codeGenerationStrategy;
@@ -96,7 +95,7 @@ public class NakedPackageImpl extends NakedNameSpaceImpl implements INakedPackag
 		this.codeGenerationStrategy = codeGenerationStrategy;
 	}
 	@Override
-	public synchronized void addOwnedElement(INakedElement element){
+	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
 		element.setOwnerElement(this);
 		if(element instanceof INakedPackage){

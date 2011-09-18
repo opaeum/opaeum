@@ -49,6 +49,10 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 	public NakedBehaviorImpl(){
 		super();
 	}
+	@Override
+	public boolean isLongRunning(){
+		return isProcess();
+	}
 	public List<IParameter> getParameters(){
 		return new ArrayList<IParameter>(getArgumentParameters());
 	}
@@ -142,7 +146,7 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 			}else if(getOwnerElement() instanceof INakedState){
 				return ((INakedState) getOwnerElement()).getStateMachine().getCodeGenerationStrategy();
 			}else{
-				return CodeGenerationStrategy.all;
+				return CodeGenerationStrategy.ALL;
 			}
 		}
 		return super.getCodeGenerationStrategy();

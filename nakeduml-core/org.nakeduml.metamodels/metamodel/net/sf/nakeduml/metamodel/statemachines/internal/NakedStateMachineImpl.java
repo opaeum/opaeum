@@ -123,8 +123,8 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		return this.regions;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedRegion){
 			this.regions.remove(element);
 		}

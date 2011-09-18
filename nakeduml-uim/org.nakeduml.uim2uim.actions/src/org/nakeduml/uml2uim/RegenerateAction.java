@@ -20,7 +20,7 @@ public class RegenerateAction extends AbstractUimGenerationAction implements IOb
 	public static void doGenerate(NamedElement modelElement){
 		try{
 			NakedUmlEclipseContext e = NakedUmlEditor.getCurrentContext();
-			EmfWorkspace workspace = e.getUmlElementCache().getCurrentEmfWorkspace();
+			EmfWorkspace workspace = e.getCurrentEmfWorkspace();
 			
 			ResourceSet uimResourceSet=new ResourceSetImpl();
 			FormFolderSynchronizer ffs = new FormFolderSynchronizer(workspace,uimResourceSet, true);

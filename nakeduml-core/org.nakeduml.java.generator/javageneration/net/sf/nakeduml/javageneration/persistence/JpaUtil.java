@@ -30,6 +30,7 @@ public class JpaUtil{
 	private static Set<String> RESERVED_NAMES = new HashSet<String>();
 	static{
 		RESERVED_NAMES.add("group");
+		RESERVED_NAMES.add("user");
 		RESERVED_NAMES.add("min");
 		RESERVED_NAMES.add("max");
 		RESERVED_NAMES.add("count");

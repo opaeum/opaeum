@@ -82,7 +82,7 @@ public class WorkspaceMappingInfo {
 				this.nakedUmlIdMaxValue++;
 				mappingInfo.setNakedUmlId(this.nakedUmlIdMaxValue);
 			}else{
-				mappingInfo.setNakedUmlId(this.nakedUmlIdMaxValue+1000+random.nextInt());
+				mappingInfo.setNakedUmlId(Math.abs(this.nakedUmlIdMaxValue+1000+random.nextInt()));
 			}
 			mappingInfo.setStore(store);
 			mappingInfo.setIdInModel(modelId);
@@ -137,5 +137,8 @@ public class WorkspaceMappingInfo {
 	}
 	public int getNakedUmlIdMaxValue(){
 		return this.nakedUmlIdMaxValue;
+	}
+	public void removeMappingInfo(String id){
+		properties.remove(id);
 	}
 }
