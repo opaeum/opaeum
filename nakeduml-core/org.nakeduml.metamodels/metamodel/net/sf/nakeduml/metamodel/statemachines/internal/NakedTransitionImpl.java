@@ -33,8 +33,8 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	public NakedTransitionImpl(){
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element == effect){
 			effect = null;
 		}else if(element == guard){

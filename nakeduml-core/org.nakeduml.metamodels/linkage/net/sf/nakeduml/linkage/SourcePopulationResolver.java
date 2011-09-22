@@ -52,9 +52,6 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(INakedProperty p){
 		if(p.getOwner() instanceof INakedEntity){
-			if(workspace.isPrimaryModel(getCurrentRootObject())){
-				super.getAffectedElements().add(p.getOwner());
-			}
 			buildSourcePopulationConstraint((ICompositionParticipant) p.getOwner(), p);
 		}
 	}
@@ -80,6 +77,9 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 			}
 			if(constr != null && constr.getSpecification().getOclValue() instanceof ParsedOclString){
 				ensureSetsAndRemoveUsedOneToOnes(p, constr);
+				if(workspace.isPrimaryModel(getCurrentRootObject())){
+					super.addAffectedElement(p.getOwner());
+				}
 			}
 		}
 	}

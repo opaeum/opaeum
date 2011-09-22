@@ -9,7 +9,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
  */
 public class ResourceLoader extends ClasspathResourceLoader {
 	@Override
-	public synchronized InputStream getResourceStream(String name) throws ResourceNotFoundException {
+	public InputStream getResourceStream(String name) throws ResourceNotFoundException {
 		InputStream is = super.getResourceStream(name);
 		if (is == null && name != null) {
 			is = getClass().getResourceAsStream(name);

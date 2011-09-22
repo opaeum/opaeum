@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
@@ -28,8 +29,10 @@ import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
+import nl.klasse.octopus.model.IClassifier;
 
 import org.nakeduml.java.metamodel.OJOperation;
+import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
@@ -59,6 +62,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				}
 			}
 		}
+		if(o.isProcess() && o.getSpecification() == null){
+			createCallbackListener(o, o);
+		}
 		if(o instanceof INakedActivity){
 			INakedActivity a = (INakedActivity) o;
 			for(INakedActivityNode n:a.getActivityNodesRecursively()){
@@ -80,16 +86,15 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				}
 				if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
 					NakedOperationMap operationMap = new NakedOperationMap(o);
-					OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, false);
+					OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, o.isLongRunning());
 					applyStereotypesAsAnnotations((o), oper1);
 					if(!o.isQuery()){
 						findOrCreateCallEventConsumer(c, ojClass, operationMap);
 						findOrCreateEventGenerator(c, ojClass, operationMap);
-						if(o.isLongRunning()){
-							oper1 = findOrCreateOperation(c, ojClass, operationMap, true);
-							applyStereotypesAsAnnotations((o), oper1);
-						}
 					}
+				}
+				if(o.getOwner() == c){
+					createCallbackListener(o, o.getMessageStructure());
 				}
 			}
 			if(c instanceof INakedBehavioredClassifier){
@@ -112,7 +117,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		if(eventGenerator == null){
 			eventGenerator = new OJAnnotatedOperation(operationMap.eventGeratorMethodName());
 			ojClass.addToOperations(eventGenerator);
-			addParameters(c, eventGenerator, operationMap.getOperation().getArgumentParameters());
+			addParameters(c, eventGenerator, operationMap.getParameterOwner().getArgumentParameters());
 		}
 		return eventGenerator;
 	}
@@ -124,9 +129,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			oper.getBody().addToLocals(consumed);
 			consumed.setInitExp("false");
 			ojClass.addToOperations(oper);
-			addParameters(c, oper, map.getOperation().getArgumentParameters());
-			if(map.getOperation() instanceof INakedOperation){
-				INakedOperation no = (INakedOperation) map.getOperation();
+			addParameters(c, oper, map.getParameterOwner().getArgumentParameters());
+			if(map.getParameterOwner() instanceof INakedOperation){
+				INakedOperation no = (INakedOperation) map.getParameterOwner();
 				if(c != null && c.getSupertype() != null && c.getSupertype().conformsTo(no.getOwner())){
 					oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 				}
@@ -163,12 +168,12 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	}
 	private OJAnnotatedOperation createOperation(INakedClassifier context,IParameterOwner o,OJAnnotatedClass owner){
 		NakedOperationMap operationMap = new NakedOperationMap(o);
-		OJAnnotatedOperation oper = findOrCreateOperation(context, owner, operationMap, false);
+		OJAnnotatedOperation oper = findOrCreateOperation(context, owner, operationMap, o.isLongRunning());
 		applyStereotypesAsAnnotations((o), oper);
 		return oper;
 	}
 	public static OJAnnotatedOperation findOrCreateOperation(INakedClassifier context,OJAnnotatedClass owner,NakedOperationMap map,boolean withReturnInfo){
-		IParameterOwner o = map.getOperation();
+		IParameterOwner o = map.getParameterOwner();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(map.javaOperName(), map.javaParamTypePaths());
 		if(oper == null){
 			oper = new OJAnnotatedOperation(map.javaOperName());
@@ -180,6 +185,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				owner.addToImports(map.javaReturnTypePath());
 			}
 			List<? extends INakedParameter> argumentParameters = o.getArgumentParameters();
+			if(withReturnInfo){
+				oper.addParam("context", Jbpm5Util.getProcessContext());
+			}
 			addParameters(context, oper, argumentParameters);
 			if(!(owner instanceof OJAnnotatedInterface)){
 				if(map.hasMessageStructure()){
@@ -194,11 +202,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					if(withReturnInfo){
 						oper.getBody().addToStatements("result.setReturnInfo(context)");
 					}
-					if(o instanceof INakedOperation){
-						oper.getBody().addToStatements("result.execute()");
-						if(!((INakedOperation) o).isQuery()){
+					oper.getBody().addToStatements("result.execute()");
+					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 							oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
-						}
 					}
 					oper.getBody().addToStatements("return result");
 				}else if(o.getReturnParameter() != null){
@@ -213,9 +219,6 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				}else if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 					oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 				}
-			}
-			if(withReturnInfo){
-				oper.addParam("context", Jbpm5Util.getProcessContext());
 			}
 			oper.setVisibility(map.javaVisibility());
 			OJUtil.addMetaInfo(oper, o);
@@ -238,9 +241,11 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		Iterator<OJParameter> parms = ojOperation.getParameters().iterator();
 		while(parms.hasNext()){
 			OJParameter parm = parms.next();
-			statement.append(parm.getName());
-			if(parms.hasNext()){
-				statement.append(",");
+			if(!parm.getType().equals(Jbpm5Util.getProcessContext())){
+				statement.append(parm.getName());
+				if(parms.hasNext()){
+					statement.append(",");
+				}
 			}
 		}
 		return statement.toString();
@@ -259,6 +264,42 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			return findOrCreateSignalEventConsumer(context, ojContext, (SignalMap) map1);
 		}else{
 			return findOrCreateCallEventConsumer(context, ojContext, (NakedOperationMap) map1);
+		}
+	}
+	private void createCallbackListener(IParameterOwner no,IClassifier message){
+		if(no.isLongRunning()){
+			NakedOperationMap map = new NakedOperationMap(no);
+			OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
+			OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
+			listener.setMyPackage(pack);
+			OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
+			callBackOper.addParam("nodeInstance", new OJPathName("String"));
+			callBackOper.addParam("completedProcess", map.messageStructurePath());
+			listener.addToOperations(callBackOper);
+			List<? extends INakedParameter> exceptionParameters = no.getExceptionParameters();
+			for(INakedParameter e:exceptionParameters){
+				OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
+				exceptionOper.addParam("nodeInstance", new OJPathName("String"));
+				exceptionOper.addParam("failedProcess", map.messageStructurePath());
+				listener.addToOperations(exceptionOper);
+			}
+			if(no instanceof INakedOperation){
+				Collection<INakedClassifier> raisedExceptions = ((INakedOperation) no).getRaisedExceptions();
+				for(INakedClassifier e:raisedExceptions){
+					OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
+					exceptionOper.addParam("nodeInstance", new OJPathName("String"));
+					exceptionOper.addParam("exception", e.getMappingInfo().getJavaName().getAsIs());
+					listener.addToImports(e.getMappingInfo().getQualifiedJavaName());
+					exceptionOper.addParam("failedProcess", map.messageStructurePath());
+					listener.addToOperations(exceptionOper);
+				}
+			}
+			OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
+			unhandledExceptionHandler.addParam("nodeInstance", new OJPathName("String"));
+			unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
+			unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
+			listener.addToOperations(unhandledExceptionHandler);
+			super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		}
 	}
 }

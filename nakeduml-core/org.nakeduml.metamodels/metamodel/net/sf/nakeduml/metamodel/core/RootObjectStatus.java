@@ -15,4 +15,7 @@ public enum RootObjectStatus{
 	public boolean isValidated(){
 		return this == VALIDATED||this==NAMED;
 	}
+	public boolean isNamed(){
+		return this == NAMED;
+	}
 }

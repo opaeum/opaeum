@@ -83,6 +83,14 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 	}
 	protected void implementProcessInterfaceOperations(OJAnnotatedClass ojBehavior,OJPathName stepEnumeration,INakedBehavior umlBehavior){
 		Jbpm5Util.implementRelationshipWithProcess(ojBehavior, true, "process");
+		OJAnnotatedField dirty = new OJAnnotatedField("processDirty", new OJPathName("boolean"));
+		dirty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+		
+		ojBehavior.addToFields(dirty);
+		OJAnnotatedOperation isDirty = new OJAnnotatedOperation("isProcessDirty", new OJPathName("boolean"));
+		ojBehavior.addToOperations(isDirty);
+		isDirty.getBody().addToStatements("return this.processDirty");
+
 		ojBehavior.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(IProcessObject.class));
 		doGetInnermostNonParallelStep(ojBehavior, umlBehavior);
 		doIsStepActive(ojBehavior, umlBehavior);

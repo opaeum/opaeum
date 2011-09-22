@@ -15,7 +15,7 @@ import net.sf.nakeduml.javageneration.jbpm5.EventUtil;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.jbpm5.actions.AcceptEventActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.CallBehaviorActionBuilder;
-import net.sf.nakeduml.javageneration.jbpm5.actions.CallOperationBuilder;
+import net.sf.nakeduml.javageneration.jbpm5.actions.CallOperationActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.EmbeddedScreenFlowTaskBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.EmbeddedSingleScreenTaskBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
@@ -182,7 +182,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}else if(node instanceof INakedCallBehaviorAction){
 			implementor = new CallBehaviorActionBuilder(getLibrary(), (INakedCallBehaviorAction) node);
 		}else if(node instanceof INakedCallOperationAction){
-			implementor = new CallOperationBuilder(getLibrary(), (INakedCallOperationAction) node);
+			implementor = new CallOperationActionBuilder(getLibrary(), (INakedCallOperationAction) node);
 		}else if(node instanceof INakedAcceptEventAction){
 			implementor = new AcceptEventActionBuilder(getLibrary(), (INakedAcceptEventAction) node);
 		}else if(node instanceof INakedParameterNode){
@@ -203,8 +203,8 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			implementor.setupVariablesAndArgumentPins(operation);
 			implementor.implementPreConditions(operation);
 			implementor.implementActionOn(operation);
-			if(implementor.isTask()){
-				implementor.implementSupportingTaskMethods(activityClass);
+			if(implementor.isLongRunning()){
+				implementor.implementCallbackMethods(activityClass);
 			}else if(!(implementor.waitsForEvent() || node instanceof INakedControlNode)){
 				implementor.implementPostConditions(operation);
 				// implementor.implementConditionalFlows(operation,

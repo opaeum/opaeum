@@ -1,15 +1,16 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_participation_kind",uuid="OpiumBPM.library.uml@_neCVAI6UEeCne5ArYLDbiA")public enum TaskParticipationKind implements IEnum, Serializable {
-	OWNER("f8fc5890_2913_489d_afd3_f46b0200b9d4"),
-	POTENTIALOWNER("36c4e5e1_9499_44e7_9e82_e293ecc6f34f");
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_participation_kind",uuid="252060@_neCVAI6UEeCne5ArYLDbiA")public enum TaskParticipationKind implements IEnum, Serializable {
+	OWNER("252060@_plvBUI6UEeCne5ArYLDbiA"),
+	POTENTIALOWNER("252060@_qJU2kI6UEeCne5ArYLDbiA");
 	private String uuid;
 	/** Constructor for TaskParticipationKind
 	 * 
@@ -25,12 +26,6 @@ import org.nakeduml.runtime.domain.IEnum;
 	
 	static public Set<TaskParticipationKind> getValues() {
 		return new HashSet<TaskParticipationKind>(java.util.Arrays.asList(values()));
-	}
-	
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(super.toString());
-		return sb.toString();
 	}
 
 }

@@ -92,7 +92,7 @@ public class Jbpm5Util{
 					"this." + propertyPrefix + "Instance==null",
 					"this."
 							+ propertyPrefix
-							+ "Instance=(WorkflowProcessInstance)"+Environment.class.getName()+ ".getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getProcessInstanceId())");
+							+ "Instance=(WorkflowProcessInstance)"+Environment.class.getName()+ ".getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(get"+name.getCapped()+"InstanceId())");
 			OJIfStatement ifNotNull = new OJIfStatement("this." + propertyPrefix + "Instance!=null", "((WorkflowProcessImpl)this." + propertyPrefix
 					+ "Instance.getProcess()).setAutoComplete(true)");
 			ifNull.getThenPart().addToStatements(ifNotNull);
@@ -105,13 +105,6 @@ public class Jbpm5Util{
 		getProcessDefinition.setReturnType(processDefinition);
 		ojBehavior.addToOperations(getProcessDefinition);
 		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");
-		OJAnnotatedField dirty = new OJAnnotatedField("processDirty", new OJPathName("boolean"));
-		dirty.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
-		
-		ojBehavior.addToFields(dirty);
-		OJAnnotatedOperation isDirty = new OJAnnotatedOperation("isProcessDirty", new OJPathName("boolean"));
-		ojBehavior.addToOperations(isDirty);
-		isDirty.getBody().addToStatements("return this.processDirty");
 	}
 	public static OJPathName getProcessContext(){
 		return new OJPathName("org.drools.runtime.process.ProcessContext");

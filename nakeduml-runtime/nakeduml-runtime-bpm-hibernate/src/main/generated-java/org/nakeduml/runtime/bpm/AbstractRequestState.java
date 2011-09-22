@@ -5,11 +5,11 @@ import org.nakeduml.runtime.domain.TriggerMethod;
 
 public enum AbstractRequestState implements IProcessStep {
 ;
-	private IProcessStep parentState;
-	private String uuid;
 	private long id;
-	private String humanName;
 	private TriggerMethod[] triggerMethods;
+	private IProcessStep parentState;
+	private String humanName;
+	private String uuid;
 	/** Constructor for AbstractRequestState
 	 * 
 	 * @param parentState 

@@ -15,6 +15,10 @@ import nl.klasse.octopus.model.IClass;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 public class OperationMessageStructureImpl extends EmulatedCompositionMessageStructure implements IClass{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2997263407528904470L;
 	private INakedOperation oper;
 	public OperationMessageStructureImpl(INakedClassifier owner,INakedOperation oper){
 		super(owner, oper);
@@ -32,6 +36,7 @@ public class OperationMessageStructureImpl extends EmulatedCompositionMessageStr
 					attributes.add(new TypedElementPropertyBridge(this, (INakedTypedElement) p));
 				}
 			}
+			attributes.add(getEndToComposite());
 		}
 		return attributes;
 	}

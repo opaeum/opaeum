@@ -18,6 +18,10 @@ import nl.klasse.octopus.model.IMultiplicityKind;
 import nl.klasse.octopus.model.VisibilityKind;
 
 public abstract class AbstractPropertyBridge extends EmulatingElement implements INakedProperty{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1760596536166579100L;
 	protected INakedClassifier owner;
 	protected boolean isComposite;
 	protected String id;

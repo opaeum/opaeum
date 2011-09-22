@@ -38,17 +38,17 @@ public class VisitSpec{
 	}
 	public boolean matches(Object o){
 		if(matchSubclasses){
-			for(Class c:match){
+			for(Class<?> c:match){
 				if(c.isInstance(o)){
 					return true;
 				}
 			}
 		}else{
-			for(Class c:match){
+			for(Class<?> c:match){
 				if(c.isInterface()){
 					// Only objects whose class directly implement the interaces
-					Class[] itfs = o.getClass().getInterfaces();
-					for(Class itf:itfs){
+					Class<?>[] itfs = o.getClass().getInterfaces();
+					for(Class<?> itf:itfs){
 						if(itf == c){
 							return true;
 						}

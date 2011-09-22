@@ -1,5 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
@@ -8,23 +9,22 @@ import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.AbstractBehaviorVisitor;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
-import net.sf.nakeduml.javageneration.jbpm5.activity.ResponsibilityImplementor;
+import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
-import net.sf.nakeduml.metamodel.bpm.INakedResponsibility;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
-import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
-import net.sf.nakeduml.metamodel.name.NameWrapper;
+import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import nl.klasse.octopus.model.IOperation;
 
+import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
@@ -32,6 +32,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
+import org.nakeduml.java.metamodel.generated.OJIfStatementGEN;
 import org.nakeduml.runtime.domain.IActiveEntity;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -39,100 +40,139 @@ import org.nakeduml.runtime.domain.IActiveEntity;
 },after = {
 	OperationAnnotator.class
 })
+/**
+ * Implements the handshake between the caller of a behavior/operation and the host of the behavior/operation. As such, it implements both the invocation and the ensuing callback
+ * @author ampie
+ *
+ */
 public class SpecificationImplementor extends AbstractBehaviorVisitor{
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitBehavior(INakedBehavior ob){
 		if(BehaviorUtil.hasExecutionInstance(ob)){
 			// Most likely long running
 			if(ob.isClassifierBehavior()){
 				implementStartClassifierBehavior(ob);
-			}else if(requiresOperationForInvocation(ob)){
-				implementSpecification(ob);
+			}else{
+				if(ob.isProcess() && ob.getSpecification() == null){
+					implementCallbacksOnCompletionOrFailure(new NakedOperationMap(ob));
+				}
+				if(requiresOperationForInvocation(ob)){
+					implementSpecification(ob);
+				}
 			}
 		}
+	}
+	private void addSetReturnInfo(OJAnnotatedClass ojClass){
+		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
+		ojClass.addToOperations(setReturnInfo);
+		setReturnInfo.addParam("context", Jbpm5Util.getProcessContext());
+		setReturnInfo.getBody().addToStatements("this.callingProcessInstanceId=context.getProcessInstance().getId()");
+		setReturnInfo.getBody().addToStatements(
+				"this.callingNodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
+		OJUtil.addProperty(ojClass, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
+		ojClass.addToImports(Jbpm5Util.getNodeInstance());
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(INakedBehavioredClassifier c){
 		List<IOperation> operations = c.getOperations();
 		for(IOperation o:operations){
 			if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
-				visitOperation(c, (INakedOperation) o);
+				implementCallbacksOnCompletionOrFailure(new NakedOperationMap((IParameterOwner) o));
 			}
 		}
 	}
-	private void visitOperation(INakedClassifier owner,INakedOperation o){
-		if(o.isLongRunning()){
-			//TODO find a difference place for this
-			INakedMessageStructure oc = o.getMessageStructure();
-			OJAnnotatedClass ojOperationClass = findJavaClass(oc);
+	private void implementCallbacksOnCompletionOrFailure(NakedOperationMap map){
+		if(map.getParameterOwner().isLongRunning()){
+			OJAnnotatedClass ojOperationClass = (OJAnnotatedClass) javaModel.findClass(map.messageStructurePath());
 			Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
 			addSetReturnInfo(ojOperationClass);
-			NakedOperationMap map = new NakedOperationMap(o);
 			OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
 			ojOperationClass.addToOperations(complete);
-			if(o.getPostConditions().size() > 0){
+			if(map.getParameterOwner().getPostConditions().size() > 0){
 				complete.getBody().addToStatements("evaluatePostConditions()");
 				OJUtil.addFailedConstraints(complete);
 			}
-			if(o instanceof INakedResponsibility){
-				ojOperationClass.addToImports(ResponsibilityImplementor.RESPONSIBILITY_OBJECT);
-				ojOperationClass.addToImplementedInterfaces(ResponsibilityImplementor.RESPONSIBILITY_OBJECT);
-			}
-
-			OJAnnotatedField callBackListener = new OJAnnotatedField("callBackListener", map.callbackListenerPath());
+			OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
 			complete.getBody().addToLocals(callBackListener);
 			callBackListener.setInitExp("getCallingProcessObject()");
-			OJIfStatement ifNotNull = new OJIfStatement("callBackListener!=null", "callBackListener." + map.callbackOperName() + "(this)");
+			OJIfStatement ifNotNull = new OJIfStatement("callbackListener!=null", "callbackListener." + map.callbackOperName()
+					+ "(getCallingNodeInstanceUniqueId(),this)");
 			complete.getBody().addToStatements(ifNotNull);
 			addGetCallingProcessObject(ojOperationClass, map.callbackListenerPath());
+			propagateExceptions(map, ojOperationClass);
 		}
+	}
+	private void propagateExceptions(NakedOperationMap map,OJAnnotatedClass ojOperationClass){
+		ojOperationClass.addToFields(new OJAnnotatedField(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object")));
+		OJAnnotatedOperation propagateException = new OJAnnotatedOperation("propagateException");
+		ojOperationClass.addToOperations(propagateException);
+		propagateException.addParam("exception", new OJPathName("Object"));
+		OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
+		propagateException.getBody().addToLocals(callBackListener);
+		callBackListener.setInitExp("getCallingProcessObject()");
+		OJIfStatement ifNull = new OJIfStatement("callbackListener==null");
+		propagateException.getBody().addToStatements(ifNull);
+		OJIfStatement previousIf = ifNull;
+		previousIf .setElsePart(new OJBlock());
+		if(map.getParameterOwner() instanceof INakedOperation){
+			INakedOperation oper = (INakedOperation) map.getParameterOwner();
+			for(INakedClassifier ex:oper.getRaisedExceptions()){
+				OJIfStatement ifInstance = new OJIfStatement("exception instanceof " + ex.getMappingInfo().getJavaName());
+				previousIf.getElsePart().addToStatements(ifInstance);
+				ifInstance.getThenPart().addToStatements("callbackListener." + map.exceptionOperName(ex) + "(getCallingNodeInstanceUniqueId(),exception,this)");
+				previousIf = ifInstance;
+				previousIf .setElsePart(new OJBlock());
+			}
+		}
+		previousIf.getElsePart().addToStatements("callbackListener." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
 	}
 	private boolean requiresOperationForInvocation(INakedBehavior behavior){
 		return behavior.getContext() != null && !behavior.isClassifierBehavior();
 	}
-	private void invokeSimpleBehavior(INakedBehavior behavior,OJPathName activityClass,OJOperation javaMethod){
+	private void invokeSimpleBehavior(INakedBehavior behavior,OJOperation javaMethod){
+		OJPathName activityClass = OJUtil.classifierPathname(behavior);
 		if(behavior.getReturnParameter() != null){
 			// remove "Return" statements
-			javaMethod.getBody().removeFromStatements(javaMethod.getBody().getStatements().get(javaMethod.getBody().getStatements().size() - 1));
+			OJUtil.removeReturnStatement(javaMethod);
 		}
-		javaMethod.getBody().addToStatements(activityClass.getLast() + " _behavior=new " + activityClass.getLast() + "()");
-		populateBehavior(behavior, javaMethod);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
-		javaMethod.getBody().addToStatements("this." + map.adder() + "(_behavior)");
-		javaMethod.getBody().addToStatements("_behavior.execute()");
+		OJField result = javaMethod.getBody().findLocal("result");
+		result.setInitExp("new " + activityClass.getLast() + "(this)");
+		result.setType(activityClass);
 		if(behavior.hasMultipleConcurrentResults()){
 			// TODO such behaviours should always be called from an activity
 			// that can actually retrieve the result
-			javaMethod.getBody().addToStatements("return _behavior");
+			javaMethod.getBody().addToStatements("return result");
 			javaMethod.setReturnType(activityClass);
 		}else if(behavior.getReturnParameter() != null){
-			javaMethod.getBody().addToStatements("return _behavior.get" + behavior.getReturnParameter().getMappingInfo().getJavaName().getCapped() + "()");
+			javaMethod.getBody().addToStatements("return result.get" + behavior.getReturnParameter().getMappingInfo().getJavaName().getCapped() + "()");
 		}
 	}
 	private void implementSpecification(INakedBehavior o){
+		NakedOperationMap map = new NakedOperationMap(o.getSpecification() == null ? o : o.getSpecification());
 		OJAnnotatedClass ojContext = findJavaClass(o.getContext());
-		NameWrapper methodName = o.getSpecification() == null ? o.getMappingInfo().getJavaName() : o.getSpecification().getMappingInfo().getJavaName();
-		OJPathName ojBehavior = OJUtil.classifierPathname(o);
 		// Behaviours without
 		// specifications are given an emulated specification
-		OJOperation javaMethod = OJUtil.findOperation(ojContext, methodName.toString());
-		javaMethod.getOwner().addToImports(ojBehavior);
+		List<OJPathName> parmTypes = map.javaParamTypePaths();
+		OJOperation javaMethod = ojContext.findOperation(map.javaOperName(), parmTypes);
 		if(o.isProcess()){
-			// Leave preconditions in tact
-			OJUtil.removeReturnStatement(javaMethod);
-			ojContext.addToImports(ojBehavior);
-			OJField result = javaMethod.getBody().findLocal("result");
-			result.setInitExp("new " + ojBehavior.getLast() + "()");
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(o.getEndToComposite().getOtherEnd());
-			javaMethod.getBody().addToStatements("this." + map.adder() + "(result)");
-			if(o.getSpecification() != null){
-				javaMethod.getBody().addToStatements("result.execute()");
-			}
-			javaMethod.getBody().addToStatements("return result");
-			javaMethod.setReturnType(ojBehavior);
+			implementProcessCreation(o, ojContext, javaMethod);
 		}else{
-			invokeSimpleBehavior(o, ojBehavior, javaMethod);
+			invokeSimpleBehavior(o, javaMethod);
 		}
+	}
+	private void implementProcessCreation(INakedBehavior o,OJAnnotatedClass ojContext,OJOperation javaMethod){
+		OJPathName ojBehavior = OJUtil.classifierPathname(o);
+		javaMethod.getOwner().addToImports(ojBehavior);
+		// Leave preconditions in tact
+		NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(o.getEndToComposite().getOtherEnd());
+		OJUtil.removeReturnStatement(javaMethod);
+		ojContext.addToImports(ojBehavior);
+		OJField result = javaMethod.getBody().findLocal("result");
+		result.setType(ojBehavior);
+		result.setInitExp("new " + ojBehavior.getLast() + "(this)");
+		javaMethod.getBody().addToStatements("this." + featureMap.adder() + "(result)");
+		javaMethod.getBody().addToStatements("return result");
+		javaMethod.setReturnType(ojBehavior);
 	}
 	private void implementStartClassifierBehavior(INakedBehavior behavior){
 		OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());

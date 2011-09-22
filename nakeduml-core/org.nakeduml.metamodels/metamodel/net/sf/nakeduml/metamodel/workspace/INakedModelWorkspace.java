@@ -22,7 +22,6 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	NakedUmlLibrary getNakedUmlLibrary();
 	public IOclEngine getOclEngine();
 	Collection<INakedRootObject> getRootObjects();
-	void removeElementById(String id);
 	String getName();
 	List<INakedRootObject> getGeneratingModelsOrProfiles();
 	void clearGeneratingModelOrProfiles();
@@ -33,4 +32,5 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	String getIdentifier();
 	Collection<INakedRootObject> getPrimaryRootObjects();
 	Set<INakedElement> getDependentElements(INakedElement e);
+	void removeModelElement(INakedElement mw);
 }

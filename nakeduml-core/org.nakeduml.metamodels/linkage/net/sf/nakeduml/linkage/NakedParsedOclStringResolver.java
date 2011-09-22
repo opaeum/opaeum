@@ -75,13 +75,12 @@ import org.nakeduml.eclipse.EmfValidationUtil;
 		EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,
 		ProcessIdentifier.class
 },requires = {
-		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,UmlNameRegenerator.class,
-		EnumerationValuesAttributeAdder.class
+		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,UmlNameRegenerator.class,EnumerationValuesAttributeAdder.class
 })
 public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	@Override
 	protected int getThreadPoolSize(){
-		return 1;//FOr some reason this is required TODO investigate why because it takes a while to execute
+		return 1;// FOr some reason this is required TODO investigate why because it takes a while to execute
 	}
 	// TODO optimize to take constraints individually
 	EnvironmentFactory environmentFactory;
@@ -286,7 +285,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(owner instanceof INakedInterface){
 			INakedInterface intf = (INakedInterface) owner;
 			for(INakedClassifier c:intf.getImplementingClassifiers()){
-				getAffectedElements().add(c);
+				addAffectedElement(c);
 			}
 		}
 	}
@@ -353,8 +352,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			}
 			popuateDefinedResponsibility(activity, outsideAndInside, (INakedEmbeddedTask) a);
 		}
-		environmentFactory.addPostEnvironment(inside, a);
-		replaceParsedOclConstraints(ctx, a.getPostConditions(), inside);
+		if(a.getPostConditions().size() > 0){
+			environmentFactory.addPostEnvironment(inside, a);
+			replaceParsedOclConstraints(ctx, a.getPostConditions(), inside);
+		}
 	}
 	private void popuateDefinedResponsibility(INakedClassifier owner,Environment outside,INakedDefinedResponsibility e){
 		INakedResponsibilityDefinition taskDefinition = e.getTaskDefinition();
@@ -435,10 +436,9 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		ParsedOclString string = (ParsedOclString) pin.getValue().getValue();
 		string.setContext(pin.getActivity(), pin.getValue());
 		Environment env = environmentFactory.createActivityEnvironment(pin, pin.getActivity());
-		
 		IClassifier type = pin.getType();
-		if(pin.getAction() instanceof INakedSendSignalAction && pin==((INakedSendSignalAction)pin.getAction()).getTarget()){
-			type=null;
+		if(pin.getAction() instanceof INakedSendSignalAction && pin == ((INakedSendSignalAction) pin.getAction()).getTarget()){
+			type = null;
 		}
 		pin.getValue().setValue(replaceSingleParsedOclString(string, pin.getActivity(), type, env));
 	}

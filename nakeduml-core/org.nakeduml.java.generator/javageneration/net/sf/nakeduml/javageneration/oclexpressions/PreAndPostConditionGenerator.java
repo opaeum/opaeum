@@ -9,6 +9,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
 import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.linkage.NakedParsedOclStringResolver;
@@ -63,7 +64,22 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			}
 			if(behavior.getBodyExpression() != null){
 				NakedOperationMap map = new NakedOperationMap(behavior);
-				this.addBody(execute, behavior.getContext(), map, behavior.getBody());
+				INakedClassifier owner = behavior.getContext();
+				INakedValueSpecification specification = behavior.getBody();
+				if(map.getParameterOwner().getReturnParameter() == null){
+					execute.getBody().addToStatements(ValueSpecificationUtil.expressValue(execute, specification, owner, specification.getType()));
+				}else{
+					OJField result = new OJField();
+					result.setName("result");
+					result.setType(map.javaReturnTypePath());
+					result.setInitExp(map.javaReturnDefaultValue());
+					IParameterOwner oper = map.getParameterOwner();
+					execute.getBody().addToLocals(result);
+					NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(behavior, behavior.getReturnParameter());
+					execute.getBody()
+							.addToStatements("result=" + ValueSpecificationUtil.expressValue(execute, specification, owner, oper.getReturnParameter().getType()));
+					execute.getBody().addToStatements(resultMap.setter() + "(result)");
+				}
 			}
 		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression() != null){
 			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
@@ -109,7 +125,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	public void addLocalConditions(INakedClassifier owner,NakedOperationMap mapper,Collection<INakedConstraint> conditions,boolean pre){
 		OJClass myOwner = findJavaClass(owner);
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
-		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getOperation());
+		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getParameterOwner());
 		if(conditions.size() > 0){
 			cg.addConstraintChecks(myOper1, conditions, pre);
 		}
@@ -127,7 +143,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addBody(OJAnnotatedOperation ojOper,INakedClassifier owner,NakedOperationMap map,INakedValueSpecification specification){
-		if(map.getOperation().getReturnParameter() == null){
+		if(map.getParameterOwner().getReturnParameter() == null){
 			ojOper.getBody().addToStatements(ValueSpecificationUtil.expressValue(ojOper, specification, owner, specification.getType()));
 		}else{
 			String expString = "";
@@ -135,7 +151,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			result.setName("result");
 			result.setType(map.javaReturnTypePath());
 			result.setInitExp(map.javaReturnDefaultValue());
-			IParameterOwner oper = map.getOperation();
+			IParameterOwner oper = map.getParameterOwner();
 			expString = "result= " + ValueSpecificationUtil.expressValue(ojOper, specification, owner, oper.getReturnParameter().getType());
 			ojOper.getBody().addToLocals(result);
 			ojOper.getBody().removeAllFromStatements();

@@ -57,7 +57,7 @@ public class UmlUimLinks{
 	}
 	private Element getLink(UmlReference uIMBinding){
 		for(EmfWorkspace map:emfWorkspaces){
-			Element element = map.getElementMap().get(uIMBinding.getUmlElementUid());
+			Element element = map.getElement(uIMBinding.getUmlElementUid());
 			if(element != null){
 				return element;
 			}

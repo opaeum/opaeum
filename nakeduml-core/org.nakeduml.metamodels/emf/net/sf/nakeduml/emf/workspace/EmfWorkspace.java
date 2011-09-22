@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.nakeduml.feature.WorkspaceMappingInfo;
+import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -35,23 +36,21 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Relationship;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
 
 /**
  * Represents the concept of multiple emf models as one root nakedWorkspace. Hacked to implement Element because of visitor constraints
  * 
  */
 public class EmfWorkspace implements Element{
+	private Map<String,Resource> resources = new HashMap<String,Resource>();
 	private Set<Package> generatingModels = new HashSet<Package>();
 	private Set<Package> primaryModels = new HashSet<Package>();
 	private WorkspaceMappingInfo mappingInfo;
 	private ResourceSet resourceSet;
 	private URI directoryUri;
 	private String identifier;
-	private EmfResourceHelper uriResolver;
 	private Set<Model> libraries = new HashSet<Model>();
-	private Map<String,Element> elementMap = new HashMap<String,Element>();
-	private Map<Resource,Map<String,Element>> modelElementMap = new HashMap<Resource,Map<String,Element>>();
+	private UriToFileConverter uriToFileConverter = new DefaultUriToFileConverter();
 	private String name;
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
@@ -59,25 +58,19 @@ public class EmfWorkspace implements Element{
 		addGeneratingModelOrProfile(model);
 	}
 	// Load entire resourceSet
-	public EmfWorkspace(URI uri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier){
+	public EmfWorkspace(URI directoryUri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier){
 		this.resourceSet = rs;
 		this.mappingInfo = mappingInfo;
+		this.directoryUri = directoryUri;
+		this.identifier = identifier;
+		calculatePrimaryModels();
+	}
+	public void calculatePrimaryModels(){
 		for(Element pkg:getOwnedElements()){
-			if(isPrimaryModelOrProfile((Package) pkg, uri)){
+			if(isPrimaryModelOrProfile((Package) pkg, directoryUri)){
 				primaryModels.add((Package) pkg);
 			}
 		}
-		this.directoryUri = uri;
-		this.identifier = identifier;
-	}
-	public final void putElement(Element e){
-		elementMap=null;
-		Map<String,Element> map = modelElementMap.get(e.eResource());
-		if(map==null){
-			map = new HashMap<String,Element>();
-			modelElementMap.put(e.eResource(), map);
-		}
-		map.put(getId(e), e);
 	}
 	public Collection<Package> getRootObjects(){
 		EList<Element> ownedElements = getOwnedElements();
@@ -97,7 +90,7 @@ public class EmfWorkspace implements Element{
 		return this.generatingModels;
 	}
 	private boolean isPrimaryModelOrProfile(Package p,URI entryModelDir){
-		if(p instanceof Model){
+		if(p instanceof Model || p instanceof Profile){
 			URI uri = p.eResource().getURI();
 			boolean equals = uri.trimSegments(1).equals(entryModelDir);
 			return equals;
@@ -125,6 +118,11 @@ public class EmfWorkspace implements Element{
 				result.add(pkg);
 			}
 		}
+		if(result.size() != resources.size()){
+			for(Element element:result){
+				resources.put(getResourceId(element.eResource()), element.eResource());
+			}
+		}
 		return result;
 	}
 	private boolean isRootObject(Package pkg){
@@ -132,7 +130,7 @@ public class EmfWorkspace implements Element{
 	}
 	private Package getPackageFrom(Resource r){
 		for(EObject o:r.getContents()){
-			if(o instanceof Package){
+			if(o instanceof Profile || o instanceof Model){
 				return (Package) o;
 			}
 		}
@@ -347,15 +345,6 @@ public class EmfWorkspace implements Element{
 		}
 		return result;
 	}
-	public void setResourceHelper(EmfResourceHelper uriResolver){
-		this.uriResolver = uriResolver;
-	}
-	public EmfResourceHelper getResourceHelper(){
-		if(uriResolver == null){
-			uriResolver = new DefaultUriResolver();
-		}
-		return uriResolver;
-	}
 	public void setMappingInfo(WorkspaceMappingInfo mappingInfo2){
 		this.mappingInfo = (WorkspaceMappingInfo) mappingInfo2;
 	}
@@ -371,16 +360,12 @@ public class EmfWorkspace implements Element{
 	public boolean isLibrary(Model p){
 		return this.libraries.contains(p);
 	}
-	public String getId(EModelElement model){
-		return getResourceHelper().getId(model);
-	}
 	public void saveAll(){
 		for(Resource resource:getResourceSet().getResources()){
 			if(!isReadOnly(resource)){
 				try{
 					saveStereotypes(resource);
 					resource.save(new HashMap<Object,Object>());
-					
 				}catch(IOException e){
 					throw new RuntimeException(e);
 				}
@@ -388,9 +373,8 @@ public class EmfWorkspace implements Element{
 		}
 	}
 	private static void saveStereotypes(Resource r){
-		//see StereotypeApplicationHelper;
+		// see StereotypeApplicationHelper;
 	}
-
 	private static boolean isReadOnly(Resource resource){
 		URI uri = resource.getURI();
 		return isSchemeReadOnly(uri.scheme()) || isPluginModel(uri);
@@ -401,14 +385,16 @@ public class EmfWorkspace implements Element{
 	private static boolean isSchemeReadOnly(String scheme){
 		return Arrays.asList("pathmap").contains(scheme);
 	}
-	public Map<String,Element> getElementMap(){
-		if(elementMap==null){
-			elementMap=new HashMap<String,Element>();
-			for(Map<String,Element> map:modelElementMap.values()){
-				elementMap.putAll(map);
-			}
+	public Element getElement(String s){
+		String[] split = s.split("@");
+		Resource r = resources.get(split[0]);
+		// NB!!! Note that we only use the first occurrence of a @-seperated pair. When having to correlate back to model elements make sure
+		// that the id begins with real Emf element's natural id
+		if(r != null){
+			return (Element) r.getEObject(split[1]);
+		}else{
+			return null;
 		}
-		return elementMap;
 	}
 	public void setName(String workspaceIdentifier){
 		this.name = workspaceIdentifier;
@@ -421,7 +407,6 @@ public class EmfWorkspace implements Element{
 		}
 		return null;
 		// TODO Auto-generated method stub
-		
 	}
 	public Profile findOwnedProfile(String string){
 		for(Profile model:getOwnedProfiles()){
@@ -431,6 +416,41 @@ public class EmfWorkspace implements Element{
 		}
 		return null;
 		// TODO Auto-generated method stub
-		
+	}
+	public UriToFileConverter getUriToFileConverter(){
+		return uriToFileConverter;
+	}
+	public void setUriToFileConverter(UriToFileConverter uriToFileConverter){
+		this.uriToFileConverter = uriToFileConverter;
+	}
+	public String getId(EObject object){
+		if(object instanceof EmfWorkspace){
+			return ((EmfWorkspace) object).getIdentifier();
+		}else{
+			String uid = null;
+			if(object.eResource() != null){
+				uid = getResourceId(object.eResource()) + "@" + object.eResource().getURIFragment(object);
+			}else if(object instanceof EModelElement && ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
+				// Deleted in realtime - See UmlElementCache.notifyChanged
+				return ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION).getDetails().get("opiumId");
+			}else{
+				uid = object.hashCode() + "";
+			}
+			return uid;
+		}
+	}
+	public String getResourceId(Resource eResource){
+		Element v = (Element) eResource.getContents().get(0);
+		EAnnotation ann = v.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
+		if(ann == null){
+			return eResource.getURI().lastSegment();
+		}else{
+			String uuid = ann.getDetails().get("uuid");
+			if(uuid == null || uuid.trim().length() == 0){
+				return eResource.getURI().lastSegment();
+			}else{
+				return uuid;
+			}
+		}
 	}
 }

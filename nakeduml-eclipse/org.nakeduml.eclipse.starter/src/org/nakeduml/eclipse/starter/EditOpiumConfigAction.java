@@ -6,10 +6,11 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.nakeduml.eclipse.NakedUmlConfigDialog;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
+import org.nakeduml.eclipse.javasync.JavaTransformationProcessManager;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -24,10 +25,10 @@ public class EditOpiumConfigAction extends AbstractOpiumAction{
 		NakedUmlEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();
 		NakedUmlEclipseContext ne = NakedUmlEditor.findOrCreateContextFor(umlDir);
-		if(!ne.isNewlyCreated()){
+		if(!(ne==null || ne.isNewlyCreated())){
 			// The settings would have been edited from there
-			NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getCurrent().getActiveShell(), ne.getUmlElementCache().getConfig());
-			if(dlg.open() != SWT.OK){
+			NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getCurrent().getActiveShell(), ne.getConfig());
+			if(dlg.open() == Window.OK){
 				ne.reinitialize();
 				TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);
 				if(process != null){

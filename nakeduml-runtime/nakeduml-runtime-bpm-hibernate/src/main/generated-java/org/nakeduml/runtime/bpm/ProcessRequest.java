@@ -1,11 +1,14 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +35,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
@@ -42,6 +46,7 @@ import org.nakeduml.runtime.domain.IProcessObject;
 import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,31 +57,31 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="process_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.process_request",uuid="OpiumBPM.library.uml@_ciiWAI2-EeCrtavWRHwoHg")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.process_request",uuid="252060@_ciiWAI2-EeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("process_request")
 public class ProcessRequest extends AbstractRequest implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject, IProcessObject {
-	static final private long serialVersionUID = 673;
-	@Transient
-	transient private WorkflowProcessInstance processInstance;
-	@Column(name="process_instance_id")
-	private Long processInstanceId;
-	@Transient
-	private boolean processDirty;
-	@Type(type="ProcessRequestStateResolver")
-	private ProcessRequestState endNodeInProcessRequestRegion;
-	@Column(name="executed_on")
-	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
-	private Date executedOn;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static private Set<ProcessRequest> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Column(name="executed_on")
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date executedOn;
+	@Transient
+	private boolean processDirty;
+	@Column(name="process_instance_id")
+	private Long processInstanceId;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Type(type="ProcessRequestStateResolver")
+	private ProcessRequestState endNodeInProcessRequestRegion;
+	@Transient
+	transient private WorkflowProcessInstance processInstance;
+	static final private long serialVersionUID = 858;
+	static private Set<ProcessRequest> mockedAllInstances;
 
 	/** Default constructor for ProcessRequest
 	 */
@@ -92,7 +97,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		addToOwningObject();
 	}
 
-	@NumlMetaInfo(qualifiedPersistentName="process_request.abort",uuid="OpiumBPM.library.uml@_4zDaYK0wEeCTTvcJZSDicw")
+	@NumlMetaInfo(qualifiedPersistentName="process_request.abort",uuid="252060@_4zDaYK0wEeCTTvcJZSDicw")
 	public void abort() {
 		generateAbortEvent();
 	}
@@ -111,21 +116,26 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						ParticipationInRequest curVal = (ParticipationInRequest)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.addToParticipationsInRequest(curVal);
+						ParticipationInRequest curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.addToParticipationsInRequest(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -254,7 +264,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		return this.processInstanceId;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="process_request.process_object",uuid="OpiumBPM.library.uml@_JY15xI3pEeCfQedkc0TCdA")
+	@NumlMetaInfo(qualifiedPersistentName="process_request.process_object",uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
 	public OperationProcessObject getProcessObject() {
 		return null;
 	}
@@ -263,13 +273,13 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		return getUid().hashCode();
 	}
 	
-	public void init(CompositionNode owner) {
-		super.init(owner);
-	}
-	
 	public void init(ProcessContext context) {
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
+	}
+	
+	public void init(CompositionNode owner) {
+		super.init(owner);
 	}
 	
 	public boolean isProcessDirty() {
@@ -304,28 +314,28 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participationsInRequest") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)xml).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("parentTask") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("929")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						setParentTask((TaskRequest)map.get(((Element)xml).getAttribute("uid")));
+						setParentTask((TaskRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -378,24 +388,29 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 	}
 	
 	public String toXmlReferenceString() {
-		return "<processRequest uid=\""+getUid() + "\">";
+		return "<ProcessRequest uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<processRequest");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.ProcessRequest\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
-		sb.append(">\n");
-		if ( getParentTask()==null ) {
-			sb.append("<parentTask/>");
-		} else {
-			sb.append("<parentTask>");
-			sb.append(getParentTask().toXmlReferenceString());
-			sb.append("</parentTask>");
-			sb.append("\n");
+		sb.append("<ProcessRequest ");
+		sb.append("classUuid=\"252060@_ciiWAI2-EeCrtavWRHwoHg\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.ProcessRequest\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
+		sb.append(">");
+		sb.append("\n<participationsInRequest propertyId=\"914\">");
+		for ( ParticipationInRequest participationsInRequest : getParticipationsInRequest() ) {
+			sb.append("\n" + participationsInRequest.toXmlString());
 		}
-		sb.append("</processRequest>");
+		sb.append("\n</participationsInRequest>");
+		if ( getParentTask()==null ) {
+			sb.append("\n<parentTask/>");
+		} else {
+			sb.append("\n<parentTask propertyId=\"929\">");
+			sb.append("\n" + getParentTask().toXmlReferenceString());
+			sb.append("\n</parentTask>");
+		}
+		sb.append("\n</ProcessRequest>");
 		return sb.toString();
 	}
 	

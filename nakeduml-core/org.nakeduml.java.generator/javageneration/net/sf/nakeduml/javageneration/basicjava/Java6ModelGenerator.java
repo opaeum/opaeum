@@ -3,10 +3,14 @@ package net.sf.nakeduml.javageneration.basicjava;
 import java.io.Serializable;
 import java.util.List;
 
+import net.sf.nakeduml.feature.ISourceFolderIdentifier;
+import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
+import net.sf.nakeduml.javageneration.JavaSourceKind;
+import net.sf.nakeduml.javageneration.JavaTextSource;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
 import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
@@ -27,9 +31,13 @@ import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.core.INakedSimpleType;
+import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.strategies.DateTimeStrategyFactory;
 import net.sf.nakeduml.strategies.IdStrategyFactory;
 import net.sf.nakeduml.strategies.TextStrategyFactory;
+import net.sf.nakeduml.textmetamodel.SourceFolder;
+import net.sf.nakeduml.textmetamodel.TextFile;
+import net.sf.nakeduml.textmetamodel.TextSource;
 import net.sf.nakeduml.validation.NameUniquenessValidation;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
@@ -72,7 +80,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true,match = {
 			INakedInterface.class,INakedEnumeration.class
 	})
-	public void visitClass(INakedClassifier c){
+	public void visitClass(final INakedClassifier c){
 		// We do not generate simple data types. They can't participate in
 		// two-way associations and should be built-in or pre-implemented
 		if(c.isMarkedForDeletion()){
@@ -131,7 +139,29 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());
 			myClass.setComment(c.getDocumentation());
-			super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			if(c.getCodeGenerationStrategy().isAbstractSupertypeOnly()){
+				createTextPath(JavaSourceKind.ABSTRACT_SUPERCLASS, myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+				TextFile impl = createTextPath(JavaSourceKind.CONCRETE_IMPLEMENTATION, myClass, JavaSourceFolderIdentifier.DOMAIN_SRC);
+				if(c.getRootObject() instanceof INakedModel && ((INakedModel) c.getRootObject()).isRegeneratingLibrary()){
+					INakedModel m = (INakedModel) c.getRootObject();
+					String artifactName = impl.getParent().getRelativePath().substring(impl.getParent().getSourceFolder().getRelativePath().length()+1) + "/" + impl.getName();
+					final String implementationCodeFor = m.getImplementationCodeFor(artifactName);
+					if(implementationCodeFor != null){
+						impl.setTextSource(new TextSource(){
+							@Override
+							public char[] toCharArray(){
+								return implementationCodeFor.toCharArray();
+							}
+							@Override
+							public boolean hasContent(){
+								return true;
+							}
+						});
+					}
+				}
+			}else{
+				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			}
 			if(c instanceof INakedEnumeration){
 				OJEnum oje = (OJEnum) myClass;
 				INakedEnumeration e = (INakedEnumeration) c;
@@ -170,23 +200,23 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
-		if(no.shouldEmulateClass() || BehaviorUtil.hasMethodsWithStructure(no)){
+		if(BehaviorUtil.hasExecutionInstance(no)){
 			INakedMessageStructure message = no.getMessageStructure();
 			this.visitClass(message);
-			if(no.isLongRunning()){
-				NakedOperationMap map = new NakedOperationMap(no);
-				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
-				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
-				listener.setMyPackage(pack);
-				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
-				callBackOper.addParam("nodeInstance", new OJPathName("int"));
-				callBackOper.addParam("completedOperation", new NakedClassifierMap(message).javaTypePath());
-				listener.addToOperations(callBackOper);
-				super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
-			}
 		}
 	}
 	@Override
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	}
+	private synchronized TextFile createTextPath(JavaSourceKind kind,OJAnnotatedClass c,ISourceFolderIdentifier id){
+		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
+		SourceFolder or = getSourceFolder(outputRoot);
+		List<String> names = c.getPathName().getHead().getNames();
+		names.add(c.getName() + kind.getSuffix() + ".java");
+		JavaTextSource jts = new JavaTextSource(kind, c);
+		TextFile file = or.findOrCreateTextFile(names, jts, outputRoot.overwriteFiles());
+		file.setTextSource(jts);
+		this.textFiles.add(file);
+		return file;
 	}
 }

@@ -39,7 +39,7 @@ public class UimEditor extends Modeler{
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
 		if(NakedUmlEditor.getCurrentContext() != null){
-			currentUmlLinks=new UmlUimLinks(NakedUmlEditor.getCurrentContext().getUmlElementCache().getCurrentEmfWorkspace());
+			currentUmlLinks=new UmlUimLinks(NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace());
 		}
 	}
 	@Override

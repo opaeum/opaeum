@@ -16,7 +16,7 @@ import net.sf.nakeduml.javageneration.basicjava.SpecificationImplementor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,AttributeImplementor.class,EnumerationLiteralImplementor.class,
-		SimpleActivityMethodImplementor.class,HierarchicalSourcePopulationImplementor.class,HashcodeBuilder.class,JavaMetaInfoMapGenerator.class,
+		SimpleActivityMethodImplementor.class,HashcodeBuilder.class,JavaMetaInfoMapGenerator.class,
 		SpecificationImplementor.class,RedefinitionImplementor.class,DerivedUnionImplementor.class
 })
 public class BasicJava6Model extends JavaFeature{

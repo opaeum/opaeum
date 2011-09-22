@@ -5,6 +5,10 @@ import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import nl.klasse.octopus.model.IMultiplicityKind;
 
 public class NakedMultiplicityElement extends NakedElementImpl implements INakedMultiplicityElement{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3598191743169166481L;
 	private boolean ordered;
 	private boolean unique;
 	private INakedMultiplicity multiplicity;

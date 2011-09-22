@@ -10,15 +10,17 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.basicjava.AbstractStructureVisitor;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
 import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
+import net.sf.nakeduml.javageneration.maps.IMessageMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.AttributeExpressionGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.CompositionEmulator;
 import net.sf.nakeduml.metamodel.core.ICompositionParticipant;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -64,10 +66,13 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
 			if(ojClassifier instanceof OJAnnotatedClass){
 				OJAnnotatedClass ojClass = (OJAnnotatedClass) ojClassifier;
-				ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
-				addGetOwningObject(c, ojClass);
-				addRemoveFromOwner(ojClass);
-				addMarkDeleted(ojClass, c);
+				boolean isTransientMessageStructure = c instanceof INakedMessageStructure && !(((INakedMessageStructure) c).isPersistent());
+				if(!isTransientMessageStructure){
+					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
+					addGetOwningObject(c, ojClass);
+					addRemoveFromOwner(ojClass);
+					addMarkDeleted(ojClass, c);
+				}
 				addAddToOwningObject(ojClass, c);
 				addInit(c, ojClass);
 				addConstructorForTests(c, ojClass);
@@ -100,9 +105,11 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 			ICompositionParticipant entity = (ICompositionParticipant) c;
 			if(entity.hasComposite() && !entity.getEndToComposite().isDerived()){
 				INakedProperty endToComposite = entity.getEndToComposite();
-				if(endToComposite.getAssociation() instanceof INakedAssociationClass){
+				if(endToComposite.getAssociation() != null && endToComposite.getAssociation().isClass()){
 					AssociationClassEndMap aMap = new AssociationClassEndMap(endToComposite);
-					addToOwningObject.getBody().addToStatements(aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + aMap.getEndToAssocationClassMap().getter() + "())");
+					addToOwningObject.getBody().addToStatements(
+							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + aMap.getEndToAssocationClassMap().getter()
+									+ "())");
 				}else{
 					StructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
 					StructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
@@ -113,7 +120,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		ojClass.addToOperations(addToOwningObject);
 	}
 	public boolean isInterfaceOrAssociationClass(ICompositionParticipant c){
-		return c instanceof INakedInterface || c instanceof INakedAssociationClass;
+		return c instanceof INakedInterface || c instanceof INakedAssociation;
 	}
 	public void addMarkDeleted(OJAnnotatedClass ojClass,INakedClassifier sc){
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation("markDeleted");
@@ -198,6 +205,9 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		getOwner.setBody(new OJBlock());
 		if(bc.hasComposite()){
 			INakedProperty ce = bc.getEndToComposite();
+			if(ce.getMappingInfo().getJavaName() == null){
+				System.out.println();
+			}
 			getOwner.getBody().addToStatements("return get" + ce.getMappingInfo().getJavaName().getCapped() + "()");
 		}else{
 			getOwner.getBody().addToStatements("return null");

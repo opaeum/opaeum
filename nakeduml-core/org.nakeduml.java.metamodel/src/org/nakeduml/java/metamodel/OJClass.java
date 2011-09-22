@@ -166,15 +166,7 @@ public class OJClass extends OJClassGEN {
 	 * @param string
 	 * @return
 	 */
-	public OJField findField(String string) {
-		OJField result = null;
-		Iterator it = getFields().iterator();
-		while (it.hasNext()){
-			OJField elem = (OJField) it.next();
-			if (elem.getName().equals(string)){
-				result = elem;
-			}
-		}		
-		return result;
+	public OJField findField(String name) {
+		return f_fields.get(name);
 	}
 }

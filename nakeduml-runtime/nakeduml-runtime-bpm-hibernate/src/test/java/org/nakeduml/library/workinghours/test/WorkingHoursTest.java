@@ -6,10 +6,10 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.nakeduml.runtime.bpm.businesscalendar.BusinessCalendar;
 import org.nakeduml.runtime.bpm.businesscalendar.BusinessTimeUnit;
 import org.nakeduml.runtime.bpm.businesscalendar.OnceOffHoliday;
 import org.nakeduml.runtime.bpm.businesscalendar.WorkDay;
-import org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar;
 
 public class WorkingHoursTest extends TestCase{
 	BusinessCalendar wh = new BusinessCalendar();

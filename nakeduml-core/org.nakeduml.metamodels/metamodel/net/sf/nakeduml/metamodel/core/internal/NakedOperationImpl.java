@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedMultiplicityElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -33,6 +34,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private List<INakedParameter> exceptionParameters = new ArrayList<INakedParameter>();
 	private Collection<INakedConstraint> preConditions = new HashSet<INakedConstraint>();
 	private Collection<INakedConstraint> postConditions = new HashSet<INakedConstraint>();
+	private Collection<INakedClassifier> raisedExceptions = new HashSet<INakedClassifier>();
 	private INakedParameter returnParameter;
 	private INakedConstraint bodyCondition;
 	private boolean hasClassScope;
@@ -235,5 +237,18 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 				ParameterUtil.addParameterTolist(p, p.getResultIndex(), this.resultParameters);
 			}
 		}
+	}
+	@Override
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("isLongRunning")){
+			setIsLongRunning(Boolean.TRUE.equals(stereotype.getFirstValueFor("isLongRunning")));
+		}
+	}
+	public Collection<INakedClassifier> getRaisedExceptions(){
+		return raisedExceptions;
+	}
+	public void setRaisedExceptions(Collection<INakedClassifier> raisedExceptions){
+		this.raisedExceptions = raisedExceptions;
 	}
 }

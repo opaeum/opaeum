@@ -90,6 +90,10 @@ public class GraphicsBridge extends java.awt.Graphics{
 		final org.eclipse.swt.graphics.FontMetrics fontMetrics = g.getFontMetrics();
 //		System.out.println("GraphicsBridge.getFontMetrics()");
 		return new FontMetrics(f){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			@Override
 			public int getLeading(){
 				return fontMetrics.getLeading();

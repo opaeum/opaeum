@@ -10,6 +10,11 @@ import net.sf.nakeduml.metamodel.components.INakedPort;
 import net.sf.nakeduml.metamodel.components.internal.NakedComponentImpl;
 
 public class NakedOrganizationUnitImpl extends NakedComponentImpl implements INakedBusinessComponent{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2850233045345520573L;
+
 	@Override
 	public Collection<INakedBusinessService> getProvidedBusinessServices(){
 		Set<INakedBusinessService> result = new HashSet<INakedBusinessService>();

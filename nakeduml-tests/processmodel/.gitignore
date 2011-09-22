@@ -40,3 +40,12 @@ processmodel-web/.settings
 processmodel-web/pom.xml
 processmodel-web/target
 processmodel-web/test-output
+processmodel/.classpath
+processmodel/.project
+processmodel/.settings
+processmodel/pom.xml
+processmodel/src/main/generated-java
+processmodel/src/main/generated-resources
+processmodel/src/test/generated-java
+processmodel/target
+processmodel/test-output

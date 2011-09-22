@@ -33,9 +33,11 @@ public class NakedReadStructuralFeatureActionImpl extends NakedStructuralFeature
 		}
 	}
 	public void setResult(INakedOutputPin result){
-		removeOwnedElement(this.result);
-		this.result = result;
-		linkResultToFeature();
+		if(this.result != result){
+			removeOwnedElement(this.result, true);
+			this.result = result;
+			linkResultToFeature();
+		}
 	}
 	@Override
 	public Collection<INakedElement> getOwnedElements(){

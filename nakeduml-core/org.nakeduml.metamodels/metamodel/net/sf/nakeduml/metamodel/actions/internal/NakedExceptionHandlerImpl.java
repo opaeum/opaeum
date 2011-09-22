@@ -9,6 +9,10 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
 public class NakedExceptionHandlerImpl extends NakedElementImpl implements INakedExceptionHandler{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -522395170986184586L;
 	INakedObjectNode exceptionInput;
 	INakedAction handlerBody;
 	Collection<INakedClassifier> exceptionTypes;

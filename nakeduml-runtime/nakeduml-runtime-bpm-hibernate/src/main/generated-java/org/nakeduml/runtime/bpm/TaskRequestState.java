@@ -4,26 +4,26 @@ import org.nakeduml.runtime.domain.IProcessStep;
 import org.nakeduml.runtime.domain.TriggerMethod;
 
 public enum TaskRequestState implements IProcessStep {
-	INACTIVE(null,"18f2cf04_e89b_4428_b376_4d5b449be1a6",216l,"Inactive",new TriggerMethod[]{}),
-	OBSOLETE(null,"OpiumBPM.library.uml@_renQAKDTEeCi16HgBnUGFw",816l,"Obsolete",new TriggerMethod[]{}),
-	COMPLETED(null,"OpiumBPM.library.uml@_dAgD4IoaEeCPduia_-NbFw",823l,"Completed",new TriggerMethod[]{}),
-	SUSPENDED(null,"OpiumBPM.library.uml@_eXmqMKCWEeCmJqvPP4zbUw",812l,"Suspended",new TriggerMethod[]{new TriggerMethod(false,"Resumed","Resumed")}),
-	READYBUTSUSPENDED(SUSPENDED,"OpiumBPM.library.uml@_RC_JAIoaEeCPduia_-NbFw",815l,"Ready but suspended",new TriggerMethod[]{}),
-	INPROGRESSBUTSUSPENDED(SUSPENDED,"OpiumBPM.library.uml@_tnUPsIobEeCPduia_-NbFw",813l,"In progress but suspended",new TriggerMethod[]{}),
-	RESERVEDBUTSUSPENDED(SUSPENDED,"OpiumBPM.library.uml@_sFnzcIobEeCPduia_-NbFw",814l,"Reserved but suspended",new TriggerMethod[]{}),
-	CREATED(null,"OpiumBPM.library.uml@_Qtk5sIoaEeCPduia_-NbFw",822l,"Created",new TriggerMethod[]{new TriggerMethod(false,"On activate","OnActivate")}),
-	ACTIVE(null,"OpiumBPM.library.uml@_XwDj4KCVEeCmJqvPP4zbUw",817l,"Active",new TriggerMethod[]{new TriggerMethod(false,"Started","Started"),new TriggerMethod(false,"Delegated","Delegated"),new TriggerMethod(false,"On skip","OnSkip"),new TriggerMethod(false,"Forwarded","Forwarded")}),
-	INPROGRESS(ACTIVE,"OpiumBPM.library.uml@_RMUEIIoaEeCPduia_-NbFw",821l,"In progress",new TriggerMethod[]{new TriggerMethod(false,"On complete","OnComplete"),new TriggerMethod(false,"Suspended","Suspended"),new TriggerMethod(false,"Stopped","Stopped")}),
-	NUMBEROFPOTENTIALOWNERS_(ACTIVE,"ff4d1190_32d0_4f72_bfea_c0fd84285293",206l,"NumberOfPotentialOwners ",new TriggerMethod[]{}),
-	FINALSTATE1(ACTIVE,"OpiumBPM.library.uml@_YxQFsKCWEeCmJqvPP4zbUw",818l,"Final state1",new TriggerMethod[]{}),
-	RESERVED(ACTIVE,"OpiumBPM.library.uml@_Q6NAcIoaEeCPduia_-NbFw",819l,"Reserved",new TriggerMethod[]{new TriggerMethod(false,"Suspended","Suspended"),new TriggerMethod(false,"Started","Started"),new TriggerMethod(false,"Revoked","Revoked")}),
-	HISTORY(ACTIVE,"d897a9fc_ca20_46c8_87e2_2ff90c4f0aef",208l,"History",new TriggerMethod[]{}),
-	READY(ACTIVE,"OpiumBPM.library.uml@_Q0VB8IoaEeCPduia_-NbFw",820l,"Ready",new TriggerMethod[]{new TriggerMethod(false,"Suspended","Suspended"),new TriggerMethod(false,"Claimed","Claimed")});
-	private IProcessStep parentState;
-	private String uuid;
+	TASKINSTANCEREGION_ACTIVE(null,"252060@_XwDj4KCVEeCmJqvPP4zbUw",1042l,"Active",new TriggerMethod[]{new TriggerMethod(false,"On skip","OnSkip"),new TriggerMethod(false,"Forwarded","Forwarded"),new TriggerMethod(false,"Started","Started"),new TriggerMethod(false,"Delegated","Delegated")}),
+	TASKINSTANCEREGION_ACTIVE_REGION1_RESERVED(TASKINSTANCEREGION_ACTIVE,"252060@_Q6NAcIoaEeCPduia_-NbFw",1044l,"Reserved",new TriggerMethod[]{new TriggerMethod(false,"Revoked","Revoked"),new TriggerMethod(false,"Suspended","Suspended"),new TriggerMethod(false,"Started","Started")}),
+	TASKINSTANCEREGION_ACTIVE_REGION1_FINALSTATE1(TASKINSTANCEREGION_ACTIVE,"252060@_YxQFsKCWEeCmJqvPP4zbUw",1045l,"Final state1",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_ACTIVE_REGION1_HISTORY(TASKINSTANCEREGION_ACTIVE,"252060@_UBMQAKCWEeCmJqvPP4zbUw",1048l,"History",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_ACTIVE_REGION1_READY(TASKINSTANCEREGION_ACTIVE,"252060@_Q0VB8IoaEeCPduia_-NbFw",1049l,"Ready",new TriggerMethod[]{new TriggerMethod(false,"Suspended","Suspended"),new TriggerMethod(false,"Claimed","Claimed")}),
+	TASKINSTANCEREGION_ACTIVE_REGION1_NUMBEROFPOTENTIALOWNERS_(TASKINSTANCEREGION_ACTIVE,"252060@_t3M00KDPEeCv9IRqC7lfYw",1046l,"NumberOfPotentialOwners ",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_ACTIVE_REGION1_INPROGRESS(TASKINSTANCEREGION_ACTIVE,"252060@_RMUEIIoaEeCPduia_-NbFw",1047l,"In progress",new TriggerMethod[]{new TriggerMethod(false,"Stopped","Stopped"),new TriggerMethod(false,"Suspended","Suspended"),new TriggerMethod(false,"On complete","OnComplete")}),
+	TASKINSTANCEREGION_OBSOLETE(null,"252060@_renQAKDTEeCi16HgBnUGFw",1058l,"Obsolete",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_INACTIVE(null,"252060@_PGwF0IoaEeCPduia_-NbFw",1057l,"Inactive",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_COMPLETED(null,"252060@_dAgD4IoaEeCPduia_-NbFw",1050l,"Completed",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_SUSPENDED(null,"252060@_eXmqMKCWEeCmJqvPP4zbUw",1052l,"Suspended",new TriggerMethod[]{new TriggerMethod(false,"Resumed","Resumed")}),
+	TASKINSTANCEREGION_SUSPENDED_REGION1_RESERVEDBUTSUSPENDED(TASKINSTANCEREGION_SUSPENDED,"252060@_sFnzcIobEeCPduia_-NbFw",1054l,"Reserved but suspended",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_SUSPENDED_REGION1_READYBUTSUSPENDED(TASKINSTANCEREGION_SUSPENDED,"252060@_RC_JAIoaEeCPduia_-NbFw",1056l,"Ready but suspended",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_SUSPENDED_REGION1_INPROGRESSBUTSUSPENDED(TASKINSTANCEREGION_SUSPENDED,"252060@_tnUPsIobEeCPduia_-NbFw",1055l,"In progress but suspended",new TriggerMethod[]{}),
+	TASKINSTANCEREGION_CREATED(null,"252060@_Qtk5sIoaEeCPduia_-NbFw",1051l,"Created",new TriggerMethod[]{new TriggerMethod(false,"On activate","OnActivate")});
 	private long id;
-	private String humanName;
 	private TriggerMethod[] triggerMethods;
+	private IProcessStep parentState;
+	private String humanName;
+	private String uuid;
 	/** Constructor for TaskRequestState
 	 * 
 	 * @param parentState 

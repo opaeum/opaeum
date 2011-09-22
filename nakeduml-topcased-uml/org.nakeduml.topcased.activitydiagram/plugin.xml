@@ -118,13 +118,13 @@
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
-				tab="org.nakeduml.eclipse.postconditionsTab">
+				tab="org.nakeduml.eclipse.preconditionsTab">
          		<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
 				id="org.nakeduml.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
 				class="org.nakeduml.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
-				tab="org.nakeduml.eclipse.preconditionsTab">
+				tab="org.nakeduml.eclipse.postconditionsTab">
          		<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 		

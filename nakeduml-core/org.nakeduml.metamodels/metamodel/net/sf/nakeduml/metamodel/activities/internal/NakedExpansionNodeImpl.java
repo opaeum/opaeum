@@ -4,6 +4,11 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 
 public class NakedExpansionNodeImpl extends NakedObjectNodeImpl implements INakedExpansionNode {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2266933881560401012L;
+
 	@Override
 	public INakedExpansionRegion getExpansionRegion() {
 		return (INakedExpansionRegion) getOwnerElement();

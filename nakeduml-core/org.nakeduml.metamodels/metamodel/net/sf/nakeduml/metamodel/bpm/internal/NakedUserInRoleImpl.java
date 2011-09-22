@@ -11,6 +11,11 @@ import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.internal.NakedEntityImpl;
 
 public class NakedUserInRoleImpl extends NakedEntityImpl implements INakedBusinessRole{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8101559859193547165L;
+
 	@Override
 	public Collection<INakedBusinessService> getServicesProvided(){
 		Set<INakedBusinessService> result = new HashSet<INakedBusinessService>();

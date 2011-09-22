@@ -1,6 +1,7 @@
 package net.sf.nakeduml.javageneration.jbpm5.actions;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import net.sf.nakeduml.javageneration.basicjava.AbstractNodeBuilder;
 import net.sf.nakeduml.javageneration.basicjava.AbstractObjectNodeExpressor;
@@ -14,12 +15,14 @@ import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
+import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.INakedPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
@@ -28,6 +31,7 @@ import net.sf.nakeduml.metamodel.workspace.NakedUmlLibrary;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
+import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
@@ -51,24 +55,23 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	}
 	public void setupVariablesAndArgumentPins(OJAnnotatedOperation oper){
 		ActivityUtil.setupVariables(oper, node);
-		
 		if(node instanceof INakedAction){
 			for(INakedPin pin:((INakedAction) node).getInput()){
 				OJBlock block = oper.getBody();
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
 				oper.getOwner().addToImports(map.javaTypePath());
 				OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-				
 				field.setInitExp(expressPin(oper, block, pin));
 				block.addToLocals(field);
 			}
 		}
 	}
 	public void implementFinalStep(OJBlock block){
-		if(node.getActivity().getSpecification()!=null){
-			NakedOperationMap map = new NakedOperationMap(node.getActivity().getSpecification());
-			block.addToStatements("getCallingProcessObject()." +map.callbackListener() + "(this)");
-		}
+		if(node.getActivity().isLongRunning() && node instanceof INakedControlNode
+				&& ((INakedControlNode) node).getControlNodeType()==ControlNodeType.ACTIVITY_FINAL_NODE){
+				block.addToStatements(new OJIfStatement("getProcessInstance().getNodeInstances().size()==1", "completed()"));
+			}
+
 		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName() + "State."
 				+ Jbpm5Util.stepLiteralName(node));
 	}
@@ -82,15 +85,18 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		Collection<INakedConstraint> conditions = pre ? constrained.getPreConditions() : constrained.getPostConditions();
 		if(conditions.size() > 0){
 			if(node instanceof INakedAction){
-				if(!pre && node instanceof INakedCallAction && ((INakedCallAction) node).isLongRunning()){
+				if(!pre && ((INakedAction) node).isLongRunning()){
 					// Most commonly used for Tasks where there would be a
 					// message structure T
 					// TODO support other output pins
-					for(INakedPin pin:((INakedAction) node).getOutput()){
-						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
+					final INakedAction action = (INakedAction) node;
+					Collection<INakedPin> pins = new HashSet<INakedPin>(action.getOutput());
+					pins.addAll(action.getInput());
+					for(INakedPin pin:pins){
+						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
 						oper.getOwner().addToImports(map.javaTypePath());
 						OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-						field.setInitExp("completedTask." + map.getter() + "()");
+						field.setInitExp("completedWorkObject." + map.getter() + "()");
 						block.addToLocals(field);
 					}
 				}
@@ -104,10 +110,10 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 			implementConditions(oper, oper.getBody(), (PreAndPostConstrained) node, false);
 		}
 	}
-	public boolean isTask(){
+	public boolean isLongRunning(){
 		return false;
 	}
-	public void implementSupportingTaskMethods(OJClass activityClass){
+	public void implementCallbackMethods(OJClass activityClass){
 	}
 	public void flowTo(OJBlock block,INakedActivityNode target){
 		if(target.isImplicitJoin()){
@@ -131,7 +137,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	public boolean waitsForEvent(){
 		return false;
 	}
-	protected final void  buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin){
+	protected final void buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin){
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
 		operationContext.getOwner().addToImports(map.javaTypePath());
 		OJAnnotatedField field = new OJAnnotatedField(pin.getMappingInfo().getJavaName().getAsIs(), map.javaTypePath());

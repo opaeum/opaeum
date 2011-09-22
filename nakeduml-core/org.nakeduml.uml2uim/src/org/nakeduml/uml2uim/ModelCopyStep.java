@@ -34,7 +34,7 @@ public class ModelCopyStep extends EmfElementVisitor implements ITransformationS
 	}
 	public void startVisiting(EmfWorkspace emfWorkspace){
 		this.workspace =emfWorkspace;
-		File dir = emfWorkspace.getResourceHelper().resolveUri(emfWorkspace.getDirectoryUri());
+		File dir = emfWorkspace.getUriToFileConverter().resolveUri(emfWorkspace.getDirectoryUri());
 		List<String> path = new ArrayList<String>();
 		path.add("uml");
 		copyContent(dir, path);

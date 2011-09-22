@@ -3,7 +3,6 @@ package org.nakeduml.topcased.classdiagram.edit;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.nakeduml.topcased.classdiagram.figure.Gradient;
-import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.topcased.draw2d.figures.ComposedLabel;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.uml.classdiagram.edit.ClassEditPart;

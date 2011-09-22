@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
@@ -15,7 +14,6 @@ import net.sf.nakeduml.metamodel.core.INakedEnumeration;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
-import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedEnumerationLiteralImpl;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IEnumLiteral;
@@ -45,7 +43,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			IAttribute valuesAttr = c.findClassAttribute("values");
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedProperty) valuesAttr);
 			OJOperation values = OJUtil.findOperation(myClass, "getValues");
-			//TODO find out why the getter is not generated
+			// TODO find out why the getter is not generated
 			if(values == null){
 				values = new OJAnnotatedOperation("getValues", map.javaTypePath());
 				myClass.addToOperations(values);
@@ -102,8 +100,8 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 					List<INakedSlot> slots = nakedLiteral.getSlots();
 					for(INakedSlot nakedSlot:slots){
 						if(nakedSlot.getDefiningFeature().equals(prop)){
-							ifSPS.setCondition(prop.getName() + ".equals(" + ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), prop.getType(),true)
-									+ ")");
+							ifSPS.setCondition(prop.getName() + ".equals("
+									+ ValueSpecificationUtil.expressValue(myClass, nakedSlot.getFirstValue(), prop.getType(), true) + ")");
 							ifSPS.addToThenPart("return " + iEnumLiteral.getName().toUpperCase());
 							break;
 						}
@@ -115,12 +113,10 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			}
 		}
 	}
-	private boolean hasDuplicates(List allAttributes){
+	private boolean hasDuplicates(List<? extends INakedProperty> allAttributes){
 		boolean result = false;
 		List<String> names = new ArrayList<String>();
-		Iterator it = allAttributes.iterator();
-		while(it.hasNext()){
-			IAttribute attr = (IAttribute) it.next();
+		for(INakedProperty attr:allAttributes){
 			if(names.contains(attr.getName())){
 				return true;
 			}else{
@@ -141,8 +137,11 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		for(IEnumLiteral l:c.getLiterals()){
 			OJEnumLiteral ojl = oje.findLiteral(l.getName().toUpperCase());
 			OJField f = ojl.findAttributeValue(mapper.umlName());
-			INakedValueSpecification value = ((INakedEnumerationLiteral) l).getFirstValueFor(feat.getName());
-			f.setInitExp(ValueSpecificationUtil.expressValue(constr, value, c, feat.getType()));
+			INakedEnumerationLiteral nakedLiteral = (INakedEnumerationLiteral) l;
+			final INakedSlot slot = nakedLiteral.getSlotForFeature(feat.getName());
+			if(slot != null){
+				f.setInitExp(ValueSpecificationUtil.expressSlot(myClass, slot));
+			}
 		}
 	}
 }

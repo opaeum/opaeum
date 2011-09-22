@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 
 public class NakedSignalEventImpl extends NakedEventImpl implements INakedSignalEvent{
+	private static final long serialVersionUID = 2719164087299253327L;
 	INakedSignal signal;
 	public INakedSignal getSignal(){
 		return signal;

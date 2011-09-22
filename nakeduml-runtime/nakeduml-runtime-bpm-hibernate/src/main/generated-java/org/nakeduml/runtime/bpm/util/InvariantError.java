@@ -3,8 +3,8 @@ package org.nakeduml.runtime.bpm.util;
 /** Class ...
  */
 public class InvariantError {
-	private Object instance = null;
 	private String message = "";
+	private Object instance = null;
 
 	/** Constructor for InvariantError
 	 * 

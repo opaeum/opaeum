@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +31,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
@@ -38,6 +40,7 @@ import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -49,39 +52,39 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @NamedQueries(value=@NamedQuery(query="from WorkDay a where a.businessCalendar = :businessCalendar and a.kind = :kind",name="QueryWorkDayWithKindForBusinessCalendar"))
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"}),@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"})},name="work_day")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.work_day",uuid="OpiumBPM.library.uml@_Jn9QcNb-EeCJ0dmaHEVVnw")
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.work_day",uuid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 642;
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
-	@JoinColumn(name="end_time_id",nullable=true)
-	private TimeOfDay endTime;
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
-	@JoinColumn(name="start_time_id",nullable=true)
-	private TimeOfDay startTime;
-	@Enumerated(javax.persistence.EnumType.STRING)
-	@Column(name="kind",nullable=true)
-	private WorkDayKind kind;
-	@Index(name="idx_work_day_business_calendar_id",columnNames="business_calendar_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="business_calendar_id",nullable=true)
-	private BusinessCalendar businessCalendar;
-	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
-	@Id
-	private Long id;
-	@Column(name="object_version")
-	@Version
-	private int objectVersion;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static private Set<WorkDay> mockedAllInstances;
+	private String uid;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	private String uid;
+	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
+	@Id
+	private Long id;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
+	@JoinColumn(name="start_time_id",nullable=true)
+	private TimeOfDay startTime;
+	@Column(name="object_version")
+	@Version
+	private int objectVersion;
+	@Index(name="idx_work_day_business_calendar_id",columnNames="business_calendar_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="business_calendar_id",nullable=true)
+	private BusinessCalendar businessCalendar;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	static final private long serialVersionUID = 888;
+	static private Set<WorkDay> mockedAllInstances;
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
+	@JoinColumn(name="end_time_id",nullable=true)
+	private TimeOfDay endTime;
+	@Enumerated(javax.persistence.EnumType.STRING)
+	@Column(name="kind",nullable=true)
+	private WorkDayKind kind;
 
 	/** Default constructor for WorkDay
 	 */
@@ -112,37 +115,47 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("kind")!=null ) {
+		if ( xml.getAttribute("kind").length()>0 ) {
 			setKind(WorkDayKind.valueOf(xml.getAttribute("kind")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("endTime") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1007")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						TimeOfDay curVal = (TimeOfDay)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.setEndTime(curVal);
+						TimeOfDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setEndTime(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("startTime") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1009")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						TimeOfDay curVal = (TimeOfDay)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.setStartTime(curVal);
+						TimeOfDay curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setStartTime(curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -154,20 +167,20 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		if ( from.getEndTime()!=null ) {
 			to.setEndTime(from.getEndTime().makeShallowCopy());
 		}
+		to.setKind(from.getKind());
 		if ( from.getStartTime()!=null ) {
 			to.setStartTime(from.getStartTime().makeShallowCopy());
 		}
-		to.setKind(from.getKind());
 	}
 	
 	public void copyState(WorkDay from, WorkDay to) {
 		if ( from.getEndTime()!=null ) {
 			to.setEndTime(from.getEndTime().makeCopy());
 		}
+		to.setKind(from.getKind());
 		if ( from.getStartTime()!=null ) {
 			to.setStartTime(from.getStartTime().makeCopy());
 		}
-		to.setKind(from.getKind());
 	}
 	
 	public void createComponents() {
@@ -179,16 +192,6 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		}
 	}
 	
-	public TimeOfDay createEndTime() {
-		TimeOfDay newInstance= new TimeOfDay();
-		return newInstance;
-	}
-	
-	public TimeOfDay createStartTime() {
-		TimeOfDay newInstance= new TimeOfDay();
-		return newInstance;
-	}
-	
 	public boolean equals(Object other) {
 		if ( other instanceof WorkDay ) {
 			return other==this || ((WorkDay)other).getUid().equals(this.getUid());
@@ -196,7 +199,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return false;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.business_calendar_id",uuid="OpiumBPM.library.uml@_LAOD4db-EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.business_calendar_id",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		return businessCalendar;
 	}
@@ -209,7 +212,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.end_time_id",uuid="OpiumBPM.library.uml@_5xvo4NcBEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.end_time_id",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
 		return endTime;
 	}
@@ -218,12 +221,12 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.kind",uuid="OpiumBPM.library.uml@_LrAGRNb-EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.kind",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
 		return kind;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.minutes_per_day",uuid="OpiumBPM.library.uml@_vEgCENcMEeCnccVVb6bGDQ")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.minutes_per_day",uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	public Integer getMinutesPerDay() {
 		Integer minutesPerDay = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());
 		return minutesPerDay;
@@ -245,7 +248,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return getBusinessCalendar();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.start_time_id",uuid="OpiumBPM.library.uml@_xyUUMNcBEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="work_day.start_time_id",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
 		return startTime;
 	}
@@ -296,12 +299,31 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-		
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1007")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((TimeOfDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1009")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((TimeOfDay)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
 		}
 	}
 	
@@ -359,35 +381,34 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 	}
 	
 	public String toXmlReferenceString() {
-		return "<workDay uid=\""+getUid() + "\">";
+		return "<WorkDay uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<workDay");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.businesscalendar.WorkDay\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
+		sb.append("<WorkDay ");
+		sb.append("classUuid=\"252060@_Jn9QcNb-EeCJ0dmaHEVVnw\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.businesscalendar.WorkDay\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getKind()!=null ) {
-			sb.append("kind=\""+ getKind() + "\" ");
+			sb.append("kind=\""+ getKind().name() + "\" ");
 		}
-		sb.append(">\n");
+		sb.append(">");
 		if ( getEndTime()==null ) {
-			sb.append("<endTime/>");
+			sb.append("\n<endTime/>");
 		} else {
-			sb.append("<endTime>");
-			sb.append(getEndTime().toXmlString());
-			sb.append("</endTime>");
-			sb.append("\n");
+			sb.append("\n<endTime propertyId=\"1007\">");
+			sb.append("\n" + getEndTime().toXmlString());
+			sb.append("\n</endTime>");
 		}
 		if ( getStartTime()==null ) {
-			sb.append("<startTime/>");
+			sb.append("\n<startTime/>");
 		} else {
-			sb.append("<startTime>");
-			sb.append(getStartTime().toXmlString());
-			sb.append("</startTime>");
-			sb.append("\n");
+			sb.append("\n<startTime propertyId=\"1009\">");
+			sb.append("\n" + getStartTime().toXmlString());
+			sb.append("\n</startTime>");
 		}
-		sb.append("</workDay>");
+		sb.append("\n</WorkDay>");
 		return sb.toString();
 	}
 	

@@ -8,6 +8,10 @@ import net.sf.nakeduml.metamodel.activities.INakedExecutableNode;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
 public class NakedExecutableNodeImpl extends NakedActivityNodeImpl implements INakedExecutableNode {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8020532395165872389L;
 	private Collection<INakedExceptionHandler> handlers = new ArrayList<INakedExceptionHandler>();
 
 	public Collection<INakedExceptionHandler> getHandlers() {

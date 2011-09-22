@@ -14,6 +14,10 @@ public abstract class OpaqueExpressionComposite extends OclBodyComposite{
 		super(parent, toolkit);
 	}
 
+	public OpaqueExpressionComposite(Composite parent,FormToolkit toolkit,int border){
+		super(parent,toolkit,border);
+	}
+
 	@Override
 	public EStructuralFeature getBodiesFeature(){
 		return UMLPackage.eINSTANCE.getOpaqueExpression_Body();

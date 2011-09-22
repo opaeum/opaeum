@@ -108,8 +108,8 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	public Collection<INakedBehavior> getOwnedBehaviors(){
 		return this.ownedBehaviors;
 	}
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedBehavior){
 			this.ownedBehaviors.remove(element);
 		}else if(element instanceof INakedInterfaceRealization){

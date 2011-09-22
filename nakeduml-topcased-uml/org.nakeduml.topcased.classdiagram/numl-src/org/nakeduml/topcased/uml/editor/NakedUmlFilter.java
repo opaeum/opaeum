@@ -24,6 +24,8 @@ public class NakedUmlFilter extends ViewerFilter{
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDurationConstraint());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDevice());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getNode());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getGeneralization());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterfaceRealization());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getElementImport());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPackageImport());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getPackageMerge());

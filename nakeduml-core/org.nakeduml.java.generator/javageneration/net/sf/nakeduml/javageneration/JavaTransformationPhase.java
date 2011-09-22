@@ -14,8 +14,13 @@ import net.sf.nakeduml.feature.TransformationPhase;
 import net.sf.nakeduml.filegeneration.FileGenerationPhase;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.LinkagePhase;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedPackage;
 import net.sf.nakeduml.metamodel.visitor.NakedElementOwnerVisitor;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
@@ -49,7 +54,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
-		Set<INakedElement> realChanges = new HashSet<INakedElement>(elements);
+		Set<INakedElement> realChanges = calculateEffectiveChanges(elements);
 		OJUtil.clearCache();
 		Collection<TextOutputNode> files = new HashSet<TextOutputNode>();
 		for(INakedElement e:elements){
@@ -76,18 +81,34 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		}
 		return files;
 	}
+	private Set<INakedElement> calculateEffectiveChanges(Collection<INakedElement> elements){
+		Set<INakedElement> result = new HashSet<INakedElement>();
+		for(INakedElement object:elements){
+			INakedElement ne = (INakedElement) object;
+			while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null || ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
+				ne = (INakedElement) ne.getOwnerElement();
+			}
+			if(ne != null){
+				result.add(ne);
+				if(ne instanceof INakedBehavior && ((INakedBehavior) ne).getContext() != null){
+					result.add(((INakedBehavior) ne).getContext());
+				}
+			}
+		}
+		return result;
+	}
 	@Override
 	public void execute(TransformationContext context){
 		OJUtil.clearCache();
-		context.getLog().startTask("Generating Java Model",features.size());
+		context.getLog().startTask("Generating Java Model", features.size());
 		for(JavaTransformationStep f:features){
-			context.getLog().startStep("Executing " + f.getClass().getSimpleName() );
-			boolean matchesPhase=true;
+			context.getLog().startStep("Executing " + f.getClass().getSimpleName());
+			boolean matchesPhase = true;
 			if(context.isIntegrationPhase()){
 				matchesPhase = f instanceof IntegrationCodeGenerator;
 			}
 			if(f instanceof NakedElementOwnerVisitor && !context.getLog().isCanceled() && matchesPhase){
-				//Remember HibernateConfigGenerator
+				// Remember HibernateConfigGenerator
 				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
 				f.setTransformationContext(context);
 				v.startVisiting(this.modelWorkspace);

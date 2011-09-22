@@ -5,10 +5,13 @@ import java.util.Collection;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedCallEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 
 public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implements INakedAcceptCallAction{
+	private static final long serialVersionUID = 1472278565796238451L;
 	@Override
 	public Collection<INakedElement> getOwnedElements(){
 		return super.getOwnedElements();
@@ -16,7 +19,9 @@ public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implem
 	@Override
 	public Collection<INakedOutputPin> getOutput(){
 		Collection<INakedOutputPin> result = super.getOutput();
-		result.add(getReturnInfo());
+		if(getReturnInfo() != null){
+			result.add(getReturnInfo());
+		}
 		return result;
 	}
 	INakedOutputPin returnInfo;
@@ -25,15 +30,18 @@ public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implem
 		return returnInfo;
 	}
 	public void setReturnInfo(INakedOutputPin r){
-		removeOwnedElement(this.returnInfo);
-		this.returnInfo = r;
+		if(this.returnInfo != r){
+			removeOwnedElement(this.returnInfo, true);
+			this.returnInfo = r;
+		}
 	}
 	@Override
 	public INakedOperation getOperation(){
 		if(super.getTriggers().isEmpty()){
 			return null;
 		}else{
-			return (INakedOperation) super.getTriggers().iterator().next().getEvent();
+			final INakedCallEvent event = (INakedCallEvent) super.getTriggers().iterator().next().getEvent();
+			return (INakedOperation) event.getOperation();
 		}
 	}
 	@Override

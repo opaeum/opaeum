@@ -2,6 +2,7 @@ package net.sf.nakeduml.javageneration.hibernate;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
@@ -20,7 +21,6 @@ import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.models.INakedModel;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
-import org.hibernate.dialect.Dialect;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationAttributeValue;
@@ -101,7 +101,15 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	}
 	private MetaDefElementCollector collectElements(Collection<INakedRootObject> ownedElements){
 		MetaDefElementCollector collector = new MetaDefElementCollector();
-		collector.allProcesses=getElementsOfType(INakedBehavior.class, ownedElements);
+		final Set<INakedBehavior> elementsOfType = getElementsOfType(INakedBehavior.class, ownedElements);
+		final Iterator<INakedBehavior> iter = elementsOfType.iterator();
+		while(iter.hasNext()){
+			INakedBehavior p = (INakedBehavior) iter.next();
+			if(!p.isProcess()){
+				iter.remove();
+			}
+		}
+		collector.allProcesses=elementsOfType;
 		collector.enumerations =getElementsOfType(INakedEnumeration.class, ownedElements);
 		collector.interfaces=getElementsOfType(INakedInterface.class, ownedElements);
 		return collector;

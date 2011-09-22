@@ -5,6 +5,10 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
 public class NakedConstraintImpl extends NakedElementImpl implements INakedConstraint{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7552731810827480586L;
 	INakedValueSpecification specification;
 	INakedElement constrainedElement;
 	public INakedElement getConstrainedElement(){

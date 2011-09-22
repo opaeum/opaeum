@@ -59,6 +59,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private boolean isAbstract;
 	private VisibilityKind visibility;
 	private INakedProperty endToComposite;
+	private String implementationCode;
 	public List<INakedGeneralization> getNakedGeneralizations(){
 		return generalisations;
 	}
@@ -78,10 +79,11 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		for(ArtificialProperty ap:aps){
 			for(INakedProperty p:oas){
 				if(!(p instanceof ArtificialProperty)){
+					//TODO has some limitations - think about Contexts when a behavior is given a specification
 					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
 					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
-						removeOwnedElement(ap);
+						removeOwnedElement(ap, true);
 						if(ap == endToComposite){
 							endToComposite = p;
 						}
@@ -340,7 +342,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 				return ((INakedClassifier) getNameSpace()).getCodeGenerationStrategy();
 			}else{
 				// Owner probably null;
-				return CodeGenerationStrategy.all;
+				return CodeGenerationStrategy.ALL;
 			}
 		}
 		return this.codeGenerationStrategy;
@@ -362,7 +364,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		super.addStereotype(stereotype);
 		if(stereotype.hasValueForFeature(TagNames.MAPPED_IMPLEMENTATION_TYPE)){
 			this.mappedImplementationType = stereotype.getFirstValueFor(TagNames.MAPPED_IMPLEMENTATION_TYPE).stringValue();
-			this.codeGenerationStrategy = CodeGenerationStrategy.none;
+			this.codeGenerationStrategy = CodeGenerationStrategy.NO_CODE;
 		}
 		if(stereotype.hasValueForFeature(TagNames.CODE_GENERATION_STRATEGY)){
 			String s = stereotype.getFirstValueFor(TagNames.CODE_GENERATION_STRATEGY).stringValue();
@@ -385,8 +387,8 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return false;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element,boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedProperty){
 			INakedProperty p = (INakedProperty) element;
 			this.ownedAttributes.remove(p);
@@ -413,6 +415,11 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		super.addOwnedElement(element);
 		if(element instanceof INakedProperty){
 			INakedProperty p = (INakedProperty) element;
+			// Order in list is important
+			if(this.ownedAttributes.contains(p)){
+				// TODO investigate why this hapens
+				throw new IllegalStateException("Property " + element.getName() + " has already been added to " + getName());
+			}
 			this.ownedAttributes.add(p);
 		}else if(element instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) element;
@@ -426,6 +433,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			INakedGeneralization generalization = (INakedGeneralization) element;
 			this.generalisations.add(generalization);
 		}else if(element instanceof INakedReception){
+			this.ownedReceptions.remove((INakedReception) element);
 			this.ownedReceptions.add((INakedReception) element);
 		}
 	}
@@ -539,5 +547,13 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	@Deprecated
 	public List<IInterface> getInterfaces(){
 		return Collections.emptyList();
+	}
+	public void setImplementationCode(String string){
+		this.implementationCode=string;
+		
+	}
+	@Override
+	public String getImplementationCode(){
+		return implementationCode;
 	}
 }

@@ -29,6 +29,10 @@ import nl.klasse.octopus.model.IPackageableElement;
 import nl.klasse.octopus.modelVisitors.IPackageVisitor;
 
 public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements INakedNameSpace{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2968609750473700819L;
 	private Collection<IImportedElement> imports = new ArrayList<IImportedElement>();
 	protected Collection<INakedClassifier> nestedClassifiers = new HashSet<INakedClassifier>();
 	private Collection<INakedAssociation> nestedAssociations = new HashSet<INakedAssociation>();
@@ -50,11 +54,14 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 		}
 		if(element instanceof INakedClassifier){
 			this.nestedClassifiers.add((INakedClassifier) element);
-			getRootObject().addDirectlyAccessibleElement(element);
+			if(getRootObject() != null){
+				//may be deleting
+				getRootObject().addDirectlyAccessibleElement(element);
+			}
 		}
 	}
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedAssociation){
 			INakedAssociation b = (INakedAssociation) element;
 			this.nestedAssociations.remove(b);

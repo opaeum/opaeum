@@ -1,6 +1,7 @@
 package org.nakeduml.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,6 +30,8 @@ import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -39,30 +42,30 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="time_of_day")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.time_of_day",uuid="OpiumBPM.library.uml@_UjTHMNb_EeCJ0dmaHEVVnw")
+@NumlMetaInfo(qualifiedPersistentName="businesscalendar.time_of_day",uuid="252060@_UjTHMNb_EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 653;
-	@Column(name="hours")
-	@DecimalMin(message="",value="",payload={},groups={})
-	@DecimalMax(message="",value="",payload={},groups={})
-	private Integer hours;
-	@Column(name="minutes")
-	@Min(message="",value=0,payload={},groups={})
-	@Max(message="",value=59,payload={},groups={})
-	private Integer minutes;
+	private String uid;
+		// Initialise to 1000 from 1970
+	@Column(name="deleted_on")
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date deletedOn = Stdlib.FUTURE;
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	@Id
 	private Long id;
 	@Column(name="object_version")
 	@Version
 	private int objectVersion;
+	@Column(name="minutes")
+	@Min(message="",value=0,payload={},groups={})
+	@Max(message="",value=59,payload={},groups={})
+	private Integer minutes;
+	@Column(name="hours")
+	@DecimalMin(message="",value="",payload={},groups={})
+	@DecimalMax(message="",value="",payload={},groups={})
+	private Integer hours;
+	static final private long serialVersionUID = 895;
 	static private Set<TimeOfDay> mockedAllInstances;
-		// Initialise to 1000 from 1970
-	@Column(name="deleted_on")
-	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
-	private Date deletedOn = Stdlib.FUTURE;
-	private String uid;
 
 	/** Default constructor for TimeOfDay
 	 */
@@ -80,12 +83,12 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("hours")!=null ) {
+		if ( xml.getAttribute("hours").length()>0 ) {
 			setHours(OpiumLibraryForBPMFormatter.getInstance().parseHourOfDay(xml.getAttribute("hours")));
 		}
-		if ( xml.getAttribute("minutes")!=null ) {
+		if ( xml.getAttribute("minutes").length()>0 ) {
 			setMinutes(OpiumLibraryForBPMFormatter.getInstance().parseMinuteOfHour(xml.getAttribute("minutes")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
@@ -110,7 +113,7 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="time_of_day.hours",uuid="OpiumBPM.library.uml@_WB_50Nb_EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="time_of_day.hours",uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	public Integer getHours() {
 		return hours;
 	}
@@ -119,13 +122,13 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="time_of_day.minute_of_day",uuid="OpiumBPM.library.uml@_MUFl4NcGEeCOrPzFUqsJFw")
+	@NumlMetaInfo(qualifiedPersistentName="time_of_day.minute_of_day",uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	public Integer getMinuteOfDay() {
 		Integer minuteOfDay = (this.getHours() * 60) + this.getMinutes();
 		return minuteOfDay;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="time_of_day.minutes",uuid="OpiumBPM.library.uml@_XW53QNb_EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(qualifiedPersistentName="time_of_day.minutes",uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	public Integer getMinutes() {
 		return minutes;
 	}
@@ -166,7 +169,7 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -200,22 +203,23 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 	}
 	
 	public String toXmlReferenceString() {
-		return "<timeOfDay uid=\""+getUid() + "\">";
+		return "<TimeOfDay uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<timeOfDay");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.businesscalendar.TimeOfDay\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
+		sb.append("<TimeOfDay ");
+		sb.append("classUuid=\"252060@_UjTHMNb_EeCJ0dmaHEVVnw\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.businesscalendar.TimeOfDay\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getHours()!=null ) {
 			sb.append("hours=\""+ OpiumLibraryForBPMFormatter.getInstance().formatHourOfDay(getHours())+"\" ");
 		}
 		if ( getMinutes()!=null ) {
 			sb.append("minutes=\""+ OpiumLibraryForBPMFormatter.getInstance().formatMinuteOfHour(getMinutes())+"\" ");
 		}
-		sb.append(">\n");
-		sb.append("</timeOfDay>");
+		sb.append(">");
+		sb.append("\n</TimeOfDay>");
 		return sb.toString();
 	}
 	

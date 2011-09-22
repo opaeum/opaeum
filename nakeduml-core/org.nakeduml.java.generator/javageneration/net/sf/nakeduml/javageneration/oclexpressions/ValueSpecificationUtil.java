@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.nakeduml.javageneration.maps.NakedClassifierMap;
+import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
+import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
+import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
+import net.sf.nakeduml.metamodel.core.INakedProperty;
+import net.sf.nakeduml.metamodel.core.INakedSlot;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
@@ -24,6 +29,7 @@ import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ValueSpecificationUtil{
 	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType,boolean isStatic){
@@ -35,7 +41,7 @@ public class ValueSpecificationUtil{
 			expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
 			return expression;
 		}
-		return expressLiterals(valueSpec);
+		return expressLiterals(valueSpec, ojOwner, null);
 	}
 	public static String expressValue(OJOperation operationContext,INakedValueSpecification valueSpec,INakedClassifier owner,IClassifier expectedType){
 		if(valueSpec == null){
@@ -47,7 +53,7 @@ public class ValueSpecificationUtil{
 		}else if(valueSpec.isOclValue()){
 			return expressOcl(operationContext, valueSpec, expectedType);
 		}
-		return expressLiterals(valueSpec);
+		return expressLiterals(valueSpec, (OJClass) operationContext.getOwner(),operationContext);
 	}
 	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec,IClassifier expectedType){
 		if(valueSpec.isValidOclValue()){
@@ -55,9 +61,8 @@ public class ValueSpecificationUtil{
 			OJClass ojOwner = (OJClass) operationContext.getOwner();
 			ExpressionCreator ec = new ExpressionCreator(ojOwner);
 			IOclContext value = (IOclContext) valueSpec.getValue();
-			List<OJParameter> parameters = new ArrayList<OJParameter>(operationContext.getParameters());
-			OJBlock body = operationContext.getBody();
-			buildContext(operationContext, value, parameters, body);
+			List<OJParameter> parameters = buildContext(operationContext);
+			addExtendedKeywords(operationContext, value);
 			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
 			expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
 			return expression;
@@ -65,8 +70,13 @@ public class ValueSpecificationUtil{
 			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
 		}
 	}
-	public static void buildContext(OJOperation operationContext,IOclContext value,List<OJParameter> parameters,OJBlock body){
-		addExtendedKeywords(operationContext, value);
+	private static List<OJParameter> buildContext(OJOperation operationContext){
+		List<OJParameter> parameters = new ArrayList<OJParameter>(operationContext.getParameters());
+		OJBlock body = operationContext.getBody();
+		buildContext(operationContext, parameters, body);
+		return parameters;
+	}
+	public static void buildContext(OJOperation operationContext,List<OJParameter> parameters,OJBlock body){
 		for(OJField f:body.getLocals()){
 			if(!f.getName().equals("result")){// Standard result variable for operations
 				OJParameter fake = new OJParameter();
@@ -96,7 +106,7 @@ public class ValueSpecificationUtil{
 		}
 		return false;
 	}
-	private static String expressLiterals(INakedValueSpecification valueSpec){
+	private static String expressLiterals(INakedValueSpecification valueSpec,OJClass ojOwner,OJOperation operation){
 		String expression = null;
 		if(valueSpec.getValue() instanceof Boolean){
 			expression = valueSpec.getValue().toString();
@@ -111,6 +121,31 @@ public class ValueSpecificationUtil{
 		}else if(valueSpec.getValue() instanceof ParsedOclString){
 			return "OCL INVALID!: " + valueSpec.getValue();
 			// TODO instancespecifications
+		}else if(valueSpec.getValue() instanceof INakedInstanceSpecification){
+			INakedInstanceSpecification spec = (INakedInstanceSpecification) valueSpec.getValue();
+			NakedClassifierMap map = new NakedClassifierMap(spec.getClassifier());
+			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getNakedUmlId(), map.javaTypePath());
+			ojOwner.addToOperations(getInstance);
+			final OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
+			getInstance.getBody().addToLocals(result);
+			result.setInitExp(map.javaDefaultValue());
+			StringBuilder sb = new StringBuilder();
+			if(operation != null){
+				List<OJParameter> params = buildContext(operation);
+				for(OJParameter ojParameter:params){
+					getInstance.addToParameters(ojParameter.getDeepCopy());
+				}
+				for(OJParameter p:params){
+					sb.append(p.getName());
+					sb.append(",");
+				}
+				sb.deleteCharAt(sb.length() - 1);
+			}
+			expression = getInstance.getName() + "(" + sb + ")";
+			for(INakedSlot s:spec.getSlots()){
+				NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(s.getDefiningFeature());
+				getInstance.getBody().addToStatements("result." + featureMap.setter() + "(" + expressSlot(operation, s) + ")");
+			}
 		}
 		return expression;
 	}
@@ -153,5 +188,29 @@ public class ValueSpecificationUtil{
 			expression = map.javaDefaultValue();
 		}
 		return expression;
+	}
+	public static String expressSlot(OJOperation oper,final INakedSlot slot){
+		return "";
+	} // Assume a static context
+	public static String expressSlot(OJClass myClass,final INakedSlot slot){
+		INakedProperty feat = slot.getDefiningFeature();
+		String init = null;
+		NakedStructuralFeatureMap mapper = OJUtil.buildStructuralFeatureMap(feat);
+		final List<INakedValueSpecification> values = slot.getValues();
+		if(mapper.isOne()){
+			init = expressValue(myClass, values.get(0), feat.getType(), true);
+		}else {
+			StringBuilder sb = new StringBuilder(mapper.javaDefaultValue());
+			sb.deleteCharAt(sb.length() - 1);
+			sb.append("java.util.Arrays.asList(");
+			for(INakedValueSpecification v:values){
+				sb.append(expressValue(myClass, v, feat.getType(), true));
+				sb.append(",");
+			}
+			sb.deleteCharAt(sb.length() - 1);
+			sb.append("))");
+			init = sb.toString();
+		}
+		return init;
 	}
 }

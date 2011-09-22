@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +28,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Proxy;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
@@ -34,6 +37,7 @@ import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -45,30 +49,30 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="participation")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation",uuid="OpiumBPM.library.uml@_jRjnII6MEeCrtavWRHwoHg")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation",uuid="252060@_jRjnII6MEeCrtavWRHwoHg")
 @AccessType("field")
 public class Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 686;
-	@Index(name="idx_participation_participant",columnNames="participant")
-	@Any(metaDef="Participant",metaColumn=@Column(name="participant_type"))
-	@JoinColumn(name="participant",nullable=true)
-	private Participant participant;
-	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
-	@Id
-	private Long id;
-	@Column(name="object_version")
-	@Version
-	private int objectVersion;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static private Set<Participation> mockedAllInstances;
+	private String uid;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	private String uid;
+	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
+	@Id
+	private Long id;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Column(name="object_version")
+	@Version
+	private int objectVersion;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Index(name="idx_participation_participant",columnNames="participant")
+	@Any(metaDef="Participant",metaColumn=@Column(name="participant_type"))
+	@JoinColumn(name="participant",nullable=true)
+	private Participant participant;
+	static final private long serialVersionUID = 861;
+	static private Set<Participation> mockedAllInstances;
 
 	/** Default constructor for Participation
 	 */
@@ -89,25 +93,13 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participant") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						Participant curVal = (Participant)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.setParticipant(curVal);
-						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						map.put(curVal.getUid(), curVal);
-					}
-				}
-			}
+		
 		}
 	}
 	
@@ -155,7 +147,7 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 		return null;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation.participant",uuid="OpiumBPM.library.uml@_3YyGlIoXEeCPduia_-NbFw")
+	@NumlMetaInfo(qualifiedPersistentName="participation.participant",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
 		return participant;
 	}
@@ -199,18 +191,18 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participant") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("935")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						setParticipant((Participant)map.get(((Element)xml).getAttribute("uid")));
+						setParticipant((Participant)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -256,24 +248,24 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 	}
 	
 	public String toXmlReferenceString() {
-		return "<participation uid=\""+getUid() + "\">";
+		return "<Participation uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<participation");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.Participation\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
-		sb.append(">\n");
+		sb.append("<Participation ");
+		sb.append("classUuid=\"252060@_jRjnII6MEeCrtavWRHwoHg\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.Participation\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
+		sb.append(">");
 		if ( getParticipant()==null ) {
-			sb.append("<participant/>");
+			sb.append("\n<participant/>");
 		} else {
-			sb.append("<participant>");
-			sb.append(getParticipant().toXmlReferenceString());
-			sb.append("</participant>");
-			sb.append("\n");
+			sb.append("\n<participant propertyId=\"935\">");
+			sb.append("\n" + getParticipant().toXmlReferenceString());
+			sb.append("\n</participant>");
 		}
-		sb.append("</participation>");
+		sb.append("\n</Participation>");
 		return sb.toString();
 	}
 	

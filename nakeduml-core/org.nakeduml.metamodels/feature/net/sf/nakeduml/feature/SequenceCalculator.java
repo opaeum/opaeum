@@ -100,7 +100,7 @@ public abstract class SequenceCalculator<T>{
 	}
 	public boolean hasAlreadyBeenAdded(BeforeAndAfter tp){
 		for(T t:executionUnits){
-			if(tp.getExecutableUnit().isInstance(t)){
+			if(tp.getExecutableUnit().equals(t.getClass())){
 				return true;
 			}
 		}

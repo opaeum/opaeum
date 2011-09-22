@@ -18,6 +18,10 @@ import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import org.nakeduml.runtime.domain.TaskDelegation;
 
 public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implements INakedResponsibilityDefinition{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -274701389815160284L;
 	INakedInstanceSpecification stereotype;
 	public NakedResponsibilityDefinitionImpl(INakedInstanceSpecification stereotype){
 		this.stereotype = stereotype;

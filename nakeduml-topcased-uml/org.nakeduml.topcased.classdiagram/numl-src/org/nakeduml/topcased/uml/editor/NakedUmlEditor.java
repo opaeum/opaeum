@@ -25,7 +25,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -147,7 +147,8 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 			if(newContext){
 				cfg = new NakedUmlConfig(new File(umlDir.getLocation().toFile(), "nakeduml.properties"));
 				NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getDefault().getActiveShell(), cfg);
-				if(dlg.open() != SWT.OK){
+				final int dlgResult = dlg.open();
+				if(dlgResult != Window.OK){
 					return null;
 				}
 				try{

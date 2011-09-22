@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
 import nl.klasse.octopus.model.IDataType;
+import nl.klasse.octopus.model.IState;
 
 public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal,IDataType{
 	private static final long serialVersionUID = 5492485182705048910L;
@@ -42,7 +43,6 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 		results.addAll(getOwnedArgumentParamaters());
 		return results;
 	}
-	@SuppressWarnings("unchecked")
 	private List<INakedProperty> getOwnedArgumentParamaters(){
 		List<INakedProperty> list = new ArrayList<INakedProperty>(getOwnedAttributes());
 		Collections.<INakedProperty>sort(list, new Comparator<INakedProperty>(){
@@ -64,8 +64,8 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 		return list;
 	}
 	@Override
-	public List getStates(){
-		return Collections.EMPTY_LIST;
+	public List<IState> getStates(){
+		return Collections.emptyList();
 	}
 	public boolean isPersistent(){
 		return false;

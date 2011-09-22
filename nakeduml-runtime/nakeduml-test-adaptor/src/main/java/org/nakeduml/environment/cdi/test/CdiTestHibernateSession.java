@@ -46,7 +46,15 @@ import org.nakeduml.runtime.domain.IPersistentObject;
 
 @RequestScoped
 public class CdiTestHibernateSession implements Session{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6837615283053694623L;
 	private final class SexyList<T> extends ArrayList<T>{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8109362708769613655L;
 		private SexyList(Collection<T> c){
 			super();
 			for(T t:c){
@@ -62,6 +70,10 @@ public class CdiTestHibernateSession implements Session{
 		}
 	}
 	private final class SexySet<T> extends HashSet<T>{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7859622605125380065L;
 		private SexySet(Collection<T> c){
 			for(T t:c){
 				add(t);

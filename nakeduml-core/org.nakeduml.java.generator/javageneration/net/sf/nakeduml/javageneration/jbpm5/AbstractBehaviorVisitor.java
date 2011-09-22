@@ -28,15 +28,5 @@ public abstract class AbstractBehaviorVisitor extends AbstractJavaProducingVisit
 		getCallbackListener.getBody().addToStatements("return null");
 		return getCallbackListener;
 	}
-	protected void addSetReturnInfo(OJAnnotatedClass ojClass){
-		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
-		ojClass.addToOperations(setReturnInfo);
-		setReturnInfo.addParam("context", Jbpm5Util.getProcessContext());
-		setReturnInfo.getBody().addToStatements("this.callingProcessInstanceId=context.getProcessInstance().getId()");
-		setReturnInfo.getBody().addToStatements("this.nodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
-		OJUtil.addProperty(ojClass, "nodeInstanceUniqueId", new OJPathName("String"), true);
-		OJUtil.addProperty(ojClass, "callingProcessInstanceId", new OJPathName("long"), true);
-		ojClass.addToImports(Jbpm5Util.getNodeInstance());
-	}
 
 }

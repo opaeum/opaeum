@@ -45,7 +45,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 					ActionMap actionMap = new ActionMap(node);
 					fs = buildLoopThroughTarget(operation, block, actionMap);
 					resultField.setInitExp(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-							+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+							+ populateArgumentPinsAndBuildArgumentString(operation, node.getCalledElement().isLongRunning(), node.getArguments()) + ")");
 				}
 				fs.addToLocals(resultField);
 				if(shouldStoreMessageStructureOnProcess()){
@@ -65,7 +65,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 		ActionMap actionMap = new ActionMap(node);
 		fs = buildLoopThroughTarget(operation, block, actionMap);
 		fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-				+ populateArgumentPinsAndBuildArgumentString(operation, node.getArguments()) + ")");
+				+ populateArgumentPinsAndBuildArgumentString(operation, node.getCalledElement().isLongRunning(), node.getArguments()) + ")");
 		return fs;
 	}
 	protected abstract boolean shouldStoreMessageStructureOnProcess();

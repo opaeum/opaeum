@@ -6,6 +6,10 @@ import net.sf.nakeduml.metamodel.components.NakedConnectorKind;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
 public class NakedConnectorImpl extends NakedElementImpl implements INakedConnector{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3752036447101227421L;
 	private INakedConnectorEnd end2;
 	private INakedConnectorEnd end1;
 	private NakedConnectorKind kind;

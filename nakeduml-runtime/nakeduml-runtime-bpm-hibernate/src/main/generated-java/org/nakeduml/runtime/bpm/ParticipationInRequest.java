@@ -1,7 +1,9 @@
 package org.nakeduml.runtime.bpm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.nakeduml.annotation.NumlMetaInfo;
+import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
 import org.nakeduml.runtime.domain.CompositionNode;
@@ -31,6 +34,7 @@ import org.nakeduml.runtime.domain.IEventGenerator;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 import org.nakeduml.runtime.domain.OutgoingEvent;
+import org.nakeduml.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -41,27 +45,27 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Table(name="participation_in_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_request",uuid="OpiumBPM.library.uml@_GVhgMI6NEeCrtavWRHwoHg")
+@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_request",uuid="252060@_GVhgMI6NEeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("participation_in_request")
 public class ParticipationInRequest extends Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
-	static final private long serialVersionUID = 664;
-	@Index(name="idx_participation_in_request_request_id",columnNames="request_id")
-	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
-	@JoinColumn(name="request_id",nullable=true)
-	private AbstractRequest request;
-	@Enumerated(javax.persistence.EnumType.STRING)
-	@Column(name="kind",nullable=true)
-	private RequestParticipationKind kind;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static private Set<ParticipationInRequest> mockedAllInstances;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Index(name="idx_participation_in_request_request_id",columnNames="request_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="request_id",nullable=true)
+	private AbstractRequest request;
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	static final private long serialVersionUID = 866;
+	static private Set<ParticipationInRequest> mockedAllInstances;
+	@Enumerated(javax.persistence.EnumType.STRING)
+	@Column(name="kind",nullable=true)
+	private RequestParticipationKind kind;
 
 	/** Default constructor for ParticipationInRequest
 	 */
@@ -92,28 +96,16 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		}
 	}
 	
-	public void buildTreeFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("kind")!=null ) {
+		if ( xml.getAttribute("kind").length()>0 ) {
 			setKind(RequestParticipationKind.valueOf(xml.getAttribute("kind")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participant") ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						Participant curVal = (Participant)IntrospectionUtil.newInstance(IntrospectionUtil.classForName(((Element)currentPropertyNode).getAttribute("className")));
-						this.setParticipant(curVal);
-						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						map.put(curVal.getUid(), curVal);
-					}
-				}
-			}
+		
 		}
 	}
 	
@@ -144,7 +136,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.kind",uuid="OpiumBPM.library.uml@_cATKlI6NEeCrtavWRHwoHg")
+	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.kind",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
 		return kind;
 	}
@@ -161,7 +153,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return getRequest();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.request_id",uuid="OpiumBPM.library.uml@_XLVmwY6NEeCrtavWRHwoHg")
+	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.request_id",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	public AbstractRequest getRequest() {
 		return request;
 	}
@@ -204,18 +196,18 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		mockedAllInstances=newMocks;
 	}
 	
-	public void populateReferencesFromXml(Element xml, Map<String, IPersistentObject> map) {
+	public void populateReferencesFromXml(Element xml, Map<String, Object> map) {
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && currentPropertyNode.getNodeName().equals("participant") ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("935")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						setParticipant((Participant)map.get(((Element)xml).getAttribute("uid")));
+						setParticipant((Participant)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -257,27 +249,27 @@ public class ParticipationInRequest extends Participation implements IEventGener
 	}
 	
 	public String toXmlReferenceString() {
-		return "<participationInRequest uid=\""+getUid() + "\">";
+		return "<ParticipationInRequest uid=\""+getUid() + "\"/>";
 	}
 	
 	public String toXmlString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<participationInRequest");
-		sb.append(" className=\"org.nakeduml.runtime.bpm.ParticipationInRequest\" ") ;
-		sb.append("uid=\"" + this.getUid() + "\"") ;
+		sb.append("<ParticipationInRequest ");
+		sb.append("classUuid=\"252060@_GVhgMI6NEeCrtavWRHwoHg\" ");
+		sb.append("className=\"org.nakeduml.runtime.bpm.ParticipationInRequest\" ");
+		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getKind()!=null ) {
-			sb.append("kind=\""+ getKind() + "\" ");
+			sb.append("kind=\""+ getKind().name() + "\" ");
 		}
-		sb.append(">\n");
+		sb.append(">");
 		if ( getParticipant()==null ) {
-			sb.append("<participant/>");
+			sb.append("\n<participant/>");
 		} else {
-			sb.append("<participant>");
-			sb.append(getParticipant().toXmlReferenceString());
-			sb.append("</participant>");
-			sb.append("\n");
+			sb.append("\n<participant propertyId=\"935\">");
+			sb.append("\n" + getParticipant().toXmlReferenceString());
+			sb.append("\n</participant>");
 		}
-		sb.append("</participationInRequest>");
+		sb.append("\n</ParticipationInRequest>");
 		return sb.toString();
 	}
 	

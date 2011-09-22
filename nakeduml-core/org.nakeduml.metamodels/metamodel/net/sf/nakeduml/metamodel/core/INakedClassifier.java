@@ -79,4 +79,5 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	List<? extends INakedConstraint> getOwnedRules();
 	void setOwnedRules(List<INakedConstraint> loopResults);
 	public abstract void removeObsoleteArtificialProperties();
+	public abstract String getImplementationCode();
 }

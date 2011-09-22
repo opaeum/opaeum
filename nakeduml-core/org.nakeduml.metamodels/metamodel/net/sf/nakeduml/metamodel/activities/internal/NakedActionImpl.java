@@ -28,15 +28,15 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
-		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification()!=null){
+		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification() != null){
 			INakedConstraint cnstr = (INakedConstraint) element;
 			IOclContext oc = cnstr.getSpecification().getOclValue();
 			if(oc.getType().equals(OclUsageType.PRE)){
 				preConditions.remove(cnstr);
 				preConditions.add(cnstr);
 			}else{
-				preConditions.remove(cnstr);
-				preConditions.add(cnstr);
+				postConditions.remove(cnstr);
+				postConditions.add(cnstr);
 			}
 		}
 	};
@@ -123,9 +123,16 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 	protected void removePins(List<? extends INakedPin> inputValues2){
 		if(inputValues2 != null){
 			for(INakedPin iNakedInputPin:inputValues2){
-				removeOwnedElement(iNakedInputPin);
+				removeOwnedElement(iNakedInputPin, true);
 			}
 		}
 	}
-
+	@Override
+	public void removeOwnedElement(INakedElement element,boolean recursively){
+		super.removeOwnedElement(element, recursively);
+		if(element instanceof INakedConstraint){
+			this.postConditions.remove(element);
+			this.preConditions.remove(element);
+		}
+	}
 }

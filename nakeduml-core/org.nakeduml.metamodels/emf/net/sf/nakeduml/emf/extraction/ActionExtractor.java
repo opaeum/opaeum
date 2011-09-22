@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.actions.internal.NakedOclActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedOpaqueActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedRaiseExceptionActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedReplyActionImpl;
+import net.sf.nakeduml.metamodel.actions.internal.NakedSendObjectActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedSendSignalActionImpl;
 import net.sf.nakeduml.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
 import net.sf.nakeduml.metamodel.activities.INakedInputPin;
@@ -40,15 +41,16 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.RaiseExceptionAction;
 import org.eclipse.uml2.uml.ReadSelfAction;
 import org.eclipse.uml2.uml.ReplyAction;
+import org.eclipse.uml2.uml.SendObjectAction;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StartClassifierBehaviorAction;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		FeatureExtractor.class,ActivityStructureExtractor.class
+		FeatureExtractor.class,ActivityStructureExtractor.class,InstanceExtractor.class
 },after = {
-		FeatureExtractor.class,ActivityStructureExtractor.class
+		FeatureExtractor.class,ActivityStructureExtractor.class,InstanceExtractor.class
 })
 public class ActionExtractor extends AbstractActionExtractor{
 	@Override
@@ -58,10 +60,8 @@ public class ActionExtractor extends AbstractActionExtractor{
 			Stereotype stereotype = StereotypesHelper.getStereotype(emfAction, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK);
 			if(stereotype != null){
 				return new NakedEmbeddedSingleScreenTaskImpl();
-			}else if(emfAction.getBodies().size() >= 1){
+			}else {
 				return new NakedOclActionImpl();
-			}else{
-				return null;
 			}
 		}else if(e instanceof CallBehaviorAction){
 			CallBehaviorAction emfAction = (CallBehaviorAction) e;
@@ -160,6 +160,15 @@ public class ActionExtractor extends AbstractActionExtractor{
 		Activity emfActivity = getActivity(emfAction);
 		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget()));
 		nakedAction.setSignal((INakedSignal) getNakedPeer(emfAction.getSignal()));
+		List<INakedInputPin> arguments = populatePins(emfActivity, emfAction.getArguments());
+		nakedAction.setArguments(arguments);
+	}
+	@VisitBefore
+	public void visitSendObjectAction(SendObjectAction emfAction,NakedSendObjectActionImpl nakedAction){
+		initAction(emfAction, nakedAction);
+		Activity emfActivity = getActivity(emfAction);
+		nakedAction.setTarget((INakedInputPin) initializePin(emfActivity, emfAction.getTarget()));
+		nakedAction.setRequest((INakedInputPin) initializePin(emfActivity, emfAction.getRequest()));
 		List<INakedInputPin> arguments = populatePins(emfActivity, emfAction.getArguments());
 		nakedAction.setArguments(arguments);
 	}

@@ -8,7 +8,7 @@ import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.TypeResolver;
-import net.sf.nakeduml.metamodel.core.INakedAssociationClass;
+import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -53,13 +53,12 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
-		if(umlOwner instanceof INakedAssociationClass){
+		if(umlOwner instanceof INakedAssociation){
 			OJAnnotatedClass ojOwner = findJavaClass(umlOwner);
 			OJConstructor constr1 = new OJConstructor();
-			INakedAssociationClass assocClass = (INakedAssociationClass) umlOwner;
+			INakedAssociation assocClass = (INakedAssociation) umlOwner;
 			NakedStructuralFeatureMap mapToEnd1 = new NakedStructuralFeatureMap(assocClass.getPropertyToEnd1());
 			NakedStructuralFeatureMap mapToEnd2 = new NakedStructuralFeatureMap(assocClass.getPropertyToEnd2());
 			constr1.addParam("end1", mapToEnd1.javaTypePath());
@@ -76,10 +75,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			OJAnnotatedOperation clear = new OJAnnotatedOperation("clear");
 			ojOwner.addToOperations(clear);
 			// TODO this object already exists - find it
-			EndToAssociationClass end1ToAssocationClass = new EndToAssociationClass(((INakedAssociationClass) umlOwner).getEnd1());
+			EndToAssociationClass end1ToAssocationClass = new EndToAssociationClass(((INakedAssociation) umlOwner).getEnd1());
 			TypeResolver.resolveCollection(end1ToAssocationClass, end1ToAssocationClass.getBaseType(), getOclEngine().getOclLibrary());
 			NakedStructuralFeatureMap mapFromEnd1 = new NakedStructuralFeatureMap(end1ToAssocationClass);
-			EndToAssociationClass end2ToAssocationClass = new EndToAssociationClass(((INakedAssociationClass) umlOwner).getEnd2());
+			EndToAssociationClass end2ToAssocationClass = new EndToAssociationClass(((INakedAssociation) umlOwner).getEnd2());
 			TypeResolver.resolveCollection(end2ToAssocationClass, end2ToAssocationClass.getBaseType(), getOclEngine().getOclLibrary());
 			NakedStructuralFeatureMap mapFromEnd2 = new NakedStructuralFeatureMap(end2ToAssocationClass);
 			if(assocClass.getEnd1().isNavigable()){
@@ -144,20 +143,24 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
 		OJAnnotatedClass owner = findJavaClass(c);
-		if(map.isMany()){
-			// These are all the same as for normal attributes
-			buildAdder(owner, map);
-			buildAddAll(owner, map);
-			buildRemover(owner, map);
-			buildRemoveAll(owner, map);
-			buildClear(owner, map);
+		if(map.getProperty().isDerived()){
+			buildGetter(owner, aMap);
+		}else{
+			if(map.isMany()){
+				// These are all the same as for normal attributes
+				buildAdder(owner, map);
+				buildAddAll(owner, map);
+				buildRemover(owner, map);
+				buildRemoveAll(owner, map);
+				buildClear(owner, map);
+			}
+			buildSetter(c, owner, map);
+			// Here are the deviations from normal attributes
+			buildInternalAdder(owner, aMap);
+			buildInternalRemover(owner, aMap);
+			buildGetter(owner, aMap);
+			buildGetterFor(owner, aMap);
 		}
-		buildSetter(c, owner, map);
-		// Here are the deviations from normal attributes
-		buildInternalAdder(owner, aMap);
-		buildInternalRemover(owner, aMap);
-		buildGetter(owner, aMap);
-		buildGetterFor(owner, aMap);
 	}
 	protected void buildGetterFor(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap mapToAssocationClass = aMap.getEndToAssocationClassMap();
@@ -231,7 +234,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			result.setInitExp(map.javaDefaultValue());
 			internalRemover.getBody().addToLocals(result);
 			StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
-			INakedAssociationClass assc = (INakedAssociationClass) map.getProperty().getAssociation();
+			INakedAssociation assc = (INakedAssociation) map.getProperty().getAssociation();
 			INakedProperty otherEnd = map.getProperty().getOtherEnd();
 			INakedProperty fromAssToOtherEnd = assc.getEnd1() == otherEnd ? assc.getPropertyToEnd1() : assc.getPropertyToEnd2();
 			NakedStructuralFeatureMap mapFromAssClassToOtherEnd = new NakedStructuralFeatureMap(fromAssToOtherEnd);
@@ -332,7 +335,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			INakedProperty p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-			if(!(p.getOtherEnd() != null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()){
+			if(!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 				if(otherMap.isMany()){
 					if(!OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){

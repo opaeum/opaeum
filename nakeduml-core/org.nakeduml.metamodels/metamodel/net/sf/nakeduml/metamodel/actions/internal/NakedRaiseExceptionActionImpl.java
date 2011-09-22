@@ -8,33 +8,30 @@ import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActionImpl;
 
-public class NakedRaiseExceptionActionImpl extends NakedActionImpl implements INakedRaiseExceptionAction {
+public class NakedRaiseExceptionActionImpl extends NakedActionImpl implements INakedRaiseExceptionAction{
 	private static final long serialVersionUID = 3691990455746398683L;
 	private INakedInputPin exception;
-
 	@Override
-	public Collection<INakedInputPin> getInput() {
+	public Collection<INakedInputPin> getInput(){
 		ArrayList<INakedInputPin> input = new ArrayList<INakedInputPin>();
-		if (exception != null) {
+		if(exception != null){
 			input.add(exception);
 		}
 		return input;
 	}
-
 	@Override
-	public Collection<INakedOutputPin> getOutput() {
+	public Collection<INakedOutputPin> getOutput(){
 		return new ArrayList<INakedOutputPin>();
 	}
-
-
 	@Override
-	public void setException(INakedInputPin p) {
-		removeOwnedElement(this.exception);
-		this.exception = p;
+	public void setException(INakedInputPin p){
+		if(this.exception != p){
+			removeOwnedElement(this.exception, true);
+			this.exception = p;
+		}
 	}
-
 	@Override
-	public INakedInputPin getException() {
+	public INakedInputPin getException(){
 		return this.exception;
 	}
 }

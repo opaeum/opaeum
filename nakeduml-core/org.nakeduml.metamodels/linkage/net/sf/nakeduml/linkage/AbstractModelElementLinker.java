@@ -35,7 +35,10 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 	protected ErrorMap getErrorMap(){
 		return workspace.getErrorMap();
 	}
-	public Collection<INakedElement> getAffectedElements(){
+	protected synchronized void addAffectedElement(INakedElement a){
+		affectedElements.add(a);
+	}
+	Collection<INakedElement> getAffectedElements(){
 		return this.affectedElements;
 	}
 	public void setCurrentRootObject(INakedRootObject a){
@@ -52,7 +55,7 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		//Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
 		boolean isLinkedNonGeneratingObject =  false;
 		if(o instanceof INakedRootObject){
-			isLinkedNonGeneratingObject =/*!workspace.getGeneratingModelsOrProfiles().contains(o) &&*/ ((INakedRootObject)o).getStatus().isLinked();
+			isLinkedNonGeneratingObject =!workspace.getGeneratingModelsOrProfiles().contains(o) && ((INakedRootObject)o).getStatus().isLinked();
 		}
 		return !(shouldIgnoreBecauseItIsDeleted || isLinkedNonGeneratingObject);
 	}

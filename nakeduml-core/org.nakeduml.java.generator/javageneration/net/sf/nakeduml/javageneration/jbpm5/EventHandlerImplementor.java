@@ -123,7 +123,6 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	protected int getThreadPoolSize(){
 		return 1;
 	}
-
 	private void visitChangeEvent(INakedChangeEvent e){
 		OJPathName handlerPathName = EventUtil.handlerPathName(e);
 		OJPackage pkg = findOrCreatePackage(handlerPathName.getHead());
@@ -231,8 +230,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		ojClass.addToImports(new OJPathName("java.util.ArrayList"));
 		ojClass.addToImports(new OJPathName(Value.class.getName()));
 	}
-	@VisitBefore
+	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation o){
+		// TODO implement async handler for behaviors
 		if(OJUtil.hasOJClass(o.getOwner()) && !o.isQuery()){
 			NakedOperationMap map = new NakedOperationMap(o);
 			if(o.getMappingInfo().requiresJavaRename()){
@@ -286,7 +286,15 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			OJIfStatement ifEvent = new OJIfStatement("isEvent", "return target." + map.eventConsumerMethodName() + "(" + argumentString(o) + ")");
 			invoke.getBody().addToStatements(ifEvent);
 			ifEvent.setElsePart(new OJBlock());
-			String call = "target." + map.javaOperName() + "(" + argumentString(o) + ")";
+			String arg1 = "";
+			if(o.isLongRunning()){
+				if(o.getArgumentParameters().size() > 0){
+					arg1 = "null,";
+				}else{
+					arg1 = "null";
+				}
+			}
+			String call = "target." + map.javaOperName() + "(" + arg1 + argumentString(o) + ")";
 			manageInvocation(o, invoke, ifEvent.getElsePart(), call);
 			ifEvent.getElsePart().addToStatements("return true");
 			addGetConsumerPoolSize(handler, 5);
@@ -316,6 +324,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private void manageInvocation(INakedOperation o,OJAnnotatedOperation invoke,OJBlock b,String call){
 		if(BehaviorUtil.hasExecutionInstance(o)){
 			OJAnnotatedField result = new OJAnnotatedField("result", OJUtil.classifierPathname(o.getMessageStructure()));
+			result.setInitExp(call);
 			b.addToLocals(result);
 			for(INakedParameter p:(List<? extends INakedParameter>) o.getResultParameters()){
 				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);

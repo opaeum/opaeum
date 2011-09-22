@@ -20,7 +20,7 @@ public class UimCleanup extends AbstractUimSynchronizer{
 		TreeIterator<Notifier> allContents = rst.getAllContents();
 		while(allContents.hasNext()){
 			Notifier ur = (Notifier) allContents.next();
-			if(ur instanceof UmlReference && workspace.getElementMap().get(((UmlReference) ur).getUmlElementUid())==null){
+			if(ur instanceof UmlReference && workspace.getElement(((UmlReference) ur).getUmlElementUid())==null){
 				if(ur instanceof FieldBinding){
 					FieldBinding fb = (FieldBinding) ur;
 					UimLayout parent = fb.getField().getParent();

@@ -24,17 +24,25 @@ import org.nakeduml.runtime.domain.ExceptionHolder;
 
 public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleNodeBuilder<T>{
 	protected NakedStructuralFeatureMap callMap;
-
 	public AbstractCaller(NakedUmlLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 		if(BehaviorUtil.hasMessageStructure(node)){
 			callMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 		}
 	}
-
-	protected <E extends INakedInputPin>StringBuilder populateArgumentPinsAndBuildArgumentString(OJOperation operation,Collection<E> input){
+	protected <E extends INakedInputPin>StringBuilder populateArgumentPinsAndBuildArgumentString(OJOperation operation,boolean includeReturnInfo,Collection<E> input){
 		StringBuilder arguments = new StringBuilder();
 		Iterator<? extends INakedInputPin> args = input.iterator();
+		if(includeReturnInfo){
+			if(node.getActivity().getActivityKind().isSimpleSynchronousMethod()){
+				arguments.append("null");
+			}else{
+				arguments.append("context");
+			}
+			if(args.hasNext()){
+				arguments.append(",");
+			}
+		}
 		while(args.hasNext()){
 			INakedObjectNode pin = args.next();
 			arguments.append(readPin(operation, operation.getBody(), pin));
@@ -44,7 +52,6 @@ public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleN
 		}
 		return arguments;
 	}
-
 	public OJTryStatement surroundWithCatchIfNecessary(OJOperation operationContext,OJBlock originalBlock){
 		boolean shouldSurround = BehaviorUtil.shouldSurrounWithTry(node);
 		if(shouldSurround){

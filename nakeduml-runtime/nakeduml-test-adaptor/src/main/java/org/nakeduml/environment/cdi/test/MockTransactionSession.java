@@ -31,6 +31,10 @@ import org.hibernate.stat.SessionStatistics;
 //@TransactionScopedSession
 public class MockTransactionSession implements Session {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8718821316199964436L;
 	static Collection<MockQuery> mockQueries = new ArrayList<MockQuery>();
 	public static void addMockedQuery(MockQuery w){
 		mockQueries.add(w);

@@ -18,7 +18,11 @@ public class OJConstructor extends OJConstructorGEN {
 	public OJClassifier getOwner() {
 		return this.getOwningClass();
 	}
-	
+	public OJConstructor getDeepCopy(){
+		OJConstructor result = new OJConstructor();
+		copyValuesDeep(result);
+		return result;
+	}
 	public String toJavaString(){
 		StringBuilder result = new StringBuilder();
 		if (getComment().equals("")){

@@ -25,9 +25,9 @@ import org.eclipse.uml2.uml.Slot;
  * 
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-	ImportExtractor.class
+	FeatureExtractor.class
 },after = {
-	ImportExtractor.class
+	FeatureExtractor.class
 })
 public class InstanceExtractor extends AbstractExtractorFromEmf{
 	@Override

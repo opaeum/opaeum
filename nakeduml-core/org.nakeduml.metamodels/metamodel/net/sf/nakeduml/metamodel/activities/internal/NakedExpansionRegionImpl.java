@@ -13,6 +13,10 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
 public class NakedExpansionRegionImpl extends NakedStructuredActivityNodeImpl implements INakedExpansionRegion {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6052492266261216015L;
 	// NB this is not the containment relationship - these objects will be
 	// duplicated in ownedElements
 	private List<INakedExpansionNode> inputElement = new ArrayList<INakedExpansionNode>();

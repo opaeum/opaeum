@@ -7,6 +7,11 @@ import net.sf.nakeduml.metamodel.core.internal.NakedPropertyImpl;
 
 public class NakedPortImpl extends NakedPropertyImpl implements INakedPort{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1593895201835920222L;
+
 	@Override
 	public boolean isBusinessService(){
 		if(getNakedBaseType() instanceof INakedBusinessService){

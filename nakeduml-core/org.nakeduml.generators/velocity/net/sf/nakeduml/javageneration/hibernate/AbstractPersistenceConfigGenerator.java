@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SortedProperties;
 import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.IntegrationCodeGenerator;
 import net.sf.nakeduml.javageneration.JavaTransformationStep;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
@@ -18,7 +16,6 @@ import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
 import net.sf.nakeduml.javageneration.jbpm5.Jbpm5Util;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
-import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -102,14 +99,17 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		vars.put("isAdaptorEnvironment", isAdaptorEnvironment);
 		vars.put("requiresJbpm", transformationContext.isAnyOfFeaturesSelected(Jbpm5JavaStep.class));
 		vars.put("persistenceConfigName", getConfigName(owner));
-		Collection<INakedClassifier> persistentClasses = new HashSet<INakedClassifier>();
+		Collection<OJPathName> persistentClasses = new HashSet<OJPathName>();
+		for(String string:config.getAdditionalPersistentClasses()){
+			persistentClasses.add(new OJPathName(string));
+		}
 		for(INakedElement e:workspace.getAllElements()){
 			if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){
-				persistentClasses.add((INakedClassifier) e);
+				persistentClasses.add(OJUtil.classifierPathname((INakedClassifier) e));
 			}else if(e instanceof INakedOperation && ((INakedOperation) e).isLongRunning() && isGeneratingElement(e)){
-				persistentClasses.add(((INakedOperation) e).getMessageStructure());
+				persistentClasses.add(OJUtil.classifierPathname(((INakedOperation) e).getMessageStructure()));
 			}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
-				persistentClasses.add(((INakedEmbeddedTask) e).getMessageStructure());
+				persistentClasses.add(OJUtil.classifierPathname(((INakedEmbeddedTask) e).getMessageStructure()));
 			}
 		}
 		vars.put("persistentClasses", persistentClasses);

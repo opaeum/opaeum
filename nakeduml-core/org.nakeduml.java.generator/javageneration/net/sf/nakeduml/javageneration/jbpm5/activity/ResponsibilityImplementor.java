@@ -57,17 +57,10 @@ import org.nakeduml.runtime.domain.DeadlineKind;
 		StateMachineImplementor.class,ActivityProcessImplementor.class
 })
 public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
-	public static final OJPathName RESPONSIBILITY_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.ResponsibilityObject");
-	public static final OJPathName ABSTRACT_REQUEST = new OJPathName("org.nakeduml.runtime.bpm.AbstractRequest");
-	public static final OJPathName TASK_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.TaskObject");
-	public static final OJPathName OPERATION_PROCESS_OBJECT = new OJPathName("org.nakeduml.runtime.bpm.OperationProcessObject");
-	public static final OJPathName PROCESS_REQUEST = new OJPathName("org.nakeduml.runtime.bpm.ProcessRequest");
-	public static final OJPathName TASK_REQUEST = new OJPathName("org.nakeduml.runtime.bpm.TaskRequest");
 	@VisitBefore
 	public void visitActivity(INakedActivity activity){
 		if(activity.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(activity)){
 			OJAnnotatedClass activityClass = findJavaClass(activity);
-			activityClass.addToImplementedInterfaces(OPERATION_PROCESS_OBJECT);
 		}
 		for(INakedActivityNode n:activity.getActivityNodesRecursively()){
 			if(n instanceof INakedEmbeddedScreenFlowTask){
@@ -84,7 +77,13 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	public void visitClassifier(INakedClassifier nc){
 		for(IOperation o:nc.getOperations()){
 			if(o instanceof INakedResponsibility){
-				visitResponsibility((INakedResponsibility) o);
+				INakedResponsibility oa = (INakedResponsibility) o;
+				OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
+				OJAnnotatedOperation exec = implementExecute(oa, ojClass);
+				TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "self");
+				NakedOperationMap map = new NakedOperationMap(oa);
+				implementTask(oa, ojClass, map.callbackOperName(), map.callbackListenerPath());
+				addGetName(oa, ojClass);
 			}
 		}
 	}
@@ -93,7 +92,6 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		if(sm.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(sm)){
 			// TODO distinguish between tasks and contractedProcesses
 			OJAnnotatedClass ojClass = findJavaClass(sm);
-			ojClass.addToImplementedInterfaces(TASK_OBJECT);
 		}
 	}
 	private void visitScreenFlowTask(INakedEmbeddedScreenFlowTask a){
@@ -126,22 +124,9 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	}
 	private void visitEmbeddedSingleScreenTask(INakedEmbeddedSingleScreenTask oa){
 		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
-		ojClass.addToImplementedInterfaces(TASK_OBJECT);
 		implementEmbeddedTask(oa, ojClass);
 	}
-	private void visitResponsibility(INakedResponsibility oa){
-		OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
-		ojClass.addToImplementedInterfaces(RESPONSIBILITY_OBJECT);
-		OJAnnotatedOperation exec = implementExecute(oa, ojClass);
-		TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "self");
-		NakedOperationMap map = new NakedOperationMap(oa);
-		implementTask(oa, ojClass, map.callbackOperName(), map.callbackListenerPath());
-		addSetReturnInfo(ojClass);
-		addGetName(oa, ojClass);
-		addGetCallingProcessObject(ojClass, map.callbackListenerPath());
-	}
 	private void implementEmbeddedTask(INakedEmbeddedTask oa,OJAnnotatedClass ojClass){
-		ojClass.addToImports(TASK_OBJECT);
 		implementExecute(oa, ojClass);
 		String callbackMethodName = "on" + oa.getMappingInfo().getJavaName().getCapped() + "Completed";
 		OJAnnotatedOperation setReturnInfo = new OJAnnotatedOperation("setReturnInfo");
@@ -155,27 +140,21 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	private void implementTask(INakedDefinedResponsibility oa,OJAnnotatedClass ojClass,String callbackMethodName,OJPathName processObject){
 		OJAnnotatedOperation completed = new OJAnnotatedOperation("completed");
 		ojClass.addToOperations(completed);
-		addCallingProcessObjectField(completed, processObject, oa);
-		OJIfStatement ifNotNull = new OJIfStatement("callingProcessObject!=null");
-		completed.getBody().addToStatements(ifNotNull);
-		ifNotNull.getThenPart().addToStatements("callingProcessObject." + callbackMethodName + "(this)");
+		completed.getBody().addToStatements("getProcessObject()." + callbackMethodName + "(getNodeInstanceUniqueId(), this)");
 		Collection<INakedDeadline> deadlines = oa.getTaskDefinition().getDeadlines();
 		OJAnnotatedOperation started = new OJAnnotatedOperation("started");
-		addCallingProcessObjectField(started, processObject, oa);
 		ojClass.addToOperations(started);
 		EventUtil.addOutgoingEventManagement(ojClass);
 		ojClass.addToImports(new OJPathName("java.util.Date"));
 		for(INakedDeadline d:deadlines){
 			// TODO ensure uniqueness of deadline names
 			implementDeadlineCallback(ojClass, d, oa, processObject);
-			OJIfStatement ifNotNullCancel = new OJIfStatement("callingProcessObject!=null");
-			EventUtil.cancelTimer(ifNotNullCancel.getThenPart(), d, "this");
-			// Repeat if not Null because a previous event may cause the process to end
 			if(d.getKind() == DeadlineKind.COMPLETE){
-				completed.getBody().addToStatements(ifNotNullCancel);
+				EventUtil.cancelTimer(completed.getBody(), d, "this");
 			}else{
-				started.getBody().addToStatements(ifNotNullCancel);
+				EventUtil.cancelTimer(started.getBody(), d, "this");
 			}
+			// Repeat if not Null because a previous event may cause the process to end
 		}
 	}
 	private void implementDeadlineCallback(OJAnnotatedClass ojClass,INakedDeadline d,INakedDefinedResponsibility a,OJPathName processObject){

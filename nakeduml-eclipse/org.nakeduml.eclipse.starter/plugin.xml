@@ -4,7 +4,7 @@
  <extension
        point="org.eclipse.ui.startup">
     <startup
-          class="org.nakeduml.eclipse.starter.JavaTransformationProcessManager"></startup>
+          class="org.nakeduml.eclipse.javasync.JavaTransformationProcessManager"></startup>
  </extension>
  <extension
        id="lkjl"
@@ -41,7 +41,7 @@
     </modelLibrary>
     <modelLibrary
           name="Opium BPM and Business Calendar Library"
-          uri="pathmap://NAKEDUML_MODELS/libraries/OpiumSimpleTypes.library.uml">
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpiumBPM.library.uml">
     </modelLibrary>
  </extension>
  <extension

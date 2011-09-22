@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 
 public class NakedChangeEventImpl extends NakedEventImpl implements INakedChangeEvent{
+	private static final long serialVersionUID = 562216620570901336L;
 	private INakedValueSpecification changeExpression;
 	@Override
 	public INakedValueSpecification getChangeExpression(){
@@ -25,10 +26,12 @@ public class NakedChangeEventImpl extends NakedEventImpl implements INakedChange
 		return ownedElements;
 	}
 	public void setChangeExpression(INakedValueSpecification changeExpression){
-		removeOwnedElement(this.changeExpression);
-		this.changeExpression = changeExpression;
-		addOwnedElement(changeExpression);
-		changeExpression.setOwnerElement(this);
+		if(this.changeExpression != changeExpression){
+			removeOwnedElement(this.changeExpression, true);
+			this.changeExpression = changeExpression;
+			addOwnedElement(changeExpression);
+			changeExpression.setOwnerElement(this);
+		}
 	}
 	@Override
 	public String getMetaClass(){

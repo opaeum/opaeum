@@ -36,8 +36,8 @@ public class NakedAcceptEventActionImpl extends NakedActionImpl implements INake
 		}
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element){
-		super.removeOwnedElement(element);
+	public void removeOwnedElement(INakedElement element, boolean recursively){
+		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedTrigger){
 			triggers.remove(element);
 		}

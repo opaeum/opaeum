@@ -77,6 +77,7 @@ public class StereotypeNames {
 	public static final String OPIUM_BPM_PROFILE = "OpiumBPMProfile.uml";
 	public static final String OPIUM_BPM_LIBRARY = "OpiumBPM.library.uml";
 	public static final String OPIUM_SIMPLE_TYPES = "OpiumSimpleTypes.library.uml";
+	public static final String MODEL_LIBRARY ="ModelLibrary";
 	
 
 }

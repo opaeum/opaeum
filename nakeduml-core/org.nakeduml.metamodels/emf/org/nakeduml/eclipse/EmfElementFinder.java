@@ -20,7 +20,10 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InterfaceRealization;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.State;
@@ -45,8 +48,19 @@ public class EmfElementFinder{
 	public static Classifier getNearestClassifier(Element e){
 		if(e instanceof Classifier){
 			return (Classifier) e;
+		}else if(e ==null){
+			return null;
 		}else{
-			return (Classifier) getContainer(e);
+			return getNearestClassifier((Element) getContainer(e));
+		}
+	}
+	public static org.eclipse.uml2.uml.Package getRootObject(Element e){
+		if(e instanceof Model || e instanceof Profile){
+			return (org.eclipse.uml2.uml.Package) e;
+		}else if(e ==null){
+			return null;
+		}else{
+			return (Package) getRootObject((Element) getContainer(e));
 		}
 	}
 	public static List<TypedElement> getTypedElementsInScope(Element behavioralElement){
@@ -130,7 +144,9 @@ public class EmfElementFinder{
 		return result;
 	}
 	public static EObject getContainer(EObject s){
-		if(s instanceof Event){
+		if(s == null){
+			return null;
+		}else if(s instanceof Event){
 			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
 			// Contained by an annotation inside another element?
 			if(event.eContainer() instanceof EAnnotation){

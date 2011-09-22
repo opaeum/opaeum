@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
+import org.nakeduml.eclipse.javasync.JavaProjectGenerator;
 import org.nakeduml.topcased.uml.editor.NakedUmlEclipseContext;
 import org.nakeduml.topcased.uml.editor.NakedUmlEditor;
 
@@ -25,7 +26,7 @@ public class UpdateClasspathAction extends AbstractOpiumAction{
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
 					monitor.beginTask("Updating Workspace Classpaths", 1);
-					JavaProjectGenerator.runMaven(currentContext.getUmlElementCache().getConfig());
+					JavaProjectGenerator.runMaven(currentContext.getConfig());
 					ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				}catch(Exception e){
 					NakedUmlEclipsePlugin.getDefault().getLog().log(new Status(Status.INFO, NakedUmlEclipsePlugin.getPluginId(), Status.OK, e.getMessage(), e));

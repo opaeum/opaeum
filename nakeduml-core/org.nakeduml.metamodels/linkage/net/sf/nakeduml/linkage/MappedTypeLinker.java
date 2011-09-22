@@ -167,7 +167,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	public void setCodeGenerationStrategy(INakedClassifier classifier){
 		boolean isMapped = getBuiltInTypes().getTypeMap().containsKey(getPathNameInModel(classifier).toString());
 		if(isMapped){
-			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.none);
+			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
 			MappedType mappedType = getBuiltInTypes().getTypeMap().get(super.getPathNameInModel(classifier).toString());
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());
 		}else{
@@ -176,7 +176,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	}
 	private void updateDefaultType(INakedSimpleType javaType,String qualifiedJavaReal){
 		javaType.setMappedImplementationType(qualifiedJavaReal);
-		javaType.setCodeGenerationStrategy(CodeGenerationStrategy.none);
+		javaType.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
 	}
 	@Override
 	public void initialize(INakedModelWorkspace workspace,NakedUmlConfig config){

@@ -16,6 +16,7 @@ import net.sf.nakeduml.feature.ITransformationStep;
 import net.sf.nakeduml.feature.NakedUmlConfig;
 import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationProcess;
+import net.sf.nakeduml.feature.visit.VisitorAdapter;
 import net.sf.nakeduml.filegeneration.TextFileGenerator;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
 import net.sf.nakeduml.javageneration.TextSourceFolderIdentifier;
@@ -36,6 +37,7 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 	private ResourceSet resourceSet;
 	public static void main(String[] args) throws Exception{
 		new BpmLibCodeGenerator().generateCodeForSingleModel();
+		VisitorAdapter.exec.shutdown();
 	}
 	public BpmLibCodeGenerator(){
 		this.resourceSet=EmfWorkspaceLoader.setupStandAloneAppForUML2();

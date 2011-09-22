@@ -8,7 +8,6 @@ import net.sf.nakeduml.javageneration.basicjava.ToXmlStringBuilder;
 import net.sf.nakeduml.javageneration.composition.ComponentInitializer;
 import net.sf.nakeduml.javageneration.composition.CompositionNodeImplementor;
 import net.sf.nakeduml.javageneration.composition.CopyMethodImplementor;
-import net.sf.nakeduml.javageneration.composition.FactoryMethodCreator;
 import net.sf.nakeduml.linkage.CompositionEmulator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {

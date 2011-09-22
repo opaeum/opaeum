@@ -112,6 +112,13 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		validation.setType("jar");
 		validation.setScope("provided");
 		dependencies.add(validation);
+		Dependency annotations = POMFactory.eINSTANCE.createDependency();
+		annotations.setGroupId("org.hibernate");
+		annotations.setArtifactId("hibernate-annotations");
+		annotations.setVersion("3.4.0.GA");
+		annotations.setScope("provided");
+		annotations.setType("jar");
+		dependencies.add(annotations);
 	}
 	private void excludeJta(Dependency dependency){
 		Exclusion jta = POMFactory.eINSTANCE.createExclusion();

@@ -41,7 +41,7 @@ public abstract class NakedSimpleDataTypeImpl extends NakedClassifierImpl implem
 	 * SimpleTypes have to be either built in or pre-implemented
 	 */
 	public CodeGenerationStrategy getCodeGenerationStrategy() {
-		return CodeGenerationStrategy.none;
+		return CodeGenerationStrategy.NO_CODE;
 	}
 
 	@Override

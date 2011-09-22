@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.core.INakedComment;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
+import net.sf.nakeduml.metamodel.core.INakedHelper;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedSlot;
@@ -41,9 +42,9 @@ import org.eclipse.uml2.uml.Trigger;
  * 
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		ValueSpecificationExtractor.class,ConnectorExtractor.class
+		ValueSpecificationExtractor.class,ConnectorExtractor.class,ImportExtractor.class
 },after = {
-		ConnectorExtractor.class,ValueSpecificationExtractor.class
+		ConnectorExtractor.class,ValueSpecificationExtractor.class,ImportExtractor.class
 })
 public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	@VisitAfter
@@ -61,12 +62,10 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			}
 		}
 	}
-	
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
 		NakedElementImpl nakedPeer = (NakedElementImpl) getNakedPeer(element);
@@ -74,6 +73,9 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			visitComment((Comment) element);
 		}
 		if(nakedPeer != null){
+			if(nakedPeer instanceof INakedHelper){
+				System.out.println();
+			}
 			// Some element may not be supported by NakedUML
 			addStereotypes(nakedPeer, element);
 			addKeywords(nakedPeer, element);
@@ -85,7 +87,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	public void addKeywords(INakedElement nakedPeer,Collection<String> keywords){
 		for(String s:keywords){
-			if( !(nakedPeer.hasStereotype(s)||s.equalsIgnoreCase("uuid"))){
+			if(!(nakedPeer.hasStereotype(s) || s.equalsIgnoreCase("uuid"))){
 				String id = nakedPeer.getId() + s;
 				INakedInstanceSpecification is = (INakedInstanceSpecification) nakedWorkspace.getModelElement(id);
 				if(is == null){
@@ -169,7 +171,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		return instanceSpec;
 	}
 	private void putValue(int index,Object value,INakedSlot slot){
-		if(value != null && value.toString().trim().length()>0){
+		if(value != null && value.toString().trim().length() > 0){
 			String id = slot.getId() + index;
 			NakedValueSpecificationImpl valueSpec = (NakedValueSpecificationImpl) nakedWorkspace.getModelElement(id);
 			if(valueSpec == null){

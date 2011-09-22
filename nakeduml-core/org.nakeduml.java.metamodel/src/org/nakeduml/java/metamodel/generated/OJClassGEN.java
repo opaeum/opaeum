@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -139,7 +138,7 @@ abstract public class OJClassGEN extends OJClassifier{
 		if(element == null){
 			return;
 		}
-		this.f_fields.remove(element);
+		this.f_fields.remove(element.getName());
 		element.z_internalRemoveFromOwner(((OJClass) this));
 	}
 	/**

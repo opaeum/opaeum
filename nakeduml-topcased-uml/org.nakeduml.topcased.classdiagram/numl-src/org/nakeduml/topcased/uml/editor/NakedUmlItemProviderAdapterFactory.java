@@ -4,6 +4,7 @@ import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Interface;
@@ -18,10 +19,13 @@ import org.eclipse.uml2.uml.edit.providers.SignalItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateMachineItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.nakeduml.topcased.uml.NakedUmlPlugin;
 import org.topcased.modeler.uml.editor.outline.CustomCallBehaviorActionItemProvider;
 
 public class NakedUmlItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
+	public NakedUmlItemProviderAdapterFactory(){
+	}
+
+
 	@Override
 	public Adapter createCallBehaviorActionAdapter(){
 		if(callBehaviorActionItemProvider == null){

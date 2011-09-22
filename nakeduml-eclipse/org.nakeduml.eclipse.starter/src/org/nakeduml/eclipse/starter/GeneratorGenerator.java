@@ -12,6 +12,7 @@ import net.sf.nakeduml.javageneration.MavenProjectCodeGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
 
+import org.nakeduml.eclipse.javasync.JavaTransformationProcessManager;
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJConstructor;
 import org.nakeduml.java.metamodel.OJIfStatement;
@@ -83,7 +84,7 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 		str.append("workspaceFile.getAbsolutePath() +\"/");
 		str.append(workspace.getIdentifier());
 		str.append("\",workspaceFile.getAbsolutePath()+\"");
-		str.append(NakedUmlEditor.getCurrentContext().getUmlElementCache().getCurrentEmfWorkspace().getDirectoryUri().toPlatformString(true));
+		str.append(NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace().getDirectoryUri().toPlatformString(true));
 		str.append("\")");
 		instance.setInitExp(str.toString());
 		block2.addToLocals(instance);
