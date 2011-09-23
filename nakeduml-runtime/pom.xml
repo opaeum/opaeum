@@ -111,7 +111,7 @@
         <artifactId>hibernate-core</artifactId>
         <version>3.3.2.GA</version>
         <type>jar</type>
-        <scope>compile</scope>
+        <scope>provided</scope>
         <exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>

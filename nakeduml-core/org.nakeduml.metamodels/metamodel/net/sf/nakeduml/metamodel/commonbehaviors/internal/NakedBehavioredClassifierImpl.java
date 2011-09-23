@@ -2,18 +2,24 @@ package net.sf.nakeduml.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignal;
+import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInterfaceRealization;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedClassifierImpl;
+import net.sf.nakeduml.metamodel.core.internal.ParameterUtil;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IInterface;
@@ -24,15 +30,14 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	protected List<INakedBehavior> ownedBehaviors = new ArrayList<INakedBehavior>();
 	private INakedBehavior classifierBehavior;
 	protected List<INakedInterfaceRealization> realizations = new ArrayList<INakedInterfaceRealization>();
-
-	public INakedBehavior getClassifierBehavior() {
-		if (this.classifierBehavior == null && hasSupertype()) {
+	public INakedBehavior getClassifierBehavior(){
+		if(this.classifierBehavior == null && hasSupertype()){
 			return ((INakedBehavioredClassifier) getSupertype()).getClassifierBehavior();
-		} else {
+		}else{
 			return this.classifierBehavior;
 		}
 	}
-	public void setClassifierBehavior(INakedBehavior classifierBehavior) {
+	public void setClassifierBehavior(INakedBehavior classifierBehavior){
 		this.classifierBehavior = classifierBehavior;
 	}
 	public List<INakedInterfaceRealization> getInterfaceRealizations(){
@@ -55,16 +60,8 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 		return results;
 	}
 	@Override
-	public Collection<INakedOperation> getEffectiveOperations(){
-		Collection<INakedOperation> effectiveOperations = super.getEffectiveOperations();
-		for(INakedInterfaceRealization r:this.realizations){
-			effectiveOperations.addAll(r.getContract().getEffectiveOperations());
-		}
-		return effectiveOperations;
-	}
-	@Override
 	public Collection<INakedReception> getEffectiveReceptions(){
-		Collection<INakedReception> effectiveReceptions= super.getEffectiveReceptions();
+		Collection<INakedReception> effectiveReceptions = super.getEffectiveReceptions();
 		for(INakedInterfaceRealization r:this.realizations){
 			effectiveReceptions.addAll(r.getContract().getEffectiveReceptions());
 		}
@@ -77,20 +74,18 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 		}
 		return results;
 	}
-
-
 	@Override
-	public List<IState> getStates() {
+	public List<IState> getStates(){
 		// Fakes region states
 		List<IState> results = new ArrayList<IState>();
-		if (this.classifierBehavior instanceof INakedStateMachine) {
+		if(this.classifierBehavior instanceof INakedStateMachine){
 			results.addAll(((INakedStateMachine) this.classifierBehavior).getAllStates());
 		}
 		// TODO implement something similar for activities with resting states
 		return results;
 	}
 	@Override
-	public Collection<IClassifier> getClassifiers() {
+	public Collection<IClassifier> getClassifiers(){
 		Collection<IClassifier> classifiers = super.getClassifiers();
 		classifiers.addAll(getOwnedBehaviors());
 		return classifiers;
@@ -101,19 +96,19 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 		if(element instanceof INakedBehavior){
 			this.ownedBehaviors.add((INakedBehavior) element);
 		}else if(element instanceof INakedInterfaceRealization){
-			INakedInterfaceRealization ir= (INakedInterfaceRealization) element;
+			INakedInterfaceRealization ir = (INakedInterfaceRealization) element;
 			realizations.add(ir);
 		}
 	}
 	public Collection<INakedBehavior> getOwnedBehaviors(){
 		return this.ownedBehaviors;
 	}
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedBehavior){
 			this.ownedBehaviors.remove(element);
 		}else if(element instanceof INakedInterfaceRealization){
-			INakedInterfaceRealization ir= (INakedInterfaceRealization) element;
+			INakedInterfaceRealization ir = (INakedInterfaceRealization) element;
 			realizations.remove(ir);
 			ir.getContract().removeImplementingClassifier(this);
 		}
@@ -135,5 +130,23 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 			}
 		}
 		return false;
+	}
+	@Override
+	public Collection<? extends INakedReception> getDirectlyImplementedReceptions(){
+		Set<String> inheritedConcreteOperationNames = new HashSet<String>();
+		for(INakedGeneralization g:getNakedGeneralizations()){
+			if(g.getGeneral() instanceof INakedBehavioredClassifier){
+				for(INakedReception o:((INakedBehavioredClassifier) g.getGeneral()).getDirectlyImplementedReceptions()){
+					inheritedConcreteOperationNames.add(ParameterUtil.toIdentifyingString(o));
+				}
+			}
+		}
+		Set<INakedReception> results = new HashSet<INakedReception>();
+		for(INakedReception o:getEffectiveReceptions()){
+			if(!inheritedConcreteOperationNames.contains(ParameterUtil.toIdentifyingString(o))){
+				results.add(o);
+			}
+		}
+		return results;
 	}
 }

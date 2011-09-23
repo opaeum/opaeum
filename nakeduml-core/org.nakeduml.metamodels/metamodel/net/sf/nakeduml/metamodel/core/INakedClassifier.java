@@ -2,6 +2,7 @@ package net.sf.nakeduml.metamodel.core;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
@@ -80,4 +81,6 @@ public interface INakedClassifier extends INakedNameSpace,IClassifier{
 	void setOwnedRules(List<INakedConstraint> loopResults);
 	public abstract void removeObsoleteArtificialProperties();
 	public abstract String getImplementationCode();
+	Set<INakedProperty> getDirectlyImplementedAttributes();
+	Set<INakedOperation> getDirectlyImplementedOperations();
 }

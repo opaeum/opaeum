@@ -2,8 +2,7 @@
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfileForBPM="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0" xmlns:OpiumStandardProfile_1="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfileForBPM/_GHt68JSyEeChgI0v02SJHQ/7 pathmap://NAKEDUML_MODELS/profiles/NakedUMLProfileForBPM.uml#_GHwXMJSyEeChgI0v02SJHQ http:///schemas/OpiumStandardProfile/_Xjr3sM47EeC2p-F-aJf6AA/0 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_XjuT8M47EeC2p-F-aJf6AA http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="EventsTest">
     <eAnnotations xmi:id="_6TN5YKTcEeCJw_uhYL7KOA" source="http://www.nakeduml.org">
-      <details xmi:id="_6TN5YaTcEeCJw_uhYL7KOA" key="uid" value="f94385b3_4875_462a_b0f2_a28047d6ccf9"/>
-      <details xmi:id="_7_zKMNPzEeCGsqrenGGmNg" key="uuid" value="d4d34543_e53a_475f_8f5f_e0982856d3b2"/>
+      <details xmi:id="_7_zKMNPzEeCGsqrenGGmNg" key="uuid" value="1451234"/>
     </eAnnotations>
     <packageImport xmi:id="_Gq5nwKTdEeCJw_uhYL7KOA">
       <eAnnotations xmi:id="_7_0YVNPzEeCGsqrenGGmNg" source="http://www.nakeduml.org">

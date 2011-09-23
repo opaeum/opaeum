@@ -31,4 +31,5 @@ public interface INakedState extends IRegionOwner,IState{
 	void removeFromIncoming(INakedTransition nakedTransitionImpl);
 	void addToIncoming(INakedTransition nakedTransitionImpl);
 	INakedCompletionEvent getCompletionEvent();
+	INakedState getRedefinedState();
 }

@@ -30,6 +30,7 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	PreAndPostConstrained effect;
 	Collection<INakedTrigger> triggers = new HashSet<INakedTrigger>();
 	private INakedConstraint guard;
+	private INakedTransition redefinedTransition;
 	public NakedTransitionImpl(){
 	}
 	@Override
@@ -189,5 +190,12 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	@Override
 	public INakedElement getEffectiveTarget(){
 		return getTarget();
+	}
+	@Override
+	public INakedTransition getRedefinedTransition(){
+		return redefinedTransition;
+	}
+	public void setRedefinedTransition(INakedTransition redefinedTransition){
+		this.redefinedTransition = redefinedTransition;
 	}
 }

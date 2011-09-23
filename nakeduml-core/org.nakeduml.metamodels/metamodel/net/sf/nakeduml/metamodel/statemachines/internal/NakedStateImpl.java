@@ -32,6 +32,7 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
 	private List<INakedTransition> outgoing = new ArrayList<INakedTransition>();
 	private List<INakedTransition> incoming = new ArrayList<INakedTransition>();
+	private INakedState redefinedState; 
 	private INakedCompletionEvent completionEvent;
 	public NakedStateImpl(){
 		completionEvent=new NakedCompletionEventImpl(this);
@@ -194,5 +195,12 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	}
 	public INakedCompletionEvent getCompletionEvent(){
 		return completionEvent;
+	}
+	@Override
+	public INakedState getRedefinedState(){
+		return redefinedState;
+	}
+	public void setRedefinedState(INakedState redefinedState){
+		this.redefinedState = redefinedState;
 	}
 }

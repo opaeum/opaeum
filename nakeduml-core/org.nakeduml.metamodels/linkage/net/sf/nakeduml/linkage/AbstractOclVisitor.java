@@ -31,6 +31,7 @@ import nl.klasse.octopus.expressions.IUnspecifiedValueExp;
 import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.IVariableExp;
 
+@SuppressWarnings("rawtypes")
 public class AbstractOclVisitor implements IAstVisitor{
 	@Override
 	public Object oclExpression(IOclExpression exp,Object expResult,Object appliedProperty){

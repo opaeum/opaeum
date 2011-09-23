@@ -48,7 +48,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		}
 	}
 	protected boolean requiresIntegration(){
-		return transformationContext.isIntegrationPhase() || config.getSourceFolderStrategy().isSingleProjectStrategy();
+		return transformationContext.isIntegrationPhase();
 	}
 	@VisitBefore
 	public void visitModel(INakedModel model){

@@ -101,6 +101,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -109,10 +110,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				buildField(owner, map).setTransient(true);
 				OJOperation getter = buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
-				OJIfStatement ifNull = new OJIfStatement(map.fieldname() + "==null", map.fieldname() + "=(" + map.javaBaseType() + ")" + Environment.class.getName()
+				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null",OJAnnotatedOperation.RESULT+ "=" +  map.fieldname() + "=(" + map.javaBaseType() + ")" + Environment.class.getName()
 						+ ".getInstance().getComponent(" + map.javaTypePath() + ".class)");
 				getter.getBody().addToStatements(ifNull);
-				getter.getBody().addToStatements("return " + map.fieldname());
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(p.isDerived()){
 				OJAnnotatedClass owner = findJavaClass(umlOwner);
@@ -123,15 +123,15 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
-	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean b){
+	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
 		if(!(owner instanceof OJAnnotatedInterface)){
-			if(b){
-				getter.getBody().addToStatements("return " + map.javaDefaultValue());
+			if(derived){
+				getter.initializeResultVariable(map.javaDefaultValue());
 			}else{
-				getter.getBody().addToStatements("return " + map.fieldname());
+				getter.initializeResultVariable("this." + map.fieldname());
 			}
 		}
 		getter.setStatic(map.isStatic());

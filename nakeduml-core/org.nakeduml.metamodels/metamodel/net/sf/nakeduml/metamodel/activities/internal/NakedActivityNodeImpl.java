@@ -14,17 +14,18 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode {
+	private static final long serialVersionUID = 1142310904812L;
+	private Set<INakedActivityEdge> incoming = new HashSet<INakedActivityEdge>();
+	private Set<INakedActivityEdge> outgoing = new HashSet<INakedActivityEdge>();
+	private INakedActivityPartition inPartition;
+	private Set<INakedActivityNode> redefinedNodes = new HashSet<INakedActivityNode>();
+	
 	@Override
 	public Collection<INakedElement> getOwnedElements() {
 		// activity nodes have to derive this collection, so duplicate it to
 		// avoid accidental growth
 		return new HashSet<INakedElement>(super.getOwnedElements());
 	}
-
-	private static final long serialVersionUID = 1142310904812L;
-	private Set<INakedActivityEdge> incoming = new HashSet<INakedActivityEdge>();
-	private Set<INakedActivityEdge> outgoing = new HashSet<INakedActivityEdge>();
-	private INakedActivityPartition inPartition;
 
 	public void addIncoming(INakedActivityEdge edge) {
 		this.incoming.add(edge);
@@ -141,5 +142,13 @@ public class NakedActivityNodeImpl extends NakedElementImpl implements INakedAct
 	@Override
 	public void addOwnedElement(INakedElement element) {
 		super.addOwnedElement(element);
+	}
+	@Override
+	public Set<INakedActivityNode> getRedefinedNodes(){
+		return redefinedNodes;
+	}
+
+	public void setRedefinedNodes(Set<INakedActivityNode> redefinedNodes){
+		this.redefinedNodes = redefinedNodes;
 	}
 }

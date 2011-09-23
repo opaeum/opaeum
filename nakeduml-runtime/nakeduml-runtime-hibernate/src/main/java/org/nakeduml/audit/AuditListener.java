@@ -13,17 +13,22 @@ import org.hibernate.event.FlushEvent;
 import org.hibernate.event.FlushEventListener;
 import org.hibernate.event.Initializable;
 import org.hibernate.event.PostInsertEvent;
+import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostLoadEvent;
+import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
+import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.persister.entity.EntityPersister;
-import org.nakeduml.hibernate.domain.EventDispatcher;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class AuditListener extends EventDispatcher implements PostUpdateEventListener,
+public class AuditListener extends AbstractFlushingEventListener implements PostInsertEventListener, PostLoadEventListener, PostUpdateEventListener,
 		FlushEventListener, Initializable {
 	private static final long serialVersionUID = -233067098331332700L;
+	private static final Logger log = LoggerFactory.getLogger(AuditListener.class);
 	private static final Map<EventSource, AuditWorkUnit> entries = Collections.synchronizedMap(new HashMap<EventSource, AuditWorkUnit>());
 
 	@Override
@@ -50,7 +55,6 @@ public class AuditListener extends EventDispatcher implements PostUpdateEventLis
 			Number n = (Number) Versioning.getVersion(event.getState(), persister);
 			getWorkUnitForSession(session).logInsertedProperties(event.getState(), persister.getPropertyNames(), (IPersistentObject) entity, n.intValue());
 		}
-		super.onPostInsert(event);
 	}
 
 	private AuditWorkUnit getWorkUnitForSession(EventSource session) {
@@ -66,17 +70,39 @@ public class AuditListener extends EventDispatcher implements PostUpdateEventLis
 	public void onFlush(FlushEvent event) throws HibernateException {
 		final EventSource source = event.getSession();
 		if (source.getPersistenceContext().hasNonReadOnlyEntities()) {
-			super.performFlush(event, source);
+
+			flushEverythingToExecutions(event);
+			performExecutions(source);
+			postFlush(source);
+
 			if (source.getFactory().getStatistics().isStatisticsEnabled()) {
 				source.getFactory().getStatisticsImplementor().flush();
 			}
 			getWorkUnitForSession(source).flush();
 		}
-		dispatchEventsAndSaveProcesses(event, source);
-		postFlush(source);
 		entries.remove(source);
 	}
 
+	protected void performExecutions(EventSource session) throws HibernateException {
+
+		log.trace("executing flush");
+		session.getPersistenceContext().setFlushing(true);
+		try {
+			session.getJDBCContext().getConnectionManager().flushBeginning();
+			// we need to lock the collection caches before
+			// executing entity inserts/updates in order to
+			// account for bidi associations
+			session.getActionQueue().prepareActions();
+			session.getActionQueue().executeActions();
+		} catch (HibernateException he) {
+			// log.error("Could not synchronize database state with session",
+			// he);
+			throw he;
+		} finally {
+			session.getPersistenceContext().setFlushing(false);
+			session.getJDBCContext().getConnectionManager().flushEnding();
+		}
+	}
 
 	@Override
 	public void initialize(Configuration cfg) {
@@ -87,7 +113,6 @@ public class AuditListener extends EventDispatcher implements PostUpdateEventLis
 
 	@Override
 	public void onPostLoad(PostLoadEvent event) {
-		super.onPostLoad(event);
 		//NB!!! Don't touch this code - copied from hibernate
 		if ( event.getPersister().implementsLifecycle( event.getSession().getEntityMode() ) ) {
 			//log.debug( "calling onLoad()" );

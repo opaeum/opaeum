@@ -1,5 +1,6 @@
 package org.nakeduml.audit;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
@@ -37,6 +38,13 @@ public class FloatingPointPropertyChange extends PropertyChange<Double> {
 
 	private static Double toDouble(Number oldValue) {
 		return oldValue==null?null:oldValue.doubleValue();
+	}
+
+	public static void main(String[] args) {
+		DecimalFormat df = new DecimalFormat("0.0E0");
+		df.setMinimumFractionDigits(25);
+		Number n =new BigDecimal("1.23456789012345667889012313212312312312312312312312312312312312312312312132");
+		System.out.println(df.format(n));
 	}
 
 	@Override

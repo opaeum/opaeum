@@ -35,6 +35,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private Collection<INakedConstraint> preConditions = new HashSet<INakedConstraint>();
 	private Collection<INakedConstraint> postConditions = new HashSet<INakedConstraint>();
 	private Collection<INakedClassifier> raisedExceptions = new HashSet<INakedClassifier>();
+	private Collection<INakedOperation> redefinedOperations= new HashSet<INakedOperation>();
 	private INakedParameter returnParameter;
 	private INakedConstraint bodyCondition;
 	private boolean hasClassScope;
@@ -189,7 +190,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 		return this.isAbstract;
 	}
 	public String getSignature(){
-		return ParameterUtil.signature(this);
+		return ParameterUtil.fullSignature(this);
 	}
 	/** like a+b */
 	public boolean isInfix(){
@@ -250,5 +251,12 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	}
 	public void setRaisedExceptions(Collection<INakedClassifier> raisedExceptions){
 		this.raisedExceptions = raisedExceptions;
+	}
+	@Override
+	public Collection<INakedOperation> getRedefinedOperations(){
+		return redefinedOperations;
+	}
+	public void setRedefinedOperations(Collection<INakedOperation> redefinedOperations){
+		this.redefinedOperations = redefinedOperations;
 	}
 }

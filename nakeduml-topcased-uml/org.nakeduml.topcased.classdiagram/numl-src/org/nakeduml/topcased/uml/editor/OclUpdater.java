@@ -50,10 +50,10 @@ public class OclUpdater implements NakedUmlSynchronizationListener{
 			if(de instanceof INakedValueSpecification && ((INakedValueSpecification) de).isValidOclValue()){
 				final INakedValueSpecification vs = (INakedValueSpecification) de;
 				updateOclBody(de, vs.getOclValue(), UMLPackage.eINSTANCE.getOpaqueExpression_Body(), UMLPackage.eINSTANCE.getOpaqueExpression_Language());
-			}else if(de instanceof INakedOpaqueBehavior && ((INakedOpaqueBehavior) ne).getBodyExpression() instanceof OclContextImpl){
+			}else if(de instanceof INakedOpaqueBehavior && ((INakedOpaqueBehavior) de).getBodyExpression() instanceof OclContextImpl){
 				final INakedOpaqueBehavior vs = (INakedOpaqueBehavior) de;
 				updateOclBody(de, vs.getBodyExpression(), UMLPackage.eINSTANCE.getOpaqueBehavior_Body(), UMLPackage.eINSTANCE.getOpaqueBehavior_Language());
-			}else if(de instanceof INakedOclAction && ((INakedOclAction) ne).getBodyExpression() instanceof OclContextImpl){
+			}else if(de instanceof INakedOclAction && ((INakedOclAction) de).getBodyExpression() instanceof OclContextImpl){
 				final INakedOclAction vs = (INakedOclAction) de;
 				updateOclBody(de, vs.getBodyExpression(), UMLPackage.eINSTANCE.getOpaqueAction_Body(), UMLPackage.eINSTANCE.getOpaqueAction_Language());
 			}

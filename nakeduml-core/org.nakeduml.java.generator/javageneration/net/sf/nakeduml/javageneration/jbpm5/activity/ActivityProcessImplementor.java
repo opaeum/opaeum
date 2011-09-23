@@ -21,6 +21,7 @@ import net.sf.nakeduml.javageneration.jbpm5.actions.EmbeddedSingleScreenTaskBuil
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import net.sf.nakeduml.javageneration.jbpm5.actions.ParameterNodeBuilder;
+import net.sf.nakeduml.javageneration.jbpm5.actions.ReplyActionBuilder;
 import net.sf.nakeduml.javageneration.jbpm5.actions.SimpleActionBridge;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.maps.SignalMap;
@@ -35,6 +36,7 @@ import net.sf.nakeduml.linkage.ProcessIdentifier;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallBehaviorAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallOperationAction;
+import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.ActivityNodeContainer;
@@ -188,6 +190,9 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}else if(node instanceof INakedParameterNode){
 			INakedParameterNode parameterNode = (INakedParameterNode) node;
 			implementor = new ParameterNodeBuilder(getLibrary(), parameterNode);
+		}else if(node instanceof INakedReplyAction){
+			INakedReplyAction action = (INakedReplyAction) node;
+			implementor = new ReplyActionBuilder(getLibrary(),action);
 		}else{
 			implementor = new SimpleActionBridge(getLibrary(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(), new Jbpm5ObjectNodeExpressor(
 					getLibrary())));

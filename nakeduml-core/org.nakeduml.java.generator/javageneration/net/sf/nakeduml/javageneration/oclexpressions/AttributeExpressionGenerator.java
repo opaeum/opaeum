@@ -21,6 +21,7 @@ import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
@@ -30,7 +31,7 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	@Override
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap mapper){
-		INakedProperty attr=mapper.getProperty();
+		INakedProperty attr = mapper.getProperty();
 		INakedValueSpecification cont = attr.getInitialValue();
 		if(cont != null){
 			if(attr.isDerived()){
@@ -51,21 +52,14 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
-		
 	}
 	private void addDerivationRule(INakedClassifier c,OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
 		String getterName = mapper.getter();
-		OJOperation getterOp = myClass.findOperation(getterName, Collections.emptyList());
-		getterOp.setBody(new OJBlock());
-		OJField field = new OJField();
-		field.setName(mapper.umlName());
-		field.setType(mapper.javaTypePath());
-		field.setInitExp(ValueSpecificationUtil.expressValue(getterOp, vs, mapper.getProperty().getOwner(), mapper.getProperty().getType()));
-		getterOp.getBody().addToLocals(field);
-		getterOp.getBody().addToStatements("return " + mapper.umlName());
+		OJAnnotatedOperation getterOp = (OJAnnotatedOperation) myClass.findOperation(getterName, Collections.emptyList());
+		getterOp.initializeResultVariable(ValueSpecificationUtil.expressValue(getterOp, vs, mapper.getProperty().getOwner(), mapper.getProperty().getType()));
 	}
 	private void addInitToStaticField(OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
-		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, mapper.getProperty().getType(),true);
+		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, mapper.getProperty().getType(), true);
 		if(initStr.length() > 0){
 			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.umlName());
 			if(myField != null){

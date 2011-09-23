@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -18,6 +21,7 @@ import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
+import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedPackage;
@@ -79,7 +83,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		for(ArtificialProperty ap:aps){
 			for(INakedProperty p:oas){
 				if(!(p instanceof ArtificialProperty)){
-					//TODO has some limitations - think about Contexts when a behavior is given a specification
+					// TODO has some limitations - think about Contexts when a behavior is given a specification
 					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();
 					if(compositionSame && p.getMultiplicity().getUpper() == ap.getMultiplicity().getUpper() && p.getBaseType().equals(ap.getBaseType())){
@@ -134,7 +138,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return findAttributeFrom(name, getEffectiveAttributes());
 	}
 	/**
-	 * Not to be confused with the Octopus getAllAttributes property - includes navigations. Used primarily in NakedUml.
+	 * Not to be confused with the Octopus getAllAttributes property - includes navigations. Used in NakedUml only.
 	 */
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();
@@ -284,14 +288,30 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		}
 		return StdlibBasic.getBasicType(IOclLibrary.OclAnyTypeName).findOperation(opName, paramTypes);
 	}
-	public Collection<INakedOperation> getEffectiveOperations(){
-		HashSet<INakedOperation> results = new HashSet<INakedOperation>(ownedOperations);
+	public Map<String,INakedOperation> getEffectiveOperationMap(){
+		Map<String,INakedOperation> results = new HashMap<String,INakedOperation>();
 		for(INakedGeneralization g:this.generalisations){
 			if(g.getGeneral() instanceof NakedClassifierImpl){
-				results.addAll(((INakedClassifier) g.getGeneral()).getEffectiveOperations());
+				results.putAll(((NakedClassifierImpl) g.getGeneral()).getEffectiveOperationMap());
 			}
 		}
+		for(IInterface i:this.getInterfaces()){
+			
+			for(Entry<String,INakedOperation> entry:((NakedClassifierImpl) i).getEffectiveOperationMap().entrySet()){
+				INakedOperation otherOp = results.get(entry.getKey());
+				if(otherOp==null || otherOp.getOwner() instanceof INakedInterface){
+					//Only add an operation if it is not possibly implemented by a superclass
+					results.put(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+		for(INakedOperation o:ownedOperations){
+			results.put(ParameterUtil.toIdentifyingString(o), o);
+		}
 		return results;
+	}
+	public Collection<INakedOperation> getEffectiveOperations(){
+		return getEffectiveOperationMap().values();
 	}
 	public IClassifier findCommonSuperType(IClassifier otherType){
 		IClassifier result = null;
@@ -549,11 +569,62 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return Collections.emptyList();
 	}
 	public void setImplementationCode(String string){
-		this.implementationCode=string;
-		
+		this.implementationCode = string;
 	}
 	@Override
 	public String getImplementationCode(){
 		return implementationCode;
+	}
+	@Override
+	public Set<INakedOperation> getDirectlyImplementedOperations(){
+		Set<String> inheritedConcreteOperationNames = new HashSet<String>();
+		for(INakedGeneralization g:getNakedGeneralizations()){
+			for(INakedOperation o:g.getGeneral().getEffectiveOperations()){
+				boolean mustImplement = o.isAbstract() && g.getGeneral().getIsAbstract() && !getIsAbstract();
+				if(!mustImplement){
+					inheritedConcreteOperationNames.add(ParameterUtil.toIdentifyingString(o));
+				}
+			}
+		}
+		Set<INakedOperation> results = new HashSet<INakedOperation>();
+		for(INakedOperation o:getEffectiveOperations()){
+			boolean implemented = inheritedConcreteOperationNames.contains(ParameterUtil.toIdentifyingString(o));
+			if(o.getOwner() == this || !implemented){
+				results.add(o);
+			}else{
+				for(INakedOperation ro:o.getRedefinedOperations()){
+					if(ParameterUtil.toIdentifyingString(ro).equals(ParameterUtil.toIdentifyingString(ro))){
+						// Needs to be redeclared
+						results.add(o);
+					}
+				}
+			}
+		}
+		return results;
+	}
+	@Override
+	public Set<INakedProperty> getDirectlyImplementedAttributes(){
+		//NB remember that there might be properties specified by this class' interfaces that have already been implemented by a superclass 
+		Set<String> inheritedConcretePropertyNames = new HashSet<String>();
+		for(INakedGeneralization g:getNakedGeneralizations()){
+			for(INakedProperty p:g.getGeneral().getEffectiveAttributes()){
+				inheritedConcretePropertyNames.add(p.getName());
+			}
+		}
+		Set<INakedProperty> results = new HashSet<INakedProperty>();
+		List<INakedProperty> effectiveAttributes = getEffectiveAttributes();
+		for(INakedProperty p:effectiveAttributes){
+			if(p.getOwner() != this && inheritedConcretePropertyNames.contains(p.getName())){
+				for(INakedProperty rp:p.getRedefinedProperties()){
+					if(rp.getName().equals(p.getName())){
+						// We need to redeclare it with the same name
+						results.add(rp);
+					}
+				}
+			}else{
+				results.add(p);
+			}
+		}
+		return results;
 	}
 }

@@ -8,7 +8,7 @@ import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
-import net.sf.nakeduml.javageneration.jbpm5.Jbpm5JavaStep;
+import net.sf.nakeduml.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
@@ -19,12 +19,13 @@ import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.IClassifier;
 
+import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 
-@StepDependency(phase = JavaTransformationPhase.class, after={Jbpm5JavaStep.class})
+@StepDependency(phase = JavaTransformationPhase.class, after={EventGeneratorImplementor.class})
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c){
@@ -32,6 +33,15 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
+			OJOperation outgoingEvents = OJUtil.findOperation(owner, "getOutgoingEvents");
+			if(outgoingEvents!=null){
+				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) outgoingEvents);
+			}
+			OJOperation cancelledEvents = OJUtil.findOperation(owner, "getCancelledEvents");
+			if(cancelledEvents!=null){
+				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
+			}
+
 			for(INakedProperty p:c.getEffectiveAttributes()){
 				if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);

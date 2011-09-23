@@ -12,6 +12,9 @@ import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 import org.nakeduml.java.metamodel.utilities.JavaUtil;
 
 public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElement{
+	public static final String RESULT = "result";
+	private Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
+	private OJAnnotatedField resultVariable;
 	public OJAnnotatedOperation(String string,OJPathName ojPathName){
 		this(string);
 		setReturnType(ojPathName);
@@ -34,7 +37,6 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		// TODO copy exception
 		return oper;
 	}
-	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
 		return AnnotationHelper.maybeAddAnnotation(value, this);
 	}
@@ -80,8 +82,17 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		}else{
 			result.append(" {\n");
 			StringBuilder bodyStr = new StringBuilder();
-			String actualBody = getBody().toJavaString();
-			bodyStr.append(actualBody);
+			if(resultVariable != null){
+				if(resultVariable.getType() == null){
+					resultVariable.setType(getReturnType());
+				}
+				bodyStr.append(resultVariable.toJavaString());
+				bodyStr.append("\n");
+			}
+			bodyStr.append(getBody().toJavaString());
+			if(resultVariable != null){
+				bodyStr.append("\nreturn result;");
+			}
 			result.append(JavaStringHelpers.indent(bodyStr, 1));
 			if(result.charAt(result.length() - 1) == '\n'){
 				result.deleteCharAt(result.length() - 1);
@@ -104,5 +115,16 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	}
 	public OJAnnotationValue findAnnotation(OJPathName ojPathName){
 		return AnnotationHelper.getAnnotation(this, ojPathName);
+	}
+	public void initializeResultVariable(String initialValue){
+		if(initialValue == null){
+			resultVariable = null;
+		}else{
+			resultVariable = new OJAnnotatedField("result", getReturnType());
+			resultVariable.setInitExp(initialValue);
+		}
+	}
+	public OJAnnotatedField getResultVariable(){
+		return this.resultVariable;
 	}
 }

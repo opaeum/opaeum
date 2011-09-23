@@ -18,7 +18,6 @@ import net.sf.nakeduml.metamodel.core.internal.ArtificialProperty;
 import net.sf.nakeduml.metamodel.core.internal.AssociationClassToEnd;
 import net.sf.nakeduml.metamodel.core.internal.EndToAssociationClass;
 import net.sf.nakeduml.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class

@@ -85,7 +85,7 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 		}else if(value instanceof InstanceValue){
 			INakedElement instance = getNakedPeer(((InstanceValue) value).getInstance());
 			((NakedValueSpecificationImpl) result).setValue(instance);
-			if(!(instance instanceof INakedEnumerationLiteral)){
+			if(!(instance instanceof INakedEnumerationLiteral || instance == null)){
 				result.addOwnedElement(instance);
 			}
 		}

@@ -16,7 +16,7 @@ import net.sf.nakeduml.metamodel.activities.INakedExpansionNode;
 import net.sf.nakeduml.metamodel.activities.INakedExpansionRegion;
 
 @StepDependency(phase = ValidationPhase.class)
-public class ActionValidator extends AbstractValidator{
+public class ActionValidation extends AbstractValidator{
 	@VisitBefore(matchSubclasses=true)
 	public void visitStructuralFeatureAction(INakedStructuralFeatureAction a){
 		if(a.getFeature() == null){

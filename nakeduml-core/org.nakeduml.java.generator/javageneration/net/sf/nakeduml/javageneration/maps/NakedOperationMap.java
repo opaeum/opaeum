@@ -22,8 +22,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 
 public class NakedOperationMap extends OperationMap implements IMessageMap{
 	private IParameterOwner parameterOwner;
-	@Override
-	public List<OJPathName> javaParamTypePaths(){
+	public List<OJPathName> javaParamTypePathsWithReturnInfo(){
 		List<OJPathName> javaParamTypePaths = new ArrayList<OJPathName>();
 		if(parameterOwner.isLongRunning()){
 			javaParamTypePaths.add(Jbpm5Util.getProcessContext());

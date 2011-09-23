@@ -23,6 +23,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignalEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerContainer;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
@@ -154,27 +155,40 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	 */
 	private void implementEventConsumer(INakedTriggerContainer behavior,OJAnnotatedClass activityClass,ElementsWaitingForEvent eventActions){
 		OJAnnotatedOperation consumer = createEventConsumerSignature(behavior, activityClass, eventActions);
-		OJIfStatement ifProcessActive = (OJIfStatement) consumer.getBody().findStatementRecursive("ifProcessActive");
-		if(ifProcessActive == null){
-			ifProcessActive = new OJIfStatement("getProcessInstance()!=null");
-			ifProcessActive.setName("ifProcessActive");
-			consumer.getBody().addToStatements(ifProcessActive);
-			OJAnnotatedField nodes = new OJAnnotatedField("waitingNode", UML_NODE_INSTANCE);
-			activityClass.addToImports(UML_NODE_INSTANCE);
-			ifProcessActive.getThenPart().addToLocals(nodes);
-			implementEventConsumerBody(eventActions, consumer, ifProcessActive);
-		}else{
-			OJUtil.removeReturnStatement(consumer);
-			implementEventConsumerBody(eventActions, consumer, ifProcessActive);
-		}
+		OJIfStatement ifProcessActive = addIfProcessActiveAndRemoveReturnStatementIfNecessary(activityClass, consumer);
+		implementEventConsumerBody(eventActions, consumer, ifProcessActive);
 		consumer.getBody().addToStatements("return consumed");
 	}
+	protected OJIfStatement addIfProcessActiveAndRemoveReturnStatementIfNecessary(OJAnnotatedClass activityClass,OJAnnotatedOperation consumer){
+		OJIfStatement ifProcessActive = (OJIfStatement) consumer.getBody().findStatementRecursive("ifProcessActive");
+		if(ifProcessActive == null){
+			ifProcessActive = addIfProcessActive(activityClass, consumer);
+		}else{
+			OJUtil.removeReturnStatement(consumer);
+		}
+		return ifProcessActive;
+	}
+	private OJIfStatement addIfProcessActive(OJAnnotatedClass activityClass,OJAnnotatedOperation consumer){
+		OJIfStatement ifProcessActive;
+		ifProcessActive = new OJIfStatement("getProcessInstance()!=null");
+		ifProcessActive.setName("ifProcessActive");
+		consumer.getBody().addToStatements(ifProcessActive);
+		OJAnnotatedField nodes = new OJAnnotatedField("waitingNode", UML_NODE_INSTANCE);
+		activityClass.addToImports(UML_NODE_INSTANCE);
+		ifProcessActive.getThenPart().addToLocals(nodes);
+		return ifProcessActive;
+	}
 	protected void consumeEventWithoutSourceNodeInstanceUniqueId(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
+		INakedElement waitingElement = node.getWaitingElement();
+		OJIfStatement ifTokenFound = addIfTokenFound(listener, ifProcessActive, waitingElement);
+		consumeEvent(listener, node, ifTokenFound);
+	}
+	protected OJIfStatement addIfTokenFound(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,INakedElement waitingElement){
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		ifProcessActive.getThenPart().addToStatements(ifTokenFound);
-		String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
+		String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(waitingElement);
 		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression + ".getId()))" + "!=null");
-		consumeEvent(listener, node, ifTokenFound);
+		return ifTokenFound;
 	}
 	protected void consumeEventWithSourceNodeInstanceUniqueId(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
 		OJIfStatement ifTokenFound = new OJIfStatement();

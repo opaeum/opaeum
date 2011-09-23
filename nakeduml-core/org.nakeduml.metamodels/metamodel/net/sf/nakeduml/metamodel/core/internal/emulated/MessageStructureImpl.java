@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavioredClassifier;
@@ -313,5 +314,17 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	@Override
 	public boolean hasReceptionFor(INakedSignal signal){
 		return false;
+	}
+	@Override
+	public Set<INakedProperty> getDirectlyImplementedAttributes(){
+		return new HashSet<INakedProperty>( getEffectiveAttributes());
+	}
+	@Override
+	public Set<INakedOperation> getDirectlyImplementedOperations(){
+		return new HashSet<INakedOperation>(getEffectiveOperations());
+	}
+	@Override
+	public Collection<? extends INakedReception> getDirectlyImplementedReceptions(){
+		return Collections.emptySet();
 	}
 }

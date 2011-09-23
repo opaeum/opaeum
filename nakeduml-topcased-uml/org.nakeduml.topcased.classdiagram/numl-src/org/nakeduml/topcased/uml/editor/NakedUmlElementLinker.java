@@ -37,6 +37,7 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
@@ -56,6 +57,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
@@ -147,6 +149,27 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			}
 			return null;
 		}
+		@Override
+		public EObject casePackageImport(PackageImport object){
+			switch(this.notification.getFeatureID(PackageImport.class)){
+			case UMLPackage.PACKAGE_IMPORT__IMPORTED_PACKAGE:
+				if(notification.getNewValue() == null){
+					object.getImportingNamespace().getPackageImports().remove(object);
+				}
+			}
+			return null;
+		};
+		@Override
+		public EObject caseElementImport(ElementImport object){
+			switch(this.notification.getFeatureID(ElementImport.class)){
+			case UMLPackage.ELEMENT_IMPORT__IMPORTED_ELEMENT:
+				if(notification.getNewValue() == null){
+					object.getImportingNamespace().getElementImports().remove(object);
+				}
+			}
+			return null;
+		};
+		
 		@Override
 		public EObject caseNamespace(Namespace n){
 			switch(this.notification.getFeatureID(Namespace.class)){
@@ -466,11 +489,26 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			}
 			return null;
 		}
+		@Override
+		public EObject caseInterfaceRealization(InterfaceRealization object) {
+			switch(notification.getFeatureID(InterfaceRealization.class)){
+			case UMLPackage.INTERFACE_REALIZATION__CONTRACT:
+				if(notification.getNewValue()==null){
+					object.getImplementingClassifier().getInterfaceRealizations().remove(object);
+				}
+				break;
+			}
+			return null;
+		};
+		@Override
 		public EObject caseGeneralization(Generalization g){
 			switch(notification.getFeatureID(Generalization.class)){
 			case UMLPackage.GENERALIZATION__GENERAL:
 				if(notification.getNewValue() instanceof Signal){
 					synchronizeSignalPins((Signal) g.getSpecific());
+				}
+				if(notification.getNewValue()==null){
+					g.getSpecific().getGeneralizations().remove(g);
 				}
 				break;
 			}

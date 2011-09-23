@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.actions.INakedCreateObjectAction;
 import net.sf.nakeduml.metamodel.actions.INakedExceptionHandler;
 import net.sf.nakeduml.metamodel.actions.INakedReadStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedReadVariableAction;
+import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
 import net.sf.nakeduml.metamodel.actions.INakedSendSignalAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteStructuralFeatureAction;
 import net.sf.nakeduml.metamodel.actions.INakedWriteVariableAction;
@@ -86,6 +87,10 @@ public class PinLinker extends AbstractModelElementLinker{
 				pin.setIsOrdered(typedElement.isOrdered());
 			}
 		}
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void linkReplyAction(INakedReplyAction action){
+		linkLists(action.getCause().getOperation().getResultParameters(), action.getReplyValues());
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkAcceptEvent(INakedAcceptEventAction action){

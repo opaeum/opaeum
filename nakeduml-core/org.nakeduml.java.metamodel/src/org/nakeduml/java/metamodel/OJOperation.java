@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.generated.OJOperationGEN;
 import org.nakeduml.java.metamodel.utilities.JavaStringHelpers;
 
@@ -202,7 +203,7 @@ public class OJOperation extends OJOperationGEN {
 	public boolean isEqual(String name, List /*(OJPathName)*/ types) {
 		boolean result = false;
 		if (this.getName().equals(name) ) {
-			List myPars = this.getParameters();
+			List<OJParameter> myPars = this.getParameters();
 			if ((myPars.size() == 0) && (types.size() == 0)) {
 				result = true;
 			} else {

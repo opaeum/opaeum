@@ -88,14 +88,12 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	@Override
 	protected Object resolvePeer(Element o,Class<?> peerClass){
-		Element e = o;
-		e = o;
-		INakedElement ne = getNakedPeer(e);
-		Element owner = (Element) EmfElementFinder.getContainer(e);
+		INakedElement ne = getNakedPeer(o);
+		Element owner = (Element) EmfElementFinder.getContainer(o);
 		if(ne == null){
-			ne = createElementFor(e, peerClass);
+			ne = createElementFor(o, peerClass);
 			if(ne != null){
-				initialize(ne, e, owner);
+				initialize(ne, o, owner);
 			}
 		}else if(o instanceof NamedElement){
 			if((owner == null || getId(owner) == null) && ne.getOwnerElement() != null){

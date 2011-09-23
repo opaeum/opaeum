@@ -1,6 +1,8 @@
 package net.sf.nakeduml.metamodel.activities.internal;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -18,6 +20,7 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	private INakedActivityNode target;
 	private INakedValueSpecification guardExpression;
 	private INakedValueSpecification weight;
+	private Set<INakedActivityEdge> redefinedEdges = new HashSet<INakedActivityEdge>();
 
 	public INakedValueSpecification getGuard() {
 		return this.guardExpression;
@@ -129,5 +132,12 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	@Override
 	public boolean hasGuard() {
 		return getGuard() != null && !Boolean.TRUE.equals(getGuard().getValue());
+	}
+	@Override
+	public Set<INakedActivityEdge> getRedefinedEdges(){
+		return redefinedEdges;
+	}
+	public void setRedefinedEdges(Set<INakedActivityEdge> redefinedEdges){
+		this.redefinedEdges = redefinedEdges;
 	}
 }

@@ -1,26 +1,25 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import net.sf.nakeduml.feature.StepDependency;
-import net.sf.nakeduml.feature.visit.VisitBefore;
-import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.hibernate.HibernateAnnotator;
+import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.persistence.JpaAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
-import net.sf.nakeduml.metamodel.core.INakedEntity;
+import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
-import net.sf.nakeduml.metamodel.core.INakedStructuredDataType;
+import net.sf.nakeduml.metamodel.core.internal.NakedAssociationImpl;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
 import org.nakeduml.java.metamodel.OJField;
 import org.nakeduml.java.metamodel.OJIfStatement;
-import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJParameter;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
 import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
@@ -29,30 +28,15 @@ import org.nakeduml.java.metamodel.annotation.OJAnnotationValue;
 		DerivedUnionImplementor.class,JpaAnnotator.class,HibernateAnnotator.class
 })
 // NB!!! needs to execute after all Steps that expect the OJField's presence since it removes the redefined field
-public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
-	@VisitBefore(matchSubclasses = true)
-	public void property(INakedProperty p){
-		if(!(p.getOwner() instanceof INakedInterface)){
-			visitProperty(p.getOwner(), p);
-		}
-	}
-	@VisitBefore(matchSubclasses = true,match = {
-			INakedEntity.class,INakedStructuredDataType.class
-	})
-	public void classifier(INakedClassifier c){
-		for(INakedProperty p:c.getEffectiveAttributes()){
-			if(p.getOwner() instanceof INakedInterface){
-				visitProperty(c, p);
-			}
-		}
-	}
+public class RedefinitionImplementor extends AbstractStructureVisitor{
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;// Works across models
 	}
-	private void visitProperty(INakedClassifier owner,INakedProperty p){
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
+		INakedProperty p = map.getProperty();
 		if(p.isNavigable()){
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 			OJClass c = findJavaClass(owner);
 			for(INakedProperty redefinedProperty:p.getRedefinedProperties()){
 				implementRedefinition(map, c, redefinedProperty);
@@ -74,25 +58,26 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 		}
 		OJAnnotatedOperation o = (OJAnnotatedOperation) OJUtil.findOperation(c, redefinedMap.getter());
 		// might exist if the modeler defined an
-		// attribute with the same name or if it was inherited from an interface
+		// attribute with the same name
 		if(o == null){
 			o = new OJAnnotatedOperation(redefinedMap.getter());
 			o.setReturnType(redefinedMap.javaTypePath());
 			c.addToOperations(o);
-			o.setBody(null);
 		}
-		if(o.getBody() == null || redefinedProperty.getOwner() instanceof INakedInterface){
-			// force implementation of interface redefinition
-			o.setBody(new OJBlock());
-			if(redefinedMap.isMany()){
-				if(redefiningMap.isOne()){
-					wrapInCollection(c, o, redefiningMap, redefinedMap);
-				}else{
-					convertToCorrectCollectionType(c, o, redefiningMap, redefinedMap);
-				}
+		if(redefinedProperty.getAssociation()!=null &&  redefinedProperty.getAssociation().isClass()){
+			//TODO implement validation - AssociationClasss end cannot be redefined			
+			AssociationClassEndMap assocEndMap = new AssociationClassEndMap(redefinedProperty);
+			 ((OJAnnotatedClass)c).removeFromFields(assocEndMap.getEndToAssocationClassMap().fieldname());
+		}
+		// force implementation of redefinition
+		if(redefinedMap.isMany()){
+			if(redefiningMap.isOne()){
+				wrapInCollection(c, o, redefiningMap, redefinedMap);
 			}else{
-				o.getBody().addToStatements("return " + (redefiningMap.getter() + "()"));
+				convertToCorrectCollectionType(c, o, redefiningMap, redefinedMap);
 			}
+		}else{
+			o.initializeResultVariable(redefiningMap.getter() + "()");
 		}
 	}
 	private void redefineOperation(OJClass c,String redefinedOperationName,String redefiningOperationName,OJPathName paramType){
@@ -124,12 +109,12 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void convertToCorrectCollectionType(OJClass c,OJAnnotatedOperation o,NakedStructuralFeatureMap redefiningMap,NakedStructuralFeatureMap redefinedMap){
 		if(redefinedMap.getFeature().getType() != redefiningMap.getFeature().getType()){
-			c.addToImports(redefinedMap.javaTypePath());
 			OJPathName collectionType = getRawType(redefiningMap.javaTypePath());
+			o.initializeResultVariable("(" + collectionType + ")" + redefiningMap.getter() + "()");
+			c.addToImports(redefinedMap.javaTypePath());
 			suppressTypeChecks(o);
-			o.getBody().addToStatements("return " + "(" + collectionType + ")" + (redefiningMap.getter() + "()"));
 		}else{
-			o.getBody().addToStatements("return " + (redefiningMap.getter() + "()"));
+			o.initializeResultVariable(redefiningMap.getter() + "()");
 		}
 	}
 	private void suppressTypeChecks(OJAnnotatedOperation o){
@@ -137,14 +122,12 @@ public class RedefinitionImplementor extends AbstractJavaProducingVisitor{
 		suppress.addStringValue("rawtypes");
 		o.putAnnotation(suppress);
 	}
-	private void wrapInCollection(OJClass c,OJOperation o,NakedStructuralFeatureMap redefiningMap,NakedStructuralFeatureMap redefinedMap){
-		OJAnnotatedField result = new OJAnnotatedField("result", redefinedMap.javaTypePath());
-		c.addToImports(redefinedMap.javaTypePath());
-		c.addToImports(redefinedMap.javaDefaultTypePath());
-		result.setInitExp(redefinedMap.javaDefaultValue());
-		o.getBody().addToLocals(result);
+	private void wrapInCollection(OJClass c,OJAnnotatedOperation o,NakedStructuralFeatureMap redefiningMap,NakedStructuralFeatureMap redefinedMap){
+		o.initializeResultVariable(redefinedMap.javaDefaultValue());
 		OJIfStatement ifNotNull = new OJIfStatement((redefiningMap.getter() + "()") + "!=null", "result.add(" + (redefiningMap.getter() + "()") + ")");
 		o.getBody().addToStatements(ifNotNull);
-		o.getBody().addToStatements("return result");
+	}
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure umlOwner){
 	}
 }

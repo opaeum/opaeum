@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AuditWorkUnit {
-	private static Map<Class<? extends IPersistentObject>, AuditEntryFactory<? extends AuditEntry>> factories = new HashMap<Class<? extends IPersistentObject>, AuditEntryFactory<? extends AuditEntry>>();
+	private static Map<Class<? extends IPersistentObject>, AuditEntryFactory<? extends IPersistentObject>> factories = new HashMap<Class<? extends IPersistentObject>, AuditEntryFactory<? extends IPersistentObject>>();
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static class EntityId {
@@ -231,7 +231,7 @@ public class AuditWorkUnit {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void logPropertyChanges(Object[] oldState, Object[] newState, int[] dirtyProperties, IPersistentObject entity, String[] propertyNames, int version) {
 		EntityId ei = toEntityId(entity);
 		AuditEntry entry = entriesByEntityId.get(ei);
@@ -248,15 +248,17 @@ public class AuditWorkUnit {
 			entry.putPropertyChange(propertyNames[propIndex], oldState[propIndex], newState[propIndex]);
 		}
 		for (int i = 0; i < newState.length; i++) {
-			if (newState[i] instanceof IPersistentObject && IntrospectionUtil.getOriginalClass(newState[i]).isAnnotationPresent(AuditMe.class)) {
+			if (newState[i] instanceof IPersistentObject && ((Class<?>) IntrospectionUtil.getOriginalClass(newState[i])).isAnnotationPresent(AuditMe.class)) {
 				entry.addManyToOne(propertyNames[i], (IPersistentObject) newState[i]);
+				getFactory((IPersistentObject) newState[i]);
 			}
 		}
 	}
 
-	private AuditEntryFactory<? extends AuditEntry> getFactory(IPersistentObject entity) {
+	@SuppressWarnings("unchecked")
+	private AuditEntryFactory<? extends IPersistentObject> getFactory(IPersistentObject entity) {
 		Class<? extends IPersistentObject> clz = (Class<? extends IPersistentObject>) IntrospectionUtil.getOriginalClass(entity);
-		AuditEntryFactory<? extends AuditEntry> factory = factories.get(clz);
+		AuditEntryFactory<? extends IPersistentObject> factory = factories.get(clz);
 		if (factory == null) {
 			AuditMe ann = clz.getAnnotation(AuditMe.class);
 			try {
@@ -279,7 +281,7 @@ public class AuditWorkUnit {
 	}
 
 	public void logInsertedProperties(Object[] newState, String[] propertyNames, IPersistentObject entity, int version) {
-		AuditEntryFactory<?> factory = getFactory(entity);
+		AuditEntryFactory factory = getFactory(entity);
 		AuditEntry entry = factory.createAuditEntry(entity, version);
 		entriesByEntityId.put(toEntityId(entity), entry);
 		for (int i = 0; i < newState.length; i++) {

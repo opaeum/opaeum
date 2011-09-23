@@ -40,15 +40,15 @@ public class AuditEntryPropertyChange extends PropertyChange<AuditEntry> {
 	@Override
 	public AuditEntry getOldValue() {
 		if (oldValue == null && value != null && value.getId().getObjectVersion() > 0) {
-			//
-			AuditEntry previousVersion = getAuditEntry().getPreviousVersion();
-			if (previousVersion != null) {
-				PropertyChange<?> previousValue = previousVersion.getChanges().get(getPropertyName());
-				if (previousValue instanceof AuditEntryPropertyChange) {
-					oldValue = (AuditEntry) previousValue.getValue();
-				}
-			}
-
+//			//
+//			AuditEntry previousVersion = getAuditEntry().getPreviousVersion();
+//			if (previousVersion != null) {
+//				PropertyChange<?> previousValue = previousVersion.getChanges().get(getPropertyName());
+//				if (previousValue instanceof AuditEntryPropertyChange) {
+//					oldValue = (AuditEntry) previousValue.getValue();
+//				}
+//			}
+//
 		}
 		return super.getOldValue();
 	}
