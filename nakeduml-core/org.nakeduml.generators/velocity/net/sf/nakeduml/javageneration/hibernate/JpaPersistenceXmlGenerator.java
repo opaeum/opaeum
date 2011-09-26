@@ -22,6 +22,11 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 			return ((INakedModelWorkspace) model).getIdentifier();
 		}
 	}
+	protected boolean shouldProcessModel(){
+		//Might overwrite other models persistence.xml
+		return !(config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isIntegrationPhase());
+	}
+
 	protected String getTemplateName(){
 		return "templates/Model/PersistenceXml.vsl";
 	}

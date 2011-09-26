@@ -11,8 +11,8 @@ import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.w3c.dom.Element;
 
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.business_role",uuid="252060@_tH0fAIoVEeCLqpffVZYAlw")
-public interface BusinessRole extends Participant, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+@NumlMetaInfo(uuid="252060@_tH0fAIoVEeCLqpffVZYAlw")
+public interface BusinessRole extends Participant, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
 	public String getUid();

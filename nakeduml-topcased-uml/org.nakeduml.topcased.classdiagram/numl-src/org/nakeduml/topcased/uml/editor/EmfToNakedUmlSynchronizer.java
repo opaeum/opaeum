@@ -193,7 +193,6 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		result.addAll(allSteps);
 		result.addAll(ValidationPhase.getAllValidationSteps());
 		result.add(JavaNameRegenerator.class);
-		result.add(PersistentNameGenerator.class);
 		Set<Class<? extends ITransformationStep>> additionalTransformationSteps = cfg.getAdditionalTransformationSteps();
 		Steps steps = new Steps();
 		steps.initializeFromClasses(additionalTransformationSteps);

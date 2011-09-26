@@ -41,17 +41,17 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.nakeduml.annotation.NumlMetaInfo;
-import org.nakeduml.runtime.bpm.abstractrequest.ActivateHandler922;
-import org.nakeduml.runtime.bpm.abstractrequest.CompleteHandler926;
-import org.nakeduml.runtime.bpm.abstractrequest.ResumeHandler923;
-import org.nakeduml.runtime.bpm.abstractrequest.StartHandler919;
-import org.nakeduml.runtime.bpm.abstractrequest.SuspendHandler933;
-import org.nakeduml.runtime.bpm.taskrequest.ClaimHandler999;
-import org.nakeduml.runtime.bpm.taskrequest.DelegateHandler1001;
-import org.nakeduml.runtime.bpm.taskrequest.ForwardHandler985;
-import org.nakeduml.runtime.bpm.taskrequest.RevokeHandler984;
-import org.nakeduml.runtime.bpm.taskrequest.SkipHandler998;
-import org.nakeduml.runtime.bpm.taskrequest.StopHandler994;
+import org.nakeduml.runtime.bpm.abstractrequest.ActivateHandler89;
+import org.nakeduml.runtime.bpm.abstractrequest.CompleteHandler87;
+import org.nakeduml.runtime.bpm.abstractrequest.ResumeHandler78;
+import org.nakeduml.runtime.bpm.abstractrequest.StartHandler82;
+import org.nakeduml.runtime.bpm.abstractrequest.SuspendHandler81;
+import org.nakeduml.runtime.bpm.taskrequest.ClaimHandler180;
+import org.nakeduml.runtime.bpm.taskrequest.DelegateHandler168;
+import org.nakeduml.runtime.bpm.taskrequest.ForwardHandler171;
+import org.nakeduml.runtime.bpm.taskrequest.RevokeHandler170;
+import org.nakeduml.runtime.bpm.taskrequest.SkipHandler167;
+import org.nakeduml.runtime.bpm.taskrequest.StopHandler176;
 import org.nakeduml.runtime.bpm.util.OpiumLibraryForBPMFormatter;
 import org.nakeduml.runtime.bpm.util.Stdlib;
 import org.nakeduml.runtime.domain.CancelledEvent;
@@ -76,20 +76,24 @@ import org.w3c.dom.NodeList;
 @Entity(name="TaskRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="task_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_request",uuid="252060@_zFmsEIoVEeCLqpffVZYAlw")
+@Table(schema="opium_bpm",name="task_request")
+@NumlMetaInfo(uuid="252060@_zFmsEIoVEeCLqpffVZYAlw")
 @AccessType("field")
 @DiscriminatorValue("task_request")
-public class TaskRequest extends AbstractRequest implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject, IProcessObject {
+public class TaskRequest extends AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Column(name="executed_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date executedOn;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private Object currentException;
+	@Column(name="calling_process_instance_id")
+	private Long callingProcessInstanceId;
 	@Type(type="TaskRequestStateResolver")
 	private TaskRequestState endNodeInTaskInstanceRegion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	private String callingNodeInstanceUniqueId;
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
 	@Index(name="idx_task_request_task_object",columnNames="task_object")
@@ -100,6 +104,8 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="taskRequest",targetEntity=ParticipationInTask.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private Set<ParticipationInTask> participationsInTask = new HashSet<ParticipationInTask>();
+	@Transient
+	transient private WorkflowProcessInstance callingProcessInstance;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -113,7 +119,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	private Long processInstanceId;
 	@Type(type="TaskRequestStateResolver")
 	private TaskRequestState History;
-	static final private long serialVersionUID = 878;
+	static final private long serialVersionUID = 47;
 	static private Set<TaskRequest> mockedAllInstances;
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="parentTask",targetEntity=AbstractRequest.class)
@@ -146,7 +152,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.add_task_request_participant",uuid="252060@_v52VoI6SEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_v52VoI6SEeCrtavWRHwoHg")
 	public void addTaskRequestParticipant(Participant newParticipant, TaskParticipationKind kind) {
 		ParticipationInTask participation = null;
 		ParticipationInTask resultOnCreatePartipation = null;
@@ -200,7 +206,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("86")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -218,7 +224,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("993")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("175")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -239,7 +245,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.claim",uuid="252060@_Nk_isIobEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_Nk_isIobEeCPduia_-NbFw")
 	public void claim() {
 		generateClaimEvent();
 	}
@@ -250,6 +256,13 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	
 	public void clearSubRequests() {
 		removeAllFromSubRequests(getSubRequests());
+	}
+	
+	public void completed() {
+		AbstractRequestListener callbackListener = getCallingProcessObject();
+		if ( callbackListener!=null ) {
+			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
+		}
 	}
 	
 	public boolean consumeActivateOccurrence() {
@@ -396,6 +409,25 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	public boolean consumeStartOccurrence() {
 		boolean consumed = false;
 		consumed=super.consumeStartOccurrence();
+		if ( getProcessInstance()!=null ) {
+			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_RESERVED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_INPROGRESS.getId(), listener);
+			}
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.TASKINSTANCEREGION_ACTIVE.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_INPROGRESS.getId(), listener);
+			}
+		}
 		return consumed;
 	}
 	
@@ -420,6 +452,22 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		consumed=super.consumeSuspendOccurrence();
 		if ( getProcessInstance()!=null ) {
 			UmlNodeInstance waitingNode;
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_RESERVED.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.TASKINSTANCEREGION_SUSPENDED_REGION1_RESERVEDBUTSUSPENDED.getId(), listener);
+			}
+			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_READY.getId()))!=null ) {
+				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
+						public void onTransition() {
+						}
+					};
+				processDirty=consumed=true;
+				waitingNode.transitionToNode(TaskRequestState.TASKINSTANCEREGION_SUSPENDED_REGION1_READYBUTSUSPENDED.getId(), listener);
+			}
 			if ( consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_INPROGRESS.getId()))!=null ) {
 				TransitionListener listener = new org.nakeduml.runtime.domain.TransitionListener(){	
 						public void onTransition() {
@@ -432,7 +480,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		return consumed;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.delegate",uuid="252060@_0lAQAIoaEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_0lAQAIoaEeCPduia_-NbFw")
 	public void delegate(BusinessRole delegate) {
 		BusinessRole currentUser = null;
 		if ( (!(this.getOwner() == null)) ) {
@@ -463,7 +511,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
 		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_library_for_bpm_task_request",params);
+		processInstance = (WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_bpm_task_request",params);
 		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
 		this.processInstance=processInstance;
 		this.setProcessInstanceId(processInstance.getId());
@@ -498,63 +546,63 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.forward",uuid="252060@__6uyIIoaEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@__6uyIIoaEeCPduia_-NbFw")
 	public void forward(BusinessRole toPerson) {
 		generateForwardEvent(toPerson);
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.forward",uuid="252060@_e0G_YK0gEeCwWeEjtrrMeQ")
+	@NumlMetaInfo(uuid="252060@_e0G_YK0gEeCwWeEjtrrMeQ")
 	public void forward() {
 	}
 	
 	public void generateActivateEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ActivateHandler922(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new ActivateHandler89(true)));
 	}
 	
 	public void generateAddTaskRequestParticipantEvent(Participant newParticipant, TaskParticipationKind kind) {
 	}
 	
 	public void generateClaimEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ClaimHandler999(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new ClaimHandler180(true)));
 	}
 	
 	public void generateCompleteEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new CompleteHandler926(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new CompleteHandler87(true)));
 	}
 	
 	public void generateDelegateEvent(BusinessRole delegate) {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new DelegateHandler1001(delegate,true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new DelegateHandler168(delegate,true)));
 	}
 	
 	public void generateForwardEvent(BusinessRole toPerson) {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ForwardHandler985(toPerson,true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new ForwardHandler171(toPerson,true)));
 	}
 	
 	public void generateRemoveTaskRequestParticipantEvent(Participant participant, TaskParticipationKind kind) {
 	}
 	
 	public void generateResumeEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ResumeHandler923(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new ResumeHandler78(true)));
 	}
 	
 	public void generateRevokeEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new RevokeHandler984(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new RevokeHandler170(true)));
 	}
 	
 	public void generateSkipEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new SkipHandler998(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new SkipHandler167(true)));
 	}
 	
 	public void generateStartEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new StartHandler919(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new StartHandler82(true)));
 	}
 	
 	public void generateStopEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new StopHandler994(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new StopHandler176(true)));
 	}
 	
 	public void generateSuspendEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new SuspendHandler933(true)));
+		this.getOutgoingEvents().add(new OutgoingEvent(this, new SuspendHandler81(true)));
 	}
 	
 	public boolean getActive() {
@@ -582,6 +630,36 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		return isStepActive(TaskRequestState.TASKINSTANCEREGION_ACTIVE_REGION1_RESERVED);
 	}
 	
+	public String getCallingNodeInstanceUniqueId() {
+		return this.callingNodeInstanceUniqueId;
+	}
+	
+	public WorkflowProcess getCallingProcessDefinition() {
+		return (WorkflowProcess) getCallingProcessInstance().getProcess();
+	}
+	
+	public WorkflowProcessInstance getCallingProcessInstance() {
+		if ( this.callingProcessInstance==null ) {
+			this.callingProcessInstance=(WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getCallingProcessInstanceId());
+			if ( this.callingProcessInstance!=null ) {
+				((WorkflowProcessImpl)this.callingProcessInstance.getProcess()).setAutoComplete(true);
+			}
+		}
+		return this.callingProcessInstance;
+	}
+	
+	public Long getCallingProcessInstanceId() {
+		return this.callingProcessInstanceId;
+	}
+	
+	public AbstractRequestListener getCallingProcessObject() {
+		if ( getCallingProcessInstance()!=null  ) {
+			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
+			return processObject;
+		}
+		return null;
+	}
+	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
@@ -594,9 +672,11 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		return isStepActive(TaskRequestState.TASKINSTANCEREGION_CREATED);
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.delegation",uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
+	@NumlMetaInfo(uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
 	public TaskDelegation getDelegation() {
-		return delegation;
+		TaskDelegation result = this.delegation;
+		
+		return result;
 	}
 	
 	public Date getDeletedOn() {
@@ -642,25 +722,29 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		return this.outgoingEvents;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.owner",uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
+	@NumlMetaInfo(uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
 	public Participant getOwner() {
-		Participant owner = any3().getParticipant();
-		return owner;
+		Participant result = any1().getParticipant();
+		
+		return result;
 	}
 	
 	public CompositionNode getOwningObject() {
 		return getTaskObject();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.participations_in_task_id",uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
+	@NumlMetaInfo(uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
 	public Set<ParticipationInTask> getParticipationsInTask() {
-		return participationsInTask;
+		Set<ParticipationInTask> result = this.participationsInTask;
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.potential_owners",uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
+	@NumlMetaInfo(uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
 	public Set<Participant> getPotentialOwners() {
-		Set<Participant> potentialOwners = Stdlib.collectionAsSet(collect2());
-		return potentialOwners;
+		Set<Participant> result = Stdlib.collectionAsSet(collect3());
+		
+		return result;
 	}
 	
 	public WorkflowProcess getProcessDefinition() {
@@ -681,9 +765,11 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		return this.processInstanceId;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.sub_requests_id",uuid="252060@_tog08I29EeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	public Set<AbstractRequest> getSubRequests() {
-		return subRequests;
+		Set<AbstractRequest> result = this.subRequests;
+		
+		return result;
 	}
 	
 	public boolean getSuspended() {
@@ -702,9 +788,11 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		return isStepActive(TaskRequestState.TASKINSTANCEREGION_SUSPENDED_REGION1_RESERVEDBUTSUSPENDED);
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.task_object",uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
+	@NumlMetaInfo(uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	public TaskObject getTaskObject() {
-		return taskObject;
+		TaskObject result = this.taskObject;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -717,6 +805,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	}
 	
 	public void init(ProcessContext context) {
+		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}
@@ -760,7 +849,6 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		for ( ParticipationInTask child : new ArrayList<ParticipationInTask>(getParticipationsInTask()) ) {
 			child.markDeleted();
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<TaskRequest> newMocks) {
@@ -890,17 +978,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("929")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("88")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -910,7 +988,17 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("993")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("86")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("175")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -920,6 +1008,15 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 					}
 				}
 			}
+		}
+	}
+	
+	public void propagateException(Object exception) {
+		AbstractRequestListener callbackListener = getCallingProcessObject();
+		if ( callbackListener==null ) {
+		
+		} else {
+			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
 		}
 	}
 	
@@ -971,15 +1068,27 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.remove_task_request_participant",uuid="252060@_wuzAoI6SEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_wuzAoI6SEeCrtavWRHwoHg")
 	public void removeTaskRequestParticipant(Participant participant, TaskParticipationKind kind) {
 		TaskRequest tgtRemoveParticipation=this;
 		tgtRemoveParticipation.removeAllFromParticipationsInTask((select4(participant, kind)));
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.revoke",uuid="252060@_LlMOIIobEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_LlMOIIobEeCPduia_-NbFw")
 	public void revoke() {
 		generateRevokeEvent();
+	}
+	
+	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {
+		this.callingNodeInstanceUniqueId=callingNodeInstanceUniqueId;
+	}
+	
+	public void setCallingProcessInstance(WorkflowProcessInstance callingProcessInstance) {
+		this.callingProcessInstance=callingProcessInstance;
+	}
+	
+	public void setCallingProcessInstanceId(Long callingProcessInstanceId) {
+		this.callingProcessInstanceId=callingProcessInstanceId;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -1020,6 +1129,11 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		this.processInstanceId=processInstanceId;
 	}
 	
+	public void setReturnInfo(ProcessContext context) {
+		this.callingProcessInstanceId=context.getProcessInstance().getId();
+		this.callingNodeInstanceUniqueId=((NodeInstanceImpl)context.getNodeInstance()).getUniqueId();
+	}
+	
 	public void setSubRequests(Set<AbstractRequest> subRequests) {
 		this.clearSubRequests();
 		this.addAllToSubRequests(subRequests);
@@ -1043,12 +1157,12 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.skip",uuid="252060@_1gF8AKDTEeCi16HgBnUGFw")
+	@NumlMetaInfo(uuid="252060@_1gF8AKDTEeCi16HgBnUGFw")
 	public void skip() {
 		generateSkipEvent();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_request.stop",uuid="252060@_GRVH0IobEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_GRVH0IobEeCPduia_-NbFw")
 	public void stop() {
 		generateStopEvent();
 	}
@@ -1067,19 +1181,19 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 			sb.append("delegation=\""+ getDelegation().name() + "\" ");
 		}
 		sb.append(">");
-		sb.append("\n<participationsInRequest propertyId=\"914\">");
+		if ( getParentTask()==null ) {
+			sb.append("\n<parentTask/>");
+		} else {
+			sb.append("\n<parentTask propertyId=\"88\">");
+			sb.append("\n" + getParentTask().toXmlReferenceString());
+			sb.append("\n</parentTask>");
+		}
+		sb.append("\n<participationsInRequest propertyId=\"86\">");
 		for ( ParticipationInRequest participationsInRequest : getParticipationsInRequest() ) {
 			sb.append("\n" + participationsInRequest.toXmlString());
 		}
 		sb.append("\n</participationsInRequest>");
-		if ( getParentTask()==null ) {
-			sb.append("\n<parentTask/>");
-		} else {
-			sb.append("\n<parentTask propertyId=\"929\">");
-			sb.append("\n" + getParentTask().toXmlReferenceString());
-			sb.append("\n</parentTask>");
-		}
-		sb.append("\n<participationsInTask propertyId=\"993\">");
+		sb.append("\n<participationsInTask propertyId=\"175\">");
 		for ( ParticipationInTask participationsInTask : getParticipationsInTask() ) {
 			sb.append("\n" + participationsInTask.toXmlString());
 		}
@@ -1133,7 +1247,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	
 	/** Implements ->any( p : ParticipationInTask | p.kind = TaskParticipationKind::owner )
 	 */
-	private ParticipationInTask any3() {
+	private ParticipationInTask any1() {
 		ParticipationInTask result = null;
 		for ( ParticipationInTask p : this.getParticipationsInTask() ) {
 			if ( (p.getKind().equals( TaskParticipationKind.OWNER)) ) {
@@ -1145,9 +1259,9 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	
 	/** Implements ->collect( p : ParticipationInTask | p.participant )
 	 */
-	private Collection<Participant> collect2() {
+	private Collection<Participant> collect3() {
 		Collection<Participant> result = new ArrayList<Participant>();
-		for ( ParticipationInTask p : select1() ) {
+		for ( ParticipationInTask p : select2() ) {
 			Participant bodyExpResult = p.getParticipant();
 			if ( bodyExpResult != null ) result.add( bodyExpResult );
 		}
@@ -1160,7 +1274,7 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Hib
 	
 	/** Implements ->select( p : ParticipationInTask | p.kind = TaskParticipationKind::potentialOwner )
 	 */
-	private Set<ParticipationInTask> select1() {
+	private Set<ParticipationInTask> select2() {
 		Set<ParticipationInTask> result = new HashSet<ParticipationInTask>();
 		for ( ParticipationInTask p : this.getParticipationsInTask() ) {
 			if ( (p.getKind().equals( TaskParticipationKind.POTENTIALOWNER)) ) {

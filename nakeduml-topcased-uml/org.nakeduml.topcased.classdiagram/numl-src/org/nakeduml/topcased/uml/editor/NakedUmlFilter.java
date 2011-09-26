@@ -17,6 +17,9 @@ public class NakedUmlFilter extends ViewerFilter{
 	public static Set<EClassifier> DISALLOWED_CLASSES = new HashSet<EClassifier>();
 	public static Set<EClassifier> ALLOWED_CLASSES = new HashSet<EClassifier>();
 	static{
+		init();
+	}
+	protected static void init(){
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getFunctionBehavior());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getProtocolStateMachine());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getFunctionBehavior());
@@ -60,6 +63,9 @@ public class NakedUmlFilter extends ViewerFilter{
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getOpaqueExpression());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInstanceSpecification());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInstanceValue());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getLiteralInteger());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getLiteralString());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getLiteralBoolean());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getSlot());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
 	}
@@ -78,6 +84,7 @@ public class NakedUmlFilter extends ViewerFilter{
 		return false;
 	}
 	public static boolean isAllowedElement(EObject element){
+		init();//TODO Remove. THis is just temporary too allow us to change it at debug time
 		if(element.eClass().getEPackage().getName().equalsIgnoreCase("uml")){
 			for(EClassifier e:ALLOWED_CLASSES){
 				if(e.isInstance(element)){

@@ -59,7 +59,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationRequired()){
+		if(transformationContext.isIntegrationPhase()){
 			Collection<INakedRootObject> primaryRootObjects2 = workspace.getPrimaryRootObjects();
 			Collection<INakedBehavior> processes = new HashSet<INakedBehavior>();
 			OJPathName pn = Jbpm5Util.jbpmKnowledgeBase(workspace);

@@ -12,11 +12,11 @@ import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.w3c.dom.Element;
 
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.business_component",uuid="252060@_uVek8IoVEeCLqpffVZYAlw")
-public interface BusinessComponent extends Participant, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+@NumlMetaInfo(uuid="252060@_uVek8IoVEeCLqpffVZYAlw")
+public interface BusinessComponent extends Participant, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_component.business_calendar_id",uuid="252060@_ymlNQNcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_ymlNQNcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar();
 	
 	public String getUid();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<process xmlns="http://drools.org/drools-5.0/process" id="opium_library_for_bpm_abstract_request" name="opium_library_for_bpm_abstract_request" package-name="org.nakeduml.runtime.bpm" type="RuleFlow" version="0.0">
+<process xmlns="http://drools.org/drools-5.0/process" id="opium_bpm_abstract_request" name="opium_bpm_abstract_request" package-name="org.nakeduml.runtime.bpm" type="RuleFlow" version="0.0">
   <header>
     <variables>
       <variable name="processObject">
@@ -8,19 +8,19 @@
     </variables>
   </header>
   <nodes>
-    <start height="50" id="300851" name="artificial_start" width="100" x="50" y="50"/>
-    <actionNode height="50" id="800851" name="init" width="100" x="50" y="50">
+    <start height="50" id="300007" name="artificial_start" width="100" x="50" y="50"/>
+    <actionNode height="50" id="800007" name="init" width="100" x="50" y="50">
       <action dialect="mvel" type="expression">processObject.init(context)</action>
     </actionNode>
-    <dynamic height="500" id="1039" name="Region1" width="500" x="100" y="100">
+    <dynamic height="500" id="190" name="Region1" width="500" x="100" y="100">
       <nodes/>
       <connections/>
     </dynamic>
-    <end height="50" id="500851" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+    <end height="50" id="500007" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
   </nodes>
   <connections>
-    <connection from="300851" fromType="DROOLS_DEFAULT" to="800851"/>
-    <connection from="800851" fromType="DROOLS_DEFAULT" to="1039"/>
-    <connection from="1039" fromType="DROOLS_DEFAULT" to="500851"/>
+    <connection from="300007" fromType="DROOLS_DEFAULT" to="800007"/>
+    <connection from="800007" fromType="DROOLS_DEFAULT" to="190"/>
+    <connection from="190" fromType="DROOLS_DEFAULT" to="500007"/>
   </connections>
 </process>

@@ -43,8 +43,8 @@ public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootO
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
-		if(stereotype.hasValueForFeature("identifier")){
-			setIdentifier((String) stereotype.getFirstValueFor("identifier").getValue());
+		if(stereotype.hasValueForFeature("artifactIdentifier")){
+			setIdentifier((String) stereotype.getFirstValueFor("artifactIdentifier").getValue());
 		}
 	}
 

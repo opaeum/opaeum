@@ -66,27 +66,33 @@ import org.w3c.dom.NodeList;
 @Entity(name="AbstractRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="abstract_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.abstract_request",uuid="252060@_6MA8UI2-EeCrtavWRHwoHg")
+@Table(schema="opium_bpm",name="abstract_request")
+@NumlMetaInfo(uuid="252060@_6MA8UI2-EeCrtavWRHwoHg")
 @AccessType("field")
-abstract public class AbstractRequest implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject, IProcessObject {
+abstract public class AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	private String uid;
 	@Column(name="executed_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date executedOn;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Column(name="object_version")
+	@Version
+	private int objectVersion;
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="request",targetEntity=ParticipationInRequest.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private Set<ParticipationInRequest> participationsInRequest = new HashSet<ParticipationInRequest>();
-	@Column(name="object_version")
-	@Version
-	private int objectVersion;
+	@Column(name="calling_process_instance_id")
+	private Long callingProcessInstanceId;
+	private Object currentException;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
+	private String callingNodeInstanceUniqueId;
+	@Transient
+	transient private WorkflowProcessInstance callingProcessInstance;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -100,19 +106,19 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 	private Long processInstanceId;
 	@Type(type="AbstractRequestStateResolver")
 	private AbstractRequestState endNodeInRegion1;
-	static final private long serialVersionUID = 851;
+	static final private long serialVersionUID = 7;
+	static private Set<AbstractRequest> mockedAllInstances;
 	@Index(name="idx_abstract_request_parent_task_id",columnNames="parent_task_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="parent_task_id",nullable=true)
 	private TaskRequest parentTask;
-	static private Set<AbstractRequest> mockedAllInstances;
 
 	/** Default constructor for AbstractRequest
 	 */
 	public AbstractRequest() {
 	}
 
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.activate",uuid="252060@_3USwcKDGEeCv9IRqC7lfYw")
+	@NumlMetaInfo(uuid="252060@_3USwcKDGEeCv9IRqC7lfYw")
 	public void activate() {
 		generateActivateEvent();
 	}
@@ -123,7 +129,7 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.add_request_participant",uuid="252060@_Qo338I6QEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_Qo338I6QEeCrtavWRHwoHg")
 	public void addRequestParticipant(Participant newParticipant, RequestParticipationKind kind) {
 		ParticipationInRequest participation = null;
 		ParticipationInRequest resultOnCreatePartipation = null;
@@ -165,7 +171,7 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("86")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -190,9 +196,16 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		removeAllFromParticipationsInRequest(getParticipationsInRequest());
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.complete",uuid="252060@_4RNcAIoaEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_4RNcAIoaEeCPduia_-NbFw")
 	public void complete() {
 		generateCompleteEvent();
+	}
+	
+	public void completed() {
+		AbstractRequestListener callbackListener = getCallingProcessObject();
+		if ( callbackListener!=null ) {
+			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
+		}
 	}
 	
 	public boolean consumeActivateOccurrence() {
@@ -242,7 +255,7 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
 		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_library_for_bpm_abstract_request",params);
+		processInstance = (WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_bpm_abstract_request",params);
 		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
 		this.processInstance=processInstance;
 		this.setProcessInstanceId(processInstance.getId());
@@ -303,6 +316,36 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		return results;
 	}
 	
+	public String getCallingNodeInstanceUniqueId() {
+		return this.callingNodeInstanceUniqueId;
+	}
+	
+	public WorkflowProcess getCallingProcessDefinition() {
+		return (WorkflowProcess) getCallingProcessInstance().getProcess();
+	}
+	
+	public WorkflowProcessInstance getCallingProcessInstance() {
+		if ( this.callingProcessInstance==null ) {
+			this.callingProcessInstance=(WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getCallingProcessInstanceId());
+			if ( this.callingProcessInstance!=null ) {
+				((WorkflowProcessImpl)this.callingProcessInstance.getProcess()).setAutoComplete(true);
+			}
+		}
+		return this.callingProcessInstance;
+	}
+	
+	public Long getCallingProcessInstanceId() {
+		return this.callingProcessInstanceId;
+	}
+	
+	public AbstractRequestListener getCallingProcessObject() {
+		if ( getCallingProcessInstance()!=null  ) {
+			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
+			return processObject;
+		}
+		return null;
+	}
+	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
@@ -319,10 +362,10 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.get_initiator",uuid="252060@_VJyB4I6REeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_VJyB4I6REeCrtavWRHwoHg")
 	public Participant getInitiator() {
 		Participant result = null;
-		result= any2().getParticipant();
+		result= any1().getParticipant();
 		return result;
 	}
 	
@@ -361,14 +404,18 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		return null;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.parent_task_id",uuid="252060@_towFgY29EeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	public TaskRequest getParentTask() {
-		return parentTask;
+		TaskRequest result = this.parentTask;
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.participations_in_request_id",uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
 	public Set<ParticipationInRequest> getParticipationsInRequest() {
-		return participationsInRequest;
+		Set<ParticipationInRequest> result = this.participationsInRequest;
+		
+		return result;
 	}
 	
 	public WorkflowProcess getProcessDefinition() {
@@ -389,9 +436,11 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		return this.processInstanceId;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.responsibility_object",uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
+	@NumlMetaInfo(uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	public RequestObject getResponsibilityObject() {
-		return null;
+		RequestObject result = null;
+		
+		return result;
 	}
 	
 	public String getUid() {
@@ -405,12 +454,12 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		return getUid().hashCode();
 	}
 	
+	public void init(CompositionNode owner) {
+	}
+	
 	public void init(ProcessContext context) {
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
-	}
-	
-	public void init(CompositionNode owner) {
 	}
 	
 	public boolean isProcessDirty() {
@@ -434,13 +483,13 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 	}
 	
 	public void markDeleted() {
+		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getParentTask()!=null ) {
 			getParentTask().z_internalRemoveFromSubRequests((AbstractRequest)this);
 		}
 		for ( ParticipationInRequest child : new ArrayList<ParticipationInRequest>(getParticipationsInRequest()) ) {
 			child.markDeleted();
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<AbstractRequest> newMocks) {
@@ -452,17 +501,7 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("929")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("88")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -472,6 +511,25 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("86")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+		}
+	}
+	
+	public void propagateException(Object exception) {
+		AbstractRequestListener callbackListener = getCallingProcessObject();
+		if ( callbackListener==null ) {
+		
+		} else {
+			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
 		}
 	}
 	
@@ -509,15 +567,27 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.remove_request_participant",uuid="252060@_Nl5kQI6SEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_Nl5kQI6SEeCrtavWRHwoHg")
 	public void removeRequestParticipant(Participant participant, RequestParticipationKind kind) {
 		AbstractRequest tgtRemoveParticipation=this;
-		tgtRemoveParticipation.removeAllFromParticipationsInRequest((select1(participant, kind)));
+		tgtRemoveParticipation.removeAllFromParticipationsInRequest((select2(participant, kind)));
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.resume",uuid="252060@_qwWfEIoaEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_qwWfEIoaEeCPduia_-NbFw")
 	public void resume() {
 		generateResumeEvent();
+	}
+	
+	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {
+		this.callingNodeInstanceUniqueId=callingNodeInstanceUniqueId;
+	}
+	
+	public void setCallingProcessInstance(WorkflowProcessInstance callingProcessInstance) {
+		this.callingProcessInstance=callingProcessInstance;
+	}
+	
+	public void setCallingProcessInstanceId(Long callingProcessInstanceId) {
+		this.callingProcessInstanceId=callingProcessInstanceId;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -567,16 +637,21 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		this.processInstanceId=processInstanceId;
 	}
 	
+	public void setReturnInfo(ProcessContext context) {
+		this.callingProcessInstanceId=context.getProcessInstance().getId();
+		this.callingNodeInstanceUniqueId=((NodeInstanceImpl)context.getNodeInstance()).getUniqueId();
+	}
+	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.start",uuid="252060@_-PsMoIoaEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_-PsMoIoaEeCPduia_-NbFw")
 	public void start() {
 		generateStartEvent();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="abstract_request.suspend",uuid="252060@_ov5DMIoaEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_ov5DMIoaEeCPduia_-NbFw")
 	public void suspend() {
 		generateSuspendEvent();
 	}
@@ -592,18 +667,18 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 		sb.append("className=\"org.nakeduml.runtime.bpm.AbstractRequest\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		sb.append("\n<participationsInRequest propertyId=\"914\">");
+		if ( getParentTask()==null ) {
+			sb.append("\n<parentTask/>");
+		} else {
+			sb.append("\n<parentTask propertyId=\"88\">");
+			sb.append("\n" + getParentTask().toXmlReferenceString());
+			sb.append("\n</parentTask>");
+		}
+		sb.append("\n<participationsInRequest propertyId=\"86\">");
 		for ( ParticipationInRequest participationsInRequest : getParticipationsInRequest() ) {
 			sb.append("\n" + participationsInRequest.toXmlString());
 		}
 		sb.append("\n</participationsInRequest>");
-		if ( getParentTask()==null ) {
-			sb.append("\n<parentTask/>");
-		} else {
-			sb.append("\n<parentTask propertyId=\"929\">");
-			sb.append("\n" + getParentTask().toXmlReferenceString());
-			sb.append("\n</parentTask>");
-		}
 		sb.append("\n</AbstractRequest>");
 		return sb.toString();
 	}
@@ -635,7 +710,7 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 	
 	/** Implements ->any( p : ParticipationInRequest | p.kind = RequestParticipationKind::initiator )
 	 */
-	private ParticipationInRequest any2() {
+	private ParticipationInRequest any1() {
 		ParticipationInRequest result = null;
 		for ( ParticipationInRequest p : this.getParticipationsInRequest() ) {
 			if ( (p.getKind().equals( RequestParticipationKind.INITIATOR)) ) {
@@ -654,7 +729,7 @@ abstract public class AbstractRequest implements IEventGenerator, HibernateEntit
 	 * @param participant 
 	 * @param kind 
 	 */
-	private Set<ParticipationInRequest> select1(Participant participant, RequestParticipationKind kind) {
+	private Set<ParticipationInRequest> select2(Participant participant, RequestParticipationKind kind) {
 		Set<ParticipationInRequest> result = new HashSet<ParticipationInRequest>();
 		for ( ParticipationInRequest p : this.getParticipationsInRequest() ) {
 			if ( (p.getParticipant().equals(participant) && (p.getKind().equals( kind))) ) {

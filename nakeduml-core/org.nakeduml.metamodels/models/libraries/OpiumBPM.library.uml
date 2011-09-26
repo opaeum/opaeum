@@ -3642,5 +3642,5 @@
   <JavaxValidation:DecimalMax xmi:id="_fIu4ANcDEeCJ0dmaHEVVnw" value="" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
   <JavaxValidation:DecimalMin xmi:id="_fmQhgNcDEeCJ0dmaHEVVnw" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
   <OpiumStandardProfile:Entity xmi:id="_iGlYIODmEeCsDuwu_RQvSA" base_Class="_x9fmQNb9EeCJ0dmaHEVVnw" persistentName="" generateAbstractSupertype="true"/>
-  <OpiumStandardProfile:ModelLibrary xmi:id="_s3ewQOElEeCp-KZHwwR6Dg" persistentName="opium_bpm" mappedImplementationPackage="org.nakeduml.runtime.bpm" isSchema="true" regenerate="true" groupIdentifier="org.opium" artifactIdentifier="opium-bpm" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpiumStandardProfile:ModelLibrary xmi:id="_s3ewQOElEeCp-KZHwwR6Dg" persistentName="opium_bpm" mappedImplementationPackage="org.nakeduml.runtime.bpm" isSchema="true" regenerate="true" groupIdentifier="org.opium" artifactIdentifier="nakeduml-runtime-bpm-hibernate" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
 </xmi:XMI>

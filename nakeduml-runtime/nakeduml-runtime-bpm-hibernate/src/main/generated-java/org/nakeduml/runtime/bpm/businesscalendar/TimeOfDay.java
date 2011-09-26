@@ -41,8 +41,8 @@ import org.w3c.dom.NodeList;
 @Entity(name="TimeOfDay")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="time_of_day")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.time_of_day",uuid="252060@_UjTHMNb_EeCJ0dmaHEVVnw")
+@Table(schema="opium_bpm",name="time_of_day")
+@NumlMetaInfo(uuid="252060@_UjTHMNb_EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObject {
 	private String uid;
@@ -64,14 +64,14 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 	@DecimalMin(message="",value="",payload={},groups={})
 	@DecimalMax(message="",value="",payload={},groups={})
 	private Integer hours;
-	static final private long serialVersionUID = 895;
+	static final private long serialVersionUID = 31;
 	static private Set<TimeOfDay> mockedAllInstances;
 
 	/** Default constructor for TimeOfDay
 	 */
 	public TimeOfDay() {
-		this.setHours( 0 );
 		this.setMinutes( 0 );
+		this.setHours( 0 );
 	}
 
 	static public Set<? extends TimeOfDay> allInstances() {
@@ -113,24 +113,29 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="time_of_day.hours",uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	public Integer getHours() {
-		return hours;
+		Integer result = this.hours;
+		
+		return result;
 	}
 	
 	public Long getId() {
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="time_of_day.minute_of_day",uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
+	@NumlMetaInfo(uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	public Integer getMinuteOfDay() {
-		Integer minuteOfDay = (this.getHours() * 60) + this.getMinutes();
-		return minuteOfDay;
+		Integer result = (this.getHours() * 60) + this.getMinutes();
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="time_of_day.minutes",uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	public Integer getMinutes() {
-		return minutes;
+		Integer result = this.minutes;
+		
+		return result;
 	}
 	
 	public String getName() {
@@ -162,7 +167,7 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 	}
 	
 	public void markDeleted() {
-		setDeletedOn(new Date());
+		setDeletedOn(new Date(System.currentTimeMillis()));
 	}
 	
 	static public void mockAllInstances(Set<TimeOfDay> newMocks) {

@@ -186,9 +186,8 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			addParameters(context, oper, argumentParameters);
 			if(!(owner instanceof OJAnnotatedInterface)){
 				if(map.hasMessageStructure()){
-					OJAnnotatedField result = new OJAnnotatedField("result", map.messageStructurePath());
-					result.setInitExp("new " + map.messageStructurePath().getLast() + "(this)");
-					oper.getBody().addToLocals(result);
+					oper.initializeResultVariable("new " + map.messageStructurePath().getLast() + "(this)");
+					oper.getResultVariable().setType(map.messageStructurePath());
 					List<? extends INakedParameter> args = o.getArgumentParameters();
 					for(INakedParameter arg:args){
 						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier) o.getContext(), arg);
@@ -204,16 +203,12 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 					}
-					oper.getBody().addToStatements("return result");
 				}else if(o.getReturnParameter() != null){
 					owner.addToImports(map.javaReturnDefaultTypePath());
-					OJAnnotatedField result = new OJAnnotatedField("result", map.javaReturnTypePath());
-					result.setInitExp(map.javaReturnDefaultValue());
-					oper.getBody().addToLocals(result);
+					oper.initializeResultVariable(map.javaReturnDefaultValue());
 					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 					}
-					oper.getBody().addToStatements("return result");
 				}else if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 					oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 				}
@@ -267,37 +262,39 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	private void createCallbackListener(IParameterOwner no,IClassifier message){
 		if(no.isLongRunning()){
 			NakedOperationMap map = new NakedOperationMap(no);
-			OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
-			OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
-			listener.setMyPackage(pack);
-			OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
-			callBackOper.addParam("nodeInstance", new OJPathName("String"));
-			callBackOper.addParam("completedProcess", map.messageStructurePath());
-			listener.addToOperations(callBackOper);
-			List<? extends INakedParameter> exceptionParameters = no.getExceptionParameters();
-			for(INakedParameter e:exceptionParameters){
-				OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
-				exceptionOper.addParam("nodeInstance", new OJPathName("String"));
-				exceptionOper.addParam("failedProcess", map.messageStructurePath());
-				listener.addToOperations(exceptionOper);
-			}
-			if(no instanceof INakedOperation){
-				Collection<INakedClassifier> raisedExceptions = ((INakedOperation) no).getRaisedExceptions();
-				for(INakedClassifier e:raisedExceptions){
+			if(!map.hasContract()){
+				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
+				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());
+				listener.setMyPackage(pack);
+				OJAnnotatedOperation callBackOper = new OJAnnotatedOperation(map.callbackOperName());
+				callBackOper.addParam("nodeInstance", new OJPathName("String"));
+				callBackOper.addParam("completedProcess", map.messageStructurePath());
+				listener.addToOperations(callBackOper);
+				List<? extends INakedParameter> exceptionParameters = no.getExceptionParameters();
+				for(INakedParameter e:exceptionParameters){
 					OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
 					exceptionOper.addParam("nodeInstance", new OJPathName("String"));
-					exceptionOper.addParam("exception", e.getMappingInfo().getJavaName().getAsIs());
-					listener.addToImports(e.getMappingInfo().getQualifiedJavaName());
 					exceptionOper.addParam("failedProcess", map.messageStructurePath());
 					listener.addToOperations(exceptionOper);
 				}
+				if(no instanceof INakedOperation){
+					Collection<INakedClassifier> raisedExceptions = ((INakedOperation) no).getRaisedExceptions();
+					for(INakedClassifier e:raisedExceptions){
+						OJAnnotatedOperation exceptionOper = new OJAnnotatedOperation(map.exceptionOperName(e));
+						exceptionOper.addParam("nodeInstance", new OJPathName("String"));
+						exceptionOper.addParam("exception", e.getMappingInfo().getJavaName().getAsIs());
+						listener.addToImports(e.getMappingInfo().getQualifiedJavaName());
+						exceptionOper.addParam("failedProcess", map.messageStructurePath());
+						listener.addToOperations(exceptionOper);
+					}
+				}
+				OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
+				unhandledExceptionHandler.addParam("nodeInstance", new OJPathName("String"));
+				unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
+				unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
+				listener.addToOperations(unhandledExceptionHandler);
+				super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			}
-			OJAnnotatedOperation unhandledExceptionHandler = new OJAnnotatedOperation(map.unhandledExceptionOperName());
-			unhandledExceptionHandler.addParam("nodeInstance", new OJPathName("String"));
-			unhandledExceptionHandler.addParam("exception", new OJPathName("Object"));
-			unhandledExceptionHandler.addParam("completedProcess", map.messageStructurePath());
-			listener.addToOperations(unhandledExceptionHandler);
-			super.createTextPath(listener, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		}
 	}
 }

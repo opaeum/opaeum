@@ -2,8 +2,10 @@ package org.nakeduml.topcased.propertysections;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -38,18 +40,15 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		public LiteralIntegerTextChangeListener(EAttribute feature_IsStatic){
 			this.myFeature = feature_IsStatic;
 		}
-		
 		@Override
 		public void finishNonUserChange(){
 			super.finishNonUserChange();
 		}
-		public void startListeningTo(Control control) {
+		public void startListeningTo(Control control){
 			super.startListeningForEnter(control);
-			this.control=(Text)control;
+			this.control = (Text) control;
 			this.control.addFocusListener(this);
 		}
-
-
 		public void textChanged(Control control){
 			feature = myFeature;
 			try{
@@ -67,12 +66,9 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 				getEditingDomain().getCommandStack().execute(cmd);
 			}
 		}
-
 		@Override
 		public void focusGained(FocusEvent e){
-			
 		}
-
 		@Override
 		public void focusLost(FocusEvent e){
 			textChanged(control);
@@ -91,10 +87,10 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 			readOnlyData.left = new FormAttachment(prev, 0);
 		}
 		readOnlyData.width = width;
-		readOnlyData.top = new FormAttachment(0, 0);
+		readOnlyData.top = new FormAttachment(prev, 0,SWT.CENTER);
 		cur.setLayoutData(readOnlyData);
 	}
-	protected Element getFeatureOwner(){
-		return (Element) getEObject();
+	protected EObject getFeatureOwner(){
+		return getEObject();
 	}
 }

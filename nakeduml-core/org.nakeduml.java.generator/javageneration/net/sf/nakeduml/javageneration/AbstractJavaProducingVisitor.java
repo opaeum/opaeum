@@ -256,11 +256,7 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
 	}
-	protected boolean isIntegrationRequired(){
-		ISourceFolderStrategy sourceFolderStrategy = config.getSourceFolderStrategy();
-		boolean singleProjectStrategy = sourceFolderStrategy.isSingleProjectStrategy();
-		return transformationContext.isIntegrationPhase() || singleProjectStrategy;
-	}
+
 	@Override
 	protected boolean visitChildren(INakedElementOwner o){
 		return o instanceof INakedNameSpace;

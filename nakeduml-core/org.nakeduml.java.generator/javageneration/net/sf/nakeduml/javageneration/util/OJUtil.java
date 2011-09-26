@@ -242,7 +242,6 @@ public class OJUtil{
 		if(!(property instanceof ArtificialProperty)){
 			OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
 			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
-			metaInfo.putAttribute("qualifiedPersistentName", property.getMappingInfo().getQualifiedPersistentName());
 			element.putAnnotation(metaInfo);
 		}
 	}

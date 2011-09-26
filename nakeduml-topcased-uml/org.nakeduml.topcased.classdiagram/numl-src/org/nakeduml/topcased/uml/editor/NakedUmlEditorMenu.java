@@ -7,7 +7,11 @@ import java.util.Map;
 import net.sf.nakeduml.emf.extraction.StereotypesHelper;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.jface.action.IAction;
@@ -15,13 +19,16 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.uml2.uml.ActionInputPin;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
+import org.nakeduml.name.NameConverter;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu;
 
@@ -37,9 +44,24 @@ public class NakedUmlEditorMenu extends UMLEditorMenu{
 				this.descriptors.add(cp);
 			}
 		}
-		Collection<IAction> createChildActions = generateCreateChildActions(descriptors, Workbench.getInstance().getActiveWorkbenchWindow().getSelectionService()
-				.getSelection());
+		ISelection selection = Workbench.getInstance().getActiveWorkbenchWindow().getSelectionService()
+				.getSelection();
+		Collection<IAction> createChildActions = generateCreateChildActions(descriptors, selection);
 		Map<String,Collection<IAction>> createChildSubmenuActions = extractSubmenuActions(createChildActions);
+		if(selectedObject instanceof Element){
+			for(Stereotype stereotype:((Element) selectedObject).getAppliedStereotypes()){
+				for(EReference ref:stereotype.getDefinition().getEAllContainments()){
+					Collection<IAction> creates = new ArrayList<IAction>();
+					createChildSubmenuActions.put(NameConverter.separateWords(NameConverter.capitalize(ref.getName())), creates);
+					EObject childObject = EcoreUtil.create(ref.getEReferenceType());
+					CommandParameter desc = new CommandParameter(((Element) selectedObject).getStereotypeApplication(stereotype) , ref,childObject);
+					CreateChildAction action = new CreateChildAction(Workbench.getInstance().getActiveWorkbenchWindow().getPartService().getActivePart(), selection, desc);
+					action.setText(NameConverter.separateWords(NameConverter.capitalize(ref.getEReferenceType().getName())));
+					creates.add(action);
+				}
+			}
+		}
+
 		populateManager(this, createChildSubmenuActions, null);
 		populateManager(this, createChildActions, null);
 		this.update();

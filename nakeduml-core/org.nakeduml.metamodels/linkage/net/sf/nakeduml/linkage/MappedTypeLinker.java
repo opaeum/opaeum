@@ -165,10 +165,9 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void setCodeGenerationStrategy(INakedClassifier classifier){
-		boolean isMapped = getBuiltInTypes().getTypeMap().containsKey(getPathNameInModel(classifier).toString());
-		if(isMapped){
+		MappedType mappedType = getBuiltInTypes().getTypeMap().get(getPathNameInModel(classifier).toString());
+		if(mappedType!=null){
 			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
-			MappedType mappedType = getBuiltInTypes().getTypeMap().get(super.getPathNameInModel(classifier).toString());
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());
 		}else{
 			// classifier.setCodeGenerationStrategy(CodeGenerationStrategy.all);

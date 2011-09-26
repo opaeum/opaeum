@@ -8,6 +8,7 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
@@ -146,6 +147,19 @@ public class EmfElementFinder{
 	public static EObject getContainer(EObject s){
 		if(s == null){
 			return null;
+		}else if(s.eContainer() instanceof DynamicEObjectImpl){
+			while(!(s.eContainer() ==null)){
+				//find top level stereotype
+				s=s.eContainer();
+			}
+			for(EObject eObject:s.eCrossReferences()){
+				if(eObject instanceof Element){
+					if(((Element) eObject).getStereotypeApplications().contains(s)){
+						return eObject;
+					}
+				}
+			}
+			return s.eContainer();
 		}else if(s instanceof Event){
 			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
 			// Contained by an annotation inside another element?

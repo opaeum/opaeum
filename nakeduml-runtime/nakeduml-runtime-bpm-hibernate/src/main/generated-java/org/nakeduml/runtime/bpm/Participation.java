@@ -48,10 +48,12 @@ import org.w3c.dom.NodeList;
 @Entity(name="Participation")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="participation")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation",uuid="252060@_jRjnII6MEeCrtavWRHwoHg")
+@Table(schema="opium_bpm",name="participation")
+@NumlMetaInfo(uuid="252060@_jRjnII6MEeCrtavWRHwoHg")
 @AccessType("field")
-public class Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+public class Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	private String uid;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
@@ -60,8 +62,6 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	@Id
 	private Long id;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Column(name="object_version")
 	@Version
 	private int objectVersion;
@@ -71,7 +71,7 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 	@Any(metaDef="Participant",metaColumn=@Column(name="participant_type"))
 	@JoinColumn(name="participant",nullable=true)
 	private Participant participant;
-	static final private long serialVersionUID = 861;
+	static final private long serialVersionUID = 44;
 	static private Set<Participation> mockedAllInstances;
 
 	/** Default constructor for Participation
@@ -147,9 +147,11 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 		return null;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation.participant",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
+	@NumlMetaInfo(uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
-		return participant;
+		Participant result = this.participant;
+		
+		return result;
 	}
 	
 	public String getUid() {
@@ -181,10 +183,10 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 	}
 	
 	public void markDeleted() {
+		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getParticipant()!=null ) {
 			getParticipant().z_internalRemoveFromParticipation((Participation)this);
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<Participation> newMocks) {
@@ -196,7 +198,7 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("935")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("165")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -261,7 +263,7 @@ public class Participation implements IEventGenerator, HibernateEntity, Composit
 		if ( getParticipant()==null ) {
 			sb.append("\n<participant/>");
 		} else {
-			sb.append("\n<participant propertyId=\"935\">");
+			sb.append("\n<participant propertyId=\"165\">");
 			sb.append("\n" + getParticipant().toXmlReferenceString());
 			sb.append("\n</participant>");
 		}

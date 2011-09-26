@@ -35,7 +35,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 	public abstract void visitWorkspace(INakedModelWorkspace root);
 	public abstract void visitModel(INakedModel model);
 	protected void doWorkspace(INakedModelWorkspace workspace){
-		if(isIntegrationRequired()){
+		if(transformationContext.isIntegrationPhase()){
 			OJAnnotatedPackageInfo pkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(workspace), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			applyFilter(pkg);
 			MetaDefElementCollector collector = collectElements(workspace.getRootObjects());
@@ -62,7 +62,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		return config.getDbDialect().getCurrentTimeStampString();
 	}
 	protected void doModel(INakedModel model){
-		if(!isIntegrationRequired()){
+		if(shouldProcessModel()){
 			OJAnnotatedPackageInfo domainPkg = findOrCreatePackageInfo(OJUtil.utilPackagePath(model),JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 			applyFilter(domainPkg);
 			Collection<INakedRootObject> selfAndDependencies = getModelInScope();
@@ -79,6 +79,10 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 				doTypeDefs(collector.allProcesses, "StateResolver", domainPkg);
 			}
 		}
+	}
+	private boolean shouldProcessModel(){
+		//Will result in multiple packages defining the same filters and metadefs
+		return !(transformationContext.isIntegrationPhase() || config.getSourceFolderStrategy().isSingleProjectStrategy());
 	}
 	private void doTypeDefs(Set<? extends INakedClassifier> processes,String string,OJAnnotatedPackageInfo p){
 		OJAnnotationAttributeValue typeDefs = getTypeDefs(p);

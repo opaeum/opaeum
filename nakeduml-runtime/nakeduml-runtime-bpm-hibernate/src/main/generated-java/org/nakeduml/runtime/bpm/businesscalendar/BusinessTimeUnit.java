@@ -8,7 +8,7 @@ import java.util.Set;
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.business_time_unit",uuid="252060@_7zLcgNb-EeCJ0dmaHEVVnw")public enum BusinessTimeUnit implements IEnum, Serializable {
+@NumlMetaInfo(uuid="252060@_7zLcgNb-EeCJ0dmaHEVVnw")public enum BusinessTimeUnit implements IEnum, Serializable {
 	BUSINESSMINUTE("252060@_9aqXsNb-EeCJ0dmaHEVVnw"),
 	ACTUALMINUTE("252060@_AADsoNb_EeCJ0dmaHEVVnw"),
 	BUSINESSHOUR("252060@_BSwqoNb_EeCJ0dmaHEVVnw"),

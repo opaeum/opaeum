@@ -8,7 +8,7 @@ import java.util.Set;
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.work_day_kind",uuid="252060@_EnGlsNb-EeCJ0dmaHEVVnw")public enum WorkDayKind implements IEnum, Serializable {
+@NumlMetaInfo(uuid="252060@_EnGlsNb-EeCJ0dmaHEVVnw")public enum WorkDayKind implements IEnum, Serializable {
 	WEEKDAY("252060@_GJQU8Nb-EeCJ0dmaHEVVnw"),
 	SATURDAY("252060@_H3nUMNb-EeCJ0dmaHEVVnw"),
 	SUNDAY("252060@_IionINb-EeCJ0dmaHEVVnw");

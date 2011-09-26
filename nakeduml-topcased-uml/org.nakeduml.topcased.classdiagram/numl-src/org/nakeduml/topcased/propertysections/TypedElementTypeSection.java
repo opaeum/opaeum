@@ -12,6 +12,7 @@ import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.topcased.uml.editor.NakedUmlItemProviderAdapterFactory;
 import org.nakeduml.topcased.uml.editor.NakedUmlQualifiedNameLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
@@ -30,7 +31,12 @@ public class TypedElementTypeSection extends AbstractChooserPropertySection{
 		choices.add("");
 		ITypeCacheAdapter typeCacheAdapter = TypeCacheAdapter.getExistingTypeCacheAdapter(getEObject());
 		Collection<EObject> types = typeCacheAdapter.getReachableObjectsOfType(getEObject(), UMLPackage.eINSTANCE.getType());
-		choices.addAll(UmlMetaTypeRemover.removeAll(types));
+		if(((TypedElement) getEObject()).getModel() != null){
+			choices.addAll(UmlMetaTypeRemover.removeAll(types));
+		}else{
+			choices.addAll(types);
+
+		}
 		return choices.toArray();
 	}
 	protected ILabelProvider getLabelProvider(){

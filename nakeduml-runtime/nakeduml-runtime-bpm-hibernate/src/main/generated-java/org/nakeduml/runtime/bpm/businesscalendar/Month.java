@@ -8,7 +8,7 @@ import java.util.Set;
 import org.nakeduml.annotation.NumlMetaInfo;
 import org.nakeduml.runtime.domain.IEnum;
 
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.month",uuid="252060@_VSZhgNcCEeCJ0dmaHEVVnw")public enum Month implements IEnum, Serializable {
+@NumlMetaInfo(uuid="252060@_VSZhgNcCEeCJ0dmaHEVVnw")public enum Month implements IEnum, Serializable {
 	JANUARY("252060@_W2iNwNcCEeCJ0dmaHEVVnw"),
 	FEBRUARY("252060@_X8o6MNcCEeCJ0dmaHEVVnw"),
 	MARCH("252060@_Z7lTINcCEeCJ0dmaHEVVnw"),
