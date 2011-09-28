@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_lEbUkOYQEeCCXPbP2D6kZQ" activeDiagram="_lEbUkeYQEeCCXPbP2D6kZQ">
+  <model href="tinker-test.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_lEbUkeYQEeCCXPbP2D6kZQ" position="0,0" size="100,100" name="tinker-test" viewport="0,0">
+    <property xmi:id="_lEnh0OYQEeCCXPbP2D6kZQ" key="pageFormatName" value="A4"/>
+    <property xmi:id="_lEnh0eYQEeCCXPbP2D6kZQ" key="diagramWidth" value="840"/>
+    <property xmi:id="_lEnh0uYQEeCCXPbP2D6kZQ" key="diagramHeight" value="1188"/>
+    <property xmi:id="_lEnh0-YQEeCCXPbP2D6kZQ" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_lEnh1OYQEeCCXPbP2D6kZQ" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_lEnh1eYQEeCCXPbP2D6kZQ" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_lEnh1uYQEeCCXPbP2D6kZQ" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_lEnh1-YQEeCCXPbP2D6kZQ" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_lEnh2OYQEeCCXPbP2D6kZQ" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_lEbUkuYQEeCCXPbP2D6kZQ" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="tinker-test.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_rr1tcOYQEeCCXPbP2D6kZQ" position="189,103" size="100,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_rr1tceYQEeCCXPbP2D6kZQ" presentation="default">
+        <element href="tinker-test.uml#_rr70EOYQEeCCXPbP2D6kZQ"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_rr1tcuYQEeCCXPbP2D6kZQ">
+        <property xmi:id="_rr1tc-YQEeCCXPbP2D6kZQ" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_rr1tdOYQEeCCXPbP2D6kZQ" presentation="default">
+          <element href="tinker-test.uml#_rr70EOYQEeCCXPbP2D6kZQ"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_sxyo4OYQEeCCXPbP2D6kZQ" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_sxyo4eYQEeCCXPbP2D6kZQ" presentation="default">
+            <element href="tinker-test.uml#_sx1sMOYQEeCCXPbP2D6kZQ"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_rr1tdeYQEeCCXPbP2D6kZQ">
+        <property xmi:id="_rr1tduYQEeCCXPbP2D6kZQ" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_rr1td-YQEeCCXPbP2D6kZQ" presentation="default">
+          <element href="tinker-test.uml#_rr70EOYQEeCCXPbP2D6kZQ"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+</diagrams:Diagrams>
