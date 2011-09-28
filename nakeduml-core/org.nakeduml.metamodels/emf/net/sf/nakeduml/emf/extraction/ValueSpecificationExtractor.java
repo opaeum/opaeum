@@ -3,6 +3,7 @@ package net.sf.nakeduml.emf.extraction;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitAfter;
 import net.sf.nakeduml.feature.visit.VisitBefore;
+import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.internal.NakedActivityEdgeImpl;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedEnumerationLiteral;
@@ -65,7 +66,12 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	public void visitValueSpecification(ValueSpecification value,NakedValueSpecificationImpl result){
 		if(value instanceof OpaqueExpression){
 			OpaqueExpression oe = ((OpaqueExpression) value);
-			result.setValue(buildParsedOclString(value, oe.getLanguages(), oe.getBodies(), calcOclUsage(value)));
+			ParsedOclString pcs = buildParsedOclString(value, oe.getLanguages(), oe.getBodies(), calcOclUsage(value));
+			if(pcs.getExpressionString().equalsIgnoreCase("else")){
+				result.setValue(INakedActivityEdge.ELSE);
+			}else{
+				result.setValue(pcs);
+			}
 		}else if(value instanceof TimeExpression && ((TimeExpression) value).getExpr() instanceof OpaqueExpression){
 			OpaqueExpression oe = (OpaqueExpression) ((TimeExpression) value).getExpr();
 			result.setValue(buildParsedOclString(value, oe.getLanguages(), oe.getBodies(), OclUsageType.DEF));
@@ -85,7 +91,7 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 		}else if(value instanceof InstanceValue){
 			INakedElement instance = getNakedPeer(((InstanceValue) value).getInstance());
 			((NakedValueSpecificationImpl) result).setValue(instance);
-			if(!(instance instanceof INakedEnumerationLiteral)){
+			if(!(instance instanceof INakedEnumerationLiteral || instance == null)){
 				result.addOwnedElement(instance);
 			}
 		}

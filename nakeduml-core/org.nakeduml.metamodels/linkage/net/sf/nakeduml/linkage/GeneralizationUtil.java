@@ -12,6 +12,9 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import nl.klasse.octopus.model.IClassifier;
 
 public class GeneralizationUtil{
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	public static Collection<INakedBehavioredClassifier> getConcreteEntityImplementationsOf(INakedInterface baseType,Collection<INakedRootObject> models){
 		Set<INakedClassifier> results = new HashSet<INakedClassifier>();
 		addConcreteSubclasses(results, baseType, models, true);

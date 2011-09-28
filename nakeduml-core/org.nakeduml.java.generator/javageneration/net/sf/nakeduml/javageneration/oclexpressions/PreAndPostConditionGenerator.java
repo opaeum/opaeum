@@ -146,17 +146,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		if(map.getParameterOwner().getReturnParameter() == null){
 			ojOper.getBody().addToStatements(ValueSpecificationUtil.expressValue(ojOper, specification, owner, specification.getType()));
 		}else{
-			String expString = "";
-			OJField result = new OJField();
-			result.setName("result");
-			result.setType(map.javaReturnTypePath());
-			result.setInitExp(map.javaReturnDefaultValue());
 			IParameterOwner oper = map.getParameterOwner();
-			expString = "result= " + ValueSpecificationUtil.expressValue(ojOper, specification, owner, oper.getReturnParameter().getType());
-			ojOper.getBody().addToLocals(result);
-			ojOper.getBody().removeAllFromStatements();
-			ojOper.getBody().addToStatements(expString);
-			ojOper.getBody().addToStatements("return result");
+			ojOper.initializeResultVariable(ValueSpecificationUtil.expressValue(ojOper, specification, owner, oper.getReturnParameter().getType()));
 		}
 	}
 }

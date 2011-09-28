@@ -44,24 +44,24 @@ import org.w3c.dom.NodeList;
 @Entity(name="ParticipationInRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="participation_in_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_request",uuid="252060@_GVhgMI6NEeCrtavWRHwoHg")
+@Table(schema="opium_bpm",name="participation_in_request")
+@NumlMetaInfo(uuid="252060@_GVhgMI6NEeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("participation_in_request")
-public class ParticipationInRequest extends Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+public class ParticipationInRequest extends Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Index(name="idx_participation_in_request_request_id",columnNames="request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="request_id",nullable=true)
 	private AbstractRequest request;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static final private long serialVersionUID = 866;
+	static final private long serialVersionUID = 11;
 	static private Set<ParticipationInRequest> mockedAllInstances;
 	@Enumerated(javax.persistence.EnumType.STRING)
 	@Column(name="kind",nullable=true)
@@ -136,9 +136,11 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.kind",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
-		return kind;
+		RequestParticipationKind result = this.kind;
+		
+		return result;
 	}
 	
 	public String getName() {
@@ -153,9 +155,11 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		return getRequest();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_request.request_id",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
+	@NumlMetaInfo(uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	public AbstractRequest getRequest() {
-		return request;
+		AbstractRequest result = this.request;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -189,7 +193,6 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		if ( getRequest()!=null ) {
 			getRequest().z_internalRemoveFromParticipationsInRequest((ParticipationInRequest)this);
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<ParticipationInRequest> newMocks) {
@@ -201,7 +204,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("935")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("165")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -244,7 +247,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 			this.z_internalAddToRequest(request);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			markDeleted();
+			setDeletedOn(new Date());
 		}
 	}
 	
@@ -265,7 +268,7 @@ public class ParticipationInRequest extends Participation implements IEventGener
 		if ( getParticipant()==null ) {
 			sb.append("\n<participant/>");
 		} else {
-			sb.append("\n<participant propertyId=\"935\">");
+			sb.append("\n<participant propertyId=\"165\">");
 			sb.append("\n" + getParticipant().toXmlReferenceString());
 			sb.append("\n</participant>");
 		}

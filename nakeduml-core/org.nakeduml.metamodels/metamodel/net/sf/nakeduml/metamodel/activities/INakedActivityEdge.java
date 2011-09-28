@@ -1,4 +1,6 @@
 package net.sf.nakeduml.metamodel.activities;
+import java.util.Set;
+
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
@@ -19,6 +21,6 @@ public interface INakedActivityEdge extends GuardedFlow,INakedElementOwner{
 	INakedValueSpecification getWeight();
 	INakedActivityNode getEffectiveSource();
 	INakedActivity getActivity();
-	boolean hasGuard();
+	Set<INakedActivityEdge> getRedefinedEdges();
 	
 }

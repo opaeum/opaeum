@@ -6,6 +6,7 @@ import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectFlow;
@@ -84,8 +85,8 @@ public abstract class AbstractObjectNodeExpressor{
 		return call;
 	}
 	protected String retrieveFromExecutionInstanceIfNecessary(INakedOutputPin feedingNode,String call){
-		if(feedingNode.getOwnerElement() instanceof INakedCallAction){
-			INakedCallAction callAction = (INakedCallAction) feedingNode.getOwnerElement();
+		if(BehaviorUtil.hasMessageStructure(feedingNode.getAction())){
+			INakedAction callAction = feedingNode.getAction();
 			if(BehaviorUtil.hasMessageStructure(callAction)){
 				NakedStructuralFeatureMap pinMap = null;
 				if(feedingNode.getLinkedTypedElement() == null){
@@ -95,12 +96,12 @@ public abstract class AbstractObjectNodeExpressor{
 				}
 				NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, this.library);
 				call = getterForStructuredResults(actionMap);
-				if(callAction.getTargetElement() == null || callAction.getTargetElement().getNakedMultiplicity().isSingleObject()){
+				if(actionMap.isOne()){
 					// Only one call, so retrieve the single result
 					return call + "." + pinMap.getter() + "()";
 				}else{
-					// TODO Multiple calls, so retrieve the result of the
-					// last, or aggregate the results
+					// TODO Could be Multiple calls, so implement a getter for the output pin that retrieves the result of the
+					// last, or aggregate the results. THis would vastly simply this logic
 					// NakedStructuralFeatureMap actionMap =
 					// OJUtil.buildStructuralFeatureMap(callAction,
 					// oclEngine.getOclLibrary());

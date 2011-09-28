@@ -172,6 +172,7 @@ public class EmfWorkspaceLoader{
 				uri = URI.createURI(jar);
 			}
 			uriMap.put(URI.createURI(StereotypeNames.MODELS_PATHMAP), uri.appendSegment(""));
+			resourceSet.getResource(URI.createURI("pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml"), true).getContents().get(0);
 		}
 		return resourceSet;
 	}

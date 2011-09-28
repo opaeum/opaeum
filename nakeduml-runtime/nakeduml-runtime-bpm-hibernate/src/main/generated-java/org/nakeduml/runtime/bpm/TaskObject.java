@@ -11,8 +11,8 @@ import org.nakeduml.runtime.domain.HibernateEntity;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.w3c.dom.Element;
 
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.task_object",uuid="252060@_2tdYsI3oEeCfQedkc0TCdA")
-public interface TaskObject extends HibernateEntity, CompositionNode, RequestObject, Serializable, IPersistentObject {
+@NumlMetaInfo(uuid="252060@_2tdYsI3oEeCfQedkc0TCdA")
+public interface TaskObject extends CompositionNode, HibernateEntity, RequestObject, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
 	public boolean consumeOnActivatedOccurrence(BusinessRole activatedBy);
@@ -59,46 +59,46 @@ public interface TaskObject extends HibernateEntity, CompositionNode, RequestObj
 	
 	public void generateSuspendedEvent(BusinessRole suspendedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.task_request_id",uuid="252060@_I3guUY3pEeCfQedkc0TCdA")
+	@NumlMetaInfo(uuid="252060@_I3guUY3pEeCfQedkc0TCdA")
 	public TaskRequest getTaskRequest();
 	
 	public String getUid();
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_activated",uuid="252060@_XbPZkK0OEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_XbPZkK0OEeCK48ywUpk_rg")
 	public void onActivated(BusinessRole activatedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_claimed",uuid="252060@_qTa18K0NEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_qTa18K0NEeCK48ywUpk_rg")
 	public void onClaimed(BusinessRole claimedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_completed",uuid="252060@_a_82cK0OEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_a_82cK0OEeCK48ywUpk_rg")
 	public void onCompleted(BusinessRole completedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_delegated",uuid="252060@_EE4B0K0OEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_EE4B0K0OEeCK48ywUpk_rg")
 	public void onDelegated(BusinessRole delegatedBy, BusinessRole delegatedTo);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_forwarded",uuid="252060@_NdLN8K0OEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_NdLN8K0OEeCK48ywUpk_rg")
 	public void onForwarded(BusinessRole forwardedBy, BusinessRole forwardedTo);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_resumed",uuid="252060@_8ba9IK0NEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_8ba9IK0NEeCK48ywUpk_rg")
 	public void onResumed(BusinessRole resumedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_revoked",uuid="252060@__imwgK0NEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@__imwgK0NEeCK48ywUpk_rg")
 	public void onRevoked(BusinessRole revokedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_skipped",uuid="252060@_fdkRQK0OEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_fdkRQK0OEeCK48ywUpk_rg")
 	public void onSkipped(BusinessRole skippedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_started",uuid="252060@_iBCwEK0NEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_iBCwEK0NEeCK48ywUpk_rg")
 	public void onStarted(BusinessRole startedBy);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.on_stopped",uuid="252060@_zwcxEK0NEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_zwcxEK0NEeCK48ywUpk_rg")
 	public void onStopped(BusinessRole stoppedBy);
 	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map);
 	
 	public void setTaskRequest(TaskRequest taskRequest);
 	
-	@NumlMetaInfo(qualifiedPersistentName="task_object.suspended",uuid="252060@_ug7_QK0NEeCK48ywUpk_rg")
+	@NumlMetaInfo(uuid="252060@_ug7_QK0NEeCK48ywUpk_rg")
 	public void suspended(BusinessRole suspendedBy);
 	
 	public String toXmlReferenceString();

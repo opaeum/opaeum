@@ -9,6 +9,7 @@ import net.sf.nakeduml.feature.SourceFolderDefinition;
 import net.sf.nakeduml.feature.TransformationProcess;
 import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -64,14 +65,10 @@ public class RecompileModelAction extends AbstractOpiumAction{
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
 								NakedUmlConfig cfg = currentContext.getConfig();
-								if(cfg.getSourceFolderStrategy().isSingleProjectStrategy()){
-									// Temporarily suppress directoryCleaning
-									for(SourceFolderDefinition sfd:cfg.getSourceFolderDefinitions().values()){
-										sfd.dontCleanDirectories();
-									}
-								}
+								PersistentNameGenerator png = new PersistentNameGenerator();
+								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60));
-								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext);
+								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,!cfg.getSourceFolderStrategy().isSingleProjectStrategy());
 								p.findModel(EmfWorkspace.class).saveAll();
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

@@ -79,6 +79,13 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
+		//Workaround: Remember that ActivityEdge.ownedElements does not include the guard or weight, so the default deletion logic does not work
+		if(ae.getGuard()==null){
+			nae.setGuard(null);
+		}
+		if(ae.getWeight()==null){
+			nae.setWeight(null);
+		}
 		if(nae.getSource()==null || nae.getTarget()==null){
 			throw new IllegalStateException(ae.getSource() + "<-"+ ae + "->" + ae.getTarget());
 		}
@@ -96,14 +103,15 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		}else{
 			INakedActivityNode node = (INakedActivityNode) getNakedPeer(emfNode);
 			if(node == null){
+				
 				if(emfNode instanceof Action){
-					throw new IllegalStateException("Action " +emfNode + " not loaded");
+					//could be deleting the edge
 				}else{
 					NakedControlNodeImpl cnode = new NakedControlNodeImpl();
 					cnode.setControlNodeType(ControlNodeType.MERGE_NODE);
 					node = cnode;
+					initialize(node, emfNode, emfNode.getOwner());
 				}
-				initialize(node, emfNode, emfNode.getOwner());
 			}
 			return node;
 		}

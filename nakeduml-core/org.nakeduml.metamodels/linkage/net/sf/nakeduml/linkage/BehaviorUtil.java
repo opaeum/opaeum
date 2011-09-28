@@ -30,6 +30,7 @@ import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedElementOwner;
+import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.IParameterOwner;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -183,6 +184,9 @@ public class BehaviorUtil{
 		return false;
 	}
 	private boolean leadsTo(INakedActivityEdge prevEdge,INakedReplyAction replyAction){
+		if(replyAction==null){
+			return false;
+		}
 		if(prevEdge.getEffectiveTarget().equals(replyAction.getCause())){
 			// Loopbacks
 			return false;
@@ -246,7 +250,7 @@ public class BehaviorUtil{
 		if(owner == null){
 			return false;
 		}else if(owner instanceof INakedOperation){
-			INakedOperation no=(INakedOperation) owner;
+			INakedOperation no = (INakedOperation) owner;
 			if(no.isLongRunning()){
 				return true;
 			}else{
@@ -268,6 +272,8 @@ public class BehaviorUtil{
 			return true;
 		}else if(action instanceof INakedCallAction){
 			return hasExecutionInstance(((INakedCallAction) action).getCalledElement());
+		}else if(action instanceof INakedAcceptCallAction){
+			return hasExecutionInstance(((INakedAcceptCallAction) action).getOperation());
 		}else{
 			return false;
 		}
@@ -380,6 +386,17 @@ public class BehaviorUtil{
 			return cNodeType.isActivityFinalNode() || flowFinalNode || cNodeType.isJoinNode();
 		}else{
 			return false;
+		}
+	}
+	public static INakedMessageStructure getMessageStructure(INakedAction action){
+		if(action instanceof INakedEmbeddedTask){
+			return ((INakedEmbeddedTask) action).getMessageStructure();
+		}else if(action instanceof INakedCallAction){
+			return ((INakedCallAction) action).getMessageStructure();
+		}else if(action instanceof INakedAcceptCallAction){
+			return ((INakedAcceptCallAction) action).getOperation().getMessageStructure();
+		}else{
+			return null;
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import net.sf.nakeduml.javageneration.AbstractJavaProducingVisitor;
 import net.sf.nakeduml.javageneration.JavaSourceFolderIdentifier;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 
 import org.nakeduml.java.metamodel.OJPathName;

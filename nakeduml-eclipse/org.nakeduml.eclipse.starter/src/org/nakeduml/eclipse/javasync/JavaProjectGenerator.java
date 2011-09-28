@@ -118,15 +118,18 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
-	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext) throws CoreException{
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext,boolean cleanDirectories)
+			throws CoreException{
 		try{
 			monitor.beginTask("Updating resources", 6);
 			TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
 			if(!monitor.isCanceled()){
 				monitor.setTaskName("Writing Text Files");
-				TextFileDeleter textFileDeleter= new TextFileDeleter();
-				textFileDeleter.initialize(currentContext.getConfig());
-				textFileDeleter.startVisiting(textWorkspace);
+				if(cleanDirectories){
+					TextFileDeleter textFileDeleter = new TextFileDeleter();
+					textFileDeleter.initialize(currentContext.getConfig());
+					textFileDeleter.startVisiting(textWorkspace);
+				}
 				TextFileGenerator textFileGenerator = new TextFileGenerator();
 				textFileGenerator.initialize(currentContext.getConfig());
 				textFileGenerator.startVisiting(textWorkspace);

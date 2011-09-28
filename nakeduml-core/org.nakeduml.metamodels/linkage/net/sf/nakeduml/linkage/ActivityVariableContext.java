@@ -5,12 +5,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedReception;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.internal.emulated.MessageStructureImpl;
@@ -77,6 +80,21 @@ public final class ActivityVariableContext extends MessageStructureImpl{
 	}
 	@Override
 	public String getImplementationCode(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Set<INakedProperty> getDirectlyImplementedAttributes(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Set<INakedOperation> getDirectlyImplementedOperations(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Collection<? extends INakedReception> getDirectlyImplementedReceptions(){
 		// TODO Auto-generated method stub
 		return null;
 	}

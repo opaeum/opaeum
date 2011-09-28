@@ -59,7 +59,8 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	@Override
 	public synchronized void putModelElement(INakedElement mw){
 		if(this.allElementsByModelId.containsKey(mw.getId())){
-			throw new IllegalStateException("Element " + mw.getName() + " is already in the workspace");
+			System.err.println("Element " + mw.toString() + " already in workspace");
+//			throw new IllegalStateException("Element " + mw.getName() + " is already in the workspace");
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
@@ -70,7 +71,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	}
 	@Override
 	public synchronized void removeModelElement(INakedElement mw){
-		this.allElementsByModelId.put(mw.getId(), mw);
+		this.allElementsByModelId.remove(mw.getId());
 		for(INakedElement child:mw.getOwnedElements()){
 			removeModelElement(child);
 			

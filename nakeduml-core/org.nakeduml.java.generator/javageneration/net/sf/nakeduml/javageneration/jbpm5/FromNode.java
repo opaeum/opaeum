@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
-import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 
 public class FromNode {
-	INakedElement waitingElement;
+	INakedStep waitingElement;
 	Set<GuardedFlow> transitions = new HashSet<GuardedFlow>();
 	private boolean isRestingNode;
 
-	public FromNode(INakedElement source, boolean isRestingNode) {
+	public FromNode(INakedStep source, boolean isRestingNode) {
 		this.waitingElement = source;
 		this.isRestingNode = isRestingNode;
 	}
@@ -35,16 +35,7 @@ public class FromNode {
 	}
 
 	private boolean hasGuard(GuardedFlow t){
-		if (t.getGuard() == null) {
-			return false;
-		} else {
-			if (t.getGuard().getValue() .equals(Boolean.TRUE)) {
-				//DEfault value in Topcased
-				return false;
-			} else {
-				return true;
-			}
-		}
+		return t.hasGuard();
 	}
 
 	public GuardedFlow getDefaultTransition() {
@@ -56,7 +47,7 @@ public class FromNode {
 		return null;
 	}
 
-	public INakedElement getWaitingElement() {
+	public INakedStep getWaitingElement() {
 		return waitingElement;
 	}
 

@@ -51,10 +51,12 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @NamedQueries(value=@NamedQuery(query="from WorkDay a where a.businessCalendar = :businessCalendar and a.kind = :kind",name="QueryWorkDayWithKindForBusinessCalendar"))
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"}),@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"})},name="work_day")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.work_day",uuid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw")
+@Table(schema="opium_bpm",uniqueConstraints={@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"}),@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"})},name="work_day")
+@NumlMetaInfo(uuid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw")
 @AccessType("field")
-public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	private String uid;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
@@ -63,8 +65,6 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	@Id
 	private Long id;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
 	@JoinColumn(name="start_time_id",nullable=true)
 	private TimeOfDay startTime;
@@ -77,7 +77,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 	private BusinessCalendar businessCalendar;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static final private long serialVersionUID = 888;
+	static final private long serialVersionUID = 22;
 	static private Set<WorkDay> mockedAllInstances;
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL)
 	@JoinColumn(name="end_time_id",nullable=true)
@@ -124,7 +124,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1007")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("130")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -142,7 +142,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1009")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("128")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -164,20 +164,20 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 	}
 	
 	public void copyShallowState(WorkDay from, WorkDay to) {
+		to.setKind(from.getKind());
 		if ( from.getEndTime()!=null ) {
 			to.setEndTime(from.getEndTime().makeShallowCopy());
 		}
-		to.setKind(from.getKind());
 		if ( from.getStartTime()!=null ) {
 			to.setStartTime(from.getStartTime().makeShallowCopy());
 		}
 	}
 	
 	public void copyState(WorkDay from, WorkDay to) {
+		to.setKind(from.getKind());
 		if ( from.getEndTime()!=null ) {
 			to.setEndTime(from.getEndTime().makeCopy());
 		}
-		to.setKind(from.getKind());
 		if ( from.getStartTime()!=null ) {
 			to.setStartTime(from.getStartTime().makeCopy());
 		}
@@ -199,9 +199,11 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return false;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.business_calendar_id",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
-		return businessCalendar;
+		BusinessCalendar result = this.businessCalendar;
+		
+		return result;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -212,24 +214,29 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.end_time_id",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
-		return endTime;
+		TimeOfDay result = this.endTime;
+		
+		return result;
 	}
 	
 	public Long getId() {
 		return this.id;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.kind",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
-		return kind;
+		WorkDayKind result = this.kind;
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.minutes_per_day",uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
+	@NumlMetaInfo(uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	public Integer getMinutesPerDay() {
-		Integer minutesPerDay = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());
-		return minutesPerDay;
+		Integer result = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());
+		
+		return result;
 	}
 	
 	public String getName() {
@@ -248,9 +255,11 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		return getBusinessCalendar();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="work_day.start_time_id",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
-		return startTime;
+		TimeOfDay result = this.startTime;
+		
+		return result;
 	}
 	
 	public String getUid() {
@@ -283,6 +292,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 	}
 	
 	public void markDeleted() {
+		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().z_internalRemoveFromWorkDay((WorkDay)this);
 		}
@@ -292,7 +302,6 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		if ( getStartTime()!=null ) {
 			getStartTime().markDeleted();
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<WorkDay> newMocks) {
@@ -304,7 +313,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1007")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("endTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("130")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -314,7 +323,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1009")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("startTime") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("128")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -340,7 +349,7 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			markDeleted();
+			setDeletedOn(new Date());
 		}
 	}
 	
@@ -397,14 +406,14 @@ public class WorkDay implements IEventGenerator, HibernateEntity, CompositionNod
 		if ( getEndTime()==null ) {
 			sb.append("\n<endTime/>");
 		} else {
-			sb.append("\n<endTime propertyId=\"1007\">");
+			sb.append("\n<endTime propertyId=\"130\">");
 			sb.append("\n" + getEndTime().toXmlString());
 			sb.append("\n</endTime>");
 		}
 		if ( getStartTime()==null ) {
 			sb.append("\n<startTime/>");
 		} else {
-			sb.append("\n<startTime propertyId=\"1009\">");
+			sb.append("\n<startTime propertyId=\"128\">");
 			sb.append("\n" + getStartTime().toXmlString());
 			sb.append("\n</startTime>");
 		}

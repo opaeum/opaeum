@@ -15,6 +15,7 @@ import net.sf.nakeduml.javageneration.oclexpressions.ConstraintGenerator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
 import net.sf.nakeduml.metamodel.activities.ControlNodeType;
 import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
@@ -57,21 +58,23 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		ActivityUtil.setupVariables(oper, node);
 		if(node instanceof INakedAction){
 			for(INakedPin pin:((INakedAction) node).getInput()){
-				OJBlock block = oper.getBody();
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
-				oper.getOwner().addToImports(map.javaTypePath());
-				OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-				field.setInitExp(expressPin(oper, block, pin));
-				block.addToLocals(field);
+				boolean ignore = node instanceof INakedReplyAction && pin.equals(((INakedReplyAction) node).getReturnInfo());
+				if(!ignore){
+					OJBlock block = oper.getBody();
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
+					oper.getOwner().addToImports(map.javaTypePath());
+					OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+					field.setInitExp(expressPin(oper, block, pin));
+					block.addToLocals(field);
+				}
 			}
 		}
 	}
 	public void implementFinalStep(OJBlock block){
 		if(node.getActivity().isLongRunning() && node instanceof INakedControlNode
-				&& ((INakedControlNode) node).getControlNodeType()==ControlNodeType.ACTIVITY_FINAL_NODE){
-				block.addToStatements(new OJIfStatement("getProcessInstance().getNodeInstances().size()==1", "completed()"));
-			}
-
+				&& ((INakedControlNode) node).getControlNodeType() == ControlNodeType.ACTIVITY_FINAL_NODE){
+			block.addToStatements(new OJIfStatement("getProcessInstance().getNodeInstances().size()==1", "completed()"));
+		}
 		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName() + "State."
 				+ Jbpm5Util.stepLiteralName(node));
 	}

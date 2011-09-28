@@ -52,7 +52,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace ws){
-		if(isIntegrationRequired()){
+		if(transformationContext.isIntegrationPhase()){
 			createBasicMetaInfo(ws, ws.getPrimaryRootObjects(), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 		}
 	}

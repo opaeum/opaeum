@@ -50,19 +50,19 @@ import org.w3c.dom.NodeList;
 @MappedSuperclass
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"business_component","deleted_on"}),name="business_calendar")
-@NumlMetaInfo(qualifiedPersistentName="businesscalendar.business_calendar",uuid="252060@_x9fmQNb9EeCJ0dmaHEVVnw")
+@Table(schema="opium_bpm",uniqueConstraints=@UniqueConstraint(columnNames={"business_component","deleted_on"}),name="business_calendar")
+@NumlMetaInfo(uuid="252060@_x9fmQNb9EeCJ0dmaHEVVnw")
 @AccessType("field")
-public class BusinessCalendarGenerated implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
-	private String uid;
+public class BusinessCalendarGenerated implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="businessCalendar",targetEntity=OnceOffHoliday.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private Set<OnceOffHoliday> onceOffHoliday = new HashSet<OnceOffHoliday>();
 	@Column(name="business_hours_per_day")
 	private Double businessHoursPerDay;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	private String uid;
 	@Column(name="object_version")
 	@Version
 	private int objectVersion;
@@ -70,26 +70,26 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="businessCalendar",targetEntity=WorkDay.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private Set<WorkDay> workDay = new HashSet<WorkDay>();
+	@Transient
+	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Index(name="idx_business_calendar_business_component",columnNames="business_component")
 	@Any(metaDef="BusinessComponent",metaColumn=@Column(name="business_component_type"))
 	@JoinColumn(name="business_component",nullable=true)
 	private BusinessComponent businessComponent;
-	@Transient
-	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,cascade=javax.persistence.CascadeType.ALL,mappedBy="businessCalendar",targetEntity=RecurringHoliday.class)
 	@LazyCollection(org.hibernate.annotations.LazyCollectionOption.TRUE)
 	private Set<RecurringHoliday> recurringHoliday = new HashSet<RecurringHoliday>();
 	@Column(name="business_hours_per_week")
 	private Double businessHoursPerWeek;
+	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
+	@Id
+	private Long id;
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
-	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
-	@Id
-	private Long id;
-	static final private long serialVersionUID = 896;
+	static final private long serialVersionUID = 34;
 	@Column(name="business_days_per_month")
 	private Integer businessDaysPerMonth;
 	static private Set<BusinessCalendar> mockedAllInstances;
@@ -126,7 +126,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.add_time_to",uuid="252060@_NTccANcEEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_NTccANcEEeCJ0dmaHEVVnw")
 	public void addTimeTo(Date fromDateTime, BusinessTimeUnit timeUnit, Double numberOfUnits, Date result) {
 		generateAddTimeToEvent(fromDateTime,timeUnit,numberOfUnits,result);
 	}
@@ -185,7 +185,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("onceOffHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1034")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("onceOffHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("161")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -203,7 +203,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1035")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("154")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -221,7 +221,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("recurringHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1037")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("recurringHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("162")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -242,7 +242,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		}
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.calculate_time_between",uuid="252060@_mOhZgNcEEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_mOhZgNcEEeCJ0dmaHEVVnw")
 	public void calculateTimeBetween(Date fromDateTIme, Date toDateTime, BusinessTimeUnit businessTimeUnit, Double result) {
 		generateCalculateTimeBetweenEvent(fromDateTIme,toDateTime,businessTimeUnit,result);
 	}
@@ -276,14 +276,14 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 	}
 	
 	public void copyState(BusinessCalendar from, BusinessCalendar to) {
+		to.setBusinessHoursPerDay(from.getBusinessHoursPerDay());
+		to.setBusinessHoursPerWeek(from.getBusinessHoursPerWeek());
 		for ( OnceOffHoliday child : from.getOnceOffHoliday() ) {
 			to.addToOnceOffHoliday(child.makeCopy());
 		}
 		for ( WorkDay child : from.getWorkDay() ) {
 			to.addToWorkDay(child.makeCopy());
 		}
-		to.setBusinessHoursPerDay(from.getBusinessHoursPerDay());
-		to.setBusinessHoursPerWeek(from.getBusinessHoursPerWeek());
 		to.setBusinessDaysPerMonth(from.getBusinessDaysPerMonth());
 		for ( RecurringHoliday child : from.getRecurringHoliday() ) {
 			to.addToRecurringHoliday(child.makeCopy());
@@ -318,24 +318,32 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 	public void generateCalculateTimeBetweenEvent(Date fromDateTIme, Date toDateTime, BusinessTimeUnit businessTimeUnit, Double result) {
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.business_component",uuid="252060@_ynCgQdcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_ynCgQdcCEeCJ0dmaHEVVnw")
 	public BusinessComponent getBusinessComponent() {
-		return businessComponent;
+		BusinessComponent result = this.businessComponent;
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.business_days_per_month",uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	public Integer getBusinessDaysPerMonth() {
-		return businessDaysPerMonth;
+		Integer result = this.businessDaysPerMonth;
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.business_hours_per_day",uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerDay() {
-		return businessHoursPerDay;
+		Double result = this.businessHoursPerDay;
+		
+		return result;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.business_hours_per_week",uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerWeek() {
-		return businessHoursPerWeek;
+		Double result = this.businessHoursPerWeek;
+		
+		return result;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -358,9 +366,11 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		return this.objectVersion;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.once_off_holiday_id",uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
 	public Set<OnceOffHoliday> getOnceOffHoliday() {
-		return onceOffHoliday;
+		Set<OnceOffHoliday> result = this.onceOffHoliday;
+		
+		return result;
 	}
 	
 	public Set<OutgoingEvent> getOutgoingEvents() {
@@ -371,9 +381,11 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		return getBusinessComponent();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.recurring_holiday_id",uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
 	public Set<RecurringHoliday> getRecurringHoliday() {
-		return recurringHoliday;
+		Set<RecurringHoliday> result = this.recurringHoliday;
+		
+		return result;
 	}
 	
 	public String getUid() {
@@ -383,9 +395,11 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		return this.uid;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="business_calendar.work_day_id",uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
+	@NumlMetaInfo(uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	public Set<WorkDay> getWorkDay() {
-		return workDay;
+		Set<WorkDay> result = this.workDay;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -414,6 +428,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 	}
 	
 	public void markDeleted() {
+		setDeletedOn(new Date(System.currentTimeMillis()));
 		if ( getBusinessComponent()!=null ) {
 			getBusinessComponent().z_internalRemoveFromBusinessCalendar((BusinessCalendar)this);
 		}
@@ -426,7 +441,6 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		for ( RecurringHoliday child : new ArrayList<RecurringHoliday>(getRecurringHoliday()) ) {
 			child.markDeleted();
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<BusinessCalendar> newMocks) {
@@ -438,7 +452,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("onceOffHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1034")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("onceOffHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("161")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -448,7 +462,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1035")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("workDay") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("154")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -458,7 +472,7 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("recurringHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("1037")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("recurringHoliday") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("162")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -606,17 +620,17 @@ public class BusinessCalendarGenerated implements IEventGenerator, HibernateEnti
 			sb.append("businessDaysPerMonth=\""+ OpiumLibraryForBPMFormatter.getInstance().formatInteger(getBusinessDaysPerMonth())+"\" ");
 		}
 		sb.append(">");
-		sb.append("\n<onceOffHoliday propertyId=\"1034\">");
+		sb.append("\n<onceOffHoliday propertyId=\"161\">");
 		for ( OnceOffHoliday onceOffHoliday : getOnceOffHoliday() ) {
 			sb.append("\n" + onceOffHoliday.toXmlString());
 		}
 		sb.append("\n</onceOffHoliday>");
-		sb.append("\n<workDay propertyId=\"1035\">");
+		sb.append("\n<workDay propertyId=\"154\">");
 		for ( WorkDay workDay : getWorkDay() ) {
 			sb.append("\n" + workDay.toXmlString());
 		}
 		sb.append("\n</workDay>");
-		sb.append("\n<recurringHoliday propertyId=\"1037\">");
+		sb.append("\n<recurringHoliday propertyId=\"162\">");
 		for ( RecurringHoliday recurringHoliday : getRecurringHoliday() ) {
 			sb.append("\n" + recurringHoliday.toXmlString());
 		}

@@ -273,7 +273,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 			constraint.setDialect("mvel");
 			Integer toNodeId = this.targetIdMap.get(t.getEffectiveTarget());
 			constraint.setToNodeId(toNodeId + "");
-			if (t.getGuard() == null) {
+			if (!t.hasGuard()) {
 				constraint.setValue("return true;");
 				constraint.setPriority("3");
 			} else {

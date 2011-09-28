@@ -13,6 +13,7 @@ import net.sf.nakeduml.metamodel.activities.ActivityKind;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedStructuredActivityNode;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
@@ -48,7 +49,7 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 		return false;
 	};
 	@Override
-	protected INakedElement getEnclosingElement(INakedElement s){
+	protected INakedStep getEnclosingElement(INakedElement s){
 		INakedActivityNode node = (INakedActivityNode) s;
 		return node.getInStructuredNode();
 	}

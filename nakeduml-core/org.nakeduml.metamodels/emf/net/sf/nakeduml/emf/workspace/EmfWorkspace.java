@@ -424,7 +424,9 @@ public class EmfWorkspace implements Element{
 		this.uriToFileConverter = uriToFileConverter;
 	}
 	public String getId(EObject object){
-		if(object instanceof EmfWorkspace){
+		if(object == null){
+			return null;
+		}else if(object instanceof EmfWorkspace){
 			return ((EmfWorkspace) object).getIdentifier();
 		}else{
 			String uid = null;

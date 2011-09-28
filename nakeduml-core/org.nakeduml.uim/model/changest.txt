@@ -45,13 +45,13 @@ Introduce entryScreen for components, allow formpanels to be used, have an exter
 Introduce ocl expressions for things such as lookups and security constraints
 
 Processes
-Rethink the queue per signal idea - consider the implications of migration
+Operation Message Structure to become interface with a default implementation
+BehaviorMessageStructures should implement the Operation Message Structure as contract and extend super behaviors
 Implement expiry logic for events
 Remember to allow ALL events to be retryable - retry until expiry 
 timevents may want to repeat
-Expressions for Change and Time events on IEventHandler
-Node Instance ID on IEventHandler 
- 
+Support Asynchandlers for behaviors
+
 
 
 TaskManagement

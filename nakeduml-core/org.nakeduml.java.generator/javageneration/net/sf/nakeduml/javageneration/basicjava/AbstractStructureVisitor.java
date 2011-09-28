@@ -1,7 +1,7 @@
 package net.sf.nakeduml.javageneration.basicjava;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
@@ -9,6 +9,7 @@ import net.sf.nakeduml.javageneration.maps.AssociationClassEndMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.linkage.BehaviorUtil;
+import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedCallAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
@@ -24,7 +25,6 @@ import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedComplexStructure;
 import net.sf.nakeduml.metamodel.core.INakedEntity;
 import net.sf.nakeduml.metamodel.core.INakedEnumeration;
-import net.sf.nakeduml.metamodel.core.INakedInterface;
 import net.sf.nakeduml.metamodel.core.INakedMessageStructure;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
@@ -66,14 +66,16 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 								visitTask((INakedEmbeddedTask) n);
 							}else if(n instanceof INakedCallAction){
 								visitCallAction((INakedCallAction) n);
+							}else if(n instanceof INakedAcceptCallAction){
+								visitAcceptCallAction((INakedAcceptCallAction) n);
 							}
 						}
 					}
 				}
 			}
-			List<? extends INakedProperty> effectiveAttributes = c.getEffectiveAttributes();
-			for(INakedProperty p:effectiveAttributes){
-				if(p.isNavigable() && (p.getOwner() == c || p.getOwner() instanceof INakedInterface)){
+			Set<INakedProperty> directlyImplementedAttributes = c.getDirectlyImplementedAttributes();
+			for(INakedProperty p:directlyImplementedAttributes){
+				if(p.isNavigable()){
 					if(OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
 						visitAssociationClassProperty(c, new AssociationClassEndMap(p));
 					}else{
@@ -81,11 +83,15 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					}
 				}
 			}
-			for(INakedOperation o:c.getEffectiveOperations()){
-				if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
-					visitOperation(o);
-				}
+			for(INakedOperation o:c.getDirectlyImplementedOperations()){
+				visitOperation(o);
 			}
+		}
+	}
+	private void visitAcceptCallAction(INakedAcceptCallAction node){
+		if(BehaviorUtil.mustBeStoredOnActivity(node)){
+			// Their classes will be built elsewhere, so just visit the relationship with the message structure as an artificial association
+			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
 		}
 	}
 	@Override
@@ -126,14 +132,14 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		}
 		visitFeaturesOf(msg);
 	}
-	public void visitCallAction(INakedCallAction node){
+	protected void visitCallAction(INakedCallAction node){
 		if(node.getCalledElement().getContext() == null && node.getMessageStructure() != null){
 			// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
 			// persistence
 			INakedComplexStructure umlOwner = node.getMessageStructure();
 			visitFeaturesOf(umlOwner);
 		}else if((BehaviorUtil.mustBeStoredOnActivity(node))){
-			// Their classes will be built elsewhere, so just visit the output pin as an artificial association
+			// Their classes will be built elsewhere, so just visit the action as an artificial association with the message structure
 			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
 		}
 	}

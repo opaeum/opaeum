@@ -18,7 +18,6 @@ public class PersistentNameRegenerator extends AbstractPersistentNameGenerator {
 	public void regenerateName(INakedElement nakedElement) {
 		NameWrapper pname = generateSqlName(nakedElement);
 		nakedElement.getMappingInfo().setPersistentName(pname);
-		nakedElement.getMappingInfo().setQualifiedPersistentName(generateQualifiedPersistentName(nakedElement));
 		if(nakedElement.getMappingInfo().requiresPersistentRename()){
 			getAffectedElements().add(nakedElement);
 		}

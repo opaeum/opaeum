@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:Standard="http://www.eclipse.org/uml2/schemas/Standard/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpiumStandardProfile="http:///schemas/OpiumStandardProfile/1.0.0.6" xmlns:Standard="http://www.eclipse.org/uml2/schemas/Standard/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpiumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpiumSimpleTypes">
     <eAnnotations xmi:id="_CVdBwM5vEeCLs7vQmm8tBQ" source="http://www.nakeduml.org">
       <details xmi:id="_CVdBwc5vEeCLs7vQmm8tBQ" key="uuid" value="9f50af7e_a244_4962_b89f_c0b2dcce18c8"/>
@@ -54,8 +54,7 @@
         <details xmi:id="_CVeP585vEeCLs7vQmm8tBQ" key="uuid" value="442e2e21_1b63_4cc0_a304_288d3a45ae7b"/>
       </eAnnotations>
       <generalization xmi:id="_1JWd8MbwEd-qWtMD5IZMIA">
-        <eAnnotations xmi:id="_CVeP6M5vEeCLs7vQmm8tBQ" source="http://www.nakeduml.org">
-        </eAnnotations>
+        <eAnnotations xmi:id="_CVeP6M5vEeCLs7vQmm8tBQ" source="http://www.nakeduml.org"/>
         <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       </generalization>
     </packagedElement>
@@ -66,7 +65,7 @@
     </packagedElement>
     <profileApplication xmi:id="_e8qRkM5VEeC1yrA33E3a4g">
       <eAnnotations xmi:id="_e8qRkc5VEeC1yrA33E3a4g" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_cy_tYNYLEeCIftwUy_ucRw"/>
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
       </eAnnotations>
       <eAnnotations xmi:id="_CVdBws5vEeCLs7vQmm8tBQ" source="http://www.nakeduml.org">
         <details xmi:id="_CVdBw85vEeCLs7vQmm8tBQ" key="uuid" value="d2ed2a09_0c3b_4e3d_9029_a61da27c3f41"/>
@@ -75,7 +74,7 @@
     </profileApplication>
     <profileApplication xmi:id="_8b1_ENY6EeCzsIYqLQKrXg">
       <eAnnotations xmi:id="_8b7eoNY6EeCzsIYqLQKrXg" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/schemas/Standard/1#/"/>
+        <references xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
       </eAnnotations>
       <eAnnotations xmi:id="_A_w2MNY7EeCzsIYqLQKrXg" source="http://www.nakeduml.org">
         <details xmi:id="_A_yEUNY7EeCzsIYqLQKrXg" key="uuid" value="a415fc6c_1b71_4b4e_91e7_b3796c068f60"/>
@@ -83,13 +82,9 @@
       <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
     </profileApplication>
   </uml:Model>
-  <OpiumStandardProfile:Package xmi:id="_e8q4oM5VEeC1yrA33E3a4g" base_Package="_qb8akM37EdqwVrslYOdUDA" mappedImplementationPackage="org.nakeduml.runtime.domain"/>
-  <OpiumStandardProfile:ValueType xmi:id="_B6VpANISEeCWrvFQtimdBw" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date"/>
-  <OpiumStandardProfile:PrimitiveType xmi:id="_EgmgoNISEeCWrvFQtimdBw" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory=""/>
-  <OpiumStandardProfile:PrimitiveType xmi:id="_F5lFwNISEeCWrvFQtimdBw" base_PrimitiveType="_UjiHwMkJEeCqJJ6VBTMkzg"/>
   <OpiumStandardProfile:Model xmi:id="_8D9EgNYvEeCbpsr9qtLjVA" mappedImplementationPackage="org.nakeduml.runtime.bpm.opiumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
   <OpiumStandardProfile:ValueType xmi:id="_8iT0cNYvEeCbpsr9qtLjVA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="net.sf.nakeduml.strategies.DateTimeStrategyFactory"/>
   <OpiumStandardProfile:PrimitiveType xmi:id="_BuhaoNYwEeCbpsr9qtLjVA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="net.sf.nakeduml.strategies.TextStrategyFactory"/>
-  <OpiumStandardProfile:PrimitiveType xmi:id="_Cd5CENYwEeCbpsr9qtLjVA" base_PrimitiveType="_UjiHwMkJEeCqJJ6VBTMkzg"/>
   <Standard:ModelLibrary xmi:id="_-aUd8NY6EeCzsIYqLQKrXg" base_Package="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpiumStandardProfile:ModelLibrary xmi:id="_cwpYoOnCEeCaZdEDdx_4Qg" mappedImplementationPackage="org.nakeduml.runtime.bpm.opiumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
 </xmi:XMI>

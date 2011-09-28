@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
+import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedCallEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
@@ -46,6 +47,12 @@ public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implem
 	}
 	@Override
 	public INakedReplyAction getReplyAction(){
-		return (INakedReplyAction) getReturnInfo().getFeedingNode().getOwnerElement();
+		INakedOutputPin returnInfo2 = getReturnInfo();
+		if(returnInfo2 == null){
+			return null;
+		}else{
+			INakedObjectNode feedingNode = returnInfo2.getFedNode();
+			return (INakedReplyAction) feedingNode.getOwnerElement();
+		}
 	}
 }

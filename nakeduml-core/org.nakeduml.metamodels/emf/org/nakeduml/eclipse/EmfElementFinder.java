@@ -1,6 +1,8 @@
 package org.nakeduml.eclipse;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
@@ -8,8 +10,11 @@ import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
@@ -32,6 +37,7 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.ValuePin;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
@@ -146,6 +152,19 @@ public class EmfElementFinder{
 	public static EObject getContainer(EObject s){
 		if(s == null){
 			return null;
+		}else if(s.eContainer() instanceof DynamicEObjectImpl){
+			while(!(s.eContainer() ==null)){
+				//find top level stereotype
+				s=s.eContainer();
+			}
+			for(EObject eObject:s.eCrossReferences()){
+				if(eObject instanceof Element){
+					if(((Element) eObject).getStereotypeApplications().contains(s)){
+						return eObject;
+					}
+				}
+			}
+			return s.eContainer();
 		}else if(s instanceof Event){
 			org.eclipse.uml2.uml.Event event = (org.eclipse.uml2.uml.Event) s;
 			// Contained by an annotation inside another element?
@@ -181,5 +200,33 @@ public class EmfElementFinder{
 			return ((Generalization) s).getSpecific();
 		}
 		return s.eContainer();
+	}
+	public static Collection<Element> getCorrectOwnedElements(Element root){
+		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
+		// Unimplemented containment features, oy
+		if(root instanceof StructuredActivityNode){
+			StructuredActivityNode node = (StructuredActivityNode) root;
+			elements.addAll(node.getNodes());
+			elements.addAll(node.getEdges());
+		}else if(root instanceof Transition){
+			Transition t = (Transition) root;
+			elements.addAll(t.getTriggers());
+		}else if(root instanceof AcceptEventAction){
+			elements.addAll(((AcceptEventAction) root).getTriggers());
+		}else if(root instanceof ValuePin){
+			ValuePin vp = (ValuePin) root;
+			if(vp.getValue() != null){
+				elements.add(vp.getValue());
+			}
+		}else if(root instanceof ActivityEdge){
+			ActivityEdge e = (ActivityEdge) root;
+			if(e.getGuard() != null){
+				elements.add(e.getGuard());
+			}
+			if(e.getWeight() != null){
+				elements.add(e.getWeight());
+			}
+		}
+		return elements;
 	}
 }

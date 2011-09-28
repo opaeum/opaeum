@@ -17,11 +17,16 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 	}
 	protected String getConfigName(INakedElementOwner model){
 		if(model instanceof INakedModel){
-			return ((INakedRootObject) model).getIdentifier() + "PersistenceUnit";
+			return ((INakedRootObject) model).getIdentifier();
 		}else{
-			return ((INakedModelWorkspace) model).getIdentifier() + "PersistenceUnit";
+			return ((INakedModelWorkspace) model).getIdentifier();
 		}
 	}
+	protected boolean shouldProcessModel(){
+		//Might overwrite other models persistence.xml
+		return !(config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isIntegrationPhase());
+	}
+
 	protected String getTemplateName(){
 		return "templates/Model/PersistenceXml.vsl";
 	}

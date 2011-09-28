@@ -12,6 +12,9 @@ import java.util.Set;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.IActionWithTargetElement;
+import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
+import net.sf.nakeduml.metamodel.actions.INakedReplyAction;
+import net.sf.nakeduml.metamodel.activities.INakedAction;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
 import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
@@ -66,7 +69,7 @@ public class OJUtil{
 	}
 	private static Map<INakedTypedElement,NakedStructuralFeatureMap> locallyUniqueFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
 	private static Map<INakedTypedElement,NakedStructuralFeatureMap> structuralFeatureMaps = new HashMap<INakedTypedElement,NakedStructuralFeatureMap>();
-	private static Map<IActionWithTargetElement,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<IActionWithTargetElement,NakedStructuralFeatureMap>();
+	private static Map<INakedAction,NakedStructuralFeatureMap> actionFeatureMaps = new HashMap<INakedAction,NakedStructuralFeatureMap>();
 	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}
@@ -102,7 +105,7 @@ public class OJUtil{
 		}
 		return map;
 	}
-	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(IActionWithTargetElement action,NakedUmlLibrary lib){
+	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(INakedAction action,NakedUmlLibrary lib){
 		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
 		if(map == null){
 			ActionFeatureBridge bridge = buildActionBridge(action, lib);
@@ -111,9 +114,12 @@ public class OJUtil{
 		}
 		return map;
 	}
-	private static ActionFeatureBridge buildActionBridge(IActionWithTargetElement action,NakedUmlLibrary lib){
-		ActionFeatureBridge bridge = new ActionFeatureBridge(action, lib);
-		return bridge;
+	private static ActionFeatureBridge buildActionBridge(INakedAction action,NakedUmlLibrary lib){
+		if(action instanceof IActionWithTargetElement){
+			return new ActionFeatureBridge((IActionWithTargetElement) action, lib);
+		}else{
+			return new ActionFeatureBridge((INakedAcceptCallAction) action, lib);
+		}
 	}
 	/**
 	 * A NakedUml specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
@@ -236,7 +242,6 @@ public class OJUtil{
 		if(!(property instanceof ArtificialProperty)){
 			OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
 			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
-			metaInfo.putAttribute("qualifiedPersistentName", property.getMappingInfo().getQualifiedPersistentName());
 			element.putAnnotation(metaInfo);
 		}
 	}

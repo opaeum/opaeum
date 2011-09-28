@@ -11,7 +11,7 @@ import org.eclipse.uml2.uml.Connector;
 /**
  * Builds operations, properties,parameter and associations. Only builds associations if they are supported by NakedUml and Octopus
  */
-@StepDependency(phase = EmfExtractionPhase.class,requires = ConnectorEndExtractor.class,after = ConnectorEndExtractor.class)
+@StepDependency(phase = EmfExtractionPhase.class,requires = RedefinitionAndConnectorEndExtractor.class,after = RedefinitionAndConnectorEndExtractor.class)
 public class ConnectorExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore(matchSubclasses = true)
 	public void visitConnector(Connector c,NakedConnectorImpl nce ){

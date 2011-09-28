@@ -42,17 +42,17 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	@SuppressWarnings("unchecked")
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
-		if(requiresIntegration()){
+		if(shouldProcessWorkspace()){
 			Collection<INakedRootObject> rootObjects = (Collection<INakedRootObject>) workspace.getOwnedElements();
 			generateConfigAndEnvironment(rootObjects, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, workspace);
 		}
 	}
-	protected boolean requiresIntegration(){
-		return transformationContext.isIntegrationPhase() || config.getSourceFolderStrategy().isSingleProjectStrategy();
+	protected boolean shouldProcessWorkspace(){
+		return transformationContext.isIntegrationPhase();
 	}
 	@VisitBefore
 	public void visitModel(INakedModel model){
-		if(!requiresIntegration()){
+		if(shouldProcessModel()){
 			Collection<INakedRootObject> selfAndDependencies = new ArrayList<INakedRootObject>(model.getAllDependencies());
 			selfAndDependencies.add(model);
 			TextSourceFolderIdentifier domainGenTestResource = TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE;
@@ -62,6 +62,9 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 				generateConfigAndEnvironment(selfAndDependencies, adaptorGenTestResource, true, model);
 			}
 		}
+	}
+	protected boolean shouldProcessModel(){
+		return !transformationContext.isIntegrationPhase();
 	}
 	protected abstract String getOutputPath(INakedElementOwner model);
 	protected abstract String getConfigName(INakedElementOwner model);

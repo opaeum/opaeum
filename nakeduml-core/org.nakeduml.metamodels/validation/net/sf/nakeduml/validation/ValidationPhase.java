@@ -16,9 +16,16 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.validation.activities.ActionValidation;
+import net.sf.nakeduml.validation.activities.ActivityValidator;
+import net.sf.nakeduml.validation.commonbehavior.BehaviorValidator;
+import net.sf.nakeduml.validation.core.GeneralizationValidator;
+import net.sf.nakeduml.validation.core.PrimitiveValidator;
 import net.sf.nakeduml.validation.namegeneration.NameGenerationPhase;
 
-@PhaseDependency(after = {NameGenerationPhase.class, LinkagePhase.class})
+@PhaseDependency(after = {
+		NameGenerationPhase.class,LinkagePhase.class
+})
 public class ValidationPhase implements TransformationPhase<AbstractValidator,INakedElement>{
 	private NakedUmlConfig config;
 	@InputModel
@@ -35,7 +42,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 	}
 	@Override
 	public void execute(TransformationContext context){
-		context.getLog().startTask("Validating Model",validators.size());
+		context.getLog().startTask("Validating Model", validators.size());
 		for(AbstractValidator v:validators){
 			if(!context.getLog().isCanceled()){
 				context.getLog().startStep("Executing " + v.getClass().getSimpleName());
@@ -63,6 +70,8 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 		return validators;
 	}
 	public static Set<Class<? extends AbstractValidator>> getAllValidationSteps(){
-		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(ActionValidator.class, ReservedWordValidator.class, NameUniquenessValidation.class, PropertyValidation.class));
+		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(OperationValidation.class, ActionValidation.class, ReservedWordValidator.class,
+				NameUniquenessValidation.class, PropertyValidation.class, GeneralizationValidator.class, PrimitiveValidator.class, BehaviorValidator.class,
+				ActivityValidator.class));
 	}
- }
+}

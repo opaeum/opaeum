@@ -6,15 +6,14 @@ import java.util.Scanner;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 import net.sf.nakeduml.metamodel.name.SingularNameWrapper;
 
-public class MappingInfo {
-	private static final long serialVersionUID = -3340080927536252411L;
+public class MappingInfo{
 	protected static final String DEL = "~";
 	public static void main(String[] args){
 		String values = "12~1.3213~1~qualifiedJavaName~javaNameString~sqlNameString~SingularHumanName~pluralHumanName~qualifiedUmlName~qualifiedPersistentName";
 		MappingInfo m1 = new MappingInfo("", values);
 		System.out.println(new MappingInfo("", m1.toString()).toString().equals(m1.toString()));
 	}
-	//TODO simplify
+	// TODO simplify
 	private boolean isNewInVersion = false;
 	private boolean isNewInRevision = false;
 	private boolean requiresSqlRename = false;
@@ -46,8 +45,7 @@ public class MappingInfo {
 		this.sinceRevision = scanner.nextInt();
 		this.sinceVersion = scanner.nextFloat();
 		this.nakedUmlId = scanner.nextInt();
-		setPersistentName(new SingularNameWrapper(scanner.next(),null));
-		this.qualifiedPersistentName = scanner.next();
+		setPersistentName(new SingularNameWrapper(scanner.next(), null));
 	}
 	public MappingInfo(){
 	}
@@ -58,8 +56,8 @@ public class MappingInfo {
 		return shouldStore;
 	}
 	/**
-	 * Calculates whether this originalElement should be added to the database 1. For this revision given the currently deployed revision in the
-	 * database 2. For this version, given the currently deployed version in the database
+	 * Calculates whether this originalElement should be added to the database 1. For this revision given the currently deployed revision in
+	 * the database 2. For this version, given the currently deployed version in the database
 	 * 
 	 * @param deployedVersion
 	 * @param deployedRevision
@@ -115,29 +113,29 @@ public class MappingInfo {
 		return getSinceVersion() != null;
 	}
 	public boolean requiresJavaRename(){
-		return oldQualifiedJavaName!=null && !oldQualifiedJavaName.equals(qualifiedJavaName);
+		return oldQualifiedJavaName != null && !oldQualifiedJavaName.equals(qualifiedJavaName);
 	}
 	public boolean requiresPersistentRename(){
-		return oldPersistentName!=null && !oldPersistentName.equals(oldPersistentName);
+		return oldPersistentName != null && !oldPersistentName.equals(oldPersistentName);
 	}
 	public boolean hasMappingInfo(){
 		return hasSinceVersion();
 	}
 	public boolean hasPersistentName(){
-		return getPersistentName()!=null && getPersistentName().getAsIs()!=null && getPersistentName().getAsIs().trim().length()>0;
+		return getPersistentName() != null && getPersistentName().getAsIs() != null && getPersistentName().getAsIs().trim().length() > 0;
 	}
 	public NameWrapper getJavaName(){
 		return this.javaName;
 	}
 	public void setJavaName(NameWrapper javaName){
-		this.oldJavaName=this.javaName;
+		this.oldJavaName = this.javaName;
 		this.javaName = javaName;
 	}
 	public NameWrapper getPersistentName(){
 		return this.persistentName;
 	}
 	public void setPersistentName(NameWrapper sqlName){
-		this.oldPersistentName=this.persistentName;
+		this.oldPersistentName = this.persistentName;
 		this.persistentName = sqlName;
 	}
 	public NameWrapper getHumanName(){
@@ -168,7 +166,7 @@ public class MappingInfo {
 		return qualifiedJavaName;
 	}
 	public void setQualifiedJavaName(String qualifiedJavaName){
-		this.oldQualifiedJavaName=this.qualifiedJavaName;
+		this.oldQualifiedJavaName = this.qualifiedJavaName;
 		this.qualifiedJavaName = qualifiedJavaName;
 	}
 	public String getSingularHumanName(){
@@ -223,16 +221,9 @@ public class MappingInfo {
 		this.nakedUmlId = nakedUmlId;
 	}
 	public String toString(){
-		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL 
-				+ qualifiedPersistentName+DEL;
+		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL;
 	}
 	protected MappingInfo createCopy(){
-		return new MappingInfo(idInModel,toString());
-	}
-	public String getQualifiedPersistentName(){
-		return qualifiedPersistentName;
-	}
-	public void setQualifiedPersistentName(String string){
-		this.qualifiedPersistentName = string;
+		return new MappingInfo(idInModel, toString());
 	}
 }

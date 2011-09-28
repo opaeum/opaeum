@@ -1033,6 +1033,11 @@
             label="Stereotypes"
             afterTab="org.nakeduml.eclipse.numlTab"/>
          <propertyTab
+            id="org.nakeduml.eclipse.redefinitionTab"
+            category="modelDetails"
+            label="Redefinition"
+            afterTab="org.nakeduml.eclipse.numlTab"/>
+         <propertyTab
             id="org.topcased.modeler.stereotypeAttributesTab"
             category="modelDetails"
             label="Stereotype Attributes"
@@ -1055,7 +1060,17 @@
    
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections
-        contributorId="org.topcased.modeler.editor.Modeler">
+        		contributorId="org.topcased.modeler.editor.Modeler">
+   			<propertySection
+		         class="org.nakeduml.topcased.propertysections.NamedStereotypeNameSection"
+		         id="org.nakeduml.topcased.propertysections.NamedStereotypeNameSection"
+		         filter="org.nakeduml.topcased.propertysections.NamedStereotypeNameFilter"
+		         tab="org.nakeduml.eclipse.numlTab">
+		      <input
+		            type="org.eclipse.emf.ecore.impl.DynamicEObjectImpl">
+		            
+		      </input>
+		   </propertySection>
    			<propertySection
 		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 		         class="org.nakeduml.topcased.propertysections.TypedElementTypeSection"
@@ -1631,7 +1646,7 @@
              name="Lowest">
        </Priority>
 		<object
-               class="org.eclipse.emf.ecore.EObject(org.eclipse.emf.ecore)"
+               class="org.eclipse.emf.ecore.EObject"
                id="EObject">
          </object>
          <context
@@ -1741,7 +1756,7 @@
 	               name="Lowest">
 	         </Priority>
 	         <object
-	               class="org.eclipse.uml2.uml.UseCase(org.eclipse.uml2.uml)"
+	               class="org.eclipse.uml2.uml.UseCase"
 	               id="UseCase">
 	         </object>
 	         <context
@@ -1751,7 +1766,7 @@
                 decoratorTargets="Class">
           </context>
           <object
-                class="org.eclipse.uml2.uml.Class(org.eclipse.uml2.uml)"
+                class="org.eclipse.uml2.uml.Class"
                 id="Class">
           </object>
 	      </decoratorProvider>
@@ -1898,6 +1913,12 @@
          <todo
                instance="org.topcased.modeler.uml.builder.UMLCommentTodoNote">
          </todo>
+      </extension>
+      <extension
+            point="org.topcased.modeler.OutlineVirtualContainer">
+         <VirtualContainer
+               virtualContainer="org.nakeduml.topcased.uml.editor.StereotypeVirtualContainer">
+         </VirtualContainer>
       </extension>
 
 </plugin>

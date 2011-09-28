@@ -130,29 +130,13 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		return behavior.getContext() != null && !behavior.isClassifierBehavior();
 	}
 	private void invokeSimpleBehavior(INakedBehavior behavior,OJOperation javaMethod){
-		OJPathName activityClass = OJUtil.classifierPathname(behavior);
-		if(behavior.getReturnParameter() != null){
-			// remove "Return" statements
-			OJUtil.removeReturnStatement(javaMethod);
-		}
-		OJField result = javaMethod.getBody().findLocal("result");
-		result.setInitExp("new " + activityClass.getLast() + "(this)");
-		result.setType(activityClass);
-		if(behavior.hasMultipleConcurrentResults()){
-			// TODO such behaviours should always be called from an activity
-			// that can actually retrieve the result
-			javaMethod.getBody().addToStatements("return result");
-			javaMethod.setReturnType(activityClass);
-		}else if(behavior.getReturnParameter() != null){
-			javaMethod.getBody().addToStatements("return result.get" + behavior.getReturnParameter().getMappingInfo().getJavaName().getCapped() + "()");
-		}
 	}
 	private void implementSpecification(INakedBehavior o){
 		NakedOperationMap map = new NakedOperationMap(o.getSpecification() == null ? o : o.getSpecification());
 		OJAnnotatedClass ojContext = findJavaClass(o.getContext());
 		// Behaviours without
 		// specifications are given an emulated specification
-		List<OJPathName> parmTypes = map.javaParamTypePaths();
+		List<OJPathName> parmTypes = o.isLongRunning()? map.javaParamTypePathsWithReturnInfo():map.javaParamTypePaths();
 		OJOperation javaMethod = ojContext.findOperation(map.javaOperName(), parmTypes);
 		if(o.isProcess()){
 			implementProcessCreation(o, ojContext, javaMethod);
@@ -165,13 +149,11 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		javaMethod.getOwner().addToImports(ojBehavior);
 		// Leave preconditions in tact
 		NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(o.getEndToComposite().getOtherEnd());
-		OJUtil.removeReturnStatement(javaMethod);
 		ojContext.addToImports(ojBehavior);
-		OJField result = javaMethod.getBody().findLocal("result");
-		result.setType(ojBehavior);
-		result.setInitExp("new " + ojBehavior.getLast() + "(this)");
+		OJAnnotatedOperation ojAnnotatedOperation = (OJAnnotatedOperation) javaMethod;
+		ojAnnotatedOperation.initializeResultVariable("new " + ojBehavior.getLast() + "(this)");
+		ojAnnotatedOperation.getResultVariable().setType(ojBehavior);
 		javaMethod.getBody().addToStatements("this." + featureMap.adder() + "(result)");
-		javaMethod.getBody().addToStatements("return result");
 		javaMethod.setReturnType(ojBehavior);
 	}
 	private void implementStartClassifierBehavior(INakedBehavior behavior){

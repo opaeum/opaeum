@@ -215,6 +215,7 @@ public class NakedUmlEclipseContext{
 			// Will only process elements as per their RootObjectStatus
 			getEmfToNakedUmlSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
 			getEmfToNakedUmlSynchronizer().resume();
+			errorMarker.maybeSchedule();
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}finally{

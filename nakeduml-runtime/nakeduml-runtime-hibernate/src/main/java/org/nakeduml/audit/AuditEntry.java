@@ -7,16 +7,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -24,8 +25,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.nakeduml.runtime.domain.IPersistentObject;
 import org.nakeduml.runtime.domain.IntrospectionUtil;
 
@@ -48,19 +47,16 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 	@Basic
 	@Column(name = "object_version")
 	int objectVersion;
-	@OneToMany(mappedBy = "auditEntry", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "auditEntry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@MapKey(name = "propertyName")
 	Map<String, PropertyChange<?>> changes = new HashMap<String, PropertyChange<?>>();
-	@ManyToOne()
-	@NotFound(action=NotFoundAction.IGNORE)
-	@JoinColumn(name = "previous_version_id", referencedColumnName = "id")
-	private AuditEntry previousVersion;
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="audit_date_time")
-	private Date auditDateTime=new Date(System.currentTimeMillis());
+	@Column(name = "audit_date_time")
+	private Date auditDateTime = new Date(System.currentTimeMillis());
 	@Transient
 	private Map<String, IPersistentObject> manyToOnes = new HashMap<String, IPersistentObject>();
-	@Transient
+	@Embedded()
+	@AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "previous_version_id")))
 	private AuditEntryId previousVersionId;
 	@Transient
 	private Class<? extends IPersistentObject> originalClass;
@@ -92,26 +88,26 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 		PropertyChange<?> pc = null;
 
 		if (isFloatingPoint(value) || isFloatingPoint(oldValue)) {
-			pc = new FloatingPointPropertyChange(name, (Number) oldValue,(Number) value );
+			pc = new FloatingPointPropertyChange(name, (Number) oldValue, (Number) value);
 		} else if (isInteger(value) || isInteger(oldValue)) {
-			pc = new IntegerPropertyChange(name, (Number) oldValue,(Number) value);
+			pc = new IntegerPropertyChange(name, (Number) oldValue, (Number) value);
 		} else if (isDate(value) || isDate(oldValue)) {
-			pc = new DateTimePropertyChange(name, (Date) oldValue,(Date) value);
+			pc = new DateTimePropertyChange(name, (Date) oldValue, (Date) value);
 		} else if (isString(value) || isString(oldValue)) {
-			pc = new StringPropertyChange(name,(String) oldValue, (String) value);
-		} else if (isBoolean(value)||isBoolean(oldValue)) {
-			pc = new BooleanPropertyChange(name, (Boolean) oldValue,(Boolean) value);
+			pc = new StringPropertyChange(name, (String) oldValue, (String) value);
+		} else if (isBoolean(value) || isBoolean(oldValue)) {
+			pc = new BooleanPropertyChange(name, (Boolean) oldValue, (Boolean) value);
 		} else if (isEntity(value) || isEntity(oldValue)) {
-			Class<?> cls = value==null?oldValue.getClass() : value.getClass();
+			Class<?> cls = value == null ? oldValue.getClass() : value.getClass();
 			if (IntrospectionUtil.getOriginalClass(cls).isAnnotationPresent(AuditMe.class)) {
-				pc = new AuditEntryPropertyChange(name, (IPersistentObject) oldValue,(IPersistentObject) value);
+				pc = new AuditEntryPropertyChange(name, (IPersistentObject) oldValue, (IPersistentObject) value);
 			} else {
-				pc = new EntityPropertyChange(name, (IPersistentObject) oldValue,(IPersistentObject) value);
+				pc = new EntityPropertyChange(name, (IPersistentObject) oldValue, (IPersistentObject) value);
 			}
 		} else if (value instanceof AuditEntry) {
-			//Many to one to ensure a snapshot is available 
+			// Many to one to ensure a snapshot is available
 			pc = new AuditEntryPropertyChange(name, (AuditEntry) value);
-		} else if (value == null && oldValue==null) {
+		} else if (value == null && oldValue == null) {
 			pc = new NullPropertyChange(name);
 		}
 		if (pc != null) {
@@ -152,23 +148,8 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 		this.changes = changes;
 	}
 
-	public void setPreviousVersion(AuditEntry previousVersion) {
-		this.previousVersion = previousVersion;
-	}
-
 	public AuditEntryId getPreviousVersionId() {
-		if (previousVersionId == null) {
-			if (previousVersion == null) {
-				previousVersionId = id.previousVersion();
-			} else {
-				previousVersionId = previousVersion.getId();
-			}
-		}
 		return previousVersionId;
-	}
-
-	public AuditEntry getPreviousVersion() {
-		return previousVersion;
 	}
 
 	public Long getOriginalId() {
@@ -238,8 +219,8 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 	}
 
 	public void setOriginal(IPersistentObject object) {
-		this.original=object;
-		
+		this.original = object;
+
 	}
 
 	public IPersistentObject getOriginal() {

@@ -53,7 +53,7 @@ public class ValueSpecificationUtil{
 		}else if(valueSpec.isOclValue()){
 			return expressOcl(operationContext, valueSpec, expectedType);
 		}
-		return expressLiterals(valueSpec, (OJClass) operationContext.getOwner(),operationContext);
+		return expressLiterals(valueSpec, (OJClass) operationContext.getOwner(), operationContext);
 	}
 	private static String expressOcl(OJOperation operationContext,INakedValueSpecification valueSpec,IClassifier expectedType){
 		if(valueSpec.isValidOclValue()){
@@ -199,7 +199,7 @@ public class ValueSpecificationUtil{
 		final List<INakedValueSpecification> values = slot.getValues();
 		if(mapper.isOne()){
 			init = expressValue(myClass, values.get(0), feat.getType(), true);
-		}else {
+		}else{
 			StringBuilder sb = new StringBuilder(mapper.javaDefaultValue());
 			sb.deleteCharAt(sb.length() - 1);
 			sb.append("java.util.Arrays.asList(");
@@ -207,7 +207,9 @@ public class ValueSpecificationUtil{
 				sb.append(expressValue(myClass, v, feat.getType(), true));
 				sb.append(",");
 			}
-			sb.deleteCharAt(sb.length() - 1);
+			if(sb.charAt(sb.length() - 1) == ','){
+				sb.deleteCharAt(sb.length() - 1);
+			}
 			sb.append("))");
 			init = sb.toString();
 		}

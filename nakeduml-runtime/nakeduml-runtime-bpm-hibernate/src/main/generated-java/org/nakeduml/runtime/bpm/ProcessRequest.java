@@ -56,31 +56,37 @@ import org.w3c.dom.NodeList;
 @Entity(name="ProcessRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="process_request")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.process_request",uuid="252060@_ciiWAI2-EeCrtavWRHwoHg")
+@Table(schema="opium_bpm",name="process_request")
+@NumlMetaInfo(uuid="252060@_ciiWAI2-EeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("process_request")
-public class ProcessRequest extends AbstractRequest implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject, IProcessObject {
-		// Initialise to 1000 from 1970
-	@Column(name="deleted_on")
-	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
-	private Date deletedOn = Stdlib.FUTURE;
-	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+public class ProcessRequest extends AbstractRequest implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject, IProcessObject {
 	@Column(name="executed_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date executedOn;
 	@Transient
-	private boolean processDirty;
-	@Column(name="process_instance_id")
-	private Long processInstanceId;
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Column(name="calling_process_instance_id")
+	private Long callingProcessInstanceId;
+	private Object currentException;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Type(type="ProcessRequestStateResolver")
 	private ProcessRequestState endNodeInProcessRequestRegion;
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
-	static final private long serialVersionUID = 858;
+	private String callingNodeInstanceUniqueId;
+	@Transient
+	transient private WorkflowProcessInstance callingProcessInstance;
+		// Initialise to 1000 from 1970
+	@Column(name="deleted_on")
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date deletedOn = Stdlib.FUTURE;
+	@Transient
+	private boolean processDirty;
+	@Column(name="process_instance_id")
+	private Long processInstanceId;
+	static final private long serialVersionUID = 46;
 	static private Set<ProcessRequest> mockedAllInstances;
 
 	/** Default constructor for ProcessRequest
@@ -97,7 +103,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		addToOwningObject();
 	}
 
-	@NumlMetaInfo(qualifiedPersistentName="process_request.abort",uuid="252060@_4zDaYK0wEeCTTvcJZSDicw")
+	@NumlMetaInfo(uuid="252060@_4zDaYK0wEeCTTvcJZSDicw")
 	public void abort() {
 		generateAbortEvent();
 	}
@@ -122,7 +128,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("86")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -143,6 +149,13 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		}
 	}
 	
+	public void completed() {
+		AbstractRequestListener callbackListener = getCallingProcessObject();
+		if ( callbackListener!=null ) {
+			callbackListener.onAbstractRequestComplete(getCallingNodeInstanceUniqueId(),this);
+		}
+	}
+	
 	public boolean consumeAbortOccurrence() {
 		boolean consumed = false;
 		return consumed;
@@ -160,7 +173,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
 		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_library_for_bpm_process_request",params);
+		processInstance = (WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_bpm_process_request",params);
 		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
 		this.processInstance=processInstance;
 		this.setProcessInstanceId(processInstance.getId());
@@ -201,6 +214,36 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 	public Set<IProcessStep> getActiveLeafSteps() {
 		Set results = new HashSet<IProcessStep>();
 		return results;
+	}
+	
+	public String getCallingNodeInstanceUniqueId() {
+		return this.callingNodeInstanceUniqueId;
+	}
+	
+	public WorkflowProcess getCallingProcessDefinition() {
+		return (WorkflowProcess) getCallingProcessInstance().getProcess();
+	}
+	
+	public WorkflowProcessInstance getCallingProcessInstance() {
+		if ( this.callingProcessInstance==null ) {
+			this.callingProcessInstance=(WorkflowProcessInstance)org.nakeduml.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).getProcessInstance(getCallingProcessInstanceId());
+			if ( this.callingProcessInstance!=null ) {
+				((WorkflowProcessImpl)this.callingProcessInstance.getProcess()).setAutoComplete(true);
+			}
+		}
+		return this.callingProcessInstance;
+	}
+	
+	public Long getCallingProcessInstanceId() {
+		return this.callingProcessInstanceId;
+	}
+	
+	public AbstractRequestListener getCallingProcessObject() {
+		if ( getCallingProcessInstance()!=null  ) {
+			AbstractRequestListener processObject = (AbstractRequestListener)getCallingProcessInstance().getVariable("processObject");
+			return processObject;
+		}
+		return null;
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -264,22 +307,25 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		return this.processInstanceId;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="process_request.process_object",uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
+	@NumlMetaInfo(uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
 	public OperationProcessObject getProcessObject() {
-		return null;
+		OperationProcessObject result = null;
+		
+		return result;
 	}
 	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
 	
-	public void init(ProcessContext context) {
-		this.setProcessInstanceId(context.getProcessInstance().getId());
-		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
-	}
-	
 	public void init(CompositionNode owner) {
 		super.init(owner);
+	}
+	
+	public void init(ProcessContext context) {
+		super.init(context);
+		this.setProcessInstanceId(context.getProcessInstance().getId());
+		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}
 	
 	public boolean isProcessDirty() {
@@ -307,7 +353,6 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		if ( getParentTask()!=null ) {
 			getParentTask().z_internalRemoveFromSubRequests((ProcessRequest)this);
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<ProcessRequest> newMocks) {
@@ -319,17 +364,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("914")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("929")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("parentTask") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("88")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -339,6 +374,25 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 					}
 				}
 			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participationsInRequest") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("86")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((ParticipationInRequest)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+		}
+	}
+	
+	public void propagateException(Object exception) {
+		AbstractRequestListener callbackListener = getCallingProcessObject();
+		if ( callbackListener==null ) {
+		
+		} else {
+			callbackListener.onAbstractRequestUnhandledException(getCallingNodeInstanceUniqueId(),exception, this);
 		}
 	}
 	
@@ -360,6 +414,18 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 	
 	public void removeFromOwningObject() {
 		this.markDeleted();
+	}
+	
+	public void setCallingNodeInstanceUniqueId(String callingNodeInstanceUniqueId) {
+		this.callingNodeInstanceUniqueId=callingNodeInstanceUniqueId;
+	}
+	
+	public void setCallingProcessInstance(WorkflowProcessInstance callingProcessInstance) {
+		this.callingProcessInstance=callingProcessInstance;
+	}
+	
+	public void setCallingProcessInstanceId(Long callingProcessInstanceId) {
+		this.callingProcessInstanceId=callingProcessInstanceId;
 	}
 	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
@@ -387,6 +453,11 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		this.processInstanceId=processInstanceId;
 	}
 	
+	public void setReturnInfo(ProcessContext context) {
+		this.callingProcessInstanceId=context.getProcessInstance().getId();
+		this.callingNodeInstanceUniqueId=((NodeInstanceImpl)context.getNodeInstance()).getUniqueId();
+	}
+	
 	public String toXmlReferenceString() {
 		return "<ProcessRequest uid=\""+getUid() + "\"/>";
 	}
@@ -398,18 +469,18 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		sb.append("className=\"org.nakeduml.runtime.bpm.ProcessRequest\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		sb.append("\n<participationsInRequest propertyId=\"914\">");
+		if ( getParentTask()==null ) {
+			sb.append("\n<parentTask/>");
+		} else {
+			sb.append("\n<parentTask propertyId=\"88\">");
+			sb.append("\n" + getParentTask().toXmlReferenceString());
+			sb.append("\n</parentTask>");
+		}
+		sb.append("\n<participationsInRequest propertyId=\"86\">");
 		for ( ParticipationInRequest participationsInRequest : getParticipationsInRequest() ) {
 			sb.append("\n" + participationsInRequest.toXmlString());
 		}
 		sb.append("\n</participationsInRequest>");
-		if ( getParentTask()==null ) {
-			sb.append("\n<parentTask/>");
-		} else {
-			sb.append("\n<parentTask propertyId=\"929\">");
-			sb.append("\n" + getParentTask().toXmlReferenceString());
-			sb.append("\n</parentTask>");
-		}
 		sb.append("\n</ProcessRequest>");
 		return sb.toString();
 	}

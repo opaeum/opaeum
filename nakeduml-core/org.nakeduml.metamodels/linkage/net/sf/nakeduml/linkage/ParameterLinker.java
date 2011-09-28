@@ -1,12 +1,15 @@
 package net.sf.nakeduml.linkage;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.core.INakedGeneralization;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
+import net.sf.nakeduml.metamodel.core.internal.ParameterUtil;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	MappedTypeLinker.class
@@ -15,8 +18,8 @@ import net.sf.nakeduml.metamodel.core.INakedParameter;
 },requires = {})
 public class ParameterLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
-	public void linkParameters(INakedOperation b){
-		b.recalculateParameterPositions();
+	public void linkParameters(INakedOperation o){
+		o.recalculateParameterPositions();
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkParameters(INakedBehavior b){

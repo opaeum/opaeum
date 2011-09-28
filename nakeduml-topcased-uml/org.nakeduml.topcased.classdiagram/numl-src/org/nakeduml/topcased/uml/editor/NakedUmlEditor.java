@@ -18,11 +18,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.jface.action.ActionContributionItem;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.window.Window;
@@ -37,9 +32,6 @@ import org.nakeduml.eclipse.NakedUmlEclipsePlugin;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.outline.ModelNavigator;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
-import org.topcased.modeler.uml.actions.DefineProfileAction;
-import org.topcased.modeler.uml.actions.UMLEObjectAction;
-import org.topcased.modeler.uml.editor.outline.UMLNavigator;
 import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
 
 public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
@@ -80,25 +72,7 @@ public class NakedUmlEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		return new UMLOutlinePage(this){
 			@Override
 			protected ModelNavigator createNavigator(Composite parent,Modeler editor,IPageSite pageSite){
-				return new UMLNavigator(parent, editor, pageSite){
-					@Override
-					protected void createSingleSelectionMenu(IMenuManager manager,Object selection){
-						super.createSingleSelectionMenu(manager, selection);
-						for(IContributionItem item:manager.getItems()){
-							if(item instanceof MenuManager && ((MenuManager) item).getMenuText().equals("Generate Primitive Types")){
-								manager.remove(item);
-							}
-							if(item instanceof ActionContributionItem){
-								ActionContributionItem actionItem = (ActionContributionItem) item;
-								IAction act = actionItem.getAction();
-								boolean isTopcasedAction = act instanceof UMLEObjectAction;
-								if(isTopcasedAction && !(act instanceof DefineProfileAction)){
-									manager.remove(item);
-								}
-							}
-						}
-					}
-				};
+				return new NakedUmlNavigator(parent, editor, pageSite);
 			}
 		};
 	}

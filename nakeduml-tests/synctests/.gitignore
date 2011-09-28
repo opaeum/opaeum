@@ -1,8 +1,0 @@
-synctests/.classpath
-synctests/.project
-synctests/.settings
-synctests/pom.xml
-synctests/src/main/generated-java
-synctests/src/main/generated-resources
-synctests/target
-synctests/test-output

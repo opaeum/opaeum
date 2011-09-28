@@ -9,7 +9,7 @@ public class DefaultUriToFileConverter implements UriToFileConverter{
 	@Override
 	public File resolveUri(URI uri){
 		if(!uri.isFile()){
-			throw new IllegalStateException();
+			return null;
 		}else{
 			try{
 				return new File(uri.toFileString()).getCanonicalFile();

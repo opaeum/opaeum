@@ -13,6 +13,7 @@ import net.sf.nakeduml.textmetamodel.SourceFolder;
 import net.sf.nakeduml.textmetamodel.TextOutputNode;
 import net.sf.nakeduml.textmetamodel.TextProject;
 import net.sf.nakeduml.textmetamodel.TextWorkspace;
+import net.sf.nakeduml.validation.namegeneration.PersistentNameGenerator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -152,6 +153,10 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 			if(clss.size() > 0){
 				process.replaceModel(new OJPackage());
 				process.replaceModel(new TextWorkspace());
+				PersistentNameGenerator png = new PersistentNameGenerator();
+				for(INakedElement ne:clss){
+					png.visitOnly(ne);
+				}
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
 				TextWorkspace tws = process.findModel(TextWorkspace.class);
 				if(hasNewJavaSourceFolders(workspace, tws)){

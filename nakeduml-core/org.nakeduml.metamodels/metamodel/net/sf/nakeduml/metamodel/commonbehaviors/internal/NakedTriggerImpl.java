@@ -33,8 +33,8 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 			removeOwnedElement(this.event, true);
 			addOwnedElement(event);
 			event.setOwnerElement(this);
+			getRootObject().addDirectlyAccessibleElement(event);
 		}
-		getRootObject().addDirectlyAccessibleElement(event);
 		this.event = event;
 	}
 	public INakedEvent getEvent(){

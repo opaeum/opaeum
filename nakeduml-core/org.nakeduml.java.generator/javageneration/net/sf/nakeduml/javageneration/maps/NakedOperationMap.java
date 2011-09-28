@@ -22,8 +22,7 @@ import org.nakeduml.java.metamodel.OJPathName;
 
 public class NakedOperationMap extends OperationMap implements IMessageMap{
 	private IParameterOwner parameterOwner;
-	@Override
-	public List<OJPathName> javaParamTypePaths(){
+	public List<OJPathName> javaParamTypePathsWithReturnInfo(){
 		List<OJPathName> javaParamTypePaths = new ArrayList<OJPathName>();
 		if(parameterOwner.isLongRunning()){
 			javaParamTypePaths.add(Jbpm5Util.getProcessContext());
@@ -70,17 +69,27 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 	private Map<IParameter,NakedClassifierMap> getParamMap(){
 		if(params == null){
 			params = new HashMap<IParameter,NakedClassifierMap>();
-			for(IParameter p:getParameterOwner().getParameters()){
+			for(IParameter p:getContractDefiningElement().getParameters()){
 				params.put(p, new NakedClassifierMap(p.getType()));
 			}
 		}
 		return params;
 	}
-	private IParameterOwner getSpecification(){
-		if(parameterOwner instanceof INakedOperation || ((INakedBehavior) parameterOwner).getSpecification() == null){
+	public boolean hasContract(){
+		return parameterOwner != getContractDefiningElement();
+	}
+	private IParameterOwner getContractDefiningElement(){
+		if(parameterOwner instanceof INakedOperation){
 			return parameterOwner;
 		}else{
-			return ((INakedBehavior) parameterOwner).getSpecification();
+			INakedBehavior root = (INakedBehavior) parameterOwner;
+			while(root.getSupertype() instanceof INakedBehavior){
+				root = (INakedBehavior) root.getSupertype();
+				if(root.getSpecification() != null){
+					return root.getSpecification();
+				}
+			}
+			return root;
 		}
 	}
 	public IParameterOwner getParameterOwner(){
@@ -91,23 +100,26 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 		return getParamMap().get(elem).javaTypePath();
 	}
 	public OJPathName callbackListenerPath(){
-		OJPathName path = OJUtil.packagePathname(getSpecification().getNameSpace());
+		OJPathName path = OJUtil.packagePathname(getContractDefiningElement().getNameSpace());
 		path.addToNames(callbackListener());
 		return path;
 	}
 	public String callbackListener(){
-		return getSpecification().getMappingInfo().getJavaName().getCapped() + "Listener";
+		return getContractDefiningElement().getMappingInfo().getJavaName().getCapped() + "Listener";
 	}
 	public String callbackOperName(){
-		return "on" + getSpecification().getMappingInfo().getJavaName().getCapped() + "Complete";
+		return baseMethodName() + "Complete";
+	}
+	protected String baseMethodName(){
+		return "on" + getContractDefiningElement().getMappingInfo().getJavaName().getCapped();
 	}
 	@Override
 	public String eventGeratorMethodName(){
-		return "generate" + getSpecification().getMappingInfo().getJavaName().getCapped() + "Event";
+		return "generate" + getParameterOwner().getMappingInfo().getJavaName().getCapped() + "Event";
 	}
 	@Override
 	public OJPathName eventHandlerPath(){
-		OJPathName path = OJUtil.packagePathname(getSpecification().getNameSpace());
+		OJPathName path = OJUtil.packagePathname(getParameterOwner().getNameSpace());
 		path.addToNames(getParameterOwner().getMappingInfo().getJavaName().getCapped() + "Handler" + getParameterOwner().getMappingInfo().getNakedUmlId());
 		return path;
 	}
@@ -122,9 +134,9 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 		}
 	}
 	public String exceptionOperName(INakedElement e){
-		return callbackOperName() + e.getMappingInfo().getJavaName().getCapped();
+		return baseMethodName() + e.getMappingInfo().getJavaName().getCapped();
 	}
 	public String unhandledExceptionOperName(){
-		return callbackOperName()+"UnhandledException";
+		return baseMethodName() + "UnhandledException";
 	}
 }

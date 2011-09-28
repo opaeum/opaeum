@@ -170,7 +170,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=timeUnit.addTimeTo(new Date(),delay)");
 			}else{
 				constr.addParam("timeUnit", new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.BusinessTimeUnit"));
-				ojClass.addToImports(new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.impl.BusinessCalendar"));
+				ojClass.addToImports(new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.BusinessCalendar"));
 				ojClass.addToImports(new OJPathName("org.nakeduml.runtime.bpm.businesscalendar.BusinessTimeUnit"));
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");

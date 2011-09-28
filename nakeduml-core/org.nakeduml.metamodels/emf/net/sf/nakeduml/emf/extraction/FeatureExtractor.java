@@ -12,6 +12,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedReceptionImpl;
 import net.sf.nakeduml.metamodel.components.internal.NakedPortImpl;
 import net.sf.nakeduml.metamodel.core.INakedAssociation;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
+import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
 import net.sf.nakeduml.metamodel.core.internal.NakedOperationImpl;
@@ -173,7 +174,13 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		nakedOper.setQuery(emfOper.isQuery());
 		nakedOper.setStatic(emfOper.isStatic());
 		for(Behavior b:emfOper.getMethods()){
-			nakedOper.addMethod((INakedBehavior) getNakedPeer(b));
+			INakedElement nakedPeer = getNakedPeer(b);
+			if(nakedPeer != null){
+				nakedOper.addMethod((INakedBehavior) nakedPeer);
+			}else{
+
+				System.out.println("MEthod not found" + b.getQualifiedName());
+			}
 		}
 		Collection<INakedClassifier> raisedExceptions = new HashSet<INakedClassifier>();
 		for(Type type:emfOper.getRaisedExceptions()){

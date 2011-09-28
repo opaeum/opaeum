@@ -96,7 +96,7 @@ public class OJBlock extends OJBlockGEN{
 			if(statement instanceof OJIfStatement){
 				OJIfStatement ifs = (OJIfStatement) statement;
 				OJStatement s = ifs.getThenPart().findStatementRecursive(name);
-				if(s == null){
+				if(s == null && ifs.getElsePart()!=null){
 					s = ifs.getElsePart().findStatementRecursive(name);
 				}
 				if(s != null){

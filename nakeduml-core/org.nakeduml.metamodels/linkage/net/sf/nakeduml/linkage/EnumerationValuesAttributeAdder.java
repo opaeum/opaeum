@@ -24,7 +24,6 @@ public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker{
 			mi.setJavaName(new SingularNameWrapper("values", "values"));
 			mi.setPersistentName(new SingularNameWrapper("values", "values"));
 			mi.setNakedUmlId(e.getMappingInfo().getNakedUmlId());
-			mi.setQualifiedPersistentName(e.getMappingInfo().getPersistentName() + ".values");
 			values.initialize("asf", "values", false);
 			values.setIsOrdered(false);
 			values.setIsUnique(true);

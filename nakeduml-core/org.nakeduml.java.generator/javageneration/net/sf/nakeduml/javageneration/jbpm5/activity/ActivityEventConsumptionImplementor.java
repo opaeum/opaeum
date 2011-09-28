@@ -22,11 +22,13 @@ import net.sf.nakeduml.javageneration.maps.NakedOperationMap;
 import net.sf.nakeduml.javageneration.maps.NakedStructuralFeatureMap;
 import net.sf.nakeduml.javageneration.oclexpressions.ValueSpecificationUtil;
 import net.sf.nakeduml.javageneration.util.OJUtil;
+import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptCallAction;
 import net.sf.nakeduml.metamodel.actions.INakedAcceptEventAction;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.activities.INakedInputPin;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.bpm.INakedAcceptDeadlineAction;
 import net.sf.nakeduml.metamodel.bpm.INakedDeadline;
@@ -37,6 +39,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
+import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
@@ -48,6 +51,7 @@ import org.nakeduml.java.metamodel.OJForStatement;
 import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedOperation;
@@ -69,27 +73,52 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 					INakedAcceptCallAction acc = (INakedAcceptCallAction) n;
 					INakedOperation no = acc.getOperation();
 					NakedOperationMap map = new NakedOperationMap(no);
-					if(activity.conformsTo(no.getOwner())){
-						OJAnnotatedOperation oper = OperationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
-						// TODO
-						// check if process active
-						// check if node active
-						// add OperationObject to the property holding the AcceptCallAction
-						// execute transitions
-					}else if(activity.getContext() != null && activity.getContext().conformsTo(no.getOwner())){
+					OJAnnotatedOperation oper = OperationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
+					if(oper.getBody().findLocal("consumed") == null){
+						OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
+						consumed.setInitExp("false");
+						oper.getBody().addToLocals(consumed);
+					}
+					
+					OJIfStatement ifProcessActive = addIfProcessActiveAndRemoveReturnStatementIfNecessary(activityClass, oper);
+					OJIfStatement ifTokenFound = addIfTokenFound(oper, ifProcessActive, acc);
+					if(BehaviorUtil.hasExecutionInstance(no)){
+						NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(acc, getLibrary());
+						final String EXECUTE_STATEMENT = "executeStatement";
+						oper.getBody().removeFromStatements(oper.getBody().findStatementRecursive(EXECUTE_STATEMENT));
+						ifTokenFound.getThenPart().addToStatements(actionMap.setter() + "(result)");
+					}else{
+						for(INakedOutputPin pin:acc.getResult()){
+							NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
+							NakedStructuralFeatureMap parameterMap = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin.getLinkedTypedElement());
+							ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "(" + parameterMap.umlName() + ")");
+						}
+					}
+					checkWaitAndFlowToNextNodes(oper, ifTokenFound.getThenPart(), acc);
+					if(!BehaviorUtil.hasExecutionInstance(no)){
+						for(INakedInputPin pin:acc.getReplyAction().getReplyValues()){
+							if(((INakedParameter) pin.getLinkedTypedElement()).isReturn()){
+								Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
+								ifTokenFound.getThenPart().addToStatements(
+										"result=" + expressor.expressInputPinOrOutParamOrExpansionNode(ifTokenFound.getThenPart(), pin));
+							}
+						}
+					}
+					if(!activity.conformsTo(no.getOwner()) && activity.getContext() != null && activity.getContext().conformsTo(no.getOwner())){
+						// TODO find the right activity and delegate to it
 					}
 				}else if(n instanceof INakedEmbeddedTask){
-					INakedEmbeddedTask t=(INakedEmbeddedTask) n;
+					INakedEmbeddedTask t = (INakedEmbeddedTask) n;
 					for(INakedDeadline d:t.getTaskDefinition().getDeadlines()){
 						OJPathName date = OJUtil.classifierPathname(getLibrary().getDateType());
 						OJPathName task = OJUtil.classifierPathname(t.getMessageStructure());
 						String consumerName = EventUtil.getEventConsumerName(d);
-						OJOperation findOperation = activityClass.findOperation(consumerName, Arrays.asList(date,task));
-						if(findOperation==null){
-							findOperation=new OJAnnotatedOperation(consumerName, new OJPathName("boolean"));
+						OJOperation findOperation = activityClass.findOperation(consumerName, Arrays.asList(date, task));
+						if(findOperation == null){
+							findOperation = new OJAnnotatedOperation(consumerName, new OJPathName("boolean"));
 							activityClass.addToOperations(findOperation);
-							findOperation.addParam("date",date);
-							findOperation.addParam("task",task);
+							findOperation.addParam("date", date);
+							findOperation.addParam("task", task);
 							findOperation.getBody().addToStatements("return false");
 						}
 					}
@@ -155,18 +184,19 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		OJBlock block = ifTokenFound.getThenPart();
 		INakedAcceptEventAction node = (INakedAcceptEventAction) fromNode.getWaitingElement();
 		storeArguments(ifTokenFound, node);
+		checkWaitAndFlowToNextNodes(operationContext, block, node);
+	}
+	protected void checkWaitAndFlowToNextNodes(OJOperation operationContext,OJBlock block,INakedAcceptEventAction node){
 		block = checkWeight(operationContext, block, node);
 		block.addToStatements("processDirty=consumed=true");
 		if(node.isImplicitFork()){
 			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialForkName(node) + "\")");
 		}else if(node.isImplicitDecision()){
 			block.addToStatements("waitingNode.flowToNode(\"" + Jbpm5Util.getArtificialChoiceName(node) + "\")");
-		}else{
-			GuardedFlow flow = fromNode.getDefaultTransition();
-			if(flow != null){
-				// default flow/transition
-				getActionBuilder().flowTo(block, ((INakedActivityEdge) flow).getEffectiveTarget());
-			}
+		}else if(node.getDefaultOutgoing().size() == 1){
+			GuardedFlow flow = node.getDefaultOutgoing().iterator().next();
+			// default flow/transition
+			getActionBuilder().flowTo(block, ((INakedActivityEdge) flow).getEffectiveTarget());
 		}
 	}
 	private OJBlock checkWeight(OJOperation operationContext,OJBlock block,INakedActivityNode node){
@@ -235,7 +265,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 	private Collection<ElementsWaitingForEvent> getEventActions(INakedActivity activity){
 		Map<INakedElement,ElementsWaitingForEvent> results = new HashMap<INakedElement,ElementsWaitingForEvent>();
 		for(INakedActivityNode node:activity.getActivityNodesRecursively()){
-			if(node instanceof INakedAcceptEventAction){
+			if(node instanceof INakedAcceptEventAction && !(node instanceof INakedAcceptCallAction)){
 				INakedAcceptEventAction action = (INakedAcceptEventAction) node;
 				for(INakedTrigger trigger:action.getTriggers()){
 					if(trigger.getEvent() != null){

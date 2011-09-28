@@ -36,7 +36,7 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		if(!(o instanceof INakedRootObject && ((INakedRootObject) o).getStatus().isNamed())){
+		if(shouldVisitRecursively(o)){
 			super.visitRecursively(o);
 			if(o instanceof INakedOperation && BehaviorUtil.hasExecutionInstance((IParameterOwner) o)){
 				visitRecursively(((INakedOperation) o).getMessageStructure());
@@ -46,6 +46,9 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 				visitRecursively(((INakedCallAction) o).getMessageStructure());
 			}
 		}
+	}
+	protected boolean shouldVisitRecursively(INakedElementOwner o){
+		return !(o instanceof INakedRootObject && ((INakedRootObject) o).getStatus().isNamed());
 	}
 	protected static INakedValueSpecification getTaggedValue(INakedElement element,String...tags){
 		try{

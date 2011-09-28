@@ -5,9 +5,12 @@ import java.util.Iterator;
 import net.sf.nakeduml.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.ProfileApplication;
@@ -89,6 +92,13 @@ public class StereotypesHelper{
 			if(!eClass.isAbstract()){
 				StereotypeApplicationHelper.INSTANCE.applyStereotype(e1, eClass);
 			}
+		}
+	}
+	public static EStructuralFeature findAttribute(EObject eObject,String string2){
+		if(eObject == null){
+			return null;
+		}else{
+			return eObject.eClass().getEStructuralFeature(string2);
 		}
 	}
 }

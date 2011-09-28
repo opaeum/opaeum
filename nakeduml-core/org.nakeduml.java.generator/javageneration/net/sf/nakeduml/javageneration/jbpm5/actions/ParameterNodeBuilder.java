@@ -24,5 +24,6 @@ public class ParameterNodeBuilder extends Jbpm5ActionBuilder<INakedParameterNode
 		if(node.getParameter().getDirection().equals(ParameterDirectionKind.IN)){
 			super.implementConditionalFlows(operationContext, block);
 		}
+		
 	}
 }

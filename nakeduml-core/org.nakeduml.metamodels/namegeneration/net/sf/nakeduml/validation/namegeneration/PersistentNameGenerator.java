@@ -3,6 +3,7 @@ package net.sf.nakeduml.validation.namegeneration;
 import net.sf.nakeduml.feature.StepDependency;
 import net.sf.nakeduml.feature.visit.VisitBefore;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedElementOwner;
 import net.sf.nakeduml.metamodel.name.NameWrapper;
 
 /**
@@ -22,7 +23,9 @@ public class PersistentNameGenerator extends AbstractPersistentNameGenerator{
 		if(!me.getMappingInfo().hasPersistentName() || getTaggedValue(me, "persistentName", "persistenceType") != null){
 			NameWrapper pname = generateSqlName(me);
 			me.getMappingInfo().setPersistentName(pname);
-			me.getMappingInfo().setQualifiedPersistentName(generateQualifiedPersistentName(me));
 		}
+	}
+	protected boolean shouldVisitRecursively(INakedElementOwner o){
+		return true;
 	}
 }

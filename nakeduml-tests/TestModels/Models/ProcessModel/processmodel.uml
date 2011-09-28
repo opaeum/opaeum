@@ -53,6 +53,378 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedAttribute>
       </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_30wb4NOQEdubaLB0CR972w" name="Target">
+        <eAnnotations xmi:id="_T7BRkOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+        <ownedAttribute xmi:id="_ATuZoN0QEduHesVHuVad2Q" name="name" visibility="private">
+          <eAnnotations xmi:id="_T7WBsOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_BnUvgN0QEduHesVHuVad2Q" name="processowner" visibility="private" type="_Th34oNOQEdubaLB0CR972w" association="_Bmu5oN0QEduHesVHuVad2Q">
+          <eAnnotations xmi:id="_T7GKGOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_Dkc_gARQEeCuA4oh6NA2Cw" name="strings">
+          <eAnnotations xmi:id="_T7VaquBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F31-cARQEeCuA4oh6NA2Cw" value="*">
+            <eAnnotations xmi:id="_T7Vaq-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </upperValue>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_C3TwMARREeCuA4oh6NA2Cw" name="age">
+          <eAnnotations xmi:id="_T7WowOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_AVe-kARPEeCuA4oh6NA2Cw" name="SimpleExpansionActivity">
+          <eAnnotations xmi:id="_T7XP0OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_gpZx4ARPEeCuA4oh6NA2Cw" name="transformString">
+            <eAnnotations xmi:id="_T7aTIOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <ownedParameter xmi:id="_jS6KwARPEeCuA4oh6NA2Cw" name="Parameter1">
+              <eAnnotations xmi:id="_T7aTIeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_kLpJkARPEeCuA4oh6NA2Cw" name="Parameter2" direction="return">
+              <eAnnotations xmi:id="_T7aTIuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hLbN8ARcEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T7aTI-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperValue>
+            </ownedParameter>
+            <body>Parameter1->asSet()</body>
+          </ownedBehavior>
+          <ownedParameter xmi:id="_JM32AARPEeCuA4oh6NA2Cw" name="param1">
+            <eAnnotations xmi:id="_T7aTJOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LQGSAARPEeCuA4oh6NA2Cw" value="*">
+              <eAnnotations xmi:id="_T7aTJeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </upperValue>
+          </ownedParameter>
+          <node xmi:type="uml:InitialNode" xmi:id="_Dm5E8ARPEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_NzKrsARPEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7aTJuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <node xmi:type="uml:ExpansionRegion" xmi:id="_FDkeUARPEeCuA4oh6NA2Cw" name="forEachString" incoming="_NzKrsARPEeCuA4oh6NA2Cw" inputElement="_MCh0gARPEeCuA4oh6NA2Cw" outputElement="_PedI0ARPEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7X25uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <variable xmi:id="_YgdU0ARPEeCuA4oh6NA2Cw" name="substring">
+              <eAnnotations xmi:id="_T7Yd8uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kCtusARdEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T7Yd8-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperValue>
+            </variable>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_dXeHEARPEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_MCh0gARPEeCuA4oh6NA2Cw" target="_buGVgARPEeCuA4oh6NA2Cw" transformation="_gpZx4ARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7ZFBOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_dXeHEQRPEeCuA4oh6NA2Cw" value="true">
+                <eAnnotations xmi:id="_T7ZFBuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_dXeHEgRPEeCuA4oh6NA2Cw" value="1">
+                <eAnnotations xmi:id="_T7ZFBeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </weight>
+            </edge>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_9Vs-QARPEeCuA4oh6NA2Cw" name="ObjectFlow2" source="_5wkDkARPEeCuA4oh6NA2Cw" target="_PedI0ARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7Yd-OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_9Vs-QQRPEeCuA4oh6NA2Cw" value="true">
+                <eAnnotations xmi:id="_T7Yd-eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_9Vs-QgRPEeCuA4oh6NA2Cw" value="1">
+                <eAnnotations xmi:id="_T7Yd-uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </weight>
+            </edge>
+            <edge xmi:type="uml:ControlFlow" xmi:id="_9tbhwARPEeCuA4oh6NA2Cw" name="ControlFlow1" source="_aiXiMARPEeCuA4oh6NA2Cw" target="_5D_4gARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7X26eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_9tbhwQRPEeCuA4oh6NA2Cw" value="true">
+                <eAnnotations xmi:id="_T7Yd8eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_9tbhwgRPEeCuA4oh6NA2Cw" value="1">
+                <eAnnotations xmi:id="_T7Yd8OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </weight>
+            </edge>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_QbNPgARQEeCuA4oh6NA2Cw" name="ObjectFlow3" source="_PedI0ARPEeCuA4oh6NA2Cw" target="_OipLYARQEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7ZFAeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_QbNPgQRQEeCuA4oh6NA2Cw" value="true">
+                <eAnnotations xmi:id="_T7ZFAuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_QbNPggRQEeCuA4oh6NA2Cw" value="1">
+                <eAnnotations xmi:id="_T7ZFA-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </weight>
+            </edge>
+            <node xmi:type="uml:ExpansionNode" xmi:id="_MCh0gARPEeCuA4oh6NA2Cw" name="inputElement" outgoing="_dXeHEARPEeCuA4oh6NA2Cw" incoming="_OV_E4ARPEeCuA4oh6NA2Cw" regionAsInput="_FDkeUARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7Yd--BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MCh0gQRPEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T7ZFAOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperBound>
+            </node>
+            <node xmi:type="uml:ExpansionNode" xmi:id="_PedI0ARPEeCuA4oh6NA2Cw" name="outputElement" outgoing="_QbNPgARQEeCuA4oh6NA2Cw" incoming="_9Vs-QARPEeCuA4oh6NA2Cw" regionAsOutput="_FDkeUARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7X25-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PedI0QRPEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T7X26OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperBound>
+            </node>
+            <node xmi:type="uml:AddVariableValueAction" xmi:id="_aiXiMARPEeCuA4oh6NA2Cw" name="storeSubstring" outgoing="_9tbhwARPEeCuA4oh6NA2Cw" variable="_YgdU0ARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7Yd9OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <value xmi:id="_buGVgARPEeCuA4oh6NA2Cw" name="InputPin1" incoming="_dXeHEARPEeCuA4oh6NA2Cw">
+                <eAnnotations xmi:id="_T7Yd9eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </value>
+            </node>
+            <node xmi:type="uml:ReadVariableAction" xmi:id="_5D_4gARPEeCuA4oh6NA2Cw" name="readSubstring" incoming="_9tbhwARPEeCuA4oh6NA2Cw" variable="_YgdU0ARPEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7Yd9uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <result xmi:id="_5wkDkARPEeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_9Vs-QARPEeCuA4oh6NA2Cw">
+                <eAnnotations xmi:id="_T7Yd9-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </result>
+            </node>
+          </node>
+          <node xmi:type="uml:ActivityParameterNode" xmi:id="_JNEqUARPEeCuA4oh6NA2Cw" name="param1" outgoing="_OV_E4ARPEeCuA4oh6NA2Cw" parameter="_JM32AARPEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7X25OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JNEqUQRPEeCuA4oh6NA2Cw" value="*">
+              <eAnnotations xmi:id="_T7X25eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </upperBound>
+          </node>
+          <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_HIDpIARQEeCuA4oh6NA2Cw" name="writeStrings" outgoing="_RuQy0ARQEeCuA4oh6NA2Cw" structuralFeature="_Dkc_gARQEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7XP0eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <object xmi:type="uml:ValuePin" xmi:id="_Xw4ckARQEeCuA4oh6NA2Cw" name="ValuePin1">
+              <eAnnotations xmi:id="_T7XP0uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZOJEwARQEeCuA4oh6NA2Cw" name="LiteralUnlimitedNatural1">
+                <eAnnotations xmi:id="_T7XP1OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperBound>
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_Z24fwARQEeCuA4oh6NA2Cw" name="OpaqueExpression1">
+                <eAnnotations xmi:id="_T7XP0-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+                <body>self</body>
+              </value>
+            </object>
+            <value xmi:id="_OipLYARQEeCuA4oh6NA2Cw" name="InputPin1" incoming="_QbNPgARQEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7XP1eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </value>
+          </node>
+          <node xmi:type="uml:ActivityFinalNode" xmi:id="_Q_iroARQEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_RuQy0ARQEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7ZFB-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_NzKrsARPEeCuA4oh6NA2Cw" name="ControlFlow1" source="_Dm5E8ARPEeCuA4oh6NA2Cw" target="_FDkeUARPEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7XP1uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_NzKrsQRPEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T7XP1-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_NzKrsgRPEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T7X24OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+          <edge xmi:type="uml:ObjectFlow" xmi:id="_OV_E4ARPEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_JNEqUARPEeCuA4oh6NA2Cw" target="_MCh0gARPEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7aTJ-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_OV_E4QRPEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T7aTKeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_OV_E4gRPEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T7aTKOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_RuQy0ARQEeCuA4oh6NA2Cw" name="ControlFlow2" source="_HIDpIARQEeCuA4oh6NA2Cw" target="_Q_iroARQEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7X24eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_RuQy0QRQEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T7X24-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_RuQy0gRQEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T7X24uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_gJgNAARTEeCuA4oh6NA2Cw" name="ProcessExpansionActivity">
+          <eAnnotations xmi:id="_T76CYOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <ownedOperation xmi:id="_l0L34ARTEeCuA4oh6NA2Cw" name="eventOperationOnProcessExpansionActivity">
+            <eAnnotations xmi:id="_T76pfuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org" references="_QotqcOjmEeC61rvWYjPZbA"/>
+            <ownedParameter xmi:id="__hZc8ARTEeCuA4oh6NA2Cw" name="strings">
+              <eAnnotations xmi:id="_T76pf-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org" references="_RWEfsOjmEeC61rvWYjPZbA"/>
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BY-CkARUEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T76pgOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperValue>
+            </ownedParameter>
+          </ownedOperation>
+          <node xmi:type="uml:InitialNode" xmi:id="_j1dhYARTEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_6tqBIARTEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T77Qg-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <node xmi:type="uml:ExpansionRegion" xmi:id="_EgbiwARUEeCuA4oh6NA2Cw" name="forEachString" outgoing="_Em798ARVEeCuA4oh6NA2Cw" inputElement="_GUEDkARUEeCuA4oh6NA2Cw" outputElement="_HdnsoARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T76CYuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_B8cGkARVEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_GUEDkARUEeCuA4oh6NA2Cw" target="_BBBAIARVEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T76pe-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_B8cGkQRVEeCuA4oh6NA2Cw" value="true">
+                <eAnnotations xmi:id="_T76pfOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_B8cGkgRVEeCuA4oh6NA2Cw" value="1">
+                <eAnnotations xmi:id="_T76pfeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </weight>
+            </edge>
+            <edge xmi:type="uml:ObjectFlow" xmi:id="_CRuaEARVEeCuA4oh6NA2Cw" name="ObjectFlow2" source="_BBDcYARVEeCuA4oh6NA2Cw" target="_HdnsoARUEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T76peOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <guard xmi:type="uml:LiteralBoolean" xmi:id="_CRuaEQRVEeCuA4oh6NA2Cw" value="true">
+                <eAnnotations xmi:id="_T76peuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </guard>
+              <weight xmi:type="uml:LiteralInteger" xmi:id="_CRuaEgRVEeCuA4oh6NA2Cw" value="1">
+                <eAnnotations xmi:id="_T76peeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </weight>
+            </edge>
+            <node xmi:type="uml:ExpansionNode" xmi:id="_GUEDkARUEeCuA4oh6NA2Cw" name="inputElement2" outgoing="_B8cGkARVEeCuA4oh6NA2Cw" incoming="_Jc5cwARUEeCuA4oh6NA2Cw" regionAsInput="_EgbiwARUEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T76pceBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GUEDkQRUEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T76pcuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperBound>
+            </node>
+            <node xmi:type="uml:ExpansionNode" xmi:id="_HdnsoARUEeCuA4oh6NA2Cw" name="outputElement2" incoming="_CRuaEARVEeCuA4oh6NA2Cw" regionAsOutput="_EgbiwARUEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T76CY-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HdnsoQRUEeCuA4oh6NA2Cw" value="*">
+                <eAnnotations xmi:id="_T76pcOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              </upperBound>
+            </node>
+            <node xmi:type="uml:CallBehaviorAction" xmi:id="_BA8usARVEeCuA4oh6NA2Cw" name="a1" behavior="_VUgj8ARUEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T76pc-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+              <argument xmi:id="_BBBAIARVEeCuA4oh6NA2Cw" name="input" incoming="_B8cGkARVEeCuA4oh6NA2Cw">
+                <eAnnotations xmi:id="_T76pdOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BBBAIQRVEeCuA4oh6NA2Cw" value="*">
+                  <eAnnotations xmi:id="_T76pdeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+                </upperBound>
+              </argument>
+              <result xmi:id="_BBDcYARVEeCuA4oh6NA2Cw" name="output" outgoing="_CRuaEARVEeCuA4oh6NA2Cw">
+                <eAnnotations xmi:id="_T76pduBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BBDcYQRVEeCuA4oh6NA2Cw" value="*">
+                  <eAnnotations xmi:id="_T76pd-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+                </upperBound>
+              </result>
+            </node>
+          </node>
+          <node xmi:type="uml:ActivityFinalNode" xmi:id="_EDddcARVEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_Em798ARVEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T76CYeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <node xmi:type="uml:AcceptEventAction" xmi:id="_N_haoOjmEeC61rvWYjPZbA" name="AcceptEventAction1" incoming="_6tqBIARTEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_OBdUUOjmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            <result xmi:id="_RWEfsOjmEeC61rvWYjPZbA" name="strings" outgoing="_Jc5cwARUEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_RYBngOjmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RWEfsejmEeC61rvWYjPZbA" name="ub">
+                <eAnnotations xmi:id="_RYBngejmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+              </upperBound>
+            </result>
+            <trigger xmi:id="_QotqcOjmEeC61rvWYjPZbA" name="AcceptEventAction1Trigger" event="_xHR8wARTEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_QqvDsOjmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            </trigger>
+          </node>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_6tqBIARTEeCuA4oh6NA2Cw" name="ControlFlow1" source="_j1dhYARTEeCuA4oh6NA2Cw" target="_N_haoOjmEeC61rvWYjPZbA">
+            <eAnnotations xmi:id="_T76phOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_6tqoMARTEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T76phuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_6tqoMQRTEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T76pheBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+          <edge xmi:type="uml:ObjectFlow" xmi:id="_Jc5cwARUEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_RWEfsOjmEeC61rvWYjPZbA" target="_GUEDkARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T76pgeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_Jc5cwQRUEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T76pg-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_Jc5cwgRUEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T76pguBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_Em798ARVEeCuA4oh6NA2Cw" name="ControlFlow2" source="_EgbiwARUEeCuA4oh6NA2Cw" target="_EDddcARVEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T76ph-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_Em798QRVEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T76piOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_Em798gRVEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T76pieBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_VUgj8ARUEeCuA4oh6NA2Cw" name="ShortProcess">
+          <eAnnotations xmi:id="_T7UMgOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <ownedParameter xmi:id="_xQ_c8ARUEeCuA4oh6NA2Cw" name="input">
+            <eAnnotations xmi:id="_T7UMhOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_z-flAARUEeCuA4oh6NA2Cw" name="output" direction="out">
+            <eAnnotations xmi:id="_T7UMjeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <node xmi:type="uml:AcceptEventAction" xmi:id="_ZRwcoARUEeCuA4oh6NA2Cw" name="AcceptEventAction1" outgoing="_o-R_4ARUEeCuA4oh6NA2Cw" incoming="_oxYMUARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMh-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <trigger xmi:id="_kozNYARUEeCuA4oh6NA2Cw" name="Trigger1" event="_b3JxkARUEeCuA4oh6NA2Cw">
+              <eAnnotations xmi:id="_T7UMiOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </trigger>
+          </node>
+          <node xmi:type="uml:InitialNode" xmi:id="_n_s3wARUEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_oxYMUARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMjuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <node xmi:type="uml:ActivityFinalNode" xmi:id="_oM8CgARUEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_o-R_4ARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMjOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <node xmi:type="uml:ActivityParameterNode" xmi:id="_xRRw0ARUEeCuA4oh6NA2Cw" name="input" outgoing="_3DSywARUEeCuA4oh6NA2Cw" parameter="_xQ_c8ARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMkuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xRRw0QRUEeCuA4oh6NA2Cw" value="*">
+              <eAnnotations xmi:id="_T7UMk-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </upperBound>
+          </node>
+          <node xmi:type="uml:ActivityParameterNode" xmi:id="_z--GIARUEeCuA4oh6NA2Cw" name="output" incoming="_3DSywARUEeCuA4oh6NA2Cw" parameter="_z-flAARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMheBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_z--GIQRUEeCuA4oh6NA2Cw" value="*">
+              <eAnnotations xmi:id="_T7UMhuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </upperBound>
+          </node>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_oxYMUARUEeCuA4oh6NA2Cw" name="ControlFlow1" source="_n_s3wARUEeCuA4oh6NA2Cw" target="_ZRwcoARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMieBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_oxYMUQRUEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T7UMiuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_oxYMUgRUEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T7UMi-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_o-R_4ARUEeCuA4oh6NA2Cw" name="ControlFlow2" source="_ZRwcoARUEeCuA4oh6NA2Cw" target="_oM8CgARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMgeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_o-R_4QRUEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T7UMguBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_o-R_4gRUEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T7UMg-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+          <edge xmi:type="uml:ObjectFlow" xmi:id="_3DSywARUEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_xRRw0ARUEeCuA4oh6NA2Cw" target="_z--GIARUEeCuA4oh6NA2Cw">
+            <eAnnotations xmi:id="_T7UMj-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_3DSywQRUEeCuA4oh6NA2Cw" value="true">
+              <eAnnotations xmi:id="_T7UMkOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_3DSywgRUEeCuA4oh6NA2Cw" value="1">
+              <eAnnotations xmi:id="_T7UMkeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
+        </ownedBehavior>
+        <ownedOperation xmi:id="_jnPOINOaEdubaLB0CR972w" name="Operation1">
+          <eAnnotations xmi:id="_T7cIV-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+        </ownedOperation>
+        <ownedOperation xmi:id="_pLyJoNkdEduKbsilyv7DTA" name="subProcess" visibility="public">
+          <eAnnotations xmi:id="_T7RwQOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <ownedParameter xmi:id="_sgI2UNkdEduKbsilyv7DTA" name="paramIn">
+            <eAnnotations xmi:id="_T7S-YeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_t8YK0NkdEduKbsilyv7DTA" name="paramInOut" direction="inout">
+            <eAnnotations xmi:id="_T7S-YOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_w4TJYNkdEduKbsilyv7DTA" name="paramOut" direction="out">
+            <eAnnotations xmi:id="_T7TlcOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_zocVwNkdEduKbsilyv7DTA" name="returnParameter" direction="return">
+            <eAnnotations xmi:id="_T7SXUOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_4wIoUNkdEduKbsilyv7DTA" name="exception" direction="return" isException="true">
+            <eAnnotations xmi:id="_T7TlceBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+          <method xmi:type="uml:Activity" href="ExceptionTests.uml#_yDPVsNkhEduKbsilyv7DTA"/>
+        </ownedOperation>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_Th34oNOQEdubaLB0CR972w" name="ProcessOwner">
         <eAnnotations xmi:id="_T6V8IOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         <ownedRule xmi:id="_qGaC4N0PEduHesVHuVad2Q" name="myInvariant" constrainedElement="_Th34oNOQEdubaLB0CR972w">
@@ -404,672 +776,6 @@ endif</body>
           </ownedParameter>
         </ownedOperation>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_30wb4NOQEdubaLB0CR972w" name="Target">
-        <eAnnotations xmi:id="_T7BRkOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <ownedAttribute xmi:id="_ATuZoN0QEduHesVHuVad2Q" name="name" visibility="private">
-          <eAnnotations xmi:id="_T7WBsOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_BnUvgN0QEduHesVHuVad2Q" name="processowner" visibility="private" type="_Th34oNOQEdubaLB0CR972w" association="_Bmu5oN0QEduHesVHuVad2Q">
-          <eAnnotations xmi:id="_T7GKGOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_Dkc_gARQEeCuA4oh6NA2Cw" name="strings">
-          <eAnnotations xmi:id="_T7VaquBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F31-cARQEeCuA4oh6NA2Cw" value="*">
-            <eAnnotations xmi:id="_T7Vaq-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </upperValue>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_C3TwMARREeCuA4oh6NA2Cw" name="age">
-          <eAnnotations xmi:id="_T7WowOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedAttribute>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_yDPVsNkhEduKbsilyv7DTA" name="exceptionParameterActivity" specification="_pLyJoNkdEduKbsilyv7DTA">
-          <eAnnotations xmi:id="_T7aTKuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_82sRMtkhEduKbsilyv7DTA" name="paramIn">
-            <eAnnotations xmi:id="_T7bhROBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_9pp_MtkhEduKbsilyv7DTA" name="paramInOut" direction="inout">
-            <eAnnotations xmi:id="_T7a6RuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_-hPugtkhEduKbsilyv7DTA" name="paramOut" direction="out">
-            <eAnnotations xmi:id="_T7a6OuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="__GfwotkhEduKbsilyv7DTA" name="returnParam" direction="return">
-            <eAnnotations xmi:id="_T7cIU-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_A7VLUtkiEduKbsilyv7DTA" name="exception" visibility="private" direction="out" isException="true">
-            <eAnnotations xmi:id="_T7a6ReBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_82sRMNkhEduKbsilyv7DTA" name="paramIn" outgoing="_TLzckNkjEduKbsilyv7DTA" parameter="_82sRMtkhEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7a6Q-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_82sRMdkhEduKbsilyv7DTA" value="1">
-              <eAnnotations xmi:id="_T7a6ROBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_9pp_MNkhEduKbsilyv7DTA" name="paramInOut" parameter="_9pp_MtkhEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7a6OOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_9pp_MdkhEduKbsilyv7DTA" value="1">
-              <eAnnotations xmi:id="_T7a6OeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_-hPugNkhEduKbsilyv7DTA" name="paramOut" incoming="_UUmtgARREeCuA4oh6NA2Cw" parameter="_-hPugtkhEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7a6R-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_-hPugdkhEduKbsilyv7DTA" value="1">
-              <eAnnotations xmi:id="_T7a6SOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="__GfwoNkhEduKbsilyv7DTA" name="returnParameter" incoming="_8ReEoARQEeCuA4oh6NA2Cw" parameter="__GfwotkhEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7aTLOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="__GfwodkhEduKbsilyv7DTA" value="1">
-              <eAnnotations xmi:id="_T7aTLeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_A7VLUNkiEduKbsilyv7DTA" name="exception" incoming="_o6t14ARREeCuA4oh6NA2Cw" parameter="_A7VLUtkiEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7a6M-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_A7VLUdkiEduKbsilyv7DTA" value="1">
-              <eAnnotations xmi:id="_T7a6NOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:DecisionNode" xmi:id="_PuNUUNkjEduKbsilyv7DTA" outgoing="_aEvgIARREeCuA4oh6NA2Cw _q764oARREeCuA4oh6NA2Cw" incoming="_TLzckNkjEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7aTK-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_0qOmcARQEeCuA4oh6NA2Cw" name="readName" incoming="_bIs3gARREeCuA4oh6NA2Cw" structuralFeature="_ATuZoN0QEduHesVHuVad2Q">
-            <eAnnotations xmi:id="_T7bhSOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_2M-yoARQEeCuA4oh6NA2Cw" name="ValuePin1">
-              <eAnnotations xmi:id="_T7bhSuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3bcJ0ARQEeCuA4oh6NA2Cw" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T7bhS-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_36bL4ARQEeCuA4oh6NA2Cw" name="OpaqueExpression1">
-                <eAnnotations xmi:id="_T7bhTOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <body>contextObject</body>
-              </value>
-            </object>
-            <result xmi:id="_7IDlgARQEeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_8ReEoARQEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7bhSeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </result>
-          </node>
-          <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_GPE9QARREeCuA4oh6NA2Cw" name="readAge" incoming="_dKtLgARREeCuA4oh6NA2Cw" structuralFeature="_C3TwMARREeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7bhTeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_5Xz8oARgEeCuA4oh6NA2Cw" name="ValuePin1">
-              <eAnnotations xmi:id="_T7cIUOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6Y3xAARgEeCuA4oh6NA2Cw" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T7cIUeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_7B-_cARgEeCuA4oh6NA2Cw" name="OpaqueExpression1">
-                <eAnnotations xmi:id="_T7cIUuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <body>contextObject</body>
-              </value>
-            </object>
-            <result xmi:id="_SwGN0ARREeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_UUmtgARREeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7bhTuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </result>
-          </node>
-          <node xmi:type="uml:ForkNode" xmi:id="_WfQAIARREeCuA4oh6NA2Cw" name="ForkNode1" outgoing="_bIs3gARREeCuA4oh6NA2Cw _dKtLgARREeCuA4oh6NA2Cw" incoming="_aEvgIARREeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7a6MuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_kwf4MARREeCuA4oh6NA2Cw" name="readNameForException" incoming="_q764oARREeCuA4oh6NA2Cw" structuralFeature="_ATuZoN0QEduHesVHuVad2Q">
-            <eAnnotations xmi:id="_T7a6PuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_kwf4MQRREeCuA4oh6NA2Cw" name="ValuePin1">
-              <eAnnotations xmi:id="_T7a6QOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kwf4MgRREeCuA4oh6NA2Cw" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T7a6QeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_kwf4MwRREeCuA4oh6NA2Cw" name="OpaqueExpression1">
-                <eAnnotations xmi:id="_T7a6QuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <body>contextObject</body>
-              </value>
-            </object>
-            <result xmi:id="_kwf4NARREeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_o6t14ARREeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7a6P-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </result>
-          </node>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_TLzckNkjEduKbsilyv7DTA" source="_82sRMNkhEduKbsilyv7DTA" target="_PuNUUNkjEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7aTLuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_TMGXgdkjEduKbsilyv7DTA" value="1">
-              <eAnnotations xmi:id="_T7aTL-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_8ReEoARQEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_7IDlgARQEeCuA4oh6NA2Cw" target="__GfwoNkhEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7bhReBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_8ReEoQRQEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7bhRuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_8ReEogRQEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7bhR-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_UUmtgARREeCuA4oh6NA2Cw" name="ObjectFlow2" source="_SwGN0ARREeCuA4oh6NA2Cw" target="_-hPugNkhEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7bhQeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_UUmtgQRREeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7bhQuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_UUmtggRREeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7bhQ-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_aEvgIARREeCuA4oh6NA2Cw" name="ControlFlow1" source="_PuNUUNkjEduKbsilyv7DTA" target="_WfQAIARREeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7a6O-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_aEvgIQRREeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7a6PeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_aEvgIgRREeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7a6POBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_bIs3gARREeCuA4oh6NA2Cw" name="ControlFlow2" source="_WfQAIARREeCuA4oh6NA2Cw" target="_0qOmcARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7aTMeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_bIs3gQRREeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7a6MOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_bIs3ggRREeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7a6MeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_dKtLgARREeCuA4oh6NA2Cw" name="ControlFlow3" source="_WfQAIARREeCuA4oh6NA2Cw" target="_GPE9QARREeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7cIVOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_dKtLgQRREeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7cIVuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_dKtLggRREeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7cIVeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_o6t14ARREeCuA4oh6NA2Cw" name="ObjectFlow3" source="_kwf4NARREeCuA4oh6NA2Cw" target="_A7VLUNkiEduKbsilyv7DTA">
-            <eAnnotations xmi:id="_T7a6NeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_o6uc8ARREeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7a6N-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_o6uc8QRREeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7a6NuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_q764oARREeCuA4oh6NA2Cw" name="ControlFlow4" source="_PuNUUNkjEduKbsilyv7DTA" target="_kwf4MARREeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7a6SeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:OpaqueExpression" xmi:id="_r_2a0ARREeCuA4oh6NA2Cw" name="paramIn">
-              <eAnnotations xmi:id="_T7bhQOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <language>ocl</language>
-              <body>paramIn</body>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_q764ogRREeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7a6SuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_AVe-kARPEeCuA4oh6NA2Cw" name="SimpleExpansionActivity">
-          <eAnnotations xmi:id="_T7XP0OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_gpZx4ARPEeCuA4oh6NA2Cw" name="transformString">
-            <eAnnotations xmi:id="_T7aTIOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <ownedParameter xmi:id="_jS6KwARPEeCuA4oh6NA2Cw" name="Parameter1">
-              <eAnnotations xmi:id="_T7aTIeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            </ownedParameter>
-            <ownedParameter xmi:id="_kLpJkARPEeCuA4oh6NA2Cw" name="Parameter2" direction="return">
-              <eAnnotations xmi:id="_T7aTIuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hLbN8ARcEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7aTI-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperValue>
-            </ownedParameter>
-            <body>Parameter1->asSet()</body>
-          </ownedBehavior>
-          <ownedParameter xmi:id="_JM32AARPEeCuA4oh6NA2Cw" name="param1">
-            <eAnnotations xmi:id="_T7aTJOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LQGSAARPEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T7aTJeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-          </ownedParameter>
-          <node xmi:type="uml:InitialNode" xmi:id="_Dm5E8ARPEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_NzKrsARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7aTJuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:ExpansionRegion" xmi:id="_FDkeUARPEeCuA4oh6NA2Cw" name="forEachString" incoming="_NzKrsARPEeCuA4oh6NA2Cw" inputElement="_MCh0gARPEeCuA4oh6NA2Cw" outputElement="_PedI0ARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7X25uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <variable xmi:id="_YgdU0ARPEeCuA4oh6NA2Cw" name="substring">
-              <eAnnotations xmi:id="_T7Yd8uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kCtusARdEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7Yd8-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperValue>
-            </variable>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_dXeHEARPEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_MCh0gARPEeCuA4oh6NA2Cw" target="_buGVgARPEeCuA4oh6NA2Cw" transformation="_gpZx4ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7ZFBOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_dXeHEQRPEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7ZFBuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_dXeHEgRPEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7ZFBeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_9Vs-QARPEeCuA4oh6NA2Cw" name="ObjectFlow2" source="_5wkDkARPEeCuA4oh6NA2Cw" target="_PedI0ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd-OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_9Vs-QQRPEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7Yd-eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_9Vs-QgRPEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7Yd-uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="_9tbhwARPEeCuA4oh6NA2Cw" name="ControlFlow1" source="_aiXiMARPEeCuA4oh6NA2Cw" target="_5D_4gARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7X26eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_9tbhwQRPEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7Yd8eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_9tbhwgRPEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7Yd8OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_QbNPgARQEeCuA4oh6NA2Cw" name="ObjectFlow3" source="_PedI0ARPEeCuA4oh6NA2Cw" target="_OipLYARQEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7ZFAeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_QbNPgQRQEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7ZFAuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_QbNPggRQEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7ZFA-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </weight>
-            </edge>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_MCh0gARPEeCuA4oh6NA2Cw" name="inputElement" outgoing="_dXeHEARPEeCuA4oh6NA2Cw" incoming="_OV_E4ARPEeCuA4oh6NA2Cw" regionAsInput="_FDkeUARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd--BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MCh0gQRPEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7ZFAOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_PedI0ARPEeCuA4oh6NA2Cw" name="outputElement" outgoing="_QbNPgARQEeCuA4oh6NA2Cw" incoming="_9Vs-QARPEeCuA4oh6NA2Cw" regionAsOutput="_FDkeUARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7X25-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PedI0QRPEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7X26OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:AddVariableValueAction" xmi:id="_aiXiMARPEeCuA4oh6NA2Cw" name="storeSubstring" outgoing="_9tbhwARPEeCuA4oh6NA2Cw" variable="_YgdU0ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd9OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <value xmi:id="_buGVgARPEeCuA4oh6NA2Cw" name="InputPin1" incoming="_dXeHEARPEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T7Yd9eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </value>
-            </node>
-            <node xmi:type="uml:ReadVariableAction" xmi:id="_5D_4gARPEeCuA4oh6NA2Cw" name="readSubstring" incoming="_9tbhwARPEeCuA4oh6NA2Cw" variable="_YgdU0ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd9uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <result xmi:id="_5wkDkARPEeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_9Vs-QARPEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T7Yd9-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </result>
-            </node>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_JNEqUARPEeCuA4oh6NA2Cw" name="param1" outgoing="_OV_E4ARPEeCuA4oh6NA2Cw" parameter="_JM32AARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7X25OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JNEqUQRPEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T7X25eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_HIDpIARQEeCuA4oh6NA2Cw" name="writeStrings" outgoing="_RuQy0ARQEeCuA4oh6NA2Cw" structuralFeature="_Dkc_gARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7XP0eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_Xw4ckARQEeCuA4oh6NA2Cw" name="ValuePin1">
-              <eAnnotations xmi:id="_T7XP0uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZOJEwARQEeCuA4oh6NA2Cw" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T7XP1OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_Z24fwARQEeCuA4oh6NA2Cw" name="OpaqueExpression1">
-                <eAnnotations xmi:id="_T7XP0-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <body>self</body>
-              </value>
-            </object>
-            <value xmi:id="_OipLYARQEeCuA4oh6NA2Cw" name="InputPin1" incoming="_QbNPgARQEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7XP1eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </value>
-          </node>
-          <node xmi:type="uml:ActivityFinalNode" xmi:id="_Q_iroARQEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_RuQy0ARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7ZFB-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_NzKrsARPEeCuA4oh6NA2Cw" name="ControlFlow1" source="_Dm5E8ARPEeCuA4oh6NA2Cw" target="_FDkeUARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7XP1uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_NzKrsQRPEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7XP1-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_NzKrsgRPEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7X24OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_OV_E4ARPEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_JNEqUARPEeCuA4oh6NA2Cw" target="_MCh0gARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7aTJ-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_OV_E4QRPEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7aTKeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_OV_E4gRPEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7aTKOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_RuQy0ARQEeCuA4oh6NA2Cw" name="ControlFlow2" source="_HIDpIARQEeCuA4oh6NA2Cw" target="_Q_iroARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7X24eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_RuQy0QRQEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7X24-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_RuQy0gRQEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7X24uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_gJgNAARTEeCuA4oh6NA2Cw" name="ProcessExpansionActivity">
-          <eAnnotations xmi:id="_T76CYOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedOperation xmi:id="_l0L34ARTEeCuA4oh6NA2Cw" name="eventOperationOnProcessExpansionActivity">
-            <eAnnotations xmi:id="_T76pfuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <ownedParameter xmi:id="__hZc8ARTEeCuA4oh6NA2Cw" name="strings">
-              <eAnnotations xmi:id="_T76pf-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BY-CkARUEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T76pgOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperValue>
-            </ownedParameter>
-          </ownedOperation>
-          <node xmi:type="uml:InitialNode" xmi:id="_j1dhYARTEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_6tqBIARTEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T77Qg-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:AcceptCallAction" xmi:id="_oBwisARTEeCuA4oh6NA2Cw" name="waitForEventOperation" incoming="_6tqBIARTEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T77QgOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <result xmi:id="_DE-RYARUEeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_Jc5cwARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T77QguBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </result>
-            <trigger xmi:id="_q8P94ARTEeCuA4oh6NA2Cw" name="Trigger1" event="_xHR8wARTEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T77QgeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </trigger>
-          </node>
-          <node xmi:type="uml:ExpansionRegion" xmi:id="_EgbiwARUEeCuA4oh6NA2Cw" name="forEachString" outgoing="_Em798ARVEeCuA4oh6NA2Cw" inputElement="_GUEDkARUEeCuA4oh6NA2Cw" outputElement="_HdnsoARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76CYuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_B8cGkARVEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_GUEDkARUEeCuA4oh6NA2Cw" target="_BBBAIARVEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76pe-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_B8cGkQRVEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T76pfOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_B8cGkgRVEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T76pfeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_CRuaEARVEeCuA4oh6NA2Cw" name="ObjectFlow2" source="_BBDcYARVEeCuA4oh6NA2Cw" target="_HdnsoARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76peOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_CRuaEQRVEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T76peuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_CRuaEgRVEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T76peeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </weight>
-            </edge>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_GUEDkARUEeCuA4oh6NA2Cw" name="inputElement2" outgoing="_B8cGkARVEeCuA4oh6NA2Cw" incoming="_Jc5cwARUEeCuA4oh6NA2Cw" regionAsInput="_EgbiwARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76pceBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GUEDkQRUEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T76pcuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_HdnsoARUEeCuA4oh6NA2Cw" name="outputElement2" incoming="_CRuaEARVEeCuA4oh6NA2Cw" regionAsOutput="_EgbiwARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76CY-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HdnsoQRUEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T76pcOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:CallBehaviorAction" xmi:id="_BA8usARVEeCuA4oh6NA2Cw" name="a1" behavior="_VUgj8ARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76pc-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <argument xmi:id="_BBBAIARVEeCuA4oh6NA2Cw" name="input" incoming="_B8cGkARVEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T76pdOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
-                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BBBAIQRVEeCuA4oh6NA2Cw" value="*">
-                  <eAnnotations xmi:id="_T76pdeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                </upperBound>
-              </argument>
-              <result xmi:id="_BBDcYARVEeCuA4oh6NA2Cw" name="output" outgoing="_CRuaEARVEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T76pduBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BBDcYQRVEeCuA4oh6NA2Cw" value="*">
-                  <eAnnotations xmi:id="_T76pd-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                </upperBound>
-              </result>
-            </node>
-          </node>
-          <node xmi:type="uml:ActivityFinalNode" xmi:id="_EDddcARVEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_Em798ARVEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76CYeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_6tqBIARTEeCuA4oh6NA2Cw" name="ControlFlow1" source="_j1dhYARTEeCuA4oh6NA2Cw" target="_oBwisARTEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76phOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_6tqoMARTEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T76phuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_6tqoMQRTEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T76pheBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_Jc5cwARUEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_DE-RYARUEeCuA4oh6NA2Cw" target="_GUEDkARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76pgeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_Jc5cwQRUEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T76pg-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_Jc5cwgRUEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T76pguBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_Em798ARVEeCuA4oh6NA2Cw" name="ControlFlow2" source="_EgbiwARUEeCuA4oh6NA2Cw" target="_EDddcARVEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76ph-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_Em798QRVEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T76piOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_Em798gRVEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T76pieBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_VUgj8ARUEeCuA4oh6NA2Cw" name="ShortProcess">
-          <eAnnotations xmi:id="_T7UMgOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_xQ_c8ARUEeCuA4oh6NA2Cw" name="input">
-            <eAnnotations xmi:id="_T7UMhOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_z-flAARUEeCuA4oh6NA2Cw" name="output" direction="out">
-            <eAnnotations xmi:id="_T7UMjeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <node xmi:type="uml:AcceptEventAction" xmi:id="_ZRwcoARUEeCuA4oh6NA2Cw" name="AcceptEventAction1" outgoing="_o-R_4ARUEeCuA4oh6NA2Cw" incoming="_oxYMUARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMh-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <trigger xmi:id="_kozNYARUEeCuA4oh6NA2Cw" name="Trigger1" event="_b3JxkARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7UMiOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </trigger>
-          </node>
-          <node xmi:type="uml:InitialNode" xmi:id="_n_s3wARUEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_oxYMUARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMjuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:ActivityFinalNode" xmi:id="_oM8CgARUEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_o-R_4ARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMjOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_xRRw0ARUEeCuA4oh6NA2Cw" name="input" outgoing="_3DSywARUEeCuA4oh6NA2Cw" parameter="_xQ_c8ARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMkuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xRRw0QRUEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T7UMk-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_z--GIARUEeCuA4oh6NA2Cw" name="output" incoming="_3DSywARUEeCuA4oh6NA2Cw" parameter="_z-flAARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMheBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_z--GIQRUEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T7UMhuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_oxYMUARUEeCuA4oh6NA2Cw" name="ControlFlow1" source="_n_s3wARUEeCuA4oh6NA2Cw" target="_ZRwcoARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMieBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_oxYMUQRUEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7UMiuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_oxYMUgRUEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7UMi-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_o-R_4ARUEeCuA4oh6NA2Cw" name="ControlFlow2" source="_ZRwcoARUEeCuA4oh6NA2Cw" target="_oM8CgARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMgeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_o-R_4QRUEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7UMguBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_o-R_4gRUEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7UMg-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_3DSywARUEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_xRRw0ARUEeCuA4oh6NA2Cw" target="_z--GIARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7UMj-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_3DSywQRUEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7UMkOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_3DSywgRUEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7UMkeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_TLGO0AWxEeC4vNsNDfa2Ww" name="SimpleExceptionThrowingActivity">
-          <eAnnotations xmi:id="_T7FjAOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_mj6oMAWyEeC4vNsNDfa2Ww" name="stringParam">
-            <eAnnotations xmi:id="_T7GKF-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_mkZJUAWyEeC4vNsNDfa2Ww" name="stringParam" outgoing="_CT-10AWzEeC4vNsNDfa2Ww" parameter="_mj6oMAWyEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7GKEuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mkZJUQWyEeC4vNsNDfa2Ww" value="*">
-              <eAnnotations xmi:id="_T7GKE-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:RaiseExceptionAction" xmi:id="__cXIcAWyEeC4vNsNDfa2Ww" name="RaiseExceptionAction1">
-            <eAnnotations xmi:id="_T7GKEOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <exception xmi:id="_A6IuAAWzEeC4vNsNDfa2Ww" name="InputPin1" incoming="_CT-10AWzEeC4vNsNDfa2Ww">
-              <eAnnotations xmi:id="_T7GKEeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </exception>
-          </node>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_CT-10AWzEeC4vNsNDfa2Ww" name="ObjectFlow1" source="_mkZJUAWyEeC4vNsNDfa2Ww" target="_A6IuAAWzEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7GKFOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_CT-10QWzEeC4vNsNDfa2Ww" value="true">
-              <eAnnotations xmi:id="_T7GKFeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_CT-10gWzEeC4vNsNDfa2Ww" value="1">
-              <eAnnotations xmi:id="_T7GKFuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_H25r0AWzEeC4vNsNDfa2Ww" name="SimpleExceptionHandlingActivity">
-          <eAnnotations xmi:id="_T7UzkOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_Rj7x0AWzEeC4vNsNDfa2Ww" name="stringParam">
-            <eAnnotations xmi:id="_T7UzlOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <variable xmi:id="_XkTY0AWzEeC4vNsNDfa2Ww" name="exceptionVariable">
-            <eAnnotations xmi:id="_T7UzleBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </variable>
-          <node xmi:type="uml:CallBehaviorAction" xmi:id="_N6Br4AWzEeC4vNsNDfa2Ww" name="a1" behavior="_TLGO0AWxEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7UzluBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <handler xmi:id="_eD-yAAWzEeC4vNsNDfa2Ww" handlerBody="_Z488AAWzEeC4vNsNDfa2Ww" exceptionInput="_cRVIoAWzEeC4vNsNDfa2Ww">
-              <eAnnotations xmi:id="_T7Uzl-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <exceptionType xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            </handler>
-            <argument xmi:id="_N6F9UAWzEeC4vNsNDfa2Ww" name="stringParam" incoming="_UfkcgAWzEeC4vNsNDfa2Ww">
-              <eAnnotations xmi:id="_T7UzmOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_N6F9UQWzEeC4vNsNDfa2Ww" value="*">
-                <eAnnotations xmi:id="_T7UzmeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-            </argument>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_RkrYsAWzEeC4vNsNDfa2Ww" name="stringParam" outgoing="_UfkcgAWzEeC4vNsNDfa2Ww" parameter="_Rj7x0AWzEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7UzneBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RkrYsQWzEeC4vNsNDfa2Ww" value="*">
-              <eAnnotations xmi:id="_T7UznuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:AddVariableValueAction" xmi:id="_Z488AAWzEeC4vNsNDfa2Ww" name="storeExceptionVariable" outgoing="_wMbEcAW7EeC4vNsNDfa2Ww" variable="_XkTY0AWzEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7VaqOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <value xmi:id="_cRVIoAWzEeC4vNsNDfa2Ww" name="InputPin1">
-              <eAnnotations xmi:id="_T7VaqeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </value>
-          </node>
-          <node xmi:type="uml:ReadVariableAction" xmi:id="_lXFSkAW7EeC4vNsNDfa2Ww" name="readExceptionVariable" incoming="_wMbEcAW7EeC4vNsNDfa2Ww" variable="_XkTY0AWzEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7VapuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <result xmi:id="_zaEsMAW7EeC4vNsNDfa2Ww" name="OutputPin1" outgoing="_2jWxUAW7EeC4vNsNDfa2Ww">
-              <eAnnotations xmi:id="_T7Vap-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </result>
-          </node>
-          <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_l5WSIAW7EeC4vNsNDfa2Ww" name="storeName" structuralFeature="_ATuZoN0QEduHesVHuVad2Q">
-            <eAnnotations xmi:id="_T7VaoeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_3leVoAW7EeC4vNsNDfa2Ww" name="ValuePin1">
-              <eAnnotations xmi:id="_T7Vao-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_4Z8fgAW7EeC4vNsNDfa2Ww" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T7VapeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_5EmmEAW7EeC4vNsNDfa2Ww" name="OpaqueExpression1">
-                <eAnnotations xmi:id="_T7VapOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-                <body>self</body>
-              </value>
-            </object>
-            <value xmi:id="_0e4_MAW7EeC4vNsNDfa2Ww" name="InputPin1" incoming="_2jWxUAW7EeC4vNsNDfa2Ww">
-              <eAnnotations xmi:id="_T7VaouBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </value>
-          </node>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_UfkcgAWzEeC4vNsNDfa2Ww" name="ObjectFlow1" source="_RkrYsAWzEeC4vNsNDfa2Ww" target="_N6F9UAWzEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7UzkeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_UfkcgQWzEeC4vNsNDfa2Ww" value="true">
-              <eAnnotations xmi:id="_T7Uzk-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_UfkcggWzEeC4vNsNDfa2Ww" value="1">
-              <eAnnotations xmi:id="_T7UzkuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_wMbEcAW7EeC4vNsNDfa2Ww" name="ControlFlow1" source="_Z488AAWzEeC4vNsNDfa2Ww" target="_lXFSkAW7EeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7Uzn-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_wMbEcQW7EeC4vNsNDfa2Ww" value="true">
-              <eAnnotations xmi:id="_T7VaoOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_wMbEcgW7EeC4vNsNDfa2Ww" value="1">
-              <eAnnotations xmi:id="_T7UzoOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_2jWxUAW7EeC4vNsNDfa2Ww" name="ObjectFlow2" source="_zaEsMAW7EeC4vNsNDfa2Ww" target="_0e4_MAW7EeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T7UzmuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_2jWxUQW7EeC4vNsNDfa2Ww" value="true">
-              <eAnnotations xmi:id="_T7Uzm-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_2jWxUgW7EeC4vNsNDfa2Ww" value="1">
-              <eAnnotations xmi:id="_T7UznOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedOperation xmi:id="_jnPOINOaEdubaLB0CR972w" name="Operation1">
-          <eAnnotations xmi:id="_T7cIV-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </ownedOperation>
-        <ownedOperation xmi:id="_pLyJoNkdEduKbsilyv7DTA" name="subProcess" visibility="public" method="_yDPVsNkhEduKbsilyv7DTA">
-          <eAnnotations xmi:id="_T7RwQOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_sgI2UNkdEduKbsilyv7DTA" name="paramIn">
-            <eAnnotations xmi:id="_T7S-YeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_t8YK0NkdEduKbsilyv7DTA" name="paramInOut" direction="inout">
-            <eAnnotations xmi:id="_T7S-YOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_w4TJYNkdEduKbsilyv7DTA" name="paramOut" direction="out">
-            <eAnnotations xmi:id="_T7TlcOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_zocVwNkdEduKbsilyv7DTA" name="returnParameter" direction="return">
-            <eAnnotations xmi:id="_T7SXUOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_4wIoUNkdEduKbsilyv7DTA" name="exception" direction="return" isException="true">
-            <eAnnotations xmi:id="_T7TlceBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-        </ownedOperation>
-      </packagedElement>
       <packagedElement xmi:type="uml:SignalEvent" xmi:id="_haJ2ENObEdubaLB0CR972w" name="OnSomeSignal" signal="_sA8PkNOQEdubaLB0CR972w">
         <eAnnotations xmi:id="_T8Sc4uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
       </packagedElement>
@@ -1289,7 +995,7 @@ endif</body>
               <eAnnotations xmi:id="_T8G2vOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             </joinSpec>
           </node>
-          <node xmi:type="uml:ActivityFinalNode" xmi:id="_nuO8gN0NEduHesVHuVad2Q" name="EventActivityFinal" visibility="package" incoming="_DB-2QOK_Ed-q7JaJPXNrbQ">
+          <node xmi:type="uml:ActivityFinalNode" xmi:id="_nuO8gN0NEduHesVHuVad2Q" name="EventActivityFinal" visibility="package" incoming="_LNfX4OjmEeC61rvWYjPZbA">
             <eAnnotations xmi:id="_T8G2uuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
           </node>
           <node xmi:type="uml:CallOperationAction" xmi:id="_tbLRMN0NEduHesVHuVad2Q" name="callOperation1OnSelf" outgoing="_vmqRUN0NEduHesVHuVad2Q" incoming="_wqceoEguEdy3TIL46bR3tQ" operation="_smbagN0NEduHesVHuVad2Q">
@@ -1312,20 +1018,21 @@ endif</body>
               <eAnnotations xmi:id="_T8Ir4-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             </upperBound>
           </node>
-          <node xmi:type="uml:AcceptCallAction" xmi:id="_B5ingOK_Ed-q7JaJPXNrbQ" name="AcceptCallAction1" outgoing="_DB-2QOK_Ed-q7JaJPXNrbQ" incoming="_oGYWwN0NEduHesVHuVad2Q">
-            <eAnnotations xmi:id="_T8HdzOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <result xmi:id="_HqIGEOK_Ed-q7JaJPXNrbQ" name="OutputPin1">
-              <eAnnotations xmi:id="_T8HdzuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uKRGoOhHEd-UEf-wPexHVg" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T8IE0OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              </upperBound>
-            </result>
-            <trigger xmi:id="_D1y40OK_Ed-q7JaJPXNrbQ" name="Trigger1" event="_dPy44OK9Ed-q7JaJPXNrbQ">
-              <eAnnotations xmi:id="_T8HdzeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </trigger>
-          </node>
           <node xmi:type="uml:MergeNode" xmi:id="_hkJt0BWxEeC-BYgrKhGreA" name="MergeNode1" outgoing="_jkFlQBWxEeC-BYgrKhGreA" incoming="_zdftsEgxEdye2tJUWB90WA _jAxWgNtaEdut4tBfUstIHQ">
             <eAnnotations xmi:id="_T8G2wOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          </node>
+          <node xmi:type="uml:AcceptEventAction" xmi:id="_00sJ4OjlEeC61rvWYjPZbA" name="AcceptEventAction1" outgoing="_LNfX4OjmEeC61rvWYjPZbA" incoming="_oGYWwN0NEduHesVHuVad2Q">
+            <eAnnotations xmi:id="_02uxQOjlEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            <result xmi:id="_66Fa0OjlEeC61rvWYjPZbA" name="Parameter1">
+              <eAnnotations xmi:id="_68CioOjlEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_66Fa0ejlEeC61rvWYjPZbA" name="ub">
+                <eAnnotations xmi:id="_68CioejlEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+              </upperBound>
+            </result>
+            <trigger xmi:id="_3x_BcOjlEeC61rvWYjPZbA" name="AcceptEventAction1Trigger" event="_dPy44OK9Ed-q7JaJPXNrbQ">
+              <eAnnotations xmi:id="_30BBwOjlEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            </trigger>
           </node>
           <edge xmi:type="uml:ControlFlow" xmi:id="_U2Q_oNtaEdut4tBfUstIHQ" source="_RL7b4NtaEdut4tBfUstIHQ" target="_Ss0m4NtaEdut4tBfUstIHQ">
             <eAnnotations xmi:id="_T8FBjeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
@@ -1365,16 +1072,11 @@ endif</body>
           </edge>
           <edge xmi:type="uml:ControlFlow" xmi:id="_nYU98N0NEduHesVHuVad2Q" source="_htvBUNtaEdut4tBfUstIHQ" target="_mzOs0N0NEduHesVHuVad2Q">
             <eAnnotations xmi:id="_T8Hdw-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:OpaqueExpression" xmi:id="_nYU98d0NEduHesVHuVad2Q">
-              <eAnnotations xmi:id="_T8HdxOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <language>OCL</language>
-              <body>portId='12345678901234567AFAF'</body>
-            </guard>
             <weight xmi:type="uml:LiteralInteger" xmi:id="_nYU98t0NEduHesVHuVad2Q" value="1">
               <eAnnotations xmi:id="_T8HdxeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             </weight>
           </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_oGYWwN0NEduHesVHuVad2Q" source="_mzOs0N0NEduHesVHuVad2Q" target="_B5ingOK_Ed-q7JaJPXNrbQ">
+          <edge xmi:type="uml:ControlFlow" xmi:id="_oGYWwN0NEduHesVHuVad2Q" source="_mzOs0N0NEduHesVHuVad2Q" target="_00sJ4OjlEeC61rvWYjPZbA">
             <eAnnotations xmi:id="_T8IE0eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             <weight xmi:type="uml:LiteralInteger" xmi:id="_oGYWwt0NEduHesVHuVad2Q" value="1">
               <eAnnotations xmi:id="_T8IE0-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
@@ -1421,15 +1123,6 @@ endif</body>
               <eAnnotations xmi:id="_T8HdyeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             </weight>
           </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_DB-2QOK_Ed-q7JaJPXNrbQ" name="ControlFlow1" source="_B5ingOK_Ed-q7JaJPXNrbQ" target="_nuO8gN0NEduHesVHuVad2Q">
-            <eAnnotations xmi:id="_T8FokOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_DB-2QeK_Ed-q7JaJPXNrbQ" value="true">
-              <eAnnotations xmi:id="_T8FokuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_DB-2QuK_Ed-q7JaJPXNrbQ" value="1">
-              <eAnnotations xmi:id="_T8FokeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
           <edge xmi:type="uml:ControlFlow" xmi:id="_jkFlQBWxEeC-BYgrKhGreA" name="ControlFlow2" source="_hkJt0BWxEeC-BYgrKhGreA" target="_FPJHkN0MEduHesVHuVad2Q">
             <eAnnotations xmi:id="_T8FoleBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             <guard xmi:type="uml:LiteralBoolean" xmi:id="_jkFlQRWxEeC-BYgrKhGreA" value="true">
@@ -1439,6 +1132,15 @@ endif</body>
               <eAnnotations xmi:id="_T8FoluBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             </weight>
           </edge>
+          <edge xmi:type="uml:ControlFlow" xmi:id="_LNfX4OjmEeC61rvWYjPZbA" name="ControlFlow1" source="_00sJ4OjlEeC61rvWYjPZbA" target="_nuO8gN0NEduHesVHuVad2Q">
+            <eAnnotations xmi:id="_LNpv8OjmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            <guard xmi:type="uml:LiteralBoolean" xmi:id="_LNfX4ejmEeC61rvWYjPZbA" value="true">
+              <eAnnotations xmi:id="_LPm3wOjmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            </guard>
+            <weight xmi:type="uml:LiteralInteger" xmi:id="_LNfX4ujmEeC61rvWYjPZbA" value="1">
+              <eAnnotations xmi:id="_LPm3wejmEeC61rvWYjPZbA" source="http://www.nakeduml.org"/>
+            </weight>
+          </edge>
         </ownedBehavior>
         <ownedOperation xmi:id="_Ig_A4N0OEduHesVHuVad2Q" name="executeEventActivity" visibility="public" method="_QJbdENtaEdut4tBfUstIHQ">
           <eAnnotations xmi:id="_T8J6AOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
@@ -1446,438 +1148,6 @@ endif</body>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_Bmu5oN0QEduHesVHuVad2Q" memberEnd="_BnB0kN0QEduHesVHuVad2Q _BnUvgN0QEduHesVHuVad2Q">
         <eAnnotations xmi:id="_T6wL0eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Activity" xmi:id="_G6dYAN4LEdujeYl0UYl70A" name="ExceptionHandlingProcess">
-        <eAnnotations xmi:id="_T7-T0OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <ownedAttribute xmi:id="_qFv8oFFwEdyHFfIUUjIB7A" name="attribute3" visibility="private" isDerived="true">
-          <eAnnotations xmi:id="_T7_h9uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          <defaultValue xmi:type="uml:OpaqueExpression" xmi:id="_udv3oFFwEdyHFfIUUjIB7A">
-            <eAnnotations xmi:id="_T7_h9-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <language>OCL</language>
-            <body>3*13-18</body>
-          </defaultValue>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_jm8KkN4LEdujeYl0UYl70A" name="attribute2" visibility="private">
-          <eAnnotations xmi:id="_T8AwIOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_jauTgN4LEdujeYl0UYl70A" name="attribute1" visibility="private">
-          <eAnnotations xmi:id="_T7_h8OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedAttribute>
-        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_NcmPUN4LEdujeYl0UYl70A" name="opaqueBehavior">
-          <eAnnotations xmi:id="_T7_h--BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_OYzY4N4LEdujeYl0UYl70A" name="Parameter1" direction="out">
-            <eAnnotations xmi:id="_T7_h_eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_QxP28N4LEdujeYl0UYl70A" name="Parameter2" direction="return">
-            <eAnnotations xmi:id="_T7_h_uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_ShwLQN4LEdujeYl0UYl70A" name="Parameter3" direction="out" isException="true">
-            <eAnnotations xmi:id="_T7_h_-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_UXoHwN4LEdujeYl0UYl70A" name="Parameter4" direction="out" isException="true">
-            <eAnnotations xmi:id="_T7_h_OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <language>OCL</language>
-          <body>true</body>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_QezyYAQqEeCuA4oh6NA2Cw" name="ExceptionThrowingProcess">
-          <eAnnotations xmi:id="_T8AJAeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_ePcQsAQqEeCuA4oh6NA2Cw" name="inParam">
-            <eAnnotations xmi:id="_T8AJEuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          </ownedParameter>
-          <node xmi:type="uml:RaiseExceptionAction" xmi:id="_YUQrsAQqEeCuA4oh6NA2Cw" name="RaiseExceptionAction1" incoming="_2c-oEAWxEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T8AJDeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <exception xmi:id="_fnqA0AQqEeCuA4oh6NA2Cw" name="InputPin1" incoming="_h_qaAAQqEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T8AJDuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </exception>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_eP2gYAQqEeCuA4oh6NA2Cw" name="inParam" outgoing="_h_qaAAQqEeCuA4oh6NA2Cw" parameter="_ePcQsAQqEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T8AJAuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eP2gYQQqEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T8AJA-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:InitialNode" xmi:id="_qDCP4AWxEeC4vNsNDfa2Ww" name="InitialNode1" outgoing="_0U46MAWxEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T8AJDOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </node>
-          <node xmi:type="uml:AcceptEventAction" xmi:id="_t54loAWxEeC4vNsNDfa2Ww" name="WaitForEmptySignal" outgoing="_2c-oEAWxEeC4vNsNDfa2Ww" incoming="_0U46MAWxEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T8AJCuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <trigger xmi:id="_wTeTMAWxEeC4vNsNDfa2Ww" name="Trigger1" event="_b3JxkARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T8AJC-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </trigger>
-          </node>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_h_qaAAQqEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_eP2gYAQqEeCuA4oh6NA2Cw" target="_fnqA0AQqEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T8AJD-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_h_qaAQQqEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T8AJEOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_h_qaAgQqEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T8AJEeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_0U46MAWxEeC4vNsNDfa2Ww" name="ControlFlow1" source="_qDCP4AWxEeC4vNsNDfa2Ww" target="_t54loAWxEeC4vNsNDfa2Ww">
-            <eAnnotations xmi:id="_T8AJBOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_0U46MQWxEeC4vNsNDfa2Ww" value="true">
-              <eAnnotations xmi:id="_T8AJBuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_0U46MgWxEeC4vNsNDfa2Ww" value="1">
-              <eAnnotations xmi:id="_T8AJBeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_2c-oEAWxEeC4vNsNDfa2Ww" name="ControlFlow2" source="_t54loAWxEeC4vNsNDfa2Ww" target="_YUQrsAQqEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T8AJB-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_2c-oEQWxEeC4vNsNDfa2Ww" value="true">
-              <eAnnotations xmi:id="_T8AJCOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_2c-oEgWxEeC4vNsNDfa2Ww" value="1">
-              <eAnnotations xmi:id="_T8AJCeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedParameter xmi:id="_cO2ist4LEdujeYl0UYl70A" name="booleanParameter">
-          <eAnnotations xmi:id="_T8B-PeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-        <ownedParameter xmi:id="_gC8fYd4LEdujeYl0UYl70A" name="integerParameter">
-          <eAnnotations xmi:id="_T7_iAOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-        <ownedParameter xmi:id="_GjE9UN4MEdujeYl0UYl70A" name="returnParameterNode" direction="return">
-          <eAnnotations xmi:id="_T8B-M-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-        <ownedParameter xmi:id="_edkZQAObEeCuA4oh6NA2Cw" name="parameter1" direction="out">
-          <eAnnotations xmi:id="_T8AwE-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-        <node xmi:type="uml:CallBehaviorAction" xmi:id="_YTUhQN4LEdujeYl0UYl70A" name="opaqueBehavior" incoming="_0VnuYN4LEdujeYl0UYl70A _0plzQN4LEdujeYl0UYl70A _5UQXgAROEeCuA4oh6NA2Cw" behavior="_NcmPUN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T7-66OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <result xmi:id="_gI1RENYQEd--3Opbdu_7JA" name="Parameter1" outgoing="_5o05gNYQEd--3Opbdu_7JA">
-            <eAnnotations xmi:id="_T7-67eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gI1REdYQEd--3Opbdu_7JA" value="*">
-              <eAnnotations xmi:id="_T7-67uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </result>
-          <result xmi:id="_gI6JkNYQEd--3Opbdu_7JA" name="Parameter2" outgoing="_7bH9kNYQEd--3Opbdu_7JA">
-            <eAnnotations xmi:id="_T7-67-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gI6JkdYQEd--3Opbdu_7JA" value="*">
-              <eAnnotations xmi:id="_T7-68OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </result>
-          <result xmi:id="_gI9M4NYQEd--3Opbdu_7JA" name="Parameter3" outgoing="_27hlwNYQEd--3Opbdu_7JA">
-            <eAnnotations xmi:id="_T7-66eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gI9M4dYQEd--3Opbdu_7JA" value="*">
-              <eAnnotations xmi:id="_T7-66uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </result>
-          <result xmi:id="_gJAQMNYQEd--3Opbdu_7JA" name="Parameter4" outgoing="_85TLwNYQEd--3Opbdu_7JA">
-            <eAnnotations xmi:id="_T7-66-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gJAQMdYQEd--3Opbdu_7JA" value="*">
-              <eAnnotations xmi:id="_T7-67OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </result>
-        </node>
-        <node xmi:type="uml:ActivityParameterNode" xmi:id="_cO2isN4LEdujeYl0UYl70A" name="booleanParameterNode" outgoing="_zfFH8N4LEdujeYl0UYl70A" parameter="_cO2ist4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T7_h8eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-          <upperBound xmi:type="uml:LiteralInteger" xmi:id="_cO2isd4LEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T7_h8uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </upperBound>
-        </node>
-        <node xmi:type="uml:ActivityParameterNode" xmi:id="_gCyuYN4LEdujeYl0UYl70A" name="booleanParameterNode" outgoing="_u34TUN4LEdujeYl0UYl70A" parameter="_gC8fYd4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T7-65uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          <upperBound xmi:type="uml:LiteralInteger" xmi:id="_gC8fYN4LEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T7-65-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </upperBound>
-        </node>
-        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_mWoD8N4LEdujeYl0UYl70A" name="setAtt1" outgoing="_0VnuYN4LEdujeYl0UYl70A" structuralFeature="_jauTgN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T7-T0eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <object xmi:id="_nNBgct4LEdujeYl0UYl70A" type="_G6dYAN4LEdujeYl0UYl70A">
-            <eAnnotations xmi:id="_nNBgc94LEdujeYl0UYl70A" source="http://www.eclipse.org/uml2/2.0.0/UML">
-              <details xmi:id="_nNBgdN4LEdujeYl0UYl70A" key="object"/>
-            </eAnnotations>
-            <eAnnotations xmi:id="_T7-T0uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1oofcMMVEd--CeJM_PJ63w" name="LiteralUnlimitedNatural1">
-              <eAnnotations xmi:id="_T7-T1eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ehAHcMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T7-T0-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_eVkTgMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T7-T1OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-          </object>
-          <value xmi:id="_nM3vcN4LEdujeYl0UYl70A" incoming="_u34TUN4LEdujeYl0UYl70A">
-            <eAnnotations xmi:id="_nNBgcN4LEdujeYl0UYl70A" source="http://www.eclipse.org/uml2/2.0.0/UML">
-              <details xmi:id="_nNBgcd4LEdujeYl0UYl70A" key="value"/>
-            </eAnnotations>
-            <eAnnotations xmi:id="_T7-T1uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qj600MMVEd--CeJM_PJ63w" name="LiteralUnlimitedNatural1">
-              <eAnnotations xmi:id="_T7-64OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dR86YMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T7-64eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dI9WcMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T7-64uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-          </value>
-        </node>
-        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_xNMk4N4LEdujeYl0UYl70A" name="AddStructuralFeatureValueAction" outgoing="_0plzQN4LEdujeYl0UYl70A" structuralFeature="_jm8KkN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8AwF-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <object xmi:id="_yE7eI94LEdujeYl0UYl70A" type="_G6dYAN4LEdujeYl0UYl70A">
-            <eAnnotations xmi:id="_yE7eJN4LEdujeYl0UYl70A" source="http://www.eclipse.org/uml2/2.0.0/UML">
-              <details xmi:id="_yE7eJd4LEdujeYl0UYl70A" key="object"/>
-            </eAnnotations>
-            <eAnnotations xmi:id="_T8AwHOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yDUloMMVEd--CeJM_PJ63w" name="LiteralUnlimitedNatural1">
-              <eAnnotations xmi:id="_T8AwHeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_S8ilwMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T8AwH-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ThPOQMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T8AwHuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-          </object>
-          <value xmi:id="_yE7eIN4LEdujeYl0UYl70A" incoming="_zfFH8N4LEdujeYl0UYl70A">
-            <eAnnotations xmi:id="_yE7eId4LEdujeYl0UYl70A" source="http://www.eclipse.org/uml2/2.0.0/UML">
-              <details xmi:id="_yE7eIt4LEdujeYl0UYl70A" key="value"/>
-            </eAnnotations>
-            <eAnnotations xmi:id="_T8AwGOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_snaWkMMVEd--CeJM_PJ63w" name="LiteralUnlimitedNatural1">
-              <eAnnotations xmi:id="_T8AwGeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_U7Wb0MMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T8AwGuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UzpRUMMTEd--CeJM_PJ63w" value="1">
-              <eAnnotations xmi:id="_T8AwG-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-          </value>
-        </node>
-        <node xmi:type="uml:SendSignalAction" xmi:id="_58AvIN4LEdujeYl0UYl70A" name="sendSomeSignalOnException4" signal="_sA8PkNOQEdubaLB0CR972w">
-          <eAnnotations xmi:id="_T8BXKuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <argument xmi:type="uml:ValuePin" xmi:id="_sr0nsAObEeCuA4oh6NA2Cw" name="param1" visibility="public" ordering="unordered">
-            <eAnnotations xmi:id="_6j8R094LEdujeYl0UYl70A" source="Property" references="_PwIW0NtbEdut4tBfUstIHQ"/>
-            <eAnnotations xmi:id="_T8BXMuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_6j8R1N4LEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXNeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6j8R0d4LEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXNOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6j8R0t4LEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXM-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-            <value xmi:type="uml:OpaqueExpression" xmi:id="_uISlsAObEeCuA4oh6NA2Cw" name="OpaqueExpression1">
-              <eAnnotations xmi:id="_T8BXNuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <body>898</body>
-            </value>
-          </argument>
-          <argument xmi:id="_6j8R1d4LEdujeYl0UYl70A" name="param2" incoming="_5o05gNYQEd--3Opbdu_7JA" ordering="unordered">
-            <eAnnotations xmi:id="_6j8R2N4LEdujeYl0UYl70A" source="Property" references="_TJam0NtbEdut4tBfUstIHQ"/>
-            <eAnnotations xmi:id="_T8BXK-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_6j8R2d4LEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXLOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6j8R1t4LEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXLeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6j8R194LEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXLuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-          </argument>
-          <target xmi:type="uml:ValuePin" xmi:id="_1E6kkOhHEd-UEf-wPexHVg" name="ValuePin1">
-            <eAnnotations xmi:id="_T8BXL-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <upperBound xmi:type="uml:LiteralString" xmi:id="_1-vvkOhHEd-UEf-wPexHVg" name="LiteralString1">
-              <eAnnotations xmi:id="_T8BXMOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <value xmi:type="uml:OpaqueExpression" xmi:id="_2l9gkOhHEd-UEf-wPexHVg" name="OpaqueExpression1">
-              <eAnnotations xmi:id="_T8BXMeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <body>self</body>
-            </value>
-          </target>
-        </node>
-        <node xmi:type="uml:SendSignalAction" xmi:id="_CHNO8N4MEdujeYl0UYl70A" name="sendSomeSignalOnException3" signal="_sA8PkNOQEdubaLB0CR972w">
-          <eAnnotations xmi:id="_T8AwKeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <argument xmi:type="uml:ValuePin" xmi:id="_dwtGoNYREd--3Opbdu_7JA" name="ValuePin1">
-            <eAnnotations xmi:id="_T8BXIOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vjTWIOhHEd-UEf-wPexHVg" name="LiteralUnlimitedNatural1">
-              <eAnnotations xmi:id="_T8BXIeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <value xmi:type="uml:LiteralInteger" xmi:id="_vLil0NYREd--3Opbdu_7JA" name="parm1LiteralInteger" value="6">
-              <eAnnotations xmi:id="_T8BXIuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            </value>
-          </argument>
-          <argument xmi:id="_CrtqMt4MEdujeYl0UYl70A" name="param2" incoming="_85TLwNYQEd--3Opbdu_7JA" ordering="unordered">
-            <eAnnotations xmi:id="_CrtqNd4MEdujeYl0UYl70A" source="Property" references="_TJam0NtbEdut4tBfUstIHQ"/>
-            <eAnnotations xmi:id="_T8BXJuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralInteger" xmi:id="_CrtqNt4MEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXKeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CrtqM94MEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXJ-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperValue>
-            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CrtqNN4MEdujeYl0UYl70A" value="1">
-              <eAnnotations xmi:id="_T8BXKOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </lowerValue>
-          </argument>
-          <target xmi:type="uml:ValuePin" xmi:id="_QxSWQOhOEd-vf49Rp0fb_g" name="target">
-            <eAnnotations xmi:id="_T8BXI-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WROwwOhOEd-vf49Rp0fb_g" name="LiteralUnlimitedNatural1">
-              <eAnnotations xmi:id="_T8BXJeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-            <value xmi:type="uml:OpaqueExpression" xmi:id="_TLGGQOhOEd-vf49Rp0fb_g" name="OpaqueExpression1">
-              <eAnnotations xmi:id="_T8BXJOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <body>self</body>
-            </value>
-          </target>
-        </node>
-        <node xmi:type="uml:ActivityParameterNode" xmi:id="_GjE9Ud4MEdujeYl0UYl70A" name="returnParameter" incoming="_7bH9kNYQEd--3Opbdu_7JA" parameter="_GjE9UN4MEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8B-PuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-          <upperBound xmi:type="uml:LiteralInteger" xmi:id="_GjE9Ut4MEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T8B-P-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </upperBound>
-        </node>
-        <node xmi:type="uml:AcceptEventAction" xmi:id="_Gcug4N4QEduT2scQvswYUA" name="AcceptEventAction" outgoing="_HWsOwN4QEduT2scQvswYUA">
-          <eAnnotations xmi:id="_T8AwEeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <trigger xmi:id="_P8tpYN4QEduT2scQvswYUA" name="" event="_P8tpYd4QEduT2scQvswYUA">
-            <eAnnotations xmi:id="_T8AwEuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </trigger>
-        </node>
-        <node xmi:type="uml:ActivityParameterNode" xmi:id="_eebU4AObEeCuA4oh6NA2Cw" name="parameter1" incoming="_27hlwNYQEd--3Opbdu_7JA" parameter="_edkZQAObEeCuA4oh6NA2Cw">
-          <eAnnotations xmi:id="_T8AwJOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_eebU4QObEeCuA4oh6NA2Cw" value="*">
-            <eAnnotations xmi:id="_T8AwJeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </upperBound>
-        </node>
-        <node xmi:type="uml:CallBehaviorAction" xmi:id="_wVpoIAQqEeCuA4oh6NA2Cw" name="callExceptionThrowingActivity" incoming="_HWsOwN4QEduT2scQvswYUA" behavior="_QezyYAQqEeCuA4oh6NA2Cw">
-          <eAnnotations xmi:id="_T7_iAeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <handler xmi:id="_zsalQAROEeCuA4oh6NA2Cw" handlerBody="_j535kAROEeCuA4oh6NA2Cw" exceptionInput="_upCK8AROEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7_iAuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </handler>
-          <argument xmi:id="_euG08ARyEeCuA4oh6NA2Cw" name="inParam">
-            <eAnnotations xmi:id="_T7_iA-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_euG08QRyEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T8AJAOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </argument>
-        </node>
-        <node xmi:type="uml:StructuredActivityNode" xmi:id="_j535kAROEeCuA4oh6NA2Cw" name="StructuredActivityNode1" outgoing="_5UQXgAROEeCuA4oh6NA2Cw">
-          <eAnnotations xmi:id="_T8BXN-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <node xmi:type="uml:InputPin" xmi:id="_upCK8AROEeCuA4oh6NA2Cw" name="InputPin1">
-            <eAnnotations xmi:id="_T8B-MeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_upCK8QROEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T8B-MuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:AcceptEventAction" xmi:id="_VHmm0Aa5EeC4vNsNDfa2Ww" name="AcceptEventAction1">
-            <eAnnotations xmi:id="_T8BXOOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <trigger xmi:id="_WLiwEAa5EeC4vNsNDfa2Ww" name="Trigger1" event="_b3JxkARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T8B-MOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            </trigger>
-          </node>
-        </node>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_u34TUN4LEdujeYl0UYl70A" source="_gCyuYN4LEdujeYl0UYl70A" target="_nM3vcN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8B-N-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_u4LOQd4LEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T8B-OOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_zfFH8N4LEdujeYl0UYl70A" source="_cO2isN4LEdujeYl0UYl70A" target="_yE7eIN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8AJE-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_zfO48N4LEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T8AwEOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_0VnuYN4LEdujeYl0UYl70A" source="_mWoD8N4LEdujeYl0UYl70A" target="_YTUhQN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T7-64-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_0VnuYt4LEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T7-65eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_0plzQN4LEdujeYl0UYl70A" source="_xNMk4N4LEdujeYl0UYl70A" target="_YTUhQN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8B-OuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_0pvkQd4LEdujeYl0UYl70A" value="1">
-            <eAnnotations xmi:id="_T8B-POBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_HWsOwN4QEduT2scQvswYUA" source="_Gcug4N4QEduT2scQvswYUA" target="_wVpoIAQqEeCuA4oh6NA2Cw">
-          <eAnnotations xmi:id="_T8AwIeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_HW_Jsd4QEduT2scQvswYUA" value="1">
-            <eAnnotations xmi:id="_T8AwIuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_27hlwNYQEd--3Opbdu_7JA" name="ObjectFlow1" source="_gI9M4NYQEd--3Opbdu_7JA" target="_eebU4AObEeCuA4oh6NA2Cw">
-          <eAnnotations xmi:id="_T7_h-OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_27hlwdYQEd--3Opbdu_7JA" value="true">
-            <eAnnotations xmi:id="_T7_h-eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_27hlwtYQEd--3Opbdu_7JA" value="1">
-            <eAnnotations xmi:id="_T7_h-uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_5o05gNYQEd--3Opbdu_7JA" name="ObjectFlow2" source="_gI1RENYQEd--3Opbdu_7JA" target="_6j8R1d4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8AwJuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_5o05gdYQEd--3Opbdu_7JA" value="true">
-            <eAnnotations xmi:id="_T8AwKOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_5o05gtYQEd--3Opbdu_7JA" value="1">
-            <eAnnotations xmi:id="_T8AwJ-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_7bH9kNYQEd--3Opbdu_7JA" name="ObjectFlow3" source="_gI6JkNYQEd--3Opbdu_7JA" target="_GjE9Ud4MEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8B-NOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_7bH9kdYQEd--3Opbdu_7JA" value="true">
-            <eAnnotations xmi:id="_T8B-NeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_7bH9ktYQEd--3Opbdu_7JA" value="1">
-            <eAnnotations xmi:id="_T8B-NuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_85TLwNYQEd--3Opbdu_7JA" name="ObjectFlow43" source="_gJAQMNYQEd--3Opbdu_7JA" target="_CrtqMt4MEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T7_h8-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_85TLwdYQEd--3Opbdu_7JA" value="true">
-            <eAnnotations xmi:id="_T7_h9OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_85TLwtYQEd--3Opbdu_7JA" value="1">
-            <eAnnotations xmi:id="_T7_h9eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_5UQXgAROEeCuA4oh6NA2Cw" name="ControlFlow1" source="_j535kAROEeCuA4oh6NA2Cw" target="_YTUhQN4LEdujeYl0UYl70A">
-          <eAnnotations xmi:id="_T8AwFOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_5UQXgQROEeCuA4oh6NA2Cw" value="true">
-            <eAnnotations xmi:id="_T8AwFuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_5UQXggROEeCuA4oh6NA2Cw" value="1">
-            <eAnnotations xmi:id="_T8AwFeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
       </packagedElement>
       <packagedElement xmi:type="uml:SignalEvent" xmi:id="_LBY-4N4QEduT2scQvswYUA" name="SignalEvent3" signal="_sA8PkNOQEdubaLB0CR972w">
         <eAnnotations xmi:id="_T69nMuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
@@ -1891,13 +1161,13 @@ endif</body>
       <packagedElement xmi:type="uml:Class" xmi:id="_9MFr0OK8Ed-q7JaJPXNrbQ" name="AbstractEventActivityOwner">
         <eAnnotations xmi:id="_T8TD8-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         <ownedOperation xmi:id="_APfLYOK9Ed-q7JaJPXNrbQ" name="superEventOperation">
-          <eAnnotations xmi:id="_T8U5IOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <eAnnotations xmi:id="_T8U5IOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org" references="_3x_BcOjlEeC61rvWYjPZbA"/>
           <ownedParameter xmi:id="_ICVcoOK9Ed-q7JaJPXNrbQ" name="return" direction="return">
             <eAnnotations xmi:id="_T8VgMeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </ownedParameter>
           <ownedParameter xmi:id="_JZKFoOK9Ed-q7JaJPXNrbQ" name="Parameter1">
-            <eAnnotations xmi:id="_T8VgMOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+            <eAnnotations xmi:id="_T8VgMOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org" references="_66Fa0OjlEeC61rvWYjPZbA"/>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </ownedParameter>
         </ownedOperation>
@@ -1911,212 +1181,15 @@ endif</body>
       <packagedElement xmi:type="uml:SignalEvent" xmi:id="_b3JxkARUEeCuA4oh6NA2Cw" name="OnEmptySignal" signal="_NIjfsN4QEduT2scQvswYUA">
         <eAnnotations xmi:id="_T7AqgOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Activity" xmi:id="_EcO3UIVNEeCO_cyjCSiuxA" name="ActivityWithInvokeReply">
-        <eAnnotations xmi:id="_T773kOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <ownedOperation xmi:id="_JkkqIIVNEeCO_cyjCSiuxA" name="Operation1">
-          <eAnnotations xmi:id="_T78es-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_KXxBoIVNEeCO_cyjCSiuxA" name="Parameter1">
-            <eAnnotations xmi:id="_T78eteBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_LyprQIVNEeCO_cyjCSiuxA" name="result" direction="return">
-            <eAnnotations xmi:id="_T78etOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-        </ownedOperation>
-        <ownedOperation xmi:id="_Arc-0IXFEeCO_cyjCSiuxA" name="Operation2">
-          <eAnnotations xmi:id="_T773lOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <ownedParameter xmi:id="_BrjJ4IXFEeCO_cyjCSiuxA" name="Parameter1">
-            <eAnnotations xmi:id="_T773leBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-          </ownedParameter>
-          <ownedParameter xmi:id="_EdwLwIXFEeCO_cyjCSiuxA" name="result" direction="return">
-            <eAnnotations xmi:id="_T773luBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Boolean"/>
-          </ownedParameter>
-        </ownedOperation>
-        <node xmi:type="uml:InitialNode" xmi:id="_UWX_0IVNEeCO_cyjCSiuxA" name="InitialNode1" outgoing="_f2hCMIVNEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773neBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </node>
-        <node xmi:type="uml:AcceptCallAction" xmi:id="_V9uYIIVNEeCO_cyjCSiuxA" name="AcceptCallAction1" outgoing="_z5qHUIXEEeCO_cyjCSiuxA" incoming="_f2hCMIVNEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773nuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <result xmi:id="_voBzIIVNEeCO_cyjCSiuxA" name="result" outgoing="_7vwEYIXFEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773n-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </result>
-          <trigger xmi:id="_WBe2wIVNEeCO_cyjCSiuxA" name="AcceptCallAction1Trigger" event="_XYGrcYVNEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773oOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </trigger>
-          <returnInformation xmi:id="_Y_k_kIVNEeCO_cyjCSiuxA" name="returnInfo" outgoing="_fWal0IVNEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773oeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </returnInformation>
-        </node>
-        <node xmi:type="uml:ReplyAction" xmi:id="_bEmLUIVNEeCO_cyjCSiuxA" name="ReplyAction1" outgoing="_c1S-YIXFEeCO_cyjCSiuxA" incoming="_bUDOEIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773peBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <returnInformation xmi:id="_dcG1QIVNEeCO_cyjCSiuxA" name="returnInfor" incoming="_fWal0IVNEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773puBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </returnInformation>
-          <replyValue xmi:id="_S1_AIIXGEeCO_cyjCSiuxA" name="replyValue" incoming="_U3chkIXGEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773p-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </replyValue>
-        </node>
-        <node xmi:type="uml:AcceptCallAction" xmi:id="_vE6l8IXEEeCO_cyjCSiuxA" name="AcceptCallAction2" outgoing="_NXa7IIXFEeCO_cyjCSiuxA" incoming="_z5qHUIXEEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78etuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <result xmi:id="_P9lPoIXGEeCO_cyjCSiuxA" name="result" outgoing="_U3chkIXGEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T78euOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </result>
-          <trigger xmi:id="_w7qsMIXEEeCO_cyjCSiuxA" name="AcceptCallAction2Trigger" event="_XYGrcYVNEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T78eueBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </trigger>
-          <returnInformation xmi:id="_5hercIXEEeCO_cyjCSiuxA" name="returnInfo" outgoing="__tN08IXEEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T78et-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </returnInformation>
-        </node>
-        <node xmi:type="uml:ReplyAction" xmi:id="_2Aw9wIXEEeCO_cyjCSiuxA" name="ReplyAction2" outgoing="_bUDOEIXFEeCO_cyjCSiuxA" incoming="_Z4lVoIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773ouBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <returnInformation xmi:id="_37iBUIXEEeCO_cyjCSiuxA" name="returnInfo" incoming="__tN08IXEEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773pOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </returnInformation>
-          <replyValue xmi:id="_2tVTYIXFEeCO_cyjCSiuxA" name="replyValue" incoming="_7vwEYIXFEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T773o-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </replyValue>
-        </node>
-        <node xmi:type="uml:AcceptCallAction" xmi:id="_KUwbYIXFEeCO_cyjCSiuxA" name="AcceptCallAction3" incoming="_NXa7IIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78eouBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <result xmi:id="_LXdZEIXGEeCO_cyjCSiuxA" name="result">
-            <eAnnotations xmi:id="_T78eo-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </result>
-          <trigger xmi:id="_KWeSoIXFEeCO_cyjCSiuxA" name="AcceptCallAction3Trigger" event="_L-L3UIXFEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T78epOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </trigger>
-          <returnInformation xmi:id="_PvdwkIXFEeCO_cyjCSiuxA" name="returnInfo" outgoing="_VphUMIXFEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T78epeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </returnInformation>
-        </node>
-        <node xmi:type="uml:ReplyAction" xmi:id="_OubxYIXFEeCO_cyjCSiuxA" name="ReplyAction3" outgoing="_Z4lVoIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78erOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <returnInformation xmi:id="_RQ_0wIXFEeCO_cyjCSiuxA" name="returnInfo" incoming="_VphUMIXFEeCO_cyjCSiuxA">
-            <eAnnotations xmi:id="_T78ereBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </returnInformation>
-          <replyValue xmi:type="uml:ValuePin" xmi:id="_XIX30IXFEeCO_cyjCSiuxA" name="replyValue">
-            <eAnnotations xmi:id="_T78eruBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <value xmi:type="uml:OpaqueExpression" xmi:id="_XbIbwIXFEeCO_cyjCSiuxA" name="ValuePin1Expression">
-              <eAnnotations xmi:id="_T78er-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-              <language>OCL</language>
-              <body>true</body>
-            </value>
-          </replyValue>
-        </node>
-        <node xmi:type="uml:ActivityFinalNode" xmi:id="_cS3mwIXFEeCO_cyjCSiuxA" name="ActivityFinalNode1" incoming="_c1S-YIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T79Ft-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </node>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_fWal0IVNEeCO_cyjCSiuxA" name="ObjectFlow1" source="_Y_k_kIVNEeCO_cyjCSiuxA" target="_dcG1QIVNEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78esOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_fWal0YVNEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T78eseBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_fWal0oVNEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T78esuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_f2hCMIVNEeCO_cyjCSiuxA" name="ControlFlow1" source="_UWX_0IVNEeCO_cyjCSiuxA" target="_V9uYIIVNEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773keBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_f2hCMYVNEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T773kuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_f2hCMoVNEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T773k-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_z5qHUIXEEeCO_cyjCSiuxA" name="ControlFlow2" source="_V9uYIIVNEeCO_cyjCSiuxA" target="_vE6l8IXEEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T79FuOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:OpaqueExpression" xmi:id="_GbP9wIXGEeCO_cyjCSiuxA" name="ControlFlow2Expression">
-            <eAnnotations xmi:id="_T79FuuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <language>OCL</language>
-            <body>true</body>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_z5qHUoXEEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T79FueBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="__tN08IXEEeCO_cyjCSiuxA" name="ObjectFlow2" source="_5hercIXEEeCO_cyjCSiuxA" target="_37iBUIXEEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T79FseBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="__tN08oXEEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T79Fs-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_NXa7IIXFEeCO_cyjCSiuxA" name="ControlFlow3" source="_vE6l8IXEEeCO_cyjCSiuxA" target="_KUwbYIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T79FtOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:OpaqueExpression" xmi:id="_E4oUcIXGEeCO_cyjCSiuxA" name="ControlFlow3Expression">
-            <eAnnotations xmi:id="_T79FtuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-            <language>OCL</language>
-            <body>true</body>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_NXa7IoXFEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T79FteBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_VphUMIXFEeCO_cyjCSiuxA" name="ObjectFlow3" source="_PvdwkIXFEeCO_cyjCSiuxA" target="_RQ_0wIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78eqeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_VphUMYXFEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T78equBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_VphUMoXFEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T78eq-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_Z4lVoIXFEeCO_cyjCSiuxA" name="ControlFlow4" source="_OubxYIXFEeCO_cyjCSiuxA" target="_2Aw9wIXEEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773l-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_Z4lVoYXFEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T773meBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_Z4lVooXFEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T773mOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_bUDOEIXFEeCO_cyjCSiuxA" name="ControlFlow5" source="_2Aw9wIXEEeCO_cyjCSiuxA" target="_bEmLUIVNEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78euuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_bUDOEYXFEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T79FsOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_bUDOEoXFEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T78eu-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_c1S-YIXFEeCO_cyjCSiuxA" name="ControlFlow6" source="_bEmLUIVNEeCO_cyjCSiuxA" target="_cS3mwIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773muBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_c1S-YYXFEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T773m-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_c1S-YoXFEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T773nOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_7vwEYIXFEeCO_cyjCSiuxA" name="ObjectFlow42" source="_voBzIIVNEeCO_cyjCSiuxA" target="_2tVTYIXFEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T773qOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_7vwEYYXFEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T78eoOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_7vwEYoXFEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T78eoeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_U3chkIXGEeCO_cyjCSiuxA" name="ObjectFlow5" source="_P9lPoIXGEeCO_cyjCSiuxA" target="_S1_AIIXGEeCO_cyjCSiuxA">
-          <eAnnotations xmi:id="_T78epuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_U3chkYXGEeCO_cyjCSiuxA" value="true">
-            <eAnnotations xmi:id="_T78ep-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </guard>
-          <weight xmi:type="uml:LiteralInteger" xmi:id="_U3chkoXGEeCO_cyjCSiuxA" value="1">
-            <eAnnotations xmi:id="_T78eqOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-          </weight>
-        </edge>
-      </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_XYGrcIVNEeCO_cyjCSiuxA" name="events">
         <eAnnotations xmi:id="_T8TD8OBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <packagedElement xmi:type="uml:CallEvent" xmi:id="_XYGrcYVNEeCO_cyjCSiuxA" name="OnOperation1" operation="_JkkqIIVNEeCO_cyjCSiuxA">
+        <packagedElement xmi:type="uml:CallEvent" xmi:id="_XYGrcYVNEeCO_cyjCSiuxA" name="OnOperation1">
           <eAnnotations xmi:id="_T8TD8uBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <operation href="AcceptCallActionTests.uml#_JkkqIIVNEeCO_cyjCSiuxA"/>
         </packagedElement>
-        <packagedElement xmi:type="uml:CallEvent" xmi:id="_L-L3UIXFEeCO_cyjCSiuxA" name="OnOperation2" operation="_Arc-0IXFEeCO_cyjCSiuxA">
+        <packagedElement xmi:type="uml:CallEvent" xmi:id="_L-L3UIXFEeCO_cyjCSiuxA" name="OnOperation2">
           <eAnnotations xmi:id="_T8TD8eBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
+          <operation href="AcceptCallActionTests.uml#_Arc-0IXFEeCO_cyjCSiuxA"/>
         </packagedElement>
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_0W3doIe6EeC8RrVQoKImsA" name="Interface1">
@@ -2628,7 +1701,7 @@ endif</body>
             <specification xmi:type="uml:OpaqueExpression" xmi:id="_OcuwAOBfEeCADq1lLeuEaA" name="nullSpecification">
               <eAnnotations xmi:id="_OerQwOBfEeCADq1lLeuEaA" source="http://www.nakeduml.org"/>
               <language>OCL</language>
-              <body>valid implies upperLimit>1</body>
+              <body>limitsValid implies upperLimit>1</body>
             </specification>
           </localPostcondition>
           <inputValue xmi:type="uml:ValuePin" xmi:id="_BoaukFHmEdyTle4M6qyXzw" name="userForVerifyLimits" type="_KAIkQFHiEdyTle4M6qyXzw">
@@ -2687,7 +1760,7 @@ endif</body>
               <body>lowerLimitProperty</body>
             </value>
           </inputValue>
-          <outputValue xmi:id="_WESV0FHmEdyTle4M6qyXzw" name="valid" outgoing="_YE19EOhGEd-fasQNLv8waw">
+          <outputValue xmi:id="_WESV0FHmEdyTle4M6qyXzw" name="limitsValid" outgoing="_YE19EOhGEd-fasQNLv8waw">
             <eAnnotations xmi:id="_T6SRxuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
             <upperBound xmi:type="uml:LiteralInteger" xmi:id="_WESV0VHmEdyTle4M6qyXzw" value="1">
@@ -2948,7 +2021,7 @@ endif</body>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:id="_L_TUwFHkEdyTle4M6qyXzw" name="busierThan" visibility="public" bodyCondition="_kmx7sBWNEeC8XsmfzpPEhA">
+        <ownedOperation xmi:id="_L_TUwFHkEdyTle4M6qyXzw" name="busierThan" visibility="public" isQuery="true" bodyCondition="_kmx7sBWNEeC8XsmfzpPEhA">
           <eAnnotations xmi:id="_T6NZS-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
           <ownedRule xmi:id="_kmx7sBWNEeC8XsmfzpPEhA" name="Constraint1">
             <eAnnotations xmi:id="_T6NZTuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
@@ -2972,7 +2045,7 @@ endif</body>
     </packagedElement>
     <profileApplication xmi:id="_DYvR5dOQEdubaLB0CR972w">
       <eAnnotations xmi:id="_DYvR5tOQEdubaLB0CR972w" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Standard.profile.uml#_yzU58YinEdqtvbnfB2L_5w"/>
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/schemas/Standard/1#/"/>
       </eAnnotations>
       <eAnnotations xmi:id="_T6OAVeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
       <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>

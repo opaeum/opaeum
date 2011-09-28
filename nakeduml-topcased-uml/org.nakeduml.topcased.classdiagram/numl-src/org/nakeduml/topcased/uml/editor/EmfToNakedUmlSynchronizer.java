@@ -54,6 +54,7 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.ProfileApplier;
 import org.topcased.modeler.utils.ResourceUtils;
 
@@ -131,11 +132,11 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 					if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL_LIBRARY)){
 						modelStereotype = pf.getOwnedStereotype(StereotypeNames.MODEL_LIBRARY);
 					}
-					if(!model.isStereotypeApplied(modelStereotype )){
-						model.applyStereotype(modelStereotype );
+					if(!model.isStereotypeApplied(modelStereotype)){
+						model.applyStereotype(modelStereotype);
 					}
-					if(model.getValue(modelStereotype , "mappedImplementationPackage") == null){
-						model.setValue(modelStereotype , "mappedImplementationPackage", cfg.getMavenGroupId() + "." + model.getName().toLowerCase());
+					if(model.getValue(modelStereotype, "mappedImplementationPackage") == null){
+						model.setValue(modelStereotype, "mappedImplementationPackage", cfg.getMavenGroupId() + "." + model.getName().toLowerCase());
 					}
 				}
 				try{
@@ -172,7 +173,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		this.transformationProcess.replaceModel(nakedModelWorspace);
 	}
 	public EmfWorkspace buildWorkspaces(Package model,TransformationProgressLog log) throws Exception,IOException{
-		EcoreUtil.resolveAll(model);
+		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
 		emfWorkspace.setName(cfg.getWorkspaceName());
@@ -193,7 +194,6 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		result.addAll(allSteps);
 		result.addAll(ValidationPhase.getAllValidationSteps());
 		result.add(JavaNameRegenerator.class);
-		result.add(PersistentNameGenerator.class);
 		Set<Class<? extends ITransformationStep>> additionalTransformationSteps = cfg.getAdditionalTransformationSteps();
 		Steps steps = new Steps();
 		steps.initializeFromClasses(additionalTransformationSteps);
@@ -212,7 +212,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		if(!suspended && resourcesBeingLoaded.isEmpty()){
 			linker.notifyChanged(notification);
 		}
-		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.SET){
+		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY || notification.getEventType() == Notification.SET){
 			final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
 					&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
 			if(!annotationCreated){
@@ -240,23 +240,29 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 				}else{
 					if(notification.getNotifier() instanceof Element){
 						EObject o = null;
-						if(notification.getEventType() == Notification.ADD && notification.getNewValue() instanceof EObject){
+						if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
+								&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
+							// new object
 							o = (EObject) notification.getNewValue();
-						}else if(notification.getNotifier() instanceof EObject){
-							o = (EObject) notification.getNotifier();
+							scheduleSynchronization(o);
 						}
-						if(o != null && o.eContainer() != null){
+						if(notification.getNotifier() instanceof EObject){
+							o = (EObject) notification.getNotifier();
 							scheduleSynchronization(o);
 						}
 					}
 				}
-			}else if(notification.getEventType() == Notification.REMOVE){
-				if(notification.getOldValue() instanceof Element){
-					final Element oldValue = (Element) notification.getOldValue();
-					final Resource eResource = ((EObject) notification.getNotifier()).eResource();
-					storeTempId(oldValue, eResource);
-					scheduleSynchronization(oldValue);
-				}
+			}
+		}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
+			if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
+					&& notification.getOldValue() instanceof Element){
+				// Deletion
+				final Element oldValue = (Element) notification.getOldValue();
+				final Resource eResource = ((EObject) notification.getNotifier()).eResource();
+				storeTempId(oldValue, eResource);
+				scheduleSynchronization(oldValue);
+			}else if(notification.getNotifier() instanceof EObject){
+				scheduleSynchronization((EObject) notification.getNotifier());
 			}
 		}
 		super.notifyChanged(notification);
@@ -271,7 +277,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		};
 		final String id = currentEmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
 		StereotypesHelper.getNumlAnnotation(ne).getDetails().put("opiumId", id);
-		for(Element element:ne.getOwnedElements()){
+		for(Element element:EmfElementFinder.getCorrectOwnedElements(ne)){
 			storeTempId(element, eResource);
 		}
 	}

@@ -44,20 +44,20 @@ import org.w3c.dom.NodeList;
 @Entity(name="ParticipationInTask")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(name="participation_in_task")
-@NumlMetaInfo(qualifiedPersistentName="opium_library_for_bpm.participation_in_task",uuid="252060@_vZOC4I6UEeCne5ArYLDbiA")
+@Table(schema="opium_bpm",name="participation_in_task")
+@NumlMetaInfo(uuid="252060@_vZOC4I6UEeCne5ArYLDbiA")
 @AccessType("field")
 @DiscriminatorValue("participation_in_task")
-public class ParticipationInTask extends Participation implements IEventGenerator, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
+public class ParticipationInTask extends Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
+	@Transient
+	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Column(name="deleted_on")
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Date deletedOn = Stdlib.FUTURE;
 	@Transient
-	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
-	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	static final private long serialVersionUID = 859;
+	static final private long serialVersionUID = 43;
 	static private Set<ParticipationInTask> mockedAllInstances;
 	@Index(name="idx_participation_in_task_task_request_id",columnNames="task_request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
@@ -136,9 +136,11 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		return this.deletedOn;
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_task.kind",uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
+	@NumlMetaInfo(uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
 	public TaskParticipationKind getKind() {
-		return kind;
+		TaskParticipationKind result = this.kind;
+		
+		return result;
 	}
 	
 	public String getName() {
@@ -153,9 +155,11 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		return getTaskRequest();
 	}
 	
-	@NumlMetaInfo(qualifiedPersistentName="participation_in_task.task_request_id",uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
+	@NumlMetaInfo(uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
 	public TaskRequest getTaskRequest() {
-		return taskRequest;
+		TaskRequest result = this.taskRequest;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -189,7 +193,6 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		if ( getTaskRequest()!=null ) {
 			getTaskRequest().z_internalRemoveFromParticipationsInTask((ParticipationInTask)this);
 		}
-		setDeletedOn(new Date());
 	}
 	
 	static public void mockAllInstances(Set<ParticipationInTask> newMocks) {
@@ -201,7 +204,7 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("935")) ) {
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("participant") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("165")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
 				while ( j<propertyValueNodes.getLength() ) {
@@ -244,7 +247,7 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 			this.z_internalAddToTaskRequest(taskRequest);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			markDeleted();
+			setDeletedOn(new Date());
 		}
 	}
 	
@@ -265,7 +268,7 @@ public class ParticipationInTask extends Participation implements IEventGenerato
 		if ( getParticipant()==null ) {
 			sb.append("\n<participant/>");
 		} else {
-			sb.append("\n<participant propertyId=\"935\">");
+			sb.append("\n<participant propertyId=\"165\">");
 			sb.append("\n" + getParticipant().toXmlReferenceString());
 			sb.append("\n</participant>");
 		}

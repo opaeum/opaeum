@@ -23,4 +23,5 @@ public interface INakedOperation extends IOperation,INakedPackageableElement,IPa
 	void initMessageStructure();
 	INakedMessageStructure getMessageStructure();
 	Collection<INakedClassifier> getRaisedExceptions();
+	Collection<INakedOperation> getRedefinedOperations();
 }

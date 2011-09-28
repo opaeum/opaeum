@@ -8,6 +8,7 @@ import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.javageneration.util.ReflectionUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
@@ -27,7 +28,7 @@ import org.nakeduml.runtime.domain.TriggerMethod;
 
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
-	protected abstract INakedElement getEnclosingElement(INakedElement step);
+	protected abstract INakedStep getEnclosingElement(INakedElement step);
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;
@@ -71,7 +72,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 	}
 
 
-	protected void buildLiteral(INakedElement step, OJEnum e) {
+	protected void buildLiteral(INakedStep step, OJEnum e) {
 		OJEnumLiteral l = new OJEnumLiteral();
 		l.setName(Jbpm5Util.stepLiteralName(step));
 		e.addToLiterals(l);

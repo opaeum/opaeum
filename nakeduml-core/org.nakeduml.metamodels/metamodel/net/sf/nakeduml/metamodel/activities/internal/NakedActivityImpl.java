@@ -149,7 +149,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 					}
 				}
 			}
-			if(node instanceof INakedEmbeddedTask){
+			if(node instanceof INakedEmbeddedTask && messageEvents==false){
 				results.addAll((Collection) ((INakedEmbeddedTask) node).getTaskDefinition().getDeadlines());
 			}
 		}

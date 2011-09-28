@@ -46,4 +46,5 @@ public interface INakedTransition extends INakedElementOwner,GuardedFlow{
 	void setGuardConstraint(INakedConstraint guard);
 	INakedConstraint getGuardConstraint();
 	public INakedRegion getContainer();
+	INakedTransition getRedefinedTransition();
 }
