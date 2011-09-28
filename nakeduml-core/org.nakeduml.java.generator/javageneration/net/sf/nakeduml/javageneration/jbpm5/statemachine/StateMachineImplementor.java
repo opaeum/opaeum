@@ -174,7 +174,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		}
 	};
 	private void transition(INakedTransition transition){
-		if(transition.getGuard() != null && transition.getGuard().isValidOclValue() && transition.getSource().getKind().isChoice()){
+		if(transition.hasGuard() && transition.getGuard().isValidOclValue() && transition.getSource().getKind().isChoice()){
 			OJOperation getter = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(transition));
 			getter.setReturnType(new OJPathName("boolean"));
 			getJavaStateMachine().addToOperations(getter);

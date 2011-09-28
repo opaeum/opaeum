@@ -113,29 +113,32 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			for(Control control:group.getChildren()){
 				control.dispose();
 			}
-			if(markers.isEmpty()){
+			NakedUmlEclipseContext ctx = NakedUmlEditor.getCurrentContext();
+			if(markers.isEmpty() || ctx == null || ctx.getCurrentEmfWorkspace() == null){
 				hide();
 			}else{
 				for(final Entry<EObject,IMarker> entry:markers.entrySet()){
-					NakedUmlEclipseContext ctx = NakedUmlEditor.getCurrentContext();
 					ErrorMap errorMap = ctx.getNakedWorkspace().getErrorMap();
 					EObject key = entry.getKey();
 					BrokenElement error = errorMap.getErrors().get(ctx.getCurrentEmfWorkspace().getId(key));
-					for(Entry<IValidationRule,BrokenRule> brokenRule:error.getBrokenRules().entrySet()){
-						String[] split = brokenRule.getKey().getMessagePattern().split("[\\{\\}]");
-						Composite comp = getWidgetFactory().createComposite(group);
-						GridLayout gl = new GridLayout(split.length, false);
-						comp.setLayout(gl);
-						gl.horizontalSpacing = 0;
-						gl.marginWidth = 0;
-						gl.marginHeight = 0;
-						gl.verticalSpacing = 0;
-						for(int i = 0;i < split.length;i++){
-							createMessageFragment(key, comp, split[i], brokenRule.getValue().getParameters());
+					if(error != null){
+						//may have been delete since extraction 
+						for(Entry<IValidationRule,BrokenRule> brokenRule:error.getBrokenRules().entrySet()){
+							String[] split = brokenRule.getKey().getMessagePattern().split("[\\{\\}]");
+							Composite comp = getWidgetFactory().createComposite(group);
+							GridLayout gl = new GridLayout(split.length, false);
+							comp.setLayout(gl);
+							gl.horizontalSpacing = 0;
+							gl.marginWidth = 0;
+							gl.marginHeight = 0;
+							gl.verticalSpacing = 0;
+							for(int i = 0;i < split.length;i++){
+								createMessageFragment(key, comp, split[i], brokenRule.getValue().getParameters());
+							}
+							comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+							comp.layout();
+							comp.pack();
 						}
-						comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-						comp.layout();
-						comp.pack();
 					}
 				}
 				FormData fd = new FormData();
@@ -152,13 +155,14 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 		Control txt = null;
 		if(current.length() >= 1 && current.length() <= 2 && Character.isDigit(current.charAt(0))){
 			int parseInt = Integer.parseInt(current);
-			Object o = parseInt == 0 ? key: parameters[parseInt-1];
+			Object o = parseInt == 0 ? key : parameters[parseInt - 1];
 			if(o instanceof INakedElement){
 				INakedElement o1 = (INakedElement) o;
 				txt = createHyperlink(comp, o1.getOwnerElement().getName() + "::" + o1.getName(), o1.getId());
 			}else if(o instanceof Element){
 				Element element = (Element) o;
-				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element), NakedUmlEditor.getCurrentContext().getId(element));
+				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element), NakedUmlEditor.getCurrentContext()
+						.getId(element));
 			}else{
 				txt = getWidgetFactory().createLabel(comp, o.toString());
 			}

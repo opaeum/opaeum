@@ -31,7 +31,7 @@ import org.nakeduml.runtime.bpm.businesscalendar.WorkDayKind;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {
 		"business_component","deleted_on"
 }),name = "business_calendar")
-@NumlMetaInfo(qualifiedPersistentName = "businesscalendar.business_calendar",uuid = "65a77c10_1db1_40f2_9bc5_e3306b228731")
+@NumlMetaInfo(uuid = "65a77c10_1db1_40f2_9bc5_e3306b228731")
 @AccessType("field")
 public class BusinessCalendar extends BusinessCalendarGenerated{
 	private static final long serialVersionUID = -161618913396793066L;

@@ -10,6 +10,7 @@ import net.sf.nakeduml.javageneration.JavaTransformationPhase;
 import net.sf.nakeduml.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import net.sf.nakeduml.javageneration.util.OJUtil;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedCallEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTrigger;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedRegion;
@@ -24,7 +25,7 @@ import org.nakeduml.java.metamodel.annotation.OJEnum;
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
 public class StateEnumerationImplementor extends ProcessStepEnumerationImplementor{
 	@Override
-	protected INakedElement getEnclosingElement(INakedElement s){
+	protected INakedStep getEnclosingElement(INakedElement s){
 		INakedState state = (INakedState) s;
 		if(state.hasEnclosingState()){
 			return state.getEnclosingState();

@@ -118,7 +118,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitGuardedFlow(GuardedFlow edge){
-		if(edge.getGuard() != null && edge.getGuard().getValue() instanceof ParsedOclString){
+		if(edge.hasGuard() && edge.getGuard().getValue() instanceof ParsedOclString){
 			ParsedOclString string = (ParsedOclString) edge.getGuard().getValue();
 			string.setContext(edge.getOwningBehavior(), edge.getGuard());
 			IClassifier booleanType = getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName);

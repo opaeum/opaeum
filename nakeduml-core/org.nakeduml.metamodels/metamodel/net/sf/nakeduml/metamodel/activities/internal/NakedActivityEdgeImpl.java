@@ -10,128 +10,125 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedOutputPin;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedParameter;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
 import net.sf.nakeduml.metamodel.core.internal.NakedElementImpl;
+import nl.klasse.octopus.oclengine.IOclContext;
 
-public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedActivityEdge {
+public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedActivityEdge{
 	private static final long serialVersionUID = 6408889822146373878L;
 	private INakedActivityNode source;
 	private INakedActivityNode target;
 	private INakedValueSpecification guardExpression;
 	private INakedValueSpecification weight;
 	private Set<INakedActivityEdge> redefinedEdges = new HashSet<INakedActivityEdge>();
-
-	public INakedValueSpecification getGuard() {
+	private boolean isElse;
+	public INakedValueSpecification getGuard(){
 		return this.guardExpression;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively) {
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("isElseFlow")){
+			isElse = Boolean.TRUE.equals(stereotype.getFirstValueFor("isElseFlow").getValue());
+		}
+	}
+	@Override
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
-		if(element==guardExpression){
-			guardExpression=null;
-		}else if(element==weight){
-			weight=null;
+		if(element == guardExpression){
+			guardExpression = null;
+		}else if(element == weight){
+			weight = null;
 		}
 	};
-	public void setGuard(INakedValueSpecification guardExpression) {
+	public boolean isElse(){
+		return isElse || (guardExpression != null && guardExpression.getValue() == INakedActivityEdge.ELSE);
+	}
+	public void setGuard(INakedValueSpecification guardExpression){
 		this.guardExpression = guardExpression;
 	}
-
-	public INakedActivityNode getSource() {
+	public INakedActivityNode getSource(){
 		return this.source;
 	}
-
-	public void setSource(INakedActivityNode source) {
-		if(this.source!=null){
+	public void setSource(INakedActivityNode source){
+		if(this.source != null){
 			this.source.removeOutgoing(this);
 		}
-		if(source!=null){
+		if(source != null){
 			source.addOutgoing(this);
 		}
 		this.source = source;
 	}
-
-	public INakedActivityNode getTarget() {
+	public INakedActivityNode getTarget(){
 		return this.target;
 	}
-
-	public void setTarget(INakedActivityNode target) {
-		if(this.target!=null){
+	public void setTarget(INakedActivityNode target){
+		if(this.target != null){
 			this.target.removeIncoming(this);
 		}
-		if(target!=null){
+		if(target != null){
 			target.addIncoming(this);
 		}
 		this.target = target;
 	}
-
 	@Override
-	public String getMetaClass() {
+	public String getMetaClass(){
 		return "activityEdge";
 	}
-
 	@Override
-	public Collection<INakedElement> getOwnedElements() {
+	public Collection<INakedElement> getOwnedElements(){
 		Collection<INakedElement> results = super.getOwnedElements();
-		if (this.guardExpression != null) {
+		if(this.guardExpression != null){
 			results.add(this.guardExpression);
 		}
-		if (this.weight != null) {
+		if(this.weight != null){
 			results.add(weight);
 		}
 		return results;
 	}
-
 	@Override
-	public void addOwnedElement(INakedElement element) {
+	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
 	}
-
-	public INakedActivityNode getEffectiveTarget() {
+	public INakedActivityNode getEffectiveTarget(){
 		return getTarget();
 	}
-
-	public boolean isFromExceptionPin() {
-		if (getSource() instanceof INakedOutputPin) {
+	public boolean isFromExceptionPin(){
+		if(getSource() instanceof INakedOutputPin){
 			INakedOutputPin o = (INakedOutputPin) getSource();
-			if (o.getLinkedTypedElement() instanceof INakedParameter) {
+			if(o.getLinkedTypedElement() instanceof INakedParameter){
 				INakedParameter p = (INakedParameter) o.getLinkedTypedElement();
-				if (p.isException()) {
+				if(p.isException()){
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
-	public INakedValueSpecification getWeight() {
+	public INakedValueSpecification getWeight(){
 		return weight;
 	}
-
-	public void setWeight(INakedValueSpecification weight) {
+	public void setWeight(INakedValueSpecification weight){
 		this.weight = weight;
 	}
-
-	public INakedActivityNode getEffectiveSource() {
+	public INakedActivityNode getEffectiveSource(){
 		return getSource();
 	}
-
-	public INakedClassifier getContext() {
+	public INakedClassifier getContext(){
 		return getTarget().getActivity().getContext();
 	}
-
-	public INakedActivity getOwningBehavior() {
+	public INakedActivity getOwningBehavior(){
 		return getActivity();
 	}
-
-	public INakedActivity getActivity() {
+	public INakedActivity getActivity(){
 		return getTarget().getActivity();
 	}
-
 	@Override
-	public boolean hasGuard() {
-		return getGuard() != null && !Boolean.TRUE.equals(getGuard().getValue());
+	public boolean hasGuard(){
+		return !(getGuard() == null || this.getGuard().getValue() instanceof IOclContext
+				&& ((IOclContext) this.getGuard().getValue()).getExpressionString().trim().equals("true") || Boolean.TRUE.equals(getGuard().getValue()) || ELSE.equals(getGuard().getValue()));
 	}
 	@Override
 	public Set<INakedActivityEdge> getRedefinedEdges(){

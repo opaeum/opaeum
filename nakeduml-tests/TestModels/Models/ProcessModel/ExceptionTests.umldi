@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_55mfgKTcEeCJw_uhYL7KOA" activeDiagram="_9hqLUKTcEeCJw_uhYL7KOA">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_55mfgKTcEeCJw_uhYL7KOA" activeDiagram="_fG3dwNYQEd--3Opbdu_7JA">
   <model href="ExceptionTests.uml#_qb8akM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_9hqLUKTcEeCJw_uhYL7KOA" position="0,0" size="100,100" name="ExceptionTests" viewport="0,0">
     <property xmi:id="_9h6qAKTcEeCJw_uhYL7KOA" key="pageFormatName" value="A4"/>
@@ -15,6 +15,7 @@
       <element href="ExceptionTests.uml#_qb8akM37EdqwVrslYOdUDA"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_uVtssOKBEeCjBPmpzCmBRw" position="156,45" size="100,-1">
+      <anchorage xmi:id="_3oD3EOmuEeCSx7i6xliGDA" graphEdge="_3oIvkOmuEeCSx7i6xliGDA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uVtsseKBEeCjBPmpzCmBRw" presentation="default">
         <element href="ExceptionTests.uml#_uV22oOKBEeCjBPmpzCmBRw"/>
       </semanticModel>
@@ -31,10 +32,64 @@
         </semanticModel>
       </contained>
     </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_2oMVgOmuEeCSx7i6xliGDA" position="139,147" size="612,-1">
+      <anchorage xmi:id="_3oEeIOmuEeCSx7i6xliGDA" graphEdge="_3oIvkOmuEeCSx7i6xliGDA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2oMVgemuEeCSx7i6xliGDA" presentation="default">
+        <element href="processmodel.uml#_30wb4NOQEdubaLB0CR972w"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_2oMVgumuEeCSx7i6xliGDA">
+        <property xmi:id="_2oMVg-muEeCSx7i6xliGDA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2oMVhOmuEeCSx7i6xliGDA" presentation="default">
+          <element href="processmodel.uml#_30wb4NOQEdubaLB0CR972w"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_2otS4OmuEeCSx7i6xliGDA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2otS4emuEeCSx7i6xliGDA" presentation="default">
+            <element href="processmodel.uml#_ATuZoN0QEduHesVHuVad2Q"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_2ouhAOmuEeCSx7i6xliGDA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2ouhAemuEeCSx7i6xliGDA" presentation="default">
+            <element href="processmodel.uml#_BnUvgN0QEduHesVHuVad2Q"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_2ouhAumuEeCSx7i6xliGDA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2ouhA-muEeCSx7i6xliGDA" presentation="default">
+            <element href="processmodel.uml#_Dkc_gARQEeCuA4oh6NA2Cw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_2owWMOmuEeCSx7i6xliGDA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2owWMemuEeCSx7i6xliGDA" presentation="default">
+            <element href="processmodel.uml#_C3TwMARREeCuA4oh6NA2Cw"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_2oMVhemuEeCSx7i6xliGDA">
+        <property xmi:id="_2oMVhumuEeCSx7i6xliGDA" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2oMVh-muEeCSx7i6xliGDA" presentation="default">
+          <element href="processmodel.uml#_30wb4NOQEdubaLB0CR972w"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_2oxkUOmuEeCSx7i6xliGDA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2oxkUemuEeCSx7i6xliGDA" presentation="default">
+            <element href="processmodel.uml#_jnPOINOaEdubaLB0CR972w"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_2ozZgOmuEeCSx7i6xliGDA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2ozZgemuEeCSx7i6xliGDA" presentation="default">
+            <element href="processmodel.uml#_pLyJoNkdEduKbsilyv7DTA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_3oIvkOmuEeCSx7i6xliGDA" anchor="_3oD3EOmuEeCSx7i6xliGDA _3oEeIOmuEeCSx7i6xliGDA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_3oIvkemuEeCSx7i6xliGDA" presentation="default">
+        <element href="ExceptionTests.uml#_3oZ1UOmuEeCSx7i6xliGDA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_3oIvkumuEeCSx7i6xliGDA" id="stereotypeEdgeObject"/>
+    </contained>
   </diagrams>
   <subdiagrams xmi:id="_fG2PoNYQEd--3Opbdu_7JA">
     <model href="ExceptionTests.uml#_G6dYAN4LEdujeYl0UYl70A"/>
-    <diagrams xmi:id="_fG3dwNYQEd--3Opbdu_7JA" position="0,0" size="100,100" name="ExceptionHandlingActivity" zoom="0.75" viewport="0,0">
+    <diagrams xmi:id="_fG3dwNYQEd--3Opbdu_7JA" position="0,0" size="100,100" name="ExceptionHandlingActivity" zoom="0.75" viewport="380,150">
       <property xmi:id="_fIDJgNYQEd--3Opbdu_7JA" key="pageFormatName" value="A3"/>
       <property xmi:id="_fIWrgNYQEd--3Opbdu_7JA" key="diagramWidth" value="1188"/>
       <property xmi:id="_fIq0kNYQEd--3Opbdu_7JA" key="diagramHeight" value="1680"/>

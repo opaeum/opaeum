@@ -80,7 +80,6 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 						oper.getBody().addToLocals(consumed);
 					}
 					
-					OJUtil.removeReturnStatement(oper);
 					OJIfStatement ifProcessActive = addIfProcessActiveAndRemoveReturnStatementIfNecessary(activityClass, oper);
 					OJIfStatement ifTokenFound = addIfTokenFound(oper, ifProcessActive, acc);
 					if(BehaviorUtil.hasExecutionInstance(no)){
@@ -105,7 +104,6 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 							}
 						}
 					}
-					oper.getBody().addToStatements("return result");
 					if(!activity.conformsTo(no.getOwner()) && activity.getContext() != null && activity.getContext().conformsTo(no.getOwner())){
 						// TODO find the right activity and delegate to it
 					}

@@ -11,6 +11,10 @@
     </packageImport>
     <packagedElement xmi:type="uml:Class" xmi:id="_uV22oOKBEeCjBPmpzCmBRw" name="Context">
       <eAnnotations xmi:id="_uYJVoOKBEeCjBPmpzCmBRw" source="http://www.nakeduml.org"/>
+      <generalization xmi:id="_3oZ1UOmuEeCSx7i6xliGDA">
+        <eAnnotations xmi:id="_3qXkMOmuEeCSx7i6xliGDA" source="http://www.nakeduml.org"/>
+        <general xmi:type="uml:Class" href="processmodel.uml#_30wb4NOQEdubaLB0CR972w"/>
+      </generalization>
       <ownedBehavior xmi:type="uml:Activity" xmi:id="_wSQ48OKBEeCjBPmpzCmBRw" name="Activity1">
         <eAnnotations xmi:id="_wSilwOKBEeCjBPmpzCmBRw" source="http://www.nakeduml.org"/>
       </ownedBehavior>
@@ -754,9 +758,6 @@
       </edge>
       <edge xmi:type="uml:ControlFlow" xmi:id="_5UQXgAROEeCuA4oh6NA2Cw" name="ControlFlow1" source="_j535kAROEeCuA4oh6NA2Cw" target="_YTUhQN4LEdujeYl0UYl70A">
         <eAnnotations xmi:id="_T8AwFOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="_5UQXgQROEeCuA4oh6NA2Cw" value="true">
-          <eAnnotations xmi:id="_T8AwFuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </guard>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_5UQXggROEeCuA4oh6NA2Cw" value="1">
           <eAnnotations xmi:id="_T8AwFeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         </weight>

@@ -54,6 +54,7 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.nakeduml.eclipse.EmfElementFinder;
 import org.nakeduml.eclipse.ProfileApplier;
 import org.topcased.modeler.utils.ResourceUtils;
 
@@ -276,7 +277,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		};
 		final String id = currentEmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
 		StereotypesHelper.getNumlAnnotation(ne).getDetails().put("opiumId", id);
-		for(Element element:ne.getOwnedElements()){
+		for(Element element:EmfElementFinder.getCorrectOwnedElements(ne)){
 			storeTempId(element, eResource);
 		}
 	}

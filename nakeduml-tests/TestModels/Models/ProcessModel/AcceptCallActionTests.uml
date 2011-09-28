@@ -112,9 +112,6 @@
       </node>
       <edge xmi:type="uml:ObjectFlow" xmi:id="_fWal0IVNEeCO_cyjCSiuxA" name="ObjectFlow1" source="_Y_k_kIVNEeCO_cyjCSiuxA" target="_dcG1QIVNEeCO_cyjCSiuxA">
         <eAnnotations xmi:id="_T78esOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="_fWal0YVNEeCO_cyjCSiuxA" value="true">
-          <eAnnotations xmi:id="_T78eseBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </guard>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_fWal0oVNEeCO_cyjCSiuxA" value="1">
           <eAnnotations xmi:id="_T78esuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         </weight>
@@ -167,18 +164,12 @@
       </edge>
       <edge xmi:type="uml:ControlFlow" xmi:id="_Z4lVoIXFEeCO_cyjCSiuxA" name="ControlFlow4" source="_OubxYIXFEeCO_cyjCSiuxA" target="_2Aw9wIXEEeCO_cyjCSiuxA">
         <eAnnotations xmi:id="_T773l-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="_Z4lVoYXFEeCO_cyjCSiuxA" value="true">
-          <eAnnotations xmi:id="_T773meBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </guard>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_Z4lVooXFEeCO_cyjCSiuxA" value="1">
           <eAnnotations xmi:id="_T773mOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         </weight>
       </edge>
       <edge xmi:type="uml:ControlFlow" xmi:id="_bUDOEIXFEeCO_cyjCSiuxA" name="ControlFlow5" source="_2Aw9wIXEEeCO_cyjCSiuxA" target="_bEmLUIVNEeCO_cyjCSiuxA">
         <eAnnotations xmi:id="_T78euuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="_bUDOEYXFEeCO_cyjCSiuxA" value="true">
-          <eAnnotations xmi:id="_T79FsOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </guard>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_bUDOEoXFEeCO_cyjCSiuxA" value="1">
           <eAnnotations xmi:id="_T78eu-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         </weight>
@@ -194,18 +185,12 @@
       </edge>
       <edge xmi:type="uml:ObjectFlow" xmi:id="_7vwEYIXFEeCO_cyjCSiuxA" name="ObjectFlow42" source="_voBzIIVNEeCO_cyjCSiuxA" target="_2tVTYIXFEeCO_cyjCSiuxA">
         <eAnnotations xmi:id="_T773qOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="_7vwEYYXFEeCO_cyjCSiuxA" value="true">
-          <eAnnotations xmi:id="_T78eoOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </guard>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_7vwEYoXFEeCO_cyjCSiuxA" value="1">
           <eAnnotations xmi:id="_T78eoeBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         </weight>
       </edge>
       <edge xmi:type="uml:ObjectFlow" xmi:id="_U3chkIXGEeCO_cyjCSiuxA" name="ObjectFlow5" source="_P9lPoIXGEeCO_cyjCSiuxA" target="_S1_AIIXGEeCO_cyjCSiuxA">
         <eAnnotations xmi:id="_T78epuBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        <guard xmi:type="uml:LiteralBoolean" xmi:id="_U3chkYXGEeCO_cyjCSiuxA" value="true">
-          <eAnnotations xmi:id="_T78ep-BHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
-        </guard>
         <weight xmi:type="uml:LiteralInteger" xmi:id="_U3chkoXGEeCO_cyjCSiuxA" value="1">
           <eAnnotations xmi:id="_T78eqOBHEeCzD6PmfoYTzg" source="http://www.nakeduml.org"/>
         </weight>

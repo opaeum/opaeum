@@ -1,8 +1,10 @@
 package net.sf.nakeduml.metamodel.activities;
 import java.util.Set;
 
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.core.INakedElement;
-public interface INakedActivityNode extends INakedElement {
+import nl.klasse.octopus.model.IState;
+public interface INakedActivityNode extends INakedElement,INakedStep{
 	INakedActivity getActivity();
 	INakedActivityPartition getInPartition();
 	void setInPartition(INakedActivityPartition s);

@@ -17,6 +17,7 @@ import net.sf.nakeduml.metamodel.activities.INakedActivityEdge;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
 import net.sf.nakeduml.metamodel.activities.INakedControlNode;
 import net.sf.nakeduml.metamodel.activities.INakedObjectNode;
+import net.sf.nakeduml.metamodel.bpm.INakedEmbeddedTask;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedProperty;
@@ -34,90 +35,64 @@ public class ActivityValidator extends AbstractValidator{
 			INakedActivity activity = (INakedActivity) c;
 			for(INakedActivityNode node:activity.getActivityNodesRecursively()){
 				if(node instanceof INakedAction){
-					INakedAction action = (INakedAction) node;
-					validateFlows(action);
-					if(!activity.isProcess()){
-						checkDisallowedActions(action);
-					}
-					if(action instanceof IActionWithTargetElement){
-						IActionWithTargetElement actionWithTarget = (IActionWithTargetElement) action;
-						validateTargets(actionWithTarget);
-					}
 				}else if(node instanceof INakedControlNode){
-					INakedControlNode control = (INakedControlNode) node;
-					if(control.getControlNodeType().isJoinNode()){
-						for(INakedActivityEdge e:node.getAllEffectiveIncoming()){
-							if(e.getGuard() != null){
-								getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, "Flows to joins cannot have conditions");
-							}
-						}
-					}
 				}else if(node instanceof INakedObjectNode){
 					INakedObjectNode object = (INakedObjectNode) node;
 					validateFlows(object);
 				}
 			}
-			if(!activity.getActivityKind().isSimpleSynchronousMethod()){
-				validateClashingNames(getActions(activity), "Action names may not clash", ActivityValidationRule.UNIQUE_ACTION_NAMES);
-				validateClashingNames(getEmulatedAttributes(activity), "The names of structural aspects processes may not clash",
-						ActivityValidationRule.UNIQUE_EMULATED_ATTRIBUTES);
-				if(activity.isProcess()){
-					validateClashingNames(getGuards(activity), "Guard names of activity edges my not clash", ActivityValidationRule.UNIQUE_GUARD_NAMES);
-				}
+		}
+	}
+	@VisitBefore(matchSubclasses=true)
+	protected void validateControlNode(INakedControlNode control){
+		if(control.getControlNodeType().isJoinNode()){
+			for(INakedActivityEdge e:control.getAllEffectiveIncoming()){
+				visitEdge(e);
 			}
 		}
 	}
-	private void validateTargets(IActionWithTargetElement actionWithTarget){
-		// TODO check target types with expected classifier
-		if(actionWithTarget.getTargetElement() == null){
-			// TODO check if target type represents user
-			if(actionWithTarget instanceof INakedOpaqueAction){
-				getErrorMap().putError(actionWithTarget, ActivityValidationRule.TARGET_FOR_OPAQUE_ACTIONS, "Opaque action does not have an input marked as target)");
-			}
+	@VisitBefore(matchSubclasses=true)
+	public void visitEdge(INakedActivityEdge e){
+		INakedActivityNode es = e.getEffectiveTarget();
+		if((es.isImplicitJoin() || (es instanceof INakedControlNode  && ((INakedControlNode) es).getControlNodeType().isJoinNode())) && e.hasGuard()){
+			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, es.isImplicitJoin()?"implicit":"explicit", e.getEffectiveTarget());
 		}
 	}
-	private <E extends INakedElement>void validateClashingNames(Map<String,List<E>> guards,String message,ActivityValidationRule rule){
-		for(Map.Entry<String,List<E>> entry:guards.entrySet()){
-			if(entry.getValue().size() >= 2){
-				for(E e:entry.getValue()){
-					getErrorMap().putError(e, rule, message);
-				}
-			}
+	@VisitBefore(matchSubclasses=true)
+	public void validateAction(INakedAction action){
+		validateFlows(action);
+		if(!action.getActivity().isProcess()){
+			checkDisallowedActions(action);
 		}
 	}
 	private void validateFlows(INakedObjectNode object){
 		if(object.getAllEffectiveIncoming().size() > 1){
-			getErrorMap().putError(object, ActivityValidationRule.ONE_FLOW_TO_OBJECT_NODES, "Multiple outgoing flows found to object node");
+			getErrorMap().putError(object, ActivityValidationRule.ONE_FLOW_TO_OBJECT_NODES);
 		}else if(object.getAllEffectiveOutgoing().size() > 1){
-			getErrorMap().putError(object, ActivityValidationRule.ONE_FLOW_FROM_OBJECT_NODES, "Multiple outgoing flows found from object node");
+			getErrorMap().putError(object, ActivityValidationRule.ONE_FLOW_FROM_OBJECT_NODES);
 		}
 	}
 	private void checkDisallowedActions(INakedAction action){
-		if(action instanceof INakedOpaqueAction){
-			getErrorMap().putError(action, ActivityValidationRule.OPAQUE_ACTION_ONLY_IN_PROCESS, "OpaqueActions can only be used in activities marked as a processes");
+		if(action instanceof INakedEmbeddedTask){
+			getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS, action.getActivity());
 		}else if(action instanceof INakedAcceptEventAction){
-			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS,
-					"AcceptEventActions can only be used in activities marked as a processes");
+			getErrorMap().putError(action, ActivityValidationRule.ACCEPT_EVENT_ACTION_ONLY_IN_PROCESS, action.getActivity());
 		}else if(action instanceof INakedCallAction){
 			INakedCallAction callAction = (INakedCallAction) action;
 			if(callAction.isLongRunning()){
-				getErrorMap().putError(action, ActivityValidationRule.PROCESS_INVOCATION_ONLY_IN_PROCESS,
-						"Processes can only be invoked from activities marked as a processes");
+				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
 			}else if(callAction.isLongRunning()){
-				getErrorMap().putError(action, ActivityValidationRule.RESPONSIBILITIY_INVOCATION_ONLY_IN_PROCESS,
-						"Long running actions can only be invoked from activities marked as a processes");
+				getErrorMap().putError(action, ActivityValidationRule.LONG_RUNNING_ACTIONS_ONLY_IN_PROCESS);
 			}
 		}
 	}
 	private void validateFlows(INakedAction action){
-		if(action.getDefaultOutgoing().isEmpty()){
+		if(action.getDefaultOutgoing().isEmpty() && action.getConditionalOutgoing().size()>0){
 			getErrorMap().putError(action, ActivityValidationRule.AT_LEAST_ONE_DEFAULT_FLOW, "No default flows found");
-		}else if(action.getDefaultOutgoing().size() > 1 && action.getConditionalOutgoing().size() > 1){
-			getErrorMap().putError(action, ActivityValidationRule.IMPLICIT_FORK_OR_DECISION, "Multiple default and conditional flows found");
 		}else if(action.isImplicitJoin()){
 			for(INakedActivityEdge e:action.getAllEffectiveIncoming()){
-				if(e.getGuard() != null){
-					getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, "Flows to implicit joins cannot have conditions");
+				if(e.hasGuard()){
+					getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, "implicit", e.getEffectiveTarget());
 				}
 			}
 		}
@@ -125,7 +100,7 @@ public class ActivityValidator extends AbstractValidator{
 	protected Map<String,List<INakedValueSpecification>> getGuards(INakedActivity activity){
 		Map<String,List<INakedValueSpecification>> results = new HashMap<String,List<INakedValueSpecification>>();
 		for(INakedActivityEdge e:activity.getActivityEdges()){
-			if(e.getGuard() != null){
+			if(e.hasGuard()){
 				addNamedElement(results, e.getGuard());
 			}
 		}

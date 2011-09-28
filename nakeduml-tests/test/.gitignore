@@ -1,9 +1,0 @@
-test/.classpath
-test/.project
-test/.settings
-test/pom.xml
-test/src/main/generated-java
-test/src/main/generated-resources
-test/src/test/generated-java
-test/target
-test/test-output

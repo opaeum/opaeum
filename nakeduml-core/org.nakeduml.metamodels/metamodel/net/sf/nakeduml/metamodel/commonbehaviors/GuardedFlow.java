@@ -8,10 +8,14 @@ import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
  * Both have a guard and a context from which the guard should be derived
  */
 public interface GuardedFlow extends INakedElement{
+	Object ELSE = new Object();
 	INakedValueSpecification getGuard();
 	INakedClassifier getContext();
 	INakedBehavior getOwningBehavior();
 	INakedElement getEffectiveTarget();
 	INakedElement getTarget();
 	INakedElement getSource();
+	boolean hasGuard();
+	boolean isElse();
+
 }

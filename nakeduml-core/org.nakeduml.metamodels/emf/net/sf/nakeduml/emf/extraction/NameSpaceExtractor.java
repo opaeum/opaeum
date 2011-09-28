@@ -239,7 +239,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 				}
 			}
 		}catch(IOException e){
-			e.printStackTrace();
+			System.out.println(e.toString());
 		}
 	}
 	private boolean isBusinessService(Classifier c){

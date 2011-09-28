@@ -3,6 +3,7 @@ package net.sf.nakeduml.strategies;
 import java.util.List;
 
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import net.sf.nakeduml.javageneration.TestValueStrategy;
 import net.sf.nakeduml.javageneration.composition.ConfigurableDataStrategy;
@@ -24,7 +25,7 @@ public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 		@Override
 		public void annotate(OJAnnotatedField f, INakedProperty p) {
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName(Temporal.class.getName()));
-			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "TIMESTAMP"));
+			temporal.addEnumValue(new OJEnumValue(new OJPathName(TemporalType.class.getName()), "TIMESTAMP"));
 			f.putAnnotation(temporal);
 		}
 

@@ -11,6 +11,7 @@ import net.sf.nakeduml.metamodel.commonbehaviors.internal.NakedTriggerImpl;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import net.sf.nakeduml.metamodel.core.INakedConstraint;
 import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.core.INakedInstanceSpecification;
 import net.sf.nakeduml.metamodel.core.INakedNameSpace;
 import net.sf.nakeduml.metamodel.core.INakedTypedElement;
 import net.sf.nakeduml.metamodel.core.INakedValueSpecification;
@@ -21,10 +22,13 @@ import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
 import net.sf.nakeduml.metamodel.statemachines.INakedTransition;
 import net.sf.nakeduml.metamodel.statemachines.IRegionOwner;
+import net.sf.nakeduml.metamodel.statemachines.StateKind;
 import net.sf.nakeduml.metamodel.statemachines.TransitionKind;
+import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedTransitionImpl extends NakedElementImpl implements INakedElement,INakedTransition{
 	private static final long serialVersionUID = 133077616488879831L;
+	private boolean isElse;
 	protected INakedState source;
 	protected INakedState target;
 	PreAndPostConstrained effect;
@@ -34,7 +38,14 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 	public NakedTransitionImpl(){
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("isElseTransition")){
+			isElse = Boolean.TRUE.equals(stereotype.getFirstValueFor("isElseTransition").getValue());
+		}
+	}
+	@Override
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
 		if(element == effect){
 			effect = null;
@@ -101,7 +112,11 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		}
 	}
 	public INakedState getSource(){
-		return this.source;
+		if(getRedefinedTransition() != null){
+			return getRedefinedTransition().getSource();
+		}else{
+			return this.source;
+		}
 	}
 	public INakedState getTarget(){
 		return this.target;
@@ -124,10 +139,11 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		return this.effect;
 	}
 	public Collection<INakedTrigger> getTriggers(){
-		if(!(getSource().getKind().isSimple() || getSource().getKind().isOrthogonal() || getSource().getKind().isComposite()) ||  getTarget().getKind().isJoin()){
+		StateKind sourceKind = getSource().getKind();
+		StateKind targetKind = getTarget().getKind();
+		if(!(sourceKind.isSimple() || sourceKind.isOrthogonal() || sourceKind.isComposite()) || targetKind.isJoin()){
 			return Collections.emptySet();
 		}else{
-			
 		}
 		return this.triggers;
 	}
@@ -148,8 +164,12 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		if(getTarget().getKind().isJoin() || getSource().getKind().isFork()){
 			return false;
 		}else{
-			return this.getGuard() != null;
+			return !(this.getGuard() == null || Boolean.TRUE.equals(this.getGuard().getValue()) || this.getGuard().getValue() instanceof IOclContext
+					&& ((IOclContext) this.getGuard().getValue()).getExpressionString().trim().equals("true") || isElse());
 		}
+	}
+	public boolean isElse(){
+		return ELSE.equals(this.getGuard().getValue()) || isElse;
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){

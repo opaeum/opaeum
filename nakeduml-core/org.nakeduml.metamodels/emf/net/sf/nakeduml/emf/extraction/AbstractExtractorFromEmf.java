@@ -90,18 +90,20 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	protected Object resolvePeer(Element o,Class<?> peerClass){
 		INakedElement ne = getNakedPeer(o);
 		Element owner = (Element) EmfElementFinder.getContainer(o);
-		if(ne == null){
+		if(ne == null && o.eResource()!=null){
 			ne = createElementFor(o, peerClass);
 			if(ne != null){
 				initialize(ne, o, owner);
 			}
-		}else if(o instanceof NamedElement){
+		}else if(o instanceof NamedElement && ne!=null){
 			if((owner == null || getId(owner) == null) && ne.getOwnerElement() != null){
+				//do deletion
 				ne.getOwnerElement().removeOwnedElement(ne, true);
 				ne.setOwnerElement(null);
 				ne.markForDeletion();
 				nakedWorkspace.removeModelElement(ne);
 			}else{
+				//do reparenting
 				INakedElement nakedOwner = getNakedPeer(owner);
 				if(nakedOwner != null){
 					if(ne.getOwnerElement() != null && !(nakedOwner.equals(ne.getOwnerElement()))){

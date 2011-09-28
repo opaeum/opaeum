@@ -4,10 +4,11 @@ import java.util.Collection;
 import java.util.List;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedBehavior;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.core.INakedClassifier;
 import nl.klasse.octopus.model.IState;
 
-public interface INakedState extends IRegionOwner,IState{
+public interface INakedState extends IRegionOwner,IState,INakedStep{
 	List<INakedTransition> getIncoming();
 	List<INakedTransition> getOutgoing();
 	List<INakedBehavior> getActions();

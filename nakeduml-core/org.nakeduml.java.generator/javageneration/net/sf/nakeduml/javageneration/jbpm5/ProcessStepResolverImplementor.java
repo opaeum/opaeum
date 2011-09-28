@@ -13,6 +13,7 @@ import net.sf.nakeduml.javageneration.persistence.AbstractEnumResolverImplemento
 import net.sf.nakeduml.linkage.BehaviorUtil;
 import net.sf.nakeduml.metamodel.activities.INakedActivity;
 import net.sf.nakeduml.metamodel.activities.INakedActivityNode;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.statemachines.INakedState;
 import net.sf.nakeduml.metamodel.statemachines.INakedStateMachine;
@@ -50,6 +51,6 @@ public class ProcessStepResolverImplementor extends AbstractEnumResolverImplemen
 	}
 	@Override
 	protected String getLiteralName(INakedElement l){
-		return Jbpm5Util.stepLiteralName(l);
+		return Jbpm5Util.stepLiteralName((INakedStep) l);
 	}
 }

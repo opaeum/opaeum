@@ -70,6 +70,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		if(cp instanceof INakedAssociation){
 			// do nothing
 		}else{
+			
 			cp.removeObsoleteArtificialProperties();
 			INakedProperty endToComposite = cp.getEndToComposite();
 			if(endToComposite == null && !cp.getIsAbstract()){

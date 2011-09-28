@@ -1,7 +1,6 @@
 package net.sf.nakeduml.javageneration.jbpm5;
 
 import java.util.Collection;
-import java.util.List;
 
 import net.sf.nakeduml.javageneration.StereotypeAnnotator;
 import net.sf.nakeduml.javageneration.basicjava.OperationAnnotator;
@@ -21,12 +20,11 @@ import net.sf.nakeduml.metamodel.commonbehaviors.INakedChangeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedMessageEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedSignalEvent;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTimeEvent;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedTriggerContainer;
 import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedOperation;
-import net.sf.nakeduml.metamodel.core.INakedTypedElement;
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 
 import org.nakeduml.java.metamodel.OJBlock;
 import org.nakeduml.java.metamodel.OJClass;
@@ -179,11 +177,11 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		return ifProcessActive;
 	}
 	protected void consumeEventWithoutSourceNodeInstanceUniqueId(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,FromNode node){
-		INakedElement waitingElement = node.getWaitingElement();
+		INakedStep waitingElement = node.getWaitingElement();
 		OJIfStatement ifTokenFound = addIfTokenFound(listener, ifProcessActive, waitingElement);
 		consumeEvent(listener, node, ifTokenFound);
 	}
-	protected OJIfStatement addIfTokenFound(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,INakedElement waitingElement){
+	protected OJIfStatement addIfTokenFound(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,INakedStep waitingElement){
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		ifProcessActive.getThenPart().addToStatements(ifTokenFound);
 		String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(waitingElement);

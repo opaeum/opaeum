@@ -6,7 +6,7 @@ import java.util.Map;
 
 import net.sf.nakeduml.metamodel.commonbehaviors.GuardedFlow;
 import net.sf.nakeduml.metamodel.commonbehaviors.INakedEvent;
-import net.sf.nakeduml.metamodel.core.INakedElement;
+import net.sf.nakeduml.metamodel.commonbehaviors.INakedStep;
 
 /**
  * A transient object holding the relationship between a node on a behavior that waits for events and signal such event to the BPM engine.
@@ -24,7 +24,7 @@ public class ElementsWaitingForEvent{
 	}
 	public ElementsWaitingForEvent(){
 	}
-	public void addWaitingNode(INakedElement source,GuardedFlow flow,boolean isRestingNode){
+	public void addWaitingNode(INakedStep source,GuardedFlow flow,boolean isRestingNode){
 		FromNode fromNode = this.fromNodes.get(source.getName());
 		if(fromNode == null){
 			fromNode = new FromNode(source, isRestingNode);

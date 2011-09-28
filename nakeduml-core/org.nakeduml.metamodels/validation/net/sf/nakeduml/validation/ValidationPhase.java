@@ -16,6 +16,11 @@ import net.sf.nakeduml.metamodel.core.INakedElement;
 import net.sf.nakeduml.metamodel.core.INakedRootObject;
 import net.sf.nakeduml.metamodel.core.RootObjectStatus;
 import net.sf.nakeduml.metamodel.workspace.INakedModelWorkspace;
+import net.sf.nakeduml.validation.activities.ActionValidation;
+import net.sf.nakeduml.validation.activities.ActivityValidator;
+import net.sf.nakeduml.validation.commonbehavior.BehaviorValidator;
+import net.sf.nakeduml.validation.core.GeneralizationValidator;
+import net.sf.nakeduml.validation.core.PrimitiveValidator;
 import net.sf.nakeduml.validation.namegeneration.NameGenerationPhase;
 
 @PhaseDependency(after = {
@@ -66,6 +71,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 	}
 	public static Set<Class<? extends AbstractValidator>> getAllValidationSteps(){
 		return new HashSet<Class<? extends AbstractValidator>>(Arrays.asList(OperationValidation.class, ActionValidation.class, ReservedWordValidator.class,
-				NameUniquenessValidation.class, PropertyValidation.class));
+				NameUniquenessValidation.class, PropertyValidation.class, GeneralizationValidator.class, PrimitiveValidator.class, BehaviorValidator.class,
+				ActivityValidator.class));
 	}
 }
