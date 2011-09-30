@@ -2,15 +2,17 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: User Interaction Properties
 Bundle-SymbolicName: org.nakeduml.uim.userinteractionproperties; singleton:=true
-Bundle-Version: 1.0.0.6
+Bundle-Version: 1.0
 Bundle-Activator: org.nakeduml.uim.userinteractionproperties.UimPluginSections
-Bundle-Vendor: NakedUML
+Bundle-Vendor: Topcased
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.views.properties.tabbed,
  org.topcased.tabbedproperties,
- org.nakeduml.uim.modeleditor
+ org.nakeduml.uim,
+ org.nakeduml.uim.edit,
+ org.eclipse.emf.edit.ui
 Eclipse-LazyStart: true
 Export-Package: org.nakeduml.uim.userinteractionproperties,
  org.nakeduml.uim.userinteractionproperties.providers,

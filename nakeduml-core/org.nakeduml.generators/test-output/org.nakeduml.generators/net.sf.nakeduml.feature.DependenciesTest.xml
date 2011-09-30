@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="ampie-laptop" name="net.sf.nakeduml.feature.DependenciesTest" tests="2" failures="0" timestamp="9 Mar 2011 13:55:17 GMT" time="0.073" errors="0">
-  <testcase name="testCircularity" time="0.025" classname="net.sf.nakeduml.feature.DependenciesTest"/>
-  <testcase name="testPhases" time="0.013" classname="net.sf.nakeduml.feature.DependenciesTest"/>
-</testsuite>
