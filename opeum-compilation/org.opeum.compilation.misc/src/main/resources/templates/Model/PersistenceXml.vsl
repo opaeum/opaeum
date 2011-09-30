@@ -1,0 +1,62 @@
+#set($shouldGenerate=true)
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit name="${persistenceConfigName}">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:/cmDatasource</jta-data-source>
+ 
+#foreach($c in $persistentClasses)
+		<class>${c}</class>
+#end 
+		<class>${pkg}</class>
+#if($requiresJbpm)
+		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
+		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>
+#end
+		<class>org.opeum.hibernate.domain.EventOccurrence</class>
+#if($requiresAuditing)
+		<class>org.opeum.audit.AuditEntry</class>
+		<class>org.opeum.audit.AuditEntryPropertyChange</class>
+		<class>org.opeum.audit.EntityPropertyChange</class>
+		<class>org.opeum.audit.PropertyChange</class>
+		<class>org.opeum.audit.StringPropertyChange</class>
+		<class>org.opeum.audit.BooleanPropertyChange</class>
+		<class>org.opeum.audit.DateTimePropertyChange</class>
+		<class>org.opeum.audit.IntegerPropertyChange</class>
+		<class>org.opeum.audit.FloatingPointPropertyChange</class>
+		<class>org.opeum.audit.NullPropertyChange</class>
+#end
+		<properties>
+			<property name="hibernate.dialect" value="com.rorotika.cm.ria.hql.CmPostgreSQLDialect" />
+<!--			<property name="hibernate.hbm2ddl.auto" value="update" />-->
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="jboss.entity.manager.factory.jndi.name"
+				value="java:/${workspace.name}EntityManagerFactory" />
+			<property name="hibernate.cache.use_second_level_cache"
+				value="false" />
+			<property name="hibernate.cache.use_query_cache" value="true" />
+			<property name="hibernate.default_batch_fetch_size" value="8" />
+			<property name="hibernate.order_updates" value="true" />
+			<property name="hibernate.order_inserts" value="true" />
+			<property name="hibernate.jdbc.batch_size" value="20" />
+			<property name="hibernate.max_fetch_depth" value="1" />
+			<property name="jboss.entity.manager.factory.jndi.name" value="java:/${workspace.name}EntityManagerFactory"/>
+			<property name="hibernate.archive.autodetection" value="false" />
+
+#if($requiresAuditing)
+			<property name="hibernate.ejb.event.post-load" value="org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.post-insert"
+				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.post-update"
+				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.flush" value="org.opeum.audit.AuditListener" />
+#end
+		</properties>
+	</persistence-unit>
+</persistence>

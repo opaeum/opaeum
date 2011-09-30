@@ -1,0 +1,35 @@
+#set($shouldGenerate=true)
+#foreach($entity in $model.entities)
+#if($entity.hasTaggedValue("addOnUserRole"))
+   Action Add: ${entity.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $entity.getTaggedValue("addOnUserRole")
+#end
+#if($entity.hasTaggedValue("editOnUserRole"))
+   Action Edit: ${entity.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $entity.getTaggedValue("editOnUserRole")
+#end
+#if($entity.hasTaggedValue("viewOnUserRole"))
+   Action View: ${entity.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $entity.getTaggedValue("viewOnUserRole")
+#end
+#if($entity.hasTaggedValue("deleteOnUserRole"))
+   Action Delete: ${entity.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $entity.getTaggedValue("deleteOnUserRole")
+#end
+#foreach ($property in $entity.nakedAttributes)
+#if ($property.hasTaggedValue("editableOnUserRole"))
+   Property Editable:  ${property.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $property.getTaggedValue("editableOnUserRole")
+#end
+#if ($property.hasTaggedValue("visibleOnUserRole"))
+   Property Editable:  ${property.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $property.getTaggedValue("visibleOnUserRole")
+#end
+#end
+#foreach ($operation in $entity.allOperations)
+#if ($operation.hasTaggedValue("visibleOnUserRole"))
+   Operation Visible:  ${operation.mappingInfo.qualifiedUmlName}
+   Security Constraint is: $operation.getTaggedValue("visibleOnUserRole")
+#end
+#end
+#end
