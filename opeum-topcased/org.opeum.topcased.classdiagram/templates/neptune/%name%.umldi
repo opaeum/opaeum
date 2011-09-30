@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/0.11" activeDiagram="//@subdiagrams.0/@diagrams.0">
+  <model href="%escapedName%.uml#_qb8akM37EdqwVrslYOdUDA"/>
+  <subdiagrams>
+    <model href="%escapedName%.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    <diagrams position="0,0" size="100,100" name="General View" viewport="0,0">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.usecasediagram">
+        <element href="%escapedName%.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+      </semanticModel>
+    </diagrams>
+    <subdiagrams>
+      <model href="%escapedName%.uml#_I859gIBsEduoHLDxP0HEYA"/>
+      <diagrams position="0,0" size="100,100" name="ASequenceDiagram" viewport="0,0">
+        <property key="pageFormatName" value="A4"/>
+        <property key="diagramWidth" value="840"/>
+        <property key="diagramHeight" value="1188"/>
+        <property key="pageMarginName" value="Small Margin"/>
+        <property key="diagramTopMargin" value="20"/>
+        <property key="diagramBottomMargin" value="20"/>
+        <property key="diagramLeftMargin" value="20"/>
+        <property key="diagramRightMargin" value="20"/>
+        <property key="orientation" value="portrait"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.sequencediagram">
+          <element href="%escapedName%.uml#_I859gIBsEduoHLDxP0HEYA"/>
+        </semanticModel>
+      </diagrams>
+      <subdiagrams>
+        <model href="%escapedName%.uml#_uFnK8IBrEduoHLDxP0HEYA"/>
+        <diagrams position="0,0" size="100,100" name="MySystem Behavioural" viewport="0,0">
+          <property key="pageFormatName" value="A4"/>
+          <property key="diagramWidth" value="840"/>
+          <property key="diagramHeight" value="1188"/>
+          <property key="pageMarginName" value="Small Margin"/>
+          <property key="diagramTopMargin" value="20"/>
+          <property key="diagramBottomMargin" value="20"/>
+          <property key="diagramLeftMargin" value="20"/>
+          <property key="diagramRightMargin" value="20"/>
+          <property key="orientation" value="portrait"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.statemachinediagram">
+            <element href="%escapedName%.uml#_uFnK8IBrEduoHLDxP0HEYA"/>
+          </semanticModel>
+        </diagrams>
+        <subdiagrams>
+          <model href="%escapedName%.uml#__ftVMIBpEduoHLDxP0HEYA"/>
+          <diagrams position="0,0" size="100,100" name="External Entities General View" viewport="0,0">
+            <property key="pageFormatName" value="A4"/>
+            <property key="diagramWidth" value="840"/>
+            <property key="diagramHeight" value="1188"/>
+            <property key="pageMarginName" value="Small Margin"/>
+            <property key="diagramTopMargin" value="20"/>
+            <property key="diagramBottomMargin" value="20"/>
+            <property key="diagramLeftMargin" value="20"/>
+            <property key="diagramRightMargin" value="20"/>
+            <property key="orientation" value="portrait"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.usecasediagram">
+              <element href="%escapedName%.uml#__ftVMIBpEduoHLDxP0HEYA"/>
+            </semanticModel>
+          </diagrams>
+          <subdiagrams>
+            <model href="%escapedName%.uml#_xkzEEIBqEduoHLDxP0HEYA"/>
+            <diagrams position="0,0" size="100,100" name="External Entities Dynamic Data Flow General view" viewport="0,0">
+              <property key="pageFormatName" value="A4"/>
+              <property key="diagramWidth" value="840"/>
+              <property key="diagramHeight" value="1188"/>
+              <property key="pageMarginName" value="Small Margin"/>
+              <property key="diagramTopMargin" value="20"/>
+              <property key="diagramBottomMargin" value="20"/>
+              <property key="diagramLeftMargin" value="20"/>
+              <property key="diagramRightMargin" value="20"/>
+              <property key="orientation" value="portrait"/>
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.sequencediagram">
+                <element href="%escapedName%.uml#_xkzEEIBqEduoHLDxP0HEYA"/>
+              </semanticModel>
+            </diagrams>
+            <subdiagrams>
+              <model href="%escapedName%.uml#_eruFQIBqEduoHLDxP0HEYA"/>
+              <diagrams position="0,0" size="100,100" name="Data Flow General View" viewport="0,0">
+                <property key="pageFormatName" value="A4"/>
+                <property key="diagramWidth" value="840"/>
+                <property key="diagramHeight" value="1188"/>
+                <property key="pageMarginName" value="Small Margin"/>
+                <property key="diagramTopMargin" value="20"/>
+                <property key="diagramBottomMargin" value="20"/>
+                <property key="diagramLeftMargin" value="20"/>
+                <property key="diagramRightMargin" value="20"/>
+                <property key="orientation" value="portrait"/>
+                <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.sequencediagram">
+                  <element href="%escapedName%.uml#_eruFQIBqEduoHLDxP0HEYA"/>
+                </semanticModel>
+              </diagrams>
+              <subdiagrams>
+                <model href="%escapedName%.uml#_47DVYIBpEduoHLDxP0HEYA"/>
+                <diagrams position="0,0" size="100,100" name="Domain Classes" viewport="0,0">
+                  <property key="pageFormatName" value="A4"/>
+                  <property key="diagramWidth" value="840"/>
+                  <property key="diagramHeight" value="1188"/>
+                  <property key="pageMarginName" value="Small Margin"/>
+                  <property key="diagramTopMargin" value="20"/>
+                  <property key="diagramBottomMargin" value="20"/>
+                  <property key="diagramLeftMargin" value="20"/>
+                  <property key="diagramRightMargin" value="20"/>
+                  <property key="orientation" value="portrait"/>
+                  <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.classdiagram">
+                    <element href="%escapedName%.uml#_47DVYIBpEduoHLDxP0HEYA"/>
+                  </semanticModel>
+                </diagrams>
+                <subdiagrams>
+                  <model href="%escapedName%.uml#_R1l80IBpEduoHLDxP0HEYA"/>
+                  <diagrams position="0,0" size="100,100" name="Analysis Classes" viewport="0,0">
+                    <property key="pageFormatName" value="A4"/>
+                    <property key="diagramWidth" value="840"/>
+                    <property key="diagramHeight" value="1188"/>
+                    <property key="pageMarginName" value="Small Margin"/>
+                    <property key="diagramTopMargin" value="20"/>
+                    <property key="diagramBottomMargin" value="20"/>
+                    <property key="diagramLeftMargin" value="20"/>
+                    <property key="diagramRightMargin" value="20"/>
+                    <property key="orientation" value="portrait"/>
+                    <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.classdiagram">
+                      <element href="%escapedName%.uml#_R1l80IBpEduoHLDxP0HEYA"/>
+                    </semanticModel>
+                  </diagrams>
+                  <subdiagrams>
+                    <model href="%escapedName%.uml#_Oug3IIBpEduoHLDxP0HEYA"/>
+                    <diagrams position="0,0" size="100,100" name="Actors General View" viewport="0,0">
+                      <property key="pageFormatName" value="A4"/>
+                      <property key="diagramWidth" value="840"/>
+                      <property key="diagramHeight" value="1188"/>
+                      <property key="pageMarginName" value="Small Margin"/>
+                      <property key="diagramTopMargin" value="20"/>
+                      <property key="diagramBottomMargin" value="20"/>
+                      <property key="diagramLeftMargin" value="20"/>
+                      <property key="diagramRightMargin" value="20"/>
+                      <property key="orientation" value="portrait"/>
+                      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.usecasediagram">
+                        <element href="%escapedName%.uml#_Oug3IIBpEduoHLDxP0HEYA"/>
+                      </semanticModel>
+                    </diagrams>
+                  </subdiagrams>
+                </subdiagrams>
+              </subdiagrams>
+            </subdiagrams>
+          </subdiagrams>
+        </subdiagrams>
+      </subdiagrams>
+    </subdiagrams>
+  </subdiagrams>
+  <subdiagrams>
+    <model href="%escapedName%.uml#_-mdtwNCyEdukztvu02l7OQ"/>
+    <diagrams position="0,0" size="100,100" name="General View" viewport="0,0">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.deploymentdiagram">
+        <element href="%escapedName%.uml#_-mdtwNCyEdukztvu02l7OQ"/>
+      </semanticModel>
+    </diagrams>
+  </subdiagrams>
+  <subdiagrams>
+    <model href="%escapedName%.uml#_4UHtsIBoEduoHLDxP0HEYA"/>
+    <diagrams position="0,0" size="100,100" name="Package General View" viewport="0,0">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.classdiagram">
+        <element href="%escapedName%.uml#_4UHtsIBoEduoHLDxP0HEYA"/>
+      </semanticModel>
+    </diagrams>
+    <subdiagrams>
+      <model href="%escapedName%.uml#_lWUCsNCzEdukztvu02l7OQ"/>
+      <diagrams position="0,0" size="100,100" name="APackage View" viewport="0,0">
+        <property key="pageFormatName" value="A4"/>
+        <property key="diagramWidth" value="840"/>
+        <property key="diagramHeight" value="1188"/>
+        <property key="pageMarginName" value="Small Margin"/>
+        <property key="diagramTopMargin" value="20"/>
+        <property key="diagramBottomMargin" value="20"/>
+        <property key="diagramLeftMargin" value="20"/>
+        <property key="diagramRightMargin" value="20"/>
+        <property key="orientation" value="portrait"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.classdiagram">
+          <element href="%escapedName%.uml#_lWUCsNCzEdukztvu02l7OQ"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" position="13,23" size="100,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+            <element href="%escapedName%.uml#_sjzkINCzEdukztvu02l7OQ"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode">
+            <property key="eStructuralFeatureID" value="37"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+              <element href="%escapedName%.uml#_sjzkINCzEdukztvu02l7OQ"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode">
+            <property key="eStructuralFeatureID" value="38"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+              <element href="%escapedName%.uml#_sjzkINCzEdukztvu02l7OQ"/>
+            </semanticModel>
+            <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="%escapedName%.uml#_JJX2YNC0Edukztvu02l7OQ"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="%escapedName%.uml#_KdRHMNC0Edukztvu02l7OQ"/>
+              </semanticModel>
+            </contained>
+            <contained xsi:type="di:GraphNode" position="0,0" size="-1,-1">
+              <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="default">
+                <element href="%escapedName%.uml#_MKCyENC0Edukztvu02l7OQ"/>
+              </semanticModel>
+            </contained>
+          </contained>
+        </contained>
+      </diagrams>
+      <subdiagrams>
+        <model href="%escapedName%.uml#_6HfyoNCzEdukztvu02l7OQ"/>
+        <diagrams position="0,0" size="100,100" name="ASequence Diagram by interface service" viewport="0,0">
+          <property key="pageFormatName" value="A4"/>
+          <property key="diagramWidth" value="840"/>
+          <property key="diagramHeight" value="1188"/>
+          <property key="pageMarginName" value="Small Margin"/>
+          <property key="diagramTopMargin" value="20"/>
+          <property key="diagramBottomMargin" value="20"/>
+          <property key="diagramLeftMargin" value="20"/>
+          <property key="diagramRightMargin" value="20"/>
+          <property key="orientation" value="portrait"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.sequencediagram">
+            <element href="%escapedName%.uml#_6HfyoNCzEdukztvu02l7OQ"/>
+          </semanticModel>
+        </diagrams>
+      </subdiagrams>
+    </subdiagrams>
+  </subdiagrams>
+  <subdiagrams>
+    <model href="%escapedName%.uml#_P8KOQNCzEdukztvu02l7OQ"/>
+    <diagrams position="0,0" size="100,100" name="AComponent Diagram by process" viewport="0,0">
+      <property key="pageFormatName" value="A4"/>
+      <property key="diagramWidth" value="840"/>
+      <property key="diagramHeight" value="1188"/>
+      <property key="pageMarginName" value="Small Margin"/>
+      <property key="diagramTopMargin" value="20"/>
+      <property key="diagramBottomMargin" value="20"/>
+      <property key="diagramLeftMargin" value="20"/>
+      <property key="diagramRightMargin" value="20"/>
+      <property key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" presentation="org.topcased.modeler.uml.componentdiagram">
+        <element href="%escapedName%.uml#_P8KOQNCzEdukztvu02l7OQ"/>
+      </semanticModel>
+    </diagrams>
+  </subdiagrams>
+</diagrams:Diagrams>
