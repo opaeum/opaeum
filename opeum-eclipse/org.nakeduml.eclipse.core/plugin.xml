@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.opeum.eclipse.transformationStep" name="TransformationStep" schema="schema/transformationStep.exsd"/>
+   <extension-point id="org.opeum.eclipse.sourceFolderStrategy" name="SourceFolderStrategy" schema="schema/sourceFolderStrategy.exsd"/>
+   <extension-point id="org.opeum.eclipse.modelLibrary" name="modelLibrary" schema="schema/modelLibrary.exsd"/>
+   <extension-point id="org.opeum.eclipse.profile" name="Profile" schema="schema/profile.exsd"/>
+   <extension-point id="org.opeum.eclipse.strategyFactory" name="StrategyFactory" schema="schema/strategyFactory.exsd"/>
+</plugin>

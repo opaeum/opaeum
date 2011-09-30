@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension
+          point="org.eclipse.ui.popupMenus">
+       <objectContribution
+             adaptable="true"
+             id="org.opeum.reverse.menu.objectContribution"
+             objectClass="org.eclipse.jdt.core.ICompilationUnit">
+          <menu
+                id="org.opeum.reverse.menu.compilationunit"
+                label="Opium">
+             <groupMarker
+                   name="opeumActionsGroup">
+             </groupMarker>
+          </menu>
+          <action
+                class="org.opeum.reverse.popup.actions.ReverseEngineerClassesAction"
+                enablesFor="*"
+                id="org.opeum.reverse.popup.actions.ReverseEngineerClassesAction"
+                label="Reverse Java Classes"
+                menubarPath="org.opeum.reverse.menu.compilationunit/opeumActionsGroup">
+          </action>
+       </objectContribution>
+       <objectContribution
+             adaptable="true"
+             id="org.opeum.reverse.menu.objectContribution"
+             objectClass="org.eclipse.jdt.core.IClassFile">
+          <menu
+                id="org.opeum.reverse.menu.classfile"
+                label="Opium">
+             <groupMarker
+                   name="opeumActionsGroup">
+             </groupMarker>
+          </menu>
+          <action
+                class="org.opeum.reverse.popup.actions.ReverseEngineerClassesAction"
+                enablesFor="*"
+                id="org.opeum.reverse.popup.actions.ReverseEngineerClassesAction"
+                label="Reverse Java Classes"
+                menubarPath="org.opeum.reverse.menu.classfile/opeumActionsGroup">
+          </action>
+       </objectContribution>
+       <objectContribution
+             adaptable="true"
+             id="org.opeum.reverse.menu.objectContribution2"
+             objectClass="org.eclipse.jdt.core.IPackageFragment">
+          <menu
+                id="org.opeum.reverse.menu.classfile"
+                label="Opium">
+             <groupMarker
+                   name="opeumActionsGroup">
+             </groupMarker>
+          </menu>
+          <action
+                class="org.opeum.reverse.popup.actions.ReverseEngineerClassesAction"
+                enablesFor="*"
+                id="org.opeum.reverse.popup.actions.ReverseEngineerClassesAction"
+                label="Reverse Java Classes"
+                menubarPath="org.opeum.reverse.menu.classfile/opeumActionsGroup">
+          </action>
+       </objectContribution>
+    </extension>
+
+</plugin>

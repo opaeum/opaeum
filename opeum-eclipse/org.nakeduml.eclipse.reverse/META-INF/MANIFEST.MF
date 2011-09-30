@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.opeum.eclipse.reverse
+Bundle-SymbolicName: org.opeum.eclipse.reverse;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.opeum.reverse.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.uml2.uml,
+ org.eclipse.uml2.uml.resources,
+ org.opeum.metamodels,
+ org.opeum.eclipse.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

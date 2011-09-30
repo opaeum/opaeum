@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/drools-flow-emf/src"
+    modelPluginID="drools-flow-emf" modelName="Drools-processes-5" importerID="org.eclipse.xsd.ecore.importer"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>drools-processes-5.0.xsd</foreignModel>
+  <genPackages prefix="Process" basePackage="org.drools.drools._5._0" resource="XML"
+      disposableProviderFactory="true" ecorePackage="drools-processes-5.0.ecore#/">
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ActionNodeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ActionNodeType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ActionNodeType/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionNodeType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ActionType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionType/dialect"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ActionType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//CompositeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/timers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/onEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/onExit"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/variables"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/exceptionHandlers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/connections"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/inPorts"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//CompositeType/outPorts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//CompositeType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ConnectionsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConnectionsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ConnectionsType/connection"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ConnectionType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConnectionType/bendpoints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConnectionType/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConnectionType/fromType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConnectionType/to"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConnectionType/toType"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ConstraintsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ConstraintsType/constraint"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ConstraintType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/dialect"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/priority"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/toNodeId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/toType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ConstraintType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/action"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/actionNode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/composite"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/connection"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/connections"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/constraint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/constraints"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/dynamic"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/end"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/eventFilter"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/eventFilters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/eventNode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/exceptionHandler"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/exceptionHandlers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/fault"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/forEach"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/functionImport"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/functionImports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/global"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/globals"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/header"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/humanTask"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/import"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/inPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/inPorts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/join"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/mapping"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/metaData"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/milestone"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/onEntry"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/onExit"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/outPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/outPorts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/parameter"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/process"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/ruleSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/split"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/state"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/subProcess"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/swimlane"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/swimlanes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/timer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/timerNode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/timers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/trigger"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/triggers"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/variable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/variables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/work"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DocumentRoot/workItem"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//DynamicType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/variables"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/exceptionHandlers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/connections"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/inPorts"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//DynamicType/outPorts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//DynamicType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//EndType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//EndType/metaData"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/terminate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EndType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//EventFiltersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventFiltersType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//EventFiltersType/eventFilter"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//EventFilterType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventFilterType/eventType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventFilterType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//EventNodeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//EventNodeType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//EventNodeType/eventFilters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/scope"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/variableName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//EventNodeType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ExceptionHandlersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ExceptionHandlersType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ExceptionHandlersType/exceptionHandler"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ExceptionHandlerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ExceptionHandlerType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ExceptionHandlerType/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ExceptionHandlerType/faultName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ExceptionHandlerType/faultVariable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ExceptionHandlerType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//FaultType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//FaultType/metaData"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/faultName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/faultVariable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FaultType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ForEachType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ForEachType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ForEachType/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ForEachType/connections"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ForEachType/inPorts"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ForEachType/outPorts"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/collectionExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/variableName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/waitForCompletion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ForEachType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//FunctionImportsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FunctionImportsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//FunctionImportsType/functionImport"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//FunctionImportType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//FunctionImportType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//GlobalsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//GlobalsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//GlobalsType/global"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//GlobalType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//GlobalType/identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//GlobalType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//HeaderType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HeaderType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HeaderType/imports"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HeaderType/functionImports"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HeaderType/globals"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HeaderType/variables"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HeaderType/swimlanes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HeaderType/exceptionHandlers"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//HumanTaskType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HumanTaskType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HumanTaskType/work"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HumanTaskType/mapping"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HumanTaskType/timers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HumanTaskType/onEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//HumanTaskType/onExit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/swimlane"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/waitForCompletion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//HumanTaskType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ImportsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ImportsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ImportsType/import"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ImportType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ImportType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//InPortsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//InPortsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//InPortsType/inPort"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//InPortType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//InPortType/nodeId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//InPortType/nodeInType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//InPortType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//JoinType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//JoinType/metaData"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/n"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//JoinType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//MappingType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MappingType/from"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MappingType/to"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MappingType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//MetaDataType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//MetaDataType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MetaDataType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//MilestoneType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//MilestoneType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//MilestoneType/constraint"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//MilestoneType/timers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//MilestoneType/onEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//MilestoneType/onExit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//MilestoneType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//NodesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//NodesType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/start"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/end"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/actionNode"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/ruleSet"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/split"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/join"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/milestone"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/subProcess"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/workItem"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/timerNode"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/humanTask"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/composite"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/forEach"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/eventNode"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/fault"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/state"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//NodesType/dynamic"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//OnEntryType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//OnEntryType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//OnEntryType/action"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//OnExitType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//OnExitType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//OnExitType/action"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//OutPortsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//OutPortsType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//OutPortsType/outPort"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//OutPortType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//OutPortType/nodeId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//OutPortType/nodeOutType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//OutPortType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ParameterType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ParameterType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ParameterType/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ParameterType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ParameterType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ProcessType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ProcessType/header"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ProcessType/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//ProcessType/connections"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/packageName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/routerLayout"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ProcessType/version"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//RuleSetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//RuleSetType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//RuleSetType/timers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/ruleFlowGroup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//RuleSetType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//SplitType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SplitType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SplitType/constraints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SplitType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//StartType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StartType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StartType/triggers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StartType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//StateType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StateType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StateType/timers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StateType/onEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StateType/onExit"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//StateType/constraints"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//StateType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//SubProcessType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SubProcessType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SubProcessType/mapping"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SubProcessType/timers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SubProcessType/onEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SubProcessType/onExit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/independent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/processId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/waitForCompletion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SubProcessType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//SwimlanesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SwimlanesType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//SwimlanesType/swimlane"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//SwimlaneType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//SwimlaneType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//TimerNodeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TimerNodeType/metaData"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/delay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/period"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerNodeType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//TimersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimersType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TimersType/timer"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//TimerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TimerType/action"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerType/delay"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TimerType/period"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//TriggersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TriggersType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TriggersType/trigger"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//TriggerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TriggerType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TriggerType/constraint"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TriggerType/eventFilters"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//TriggerType/mapping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TriggerType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//TypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TypeType/className"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//TypeType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//ValueType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//ValueType/value"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//VariablesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//VariablesType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//VariablesType/variable"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//VariableType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//VariableType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//VariableType/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//VariableType/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//VariableType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//WorkItemType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkItemType/metaData"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkItemType/timers"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkItemType/work"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkItemType/mapping"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkItemType/onEntry"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkItemType/onExit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/waitForCompletion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkItemType/y"/>
+    </genClasses>
+    <genClasses ecoreClass="drools-processes-5.0.ecore#//WorkType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference drools-processes-5.0.ecore#//WorkType/parameter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute drools-processes-5.0.ecore#//WorkType/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.opeum.eclipse.core' version='1.0.0.cm'>
+    <properties size='6'>
+      <property name='artifact.size' value='71069'/>
+      <property name='download.size' value='71069'/>
+      <property name='download.md5' value='e2d1f44f752bc5bc7219d42eecda68b9'/>
+      <property name='maven-groupId' value='org.opeum'/>
+      <property name='maven-artifactId' value='org.opeum.eclipse.core'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>

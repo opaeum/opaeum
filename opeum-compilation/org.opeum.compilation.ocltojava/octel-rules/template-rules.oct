@@ -1,0 +1,149 @@
+RULES
+
+<java>		
+
+<inline>	
+
+<java.inline>
+			CDATA;
+
+<comment>	PARENT.setComment(CDATA);
+
+<if>		NEW = new OJIfStatement();
+			NEW.setCondition(CDATA);
+			PARENT.addToStatements(NEW);
+
+<case.if>	NEW = new OJIfStatement();
+			NEW.setCondition(CDATA);
+			PARENT.getBody().addToStatements(NEW);
+
+<else>		NEW = new OJBlock();
+			PARENT.setElsePart(NEW);
+
+<then>		NEW = new OJBlock();
+			PARENT.setThenPart(NEW);
+	
+<exp>		NEW = new OJSimpleStatement(CDATA);
+			PARENT.addToStatements( NEW );
+<case.exp>
+			NEW = new OJSimpleStatement() ;
+			PARENT.getBody().addToStatements(NEW );
+			NEW.setExpression(CDATA);
+<default.exp>
+			NEW = new OJSimpleStatement() ;
+			PARENT.getBody().addToStatements(NEW);
+			NEW.setExpression(CDATA);
+
+<body>		NEW = new OJBlock();
+			PARENT.setBody(NEW);
+<try.body>
+			NEW = new OJBlock();
+			PARENT.setTryPart(NEW);
+<catch.body>
+			NEW = new OJBlock();
+			PARENT.setCatchPart(NEW);
+		
+<while>		NEW = new OJWhileStatement();
+			PARENT.addToStatements(NEW);
+			NEW.setCondition(CDATA);
+	
+<for>		NEW = new OJForStatement();
+			PARENT.addToStatements(NEW);
+			
+<collection> 	PARENT.setCollection(CDATA);
+			
+<condition>	NEW = new OJSimpleStatement();
+			PARENT.setCondition(NEW);
+			NEW.setText(CDATA);
+	
+<switch>	NEW = new OJSwitchStatement();
+			PARENT.addToStatements(NEW);
+	
+<case>		NEW = new OJSwitchCase();
+			PARENT.addToCases(NEW);
+	
+<default>	NEW = new OJSwitchCase();
+			PARENT.setDefCase(NEW);
+	
+<label>		PARENT.setLabel(CDATA);
+<switch.label>
+			PARENT.setCondition(CDATA);
+
+<block>		NEW = new OJBlock();
+			PARENT.addToStatements(NEW);
+			NEW.addToStatements(CDATA);
+
+<class>		NEW = new OJClass();
+			PARENT.addToClasses(NEW);
+	
+<interface>	NEW = new OJInterface();
+			PARENT.addToInterfaces(NEW);
+	
+<constructor>	NEW = new OJConstructor();
+				PARENT.addToConstructors(NEW);
+	
+<method>	NEW = new OJOperation();
+			PARENT.addToOperations(NEW);
+	
+<field>		NEW = new OJField();
+			PARENT.addToFields(NEW);
+
+<param>		NEW = new OJParameter();
+			PARENT.addToParameters(NEW);
+			
+<genparam>		PARENT.setGenericTypeParam(CDATA);
+
+<catch.param>
+			NEW = new OJParameter();
+			PARENT.setCatchParam(NEW);
+			
+<paramlist>	PARENT.setParameters(CDATA);
+
+<exception> PARENT.addToThrows(CDATA);
+
+<try>		NEW = new OJTryStatement();
+			PARENT.addToStatements(NEW);
+
+<name>		PARENT.setName(CDATA);  
+<import.name>
+			PARENT.addToImports(CDATA); 
+<for.name>	
+		PARENT.setElemName(CDATA);  			
+
+<type>		PARENT.setType(CDATA);
+<method.type>
+			PARENT.setReturnType(CDATA);
+<for.type> 	
+			PARENT.setElemType(CDATA);
+			
+<init>		PARENT.setInitExp(CDATA);
+
+<visibility>	PARENT.setVisibility(CDATA);
+
+<implements>	PARENT.addToImplementedInterfaces(CDATA);
+
+<superclass>	PARENT.setSuperclass(CDATA);
+
+<static>		PARENT.setStatic(CDATA);
+
+<final>			PARENT.setFinal(CDATA);
+
+<needsSuppress>		PARENT.setNeedsSuppress(CDATA);
+
+<package>		OJPackage NEW = new OJPackage();
+
+<import>		
+
+<try>			NEW = new OJTryStatement();
+				PARENT.addToStatements(NEW);
+				
+
+<DELIMITERS>
+<body>		<;> <exp>
+<then> 		<;> <exp>
+<else> 		<;> <exp>
+<case> 		<;> <exp>
+<default> 	<;> <exp>
+<import> 	<;> <name>
+<block> 	<;> <exp>
+<java> 	<;> <inline>
