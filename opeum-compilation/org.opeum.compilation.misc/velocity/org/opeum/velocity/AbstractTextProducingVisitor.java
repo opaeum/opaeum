@@ -1,4 +1,4 @@
-package org.nakedum.velocity;
+package org.opeum.velocity;
 
 import java.io.CharArrayWriter;
 import java.util.Arrays;
@@ -11,10 +11,14 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Stack;
 
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
 import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SortedProperties;
 import org.opeum.feature.SourceFolderDefinition;
+import org.opeum.java.metamodel.OJPathName;
 import org.opeum.javageneration.CharArrayTextSource;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedElementOwner;
@@ -26,11 +30,7 @@ import org.opeum.textmetamodel.SourceFolder;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextProject;
 import org.opeum.textmetamodel.TextWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.opeum.java.metamodel.OJPathName;
+import org.opeum.util.SortedProperties;
 
 public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 	protected INakedModelWorkspace workspace;

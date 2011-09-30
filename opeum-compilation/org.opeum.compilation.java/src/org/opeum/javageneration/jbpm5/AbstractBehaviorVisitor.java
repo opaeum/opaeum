@@ -1,13 +1,11 @@
 package org.opeum.javageneration.jbpm5;
 
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.util.OJUtil;
-
 import org.opeum.java.metamodel.OJIfStatement;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
 
 /**
  * Provides the behavior related logic common to statemachines and activities:

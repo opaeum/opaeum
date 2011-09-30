@@ -3,17 +3,16 @@ package org.opeum.javageneration.hibernate;
 import java.util.List;
 
 import org.opeum.feature.visit.VisitBefore;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-
 import org.opeum.java.metamodel.OJConstructor;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.metamodel.core.INakedEnumeration;
+import org.opeum.metamodel.core.INakedEnumerationLiteral;
 
 public class EnumerationLiteralNameAdder extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)

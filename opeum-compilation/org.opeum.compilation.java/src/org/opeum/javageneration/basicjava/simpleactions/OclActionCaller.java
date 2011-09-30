@@ -2,6 +2,9 @@ package org.opeum.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
@@ -10,10 +13,6 @@ import org.opeum.metamodel.actions.INakedOclAction;
 import org.opeum.metamodel.activities.INakedInputPin;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class OclActionCaller extends SimpleNodeBuilder<INakedOclAction> {
 	public OclActionCaller(OpeumLibrary oclEngine, INakedOclAction action, AbstractObjectNodeExpressor expressor) {

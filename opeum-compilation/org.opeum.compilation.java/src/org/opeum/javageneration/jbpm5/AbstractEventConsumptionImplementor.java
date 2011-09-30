@@ -2,6 +2,17 @@ package org.opeum.javageneration.jbpm5;
 
 import java.util.Collection;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJSimpleStatement;
+import org.opeum.java.metamodel.OJStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.StereotypeAnnotator;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
 import org.opeum.javageneration.maps.IMessageMap;
@@ -23,20 +34,7 @@ import org.opeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opeum.metamodel.commonbehaviors.INakedStep;
 import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
 import org.opeum.metamodel.commonbehaviors.INakedTriggerContainer;
-import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedOperation;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class AbstractEventConsumptionImplementor extends StereotypeAnnotator{
 	protected static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");

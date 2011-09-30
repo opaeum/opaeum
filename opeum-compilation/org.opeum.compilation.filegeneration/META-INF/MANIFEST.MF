@@ -1,23 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.uim.uml2uim
-Bundle-SymbolicName: org.opeum.uim.uml2uim;singleton:=true
+Bundle-Name: org.opeum.compilation.filegeneration
+Bundle-SymbolicName: org.opeum.compilation.filegeneration;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.uim.uml2uim.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.uml2.uml,
- org.opeum.uim,
- org.opeum.metamodels,
- org.opeum.generators,
- org.opeum.java.generator,
- org.opeum.java.metamodel,
- org.opeum.ocl.java.generator,
- org.opeum.ocl.metamodel,
- org.opeum.eclipse.hibernate
+ org.opeum.transformation.process,
+ org.opeum.transformation.visitor,
+ org.opeum.metamodels.text
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
-Export-Package: org.opeum.uim.uml2uim,
- org.opeum.uml2uim
+Export-Package: org.opeum.filegeneration
 Bundle-Vendor: Opeum

@@ -1,12 +1,11 @@
 package org.opeum.javageneration.basicjava.simpleactions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractNodeBuilder;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.metamodel.activities.INakedActivityNode;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class SimpleNodeBuilder<E extends INakedActivityNode> extends AbstractNodeBuilder {
 	protected E node;

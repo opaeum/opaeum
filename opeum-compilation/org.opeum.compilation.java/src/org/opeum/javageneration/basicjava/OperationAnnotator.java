@@ -6,8 +6,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJParameter;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJSimpleStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.StereotypeAnnotator;
@@ -29,17 +40,6 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.IParameterOwner;
-import nl.klasse.octopus.model.IClassifier;
-
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		AttributeImplementor.class,SuperTypeGenerator.class

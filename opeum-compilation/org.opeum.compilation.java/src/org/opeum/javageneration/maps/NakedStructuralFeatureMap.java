@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.opeum.java.metamodel.OJPathName;
+import org.opeum.metamodel.core.INakedProperty;
 
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{

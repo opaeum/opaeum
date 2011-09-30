@@ -2,8 +2,18 @@ package org.opeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
 
+import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJParameter;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
@@ -18,16 +28,6 @@ import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedInterfaceRealization;
 import org.opeum.metamodel.core.INakedMultiplicityElement;
 import org.opeum.metamodel.core.INakedTypedElement;
-import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
-import nl.klasse.octopus.oclengine.IOclContext;
-
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class

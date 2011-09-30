@@ -1,14 +1,13 @@
 package org.opeum.javageneration.basicjava.simpleactions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.BehaviorUtil;
 import org.opeum.metamodel.actions.INakedCallBehaviorAction;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAction>{
 	public BehaviorCaller(OpeumLibrary oclEngine,INakedCallBehaviorAction action,AbstractObjectNodeExpressor expressor){

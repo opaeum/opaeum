@@ -4,8 +4,6 @@ import org.opeum.javageneration.basicjava.simpleactions.EmbeddedScreenFlowTaskCa
 import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import org.opeum.metamodel.workspace.OpeumLibrary;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-
 public class EmbeddedScreenFlowTaskBuilder extends AbstractCallActionBuilder<INakedEmbeddedScreenFlowTask>{
 	public EmbeddedScreenFlowTaskBuilder(OpeumLibrary oclEngine,INakedEmbeddedScreenFlowTask node){
 		super(oclEngine, node,new EmbeddedScreenFlowTaskCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine)));

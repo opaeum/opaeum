@@ -1,6 +1,9 @@
 package org.opeum.javageneration.basicjava;
 
 import org.opeum.feature.StepDependency;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.OJUtil;
@@ -8,10 +11,6 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedComplexStructure;
 import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedProperty;
-
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
 		OperationAnnotator.class,AttributeImplementor.class

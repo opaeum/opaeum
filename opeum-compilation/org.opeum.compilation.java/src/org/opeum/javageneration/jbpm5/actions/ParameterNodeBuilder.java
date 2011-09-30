@@ -1,13 +1,13 @@
 package org.opeum.javageneration.jbpm5.actions;
 
-import org.opeum.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
-import org.opeum.metamodel.activities.INakedParameterNode;
-import org.opeum.metamodel.workspace.OpeumLibrary;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
+import org.opeum.metamodel.activities.INakedParameterNode;
+import org.opeum.metamodel.workspace.OpeumLibrary;
 
 public class ParameterNodeBuilder extends Jbpm5ActionBuilder<INakedParameterNode>{
 	private ParameterNodeImplementor delegate;

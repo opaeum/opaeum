@@ -2,15 +2,14 @@ package org.opeum.javageneration.jbpm5.actions;
 
 import java.util.List;
 
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.BehaviorUtil;
 import org.opeum.metamodel.actions.INakedReplyAction;
 import org.opeum.metamodel.activities.INakedInputPin;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ReplyActionBuilder extends Jbpm5ActionBuilder<INakedReplyAction>{
 	public ReplyActionBuilder(OpeumLibrary oclEngine,INakedReplyAction node){

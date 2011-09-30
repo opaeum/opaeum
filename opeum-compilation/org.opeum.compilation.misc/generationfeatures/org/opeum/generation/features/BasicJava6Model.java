@@ -7,7 +7,6 @@ import org.opeum.javageneration.basicjava.AttributeImplementor;
 import org.opeum.javageneration.basicjava.DerivedUnionImplementor;
 import org.opeum.javageneration.basicjava.EnumerationLiteralImplementor;
 import org.opeum.javageneration.basicjava.HashcodeBuilder;
-import org.opeum.javageneration.basicjava.HierarchicalSourcePopulationImplementor;
 import org.opeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
 import org.opeum.javageneration.basicjava.RedefinitionImplementor;

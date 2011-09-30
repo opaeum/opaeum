@@ -3,21 +3,11 @@ package org.opeum.javageneration.basicjava;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.internal.NakedEnumerationLiteralImpl;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IEnumLiteral;
 
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
 import org.opeum.java.metamodel.OJClass;
 import org.opeum.java.metamodel.OJConstructor;
 import org.opeum.java.metamodel.OJField;
@@ -29,6 +19,16 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.metamodel.core.INakedEnumeration;
+import org.opeum.metamodel.core.INakedEnumerationLiteral;
+import org.opeum.metamodel.core.INakedProperty;
+import org.opeum.metamodel.core.INakedSlot;
+import org.opeum.metamodel.core.internal.NakedEnumerationLiteralImpl;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class

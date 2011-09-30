@@ -3,12 +3,24 @@ package org.opeum.javageneration.basicjava;
 import java.io.Serializable;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
+
 import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.OpeumConfig;
 import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJVisibilityKind;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.annotation.OJEnum;
+import org.opeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaSourceKind;
 import org.opeum.javageneration.JavaTextSource;
@@ -31,30 +43,15 @@ import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedPackage;
 import org.opeum.metamodel.core.INakedSimpleType;
 import org.opeum.metamodel.models.INakedModel;
+import org.opeum.runtime.domain.IEnum;
+import org.opeum.runtime.domain.ISignal;
 import org.opeum.strategies.DateTimeStrategyFactory;
 import org.opeum.strategies.TextStrategyFactory;
 import org.opeum.textmetamodel.SourceFolder;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextSource;
-import org.opeum.validation.NameUniquenessValidation;
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opeum.runtime.domain.IEnum;
-import org.opeum.runtime.domain.ISignal;
-
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	NameUniquenessValidation.class
-},after = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
 	static{
 		// Because of eclipse classloading issues

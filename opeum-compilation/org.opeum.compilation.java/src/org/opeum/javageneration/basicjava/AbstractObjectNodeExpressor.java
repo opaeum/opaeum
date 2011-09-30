@@ -2,10 +2,12 @@ package org.opeum.javageneration.basicjava;
 
 import java.util.Set;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedCallAction;
 import org.opeum.metamodel.activities.INakedAction;
 import org.opeum.metamodel.activities.INakedActivityEdge;
 import org.opeum.metamodel.activities.INakedControlNode;
@@ -13,10 +15,6 @@ import org.opeum.metamodel.activities.INakedObjectFlow;
 import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class AbstractObjectNodeExpressor{
 	protected OpeumLibrary library;

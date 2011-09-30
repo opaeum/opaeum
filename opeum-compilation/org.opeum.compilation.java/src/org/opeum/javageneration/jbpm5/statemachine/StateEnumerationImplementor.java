@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import org.opeum.javageneration.util.OJUtil;
@@ -17,10 +20,6 @@ import org.opeum.metamodel.statemachines.INakedRegion;
 import org.opeum.metamodel.statemachines.INakedState;
 import org.opeum.metamodel.statemachines.INakedStateMachine;
 import org.opeum.metamodel.statemachines.INakedTransition;
-
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJEnum;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
 public class StateEnumerationImplementor extends ProcessStepEnumerationImplementor{

@@ -3,7 +3,15 @@ package org.opeum.javageneration.persistence;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.Filter;
 import org.opeum.feature.OpeumConfig;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.java.metamodel.annotation.OJEnumValue;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.metamodel.core.INakedAssociation;
@@ -14,15 +22,6 @@ import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedNameSpace;
 import org.opeum.metamodel.core.INakedPackage;
 import org.opeum.metamodel.core.INakedProperty;
-
-import org.hibernate.annotations.Filter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
 import org.opeum.name.NameConverter;
 
 public class JpaUtil{

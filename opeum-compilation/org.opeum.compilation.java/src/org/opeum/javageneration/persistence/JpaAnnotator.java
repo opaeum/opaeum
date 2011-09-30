@@ -4,6 +4,13 @@ import javax.persistence.GenerationType;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.java.metamodel.annotation.OJEnumValue;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AttributeImplementor;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -21,14 +28,6 @@ import org.opeum.metamodel.core.INakedEnumeration;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedSimpleType;
 import org.opeum.validation.namegeneration.PersistentNameGenerator;
-
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		AttributeImplementor.class,PersistentNameGenerator.class

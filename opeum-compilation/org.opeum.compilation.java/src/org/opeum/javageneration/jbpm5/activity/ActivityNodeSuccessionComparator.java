@@ -10,7 +10,7 @@ import org.opeum.metamodel.activities.INakedActivityNode;
 import org.opeum.metamodel.activities.INakedControlNode;
 import org.opeum.metamodel.activities.INakedParameterNode;
 
-public class ActivityNodeSuccessionComparator implements Comparator {
+public class ActivityNodeSuccessionComparator implements Comparator<INakedActivityNode> {
 	boolean byTarget = true;
 
 	public ActivityNodeSuccessionComparator() {
@@ -21,17 +21,17 @@ public class ActivityNodeSuccessionComparator implements Comparator {
 		this.byTarget = byTarget;
 	}
 
-	public int compare(Object o1, Object o2) {
+	public int compare(INakedActivityNode o1, INakedActivityNode o2) {
 		if (o1 instanceof INakedActivityNode) {
-			return compare((INakedActivityNode) o1, (INakedActivityNode) o2);
+			return compareImpl((INakedActivityNode) o1, (INakedActivityNode) o2);
 		} else if (byTarget) {
-			return compare(((INakedActivityEdge) o1).getEffectiveTarget(), ((INakedActivityEdge) o2).getEffectiveTarget());
+			return compareImpl(((INakedActivityEdge) o1).getEffectiveTarget(), ((INakedActivityEdge) o2).getEffectiveTarget());
 		} else {
-			return compare(((INakedActivityEdge) o1).getEffectiveSource(), ((INakedActivityEdge) o2).getEffectiveSource());
+			return compareImpl(((INakedActivityEdge) o1).getEffectiveSource(), ((INakedActivityEdge) o2).getEffectiveSource());
 		}
 	}
 
-	private int compare(INakedActivityNode node1, INakedActivityNode node2) {
+	private int compareImpl(INakedActivityNode node1, INakedActivityNode node2) {
 		if (leadsTo(node1, node2, 20)) {
 			// check succession
 			return -1;
@@ -96,7 +96,7 @@ public class ActivityNodeSuccessionComparator implements Comparator {
 	 * @return
 	 */
 	public static boolean leadsTo(INakedActivityNode from, INakedActivityNode to, int levels) {
-		Iterator outgoing = from.getAllEffectiveOutgoing().iterator();
+		Iterator<INakedActivityEdge> outgoing = from.getAllEffectiveOutgoing().iterator();
 		while (levels >= 0 && outgoing.hasNext()) {
 			INakedActivityEdge edge = (INakedActivityEdge) outgoing.next();
 			INakedActivityNode target = edge.getEffectiveTarget();

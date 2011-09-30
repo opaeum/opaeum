@@ -3,14 +3,6 @@ package org.opeum.javageneration.jbpm5;
 import java.util.Collection;
 import java.util.Date;
 
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.hibernate.HibernateUtil;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.javageneration.util.ReflectionUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.IParameterOwner;
-
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJClass;
 import org.opeum.java.metamodel.OJForStatement;
@@ -26,6 +18,13 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.java.metamodel.annotation.OJEnumValue;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.hibernate.HibernateUtil;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.javageneration.util.ReflectionUtil;
+import org.opeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.IParameterOwner;
 import org.opeum.runtime.domain.IActiveEntity;
 import org.opeum.runtime.domain.IProcessObject;
 import org.opeum.runtime.domain.IProcessStep;

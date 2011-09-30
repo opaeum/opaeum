@@ -1,5 +1,8 @@
 package org.opeum.javageneration.basicjava.simpleactions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.maps.ActionMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -11,10 +14,6 @@ import org.opeum.metamodel.activities.INakedActivity;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.core.INakedMessageStructure;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction> extends AbstractCaller<T>{
 	public AbstractBehaviorCaller(OpeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){

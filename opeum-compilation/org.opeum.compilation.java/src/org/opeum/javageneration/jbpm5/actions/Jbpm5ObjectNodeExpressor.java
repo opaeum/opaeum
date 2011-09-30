@@ -1,13 +1,14 @@
 package org.opeum.javageneration.jbpm5.actions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.maps.NakedClassifierMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.ActionFeatureBridge;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.actions.INakedCallAction;
 import org.opeum.metamodel.activities.INakedAction;
 import org.opeum.metamodel.activities.INakedActivity;
 import org.opeum.metamodel.activities.INakedActivityVariable;
@@ -19,15 +20,9 @@ import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedMessageStructure;
 import org.opeum.metamodel.core.INakedTypedElement;
 import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	// oyoyoyoyoy Jbpm

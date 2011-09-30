@@ -2,16 +2,6 @@ package org.opeum.javageneration;
 
 import java.util.Collection;
 
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
@@ -22,6 +12,16 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.java.metamodel.annotation.OJEnumValue;
+import org.opeum.javageneration.maps.NakedClassifierMap;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedEnumeration;
+import org.opeum.metamodel.core.INakedEnumerationLiteral;
+import org.opeum.metamodel.core.INakedInstanceSpecification;
+import org.opeum.metamodel.core.INakedPrimitiveType;
+import org.opeum.metamodel.core.INakedSlot;
+import org.opeum.metamodel.core.INakedValueSpecification;
 
 public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 	protected void annotate(INakedElement umlElement,OJAnnotatedClass ojClass,String stereotypeName,OJElement javaElement){

@@ -3,20 +3,20 @@ package org.opeum.javageneration.hibernate;
 import java.util.Collection;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.persistence.JpaAnnotator;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.StereotypeNames;
-import nl.klasse.octopus.model.IClassifier;
-
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = JpaAnnotator.class)
 public class TooManyNavigationSupport extends AbstractJavaProducingVisitor{

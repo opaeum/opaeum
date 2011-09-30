@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nl.klasse.octopus.model.IEnumerationType;
+
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opeum.javageneration.maps.NakedClassifierMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.GeneralizationUtil;
 import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opeum.metamodel.core.INakedClassifier;
@@ -15,12 +20,6 @@ import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedPrimitiveType;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedSimpleType;
-import nl.klasse.octopus.model.IEnumerationType;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJEnum;
 
 public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVisitor {
 	public AbstractTestDataGenerator() {
@@ -55,7 +54,6 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 
 	protected String calculateDefaultValue(OJAnnotatedClass test, OJBlock block, INakedProperty f) {
 		String value = calculateDefaultValue(f);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			test.addToImports(new OJPathName((baseType).getMappingInfo().getQualifiedJavaName()));
@@ -98,7 +96,6 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 
 	public String calculateDefaultValue(INakedProperty f) {
 		double value = Math.random() * 123456;
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 		if (f.getNakedBaseType() instanceof INakedSimpleType) {
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			if (baseType.hasStrategy(TestValueStrategy.class)) {
@@ -152,6 +149,9 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 	}
 
 
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	public Collection<INakedClassifier> getConcreteSubclassifiersOf(INakedClassifier nakedBaseType){
 		return (Collection)GeneralizationUtil.getAllSubClassifiers(nakedBaseType, getModelInScope());
 	}

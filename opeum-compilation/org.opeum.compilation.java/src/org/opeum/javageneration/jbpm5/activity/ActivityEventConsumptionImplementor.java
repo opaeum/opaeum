@@ -6,8 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
 import org.opeum.javageneration.basicjava.SpecificationImplementor;
@@ -43,18 +54,6 @@ import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedTypedElement;
 import org.opeum.metamodel.name.NameWrapper;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		ActivityProcessImplementor.class,SpecificationImplementor.class

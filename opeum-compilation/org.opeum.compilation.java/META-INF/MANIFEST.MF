@@ -12,10 +12,12 @@ Require-Bundle: org.opeum.metamodels.opeum,
  org.opeum.transformation.process,
  org.opeum.transformation.visitor,
  org.opeum.compilation.ocltojava,
- org.opeum.compilation.runtimedependencies
+ org.opeum.compilation.runtimedependencies,
+ org.opeum.linkage.validation
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/cdi-api-1.0-SP4.jar,
- .
+ .,
+ lib/hibernate-annotations-3.5.5-Final.jar
 Export-Package: javax.decorator,
  javax.enterprise.context,
  javax.enterprise.context.spi,

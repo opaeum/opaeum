@@ -1,5 +1,8 @@
 package org.opeum.javageneration.basicjava.simpleactions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.jbpm5.EventUtil;
 import org.opeum.javageneration.maps.ActionMap;
@@ -9,10 +12,6 @@ import org.opeum.linkage.BehaviorUtil;
 import org.opeum.metamodel.actions.INakedCallOperationAction;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 	public OperationCaller(OpeumLibrary oclEngine,INakedCallOperationAction action,AbstractObjectNodeExpressor expressor){

@@ -1,5 +1,7 @@
 package org.opeum.javageneration.jbpm5.actions;
 
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.jbpm5.EventUtil;
 import org.opeum.javageneration.jbpm5.Jbpm5Util;
 import org.opeum.javageneration.maps.ActionMap;
@@ -9,9 +11,6 @@ import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
 import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
 import org.opeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEventAction>{
 	public AcceptEventActionBuilder(OpeumLibrary oclEngine,INakedAcceptEventAction node){

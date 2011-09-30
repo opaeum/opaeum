@@ -1,16 +1,13 @@
 package org.opeum.javageneration.jbpm5.actions;
 
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
 import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.metamodel.actions.INakedCallOperationAction;
 import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opeum.metamodel.core.INakedMessageStructure;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<INakedEmbeddedSingleScreenTask>{
 	EmbeddedSingleScreenTaskCaller delegate;

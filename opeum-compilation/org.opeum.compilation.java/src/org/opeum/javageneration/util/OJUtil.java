@@ -1,7 +1,6 @@
 package org.opeum.javageneration.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,11 +8,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.opeum.annotation.NumlMetaInfo;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJClassifier;
+import org.opeum.java.metamodel.OJConstructor;
+import org.opeum.java.metamodel.OJField;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJSimpleStatement;
+import org.opeum.java.metamodel.OJStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.java.metamodel.annotation.OJEnum;
+import org.opeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.linkage.BehaviorUtil;
 import org.opeum.metamodel.actions.IActionWithTargetElement;
 import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.actions.INakedReplyAction;
 import org.opeum.metamodel.activities.INakedAction;
 import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
@@ -34,26 +49,8 @@ import org.opeum.metamodel.profiles.INakedStereotype;
 import org.opeum.metamodel.usecases.INakedActor;
 import org.opeum.metamodel.usecases.INakedUseCase;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-import org.opeum.validation.namegeneration.AbstractJavaNameGenerator;
-
-import org.opeum.annotation.NumlMetaInfo;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opeum.name.NameConverter;
+import org.opeum.validation.namegeneration.AbstractJavaNameGenerator;
 
 public class OJUtil{
 	public static void clearCache(){

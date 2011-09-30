@@ -1,9 +1,14 @@
 package org.opeum.javageneration.persistence;
 
-import java.util.List;
-
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJClassifier;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opeum.javageneration.basicjava.AttributeImplementor;
@@ -19,17 +24,8 @@ import org.opeum.metamodel.core.INakedPowerType;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.StereotypeNames;
 import org.opeum.metamodel.models.INakedModel;
-import org.opeum.validation.namegeneration.PersistentNameGenerator;
-import nl.klasse.octopus.model.IModelElement;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.runtime.domain.IPersistentObject;
+import org.opeum.validation.namegeneration.PersistentNameGenerator;
 
 /**
  * This class builds all the operations specified by the AbstractEntity interface. It also provides an implementation for the equals method
@@ -75,20 +71,15 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void addDiscriminatorInitialization(INakedEntity entity,OJClass ojClass){
-		List atr = entity.getAllAttributes();
 		OJBlock dcBody = new OJBlock();
-		for(int i = 0;i < atr.size();i++){
-			IModelElement a = (IModelElement) atr.get(i);
-			if(a instanceof INakedProperty){
-				INakedProperty attr = (INakedProperty) a;
-				if(attr.isDiscriminator()){
-					INakedPowerType powerType = (INakedPowerType) attr.getNakedBaseType();
-					if(entity.isPowerTypeInstance()){
-						INakedGeneralization generalization = entity.getNakedGeneralizations().iterator().next();
-						String literal = powerType.getMappingInfo().getQualifiedJavaName() + "."
-								+ generalization.getPowerTypeLiteral().getMappingInfo().getJavaName().getUpperCase();
-						dcBody.addToStatements("set" + attr.getMappingInfo().getJavaName().getCapped() + "(" + literal + ")");
-					}
+		for(INakedProperty attr:entity.getEffectiveAttributes()){
+			if(attr.isDiscriminator()){
+				INakedPowerType powerType = (INakedPowerType) attr.getNakedBaseType();
+				if(entity.isPowerTypeInstance()){
+					INakedGeneralization generalization = entity.getNakedGeneralizations().iterator().next();
+					String literal = powerType.getMappingInfo().getQualifiedJavaName() + "."
+							+ generalization.getPowerTypeLiteral().getMappingInfo().getJavaName().getUpperCase();
+					dcBody.addToStatements("set" + attr.getMappingInfo().getJavaName().getCapped() + "(" + literal + ")");
 				}
 			}
 		}

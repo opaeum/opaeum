@@ -1,10 +1,9 @@
 package org.opeum.javageneration.jbpm5.actions;
 
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import org.opeum.metamodel.activities.INakedActivityNode;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class SimpleActionBridge extends Jbpm5ActionBuilder<INakedActivityNode> {
 	private SimpleNodeBuilder<?> delegate;

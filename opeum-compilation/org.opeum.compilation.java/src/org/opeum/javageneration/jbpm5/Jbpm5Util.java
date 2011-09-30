@@ -1,15 +1,6 @@
 package org.opeum.javageneration.jbpm5;
 
 
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.IParameterOwner;
-import org.opeum.metamodel.name.SingularNameWrapper;
-
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJIfStatement;
 import org.opeum.java.metamodel.OJOperation;
@@ -19,6 +10,14 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.metamodel.activities.INakedActivityNode;
+import org.opeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opeum.metamodel.commonbehaviors.INakedStep;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedElementOwner;
+import org.opeum.metamodel.core.IParameterOwner;
+import org.opeum.metamodel.name.SingularNameWrapper;
 import org.opeum.runtime.domain.ExceptionHolder;
 import org.opeum.runtime.environment.Environment;
 

@@ -5,6 +5,14 @@ import java.util.UUID;
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJField;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.util.OJUtil;
@@ -14,15 +22,6 @@ import org.opeum.metamodel.core.INakedDataType;
 import org.opeum.metamodel.core.INakedEnumeration;
 import org.opeum.metamodel.core.INakedHelper;
 import org.opeum.metamodel.core.INakedInterface;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class

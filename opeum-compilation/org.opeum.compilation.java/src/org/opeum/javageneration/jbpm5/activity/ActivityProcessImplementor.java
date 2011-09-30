@@ -4,8 +4,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
@@ -56,15 +65,6 @@ import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opeum.metamodel.core.INakedElement;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class

@@ -4,6 +4,12 @@ import java.util.Collection;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJField;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
@@ -22,13 +28,6 @@ import org.opeum.metamodel.core.INakedMessageStructure;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedValueSpecification;
 import org.opeum.metamodel.core.IParameterOwner;
-
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples

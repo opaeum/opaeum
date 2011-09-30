@@ -1,5 +1,7 @@
 package org.opeum.javageneration.basicjava.simpleactions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.jbpm5.EventUtil;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -7,9 +9,6 @@ import org.opeum.javageneration.util.OJUtil;
 import org.opeum.metamodel.activities.INakedExpansionNode;
 import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionNode>{
 	public ExpansionNodeImplementor(OpeumLibrary oclEngine,INakedExpansionNode action,AbstractObjectNodeExpressor objectNodeExpressor){

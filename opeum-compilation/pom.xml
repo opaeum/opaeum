@@ -12,11 +12,10 @@
 	<packaging>pom</packaging>
 	<name>Opeum Compiler</name>
 	<version>1.0.0-SNAPSHOT</version>
-	<properties>
-		<forceContextQualifier>cm</forceContextQualifier>
-	</properties>
 	<modules>
+		<module>org.opeum.compilation.filegeneration</module>
 		<module>org.opeum.compilation.ocltojava</module>
+		<module>org.opeum.compilation.runtimedependencies</module>
 	</modules>
 	<repositories>
 		<repository>

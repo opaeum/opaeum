@@ -1,13 +1,12 @@
 package org.opeum.javageneration.basicjava.simpleactions;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.maps.ActionMap;
 import org.opeum.metamodel.actions.INakedStartClassifierBehaviorAction;
 import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class ClassifierBehaviorStarter extends SimpleNodeBuilder<INakedStartClassifierBehaviorAction>{
 	public ClassifierBehaviorStarter(OpeumLibrary oclEngine,INakedStartClassifierBehaviorAction action,AbstractObjectNodeExpressor expressor){

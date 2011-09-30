@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.metamodel.core.INakedConstraint;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -16,6 +15,7 @@ import org.opeum.java.metamodel.OJOperation;
 import org.opeum.java.metamodel.OJParameter;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.metamodel.core.INakedConstraint;
 
 public class ConstraintGenerator {
 	OJClass context;
@@ -69,7 +69,6 @@ public class ConstraintGenerator {
 			context.addToImports("java.util.ArrayList");
 			context.addToImports("java.util.List");
 		}
-		int i = 0;
 		for (INakedConstraint post : constraints) {
 			OJIfStatement ifBroken = new OJIfStatement();
 			if (post.getSpecification().isValidOclValue()) {
@@ -78,7 +77,6 @@ public class ConstraintGenerator {
 				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
 				result.addToStatements(ifBroken);
 			}
-			i++;
 		}
 		OJIfStatement ifFailed = new OJIfStatement();
 		ifFailed.setCondition("failedConstraints.size()>0");

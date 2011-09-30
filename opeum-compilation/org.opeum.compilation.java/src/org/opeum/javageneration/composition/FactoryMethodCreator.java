@@ -3,6 +3,12 @@ package org.opeum.javageneration.composition;
 import java.util.Iterator;
 
 import org.opeum.feature.StepDependency;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
@@ -14,13 +20,6 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedComplexStructure;
 import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedProperty;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 /**
  * This class adds a factory method for compositional relationships. This would be used in conjunction by the CompositionNode semantics to

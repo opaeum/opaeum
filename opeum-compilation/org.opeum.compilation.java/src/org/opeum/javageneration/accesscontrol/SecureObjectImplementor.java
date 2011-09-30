@@ -2,13 +2,6 @@ package org.opeum.javageneration.accesscontrol;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.composition.CompositionNodeImplementor;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.javageneration.util.ReflectionUtil;
-import org.opeum.metamodel.core.INakedEntity;
-
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJClass;
 import org.opeum.java.metamodel.OJForStatement;
@@ -17,6 +10,12 @@ import org.opeum.java.metamodel.OJOperation;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.javageneration.composition.CompositionNodeImplementor;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.javageneration.util.ReflectionUtil;
+import org.opeum.metamodel.core.INakedEntity;
 import org.opeum.runtime.domain.CompositionNode;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {

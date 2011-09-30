@@ -2,14 +2,10 @@ package org.opeum.javageneration.oclexpressions;
 
 import java.util.Collections;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.models.INakedModel;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitAfter;
 import org.opeum.java.metamodel.OJClassifier;
 import org.opeum.java.metamodel.OJConstructor;
 import org.opeum.java.metamodel.OJIfStatement;
@@ -18,6 +14,10 @@ import org.opeum.java.metamodel.OJPackage;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.OJStatement;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.metamodel.models.INakedModel;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {UtilCreator.class})
 public class CodeCleanup extends AbstractJavaProducingVisitor{

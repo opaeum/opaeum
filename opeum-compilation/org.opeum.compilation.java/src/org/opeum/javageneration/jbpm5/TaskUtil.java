@@ -2,11 +2,6 @@ package org.opeum.javageneration.jbpm5;
 
 import java.util.Collection;
 
-import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.name.PluralNameWrapper;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
 import org.opeum.java.metamodel.OJBlock;
@@ -14,6 +9,11 @@ import org.opeum.java.metamodel.OJForStatement;
 import org.opeum.java.metamodel.OJIfStatement;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opeum.metamodel.bpm.INakedDeadline;
+import org.opeum.metamodel.bpm.INakedResponsibilityDefinition;
+import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opeum.metamodel.name.PluralNameWrapper;
 import org.opeum.runtime.domain.TaskDelegation;
 
 public class TaskUtil{

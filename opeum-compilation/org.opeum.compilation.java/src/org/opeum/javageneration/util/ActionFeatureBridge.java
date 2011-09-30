@@ -3,11 +3,12 @@ package org.opeum.javageneration.util;
 import java.util.Collection;
 import java.util.Collections;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
+
 import org.opeum.metamodel.actions.IActionWithTargetElement;
 import org.opeum.metamodel.actions.INakedAcceptCallAction;
 import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.actions.INakedReplyAction;
-import org.opeum.metamodel.actions.ITargetElement;
 import org.opeum.metamodel.activities.INakedAction;
 import org.opeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opeum.metamodel.components.INakedConnectorEnd;
@@ -16,9 +17,6 @@ import org.opeum.metamodel.core.INakedTypedElement;
 import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
-
 import org.opeum.name.NameConverter;
 
 public class ActionFeatureBridge extends AbstractPropertyBridge{

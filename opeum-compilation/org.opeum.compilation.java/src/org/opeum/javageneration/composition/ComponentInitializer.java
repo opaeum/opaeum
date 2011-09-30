@@ -2,8 +2,16 @@ package org.opeum.javageneration.composition;
 
 import java.util.List;
 
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -16,14 +24,6 @@ import org.opeum.metamodel.core.INakedEnumeration;
 import org.opeum.metamodel.core.INakedEnumerationLiteral;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedStructuredDataType;
-import nl.klasse.octopus.model.IModelElement;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 /**
  * This class implements the 'createComponents()' method. This method takes the semantics of compositional relationships one step further:

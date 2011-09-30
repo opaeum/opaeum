@@ -1,4 +1,4 @@
-package org.nakedum.velocity;
+package org.opeum.velocity;
 import java.io.InputStream;
 
 import org.apache.velocity.exception.ResourceNotFoundException;

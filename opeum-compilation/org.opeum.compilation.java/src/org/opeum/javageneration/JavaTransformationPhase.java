@@ -11,7 +11,7 @@ import org.opeum.feature.OpeumConfig;
 import org.opeum.feature.PhaseDependency;
 import org.opeum.feature.TransformationContext;
 import org.opeum.feature.TransformationPhase;
-import org.opeum.filegeneration.FileGenerationPhase;
+import org.opeum.java.metamodel.OJPackage;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.LinkagePhase;
 import org.opeum.metamodel.bpm.INakedEmbeddedTask;
@@ -28,12 +28,10 @@ import org.opeum.textmetamodel.TextWorkspace;
 import org.opeum.validation.ValidationPhase;
 import org.opeum.validation.namegeneration.NameGenerationPhase;
 
-import org.opeum.java.metamodel.OJPackage;
-
 @PhaseDependency(after = {
 		LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class
 },before = {
-	FileGenerationPhase.class
+
 })
 public class JavaTransformationPhase implements TransformationPhase<JavaTransformationStep,INakedElement>,IntegrationPhase{
 	private static JavaTransformationPhase INSTANCE = new JavaTransformationPhase();

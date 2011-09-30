@@ -5,11 +5,10 @@ import java.util.Collections;
 
 import org.opeum.feature.OpeumConfig;
 import org.opeum.feature.TransformationContext;
+import org.opeum.java.metamodel.OJPackage;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextWorkspace;
-
-import org.opeum.java.metamodel.OJPackage;
 
 public abstract class JavaFeature implements JavaTransformationStep{
 	@Override

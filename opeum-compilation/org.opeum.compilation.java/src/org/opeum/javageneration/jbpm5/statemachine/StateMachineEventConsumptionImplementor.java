@@ -4,8 +4,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.stdlib.IOclLibrary;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJAnnonymousInnerClass;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJParameter;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.NakedStateMap;
 import org.opeum.javageneration.basicjava.SimpleActivityMethodImplementor;
@@ -31,16 +41,6 @@ import org.opeum.metamodel.statemachines.INakedCompletionEvent;
 import org.opeum.metamodel.statemachines.INakedState;
 import org.opeum.metamodel.statemachines.INakedStateMachine;
 import org.opeum.metamodel.statemachines.INakedTransition;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-
-import org.opeum.java.metamodel.OJAnnonymousInnerClass;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.runtime.domain.TransitionListener;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)

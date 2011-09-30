@@ -2,6 +2,9 @@ package org.opeum.javageneration.basicjava.simpleactions;
 
 import java.util.List;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.jbpm5.TaskUtil;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -11,10 +14,6 @@ import org.opeum.metamodel.activities.INakedInputPin;
 import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<INakedEmbeddedSingleScreenTask>{
 	public EmbeddedSingleScreenTaskCaller(OpeumLibrary oclEngine,INakedEmbeddedSingleScreenTask action,AbstractObjectNodeExpressor expressor){

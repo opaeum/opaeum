@@ -1,7 +1,8 @@
 package org.opeum.javageneration;
 
-import org.opeum.metamodel.statemachines.INakedState;
 import nl.klasse.octopus.codegen.umlToJava.maps.StateMap;
+
+import org.opeum.metamodel.statemachines.INakedState;
 
 
 public class NakedStateMap extends StateMap {

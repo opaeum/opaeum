@@ -3,6 +3,11 @@ package org.opeum.javageneration.oclexpressions;
 import java.util.Collections;
 
 import org.opeum.feature.StepDependency;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJConstructor;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
@@ -13,15 +18,6 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedComplexStructure;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedValueSpecification;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class

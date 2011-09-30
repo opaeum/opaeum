@@ -1,13 +1,12 @@
 package org.opeum.javageneration.persistence;
 
-import org.opeum.metamodel.core.INakedComplexStructure;
-
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.java.metamodel.annotation.OJEnumValue;
+import org.opeum.metamodel.core.INakedComplexStructure;
 
 
 public class JpaIdAuto implements JpaIdStrategy {

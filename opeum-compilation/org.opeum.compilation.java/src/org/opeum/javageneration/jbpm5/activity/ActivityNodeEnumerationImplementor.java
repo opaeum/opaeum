@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import org.opeum.linkage.BehaviorUtil;
@@ -17,8 +18,6 @@ import org.opeum.metamodel.commonbehaviors.INakedStep;
 import org.opeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedOperation;
-
-import org.opeum.java.metamodel.annotation.OJEnum;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = ActivityProcessImplementor.class,after = ActivityProcessImplementor.class)
 public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationImplementor{

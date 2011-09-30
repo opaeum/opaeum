@@ -5,9 +5,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import nl.klasse.octopus.model.IClassifier;
+
+import org.hibernate.annotations.CascadeType;
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.java.metamodel.annotation.OJEnumValue;
+import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opeum.javageneration.basicjava.AttributeImplementor;
@@ -27,27 +45,9 @@ import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedSimpleType;
 import org.opeum.metamodel.core.internal.StereotypeNames;
 import org.opeum.metamodel.models.INakedModel;
-import org.opeum.validation.namegeneration.PersistentNameGenerator;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-import nl.klasse.octopus.model.IClassifier;
-
-import org.hibernate.annotations.CascadeType;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opeum.runtime.domain.HibernateEntity;
 import org.opeum.runtime.environment.Environment;
+import org.opeum.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class

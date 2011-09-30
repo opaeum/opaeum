@@ -1,7 +1,16 @@
 package org.opeum.javageneration.oclexpressions;
 
+import nl.klasse.octopus.model.IOperation;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
@@ -11,15 +20,6 @@ import org.opeum.metamodel.core.INakedConstraint;
 import org.opeum.metamodel.core.INakedEntity;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedProperty;
-import nl.klasse.octopus.model.IOperation;
-
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		AttributeExpressionGenerator.class,ConstrainedImplementor.class,AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,InvariantsGenerator.class,
@@ -43,7 +43,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			if(p.getInitialValue() != null && p.getInitialValue().isOclValue()){
 				String name = "test" + p.getMappingInfo().getJavaName() + "InitialValue";
 				addTestMEthod(entity, pn, test, testInterface, name);
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+//				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 				// testInitialValue.getBody().addToStatements("assert object."
 				// + map.getter() + "().equals(" + map.javaDefaultValue()
 				// +")");

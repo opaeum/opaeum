@@ -1,9 +1,8 @@
 package org.opeum.javageneration;
 
 import org.opeum.feature.OpeumConfig;
-import org.opeum.textmetamodel.TextWorkspace;
-
 import org.opeum.java.metamodel.OJPackage;
+import org.opeum.textmetamodel.TextWorkspace;
 
 
 public abstract class AbstractJavaTransformationStep implements JavaTransformationStep {

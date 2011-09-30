@@ -1,18 +1,6 @@
 package org.opeum.javageneration.basicjava;
 
 import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.hibernate.HibernateAnnotator;
-import org.opeum.javageneration.maps.AssociationClassEndMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.persistence.JpaAnnotator;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedAssociationImpl;
-
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJClass;
 import org.opeum.java.metamodel.OJField;
@@ -23,6 +11,15 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.javageneration.hibernate.HibernateAnnotator;
+import org.opeum.javageneration.maps.AssociationClassEndMap;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.javageneration.persistence.JpaAnnotator;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedComplexStructure;
+import org.opeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class,after = {
 		DerivedUnionImplementor.class,JpaAnnotator.class,HibernateAnnotator.class

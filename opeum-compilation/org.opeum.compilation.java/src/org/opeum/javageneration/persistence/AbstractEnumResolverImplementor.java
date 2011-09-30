@@ -2,11 +2,6 @@ package org.opeum.javageneration.persistence;
 
 import java.util.Collection;
 
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.core.INakedElement;
-
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.OJSwitchCase;
 import org.opeum.java.metamodel.OJSwitchStatement;
@@ -14,6 +9,9 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJEnum;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.JavaSourceFolderIdentifier;
+import org.opeum.metamodel.core.INakedElement;
 import org.opeum.runtime.domain.EnumResolver;
 import org.opeum.runtime.domain.IEnum;
 

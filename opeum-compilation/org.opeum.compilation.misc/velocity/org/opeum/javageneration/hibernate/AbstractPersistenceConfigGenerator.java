@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SortedProperties;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
 import org.opeum.javageneration.IntegrationCodeGenerator;
 import org.opeum.javageneration.JavaTransformationStep;
 import org.opeum.javageneration.TextSourceFolderIdentifier;
@@ -24,12 +25,10 @@ import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.models.INakedModel;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.TextWorkspace;
-
-import org.nakedum.velocity.AbstractTextProducingVisitor;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
 import org.opeum.runtime.environment.Environment;
+import org.opeum.textmetamodel.TextWorkspace;
+import org.opeum.util.SortedProperties;
+import org.opeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,IntegrationCodeGenerator{
 	public AbstractPersistenceConfigGenerator(){

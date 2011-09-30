@@ -1,18 +1,17 @@
 package org.opeum.javageneration.hibernate;
 
+import org.hibernate.annotations.CascadeType;
 import org.opeum.feature.OpeumConfig;
 import org.opeum.feature.SqlDialect;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.persistence.JpaUtil;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedProperty;
-
-import org.hibernate.annotations.CascadeType;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.java.metamodel.annotation.OJEnumValue;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.javageneration.persistence.JpaUtil;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedProperty;
 
 public class HibernateUtil{
 	public static void addAny(OJAnnotatedField field,NakedStructuralFeatureMap map){

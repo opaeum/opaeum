@@ -3,18 +3,22 @@ package org.opeum.javageneration.jbpm5.actions;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractNodeBuilder;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import org.opeum.javageneration.jbpm5.Jbpm5Util;
 import org.opeum.javageneration.jbpm5.activity.ActivityUtil;
 import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.javageneration.maps.NakedOperationMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.oclexpressions.ConstraintGenerator;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedCallAction;
 import org.opeum.metamodel.actions.INakedReplyAction;
 import org.opeum.metamodel.activities.ControlNodeType;
 import org.opeum.metamodel.activities.INakedAction;
@@ -23,19 +27,11 @@ import org.opeum.metamodel.activities.INakedActivityNode;
 import org.opeum.metamodel.activities.INakedControlNode;
 import org.opeum.metamodel.activities.INakedExpansionRegion;
 import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.commonbehaviors.GuardedFlow;
 import org.opeum.metamodel.core.INakedConstraint;
 import org.opeum.metamodel.core.PreAndPostConstrained;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder{
 	protected A node;

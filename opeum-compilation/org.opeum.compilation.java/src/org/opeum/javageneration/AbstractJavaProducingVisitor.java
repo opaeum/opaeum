@@ -9,10 +9,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.oclengine.IOclEngine;
+
 import org.opeum.feature.ISourceFolderIdentifier;
-import org.opeum.feature.ISourceFolderStrategy;
 import org.opeum.feature.OpeumConfig;
 import org.opeum.feature.SourceFolderDefinition;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJClassifier;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opeum.javageneration.maps.NakedClassifierMap;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.metamodel.core.INakedClassifier;
@@ -32,17 +42,6 @@ import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextOutputNode;
 import org.opeum.textmetamodel.TextProject;
 import org.opeum.textmetamodel.TextWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.oclengine.IOclEngine;
-
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 
 public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";

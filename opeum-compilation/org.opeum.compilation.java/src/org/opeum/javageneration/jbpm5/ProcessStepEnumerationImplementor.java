@@ -3,16 +3,6 @@ package org.opeum.javageneration.jbpm5;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
-import org.opeum.javageneration.StereotypeAnnotator;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.javageneration.util.ReflectionUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJConstructor;
 import org.opeum.java.metamodel.OJForStatement;
@@ -23,6 +13,15 @@ import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.java.metamodel.annotation.OJEnumLiteral;
+import org.opeum.javageneration.JavaSourceFolderIdentifier;
+import org.opeum.javageneration.StereotypeAnnotator;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.javageneration.util.ReflectionUtil;
+import org.opeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opeum.metamodel.commonbehaviors.INakedStep;
+import org.opeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedElement;
 import org.opeum.runtime.domain.IProcessStep;
 import org.opeum.runtime.domain.TriggerMethod;
 

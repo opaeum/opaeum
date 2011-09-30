@@ -2,15 +2,30 @@ package org.opeum.javageneration.composition;
 
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opeum.feature.OpeumConfig;
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJClassifier;
+import org.opeum.java.metamodel.OJConstructor;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJSimpleStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
 import org.opeum.javageneration.maps.AssociationClassEndMap;
-import org.opeum.javageneration.maps.IMessageMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opeum.javageneration.oclexpressions.AttributeExpressionGenerator;
 import org.opeum.javageneration.util.OJUtil;
@@ -25,24 +40,8 @@ import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedStructuredDataType;
 import org.opeum.metamodel.core.internal.StereotypeNames;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.TextWorkspace;
-import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
-import nl.klasse.octopus.model.IModelElement;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.runtime.domain.CompositionNode;
+import org.opeum.textmetamodel.TextWorkspace;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java model with ideas on how compositions should ideally be

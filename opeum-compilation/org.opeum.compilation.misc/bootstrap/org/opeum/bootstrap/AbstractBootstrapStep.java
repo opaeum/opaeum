@@ -10,8 +10,7 @@ import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.ITransformationStep;
 import org.opeum.javageneration.TextSourceFolderIdentifier;
 import org.opeum.metamodel.models.INakedModel;
-
-import org.nakedum.velocity.AbstractTextProducingVisitor;
+import org.opeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements ITransformationStep {
 	protected INakedModel currentModel;

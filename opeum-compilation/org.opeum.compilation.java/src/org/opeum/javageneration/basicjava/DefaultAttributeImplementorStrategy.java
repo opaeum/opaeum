@@ -1,11 +1,10 @@
 package org.opeum.javageneration.basicjava;
 
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.metamodel.core.INakedClassifier;
-
 import org.opeum.java.metamodel.OJOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.metamodel.core.INakedClassifier;
 
 public class DefaultAttributeImplementorStrategy implements AttributeImplementorStrategy {
 

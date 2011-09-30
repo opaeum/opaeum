@@ -6,8 +6,21 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 
+import nl.klasse.octopus.model.IOperation;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPackage;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.java.metamodel.annotation.OJEnumValue;
 import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.jbpm5.AbstractBehaviorVisitor;
@@ -36,19 +49,6 @@ import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.PreAndPostConstrained;
 import org.opeum.metamodel.statemachines.INakedStateMachine;
-import nl.klasse.octopus.model.IOperation;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
 import org.opeum.runtime.domain.DeadlineKind;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -60,7 +60,6 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	@VisitBefore
 	public void visitActivity(INakedActivity activity){
 		if(activity.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(activity)){
-			OJAnnotatedClass activityClass = findJavaClass(activity);
 		}
 		for(INakedActivityNode n:activity.getActivityNodesRecursively()){
 			if(n instanceof INakedEmbeddedScreenFlowTask){
@@ -91,7 +90,6 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 	public void visitStateMachine(INakedStateMachine sm){
 		if(sm.getSpecification() instanceof INakedResponsibility && BehaviorUtil.hasExecutionInstance(sm)){
 			// TODO distinguish between tasks and contractedProcesses
-			OJAnnotatedClass ojClass = findJavaClass(sm);
 		}
 	}
 	private void visitScreenFlowTask(INakedEmbeddedScreenFlowTask a){

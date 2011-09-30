@@ -3,8 +3,22 @@ package org.opeum.javageneration.composition;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClass;
+import org.opeum.java.metamodel.OJClassifier;
+import org.opeum.java.metamodel.OJField;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJSimpleStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.OperationAnnotator;
@@ -19,20 +33,6 @@ import org.opeum.metamodel.core.INakedEnumeration;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedSimpleType;
 import org.opeum.metamodel.core.INakedStructuredDataType;
-import nl.klasse.octopus.model.IModelElement;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {

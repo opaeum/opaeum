@@ -1,13 +1,9 @@
 package org.opeum.javageneration.hibernate;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJIfStatement;
 import org.opeum.java.metamodel.OJOperation;
@@ -19,6 +15,10 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.JavaSourceFolderIdentifier;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = {HibernateAnnotator.class}, after = { HibernateAnnotator.class })
 public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor {

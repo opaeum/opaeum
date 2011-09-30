@@ -5,9 +5,18 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IImportedElement;
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
 import org.opeum.feature.visit.VisitorAdapter;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJVisibilityKind;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.IntegrationCodeGenerator;
 import org.opeum.javageneration.JavaSourceFolderIdentifier;
@@ -20,15 +29,6 @@ import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.models.INakedModel;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.IModelElement;
-
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {

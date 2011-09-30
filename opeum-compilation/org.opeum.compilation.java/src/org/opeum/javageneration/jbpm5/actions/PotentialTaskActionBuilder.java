@@ -1,26 +1,20 @@
 package org.opeum.javageneration.jbpm5.actions;
 
-import org.opeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.actions.INakedCallOperationAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.bpm.INakedResponsibility;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.workspace.OpeumLibrary;
-
 import org.opeum.java.metamodel.OJClass;
 import org.opeum.java.metamodel.OJForStatement;
 import org.opeum.java.metamodel.OJIfStatement;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
+import org.opeum.javageneration.maps.NakedClassifierMap;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.linkage.BehaviorUtil;
+import org.opeum.metamodel.actions.IActionWithTargetElement;
+import org.opeum.metamodel.activities.INakedAction;
+import org.opeum.metamodel.core.INakedMessageStructure;
+import org.opeum.metamodel.workspace.OpeumLibrary;
 
 /**
  * Base class for all action builders that could potentially build a task representing a usertask.

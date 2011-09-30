@@ -2,6 +2,10 @@ package org.opeum.javageneration.basicjava;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJConstructor;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.maps.NakedClassifierMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -12,11 +16,6 @@ import org.opeum.metamodel.core.INakedComplexStructure;
 import org.opeum.metamodel.core.INakedGeneralization;
 import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedInterfaceRealization;
-
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {Java6ModelGenerator.class},after = {Java6ModelGenerator.class})
 public class SuperTypeGenerator extends AbstractStructureVisitor{

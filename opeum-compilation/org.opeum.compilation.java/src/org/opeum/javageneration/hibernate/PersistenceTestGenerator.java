@@ -2,19 +2,10 @@ package org.opeum.javageneration.hibernate;
 
 import java.util.Collection;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.javageneration.AbstractTestDataGenerator;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.GeneralizationUtil;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedProperty;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitAfter;
 import org.opeum.java.metamodel.OJIfStatement;
 import org.opeum.java.metamodel.OJOperation;
 import org.opeum.java.metamodel.OJPackage;
@@ -24,6 +15,15 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opeum.javageneration.AbstractTestDataGenerator;
+import org.opeum.javageneration.JavaSourceFolderIdentifier;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.linkage.GeneralizationUtil;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedEntity;
+import org.opeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = {HibernateAnnotator.class}, after = { HibernateAnnotator.class })
 public class PersistenceTestGenerator extends AbstractTestDataGenerator {

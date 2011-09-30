@@ -6,6 +6,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.drools.drools._5._0.process.ActionNodeType;
+import org.drools.drools._5._0.process.CompositeType;
+import org.drools.drools._5._0.process.ConnectionsType;
+import org.drools.drools._5._0.process.DocumentRoot;
+import org.drools.drools._5._0.process.EndType;
+import org.drools.drools._5._0.process.ForEachType;
+import org.drools.drools._5._0.process.MappingType;
+import org.drools.drools._5._0.process.NodesType;
+import org.drools.drools._5._0.process.OnEntryType;
+import org.drools.drools._5._0.process.OnExitType;
+import org.drools.drools._5._0.process.ProcessFactory;
+import org.drools.drools._5._0.process.ProcessType;
+import org.drools.drools._5._0.process.SplitType;
+import org.drools.drools._5._0.process.StateType;
+import org.drools.drools._5._0.process.SubProcessType;
+import org.drools.drools._5._0.process.VariablesType;
+import org.eclipse.emf.common.util.EList;
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
 import org.opeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
@@ -38,24 +55,6 @@ import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opeum.metamodel.core.INakedElement;
-
-import org.drools.drools._5._0.process.ActionNodeType;
-import org.drools.drools._5._0.process.CompositeType;
-import org.drools.drools._5._0.process.ConnectionsType;
-import org.drools.drools._5._0.process.DocumentRoot;
-import org.drools.drools._5._0.process.EndType;
-import org.drools.drools._5._0.process.ForEachType;
-import org.drools.drools._5._0.process.MappingType;
-import org.drools.drools._5._0.process.NodesType;
-import org.drools.drools._5._0.process.OnEntryType;
-import org.drools.drools._5._0.process.OnExitType;
-import org.drools.drools._5._0.process.ProcessFactory;
-import org.drools.drools._5._0.process.ProcessType;
-import org.drools.drools._5._0.process.SplitType;
-import org.drools.drools._5._0.process.StateType;
-import org.drools.drools._5._0.process.SubProcessType;
-import org.drools.drools._5._0.process.VariablesType;
-import org.eclipse.emf.common.util.EList;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class ActivityFlowStep extends AbstractFlowStep{

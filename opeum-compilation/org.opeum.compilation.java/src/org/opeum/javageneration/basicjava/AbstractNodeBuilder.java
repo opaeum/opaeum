@@ -1,5 +1,10 @@
 package org.opeum.javageneration.basicjava;
 
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJOperation;
+import org.opeum.java.metamodel.OJPathName;
 import org.opeum.javageneration.maps.ActionMap;
 import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opeum.metamodel.actions.IActionWithTargetElement;
@@ -10,12 +15,6 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
 
 public abstract class AbstractNodeBuilder {
 	protected OpeumLibrary library;

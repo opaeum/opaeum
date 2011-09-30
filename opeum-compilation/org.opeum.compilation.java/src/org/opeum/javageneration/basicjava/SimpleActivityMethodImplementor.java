@@ -4,8 +4,21 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.stdlib.IOclLibrary;
+
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJClassifier;
+import org.opeum.java.metamodel.OJField;
+import org.opeum.java.metamodel.OJForStatement;
+import org.opeum.java.metamodel.OJIfStatement;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.OJTryStatement;
+import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.simpleactions.AbstractCaller;
@@ -69,19 +82,6 @@ import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJTryStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	OperationAnnotator.class
@@ -158,7 +158,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		if(builder != null){
 			builder.implementActionOn(operation, block);
 			if(builder instanceof AbstractCaller){
-				block = surroundWithCatchIfRequired((INakedCallAction) node, (AbstractCaller) builder, operation, block);
+				block = surroundWithCatchIfRequired((INakedCallAction) node, (AbstractCaller<?>) builder, operation, block);
 			}
 		}
 		if(!(node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement())){
@@ -299,7 +299,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			return null;
 		}
 	}
-	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall,AbstractCaller caller,OJAnnotatedOperation operation,OJBlock originalBlock){
+	private OJBlock surroundWithCatchIfRequired(INakedCallAction nakedCall,AbstractCaller<?> caller,OJAnnotatedOperation operation,OJBlock originalBlock){
 		if(BehaviorUtil.shouldSurrounWithTry(nakedCall)){
 			OJTryStatement tryStatement = caller.surroundWithCatchIfNecessary(operation, originalBlock);
 			for(INakedOutputPin e:nakedCall.getExceptionPins()){

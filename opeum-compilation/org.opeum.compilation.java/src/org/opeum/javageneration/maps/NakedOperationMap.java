@@ -5,6 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IParameter;
+import nl.klasse.octopus.model.internal.types.OperationImpl;
+
+import org.opeum.java.metamodel.OJPathName;
 import org.opeum.javageneration.jbpm5.Jbpm5Util;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.linkage.BehaviorUtil;
@@ -13,12 +19,6 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.IParameterOwner;
-import nl.klasse.octopus.codegen.umlToJava.maps.OperationMap;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IParameter;
-import nl.klasse.octopus.model.internal.types.OperationImpl;
-
-import org.opeum.java.metamodel.OJPathName;
 
 public class NakedOperationMap extends OperationMap implements IMessageMap{
 	private IParameterOwner parameterOwner;

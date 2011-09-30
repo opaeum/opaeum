@@ -2,6 +2,12 @@ package org.opeum.javageneration.basicjava.simpleactions;
 
 import java.util.Iterator;
 
+import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+
+import org.opeum.java.metamodel.OJBlock;
+import org.opeum.java.metamodel.OJPathName;
+import org.opeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opeum.javageneration.maps.NakedClassifierMap;
 import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -11,12 +17,6 @@ import org.opeum.metamodel.activities.INakedInputPin;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
-
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 
 public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction>{
 	public SignalSender(OpeumLibrary oclEngine,INakedSendSignalAction action,AbstractObjectNodeExpressor expressor){

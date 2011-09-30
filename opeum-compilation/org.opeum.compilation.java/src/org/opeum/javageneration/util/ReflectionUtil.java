@@ -9,18 +9,18 @@ import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.opeum.javageneration.JavaTransformationPhase;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.JavaTransformationPhase;
 
 public class ReflectionUtil {
 	static boolean runtimeAvailable = true;
 
-	public static OJPathName getUtilInterface(Class clazz) {
+	public static OJPathName getUtilInterface(Class<?> clazz) {
 		if (runtimeAvailable) {
 			return new OJPathName(clazz.getName());
 		} else {
@@ -28,9 +28,9 @@ public class ReflectionUtil {
 		}
 	}
 
-	public static void addOperationsFromJava(Class collectionInterface, OJAnnotatedClass setWithModel, String delegate,
-			Map<Class, OJPathName> mappedTypes) {
-		mappedTypes = mappedTypes == null ? new HashMap<Class, OJPathName>() : mappedTypes;
+	public static void addOperationsFromJava(Class<?> collectionInterface, OJAnnotatedClass setWithModel, String delegate,
+			Map<Class<?>, OJPathName> mappedTypes) {
+		mappedTypes = mappedTypes == null ? new HashMap<Class<?>, OJPathName>() : mappedTypes;
 		Method[] methods = delegate == null ? collectionInterface.getDeclaredMethods() : collectionInterface.getMethods();
 		for (Method m : methods) {
 			OJAnnotatedOperation oper = new OJAnnotatedOperation(m.getName());
@@ -63,7 +63,7 @@ public class ReflectionUtil {
 		}
 	}
 
-	static OJPathName getTypePath(Type type, Map<Class, OJPathName> mappedTypes) {
+	static OJPathName getTypePath(Type type, Map<Class<?>, OJPathName> mappedTypes) {
 		String name = null;
 		if (type instanceof TypeVariable) {
 			name = "T";// ((TypeVariable) type).getName();
@@ -81,7 +81,7 @@ public class ReflectionUtil {
 			newPath.addToNames(path.getLast() + "[]");
 			return newPath;
 		} else if (type instanceof Class) {
-			Class clazz = (Class) type;
+			Class<?> clazz = (Class<?>) type;
 			if (clazz.isArray()) {
 				clazz = clazz.getComponentType();
 				if (mappedTypes.containsKey(clazz)) {
@@ -110,19 +110,18 @@ public class ReflectionUtil {
 		return new OJPathName(name);
 	}
 
-	public static OJAnnotatedInterface duplicateInterface(Class clazz) {
-		Map<Class, OJPathName> mappedTypes = new HashMap<Class, OJPathName>();
+	public static OJAnnotatedInterface duplicateInterface(Class<?> clazz) {
+		Map<Class<?>, OJPathName> mappedTypes = new HashMap<Class<?>, OJPathName>();
 		return duplicateInterface(clazz, mappedTypes);
 	}
 
-	public static OJAnnotatedInterface duplicateInterface(Class clazz, Map<Class, OJPathName> mappedTypes) {
+	public static OJAnnotatedInterface duplicateInterface(Class<?> clazz, Map<Class<?>, OJPathName> mappedTypes) {
 		mappedTypes.put(clazz, getUtilInterface(clazz));
 		OJAnnotatedInterface ojinterface = new OJAnnotatedInterface(clazz.getSimpleName() + "Interface");
 		UtilityCreator.getUtilPack().addToClasses(ojinterface);
 		addOperationsFromJava(clazz, ojinterface, null, mappedTypes);
-		for (Class intf : clazz.getInterfaces()) {
+		for (Class<?> intf : clazz.getInterfaces()) {
 			if (intf.getName().startsWith("org.opeum")) {
-				OJPathName typePath = getTypePath(intf, mappedTypes);
 				OJAnnotatedInterface superInterface = duplicateInterface(intf);
 				UtilityCreator.getUtilPack().addToClasses(superInterface);
 				ojinterface.addToSuperInterfaces(superInterface.getPathName());

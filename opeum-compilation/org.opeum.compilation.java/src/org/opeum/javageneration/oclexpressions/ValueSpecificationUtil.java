@@ -3,17 +3,6 @@ package org.opeum.javageneration.oclexpressions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedValueSpecification;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.expressions.IOclExpression;
@@ -30,6 +19,17 @@ import org.opeum.java.metamodel.OJParameter;
 import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.maps.NakedClassifierMap;
+import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.linkage.BehaviorUtil;
+import org.opeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedEnumerationLiteral;
+import org.opeum.metamodel.core.INakedInstanceSpecification;
+import org.opeum.metamodel.core.INakedProperty;
+import org.opeum.metamodel.core.INakedSlot;
+import org.opeum.metamodel.core.INakedValueSpecification;
 
 public class ValueSpecificationUtil{
 	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType,boolean isStatic){
