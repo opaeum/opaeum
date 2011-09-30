@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.opeum</groupId>
+		<artifactId>opeum-root</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.opeum</groupId>
+	<artifactId>opeum-linkage</artifactId>
+	<packaging>pom</packaging>
+	<name>Opeum Linkage</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<properties>
+		<forceContextQualifier>cm</forceContextQualifier>
+	</properties>
+	<repositories>
+		<repository>
+			<id>eclipse-indigo</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/indigo</url>
+		</repository>
+	</repositories>
+
+	<modules>
+		<module>org.opeum.linkage.core</module>
+		<module>org.opeum.linkage.emfextraction</module>
+		<module>org.opeum.linkage.namegeneration</module>
+		<module>org.opeum.linkage.validation</module>
+		<module>org.opeum.linkage.feature</module>
+	</modules>
+</project>
