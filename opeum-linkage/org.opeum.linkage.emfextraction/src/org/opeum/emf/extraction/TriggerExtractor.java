@@ -1,0 +1,101 @@
+package org.opeum.emf.extraction;
+
+import nl.klasse.octopus.model.OclUsageType;
+
+import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.ChangeEvent;
+import org.eclipse.uml2.uml.Event;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.SignalEvent;
+import org.eclipse.uml2.uml.TimeEvent;
+import org.eclipse.uml2.uml.Trigger;
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
+import org.opeum.metamodel.commonbehaviors.INakedSignal;
+import org.opeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
+import org.opeum.metamodel.commonbehaviors.internal.NakedCallEventImpl;
+import org.opeum.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
+import org.opeum.metamodel.commonbehaviors.internal.NakedEventImpl;
+import org.opeum.metamodel.commonbehaviors.internal.NakedSignalEventImpl;
+import org.opeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import org.opeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
+import org.opeum.metamodel.core.INakedOperation;
+import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
+
+@StepDependency(phase = EmfExtractionPhase.class,requires = {
+		AcceptEventActionExtractor.class,TransitionExtractor.class
+},after = {
+		AcceptEventActionExtractor.class,TransitionExtractor.class
+})
+public class TriggerExtractor extends AbstractActionExtractor{
+	@VisitBefore
+	public void buildTrigger(Trigger emfTrigger,NakedTriggerImpl nakedTrigger){
+		if(emfTrigger.getEvent() != null){
+			// NB!!! Deviation from UML2 metamodel:
+			// Events are stored with a special id under its trigger,
+			// effectively duplicating it in each trigger it is used.
+			// The action/transition owning the trigger thus provides the behavioral context of any owned VAlueSpecifications
+			Event event = emfTrigger.getEvent();
+			String eventId = getEventId(emfTrigger);
+			NakedEventImpl nakedEvent = (NakedEventImpl) nakedWorkspace.getModelElement(eventId);
+			if(nakedEvent == null){
+				// Try directly on the event (Could be an event NOT stored under the trigger like task events
+				nakedEvent = (NakedEventImpl) getNakedPeer(event);
+			}
+			if(nakedEvent == null){
+				nakedEvent = createNewEvent(event);
+				if(nakedEvent != null){
+					nakedEvent.initialize(eventId, event.getName(), true);
+					super.initialize(nakedEvent, event, emfTrigger);
+				}
+			}
+			if(nakedEvent != null){
+				updateEvent(nakedEvent, emfTrigger, event);
+				nakedTrigger.setEvent(nakedEvent);
+			}
+		}
+	}
+	private void updateEvent(NakedEventImpl nakedEvent,Trigger emfTrigger,Event event){
+		if(event instanceof SignalEvent){
+			SignalEvent se = (SignalEvent) event;
+			NakedSignalEventImpl nse = (NakedSignalEventImpl) nakedEvent;
+			nse.setSignal((INakedSignal) getNakedPeer(se.getSignal()));
+		}else if(event instanceof CallEvent){
+			CallEvent ce = (CallEvent) event;
+			NakedCallEventImpl nce = (NakedCallEventImpl) nakedEvent;
+			nce.setOperation((INakedOperation) getNakedPeer(ce.getOperation()));
+		}else if(event instanceof ChangeEvent){
+			init(emfTrigger, (ChangeEvent)event,(NakedChangeEventImpl) nakedEvent);
+		}else if(event instanceof TimeEvent){
+			initTimeEvent((TimeEvent)event, (AbstractTimeEventImpl) nakedEvent);
+		}
+	}
+	private NakedEventImpl createNewEvent(Event event){
+		if(event instanceof SignalEvent){
+			return new NakedSignalEventImpl();
+		}else if(event instanceof CallEvent){
+			return new NakedCallEventImpl();
+		}else if(event instanceof ChangeEvent){
+			return new NakedChangeEventImpl();
+		}else if(event instanceof TimeEvent){
+			return new NakedTimeEventImpl();
+		}
+		return null;
+	}
+	private void init(Trigger emfTrigger,ChangeEvent ce,NakedChangeEventImpl nakedChangeEvent){
+		if(ce.getChangeExpression() instanceof OpaqueExpression){
+			OpaqueExpression oe = (OpaqueExpression) ce.getChangeExpression();
+			// NB!! remember to start with the Valuespecification's natual id
+			String id = getId(oe) + "$" + getId(emfTrigger);
+			INakedValueSpecification nvs = (INakedValueSpecification) nakedWorkspace.getModelElement(id);
+			if(nvs == null){
+				nvs = new NakedValueSpecificationImpl();
+				nvs.initialize(id, nvs.getName(), true);
+				nakedWorkspace.putModelElement(nvs);
+			}
+			nvs.setValue(buildParsedOclString(ce.getChangeExpression(), oe.getLanguages(), oe.getBodies(), OclUsageType.DEF));
+			nakedChangeEvent.setChangeExpression(nvs);
+		}
+	}
+}

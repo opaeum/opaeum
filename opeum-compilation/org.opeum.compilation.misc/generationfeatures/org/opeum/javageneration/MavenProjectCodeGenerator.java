@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.opeum.emf.load.EmfWorkspaceLoader;
 import org.opeum.emf.workspace.EmfWorkspace;
 import org.opeum.feature.DefaultTransformationLog;
 import org.opeum.feature.ITransformationStep;

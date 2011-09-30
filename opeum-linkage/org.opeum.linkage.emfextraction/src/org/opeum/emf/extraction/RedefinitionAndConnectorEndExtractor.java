@@ -1,0 +1,91 @@
+package org.opeum.emf.extraction;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ConnectorEnd;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.Transition;
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
+import org.opeum.metamodel.activities.INakedActivityEdge;
+import org.opeum.metamodel.activities.INakedActivityNode;
+import org.opeum.metamodel.activities.internal.NakedActivityEdgeImpl;
+import org.opeum.metamodel.activities.internal.NakedActivityNodeImpl;
+import org.opeum.metamodel.components.internal.NakedConnectorEndImpl;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedOperation;
+import org.opeum.metamodel.core.INakedProperty;
+import org.opeum.metamodel.core.internal.NakedOperationImpl;
+import org.opeum.metamodel.core.internal.NakedPropertyImpl;
+import org.opeum.metamodel.statemachines.INakedState;
+import org.opeum.metamodel.statemachines.INakedTransition;
+import org.opeum.metamodel.statemachines.internal.NakedStateImpl;
+import org.opeum.metamodel.statemachines.internal.NakedTransitionImpl;
+
+/**
+ * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opeum and Octopus
+ */
+@StepDependency(phase = EmfExtractionPhase.class,requires = {
+		FeatureExtractor.class,ActivityEdgeExtractor.class,TransitionExtractor.class
+},after = {
+		FeatureExtractor.class,ActivityEdgeExtractor.class,TransitionExtractor.class
+})
+public class RedefinitionAndConnectorEndExtractor extends AbstractExtractorFromEmf{
+	@VisitBefore(matchSubclasses = true)
+	public void visitConnectorEnd(ConnectorEnd ce,NakedConnectorEndImpl nce){
+		nce.setPartWitPort((INakedProperty) getNakedPeer(ce.getPartWithPort()));
+		nce.setRole((INakedProperty) getNakedPeer(ce.getRole()));
+		populateMultiplicity(ce, nce);
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitProperty(Property p){
+		NakedPropertyImpl np = (NakedPropertyImpl) getNakedPeer(p);
+		if(np != null){
+			// Could be an extension end which is not represented in opeum
+			Set<INakedProperty> subsettedProperties = getRedefinedElements(p.getSubsettedProperties());
+			np.setSubsettedProperties(subsettedProperties);
+			Collection<INakedProperty> redefinedProperties = getRedefinedElements(p.getRedefinedProperties());
+			np.setRedefinedProperties(redefinedProperties);
+		}
+	}
+	@SuppressWarnings("unchecked")
+	protected <T extends INakedElement>Set<T> getRedefinedElements(EList<? extends Element> subsettedElements){
+		Set<T> result = new HashSet<T>();
+		for(Element sp:subsettedElements){
+			T nakedPeer = (T) getNakedPeer(sp);
+			result.add(nakedPeer);
+		}
+		return result;
+	}
+	@VisitBefore()
+	public void visitOperation(Operation eo,NakedOperationImpl no){
+		Set<INakedOperation> redefinedOperations = getRedefinedElements(eo.getRedefinedOperations());
+		no.setRedefinedOperations(redefinedOperations);
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitActivityNode(ActivityNode en,NakedActivityNodeImpl nn){
+		Set<INakedActivityNode> redefinedNodes = getRedefinedElements(en.getRedefinedNodes());
+		nn.setRedefinedNodes(redefinedNodes);
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitEdge(ActivityEdge ee,NakedActivityEdgeImpl ne){
+		Set<INakedActivityEdge> redefinedEdges = getRedefinedElements(ee.getRedefinedEdges());
+		ne.setRedefinedEdges(redefinedEdges);
+	}
+	@VisitBefore()
+	public void visitState(State es,NakedStateImpl ns){
+		ns.setRedefinedState((INakedState) getNakedPeer(es.getRedefinedState()));
+	}
+	@VisitBefore()
+	public void visitTransition(Transition et,NakedTransitionImpl nt){
+		nt.setRedefinedTransition((INakedTransition) getNakedPeer(et.getRedefinedTransition()));
+	}
+}

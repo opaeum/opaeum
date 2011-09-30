@@ -1,0 +1,252 @@
+package org.opeum.validation.namegeneration;
+
+import org.opeum.feature.MappingInfo;
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
+import org.opeum.metamodel.actions.INakedAcceptEventAction;
+import org.opeum.metamodel.actions.INakedCallAction;
+import org.opeum.metamodel.actions.INakedCreateObjectAction;
+import org.opeum.metamodel.actions.INakedSendSignalAction;
+import org.opeum.metamodel.actions.INakedStartClassifierBehaviorAction;
+import org.opeum.metamodel.actions.INakedWriteStructuralFeatureAction;
+import org.opeum.metamodel.activities.INakedAction;
+import org.opeum.metamodel.activities.INakedActivityEdge;
+import org.opeum.metamodel.activities.INakedParameterNode;
+import org.opeum.metamodel.activities.INakedPin;
+import org.opeum.metamodel.commonbehaviors.INakedSignal;
+import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import org.opeum.metamodel.core.ICompositionParticipant;
+import org.opeum.metamodel.core.INakedAssociation;
+import org.opeum.metamodel.core.INakedComment;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedElementOwner;
+import org.opeum.metamodel.core.INakedGeneralization;
+import org.opeum.metamodel.core.INakedMultiplicityElement;
+import org.opeum.metamodel.core.INakedOperation;
+import org.opeum.metamodel.core.INakedPackage;
+import org.opeum.metamodel.core.INakedProperty;
+import org.opeum.metamodel.core.INakedTypedElement;
+import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opeum.metamodel.core.internal.ArtificialProperty;
+import org.opeum.metamodel.name.NameWrapper;
+import org.opeum.metamodel.name.SingularNameWrapper;
+import org.opeum.metamodel.statemachines.INakedRegion;
+import org.opeum.metamodel.statemachines.INakedState;
+import org.opeum.metamodel.statemachines.INakedTransition;
+import nl.klasse.octopus.model.IAssociationEnd;
+
+import org.opeum.name.NameConverter;
+
+/**
+ * Regenerates and sets the (UML) name of an originalElement. Also sets the name and
+ * qualifiedUmlName on the elements mapping info
+ * 
+ */
+@StepDependency(phase = NameGenerationPhase.class)
+public class UmlNameRegenerator extends AbstractNameGenerator {
+	@VisitBefore(matchSubclasses = true)
+	public void updateUmlName(INakedElement nakedElement) {
+		MappingInfo mappingInfo = nakedElement.getMappingInfo();
+		nakedElement.setName(generateUmlName(nakedElement).toString());
+		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
+		if(nakedElement instanceof ArtificialProperty){
+			ArtificialProperty ap=(ArtificialProperty) nakedElement;
+			if(ap.getMultiplicity().isMany()){
+				ap.setName(NameConverter.decapitalize(ap.getNakedBaseType().getName()));
+			}
+		}
+		if(nakedElement instanceof ICompositionParticipant && ((ICompositionParticipant) nakedElement).getEndToComposite() instanceof ArtificialProperty){
+			ArtificialProperty ap=(ArtificialProperty) ((ICompositionParticipant) nakedElement).getEndToComposite();
+			INakedProperty oe = ap.getOtherEnd();
+			if(oe instanceof ArtificialProperty && oe.getNakedMultiplicity().isMany()){
+				oe.setName(NameConverter.decapitalize(oe.getNakedBaseType().getName()));
+				getAffectedElements().add(ap);
+			}
+		}
+	}
+
+	protected NameWrapper generateUmlName(INakedElement mew) {
+		// Be null safe for algorithms that required non-containing elements for
+		// name generation, i.e. actions
+		String name = mew == null ? "null" : mew.getName();
+		if (name != null && name.trim().length() == 0) {
+			name = null;
+		}
+		if (mew instanceof INakedPackage) {
+			if (mew.getName() == null) {
+				name = "AnonymousPackage";
+			} else {
+				name = mew.getName();
+			}
+		} else if (mew instanceof INakedAssociation) {
+			if (name == null) {
+				INakedAssociation a = (INakedAssociation) mew;
+				IAssociationEnd end1 = a.getEnd1();
+				IAssociationEnd end2 = a.getEnd2();
+				if (end1 == null || end2 == null) {
+					name = "AnonymousAssociation";
+				} else {
+					if (end1.isComposite() || !end2.isNavigable()) {
+						end1 = end2;
+						end2 = a.getEnd1();
+					}
+					name = generateUmlName((INakedElement) end1).getCapped().getAsIs() + generateUmlName((INakedElement) end2).getCapped();
+				}
+			}
+		} else if (mew instanceof INakedMultiplicityElement) {
+			name = generateTypedElementName(name, (INakedTypedElement) mew);
+		} else if (mew instanceof INakedValueSpecification) {
+			name = generateNameForValueSpecification(name, (INakedValueSpecification) mew);
+		} else if (mew instanceof INakedTransition) {
+			if (name == null) {
+				INakedTransition t = (INakedTransition) mew;
+				name = "to" + generateUmlName(t.getTarget()).getAsIs();
+			}
+		} else if (mew instanceof INakedActivityEdge) {
+			if (name == null) {
+				INakedActivityEdge t = (INakedActivityEdge) mew;
+				name = "to" + generateUmlName(t.getEffectiveTarget()).getAsIs();
+			}
+		} else if (mew instanceof INakedState) {
+			if (name == null) {
+				INakedState state = (INakedState) mew;
+				name = state.getKind().getName() + state.getMappingInfo().getOpeumId() + "In" + state.getContainer().getName();
+			}
+		} else if (mew instanceof INakedRegion) {
+			if (name == null) {
+				INakedRegion region = (INakedRegion) mew;
+				if (region.getPeerRegions().size() == 0) {
+					name = region.getNameSpace().getName() + "Region";
+				} else {
+					name = region.getNameSpace().getName() + "Region" + region.getMappingInfo().getOpeumId();
+				}
+			}
+		} else if (mew instanceof INakedAction) {
+			name = generateNameForAction(name, (INakedAction) mew);
+		} else if (mew instanceof INakedGeneralization) {
+			if (name == null) {
+				name = "isA" + ((INakedGeneralization) mew).getGeneral().getName();
+			}
+		} else if (mew instanceof INakedComment) {
+			if (name == null) {
+				name = "Comment" + mew.hashCode();
+			}
+		}
+		if (name == null) {
+			name = mew.getMetaClass() + mew.getMappingInfo().getOpeumId();
+		}
+		name = name.replaceAll("[\\p{Punct}\\p{Space}]", "_");
+		return new SingularNameWrapper(name, null);
+	}
+
+	public static void main(String[] args) {
+		System.out.println("?_;'123  13f".replaceAll("[\\p{Punct}\\p{Space}]", "_"));
+	}
+
+	private String generateNameForValueSpecification(String in, INakedValueSpecification vs) {
+		String name = in;
+		if (name == null) {
+			INakedElementOwner ownerElement = vs.getOwnerElement();
+			if (ownerElement instanceof INakedTimeEvent) {
+				name = "when";
+			} else if (ownerElement instanceof INakedTransition) {
+				name = "guardFor";
+			} else if (ownerElement instanceof INakedActivityEdge) {
+				INakedActivityEdge ae = (INakedActivityEdge) ownerElement;
+				if (vs.equals(ae.getGuard())) {
+					name = "guardFor";
+				} else {
+					name = "weightFor";
+				}
+			} else {
+				name = "valueFor";
+			}
+			name = name + NameConverter.capitalize(((INakedElement) ownerElement).getName());
+		}
+		return name;
+	}
+
+	private String generateNameForAction(String in, INakedAction nakedAction) {
+		String name = in;
+		if (name == null) {
+			if (nakedAction instanceof INakedCallAction) {
+				INakedCallAction action = (INakedCallAction) nakedAction;
+				name = "call" + generateUmlName(action.getCalledElement()).getCapped() + action.getMappingInfo().getOpeumId();
+			} else if (nakedAction instanceof INakedStartClassifierBehaviorAction) {
+				INakedStartClassifierBehaviorAction action = (INakedStartClassifierBehaviorAction) nakedAction;
+				name = "start" + generateUmlName(action.getTarget()).getCapped() + action.getMappingInfo().getOpeumId();
+			} else if (nakedAction instanceof INakedCreateObjectAction) {
+				INakedCreateObjectAction action = (INakedCreateObjectAction) nakedAction;
+				name = "create" + generateUmlName(action.getClassifier()).getCapped() + action.getMappingInfo().getOpeumId();
+			} else if (nakedAction instanceof INakedSendSignalAction) {
+				INakedSendSignalAction action = (INakedSendSignalAction) nakedAction;
+				name = "send" + generateUmlName(action.getSignal()).getCapped() + action.getMappingInfo().getOpeumId();
+			} else if (nakedAction instanceof INakedWriteStructuralFeatureAction) {
+				INakedWriteStructuralFeatureAction action = (INakedWriteStructuralFeatureAction) nakedAction;
+				name = "write" + generateUmlName(action.getFeature()).getCapped() + action.getMappingInfo().getOpeumId();
+			} else if (nakedAction instanceof INakedAcceptEventAction) {
+				INakedAcceptEventAction action = (INakedAcceptEventAction) nakedAction;
+				if (action.getTriggers().isEmpty()) {
+					name = "anonymousAcceptEventAction" + action.getMappingInfo().getOpeumId();
+				} else {
+					INakedTrigger trigger = action.getTriggers().iterator().next();
+					if (trigger.getEvent() instanceof NakedTimeEventImpl) {
+						name = "waitFor" + generateUmlName(trigger.getEvent()) + action.getMappingInfo().getOpeumId();
+					} else if (trigger.getEvent() instanceof INakedOperation) {
+						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
+								+ action.getMappingInfo().getOpeumId();
+					} else if (trigger.getEvent() instanceof INakedSignal) {
+						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
+								+ action.getMappingInfo().getOpeumId();
+					}
+				}
+			} else {
+				name = "action" + nakedAction.getMappingInfo().getOpeumId();
+			}
+		}
+		return name;
+	}
+
+	private String generateTypedElementName(String in, INakedTypedElement te) {
+		String name = in;
+		if (te instanceof INakedParameterNode) {
+			// Ensure that paramterNodes and their parameters have the same name
+			INakedParameterNode node = (INakedParameterNode) te;
+			if (node.getParameter().isReturn()) {
+				name = "result";// For OCL postconditions
+			} else {
+				name = node.getParameter().getName();
+			}
+		} else if (te instanceof INakedPin) {
+			INakedPin node = (INakedPin) te;
+			if (name == null) {
+				if (node.getNakedBaseType() == null) {
+					// Value pins can have null baseTypes
+					name = "anonymousPin";
+				} else {
+					// Generate a unique name
+					name = NameConverter.decapitalize(node.getNakedBaseType().getName() + node.getMappingInfo().getOpeumId());
+				}
+			}
+		} else {
+			if (name == null || (te.getNakedBaseType() != null && te.getName().equals(te.getNakedBaseType().getName()))) {
+				// USe the type's name
+				name = NameConverter.decapitalize(te.getNakedBaseType().getName());
+			}
+		}
+		return name;
+	}
+
+	protected String generateQualifiedUmlName(INakedElement elem) {
+		String generatedName;
+		// Use nameSpace rather than elementOwner to ensure most unique name
+		if (elem.getNameSpace() == null || (elem instanceof INakedPackage && ((INakedPackage) elem).isRootPackage())) {
+			generatedName = elem.getName();
+		} else {
+			generatedName = generateQualifiedUmlName(elem.getNameSpace()) + "::" + elem.getName();
+		}
+		return generatedName;
+	}
+}
