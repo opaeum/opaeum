@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+		<propertyContributor contributorId = "org.topcased.modeler.editor.Modeler"
+			labelProvider="org.opeum.uim.userinteractionproperties.providers.SectionsLabelProvider">
+		<propertyCategory category = "Nakeduml"/>
+		</propertyContributor>
+	</extension>
+	
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
+			<propertyTab
+				category="Nakeduml"
+				id="org.opeum.uim.userinteractionproperties.basic"
+				label="Basic"/>    
+		</propertyTabs>
+	</extension>
+
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection">
+				<input type="org.opeum.uim.UserInteractionElement"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimfieldcontrolkindsection.controltype"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimFieldControlKindSection">
+				<input type="org.opeum.uim.UimField"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimfieldlabelwidthsection.labelwidth"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimFieldLabelWidthSection">
+				<input type="org.opeum.uim.UimField"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.navigationtooperationtoformsection.toform"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.NavigationToOperationToFormSection">
+				<input type="org.opeum.uim.NavigationToOperation"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.builtinactionkindsection.actionkind"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.BuiltInActionKindSection">
+				<input type="org.opeum.uim.BuiltInAction"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimcontrolwidthsection.width"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimControlWidthSection">
+				<input type="org.opeum.uim.UimControl"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.navigationtoentitytoformsection.toform"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.NavigationToEntityToFormSection">
+				<input type="org.opeum.uim.NavigationToEntity"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimgridlayoutnumberofcolumnssection.numberofcolumns"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimGridLayoutNumberOfColumnsSection">
+				<input type="org.opeum.uim.UimGridLayout"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimdatacolumnwidthsection.width"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimDataColumnWidthSection">
+				<input type="org.opeum.uim.UimDataColumn"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.detailpanelmastercomponentsection.mastercomponent"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.DetailPanelMasterComponentSection">
+				<input type="org.opeum.uim.DetailPanel"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimtabpanelactivetabindexsection.activetabindex"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.UimTabPanelActiveTabIndexSection">
+				<input type="org.opeum.uim.UimTabPanel"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimtextarearowssection.rows"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.UimTextAreaRowsSection">
+				<input type="org.opeum.uim.UimTextArea"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimborderlayouthorizontalsection.horizontal"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.UimBorderLayoutHorizontalSection">
+				<input type="org.opeum.uim.UimBorderLayout"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.workspacesecurityconstraintrequiresgroupownershipsection.requiresgroupsownership"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.WorkspaceSecurityConstraintRequiresGroupOwnershipSection">
+				<input type="org.opeum.uim.WorkspaceSecurityConstraint"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.workspacesecurityconstraintrequiresownershipsection.requiresownership"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.WorkspaceSecurityConstraintRequiresOwnershipSection">
+				<input type="org.opeum.uim.WorkspaceSecurityConstraint"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.securityconstraintinheritfromparentsection.inheritfromparent"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				class="org.opeum.uim.userinteractionproperties.sections.SecurityConstraintInheritFromParentSection">
+				<input type="org.opeum.uim.SecurityConstraint"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimfieldbindingsection.binding"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimFieldBindingSection">
+				<input type="org.opeum.uim.UimField"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.uimdatatablebindingsection.binding"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.UimDataTableBindingSection">
+				<input type="org.opeum.uim.UimDataTable"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.uim.userinteractionproperties.basic.navigationtoentitybindingsection.binding"
+				tab="org.opeum.uim.userinteractionproperties.basic"
+				afterSection="org.opeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				class="org.opeum.uim.userinteractionproperties.sections.NavigationToEntityBindingSection">
+				<input type="org.opeum.uim.NavigationToEntity"/>
+			</propertySection> 
+		</propertySections>
+	</extension>
+	
+</plugin>

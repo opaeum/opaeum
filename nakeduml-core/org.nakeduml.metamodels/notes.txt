@@ -1,8 +1,0 @@
-Some notes on code generation.
-
-1) User/Role generation
-	Roles are represented by interfaces.
-	Interfaces become roles by having a dependency on an Actor.
-	Concrete classes then realize the role interfaces.
-	NameSpaceExtractor.java is responsible for checking whether the interfaces represents a user, i.e. has a dependency on an Actor
-	UserRepresentationCalculator.java in turn makes the concrete classes that realize the interfaces represent the user.
