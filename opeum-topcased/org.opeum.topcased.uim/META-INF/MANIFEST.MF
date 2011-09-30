@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML to User Interface Transformation Actions
+Bundle-SymbolicName: org.opeum.topcased.uim;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.opeum.uim2uim.actions.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.opeum.uim.uml2uim;visibility:=reexport,
+ org.opeum.uim.classform;visibility:=reexport,
+ org.topcased.modeler.diagrams;visibility:=reexport,
+ org.opeum.eclipse.hibernate,
+ org.opeum.eclipse.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.opeum.uim2uim.actions,
+ org.opeum.uml2uim
+Bundle-Vendor: Opeum

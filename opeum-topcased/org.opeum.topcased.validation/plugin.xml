@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.topcased.validation.core.validators">
+      <validator
+            class="org.opeum.topcased.validation.NakedValidator"
+            id="org.opeum.topcased.validation"
+            name="name">
+         <description>
+            Validates the UML model against Naked UML constraints
+         </description>
+      </validator>
+   </extension>
+
+</plugin>

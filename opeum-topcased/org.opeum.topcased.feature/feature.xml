@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.opeum.topcased"
+      label="Opeum Modeler"
+      version="1.0.0.qualifier"
+      provider-name="Opeum">
+
+   <description url="%license">
+      %description
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>
+      <import plugin="org.eclipse.ui" version="3.7.0" match="compatible"/>
+      <import plugin="org.topcased.modeler" version="3.1.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.uml2.common.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.uml2.common"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.topcased.ui"/>
+      <import plugin="org.opeum.metamodels"/>
+      <import plugin="org.eclipse.ocl.uml"/>
+      <import plugin="org.topcased.modeler.graphconf"/>
+      <import plugin="org.eclipse.emf.validation"/>
+      <import plugin="org.opeum.java.generator"/>
+      <import plugin="org.opeum.java.metamodel"/>
+      <import plugin="org.opeum.ocl.java.generator"/>
+      <import plugin="org.opeum.eclipse.core"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
+      <import plugin="org.opeum.ocl.metamodel" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opeum.eclipse.hibernate" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opeum.topcased.uim"/>
+      <import plugin="org.opeum.topcased.classdiagram" version="1.0.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.topcased.validation.ocl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.topcased.modeler.diagrams.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.topcased.classdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.topcased.activitydiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.topcased.componentdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.topcased.compositestructuresdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.topcased.statemachinediagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.topcased.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

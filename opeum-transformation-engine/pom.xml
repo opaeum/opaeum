@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>org.opeum</groupId>
+		<artifactId>opeum-root</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.opeum</groupId>
+	<artifactId>opeum-transformation-engine</artifactId>
+	<packaging>pom</packaging>
+	<name>opeum-core</name>
+	<version>1.0.0-SNAPSHOT</version>
+	<repositories>
+		<repository>
+			<id>eclipse-indigo</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/indigo</url>
+		</repository>
+	</repositories>
+
+	<modules>
+		<module>org.opeum.transformation.process</module>
+		<module>org.opeum.transformation.visitor</module>
+	</modules>
+</project>

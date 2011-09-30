@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.opeum.transformation.process
+Bundle-SymbolicName: org.opeum.transformation.process;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.junit4,
+ org.opeum.metamodels.opeum;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.opeum.feature
+Bundle-ClassPath: .
