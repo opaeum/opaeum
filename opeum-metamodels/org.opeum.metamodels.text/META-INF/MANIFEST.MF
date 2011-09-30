@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.opeum.metamodels.text
+Bundle-SymbolicName: org.opeum.metamodels.text;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Opeum
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: 
+ org.opeum.textmetamodel
+Bundle-ActivationPolicy: lazy
