@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Opeum Java Generator
-Bundle-SymbolicName: org.opeum.java.generator
+Bundle-SymbolicName: org.opeum.compilation.java
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.opeum.metamodels,
  org.opeum.ocl.java.generator,
