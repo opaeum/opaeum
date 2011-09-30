@@ -13,20 +13,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.opeum.metamodel.commonbehaviors.INakedReception;
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComment;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedProperty;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -41,6 +27,21 @@ import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
+
+import org.opeum.metamodel.commonbehaviors.INakedReception;
+import org.opeum.metamodel.core.CodeGenerationStrategy;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedComment;
+import org.opeum.metamodel.core.INakedConstraint;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedGeneralization;
+import org.opeum.metamodel.core.INakedInstanceSpecification;
+import org.opeum.metamodel.core.INakedInterface;
+import org.opeum.metamodel.core.INakedNameSpace;
+import org.opeum.metamodel.core.INakedOperation;
+import org.opeum.metamodel.core.INakedPackage;
+import org.opeum.metamodel.core.INakedPowerType;
+import org.opeum.metamodel.core.INakedProperty;
 
 /**
  * Common superclass for all types that have ownedAttributes and generalizations. THis class deviates from UML2 in that it also supports

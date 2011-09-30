@@ -2,8 +2,9 @@ package org.opeum.metamodel.activities.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import nl.klasse.octopus.expressions.internal.types.PathName;
 
 import org.opeum.metamodel.activities.INakedActivity;
 import org.opeum.metamodel.activities.INakedActivityEdge;
@@ -13,14 +14,6 @@ import org.opeum.metamodel.activities.INakedParameterNode;
 import org.opeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.internal.NakedElementImpl;
-import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.model.IState;
-import nl.klasse.octopus.model.VisibilityKind;
 
 public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode{
 	private static final long serialVersionUID = 1142310904812L;

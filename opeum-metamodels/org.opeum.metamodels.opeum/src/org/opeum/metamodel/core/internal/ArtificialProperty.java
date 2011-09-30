@@ -15,7 +15,6 @@ import org.opeum.metamodel.core.IParameterOwner;
 import org.opeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import org.opeum.metamodel.core.internal.emulated.MessageStructureImpl;
 import org.opeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-
 import org.opeum.name.NameConverter;
 
 public class ArtificialProperty extends AbstractPropertyBridge{

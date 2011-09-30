@@ -3,9 +3,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.feature.MappingInfo;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
+
+import org.opeum.feature.MappingInfo;
 public interface INakedElement extends IModelElement,INakedElementOwner, Serializable {
 	INakedRootObject getRootObject();
 	@Deprecated

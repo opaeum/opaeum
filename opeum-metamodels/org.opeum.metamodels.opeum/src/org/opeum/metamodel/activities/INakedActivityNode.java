@@ -3,7 +3,6 @@ import java.util.Set;
 
 import org.opeum.metamodel.commonbehaviors.INakedStep;
 import org.opeum.metamodel.core.INakedElement;
-import nl.klasse.octopus.model.IState;
 public interface INakedActivityNode extends INakedElement,INakedStep{
 	INakedActivity getActivity();
 	INakedActivityPartition getInPartition();

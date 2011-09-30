@@ -7,7 +7,6 @@ import org.opeum.metamodel.actions.INakedReplyAction;
 import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedOperation;
 

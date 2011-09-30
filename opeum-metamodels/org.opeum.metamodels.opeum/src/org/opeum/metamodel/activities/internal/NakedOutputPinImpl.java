@@ -1,9 +1,10 @@
 package org.opeum.metamodel.activities.internal;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.VisibilityKind;
+
 import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.core.INakedMultiplicity;
 import org.opeum.metamodel.core.INakedParameter;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.VisibilityKind;
 public class NakedOutputPinImpl extends NakedPinImpl implements INakedOutputPin {
 	private static final long serialVersionUID = 2680974388304633167L;
 	public boolean treatAsAttribute() {

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.klasse.octopus.model.IClass;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedConstraint;
 import org.opeum.metamodel.core.INakedElement;
@@ -11,8 +14,6 @@ import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedTypedElement;
-import nl.klasse.octopus.model.IClass;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class OperationMessageStructureImpl extends EmulatedCompositionMessageStructure implements IClass{
 	/**

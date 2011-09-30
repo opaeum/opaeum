@@ -6,7 +6,6 @@ import org.opeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opeum.metamodel.bpm.INakedResponsibility;
 import org.opeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import org.opeum.metamodel.core.INakedClassifier;
-
 import org.opeum.runtime.domain.DeadlineKind;
 
 public class NakedDeadlineImpl extends AbstractTimeEventImpl implements INakedDeadline{

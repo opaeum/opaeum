@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IPackage;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedConstraint;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.ArtificialProperty;
 import org.opeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedCompositionMessageStructure{
 	/**

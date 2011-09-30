@@ -3,8 +3,9 @@ package org.opeum.metamodel.core;
 import java.util.Collection;
 import java.util.Set;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import nl.klasse.octopus.model.IOperation;
+
+import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 
 public interface INakedOperation extends IOperation,INakedPackageableElement,IParameterOwner{
 	boolean isQuery();

@@ -3,6 +3,8 @@ package org.opeum.metamodel.core.internal.emulated;
 import java.util.Collection;
 import java.util.Collections;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.components.INakedConnectorEnd;
@@ -11,7 +13,6 @@ import org.opeum.metamodel.core.INakedMultiplicity;
 import org.opeum.metamodel.core.INakedMultiplicityElement;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedTypedElement;
-import nl.klasse.octopus.model.IClassifier;
 
 /**
  * This class is need to emulate attibutes in namespaces where other typed elements should also function appear as attributes to Octopus

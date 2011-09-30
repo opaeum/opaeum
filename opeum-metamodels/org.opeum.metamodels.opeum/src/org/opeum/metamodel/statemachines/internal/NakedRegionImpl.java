@@ -110,7 +110,7 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 		}
 	}
 	public boolean contains(INakedState state){
-		Iterator states = getStates().iterator();
+		Iterator<?> states = getStates().iterator();
 		while(states.hasNext()){
 			INakedState parent = (INakedState) states.next();
 			if(parent.isAncestorOf(state)){

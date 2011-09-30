@@ -6,13 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.model.ParameterDirectionKind;
+
 import org.opeum.metamodel.actions.INakedCallAction;
 import org.opeum.metamodel.activities.INakedActivityEdge;
 import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedParameter;
-import nl.klasse.octopus.model.ParameterDirectionKind;
 
 public abstract class NakedCallActionImpl extends NakedInvocationActionImpl implements INakedCallAction {
 	/**

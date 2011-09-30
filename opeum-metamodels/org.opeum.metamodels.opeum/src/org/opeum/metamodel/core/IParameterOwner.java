@@ -2,8 +2,9 @@ package org.opeum.metamodel.core;
 
 import java.util.List;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import nl.klasse.octopus.model.IParameter;
+
+import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 
 /**
  * A common interface for Behaviors and Operations. Needs to implement the Octopus IOperation interface

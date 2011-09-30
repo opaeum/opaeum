@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import nl.klasse.octopus.model.IPackage;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opeum.metamodel.core.INakedConstraint;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompositionMessageStructure {
 	/**

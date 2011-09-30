@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IAttribute;
+
 import org.opeum.metamodel.actions.INakedAcceptEventAction;
 import org.opeum.metamodel.activities.ActivityKind;
 import org.opeum.metamodel.activities.INakedAction;
@@ -26,7 +28,6 @@ import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.ArtificialProperty;
 import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import nl.klasse.octopus.model.IAttribute;
 
 public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity{
 	private static final long serialVersionUID = -8111895180462880035L;
@@ -137,7 +138,9 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		Set<INakedMessageEvent> results = getEvents(messageEvents);
 		return results;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	protected <T>Set<T> getEvents(boolean messageEvents){
 		Set<T> results = new HashSet<T>();
 		for(INakedActivityNode node:getActivityNodesRecursively()){

@@ -3,6 +3,8 @@ package org.opeum.metamodel.core.internal;
 import java.util.Collection;
 import java.util.Collections;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.metamodel.components.INakedConnectorEnd;
 import org.opeum.metamodel.core.INakedAssociation;
 import org.opeum.metamodel.core.INakedClassifier;
@@ -10,8 +12,6 @@ import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedMultiplicity;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
-import nl.klasse.octopus.model.IClassifier;
-
 import org.opeum.name.NameConverter;
 
 public class EndToAssociationClass extends AbstractPropertyBridge{

@@ -1,7 +1,6 @@
 package org.opeum.metamodel.commonbehaviors;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 import org.opeum.metamodel.core.INakedClassifier;

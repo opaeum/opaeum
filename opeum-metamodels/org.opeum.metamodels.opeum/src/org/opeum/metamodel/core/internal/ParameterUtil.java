@@ -3,13 +3,14 @@ package org.opeum.metamodel.core.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IParameter;
+import nl.klasse.tools.common.Util;
+
 import org.opeum.metamodel.commonbehaviors.INakedReception;
 import org.opeum.metamodel.core.INakedMultiplicityElement;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IParameter;
-import nl.klasse.tools.common.Util;
 
 public class ParameterUtil{
 	public static void addParameterTolist(INakedMultiplicityElement p,int index,List list){

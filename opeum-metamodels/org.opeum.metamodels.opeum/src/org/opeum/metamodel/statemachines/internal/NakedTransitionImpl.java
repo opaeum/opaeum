@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
@@ -24,7 +26,6 @@ import org.opeum.metamodel.statemachines.INakedTransition;
 import org.opeum.metamodel.statemachines.IRegionOwner;
 import org.opeum.metamodel.statemachines.StateKind;
 import org.opeum.metamodel.statemachines.TransitionKind;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedTransitionImpl extends NakedElementImpl implements INakedElement,INakedTransition{
 	private static final long serialVersionUID = 133077616488879831L;

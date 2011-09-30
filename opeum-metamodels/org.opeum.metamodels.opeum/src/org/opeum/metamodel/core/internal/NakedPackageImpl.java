@@ -5,18 +5,19 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedProperty;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.types.AttributeImpl;
 import nl.klasse.octopus.oclengine.IOclContext;
+
+import org.opeum.metamodel.core.CodeGenerationStrategy;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedInstanceSpecification;
+import org.opeum.metamodel.core.INakedNameSpace;
+import org.opeum.metamodel.core.INakedPackage;
+import org.opeum.metamodel.core.INakedProperty;
 
 /**
  * @author Ampie Barnard

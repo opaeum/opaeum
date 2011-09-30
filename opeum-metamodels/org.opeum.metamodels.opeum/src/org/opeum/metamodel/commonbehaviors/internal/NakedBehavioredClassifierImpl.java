@@ -2,28 +2,25 @@ package org.opeum.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IInterface;
+import nl.klasse.octopus.model.IState;
 
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opeum.metamodel.commonbehaviors.INakedReception;
 import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedGeneralization;
 import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opeum.metamodel.core.internal.ParameterUtil;
 import org.opeum.metamodel.statemachines.INakedStateMachine;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IInterface;
-import nl.klasse.octopus.model.IState;
 
 public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implements INakedBehavioredClassifier{
 	private static final long serialVersionUID = -2856991672094313864L;

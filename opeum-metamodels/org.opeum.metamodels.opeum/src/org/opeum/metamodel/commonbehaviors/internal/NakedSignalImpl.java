@@ -6,12 +6,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.klasse.octopus.model.IDataType;
+import nl.klasse.octopus.model.IState;
+
 import org.opeum.metamodel.commonbehaviors.INakedSignal;
 import org.opeum.metamodel.core.INakedInstanceSpecification;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.NakedClassifierImpl;
-import nl.klasse.octopus.model.IDataType;
-import nl.klasse.octopus.model.IState;
 
 public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal,IDataType{
 	private static final long serialVersionUID = 5492485182705048910L;

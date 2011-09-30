@@ -4,12 +4,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.oclengine.IOclEngine;
+
 import org.opeum.feature.WorkspaceMappingInfo;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedElementOwner;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.validation.ErrorMap;
-import nl.klasse.octopus.oclengine.IOclEngine;
 
 public interface INakedModelWorkspace extends INakedElementOwner{
 	ErrorMap getErrorMap();

@@ -3,11 +3,12 @@ package org.opeum.metamodel.actions.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.actions.INakedOclAction;
 import org.opeum.metamodel.activities.INakedOutputPin;
 import org.opeum.metamodel.core.INakedValueSpecification;
 import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedOclActionImpl extends NakedOpaqueActionImpl implements INakedOclAction{
 	/**

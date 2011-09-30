@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IAttribute;
+import nl.klasse.octopus.model.IState;
+
 import org.opeum.metamodel.commonbehaviors.INakedEvent;
 import org.opeum.metamodel.commonbehaviors.INakedMessageEvent;
 import org.opeum.metamodel.commonbehaviors.INakedTrigger;
@@ -20,8 +23,6 @@ import org.opeum.metamodel.statemachines.INakedStateMachine;
 import org.opeum.metamodel.statemachines.INakedTransition;
 import org.opeum.metamodel.statemachines.IRegionOwner;
 import org.opeum.metamodel.statemachines.StateMachineKind;
-import nl.klasse.octopus.model.IAttribute;
-import nl.klasse.octopus.model.IState;
 
 public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedStateMachine{
 	private static final long serialVersionUID = -3976968471783003485L;

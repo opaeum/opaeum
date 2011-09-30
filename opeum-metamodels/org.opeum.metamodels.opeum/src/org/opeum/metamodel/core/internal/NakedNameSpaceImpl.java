@@ -6,16 +6,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedPackage;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociation;
 import nl.klasse.octopus.model.IClassifier;
@@ -27,6 +17,17 @@ import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.model.IPackageableElement;
 import nl.klasse.octopus.modelVisitors.IPackageVisitor;
+
+import org.opeum.metamodel.activities.INakedActivity;
+import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opeum.metamodel.core.INakedAssociation;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedGeneralization;
+import org.opeum.metamodel.core.INakedInterface;
+import org.opeum.metamodel.core.INakedInterfaceRealization;
+import org.opeum.metamodel.core.INakedNameSpace;
+import org.opeum.metamodel.core.INakedPackage;
 
 public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements INakedNameSpace{
 	/**

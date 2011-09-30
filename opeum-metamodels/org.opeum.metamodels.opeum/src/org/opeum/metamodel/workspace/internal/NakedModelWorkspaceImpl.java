@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import nl.klasse.octopus.oclengine.IOclEngine;
+import nl.klasse.octopus.oclengine.internal.OclEngine;
+
 import org.opeum.feature.MappingInfo;
 import org.opeum.feature.WorkspaceMappingInfo;
 import org.opeum.metamodel.core.INakedElement;
@@ -16,8 +19,6 @@ import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.validation.ErrorMap;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.metamodel.workspace.OpeumLibrary;
-import nl.klasse.octopus.oclengine.IOclEngine;
-import nl.klasse.octopus.oclengine.internal.OclEngine;
 
 public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public static final String META_CLASS = "nakedWorkspace";

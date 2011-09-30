@@ -6,12 +6,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IImportedElement;
+
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedInstanceSpecification;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.core.RootObjectStatus;
-import nl.klasse.octopus.model.IImportedElement;
 
 public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootObject {
 	

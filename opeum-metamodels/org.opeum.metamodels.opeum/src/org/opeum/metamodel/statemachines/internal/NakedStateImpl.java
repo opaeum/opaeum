@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.expressions.internal.types.PathName;
+import nl.klasse.octopus.model.IState;
+import nl.klasse.octopus.model.VisibilityKind;
+
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
@@ -18,9 +22,6 @@ import org.opeum.metamodel.statemachines.INakedStateMachine;
 import org.opeum.metamodel.statemachines.INakedTransition;
 import org.opeum.metamodel.statemachines.IRegionOwner;
 import org.opeum.metamodel.statemachines.StateKind;
-import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.model.IState;
-import nl.klasse.octopus.model.VisibilityKind;
 
 public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private static final long serialVersionUID = 1L;

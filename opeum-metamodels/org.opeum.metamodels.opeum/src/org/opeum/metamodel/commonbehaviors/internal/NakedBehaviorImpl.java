@@ -5,6 +5,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IParameter;
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.activities.ActivityKind;
 import org.opeum.metamodel.activities.INakedActivity;
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
@@ -24,10 +29,6 @@ import org.opeum.metamodel.models.INakedModel;
 import org.opeum.metamodel.profiles.INakedProfile;
 import org.opeum.metamodel.statemachines.INakedState;
 import org.opeum.metamodel.statemachines.INakedTransition;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IParameter;
-import nl.klasse.octopus.model.OclUsageType;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 /**
  * Defines a common superclass for elements that: 1. Can be called as a method/operation/behavior 2. Has pre and post conditions expressed

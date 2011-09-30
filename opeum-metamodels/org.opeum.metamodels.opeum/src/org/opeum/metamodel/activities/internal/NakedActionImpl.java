@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.activities.INakedAction;
 import org.opeum.metamodel.activities.INakedActivityEdge;
 import org.opeum.metamodel.activities.INakedInputPin;
@@ -13,8 +16,6 @@ import org.opeum.metamodel.activities.INakedPin;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedConstraint;
 import org.opeum.metamodel.core.INakedElement;
-import nl.klasse.octopus.model.OclUsageType;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction{
 	private static final long serialVersionUID = 2697132216413111920L;

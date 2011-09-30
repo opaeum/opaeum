@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import nl.klasse.octopus.expressions.internal.analysis.Conformance;
+
 import org.opeum.metamodel.bpm.INakedDeadline;
 import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
 import org.opeum.metamodel.commonbehaviors.INakedEvent;
@@ -17,7 +19,6 @@ import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.INakedTypedElement;
 import org.opeum.metamodel.core.internal.NakedElementImpl;
-import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 
 public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 	private static final long serialVersionUID = -8598466207353218533L;

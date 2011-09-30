@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.activities.INakedActivity;
 import org.opeum.metamodel.activities.INakedActivityEdge;
 import org.opeum.metamodel.activities.INakedActivityNode;
@@ -14,7 +16,6 @@ import org.opeum.metamodel.core.INakedInstanceSpecification;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.INakedValueSpecification;
 import org.opeum.metamodel.core.internal.NakedElementImpl;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedActivityEdge{
 	private static final long serialVersionUID = 6408889822146373878L;

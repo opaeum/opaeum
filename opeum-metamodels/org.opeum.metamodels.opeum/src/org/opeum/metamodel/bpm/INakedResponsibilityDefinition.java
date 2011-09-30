@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedValueSpecification;
-
 import org.opeum.runtime.domain.TaskDelegation;
 
 public interface INakedResponsibilityDefinition extends INakedElement{

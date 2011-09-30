@@ -1,11 +1,12 @@
 package org.opeum.metamodel.activities.internal;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.metamodel.activities.INakedParameterNode;
 import org.opeum.metamodel.activities.ObjectNodeType;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedMultiplicity;
 import org.opeum.metamodel.core.INakedParameter;
-import nl.klasse.octopus.model.IClassifier;
 
 public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode {
 	private static final long serialVersionUID = 9125417030702683972L;

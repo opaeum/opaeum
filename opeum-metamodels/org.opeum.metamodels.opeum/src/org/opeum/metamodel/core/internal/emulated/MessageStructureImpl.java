@@ -7,6 +7,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.expressions.internal.types.PathName;
+import nl.klasse.octopus.model.IAssociationClass;
+import nl.klasse.octopus.model.IAssociationEnd;
+import nl.klasse.octopus.model.IAttribute;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IImportedElement;
+import nl.klasse.octopus.model.IInterface;
+import nl.klasse.octopus.model.IModelElement;
+import nl.klasse.octopus.model.IOperation;
+import nl.klasse.octopus.model.IPackage;
+import nl.klasse.octopus.model.IState;
+import nl.klasse.octopus.model.VisibilityKind;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opeum.metamodel.commonbehaviors.INakedReception;
@@ -27,19 +41,6 @@ import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opeum.metamodel.core.internal.NakedGeneralizationImpl;
 import org.opeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
-import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.model.IAssociationClass;
-import nl.klasse.octopus.model.IAssociationEnd;
-import nl.klasse.octopus.model.IAttribute;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IImportedElement;
-import nl.klasse.octopus.model.IInterface;
-import nl.klasse.octopus.model.IModelElement;
-import nl.klasse.octopus.model.IOperation;
-import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.model.IState;
-import nl.klasse.octopus.model.VisibilityKind;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure,INakedBehavioredClassifier{
 	private static final long serialVersionUID = 1445741729804979053L;

@@ -6,11 +6,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.klasse.octopus.model.IEnumLiteral;
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedEnumeration;
 import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import nl.klasse.octopus.model.IEnumLiteral;
-import nl.klasse.octopus.model.IModelElement;
 
 public class NakedEnumerationImpl extends NakedClassifierImpl implements INakedEnumeration{
 	private static final long serialVersionUID = 2719597562476111234L;

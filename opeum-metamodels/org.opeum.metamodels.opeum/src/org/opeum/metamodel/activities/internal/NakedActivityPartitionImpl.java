@@ -1,5 +1,7 @@
 package org.opeum.metamodel.activities.internal;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.metamodel.activities.INakedActivityPartition;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
@@ -8,7 +10,6 @@ import org.opeum.metamodel.core.INakedMultiplicity;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.internal.NakedMultiplicityElement;
 import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
-import nl.klasse.octopus.model.IClassifier;
 
 public class NakedActivityPartitionImpl extends NakedMultiplicityElement implements INakedActivityPartition{
 	private static final long serialVersionUID = -2640734629787128086L;

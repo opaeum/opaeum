@@ -6,6 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IParameter;
+import nl.klasse.octopus.model.OclUsageType;
+import nl.klasse.octopus.model.VisibilityKind;
+import nl.klasse.octopus.oclengine.IOclContext;
+
 import org.opeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opeum.metamodel.core.INakedClassifier;
@@ -17,11 +23,6 @@ import org.opeum.metamodel.core.INakedMultiplicityElement;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IParameter;
-import nl.klasse.octopus.model.OclUsageType;
-import nl.klasse.octopus.model.VisibilityKind;
-import nl.klasse.octopus.oclengine.IOclContext;
 
 public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOperation{
 	private static final long serialVersionUID = 6979135768898034683L;

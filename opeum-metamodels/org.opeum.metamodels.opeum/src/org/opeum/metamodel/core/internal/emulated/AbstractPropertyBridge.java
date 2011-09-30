@@ -4,6 +4,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import nl.klasse.octopus.model.IAssociation;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IMultiplicityKind;
+import nl.klasse.octopus.model.VisibilityKind;
+
 import org.opeum.feature.MappingInfo;
 import org.opeum.metamodel.core.INakedAssociation;
 import org.opeum.metamodel.core.INakedClassifier;
@@ -12,10 +17,6 @@ import org.opeum.metamodel.core.INakedElementOwner;
 import org.opeum.metamodel.core.INakedMultiplicity;
 import org.opeum.metamodel.core.INakedProperty;
 import org.opeum.metamodel.core.INakedValueSpecification;
-import nl.klasse.octopus.model.IAssociation;
-import nl.klasse.octopus.model.IClassifier;
-import nl.klasse.octopus.model.IMultiplicityKind;
-import nl.klasse.octopus.model.VisibilityKind;
 
 public abstract class AbstractPropertyBridge extends EmulatingElement implements INakedProperty{
 	/**

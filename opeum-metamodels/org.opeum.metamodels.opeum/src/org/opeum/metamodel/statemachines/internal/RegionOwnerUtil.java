@@ -47,26 +47,20 @@ public class RegionOwnerUtil{
 			addAllRegionsTo(results, region.getStates());
 		}
 	}
-	private static void addAllRegionsTo(List<INakedRegion> results,List states){
-		Iterator iter = states.iterator();
-		while(iter.hasNext()){
-			INakedState state = (INakedState) iter.next();
+	private static void addAllRegionsTo(List<INakedRegion> results,List<INakedState> states){
+		for(INakedState state:states){
 			addSubRegionsTo(results, state.getRegions());
 		}
 	}
 	public static Set<INakedState> getAllStatesRecursively(IRegionOwner owner){
 		Set<INakedState> results = new HashSet<INakedState>();
-		Iterator iter = owner.getAllRegions().iterator();
-		while(iter.hasNext()){
-			INakedRegion region = (INakedRegion) iter.next();
+		for(INakedRegion region:owner.getAllRegions()){
 			results.addAll(region.getStates());
 		}
 		return results;
 	}
 	public static INakedRegion getTopmostRegionContaining(IRegionOwner owner,INakedState state){
-		Iterator iter = owner.getRegions().iterator();
-		while(iter.hasNext()){
-			INakedRegion region = (INakedRegion) iter.next();
+		for(INakedRegion region:owner.getRegions()){
 			if(region.contains(state)){
 				return region;
 			}

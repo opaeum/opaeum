@@ -3,9 +3,10 @@ package org.opeum.metamodel.core;
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.metamodel.components.INakedConnectorEnd;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
+
+import org.opeum.metamodel.components.INakedConnectorEnd;
 
 /**
  * Common superclass for properties, objectNodes and call actions that require persistence in activities Typically one would like any

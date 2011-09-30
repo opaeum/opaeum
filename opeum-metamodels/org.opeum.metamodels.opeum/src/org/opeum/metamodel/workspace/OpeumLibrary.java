@@ -3,12 +3,13 @@ package org.opeum.metamodel.workspace;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.klasse.octopus.stdlib.IOclLibrary;
+import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
+
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedSimpleType;
 import org.opeum.metamodel.statemachines.INakedStateMachine;
-import nl.klasse.octopus.stdlib.IOclLibrary;
-import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
 public class OpeumLibrary {
 	private Map<String, MappedType> typeMap = new HashMap<String, MappedType>();

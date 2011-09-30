@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import nl.klasse.octopus.expressions.internal.types.PathName;
+import nl.klasse.octopus.model.IPackage;
+
 import org.opeum.feature.MappingInfo;
 import org.opeum.metamodel.core.INakedComment;
 import org.opeum.metamodel.core.INakedElement;
@@ -11,8 +14,6 @@ import org.opeum.metamodel.core.INakedElementOwner;
 import org.opeum.metamodel.core.INakedInstanceSpecification;
 import org.opeum.metamodel.core.INakedNameSpace;
 import org.opeum.metamodel.core.INakedRootObject;
-import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.model.IPackage;
 
 public class EmulatingElement implements INakedElement{
 	private static final long serialVersionUID = -1375831977226433661L;

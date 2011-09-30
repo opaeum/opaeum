@@ -3,6 +3,8 @@ package org.opeum.metamodel.activities.internal;
 import java.util.Collection;
 import java.util.Iterator;
 
+import nl.klasse.octopus.model.IClassifier;
+
 import org.opeum.metamodel.actions.INakedExceptionHandler;
 import org.opeum.metamodel.activities.INakedActivityEdge;
 import org.opeum.metamodel.activities.INakedControlNode;
@@ -11,7 +13,6 @@ import org.opeum.metamodel.activities.INakedObjectNode;
 import org.opeum.metamodel.activities.ObjectNodeType;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedMultiplicity;
-import nl.klasse.octopus.model.IClassifier;
 
 public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INakedObjectNode{
 	private static final long serialVersionUID = 1789017383946876842L;

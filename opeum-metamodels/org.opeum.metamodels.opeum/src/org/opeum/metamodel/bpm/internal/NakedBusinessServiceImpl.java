@@ -12,6 +12,9 @@ public class NakedBusinessServiceImpl extends NakedInterfaceImpl implements INak
 	 */
 	private static final long serialVersionUID = 1267712657060062671L;
 
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	@Override
 	public Collection<INakedResponsibility> getResponsibilities(){
 		return (Collection)getEffectiveOperations();

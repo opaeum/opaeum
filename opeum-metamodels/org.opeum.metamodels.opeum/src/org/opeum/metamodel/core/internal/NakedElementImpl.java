@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
+import nl.klasse.octopus.expressions.internal.types.PathName;
+
 import org.opeum.feature.MappingInfo;
 import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedComment;
@@ -20,7 +22,6 @@ import org.opeum.metamodel.core.INakedNameSpace;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.core.INakedValueSpecification;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import nl.klasse.octopus.expressions.internal.types.PathName;
 
 /**
  * @author Ampie Barnard
