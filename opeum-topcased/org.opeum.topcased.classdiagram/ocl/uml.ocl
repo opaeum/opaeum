@@ -1,0 +1,5 @@
+MainModel : http://www.eclipse.org/uml2/3.0.0/UML
+
+context ecore::EObject
+inv no_proxy: not eIsProxy()
+--@error Object "<%self%>" should be resolvable: an Additional Resource is probably missing

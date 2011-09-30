@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_XkGiwB07Ed-QQ4mYkrb7Gg" name="NakedUMLProfile">
+  <eAnnotations xmi:id="_oJVUwMPxEd-SNsUNWzjz5A" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_byqKsIaLEeC_IImVVrqPCQ" name="NakedUMLProfile" nsURI="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1" nsPrefix="NakedUMLProfile">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byqKsYaLEeC_IImVVrqPCQ" name="ValueType">
+        <eAnnotations xmi:id="_byqxwIaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byqxwYaLEeC_IImVVrqPCQ" name="base_DataType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqxw4aLEeC_IImVVrqPCQ" name="mappedImplementationType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqxxYaLEeC_IImVVrqPCQ" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byqxx4aLEeC_IImVVrqPCQ" name="PrimitiveType">
+        <eAnnotations xmi:id="_byqxyIaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pcOdkMbyEd-qWtMD5IZMIA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byqxyYaLEeC_IImVVrqPCQ" name="base_PrimitiveType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//PrimitiveType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqxy4aLEeC_IImVVrqPCQ" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byqxzYaLEeC_IImVVrqPCQ" name="Entity">
+        <eAnnotations xmi:id="_byqxzoaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_kh880DsuEeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byqxz4aLEeC_IImVVrqPCQ" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqx0YaLEeC_IImVVrqPCQ" name="persistentName" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byqx04aLEeC_IImVVrqPCQ" name="Package">
+        <eAnnotations xmi:id="_byqx1IaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mmu4ADsuEeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byqx1YaLEeC_IImVVrqPCQ" name="base_Package" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqx14aLEeC_IImVVrqPCQ" name="persistentName" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqx2YaLEeC_IImVVrqPCQ" name="mappedImplementationPackage" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqx24aLEeC_IImVVrqPCQ" name="isSchema" ordered="false" lowerBound="1" defaultValueLiteral="false">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byqx3YaLEeC_IImVVrqPCQ" name="Helper">
+        <eAnnotations xmi:id="_byqx3oaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_W2Dx8O15Ed-YtrI3G6ybsA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byqx34aLEeC_IImVVrqPCQ" name="base_Classifier" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byqx4YaLEeC_IImVVrqPCQ" name="name" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_byqx44aLEeC_IImVVrqPCQ" name="TimeUnit">
+        <eAnnotations xmi:id="_byqx5IaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_y0TnkPPyEd-dN_RbXTlVPA"/>
+        <eLiterals xmi:id="_byqx5YaLEeC_IImVVrqPCQ" name="ACTUAL_HOUR"/>
+        <eLiterals xmi:id="_byrY0IaLEeC_IImVVrqPCQ" name="ACTUAL_MINUTE" value="1"/>
+        <eLiterals xmi:id="_byrY0YaLEeC_IImVVrqPCQ" name="ACTUAL_SECOND" value="2"/>
+        <eLiterals xmi:id="_byrY0oaLEeC_IImVVrqPCQ" name="BUSINESS_DAY" value="3"/>
+        <eLiterals xmi:id="_byrY04aLEeC_IImVVrqPCQ" name="BUSINESS_HOUR" value="4"/>
+        <eLiterals xmi:id="_byrY1IaLEeC_IImVVrqPCQ" name="BUSINESS_MINUTE" value="5"/>
+        <eLiterals xmi:id="_byrY1YaLEeC_IImVVrqPCQ" name="BUSINESS_MONTH" value="6"/>
+        <eLiterals xmi:id="_byrY1oaLEeC_IImVVrqPCQ" name="BUSINESS_WEEK" value="7"/>
+        <eLiterals xmi:id="_byrY14aLEeC_IImVVrqPCQ" name="BUSINESS_YEAR" value="8"/>
+        <eLiterals xmi:id="_byrY2IaLEeC_IImVVrqPCQ" name="CALENDAR_DAY" value="9"/>
+        <eLiterals xmi:id="_byrY2YaLEeC_IImVVrqPCQ" name="CALENDAR_MONTH" value="10"/>
+        <eLiterals xmi:id="_byrY2oaLEeC_IImVVrqPCQ" name="CALENDAR_WEEK" value="11"/>
+        <eLiterals xmi:id="_byrY24aLEeC_IImVVrqPCQ" name="CALENDAR_YEAR" value="12"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byrY3IaLEeC_IImVVrqPCQ" name="RelativeTimeEvent">
+        <eAnnotations xmi:id="_byrY3YaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Fd9DQPPzEd-dN_RbXTlVPA"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byrY3oaLEeC_IImVVrqPCQ" name="timeUnit" ordered="false" lowerBound="1" eType="_byqx44aLEeC_IImVVrqPCQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byrY4IaLEeC_IImVVrqPCQ" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byrY4oaLEeC_IImVVrqPCQ" name="Trigger">
+        <eAnnotations xmi:id="_byrY44aLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_TeX_UP3eEd-uA4oh6NA2Cw"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_byrY5IaLEeC_IImVVrqPCQ" name="isHumanTrigger" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byrY5oaLEeC_IImVVrqPCQ" name="base_Trigger" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_byrY6IaLEeC_IImVVrqPCQ" name="Responsibility">
+        <eAnnotations xmi:id="_byrY6YaLEeC_IImVVrqPCQ" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_XIvZQIaLEeC_IImVVrqPCQ"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_byrY6oaLEeC_IImVVrqPCQ" name="base_Interface" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_K0SOUDs6EeC5OLJvkS0EWA" name="NakedUMLProfile" nsURI="http:///schemas/NakedUMLProfile/_K0RAMDs6EeC5OLJvkS0EWA/0" nsPrefix="NakedUMLProfile">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SOUTs6EeC5OLJvkS0EWA" name="ValueType">
+        <eAnnotations xmi:id="_K0SOUjs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOUzs6EeC5OLJvkS0EWA" name="base_DataType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOVTs6EeC5OLJvkS0EWA" name="mappedImplementationType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOVzs6EeC5OLJvkS0EWA" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SOWTs6EeC5OLJvkS0EWA" name="PrimitiveType">
+        <eAnnotations xmi:id="_K0SOWjs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pcOdkMbyEd-qWtMD5IZMIA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOWzs6EeC5OLJvkS0EWA" name="base_PrimitiveType" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//PrimitiveType"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOXTs6EeC5OLJvkS0EWA" name="strategyFactory" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SOXzs6EeC5OLJvkS0EWA" name="Entity">
+        <eAnnotations xmi:id="_K0SOYDs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_kh880DsuEeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOYTs6EeC5OLJvkS0EWA" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOYzs6EeC5OLJvkS0EWA" name="persistentName" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SOZTs6EeC5OLJvkS0EWA" name="Package">
+        <eAnnotations xmi:id="_K0SOZjs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_mmu4ADsuEeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOZzs6EeC5OLJvkS0EWA" name="base_Package" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOaTs6EeC5OLJvkS0EWA" name="persistentName" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOazs6EeC5OLJvkS0EWA" name="mappedImplementationPackage" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SObTs6EeC5OLJvkS0EWA" name="isSchema" ordered="false" lowerBound="1" defaultValueLiteral="false">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SObzs6EeC5OLJvkS0EWA" name="Helper">
+        <eAnnotations xmi:id="_K0SOcDs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_W2Dx8O15Ed-YtrI3G6ybsA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOcTs6EeC5OLJvkS0EWA" name="base_Classifier" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOczs6EeC5OLJvkS0EWA" name="name" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EEnum" xmi:id="_K0SOdTs6EeC5OLJvkS0EWA" name="TimeUnit">
+        <eAnnotations xmi:id="_K0SOdjs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_y0TnkPPyEd-dN_RbXTlVPA"/>
+        <eLiterals xmi:id="_K0SOdzs6EeC5OLJvkS0EWA" name="ACTUAL_HOUR"/>
+        <eLiterals xmi:id="_K0SOeDs6EeC5OLJvkS0EWA" name="ACTUAL_MINUTE" value="1"/>
+        <eLiterals xmi:id="_K0SOeTs6EeC5OLJvkS0EWA" name="ACTUAL_SECOND" value="2"/>
+        <eLiterals xmi:id="_K0SOejs6EeC5OLJvkS0EWA" name="BUSINESS_DAY" value="3"/>
+        <eLiterals xmi:id="_K0SOezs6EeC5OLJvkS0EWA" name="BUSINESS_HOUR" value="4"/>
+        <eLiterals xmi:id="_K0SOfDs6EeC5OLJvkS0EWA" name="BUSINESS_MINUTE" value="5"/>
+        <eLiterals xmi:id="_K0SOfTs6EeC5OLJvkS0EWA" name="BUSINESS_MONTH" value="6"/>
+        <eLiterals xmi:id="_K0SOfjs6EeC5OLJvkS0EWA" name="BUSINESS_WEEK" value="7"/>
+        <eLiterals xmi:id="_K0SOfzs6EeC5OLJvkS0EWA" name="BUSINESS_YEAR" value="8"/>
+        <eLiterals xmi:id="_K0SOgDs6EeC5OLJvkS0EWA" name="CALENDAR_DAY" value="9"/>
+        <eLiterals xmi:id="_K0SOgTs6EeC5OLJvkS0EWA" name="CALENDAR_MONTH" value="10"/>
+        <eLiterals xmi:id="_K0SOgjs6EeC5OLJvkS0EWA" name="CALENDAR_WEEK" value="11"/>
+        <eLiterals xmi:id="_K0SOgzs6EeC5OLJvkS0EWA" name="CALENDAR_YEAR" value="12"/>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SOhDs6EeC5OLJvkS0EWA" name="RelativeTimeEvent">
+        <eAnnotations xmi:id="_K0SOhTs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Fd9DQPPzEd-dN_RbXTlVPA"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOhjs6EeC5OLJvkS0EWA" name="timeUnit" ordered="false" lowerBound="1" eType="_K0SOdTs6EeC5OLJvkS0EWA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOiDs6EeC5OLJvkS0EWA" name="base_TimeEvent" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_K0SOijs6EeC5OLJvkS0EWA" name="Trigger">
+        <eAnnotations xmi:id="_K0SOizs6EeC5OLJvkS0EWA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_TeX_UP3eEd-uA4oh6NA2Cw"/>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_K0SOjDs6EeC5OLJvkS0EWA" name="isHumanTrigger" ordered="false" lowerBound="1" defaultValueLiteral="true">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_K0SOjjs6EeC5OLJvkS0EWA" name="base_Trigger" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <eAnnotations xmi:id="_T8q3YOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+  <elementImport xmi:id="_A986YMPxEd-SNsUNWzjz5A">
+    <eAnnotations xmi:id="_T8rec-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#PrimitiveType"/>
+  </elementImport>
+  <elementImport xmi:id="_DMl8MMPxEd-SNsUNWzjz5A">
+    <eAnnotations xmi:id="_T8regeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#DataType"/>
+  </elementImport>
+  <elementImport xmi:id="_lp0j0DsuEeC5OLJvkS0EWA">
+    <eAnnotations xmi:id="_T8sFi-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+  </elementImport>
+  <elementImport xmi:id="_oU9UYDsuEeC5OLJvkS0EWA">
+    <eAnnotations xmi:id="_T8reeeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Package"/>
+  </elementImport>
+  <elementImport xmi:id="_SBfpUF53Ed-rtK3sI5v_aQ">
+    <eAnnotations xmi:id="_T8sFj-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
+  </elementImport>
+  <elementImport xmi:id="_IBk2kPPzEd-dN_RbXTlVPA">
+    <eAnnotations xmi:id="_T8sFhuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeEvent"/>
+  </elementImport>
+  <elementImport xmi:id="_e0N2MP3eEd-uA4oh6NA2Cw">
+    <eAnnotations xmi:id="_T8redOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Trigger"/>
+  </elementImport>
+  <elementImport xmi:id="_VeOYMIaLEeC_IImVVrqPCQ">
+    <eAnnotations xmi:id="_T8tTs-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Interface"/>
+  </elementImport>
+  <packageImport xmi:id="_b3qnYCWuEd62NaW46C6lHg">
+    <eAnnotations xmi:id="_T8sFheBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packageImport xmi:id="_YlKXIB07Ed-QQ4mYkrb7Gg">
+    <eAnnotations xmi:id="_T8tTsuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="__6EbgMPwEd-SNsUNWzjz5A" name="ValueType">
+    <eAnnotations xmi:id="_T8redeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_HIM2IcPxEd-SNsUNWzjz5A" name="base_DataType" association="_HIMPEMPxEd-SNsUNWzjz5A">
+      <eAnnotations xmi:id="_T8reeOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#DataType"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_TM8aYMPxEd-SNsUNWzjz5A" name="mappedImplementationType">
+      <eAnnotations xmi:id="_T8red-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_8GH9cMbdEd-qWtMD5IZMIA" name="strategyFactory">
+      <eAnnotations xmi:id="_T8reduBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_HIMPEMPxEd-SNsUNWzjz5A" name="DataType_SimpleType" memberEnd="_HIM2IMPxEd-SNsUNWzjz5A _HIM2IcPxEd-SNsUNWzjz5A">
+    <eAnnotations xmi:id="_T8sFkOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_HIM2IMPxEd-SNsUNWzjz5A" name="extension_SimpleType" type="__6EbgMPwEd-SNsUNWzjz5A" aggregation="composite" association="_HIMPEMPxEd-SNsUNWzjz5A">
+      <eAnnotations xmi:id="_T8sFkeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_pcOdkMbyEd-qWtMD5IZMIA" name="PrimitiveType">
+    <eAnnotations xmi:id="_T8sFguBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_rMycQsbyEd-qWtMD5IZMIA" name="base_PrimitiveType" association="_rMycQMbyEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_T8sFg-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#PrimitiveType"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_r3XDQMbyEd-qWtMD5IZMIA" name="strategyFactory">
+      <eAnnotations xmi:id="_T8sFhOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_rMycQMbyEd-qWtMD5IZMIA" name="PrimitiveType_PrimitiveType" memberEnd="_rMycQcbyEd-qWtMD5IZMIA _rMycQsbyEd-qWtMD5IZMIA">
+    <eAnnotations xmi:id="_T8sFgOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_rMycQcbyEd-qWtMD5IZMIA" name="extension_PrimitiveType" type="_pcOdkMbyEd-qWtMD5IZMIA" aggregation="composite" association="_rMycQMbyEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_T8sFgeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_kh880DsuEeC5OLJvkS0EWA" name="Entity">
+    <eAnnotations xmi:id="_T8sFjOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_r5B4EjsuEeC5OLJvkS0EWA" name="base_Class" association="_r5B4EDsuEeC5OLJvkS0EWA">
+      <eAnnotations xmi:id="_T8sFjuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_tCXesDsuEeC5OLJvkS0EWA" name="persistentName">
+      <eAnnotations xmi:id="_T8sFjeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_mmu4ADsuEeC5OLJvkS0EWA" name="Package">
+    <eAnnotations xmi:id="_T8q3Z-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_riUBMDsuEeC5OLJvkS0EWA" name="base_Package" association="_riSzEDsuEeC5OLJvkS0EWA">
+      <eAnnotations xmi:id="_T8receBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Package"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_umsYMDsuEeC5OLJvkS0EWA" name="persistentName">
+      <eAnnotations xmi:id="_T8q3aOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_wjy-EDsuEeC5OLJvkS0EWA" name="mappedImplementationPackage">
+      <eAnnotations xmi:id="_T8recuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_3XZ_4DsuEeC5OLJvkS0EWA" name="isSchema">
+      <eAnnotations xmi:id="_T8q3aeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_MJThgDsvEeC5OLJvkS0EWA">
+        <eAnnotations xmi:id="_T8recOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      </defaultValue>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_riSzEDsuEeC5OLJvkS0EWA" name="Package_Package" memberEnd="_riSzETsuEeC5OLJvkS0EWA _riUBMDsuEeC5OLJvkS0EWA">
+    <eAnnotations xmi:id="_T8ref-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_riSzETsuEeC5OLJvkS0EWA" name="extension_Package" type="_mmu4ADsuEeC5OLJvkS0EWA" aggregation="composite" association="_riSzEDsuEeC5OLJvkS0EWA">
+      <eAnnotations xmi:id="_T8regOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_r5B4EDsuEeC5OLJvkS0EWA" name="Class_Entity" memberEnd="_r5B4ETsuEeC5OLJvkS0EWA _r5B4EjsuEeC5OLJvkS0EWA">
+    <eAnnotations xmi:id="_T8refeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_r5B4ETsuEeC5OLJvkS0EWA" name="extension_Entity" type="_kh880DsuEeC5OLJvkS0EWA" aggregation="composite" association="_r5B4EDsuEeC5OLJvkS0EWA">
+      <eAnnotations xmi:id="_T8refuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_W2Dx8O15Ed-YtrI3G6ybsA" name="Helper">
+    <eAnnotations xmi:id="_T8tTreBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_X_iigu15Ed-YtrI3G6ybsA" name="base_Classifier" association="_X_iigO15Ed-YtrI3G6ybsA">
+      <eAnnotations xmi:id="_T8tTruBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_oVi34O2KEd-LHImu-adf5Q" name="name">
+      <eAnnotations xmi:id="_T8tTr-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_X_iigO15Ed-YtrI3G6ybsA" name="Classifier_Helper" memberEnd="_X_iige15Ed-YtrI3G6ybsA _X_iigu15Ed-YtrI3G6ybsA">
+    <eAnnotations xmi:id="_T8sFh-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_X_iige15Ed-YtrI3G6ybsA" name="extension_Helper" type="_W2Dx8O15Ed-YtrI3G6ybsA" aggregation="composite" association="_X_iigO15Ed-YtrI3G6ybsA">
+      <eAnnotations xmi:id="_T8sFiOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_y0TnkPPyEd-dN_RbXTlVPA" name="TimeUnit">
+    <eAnnotations xmi:id="_T8sskuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_y0d_oPPyEd-dN_RbXTlVPA" name="name" isReadOnly="true" isDerived="true">
+      <eAnnotations xmi:id="_T8ssnOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_y0emsPPyEd-dN_RbXTlVPA" name="isBusinessTime">
+      <eAnnotations xmi:id="_T8ssn-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <ownedParameter xmi:id="_y0fNwPPyEd-dN_RbXTlVPA" name="result" direction="return">
+        <eAnnotations xmi:id="_T8ssoOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_y0f00PPyEd-dN_RbXTlVPA" name="lookup" isStatic="true">
+      <eAnnotations xmi:id="_T8tToOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <ownedParameter xmi:id="_y0f00fPyEd-dN_RbXTlVPA" name="parm0">
+        <eAnnotations xmi:id="_T8tToeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_y0f00vPyEd-dN_RbXTlVPA" name="result" type="_y0TnkPPyEd-dN_RbXTlVPA" direction="return">
+        <eAnnotations xmi:id="_T8tTouBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_y0gb4PPyEd-dN_RbXTlVPA" name="main" isStatic="true">
+      <eAnnotations xmi:id="_T8ssk-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <ownedParameter xmi:id="_y0gb4fPyEd-dN_RbXTlVPA" name="parm0">
+        <eAnnotations xmi:id="_T8sslOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y0hC8PPyEd-dN_RbXTlVPA" value="*">
+          <eAnnotations xmi:id="_T8ssleBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        </upperValue>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_y0hqAPPyEd-dN_RbXTlVPA" name="valueOf" isStatic="true">
+      <eAnnotations xmi:id="_T8tTpuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <ownedParameter xmi:id="_y0hqAfPyEd-dN_RbXTlVPA" name="parm0">
+        <eAnnotations xmi:id="_T8tTp-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_y0iREPPyEd-dN_RbXTlVPA" name="result" type="_y0TnkPPyEd-dN_RbXTlVPA" direction="return">
+        <eAnnotations xmi:id="_T8tTqOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:id="_y0iREfPyEd-dN_RbXTlVPA" name="values" isStatic="true">
+      <eAnnotations xmi:id="_T8ssmOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <ownedParameter xmi:id="_y0i4IPPyEd-dN_RbXTlVPA" name="result" type="_y0TnkPPyEd-dN_RbXTlVPA" direction="return">
+        <eAnnotations xmi:id="_T8ssmeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y0i4IfPyEd-dN_RbXTlVPA" value="*">
+          <eAnnotations xmi:id="_T8ssmuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        </upperValue>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedLiteral xmi:id="_y0U1sPPyEd-dN_RbXTlVPA" name="ACTUAL_HOUR">
+      <eAnnotations xmi:id="_T8ssl-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0VcwPPyEd-dN_RbXTlVPA" name="ACTUAL_MINUTE">
+      <eAnnotations xmi:id="_T8ssoeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0VcwfPyEd-dN_RbXTlVPA" name="ACTUAL_SECOND">
+      <eAnnotations xmi:id="_T8tTqeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0WD0PPyEd-dN_RbXTlVPA" name="BUSINESS_DAY">
+      <eAnnotations xmi:id="_T8tTpeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0WD0fPyEd-dN_RbXTlVPA" name="BUSINESS_HOUR">
+      <eAnnotations xmi:id="_T8ssm-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0WD0vPyEd-dN_RbXTlVPA" name="BUSINESS_MINUTE">
+      <eAnnotations xmi:id="_T8tTquBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0Wq4PPyEd-dN_RbXTlVPA" name="BUSINESS_MONTH">
+      <eAnnotations xmi:id="_T8tTo-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0Wq4fPyEd-dN_RbXTlVPA" name="BUSINESS_WEEK">
+      <eAnnotations xmi:id="_T8tTpOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0XR8PPyEd-dN_RbXTlVPA" name="BUSINESS_YEAR">
+      <eAnnotations xmi:id="_T8ssneBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0XR8fPyEd-dN_RbXTlVPA" name="CALENDAR_DAY">
+      <eAnnotations xmi:id="_T8tTrOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0X5APPyEd-dN_RbXTlVPA" name="CALENDAR_MONTH">
+      <eAnnotations xmi:id="_T8tTq-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0X5AfPyEd-dN_RbXTlVPA" name="CALENDAR_WEEK">
+      <eAnnotations xmi:id="_T8ssluBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0YgEPPyEd-dN_RbXTlVPA" name="CALENDAR_YEAR">
+      <eAnnotations xmi:id="_T8ssnuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedLiteral>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_Fd9DQPPzEd-dN_RbXTlVPA" name="RelativeTimeEvent">
+    <eAnnotations xmi:id="_T8reeuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_SI7hEPPzEd-dN_RbXTlVPA" name="timeUnit" type="_y0TnkPPyEd-dN_RbXTlVPA">
+      <eAnnotations xmi:id="_T8ree-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_qbee8vPzEd-dN_RbXTlVPA" name="base_TimeEvent" association="_qbee8PPzEd-dN_RbXTlVPA">
+      <eAnnotations xmi:id="_T8refOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeEvent"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_qbee8PPzEd-dN_RbXTlVPA" name="TimeEvent_RelativeTimeEvent" memberEnd="_qbee8fPzEd-dN_RbXTlVPA _qbee8vPzEd-dN_RbXTlVPA">
+    <eAnnotations xmi:id="_T8tTsOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_qbee8fPzEd-dN_RbXTlVPA" name="extension_RelativeTimeEvent" type="_Fd9DQPPzEd-dN_RbXTlVPA" aggregation="composite" association="_qbee8PPzEd-dN_RbXTlVPA">
+      <eAnnotations xmi:id="_T8tTseBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_TeX_UP3eEd-uA4oh6NA2Cw" name="Trigger">
+    <eAnnotations xmi:id="_T8q3Y-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_Xh44EP3eEd-uA4oh6NA2Cw" name="isHumanTrigger">
+      <eAnnotations xmi:id="_T8q3ZOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_p7wLUP3eEd-uA4oh6NA2Cw" value="true">
+        <eAnnotations xmi:id="_T8q3ZeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      </defaultValue>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_lzQr8P3eEd-uA4oh6NA2Cw" name="base_Trigger" association="_lzPd0P3eEd-uA4oh6NA2Cw">
+      <eAnnotations xmi:id="_T8q3ZuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Trigger"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_lzPd0P3eEd-uA4oh6NA2Cw" name="Trigger_Trigger" memberEnd="_lzPd0f3eEd-uA4oh6NA2Cw _lzQr8P3eEd-uA4oh6NA2Cw">
+    <eAnnotations xmi:id="_T8sFieBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_lzPd0f3eEd-uA4oh6NA2Cw" name="extension_Trigger" type="_TeX_UP3eEd-uA4oh6NA2Cw" aggregation="composite" association="_lzPd0P3eEd-uA4oh6NA2Cw">
+      <eAnnotations xmi:id="_T8sFiuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_XIvZQIaLEeC_IImVVrqPCQ" name="Responsibility">
+    <eAnnotations xmi:id="_T8q3YeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedAttribute xmi:id="_Yx2sIIaLEeC_IImVVrqPCQ" name="base_Interface" association="_Yx2FEIaLEeC_IImVVrqPCQ">
+      <eAnnotations xmi:id="_T8q3YuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Interface"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_Yx2FEIaLEeC_IImVVrqPCQ" name="Interface_Responsibility" memberEnd="_Yx2FEYaLEeC_IImVVrqPCQ _Yx2sIIaLEeC_IImVVrqPCQ">
+    <eAnnotations xmi:id="_T8sskOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Yx2FEYaLEeC_IImVVrqPCQ" name="extension_Responsibility" type="_XIvZQIaLEeC_IImVVrqPCQ" aggregation="composite" association="_Yx2FEIaLEeC_IImVVrqPCQ">
+      <eAnnotations xmi:id="_T8sskeBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Profile>

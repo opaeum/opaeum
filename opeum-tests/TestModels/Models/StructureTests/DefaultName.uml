@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="DefaultName">
+  <eAnnotations xmi:id="_6TN5YKTcEeCJw_uhYL7KOA" source="http://www.opeum.org">
+    <details xmi:id="_6TN5YaTcEeCJw_uhYL7KOA" key="uid" value="f94385b3_4875_462a_b0f2_a28047d6ccf9"/>
+  </eAnnotations>
+  <packageImport xmi:id="_Gq5nwKTdEeCJw_uhYL7KOA">
+    <eAnnotations xmi:id="_jGKKMN2CEeCrD4p3mP37ag" source="http://www.opeum.org"/>
+    <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpiumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_EC8uEKTdEeCJw_uhYL7KOA" name="DefaultNameApplication">
+    <eAnnotations xmi:id="_EC98MKTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+      <details xmi:id="_EC-jQKTdEeCJw_uhYL7KOA" key="uid" value="9542d6d5_6644_4839_a789_1b65f4abb0d2"/>
+    </eAnnotations>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Component" xmi:id="_GXyegKTdEeCJw_uhYL7KOA" name="DefaultNameBusinessUnit" clientDependency="_Gq6O0KTdEeCJw_uhYL7KOA">
+    <eAnnotations xmi:id="_GXzFkKTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+      <details xmi:id="_GXzFkaTdEeCJw_uhYL7KOA" key="BusinessComponent" value=""/>
+      <details xmi:id="_Gq9SIKTdEeCJw_uhYL7KOA" key="uid" value="04a41212_9a18_4190_887d_7e6726d38c0c"/>
+    </eAnnotations>
+    <interfaceRealization xmi:id="_Gq6O0KTdEeCJw_uhYL7KOA" name="isABusinessComponent" client="_GXyegKTdEeCJw_uhYL7KOA">
+      <eAnnotations xmi:id="_jGMmcN2CEeCrD4p3mP37ag" source="http://www.opeum.org"/>
+      <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpiumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+      <contract href="pathmap://NAKEDUML_MODELS/libraries/OpiumBPM.library.uml#_uVek8IoVEeCLqpffVZYAlw"/>
+    </interfaceRealization>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_KB7N8KTdEeCJw_uhYL7KOA" name="DefaultNameBusinessRole" clientDependency="_POVocKTdEeCJw_uhYL7KOA">
+      <eAnnotations xmi:id="_KB7N8aTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+        <details xmi:id="_KB7N8qTdEeCJw_uhYL7KOA" key="BusinessRole" value=""/>
+        <details xmi:id="_KB7N86TdEeCJw_uhYL7KOA" key="uid" value="4ff4b338_b7d2_474b_9e4b_0da7649b1d76"/>
+      </eAnnotations>
+      <ownedAttribute xmi:id="_V_DHQKTdEeCJw_uhYL7KOA" name="name">
+        <eAnnotations xmi:id="_V_E8cKTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+          <details xmi:id="_V_FjgKTdEeCJw_uhYL7KOA" key="uid" value="8a364f96_906e_4b32_8128_1d2ef06ba853"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_POVocKTdEeCJw_uhYL7KOA" name="InterfaceRealization1" supplier="_MO2YgKTdEeCJw_uhYL7KOA" client="_KB7N8KTdEeCJw_uhYL7KOA" contract="_MO2YgKTdEeCJw_uhYL7KOA">
+        <eAnnotations xmi:id="_jGLYUN2CEeCrD4p3mP37ag" source="http://www.opeum.org"/>
+      </interfaceRealization>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Interface" xmi:id="_MO2YgKTdEeCJw_uhYL7KOA" name="DefaultNameBusinessService">
+      <eAnnotations xmi:id="_MO2YgaTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+        <details xmi:id="_MO2YgqTdEeCJw_uhYL7KOA" key="BusinessService" value=""/>
+        <details xmi:id="_MO2_kKTdEeCJw_uhYL7KOA" key="uid" value="16d27347_ae62_4eec_baab_063240a6345f"/>
+      </eAnnotations>
+      <ownedOperation xmi:id="_gciZ0KTdEeCJw_uhYL7KOA" name="fulfillService">
+        <eAnnotations xmi:id="_gck2EKTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+          <details xmi:id="_gcldIKTdEeCJw_uhYL7KOA" key="uid" value="72b5ad99_36ec_461f_b3ba_3251b4f8cf7e"/>
+        </eAnnotations>
+      </ownedOperation>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_RHydYKTdEeCJw_uhYL7KOA" name="DefaultNameEntity">
+      <eAnnotations xmi:id="_RHydYaTdEeCJw_uhYL7KOA" source="http://www.opeum.org">
+        <details xmi:id="_RHydYqTdEeCJw_uhYL7KOA" key="uid" value="45243ded_c471_4c08_a143_b3875146cead"/>
+      </eAnnotations>
+    </nestedClassifier>
+  </packagedElement>
+</uml:Model>

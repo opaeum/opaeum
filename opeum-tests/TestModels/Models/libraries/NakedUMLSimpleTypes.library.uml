@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:NakedUMLProfile="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/NakedUMLProfile/_bymgUIaLEeC_IImVVrqPCQ/1 ../profiles/NakedUMLProfile.uml#_byqKsIaLEeC_IImVVrqPCQ">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="NakedUMLSimpleTypes">
+    <eAnnotations xmi:id="_T8a_wOBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    <elementImport xmi:id="_naIU4MbwEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_T8bm0uBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78MbwEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_T8a_wuBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78cbwEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_T8a_w-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+    </elementImport>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_w4cZ8MPxEd-SNsUNWzjz5A" name="DateTime">
+      <eAnnotations xmi:id="_T8bm0-BHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_i0SLIMbwEd-qWtMD5IZMIA" name="Text">
+      <eAnnotations xmi:id="_T8bm0OBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <generalization xmi:id="_1JWd8MbwEd-qWtMD5IZMIA">
+        <eAnnotations xmi:id="_T8bm0eBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+        <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </generalization>
+    </packagedElement>
+    <profileApplication xmi:id="_RAvYYMbtEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_RAv_cMbtEd-qWtMD5IZMIA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="../profiles/NakedUMLProfile.uml#_byqKsIaLEeC_IImVVrqPCQ"/>
+      </eAnnotations>
+      <eAnnotations xmi:id="_T8a_weBHEeCzD6PmfoYTzg" source="http://www.opeum.org"/>
+      <appliedProfile href="../profiles/NakedUMLProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <NakedUMLProfile:ValueType xmi:id="_dosFgDtbEeC5OLJvkS0EWA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="net.sf.opeum.strategies.DateTimeStrategyFactory"/>
+  <NakedUMLProfile:PrimitiveType xmi:id="_hoNPEDtbEeC5OLJvkS0EWA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="net.sf.opeum.strategies.TextStrategyFactory"/>
+</xmi:XMI>

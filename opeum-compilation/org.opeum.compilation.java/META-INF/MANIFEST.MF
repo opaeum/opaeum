@@ -3,11 +3,16 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Opeum Java Generator
 Bundle-SymbolicName: org.opeum.compilation.java
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.opeum.metamodels,
- org.opeum.ocl.java.generator,
- org.opeum.ocl.metamodel,
- org.opeum.java.metamodel,
- org.opeum.eclipse.hibernate
+Require-Bundle: org.opeum.metamodels.opeum,
+ org.opeum.metamodels.java,
+ org.opeum.metamodels.ocl,
+ org.opeum.metamodels.text,
+ org.opeum.linkage.core,
+ org.opeum.linkage.namegeneration,
+ org.opeum.transformation.process,
+ org.opeum.transformation.visitor,
+ org.opeum.compilation.ocltojava,
+ org.opeum.compilation.runtimedependencies
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/cdi-api-1.0-SP4.jar,
  .

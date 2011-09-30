@@ -1,0 +1,1694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+ 	<extension
+          point="org.eclipse.ui.popupMenus">
+        <objectContribution
+             id="org.opeum.topcased.activitydiagram.actions.action"
+             objectClass="org.topcased.modeler.uml.activitydiagram.edit.ActionEditPart">
+          <action
+                class="org.opeum.topcased.activitydiagram.actions.DisplayPins"
+                enablesFor="*"
+                id="org.opeum.topcased.activitydiagram.actions.DisplayPins"
+                label="Display Pins"
+                menubarPath="org.opeum.outline.menu">
+          </action>         
+       </objectContribution>
+    </extension>
+
+	<extension point="org.topcased.modeler.diagrams">
+		<diagram 
+        	configuration="org.opeum.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
+        	editorID="org.topcased.modeler.uml.editor.UMLEditor"
+        	id="org.topcased.modeler.uml.activitydiagram.bpm"
+        	name="Business Process Diagram">
+		 	<enableFor class="org.eclipse.uml2.uml.Package" creationCommand="org.opeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Activity"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Component" creationCommand="org.opeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Operation" creationCommand="org.opeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction" 
+               creationCommand="org.opeum.topcased.activitydiagram.CreateActivityDiagramFromCallBehaviorAction">
+               
+         	</enableFor>
+		</diagram>
+		<diagram
+        	configuration="org.opeum.topcased.activitydiagram.method.MethodConfiguration"
+        	editorID="org.topcased.modeler.uml.editor.UMLEditor"
+        	id="org.topcased.modeler.uml.activitydiagram.method"
+        	name="Method Diagram">
+		 	<enableFor class="org.eclipse.uml2.uml.Activity"/>
+	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction"
+               creationCommand="org.opeum.topcased.activitydiagram.CreateActivityDiagramFromCallBehaviorAction">
+         	</enableFor>
+      		<enableFor class="org.eclipse.uml2.uml.State"
+            	creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromState">
+      		</enableFor>
+		</diagram>
+  		<diagram
+        	configuration="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.StructuredActivityNodeConfiguration"
+	        editorID="org.topcased.modeler.uml.editor.UMLEditor"
+	        id="org.topcased.modeler.uml.structuredactivitynodediagram"
+	        name="Structured Activity Node Diagram">
+		     <enableFor
+		           class="org.eclipse.uml2.uml.StructuredActivityNode">
+		     </enableFor>
+		</diagram>
+		<diagram
+	        configuration="org.topcased.modeler.uml.activitydiagram.ActivityConfiguration"
+	        editorID="org.topcased.modeler.uml.editor.UMLEditor"
+	        id="org.topcased.modeler.uml.activitydiagram"
+	        name="Activity Diagram">
+			 <enableFor class="org.eclipse.uml2.uml.Activity"/>
+	         <enableFor
+	               class="org.eclipse.uml2.uml.UseCase"
+	               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromUseCase">
+	         </enableFor>
+		     <enableFor
+	               class="org.eclipse.uml2.uml.CallBehaviorAction"
+	               creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromCallBehaviorAction">
+	         </enableFor>
+	      <enableFor
+	            class="org.eclipse.uml2.uml.State"
+	            creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromState">
+	      </enableFor>
+		</diagram>
+		
+	</extension>
+
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
+			<propertyTab
+				id="org.opeum.topcased.activitydiagram.deadlinesTab"
+				label="Deadlines"
+				category="model"
+				indented="true"
+				afterTab="org.opeum.eclipse.opeumTab"/>
+			<propertyTab
+				id="org.topcased.modeler.modelTab.activityGuardTab"
+				label="Guard"
+				category="model"
+				indented="true"
+				afterTab="org.topcased.modeler.modelTab"/>
+			<propertyTab
+				id="org.topcased.modeler.modelTab.weightTab"
+				label="Weight"
+				category="model"
+				indented="true"
+				afterTab="org.topcased.modeler.modelTab.guardTab"/>
+			<propertyTab
+				id="org.topcased.modeler.modelTab.upperBoundTab"
+				label="Upper Bound"
+				category="model"
+				indented="true"
+				afterTab="org.topcased.modeler.modelTab"/>
+		</propertyTabs>
+	</extension>
+
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
+				class="org.opeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
+				tab="org.opeum.eclipse.opeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				filter="org.opeum.topcased.activitydiagram.filters.OclOpaqueActionFilter">
+				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
+			</propertySection>
+		
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
+				tab="org.opeum.eclipse.preconditionsTab">
+         		<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
+				tab="org.opeum.eclipse.postconditionsTab">
+         		<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+		
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
+				tab="org.opeum.eclipse.opeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.CallOperationAction"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.ActionPinsSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.ActionPinsSection"
+				tab="org.topcased.modeler.modelTab.parametersTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<!--propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.DisplayPinsSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.DisplayPinsSection"
+				tab="org.opeum.eclipse.opeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection-->
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
+				tab="org.opeum.eclipse.opeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Behavior"/>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
+         			filter="org.opeum.topcased.activitydiagram.filters.AcceptEventActionTriggerSectionFilter"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.AcceptEventAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.CallAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.StructuralFeatureAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.VariableActionVariableSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.VariableActionVariableSection"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.VariableAction">
+      			</input>
+			</propertySection>
+  			<propertySection
+         			class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+			         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.opeum"
+			         tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.Pin">
+      			</input>
+   			</propertySection>
+		   <propertySection
+		   		afterSection="org.opeum.topcased.propertysections.TypedElementTypeSectionl"
+		         class="org.opeum.topcased.activitydiagram.propertysections.OclPinValueSection"
+		         id="org.opeum.topcased.activitydiagram.propertysections.OclPinValueSection"
+		         filter="org.opeum.topcased.activitydiagram.filters.OclPinFilter"
+		         tab="org.opeum.eclipse.opeumTab">
+		      <input
+		            type="org.eclipse.uml2.uml.ValuePin">
+		      </input>
+		   </propertySection>		
+		   <propertySection
+		   		afterSection="org.opeum.topcased.propertysections.TypedElementTypeSection"
+		         class="org.opeum.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
+		         id="org.opeum.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
+		         filter="org.opeum.topcased.activitydiagram.filters.NewObjectPinFilter"
+		         tab="org.opeum.eclipse.opeumTab">
+		      <input
+		            type="org.eclipse.uml2.uml.ValuePin">
+		      </input>
+		   </propertySection>		
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.ActivityEdge">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.ActivityEdge">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
+         			filter="org.opeum.topcased.activitydiagram.filters.SendSignalActionSignalFilter"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.SendSignalAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         			class="org.opeum.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
+         			id="org.opeum.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
+         			filter="org.opeum.topcased.activitydiagram.filters.SendNotificationActionFilter"
+         			tab="org.opeum.eclipse.opeumTab">
+      			<input type="org.eclipse.uml2.uml.SendSignalAction">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				id="org.opeum.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
+				tab="org.opeum.eclipse.opeumTab">
+				<input type="org.eclipse.uml2.uml.CallBehaviorAction"/>
+			</propertySection>
+		
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.ActionPotentialOwnersSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.ActionPotentialOwnersSection"
+				filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.opeum.eclipse.opeumTab">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.ActionBusinessAdministratorsSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.ActionBusinessAdministratorsSection"
+				filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.opeum.eclipse.opeumTab">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.ActionStakeholdersSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.ActionStakeholdersSection"
+				filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.opeum.eclipse.opeumTab">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<propertySection
+		         class="org.opeum.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
+		         filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+		         id="org.opeum.topcased.activitydiagram.ActionDeadlineSection"
+		         tab="org.opeum.topcased.activitydiagram.deadlinesTab">
+				<input type="org.eclipse.uml2.uml.Action"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.AcceptDeadlineDeadlineSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.AcceptDeadlineDeadlineSection"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				filter="org.opeum.topcased.activitydiagram.filters.AcceptDeadlineActionFilter"
+				tab="org.opeum.eclipse.opeumTab">
+				<input type="org.eclipse.uml2.uml.AcceptEventAction"/>
+			</propertySection>
+			<propertySection
+				id="org.opeum.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
+				class="org.opeum.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				filter="org.opeum.topcased.activitydiagram.filters.AcceptTaskEventActionTaskEvent"
+				tab="org.opeum.eclipse.opeumTab">
+				<input type="org.eclipse.uml2.uml.AcceptEventAction"/>
+			</propertySection>
+			<propertySection
+				id="org.topcased.modeler.uml.ActivityEdgeWeightSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ActivityEdgeWeightSection"
+				tab="org.topcased.modeler.modelTab.weightTab">
+				<input type="org.eclipse.uml2.uml.ActivityEdge"/>
+			</propertySection>
+
+			
+			<propertySection
+				id="org.topcased.modeler.uml.CallOperationActionTargetSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.CallOperationActionTargetSection"
+				tab="org.topcased.modeler.modelTab"
+				afterSection="org.topcased.modeler.uml.CallOperationActionOperationSection">
+				<input type="org.eclipse.uml2.uml.CallOperationAction"/>
+			</propertySection>
+
+			<propertySection
+				id="org.topcased.modeler.uml.ActivityParameterNodeParameterSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ActivityParameterNodeParameterSection"
+				tab="org.topcased.modeler.modelTab"
+				afterSection="org.topcased.modeler.uml.VisibilitySection">
+				<input type="org.eclipse.uml2.uml.ActivityParameterNode"/>
+			</propertySection>
+						
+			<propertySection
+				id="org.topcased.modeler.uml.ObjectNodeUpperBoundSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ObjectNodeUpperBoundSection"
+				tab="org.topcased.modeler.modelTab.upperBoundTab">
+				<input type="org.eclipse.uml2.uml.ObjectNode"/>
+			</propertySection>
+			
+			<propertySection
+				id="org.topcased.modeler.uml.ExpansionRegionInputElementSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ExpansionRegionInputElementSection"
+				tab="org.topcased.modeler.modelTab"
+				afterSection="org.topcased.modeler.uml.VisibilitySection">
+				<input type="org.eclipse.uml2.uml.ExpansionRegion"/>
+			</propertySection>
+			<propertySection
+				id="org.topcased.modeler.uml.ExpansionRegionOutputElementSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ExpansionRegionOutputElementSection"
+				tab="org.topcased.modeler.modelTab"
+				afterSection="org.topcased.modeler.uml.ExpansionRegionInputElementSection">
+				<input type="org.eclipse.uml2.uml.ExpansionRegion"/>
+			</propertySection>
+			
+			<propertySection
+				id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ForkAndJoinOrientationSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ForkAndJoinOrientationSection"
+				filter="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.filters.ForkAndJoinFilter"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.topcased.modeler.graphicsTab">
+				<input type="org.topcased.modeler.di.model.GraphNode"/>
+			</propertySection>
+			
+			<propertySection
+				id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ActivityPartitionOrientationSection"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ActivityPartitionOrientationSection"
+				afterSection="org.topcased.modeler.BackgroundColorSection"
+				tab="org.topcased.modeler.graphicsTab">
+				<input type="org.eclipse.uml2.uml.ActivityPartition"/>
+			</propertySection>
+			
+			<propertySection
+				id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection.Pin"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection"
+				tab="org.topcased.modeler.graphicsTab">
+				<input
+               		type="org.eclipse.uml2.uml.Pin">
+         		</input>
+			</propertySection>
+			
+			<propertySection
+				id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection.ExpansionNode"
+				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection"
+				tab="org.topcased.modeler.graphicsTab">
+				<input
+               		type="org.eclipse.uml2.uml.ExpansionNode">
+         		</input>
+			</propertySection>
+			
+			<propertySection
+               id="org.topcased.modeler.ActivityPartitionRepresentsSection"
+               class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ActivityPartitionRepresentsPropertySection"
+               enablesFor="1"
+               tab="org.topcased.modeler.modelTab"
+               afterSection="org.topcased.modeler.uml.VisibilitySection">
+            <input type="org.eclipse.uml2.uml.ActivityPartition"/>
+        </propertySection>
+		   <propertySection
+		         class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection"
+		         id="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.graphics.ShowNodeLabelSection.ControlNode"
+		         tab="org.topcased.modeler.graphicsTab">
+		      <input
+		            type="org.eclipse.uml2.uml.ControlNode">
+		      </input>
+		   </propertySection>
+		</propertySections>
+   </extension>
+   
+
+	<extension
+       point="org.eclipse.ui.preferencePages">
+    <page
+          category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          name="Activity Diagram">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+          name="Basic Actions">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+          name="Intermediate Actions">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+          name="Complete Actions">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+          name="Structural Feature Actions">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+          name="Structured Actions">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+          name="Structured Activities">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+          name="Control">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+          name="Object">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+          name="Connections">
+    </page>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.InitialNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.InitialNodePreferencePage"
+			name="Initial Node"/>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.DecisionNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.DecisionNodePreferencePage"
+        name="Decision Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.MergeNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.MergeNodePreferencePage"
+			name="Merge Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ForkNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ForkNodePreferencePage"
+			name="Fork Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.JoinNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.JoinNodePreferencePage"
+			name="Join Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityFinalNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityFinalNodePreferencePage"
+			name="Activity Final Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.FlowFinalNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.FlowFinalNodePreferencePage"
+			name="Flow Final Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.CentralBufferNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.CentralBufferNodePreferencePage"
+			name="Central Buffer Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.DataStoreNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.DataStoreNodePreferencePage"
+			name="Data Store Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityParameterNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityParameterNodePreferencePage"
+			name="Activity Parameter Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionNodePreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionNodePreferencePage"
+			name="Expansion Node"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityPartitionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityPartitionPreferencePage"
+			name="Activity Partition"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ExceptionHandlerPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ExceptionHandlerPreferencePage"
+			name="Exception Handler"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ControlFlowPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ControlFlowPreferencePage"
+			name="Control Flow"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ObjectFlowPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ObjectFlowPreferencePage"
+			name="Object Flow"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionRegionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionRegionPreferencePage"
+			name="Expansion Region"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.InputPinPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.InputPinPreferencePage"
+			name="Input Pin"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.OutputPinPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.OutputPinPreferencePage"
+			name="Output Pin"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.AcceptEventActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.AcceptEventActionPreferencePage"
+			name="Accept Event Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.AddStructuralFeatureValueActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.AddStructuralFeatureValueActionPreferencePage"
+			name="Add Structural Feature Value Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.AddVariableValueActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.AddVariableValueActionPreferencePage"
+			name="Add Variable Value Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.AcceptCallActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.AcceptCallActionPreferencePage"
+			name="Accept Call Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.BroadcastSignalActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.BroadcastSignalActionPreferencePage"
+			name="Broadcast Signal Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.CallBehaviorActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.CallBehaviorActionPreferencePage"
+			name="Call Behavior Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.CallOperationActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.CallOperationActionPreferencePage"
+			name="Call Operation Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ClearAssociationActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ClearAssociationActionPreferencePage"
+			name="Clear Association Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ClearStructuralFeatureActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ClearStructuralFeatureActionPreferencePage"
+			name="Clear Structural Feature Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ClearVariableActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ClearVariableActionPreferencePage"
+			name="Clear Variable Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkActionPreferencePage"
+			name="Create Link Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkObjectActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkObjectActionPreferencePage"
+			name="Create Link Object Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.CreateObjectActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.CreateObjectActionPreferencePage"
+			name="Create Object Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.DestroyLinkActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.DestroyLinkActionPreferencePage"
+			name="Destroy Link Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.DestroyObjectActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.DestroyObjectActionPreferencePage"
+			name="Destroy Object Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.SendSignalActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.SendSignalActionPreferencePage"
+			name="Send Signal Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.SendObjectActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.SendObjectActionPreferencePage"
+			name="Send Object Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.StartClassifierBehaviorActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.StartClassifierBehaviorActionPreferencePage"
+			name="Start Classifier Behavior Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.OpaqueActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.OpaqueActionPreferencePage"
+			name="Opaque Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.TestIdentityActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.TestIdentityActionPreferencePage"
+			name="Test Identity Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.UnmarshallActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.UnmarshallActionPreferencePage"
+			name="Unmarshall Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ValueSpecificationActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ValueSpecificationActionPreferencePage"
+			name="Value Specification Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.RaiseExceptionActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.RaiseExceptionActionPreferencePage"
+			name="Raise Exception Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadSelfActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadSelfActionPreferencePage"
+			name="Read Self Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadIsClassifiedObjectActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadIsClassifiedObjectActionPreferencePage"
+			name="Read Is Classified Object Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndActionPreferencePage"
+			name="Read Link Object End Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndQualifierActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndQualifierActionPreferencePage"
+			name="Read Link Object End Qualifier Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkActionPreferencePage"
+			name="Read Link Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadExtentActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadExtentActionPreferencePage"
+			name="Read Extent Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadVariableActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadVariableActionPreferencePage"
+			name="Read Variable Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReadStructuralFeatureActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReadStructuralFeatureActionPreferencePage"
+			name="Read Structural Feature Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReclassifyObjectActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReclassifyObjectActionPreferencePage"
+			name="Reclassify Object Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReduceActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReduceActionPreferencePage"
+			name="Reduce Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.ReplyActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.ReplyActionPreferencePage"
+			name="Reply Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.RemoveStructuralFeatureValueActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.RemoveStructuralFeatureValueActionPreferencePage"
+			name="Remove Structural Feature Value Action"/>
+		<page
+			id="org.topcased.modeler.uml.activitydiagram.preferences.RemoveVariableValueActionPreferencePage"
+			category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+			class="org.topcased.modeler.uml.activitydiagram.preferences.RemoveVariableValueActionPreferencePage"
+			name="Remove Variable Value Action"/>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivityNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivityNodePreferencePage"
+        name="Structured Activity Node">
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        name="Conditional Node">
+  </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.ClausePreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ClausePreferencePage"
+          name="Clause">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.TestClauseLinkPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.TestClauseLinkPreferencePage"
+          name="Test Clause">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.BodyClauseLinkPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.BodyClauseLinkPreferencePage"
+          name="Body Clause">
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.SuccessorClauseLinkPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.SuccessorClauseLinkPreferencePage"
+          name="Successor Clause">
+    </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.LoopNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.LoopNodePreferencePage"
+        name="Loop Node">
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.SequenceNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.SequenceNodePreferencePage"
+        name="Sequence Node">
+  </page>
+ </extension>
+
+	<extension
+       point="org.eclipse.ui.propertyPages">
+    <page
+          category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          name="Activity Diagram">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+        <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+          name="Basic Actions">
+           <enabledWhen>
+              <adapt
+                    type="org.eclipse.core.resources.IProject">
+              </adapt>
+           </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+          name="Intermediate Actions">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+          name="Complete Actions">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+          name="Structural Feature Actions">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+          name="Structured Actions">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+          name="Structured Activities">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+          name="Control">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+          name="Object">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+    <page
+          category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+          class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityDiagramPreferencePage"
+          id="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+          name="Connections">
+       <enabledWhen>
+          <adapt
+                type="org.eclipse.core.resources.IProject">
+          </adapt>
+       </enabledWhen>
+    </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.InitialNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.InitialNodePreferencePage"
+        name="Initial Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.DecisionNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.DecisionNodePreferencePage"
+        name="Decision Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.MergeNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.MergeNodePreferencePage"
+        name="Merge Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ForkNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ForkNodePreferencePage"
+        name="Fork Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.JoinNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.JoinNodePreferencePage"
+        name="Join Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityFinalNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityFinalNodePreferencePage"
+        name="Activity Final Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ControlPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.FlowFinalNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.FlowFinalNodePreferencePage"
+        name="Flow Final Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.CentralBufferNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.CentralBufferNodePreferencePage"
+        name="Central Buffer Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.DataStoreNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.DataStoreNodePreferencePage"
+        name="Data Store Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityParameterNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityParameterNodePreferencePage"
+        name="Activity Parameter Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionNodePreferencePage"
+        name="Expansion Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.property.ActivityDiagramPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ActivityPartitionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ActivityPartitionPreferencePage"
+        name="Activity Partition">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ExceptionHandlerPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ExceptionHandlerPreferencePage"
+        name="Exception Handler">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ControlFlowPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ControlFlowPreferencePage"
+        name="Control Flow">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConnectionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ObjectFlowPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ObjectFlowPreferencePage"
+        name="Object Flow">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionRegionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ExpansionRegionPreferencePage"
+        name="Expansion Region">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.InputPinPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.InputPinPreferencePage"
+        name="Input Pin">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ObjectPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.OutputPinPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.OutputPinPreferencePage"
+        name="Output Pin">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.AcceptEventActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.AcceptEventActionPreferencePage"
+        name="Accept Event Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.AddStructuralFeatureValueActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.AddStructuralFeatureValueActionPreferencePage"
+        name="Add Structural Feature Value Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.AddVariableValueActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.AddVariableValueActionPreferencePage"
+        name="Add Variable Value Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.AcceptCallActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.AcceptCallActionPreferencePage"
+        name="Accept Call Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.BroadcastSignalActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.BroadcastSignalActionPreferencePage"
+        name="Broadcast Signal Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.CallBehaviorActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.CallBehaviorActionPreferencePage"
+        name="Call Behavior Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.CallOperationActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.CallOperationActionPreferencePage"
+        name="Call Operation Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ClearAssociationActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ClearAssociationActionPreferencePage"
+        name="Clear Association Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ClearStructuralFeatureActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ClearStructuralFeatureActionPreferencePage"
+        name="Clear Structural Feature Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ClearVariableActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ClearVariableActionPreferencePage"
+        name="Clear Variable Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkActionPreferencePage"
+        name="Create Link Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkObjectActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.CreateLinkObjectActionPreferencePage"
+        name="Create Link Object Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.CreateObjectActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.CreateObjectActionPreferencePage"
+        name="Create Object Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.DestroyLinkActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.DestroyLinkActionPreferencePage"
+        name="Destroy Link Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.DestroyObjectActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.DestroyObjectActionPreferencePage"
+        name="Destroy Object Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.SendSignalActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.SendSignalActionPreferencePage"
+        name="Send Signal Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.SendObjectActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.SendObjectActionPreferencePage"
+        name="Send Object Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.StartClassifierBehaviorActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.StartClassifierBehaviorActionPreferencePage"
+        name="Start Classifier Behavior Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.BasicActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.OpaqueActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.OpaqueActionPreferencePage"
+        name="Opaque Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.TestIdentityActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.TestIdentityActionPreferencePage"
+        name="Test Identity Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.UnmarshallActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.UnmarshallActionPreferencePage"
+        name="Unmarshall Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ValueSpecificationActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ValueSpecificationActionPreferencePage"
+        name="Value Specification Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.RaiseExceptionActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.RaiseExceptionActionPreferencePage"
+        name="Raise Exception Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadSelfActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadSelfActionPreferencePage"
+        name="Read Self Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadIsClassifiedObjectActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadIsClassifiedObjectActionPreferencePage"
+        name="Read Is Classified Object Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndActionPreferencePage"
+        name="Read Link Object End Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndQualifierActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkObjectEndQualifierActionPreferencePage"
+        name="Read Link Object End Qualifier Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.IntermediateActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadLinkActionPreferencePage"
+        name="Read Link Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadExtentActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadExtentActionPreferencePage"
+        name="Read Extent Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadVariableActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadVariableActionPreferencePage"
+        name="Read Variable Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReadStructuralFeatureActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReadStructuralFeatureActionPreferencePage"
+        name="Read Structural Feature Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReclassifyObjectActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReclassifyObjectActionPreferencePage"
+        name="Reclassify Object Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReduceActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReduceActionPreferencePage"
+        name="Reduce Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.CompleteActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ReplyActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ReplyActionPreferencePage"
+        name="Reply Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuralFeatureActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.RemoveStructuralFeatureValueActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.RemoveStructuralFeatureValueActionPreferencePage"
+        name="Remove Structural Feature Value Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+		<page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActionsPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.RemoveVariableValueActionPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.RemoveVariableValueActionPreferencePage"
+        name="Remove Variable Value Action">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivityNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivityNodePreferencePage"
+        name="Structured Activity Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        name="Conditional Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.ClausePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.ClausePreferencePage"
+        name="Clause">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.TestClauseLinkPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.TestClauseLinkPreferencePage"
+        name="Test Clause">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.BodyClauseLinkPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.BodyClauseLinkPreferencePage"
+        name="Body Clause">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.ConditionalNodePreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.internal.structuredactivitynode.preferences.SuccessorClauseLinkPreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.SuccessorClauseLinkPreferencePage"
+        name="Successor Clause">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.LoopNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.LoopNodePreferencePage"
+        name="Loop Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+  <page
+        category="org.topcased.modeler.uml.activitydiagram.preferences.StructuredActivitiesPreferencePage"
+        class="org.topcased.modeler.uml.activitydiagram.preferences.SequenceNodePreferencePage"
+        id="org.topcased.modeler.uml.activitydiagram.preferences.SequenceNodePreferencePage"
+        name="Sequence Node">
+     <enabledWhen>
+        <adapt
+              type="org.eclipse.core.resources.IProject">
+        </adapt>
+     </enabledWhen>
+  </page>
+ </extension>
+ 
+ <extension
+       point="org.topcased.modeler.synchronizedModelDiagramRule">
+    <synchronizedModelDiagramRule
+          graphicType="org.topcased.modeler.uml.activitydiagram.edit.CallBehaviorActionEditPart"
+          modelInterface="org.eclipse.uml2.uml.CallBehaviorAction"
+          synchronizationRule="org.topcased.modeler.uml.activitydiagram.internal.parentrule.CallBehaviorActionParentRule">
+       <description>
+          This rule specifies how the ActivityPartition parent of a CallBehaviorAction is determined.
+The model parent is pointed by the "InPartition" relation.
+The graphic parent is the ActivityPartitionEditPart whose representation area contains the representation area of the CallBehaviorActionEditPart.
+       </description>
+    </synchronizedModelDiagramRule>
+ </extension>
+   
+	     <extension
+	         id="org.topcased.modeler.uml.activitydiagram.internal.decorators.UMLModelerActivityDiagramDecoratorProvider"
+	         name="UML Modeler Activity Diagram Decorators"
+	         point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+	      <decoratorProvider
+	            class="org.topcased.modeler.uml.activitydiagram.internal.decorators.UMLModelerActivityDiagramDecoratorProvider">
+	         <Priority
+	               name="Lowest">
+	         </Priority>
+	         <object
+	               class="org.eclipse.uml2.uml.CallBehaviorAction"
+	               id="CallBehaviorAction">
+	         </object>
+	         <context
+	               decoratorTargets="CallBehaviorAction">
+	         </context>
+	      </decoratorProvider>
+	   </extension>
+      <extension
+            point="org.topcased.modeler.topcasedPreferenceInitializer">
+         <preferenceInitializer
+               class="org.opeum.topcased.activitydiagram.bpm.ActivityDiagramTopcasedPreferenceInitializer"
+               editorId="org.topcased.modeler.uml.editor.UMLEditor"
+               id="org.topcased.modeler.uml.activitydiagram.preferenceInitializer">
+         </preferenceInitializer>
+      </extension>
+      <extension
+          point="org.topcased.tabbedproperties.customadvancedproperty">
+       <Component
+             eclassId="org.eclipse.uml2.uml.InterruptibleActivityRegion"
+             editorProvider="org.topcased.modeler.uml.activitydiagram.providers.InterruptingEdgeEditorProvider"
+             featureId="interruptingEdge">
+       </Component>
+    </extension>
+    <extension
+          point="org.topcased.tabbedproperties.customadvancedproperty">
+       <Component
+             eclassId="org.eclipse.uml2.uml.ActivityEdge"
+             editorProvider="org.topcased.modeler.uml.activitydiagram.providers.FlowInterruptsEditorProvider"
+             featureId="interrupts">
+       </Component>
+    </extension>
+    <extension
+          point="org.topcased.tabbedproperties.customadvancedproperty">
+       <Component
+             eclassId="org.eclipse.uml2.uml.CallBehaviorAction"
+             editorProvider="org.topcased.modeler.uml.activitydiagram.providers.BehaviorEditorProperty"
+             featureId="behavior">
+       </Component>
+    </extension>
+    <extension
+          point="org.topcased.tabbedproperties.customadvancedproperty">
+       <Component
+             eclassId="org.eclipse.uml2.uml.Pin"
+             editorProvider="org.topcased.modeler.uml.activitydiagram.providers.PinEditorProvider"
+             featureId="name">
+       </Component>
+    </extension>
+    <extension
+          point="org.topcased.tabbedproperties.customadvancedproperty">
+       <Component
+             eclassId="org.eclipse.uml2.uml.Pin"
+             editorProvider="org.topcased.modeler.uml.activitydiagram.providers.PinEditorProvider"
+             featureId="type">
+       </Component>
+    </extension>
+    <extension
+          point="org.topcased.modeler.paletteConfiguration">
+       <configuration
+             name="org.topcased.modeler.uml.activitydiagram.configuration1">
+          <diagramSpecificPalette
+                diagramId="org.topcased.modeler.uml.structuredactivitynodediagram">
+             <paletteElement
+                   name="Clause">
+             </paletteElement>
+           </diagramSpecificPalette>
+       </configuration>
+    </extension>
+    <extension
+          point="org.topcased.modeler.moveElementFilter">
+       <DiagramKeeper
+             configuration="org.topcased.modeler.uml.activitydiagram"
+             keeper="org.topcased.modeler.uml.activitydiagram.ActivityDiagramKeeper">
+       </DiagramKeeper>
+    </extension>
+    <extension
+          point="org.topcased.modeler.orderSerialization">
+       <OrderAlgorithm
+             algorithm="org.topcased.modeler.uml.activitydiagram.utils.ActivityOrderingAlgorithm"
+             name="Order Activity contents"
+             priority="MIDDLE">
+       </OrderAlgorithm>
+    </extension>
+</plugin>

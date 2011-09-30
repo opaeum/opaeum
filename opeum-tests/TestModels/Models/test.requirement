@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<requirement:RequirementProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:requirement="http://org.topcased.requirement/1.0" xmi:id="_5Iqy4IbBEeCsH7QjA8CHhA" identifier="project generated at 2011/05/25 1:26 PM">
+  <eAnnotations source="http://www.topcased.org/author">
+    <details key="author" value="High Level"/>
+  </eAnnotations>
+  <attributeConfiguration>
+    <listAttributes name="#Allocate" type="Allocate"/>
+    <listAttributes name="#Covered_by"/>
+    <listAttributes name="#Justify"/>
+    <listAttributes name="#Link_to" type="Link"/>
+    <listAttributes name="#Maturity">
+      <defaultValue value="//@attributeConfiguration/@listAttributes.4/@listValue.0"/>
+      <listValue value="TBD"/>
+      <listValue value="TBC"/>
+    </listAttributes>
+  </attributeConfiguration>
+  <chapter xmi:type="requirement:ProblemChapter"/>
+  <chapter xmi:type="requirement:TrashChapter"/>
+  <chapter xmi:type="requirement:UntracedChapter"/>
+  <upstreamModel ident="UpstreamModel">
+    <documents ident="requirements.csv"/>
+  </upstreamModel>
+</requirement:RequirementProject>

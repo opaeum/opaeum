@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphconf:DiagramGraphConf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:graphconf="http://www.topcased.org/1.0/graphconf" id="org.topcased.modeler.uml.classdiagram" defaultBackgroundColor="255,255,255" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10">
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Element"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//NamedElement"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Type"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//BehavioredClassifier"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="150" defaultHeight="120" minimumWidth="50" minimumHeight="50" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="244,164,96">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="200,230,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="255,200,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Interface"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="200,230,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="-1" defaultHeight="-1" minimumWidth="-1" minimumHeight="-1" maximumWidth="-1" maximumHeight="-1" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Operation"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="-1" defaultHeight="-1" minimumWidth="-1" minimumHeight="-1" maximumWidth="-1" maximumHeight="-1" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Property"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,180,180">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//InstanceSpecification"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="50" minimumWidth="20" minimumHeight="20" maximumWidth="200" maximumHeight="200" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TemplateableElement"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="50" minimumWidth="20" minimumHeight="20" maximumWidth="200" maximumHeight="200" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TemplateSignature"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="50" minimumWidth="20" minimumHeight="20" maximumWidth="200" maximumHeight="200" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TemplateParameterSubstitution"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="50" minimumWidth="20" minimumHeight="20" maximumWidth="200" maximumHeight="200" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TemplateParameter"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="65" defaultHeight="30" minimumWidth="40" minimumHeight="30" maximumWidth="200" maximumHeight="30" isWidthResizable="true" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//RedefinableTemplateSignature"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="-1" defaultHeight="-1" minimumWidth="-1" minimumHeight="-1" maximumWidth="-1" maximumHeight="-1" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ClassifierTemplateParameter"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="150" defaultHeight="25" minimumWidth="50" minimumHeight="25" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,195,0">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Comment"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="-1" defaultHeight="-1" minimumWidth="-1" minimumHeight="-1" maximumWidth="-1" maximumHeight="-1" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Slot"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="229,229,229">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Enumeration"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="-1" defaultHeight="-1" minimumWidth="-1" minimumHeight="-1" maximumWidth="-1" maximumHeight="-1" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//EnumerationLiteral"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="200,230,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//PrimitiveType"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="160,32,240" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="215,175,240">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//AssociationClass"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="130" defaultHeight="40" minimumWidth="50" minimumHeight="25" isWidthResizable="true" isHeightResizable="true" defaultBackgroundColor="255,195,0">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Constraint"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="100" defaultHeight="-1" minimumWidth="50" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Signal"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="-1" defaultHeight="-1" minimumWidth="-1" minimumHeight="-1" maximumWidth="-1" maximumHeight="-1" defaultBackgroundColor="255,255,255">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Reception"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ExecutionEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SendOperationEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SendSignalEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="160" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ReceiveOperationEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="160" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ReceiveSignalEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//CallEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//AnyReceiveEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//ChangeEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//SignalEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//DestructionEvent"/>
+    </bridge>
+  </node>
+  <node presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultWidth="50" defaultHeight="-1" minimumWidth="130" minimumHeight="-1" maximumHeight="-1" isWidthResizable="true" defaultBackgroundColor="198,234,199">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//CreationEvent"/>
+    </bridge>
+  </node>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" lineStyle="CUSTOM" defaultRouter="TreeRouter">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TemplateBinding"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Dependency"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Usage"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Association"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" defaultRouter="TreeRouter">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//Generalization"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" lineStyle="CUSTOM" defaultRouter="TreeRouter">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//TemplateBinding"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//InterfaceRealization"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="255,195,0" defaultFont="Sans-regular-10" lineWidth="1" lineStyle="CUSTOM">
+    <bridge xsi:type="graphconf:StringBridge" type="CommentLink"/>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" lineStyle="CUSTOM">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//PackageImport"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="0,0,0" defaultFont="Sans-regular-10" lineWidth="1" lineStyle="CUSTOM">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//PackageMerge"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="160,32,240" defaultFont="Sans-regular-10" lineWidth="1">
+    <bridge xsi:type="graphconf:EMFBridge">
+      <type href="http://www.eclipse.org/uml2/3.0.0/UML#//AssociationClass"/>
+    </bridge>
+  </edge>
+  <edge presentation="default" defaultForegroundColor="255,195,0" defaultFont="Sans-regular-10" lineWidth="1" lineStyle="DASH">
+    <bridge xsi:type="graphconf:StringBridge" type="ConstraintLink"/>
+  </edge>
+</graphconf:DiagramGraphConf>

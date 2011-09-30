@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_55mfgKTcEeCJw_uhYL7KOA" activeDiagram="_JjxSUKTdEeCJw_uhYL7KOA">
+  <model href="SynchronizationTests.uml#_qb8akM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_9hqLUKTcEeCJw_uhYL7KOA" position="0,0" size="100,100" name="SynchronizationTests" viewport="0,0">
+    <property xmi:id="_9h6qAKTcEeCJw_uhYL7KOA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_9h6qAaTcEeCJw_uhYL7KOA" key="diagramWidth" value="840"/>
+    <property xmi:id="_9h6qAqTcEeCJw_uhYL7KOA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_9h6qA6TcEeCJw_uhYL7KOA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_9h6qBKTcEeCJw_uhYL7KOA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_9h7REKTcEeCJw_uhYL7KOA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_9h7REaTcEeCJw_uhYL7KOA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_9h7REqTcEeCJw_uhYL7KOA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_9h7RE6TcEeCJw_uhYL7KOA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9hqyYKTcEeCJw_uhYL7KOA" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="SynchronizationTests.uml#_qb8akM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_ECLSAKTdEeCJw_uhYL7KOA" position="96,104" size="164,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ECLSAaTdEeCJw_uhYL7KOA" presentation="default">
+        <element href="SynchronizationTests.uml#_EC8uEKTdEeCJw_uhYL7KOA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_ECLSAqTdEeCJw_uhYL7KOA">
+        <property xmi:id="_ECLSA6TdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ECLSBKTdEeCJw_uhYL7KOA" presentation="default">
+          <element href="SynchronizationTests.uml#_EC8uEKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_ECLSBaTdEeCJw_uhYL7KOA">
+        <property xmi:id="_ECLSBqTdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ECL5EKTdEeCJw_uhYL7KOA" presentation="default">
+          <element href="SynchronizationTests.uml#_EC8uEKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_GXnfYKTdEeCJw_uhYL7KOA" position="304,104" size="192,100">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GXnfYaTdEeCJw_uhYL7KOA" presentation="default">
+        <element href="SynchronizationTests.uml#_GXyegKTdEeCJw_uhYL7KOA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_GXnfYqTdEeCJw_uhYL7KOA">
+        <property xmi:id="_GXnfY6TdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GXnfZKTdEeCJw_uhYL7KOA">
+          <element href="SynchronizationTests.uml#_GXyegKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_GXnfZaTdEeCJw_uhYL7KOA">
+        <property xmi:id="_GXnfZqTdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GXnfZ6TdEeCJw_uhYL7KOA">
+          <element href="SynchronizationTests.uml#_GXyegKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+  <subdiagrams xmi:id="_55mfgaTcEeCJw_uhYL7KOA"/>
+  <subdiagrams xmi:id="_55nGlqTcEeCJw_uhYL7KOA"/>
+  <subdiagrams xmi:id="_55ntpaTcEeCJw_uhYL7KOA"/>
+  <subdiagrams xmi:id="_55oUtKTcEeCJw_uhYL7KOA"/>
+  <subdiagrams xmi:id="_JjoIYKTdEeCJw_uhYL7KOA">
+    <model href="SynchronizationTests.uml#_GXyegKTdEeCJw_uhYL7KOA"/>
+    <diagrams xmi:id="_JjxSUKTdEeCJw_uhYL7KOA" position="0,0" size="100,100" name="SynchronizationTestsBusinessUnit" viewport="0,167">
+      <property xmi:id="_JkUE4KTdEeCJw_uhYL7KOA" key="pageFormatName" value="A4"/>
+      <property xmi:id="_JkUE4aTdEeCJw_uhYL7KOA" key="diagramWidth" value="840"/>
+      <property xmi:id="_JkUE4qTdEeCJw_uhYL7KOA" key="diagramHeight" value="1188"/>
+      <property xmi:id="_JkUE46TdEeCJw_uhYL7KOA" key="pageMarginName" value="Small Margin"/>
+      <property xmi:id="_JkUE5KTdEeCJw_uhYL7KOA" key="diagramTopMargin" value="20"/>
+      <property xmi:id="_JkUE5aTdEeCJw_uhYL7KOA" key="diagramBottomMargin" value="20"/>
+      <property xmi:id="_JkUE5qTdEeCJw_uhYL7KOA" key="diagramLeftMargin" value="20"/>
+      <property xmi:id="_JkUE56TdEeCJw_uhYL7KOA" key="diagramRightMargin" value="20"/>
+      <property xmi:id="_JkUE6KTdEeCJw_uhYL7KOA" key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JjxSUaTdEeCJw_uhYL7KOA" presentation="org.topcased.modeler.uml.classdiagram">
+        <element href="SynchronizationTests.uml#_GXyegKTdEeCJw_uhYL7KOA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_KBxc8KTdEeCJw_uhYL7KOA" position="65,130" size="157,-1">
+        <anchorage xmi:id="_PN7_0KTdEeCJw_uhYL7KOA" graphEdge="_POR-EKTdEeCJw_uhYL7KOA _a1jssOBFEeCzD6PmfoYTzg"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KBxc8aTdEeCJw_uhYL7KOA" presentation="default">
+          <element href="SynchronizationTests.uml#_KB7N8KTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_KBxc8qTdEeCJw_uhYL7KOA">
+          <property xmi:id="_KBxc86TdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="37"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KBxc9KTdEeCJw_uhYL7KOA" presentation="default">
+            <element href="SynchronizationTests.uml#_KB7N8KTdEeCJw_uhYL7KOA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_V-7ygKTdEeCJw_uhYL7KOA" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_V-7ygaTdEeCJw_uhYL7KOA" presentation="default">
+              <element href="SynchronizationTests.uml#_V_DHQKTdEeCJw_uhYL7KOA"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_DCSPUOBGEeCzD6PmfoYTzg" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DCSPUeBGEeCzD6PmfoYTzg" presentation="default">
+              <element href="SynchronizationTests.uml#_DCXH0OBGEeCzD6PmfoYTzg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_KBxc9aTdEeCJw_uhYL7KOA">
+          <property xmi:id="_KBxc9qTdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="47 50 "/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KBxc96TdEeCJw_uhYL7KOA" presentation="default">
+            <element href="SynchronizationTests.uml#_KB7N8KTdEeCJw_uhYL7KOA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_MOsAcKTdEeCJw_uhYL7KOA" position="405,132" size="165,-1">
+        <anchorage xmi:id="_PN7_0aTdEeCJw_uhYL7KOA" graphEdge="_POR-EKTdEeCJw_uhYL7KOA"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MOsAcaTdEeCJw_uhYL7KOA" presentation="default">
+          <element href="SynchronizationTests.uml#_MO2YgKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_MOsAcqTdEeCJw_uhYL7KOA">
+          <property xmi:id="_MOsAc6TdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="37"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MOsAdKTdEeCJw_uhYL7KOA" presentation="default">
+            <element href="SynchronizationTests.uml#_MO2YgKTdEeCJw_uhYL7KOA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_MOsAdaTdEeCJw_uhYL7KOA">
+          <property xmi:id="_MOsAdqTdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="38 41 "/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MOsAd6TdEeCJw_uhYL7KOA" presentation="default">
+            <element href="SynchronizationTests.uml#_MO2YgKTdEeCJw_uhYL7KOA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_gcbFEKTdEeCJw_uhYL7KOA" position="0,0" size="-1,-1">
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gcbFEaTdEeCJw_uhYL7KOA" presentation="default">
+              <element href="SynchronizationTests.uml#_gciZ0KTdEeCJw_uhYL7KOA"/>
+            </semanticModel>
+          </contained>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_POR-EKTdEeCJw_uhYL7KOA" anchor="_PN7_0KTdEeCJw_uhYL7KOA _PN7_0aTdEeCJw_uhYL7KOA">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_POR-EaTdEeCJw_uhYL7KOA" presentation="default">
+          <element href="SynchronizationTests.uml#_POVocKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_POR-EqTdEeCJw_uhYL7KOA" id="stereotypeEdgeObject"/>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_RHpTcKTdEeCJw_uhYL7KOA" position="91,283" size="221,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RHpTcaTdEeCJw_uhYL7KOA" presentation="default">
+          <element href="SynchronizationTests.uml#_RHydYKTdEeCJw_uhYL7KOA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_RHpTcqTdEeCJw_uhYL7KOA">
+          <property xmi:id="_RHpTc6TdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="37"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RHpTdKTdEeCJw_uhYL7KOA" presentation="default">
+            <element href="SynchronizationTests.uml#_RHydYKTdEeCJw_uhYL7KOA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_RHpTdaTdEeCJw_uhYL7KOA">
+          <property xmi:id="_RHpTdqTdEeCJw_uhYL7KOA" key="eStructuralFeatureID" value="47 50 "/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_RHpTd6TdEeCJw_uhYL7KOA" presentation="default">
+            <element href="SynchronizationTests.uml#_RHydYKTdEeCJw_uhYL7KOA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_ZZrkkOBFEeCzD6PmfoYTzg" position="453,268" size="100,-1">
+        <anchorage xmi:id="_a1aiwOBFEeCzD6PmfoYTzg" graphEdge="_a1jssOBFEeCzD6PmfoYTzg"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZZrkkeBFEeCzD6PmfoYTzg" presentation="default">
+          <element href="SynchronizationTests.uml#_ZZ0HcOBFEeCzD6PmfoYTzg"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_ZZrkkuBFEeCzD6PmfoYTzg">
+          <property xmi:id="_ZZrkk-BFEeCzD6PmfoYTzg" key="eStructuralFeatureID" value="37"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZZrklOBFEeCzD6PmfoYTzg" presentation="default">
+            <element href="SynchronizationTests.uml#_ZZ0HcOBFEeCzD6PmfoYTzg"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_ZZrkleBFEeCzD6PmfoYTzg">
+          <property xmi:id="_ZZrkluBFEeCzD6PmfoYTzg" key="eStructuralFeatureID" value="47 50 "/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ZZrkl-BFEeCzD6PmfoYTzg" presentation="default">
+            <element href="SynchronizationTests.uml#_ZZ0HcOBFEeCzD6PmfoYTzg"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_a1jssOBFEeCzD6PmfoYTzg" anchor="_PN7_0KTdEeCJw_uhYL7KOA _a1aiwOBFEeCzD6PmfoYTzg">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_a1jsseBFEeCzD6PmfoYTzg" presentation="default">
+          <element href="SynchronizationTests.uml#_a1kTwOBFEeCzD6PmfoYTzg"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_a1jssuBFEeCzD6PmfoYTzg" id="srcNameEdgeObject" uDistance="10" vDistance="10"/>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_a1jss-BFEeCzD6PmfoYTzg" id="srcPropertiesEdgeObject" uDistance="25" vDistance="10"/>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_a1jstOBFEeCzD6PmfoYTzg" id="srcCountEdgeObject" uDistance="10" vDistance="-10"/>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_a1jsteBFEeCzD6PmfoYTzg" id="targetNameEdgeObject" uDistance="10" vDistance="10"/>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_a1jstuBFEeCzD6PmfoYTzg" id="targetPropertiesEdgeObject" uDistance="25" vDistance="10"/>
+        <contained xsi:type="di:EdgeObjectUV" xmi:id="_a1jst-BFEeCzD6PmfoYTzg" id="targetCountEdgeObject" uDistance="10" vDistance="-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_a1jsuOBFEeCzD6PmfoYTzg" visible="false" id="middleNameEdgeObject" offset="0,10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_a1jsueBFEeCzD6PmfoYTzg" id="stereotypeEdgeObject" offset="0,-10"/>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_l870UOBGEeCzD6PmfoYTzg" position="80,351" size="373,100">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_l870UeBGEeCzD6PmfoYTzg" presentation="default">
+          <element href="SynchronizationTests.uml#_l9FlUOBGEeCzD6PmfoYTzg"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_l870UuBGEeCzD6PmfoYTzg">
+          <property xmi:id="_l870U-BGEeCzD6PmfoYTzg" key="eStructuralFeatureID" value="37"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_l870VOBGEeCzD6PmfoYTzg">
+            <element href="SynchronizationTests.uml#_l9FlUOBGEeCzD6PmfoYTzg"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_l870VeBGEeCzD6PmfoYTzg">
+          <property xmi:id="_l870VuBGEeCzD6PmfoYTzg" key="eStructuralFeatureID" value="47 50 "/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_l870V-BGEeCzD6PmfoYTzg">
+            <element href="SynchronizationTests.uml#_l9FlUOBGEeCzD6PmfoYTzg"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+</diagrams:Diagrams>
