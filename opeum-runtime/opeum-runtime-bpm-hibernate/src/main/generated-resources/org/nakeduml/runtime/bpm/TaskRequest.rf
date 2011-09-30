@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ASCII"?>
+<process xmlns="http://drools.org/drools-5.0/process" id="opium_bpm_task_request" name="opium_bpm_task_request" package-name="org.opeum.runtime.bpm" type="RuleFlow" version="0.0">
+  <header>
+    <variables>
+      <variable name="processObject">
+        <type className="org.opeum.runtime.bpm.TaskRequest" name="org.drools.process.core.datatype.impl.type.ObjectDataType"/>
+      </variable>
+    </variables>
+  </header>
+  <nodes>
+    <start height="50" id="300047" name="artificial_start" width="100" x="50" y="50"/>
+    <actionNode height="50" id="800047" name="init" width="100" x="50" y="50">
+      <action dialect="mvel" type="expression">processObject.init(context)</action>
+    </actionNode>
+    <dynamic height="500" id="192" name="TaskInstanceRegion" width="500" x="100" y="100">
+      <nodes>
+        <start height="50" id="300193" name="_start_" width="100" x="100" y="100"/>
+        <state height="50" id="193" name="inactive" width="100" x="150" y="150">
+          <onEntry>
+            <action dialect="mvel" type="expression">processObject.onEntryOfInactive(context)</action>
+          </onEntry>
+        </state>
+        <state height="50" id="199" name="created" width="100" x="200" y="200"/>
+        <composite height="500" id="201" name="Active" width="500" x="250" y="250">
+          <nodes>
+            <start height="50" id="300201" name="artificial_start" width="100" x="50" y="50"/>
+            <dynamic height="500" id="202" name="Region1" width="500" x="100" y="100">
+              <nodes>
+                <state height="50" id="203" name="ready" width="100" x="100" y="100">
+                  <onEntry>
+                    <action dialect="mvel" type="expression">processObject.onEntryOfReady(context)</action>
+                  </onEntry>
+                </state>
+                <state height="50" id="205" name="in_progress" width="100" x="150" y="150">
+                  <onEntry>
+                    <action dialect="mvel" type="expression">processObject.onEntryOfInProgress(context)</action>
+                  </onEntry>
+                </state>
+                <state height="50" id="207" name="number_of_potential_owners_" width="100" x="200" y="200">
+                  <onEntry>
+                    <action dialect="mvel" type="expression">processObject.onEntryOfNumberOfPotentialOwners_(context)</action>
+                  </onEntry>
+                </state>
+                <state height="50" id="208" name="reserved" width="100" x="250" y="250">
+                  <onEntry>
+                    <action dialect="mvel" type="expression">processObject.onEntryOfReserved(context)</action>
+                  </onEntry>
+                </state>
+                <state height="50" id="204" name="final_state1" width="100" x="300" y="300">
+                  <onEntry>
+                    <action dialect="mvel" type="expression">processObject.onEntryOfFinalState1(context)</action>
+                  </onEntry>
+                </state>
+                <start height="50" id="300206" name="_start_" width="100" x="350" y="350"/>
+                <state height="50" id="206" name="history" width="100" x="400" y="400">
+                  <onEntry>
+                    <action dialect="mvel" type="expression">processObject.onEntryOfHistory(context)</action>
+                  </onEntry>
+                </state>
+              </nodes>
+              <connections>
+                <connection from="300206" fromType="DROOLS_DEFAULT" to="206"/>
+              </connections>
+            </dynamic>
+            <end height="50" id="500201" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+            <state height="50" id="700201" name="on_completion_of_Active" width="100" x="200" y="200">
+              <onEntry>
+                <action dialect="mvel" type="expression">processObject.onActiveCompleted()</action>
+              </onEntry>
+            </state>
+          </nodes>
+          <connections>
+            <connection from="700201" fromType="DROOLS_DEFAULT" to="500201"/>
+            <connection from="300201" fromType="DROOLS_DEFAULT" to="202"/>
+            <connection from="202" fromType="DROOLS_DEFAULT" to="700201"/>
+          </connections>
+        </composite>
+        <composite height="500" id="194" name="Suspended" width="500" x="300" y="300">
+          <nodes>
+            <start height="50" id="300194" name="artificial_start" width="100" x="50" y="50"/>
+            <dynamic height="500" id="195" name="Region1" width="500" x="100" y="100">
+              <nodes>
+                <state height="50" id="196" name="in_progress_but_suspended" width="100" x="100" y="100"/>
+                <state height="50" id="197" name="reserved_but_suspended" width="100" x="150" y="150"/>
+                <state height="50" id="198" name="ready_but_suspended" width="100" x="200" y="200"/>
+              </nodes>
+              <connections/>
+            </dynamic>
+            <end height="50" id="500194" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+          </nodes>
+          <connections>
+            <connection from="300194" fromType="DROOLS_DEFAULT" to="195"/>
+            <connection from="195" fromType="DROOLS_DEFAULT" to="500194"/>
+          </connections>
+        </composite>
+        <state height="50" id="200" name="obsolete" width="100" x="350" y="350">
+          <onEntry>
+            <action dialect="mvel" type="expression">processObject.onEntryOfObsolete(context)</action>
+          </onEntry>
+        </state>
+        <state height="50" id="209" name="completed" width="100" x="400" y="400">
+          <onEntry>
+            <action dialect="mvel" type="expression">processObject.onEntryOfCompleted(context)</action>
+          </onEntry>
+        </state>
+      </nodes>
+      <connections>
+        <connection from="300193" fromType="DROOLS_DEFAULT" to="193"/>
+      </connections>
+    </dynamic>
+    <end height="50" id="500047" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+  </nodes>
+  <connections>
+    <connection from="300047" fromType="DROOLS_DEFAULT" to="800047"/>
+    <connection from="800047" fromType="DROOLS_DEFAULT" to="192"/>
+    <connection from="192" fromType="DROOLS_DEFAULT" to="500047"/>
+  </connections>
+</process>

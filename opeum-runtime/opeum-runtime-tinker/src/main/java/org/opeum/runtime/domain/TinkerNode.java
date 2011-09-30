@@ -1,0 +1,8 @@
+package org.opeum.runtime.domain;
+
+import com.tinkerpop.blueprints.pgm.Vertex;
+
+public interface TinkerNode extends IPersistentObject{
+	Vertex getVertex();
+	boolean isTinkerRoot();
+}

@@ -1,0 +1,17 @@
+<projectDescription>
+  <name>opeum-runtime-bpm-hibernate</name>
+  <comment>Objects and Processes through Executable Unified Models. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+  <projects>
+    <project>opeum-runtime-domain</project>
+    <project>opeum-runtime-hibernate</project>
+    <project>opeum-runtime-jpa</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
