@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.opeum.linkage.emfextraction
+Bundle-SymbolicName: org.opeum.linkage.emfextraction;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
+ org.eclipse.uml2.uml.resources;visibility:=reexport,
+ org.junit4,
+ org.opeum.metamodels.opeum,
+ org.opeum.metamodels.ocl,
+ org.opeum.metamodels.emfworkspace,
+ org.opeum.transformation.process,
+ org.opeum.transformation.visitor,
+ org.opeum.linkage.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.opeum.emf.extraction,
+ org.opeum.emf.load,
+ org.opeum.emf.reverse
+

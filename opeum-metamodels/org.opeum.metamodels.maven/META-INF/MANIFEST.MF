@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.opeum.metamodels.maven
+Bundle-SymbolicName: org.opeum.metamodels.maven;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: Opeum
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: 
+ org.apache.maven.pom,
+ org.apache.maven.pom.impl,
+ org.apache.maven.pom.util
+Require-Bundle: 
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi
+Bundle-ActivationPolicy: lazy

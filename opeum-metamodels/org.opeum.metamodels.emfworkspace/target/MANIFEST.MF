@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Require-Bundle: org.eclipse.emf.ecore,org.eclipse.emf.ecore.xmi,org.ec
+ lipse.uml2.uml,org.opeum.metamodels.opeum
+Export-Package: org.opeum.eclipse,org.opeum.emf.extraction,org.opeum.e
+ mf.workspace
+Bundle-Vendor: Opeum
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-Version: 1.0.0.cm
+Bundle-Name: org.opeum.metamodels.emfworkspace
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.opeum.metamodels.emfworkspace;singleton:=true
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
