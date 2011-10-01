@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.uml2.uml,
  org.eclipse.uml2.uml.resources,
- org.opeum.metamodels,
- org.opeum.eclipse.core
+ org.opeum.eclipse.core,
+ org.opeum.metamodels.emfworkspace,
+ org.opeum.linkage.emfextraction
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
