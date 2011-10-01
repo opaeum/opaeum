@@ -8,8 +8,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
 import org.opeum.eclipse.ModelLibrary;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 
 public class ApplyProfileAction extends AbstractOpiumAction{
 	private ModelLibrary library;
@@ -20,7 +19,7 @@ public class ApplyProfileAction extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final Model model = (Model) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+		final OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
 		EditingDomain ed = currentContext.getEditingDomain();
 		final Profile profile = (Profile) model.eResource().getResourceSet().getResource(library.getUri(), true).getContents().get(0);
 		if(profile.getDefinition() == null){

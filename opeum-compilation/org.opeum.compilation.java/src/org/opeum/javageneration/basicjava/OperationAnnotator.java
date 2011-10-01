@@ -19,7 +19,6 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.StereotypeAnnotator;
 import org.opeum.javageneration.jbpm5.Jbpm5Util;
@@ -40,6 +39,7 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.IParameterOwner;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		AttributeImplementor.class,SuperTypeGenerator.class

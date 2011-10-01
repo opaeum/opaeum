@@ -4,17 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.opeum.feature.TransformationProcess;
-import net.sf.opeum.javageneration.JavaTransformationPhase;
-import net.sf.opeum.metamodel.core.INakedElement;
-import net.sf.opeum.metamodel.workspace.INakedModelWorkspace;
-import net.sf.opeum.pomgeneration.PomGenerationPhase;
-import net.sf.opeum.textmetamodel.SourceFolder;
-import net.sf.opeum.textmetamodel.TextOutputNode;
-import net.sf.opeum.textmetamodel.TextProject;
-import net.sf.opeum.textmetamodel.TextWorkspace;
-import net.sf.opeum.validation.namegeneration.PersistentNameGenerator;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -34,24 +23,34 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
+import org.opeum.eclipse.OpeumEclipsePlugin;
 import org.opeum.eclipse.ProgressMonitorTransformationLog;
 import org.opeum.eclipse.context.NakedUmlContextListener;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.starter.Activator;
 import org.opeum.eclipse.starter.EclipseProjectGenerationStep;
+import org.opeum.feature.TransformationProcess;
 import org.opeum.java.metamodel.OJPackage;
-import org.opeum.topcased.uml.NakedUmlPlugin;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.pomgeneration.PomGenerationPhase;
+import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.TextOutputNode;
+import org.opeum.textmetamodel.TextProject;
+import org.opeum.textmetamodel.TextWorkspace;
+import org.opeum.validation.namegeneration.PersistentNameGenerator;
 
 public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 	private final IWorkspaceRoot workspace;
 	//TODO remove this dependency on the context
-	NakedUmlEclipseContext context;
+	OpeumEclipseContext context;
 	EclipseProjectGenerationStep eclipseGenerator = new EclipseProjectGenerationStep();
 	private TransformationProcess process;
 	private IJavaModel javaWorkspace;
 	private Set<INakedElement> nakedUmlChanges = new HashSet<INakedElement>();
 	private NamespaceRenameRequests namespaceRenameRequests=new NamespaceRenameRequests();
-	public JavaSourceSynchronizer(NakedUmlEclipseContext ne,TransformationProcess process){
+	public JavaSourceSynchronizer(OpeumEclipseContext ne,TransformationProcess process){
 		this.process = process;
 		ne.addContextListener(this);
 		ne.addContextListener(this.namespaceRenameRequests);
@@ -71,9 +70,9 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 						renamePackages(new SubProgressMonitor(monitor, 500));
 						synchronizeClasses(new SubProgressMonitor(monitor, 500));
 					}
-					return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Sources Synchronized");
+					return new Status(IStatus.OK, OpeumEclipsePlugin.getId(), "Sources Synchronized");
 				}catch(Exception e){
-					return new Status(IStatus.ERROR, NakedUmlPlugin.getId(), "Sources NOT Synchronized", e);
+					return new Status(IStatus.ERROR, OpeumEclipsePlugin.getId(), "Sources NOT Synchronized", e);
 				}finally{
 					monitor.done();
 				}

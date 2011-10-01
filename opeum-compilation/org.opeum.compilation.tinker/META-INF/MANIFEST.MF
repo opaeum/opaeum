@@ -1,16 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tinker Generator
-Bundle-SymbolicName: org.opeum.tinker.generator;singleton:=true
+Bundle-Name: org.opeum.compilation.tinker
+Bundle-SymbolicName: org.opeum.compilation.tinker;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.tinker.generator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.opeum.eclipse,
- org.opeum.metamodels,
- org.opeum.java.generator,
- org.opeum.java.metamodel,
- org.opeum.ocl.metamodel,
- org.opeum.ocl.java.generator
+ org.eclipse.uml2.uml,
+ org.opeum.transformation.engine,
+ org.opeum.metamodels.text,
+ org.opeum.compilation.java,
+ org.opeum.compilation.ocltojava,
+ org.opeum.metamodels.java,
+ org.opeum.metamodels.ocl,
+ org.opeum.metamodels.opeum,
+ org.opeum.linkage.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .
+Export-Package: org.opeum.compilation.tinker
+Bundle-Vendor: Opeum

@@ -2,18 +2,6 @@ package org.opeum.eclipse.starter;
 
 import java.io.ByteArrayInputStream;
 
-import net.sf.opeum.feature.ITransformationStep;
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.StepDependency;
-import net.sf.opeum.feature.visit.VisitBefore;
-import net.sf.opeum.feature.visit.VisitSpec;
-import net.sf.opeum.filegeneration.AbstractTextNodeVisitor;
-import net.sf.opeum.textmetamodel.SourceFolder;
-import net.sf.opeum.textmetamodel.TextDirectory;
-import net.sf.opeum.textmetamodel.TextFile;
-import net.sf.opeum.textmetamodel.TextOutputNode;
-import net.sf.opeum.textmetamodel.TextProject;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -22,6 +10,17 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.opeum.feature.ITransformationStep;
+import org.opeum.feature.OpeumConfig;
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
+import org.opeum.feature.visit.VisitSpec;
+import org.opeum.filegeneration.AbstractTextNodeVisitor;
+import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.TextDirectory;
+import org.opeum.textmetamodel.TextFile;
+import org.opeum.textmetamodel.TextOutputNode;
+import org.opeum.textmetamodel.TextProject;
 
 @StepDependency(phase = EclipseProjectGenerationPhase.class)
 public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implements ITransformationStep{
@@ -113,7 +112,7 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	public ByteArrayInputStream getContents(TextFile tf){
 		return new ByteArrayInputStream(new String(tf.getTextSource().toCharArray()).getBytes());
 	}
-	public void initialize(IWorkspaceRoot workspaceRoot,NakedUmlConfig config){
+	public void initialize(IWorkspaceRoot workspaceRoot,OpeumConfig config){
 		this.root = workspaceRoot;
 		this.config = config;
 	}

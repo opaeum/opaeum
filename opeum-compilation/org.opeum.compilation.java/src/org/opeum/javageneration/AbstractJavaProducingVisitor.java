@@ -14,9 +14,7 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.java.metamodel.OJClass;
 import org.opeum.java.metamodel.OJClassifier;
 import org.opeum.java.metamodel.OJPackage;
@@ -36,7 +34,10 @@ import org.opeum.metamodel.core.INakedTypedElement;
 import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 import org.opeum.textmetamodel.TextDirectory;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextOutputNode;

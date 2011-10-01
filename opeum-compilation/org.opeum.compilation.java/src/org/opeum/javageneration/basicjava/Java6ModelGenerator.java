@@ -6,9 +6,7 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
-import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitAfter;
 import org.opeum.feature.visit.VisitBefore;
@@ -21,7 +19,6 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaSourceKind;
 import org.opeum.javageneration.JavaTextSource;
 import org.opeum.javageneration.JavaTransformationPhase;
@@ -47,7 +44,10 @@ import org.opeum.runtime.domain.IEnum;
 import org.opeum.runtime.domain.ISignal;
 import org.opeum.strategies.DateTimeStrategyFactory;
 import org.opeum.strategies.TextStrategyFactory;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextSource;
 

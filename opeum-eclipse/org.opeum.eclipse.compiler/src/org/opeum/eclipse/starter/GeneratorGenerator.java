@@ -2,17 +2,11 @@ package org.opeum.eclipse.starter;
 
 import java.util.Set;
 
-import net.sf.opeum.feature.ITransformationStep;
-import net.sf.opeum.feature.StepDependency;
-import net.sf.opeum.feature.visit.VisitBefore;
-import net.sf.opeum.javageneration.AbstractJavaProducingVisitor;
-import net.sf.opeum.javageneration.IntegrationCodeGenerator;
-import net.sf.opeum.javageneration.JavaTransformationPhase;
-import net.sf.opeum.javageneration.MavenProjectCodeGenerator;
-import net.sf.opeum.javageneration.util.OJUtil;
-import net.sf.opeum.metamodel.workspace.INakedModelWorkspace;
-
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.javasync.JavaTransformationProcessManager;
+import org.opeum.feature.ITransformationStep;
+import org.opeum.feature.StepDependency;
+import org.opeum.feature.visit.VisitBefore;
 import org.opeum.java.metamodel.OJBlock;
 import org.opeum.java.metamodel.OJConstructor;
 import org.opeum.java.metamodel.OJIfStatement;
@@ -22,8 +16,12 @@ import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opeum.javageneration.AbstractJavaProducingVisitor;
+import org.opeum.javageneration.IntegrationCodeGenerator;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.javageneration.util.OJUtil;
+import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.name.NameConverter;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
@@ -42,7 +40,6 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 		c.addToConstructors(constr);
 		constr.getBody().addToStatements("super(outputRoot,modelFile)");
 		super.createTextPath(c, GeneratorSourceFolderIdentifier.GENERATOR_SRC);
-		c.setSuperclass(new OJPathName(MavenProjectCodeGenerator.class.getName()));
 		addMainOperation(c);
 		OJPathName setOfSteps = new OJPathName("java.util.Set");
 		OJPathName clazzPathName = new OJPathName("java.lang.Class");
@@ -84,7 +81,7 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 		str.append("workspaceFile.getAbsolutePath() +\"/");
 		str.append(workspace.getIdentifier());
 		str.append("\",workspaceFile.getAbsolutePath()+\"");
-		str.append(NakedUmlEditor.getCurrentContext().getCurrentEmfWorkspace().getDirectoryUri().toPlatformString(true));
+		str.append(OpeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getDirectoryUri().toPlatformString(true));
 		str.append("\")");
 		instance.setInitExp(str.toString());
 		block2.addToLocals(instance);

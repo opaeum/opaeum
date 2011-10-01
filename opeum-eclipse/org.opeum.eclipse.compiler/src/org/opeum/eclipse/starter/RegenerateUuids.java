@@ -7,18 +7,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import net.sf.opeum.emf.extraction.EmfElementVisitor;
-import net.sf.opeum.emf.extraction.StereotypesHelper;
-import net.sf.opeum.emf.load.EmfWorkspaceLoader;
-import net.sf.opeum.emf.workspace.EmfWorkspace;
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.visit.VisitBefore;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -29,12 +21,16 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
+import org.opeum.eclipse.OpeumEclipsePlugin;
 import org.opeum.eclipse.NakedUmlElementLinker;
 import org.opeum.eclipse.NakedUmlElementLinker.EmfUmlElementLinker;
 import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
-import org.opeum.topcased.uml.NakedUmlPlugin;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.eclipse.context.OpeumEclipseContext;
+import org.opeum.emf.extraction.EmfElementVisitor;
+import org.opeum.emf.load.EmfWorkspaceLoader;
+import org.opeum.emf.workspace.EmfWorkspace;
+import org.opeum.feature.OpeumConfig;
+import org.opeum.feature.visit.VisitBefore;
 
 public class RegenerateUuids extends AbstractOpiumAction{
 	public static final class LinkingVisitor extends EmfElementVisitor{
@@ -88,7 +84,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 			super();
 			this.currentEmfWorkspace = currentEmfWorkspace;
 		}
-		private EmfWorkspace currentEmfWorkspace;
+		protected EmfWorkspace currentEmfWorkspace;
 		@VisitBefore(matchSubclasses = true)
 		public void element(Element e){
 			Set<String> keywords = new HashSet<String>();
@@ -104,15 +100,15 @@ public class RegenerateUuids extends AbstractOpiumAction{
 			}
 //			populateAnnotation(e, keywords);
 		}
-		private void populateAnnotation(Element o,Set<String> keywords){
-			// FIrst generate the ID appropriately
-			currentEmfWorkspace.getId(o);
-			// Now the annotation already exists
-			EAnnotation ann = StereotypesHelper.getNumlAnnotation(o);
-			for(String string:keywords){
-				ann.getDetails().put(string, "");
-			}
-		}
+//		private void populateAnnotation(Element o,Set<String> keywords){
+//			// FIrst generate the ID appropriately
+//			currentEmfWorkspace.getId(o);
+//			// Now the annotation already exists
+//			EAnnotation ann = StereotypesHelper.getNumlAnnotation(o);
+//			for(String string:keywords){
+//				ann.getDetails().put(string, "");
+//			}
+//		}
 		@Override
 		protected int getThreadPoolSize(){
 			return 1;
@@ -124,16 +120,15 @@ public class RegenerateUuids extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.findOrCreateContextFor(folder);
+		final OpeumEclipseContext currentContext = OpeumEclipseContext.findOrCreateContextFor(folder);
 		new Job("Regenerating UUIDS"){
 			@Override
 			protected IStatus run(IProgressMonitor monitor){
 				try{
 					monitor.beginTask("Regenerating UUIDS", 7);
-					NakedUmlPlugin.saveAllOpenFilesIn(currentContext, new SubProgressMonitor(monitor, 1));
 					monitor.subTask("Removing UUIDS");
 					File dir = currentContext.getUmlDirectory().getLocation().toFile();
-					NakedUmlConfig cfg = currentContext.getConfig();
+					OpeumConfig cfg = currentContext.getConfig();
 					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 3);
 					final EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(new ResourceSetImpl(), dir, cfg, log);
 					// No cache listening - just linking
@@ -144,10 +139,10 @@ public class RegenerateUuids extends AbstractOpiumAction{
 						v1.visitRecursively(element);
 					}
 					monitor.subTask("Generating new UUIDS");
-					LinkingVisitor v2 = new LinkingVisitor();
-					for(Element element:workspace.getOwnedElements()){
+//					LinkingVisitor v2 = new LinkingVisitor();
+//					for(Element element:workspace.getOwnedElements()){
 //						v2.visitRecursively(element);
-					}
+//					}
 					monitor.worked(1);
 					monitor.subTask("Saving All Models");
 					workspace.saveAll();
@@ -157,7 +152,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 				}finally{
 					monitor.done();
 				}
-				return new Status(IStatus.OK, NakedUmlPlugin.getId(), "Regenerated");
+				return new Status(IStatus.OK, OpeumEclipsePlugin.getId(), "Regenerated");
 			}
 		}.schedule();
 	}

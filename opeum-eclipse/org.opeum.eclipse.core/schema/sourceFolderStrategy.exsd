@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":net.sf.opeum.feature.ISourceFolderStrategy"/>
+                  <meta.attribute kind="java" basedOn=":org.opeum.feature.ISourceFolderStrategy"/>
                </appinfo>
             </annotation>
          </attribute>

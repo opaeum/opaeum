@@ -1,15 +1,13 @@
 package org.opeum.eclipse.starter;
 
-import net.sf.opeum.feature.TransformationProcess;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.opeum.eclipse.NakedUmlEclipsePlugin;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.OpeumEclipsePlugin;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.javasync.JavaTransformationProcessManager;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.feature.TransformationProcess;
 
 public class ClearOpiumCacheACtion extends AbstractOpiumAction{
 	public ClearOpiumCacheACtion(IStructuredSelection selection){
@@ -17,9 +15,9 @@ public class ClearOpiumCacheACtion extends AbstractOpiumAction{
 	}
 	public void run(){
 		// Load classes
-		NakedUmlEclipsePlugin.getDefault();
+		OpeumEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();
-		NakedUmlEclipseContext ne = NakedUmlEditor.findOrCreateContextFor(umlDir);
+		OpeumEclipseContext ne = OpeumEclipseContext.findOrCreateContextFor(umlDir);
 		ne.reinitialize();
 		
 		TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);

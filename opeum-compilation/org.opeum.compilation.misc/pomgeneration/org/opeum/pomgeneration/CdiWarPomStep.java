@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.TextSourceFolderIdentifier;
+import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opeum.textmetamodel.TextSourceFolderIdentifier;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;

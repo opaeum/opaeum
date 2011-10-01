@@ -10,7 +10,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.opeum.eclipse.ModelLibrary;
-import org.opeum.eclipse.NakedUmlEclipsePlugin;
+import org.opeum.eclipse.OpeumEclipsePlugin;
 
 public class ImportLibraryMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
@@ -18,7 +18,7 @@ public class ImportLibraryMenu extends CompoundContributionItem{
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		List<IContributionItem> actions = new ArrayList<IContributionItem>();
-		Set<ModelLibrary> modelLibraries = NakedUmlEclipsePlugin.getDefault().getModelLibraries();
+		Set<ModelLibrary> modelLibraries = OpeumEclipsePlugin.getDefault().getModelLibraries();
 		for(ModelLibrary uri:modelLibraries){
 			actions.add(new ActionContributionItem(new ImportLibraryAction(selection, uri)));
 		}

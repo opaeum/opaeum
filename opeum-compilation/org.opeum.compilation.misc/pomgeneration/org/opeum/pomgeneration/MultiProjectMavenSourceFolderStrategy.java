@@ -4,9 +4,9 @@ import java.io.File;
 
 import org.opeum.feature.ISourceFolderStrategy;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SourceFolderDefinition;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
-import org.opeum.javageneration.TextSourceFolderIdentifier;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opeum.textmetamodel.TextSourceFolderIdentifier;
 
 public class MultiProjectMavenSourceFolderStrategy implements ISourceFolderStrategy{
 	@Override

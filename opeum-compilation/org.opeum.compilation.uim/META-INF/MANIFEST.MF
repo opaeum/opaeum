@@ -7,14 +7,12 @@ Bundle-Activator: org.opeum.uim.uml2uim.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.uml2.uml,
- org.opeum.uim,
- org.opeum.metamodels,
- org.opeum.generators,
- org.opeum.java.generator,
- org.opeum.java.metamodel,
- org.opeum.ocl.java.generator,
- org.opeum.ocl.metamodel,
- org.opeum.eclipse.hibernate
+ org.opeum.metamodels.uim,
+ org.opeum.metamodels.emfworkspace,
+ org.opeum.transformation.engine,
+ org.opeum.linkage.emfextraction,
+ org.opeum.metamodels.text,
+ org.opeum.metamodels.opeum
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

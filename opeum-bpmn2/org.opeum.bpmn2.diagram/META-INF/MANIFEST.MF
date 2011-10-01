@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Bpmn2
-Bundle-SymbolicName: org.opeum.topcased.bpmn2;singleton:=true
+Bundle-Name: org.opeum.bpmn2.diagram
+Bundle-SymbolicName: org.opeum.bpmn2.diagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.opeum.topcased.activitydiagram;bundle-version="1.0.0",
  org.topcased.modeler;bundle-version="3.1.14",

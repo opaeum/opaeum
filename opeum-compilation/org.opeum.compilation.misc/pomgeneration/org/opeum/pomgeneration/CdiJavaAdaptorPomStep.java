@@ -2,9 +2,9 @@ package org.opeum.pomgeneration;
 
 import java.util.Collection;
 
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 
 import org.apache.maven.pom.Dependency;
 import org.opeum.generation.features.JavaPersistence;

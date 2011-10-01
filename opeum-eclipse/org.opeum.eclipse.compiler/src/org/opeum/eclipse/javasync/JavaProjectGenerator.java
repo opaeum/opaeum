@@ -9,15 +9,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.TransformationProcess;
-import net.sf.opeum.filegeneration.TextFileDeleter;
-import net.sf.opeum.filegeneration.TextFileGenerator;
-import net.sf.opeum.pomgeneration.PomGenerationPhase;
-import net.sf.opeum.textmetamodel.SourceFolder;
-import net.sf.opeum.textmetamodel.TextProject;
-import net.sf.opeum.textmetamodel.TextWorkspace;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,16 +20,24 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.starter.Activator;
 import org.opeum.eclipse.starter.EclipseProjectGenerationStep;
+import org.opeum.feature.OpeumConfig;
+import org.opeum.feature.TransformationProcess;
+import org.opeum.filegeneration.TextFileDeleter;
+import org.opeum.filegeneration.TextFileGenerator;
 import org.opeum.java.metamodel.OJPackage;
+import org.opeum.pomgeneration.PomGenerationPhase;
+import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.TextProject;
+import org.opeum.textmetamodel.TextWorkspace;
 
 public final class JavaProjectGenerator extends Job{
-	private final NakedUmlConfig cfg;
+	private final OpeumConfig cfg;
 	private final IWorkspaceRoot workspace;
 	private TransformationProcess process;
-	public JavaProjectGenerator(NakedUmlConfig cfg,TransformationProcess process,IWorkspaceRoot workspace){
+	public JavaProjectGenerator(OpeumConfig cfg,TransformationProcess process,IWorkspaceRoot workspace){
 		super("Generating java projects");
 		this.cfg = cfg;
 		this.process = process;
@@ -92,7 +91,7 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
 	}
-	public static void runMaven(NakedUmlConfig cfg) throws JavaModelException,IOException,InterruptedException{
+	public static void runMaven(OpeumConfig cfg) throws JavaModelException,IOException,InterruptedException{
 		JavaCore.setClasspathVariable("M2_REPO", new Path(System.getProperty("user.home") + "/.m2/repository"), null);
 		Process p = Runtime.getRuntime().exec("mvn eclipse:eclipse -o", new String[0], cfg.getOutputRoot());
 		p.waitFor();
@@ -118,7 +117,7 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return result;
 	}
-	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,NakedUmlEclipseContext currentContext,boolean cleanDirectories)
+	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,OpeumEclipseContext currentContext,boolean cleanDirectories)
 			throws CoreException{
 		try{
 			monitor.beginTask("Updating resources", 6);

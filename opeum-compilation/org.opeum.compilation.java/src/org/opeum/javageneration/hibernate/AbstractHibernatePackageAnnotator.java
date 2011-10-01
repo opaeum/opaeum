@@ -11,7 +11,6 @@ import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.jbpm5.ProcessStepResolverImplementor;
 import org.opeum.javageneration.maps.NakedClassifierMap;
 import org.opeum.javageneration.util.OJUtil;
@@ -24,6 +23,7 @@ import org.opeum.metamodel.core.INakedInterface;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.models.INakedModel;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static final class MetaDefElementCollector {

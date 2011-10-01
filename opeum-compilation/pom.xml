@@ -13,11 +13,14 @@
 	<name>Opeum Compiler</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<modules>
+		<module>org.opeum.compilation.feature</module>
 		<module>org.opeum.compilation.filegeneration</module>
 		<module>org.opeum.compilation.java</module>
 		<module>org.opeum.compilation.misc</module>
 		<module>org.opeum.compilation.ocltojava</module>
 		<module>org.opeum.compilation.runtimedependencies</module>
+		<module>org.opeum.compilation.tinker</module>
+		<module>org.opeum.compilation.uim</module>
 	</modules>
 	<repositories>
 		<repository>

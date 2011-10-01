@@ -1,15 +1,14 @@
 package org.opeum.eclipse.starter;
 
-import net.sf.opeum.feature.SourceFolderDefinition;
-import net.sf.opeum.feature.StepDependency;
-import net.sf.opeum.pomgeneration.PomGenerationPhase;
-import net.sf.opeum.pomgeneration.PomGenerationStep;
-import net.sf.opeum.pomgeneration.PomUtil;
-
 import org.apache.maven.pom.ConfigurationType2;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
+import org.opeum.feature.StepDependency;
+import org.opeum.pomgeneration.PomGenerationPhase;
+import org.opeum.pomgeneration.PomGenerationStep;
+import org.opeum.pomgeneration.PomUtil;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 
 @StepDependency(phase = PomGenerationPhase.class)
 public class GeneratorPomStep extends PomGenerationStep {

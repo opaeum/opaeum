@@ -3,13 +3,6 @@ package org.opeum.eclipse.javasync;
 import java.io.File;
 import java.util.Iterator;
 
-import net.sf.opeum.emf.workspace.EmfWorkspace;
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.TransformationProcess;
-import net.sf.opeum.javageneration.JavaTransformationPhase;
-import net.sf.opeum.textmetamodel.TextWorkspace;
-import net.sf.opeum.validation.namegeneration.PersistentNameGenerator;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -23,13 +16,18 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
-import org.opeum.eclipse.NakedUmlEclipsePlugin;
+import org.opeum.eclipse.OpeumEclipsePlugin;
 import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.starter.AbstractOpiumAction;
 import org.opeum.eclipse.starter.Activator;
+import org.opeum.emf.workspace.EmfWorkspace;
+import org.opeum.feature.OpeumConfig;
+import org.opeum.feature.TransformationProcess;
 import org.opeum.java.metamodel.OJPackage;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.textmetamodel.TextWorkspace;
+import org.opeum.validation.namegeneration.PersistentNameGenerator;
 
 public class RecompileModelAction extends AbstractOpiumAction{
 	public RecompileModelAction(IStructuredSelection selection){
@@ -58,11 +56,11 @@ public class RecompileModelAction extends AbstractOpiumAction{
 								});
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
-								NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+								OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
 								currentContext. getEmfToNakedUmlSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
-								NakedUmlConfig cfg = currentContext.getConfig();
+								OpeumConfig cfg = currentContext.getConfig();
 								PersistentNameGenerator png = new PersistentNameGenerator();
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60));
@@ -74,7 +72,7 @@ public class RecompileModelAction extends AbstractOpiumAction{
 
 							}
 						}catch(Exception e){
-							NakedUmlEclipsePlugin.logError("Recompilation Failed", e);
+							OpeumEclipsePlugin.logError("Recompilation Failed", e);
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}finally{

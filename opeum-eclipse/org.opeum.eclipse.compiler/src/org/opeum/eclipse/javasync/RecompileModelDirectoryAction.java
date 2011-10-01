@@ -1,15 +1,5 @@
 package org.opeum.eclipse.javasync;
 
-import net.sf.opeum.emf.workspace.EmfWorkspace;
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.TransformationProcess;
-import net.sf.opeum.javageneration.JavaTransformationPhase;
-import net.sf.opeum.metamodel.core.INakedRootObject;
-import net.sf.opeum.metamodel.models.INakedModel;
-import net.sf.opeum.metamodel.workspace.INakedModelWorkspace;
-import net.sf.opeum.textmetamodel.TextWorkspace;
-import net.sf.opeum.validation.namegeneration.PersistentNameGenerator;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -20,14 +10,21 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.opeum.eclipse.NakedUmlEclipsePlugin;
+import org.opeum.eclipse.OpeumEclipsePlugin;
 import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.starter.AbstractOpiumAction;
 import org.opeum.eclipse.starter.Activator;
+import org.opeum.emf.workspace.EmfWorkspace;
+import org.opeum.feature.OpeumConfig;
+import org.opeum.feature.TransformationProcess;
 import org.opeum.java.metamodel.OJPackage;
-import org.opeum.topcased.uml.NakedUmlPlugin;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.javageneration.JavaTransformationPhase;
+import org.opeum.metamodel.core.INakedRootObject;
+import org.opeum.metamodel.models.INakedModel;
+import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.textmetamodel.TextWorkspace;
+import org.opeum.validation.namegeneration.PersistentNameGenerator;
 
 public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){
@@ -40,7 +37,7 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.findOrCreateContextFor(folder);
+		final OpeumEclipseContext currentContext = OpeumEclipseContext.findOrCreateContextFor(folder);
 		new Job("Recompiling model directory"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
@@ -62,7 +59,7 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 				}catch(Exception e){
 					e.printStackTrace();
-					return new Status(Status.ERROR, NakedUmlEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
+					return new Status(Status.ERROR, OpeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
 				}finally{
 					monitor.done();
 				}
@@ -72,8 +69,7 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 	}
 	protected TransformationProcess prepareDirectoryForTransformation(final IContainer folder,final IProgressMonitor monitor) throws CoreException{
 		monitor.subTask("Saving Open Models");
-		final NakedUmlEclipseContext ctx = NakedUmlEditor.findOrCreateContextFor(folder);
-		NakedUmlPlugin.saveAllOpenFilesIn(ctx, monitor);
+		final OpeumEclipseContext ctx = OpeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
 		monitor.subTask("Loading Opium Metadata");
 		ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
@@ -97,7 +93,7 @@ public class RecompileModelDirectoryAction extends AbstractOpiumAction{
 		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
 		p.removeModel(OJPackage.class);
 		p.removeModel(TextWorkspace.class);
-		NakedUmlConfig config = ctx.getConfig();
+		OpeumConfig config = ctx.getConfig();
 		config.getSourceFolderStrategy().defineSourceFolders(config);
 		return p;
 	}

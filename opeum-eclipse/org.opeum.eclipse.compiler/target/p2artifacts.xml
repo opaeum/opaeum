@@ -1,14 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
-<artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='org.opeum.topcased.compiler' version='1.0.0.cm'>
+<artifacts size='2'>
+  <artifact classifier='osgi.bundle' id='org.opeum.eclipse.compiler' version='1.0.0.cm'>
     <properties size='6'>
-      <property name='artifact.size' value='69581'/>
-      <property name='download.size' value='69581'/>
-      <property name='download.md5' value='0ff9e562d623a675a26e0024b4e49369'/>
+      <property name='artifact.size' value='68106'/>
+      <property name='download.size' value='68106'/>
+      <property name='download.md5' value='09aaa5f6d2888eee736dd321f8bcf9d5'/>
       <property name='maven-groupId' value='org.opeum'/>
-      <property name='maven-artifactId' value='org.opeum.topcased.compiler'/>
+      <property name='maven-artifactId' value='org.opeum.eclipse.compiler'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+  <artifact classifier='osgi.bundle' id='org.opeum.eclipse.compiler.source' version='1.0.0.cm'>
+    <properties size='7'>
+      <property name='artifact.size' value='29274'/>
+      <property name='download.size' value='29274'/>
+      <property name='download.md5' value='cf97ee40d02e18e575a2c3c210d0b1a4'/>
+      <property name='maven-groupId' value='org.opeum'/>
+      <property name='maven-artifactId' value='org.opeum.eclipse.compiler'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources'/>
     </properties>
   </artifact>
 </artifacts>

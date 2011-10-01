@@ -62,7 +62,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="net.sf.opeum.metamodel.workspace.AbstractStrategyFactory:"/>
+                  <meta.attribute kind="java" basedOn="org.opeum.metamodel.workspace.AbstractStrategyFactory:"/>
                </appinfo>
             </annotation>
          </attribute>

@@ -1,7 +1,7 @@
 package org.opeum.topcased.bpmn2;
 
-import net.sf.opeum.emf.extraction.StereotypesHelper;
-import net.sf.opeum.metamodel.core.internal.StereotypeNames;
+import org.opeum.emf.extraction.StereotypesHelper;
+import org.opeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;

@@ -9,9 +9,7 @@ import java.util.Map;
 
 import org.opeum.feature.ITransformationStep;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.feature.visit.VisitorAdapter;
-import org.opeum.javageneration.TextSourceFolderIdentifier;
 import org.opeum.javageneration.jbpm5.Jbpm5Util;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.metamodel.commonbehaviors.GuardedFlow;
@@ -21,8 +19,10 @@ import org.opeum.metamodel.core.INakedElementOwner;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextProject;
+import org.opeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opeum.textmetamodel.TextWorkspace;
 
 import org.drools.drools._5._0.process.ActionType;

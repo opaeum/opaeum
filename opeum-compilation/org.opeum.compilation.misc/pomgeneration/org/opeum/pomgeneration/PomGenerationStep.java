@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.ITransformationStep;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
+import org.opeum.textmetamodel.SourceFolderDefinition;
+
 import nl.klasse.octopus.model.IImportedElement;
 
 import org.apache.maven.pom.Activation;

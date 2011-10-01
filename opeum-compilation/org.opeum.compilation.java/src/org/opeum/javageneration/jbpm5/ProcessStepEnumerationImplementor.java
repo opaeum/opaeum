@@ -13,7 +13,6 @@ import org.opeum.java.metamodel.OJPathName;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.StereotypeAnnotator;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.javageneration.util.ReflectionUtil;
@@ -24,6 +23,7 @@ import org.opeum.metamodel.core.INakedClassifier;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.runtime.domain.IProcessStep;
 import org.opeum.runtime.domain.TriggerMethod;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {

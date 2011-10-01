@@ -9,8 +9,7 @@ import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opeum.eclipse.ModelLibrary;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 
 public class ImportLibraryAction extends AbstractOpiumAction{
 	private ModelLibrary library;
@@ -21,7 +20,7 @@ public class ImportLibraryAction extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final Model model = (Model) selection.getFirstElement();
-		final NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+		final OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
 		EditingDomain ed = currentContext.getEditingDomain();
 		PackageImport pi = UMLFactory.eINSTANCE.createPackageImport();
 		Resource resource = model.eResource().getResourceSet().getResource(library.getUri(), true);

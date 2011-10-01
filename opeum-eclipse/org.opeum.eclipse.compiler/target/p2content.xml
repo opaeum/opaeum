@@ -1,47 +1,82 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<units size='1'>
-  <unit id='org.opeum.topcased.compiler' version='1.0.0.cm'>
-    <update id='org.opeum.topcased.compiler' range='[0.0.0,1.0.0.cm)' severity='0'/>
+<units size='2'>
+  <unit id='org.opeum.eclipse.compiler' version='1.0.0.cm'>
+    <update id='org.opeum.eclipse.compiler' range='[0.0.0,1.0.0.cm)' severity='0'/>
     <properties size='4'>
       <property name='org.eclipse.equinox.p2.name' value='org.opeum.topcased.compiler'/>
       <property name='maven-groupId' value='org.opeum'/>
-      <property name='maven-artifactId' value='org.opeum.topcased.compiler'/>
+      <property name='maven-artifactId' value='org.opeum.eclipse.compiler'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='4'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.opeum.topcased.compiler' version='1.0.0.cm'/>
-      <provided namespace='osgi.bundle' name='org.opeum.topcased.compiler' version='1.0.0.cm'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.opeum.eclipse.compiler' version='1.0.0.cm'/>
+      <provided namespace='osgi.bundle' name='org.opeum.eclipse.compiler' version='1.0.0.cm'/>
       <provided namespace='java.package' name='org.opeum.eclipse.starter' version='0.0.0'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
     </provides>
-    <requires size='18'>
+    <requires size='28'>
       <required namespace='osgi.bundle' name='org.opeum.eclipse.core' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.generators' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.java.metamodel' range='0.0.0'/>
       <required namespace='osgi.bundle' name='org.eclipse.core.resources' range='0.0.0'/>
       <required namespace='osgi.bundle' name='org.eclipse.jdt.core' range='0.0.0'/>
       <required namespace='osgi.bundle' name='org.eclipse.jdt.launching' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.java.generator' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.metamodels' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.ocl.java.generator' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.ocl.metamodel' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.uim' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.uim.uml2uim' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.topcased.classdiagram' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.topcased.modeler' range='0.0.0'/>
       <required namespace='osgi.bundle' name='org.eclipse.jdt.ui' range='0.0.0'/>
       <required namespace='osgi.bundle' name='org.eclipse.jdt.core.manipulation' range='0.0.0'/>
-      <required namespace='osgi.bundle' name='org.opeum.eclipse.hibernate' range='0.0.0'/>
       <required namespace='osgi.bundle' name='org.eclipse.core.expressions' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.filegeneration' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.java' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.misc' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.ocltojava' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.runtimedependencies' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.tinker' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.compilation.uim' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.drools' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.emfworkspace' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.java' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.maven' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.ocl' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.opeum' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.text' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.metamodels.uim' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.transformation.engine' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.linkage.core' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.linkage.emfextraction' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.linkage.namegeneration' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.opeum.linkage.validation' range='0.0.0'/>
+      <required namespace='osgi.bundle' name='org.eclipse.emf.edit' range='0.0.0'/>
     </requires>
     <artifacts size='1'>
-      <artifact classifier='osgi.bundle' id='org.opeum.topcased.compiler' version='1.0.0.cm'/>
+      <artifact classifier='osgi.bundle' id='org.opeum.eclipse.compiler' version='1.0.0.cm'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
       <instructions size='1'>
         <instruction key='manifest'>
-          Bundle-Name: org.opeum.topcased.compiler&#xA;Bundle-Version: 1.0.0.cm&#xA;Bundle-Activator: org.opeum.eclipse.starter.Activator&#xA;Created-By: Apache Maven&#xA;Archiver-Version: Plexus Archiver&#xA;Require-Bundle: org.opeum.eclipse.core,org.opeum.generators,org.opeum.java.metamodel,org.eclipse.core.resources,org.eclipse.jdt.core,org.eclipse.jdt.launching,org.opeum.java.generator,org.opeum.metamodels,org.opeum.ocl.java.generator,org.opeum.ocl.metamodel,org.opeum.uim,org.opeum.uim.uml2uim,org.opeum.topcased.classdiagram,org.topcased.modeler,org.eclipse.jdt.ui,org.eclipse.jdt.core.manipulation,org.opeum.eclipse.hibernate,org.eclipse.core.expressions&#xA;Export-Package: org.opeum.eclipse.starter&#xA;Bundle-SymbolicName: org.opeum.topcased.compiler;singleton:=true&#xA;Built-By: ampie&#xA;Manifest-Version: 1.0&#xA;Build-Jdk: 1.6.0_26&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-RequiredExecutionEnvironment: JavaSE-1.6&#xA;
+          Bundle-Name: org.opeum.topcased.compiler&#xA;Bundle-Version: 1.0.0.cm&#xA;Bundle-Activator: org.opeum.eclipse.starter.Activator&#xA;Created-By: Apache Maven&#xA;Archiver-Version: Plexus Archiver&#xA;Require-Bundle: org.opeum.eclipse.core,org.eclipse.core.resources,org.eclipse.jdt.core,org.eclipse.jdt.launching,org.eclipse.jdt.ui,org.eclipse.jdt.core.manipulation,org.eclipse.core.expressions,org.opeum.compilation.filegeneration,org.opeum.compilation.java,org.opeum.compilation.misc,org.opeum.compilation.ocltojava,org.opeum.compilation.runtimedependencies,org.opeum.compilation.tinker,org.opeum.compilation.uim,org.opeum.metamodels.drools,org.opeum.metamodels.emfworkspace,org.opeum.metamodels.java,org.opeum.metamodels.maven,org.opeum.metamodels.ocl,org.opeum.metamodels.opeum,org.opeum.metamodels.text,org.opeum.metamodels.uim,org.opeum.transformation.engine,org.opeum.linkage.core,org.opeum.linkage.emfextraction,org.opeum.linkage.namegeneration,org.opeum.linkage.validation,org.eclipse.emf.edit&#xA;Export-Package: org.opeum.eclipse.starter&#xA;Bundle-SymbolicName: org.opeum.eclipse.compiler;singleton:=true&#xA;Built-By: ampie&#xA;Manifest-Version: 1.0&#xA;Build-Jdk: 1.6.0_26&#xA;Bundle-ActivationPolicy: lazy&#xA;Bundle-ManifestVersion: 2&#xA;Bundle-RequiredExecutionEnvironment: JavaSE-1.6&#xA;
+        </instruction>
+      </instructions>
+    </touchpointData>
+  </unit>
+  <unit id='org.opeum.eclipse.compiler.source' version='1.0.0.cm' singleton='false'>
+    <update id='org.opeum.eclipse.compiler.source' range='[0.0.0,1.0.0.cm)' severity='0'/>
+    <properties size='4'>
+      <property name='maven-groupId' value='org.opeum'/>
+      <property name='maven-artifactId' value='org.opeum.eclipse.compiler'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources'/>
+    </properties>
+    <provides size='3'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.opeum.eclipse.compiler.source' version='1.0.0.cm'/>
+      <provided namespace='osgi.bundle' name='org.opeum.eclipse.compiler.source' version='1.0.0.cm'/>
+      <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='source' version='1.0.0'/>
+    </provides>
+    <artifacts size='1'>
+      <artifact classifier='osgi.bundle' id='org.opeum.eclipse.compiler.source' version='1.0.0.cm'/>
+    </artifacts>
+    <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+    <touchpointData size='1'>
+      <instructions size='1'>
+        <instruction key='manifest'>
+          Bundle-ManifestVersion: 2&#xA;Built-By: ampie&#xA;Bundle-Version: 1.0.0.cm&#xA;Build-Jdk: 1.6.0_26&#xA;Eclipse-SourceBundle: org.opeum.eclipse.compiler;version=&quot;1.0.0.cm&quot;;roots:=&quot;.&quot;&#xA;Created-By: Apache Maven&#xA;Bundle-SymbolicName: org.opeum.eclipse.compiler.source&#xA;Manifest-Version: 1.0&#xA;Archiver-Version: Plexus Archiver&#xA;
         </instruction>
       </instructions>
     </touchpointData>

@@ -2,9 +2,9 @@ package org.opeum.bootstrap;
 
 import org.opeum.feature.StepDependency;
 import org.opeum.feature.visit.VisitBefore;
-import org.opeum.javageneration.TextSourceFolderIdentifier;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
 import org.opeum.pomgeneration.BasicWarPomStep;
+import org.opeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(phase = BootstrapGenerationPhase.class, requires = { BasicWarPomStep.class}, before = { })
 public class WarBootstrapStep extends AbstractBootstrapStep{

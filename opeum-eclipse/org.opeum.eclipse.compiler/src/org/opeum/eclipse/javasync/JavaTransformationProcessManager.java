@@ -7,34 +7,32 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-import net.sf.opeum.emf.workspace.EmfWorkspace;
-import net.sf.opeum.feature.ITransformationStep;
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.TransformationProcess;
-import net.sf.opeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import net.sf.opeum.javageneration.hibernate.HibernatePackageAnnotator;
-import net.sf.opeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
-import net.sf.opeum.metamodel.workspace.INakedModelWorkspace;
-import net.sf.opeum.textmetamodel.TextWorkspace;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.opeum.eclipse.EmfToNakedUmlSynchronizer;
-import org.opeum.eclipse.NakedUmlEclipsePlugin;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.OpeumEclipsePlugin;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.starter.GeneratorSourceFolderIdentifier;
+import org.opeum.emf.workspace.EmfWorkspace;
+import org.opeum.feature.ITransformationStep;
+import org.opeum.feature.OpeumConfig;
+import org.opeum.feature.TransformationProcess;
 import org.opeum.generation.features.BpmUsingJbpm5;
 import org.opeum.generation.features.ExtendedCompositionSemantics;
 import org.opeum.generation.features.OclExpressionExecution;
 import org.opeum.java.metamodel.OJPackage;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opeum.javageneration.hibernate.HibernatePackageAnnotator;
+import org.opeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
+import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public static TransformationProcess getCurrentTransformationProcess(){
 		return currentTransformationProcess;
 	}
-	private static Map<NakedUmlEclipseContext,TransformationProcess> processes = new WeakHashMap<NakedUmlEclipseContext,TransformationProcess>();
+	private static Map<OpeumEclipseContext,TransformationProcess> processes = new WeakHashMap<OpeumEclipseContext,TransformationProcess>();
 	private static TransformationProcess currentTransformationProcess;
 	public JavaTransformationProcessManager(){
 	}
@@ -42,7 +40,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public void run(){
 		try{
 			// Continuously associate new contexts with transformation processes
-			NakedUmlEclipseContext currentContext = NakedUmlEditor.getCurrentContext();
+			OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading()){
 				getTransformationProcess(currentContext);
 			}
@@ -58,12 +56,12 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			}
 		}
 	}
-	private static synchronized TransformationProcess getTransformationProcess(final NakedUmlEclipseContext ne){
+	private static synchronized TransformationProcess getTransformationProcess(final OpeumEclipseContext ne){
 		TransformationProcess process = processes.get(ne);
 		if(process == null){
 			process = new TransformationProcess();
 			// Load classes for config
-			NakedUmlEclipsePlugin.getDefault();
+			OpeumEclipsePlugin.getDefault();
 			ne.addContextListener(new JavaSourceSynchronizer(ne, process));
 			reinitializeProcess(process, ne);
 			processes.put(ne, process);
@@ -74,7 +72,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		currentTransformationProcess = process;
 		return process;
 	}
-	public static void reinitializeProcess(TransformationProcess process, NakedUmlEclipseContext ne){
+	public static void reinitializeProcess(TransformationProcess process, OpeumEclipseContext ne){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(ne.getConfig());
 		ne.getConfig().calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
 		mapAdditionalOutputRoots(ne.getConfig());
@@ -85,7 +83,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		process.initialize(ne.getConfig(), steps);
 		process.replaceModel(ne.getNakedWorkspace());
 	}
-	public static Set<Class<? extends ITransformationStep>> getAllSteps(NakedUmlConfig cfg){
+	public static Set<Class<? extends ITransformationStep>> getAllSteps(OpeumConfig cfg){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps();
 		steps.addAll(cfg.getAdditionalTransformationSteps());
 		return steps;
@@ -97,7 +95,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		basicIntegrationSteps.addAll(getBasicSteps());
 		return basicIntegrationSteps;
 	}
-	private static void mapAdditionalOutputRoots(NakedUmlConfig cfg){
+	private static void mapAdditionalOutputRoots(OpeumConfig cfg){
 		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
 		if(cfg.getOutputRoot().exists()){
 			for(File file:cfg.getOutputRoot().listFiles()){
@@ -130,6 +128,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return toSet(HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class,JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(IContainer folder){
-		return getTransformationProcess(NakedUmlEditor.findOrCreateContextFor(folder));
+		return getTransformationProcess(OpeumEclipseContext.findOrCreateContextFor(folder));
 	}
 }

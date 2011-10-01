@@ -1,18 +1,16 @@
 package org.opeum.eclipse.starter;
 
-import net.sf.opeum.feature.TransformationProcess;
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
-import org.opeum.eclipse.NakedUmlConfigDialog;
-import org.opeum.eclipse.NakedUmlEclipsePlugin;
-import org.opeum.eclipse.context.NakedUmlEclipseContext;
+import org.opeum.eclipse.OpeumConfigDialog;
+import org.opeum.eclipse.OpeumEclipsePlugin;
+import org.opeum.eclipse.context.OpeumEclipseContext;
 import org.opeum.eclipse.javasync.JavaTransformationProcessManager;
-import org.opeum.topcased.uml.editor.NakedUmlEditor;
+import org.opeum.feature.TransformationProcess;
 
 public class EditOpiumConfigAction extends AbstractOpiumAction{
 	public EditOpiumConfigAction(IStructuredSelection selection2){
@@ -22,12 +20,12 @@ public class EditOpiumConfigAction extends AbstractOpiumAction{
 	// public void run(IAction action){
 	public void run(){
 		// Load classes
-		NakedUmlEclipsePlugin.getDefault();
+		OpeumEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();
-		NakedUmlEclipseContext ne = NakedUmlEditor.findOrCreateContextFor(umlDir);
+		OpeumEclipseContext ne = OpeumEclipseContext.findOrCreateContextFor(umlDir);
 		if(!(ne==null || ne.isNewlyCreated())){
 			// The settings would have been edited from there
-			NakedUmlConfigDialog dlg = new NakedUmlConfigDialog(Display.getCurrent().getActiveShell(), ne.getConfig());
+			OpeumConfigDialog dlg = new OpeumConfigDialog(Display.getCurrent().getActiveShell(), ne.getConfig());
 			if(dlg.open() == Window.OK){
 				ne.reinitialize();
 				TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);

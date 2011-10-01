@@ -1,6 +1,6 @@
 package org.opeum.eclipse.starter;
 
-import net.sf.opeum.feature.ISourceFolderIdentifier;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
 
 public enum GeneratorSourceFolderIdentifier implements ISourceFolderIdentifier{
 	GENERATOR_ROOT,

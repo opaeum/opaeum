@@ -10,10 +10,10 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJEnum;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.runtime.domain.EnumResolver;
 import org.opeum.runtime.domain.IEnum;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 public abstract class AbstractEnumResolverImplementor extends AbstractJavaProducingVisitor{
 	public AbstractEnumResolverImplementor(){

@@ -21,7 +21,6 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.jbpm5.AbstractBehaviorVisitor;
 import org.opeum.javageneration.jbpm5.EventUtil;
@@ -50,6 +49,7 @@ import org.opeum.metamodel.core.INakedParameter;
 import org.opeum.metamodel.core.PreAndPostConstrained;
 import org.opeum.metamodel.statemachines.INakedStateMachine;
 import org.opeum.runtime.domain.DeadlineKind;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		ActivityProcessImplementor.class,StateMachineImplementor.class

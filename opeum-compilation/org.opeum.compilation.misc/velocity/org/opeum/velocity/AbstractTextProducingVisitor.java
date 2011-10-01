@@ -15,18 +15,18 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SourceFolderDefinition;
 import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.CharArrayTextSource;
 import org.opeum.metamodel.core.INakedElement;
 import org.opeum.metamodel.core.INakedElementOwner;
 import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.textmetamodel.CharArrayTextSource;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
 import org.opeum.textmetamodel.PropertiesSource;
 import org.opeum.textmetamodel.SourceFolder;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 import org.opeum.textmetamodel.TextFile;
 import org.opeum.textmetamodel.TextProject;
 import org.opeum.textmetamodel.TextWorkspace;

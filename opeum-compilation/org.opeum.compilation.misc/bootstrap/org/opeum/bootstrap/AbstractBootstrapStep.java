@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.opeum.feature.ISourceFolderIdentifier;
 import org.opeum.feature.ITransformationStep;
-import org.opeum.javageneration.TextSourceFolderIdentifier;
 import org.opeum.metamodel.models.INakedModel;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
+import org.opeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements ITransformationStep {

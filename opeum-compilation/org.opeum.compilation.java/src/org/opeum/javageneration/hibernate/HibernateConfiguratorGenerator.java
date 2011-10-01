@@ -16,9 +16,9 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = {HibernateAnnotator.class}, after = { HibernateAnnotator.class })
 public class HibernateConfiguratorGenerator extends AbstractJavaProducingVisitor {

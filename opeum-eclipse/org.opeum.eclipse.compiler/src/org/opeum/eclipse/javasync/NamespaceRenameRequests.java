@@ -5,15 +5,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.opeum.metamodel.core.INakedClassifier;
-import net.sf.opeum.metamodel.core.INakedElement;
-import net.sf.opeum.metamodel.core.INakedNameSpace;
-import net.sf.opeum.metamodel.core.INakedPackage;
-import net.sf.opeum.metamodel.workspace.INakedModelWorkspace;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.opeum.eclipse.NakedUmlSynchronizationListener;
 import org.opeum.eclipse.context.NakedUmlContextListener;
+import org.opeum.metamodel.core.INakedClassifier;
+import org.opeum.metamodel.core.INakedElement;
+import org.opeum.metamodel.core.INakedNameSpace;
+import org.opeum.metamodel.core.INakedPackage;
+import org.opeum.metamodel.workspace.INakedModelWorkspace;
 
 public class NamespaceRenameRequests implements NakedUmlSynchronizationListener, NakedUmlContextListener{
 	private Map<String,NamespaceRenameRequest> renamedRequestsByNewName = new HashMap<String,NamespaceRenameRequest>();

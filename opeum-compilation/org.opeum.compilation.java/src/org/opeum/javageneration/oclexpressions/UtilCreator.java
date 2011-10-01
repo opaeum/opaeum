@@ -8,11 +8,11 @@ import org.opeum.feature.visit.VisitBefore;
 import org.opeum.java.metamodel.OJClassifier;
 import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.Java6ModelGenerator;
 import org.opeum.linkage.NakedParsedOclStringResolver;
 import org.opeum.metamodel.models.INakedModel;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		Java6ModelGenerator.class,NakedParsedOclStringResolver.class

@@ -10,10 +10,10 @@
        id="lkjl"
        point="org.opeum.eclipse.sourceFolderStrategy">
     <sourceFolderStrategy
-          className="net.sf.opeum.pomgeneration.MultiProjectMavenSourceFolderStrategy">
+          className="org.opeum.pomgeneration.MultiProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
-          className="net.sf.opeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
+          className="org.opeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
  <extension

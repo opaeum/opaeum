@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":net.sf.opeum.feature.ITransformationStep"/>
+                  <meta.attribute kind="java" basedOn=":org.opeum.feature.ITransformationStep"/>
                </appinfo>
             </annotation>
          </attribute>

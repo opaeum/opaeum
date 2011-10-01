@@ -19,7 +19,6 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.basicjava.Java6ModelGenerator;
 import org.opeum.javageneration.maps.NakedOperationMap;
@@ -45,6 +44,7 @@ import org.opeum.runtime.event.IChangeEventHandler;
 import org.opeum.runtime.event.ISignalEventHandler;
 import org.opeum.runtime.event.ITimeEventHandler;
 import org.opeum.runtime.persistence.AbstractPersistence;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(after = Java6ModelGenerator.class,phase = JavaTransformationPhase.class)
 public class EventHandlerImplementor extends AbstractJavaProducingVisitor{

@@ -13,7 +13,6 @@ import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opeum.javageneration.AbstractJavaProducingVisitor;
 import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaSourceFolderIdentifier;
 import org.opeum.javageneration.JavaTransformationPhase;
 import org.opeum.javageneration.util.OJUtil;
 import org.opeum.metamodel.core.INakedElement;
@@ -21,6 +20,7 @@ import org.opeum.metamodel.core.INakedRootObject;
 import org.opeum.metamodel.core.INakedSimpleType;
 import org.opeum.metamodel.models.INakedModel;
 import org.opeum.runtime.domain.AbstractFormatter;
+import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class
