@@ -127,7 +127,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeUimSwitch extends UimSwitch{
+	private class NodeUimSwitch extends UimSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -188,7 +188,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeLayoutSwitch extends LayoutSwitch{
+	private class NodeLayoutSwitch extends LayoutSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -262,7 +262,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeControlSwitch extends ControlSwitch{
+	private class NodeControlSwitch extends ControlSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -288,7 +288,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeFolderSwitch extends FolderSwitch{
+	private class NodeFolderSwitch extends FolderSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -314,7 +314,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeFormSwitch extends FormSwitch{
+	private class NodeFormSwitch extends FormSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -354,7 +354,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeBindingSwitch extends BindingSwitch{
+	private class NodeBindingSwitch extends BindingSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -380,7 +380,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeSecuritySwitch extends SecuritySwitch{
+	private class NodeSecuritySwitch extends SecuritySwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -406,7 +406,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class NodeActionSwitch extends ActionSwitch{
+	private class NodeActionSwitch extends ActionSwitch<Object>{
 		/**
 		 * The graphical node
 		 * @generated
@@ -467,7 +467,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeUimSwitch extends UimSwitch{
+	private class EdgeUimSwitch extends UimSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -493,7 +493,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeLayoutSwitch extends LayoutSwitch{
+	private class EdgeLayoutSwitch extends LayoutSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -519,7 +519,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeControlSwitch extends ControlSwitch{
+	private class EdgeControlSwitch extends ControlSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -545,7 +545,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeFolderSwitch extends FolderSwitch{
+	private class EdgeFolderSwitch extends FolderSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -571,7 +571,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeFormSwitch extends FormSwitch{
+	private class EdgeFormSwitch extends FormSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -597,7 +597,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeBindingSwitch extends BindingSwitch{
+	private class EdgeBindingSwitch extends BindingSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -623,7 +623,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeSecuritySwitch extends SecuritySwitch{
+	private class EdgeSecuritySwitch extends SecuritySwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated
@@ -649,7 +649,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 	/**
 	 * @generated
 	 */
-	private class EdgeActionSwitch extends ActionSwitch{
+	private class EdgeActionSwitch extends ActionSwitch<Object>{
 		/**
 		 * The graphical edge
 		 * @generated

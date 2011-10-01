@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.uim.feature"
-      label="User Interaction Modelling"
+      id="org.opeum.uimodeler.feature"
+      label="User Interaction Modeler"
       version="1.0.0.qualifier"
       provider-name="Opeum">
 
@@ -23,64 +23,50 @@
       <import plugin="org.eclipse.uml2.uml.edit"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.emf.edit.ui"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.topcased.modeler" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.opeum.uim"/>
-      <import plugin="org.opeum.metamodels"/>
-      <import plugin="org.opeum.generators"/>
-      <import plugin="org.opeum.java.generator"/>
-      <import plugin="org.opeum.java.metamodel"/>
-      <import plugin="org.opeum.ocl.java.generator"/>
-      <import plugin="org.opeum.ocl.metamodel"/>
       <import plugin="org.topcased.tabbedproperties"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.opeum.eclipse.core"/>
-      <import plugin="org.opeum.eclipse.hibernate"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opeum.metamodels.uim"/>
+      <import plugin="org.opeum.metamodels.emfworkspace"/>
    </requires>
 
    <plugin
-         id="org.opeum.uim.classform"
+         id="org.opeum.uimodeler.classform"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uim.editor"
+         id="org.opeum.uimodeler.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uim.modeleditor"
+         id="org.opeum.uimodeler.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uim.uml2uim"
+         id="org.opeum.uimodeler.modeleditor"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uim.userinteractionproperties"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opeum.uim.edit"
+         id="org.opeum.uimodeler.userinteractionproperties"
          download-size="0"
          install-size="0"
          version="0.0.0"

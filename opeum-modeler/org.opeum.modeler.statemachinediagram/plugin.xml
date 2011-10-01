@@ -605,7 +605,7 @@
 	               name="Lowest">
 	         </Priority>
 	         <object
-	               class="org.eclipse.uml2.uml.State(org.eclipse.uml2.uml)"
+	               class="org.eclipse.uml2.uml.State"
 	               id="State">
 	         </object>
 	         <context

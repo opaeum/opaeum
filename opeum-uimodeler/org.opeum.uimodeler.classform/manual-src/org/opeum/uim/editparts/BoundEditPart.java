@@ -7,7 +7,6 @@ import org.eclipse.uml2.uml.Property;
 import org.opeum.uim.UimDataTable;
 import org.opeum.uim.UimField;
 import org.opeum.uim.UimPackage;
-import org.opeum.uim.UserInteractionElement;
 import org.opeum.uim.action.ActionPackage;
 import org.opeum.uim.action.NavigationToEntity;
 import org.opeum.uim.binding.BindingPackage;
@@ -74,9 +73,6 @@ public class BoundEditPart extends EMFGraphNodeEditPart{
 			sb.append(UimEditor.getCurrentUmlLinks().getProperty(pr).getName());
 			addString(pr.getNext(), sb);
 		}
-	}
-	private UserInteractionElement getUserInteractioinElement(){
-		return (UserInteractionElement) getEObject();
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){

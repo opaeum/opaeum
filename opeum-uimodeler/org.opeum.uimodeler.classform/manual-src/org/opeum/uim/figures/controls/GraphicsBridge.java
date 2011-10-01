@@ -24,7 +24,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.ui.internal.Workbench;
+import org.eclipse.swt.widgets.Display;
 import org.topcased.draw2d.figures.ILabelFigure;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -51,7 +51,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 	public void setXORMode(Color c){
 //		System.out.println("GraphicsBridge.setXORMode()");
 		g.setXORMode(true);
-		g.setForegroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
+		g.setForegroundColor(new org.eclipse.swt.graphics.Color(Display.getCurrent(), c.getRed(), c.getGreen(), c.getBlue()));
 	}
 	@Override
 	public void setPaintMode(){
@@ -62,15 +62,15 @@ public class GraphicsBridge extends java.awt.Graphics{
 	public void setFont(Font font){
 //		System.out.println("GraphicsBridge.setFont()");
 		this.font = font;
-		g.setFont(new org.eclipse.swt.graphics.Font(Workbench.getInstance().getDisplay(), font.getFontName(), font.getSize(), font.getStyle()));
+		g.setFont(new org.eclipse.swt.graphics.Font(Display.getCurrent(), font.getFontName(), font.getSize(), font.getStyle()));
 	}
 	@Override
 	public void setColor(Color c){
 //		System.out.println("GraphicsBridge.setColor()");
 		this.color = c;
 		if(c != null){
-			g.setForegroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
-			g.setBackgroundColor(new org.eclipse.swt.graphics.Color(Workbench.getInstance().getDisplay(), c.getRed(), c.getGreen(), c.getBlue()));
+			g.setForegroundColor(new org.eclipse.swt.graphics.Color(Display.getCurrent(), c.getRed(), c.getGreen(), c.getBlue()));
+			g.setBackgroundColor(new org.eclipse.swt.graphics.Color(Display.getCurrent(), c.getRed(), c.getGreen(), c.getBlue()));
 		}else{
 		}
 	}
@@ -196,7 +196,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 		FontData fontData = g.getFont().getFontData()[0];
 		int potentialY = y - Math.round(fontData.height);
 		fontData.setHeight(fontData.getHeight() - 3);
-		g.setFont(new org.eclipse.swt.graphics.Font(Workbench.getInstance().getDisplay(), fontData));
+		g.setFont(new org.eclipse.swt.graphics.Font(Display.getCurrent(), fontData));
 		g.drawString(str, new Point(x, Math.abs(potentialY)));
 	}
 	@Override
@@ -282,7 +282,7 @@ public class GraphicsBridge extends java.awt.Graphics{
 			}
 			bi.getColorModel().coerceData(bi.getRaster(), true);
 			encoder.encode(bi);
-			org.eclipse.swt.graphics.Image swtImage = new org.eclipse.swt.graphics.Image(Workbench.getInstance().getDisplay(), new ByteArrayInputStream(os.toByteArray()));
+			org.eclipse.swt.graphics.Image swtImage = new org.eclipse.swt.graphics.Image(Display.getCurrent(), new ByteArrayInputStream(os.toByteArray()));
 			g.drawImage(swtImage, x, y);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -323,11 +323,6 @@ public class GraphicsBridge extends java.awt.Graphics{
 	public java.awt.Graphics create(int x,int y,int width,int height){
 		java.awt.Graphics ng = super.create(x, y, width, height);
 		return ng;
-	}
-	@Override
-	public Rectangle getClipRect(){
-		// TODO Auto-generated method stub
-		return super.getClipRect();
 	}
 	@Override
 	public FontMetrics getFontMetrics(){

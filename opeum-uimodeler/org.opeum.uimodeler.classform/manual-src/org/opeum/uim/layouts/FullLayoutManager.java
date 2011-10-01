@@ -8,6 +8,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 public class FullLayoutManager extends XYLayout implements IUimLayoutManager{
+	@SuppressWarnings("unchecked")
 	@Override
 	public void layout(IFigure parent){
 		Collection<Rectangle> values = this.constraints.values();

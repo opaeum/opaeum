@@ -2,7 +2,6 @@ package org.opeum.uim.figures;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.SimpleLoweredBorder;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
@@ -23,7 +22,6 @@ public final class ColumnFigure extends Figure{
 	public Dimension getMinimumSize(int width,int height){
 		Dimension minimumSize = super.getMinimumSize(width,height);
 		if(getFirstChild() instanceof UimFieldFigure){
-			SimpleLoweredBorder border2 = (SimpleLoweredBorder) getBorder();
 			minimumSize.width=((UimFieldFigure)getFirstChild()).getLabelWidth()+2;
 		}
 		return minimumSize;

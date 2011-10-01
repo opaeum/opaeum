@@ -1,11 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Opeum State Machine Diagrams
-Bundle-SymbolicName: org.opeum.topcased.statemachinediagram;singleton:=true
+Bundle-Name: org.opeum.modeler.statemachinediagram
+Bundle-SymbolicName: org.opeum.modeler.statemachinediagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.statemachinediagram.STMPlugin
 Bundle-Vendor: Opeum
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
  org.eclipse.emf.edit.ui,
@@ -21,10 +20,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.opeum.topcased.classdiagram,
- org.opeum.metamodels,
  org.opeum.eclipse.core,
- org.opeum.topcased.uim
+ org.opeum.modeler.classdiagram,
+ org.opeum.modeler.uimadapter
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opeum.topcased.statemachinediagram,
  org.topcased.modeler.uml.statemachinediagram;x-internal:=true,
@@ -41,6 +39,6 @@ Export-Package: org.opeum.topcased.statemachinediagram,
  org.topcased.modeler.uml.statemachinediagram.preferences,
  org.topcased.modeler.uml.statemachinediagram.resize,
  org.topcased.modeler.uml.statemachinediagram.widgets
-Bundle-ClassPath: plugins/org.topcased.modeler.uml.statemachinediagram_2.5.2.opeum.jar,
- .
+Bundle-ClassPath: .,
+ plugins/org.topcased.modeler.uml.statemachinediagram_2.5.2.nakeduml.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

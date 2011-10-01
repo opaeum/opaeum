@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.opeum.topcased.classdiagram
+ org.opeum.modeler.classdiagram
 Bundle-ActivationPolicy: lazy
 Export-Package: org.topcased.modeler.uml.componentdiagram,
  org.topcased.modeler.uml.componentdiagram.commands,
@@ -30,5 +30,5 @@ Export-Package: org.topcased.modeler.uml.componentdiagram,
  org.topcased.modeler.uml.componentdiagram.internal.figures,
  org.topcased.modeler.uml.componentdiagram.policies
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: plugins/org.topcased.modeler.uml.componentdiagram_3.0.2.opeum.jar,
+Bundle-ClassPath: plugins/org.topcased.modeler.uml.componentdiagram_3.0.2.nakeduml.jar,
  .

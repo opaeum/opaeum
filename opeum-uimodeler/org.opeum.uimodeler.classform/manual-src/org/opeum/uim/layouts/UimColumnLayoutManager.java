@@ -10,18 +10,17 @@ import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.opeum.uim.figures.ColumnFigure;
-import org.opeum.uim.figures.UimFieldFigure;
 
 public class UimColumnLayoutManager extends XYLayout implements IUimLayoutManager{
+	@SuppressWarnings("unchecked")
 	@Override
 	public void layout(IFigure parent){
-		List<ColumnFigure> children = (List<ColumnFigure>) parent.getChildren();
-		Collection<Rectangle> boundsColl = (Collection<Rectangle>) constraints.values();
+		List<ColumnFigure> children = parent.getChildren();
+		Collection<Rectangle> boundsColl = constraints.values();
 		for(ColumnFigure figure:children){
 			Rectangle bounds = (Rectangle) constraints.get(figure);
 			bounds.y = 0;
 			Rectangle constraint = (Rectangle) figure.getLayoutManager().getConstraint(figure.getFirstChild());
-			String s = ((UimFieldFigure) figure.getFirstChild()).getLabel().getText();
 			int deltaFromCurrentPosition = Math.abs(figure.getBounds().x-constraint.x);
 			if(constraint.x > 0 && deltaFromCurrentPosition>children.size()*2){
 				bounds.x = constraint.x;

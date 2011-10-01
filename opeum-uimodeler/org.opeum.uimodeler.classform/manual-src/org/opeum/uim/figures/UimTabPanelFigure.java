@@ -78,12 +78,10 @@ public class UimTabPanelFigure extends Figure implements IContainerFigure,ILabel
 				for(int i = 0;i < tabbedPane.getAccessibleContext().getAccessibleChildrenCount();i++){
 					AccessibleComponent page = (AccessibleComponent) tabbedPane.getAccessibleContext().getAccessibleChild(i);
 					java.awt.Rectangle awtBounds = page.getBounds();
-					Object constr = getParent().getLayoutManager().getConstraint(UimTabPanelFigure.this);
 					Rectangle swtBounds = getBounds();
 					Rectangle intersect = new Rectangle(awtBounds.x + swtBounds.x, awtBounds.y + swtBounds.y, awtBounds.width, awtBounds.height);
 					if(intersect.contains(me.getLocation())){
 						setActiveTabIndex(i);
-						UimTabFigure c= (UimTabFigure) contentPane.getChildren().get(i);
 						break;
 					}
 				}
@@ -93,6 +91,7 @@ public class UimTabPanelFigure extends Figure implements IContainerFigure,ILabel
 			}
 		});
 	}
+	@SuppressWarnings("unchecked")
 	public void layout(){
 		List<UimTabFigure> children = contentPane.getChildren();
 		for(int i = 0;i < children.size();i++){
@@ -111,7 +110,6 @@ public class UimTabPanelFigure extends Figure implements IContainerFigure,ILabel
 			@Override
 			public void remove(IFigure figure){
 				if(figure instanceof UimTabFigure){
-					UimTabFigure t = (UimTabFigure) figure;
 					tabbedPane.remove(this.getChildren().indexOf(figure));
 				}
 				super.remove(figure);
@@ -130,6 +128,7 @@ public class UimTabPanelFigure extends Figure implements IContainerFigure,ILabel
 		container.setOpaque(false);
 		return container;
 	}
+	@SuppressWarnings("unchecked")
 	public void setActiveTabIndex(int index){
 		final List<Figure> tabs = contentPane.getChildren();
 		final List<UimTabFigure> tabLabels = contentPane.getChildren();
@@ -148,6 +147,7 @@ public class UimTabPanelFigure extends Figure implements IContainerFigure,ILabel
 		revalidate();
 		super.repaint();
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public void paint(Graphics g){
 		GraphicsBridge g2 = new GraphicsBridge(g);

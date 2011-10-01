@@ -9,13 +9,12 @@ import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.Label;
 
 public class UimToggleButtonFigure extends Figure implements IControlFigure{
-	private Button checkBox;
 	private Label bindingLabel;
 	public UimToggleButtonFigure(){
 		super();
 		minSize = new Dimension(10, 10);
 		setLayoutManager(new GridLayout(2, false));
-		add(checkBox = new Button("   "), new GridData());
+		add(new Button("   "), new GridData());
 		add(bindingLabel = new Label(), new GridData(GridData.BEGINNING, GridData.BEGINNING, true, false));
 	}
 	@Override

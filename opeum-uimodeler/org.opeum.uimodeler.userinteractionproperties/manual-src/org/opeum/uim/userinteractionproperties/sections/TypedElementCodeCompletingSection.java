@@ -28,7 +28,7 @@ public abstract class TypedElementCodeCompletingSection extends AbstractTextProp
 		try{
 			keyStroke = KeyStroke.getInstance("CTRL+SPACE");
 			// assume that myTextControl has already been created in some way
-			ContentProposalAdapter adapter = new ContentProposalAdapter(text.getTextControl(), new TypedElementContentAdaptor(), new TypedElementContentProposalProvider(
+			new ContentProposalAdapter(text.getTextControl(), new TypedElementContentAdaptor(), new TypedElementContentProposalProvider(
 					this), keyStroke, autoActivationCharacters);
 		}catch(ParseException e){
 			e.printStackTrace();

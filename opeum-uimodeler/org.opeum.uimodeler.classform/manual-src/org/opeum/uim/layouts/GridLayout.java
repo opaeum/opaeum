@@ -74,6 +74,7 @@ public class GridLayout extends XYLayout implements IUimLayoutManager{
 			}
 		}
 	}
+	@SuppressWarnings("unchecked")
 	private Collection<Rectangle> getChildrenBounds(IFigure parent){
 		TreeSet<Rectangle> results = new TreeSet<Rectangle>(new Comparator<Rectangle>(){
 			@Override

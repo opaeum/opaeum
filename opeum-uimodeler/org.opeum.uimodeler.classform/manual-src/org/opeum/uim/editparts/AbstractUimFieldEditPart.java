@@ -132,7 +132,6 @@ public class AbstractUimFieldEditPart extends BoundEditPart{
 				break;
 			case UimPackage.UIM_FIELD__LABEL_WIDTH:
 				Integer newWidth = (Integer) msg.getNewValue();
-				Integer oldWidth = ((UimField) getEObject()).getLabelWidth();
 				layoutLabel(newWidth);
 				break;
 			default:

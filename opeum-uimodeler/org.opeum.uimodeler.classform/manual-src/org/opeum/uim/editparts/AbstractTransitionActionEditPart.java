@@ -1,10 +1,7 @@
 package org.opeum.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.uml2.uml.Transition;
-import org.opeum.uim.action.TransitionAction;
 import org.opeum.uim.figures.ActionFigure;
-import org.opeum.uim.modeleditor.editor.UimEditor;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 
@@ -16,7 +13,7 @@ public class AbstractTransitionActionEditPart extends EMFGraphNodeEditPart{
 		return new ActionFigure();
 	}
 	public void refreshVisuals(){
-		Transition transition = UimEditor.getCurrentUmlLinks().getTransition((TransitionAction) getEObject());
+//		Transition transition = UimEditor.getCurrentUmlLinks().getTransition((TransitionAction) getEObject());
 //		Label actionFigure = ((ActionFigure) getFigure()).getActionFigure();
 //		if(transition == null){
 //			actionFigure.setText("Select Transition");

@@ -106,6 +106,4 @@ public class UimFieldFigure extends Figure implements ILabelFigure,IBindingFigur
 	public void paint(final Graphics g){
 		super.paint(g);
 	}
-	private void paintTree(final Graphics g){
-	}
 }

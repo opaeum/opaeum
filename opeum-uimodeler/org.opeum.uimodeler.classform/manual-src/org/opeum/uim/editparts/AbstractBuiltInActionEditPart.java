@@ -1,8 +1,6 @@
 package org.opeum.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.action.BuiltInAction;
 import org.opeum.uim.figures.ActionFigure;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
@@ -17,7 +15,7 @@ public class AbstractBuiltInActionEditPart extends EMFGraphNodeEditPart{
 		return actionFigure;
 	}
 	public void refreshVisuals(){
-		ActionKind kind = ((BuiltInAction) getEObject()).getKind();
+//		ActionKind kind = ((BuiltInAction) getEObject()).getKind();
 //		Label actionFigure = ((ActionFigure) getFigure()).getActionFigure();
 //		if(kind == null){
 //			actionFigure.setText("Select Kind");

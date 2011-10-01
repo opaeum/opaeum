@@ -3,7 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml.componentdiagram_3.0.2.opeum.jar"/>
-	<classpathentry kind="src" path="opeum-src/"/>
+	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml.componentdiagram_3.0.2.nakeduml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

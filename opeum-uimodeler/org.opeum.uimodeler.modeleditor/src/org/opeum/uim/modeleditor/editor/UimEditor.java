@@ -52,6 +52,9 @@ public class UimEditor extends Modeler{
 	 * @see org.topcased.modeler.editor.Modeler#getAdapterFactories()
 	 * @generated
 	 */
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	protected List getAdapterFactories(){
 		List factories = new ArrayList();
 		factories.add(new org.opeum.uim.provider.UimItemProviderAdapterFactory());
@@ -84,6 +87,7 @@ public class UimEditor extends Modeler{
 	 * @see org.topcased.modeler.editor.Modeler#getAdapter(java.lang.Class)
 	 * @generated
 	 */
+	@SuppressWarnings("deprecation")
 	public Object getAdapter(Class type){
 		if(type == IDocPage.class){
 			GEFtoEMFCommandStackWrapper stack = new GEFtoEMFCommandStackWrapper(getCommandStack());

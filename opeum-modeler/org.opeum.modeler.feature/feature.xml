@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.topcased"
-      label="Opeum Modeler"
+      id="org.opeum.modeler.feature"
+      label="Opeum Modeler Feature"
       version="1.0.0.qualifier"
       provider-name="Opeum">
 
@@ -65,42 +65,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.opeum.topcased.classdiagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opeum.topcased.activitydiagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.opeum.topcased.componentdiagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opeum.topcased.compositestructuresdiagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opeum.topcased.statemachinediagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opeum.topcased.validation"
          download-size="0"
          install-size="0"
          version="0.0.0"

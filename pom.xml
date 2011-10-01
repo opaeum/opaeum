@@ -42,11 +42,6 @@
 			<plugins>
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>target-platform-configuration</artifactId>
-					<version>${tycho-version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-source-plugin</artifactId>
 					<version>${tycho-version}</version>
 					<executions>
@@ -98,10 +93,14 @@
 	</build>
 
 	<modules>
-		<module>opeum-core</module>
-		<module>opeum-topcased</module>
-		<module>opeum-uim</module>
+		<module>opeum-bpmn2</module>
+		<module>opeum-compilation</module>
+		<module>opeum-eclipse</module>
+		<module>opeum-linkage</module>
+		<module>opeum-metamodels</module>
+		<module>opeum-modeler</module>
 		<module>opeum-runtime</module>
+		<module>opeum-uimodeler</module>
 		<!--module>opeum-tests/jbpmtestintegration/jbpmtestintegration-generator</module -->
 	</modules>
 </project>

@@ -2,20 +2,15 @@
 <?eclipse version="3.0"?>
 <plugin>
 
-   <extension point="org.topcased.modeler.templates">
-      <template
-            di="templates/org.opeum.uim.classform/%name%.uimdi"
-            model="templates/org.opeum.uim.classform/%name%.uim"
-            name="Class Form Diagram"
-            id="org.opeum.uim.classform.templates.org.opeum.uim.classform"
-            editorId="org.opeum.uim.modeleditor.editor.UimEditor"/>
-   </extension>
-   
+  
    <extension point="org.topcased.modeler.diagrams">
       <diagram
             configuration="org.opeum.uim.classform.ClassFormConfiguration"
             id="org.opeum.uim.classform"
             name="Class Form Diagram">
+            <enableFor
+                  class="org.opeum.uim.form.FormPanel">
+            </enableFor>
       </diagram>
 	</extension>
 	

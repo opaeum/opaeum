@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: User Interaction Properties
-Bundle-SymbolicName: org.opeum.uim.userinteractionproperties; singleton:=true
+Bundle-SymbolicName: org.opeum.uimodeler.userinteractionproperties; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.opeum.uim.userinteractionproperties.UimPluginSections
 Bundle-Vendor: Opeum
@@ -10,10 +10,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.ui.views.properties.tabbed,
  org.topcased.tabbedproperties,
- org.opeum.uim,
- org.opeum.uim.edit,
+ org.opeum.uimodeler.edit,
  org.eclipse.emf.edit.ui,
- org.opeum.uim.modeleditor,
+ org.opeum.uimodeler.modeleditor,
+ org.opeum.metamodels.uim,
+ org.opeum.metamodels.emfworkspace,
  org.opeum.eclipse.core
 Eclipse-LazyStart: true
 Export-Package: org.opeum.uim.userinteractionproperties,

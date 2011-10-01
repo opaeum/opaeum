@@ -1,18 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.uim.classform
-Bundle-SymbolicName: org.opeum.uim.classform;singleton:=true
+Bundle-Name: org.opeum.uimodeler.classform
+Bundle-SymbolicName: org.opeum.uimodeler.classform;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.opeum.uim.classform.ClassFormPlugin
 Bundle-Vendor: Opeum
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide,
  org.eclipse.uml2.uml.edit,
  org.eclipse.core.resources,
  org.eclipse.draw2d,
- org.opeum.uim.modeleditor;visibility:=reexport
-Eclipse-LazyStart: true
+ org.opeum.uimodeler.modeleditor;visibility:=reexport,
+ org.opeum.metamodels.uim
 Export-Package: org.opeum.uim.editparts,
  org.opeum.uim.figures,
  org.opeum.uim.layouts

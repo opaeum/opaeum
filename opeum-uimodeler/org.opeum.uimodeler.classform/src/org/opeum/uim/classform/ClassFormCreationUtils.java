@@ -43,7 +43,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicUimSwitch extends UimSwitch{
+	private class GraphicUimSwitch extends UimSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
@@ -120,7 +120,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicLayoutSwitch extends LayoutSwitch{
+	private class GraphicLayoutSwitch extends LayoutSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
@@ -207,7 +207,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicControlSwitch extends ControlSwitch{
+	private class GraphicControlSwitch extends ControlSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
@@ -234,12 +234,13 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicFolderSwitch extends FolderSwitch{
+	private class GraphicFolderSwitch extends FolderSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
+		@SuppressWarnings("unused")
 		private String presentation;
 		/**
 		 * Constructor
@@ -261,7 +262,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicFormSwitch extends FormSwitch{
+	private class GraphicFormSwitch extends FormSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
@@ -308,12 +309,13 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicBindingSwitch extends BindingSwitch{
+	private class GraphicBindingSwitch extends BindingSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
+		@SuppressWarnings("unused")
 		private String presentation;
 		/**
 		 * Constructor
@@ -335,12 +337,13 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicSecuritySwitch extends SecuritySwitch{
+	private class GraphicSecuritySwitch extends SecuritySwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
 		 * @generated
 		 */
+		@SuppressWarnings("unused")
 		private String presentation;
 		/**
 		 * Constructor
@@ -362,7 +365,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	/**
 	 * @generated
 	 */
-	private class GraphicActionSwitch extends ActionSwitch{
+	private class GraphicActionSwitch extends ActionSwitch<Object>{
 		/**
 		 * The presentation of the graphical originalElement
 		 *
