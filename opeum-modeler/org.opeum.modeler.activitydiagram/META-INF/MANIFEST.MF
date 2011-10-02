@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Opeum Activity Diagrams
-Bundle-SymbolicName: org.opeum.topcased.activitydiagram;singleton:=true
+Bundle-SymbolicName: org.opeum.modeler.activitydiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.activitydiagram.ActivityPlugin
 Bundle-Vendor: Opeum
@@ -21,10 +21,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
  org.eclipse.ui,
- org.opeum.topcased.classdiagram,
- org.opeum.metamodels,
+ org.opeum.modeler.classdiagram,
  org.opeum.eclipse.core,
- org.opeum.topcased.uim
+ org.opeum.modeler.uimadapter
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opeum.topcased.activitydiagram,
  org.opeum.topcased.activitydiagram.bpm,
@@ -58,5 +57,5 @@ Export-Package: org.opeum.topcased.activitydiagram,
  org.topcased.modeler.uml.activitydiagram.providers,
  org.topcased.modeler.uml.activitydiagram.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: plugins/org.topcased.modeler.uml.activitydiagram_2.6.1.opeum.jar,
- .
+Bundle-ClassPath: .,
+ plugins/org.topcased.modeler.uml.activitydiagram_2.6.1.nakeduml.jar
