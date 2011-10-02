@@ -20,6 +20,7 @@
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin

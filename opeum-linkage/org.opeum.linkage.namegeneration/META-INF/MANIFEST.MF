@@ -8,8 +8,7 @@ Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.junit4,
  org.opeum.metamodels.opeum,
  org.opeum.metamodels.ocl,
- org.opeum.transformation.process,
- org.opeum.transformation.visitor,
+ org.opeum.transformation.engine,
  org.opeum.linkage.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opeum.validation.namegeneration
