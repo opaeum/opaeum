@@ -4,7 +4,7 @@
 		<groupId>org.opeum</groupId>
 		<artifactId>opeum-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opeum</groupId>
@@ -12,22 +12,20 @@
 	<packaging>pom</packaging>
 	<name>opeum-eclipse</name>
 	<version>1.0.0-SNAPSHOT</version>
-	<properties>
-		<forceContextQualifier>cm</forceContextQualifier>
-	</properties>
 	<modules>
+		<module>org.opeum.eclipse.compiler</module>
 		<module>org.opeum.eclipse.core</module>
 		<module>org.opeum.eclipse.reverse</module>
-		<module>org.opeum.eclipse.core.feature</module>
+		<module>org.opeum.eclipse.feature</module>
 	</modules>
-		<repositories>
+	<repositories>
 		<repository>
 			<id>eclipse-indigo</id>
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/indigo</url>
 		</repository>
 	</repositories>
-	
+
 	<dependencyManagement>
 		<dependencies>
 		</dependencies>
@@ -35,85 +33,51 @@
 	</dependencyManagement>
 
 	<build>
-    <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>target-platform-configuration</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-	<pomDependencies>consider</pomDependencies>
-          <resolver>p2</resolver>
-        </configuration>
-      </plugin>
-    	</plugins>
-	<pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<pomDependencies>consider</pomDependencies>
+					<resolver>p2</resolver>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.4.3</version>
-					<configuration>
-						<excludedGroups>${tests.excludedGroups}</excludedGroups>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-eclipse-plugin</artifactId>
-					<version>2.8</version>
-					<configuration>
-						<downloadSources>true</downloadSources>
-						<downloadJavadocs>true</downloadJavadocs>
-						<workspace>${basedir}</workspace>
-						<projectNameTemplate>[artifactId]</projectNameTemplate>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>2.1</version>
 				</plugin>
-        <plugin>
-          <groupId>org.eclipse.tycho</groupId>
-          <artifactId>tycho-compiler-plugin</artifactId>
-          <version>${tycho-version}</version>
-          <configuration>
-            <encoding>UTF-8</encoding>
-          </configuration>
-        </plugin>
-     <plugin>
-       <groupId>org.eclipse.tycho</groupId>
-       <artifactId>tycho-source-plugin</artifactId>
-       <version>${tycho-version}</version>
-       <executions>
-         <execution>
-           <id>plugin-source</id>
-           <goals>
-             <goal>plugin-source</goal>
-           </goals>
-         </execution>
-       </executions>
-     </plugin>
-
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-source-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<executions>
+						<execution>
+							<id>plugin-source</id>
+							<goals>
+								<goal>plugin-source</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
