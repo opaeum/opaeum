@@ -111,6 +111,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	/**
 	 * This method is used only by Octopus ocl generation. Uses the qualifiedJavaName
 	 */
+	@SuppressWarnings("deprecation")
 	public PathName getPathName(){
 		PathName result = null;
 		if(getMappingInfo().getQualifiedJavaName() == null){
@@ -187,6 +188,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		INakedInstanceSpecification s = getStereotype(stereotype);
 		return s != null && s.hasValueForFeature(tag);
 	}
+	@SuppressWarnings("unchecked")
 	public <T>T getTaggedValue(String stereotype,String tag){
 		INakedInstanceSpecification s = getStereotype(stereotype);
 		if(s != null && s.hasValueForFeature(tag)){

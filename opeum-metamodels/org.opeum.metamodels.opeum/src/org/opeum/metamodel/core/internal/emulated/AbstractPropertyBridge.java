@@ -91,6 +91,7 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public String getSignature(){
 		return owner.getPathName() + "::" + getName();
 	}

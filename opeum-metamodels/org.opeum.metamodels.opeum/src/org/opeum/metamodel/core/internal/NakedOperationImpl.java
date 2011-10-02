@@ -127,7 +127,9 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 			return null;
 		}
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	public List<IParameter> getParameters(){
 		return (List) getArgumentParameters();
 	}

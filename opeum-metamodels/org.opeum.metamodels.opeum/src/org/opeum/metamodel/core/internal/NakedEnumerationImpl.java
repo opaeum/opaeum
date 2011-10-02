@@ -51,7 +51,9 @@ public class NakedEnumerationImpl extends NakedClassifierImpl implements INakedE
 		}
 		return null;
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	public List<IEnumLiteral> getLiterals(){
 		return (List) getOwnedLiterals();
 	}

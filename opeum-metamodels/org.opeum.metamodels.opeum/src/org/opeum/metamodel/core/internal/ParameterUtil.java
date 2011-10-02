@@ -13,6 +13,9 @@ import org.opeum.metamodel.core.INakedOperation;
 import org.opeum.metamodel.core.INakedParameter;
 
 public class ParameterUtil{
+	@SuppressWarnings({
+			"rawtypes","unchecked"
+	})
 	public static void addParameterTolist(INakedMultiplicityElement p,int index,List list){
 		if(index >= 0){
 			while(list.size() <= index){

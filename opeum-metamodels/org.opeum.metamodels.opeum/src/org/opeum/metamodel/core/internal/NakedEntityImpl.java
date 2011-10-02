@@ -11,7 +11,6 @@ import org.opeum.metamodel.core.INakedProperty;
 public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements INakedEntity{
 	private static final long serialVersionUID = -257231836042506513L;
 	public static final String META_CLASS = "entity";
-	private List<INakedProperty> uniquenessConstraints;
 	public NakedEntityImpl(){
 	}
 	public boolean isPersistent(){

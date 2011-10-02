@@ -42,6 +42,9 @@ public class ClassifierDependencyComparator {
 	// }
 	// return result;
 	// }
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	public static <E extends INakedComplexStructure> void addTo(Class<E> type, E classElement, List<E> list, int level) {
 		if (level > 0) {
 			level--;

@@ -13,6 +13,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.opeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opeum.textmetamodel.ISourceFolderIdentifier;
+import org.opeum.textmetamodel.SourceFolderDefinition;
 import org.opeum.util.SortedProperties;
 
 public class OpeumConfig{
