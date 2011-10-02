@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Opeum Class Diagram
-Bundle-SymbolicName: org.opeum.topcased.classdiagram;singleton:=true
+Bundle-Name: org.opeum.modeler.classdiagram
+Bundle-SymbolicName: org.opeum.modeler.classdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.opeum.topcased.uml.OpeumPlugin
 Bundle-Vendor: Opeum
@@ -25,14 +25,34 @@ Require-Bundle: org.eclipse.core.runtime,
  org.topcased.validation.ocl,
  org.topcased.modeler.diagrams.validation,
  org.opeum.eclipse.core,
- org.opeum.metamodels,
  org.eclipse.ocl.uml,
  org.eclipse.gmf.runtime.draw2d.ui.render.awt;bundle-version="1.4.1",
  org.eclipse.gmf.runtime.draw2d.ui.render;bundle-version="1.4.1",
- org.opeum.ocl.metamodel;bundle-version="1.0.0",
- org.opeum.eclipse.hibernate;bundle-version="1.0.0"
+ org.opeum.linkage.core;visibility:=reexport,
+ org.opeum.linkage.emfextraction;visibility:=reexport,
+ org.opeum.linkage.namegeneration;visibility:=reexport,
+ org.opeum.linkage.validation;visibility:=reexport,
+ org.opeum.metamodels.drools;visibility:=reexport,
+ org.opeum.metamodels.emfworkspace;visibility:=reexport,
+ org.opeum.metamodels.java;visibility:=reexport,
+ org.opeum.metamodels.maven;visibility:=reexport,
+ org.opeum.metamodels.ocl;visibility:=reexport,
+ org.opeum.metamodels.opeum;visibility:=reexport,
+ org.opeum.metamodels.text;visibility:=reexport,
+ org.opeum.metamodels.uim;visibility:=reexport,
+ org.opeum.transformation.engine;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Export-Package: org.holongate.svg.dynamic.events,
+Export-Package: org.eclipse.draw2d,
+ org.eclipse.gef.editparts,
+ org.eclipse.gef.ui.parts,
+ org.holongate.batik.gvt.event,
+ org.holongate.j2d,
+ org.holongate.j2d.gtk,
+ org.holongate.j2d.motif,
+ org.holongate.j2d.win32,
+ org.holongate.jai,
+ org.holongate.svg,
+ org.holongate.svg.dynamic.events,
  org.opeum.topcased,
  org.opeum.topcased.classdiagram,
  org.opeum.topcased.classdiagram.edit,
@@ -109,6 +129,6 @@ Export-Package: org.holongate.svg.dynamic.events,
  org.topcased.modeler.uml.wizards
 Bundle-ClassPath: .,
  plugins/org.topcased.modeler.uml.oclinterpreter_2.5.1.201107220016.jar,
- plugins/org.topcased.modeler.uml_3.0.12.opeum.jar,
- plugins/j2d4swt-2.3.0.jar
+ plugins/j2d4swt-2.3.0.jar,
+ plugins/org.topcased.modeler.uml_3.0.12.nakeduml.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
