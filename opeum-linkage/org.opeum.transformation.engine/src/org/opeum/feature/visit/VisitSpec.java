@@ -85,11 +85,7 @@ public class VisitSpec{
 		return m.getParameterTypes()[1];
 	}
 	private Class<?> resolve(Class<?> theClass){
-		try{
-			return Class.forName(theClass.getName());
-		}catch(Exception e){
-			throw new RuntimeException(e);
-		}
+		return theClass;
 	}
 	public Class<?>[] getClassesToMatch(){
 		return match;

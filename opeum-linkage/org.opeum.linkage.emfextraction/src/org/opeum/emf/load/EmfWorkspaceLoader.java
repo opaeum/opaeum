@@ -150,16 +150,16 @@ public class EmfWorkspaceLoader{
 			@SuppressWarnings("rawtypes")
 			Map uriMap = resourceSet.getURIConverter().getURIMap();
 			URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-			URI uri = URI.createURI(findLocation(loader, true, "opeum-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources"));
+			URI uri = URI.createURI(findLocation(loader, true, "org/eclipse/uml2/uml/resources"/*Maven jar*/, "org.eclipse.uml2.uml.resources"/*Eclipse jar*/));
 			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
-			String jar = findLocation(loader, false, "org.opeum.metamodels/target/classes");
+			String jar = findLocation(loader, false, "org.opeum.transformation.engine/target/classes");//find the project directory in workspace
 			if(jar == null){
-				jar = findLocation(loader, true, "opeum-metamodels");
+				jar = findLocation(loader, true, "org/opeum/org.opeum.transformation.engine");//Find maven jar next
 				if(jar == null){
 					// eclipse jar
-					jar = findLocation(loader, true, "org.opeum.metamodels_");
+					jar = findLocation(loader, true, "org.opeum.transformation.engine_");//Find eclipse jar next
 					uri = URI.createURI(jar);
 					uri = uri.appendSegment("models");
 				}else{
@@ -174,10 +174,6 @@ public class EmfWorkspaceLoader{
 			resourceSet.getResource(URI.createURI("pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml"), true).getContents().get(0);
 		}
 		return resourceSet;
-	}
-	@Deprecated
-	public static String findUml2ResourceJar(URLClassLoader s){
-		return findLocation(s, true, "opeum-metamodels", "org/eclipse/uml2/uml/resources", "org.eclipse.uml2.uml.resources");
 	}
 	public static String findLocation(URLClassLoader s,boolean jar,String...names){
 		try{
