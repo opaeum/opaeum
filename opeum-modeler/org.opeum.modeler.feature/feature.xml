@@ -33,21 +33,33 @@
       <import plugin="org.eclipse.emf.ecore.xmi"/>
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.topcased.ui"/>
-      <import plugin="org.opeum.metamodels"/>
-      <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.topcased.modeler.graphconf"/>
-      <import plugin="org.eclipse.emf.validation"/>
-      <import plugin="org.opeum.java.generator"/>
-      <import plugin="org.opeum.java.metamodel"/>
-      <import plugin="org.opeum.ocl.java.generator"/>
       <import plugin="org.opeum.eclipse.core"/>
+      <import plugin="org.topcased.ui"/>
+      <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
-      <import plugin="org.opeum.ocl.metamodel" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opeum.eclipse.hibernate" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opeum.topcased.uim"/>
-      <import plugin="org.opeum.topcased.classdiagram" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.validation"/>
+      <import plugin="org.opeum.linkage.core"/>
+      <import plugin="org.opeum.linkage.emfextraction"/>
+      <import plugin="org.opeum.linkage.namegeneration"/>
+      <import plugin="org.opeum.linkage.validation"/>
+      <import plugin="org.opeum.metamodels.drools"/>
+      <import plugin="org.opeum.metamodels.emfworkspace"/>
+      <import plugin="org.opeum.metamodels.java"/>
+      <import plugin="org.opeum.metamodels.maven"/>
+      <import plugin="org.opeum.metamodels.ocl"/>
+      <import plugin="org.opeum.metamodels.opeum"/>
+      <import plugin="org.opeum.metamodels.text"/>
+      <import plugin="org.opeum.metamodels.uim"/>
+      <import plugin="org.opeum.transformation.engine"/>
+      <import plugin="org.opeum.compilation.uim"/>
+      <import plugin="org.opeum.uimodeler.classform"/>
+      <import plugin="org.topcased.modeler.diagrams"/>
+      <import plugin="org.opeum.uimodeler.editor"/>
+      <import plugin="org.opeum.uimodeler.userinteractionproperties"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
@@ -65,7 +77,48 @@
          unpack="false"/>
 
    <plugin
-         id="org.opeum.topcased.componentdiagram"
+         id="org.opeum.modeler.activitydiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.classdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.compositestructuresdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.statemachinediagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin         id="org.opeum.modeler.uimadapter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.componentdiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"
