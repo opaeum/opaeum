@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphconf:DiagramGraphConf xmlns:graphconf="http://www.topcased.org/1.0/graphconf"
+    id="org.opeum.bpmn2.diagram"
+    defaultBackgroundColor="255,255,255"
+    defaultForegroundColor="0,0,0"
+    defaultFont="Sans-regular-8">
+    <edge
+        presentation="default"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        defaultRouter="ObliqueRouter"
+        lineWidth="1"
+        lineStyle="SOLID">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//SequenceFlow"/>
+        </bridge>
+    </edge>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="127,127,127"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//UserTask"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="0,0,255"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//BoundaryEvent"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="255,255,255"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//MessageEventDefinition"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="255,255,255"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//FlowNode"/>
+        </bridge>
+    </node>
+</graphconf:DiagramGraphConf>
+
