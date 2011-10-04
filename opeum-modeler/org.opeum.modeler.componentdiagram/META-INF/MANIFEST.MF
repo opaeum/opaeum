@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: NakdeUML Component Diagram
-Bundle-SymbolicName: org.opeum.topcased.componentdiagram;singleton:=true
+Bundle-Name: Opeum Component Diagram
+Bundle-SymbolicName: org.opeum.modeler.componentdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.componentdiagram.ComponentPlugin
 Bundle-Vendor: Opeum
