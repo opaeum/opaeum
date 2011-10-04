@@ -57,7 +57,7 @@ public class RecompileModelAction extends AbstractOpiumAction{
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
 								OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
-								currentContext. getEmfToNakedUmlSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
+								currentContext. getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
 								OpeumConfig cfg = currentContext.getConfig();
@@ -68,7 +68,7 @@ public class RecompileModelAction extends AbstractOpiumAction{
 								p.findModel(EmfWorkspace.class).saveAll();
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-								currentContext. getEmfToNakedUmlSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
+								currentContext. getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 
 							}
 						}catch(Exception e){

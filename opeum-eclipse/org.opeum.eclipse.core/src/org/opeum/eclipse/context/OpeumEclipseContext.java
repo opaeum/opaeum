@@ -80,7 +80,7 @@ public class OpeumEclipseContext{
 		ArrayList<NakedUmlEditingContext> arrayList = new ArrayList<NakedUmlEditingContext>(emfWorkspaces.values());
 		this.emfWorkspaces.clear();
 		for(NakedUmlEditingContext editingContext:arrayList){
-			editingContext.getEditingDomain().getResourceSet().eAdapters().remove(getEmfToNakedUmlSynchronizer());
+			editingContext.getEditingDomain().getResourceSet().eAdapters().remove(getEmfToOpeumSynchronizer());
 		}
 		for(NakedUmlEditingContext editingContext:arrayList){
 			startSynch(editingContext.getEditingDomain(), editingContext.getFile());
@@ -88,7 +88,7 @@ public class OpeumEclipseContext{
 		errorMarker.maybeSchedule();
 	}
 	public String getId(Element umlElement){
-		return getEmfToNakedUmlSynchronizer().getCurrentEmfWorkspace().getId(umlElement);
+		return getEmfToOpeumSynchronizer().getCurrentEmfWorkspace().getId(umlElement);
 	}
 	public Collection<EmfWorkspace> getEmfWorkspaces(){
 		Collection<EmfWorkspace> result = new HashSet<EmfWorkspace>();
@@ -98,7 +98,7 @@ public class OpeumEclipseContext{
 		return result;
 	}
 	// TODO declare private and delegate from context
-	public EmfToNakedUmlSynchronizer getEmfToNakedUmlSynchronizer(){
+	public EmfToNakedUmlSynchronizer getEmfToOpeumSynchronizer(){
 		return umlElementCache;
 	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
@@ -140,14 +140,14 @@ public class OpeumEclipseContext{
 		this.currentResourceSet = rs.getResourceSet();
 		NakedUmlEditingContext editingContext = emfWorkspaces.get(rs.getResourceSet());
 		if(editingContext != null){
-			getEmfToNakedUmlSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
+			getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
 			// could still be loading
 		}
 	}
 	public void onSave(IProgressMonitor monitor,ResourceSet resourceSet){
 		try{
 			monitor.beginTask("Saving UML Models", listeners.size() * 100);
-			getEmfToNakedUmlSynchronizer().getConfig().getWorkspaceMappingInfo().store();
+			getEmfToOpeumSynchronizer().getConfig().getWorkspaceMappingInfo().store();
 			for(NakedUmlContextListener l:listeners){
 				l.onSave(new SubProgressMonitor(monitor, 100));
 			}
@@ -176,7 +176,7 @@ public class OpeumEclipseContext{
 		return umlDirectory;
 	}
 	public boolean isNakedRootObjectLoaded(IFile r){
-		for(INakedRootObject ro:getEmfToNakedUmlSynchronizer().getNakedWorkspace().getRootObjects()){
+		for(INakedRootObject ro:getEmfToOpeumSynchronizer().getNakedWorkspace().getRootObjects()){
 			if(ro.getFileName().equals(r.getLocation().lastSegment()) && ro.getStatus().isExtracted()){
 				return true;
 			}
@@ -193,7 +193,7 @@ public class OpeumEclipseContext{
 	public void loadDirectory(IProgressMonitor monitor){
 		this.isLoading = true;
 		try{
-			getEmfToNakedUmlSynchronizer().suspend();
+			getEmfToOpeumSynchronizer().suspend();
 			monitor.beginTask("Loading EMF resources", 300);
 			EmfWorkspace dew = getCurrentEmfWorkspace();
 			if(dew == null){
@@ -205,7 +205,7 @@ public class OpeumEclipseContext{
 					// No open editors - create a temp EmfWorkspace
 					ResourceSet rst = new ResourceSetImpl();
 					URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-					OpeumConfig cfg = getEmfToNakedUmlSynchronizer().getConfig();
+					OpeumConfig cfg = getEmfToOpeumSynchronizer().getConfig();
 					dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 					dew.setUriToFileConverter(new EclipseUriToFileConverter());
 					dew.setName(cfg.getWorkspaceName());
@@ -223,10 +223,10 @@ public class OpeumEclipseContext{
 				monitor.worked(100 / umlDirectory.members().length);
 			}
 			dew.calculatePrimaryModels();
-			getEmfToNakedUmlSynchronizer().setCurrentEmfWorkspace(dew);
+			getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(dew);
 			// Will only process elements as per their RootObjectStatus
-			getEmfToNakedUmlSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
-			getEmfToNakedUmlSynchronizer().resume();
+			getEmfToOpeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
+			getEmfToOpeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
 		}catch(CoreException e){
 			throw new RuntimeException(e);
@@ -253,7 +253,7 @@ public class OpeumEclipseContext{
 		return resourceSetsStartedButNotLoaded.contains(resourceSet) || emfWorkspaces.containsKey(resourceSet);
 	}
 	public void removeNakedModel(ResourceSet resourceSet){
-		INakedModelWorkspace nws = getEmfToNakedUmlSynchronizer().getNakedWorkspace();
+		INakedModelWorkspace nws = getEmfToOpeumSynchronizer().getNakedWorkspace();
 		nws.removeOwnedElement(nws.getModelElement(getId(emfWorkspaces.get(resourceSet).getModel())), true);
 	}
 	public boolean getAutoSync(){
@@ -274,10 +274,10 @@ public class OpeumEclipseContext{
 		}
 	}
 	public OpeumConfig getConfig(){
-		return getEmfToNakedUmlSynchronizer().getConfig();
+		return getEmfToOpeumSynchronizer().getConfig();
 	}
 	public INakedModelWorkspace getNakedWorkspace(){
-		return getEmfToNakedUmlSynchronizer().getNakedWorkspace();
+		return getEmfToOpeumSynchronizer().getNakedWorkspace();
 	}
 	public static OpeumEclipseContext getCurrentContext(){
 		return currentContext;

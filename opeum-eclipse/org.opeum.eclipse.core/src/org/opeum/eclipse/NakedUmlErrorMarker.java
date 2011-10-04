@@ -82,7 +82,7 @@ public class NakedUmlErrorMarker implements NakedUmlSynchronizationListener{
 	}
 	public Set<String> calcBrokenElements(){
 		Set<String> brokenUris = new HashSet<String>();
-		for(Entry<String,BrokenElement> entry:context.getEmfToNakedUmlSynchronizer().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
+		for(Entry<String,BrokenElement> entry:context.getEmfToOpeumSynchronizer().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
 			EObject o = findElement(entry.getKey());
 			if(o != null && o.eResource() != null){
 				for(Entry<IValidationRule,BrokenRule> entry2:entry.getValue().getBrokenRules().entrySet()){
