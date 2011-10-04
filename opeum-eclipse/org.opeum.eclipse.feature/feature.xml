@@ -29,7 +29,6 @@
       <import plugin="org.opeum.linkage.namegeneration"/>
       <import plugin="org.opeum.linkage.validation"/>
       <import plugin="org.opeum.transformation.engine"/>
-      <import plugin="org.opeum.transformation.visitor"/>
       <import plugin="org.opeum.metamodels.ocl"/>
       <import plugin="org.opeum.metamodels.emfworkspace"/>
       <import plugin="org.opeum.compilation.java"/>

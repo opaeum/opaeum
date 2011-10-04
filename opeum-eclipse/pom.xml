@@ -26,12 +26,6 @@
 		</repository>
 	</repositories>
 
-	<dependencyManagement>
-		<dependencies>
-		</dependencies>
-
-	</dependencyManagement>
-
 	<build>
 		<plugins>
 			<plugin>
