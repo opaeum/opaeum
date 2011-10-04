@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmi:id="_CSMuIO2XEeCpD96aiHpgMA" projectName="org.opeum.bpmn2.diagram" name="BPMN2 Diagram" package="org.opeum.bpmn2.diagram" prefix="BPMN2" pluginVersion="1.0.0.qualifier" provider="Opeum">
+  <palette xmi:id="_sCDaIO3IEeCDCve3Q7hDLQ" name="BPMN2 Palette">
+    <paletteCategories xmi:id="_vTPeEO3IEeCDCve3Q7hDLQ" name="Tasks">
+      <items xmi:id="_wQ1uwO3IEeCDCve3Q7hDLQ" name="UserTask" part="_dmQe8O3IEeCDCve3Q7hDLQ"/>
+    </paletteCategories>
+    <paletteCategories xmi:id="_yunYwO3IEeCDCve3Q7hDLQ" name="Flows">
+      <items xmi:id="_zxRvoO3IEeCDCve3Q7hDLQ" name="SequenceFlow" part="_cRJtMO3IEeCDCve3Q7hDLQ"/>
+    </paletteCategories>
+    <paletteCategories xmi:id="_17BqYO3IEeCDCve3Q7hDLQ" name="Events">
+      <items xmi:id="_27m9oO3IEeCDCve3Q7hDLQ" name="BoundaryEvent" part="_l4jFQO3IEeCDCve3Q7hDLQ"/>
+    </paletteCategories>
+  </palette>
+  <parts xsi:type="diagramconfigurator:EdgePartConfiguration" xmi:id="_cRJtMO3IEeCDCve3Q7hDLQ" object="_Z-fuEO3IEeCDCve3Q7hDLQ" targetDecoration="ARROW">
+    <sourceTargetCouple xmi:id="_T2v3QO3JEeCDCve3Q7hDLQ" containerType="DIAGRAM" autoRef="true" sourceNode="_PuLsIO3ZEeCDCve3Q7hDLQ" targetNode="_PuLsIO3ZEeCDCve3Q7hDLQ">
+      <containerObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/UserTask"/>
+      <containerRef xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>
+      <refSourceToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/outgoing"/>
+      <refEdgeToSource xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/sourceRef"/>
+      <refTargetToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>
+      <refEdgeToTarget xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/targetRef"/>
+    </sourceTargetCouple>
+  </parts>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_dmQe8O3IEeCDCve3Q7hDLQ" object="_TStLge3IEeCDCve3Q7hDLQ" childElements="_l4jFQO3IEeCDCve3Q7hDLQ" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="127,127,127" container="true" layout="MultiPortLayout"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_l4jFQO3IEeCDCve3Q7hDLQ" object="_f--p0O3IEeCDCve3Q7hDLQ" type="ImageFigure" childElements="_sZeBUO3YEeCDCve3Q7hDLQ" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="0,0,255" container="true"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_sZeBUO3YEeCDCve3Q7hDLQ" object="_psoAkO3YEeCDCve3Q7hDLQ"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_PuLsIO3ZEeCDCve3Q7hDLQ" object="_Gk3XMO3ZEeCDCve3Q7hDLQ"/>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_TStLge3IEeCDCve3Q7hDLQ">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/UserTask"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_Z-fuEO3IEeCDCve3Q7hDLQ">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/SequenceFlow"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_f--p0O3IEeCDCve3Q7hDLQ">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/BoundaryEvent"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_psoAkO3YEeCDCve3Q7hDLQ">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/MessageEventDefinition"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_Gk3XMO3ZEeCDCve3Q7hDLQ">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/FlowNode"/>
+  </objects>
+  <genModel href="../org.eclipse.bpmn2/model/BPMN20.genmodel#/"/>
+  <templateRootObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/DocumentRoot"/>
+  <editorConfigurator href="bpmn2.editorconfigurator#_TOHkEe2UEeCpD96aiHpgMA"/>
+</diagramconfigurator:DiagramConfiguration>
