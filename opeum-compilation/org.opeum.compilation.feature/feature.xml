@@ -21,7 +21,6 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.opeum.transformation.engine"/>
-      <import plugin="org.opeum.transformation.visitor"/>
       <import plugin="org.opeum.metamodels.text"/>
       <import plugin="org.opeum.metamodels.opeum"/>
       <import plugin="org.opeum.metamodels.java"/>
