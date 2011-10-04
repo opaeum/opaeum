@@ -24,13 +24,11 @@
 			<url>http://topcased-mm.gforge.enseeiht.fr/indigo/release/topcased5.0.0/</url>
 		</repository>
 	</repositories>
-	<properties>
-		<forceContextQualifier>cm</forceContextQualifier>
-	</properties>
 	<modules>
 		<module>org.opeum.modeler.classdiagram</module>
 		<module>org.opeum.modeler.activitydiagram</module>
 		<module>org.opeum.modeler.statemachinediagram</module>
+		<module>org.opeum.modeler.feature</module>
 		<module>org.opeum.modeler.compositestructurediagram</module>
 		<module>org.opeum.modeler.componentdiagram</module>
 		<module>org.opeum.modeler.uimadapter</module>
