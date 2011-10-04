@@ -25,7 +25,7 @@
 		</repository>
 	</repositories>
 	<modules>
-		<module>org.opeum.bpmn2.diagram</module>
+		<module>org.opeum.bpmn2.configuration</module>
 		<module>org.eclipse.gmf.runtime.lite.svg</module>
 	</modules>
 	<build>
