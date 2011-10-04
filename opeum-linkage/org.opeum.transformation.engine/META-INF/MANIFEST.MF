@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.opeum.transformation.engine;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.junit4,
  org.opeum.metamodels.opeum,
- org.opeum.metamodels.text
+ org.opeum.metamodels.text,
+ org.eclipse.emf.ecore
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: javassist,
  javassist.bytecode,
