@@ -20,6 +20,7 @@ public class Renamer{
 				if(!ignore.contains(child.getName())){
 					rename(child);
 				}
+				
 			}else{
 				replace(child, "opeum", "opaeum");
 				replace(child, "Opeum", "Opaeum");
