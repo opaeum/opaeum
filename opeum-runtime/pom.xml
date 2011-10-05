@@ -278,6 +278,6 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-		<opeum.version>1.0.0-SNAPSHOT</opeum.version>
+	<opeum.version>1.0.0-SNAPSHOT</opeum.version>
 	</properties>
 </project>
