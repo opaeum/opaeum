@@ -26,6 +26,7 @@
 		<module>org.opeum.linkage.namegeneration</module>
 		<module>org.opeum.linkage.validation</module>
 		<module>org.opeum.linkage.feature</module>
+		<module>org.opeum.linkage.source.feature</module>
 		<module>org.opeum.transformation.engine</module>
 	</modules>
 	<build>

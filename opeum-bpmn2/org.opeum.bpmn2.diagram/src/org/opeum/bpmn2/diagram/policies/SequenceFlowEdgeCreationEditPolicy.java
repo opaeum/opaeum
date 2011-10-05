@@ -73,8 +73,8 @@ public class SequenceFlowEdgeCreationEditPolicy extends AbstractEdgeCreationEdit
 		EObject sourceObject = Utils.getElement(source);
 		EObject targetObject = Utils.getElement(target);
 		if(sourceObject instanceof org.eclipse.bpmn2.FlowNode && targetObject instanceof org.eclipse.bpmn2.FlowNode){
-			return new SourceTargetData(false, true, SourceTargetData.DIAGRAM, "org.eclipse.bpmn2.UserTask", "incoming", "sourceRef", "targetRef", "outgoing", null,
-					"incoming", null);
+			return new SourceTargetData(false, true, SourceTargetData.SOURCE_CONTAINER, "org.eclipse.bpmn2.FlowElementsContainer", "flowElements", "sourceRef",
+					"targetRef", "outgoing", null, "incoming", null);
 		}
 		return null;
 	}

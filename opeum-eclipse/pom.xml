@@ -17,6 +17,7 @@
 		<module>org.opeum.eclipse.core</module>
 		<module>org.opeum.eclipse.reverse</module>
 		<module>org.opeum.eclipse.feature</module>
+		<module>org.opeum.eclipse.source.feature</module>
 	</modules>
 	<repositories>
 		<repository>

@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.opeum.linkage.feature"
-      label="Opeum Linkage Feature"
-      version="1.0.0.qualifier">
+      label="Opaeum Linkage Feature"
+      version="1.0.0.qualifier"
+      license-feature="org.opeum.metamodels.feature"
+      license-feature-version="1.0.0.qualifier">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description>
+      Opaeum linkage
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="">
+      
    </license>
 
    <requires>
       <import plugin="org.eclipse.uml2.uml"/>
-      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
       <import plugin="org.eclipse.uml2.uml.resources"/>
       <import plugin="org.junit4"/>
       <import plugin="org.opeum.metamodels.opeum"/>
       <import plugin="org.opeum.metamodels.ocl"/>
       <import plugin="org.opeum.metamodels.emfworkspace"/>
-      <import plugin="org.opeum.transformation.engine"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opeum.metamodels.text"/>
+      <import plugin="org.eclipse.emf.ecore"/>
    </requires>
 
    <plugin
@@ -50,6 +49,13 @@
 
    <plugin
          id="org.opeum.linkage.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.transformation.engine"
          download-size="0"
          install-size="0"
          version="0.0.0"

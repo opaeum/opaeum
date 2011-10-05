@@ -29,6 +29,8 @@
 		<module>org.opeum.modeler.activitydiagram</module>
 		<module>org.opeum.modeler.statemachinediagram</module>
 		<module>org.opeum.modeler.feature</module>
+		<module>org.opeum.modeler.source.feature</module>
+		<module>org.opeum.modeler.product</module>
 		<module>org.opeum.modeler.compositestructurediagram</module>
 		<module>org.opeum.modeler.componentdiagram</module>
 		<module>org.opeum.modeler.uimadapter</module>

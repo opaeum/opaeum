@@ -11,7 +11,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.opeum.bpmn2.diagram.commands.UserTaskRestoreConnectionCommand;
-import org.opeum.bpmn2.diagram.figure.BoundaryEventFigure;
 import org.opeum.bpmn2.diagram.figure.UserTaskFigure;
 import org.opeum.bpmn2.diagram.policies.UserTaskLayoutEditPolicy;
 import org.opeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;

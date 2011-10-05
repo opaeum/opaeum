@@ -62,7 +62,7 @@ public class FlowNodeRestoreConnectionCommand extends AbstractRestoreConnectionC
 	private void createSequenceFlowFromFlowNodeToFlowNode_Incoming(GraphElement srcElt,GraphElement targetElt){
 		FlowNode sourceObject = (FlowNode) Utils.getElement(srcElt);
 		FlowNode targetObject = (FlowNode) Utils.getElement(targetElt);
-		List edgeObjectList = ((org.eclipse.bpmn2.UserTask) Utils.getDiagramModelObject(srcElt)).getIncoming();
+		EList edgeObjectList = ((org.eclipse.bpmn2.FlowElementsContainer) sourceObject.eContainer()).getFlowElements();
 		for(Iterator it = edgeObjectList.iterator();it.hasNext();){
 			Object obj = it.next();
 			if(obj instanceof SequenceFlow){

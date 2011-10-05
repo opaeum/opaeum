@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.opeum.modeler.product"
+            name="Opeum Modeler">
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.opeum.modeler.product.OpeumPerspectiveFactory"
+            fixed="false"
+            id="org.opeum.modeler.product.perspective"
+            name="Opeum Modelling">
+      </perspective>
+   </extension>
+
+</plugin>

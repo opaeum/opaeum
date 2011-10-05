@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.opeum.modeler.source.feature"
+      label="Opeum Modeler Source Feature"
+      version="1.0.0.qualifier"
+      provider-name="Opaeum"
+      license-feature="org.opeum.metamodels.feature"
+      license-feature-version="1.0.0.qualifier">
+
+   <license url="">
+      
+   </license>
+
+   <requires>
+      <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>
+      <import plugin="org.eclipse.ui" version="3.7.0" match="compatible"/>
+      <import plugin="org.topcased.modeler" version="3.1.0" match="compatible"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.uml2.common.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.uml2.common"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.topcased.modeler.graphconf"/>
+      <import plugin="org.opeum.eclipse.core"/>
+      <import plugin="org.topcased.ui"/>
+      <import plugin="org.eclipse.ocl.uml"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.validation"/>
+      <import plugin="org.opeum.linkage.core"/>
+      <import plugin="org.opeum.linkage.emfextraction"/>
+      <import plugin="org.opeum.linkage.namegeneration"/>
+      <import plugin="org.opeum.linkage.validation"/>
+      <import plugin="org.opeum.metamodels.drools"/>
+      <import plugin="org.opeum.metamodels.emfworkspace"/>
+      <import plugin="org.opeum.metamodels.java"/>
+      <import plugin="org.opeum.metamodels.maven"/>
+      <import plugin="org.opeum.metamodels.ocl"/>
+      <import plugin="org.opeum.metamodels.opeum"/>
+      <import plugin="org.opeum.metamodels.text"/>
+      <import plugin="org.opeum.metamodels.uim"/>
+      <import plugin="org.opeum.transformation.engine"/>
+      <import plugin="org.opeum.compilation.uim"/>
+      <import plugin="org.opeum.uimodeler.classform"/>
+      <import plugin="org.topcased.modeler.diagrams"/>
+      <import plugin="org.opeum.uimodeler.editor"/>
+      <import plugin="org.opeum.uimodeler.userinteractionproperties"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
+   </requires>
+
+   <plugin
+         id="org.topcased.validation.ocl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.topcased.modeler.diagrams.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.activitydiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.classdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.compositestructuresdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.statemachinediagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.uimadapter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.componentdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -32,6 +32,7 @@
 		<module>org.opeum.uimodeler.classform</module>
 		<module>org.opeum.uimodeler.userinteractionproperties</module>
 		<module>org.opeum.uimodeler.feature</module>
+		<module>org.opeum.uimodeler.source.feature</module>
 	</modules>
 	<build>
 		<plugins>

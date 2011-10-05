@@ -143,6 +143,7 @@ public class EmfWorkspaceLoader{
 		return package_;
 	}
 	public static ResourceSet setupStandAloneAppForUML2(){
+		System.out.println("finding UML2 Resources");
 		ResourceSet resourceSet = new ResourceSetImpl();
 		if(!Thread.currentThread().getContextClassLoader().getClass().getName().equals("org.eclipse.core.runtime.internal.adaptor.ContextFinder")){
 			resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
@@ -150,22 +151,19 @@ public class EmfWorkspaceLoader{
 			@SuppressWarnings("rawtypes")
 			Map uriMap = resourceSet.getURIConverter().getURIMap();
 			URLClassLoader loader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
-			URI uri = URI.createURI(findLocation(loader, true, "org/eclipse/uml2/uml/resources"/*Maven jar*/, "org.eclipse.uml2.uml.resources"/*Eclipse jar*/));
+			URI uri = URI.createURI(findLocation(loader, true, "org/eclipse/uml2/uml/resources"/* Maven jar */, "org.eclipse.uml2.uml.resources"/*
+																																				 * Eclipse
+																																				 * jar
+																																				 */));
 			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
-			String jar = findLocation(loader, false, "org.opeum.transformation.engine/target/classes");//find the project directory in workspace
+			String jar = findLocation(loader, false, "org.opeum.transformation.engine/target/classes");// find the project directory in
+																										// workspace
 			if(jar == null){
-				jar = findLocation(loader, true, "org/opeum/org.opeum.transformation.engine");//Find maven jar next
-				if(jar == null){
-					// eclipse jar
-					jar = findLocation(loader, true, "org.opeum.transformation.engine_");//Find eclipse jar next
-					uri = URI.createURI(jar);
-					uri = uri.appendSegment("models");
-				}else{
-					// Maven jar found
-					uri = URI.createURI(jar);
-				}
+				jar = findLocation(loader, true, "org.opeum.transformation.engine");// Find jar file next
+				uri = URI.createURI(jar);
+				uri = uri.appendSegment("models");
 			}else{
 				// Workspace dir found
 				uri = URI.createURI(jar);
@@ -202,9 +200,9 @@ public class EmfWorkspaceLoader{
 			if(location == null && s.getParent() instanceof URLClassLoader && s.getParent() != s){
 				location = findLocation((URLClassLoader) s.getParent(), jar, names);
 			}
-//			if(location == null && s != (URLClassLoader) ClassLoader.getSystemClassLoader()){
-//				location = findLocation((URLClassLoader) ClassLoader.getSystemClassLoader(), jar, names);
-//			}
+			// if(location == null && s != (URLClassLoader) ClassLoader.getSystemClassLoader()){
+			// location = findLocation((URLClassLoader) ClassLoader.getSystemClassLoader(), jar, names);
+			// }
 			return location;
 		}catch(Throwable t){
 			System.out.println(t.toString());

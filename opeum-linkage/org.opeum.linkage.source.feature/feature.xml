@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.opeum.linkage.source.feature"
+      label="Opaeum Linkage Source Feature"
+      version="1.0.0.qualifier"
+      license-feature="org.opeum.metamodels.feature"
+      license-feature-version="1.0.0.qualifier">
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.uml2.uml.resources"/>
+      <import plugin="org.junit4"/>
+      <import plugin="org.opeum.metamodels.opeum"/>
+      <import plugin="org.opeum.metamodels.ocl"/>
+      <import plugin="org.opeum.metamodels.emfworkspace"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opeum.metamodels.text"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+   </requires>
+
+   <plugin
+         id="org.opeum.linkage.core.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.linkage.emfextraction.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.linkage.namegeneration.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.linkage.validation.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.transformation.engine.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

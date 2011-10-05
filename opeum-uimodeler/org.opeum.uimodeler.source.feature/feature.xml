@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.opeum.uimodeler.source.feature"
+      label="User Interaction Modeler Source"
+      version="1.0.0.qualifier"
+      provider-name="Opeum"
+      license-feature="org.opeum.metamodels.feature"
+      license-feature-version="1.0.0.qualifier">
+
+   <license url="">
+      
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.topcased.modeler" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
+      <import plugin="org.topcased.tabbedproperties"/>
+      <import plugin="org.eclipse.emf.edit"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opeum.metamodels.uim"/>
+      <import plugin="org.opeum.metamodels.emfworkspace"/>
+   </requires>
+
+   <plugin
+         id="org.opeum.uimodeler.classform.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.uimodeler.edit.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.uimodeler.editor.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.uimodeler.modeleditor.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.uimodeler.userinteractionproperties.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -25,6 +25,7 @@
 		<module>org.opeum.metamodels.emfworkspace</module>
 		<module>org.opeum.metamodels.java</module>
 		<module>org.opeum.metamodels.feature</module>
+		<module>org.opeum.metamodels.source.feature</module>
 		<module>org.opeum.metamodels.maven</module>
 		<module>org.opeum.metamodels.ocl</module>
 		<module>org.opeum.metamodels.opeum</module>

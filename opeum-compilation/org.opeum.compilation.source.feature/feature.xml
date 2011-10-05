@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.opeum.compilation.source.feature"
+      label="Opeum Compiler Source Feature"
+      version="1.0.0.qualifier"
+      license-feature="org.opeum.metamodels.feature"
+      license-feature-version="1.0.0.qualifier">
+
+   <license url="">
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.opeum.transformation.engine"/>
+      <import plugin="org.opeum.metamodels.text"/>
+      <import plugin="org.opeum.metamodels.opeum"/>
+      <import plugin="org.opeum.metamodels.java"/>
+      <import plugin="org.opeum.metamodels.ocl"/>
+      <import plugin="org.opeum.linkage.core"/>
+      <import plugin="org.opeum.linkage.namegeneration"/>
+      <import plugin="org.opeum.linkage.validation"/>
+      <import plugin="org.opeum.metamodels.maven"/>
+      <import plugin="org.opeum.metamodels.drools"/>
+      <import plugin="org.opeum.metamodels.emfworkspace"/>
+      <import plugin="org.opeum.linkage.emfextraction"/>
+      <import plugin="org.opeum.metamodels.uim"/>
+      <import feature="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+   </requires>
+
+   <plugin
+         id="org.opeum.compilation.filegeneration.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.compilation.java.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.compilation.misc.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.compilation.ocltojava.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.compilation.tinker.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.compilation.uim.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

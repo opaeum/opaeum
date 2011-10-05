@@ -12,9 +12,9 @@
     </paletteCategories>
   </palette>
   <parts xsi:type="diagramconfigurator:EdgePartConfiguration" xmi:id="_cRJtMO3IEeCDCve3Q7hDLQ" object="_Z-fuEO3IEeCDCve3Q7hDLQ" targetDecoration="ARROW">
-    <sourceTargetCouple xmi:id="_T2v3QO3JEeCDCve3Q7hDLQ" containerType="DIAGRAM" autoRef="true" sourceNode="_PuLsIO3ZEeCDCve3Q7hDLQ" targetNode="_PuLsIO3ZEeCDCve3Q7hDLQ">
-      <containerObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/UserTask"/>
-      <containerRef xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>
+    <sourceTargetCouple xmi:id="_T2v3QO3JEeCDCve3Q7hDLQ" containerType="SOURCE_CONTAINER" autoRef="true" sourceNode="_PuLsIO3ZEeCDCve3Q7hDLQ" targetNode="_PuLsIO3ZEeCDCve3Q7hDLQ">
+      <containerObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/FlowElementsContainer"/>
+      <containerRef xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowElementsContainer/flowElements"/>
       <refSourceToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/outgoing"/>
       <refEdgeToSource xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/sourceRef"/>
       <refTargetToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>

@@ -3,18 +3,12 @@
       id="org.opeum.modeler.feature"
       label="Opeum Modeler Feature"
       version="1.0.0.qualifier"
-      provider-name="Opeum">
+      provider-name="Opaeum"
+      license-feature="org.opeum.metamodels.feature"
+      license-feature-version="1.0.0.qualifier">
 
-   <description url="%license">
-      %description
-   </description>
-
-   <copyright url="%copyrightURL">
-      %copyright
-   </copyright>
-
-   <license url="%licenseURL">
-      %license
+   <license url="">
+      
    </license>
 
    <requires>
@@ -104,7 +98,8 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin         id="org.opeum.modeler.uimadapter"
+   <plugin
+         id="org.opeum.modeler.uimadapter"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -119,6 +114,13 @@
 
    <plugin
          id="org.opeum.modeler.componentdiagram"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opeum.modeler.product"
          download-size="0"
          install-size="0"
          version="0.0.0"

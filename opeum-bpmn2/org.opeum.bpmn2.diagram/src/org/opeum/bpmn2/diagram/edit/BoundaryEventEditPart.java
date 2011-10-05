@@ -16,8 +16,6 @@ import org.opeum.bpmn2.diagram.commands.BoundaryEventRestoreConnectionCommand;
 import org.opeum.bpmn2.diagram.figure.BoundaryEventFigure;
 import org.opeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
 import org.topcased.modeler.ModelerEditPolicyConstants;
-import org.topcased.modeler.di.model.DiagramElement;
-import org.topcased.modeler.di.model.EMFSemanticModelBridge;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.policies.LabelDirectEditPolicy;
 import org.topcased.modeler.edit.policies.ResizableEditPolicy;
