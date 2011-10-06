@@ -48,8 +48,8 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.PreAndPostConstrained;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.runtime.domain.DeadlineKind;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.runtime.domain.DeadlineKind;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		ActivityProcessImplementor.class,StateMachineImplementor.class

@@ -40,8 +40,8 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opeum.runtime.domain.CompositionNode;
 
 /**
  * This class implements the CompositionNode semantics which enriches the Java model with ideas on how compositions should ideally be

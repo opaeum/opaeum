@@ -6,15 +6,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import org.opaeum.feature.StepDependency;
-import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
-
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
 import org.apache.maven.pom.Plugin;
 import org.apache.maven.pom.Profile;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(phase = PomGenerationPhase.class,requires = {
 	BasicIntegratedAdaptorPomStep.class

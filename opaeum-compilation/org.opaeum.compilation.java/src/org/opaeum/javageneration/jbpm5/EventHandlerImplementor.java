@@ -36,15 +36,15 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.runtime.domain.IActiveObject;
-import org.opaeum.runtime.environment.marshall.PropertyValue;
-import org.opaeum.runtime.environment.marshall.Value;
-import org.opaeum.runtime.event.ICallEventHandler;
-import org.opaeum.runtime.event.IChangeEventHandler;
-import org.opaeum.runtime.event.ISignalEventHandler;
-import org.opaeum.runtime.event.ITimeEventHandler;
-import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.runtime.domain.IActiveObject;
+import org.opeum.runtime.environment.marshall.PropertyValue;
+import org.opeum.runtime.environment.marshall.Value;
+import org.opeum.runtime.event.ICallEventHandler;
+import org.opeum.runtime.event.IChangeEventHandler;
+import org.opeum.runtime.event.ISignalEventHandler;
+import org.opeum.runtime.event.ITimeEventHandler;
+import org.opeum.runtime.persistence.AbstractPersistence;
 
 @StepDependency(after = Java6ModelGenerator.class,phase = JavaTransformationPhase.class)
 public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
@@ -163,14 +163,14 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		if(e.isRelative()){
 			constr.addParam("delay", new OJPathName("int"));
 			if(getLibrary().getBusinessRole() == null){
-				constr.addParam("timeUnit", new OJPathName("org.opaeum.runtime.domain.TimeUnit"));
-				ojClass.addToImports(new OJPathName("org.opaeum.runtime.domain.TimeUnit"));
+				constr.addParam("timeUnit", new OJPathName("org.opeum.runtime.domain.TimeUnit"));
+				ojClass.addToImports(new OJPathName("org.opeum.runtime.domain.TimeUnit"));
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=timeUnit.addTimeTo(new Date(),delay)");
 			}else{
-				constr.addParam("timeUnit", new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
-				ojClass.addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar"));
-				ojClass.addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				constr.addParam("timeUnit", new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				ojClass.addToImports(new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessCalendar"));
+				ojClass.addToImports(new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
 			}
@@ -373,7 +373,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private OJPathName getCollectionOfPropertyValues(){
 		OJPathName collectionOfPropertyValues = new OJPathName("java.util.Collection");
-		OJPathName propertyValuePath = new OJPathName(org.opaeum.runtime.environment.marshall.PropertyValue.class.getName());
+		OJPathName propertyValuePath = new OJPathName(org.opeum.runtime.environment.marshall.PropertyValue.class.getName());
 		collectionOfPropertyValues.addToElementTypes(propertyValuePath);
 		return collectionOfPropertyValues;
 	}

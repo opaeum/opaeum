@@ -3,11 +3,10 @@ package org.opaeum.pomgeneration;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.maven.pom.Dependency;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
-
-import org.apache.maven.pom.Dependency;
 
 @StepDependency(requires = {},before = {},after = {},phase = PomGenerationPhase.class)
 public class CdiIntegratedAdaptorPomStep extends PomGenerationStep{

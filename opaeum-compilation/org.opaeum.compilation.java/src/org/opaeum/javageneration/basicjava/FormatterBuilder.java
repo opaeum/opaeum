@@ -19,8 +19,8 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.runtime.domain.AbstractFormatter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.runtime.domain.AbstractFormatter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class

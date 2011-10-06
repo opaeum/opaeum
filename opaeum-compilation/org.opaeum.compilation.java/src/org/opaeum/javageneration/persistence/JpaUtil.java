@@ -22,7 +22,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 public class JpaUtil{
 	public static final String BACKTICK = "";

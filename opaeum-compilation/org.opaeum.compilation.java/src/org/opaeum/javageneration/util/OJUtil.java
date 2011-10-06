@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -49,8 +48,9 @@ import org.opaeum.metamodel.profiles.INakedStereotype;
 import org.opaeum.metamodel.usecases.INakedActor;
 import org.opaeum.metamodel.usecases.INakedUseCase;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opaeum.name.NameConverter;
 import org.opaeum.validation.namegeneration.AbstractJavaNameGenerator;
+import org.opeum.annotation.NumlMetaInfo;
+import org.opeum.name.NameConverter;
 
 public class OJUtil{
 	public static void clearCache(){
@@ -193,8 +193,8 @@ public class OJUtil{
 	}
 	public static void addFailedConstraints(OJOperation execute){
 		// String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
-		execute.getOwner().addToImports("org.opaeum.runtime.domain.FailedConstraintsException");
-		execute.addToThrows("org.opaeum.runtime.domain.FailedConstraintsException");
+		execute.getOwner().addToImports("org.opeum.runtime.domain.FailedConstraintsException");
+		execute.addToThrows("org.opeum.runtime.domain.FailedConstraintsException");
 	}
 	/**
 	 * Some classifiers in UML would not necessarily be generated as Java classes. Returns false for NakedBehaviors that have one or less

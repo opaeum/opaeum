@@ -36,10 +36,10 @@ import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.environment.JavaMetaInfoMap;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.validation.namegeneration.JavaNameRegenerator;
+import org.opeum.runtime.domain.IPersistentObject;
+import org.opeum.runtime.environment.JavaMetaInfoMap;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	JavaNameRegenerator.class

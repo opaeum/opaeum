@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.opaeum.compilation.source.feature"
-      label="Opaeum Compiler Source Feature"
+      label="Opaeum Model Compilation Source Feature"
       version="1.0.0.qualifier"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
-   <license url="">
-   </license>
+  <description url="%license">
+      Opaeum Model Compilation Source Feature
+   </description>
 
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>   
    <requires>
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.ui"/>

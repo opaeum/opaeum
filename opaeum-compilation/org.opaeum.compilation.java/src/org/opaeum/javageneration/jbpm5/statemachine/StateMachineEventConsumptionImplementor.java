@@ -41,7 +41,7 @@ import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opaeum.runtime.domain.TransitionListener;
+import org.opeum.runtime.domain.TransitionListener;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
 public class StateMachineEventConsumptionImplementor extends AbstractEventConsumptionImplementor{

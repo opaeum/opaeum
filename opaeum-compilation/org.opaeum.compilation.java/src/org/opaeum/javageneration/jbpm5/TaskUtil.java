@@ -14,13 +14,13 @@ import org.opaeum.metamodel.bpm.INakedDeadline;
 import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.name.PluralNameWrapper;
-import org.opaeum.runtime.domain.TaskDelegation;
+import org.opeum.runtime.domain.TaskDelegation;
 
 public class TaskUtil{
-	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opeum.runtime.bpm.BusinessRole");
 	public static void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName){
-		operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.TaskParticipationKind"));
-		operation.getOwner().addToImports(new OJPathName("org.opaeum.runtime.bpm.RequestParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.opeum.runtime.bpm.TaskParticipationKind"));
+		operation.getOwner().addToImports(new OJPathName("org.opeum.runtime.bpm.RequestParticipationKind"));
 		if(td.getPotentialOwners() != null){
 			PluralNameWrapper name = new PluralNameWrapper("potentialOwners", "potentialOwner");
 			implementTaskRequestAssignment(operation, block, td, taskName, td.getPotentialOwners(), name,"POTENTIALOWNER");

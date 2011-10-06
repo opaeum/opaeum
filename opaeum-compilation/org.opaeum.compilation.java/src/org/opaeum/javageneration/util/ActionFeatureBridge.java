@@ -17,7 +17,7 @@ import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 public class ActionFeatureBridge extends AbstractPropertyBridge{
 	private static final long serialVersionUID = 620463438474285488L;

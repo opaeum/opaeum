@@ -47,9 +47,9 @@ import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opaeum.runtime.domain.IProcessObject;
-import org.opaeum.runtime.domain.IProcessStep;
-import org.opaeum.runtime.domain.UmlNodeInstance;
+import org.opeum.runtime.domain.IProcessObject;
+import org.opeum.runtime.domain.IProcessStep;
+import org.opeum.runtime.domain.UmlNodeInstance;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
@@ -137,7 +137,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			OJBlock defaultTransitions = onEntry.getBody();
 			if(state.getKind().isShallowHistory()){
 				String stateGetter = "get" + state.getMappingInfo().getJavaName().getCapped().getAsIs();
-				OJAnnotatedField umlState = new OJAnnotatedField("umlState", new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance"));
+				OJAnnotatedField umlState = new OJAnnotatedField("umlState", new OJPathName("org.opeum.runtime.domain.UmlNodeInstance"));
 				getJavaStateMachine().addToImports(new OJPathName(UmlNodeInstance.class.getName()));
 				umlState.setInitExp("(UmlNodeInstance)context.getNodeInstance()");
 				onEntry.getBody().addToLocals(umlState);

@@ -3,16 +3,15 @@ package org.opaeum.uml2uim;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.opaeum.emf.extraction.EmfElementVisitor;
-import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.feature.ITransformationStep;
-import org.opaeum.feature.visit.VisitSpec;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Namespace;
+import org.opaeum.emf.extraction.EmfElementVisitor;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.uim.folder.AbstractFolder;
 import org.opaeum.uim.util.UmlUimLinks;
 

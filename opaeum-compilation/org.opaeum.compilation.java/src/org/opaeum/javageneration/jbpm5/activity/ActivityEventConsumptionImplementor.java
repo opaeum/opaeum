@@ -235,7 +235,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		List<INakedOutputPin> result = aea.getResult();
 		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		OJAnnotatedField context = new OJAnnotatedField("context", new OJPathName("org.drools.spi.ProcessContext"));
-		context.setInitExp("new org.drools.spi.ProcessContext(org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
+		context.setInitExp("new org.drools.spi.ProcessContext(org.opeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
 		ifTokenFound.getThenPart().addToLocals(context);
 		ifTokenFound.getThenPart().addToStatements("((org.drools.spi.ProcessContext)context).setNodeInstance(waitingNode)");
 		for(int i = 0;i < result.size();i++){

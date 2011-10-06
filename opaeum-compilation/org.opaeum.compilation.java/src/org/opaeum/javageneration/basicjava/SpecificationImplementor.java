@@ -30,7 +30,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.runtime.domain.IActiveEntity;
+import org.opeum.runtime.domain.IActiveEntity;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	OperationAnnotator.class

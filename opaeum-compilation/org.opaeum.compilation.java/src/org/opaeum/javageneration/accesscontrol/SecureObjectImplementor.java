@@ -16,7 +16,7 @@ import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.metamodel.core.INakedEntity;
-import org.opaeum.runtime.domain.CompositionNode;
+import org.opeum.runtime.domain.CompositionNode;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	CompositionNodeImplementor.class
@@ -24,9 +24,9 @@ import org.opaeum.runtime.domain.CompositionNode;
 	CompositionNodeImplementor.class
 })
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
-	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
-	private static final OJPathName NUML_USER = new OJPathName("org.opaeum.runtime.bpm.OpaeumUser");
-	public static OJPathName SECURE_OBJECT = new OJPathName("org.opaeum.runtime.bpm.ISecureObject");
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opeum.runtime.bpm.BusinessRole");
+	private static final OJPathName NUML_USER = new OJPathName("org.opeum.runtime.bpm.OpaeumUser");
+	public static OJPathName SECURE_OBJECT = new OJPathName("org.opeum.runtime.bpm.ISecureObject");
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity entity){
 		OJAnnotatedClass ojClass = findJavaClass(entity);

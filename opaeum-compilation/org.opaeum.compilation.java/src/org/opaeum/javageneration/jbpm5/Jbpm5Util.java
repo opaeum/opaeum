@@ -18,8 +18,8 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.name.SingularNameWrapper;
-import org.opaeum.runtime.domain.ExceptionHolder;
-import org.opaeum.runtime.environment.Environment;
+import org.opeum.runtime.domain.ExceptionHolder;
+import org.opeum.runtime.environment.Environment;
 
 public class Jbpm5Util{
 	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){

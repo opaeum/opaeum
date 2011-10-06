@@ -19,7 +19,7 @@ import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opaeum.runtime.domain.ExceptionHolder;
+import org.opeum.runtime.domain.ExceptionHolder;
 
 public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleNodeBuilder<T>{
 	protected NakedStructuralFeatureMap callMap;

@@ -2,12 +2,11 @@ package org.opaeum.pomgeneration;
 
 import java.util.Collection;
 
+import org.apache.maven.pom.Dependency;
 import org.opaeum.feature.StepDependency;
+import org.opaeum.generation.features.JavaPersistence;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
-
-import org.apache.maven.pom.Dependency;
-import org.opaeum.generation.features.JavaPersistence;
 
 @StepDependency(requires = { JavaPersistence.class }, before = {}, after = {}, phase = PomGenerationPhase.class)
 public class CdiJavaAdaptorPomStep extends PomGenerationStep {

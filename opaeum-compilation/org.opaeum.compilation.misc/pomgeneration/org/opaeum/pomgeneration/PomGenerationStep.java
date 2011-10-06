@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opaeum.feature.ITransformationStep;
-import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.ISourceFolderIdentifier;
-import org.opaeum.textmetamodel.SourceFolderDefinition;
-
 import nl.klasse.octopus.model.IImportedElement;
 
 import org.apache.maven.pom.Activation;
@@ -23,6 +16,12 @@ import org.apache.maven.pom.PluginExecution;
 import org.apache.maven.pom.Profile;
 import org.apache.maven.pom.Resource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 public abstract class PomGenerationStep implements ITransformationStep{
 	protected static final String HIBERNATE_VERSION = "3.4.0.GA";

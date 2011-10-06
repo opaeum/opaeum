@@ -59,7 +59,7 @@ public class ConstraintGenerator {
 				parameters.add(parameter);
 			}
 		}
-		OJPathName failedConstraintsException = new OJPathName("org.opaeum.runtime.domain.FailedConstraintsException");
+		OJPathName failedConstraintsException = new OJPathName("org.opeum.runtime.domain.FailedConstraintsException");
 		if(!operation.getThrows().contains(failedConstraintsException)){
 			context.addToImports(failedConstraintsException);
 			operation.addToThrows(failedConstraintsException);

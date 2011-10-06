@@ -45,9 +45,9 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.runtime.domain.HibernateEntity;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
+import org.opeum.runtime.domain.HibernateEntity;
+import org.opeum.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class

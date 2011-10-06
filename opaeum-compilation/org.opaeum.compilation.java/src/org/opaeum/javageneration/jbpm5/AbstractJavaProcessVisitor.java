@@ -25,10 +25,10 @@ import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.runtime.domain.IActiveEntity;
-import org.opaeum.runtime.domain.IProcessObject;
-import org.opaeum.runtime.domain.IProcessStep;
-import org.opaeum.runtime.environment.Environment;
+import org.opeum.runtime.domain.IActiveEntity;
+import org.opeum.runtime.domain.IProcessObject;
+import org.opeum.runtime.domain.IProcessStep;
+import org.opeum.runtime.environment.Environment;
 
 public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVisitor{
 	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(IProcessObject.class.getName());

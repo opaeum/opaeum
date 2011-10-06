@@ -7,24 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.opaeum.feature.ITransformationStep;
-import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.feature.visit.VisitorAdapter;
-import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.SourceFolder;
-import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opaeum.textmetamodel.TextFile;
-import org.opaeum.textmetamodel.TextProject;
-import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
-import org.opaeum.textmetamodel.TextWorkspace;
-
 import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionType;
@@ -52,6 +34,23 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.visit.VisitorAdapter;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements ITransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";

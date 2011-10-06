@@ -33,7 +33,7 @@ import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		CompositionEmulator.class,OperationAnnotator.class

@@ -24,11 +24,11 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.util.SortedProperties;
 import org.opaeum.velocity.AbstractTextProducingVisitor;
+import org.opeum.runtime.environment.Environment;
+import org.opeum.util.SortedProperties;
 
 public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,IntegrationCodeGenerator{
 	public AbstractPersistenceConfigGenerator(){

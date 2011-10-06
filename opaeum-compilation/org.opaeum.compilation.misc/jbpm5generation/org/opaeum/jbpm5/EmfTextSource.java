@@ -3,9 +3,8 @@ package org.opaeum.jbpm5;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.opaeum.textmetamodel.TextSource;
-
 import org.eclipse.emf.ecore.resource.Resource;
+import org.opaeum.textmetamodel.TextSource;
 
 public class EmfTextSource implements TextSource {
 	Resource resource;

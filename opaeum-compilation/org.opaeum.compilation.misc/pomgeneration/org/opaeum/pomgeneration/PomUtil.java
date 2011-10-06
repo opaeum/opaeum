@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.opaeum.textmetamodel.SourceFolder;
-
 import org.apache.maven.pom.Build;
 import org.apache.maven.pom.ConfigurationType3;
 import org.apache.maven.pom.Dependency;
@@ -29,6 +27,7 @@ import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl;
+import org.opaeum.textmetamodel.SourceFolder;
 
 public class PomUtil{
 	private static Set<String> builtInFolders = new HashSet<String>();

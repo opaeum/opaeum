@@ -32,10 +32,10 @@ import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
-import org.opaeum.runtime.domain.CancelledEvent;
-import org.opaeum.runtime.domain.IEventGenerator;
-import org.opaeum.runtime.domain.OutgoingEvent;
-import org.opaeum.runtime.domain.TimeUnit;
+import org.opeum.runtime.domain.CancelledEvent;
+import org.opeum.runtime.domain.IEventGenerator;
+import org.opeum.runtime.domain.OutgoingEvent;
+import org.opeum.runtime.domain.TimeUnit;
 
 //TODO refactor into an EventMap
 public class EventUtil{
@@ -116,7 +116,7 @@ public class EventUtil{
 				INakedEnumerationLiteral timeUnit = event.getTimeUnit();
 				if(businessTime){
 					String timeUnitConstant= timeUnit==null? "BUSINESSDAY":timeUnit.getName().toUpperCase();
-					owner.addToImports("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
+					owner.addToImports("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
 					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",BusinessTimeUnit."
 							+ timeUnitConstant + ",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId())))");
 				}else{

@@ -18,22 +18,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.opaeum.feature.InputModel;
-import org.opaeum.feature.IntegrationPhase;
-import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.feature.PhaseDependency;
-import org.opaeum.feature.TransformationContext;
-import org.opaeum.feature.TransformationPhase;
-import org.opaeum.filegeneration.FileGenerationPhase;
-import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.jbpm5.FlowGenerationPhase;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.SourceFolder;
-import org.opaeum.textmetamodel.TextProject;
-import org.opaeum.textmetamodel.TextWorkspace;
-
 import org.apache.maven.pom.ConfigurationType2;
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.DocumentRoot;
@@ -49,6 +33,21 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.IntegrationPhase;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.filegeneration.FileGenerationPhase;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.jbpm5.FlowGenerationPhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = {
 		JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class

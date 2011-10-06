@@ -3,12 +3,11 @@ package org.opaeum.pomgeneration;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.apache.maven.pom.Dependency;
+import org.apache.maven.pom.Profile;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
-
-import org.apache.maven.pom.Dependency;
-import org.apache.maven.pom.Profile;
 
 @StepDependency(requires = {BasicIntegratedAdaptorPomStep.class},before = {},after = {},phase = PomGenerationPhase.class)
 public class IntegratedArquillianPomStep extends PomGenerationStep{

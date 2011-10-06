@@ -40,7 +40,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	protected static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
 	protected static final OJPathName NODE_CONTAINER = new OJPathName("org.jbpm.workflow.core.NodeContainer");
 	protected static final OJPathName NODE = new OJPathName("org.jbpm.workflow.core.Node");
-	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
+	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opeum.runtime.domain.UmlNodeInstance");
 	protected abstract void consumeEvent(OJOperation operationContext,FromNode node,OJIfStatement ifTokenFound);
 	abstract protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive);
 	protected void implementEventConsumption(OJAnnotatedClass ojBehavior,INakedTriggerContainer behavior,Collection<ElementsWaitingForEvent> ea){

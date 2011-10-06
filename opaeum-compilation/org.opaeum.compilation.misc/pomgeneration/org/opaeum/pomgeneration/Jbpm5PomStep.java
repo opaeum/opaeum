@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.opaeum.feature.StepDependency;
-import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
-
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(phase = PomGenerationPhase.class, requires = { BasicJavaDomainPomStep.class })
 public class Jbpm5PomStep extends PomGenerationStep {

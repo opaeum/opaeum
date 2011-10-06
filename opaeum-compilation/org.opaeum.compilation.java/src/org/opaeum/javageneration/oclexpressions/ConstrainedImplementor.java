@@ -17,8 +17,8 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.runtime.domain.IConstrained;
-import org.opaeum.runtime.domain.IInvariantError;
+import org.opeum.runtime.domain.IConstrained;
+import org.opeum.runtime.domain.IInvariantError;
 
 /**
  * This class implements the Constrained interface on classes that have invariants.

@@ -4,17 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.opaeum.feature.StepDependency;
-import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.javageneration.NakedStateMap;
-import org.opaeum.javageneration.jbpm5.EventUtil;
-import org.opaeum.linkage.StateMachineUtil;
-import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.statemachines.INakedRegion;
-import org.opaeum.metamodel.statemachines.INakedState;
-import org.opaeum.metamodel.statemachines.INakedStateMachine;
-import org.opaeum.metamodel.statemachines.IRegionOwner;
-
 import org.drools.drools._5._0.process.ActionNodeType;
 import org.drools.drools._5._0.process.CompositeType;
 import org.drools.drools._5._0.process.ConnectionsType;
@@ -28,6 +17,16 @@ import org.drools.drools._5._0.process.ProcessType;
 import org.drools.drools._5._0.process.StartType;
 import org.drools.drools._5._0.process.StateType;
 import org.eclipse.emf.common.util.EList;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.javageneration.NakedStateMap;
+import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.linkage.StateMachineUtil;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.statemachines.INakedRegion;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.IRegionOwner;
 
 @StepDependency(phase = FlowGenerationPhase.class)
 public class StateMachineFlowStep extends AbstractFlowStep{

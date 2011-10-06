@@ -34,8 +34,8 @@ import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opeum.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class

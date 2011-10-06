@@ -30,7 +30,7 @@ import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
-import org.opaeum.util.SortedProperties;
+import org.opeum.util.SortedProperties;
 
 public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 	protected INakedModelWorkspace workspace;

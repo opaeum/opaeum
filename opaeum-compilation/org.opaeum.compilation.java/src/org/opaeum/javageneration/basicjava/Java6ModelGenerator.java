@@ -40,8 +40,6 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.models.INakedModel;
-import org.opaeum.runtime.domain.IEnum;
-import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -50,6 +48,8 @@ import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextSource;
+import org.opeum.runtime.domain.IEnum;
+import org.opeum.runtime.domain.ISignal;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class Java6ModelGenerator extends AbstractStructureVisitor{

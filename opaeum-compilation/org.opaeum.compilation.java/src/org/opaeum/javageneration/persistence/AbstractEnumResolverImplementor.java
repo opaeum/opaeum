@@ -11,9 +11,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.runtime.domain.EnumResolver;
-import org.opaeum.runtime.domain.IEnum;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.runtime.domain.EnumResolver;
+import org.opeum.runtime.domain.IEnum;
 
 public abstract class AbstractEnumResolverImplementor extends AbstractJavaProducingVisitor{
 	public AbstractEnumResolverImplementor(){

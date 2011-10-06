@@ -28,8 +28,8 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	ProcessIdentifier.class
