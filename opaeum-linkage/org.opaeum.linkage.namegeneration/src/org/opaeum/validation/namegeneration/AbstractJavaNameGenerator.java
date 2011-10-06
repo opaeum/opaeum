@@ -1,23 +1,23 @@
-package org.opeum.validation.namegeneration;
+package org.opaeum.validation.namegeneration;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedActivityPartition;
-import org.opeum.metamodel.activities.INakedControlNode;
-import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.name.NameWrapper;
-import org.opeum.metamodel.name.SingularNameWrapper;
-import org.opeum.metamodel.profiles.INakedProfile;
-import org.opeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedActivityPartition;
+import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.name.NameWrapper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.metamodel.profiles.INakedProfile;
+import org.opaeum.metamodel.statemachines.INakedState;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -50,7 +50,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			if(element.getName() == null || element.getName().length() == 0){
 				INakedActivityPartition p = (INakedActivityPartition) element;
 				if(p.getRepresents() == null){
-					name = "RepresentsNothing" + element.getMappingInfo().getOpeumId();
+					name = "RepresentsNothing" + element.getMappingInfo().getOpaeumId();
 				}else{
 					name = generateJavaName(p.getRepresents()).toString();
 				}
@@ -62,25 +62,25 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			}
 		}else if(element instanceof NakedTimeEventImpl){
 			if(element.getName() == null || element.getName().length() == 0){
-				name = "Timer" + element.getMappingInfo().getOpeumId();
+				name = "Timer" + element.getMappingInfo().getOpaeumId();
 			}
 		}else if(element instanceof INakedControlNode){
 			if(element.getName() == null || element.getName().length() == 0){
 				INakedControlNode node = (INakedControlNode) element;
-				name = node.getControlNodeType().name() + node.getMappingInfo().getOpeumId();
+				name = node.getControlNodeType().name() + node.getMappingInfo().getOpaeumId();
 			}
 		}else if(element instanceof INakedState){
 			INakedState state = (INakedState) element;
 			for(INakedState s:state.getStateMachine().getAllStates()){
 				if(s.getName().equals(state.getName()) && s != state){
-					name = state.getName() + state.getMappingInfo().getOpeumId();
+					name = state.getName() + state.getMappingInfo().getOpaeumId();
 				}
 			}
 		}else if(element instanceof INakedAction){
 			INakedAction action = (INakedAction) element;
 			for(INakedActivityNode s:action.getActivity().getActivityNodesRecursively()){
 				if(s instanceof INakedAction && s.getName().equals(action.getName()) && s != action){
-					name = action.getName() + action.getMappingInfo().getOpeumId();
+					name = action.getName() + action.getMappingInfo().getOpaeumId();
 				}
 			}
 		}
@@ -136,7 +136,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 		return result.toString();
 	}
 	/**
-	 * A Opeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
 	 * nesting a package is generated for every classifier with nested classifiers
 	 * 
 	 * @param classifier
@@ -157,7 +157,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 		return path.toString();
 	}
 	/**
-	 * A Opeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
 	 * nesting a package is generated for every classifier with nested classifiers
 	 * 
 	 * @param classifier

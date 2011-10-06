@@ -1,15 +1,15 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.jbpm5.EventUtil;
-import org.opeum.javageneration.jbpm5.activity.ActivityEventConsumptionImplementor;
-import org.opeum.javageneration.jbpm5.statemachine.StateMachineEventConsumptionImplementor;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.jbpm5.activity.ActivityEventConsumptionImplementor;
+import org.opaeum.javageneration.jbpm5.statemachine.StateMachineEventConsumptionImplementor;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		StateMachineEventConsumptionImplementor.class,ActivityEventConsumptionImplementor.class

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.commonbehaviors.internal;
+package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,10 +9,10 @@ import java.util.List;
 import nl.klasse.octopus.model.IDataType;
 import nl.klasse.octopus.model.IState;
 
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedClassifierImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 
 public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal,IDataType{
 	private static final long serialVersionUID = 5492485182705048910L;

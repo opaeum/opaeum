@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
-import org.opeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutContainer;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.layout.LayoutContainer;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.UimTab#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.UimTab#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.UimPackage#getUimTab()
+ * @see org.opaeum.uim.UimPackage#getUimTab()
  * @model
  * @generated
  */
 public interface UimTab extends LayoutContainer {
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.UimTabPanel#getChildren <em>Children</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimTabPanel#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parent</em>' container reference isn't clear,
@@ -36,15 +36,15 @@ public interface UimTab extends LayoutContainer {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parent</em>' container reference.
 	 * @see #setParent(UimTabPanel)
-	 * @see org.opeum.uim.UimPackage#getUimTab_Parent()
-	 * @see org.opeum.uim.UimTabPanel#getChildren
+	 * @see org.opaeum.uim.UimPackage#getUimTab_Parent()
+	 * @see org.opaeum.uim.UimTabPanel#getChildren
 	 * @model opposite="children" required="true" transient="false"
 	 * @generated
 	 */
 	UimTabPanel getParent();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.UimTab#getParent <em>Parent</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.UimTab#getParent <em>Parent</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Parent</em>' container reference.

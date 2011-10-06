@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties;
+package org.opaeum.uim.userinteractionproperties;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -22,7 +22,7 @@ public class UimPluginSections extends AbstractUIPlugin{
 	 * The plug-in ID
 	 * @generated
 	 */
-	public static final String PLUGIN_ID = "org.opeum.uim.userinteractionproperties";
+	public static final String PLUGIN_ID = "org.opaeum.uim.userinteractionproperties";
 	/**
 	 * The shared instance
 	 * @generated

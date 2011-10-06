@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Opeum Modeler" uid="org.opeum.modeler.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Opaeum Modeler" uid="org.opaeum.modeler.product" id="org.eclipse.platform.ide" application="org.eclipse.ui.ide.workbench" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -13,7 +13,7 @@
    <windowImages/>
 
    <splash
-      location="org.opeum.modeler.product" />
+      location="org.opaeum.modeler.product" />
    <launcher>
       <solaris/>
       <win useIco="false">
@@ -28,20 +28,20 @@
    </plugins>
 
    <features>
-      <feature id="org.opeum.compilation.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.eclipse.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.metamodels.source.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.modeler.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.uimodeler.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.compilation.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.eclipse.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.metamodels.source.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.modeler.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.uimodeler.feature" version="1.0.0.qualifier"/>
       <feature id="org.topcased.core.feature" version="4.3.0.201107291408"/>
       <feature id="org.topcased.modeler.toolkit" version="4.3.1.201107291409"/>
       <feature id="org.topcased.ocl.feature" version="4.3.0.201107291409"/>
-      <feature id="org.opeum.compilation.source.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.eclipse.source.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.linkage.source.feature" version="1.0.0.qualifier"/>
-      <feature id="org.opeum.uimodeler.source.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.compilation.source.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.eclipse.source.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.linkage.source.feature" version="1.0.0.qualifier"/>
+      <feature id="org.opaeum.uimodeler.source.feature" version="1.0.0.qualifier"/>
       <feature id="org.topcased.scripting.core.feature" version="4.3.1.201107291410"/>
    </features>
 

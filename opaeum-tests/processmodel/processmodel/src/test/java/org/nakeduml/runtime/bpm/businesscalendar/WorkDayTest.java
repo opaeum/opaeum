@@ -1,4 +1,4 @@
-package org.opeum.runtime.bpm.businesscalendar;
+package org.opaeum.runtime.bpm.businesscalendar;
 
 import org.junit.Test;
 

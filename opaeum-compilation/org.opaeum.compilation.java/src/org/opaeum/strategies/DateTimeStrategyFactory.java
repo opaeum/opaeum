@@ -1,23 +1,23 @@
-package org.opeum.strategies;
+package org.opaeum.strategies;
 
 import java.util.List;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.javageneration.TestValueStrategy;
-import org.opeum.javageneration.composition.ConfigurableDataStrategy;
-import org.opeum.javageneration.persistence.JpaStrategy;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.TestValueStrategy;
+import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
+import org.opaeum.javageneration.persistence.JpaStrategy;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 public class DateTimeStrategyFactory extends AbstractStrategyFactory {
 	public static class MyJpaStrategy implements JpaStrategy {

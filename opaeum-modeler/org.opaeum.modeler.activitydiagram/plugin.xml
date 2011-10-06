@@ -4,41 +4,41 @@
  	<extension
           point="org.eclipse.ui.popupMenus">
         <objectContribution
-             id="org.opeum.topcased.activitydiagram.actions.action"
+             id="org.opaeum.topcased.activitydiagram.actions.action"
              objectClass="org.topcased.modeler.uml.activitydiagram.edit.ActionEditPart">
           <action
-                class="org.opeum.topcased.activitydiagram.actions.DisplayPins"
+                class="org.opaeum.topcased.activitydiagram.actions.DisplayPins"
                 enablesFor="*"
-                id="org.opeum.topcased.activitydiagram.actions.DisplayPins"
+                id="org.opaeum.topcased.activitydiagram.actions.DisplayPins"
                 label="Display Pins"
-                menubarPath="org.opeum.outline.menu">
+                menubarPath="org.opaeum.outline.menu">
           </action>         
        </objectContribution>
     </extension>
 
 	<extension point="org.topcased.modeler.diagrams">
 		<diagram 
-        	configuration="org.opeum.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
+        	configuration="org.opaeum.topcased.activitydiagram.bpm.BusinessProcessConfiguration"
         	editorID="org.topcased.modeler.uml.editor.UMLEditor"
         	id="org.topcased.modeler.uml.activitydiagram.bpm"
         	name="Business Process Diagram">
-		 	<enableFor class="org.eclipse.uml2.uml.Package" creationCommand="org.opeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Package" creationCommand="org.opaeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
 		 	<enableFor class="org.eclipse.uml2.uml.Activity"/>
-		 	<enableFor class="org.eclipse.uml2.uml.Component" creationCommand="org.opeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
-		 	<enableFor class="org.eclipse.uml2.uml.Operation" creationCommand="org.opeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Component" creationCommand="org.opaeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
+		 	<enableFor class="org.eclipse.uml2.uml.Operation" creationCommand="org.opaeum.topcased.activitydiagram.bpm.CreateBusinessProcessDiagramAction"/>
 	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction" 
-               creationCommand="org.opeum.topcased.activitydiagram.CreateActivityDiagramFromCallBehaviorAction">
+               creationCommand="org.opaeum.topcased.activitydiagram.CreateActivityDiagramFromCallBehaviorAction">
                
          	</enableFor>
 		</diagram>
 		<diagram
-        	configuration="org.opeum.topcased.activitydiagram.method.MethodConfiguration"
+        	configuration="org.opaeum.topcased.activitydiagram.method.MethodConfiguration"
         	editorID="org.topcased.modeler.uml.editor.UMLEditor"
         	id="org.topcased.modeler.uml.activitydiagram.method"
         	name="Method Diagram">
 		 	<enableFor class="org.eclipse.uml2.uml.Activity"/>
 	     	<enableFor class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.opeum.topcased.activitydiagram.CreateActivityDiagramFromCallBehaviorAction">
+               creationCommand="org.opaeum.topcased.activitydiagram.CreateActivityDiagramFromCallBehaviorAction">
          	</enableFor>
       		<enableFor class="org.eclipse.uml2.uml.State"
             	creationCommand="org.topcased.modeler.uml.activitydiagram.commands.CreateActivityDiagramFromState">
@@ -78,11 +78,11 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
 			<propertyTab
-				id="org.opeum.topcased.activitydiagram.deadlinesTab"
+				id="org.opaeum.topcased.activitydiagram.deadlinesTab"
 				label="Deadlines"
 				category="model"
 				indented="true"
-				afterTab="org.opeum.eclipse.opeumTab"/>
+				afterTab="org.opaeum.eclipse.opaeumTab"/>
 			<propertyTab
 				id="org.topcased.modeler.modelTab.activityGuardTab"
 				label="Guard"
@@ -107,202 +107,202 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
-				class="org.opeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				filter="org.opeum.topcased.activitydiagram.filters.OclOpaqueActionFilter">
+				filter="org.opaeum.topcased.activitydiagram.filters.OclOpaqueActionFilter">
 				<input type="org.eclipse.uml2.uml.OpaqueAction"/>
 			</propertySection>
 		
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
-				tab="org.opeum.eclipse.preconditionsTab">
+				id="org.opaeum.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActionLocalPreconditionsSection"
+				tab="org.opaeum.eclipse.preconditionsTab">
          		<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
-				tab="org.opeum.eclipse.postconditionsTab">
+				id="org.opaeum.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActionLocalPostconditionsSection"
+				tab="org.opaeum.eclipse.postconditionsTab">
          		<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 		
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.CallOperationActionOperationSection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.CallOperationAction"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.ActionPinsSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.ActionPinsSection"
+				id="org.opaeum.topcased.activitydiagram.propertysections.ActionPinsSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActionPinsSection"
 				tab="org.topcased.modeler.modelTab.parametersTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<!--propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.DisplayPinsSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.DisplayPinsSection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.activitydiagram.propertysections.DisplayPinsSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.DisplayPinsSection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection-->
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Behavior"/>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
-         			filter="org.opeum.topcased.activitydiagram.filters.AcceptEventActionTriggerSectionFilter"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.AcceptEventActionTriggerSection"
+         			filter="org.opaeum.topcased.activitydiagram.filters.AcceptEventActionTriggerSectionFilter"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.AcceptEventAction">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.CallActionIsSynchronousSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.CallAction">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.StructuralFeatureActionFeatureSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.StructuralFeatureAction">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.VariableActionVariableSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.VariableActionVariableSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.VariableActionVariableSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.VariableActionVariableSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.VariableAction">
       			</input>
 			</propertySection>
   			<propertySection
          			class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-			         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.opeum"
-			         tab="org.opeum.eclipse.opeumTab">
+			         id="org.topcased.modeler.uml.internal.properties.sections.PinNameSection.opaeum"
+			         tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.Pin">
       			</input>
    			</propertySection>
 		   <propertySection
-		   		afterSection="org.opeum.topcased.propertysections.TypedElementTypeSectionl"
-		         class="org.opeum.topcased.activitydiagram.propertysections.OclPinValueSection"
-		         id="org.opeum.topcased.activitydiagram.propertysections.OclPinValueSection"
-		         filter="org.opeum.topcased.activitydiagram.filters.OclPinFilter"
-		         tab="org.opeum.eclipse.opeumTab">
+		   		afterSection="org.opaeum.topcased.propertysections.TypedElementTypeSectionl"
+		         class="org.opaeum.topcased.activitydiagram.propertysections.OclPinValueSection"
+		         id="org.opaeum.topcased.activitydiagram.propertysections.OclPinValueSection"
+		         filter="org.opaeum.topcased.activitydiagram.filters.OclPinFilter"
+		         tab="org.opaeum.eclipse.opaeumTab">
 		      <input
 		            type="org.eclipse.uml2.uml.ValuePin">
 		      </input>
 		   </propertySection>		
 		   <propertySection
-		   		afterSection="org.opeum.topcased.propertysections.TypedElementTypeSection"
-		         class="org.opeum.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
-		         id="org.opeum.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
-		         filter="org.opeum.topcased.activitydiagram.filters.NewObjectPinFilter"
-		         tab="org.opeum.eclipse.opeumTab">
+		   		afterSection="org.opaeum.topcased.propertysections.TypedElementTypeSection"
+		         class="org.opaeum.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
+		         id="org.opaeum.topcased.activitydiagram.propertysections.NewObjectPinValueSection"
+		         filter="org.opaeum.topcased.activitydiagram.filters.NewObjectPinFilter"
+		         tab="org.opaeum.eclipse.opaeumTab">
 		      <input
 		            type="org.eclipse.uml2.uml.ValuePin">
 		      </input>
 		   </propertySection>		
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.ActivityEdge">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			afterSection="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			class="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.ActivityEdge">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
-         			filter="org.opeum.topcased.activitydiagram.filters.SendSignalActionSignalFilter"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.SendSignalActionSignalSection"
+         			filter="org.opaeum.topcased.activitydiagram.filters.SendSignalActionSignalFilter"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.SendSignalAction">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
-         			id="org.opeum.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
-         			filter="org.opeum.topcased.activitydiagram.filters.SendNotificationActionFilter"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.SendNotificationActionNotificationSection"
+         			filter="org.opaeum.topcased.activitydiagram.filters.SendNotificationActionFilter"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.SendSignalAction">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				id="org.opeum.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
-				tab="org.opeum.eclipse.opeumTab">
+				id="org.opaeum.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.CallBehaviorActionBehaviorSection"
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.CallBehaviorAction"/>
 			</propertySection>
 		
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.ActionPotentialOwnersSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.ActionPotentialOwnersSection"
-				filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+				id="org.opaeum.topcased.activitydiagram.ActionPotentialOwnersSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActionPotentialOwnersSection"
+				filter="org.opaeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
-				tab="org.opeum.eclipse.opeumTab">
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.ActionBusinessAdministratorsSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.ActionBusinessAdministratorsSection"
-				filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+				id="org.opaeum.topcased.activitydiagram.ActionBusinessAdministratorsSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActionBusinessAdministratorsSection"
+				filter="org.opaeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
-				tab="org.opeum.eclipse.opeumTab">
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.ActionStakeholdersSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.ActionStakeholdersSection"
-				filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+				id="org.opaeum.topcased.activitydiagram.ActionStakeholdersSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActionStakeholdersSection"
+				filter="org.opaeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
-				tab="org.opeum.eclipse.opeumTab">
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
-		         class="org.opeum.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
-		         filter="org.opeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
-		         id="org.opeum.topcased.activitydiagram.ActionDeadlineSection"
-		         tab="org.opeum.topcased.activitydiagram.deadlinesTab">
+		         class="org.opaeum.topcased.activitydiagram.propertysections.ActionDeadlinesSection"
+		         filter="org.opaeum.topcased.activitydiagram.filters.EmbeddedTaskFilter"
+		         id="org.opaeum.topcased.activitydiagram.ActionDeadlineSection"
+		         tab="org.opaeum.topcased.activitydiagram.deadlinesTab">
 				<input type="org.eclipse.uml2.uml.Action"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.AcceptDeadlineDeadlineSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.AcceptDeadlineDeadlineSection"
+				id="org.opaeum.topcased.activitydiagram.AcceptDeadlineDeadlineSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.AcceptDeadlineDeadlineSection"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
-				filter="org.opeum.topcased.activitydiagram.filters.AcceptDeadlineActionFilter"
-				tab="org.opeum.eclipse.opeumTab">
+				filter="org.opaeum.topcased.activitydiagram.filters.AcceptDeadlineActionFilter"
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.AcceptEventAction"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
-				class="org.opeum.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
+				id="org.opaeum.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.AcceptTaskEventActionTaskEventSection"
 				afterSection="org.topcased.modeler.BackgroundColorSection"
-				filter="org.opeum.topcased.activitydiagram.filters.AcceptTaskEventActionTaskEvent"
-				tab="org.opeum.eclipse.opeumTab">
+				filter="org.opaeum.topcased.activitydiagram.filters.AcceptTaskEventActionTaskEvent"
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.AcceptEventAction"/>
 			</propertySection>
 			<propertySection
@@ -1619,7 +1619,7 @@ The graphic parent is the ActivityPartitionEditPart whose representation area co
       <extension
             point="org.topcased.modeler.topcasedPreferenceInitializer">
          <preferenceInitializer
-               class="org.opeum.topcased.activitydiagram.bpm.ActivityDiagramTopcasedPreferenceInitializer"
+               class="org.opaeum.topcased.activitydiagram.bpm.ActivityDiagramTopcasedPreferenceInitializer"
                editorId="org.topcased.modeler.uml.editor.UMLEditor"
                id="org.topcased.modeler.uml.activitydiagram.preferenceInitializer">
          </preferenceInitializer>

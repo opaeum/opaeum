@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.provider;
+package org.opaeum.uim.security.provider;
 
 
 import java.util.Collection;
@@ -19,12 +19,12 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.provider.UimEditPlugin;
-import org.opeum.uim.provider.UmlReferenceItemProvider;
-import org.opeum.uim.security.RequiredRole;
+import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UmlReferenceItemProvider;
+import org.opaeum.uim.security.RequiredRole;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.security.RequiredRole} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.security.RequiredRole} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

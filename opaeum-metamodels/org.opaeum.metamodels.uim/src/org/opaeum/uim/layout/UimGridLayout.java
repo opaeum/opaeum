@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout;
+package org.opaeum.uim.layout;
 
 
 /**
@@ -15,11 +15,11 @@ package org.opeum.uim.layout;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.layout.UimGridLayout#getNumberOfColumns <em>Number Of Columns</em>}</li>
+ *   <li>{@link org.opaeum.uim.layout.UimGridLayout#getNumberOfColumns <em>Number Of Columns</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.layout.LayoutPackage#getUimGridLayout()
+ * @see org.opaeum.uim.layout.LayoutPackage#getUimGridLayout()
  * @model
  * @generated
  */
@@ -34,14 +34,14 @@ public interface UimGridLayout extends UimLayout {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Number Of Columns</em>' attribute.
 	 * @see #setNumberOfColumns(Integer)
-	 * @see org.opeum.uim.layout.LayoutPackage#getUimGridLayout_NumberOfColumns()
+	 * @see org.opaeum.uim.layout.LayoutPackage#getUimGridLayout_NumberOfColumns()
 	 * @model
 	 * @generated
 	 */
 	Integer getNumberOfColumns();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.layout.UimGridLayout#getNumberOfColumns <em>Number Of Columns</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.layout.UimGridLayout#getNumberOfColumns <em>Number Of Columns</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Number Of Columns</em>' attribute.

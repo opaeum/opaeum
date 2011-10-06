@@ -1,4 +1,4 @@
-package org.opeum.metamodel.workspace;
+package org.opaeum.metamodel.workspace;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.Set;
 
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-import org.opeum.feature.WorkspaceMappingInfo;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.validation.ErrorMap;
+import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.validation.ErrorMap;
 
 public interface INakedModelWorkspace extends INakedElementOwner{
 	ErrorMap getErrorMap();
@@ -20,7 +20,7 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	Collection<INakedElement> getAllElements();
 	WorkspaceMappingInfo getWorkspaceMappingInfo();
 	void setWorkspaceMappingInfo(WorkspaceMappingInfo vim);
-	OpeumLibrary getOpeumLibrary();
+	OpaeumLibrary getOpaeumLibrary();
 	public IOclEngine getOclEngine();
 	Collection<INakedRootObject> getRootObjects();
 	String getName();

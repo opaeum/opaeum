@@ -1,9 +1,9 @@
-package org.opeum.topcased.activitydiagram.bpm;
+package org.opaeum.topcased.activitydiagram.bpm;
 
 import java.util.List;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
@@ -24,7 +24,7 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
-import org.opeum.topcased.classdiagram.NakedElementCreationFactory;
+import org.opaeum.topcased.classdiagram.NakedElementCreationFactory;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.palette.ModelerConnectionCreationToolEntry;

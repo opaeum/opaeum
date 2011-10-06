@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Opeum Activity Diagrams
-Bundle-SymbolicName: org.opeum.modeler.activitydiagram;singleton:=true
+Bundle-Name: Opaeum Activity Diagrams
+Bundle-SymbolicName: org.opaeum.modeler.activitydiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.activitydiagram.ActivityPlugin
-Bundle-Vendor: Opeum
+Bundle-Vendor: Opaeum
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
  org.eclipse.emf.edit.ui,
@@ -21,16 +21,16 @@ Require-Bundle: org.eclipse.core.runtime,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
  org.eclipse.ui,
- org.opeum.modeler.classdiagram,
- org.opeum.eclipse.core,
- org.opeum.modeler.uimadapter
+ org.opaeum.modeler.classdiagram,
+ org.opaeum.eclipse.core,
+ org.opaeum.modeler.uimadapter
 Bundle-ActivationPolicy: lazy
-Export-Package: org.opeum.topcased.activitydiagram,
- org.opeum.topcased.activitydiagram.bpm,
- org.opeum.topcased.activitydiagram.bpm.edit,
- org.opeum.topcased.activitydiagram.filters,
- org.opeum.topcased.activitydiagram.method,
- org.opeum.topcased.activitydiagram.propertysections,
+Export-Package: org.opaeum.topcased.activitydiagram,
+ org.opaeum.topcased.activitydiagram.bpm,
+ org.opaeum.topcased.activitydiagram.bpm.edit,
+ org.opaeum.topcased.activitydiagram.filters,
+ org.opaeum.topcased.activitydiagram.method,
+ org.opaeum.topcased.activitydiagram.propertysections,
  org.topcased.modeler.uml.activitydiagram,
  org.topcased.modeler.uml.activitydiagram.commands,
  org.topcased.modeler.uml.activitydiagram.commands.update,

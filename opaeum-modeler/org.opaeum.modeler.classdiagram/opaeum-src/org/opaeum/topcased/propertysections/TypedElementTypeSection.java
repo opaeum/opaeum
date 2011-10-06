@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,9 +12,9 @@ import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.topcased.uml.editor.OpeumItemProviderAdapterFactory;
-import org.opeum.topcased.uml.editor.OpeumQualifiedNameLabelProvider;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
+import org.opaeum.topcased.uml.editor.OpaeumQualifiedNameLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
@@ -43,7 +43,7 @@ public class TypedElementTypeSection extends AbstractChooserPropertySection{
 		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
 	}
 	protected ILabelProvider getAdvancedLabeProvider(){
-		return new OpeumQualifiedNameLabelProvider(new OpeumItemProviderAdapterFactory());
+		return new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory());
 	}
 	protected Object getFeatureValue(){
 		return ((TypedElement) getEObject()).getType();

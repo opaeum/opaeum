@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import java.util.Collection;
 
@@ -18,23 +18,23 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.TableBinding;
-import org.opeum.uim.form.DetailPanel;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.form.DetailPanel;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,13 +43,13 @@ import org.opeum.uim.security.SecurityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getDetailPanels <em>Detail Panels</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getParent <em>Parent</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getLayout <em>Layout</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimDataTableImpl#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getDetailPanels <em>Detail Panels</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getLayout <em>Layout</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getBinding <em>Binding</em>}</li>
  * </ul>
  * </p>
  *

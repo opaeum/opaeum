@@ -7,7 +7,7 @@
  * this document or the disclosure of its content.
  * 
  ******************************************************************************/
-package org.opeum.bpmn2.outline;
+package org.opaeum.bpmn2.outline;
 
 import java.lang.reflect.InvocationTargetException;
 

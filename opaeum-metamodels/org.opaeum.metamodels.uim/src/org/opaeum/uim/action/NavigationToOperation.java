@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package org.opeum.uim.action;
+package org.opaeum.uim.action;
 
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.form.OperationInvocationForm;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,11 +21,11 @@ import org.opeum.uim.form.OperationInvocationForm;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.action.NavigationToOperation#getToForm <em>To Form</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.NavigationToOperation#getToForm <em>To Form</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.action.ActionPackage#getNavigationToOperation()
+ * @see org.opaeum.uim.action.ActionPackage#getNavigationToOperation()
  * @model
  * @generated
  */
@@ -40,14 +40,14 @@ public interface NavigationToOperation extends UimNavigation, UmlReference {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>To Form</em>' reference.
 	 * @see #setToForm(OperationInvocationForm)
-	 * @see org.opeum.uim.action.ActionPackage#getNavigationToOperation_ToForm()
+	 * @see org.opaeum.uim.action.ActionPackage#getNavigationToOperation_ToForm()
 	 * @model
 	 * @generated
 	 */
 	OperationInvocationForm getToForm();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.action.NavigationToOperation#getToForm <em>To Form</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.action.NavigationToOperation#getToForm <em>To Form</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>To Form</em>' reference.

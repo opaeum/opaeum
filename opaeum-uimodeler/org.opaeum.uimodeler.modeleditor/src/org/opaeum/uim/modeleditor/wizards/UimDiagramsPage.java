@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.wizards;
+package org.opaeum.uim.modeleditor.wizards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class UimDiagramsPage extends DiagramsPage{
 	 * @generated
 	 */
 	public String getEditorID(){
-		return "org.opeum.uim.modeleditor.editor.UimEditor";
+		return "org.opaeum.uim.modeleditor.editor.UimEditor";
 	}
 	/**
 	 * @see org.topcased.modeler.wizards.DiagramsPage#getFileExtension()
@@ -44,14 +44,14 @@ public class UimDiagramsPage extends DiagramsPage{
 	 */
 	public ComposedAdapterFactory getAdapterFactory(){
 		List factories = new ArrayList();
-		factories.add(new org.opeum.uim.provider.UimItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.layout.provider.LayoutItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.control.provider.ControlItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.folder.provider.FolderItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.form.provider.FormItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.binding.provider.BindingItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.security.provider.SecurityItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.action.provider.ActionItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.provider.UimItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.layout.provider.LayoutItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.control.provider.ControlItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.folder.provider.FolderItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.form.provider.FormItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.binding.provider.BindingItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.security.provider.SecurityItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.action.provider.ActionItemProviderAdapterFactory());
 		factories.add(new ResourceItemProviderAdapterFactory());
 		factories.add(new ReflectiveItemProviderAdapterFactory());
 		return new ComposedAdapterFactory(factories);

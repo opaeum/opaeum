@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control;
+package org.opaeum.uim.control;
 
 
 /**
@@ -13,7 +13,7 @@ package org.opeum.uim.control;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.control.ControlPackage#getUimText()
+ * @see org.opaeum.uim.control.ControlPackage#getUimText()
  * @model
  * @generated
  */

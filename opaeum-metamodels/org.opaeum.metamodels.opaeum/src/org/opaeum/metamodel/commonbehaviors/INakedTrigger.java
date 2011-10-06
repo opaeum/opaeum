@@ -1,6 +1,6 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface INakedTrigger extends INakedElement{
 	String getUuid();

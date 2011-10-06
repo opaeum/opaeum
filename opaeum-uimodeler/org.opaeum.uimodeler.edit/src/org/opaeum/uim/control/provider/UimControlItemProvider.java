@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.provider;
+package org.opaeum.uim.control.provider;
 
 
 import java.util.Collection;
@@ -23,12 +23,12 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimControl;
-import org.opeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimControl;
+import org.opaeum.uim.provider.UimEditPlugin;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.control.UimControl} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.control.UimControl} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

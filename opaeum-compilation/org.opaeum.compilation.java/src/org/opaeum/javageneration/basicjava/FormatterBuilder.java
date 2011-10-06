@@ -1,26 +1,26 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
 import java.util.Collection;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.runtime.domain.AbstractFormatter;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.IntegrationCodeGenerator;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.AbstractFormatter;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class

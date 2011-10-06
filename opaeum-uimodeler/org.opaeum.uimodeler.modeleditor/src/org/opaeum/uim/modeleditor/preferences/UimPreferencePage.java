@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.preferences;
+package org.opaeum.uim.modeleditor.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.swt.SWT;
@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
-import org.opeum.uim.modeleditor.UimPlugin;
+import org.opaeum.uim.modeleditor.UimPlugin;
 import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
 

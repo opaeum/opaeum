@@ -1,11 +1,11 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class NakedParameterImpl extends NakedTypedElementImpl implements INakedTypedElement, INakedParameter {
 	private static final long serialVersionUID = -1300669933351165122L;

@@ -1,24 +1,24 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.OperationAnnotator;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.NakedParsedOclStringResolver;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.runtime.domain.IConstrained;
-import org.opeum.runtime.domain.IInvariantError;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.NakedParsedOclStringResolver;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.IConstrained;
+import org.opaeum.runtime.domain.IInvariantError;
 
 /**
  * This class implements the Constrained interface on classes that have invariants.

@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.folder.AbstractFormFolder;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,18 +17,18 @@ import org.opeum.uim.folder.AbstractFormFolder;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.UimForm#getPanel <em>Panel</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.UimForm#getPanel <em>Panel</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getUimForm()
+ * @see org.opaeum.uim.form.FormPackage#getUimForm()
  * @model
  * @generated
  */
 public interface UimForm extends UserInteractionElement {
 	/**
 	 * Returns the value of the '<em><b>Panel</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.form.FormPanel#getForm <em>Form</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.form.FormPanel#getForm <em>Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Panel</em>' containment reference isn't clear,
@@ -37,15 +37,15 @@ public interface UimForm extends UserInteractionElement {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Panel</em>' containment reference.
 	 * @see #setPanel(FormPanel)
-	 * @see org.opeum.uim.form.FormPackage#getUimForm_Panel()
-	 * @see org.opeum.uim.form.FormPanel#getForm
+	 * @see org.opaeum.uim.form.FormPackage#getUimForm_Panel()
+	 * @see org.opaeum.uim.form.FormPanel#getForm
 	 * @model opposite="form" containment="true"
 	 * @generated
 	 */
 	FormPanel getPanel();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.UimForm#getPanel <em>Panel</em>}' containment reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.UimForm#getPanel <em>Panel</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Panel</em>' containment reference.

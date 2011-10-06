@@ -1,14 +1,14 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
-import org.opeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.actions.IActionWithTargetPin;
-import org.opeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.IActionWithTargetElement;
+import org.opaeum.metamodel.actions.IActionWithTargetPin;
+import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class ActionMap extends ActivityNodeMap{
 	public INakedAction getAction(){

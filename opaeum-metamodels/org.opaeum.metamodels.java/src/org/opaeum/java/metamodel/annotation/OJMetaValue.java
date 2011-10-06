@@ -1,4 +1,4 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJPathName;
 
 
 /**

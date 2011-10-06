@@ -1,12 +1,12 @@
-package org.opeum.filegeneration;
+package org.opaeum.filegeneration;
 
 import java.io.File;
 
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.textmetamodel.TextDirectory;
-import org.opeum.textmetamodel.TextProject;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.textmetamodel.TextDirectory;
+import org.opaeum.textmetamodel.TextProject;
 
 @StepDependency(phase = FileGenerationPhase.class)
 public class TextFileDeleter extends AbstractTextNodeVisitor implements ITransformationStep{

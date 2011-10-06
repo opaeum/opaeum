@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package org.opeum.uim.action;
+package org.opaeum.uim.action;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.LayoutPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.layout.LayoutPackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.opeum.uim.action.ActionFactory
+ * @see org.opaeum.uim.action.ActionFactory
  * @model kind="package"
  * @generated
  */
@@ -43,7 +43,7 @@ public interface ActionPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://opeum.org/uimetamodel/action/1.0";
+	String eNS_URI = "http://opaeum.org/uimetamodel/action/1.0";
 
 	/**
 	 * The package namespace name.
@@ -59,14 +59,14 @@ public interface ActionPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ActionPackage eINSTANCE = org.opeum.uim.action.impl.ActionPackageImpl.init();
+	ActionPackage eINSTANCE = org.opaeum.uim.action.impl.ActionPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.UimActionImpl <em>Uim Action</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.UimActionImpl <em>Uim Action</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.UimActionImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getUimAction()
+	 * @see org.opaeum.uim.action.impl.UimActionImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimAction()
 	 * @generated
 	 */
 	int UIM_ACTION = 1;
@@ -108,11 +108,11 @@ public interface ActionPackage extends EPackage {
 	int UIM_ACTION_FEATURE_COUNT = LayoutPackage.OUTLAYABLE_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.BuiltInActionImpl <em>Built In Action</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.BuiltInActionImpl <em>Built In Action</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.BuiltInActionImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getBuiltInAction()
+	 * @see org.opaeum.uim.action.impl.BuiltInActionImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getBuiltInAction()
 	 * @generated
 	 */
 	int BUILT_IN_ACTION = 0;
@@ -163,11 +163,11 @@ public interface ActionPackage extends EPackage {
 	int BUILT_IN_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.TransitionActionImpl <em>Transition Action</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.TransitionActionImpl <em>Transition Action</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.TransitionActionImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getTransitionAction()
+	 * @see org.opaeum.uim.action.impl.TransitionActionImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getTransitionAction()
 	 * @generated
 	 */
 	int TRANSITION_ACTION = 2;
@@ -218,11 +218,11 @@ public interface ActionPackage extends EPackage {
 	int TRANSITION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.UimNavigationImpl <em>Uim Navigation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.UimNavigationImpl <em>Uim Navigation</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.UimNavigationImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getUimNavigation()
+	 * @see org.opaeum.uim.action.impl.UimNavigationImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimNavigation()
 	 * @generated
 	 */
 	int UIM_NAVIGATION = 5;
@@ -264,11 +264,11 @@ public interface ActionPackage extends EPackage {
 	int UIM_NAVIGATION_FEATURE_COUNT = LayoutPackage.OUTLAYABLE_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.NavigationToOperationImpl <em>Navigation To Operation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.NavigationToOperationImpl <em>Navigation To Operation</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.NavigationToOperationImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getNavigationToOperation()
+	 * @see org.opaeum.uim.action.impl.NavigationToOperationImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getNavigationToOperation()
 	 * @generated
 	 */
 	int NAVIGATION_TO_OPERATION = 3;
@@ -328,11 +328,11 @@ public interface ActionPackage extends EPackage {
 	int NAVIGATION_TO_OPERATION_FEATURE_COUNT = UIM_NAVIGATION_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.OperationActionImpl <em>Operation Action</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationActionImpl <em>Operation Action</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.OperationActionImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getOperationAction()
+	 * @see org.opaeum.uim.action.impl.OperationActionImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationAction()
 	 * @generated
 	 */
 	int OPERATION_ACTION = 4;
@@ -383,11 +383,11 @@ public interface ActionPackage extends EPackage {
 	int OPERATION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.impl.NavigationToEntityImpl <em>Navigation To Entity</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.NavigationToEntityImpl <em>Navigation To Entity</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.impl.NavigationToEntityImpl
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getNavigationToEntity()
+	 * @see org.opaeum.uim.action.impl.NavigationToEntityImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getNavigationToEntity()
 	 * @generated
 	 */
 	int NAVIGATION_TO_ENTITY = 6;
@@ -456,136 +456,136 @@ public interface ActionPackage extends EPackage {
 	int NAVIGATION_TO_ENTITY_FEATURE_COUNT = UIM_NAVIGATION_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.action.ActionKind <em>Kind</em>}' enum.
+	 * The meta object id for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.action.ActionKind
-	 * @see org.opeum.uim.action.impl.ActionPackageImpl#getActionKind()
+	 * @see org.opaeum.uim.action.ActionKind
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getActionKind()
 	 * @generated
 	 */
 	int ACTION_KIND = 7;
 
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.BuiltInAction <em>Built In Action</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.BuiltInAction <em>Built In Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Built In Action</em>'.
-	 * @see org.opeum.uim.action.BuiltInAction
+	 * @see org.opaeum.uim.action.BuiltInAction
 	 * @generated
 	 */
 	EClass getBuiltInAction();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.action.BuiltInAction#getKind <em>Kind</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.action.BuiltInAction#getKind <em>Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Kind</em>'.
-	 * @see org.opeum.uim.action.BuiltInAction#getKind()
+	 * @see org.opaeum.uim.action.BuiltInAction#getKind()
 	 * @see #getBuiltInAction()
 	 * @generated
 	 */
 	EAttribute getBuiltInAction_Kind();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.UimAction <em>Uim Action</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.UimAction <em>Uim Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Uim Action</em>'.
-	 * @see org.opeum.uim.action.UimAction
+	 * @see org.opaeum.uim.action.UimAction
 	 * @generated
 	 */
 	EClass getUimAction();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.TransitionAction <em>Transition Action</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.TransitionAction <em>Transition Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Transition Action</em>'.
-	 * @see org.opeum.uim.action.TransitionAction
+	 * @see org.opaeum.uim.action.TransitionAction
 	 * @generated
 	 */
 	EClass getTransitionAction();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.NavigationToOperation <em>Navigation To Operation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.NavigationToOperation <em>Navigation To Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Navigation To Operation</em>'.
-	 * @see org.opeum.uim.action.NavigationToOperation
+	 * @see org.opaeum.uim.action.NavigationToOperation
 	 * @generated
 	 */
 	EClass getNavigationToOperation();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.action.NavigationToOperation#getToForm <em>To Form</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.NavigationToOperation#getToForm <em>To Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>To Form</em>'.
-	 * @see org.opeum.uim.action.NavigationToOperation#getToForm()
+	 * @see org.opaeum.uim.action.NavigationToOperation#getToForm()
 	 * @see #getNavigationToOperation()
 	 * @generated
 	 */
 	EReference getNavigationToOperation_ToForm();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.OperationAction <em>Operation Action</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationAction <em>Operation Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Operation Action</em>'.
-	 * @see org.opeum.uim.action.OperationAction
+	 * @see org.opaeum.uim.action.OperationAction
 	 * @generated
 	 */
 	EClass getOperationAction();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.UimNavigation <em>Uim Navigation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.UimNavigation <em>Uim Navigation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Uim Navigation</em>'.
-	 * @see org.opeum.uim.action.UimNavigation
+	 * @see org.opaeum.uim.action.UimNavigation
 	 * @generated
 	 */
 	EClass getUimNavigation();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.action.NavigationToEntity <em>Navigation To Entity</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.NavigationToEntity <em>Navigation To Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Navigation To Entity</em>'.
-	 * @see org.opeum.uim.action.NavigationToEntity
+	 * @see org.opaeum.uim.action.NavigationToEntity
 	 * @generated
 	 */
 	EClass getNavigationToEntity();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.action.NavigationToEntity#getToForm <em>To Form</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.NavigationToEntity#getToForm <em>To Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>To Form</em>'.
-	 * @see org.opeum.uim.action.NavigationToEntity#getToForm()
+	 * @see org.opaeum.uim.action.NavigationToEntity#getToForm()
 	 * @see #getNavigationToEntity()
 	 * @generated
 	 */
 	EReference getNavigationToEntity_ToForm();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.action.NavigationToEntity#getBinding <em>Binding</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.action.NavigationToEntity#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Binding</em>'.
-	 * @see org.opeum.uim.action.NavigationToEntity#getBinding()
+	 * @see org.opaeum.uim.action.NavigationToEntity#getBinding()
 	 * @see #getNavigationToEntity()
 	 * @generated
 	 */
 	EReference getNavigationToEntity_Binding();
 
 	/**
-	 * Returns the meta object for enum '{@link org.opeum.uim.action.ActionKind <em>Kind</em>}'.
+	 * Returns the meta object for enum '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Kind</em>'.
-	 * @see org.opeum.uim.action.ActionKind
+	 * @see org.opaeum.uim.action.ActionKind
 	 * @generated
 	 */
 	EEnum getActionKind();
@@ -613,11 +613,11 @@ public interface ActionPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.BuiltInActionImpl <em>Built In Action</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.BuiltInActionImpl <em>Built In Action</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.BuiltInActionImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getBuiltInAction()
+		 * @see org.opaeum.uim.action.impl.BuiltInActionImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getBuiltInAction()
 		 * @generated
 		 */
 		EClass BUILT_IN_ACTION = eINSTANCE.getBuiltInAction();
@@ -631,31 +631,31 @@ public interface ActionPackage extends EPackage {
 		EAttribute BUILT_IN_ACTION__KIND = eINSTANCE.getBuiltInAction_Kind();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.UimActionImpl <em>Uim Action</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.UimActionImpl <em>Uim Action</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.UimActionImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getUimAction()
+		 * @see org.opaeum.uim.action.impl.UimActionImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimAction()
 		 * @generated
 		 */
 		EClass UIM_ACTION = eINSTANCE.getUimAction();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.TransitionActionImpl <em>Transition Action</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.TransitionActionImpl <em>Transition Action</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.TransitionActionImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getTransitionAction()
+		 * @see org.opaeum.uim.action.impl.TransitionActionImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getTransitionAction()
 		 * @generated
 		 */
 		EClass TRANSITION_ACTION = eINSTANCE.getTransitionAction();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.NavigationToOperationImpl <em>Navigation To Operation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.NavigationToOperationImpl <em>Navigation To Operation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.NavigationToOperationImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getNavigationToOperation()
+		 * @see org.opaeum.uim.action.impl.NavigationToOperationImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getNavigationToOperation()
 		 * @generated
 		 */
 		EClass NAVIGATION_TO_OPERATION = eINSTANCE.getNavigationToOperation();
@@ -669,31 +669,31 @@ public interface ActionPackage extends EPackage {
 		EReference NAVIGATION_TO_OPERATION__TO_FORM = eINSTANCE.getNavigationToOperation_ToForm();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.OperationActionImpl <em>Operation Action</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationActionImpl <em>Operation Action</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.OperationActionImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getOperationAction()
+		 * @see org.opaeum.uim.action.impl.OperationActionImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationAction()
 		 * @generated
 		 */
 		EClass OPERATION_ACTION = eINSTANCE.getOperationAction();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.UimNavigationImpl <em>Uim Navigation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.UimNavigationImpl <em>Uim Navigation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.UimNavigationImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getUimNavigation()
+		 * @see org.opaeum.uim.action.impl.UimNavigationImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getUimNavigation()
 		 * @generated
 		 */
 		EClass UIM_NAVIGATION = eINSTANCE.getUimNavigation();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.impl.NavigationToEntityImpl <em>Navigation To Entity</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.NavigationToEntityImpl <em>Navigation To Entity</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.impl.NavigationToEntityImpl
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getNavigationToEntity()
+		 * @see org.opaeum.uim.action.impl.NavigationToEntityImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getNavigationToEntity()
 		 * @generated
 		 */
 		EClass NAVIGATION_TO_ENTITY = eINSTANCE.getNavigationToEntity();
@@ -715,11 +715,11 @@ public interface ActionPackage extends EPackage {
 		EReference NAVIGATION_TO_ENTITY__BINDING = eINSTANCE.getNavigationToEntity_Binding();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.action.ActionKind <em>Kind</em>}' enum.
+		 * The meta object literal for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.action.ActionKind
-		 * @see org.opeum.uim.action.impl.ActionPackageImpl#getActionKind()
+		 * @see org.opaeum.uim.action.ActionKind
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getActionKind()
 		 * @generated
 		 */
 		EEnum ACTION_KIND = eINSTANCE.getActionKind();

@@ -1,14 +1,14 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class SimpleActionBridge extends Jbpm5ActionBuilder<INakedActivityNode> {
 	private SimpleNodeBuilder<?> delegate;
 
-	public SimpleActionBridge(OpeumLibrary oclEngine, INakedActivityNode node, SimpleNodeBuilder<?> delegate) {
+	public SimpleActionBridge(OpaeumLibrary oclEngine, INakedActivityNode node, SimpleNodeBuilder<?> delegate) {
 		super(oclEngine, node);
 		this.delegate = delegate;
 	}

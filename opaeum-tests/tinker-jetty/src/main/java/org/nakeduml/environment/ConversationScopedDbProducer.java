@@ -1,4 +1,4 @@
-package org.opeum.environment;
+package org.opaeum.environment;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;

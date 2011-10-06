@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;

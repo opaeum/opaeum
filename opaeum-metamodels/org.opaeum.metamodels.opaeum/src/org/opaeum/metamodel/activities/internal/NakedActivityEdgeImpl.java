@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,16 +6,16 @@ import java.util.Set;
 
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedActivityEdge{
 	private static final long serialVersionUID = 6408889822146373878L;

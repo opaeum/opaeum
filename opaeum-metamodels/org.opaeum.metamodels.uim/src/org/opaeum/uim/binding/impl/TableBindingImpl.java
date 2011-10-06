@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.impl;
+package org.opaeum.uim.binding.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.TableBinding;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.TableBinding;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.binding.TableBinding;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.binding.impl.TableBindingImpl#getTable <em>Table</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.impl.TableBindingImpl#getTable <em>Table</em>}</li>
  * </ul>
  * </p>
  *

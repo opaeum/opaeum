@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmi:id="_CSMuIO2XEeCpD96aiHpgMA" projectName="org.opeum.bpmn2.diagram" name="BPMN2 Diagram" package="org.opeum.bpmn2.diagram" prefix="BPMN2" pluginVersion="1.0.0.qualifier" provider="Opeum">
+<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmi:id="_CSMuIO2XEeCpD96aiHpgMA" projectName="org.opaeum.bpmn2.diagram" name="BPMN2 Diagram" package="org.opaeum.bpmn2.diagram" prefix="BPMN2" pluginVersion="1.0.0.qualifier" provider="Opaeum">
   <palette xmi:id="_sCDaIO3IEeCDCve3Q7hDLQ" name="BPMN2 Palette">
     <paletteCategories xmi:id="_vTPeEO3IEeCDCve3Q7hDLQ" name="Tasks">
       <items xmi:id="_wQ1uwO3IEeCDCve3Q7hDLQ" name="UserTask" part="_dmQe8O3IEeCDCve3Q7hDLQ"/>

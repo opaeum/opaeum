@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,34 +12,34 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.opeum.metamodel.workspace.AbstractStrategyFactory;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.util.SortedProperties;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.util.SortedProperties;
 
-public class OpeumConfig{
-	private static final String DB_USER = "opeum.database.user";
-	private static final String JDBC_DIALECT = "opeum.jdbc.dialect";
-	private static final String DATA_SOURCE_NAME = "opeum.hibernate.ds.name";
-	private static final String LIST_COLUMNS = "opeum.list.columns";
-	private static final String NEED_SCHEMA = "opeum.needSchema";
-	private static final String DEFAULT_SCHEMA = "opeum.default.schema";
-	private static final String DATA_GENERATION = "opeum.data.generation";
-	private static final String REAL_TYPE = "opeum.real.type";
-	private static final String EMAIL_ADDRESS_TYPE = "opeum.email.address.type";
-	private static final String DATE_TIME_TYPE = "opeum.timestamp.type";
-	private static final String DATE_TYPE = "opeum.date.type";
-	private static final String ID_GENERATOR_STRATEGY = "opeum.id.generator.strategy";
-	private static final String TEST_DATA_SIZE = "opeum.test.data.size";
-	private static final String MAVEN_GROUPID = "opeum.maven.groupid";
-	private static final String MAVEN_GROUP_VERSION = "opeum.maven.group.version";
-	private static final String GENERATE_MAVEN_POMS = "opeum.generate.poms";
-	private static final String SCM_TOOL = "opeum.scm.tool";
-	private static final String WORKSPACE_IDENTIFIER = "opeum.workspace.identifier";
-	private static final String ADDITIONAL_TRANSFORMATION_STEPS = "opeum.additional.transformation.steps";
-	private static final String SOURCE_FOLDER_STRATEGY = "opeum.source.folder.strategy";
-	private static final String WORKSPACE_NAME = "opeum.workspace.name";
-	private static final String ADDITIONAL_PERSISTENT_CLASSES = "opeum.additional.persistent.classes";
+public class OpaeumConfig{
+	private static final String DB_USER = "opaeum.database.user";
+	private static final String JDBC_DIALECT = "opaeum.jdbc.dialect";
+	private static final String DATA_SOURCE_NAME = "opaeum.hibernate.ds.name";
+	private static final String LIST_COLUMNS = "opaeum.list.columns";
+	private static final String NEED_SCHEMA = "opaeum.needSchema";
+	private static final String DEFAULT_SCHEMA = "opaeum.default.schema";
+	private static final String DATA_GENERATION = "opaeum.data.generation";
+	private static final String REAL_TYPE = "opaeum.real.type";
+	private static final String EMAIL_ADDRESS_TYPE = "opaeum.email.address.type";
+	private static final String DATE_TIME_TYPE = "opaeum.timestamp.type";
+	private static final String DATE_TYPE = "opaeum.date.type";
+	private static final String ID_GENERATOR_STRATEGY = "opaeum.id.generator.strategy";
+	private static final String TEST_DATA_SIZE = "opaeum.test.data.size";
+	private static final String MAVEN_GROUPID = "opaeum.maven.groupid";
+	private static final String MAVEN_GROUP_VERSION = "opaeum.maven.group.version";
+	private static final String GENERATE_MAVEN_POMS = "opaeum.generate.poms";
+	private static final String SCM_TOOL = "opaeum.scm.tool";
+	private static final String WORKSPACE_IDENTIFIER = "opaeum.workspace.identifier";
+	private static final String ADDITIONAL_TRANSFORMATION_STEPS = "opaeum.additional.transformation.steps";
+	private static final String SOURCE_FOLDER_STRATEGY = "opaeum.source.folder.strategy";
+	private static final String WORKSPACE_NAME = "opaeum.workspace.name";
+	private static final String ADDITIONAL_PERSISTENT_CLASSES = "opaeum.additional.persistent.classes";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -47,7 +47,7 @@ public class OpeumConfig{
 	private File file;
 	private WorkspaceMappingInfo workspaceMappingInfo;
 	private SqlDialect sqlDialect;
-	public OpeumConfig(File file){
+	public OpaeumConfig(File file){
 		this.file = file;
 		if(file.exists()){
 			FileInputStream stream;
@@ -70,11 +70,11 @@ public class OpeumConfig{
 	}
 	public ISourceFolderStrategy getSourceFolderStrategy(){
 		try{
-			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "org.opeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
+			String name = props.getProperty(SOURCE_FOLDER_STRATEGY, "org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
-			Class<?> c = getClass("org.opeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
+			Class<?> c = getClass("org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
 			try{
 				return (ISourceFolderStrategy) c.newInstance();
 			}catch(Exception e1){
@@ -139,7 +139,7 @@ public class OpeumConfig{
 			this.props.setProperty(SCM_TOOL, "git");
 		}
 		if(!this.props.containsKey(SOURCE_FOLDER_STRATEGY)){
-			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "org.opeum.pomgeneration.MultiProjectMavenSourceFolderStrategy");
+			this.props.setProperty(SOURCE_FOLDER_STRATEGY, "org.opaeum.pomgeneration.MultiProjectMavenSourceFolderStrategy");
 		}
 	}
 	public String getJdbcDialect(){
@@ -205,7 +205,7 @@ public class OpeumConfig{
 	}
 	public void store(){
 		try{
-			props.store(new FileWriter(file), "Opeum");
+			props.store(new FileWriter(file), "Opaeum");
 			getSourceFolderStrategy().defineSourceFolders(this);
 		}catch(IOException e){
 			throw new RuntimeException(e);
@@ -265,7 +265,7 @@ public class OpeumConfig{
 	}
 	@SuppressWarnings("unchecked")
 	public Set<Class<? extends AbstractStrategyFactory>> getStrategyFactories(){
-		String property = this.props.getProperty("opeum.strategy.factories", "");
+		String property = this.props.getProperty("opaeum.strategy.factories", "");
 		Set<Class<? extends AbstractStrategyFactory>> result = new HashSet<Class<? extends AbstractStrategyFactory>>();
 		if(property.trim().length() > 0){
 			String[] split = property.split(";");
@@ -273,7 +273,7 @@ public class OpeumConfig{
 				result.add((Class<? extends AbstractStrategyFactory>) getClass(string));
 			}
 		}
-		for(Class<?> class1:OpeumConfig.classRegistry.values()){
+		for(Class<?> class1:OpaeumConfig.classRegistry.values()){
 			if(AbstractStrategyFactory.class.isAssignableFrom(class1)){
 				result.add((Class<? extends AbstractStrategyFactory>) class1);
 			}

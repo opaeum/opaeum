@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import org.eclipse.emf.common.util.URI;
 

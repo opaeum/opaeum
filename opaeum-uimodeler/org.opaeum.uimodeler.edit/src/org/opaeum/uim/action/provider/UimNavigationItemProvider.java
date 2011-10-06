@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.provider;
+package org.opaeum.uim.action.provider;
 
 
 import java.util.Collection;
@@ -19,12 +19,12 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.action.UimNavigation;
-import org.opeum.uim.layout.provider.OutlayableComponentItemProvider;
-import org.opeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.action.UimNavigation;
+import org.opaeum.uim.layout.provider.OutlayableComponentItemProvider;
+import org.opaeum.uim.provider.UimEditPlugin;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.action.UimNavigation} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.action.UimNavigation} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

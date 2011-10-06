@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
-import org.opeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.EditableSecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +14,7 @@ import org.opeum.uim.security.EditableSecureObject;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.UimPackage#getUimContainer()
+ * @see org.opaeum.uim.UimPackage#getUimContainer()
  * @model
  * @generated
  */

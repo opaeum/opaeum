@@ -1,14 +1,14 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.List;
 
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Element;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 	@Override

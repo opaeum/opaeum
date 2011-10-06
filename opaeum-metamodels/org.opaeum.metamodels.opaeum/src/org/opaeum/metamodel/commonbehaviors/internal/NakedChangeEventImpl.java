@@ -1,14 +1,14 @@
-package org.opeum.metamodel.commonbehaviors.internal;
+package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public class NakedChangeEventImpl extends NakedEventImpl implements INakedChangeEvent{
 	private static final long serialVersionUID = 562216620570901336L;

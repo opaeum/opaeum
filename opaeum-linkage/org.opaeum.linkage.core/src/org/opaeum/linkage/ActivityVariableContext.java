@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,17 +9,17 @@ import java.util.Set;
 
 import nl.klasse.octopus.model.IPackage;
 
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedReception;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.internal.emulated.MessageStructureImpl;
-import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedReception;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.internal.emulated.MessageStructureImpl;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 public final class ActivityVariableContext extends MessageStructureImpl{
 	private static final long serialVersionUID = -4731155143691216024L;

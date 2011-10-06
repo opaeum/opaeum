@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.preferences;
+package org.opaeum.uim.classform.preferences;
 
 import java.util.HashMap;
 

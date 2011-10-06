@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 public class TagNames{
 	public static final String IS_ROOT_ENTITY = "isRootEntity";

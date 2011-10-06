@@ -1,4 +1,4 @@
-package org.opeum.textmetamodel;
+package org.opaeum.textmetamodel;
 
 public class SourceFolder extends TextDirectory {
 	private boolean shouldClean;

@@ -1,4 +1,4 @@
-package org.opeum.jbpm5;
+package org.opaeum.jbpm5;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -7,23 +7,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.visit.VisitorAdapter;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.textmetamodel.TextFile;
-import org.opeum.textmetamodel.TextProject;
-import org.opeum.textmetamodel.TextSourceFolderIdentifier;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.visit.VisitorAdapter;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
@@ -59,7 +59,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 	protected INakedModelWorkspace workspace;
 	protected Map<INakedElement, Integer> targetIdMap;
 	protected Map<INakedElement, Integer> sourceIdMap;
-	protected OpeumConfig config;
+	protected OpaeumConfig config;
 	private INakedRootObject currentModelOrProfile;
 	private HashSet<TextFile> textFiles;
 
@@ -72,7 +72,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		super.visitRecursively(o);
 	}
 
-	public void initialize(OpeumConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
+	public void initialize(OpaeumConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
 		textFiles=new HashSet<TextFile>();
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
@@ -141,7 +141,7 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 	protected final void addStartNode(NodesType nodes, int i, INakedElement state) {
 		StartType node = ProcessFactory.eINSTANCE.createStartType();
 		node.setName(state.getMappingInfo().getPersistentName().getAsIs());
-		setBounds(i, node, state.getMappingInfo().getOpeumId());
+		setBounds(i, node, state.getMappingInfo().getOpaeumId());
 		nodes.getStart().add(node);
 	}
 

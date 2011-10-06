@@ -1,11 +1,11 @@
-package org.opeum.topcased.activitydiagram.filters;
+package org.opaeum.topcased.activitydiagram.filters;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Element;
-import org.opeum.topcased.propertysections.filters.AbstractFilter;
+import org.opaeum.topcased.propertysections.filters.AbstractFilter;
 
 public class AcceptEventActionTriggerSectionFilter extends AbstractFilter{
 	@Override

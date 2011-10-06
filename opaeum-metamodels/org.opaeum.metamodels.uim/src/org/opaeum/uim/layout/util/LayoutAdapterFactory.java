@@ -4,34 +4,34 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.util;
+package org.opaeum.uim.layout.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.layout.UimBorderLayout;
-import org.opeum.uim.layout.UimColumnLayout;
-import org.opeum.uim.layout.UimFullLayout;
-import org.opeum.uim.layout.UimGridLayout;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.layout.UimToolbarLayout;
-import org.opeum.uim.layout.UimXYLayout;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.UimBorderLayout;
+import org.opaeum.uim.layout.UimColumnLayout;
+import org.opaeum.uim.layout.UimFullLayout;
+import org.opaeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.layout.UimToolbarLayout;
+import org.opaeum.uim.layout.UimXYLayout;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.layout.LayoutPackage
+ * @see org.opaeum.uim.layout.LayoutPackage
  * @generated
  */
 public class LayoutAdapterFactory extends AdapterFactoryImpl {
@@ -159,13 +159,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimColumnLayout <em>Uim Column Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimColumnLayout <em>Uim Column Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimColumnLayout
+	 * @see org.opaeum.uim.layout.UimColumnLayout
 	 * @generated
 	 */
 	public Adapter createUimColumnLayoutAdapter() {
@@ -173,13 +173,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimFullLayout <em>Uim Full Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimFullLayout <em>Uim Full Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimFullLayout
+	 * @see org.opaeum.uim.layout.UimFullLayout
 	 * @generated
 	 */
 	public Adapter createUimFullLayoutAdapter() {
@@ -187,13 +187,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimXYLayout <em>Uim XY Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimXYLayout <em>Uim XY Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimXYLayout
+	 * @see org.opaeum.uim.layout.UimXYLayout
 	 * @generated
 	 */
 	public Adapter createUimXYLayoutAdapter() {
@@ -201,13 +201,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimBorderLayout <em>Uim Border Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimBorderLayout <em>Uim Border Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimBorderLayout
+	 * @see org.opaeum.uim.layout.UimBorderLayout
 	 * @generated
 	 */
 	public Adapter createUimBorderLayoutAdapter() {
@@ -215,13 +215,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimToolbarLayout <em>Uim Toolbar Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimToolbarLayout <em>Uim Toolbar Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimToolbarLayout
+	 * @see org.opaeum.uim.layout.UimToolbarLayout
 	 * @generated
 	 */
 	public Adapter createUimToolbarLayoutAdapter() {
@@ -229,13 +229,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.OutlayableComponent <em>Outlayable Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.OutlayableComponent <em>Outlayable Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.OutlayableComponent
+	 * @see org.opaeum.uim.layout.OutlayableComponent
 	 * @generated
 	 */
 	public Adapter createOutlayableComponentAdapter() {
@@ -243,13 +243,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimLayout <em>Uim Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimLayout <em>Uim Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimLayout
+	 * @see org.opaeum.uim.layout.UimLayout
 	 * @generated
 	 */
 	public Adapter createUimLayoutAdapter() {
@@ -257,13 +257,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.LayoutContainer <em>Container</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.LayoutContainer <em>Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.LayoutContainer
+	 * @see org.opaeum.uim.layout.LayoutContainer
 	 * @generated
 	 */
 	public Adapter createLayoutContainerAdapter() {
@@ -271,13 +271,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.UimGridLayout <em>Uim Grid Layout</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.UimGridLayout <em>Uim Grid Layout</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.UimGridLayout
+	 * @see org.opaeum.uim.layout.UimGridLayout
 	 * @generated
 	 */
 	public Adapter createUimGridLayoutAdapter() {
@@ -285,13 +285,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UserInteractionElement
+	 * @see org.opaeum.uim.UserInteractionElement
 	 * @generated
 	 */
 	public Adapter createUserInteractionElementAdapter() {
@@ -299,13 +299,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.SecureObject <em>Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.SecureObject <em>Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.SecureObject
+	 * @see org.opaeum.uim.security.SecureObject
 	 * @generated
 	 */
 	public Adapter createSecureObjectAdapter() {
@@ -313,13 +313,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UimComponent <em>Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UimComponent
+	 * @see org.opaeum.uim.UimComponent
 	 * @generated
 	 */
 	public Adapter createUimComponentAdapter() {
@@ -327,13 +327,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.EditableSecureObject
+	 * @see org.opaeum.uim.security.EditableSecureObject
 	 * @generated
 	 */
 	public Adapter createEditableSecureObjectAdapter() {
@@ -341,13 +341,13 @@ public class LayoutAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UimContainer <em>Container</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimContainer <em>Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UimContainer
+	 * @see org.opaeum.uim.UimContainer
 	 * @generated
 	 */
 	public Adapter createUimContainerAdapter() {

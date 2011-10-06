@@ -1,7 +1,7 @@
-package org.opeum.topcased.activitydiagram.bpm;
+package org.opaeum.topcased.activitydiagram.bpm;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;

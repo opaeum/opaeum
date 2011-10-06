@@ -1,10 +1,10 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import java.awt.Desktop.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -30,7 +30,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.eclipse.LibraryImporter;
+import org.opaeum.eclipse.LibraryImporter;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropertySection{

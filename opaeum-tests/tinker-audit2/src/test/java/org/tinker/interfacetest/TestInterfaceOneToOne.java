@@ -3,7 +3,7 @@ package org.tinker.interfacetest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 import org.util.GraphDb;
 

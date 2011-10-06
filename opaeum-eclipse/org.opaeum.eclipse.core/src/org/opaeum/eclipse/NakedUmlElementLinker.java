@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,8 +75,8 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.util.UMLSwitch;
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class NakedUmlElementLinker extends EContentAdapter{
 	public static final class EmfUmlElementLinker extends UMLSwitch<EObject>{

@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
-import org.opeum.uim.UmlReference;
+import org.opaeum.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +14,7 @@ import org.opeum.uim.UmlReference;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.folder.FolderPackage#getUserInteractionModel()
+ * @see org.opaeum.uim.folder.FolderPackage#getUserInteractionModel()
  * @model
  * @generated
  */

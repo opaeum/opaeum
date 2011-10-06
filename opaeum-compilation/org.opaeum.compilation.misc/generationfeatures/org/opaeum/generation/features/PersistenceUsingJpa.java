@@ -1,12 +1,12 @@
-package org.opeum.generation.features;
+package org.opaeum.generation.features;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaFeature;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.hibernate.HibernateAnnotator;
-import org.opeum.javageneration.hibernate.HibernatePackageAnnotator;
-import org.opeum.javageneration.hibernate.JpaPersistenceXmlGenerator;
-import org.opeum.pomgeneration.JpaDomainPomStep;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.JavaFeature;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.hibernate.HibernateAnnotator;
+import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
+import org.opaeum.javageneration.hibernate.JpaPersistenceXmlGenerator;
+import org.opaeum.pomgeneration.JpaDomainPomStep;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		JpaDomainPomStep.class,HibernateAnnotator.class,HibernatePackageAnnotator.class,JavaPersistence.class,JpaPersistenceXmlGenerator.class})

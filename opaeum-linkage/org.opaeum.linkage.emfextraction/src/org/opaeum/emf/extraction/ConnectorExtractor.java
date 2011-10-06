@@ -1,14 +1,14 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Connector;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.components.NakedConnectorKind;
-import org.opeum.metamodel.components.internal.NakedConnectorImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.components.NakedConnectorKind;
+import org.opaeum.metamodel.components.internal.NakedConnectorImpl;
 
 /**
- * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opeum and Octopus
+ * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opaeum and Octopus
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = RedefinitionAndConnectorEndExtractor.class,after = RedefinitionAndConnectorEndExtractor.class)
 public class ConnectorExtractor extends AbstractExtractorFromEmf{

@@ -1,6 +1,6 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
-import org.opeum.metamodel.core.INakedValueType;
+import org.opaeum.metamodel.core.INakedValueType;
 
 /**
  * Martin Fowler's "valueType" concept. It is a simple data type, i.e. it is not structured and can therefor not structurally be broken down

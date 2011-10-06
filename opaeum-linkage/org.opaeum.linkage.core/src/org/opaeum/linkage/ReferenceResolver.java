@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,14 +6,14 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedImportedElementImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedImportedElementImpl;
 
 @StepDependency(phase = LinkagePhase.class)
 public class ReferenceResolver extends AbstractModelElementLinker {

@@ -1,6 +1,6 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
-import org.opeum.metamodel.core.INakedHelper;
+import org.opaeum.metamodel.core.INakedHelper;
 
 public class NakedHelperImpl extends NakedInterfaceImpl implements INakedHelper {
 

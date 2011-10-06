@@ -1,12 +1,12 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.bpm.INakedDefinedResponsibility;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.bpm.INakedResponsibility;
-import org.opeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.runtime.domain.DeadlineKind;
+import org.opaeum.metamodel.bpm.INakedDeadline;
+import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.bpm.INakedResponsibility;
+import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.runtime.domain.DeadlineKind;
 
 public class NakedDeadlineImpl extends AbstractTimeEventImpl implements INakedDeadline{
 	private static final long serialVersionUID = -2226272827359217290L;

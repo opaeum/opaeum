@@ -1,10 +1,10 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.bpm.INakedBusinessService;
-import org.opeum.metamodel.bpm.INakedResponsibility;
-import org.opeum.metamodel.core.internal.NakedInterfaceImpl;
+import org.opaeum.metamodel.bpm.INakedBusinessService;
+import org.opaeum.metamodel.bpm.INakedResponsibility;
+import org.opaeum.metamodel.core.internal.NakedInterfaceImpl;
 
 public class NakedBusinessServiceImpl extends NakedInterfaceImpl implements INakedBusinessService{
 	/**

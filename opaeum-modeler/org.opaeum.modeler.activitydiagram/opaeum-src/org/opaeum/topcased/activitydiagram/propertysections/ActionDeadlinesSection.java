@@ -1,7 +1,7 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -30,9 +30,9 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
-import org.opeum.eclipse.ProfileApplier;
-import org.opeum.topcased.propertysections.AbsoluteTimeEventDetailsComposite;
-import org.opeum.topcased.propertysections.RelativeTimeEventDetailsComposite;
+import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.topcased.propertysections.AbsoluteTimeEventDetailsComposite;
+import org.opaeum.topcased.propertysections.RelativeTimeEventDetailsComposite;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 

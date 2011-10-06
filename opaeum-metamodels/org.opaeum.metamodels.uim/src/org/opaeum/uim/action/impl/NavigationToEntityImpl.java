@@ -4,20 +4,20 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.NavigationBinding;
-import org.opeum.uim.form.ClassForm;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.form.ClassForm;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,9 +26,9 @@ import org.opeum.uim.form.ClassForm;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.action.impl.NavigationToEntityImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.opeum.uim.action.impl.NavigationToEntityImpl#getToForm <em>To Form</em>}</li>
- *   <li>{@link org.opeum.uim.action.impl.NavigationToEntityImpl#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.NavigationToEntityImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.NavigationToEntityImpl#getToForm <em>To Form</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.NavigationToEntityImpl#getBinding <em>Binding</em>}</li>
  * </ul>
  * </p>
  *

@@ -1,7 +1,7 @@
-package org.opeum.metamodel.bpm;
+package org.opaeum.metamodel.bpm;
 
-import org.opeum.metamodel.commonbehaviors.INakedTimer;
-import org.opeum.runtime.domain.DeadlineKind;
+import org.opaeum.metamodel.commonbehaviors.INakedTimer;
+import org.opaeum.runtime.domain.DeadlineKind;
 
 public interface INakedDeadline extends INakedTimer{
 	DeadlineKind getKind();

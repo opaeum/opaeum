@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security;
+package org.opaeum.uim.security;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -17,13 +17,13 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership <em>Requires Group Ownership</em>}</li>
- *   <li>{@link org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership <em>Requires Ownership</em>}</li>
- *   <li>{@link org.opeum.uim.security.WorkspaceSecurityConstraint#getRequiredRoles <em>Required Roles</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership <em>Requires Group Ownership</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership <em>Requires Ownership</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#getRequiredRoles <em>Required Roles</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint()
+ * @see org.opaeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint()
  * @model
  * @generated
  */
@@ -38,14 +38,14 @@ public interface WorkspaceSecurityConstraint extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Requires Group Ownership</em>' attribute.
 	 * @see #setRequiresGroupOwnership(boolean)
-	 * @see org.opeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint_RequiresGroupOwnership()
+	 * @see org.opaeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint_RequiresGroupOwnership()
 	 * @model
 	 * @generated
 	 */
 	boolean isRequiresGroupOwnership();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership <em>Requires Group Ownership</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership <em>Requires Group Ownership</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Requires Group Ownership</em>' attribute.
@@ -64,14 +64,14 @@ public interface WorkspaceSecurityConstraint extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Requires Ownership</em>' attribute.
 	 * @see #setRequiresOwnership(boolean)
-	 * @see org.opeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint_RequiresOwnership()
+	 * @see org.opaeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint_RequiresOwnership()
 	 * @model
 	 * @generated
 	 */
 	boolean isRequiresOwnership();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership <em>Requires Ownership</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership <em>Requires Ownership</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Requires Ownership</em>' attribute.
@@ -82,7 +82,7 @@ public interface WorkspaceSecurityConstraint extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Required Roles</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opeum.uim.security.RequiredRole}.
+	 * The list contents are of type {@link org.opaeum.uim.security.RequiredRole}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Required Roles</em>' containment reference list isn't clear,
@@ -90,7 +90,7 @@ public interface WorkspaceSecurityConstraint extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Required Roles</em>' containment reference list.
-	 * @see org.opeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint_RequiredRoles()
+	 * @see org.opaeum.uim.security.SecurityPackage#getWorkspaceSecurityConstraint_RequiredRoles()
 	 * @model containment="true"
 	 * @generated
 	 */

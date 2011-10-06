@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 
 public class TestOneToMany extends BaseLocalDbTest {
 

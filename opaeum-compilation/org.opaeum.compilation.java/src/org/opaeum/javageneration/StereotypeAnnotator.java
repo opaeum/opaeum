@@ -1,27 +1,27 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
 import java.util.Collection;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.metamodel.core.INakedSlot;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 	protected void annotate(INakedElement umlElement,OJAnnotatedClass ojClass,String stereotypeName,OJElement javaElement){
@@ -112,7 +112,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 	}
 	private boolean isBuiltIn(INakedClassifier stereotype){
 		PathName pn = getPathNameInModel(stereotype);
-		boolean result = workspace.getOpeumLibrary().getTypeMap().containsKey(pn.toString());
+		boolean result = workspace.getOpaeumLibrary().getTypeMap().containsKey(pn.toString());
 		return result;
 	}
 }

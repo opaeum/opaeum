@@ -1,14 +1,14 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.ActivityKind;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.core.internal.NakedOperationImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.statemachines.StateMachineKind;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.ActivityKind;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.core.internal.NakedOperationImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.StateMachineKind;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = LinkagePhase.class,after = {DependencyCalculator.class},requires = {
 	DependencyCalculator.class

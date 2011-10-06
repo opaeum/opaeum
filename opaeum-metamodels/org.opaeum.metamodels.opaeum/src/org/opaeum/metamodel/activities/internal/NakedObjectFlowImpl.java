@@ -1,13 +1,13 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedObjectFlow;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 
 public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INakedObjectFlow {
 	private static final long serialVersionUID = 6481759202136150887L;

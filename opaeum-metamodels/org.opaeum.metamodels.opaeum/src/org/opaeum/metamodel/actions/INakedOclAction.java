@@ -1,9 +1,9 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public interface INakedOclAction extends INakedOpaqueAction{
 	INakedOutputPin getReturnPin();

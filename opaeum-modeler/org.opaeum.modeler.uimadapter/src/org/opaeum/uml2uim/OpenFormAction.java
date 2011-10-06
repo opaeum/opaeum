@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.IAction;
@@ -7,7 +7,7 @@ import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
-import org.opeum.eclipse.context.OpeumEclipseContext;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 
 public class OpenFormAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
 	@Override
@@ -39,6 +39,6 @@ public class OpenFormAction extends AbstractUimGenerationAction implements IObje
 				suffix = "Task";
 			}
 		}
-		return OpeumEclipseContext.getCurrentContext().getId(namedElement) + suffix;
+		return OpaeumEclipseContext.getCurrentContext().getId(namedElement) + suffix;
 	}
 }

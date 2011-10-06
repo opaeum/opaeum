@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,11 +8,11 @@ import java.util.Set;
 
 import nl.klasse.octopus.model.IImportedElement;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.RootObjectStatus;
 
 public class NakedRootObjectImpl extends NakedPackageImpl implements INakedRootObject {
 	

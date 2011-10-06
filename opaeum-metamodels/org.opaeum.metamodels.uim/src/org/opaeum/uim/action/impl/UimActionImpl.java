@@ -4,12 +4,12 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.UimAction;
-import org.opeum.uim.layout.impl.OutlayableComponentImpl;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.layout.impl.OutlayableComponentImpl;
 
 /**
  * <!-- begin-user-doc -->

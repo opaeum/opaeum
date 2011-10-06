@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
 public enum CodeGenerationStrategy{
 	ABSTRACT_SUPERTYPE_ONLY,

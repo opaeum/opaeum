@@ -1,6 +1,6 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 public interface IMessageMap{
 

@@ -1,7 +1,7 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.opeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.LayoutPackage;
 import org.topcased.tabbedproperties.sections.AbstractIntegerPropertySection;
 
 /**

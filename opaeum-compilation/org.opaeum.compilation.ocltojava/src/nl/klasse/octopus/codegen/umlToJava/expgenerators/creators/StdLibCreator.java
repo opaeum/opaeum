@@ -6,8 +6,8 @@
 package nl.klasse.octopus.codegen.umlToJava.expgenerators.creators;
 /**<octel>
 <java>
-	%import org.opeum.javametamodel.OJParameter%;
-	%inet.sfsf.opeum.javametamodelametamodel.model.OJWhileStatementnet.sf.sf.opeum.javametamodell.javametamodel.model.OJForStanet.sft.sf.opeum.javametamodelkeduml.javametamodel.model.Onet.sfet.sf.opeum.javametamodelsf.opeum.javametamodel.model.OJSimpleStatement%;
+	%import org.opaeum.javametamodel.OJParameter%;
+	%inet.sfsf.opaeum.javametamodelametamodel.model.OJWhileStatementnet.sf.sf.opaeum.javametamodell.javametamodel.model.OJForStanet.sft.sf.opaeum.javametamodelkeduml.javametamodel.model.Onet.sfet.sf.opaeum.javametamodelsf.opaeum.javametamodel.model.OJSimpleStatement%;
 </java>
 </octel>*/
 
@@ -19,18 +19,18 @@ package nl.klasse.octopus.codegen.umlToJava.expgenerators.creators;
 import nl.klasse.octopus.codegen.helpers.CommonNames;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.OJWhileStatement;
-import org.opeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.OJWhileStatement;
+import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
 
 /**

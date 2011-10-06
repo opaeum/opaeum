@@ -1,21 +1,21 @@
-package org.opeum.validation.namegeneration;
-import org.opeum.feature.MappingInfo;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedHelper;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.name.NameWrapper;
-import org.opeum.metamodel.name.SingularNameWrapper;
-import org.opeum.metamodel.statemachines.INakedState;
+package org.opaeum.validation.namegeneration;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedHelper;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.name.NameWrapper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.metamodel.statemachines.INakedState;
 
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 public abstract class AbstractPersistentNameGenerator extends AbstractNameGenerator {
 	protected final String generateQualifiedPersistentName(INakedElement nme) {
 		if (nme instanceof INakedState) {

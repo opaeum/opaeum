@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -6,18 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.RootObjectStatus;
-import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 @PhaseDependency()
 public class LinkagePhase implements TransformationPhase<AbstractModelElementLinker,INakedElement>{
@@ -31,7 +31,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 			return 1;
 		}
 	}
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	private List<AbstractModelElementLinker> linkers;
@@ -52,7 +52,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	}
 	@Override
 	public void execute(TransformationContext context){
-		context.getLog().startTask("Linking Opium Metadata", linkers.size());
+		context.getLog().startTask("Linking Opaeum Metadata", linkers.size());
 		for(AbstractModelElementLinker d:linkers){
 			if(!context.getLog().isCanceled()){
 				context.getLog().startStep("Executing " + d.getClass().getSimpleName());
@@ -68,7 +68,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		context.getLog().endLastTask();
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractModelElementLinker> features){
+	public void initialize(OpaeumConfig config,List<AbstractModelElementLinker> features){
 		this.config = config;
 		this.linkers = features;
 	}

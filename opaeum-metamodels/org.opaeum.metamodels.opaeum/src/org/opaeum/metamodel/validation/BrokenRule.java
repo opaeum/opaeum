@@ -1,4 +1,4 @@
-package org.opeum.metamodel.validation;
+package org.opaeum.metamodel.validation;
 
 import java.util.Date;
 

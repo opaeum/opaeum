@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.List;
 
@@ -6,15 +6,15 @@ import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.CentralBufferNode;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.Parameter;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.internal.NakedExpansionNodeImpl;
-import org.opeum.metamodel.activities.internal.NakedObjectNodeImpl;
-import org.opeum.metamodel.activities.internal.NakedParameterNodeImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.internal.NakedExpansionNodeImpl;
+import org.opaeum.metamodel.activities.internal.NakedObjectNodeImpl;
+import org.opaeum.metamodel.activities.internal.NakedParameterNodeImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {FeatureExtractor.class,ActivityStructureExtractor.class},after = {
 		FeatureExtractor.class,ActivityStructureExtractor.class})

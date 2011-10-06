@@ -1,15 +1,15 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.actions.INakedReplyAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
+import org.opaeum.metamodel.actions.INakedReplyAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedReplyActionImpl extends NakedActionImpl implements INakedReplyAction{
 	/**

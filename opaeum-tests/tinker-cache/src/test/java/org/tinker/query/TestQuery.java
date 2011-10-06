@@ -1,6 +1,6 @@
 package org.tinker.query;
 
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 
 public class TestQuery extends BaseLocalDbTest {
 

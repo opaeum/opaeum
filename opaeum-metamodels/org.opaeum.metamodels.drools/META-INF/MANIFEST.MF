@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.metamodels.drools
-Bundle-SymbolicName: org.opeum.metamodels.drools;singleton:=true
+Bundle-Name: org.opaeum.metamodels.drools
+Bundle-SymbolicName: org.opaeum.metamodels.drools;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Vendor: Opeum
+Bundle-Vendor: Opaeum
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: 
  org.drools.drools._5._0.process,

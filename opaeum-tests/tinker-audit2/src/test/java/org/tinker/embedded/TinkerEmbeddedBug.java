@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.util.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;

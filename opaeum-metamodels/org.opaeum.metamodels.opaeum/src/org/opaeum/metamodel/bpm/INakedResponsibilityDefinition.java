@@ -1,11 +1,11 @@
-package org.opeum.metamodel.bpm;
+package org.opaeum.metamodel.bpm;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.runtime.domain.TaskDelegation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.runtime.domain.TaskDelegation;
 
 public interface INakedResponsibilityDefinition extends INakedElement{
 	/**

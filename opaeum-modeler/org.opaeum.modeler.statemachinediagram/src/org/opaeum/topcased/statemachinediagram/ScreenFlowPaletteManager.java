@@ -1,4 +1,4 @@
-package org.opeum.topcased.statemachinediagram;
+package org.opaeum.topcased.statemachinediagram;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 	}
 	private void createObjectsDrawer(){
 		objectsDrawer = new PaletteDrawer("Objects", null);
-		List<PaletteEntry> entries = new CustomPaletteArrayList("org.opeum.topcased.statemachinediagram.statemachinediagram");
+		List<PaletteEntry> entries = new CustomPaletteArrayList("org.opaeum.topcased.statemachinediagram.statemachinediagram");
 		CreationFactory factory;
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getState(), "default");
 		entries.add(new ModelerCreationToolEntry("Screen", "Screen", factory, STMImageRegistry.getImageDescriptor("STATE"), STMImageRegistry
@@ -79,7 +79,7 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 	}
 	private void createPseudostatesDrawer(){
 		pseudostatesDrawer = new PaletteDrawer("Pseudostates", null);
-		List<PaletteEntry> entries = new CustomPaletteArrayList("org.opeum.topcased.statemachinediagram.statemachinediagram");
+		List<PaletteEntry> entries = new CustomPaletteArrayList("org.opaeum.topcased.statemachinediagram.statemachinediagram");
 		CreationFactory factory;
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getPseudostate(), "default"){
 			public EObject getNewModelObject(){
@@ -142,7 +142,7 @@ public class ScreenFlowPaletteManager extends ModelerPaletteManager{
 	}
 	private void createConnectionsDrawer(){
 		connectionsDrawer = new PaletteDrawer("Connections", null);
-		List<PaletteEntry> entries = new CustomPaletteArrayList("org.opeum.topcased.statemachinediagram.statemachinediagram");
+		List<PaletteEntry> entries = new CustomPaletteArrayList("org.opaeum.topcased.statemachinediagram.statemachinediagram");
 		CreationFactory factory;
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getTransition(), "default"){
 			public EObject getNewModelObject(){

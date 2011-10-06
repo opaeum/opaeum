@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.compilation.runtimedependencies
-Bundle-SymbolicName: org.opeum.compilation.runtimedependencies
+Bundle-Name: org.opaeum.compilation.runtimedependencies
+Bundle-SymbolicName: org.opaeum.compilation.runtimedependencies
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime

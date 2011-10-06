@@ -1,4 +1,4 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -6,8 +6,8 @@ import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.Font;
-import org.opeum.uim.figures.controls.IControlFigure;
-import org.opeum.uim.figures.controls.UimTextFigure;
+import org.opaeum.uim.figures.controls.IControlFigure;
+import org.opaeum.uim.figures.controls.UimTextFigure;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.ILabel;
 import org.topcased.draw2d.figures.ILabelFigure;

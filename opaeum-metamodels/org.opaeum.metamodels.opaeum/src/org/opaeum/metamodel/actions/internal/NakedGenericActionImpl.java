@@ -1,10 +1,10 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedGenericActionImpl extends NakedActionImpl{
 	/**

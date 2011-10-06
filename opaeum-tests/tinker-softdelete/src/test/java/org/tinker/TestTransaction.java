@@ -1,6 +1,6 @@
 package org.tinker;
 
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 
 public class TestTransaction extends BaseLocalDbTest {
 

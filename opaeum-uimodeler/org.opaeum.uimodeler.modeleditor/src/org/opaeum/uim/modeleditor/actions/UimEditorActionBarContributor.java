@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.actions;
+package org.opaeum.uim.modeleditor.actions;
 
 import org.topcased.modeler.actions.ModelerActionBarContributor;
 

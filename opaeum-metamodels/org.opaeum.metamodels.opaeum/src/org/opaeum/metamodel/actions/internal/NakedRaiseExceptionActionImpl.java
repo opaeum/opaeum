@@ -1,12 +1,12 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opeum.metamodel.actions.INakedRaiseExceptionAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.actions.INakedRaiseExceptionAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public class NakedRaiseExceptionActionImpl extends NakedActionImpl implements INakedRaiseExceptionAction{
 	private static final long serialVersionUID = 3691990455746398683L;

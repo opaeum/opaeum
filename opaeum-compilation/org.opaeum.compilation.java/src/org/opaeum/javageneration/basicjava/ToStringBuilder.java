@@ -1,27 +1,27 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.StereotypeAnnotator;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.StereotypeAnnotator;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class,AttributeImplementor.class
 },after = {

@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
@@ -12,7 +12,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection{
 	protected void handleModelChanged(Notification msg){

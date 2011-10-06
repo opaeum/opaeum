@@ -1,35 +1,35 @@
-package org.opeum.jaxb;
+package org.opaeum.jaxb;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.simpleactions.EventGeneratorImplementor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = JavaTransformationPhase.class, after={EventGeneratorImplementor.class})
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c){
-		// TODO this should be a opeum webservice step
+		// TODO this should be a opaeum webservice step
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);

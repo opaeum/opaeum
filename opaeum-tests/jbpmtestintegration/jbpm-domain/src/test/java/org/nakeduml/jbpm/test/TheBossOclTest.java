@@ -1,4 +1,4 @@
-package org.opeum.jbpm.test;
+package org.opaeum.jbpm.test;
 
 import jbpm.jbpm.TheBoss;
 

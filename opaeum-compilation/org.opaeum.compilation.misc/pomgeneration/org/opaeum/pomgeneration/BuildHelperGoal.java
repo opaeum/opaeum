@@ -1,4 +1,4 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 public enum BuildHelperGoal {
 	ADD_TEST_RESOURCE("generate-resources", "add-test-resource", false),

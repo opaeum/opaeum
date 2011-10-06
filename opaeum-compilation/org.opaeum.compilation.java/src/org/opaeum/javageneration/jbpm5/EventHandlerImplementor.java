@@ -1,50 +1,50 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSwitchCase;
-import org.opeum.java.metamodel.OJSwitchStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.Java6ModelGenerator;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.maps.SignalMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.commonbehaviors.INakedTimer;
-import org.opeum.metamodel.commonbehaviors.INakedTriggerContainer;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.runtime.domain.IActiveObject;
-import org.opeum.runtime.environment.marshall.PropertyValue;
-import org.opeum.runtime.environment.marshall.Value;
-import org.opeum.runtime.event.ICallEventHandler;
-import org.opeum.runtime.event.IChangeEventHandler;
-import org.opeum.runtime.event.ISignalEventHandler;
-import org.opeum.runtime.event.ITimeEventHandler;
-import org.opeum.runtime.persistence.AbstractPersistence;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSwitchCase;
+import org.opaeum.java.metamodel.OJSwitchStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
+import org.opaeum.javageneration.maps.NakedOperationMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedTimer;
+import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.runtime.domain.IActiveObject;
+import org.opaeum.runtime.environment.marshall.PropertyValue;
+import org.opaeum.runtime.environment.marshall.Value;
+import org.opaeum.runtime.event.ICallEventHandler;
+import org.opaeum.runtime.event.IChangeEventHandler;
+import org.opaeum.runtime.event.ISignalEventHandler;
+import org.opaeum.runtime.event.ITimeEventHandler;
+import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(after = Java6ModelGenerator.class,phase = JavaTransformationPhase.class)
 public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
@@ -163,14 +163,14 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		if(e.isRelative()){
 			constr.addParam("delay", new OJPathName("int"));
 			if(getLibrary().getBusinessRole() == null){
-				constr.addParam("timeUnit", new OJPathName("org.opeum.runtime.domain.TimeUnit"));
-				ojClass.addToImports(new OJPathName("org.opeum.runtime.domain.TimeUnit"));
+				constr.addParam("timeUnit", new OJPathName("org.opaeum.runtime.domain.TimeUnit"));
+				ojClass.addToImports(new OJPathName("org.opaeum.runtime.domain.TimeUnit"));
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=timeUnit.addTimeTo(new Date(),delay)");
 			}else{
-				constr.addParam("timeUnit", new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
-				ojClass.addToImports(new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessCalendar"));
-				ojClass.addToImports(new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				constr.addParam("timeUnit", new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				ojClass.addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar"));
+				ojClass.addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
 			}
@@ -350,7 +350,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	private String getOldInvokerName(INakedOperation o){
-		return o.getMappingInfo().getOldJavaName().getCapped() + "Handler" + o.getMappingInfo().getOpeumId();
+		return o.getMappingInfo().getOldJavaName().getCapped() + "Handler" + o.getMappingInfo().getOpaeumId();
 	}
 	private void addMarshallingImports(OJAnnotatedClass marshaller){
 	}
@@ -363,7 +363,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		result.setInitExp("new ArrayList<PropertyValue>()");
 		for(INakedTypedElement p:e){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
-			blo.addToStatements("result.add(new PropertyValue(" + p.getMappingInfo().getOpeumId() + ", Value.valueOf(" + target + "." + map.getter() + "())))");
+			blo.addToStatements("result.add(new PropertyValue(" + p.getMappingInfo().getOpaeumId() + ", Value.valueOf(" + target + "." + map.getter() + "())))");
 		}
 		if(includeNodeId){
 			marshall.getBody().addToStatements("result.add(new PropertyValue(-5, Value.valueOf(nodeId)))");
@@ -373,7 +373,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	private OJPathName getCollectionOfPropertyValues(){
 		OJPathName collectionOfPropertyValues = new OJPathName("java.util.Collection");
-		OJPathName propertyValuePath = new OJPathName(org.opeum.runtime.environment.marshall.PropertyValue.class.getName());
+		OJPathName propertyValuePath = new OJPathName(org.opaeum.runtime.environment.marshall.PropertyValue.class.getName());
 		collectionOfPropertyValues.addToElementTypes(propertyValuePath);
 		return collectionOfPropertyValues;
 	}
@@ -392,7 +392,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
 			OJSwitchCase sc = new OJSwitchCase();
 			sst.addToCases(sc);
-			sc.setLabel("" + p.getMappingInfo().getOpeumId());
+			sc.setLabel("" + p.getMappingInfo().getOpaeumId());
 			sc.getBody().addToStatements(target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),persistence))");
 		}
 		if(includeNodeId){

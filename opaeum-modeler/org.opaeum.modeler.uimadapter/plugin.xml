@@ -4,268 +4,268 @@
  <extension
           point="org.eclipse.ui.popupMenus">
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.package"
+             id="org.opaeum.uml2uim.actions.outline.package"
              objectClass="org.eclipse.uml2.uml.Package">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>         
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Class"
+             id="org.opaeum.uml2uim.actions.outline.Class"
              objectClass="org.eclipse.uml2.uml.Class">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Operation"
+             id="org.opaeum.uml2uim.actions.outline.Operation"
              objectClass="org.eclipse.uml2.uml.Operation">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.OpaqueAction"
+             id="org.opaeum.uml2uim.actions.outline.OpaqueAction"
              objectClass="org.eclipse.uml2.uml.OpaqueAction">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.State"
+             id="org.opaeum.uml2uim.actions.outline.State"
              objectClass="org.eclipse.uml2.uml.State">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.graphic.Package"
+             id="org.opaeum.uml2uim.actions.graphic.Package"
              objectClass="org.topcased.modeler.uml.alldiagram.edit.PackageEditPart">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.synchronize"
+                id="org.opaeum.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.graphic.Classifier"
+             id="org.opaeum.uml2uim.actions.graphic.Classifier"
              objectClass="org.topcased.modeler.uml.classdiagram.edit.ClassifierEditPart">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.synchronize"
+                id="org.opaeum.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.graphic.OpaqueAction"
+             id="org.opaeum.uml2uim.actions.graphic.OpaqueAction"
              objectClass="org.topcased.modeler.uml.activitydiagram.edit.OpaqueActionEditPart">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.synchronize"
+                id="org.opaeum.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
              adaptable="true"
-             id="org.opeum.uml2uim.actions.graphic.State"
+             id="org.opaeum.uml2uim.actions.graphic.State"
              objectClass="org.topcased.modeler.uml.statemachinediagram.edit.StateEditPart">
           <action
-                class="org.opeum.uml2uim.SynchronizeAction"
+                class="org.opaeum.uml2uim.SynchronizeAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.synchronize"
+                id="org.opaeum.uml2uim.action.synchronize"
                 label="Synchronize User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.package"
+             id="org.opaeum.uml2uim.actions.outline.package"
              objectClass="org.eclipse.uml2.uml.Package">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>         
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Class"
+             id="org.opaeum.uml2uim.actions.outline.Class"
              objectClass="org.eclipse.uml2.uml.Class">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Operation"
+             id="org.opaeum.uml2uim.actions.outline.Operation"
              objectClass="org.eclipse.uml2.uml.Operation">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.OpaqueAction"
+             id="org.opaeum.uml2uim.actions.outline.OpaqueAction"
              objectClass="org.eclipse.uml2.uml.OpaqueAction">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.State"
+             id="org.opaeum.uml2uim.actions.outline.State"
              objectClass="org.eclipse.uml2.uml.State">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.diagramreference"
+                id="org.opaeum.uml2uim.action.diagramreference"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.graphic.Package"
+             id="org.opaeum.uml2uim.actions.graphic.Package"
              objectClass="org.topcased.modeler.uml.alldiagram.edit.PackageEditPart">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.Regenerate"
+                id="org.opaeum.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.graphic.Classifier"
+             id="org.opaeum.uml2uim.actions.graphic.Classifier"
              objectClass="org.topcased.modeler.uml.classdiagram.edit.ClassifierEditPart">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.Regenerate"
+                id="org.opaeum.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.graphic.OpaqueAction"
+             id="org.opaeum.uml2uim.actions.graphic.OpaqueAction"
              objectClass="org.topcased.modeler.uml.activitydiagram.edit.OpaqueActionEditPart">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.Regenerate"
+                id="org.opaeum.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
              adaptable="true"
-             id="org.opeum.uml2uim.actions.graphic.State"
+             id="org.opaeum.uml2uim.actions.graphic.State"
              objectClass="org.topcased.modeler.uml.statemachinediagram.edit.StateEditPart">
           <action
-                class="org.opeum.uml2uim.RegenerateAction"
+                class="org.opaeum.uml2uim.RegenerateAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.action.Regenerate"
+                id="org.opaeum.uml2uim.action.Regenerate"
                 label="Regenerate User Interaction Model"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Class.Edit"
+             id="org.opaeum.uml2uim.actions.outline.Class.Edit"
              objectClass="org.eclipse.uml2.uml.Class">
           <action
-                class="org.opeum.uml2uim.OpenFormAction"
+                class="org.opaeum.uml2uim.OpenFormAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.actions.outline.Class.Edit"
+                id="org.opaeum.uml2uim.actions.outline.Class.Edit"
                 label="Open Edit Form"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Class.Create"
+             id="org.opaeum.uml2uim.actions.outline.Class.Create"
              objectClass="org.eclipse.uml2.uml.Class">
           <action
-                class="org.opeum.uml2uim.OpenFormAction"
+                class="org.opaeum.uml2uim.OpenFormAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.actions.outline.Class.Create"
+                id="org.opaeum.uml2uim.actions.outline.Class.Create"
                 label="Open Create Form"
-                menubarPath="org.opeum.outline.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.outline.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Class.Edit"
+             id="org.opaeum.uml2uim.actions.outline.Class.Edit"
              objectClass="org.topcased.modeler.uml.classdiagram.edit.ClassifierEditPart">
           <action
-                class="org.opeum.uml2uim.OpenFormAction"
+                class="org.opaeum.uml2uim.OpenFormAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.actions.graphic.Class.Edit"
+                id="org.opaeum.uml2uim.actions.graphic.Class.Edit"
                 label="Open Edit Form"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
-             id="org.opeum.uml2uim.actions.outline.Class.Create"
+             id="org.opaeum.uml2uim.actions.outline.Class.Create"
              objectClass="org.topcased.modeler.uml.classdiagram.edit.ClassifierEditPart">
           <action
-                class="org.opeum.uml2uim.OpenFormAction"
+                class="org.opaeum.uml2uim.OpenFormAction"
                 enablesFor="*"
-                id="org.opeum.uml2uim.actions.graphic.Class.Create"
+                id="org.opaeum.uml2uim.actions.graphic.Class.Create"
                 label="Open Create Form"
-                menubarPath="org.opeum.graphic.menu/opeumActionsGroup">
+                menubarPath="org.opaeum.graphic.menu/opaeumActionsGroup">
           </action>
        </objectContribution>
        <objectContribution
              adaptable="false"
-             id="org.opeum.uim2uim.actions.objectContribution1"
+             id="org.opaeum.uim2uim.actions.objectContribution1"
              objectClass="org.eclipse.uml2.uml.Element">
           <menu
-                id="org.opeum.outline.menu"
+                id="org.opaeum.outline.menu"
                 label="UI Model"
-                path="opeumActionsGroup">
+                path="opaeumActionsGroup">
           </menu>
        </objectContribution>
     </extension>
  <extension
        id="sfads.asf.asf..dfs.adf."
-       point="org.opeum.eclipse.transformationStep">
+       point="org.opaeum.eclipse.transformationStep">
     <transformationStep
-          className="org.opeum.uml2uim.FormSynchronizer">
+          className="org.opaeum.uml2uim.FormSynchronizer">
     </transformationStep>
     <transformationStep
-          className="org.opeum.uml2uim.ModelCopyStep">
+          className="org.opaeum.uml2uim.ModelCopyStep">
     </transformationStep>
  </extension>
 </plugin>

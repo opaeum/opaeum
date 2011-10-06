@@ -1,22 +1,22 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.linkage.CoreValidationRule;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedActivityVariable;
-import org.opeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.PreAndPostConstrained;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.linkage.CoreValidationRule;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedActivityVariable;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.PreAndPostConstrained;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
 @StepDependency(phase = ValidationPhase.class)
 public class NameUniquenessValidation extends AbstractValidator{

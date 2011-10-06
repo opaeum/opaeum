@@ -1,23 +1,23 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.actions.INakedSendSignalAction;
-import org.opeum.metamodel.actions.INakedStructuralFeatureAction;
-import org.opeum.metamodel.actions.INakedVariableAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.actions.INakedStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedVariableAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	

@@ -1,17 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.eclipse.reverse
-Bundle-SymbolicName: org.opeum.eclipse.reverse;singleton:=true
+Bundle-Name: org.opaeum.eclipse.reverse
+Bundle-SymbolicName: org.opaeum.eclipse.reverse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.reverse.Activator
+Bundle-Activator: org.opaeum.reverse.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.jdt.core,
  org.eclipse.uml2.uml,
  org.eclipse.uml2.uml.resources,
- org.opeum.eclipse.core,
- org.opeum.metamodels.emfworkspace,
- org.opeum.linkage.emfextraction
+ org.opaeum.eclipse.core,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.linkage.emfextraction
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

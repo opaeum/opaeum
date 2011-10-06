@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.provider;
+package org.opaeum.uim.security.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.security.util.SecurityAdapterFactory;
+import org.opaeum.uim.security.util.SecurityAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.EditableSecureObject} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.EditableSecureObject} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	protected EditableSecureObjectItemProvider editableSecureObjectItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.EditableSecureObject}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.EditableSecureObject}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.SecureObject} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.SecureObject} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	protected SecureObjectItemProvider secureObjectItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.SecureObject}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.SecureObject}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.RequiredRole} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.RequiredRole} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	protected RequiredRoleItemProvider requiredRoleItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.RequiredRole}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.RequiredRole}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.WorkspaceSecurityConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.WorkspaceSecurityConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	protected WorkspaceSecurityConstraintItemProvider workspaceSecurityConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.WorkspaceSecurityConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.WorkspaceSecurityConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.SecurityConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.SecurityConstraint} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class SecurityItemProviderAdapterFactory extends SecurityAdapterFactory i
 	protected SecurityConstraintItemProvider securityConstraintItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.SecurityConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.SecurityConstraint}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

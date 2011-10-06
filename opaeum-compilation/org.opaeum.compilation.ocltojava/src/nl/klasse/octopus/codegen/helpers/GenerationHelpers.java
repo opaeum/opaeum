@@ -18,11 +18,11 @@ import nl.klasse.octopus.model.internal.types.ClassifierImpl;
 import nl.klasse.octopus.model.internal.types.InterfaceImpl;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJInterface;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJInterface;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * GenerationHelpers : 

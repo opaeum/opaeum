@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OCL to Java Generator
-Bundle-SymbolicName: org.opeum.compilation.ocltojava;singleton:=true
+Bundle-SymbolicName: org.opaeum.compilation.ocltojava;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: nl.klasse.octopus.codegen.helpers,
@@ -14,5 +14,5 @@ Export-Package: nl.klasse.octopus.codegen.helpers,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.creators,
  nl.klasse.octopus.codegen.umlToJava.othergenerators.visitors
 Bundle-ClassPath: .
-Require-Bundle: org.opeum.metamodels.java,
- org.opeum.metamodels.ocl
+Require-Bundle: org.opaeum.metamodels.java,
+ org.opaeum.metamodels.ocl

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.statemachines;
+package org.opaeum.metamodel.statemachines;
 import java.io.Serializable;
 public enum StateKind implements Serializable {
 	INITIAL("initial"), FINAL("final"), SHALLOW_HISTORY("shallowHistory"), COMPOSITE("composite"), ORTHOGONAL(

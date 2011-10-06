@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.util;
+package org.opaeum.uim.security.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * <!-- begin-user-doc -->
  * The <b>Resource Factory</b> associated with the package.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.security.util.SecurityResourceImpl
+ * @see org.opaeum.uim.security.util.SecurityResourceImpl
  * @generated
  */
 public class SecurityResourceFactoryImpl extends ResourceFactoryImpl {

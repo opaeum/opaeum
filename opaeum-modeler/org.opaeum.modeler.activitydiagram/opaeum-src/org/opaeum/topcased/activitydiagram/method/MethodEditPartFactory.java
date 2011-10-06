@@ -11,7 +11,7 @@
  *  Caroline Bourdeu d'Aguerre (Atos Origin) caroline.bourdeudaguerre@atosorigin.com - Initial API and implementation
  *
  *****************************************************************************/
-package org.opeum.topcased.activitydiagram.method;
+package org.opaeum.topcased.activitydiagram.method;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;

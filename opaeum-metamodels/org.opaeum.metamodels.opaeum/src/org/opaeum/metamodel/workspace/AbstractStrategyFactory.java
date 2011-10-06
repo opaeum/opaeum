@@ -1,9 +1,9 @@
-package org.opeum.metamodel.workspace;
+package org.opaeum.metamodel.workspace;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.core.INakedSimpleType;
 
 public abstract class AbstractStrategyFactory {
 	public static interface ISimpleTypeStrategy{

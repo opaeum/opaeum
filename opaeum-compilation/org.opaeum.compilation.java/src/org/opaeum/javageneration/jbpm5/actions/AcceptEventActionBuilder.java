@@ -1,19 +1,19 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.jbpm5.EventUtil;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.bpm.INakedAcceptDeadlineAction;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.bpm.INakedAcceptDeadlineAction;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class AcceptEventActionBuilder extends Jbpm5ActionBuilder<INakedAcceptEventAction>{
-	public AcceptEventActionBuilder(OpeumLibrary oclEngine,INakedAcceptEventAction node){
+	public AcceptEventActionBuilder(OpaeumLibrary oclEngine,INakedAcceptEventAction node){
 		super(oclEngine, node);
 	}
 	@Override

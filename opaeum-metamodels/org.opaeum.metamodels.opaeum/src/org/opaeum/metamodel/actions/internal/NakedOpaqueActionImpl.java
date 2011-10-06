@@ -1,11 +1,11 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.metamodel.actions.INakedOpaqueAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.actions.INakedOpaqueAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public abstract class NakedOpaqueActionImpl extends NakedActionImpl implements INakedOpaqueAction{
 	private static final long serialVersionUID = -8741446980774863436L;

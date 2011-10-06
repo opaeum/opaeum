@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
 
 public interface IModifiableTypedElement extends INakedTypedElement{

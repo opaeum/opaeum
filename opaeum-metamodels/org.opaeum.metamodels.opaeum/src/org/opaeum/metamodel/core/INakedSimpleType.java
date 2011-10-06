@@ -1,6 +1,6 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
-import org.opeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.workspace.internal;
+package org.opaeum.metamodel.workspace.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,18 +11,18 @@ import java.util.Set;
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.feature.WorkspaceMappingInfo;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.validation.ErrorMap;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public static final String META_CLASS = "nakedWorkspace";
-	private OpeumLibrary builtInTypes;
+	private OpaeumLibrary builtInTypes;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
 	private INakedInterface businessRole;
 	private WorkspaceMappingInfo modelMappingInfo;
@@ -122,13 +122,13 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		}
 		this.children.add((INakedRootObject) element);
 	}
-	public OpeumLibrary getOpeumLibrary(){
+	public OpaeumLibrary getOpaeumLibrary(){
 		if(this.builtInTypes == null){
-			this.builtInTypes = new OpeumLibrary(this.getOclEngine().getOclLibrary());
+			this.builtInTypes = new OpaeumLibrary(this.getOclEngine().getOclLibrary());
 		}
 		return this.builtInTypes;
 	}
-	public void setBuiltInTypes(OpeumLibrary builtInTypes){
+	public void setBuiltInTypes(OpaeumLibrary builtInTypes){
 		this.builtInTypes = builtInTypes;
 	}
 	public ErrorMap getErrorMap(){

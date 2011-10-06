@@ -1,20 +1,20 @@
-package org.opeum.javageneration.jbpm5.activity;
+package org.opaeum.javageneration.jbpm5.activity;
 
 import java.util.List;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedExpansionRegion;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.jbpm5.actions.Jbpm5ActionBuilder;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedExpansionRegion;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ExpansionRegionBuilder extends Jbpm5ActionBuilder<INakedExpansionRegion> {
-	public ExpansionRegionBuilder(OpeumLibrary oclEngine, INakedExpansionRegion node) {
+	public ExpansionRegionBuilder(OpaeumLibrary oclEngine, INakedExpansionRegion node) {
 		super(oclEngine, node);
 	}
 

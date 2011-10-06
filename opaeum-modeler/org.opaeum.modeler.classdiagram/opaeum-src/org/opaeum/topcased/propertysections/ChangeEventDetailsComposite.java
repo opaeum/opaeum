@@ -1,6 +1,6 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -21,7 +21,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
+import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public class ChangeEventDetailsComposite extends Composite{
 	protected OpaqueExpressionComposite changeComposite;

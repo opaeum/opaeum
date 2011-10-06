@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +12,17 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValuePin;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedActivityPartition;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
-import org.opeum.metamodel.activities.internal.NakedInputPinImpl;
-import org.opeum.metamodel.activities.internal.NakedObjectNodeImpl;
-import org.opeum.metamodel.activities.internal.NakedOutputPinImpl;
-import org.opeum.metamodel.activities.internal.NakedPinImpl;
-import org.opeum.metamodel.activities.internal.NakedValuePinImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedActivityPartition;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.activities.internal.NakedInputPinImpl;
+import org.opaeum.metamodel.activities.internal.NakedObjectNodeImpl;
+import org.opaeum.metamodel.activities.internal.NakedOutputPinImpl;
+import org.opaeum.metamodel.activities.internal.NakedPinImpl;
+import org.opaeum.metamodel.activities.internal.NakedValuePinImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{
 	@SuppressWarnings("unchecked")

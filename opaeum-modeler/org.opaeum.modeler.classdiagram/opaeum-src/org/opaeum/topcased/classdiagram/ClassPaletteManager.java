@@ -1,8 +1,8 @@
-package org.opeum.topcased.classdiagram;
+package org.opaeum.topcased.classdiagram;
 
 import java.util.List;
 
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.palette.PaletteDrawer;

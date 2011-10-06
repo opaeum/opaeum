@@ -10,7 +10,7 @@
  *
  * $Id: IntroductionToUML2Profiles.java,v 1.3 2006/07/18 14:13:48 khussey Exp $
  */
-package org.opeum.emf.reverse;
+package org.opaeum.emf.reverse;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;

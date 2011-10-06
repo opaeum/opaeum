@@ -1,33 +1,33 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.OperationAnnotator;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.NakedParsedOclStringResolver;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.NakedParsedOclStringResolver;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class

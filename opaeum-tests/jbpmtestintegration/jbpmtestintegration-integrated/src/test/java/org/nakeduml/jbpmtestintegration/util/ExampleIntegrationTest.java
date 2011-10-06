@@ -1,4 +1,4 @@
-package org.opeum.jbpmtestintegration.util;
+package org.opaeum.jbpmtestintegration.util;
 
 import java.io.IOException;
 import java.util.List;

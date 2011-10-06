@@ -1,4 +1,4 @@
-package org.opeum.emf.workspace;
+package org.opaeum.emf.workspace;
 
 import java.io.File;
 

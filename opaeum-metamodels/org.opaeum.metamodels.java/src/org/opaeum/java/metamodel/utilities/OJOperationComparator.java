@@ -1,10 +1,10 @@
 
-package org.opeum.java.metamodel.utilities;
+package org.opaeum.java.metamodel.utilities;
 
 import java.util.Comparator;
 
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 
 
 

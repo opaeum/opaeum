@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security;
+package org.opaeum.uim.security;
 
 
 /**
@@ -15,11 +15,11 @@ package org.opeum.uim.security;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.security.EditableSecureObject#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.EditableSecureObject#getEditability <em>Editability</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.security.SecurityPackage#getEditableSecureObject()
+ * @see org.opaeum.uim.security.SecurityPackage#getEditableSecureObject()
  * @model
  * @generated
  */
@@ -34,14 +34,14 @@ public interface EditableSecureObject extends SecureObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Editability</em>' containment reference.
 	 * @see #setEditability(SecurityConstraint)
-	 * @see org.opeum.uim.security.SecurityPackage#getEditableSecureObject_Editability()
+	 * @see org.opaeum.uim.security.SecurityPackage#getEditableSecureObject_Editability()
 	 * @model containment="true"
 	 * @generated
 	 */
 	SecurityConstraint getEditability();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.security.EditableSecureObject#getEditability <em>Editability</em>}' containment reference.
+	 * Sets the value of the '{@link org.opaeum.uim.security.EditableSecureObject#getEditability <em>Editability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Editability</em>' containment reference.

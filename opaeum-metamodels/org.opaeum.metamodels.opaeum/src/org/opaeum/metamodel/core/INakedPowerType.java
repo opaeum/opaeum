@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import nl.klasse.octopus.model.IClassifier;
 public interface INakedPowerType extends INakedEnumeration {
 	INakedClassifier getRepresentedSupertype();

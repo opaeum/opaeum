@@ -4,26 +4,26 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.util;
+package org.opaeum.uim.folder.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.folder.AbstractFolder;
-import org.opeum.uim.folder.AbstractFormFolder;
-import org.opeum.uim.folder.ActivityFolder;
-import org.opeum.uim.folder.EntityFolder;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.folder.OperationContainingFolder;
-import org.opeum.uim.folder.PackageFolder;
-import org.opeum.uim.folder.StateMachineFolder;
-import org.opeum.uim.folder.UserInteractionModel;
-import org.opeum.uim.folder.UserInteractionWorkspace;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.folder.AbstractFolder;
+import org.opaeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.folder.ActivityFolder;
+import org.opaeum.uim.folder.EntityFolder;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.OperationContainingFolder;
+import org.opaeum.uim.folder.PackageFolder;
+import org.opaeum.uim.folder.StateMachineFolder;
+import org.opaeum.uim.folder.UserInteractionModel;
+import org.opaeum.uim.folder.UserInteractionWorkspace;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,7 +35,7 @@ import org.opeum.uim.security.SecureObject;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.folder.FolderPackage
+ * @see org.opaeum.uim.folder.FolderPackage
  * @generated
  */
 public class FolderSwitch<T> {

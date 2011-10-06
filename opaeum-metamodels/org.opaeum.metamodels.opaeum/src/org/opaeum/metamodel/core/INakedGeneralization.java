@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 public interface INakedGeneralization extends INakedElement {
 	INakedPowerTypeInstance getPowerTypeLiteral();
 	INakedClassifier getSpecific();

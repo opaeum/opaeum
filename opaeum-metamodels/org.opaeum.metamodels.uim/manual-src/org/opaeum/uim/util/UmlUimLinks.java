@@ -1,10 +1,10 @@
-package org.opeum.uim.util;
+package org.opaeum.uim.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -18,26 +18,26 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.eclipse.EmfPropertyUtil;
-import org.opeum.eclipse.EmfStateMachineUtil;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.binding.LookupBinding;
-import org.opeum.uim.binding.NavigationBinding;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.binding.TableBinding;
-import org.opeum.uim.binding.UimBinding;
-import org.opeum.uim.folder.OperationContainingFolder;
-import org.opeum.uim.form.ActionTaskForm;
-import org.opeum.uim.form.ClassForm;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.OperationInvocationForm;
-import org.opeum.uim.form.OperationTaskForm;
-import org.opeum.uim.form.StateForm;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.EmfStateMachineUtil;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.binding.LookupBinding;
+import org.opaeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.folder.OperationContainingFolder;
+import org.opaeum.uim.form.ActionTaskForm;
+import org.opaeum.uim.form.ClassForm;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.form.OperationTaskForm;
+import org.opaeum.uim.form.StateForm;
 
 public class UmlUimLinks{
 	Collection<EmfWorkspace> emfWorkspaces = new ArrayList<EmfWorkspace>();

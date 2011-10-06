@@ -1,4 +1,4 @@
-package org.opeum.eclipse.javasync;
+package org.opaeum.eclipse.javasync;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -8,12 +8,12 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.eclipse.starter.Activator;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.TransformationProcess;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.ProgressMonitorTransformationLog;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.starter.Activator;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.TransformationProcess;
 
 public class RecompileIntegrationCodeAction extends RecompileModelDirectoryAction{
 	public RecompileIntegrationCodeAction(IStructuredSelection selection2){
@@ -23,7 +23,7 @@ public class RecompileIntegrationCodeAction extends RecompileModelDirectoryActio
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final OpeumEclipseContext currentContext = OpeumEclipseContext.findOrCreateContextFor(folder);
+		final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		new Job("Recompiling Integration Code"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
@@ -41,7 +41,7 @@ public class RecompileIntegrationCodeAction extends RecompileModelDirectoryActio
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 				}catch(Exception e){
 					e.printStackTrace();
-					return new Status(Status.ERROR, OpeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
+					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
 				}finally{
 					monitor.done();
 				}

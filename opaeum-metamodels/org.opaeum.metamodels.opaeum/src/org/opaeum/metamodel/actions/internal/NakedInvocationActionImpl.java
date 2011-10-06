@@ -1,4 +1,4 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.metamodel.actions.INakedInvocationAction;
-import org.opeum.metamodel.actions.ITargetElement;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.actions.INakedInvocationAction;
+import org.opaeum.metamodel.actions.ITargetElement;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public abstract class NakedInvocationActionImpl extends NakedActionImpl implements INakedInvocationAction{
 	private static final long serialVersionUID = -2671425797278069465L;

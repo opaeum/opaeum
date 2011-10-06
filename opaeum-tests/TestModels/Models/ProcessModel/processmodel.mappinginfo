@@ -426,7 +426,7 @@
 252060@_qKLfkKDGEeCv9IRqC7lfYw=0~0.0000000~1142~transition2_trigger~
 252060@_qMfygI3oEeCfQedkc0TCdA=0~0.0000000~242~is_a_abstract_request~
 252060@_qTa18K0NEeCK48ywUpk_rg=0~0.0000000~286~on_claimed~
-252060@_qb8akM37EdqwVrslYOdUDA=0~0.0000000~86~opium_bpm~
+252060@_qb8akM37EdqwVrslYOdUDA=0~0.0000000~86~opaeum_bpm~
 252060@_qrxIcI3oEeCfQedkc0TCdA=0~0.0000000~237~is_a_abstract_request~
 252060@_qwWfEIoaEeCPduia_-NbFw=0~0.0000000~469~resume~
 252060@_qzQzsIobEeCPduia_-NbFw=0~0.0000000~1066~transition7~
@@ -514,7 +514,7 @@
 48e3a22b_66a7_4f76_8d14_662244361cc9@_W2Dx8O15Ed-YtrI3G6ybsA=0~0.0000000~49~helper~
 48e3a22b_66a7_4f76_8d14_662244361cc9@_WHGkgNYIEeCIftwUy_ucRw=0~0.0000000~221~is_a_abstract_package~
 48e3a22b_66a7_4f76_8d14_662244361cc9@_Xh44EP3eEd-uA4oh6NA2Cw=0~0.0000000~311~is_human_trigger~
-48e3a22b_66a7_4f76_8d14_662244361cc9@_XkGiwB07Ed-QQ4mYkrb7Gg=0~0.0000000~39~opium_standard_profile~
+48e3a22b_66a7_4f76_8d14_662244361cc9@_XkGiwB07Ed-QQ4mYkrb7Gg=0~0.0000000~39~opaeum_standard_profile~
 48e3a22b_66a7_4f76_8d14_662244361cc9@_ZDuHUOEkEeCZsvOjs18MJw=0~0.0000000~219~is_a_abstract_package~
 48e3a22b_66a7_4f76_8d14_662244361cc9@_ZrpC8OEkEeCZsvOjs18MJw=0~0.0000000~271~artifact_identifier~
 48e3a22b_66a7_4f76_8d14_662244361cc9@__6EbgMPwEd-SNsUNWzjz5A=0~0.0000000~45~value_type~
@@ -557,7 +557,7 @@
 5af53d08_98ea_4474_b6d1_a42a44ac5f47@_S2E3sI6CEeCrtavWRHwoHg=0~0.0000000~230~is_a_deadlines~
 5af53d08_98ea_4474_b6d1_a42a44ac5f47@_UwVhwI5-EeCrtavWRHwoHg=0~0.0000000~66~deadline~
 5af53d08_98ea_4474_b6d1_a42a44ac5f47@_V_sQ0I5-EeCrtavWRHwoHg=0~0.0000000~63~accept_deadline_action~
-5af53d08_98ea_4474_b6d1_a42a44ac5f47@_XkGiwB07Ed-QQ4mYkrb7Gg=0~0.0000000~53~opium_bpm_profile~
+5af53d08_98ea_4474_b6d1_a42a44ac5f47@_XkGiwB07Ed-QQ4mYkrb7Gg=0~0.0000000~53~opaeum_bpm_profile~
 5af53d08_98ea_4474_b6d1_a42a44ac5f47@_XlozkI6BEeCrtavWRHwoHg=0~0.0000000~228~is_a_deadlines~
 5af53d08_98ea_4474_b6d1_a42a44ac5f47@_Y2f-gI6BEeCrtavWRHwoHg=0~0.0000000~226~is_a_embedded_task~
 5af53d08_98ea_4474_b6d1_a42a44ac5f47@_YAkcEI6BEeCrtavWRHwoHg=0~0.0000000~223~is_a_embedded_task~
@@ -747,7 +747,7 @@
 616525@_Jc5cwQRUEeCuA4oh6NA2Cw=0~0.0000000~1266~guard_for_object_flow1~
 616525@_Jc5cwgRUEeCuA4oh6NA2Cw=0~0.0000000~1268~weight_for_object_flow1~
 616525@_JhvFgN0JEduHesVHuVad2Q=0~0.0000000~488~port_id~
-616525@_K3FJcNRJEd-_rNybTVK8eA=0~0.0000000~1075~opium_simple_types~
+616525@_K3FJcNRJEd-_rNybTVK8eA=0~0.0000000~1075~opaeum_simple_types~
 616525@_KAIkQFHiEdyTle4M6qyXzw=0~0.0000000~28~user_in_role~
 616525@_KWAF4NtaEdut4tBfUstIHQ=0~0.0000000~497~param1~
 616525@_KZ5xENOcEdubaLB0CR972w=0~0.0000000~972~to_empty_signal~
@@ -769,7 +769,7 @@
 616525@_LfsisBWyEeC-BYgrKhGreA=0~0.0000000~1336~opaque_expression1~
 616525@_LxJgoMMUEd--CeJM_PJ63w=0~0.0000000~1069~input_pin1~
 616525@_M15w0FDMEdysGOUZL2wBvw=0~0.0000000~1068~activity_node1068~
-616525@_M8fk4OEmEeCp-KZHwwR6Dg=0~0.0000000~1078~opium_simple_types~
+616525@_M8fk4OEmEeCp-KZHwwR6Dg=0~0.0000000~1078~opaeum_simple_types~
 616525@_MBQGwNtaEdut4tBfUstIHQ=0~0.0000000~495~param2~
 616525@_MCh0gARPEeCuA4oh6NA2Cw=0~0.0000000~627~input_element~
 616525@_MIzrgFHjEdyTle4M6qyXzw=0~0.0000000~516~upper_limit~
@@ -1031,7 +1031,7 @@
 616525@_qu6_IEihEdyLo_OnlCyrLg=0~0.0000000~1043~to_final_node~
 616525@_qvFtENtaEdut4tBfUstIHQ=0~0.0000000~1116~trigger1116~
 616525@_qvFtEdtaEdut4tBfUstIHQ616525@_qvFtENtaEdut4tBfUstIHQ=0~0.0000000~1117~relative_time_event~
-616525@_qyu3cMMWEd--CeJM_PJ63w=0~0.0000000~1081~opium_simple_types~
+616525@_qyu3cMMWEd--CeJM_PJ63w=0~0.0000000~1081~opaeum_simple_types~
 616525@_r-2QAFHjEdyTle4M6qyXzw=0~0.0000000~36~user_tosales_department~
 616525@_r-_Z81HjEdyTle4M6qyXzw=0~0.0000000~510~sales_department_id~
 616525@_r-_Z8FHjEdyTle4M6qyXzw=0~0.0000000~523~user_id~
@@ -1531,7 +1531,7 @@
 9f50af7e_a244_4962_b89f_c0b2dcce18c8@_naI78MbwEd-qWtMD5IZMIA=0~0.0000000~1090~string~
 9f50af7e_a244_4962_b89f_c0b2dcce18c8@_naI78cbwEd-qWtMD5IZMIA=0~0.0000000~1088~unlimited_natural~
 9f50af7e_a244_4962_b89f_c0b2dcce18c8@_naIU4MbwEd-qWtMD5IZMIA=0~0.0000000~1087~integer~
-9f50af7e_a244_4962_b89f_c0b2dcce18c8@_qb8akM37EdqwVrslYOdUDA=0~0.0000000~82~opium_simple_types~
+9f50af7e_a244_4962_b89f_c0b2dcce18c8@_qb8akM37EdqwVrslYOdUDA=0~0.0000000~82~opaeum_simple_types~
 9f50af7e_a244_4962_b89f_c0b2dcce18c8@_w4cZ8MPxEd-SNsUNWzjz5A=0~0.0000000~84~date_time~
 JavaPrimitiveTypes.library.uml@_0=0~0.0000000~209~java_primitive_types~
 JavaPrimitiveTypes.library.uml@boolean=0~0.0000000~215~boolean~
@@ -1581,6 +1581,6 @@ UMLPrimitiveTypes.library.uml@Integer=0~0.0000000~80~integer~
 UMLPrimitiveTypes.library.uml@String=0~0.0000000~81~string~
 UMLPrimitiveTypes.library.uml@UnlimitedNatural=0~0.0000000~79~unlimited_natural~
 UMLPrimitiveTypes.library.uml@_0=0~0.0000000~77~uml_primitive_types~
-net.sf.opeum.feature.WorkspaceMappingInfo.currentRevision=0
-net.sf.opeum.feature.WorkspaceMappingInfo.currentVersion=0.000000
-net.sf.opeum.feature.WorkspaceMappingInfo.nakedUmlIdMaxValue=1581
+net.sf.opaeum.feature.WorkspaceMappingInfo.currentRevision=0
+net.sf.opaeum.feature.WorkspaceMappingInfo.currentVersion=0.000000
+net.sf.opaeum.feature.WorkspaceMappingInfo.nakedUmlIdMaxValue=1581

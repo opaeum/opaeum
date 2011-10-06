@@ -1,4 +1,4 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,8 +19,8 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.graphics.FontData;
-import org.opeum.uim.figures.controls.GraphicsBridge;
-import org.opeum.uim.layouts.StackLayout;
+import org.opaeum.uim.figures.controls.GraphicsBridge;
+import org.opaeum.uim.layouts.StackLayout;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.IContainerFigure;
 import org.topcased.draw2d.figures.ILabel;

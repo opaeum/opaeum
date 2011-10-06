@@ -17,7 +17,7 @@ import nl.klasse.octopus.oclengine.internal.OclEngine;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClass;
 
 /**
  * BasisOperCallGenerator : 

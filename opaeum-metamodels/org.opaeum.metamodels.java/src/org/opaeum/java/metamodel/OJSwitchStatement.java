@@ -1,11 +1,11 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.opeum.java.metamodel.generated.OJSwitchStatementGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.generated.OJSwitchStatementGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 

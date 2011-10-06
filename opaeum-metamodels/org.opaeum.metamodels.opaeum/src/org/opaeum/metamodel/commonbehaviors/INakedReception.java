@@ -1,9 +1,9 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface INakedReception extends INakedElement{
 	INakedSignal getSignal();

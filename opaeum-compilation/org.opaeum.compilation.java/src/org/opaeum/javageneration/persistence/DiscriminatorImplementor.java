@@ -1,19 +1,19 @@
-package org.opeum.javageneration.persistence;
+package org.opaeum.javageneration.persistence;
 
 import java.util.List;
 
 import nl.klasse.octopus.model.IAttribute;
 
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedPowerType;
+import org.opaeum.metamodel.core.INakedProperty;
 
 /**
  */

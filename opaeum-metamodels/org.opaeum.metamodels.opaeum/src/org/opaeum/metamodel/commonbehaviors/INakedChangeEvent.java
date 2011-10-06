@@ -1,6 +1,6 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public interface INakedChangeEvent extends INakedTriggerEvent{
 	INakedValueSpecification getChangeExpression();

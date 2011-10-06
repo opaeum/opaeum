@@ -15,9 +15,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.presentation.UimModelWizardID"
+            id="org.opaeum.uim.presentation.UimModelWizardID"
             name="%_UI_UimModelWizard_label"
-            class="org.opeum.uim.presentation.UimModelWizard"
+            class="org.opaeum.uim.presentation.UimModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/UimModelFile.gif">
          <description>%_UI_UimModelWizard_description</description>
@@ -27,12 +27,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.presentation.UimEditorID"
+            id="org.opaeum.uim.presentation.UimEditorID"
             name="%_UI_UimEditor_label"
             icon="icons/full/obj16/UimModelFile.gif"
             extensions="uim"
-            class="org.opeum.uim.presentation.UimEditor"
-            contributorClass="org.opeum.uim.presentation.UimActionBarContributor">
+            class="org.opaeum.uim.presentation.UimEditor"
+            contributorClass="org.opaeum.uim.presentation.UimActionBarContributor">
       </editor>
    </extension>
 
@@ -41,9 +41,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.layout.presentation.LayoutModelWizardID"
+            id="org.opaeum.uim.layout.presentation.LayoutModelWizardID"
             name="%_UI_LayoutModelWizard_label"
-            class="org.opeum.uim.layout.presentation.LayoutModelWizard"
+            class="org.opaeum.uim.layout.presentation.LayoutModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/LayoutModelFile.gif">
          <description>%_UI_LayoutModelWizard_description</description>
@@ -53,12 +53,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.layout.presentation.LayoutEditorID"
+            id="org.opaeum.uim.layout.presentation.LayoutEditorID"
             name="%_UI_LayoutEditor_label"
             icon="icons/full/obj16/LayoutModelFile.gif"
             extensions="layout"
-            class="org.opeum.uim.layout.presentation.LayoutEditor"
-            contributorClass="org.opeum.uim.layout.presentation.LayoutActionBarContributor">
+            class="org.opaeum.uim.layout.presentation.LayoutEditor"
+            contributorClass="org.opaeum.uim.layout.presentation.LayoutActionBarContributor">
       </editor>
    </extension>
 
@@ -67,9 +67,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.control.presentation.ControlModelWizardID"
+            id="org.opaeum.uim.control.presentation.ControlModelWizardID"
             name="%_UI_ControlModelWizard_label"
-            class="org.opeum.uim.control.presentation.ControlModelWizard"
+            class="org.opaeum.uim.control.presentation.ControlModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/ControlModelFile.gif">
          <description>%_UI_ControlModelWizard_description</description>
@@ -79,12 +79,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.control.presentation.ControlEditorID"
+            id="org.opaeum.uim.control.presentation.ControlEditorID"
             name="%_UI_ControlEditor_label"
             icon="icons/full/obj16/ControlModelFile.gif"
             extensions="control"
-            class="org.opeum.uim.control.presentation.ControlEditor"
-            contributorClass="org.opeum.uim.control.presentation.ControlActionBarContributor">
+            class="org.opaeum.uim.control.presentation.ControlEditor"
+            contributorClass="org.opaeum.uim.control.presentation.ControlActionBarContributor">
       </editor>
    </extension>
 
@@ -93,9 +93,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.folder.presentation.FolderModelWizardID"
+            id="org.opaeum.uim.folder.presentation.FolderModelWizardID"
             name="%_UI_FolderModelWizard_label"
-            class="org.opeum.uim.folder.presentation.FolderModelWizard"
+            class="org.opaeum.uim.folder.presentation.FolderModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/FolderModelFile.gif">
          <description>%_UI_FolderModelWizard_description</description>
@@ -105,12 +105,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.folder.presentation.FolderEditorID"
+            id="org.opaeum.uim.folder.presentation.FolderEditorID"
             name="%_UI_FolderEditor_label"
             icon="icons/full/obj16/FolderModelFile.gif"
             extensions="folder"
-            class="org.opeum.uim.folder.presentation.FolderEditor"
-            contributorClass="org.opeum.uim.folder.presentation.FolderActionBarContributor">
+            class="org.opaeum.uim.folder.presentation.FolderEditor"
+            contributorClass="org.opaeum.uim.folder.presentation.FolderActionBarContributor">
       </editor>
    </extension>
 
@@ -119,9 +119,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.form.presentation.FormModelWizardID"
+            id="org.opaeum.uim.form.presentation.FormModelWizardID"
             name="%_UI_FormModelWizard_label"
-            class="org.opeum.uim.form.presentation.FormModelWizard"
+            class="org.opaeum.uim.form.presentation.FormModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/FormModelFile.gif">
          <description>%_UI_FormModelWizard_description</description>
@@ -131,12 +131,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.form.presentation.FormEditorID"
+            id="org.opaeum.uim.form.presentation.FormEditorID"
             name="%_UI_FormEditor_label"
             icon="icons/full/obj16/FormModelFile.gif"
             extensions="form"
-            class="org.opeum.uim.form.presentation.FormEditor"
-            contributorClass="org.opeum.uim.form.presentation.FormActionBarContributor">
+            class="org.opaeum.uim.form.presentation.FormEditor"
+            contributorClass="org.opaeum.uim.form.presentation.FormActionBarContributor">
       </editor>
    </extension>
 
@@ -145,9 +145,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.binding.presentation.BindingModelWizardID"
+            id="org.opaeum.uim.binding.presentation.BindingModelWizardID"
             name="%_UI_BindingModelWizard_label"
-            class="org.opeum.uim.binding.presentation.BindingModelWizard"
+            class="org.opaeum.uim.binding.presentation.BindingModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/BindingModelFile.gif">
          <description>%_UI_BindingModelWizard_description</description>
@@ -157,12 +157,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.binding.presentation.BindingEditorID"
+            id="org.opaeum.uim.binding.presentation.BindingEditorID"
             name="%_UI_BindingEditor_label"
             icon="icons/full/obj16/BindingModelFile.gif"
             extensions="binding"
-            class="org.opeum.uim.binding.presentation.BindingEditor"
-            contributorClass="org.opeum.uim.binding.presentation.BindingActionBarContributor">
+            class="org.opaeum.uim.binding.presentation.BindingEditor"
+            contributorClass="org.opaeum.uim.binding.presentation.BindingActionBarContributor">
       </editor>
    </extension>
 
@@ -171,9 +171,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.security.presentation.SecurityModelWizardID"
+            id="org.opaeum.uim.security.presentation.SecurityModelWizardID"
             name="%_UI_SecurityModelWizard_label"
-            class="org.opeum.uim.security.presentation.SecurityModelWizard"
+            class="org.opaeum.uim.security.presentation.SecurityModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/SecurityModelFile.gif">
          <description>%_UI_SecurityModelWizard_description</description>
@@ -183,12 +183,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.security.presentation.SecurityEditorID"
+            id="org.opaeum.uim.security.presentation.SecurityEditorID"
             name="%_UI_SecurityEditor_label"
             icon="icons/full/obj16/SecurityModelFile.gif"
             extensions="security"
-            class="org.opeum.uim.security.presentation.SecurityEditor"
-            contributorClass="org.opeum.uim.security.presentation.SecurityActionBarContributor">
+            class="org.opaeum.uim.security.presentation.SecurityEditor"
+            contributorClass="org.opaeum.uim.security.presentation.SecurityActionBarContributor">
       </editor>
    </extension>
 
@@ -197,9 +197,9 @@
             id="org.eclipse.emf.ecore.Wizard.category.ID"
             name="%_UI_Wizard_category"/>
       <wizard
-            id="org.opeum.uim.action.presentation.ActionModelWizardID"
+            id="org.opaeum.uim.action.presentation.ActionModelWizardID"
             name="%_UI_ActionModelWizard_label"
-            class="org.opeum.uim.action.presentation.ActionModelWizard"
+            class="org.opaeum.uim.action.presentation.ActionModelWizard"
             category="org.eclipse.emf.ecore.Wizard.category.ID"
             icon="icons/full/obj16/ActionModelFile.gif">
          <description>%_UI_ActionModelWizard_description</description>
@@ -209,12 +209,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            id="org.opeum.uim.action.presentation.ActionEditorID"
+            id="org.opaeum.uim.action.presentation.ActionEditorID"
             name="%_UI_ActionEditor_label"
             icon="icons/full/obj16/ActionModelFile.gif"
             extensions="action"
-            class="org.opeum.uim.action.presentation.ActionEditor"
-            contributorClass="org.opeum.uim.action.presentation.ActionActionBarContributor">
+            class="org.opaeum.uim.action.presentation.ActionEditor"
+            contributorClass="org.opaeum.uim.action.presentation.ActionActionBarContributor">
       </editor>
    </extension>
 

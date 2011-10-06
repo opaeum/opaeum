@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.opeum.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.opaeum.eclipse" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.opeum.eclipse" id="org.opeum.eclipse.profile" name="Profile"/>
+         <meta.schema plugin="org.opaeum.eclipse" id="org.opaeum.eclipse.profile" name="Profile"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

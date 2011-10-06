@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Opeum Component Diagram
-Bundle-SymbolicName: org.opeum.modeler.componentdiagram;singleton:=true
+Bundle-Name: Opaeum Component Diagram
+Bundle-SymbolicName: org.opaeum.modeler.componentdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.componentdiagram.ComponentPlugin
-Bundle-Vendor: Opeum
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.opeum.modeler.classdiagram
+ org.opaeum.modeler.classdiagram
 Bundle-ActivationPolicy: lazy
 Export-Package: org.topcased.modeler.uml.componentdiagram,
  org.topcased.modeler.uml.componentdiagram.commands,

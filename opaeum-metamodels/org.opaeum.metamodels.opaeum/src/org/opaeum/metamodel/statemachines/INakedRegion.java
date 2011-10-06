@@ -1,8 +1,8 @@
-package org.opeum.metamodel.statemachines;
+package org.opaeum.metamodel.statemachines;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedNameSpace;
 public interface INakedRegion extends INakedNameSpace {
 	List<INakedState> getStates();
 	IRegionOwner getRegionOwner();

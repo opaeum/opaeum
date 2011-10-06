@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.util;
+package org.opaeum.uim.action.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * <!-- begin-user-doc -->
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.action.util.ActionResourceFactoryImpl
+ * @see org.opaeum.uim.action.util.ActionResourceFactoryImpl
  * @generated
  */
 public class ActionResourceImpl extends XMLResourceImpl {

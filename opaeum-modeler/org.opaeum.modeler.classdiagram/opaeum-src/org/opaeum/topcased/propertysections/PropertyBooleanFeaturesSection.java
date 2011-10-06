@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.edit.command.AddCommand;

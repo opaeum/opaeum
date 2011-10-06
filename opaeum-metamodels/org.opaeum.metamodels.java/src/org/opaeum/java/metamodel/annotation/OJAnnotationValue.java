@@ -1,4 +1,4 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * An instantiation of an annotation, i.e. an annotation assignment or an annotation appplication. Has a type and could have values for its

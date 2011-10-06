@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.util.UimAdapterFactory;
+import org.opaeum.uim.util.UimAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,67 +43,67 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimField} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimField} instances.
 	 * 
 	 * @generated
 	 */
 	private UimFieldModelerProvider uimfieldModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimComponent} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimComponent} instances.
 	 * 
 	 * @generated
 	 */
 	private UimComponentModelerProvider uimcomponentModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UserInteractionElement} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UserInteractionElement} instances.
 	 * 
 	 * @generated
 	 */
 	private UserInteractionElementModelerProvider userinteractionelementModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimDataTable} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimDataTable} instances.
 	 * 
 	 * @generated
 	 */
 	private UimDataTableModelerProvider uimdatatableModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimTabPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimTabPanel} instances.
 	 * 
 	 * @generated
 	 */
 	private UimTabPanelModelerProvider uimtabpanelModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimTab} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimTab} instances.
 	 * 
 	 * @generated
 	 */
 	private UimTabModelerProvider uimtabModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimContainer} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimContainer} instances.
 	 * 
 	 * @generated
 	 */
 	private UimContainerModelerProvider uimcontainerModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.MasterComponent} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.MasterComponent} instances.
 	 * 
 	 * @generated
 	 */
 	private MasterComponentModelerProvider mastercomponentModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UmlReference} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UmlReference} instances.
 	 * 
 	 * @generated
 	 */
 	private UmlReferenceModelerProvider umlreferenceModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimPanel} instances.
 	 * 
 	 * @generated
 	 */
 	private UimPanelModelerProvider uimpanelModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.ObjectSelectorTree} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ObjectSelectorTree} instances.
 	 * 
 	 * @generated
 	 */
@@ -201,7 +201,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimField}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimField}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -213,7 +213,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimfieldModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimComponent}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimComponent}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -225,7 +225,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimcomponentModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UserInteractionElement}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UserInteractionElement}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -237,7 +237,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return userinteractionelementModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimDataTable}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimDataTable}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -249,7 +249,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimdatatableModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimTabPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimTabPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -261,7 +261,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimtabpanelModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimTab}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimTab}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -273,7 +273,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimtabModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimContainer}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimContainer}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -285,7 +285,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimcontainerModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.MasterComponent}.
+	 * This creates an adapter for a {@link org.opaeum.uim.MasterComponent}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -297,7 +297,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return mastercomponentModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UmlReference}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UmlReference}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -309,7 +309,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return umlreferenceModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -321,7 +321,7 @@ public class UimModelerProviderAdapterFactory extends UimAdapterFactory implemen
 		return uimpanelModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.ObjectSelectorTree}.
+	 * This creates an adapter for a {@link org.opaeum.uim.ObjectSelectorTree}.
 	 *
 	 * @return the Adapter
 	 * @generated

@@ -1,4 +1,4 @@
-package org.opeum.eclipse.javasync;
+package org.opaeum.eclipse.javasync;
 
 public class NamespaceRenameRequest{
 	public String oldName;

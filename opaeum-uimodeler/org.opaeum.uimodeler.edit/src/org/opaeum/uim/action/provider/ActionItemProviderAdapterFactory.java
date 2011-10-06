@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.provider;
+package org.opaeum.uim.action.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.action.util.ActionAdapterFactory;
+import org.opaeum.uim.action.util.ActionAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.BuiltInAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.BuiltInAction} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	protected BuiltInActionItemProvider builtInActionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.BuiltInAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.BuiltInAction}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.TransitionAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.TransitionAction} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	protected TransitionActionItemProvider transitionActionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.TransitionAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.TransitionAction}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.NavigationToOperation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.NavigationToOperation} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	protected NavigationToOperationItemProvider navigationToOperationItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.NavigationToOperation}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.NavigationToOperation}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.OperationAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationAction} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	protected OperationActionItemProvider operationActionItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.OperationAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationAction}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.NavigationToEntity} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.NavigationToEntity} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	protected NavigationToEntityItemProvider navigationToEntityItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.NavigationToEntity}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.NavigationToEntity}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

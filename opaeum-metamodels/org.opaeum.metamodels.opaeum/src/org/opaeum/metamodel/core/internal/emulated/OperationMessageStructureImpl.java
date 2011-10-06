@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal.emulated;
+package org.opaeum.metamodel.core.internal.emulated;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,13 +7,13 @@ import java.util.List;
 import nl.klasse.octopus.model.IClass;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class OperationMessageStructureImpl extends EmulatedCompositionMessageStructure implements IClass{
 	/**

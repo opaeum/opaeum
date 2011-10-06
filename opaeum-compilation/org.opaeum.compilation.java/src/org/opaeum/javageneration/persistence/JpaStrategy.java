@@ -1,8 +1,8 @@
-package org.opeum.javageneration.persistence;
+package org.opaeum.javageneration.persistence;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrategy;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrategy;
 
 
 public interface JpaStrategy extends ISimpleTypeStrategy{

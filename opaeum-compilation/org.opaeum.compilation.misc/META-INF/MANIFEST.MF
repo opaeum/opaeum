@@ -1,24 +1,24 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.compilation.misc
-Bundle-SymbolicName: org.opeum.compilation.misc
+Bundle-Name: org.opaeum.compilation.misc
+Bundle-SymbolicName: org.opaeum.compilation.misc
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.opeum.compilation.java,
- org.opeum.metamodels.ocl,
- org.opeum.metamodels.opeum,
- org.opeum.metamodels.text,
- org.opeum.transformation.engine,
- org.opeum.metamodels.maven,
- org.opeum.metamodels.drools,
- org.opeum.linkage.core,
- org.opeum.metamodels.java,
- org.opeum.linkage.namegeneration,
- org.opeum.compilation.filegeneration,
- org.opeum.compilation.ocltojava,
- org.opeum.linkage.validation,
- org.opeum.metamodels.emfworkspace,
- org.opeum.compilation.runtimedependencies,
- org.opeum.linkage.emfextraction
+Require-Bundle: org.opaeum.compilation.java,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.text,
+ org.opaeum.transformation.engine,
+ org.opaeum.metamodels.maven,
+ org.opaeum.metamodels.drools,
+ org.opaeum.linkage.core,
+ org.opaeum.metamodels.java,
+ org.opaeum.linkage.namegeneration,
+ org.opaeum.compilation.filegeneration,
+ org.opaeum.compilation.ocltojava,
+ org.opaeum.linkage.validation,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.compilation.runtimedependencies,
+ org.opaeum.linkage.emfextraction
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: lib/velocity-1.5.0.jar,
  .,
@@ -68,10 +68,10 @@ Export-Package: org.apache.commons.collections,
  org.apache.velocity.texen.util,
  org.apache.velocity.util,
  org.apache.velocity.util.introspection,
- org.opeum.bootstrap,
- org.opeum.generation.features,
- org.opeum.javageneration.hibernate,
- org.opeum.jbpm5,
- org.opeum.pomgeneration,
- org.opeum.velocity,
+ org.opaeum.bootstrap,
+ org.opaeum.generation.features,
+ org.opaeum.javageneration.hibernate,
+ org.opaeum.jbpm5,
+ org.opaeum.pomgeneration,
+ org.opaeum.velocity,
  templates.Model

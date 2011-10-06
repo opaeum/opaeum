@@ -1,16 +1,16 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.InputModel;
-import org.opeum.feature.IntegrationPhase;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.IntegrationPhase;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = UimSynchronizationPhase.class,before = {})
 public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWorkspace>,IntegrationPhase{
@@ -18,7 +18,7 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 	EmfWorkspace emfWorkspace;
 	@InputModel
 	TextWorkspace textWorkspace;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<ModelCopyStep> features;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<EmfWorkspace> elements){
@@ -38,7 +38,7 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 		}
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<ModelCopyStep> features){
+	public void initialize(OpaeumConfig config,List<ModelCopyStep> features){
 		this.config = config;
 		this.features = features;
 	}

@@ -1,9 +1,9 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public interface AttributeImplementorStrategy {
 	void addSimpleSetterBody(INakedClassifier umlOwner, NakedStructuralFeatureMap map, OJAnnotatedClass owner, OJOperation setter);

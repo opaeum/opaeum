@@ -1,6 +1,6 @@
-package org.opeum.topcased.classdiagram;
+package org.opaeum.topcased.classdiagram;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;

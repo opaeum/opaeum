@@ -1,8 +1,8 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.Map;
 
-import org.opeum.java.metamodel.generated.OJSimpleStatementGEN;
+import org.opaeum.java.metamodel.generated.OJSimpleStatementGEN;
 
 
 public class OJSimpleStatement extends OJSimpleStatementGEN {

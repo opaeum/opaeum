@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.presentation;
+package org.opaeum.uim.presentation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,9 +58,9 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
-import org.opeum.uim.UimFactory;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.UimFactory;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.provider.UimEditPlugin;
 
 /**
  * This is a simple wizard for creating a new model file.

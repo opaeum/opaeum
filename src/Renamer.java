@@ -7,13 +7,12 @@ import java.util.Set;
 
 public class Renamer{
 	public static void main(String[] args) throws IOException,InterruptedException{
-		File dir = new File(".");
+		File dir = new File("/home/ampie/Workspaces/workspace_sandbox/nakeduml/opaeum-runtime/");
 		rename(dir);
 	}
 	public static void rename(File dir) throws InterruptedException,IOException{
 		Set<String> ignore = new HashSet<String>();
 		ignore.add("target");
-		ignore.add("opeum-runtime");
 		ignore.add(".git");
 		ignore.add("bin");
 		ignore.add("classes");
@@ -23,10 +22,8 @@ public class Renamer{
 					rename(child);
 				}
 			}
-			child = replace(child, "opeum", "opaeum");
-			child = replace(child, "Opeum", "Opaeum");
-			child = replace(child, "Opium", "Opaeum");
-			child = replace(child, "opium", "opaeum");
+			child = replace(child, "opaeum", "opeum");
+			child = replace(child, "Opaeum", "Opeum");
 		}
 	}
 	public static File replace(File child,String s,String replacement) throws InterruptedException,IOException{

@@ -1,6 +1,6 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
-import org.opeum.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
+import org.opaeum.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
 
 public class NakedRemoveStructuralFeatureValueActionImpl extends NakedWriteStructuralFeatureActionImpl implements
 		INakedRemoveStructuralFeatureValueAction {

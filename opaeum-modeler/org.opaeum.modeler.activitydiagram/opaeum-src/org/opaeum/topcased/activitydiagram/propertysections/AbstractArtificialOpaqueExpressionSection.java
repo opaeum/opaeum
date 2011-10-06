@@ -1,7 +1,7 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
@@ -21,8 +21,8 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.AbstractOclBodyBodySection;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.AbstractOclBodyBodySection;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOclBodyBodySection{
 	private final class ArtificialOclBodyComposite extends OclBodyComposite{

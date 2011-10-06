@@ -1,20 +1,20 @@
-package org.opeum.bootstrap;
+package org.opaeum.bootstrap;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.IntegrationPhase;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.filegeneration.FileGenerationPhase;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.pomgeneration.PomGenerationPhase;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.IntegrationPhase;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.filegeneration.FileGenerationPhase;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.pomgeneration.PomGenerationPhase;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(before = {
 		FileGenerationPhase.class,PomGenerationPhase.class
@@ -22,7 +22,7 @@ import org.opeum.textmetamodel.TextWorkspace;
 	JavaTransformationPhase.class
 })
 public class BootstrapGenerationPhase implements TransformationPhase<AbstractBootstrapStep,INakedElement>,IntegrationPhase{
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	@InputModel
 	private TextWorkspace textWorkspace;
 	@InputModel
@@ -42,7 +42,7 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 		}
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractBootstrapStep> features){
+	public void initialize(OpaeumConfig config,List<AbstractBootstrapStep> features){
 		this.config = config;
 		this.features = features;
 	}

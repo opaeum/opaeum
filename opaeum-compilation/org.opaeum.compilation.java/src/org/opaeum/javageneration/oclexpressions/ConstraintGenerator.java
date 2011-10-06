@@ -1,4 +1,4 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,15 +7,15 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.metamodel.core.INakedConstraint;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.metamodel.core.INakedConstraint;
 
 public class ConstraintGenerator {
 	OJClass context;
@@ -59,7 +59,7 @@ public class ConstraintGenerator {
 				parameters.add(parameter);
 			}
 		}
-		OJPathName failedConstraintsException = new OJPathName("org.opeum.runtime.domain.FailedConstraintsException");
+		OJPathName failedConstraintsException = new OJPathName("org.opaeum.runtime.domain.FailedConstraintsException");
 		if(!operation.getThrows().contains(failedConstraintsException)){
 			context.addToImports(failedConstraintsException);
 			operation.addToThrows(failedConstraintsException);

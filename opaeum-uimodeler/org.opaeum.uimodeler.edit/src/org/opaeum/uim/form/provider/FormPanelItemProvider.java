@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.provider;
+package org.opaeum.uim.form.provider;
 
 
 import java.util.Collection;
@@ -23,18 +23,18 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.layout.LayoutFactory;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.provider.UimEditPlugin;
-import org.opeum.uim.provider.UmlReferenceItemProvider;
-import org.opeum.uim.security.SecurityFactory;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.layout.LayoutFactory;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UmlReferenceItemProvider;
+import org.opaeum.uim.security.SecurityFactory;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.form.FormPanel} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.form.FormPanel} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

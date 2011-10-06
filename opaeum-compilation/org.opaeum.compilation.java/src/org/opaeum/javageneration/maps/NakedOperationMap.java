@@ -1,4 +1,4 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,15 +10,15 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.internal.types.OperationImpl;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.IParameterOwner;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.IParameterOwner;
 
 public class NakedOperationMap extends OperationMap implements IMessageMap{
 	private IParameterOwner parameterOwner;
@@ -120,7 +120,7 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 	@Override
 	public OJPathName eventHandlerPath(){
 		OJPathName path = OJUtil.packagePathname(getParameterOwner().getNameSpace());
-		path.addToNames(getParameterOwner().getMappingInfo().getJavaName().getCapped() + "Handler" + getParameterOwner().getMappingInfo().getOpeumId());
+		path.addToNames(getParameterOwner().getMappingInfo().getJavaName().getCapped() + "Handler" + getParameterOwner().getMappingInfo().getOpaeumId());
 		return path;
 	}
 	public boolean hasMessageStructure(){

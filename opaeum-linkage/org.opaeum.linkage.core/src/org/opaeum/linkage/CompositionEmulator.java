@@ -1,23 +1,23 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.List;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.bpm.INakedResponsibility;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedStructuredDataType;
-import org.opeum.metamodel.core.internal.ArtificialProperty;
-import org.opeum.metamodel.core.internal.AssociationClassToEnd;
-import org.opeum.metamodel.core.internal.EndToAssociationClass;
-import org.opeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.bpm.INakedResponsibility;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.metamodel.core.internal.ArtificialProperty;
+import org.opaeum.metamodel.core.internal.AssociationClassToEnd;
+import org.opaeum.metamodel.core.internal.EndToAssociationClass;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class
@@ -125,8 +125,8 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 				b = o.getMessageStructure();
 				if(o instanceof INakedResponsibility){
 					// TODO define Responsibility interface
-					// if(workspace.getOpeumLibrary().getTaskObject() != null){
-					// ((EmulatedCompositionMessageStructure) b).addInterface(workspace.getOpeumLibrary().getTaskObject());
+					// if(workspace.getOpaeumLibrary().getTaskObject() != null){
+					// ((EmulatedCompositionMessageStructure) b).addInterface(workspace.getOpaeumLibrary().getTaskObject());
 					// }
 				}
 				addAffectedElement(b);
@@ -162,8 +162,8 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			o.initMessageStructure();
 			b = o.getMessageStructure();
 			workspace.putModelElement(o.getMessageStructure());
-			if(workspace.getOpeumLibrary().getTaskObject() != null){
-				((EmulatedCompositionMessageStructure) b).addInterface(workspace.getOpeumLibrary().getTaskObject());
+			if(workspace.getOpaeumLibrary().getTaskObject() != null){
+				((EmulatedCompositionMessageStructure) b).addInterface(workspace.getOpaeumLibrary().getTaskObject());
 			}
 			addAffectedElement(b);
 		}else{

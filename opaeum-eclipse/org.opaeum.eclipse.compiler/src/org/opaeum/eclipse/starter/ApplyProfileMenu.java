@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
-import org.opeum.eclipse.ModelLibrary;
-import org.opeum.eclipse.OpeumEclipsePlugin;
+import org.opaeum.eclipse.ModelLibrary;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 
 public class ApplyProfileMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
@@ -18,7 +18,7 @@ public class ApplyProfileMenu extends CompoundContributionItem{
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		List<IContributionItem> actions = new ArrayList<IContributionItem>();
-		Set<ModelLibrary> profiles = OpeumEclipsePlugin.getDefault().getProfiles();
+		Set<ModelLibrary> profiles = OpaeumEclipsePlugin.getDefault().getProfiles();
 		for(ModelLibrary uri:profiles){
 			actions.add(new ActionContributionItem(new ApplyProfileAction(selection, uri)));
 		}

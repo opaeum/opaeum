@@ -13,7 +13,7 @@ import nl.klasse.octopus.model.ITupleType;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.OclLibraryImpl;
 
-import org.opeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPackage;
 
 /**
  * TupleTypeAdder : 

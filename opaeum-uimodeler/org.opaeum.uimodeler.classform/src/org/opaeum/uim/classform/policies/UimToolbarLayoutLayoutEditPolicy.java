@@ -1,19 +1,19 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.policies;
+package org.opaeum.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPanel;
-import org.opeum.uim.UimTabPanel;
-import org.opeum.uim.action.BuiltInAction;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.action.NavigationToOperation;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
-import org.opeum.uim.form.DetailPanel;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPanel;
+import org.opaeum.uim.UimTabPanel;
+import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.form.DetailPanel;
 
 /**
  * @generated

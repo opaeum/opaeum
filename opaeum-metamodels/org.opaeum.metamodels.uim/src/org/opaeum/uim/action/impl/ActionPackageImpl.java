@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -13,30 +13,30 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.action.ActionFactory;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.BuiltInAction;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.action.NavigationToOperation;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
-import org.opeum.uim.action.UimAction;
-import org.opeum.uim.action.UimNavigation;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.impl.BindingPackageImpl;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.impl.ControlPackageImpl;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.folder.impl.FolderPackageImpl;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.impl.FormPackageImpl;
-import org.opeum.uim.impl.UimPackageImpl;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.impl.LayoutPackageImpl;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.action.ActionFactory;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.action.UimNavigation;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.impl.ControlPackageImpl;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.impl.FolderPackageImpl;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.impl.FormPackageImpl;
+import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.impl.LayoutPackageImpl;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.impl.SecurityPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -112,7 +112,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.opeum.uim.action.ActionPackage#eNS_URI
+	 * @see org.opaeum.uim.action.ActionPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

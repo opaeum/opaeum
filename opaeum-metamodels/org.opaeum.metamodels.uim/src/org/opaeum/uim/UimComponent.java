@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +14,7 @@ import org.opeum.uim.security.SecureObject;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.UimPackage#getUimComponent()
+ * @see org.opaeum.uim.UimPackage#getUimComponent()
  * @model abstract="true"
  * @generated
  */

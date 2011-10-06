@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.impl;
+package org.opaeum.uim.binding.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.binding.UimBinding;
-import org.opeum.uim.impl.UmlReferenceImpl;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.impl.UmlReferenceImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,9 +24,9 @@ import org.opeum.uim.impl.UmlReferenceImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.binding.impl.PropertyRefImpl#getBinding <em>Binding</em>}</li>
- *   <li>{@link org.opeum.uim.binding.impl.PropertyRefImpl#getPrevious <em>Previous</em>}</li>
- *   <li>{@link org.opeum.uim.binding.impl.PropertyRefImpl#getNext <em>Next</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.impl.PropertyRefImpl#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.impl.PropertyRefImpl#getPrevious <em>Previous</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.impl.PropertyRefImpl#getNext <em>Next</em>}</li>
  * </ul>
  * </p>
  *

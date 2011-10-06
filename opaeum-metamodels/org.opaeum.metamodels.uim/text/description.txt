@@ -6,10 +6,10 @@ code generator can be extended.
 This can be disabled with -vmargs -Dorg.eclipse.emf.examples.generator.validator=false.
 
 Contains packages:
-  uim <http://opeum.sf.net/uimetamodel/1.0>
+  uim <http://opaeum.sf.net/uimetamodel/1.0>
   uml <http://www.eclipse.org/uml2/3.0.0/UML>
 
-Package uim <http://opeum.sf.net/uimetamodel/1.0>
+Package uim <http://opaeum.sf.net/uimetamodel/1.0>
 
   Class UserForm -> UserInteractionElement
     Reference panel : FormPanel

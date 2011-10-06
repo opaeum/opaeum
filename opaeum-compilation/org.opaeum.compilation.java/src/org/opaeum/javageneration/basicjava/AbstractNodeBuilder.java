@@ -1,26 +1,26 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.actions.IActionWithTargetPin;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedValuePin;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.metamodel.actions.IActionWithTargetElement;
+import org.opaeum.metamodel.actions.IActionWithTargetPin;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractNodeBuilder {
-	protected OpeumLibrary library;
+	protected OpaeumLibrary library;
 	protected AbstractObjectNodeExpressor expressor;
 
-	protected AbstractNodeBuilder(OpeumLibrary library, AbstractObjectNodeExpressor expressor) {
+	protected AbstractNodeBuilder(OpaeumLibrary library, AbstractObjectNodeExpressor expressor) {
 		this.library=library;
 		this.expressor=expressor;
 	}
@@ -97,7 +97,7 @@ public abstract class AbstractNodeBuilder {
 	}
 
 	
-	protected final OpeumLibrary getLibrary() {
+	protected final OpaeumLibrary getLibrary() {
 		return library;
 	}
 }

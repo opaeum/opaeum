@@ -4,18 +4,18 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.security.SecurityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UimContainerImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimContainerImpl#getEditability <em>Editability</em>}</li>
  * </ul>
  * </p>
  *

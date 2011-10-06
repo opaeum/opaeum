@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
@@ -9,25 +9,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.opeum.emf.extraction.EmfElementVisitor;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.StepDependency;
-import org.opeum.textmetamodel.CharArrayTextSource;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.textmetamodel.TextProject;
-import org.opeum.textmetamodel.TextSourceFolderIdentifier;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.emf.extraction.EmfElementVisitor;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.CharArrayTextSource;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 @StepDependency(phase = ModelCopyPhase.class,requires={})
 public class ModelCopyStep extends EmfElementVisitor implements ITransformationStep{
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private TextWorkspace textWorkspace;
 	private EmfWorkspace workspace;
-	public void init(OpeumConfig config,TextWorkspace textWorkspace){
+	public void init(OpaeumConfig config,TextWorkspace textWorkspace){
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 	}

@@ -11,10 +11,10 @@
  *  Caroline Bourdeu d'Aguerre (Atos Origin) caroline.bourdeudaguerre@atosorigin.com - Initial API and implementation
  *
  *****************************************************************************/
-package org.opeum.topcased.activitydiagram.bpm;
+package org.opaeum.topcased.activitydiagram.bpm;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -24,9 +24,9 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.util.UMLSwitch;
-import org.opeum.topcased.EditPartUtil;
-import org.opeum.topcased.activitydiagram.bpm.edit.SimpleTaskEditPart;
-import org.opeum.topcased.classdiagram.figure.Gradient;
+import org.opaeum.topcased.EditPartUtil;
+import org.opaeum.topcased.activitydiagram.bpm.edit.SimpleTaskEditPart;
+import org.opaeum.topcased.classdiagram.figure.Gradient;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
@@ -238,10 +238,10 @@ public class BusinessProcessEditPartFactory extends ModelerEditPartFactory{
 								"org.topcased.modeler.uml.activitydiagram.bpm");
 					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
 						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
-								"org.opeum.topcased.statemachinediagram.businessstatemachine");
+								"org.opaeum.topcased.statemachinediagram.businessstatemachine");
 					}else if(StereotypesHelper.hasKeyword((Element) object, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
 						return EditPartUtil.createDiagramAction(a.getBehavior(), object, ((ModelerGraphicalViewer) getViewer()).getModelerEditor(),
-								"org.opeum.topcased.statemachinediagram.screenflow");
+								"org.opaeum.topcased.statemachinediagram.screenflow");
 					}else{
 						return super.createChangeDiagramAction(object);
 					}

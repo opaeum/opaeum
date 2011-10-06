@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal.emulated;
+package org.opaeum.metamodel.core.internal.emulated;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,26 +21,26 @@ import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.commonbehaviors.INakedReception;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedClassifierImpl;
-import org.opeum.metamodel.core.internal.NakedGeneralizationImpl;
-import org.opeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedReception;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedPowerType;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
+import org.opaeum.metamodel.core.internal.NakedGeneralizationImpl;
+import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 
 public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure,INakedBehavioredClassifier{
 	private static final long serialVersionUID = 1445741729804979053L;

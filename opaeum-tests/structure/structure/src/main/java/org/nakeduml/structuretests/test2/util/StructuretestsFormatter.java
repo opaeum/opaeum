@@ -1,6 +1,6 @@
-package org.opeum.structuretests.test2.util;
+package org.opaeum.structuretests.test2.util;
 
-import org.opeum.runtime.domain.AbstractFormatter;
+import org.opaeum.runtime.domain.AbstractFormatter;
 
 public class StructuretestsFormatter extends AbstractFormatter implements IStructuretestsFormatter {
 	static final private ThreadLocal<StructuretestsFormatter> INSTANCE = new ThreadLocal<StructuretestsFormatter>();

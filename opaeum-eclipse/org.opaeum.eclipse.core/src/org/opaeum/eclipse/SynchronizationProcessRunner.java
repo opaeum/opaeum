@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,17 +8,17 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.emf.extraction.EmfExtractionPhase;
-import org.opeum.feature.TransformationProcess;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.emf.extraction.EmfExtractionPhase;
+import org.opaeum.feature.TransformationProcess;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public final class SynchronizationProcessRunner extends Job{
 	private Set<EObject> emfChanges;
 	private Set<NakedUmlSynchronizationListener> synchronizationListener;
 	private TransformationProcess transformationProcess;
 	public SynchronizationProcessRunner(TransformationProcess transformationProcess,Set<NakedUmlSynchronizationListener> synchronizationListener2,Set<? extends EObject> emfChanges){
-		super("Synchronizing Opium Metadata with UML");
+		super("Synchronizing Opaeum Metadata with UML");
 		this.transformationProcess = transformationProcess;
 		synchronized(emfChanges){
 			this.emfChanges = new HashSet<EObject>(emfChanges);
@@ -28,7 +28,7 @@ public final class SynchronizationProcessRunner extends Job{
 	}
 	public IStatus run(IProgressMonitor monitor){
 		try{
-			monitor.beginTask("Synchronizing Opium Metadata", 50);
+			monitor.beginTask("Synchronizing Opaeum Metadata", 50);
 			if(emfChanges.size() > 0){
 				long start = System.currentTimeMillis();
 				Set<INakedElement> changedNakedElements = new HashSet<INakedElement>();
@@ -43,10 +43,10 @@ public final class SynchronizationProcessRunner extends Job{
 				}
 				System.out.println("Synchronization took " + (System.currentTimeMillis() - start));
 			}
-			return new Status(IStatus.OK, OpeumEclipsePlugin.getId(), "Opium Metadata Synchronized Successfully");
+			return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum Metadata Synchronized Successfully");
 		}catch(Exception e){
 			e.printStackTrace();
-			return new Status(IStatus.ERROR, OpeumEclipsePlugin.getId(), "Synchronization Failed", e);
+			return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Synchronization Failed", e);
 		}finally{
 			monitor.done();
 		}

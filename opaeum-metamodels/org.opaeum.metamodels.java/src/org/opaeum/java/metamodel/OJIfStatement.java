@@ -1,9 +1,9 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.Map;
 
-import org.opeum.java.metamodel.generated.OJIfStatementGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.generated.OJIfStatementGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 public class OJIfStatement extends OJIfStatementGEN {

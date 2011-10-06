@@ -1,12 +1,12 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public class NakedClassifierMap extends ClassifierMap{
 	public NakedClassifierMap(IClassifier modelClass){

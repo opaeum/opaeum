@@ -1,4 +1,4 @@
-package org.opeum.uim.figures.controls;
+package org.opaeum.uim.figures.controls;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.RectangularDropShadowLineBorder;

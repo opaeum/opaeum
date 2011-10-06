@@ -1,7 +1,7 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedExpansionRegion;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedExpansionRegion;
 
 public class NakedExpansionNodeImpl extends NakedObjectNodeImpl implements INakedExpansionNode {
 	/**

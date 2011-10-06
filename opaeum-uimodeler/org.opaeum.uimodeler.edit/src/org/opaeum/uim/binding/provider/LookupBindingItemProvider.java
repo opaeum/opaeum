@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.provider;
+package org.opaeum.uim.binding.provider;
 
 
 import java.util.Collection;
@@ -18,10 +18,10 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.binding.LookupBinding;
+import org.opaeum.uim.binding.LookupBinding;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.binding.LookupBinding} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.binding.LookupBinding} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

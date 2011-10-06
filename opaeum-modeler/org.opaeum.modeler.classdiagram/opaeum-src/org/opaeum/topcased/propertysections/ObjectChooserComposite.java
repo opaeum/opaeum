@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;

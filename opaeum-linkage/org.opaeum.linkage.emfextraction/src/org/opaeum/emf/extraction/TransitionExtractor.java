@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.List;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.internal.NakedTransitionImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.internal.NakedTransitionImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {StateExtractor.class,InstanceExtractor.class},after = {StateExtractor.class,InstanceExtractor.class})
 public class TransitionExtractor extends CommonBehaviorExtractor{

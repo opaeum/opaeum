@@ -1,13 +1,13 @@
-package org.opeum.metamodel.statemachines;
+package org.opaeum.metamodel.statemachines;
 
 import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.model.IState;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public interface INakedState extends IRegionOwner,IState,INakedStep{
 	List<INakedTransition> getIncoming();

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.presentation;
+package org.opaeum.uim.presentation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -121,14 +121,14 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.opeum.uim.action.provider.ActionItemProviderAdapterFactory;
-import org.opeum.uim.binding.provider.BindingItemProviderAdapterFactory;
-import org.opeum.uim.control.provider.ControlItemProviderAdapterFactory;
-import org.opeum.uim.folder.provider.FolderItemProviderAdapterFactory;
-import org.opeum.uim.form.provider.FormItemProviderAdapterFactory;
-import org.opeum.uim.layout.provider.LayoutItemProviderAdapterFactory;
-import org.opeum.uim.provider.UimItemProviderAdapterFactory;
-import org.opeum.uim.security.provider.SecurityItemProviderAdapterFactory;
+import org.opaeum.uim.action.provider.ActionItemProviderAdapterFactory;
+import org.opaeum.uim.binding.provider.BindingItemProviderAdapterFactory;
+import org.opaeum.uim.control.provider.ControlItemProviderAdapterFactory;
+import org.opaeum.uim.folder.provider.FolderItemProviderAdapterFactory;
+import org.opaeum.uim.form.provider.FormItemProviderAdapterFactory;
+import org.opaeum.uim.layout.provider.LayoutItemProviderAdapterFactory;
+import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
+import org.opaeum.uim.security.provider.SecurityItemProviderAdapterFactory;
 
 /**
  * This is an example of a Uim model editor.
@@ -514,7 +514,7 @@ public class UimEditor extends MultiPageEditorPart implements IEditingDomainProv
 	 */
 	protected void updateProblemIndication(){
 		if(updateProblemIndication){
-			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, "org.opeum.uim.editor", 0, null, new Object[]{
+			BasicDiagnostic diagnostic = new BasicDiagnostic(Diagnostic.OK, "org.opaeum.uim.editor", 0, null, new Object[]{
 				editingDomain.getResourceSet()
 			});
 			for(Diagnostic childDiagnostic:resourceToDiagnosticMap.values()){
@@ -835,14 +835,14 @@ public class UimEditor extends MultiPageEditorPart implements IEditingDomainProv
 	 */
 	public Diagnostic analyzeResourceProblems(Resource resource,Exception exception){
 		if(!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()){
-			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.opeum.uim.editor", 0, getString("_UI_CreateModelError_message",
+			BasicDiagnostic basicDiagnostic = new BasicDiagnostic(Diagnostic.ERROR, "org.opaeum.uim.editor", 0, getString("_UI_CreateModelError_message",
 					resource.getURI()), new Object[]{
 				exception == null ? (Object) resource : exception
 			});
 			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
 			return basicDiagnostic;
 		}else if(exception != null){
-			return new BasicDiagnostic(Diagnostic.ERROR, "org.opeum.uim.editor", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[]{
+			return new BasicDiagnostic(Diagnostic.ERROR, "org.opaeum.uim.editor", 0, getString("_UI_CreateModelError_message", resource.getURI()), new Object[]{
 				exception
 			});
 		}else{

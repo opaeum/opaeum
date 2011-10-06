@@ -1,4 +1,4 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.opeum.java.metamodel.generated.OJClassifierGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
-import org.opeum.java.metamodel.utilities.JavaUtil;
-import org.opeum.java.metamodel.utilities.OJOperationComparator;
-import org.opeum.java.metamodel.utilities.OJPathNameComparator;
+import org.opaeum.java.metamodel.generated.OJClassifierGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.utilities.OJOperationComparator;
+import org.opaeum.java.metamodel.utilities.OJPathNameComparator;
 
 
 

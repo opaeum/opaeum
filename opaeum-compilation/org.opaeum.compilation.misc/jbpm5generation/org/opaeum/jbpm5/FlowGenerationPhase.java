@@ -1,21 +1,21 @@
-package org.opeum.jbpm5;
+package org.opaeum.jbpm5;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.filegeneration.FileGenerationPhase;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.TextFile;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.filegeneration.FileGenerationPhase;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = JavaTransformationPhase.class,before = FileGenerationPhase.class)
 public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep,INakedElement>{
@@ -23,7 +23,7 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	INakedModelWorkspace workspace;
 	@InputModel
 	TextWorkspace textWorkspace;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<AbstractFlowStep> flowSteps;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
@@ -46,7 +46,7 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 		}
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractFlowStep> features){
+	public void initialize(OpaeumConfig config,List<AbstractFlowStep> features){
 		this.flowSteps = features;
 		this.config = config;
 		initializeSteps();

@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>org.opeum</groupId>
-		<artifactId>opeum-root</artifactId>
+		<groupId>org.opaeum</groupId>
+		<artifactId>opaeum-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-uimodeler</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-uimodeler</artifactId>
 	<packaging>pom</packaging>
-	<name>opeum-uim</name>
+	<name>opaeum-uim</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<repositories>
 		<repository>
@@ -26,13 +26,13 @@
 
 	</repositories>
 	<modules>
-		<module>org.opeum.uimodeler.edit</module>
-		<module>org.opeum.uimodeler.editor</module>
-		<module>org.opeum.uimodeler.modeleditor</module>
-		<module>org.opeum.uimodeler.classform</module>
-		<module>org.opeum.uimodeler.userinteractionproperties</module>
-		<module>org.opeum.uimodeler.feature</module>
-		<module>org.opeum.uimodeler.source.feature</module>
+		<module>org.opaeum.uimodeler.edit</module>
+		<module>org.opaeum.uimodeler.editor</module>
+		<module>org.opaeum.uimodeler.modeleditor</module>
+		<module>org.opaeum.uimodeler.classform</module>
+		<module>org.opaeum.uimodeler.userinteractionproperties</module>
+		<module>org.opaeum.uimodeler.feature</module>
+		<module>org.opaeum.uimodeler.source.feature</module>
 	</modules>
 	<build>
 		<plugins>

@@ -1,15 +1,15 @@
-package org.opeum.javageneration.jbpm5.activity;
+package org.opaeum.javageneration.jbpm5.activity;
 
 import java.util.Collection;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedActivityVariable;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedActivityVariable;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 
 public class ActivityUtil {
 

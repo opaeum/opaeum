@@ -1,6 +1,6 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
-import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
+import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 
 public class OJVisibilityKind extends OJVisibilityKindGEN {
 

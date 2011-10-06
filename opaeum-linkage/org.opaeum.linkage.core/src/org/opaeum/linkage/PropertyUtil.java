@@ -1,6 +1,6 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class PropertyUtil{
 	public static boolean isOneToOne(INakedProperty property){

@@ -1,4 +1,4 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,38 +8,38 @@ import java.util.Set;
 
 import nl.klasse.octopus.model.IOperation;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.jbpm5.EventUtil;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.commonbehaviors.INakedTimer;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.environment.JavaMetaInfoMap;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.validation.namegeneration.JavaNameRegenerator;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.IntegrationCodeGenerator;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.jbpm5.EventUtil;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedTimer;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.environment.JavaMetaInfoMap;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.validation.namegeneration.JavaNameRegenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	JavaNameRegenerator.class
@@ -69,7 +69,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 					if(c.getRootObject() == m){
 						for(IOperation o:c.getOperations()){
 							MappingInfo mi = ((INakedOperation) o).getMappingInfo();
-							initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getOpeumId() + ")");
+							initBlock.addToStatements("putMethod(" + ci.getQualifiedJavaName() + ".class,\"" + mi.getIdInModel() + "\"," + mi.getOpaeumId() + ")");
 						}
 					}
 				}
@@ -98,10 +98,10 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		mapClass.addToConstructors(constr);
 		OJBlock initBlock = constr.getBody();
 		Set<String> ignore = new HashSet<String>();
-		ignore.add("OpiumSimpleTypes".toLowerCase());
+		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		ignore.add("UMLPrimitiveTypes".toLowerCase());
 		ignore.add("JavaPrimitiveTypes".toLowerCase());
-		ignore.add("OpeumSimpleTypes".toLowerCase());
+		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		for(INakedRootObject ro:allDependencies){
 			if(ro instanceof INakedModel && !ignore.contains(ro.getName().toLowerCase())){
 				initBlock.addToStatements("this.importMetaInfo(" + javaMetaInfoMapPath(ro) + ".INSTANCE)");

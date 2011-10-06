@@ -1,11 +1,11 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.Map;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
-import org.opeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 
 public class OJAnnonymousInnerClass extends OJAnnotatedField {

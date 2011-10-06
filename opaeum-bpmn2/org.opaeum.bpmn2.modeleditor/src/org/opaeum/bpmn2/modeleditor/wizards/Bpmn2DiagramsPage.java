@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor.wizards;
+package org.opaeum.bpmn2.modeleditor.wizards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Bpmn2DiagramsPage extends DiagramsPage{
 	 * @generated
 	 */
 	public String getEditorID(){
-		return "org.opeum.bpmn2.modeleditor.editor.Bpmn2Editor";
+		return "org.opaeum.bpmn2.modeleditor.editor.Bpmn2Editor";
 	}
 	/**
 	 * @see org.topcased.modeler.wizards.DiagramsPage#getFileExtension()

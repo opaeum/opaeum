@@ -1,4 +1,4 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,28 +8,28 @@ import java.util.Set;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.feature.visit.VisitorAdapter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.persistence.JpaUtil;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.ProcessIdentifier;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.feature.visit.VisitorAdapter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.IntegrationCodeGenerator;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.ProcessIdentifier;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	ProcessIdentifier.class
@@ -134,10 +134,10 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 			return true;
 		}else{
 			Set<String> libs = new HashSet<String>();
-			libs.add("OpiumSimpleTypes".toLowerCase());
+			libs.add("OpaeumSimpleTypes".toLowerCase());
 			libs.add("UMLPrimitiveTypes".toLowerCase());
 			libs.add("JavaPrimitiveTypes".toLowerCase());
-			libs.add("OpeumSimpleTypes".toLowerCase());
+			libs.add("OpaeumSimpleTypes".toLowerCase());
 			return !libs.contains(element.getName().toLowerCase());
 		}
 	}

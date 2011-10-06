@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,18 +11,18 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.eclipse.commands.SetOclBodyCommand;
-import org.opeum.eclipse.context.NakedUmlEditingContext;
-import org.opeum.metamodel.actions.INakedOclAction;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.eclipse.commands.SetOclBodyCommand;
+import org.opaeum.eclipse.context.NakedUmlEditingContext;
+import org.opaeum.metamodel.actions.INakedOclAction;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public class OclUpdater implements NakedUmlSynchronizationListener{
 	private Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces;

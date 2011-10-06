@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.io.File;
 import java.net.URL;
@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.osgi.framework.internal.core.BundleURLConnection;
-import org.opeum.emf.workspace.UriToFileConverter;
+import org.opaeum.emf.workspace.UriToFileConverter;
 import org.osgi.framework.Bundle;
 
 @SuppressWarnings("restriction")

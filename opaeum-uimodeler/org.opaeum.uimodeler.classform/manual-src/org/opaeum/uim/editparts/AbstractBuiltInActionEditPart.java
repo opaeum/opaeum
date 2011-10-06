@@ -1,7 +1,7 @@
-package org.opeum.uim.editparts;
+package org.opaeum.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.opeum.uim.figures.ActionFigure;
+import org.opaeum.uim.figures.ActionFigure;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 

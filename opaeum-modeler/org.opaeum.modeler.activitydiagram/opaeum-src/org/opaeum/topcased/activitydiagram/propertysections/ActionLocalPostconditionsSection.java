@@ -1,9 +1,9 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.constraints.AbstractConstraintsPropertySection;
+import org.opaeum.topcased.propertysections.constraints.AbstractConstraintsPropertySection;
 
 public class ActionLocalPostconditionsSection extends AbstractConstraintsPropertySection{
 	@Override

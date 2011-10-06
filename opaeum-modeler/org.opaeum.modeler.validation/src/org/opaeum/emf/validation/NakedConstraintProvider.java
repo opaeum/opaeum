@@ -1,4 +1,4 @@
-package org.opeum.emf.validation;
+package org.opaeum.emf.validation;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -9,10 +9,10 @@ import org.eclipse.emf.validation.service.ConstraintExistsException;
 import org.eclipse.emf.validation.service.ConstraintRegistry;
 import org.eclipse.emf.validation.xml.XmlConstraintProvider;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.linkage.ActivityValidationRule;
-import org.opeum.linkage.CoreValidationRule;
-import org.opeum.metamodel.validation.IValidationRule;
-import org.opeum.validation.composition.CompositionValidationRule;
+import org.opaeum.linkage.ActivityValidationRule;
+import org.opaeum.linkage.CoreValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
+import org.opaeum.validation.composition.CompositionValidationRule;
 
 public class NakedConstraintProvider extends XmlConstraintProvider{
 	@Override
@@ -33,7 +33,7 @@ public class NakedConstraintProvider extends XmlConstraintProvider{
 	}
 	private void addContraint(String feature,IValidationRule rule,EClass...metaClass){
 		try{
-			Category c = CategoryManager.getInstance().findCategory("opeum/" + feature);
+			Category c = CategoryManager.getInstance().findCategory("opaeum/" + feature);
 			ConstraintAdapter cd = new ConstraintAdapter(rule, metaClass);
 			super.getConstraints().add(cd);
 			cd.addCategory(c);

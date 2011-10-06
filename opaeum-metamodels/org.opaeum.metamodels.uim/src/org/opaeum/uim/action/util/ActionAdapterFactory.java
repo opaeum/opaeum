@@ -4,32 +4,32 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.util;
+package org.opaeum.uim.action.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.BuiltInAction;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.action.NavigationToOperation;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
-import org.opeum.uim.action.UimAction;
-import org.opeum.uim.action.UimNavigation;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.action.UimNavigation;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.action.ActionPackage
+ * @see org.opaeum.uim.action.ActionPackage
  * @generated
  */
 public class ActionAdapterFactory extends AdapterFactoryImpl {
@@ -149,13 +149,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.BuiltInAction <em>Built In Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.BuiltInAction <em>Built In Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.BuiltInAction
+	 * @see org.opaeum.uim.action.BuiltInAction
 	 * @generated
 	 */
 	public Adapter createBuiltInActionAdapter() {
@@ -163,13 +163,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.UimAction <em>Uim Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.UimAction <em>Uim Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.UimAction
+	 * @see org.opaeum.uim.action.UimAction
 	 * @generated
 	 */
 	public Adapter createUimActionAdapter() {
@@ -177,13 +177,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.TransitionAction <em>Transition Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.TransitionAction <em>Transition Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.TransitionAction
+	 * @see org.opaeum.uim.action.TransitionAction
 	 * @generated
 	 */
 	public Adapter createTransitionActionAdapter() {
@@ -191,13 +191,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.NavigationToOperation <em>Navigation To Operation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.NavigationToOperation <em>Navigation To Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.NavigationToOperation
+	 * @see org.opaeum.uim.action.NavigationToOperation
 	 * @generated
 	 */
 	public Adapter createNavigationToOperationAdapter() {
@@ -205,13 +205,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.OperationAction <em>Operation Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationAction <em>Operation Action</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.OperationAction
+	 * @see org.opaeum.uim.action.OperationAction
 	 * @generated
 	 */
 	public Adapter createOperationActionAdapter() {
@@ -219,13 +219,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.UimNavigation <em>Uim Navigation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.UimNavigation <em>Uim Navigation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.UimNavigation
+	 * @see org.opaeum.uim.action.UimNavigation
 	 * @generated
 	 */
 	public Adapter createUimNavigationAdapter() {
@@ -233,13 +233,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.action.NavigationToEntity <em>Navigation To Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.NavigationToEntity <em>Navigation To Entity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.action.NavigationToEntity
+	 * @see org.opaeum.uim.action.NavigationToEntity
 	 * @generated
 	 */
 	public Adapter createNavigationToEntityAdapter() {
@@ -247,13 +247,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UserInteractionElement
+	 * @see org.opaeum.uim.UserInteractionElement
 	 * @generated
 	 */
 	public Adapter createUserInteractionElementAdapter() {
@@ -261,13 +261,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.SecureObject <em>Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.SecureObject <em>Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.SecureObject
+	 * @see org.opaeum.uim.security.SecureObject
 	 * @generated
 	 */
 	public Adapter createSecureObjectAdapter() {
@@ -275,13 +275,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UimComponent <em>Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UimComponent
+	 * @see org.opaeum.uim.UimComponent
 	 * @generated
 	 */
 	public Adapter createUimComponentAdapter() {
@@ -289,13 +289,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.layout.OutlayableComponent <em>Outlayable Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.OutlayableComponent <em>Outlayable Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.layout.OutlayableComponent
+	 * @see org.opaeum.uim.layout.OutlayableComponent
 	 * @generated
 	 */
 	public Adapter createOutlayableComponentAdapter() {
@@ -303,13 +303,13 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UmlReference
+	 * @see org.opaeum.uim.UmlReference
 	 * @generated
 	 */
 	public Adapter createUmlReferenceAdapter() {

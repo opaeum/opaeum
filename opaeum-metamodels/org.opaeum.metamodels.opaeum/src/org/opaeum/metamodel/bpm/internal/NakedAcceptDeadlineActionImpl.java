@@ -1,7 +1,7 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
-import org.opeum.metamodel.actions.internal.NakedAcceptEventActionImpl;
-import org.opeum.metamodel.bpm.INakedAcceptDeadlineAction;
+import org.opaeum.metamodel.actions.internal.NakedAcceptEventActionImpl;
+import org.opaeum.metamodel.bpm.INakedAcceptDeadlineAction;
 
 public class NakedAcceptDeadlineActionImpl extends NakedAcceptEventActionImpl implements INakedAcceptDeadlineAction{
 

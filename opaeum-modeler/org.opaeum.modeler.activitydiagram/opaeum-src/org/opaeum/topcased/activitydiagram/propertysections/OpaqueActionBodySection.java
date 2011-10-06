@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -6,8 +6,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.AbstractOclBodyBodySection;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.AbstractOclBodyBodySection;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OpaqueActionBodySection extends AbstractOclBodyBodySection{
 	private final class OpaqueActionBodyComposite extends OclBodyComposite{

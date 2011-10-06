@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.folder.StateMachineFolder;
+import org.opaeum.uim.folder.StateMachineFolder;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,11 +16,11 @@ import org.opeum.uim.folder.StateMachineFolder;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.StateForm#getFolder <em>Folder</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.StateForm#getFolder <em>Folder</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getStateForm()
+ * @see org.opaeum.uim.form.FormPackage#getStateForm()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface StateForm extends FormPanel {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Folder</em>' reference.
 	 * @see #setFolder(StateMachineFolder)
-	 * @see org.opeum.uim.form.FormPackage#getStateForm_Folder()
+	 * @see org.opaeum.uim.form.FormPackage#getStateForm_Folder()
 	 * @model required="true"
 	 * @generated
 	 */
 	StateMachineFolder getFolder();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.StateForm#getFolder <em>Folder</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.StateForm#getFolder <em>Folder</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Folder</em>' reference.

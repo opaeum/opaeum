@@ -1,7 +1,7 @@
-package org.opeum.metamodel.core.internal;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedPowerTypeInstance;
+package org.opaeum.metamodel.core.internal;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedPowerTypeInstance;
 /**
  * @author Ampie Barnard
  */

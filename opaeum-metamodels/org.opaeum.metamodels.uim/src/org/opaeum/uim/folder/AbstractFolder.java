@@ -4,11 +4,11 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
 import org.eclipse.emf.common.util.EList;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.UserInteractionElement;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,19 +18,19 @@ import org.opeum.uim.UserInteractionElement;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.folder.AbstractFolder#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.AbstractFolder#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.folder.FolderPackage#getAbstractFolder()
+ * @see org.opaeum.uim.folder.FolderPackage#getAbstractFolder()
  * @model abstract="true"
  * @generated
  */
 public interface AbstractFolder extends UserInteractionElement, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opeum.uim.folder.AbstractFormFolder}.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}'.
+	 * The list contents are of type {@link org.opaeum.uim.folder.AbstractFormFolder}.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Children</em>' containment reference list isn't clear,
@@ -38,8 +38,8 @@ public interface AbstractFolder extends UserInteractionElement, UmlReference {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
-	 * @see org.opeum.uim.folder.FolderPackage#getAbstractFolder_Children()
-	 * @see org.opeum.uim.folder.AbstractFormFolder#getParent
+	 * @see org.opaeum.uim.folder.FolderPackage#getAbstractFolder_Children()
+	 * @see org.opaeum.uim.folder.AbstractFormFolder#getParent
 	 * @model opposite="parent" containment="true"
 	 *        extendedMetaData="wildcards='' name=''"
 	 * @generated

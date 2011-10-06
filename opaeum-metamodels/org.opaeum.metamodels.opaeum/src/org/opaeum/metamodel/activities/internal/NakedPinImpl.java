@@ -1,9 +1,9 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class NakedPinImpl extends NakedObjectNodeImpl implements INakedPin{
 	private static final long serialVersionUID = 771929693745616164L;

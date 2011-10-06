@@ -1,11 +1,11 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IEnumLiteral;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedPowerTypeInstance;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedPowerType;
+import org.opaeum.metamodel.core.INakedPowerTypeInstance;
 
 /**
  * Somewhere between a generalization set and a powertype, represented as a kind of enumeration. The generalization set is assumed to be all

@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.folder.EntityFolder;
+import org.opaeum.uim.folder.EntityFolder;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,11 +16,11 @@ import org.opeum.uim.folder.EntityFolder;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.OperationTaskForm#getFolder <em>Folder</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.OperationTaskForm#getFolder <em>Folder</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getOperationTaskForm()
+ * @see org.opaeum.uim.form.FormPackage#getOperationTaskForm()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface OperationTaskForm extends FormPanel {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Folder</em>' reference.
 	 * @see #setFolder(EntityFolder)
-	 * @see org.opeum.uim.form.FormPackage#getOperationTaskForm_Folder()
+	 * @see org.opaeum.uim.form.FormPackage#getOperationTaskForm_Folder()
 	 * @model required="true"
 	 * @generated
 	 */
 	EntityFolder getFolder();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.OperationTaskForm#getFolder <em>Folder</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.OperationTaskForm#getFolder <em>Folder</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Folder</em>' reference.

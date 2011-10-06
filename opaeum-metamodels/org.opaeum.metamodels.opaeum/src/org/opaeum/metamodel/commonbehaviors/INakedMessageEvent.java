@@ -1,8 +1,8 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
 import java.util.List;
 
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public interface INakedMessageEvent extends INakedEvent{
 	List<? extends INakedTypedElement> getEventParameters();

@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.io.File;
 import java.util.ArrayList;

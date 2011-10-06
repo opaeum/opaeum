@@ -1,29 +1,29 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.OJTryStatement;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.workspace.OpeumLibrary;
-import org.opeum.runtime.domain.ExceptionHolder;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJStatement;
+import org.opaeum.java.metamodel.OJTryStatement;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.runtime.domain.ExceptionHolder;
 
 public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleNodeBuilder<T>{
 	protected NakedStructuralFeatureMap callMap;
-	public AbstractCaller(OpeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
+	public AbstractCaller(OpaeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 		if(BehaviorUtil.hasMessageStructure(node)){
 			callMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());

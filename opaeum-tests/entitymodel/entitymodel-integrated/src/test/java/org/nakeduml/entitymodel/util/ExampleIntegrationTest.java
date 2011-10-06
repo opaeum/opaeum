@@ -1,4 +1,4 @@
-package org.opeum.entitymodel.util;
+package org.opaeum.entitymodel.util;
 
 import entitymodel.bodyparts.Hand;
 

@@ -1,6 +1,6 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public interface INakedActivityVariable extends INakedTypedElement{
 

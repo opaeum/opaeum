@@ -1,6 +1,6 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
-import org.opeum.uim.layouts.FullLayoutManager;
+import org.opaeum.uim.layouts.FullLayoutManager;
 
 
 

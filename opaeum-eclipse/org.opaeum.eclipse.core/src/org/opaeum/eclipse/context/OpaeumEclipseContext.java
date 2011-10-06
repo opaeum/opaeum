@@ -1,4 +1,4 @@
-package org.opeum.eclipse.context;
+package org.opaeum.eclipse.context;
 
 
 import java.io.File;
@@ -34,22 +34,22 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
-import org.opeum.eclipse.EclipseUriToFileConverter;
-import org.opeum.eclipse.EmfToNakedUmlSynchronizer;
-import org.opeum.eclipse.OpeumConfigDialog;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.NakedUmlErrorMarker;
-import org.opeum.eclipse.OclUpdater;
-import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.emf.workspace.UriToFileConverter;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.eclipse.EclipseUriToFileConverter;
+import org.opaeum.eclipse.EmfToNakedUmlSynchronizer;
+import org.opaeum.eclipse.OpaeumConfigDialog;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.NakedUmlErrorMarker;
+import org.opaeum.eclipse.OclUpdater;
+import org.opaeum.eclipse.ProgressMonitorTransformationLog;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.UriToFileConverter;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-public class OpeumEclipseContext{
-	private static Map<IContainer,OpeumEclipseContext> contexts = new WeakHashMap<IContainer,OpeumEclipseContext>();
-	private static OpeumEclipseContext currentContext;
+public class OpaeumEclipseContext{
+	private static Map<IContainer,OpaeumEclipseContext> contexts = new WeakHashMap<IContainer,OpaeumEclipseContext>();
+	private static OpaeumEclipseContext currentContext;
 	private Set<ResourceSet> resourceSetsStartedButNotLoaded = new HashSet<ResourceSet>();
 	private Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces = new HashMap<ResourceSet,NakedUmlEditingContext>();
 	private EmfToNakedUmlSynchronizer umlElementCache;
@@ -62,7 +62,7 @@ public class OpeumEclipseContext{
 	private boolean autoSync;
 	private boolean isLoading;
 	private boolean newlyCreated;
-	public OpeumEclipseContext(OpeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
+	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
 		isOpen = true;
 		this.newlyCreated = newlyCreated;
@@ -80,7 +80,7 @@ public class OpeumEclipseContext{
 		ArrayList<NakedUmlEditingContext> arrayList = new ArrayList<NakedUmlEditingContext>(emfWorkspaces.values());
 		this.emfWorkspaces.clear();
 		for(NakedUmlEditingContext editingContext:arrayList){
-			editingContext.getEditingDomain().getResourceSet().eAdapters().remove(getEmfToOpeumSynchronizer());
+			editingContext.getEditingDomain().getResourceSet().eAdapters().remove(getEmfToOpaeumSynchronizer());
 		}
 		for(NakedUmlEditingContext editingContext:arrayList){
 			startSynch(editingContext.getEditingDomain(), editingContext.getFile());
@@ -88,7 +88,7 @@ public class OpeumEclipseContext{
 		errorMarker.maybeSchedule();
 	}
 	public String getId(Element umlElement){
-		return getEmfToOpeumSynchronizer().getCurrentEmfWorkspace().getId(umlElement);
+		return getEmfToOpaeumSynchronizer().getCurrentEmfWorkspace().getId(umlElement);
 	}
 	public Collection<EmfWorkspace> getEmfWorkspaces(){
 		Collection<EmfWorkspace> result = new HashSet<EmfWorkspace>();
@@ -98,16 +98,16 @@ public class OpeumEclipseContext{
 		return result;
 	}
 	// TODO declare private and delegate from context
-	public EmfToNakedUmlSynchronizer getEmfToOpeumSynchronizer(){
+	public EmfToNakedUmlSynchronizer getEmfToOpaeumSynchronizer(){
 		return umlElementCache;
 	}
 	public boolean startSynch(final EditingDomain domain,final IFile file){
 		resourceSetsStartedButNotLoaded.add(domain.getResourceSet());
-		new Job("Loading Opium Metadata"){
+		new Job("Loading Opaeum Metadata"){
 			@Override
 			protected IStatus run(final IProgressMonitor monitor){
 				isLoading = true;
-				monitor.beginTask("Loading Opium  Metadata", 1000);
+				monitor.beginTask("Loading Opaeum  Metadata", 1000);
 				try{
 					final Package model = findRootObjectInFile(file, domain.getResourceSet());
 					if(model != null){
@@ -116,9 +116,9 @@ public class OpeumEclipseContext{
 						EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
 						newDomainLoaded(domain, file, model, emfWorkspace);
 					}
-					return new Status(IStatus.OK, OpeumEclipsePlugin.getId(), "Opium Metadata loaded");
+					return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Opaeum Metadata loaded");
 				}catch(Exception e){
-					return new Status(IStatus.ERROR, OpeumEclipsePlugin.getId(), "Opium Metadata not loaded", e);
+					return new Status(IStatus.ERROR, OpaeumEclipsePlugin.getId(), "Opaeum Metadata not loaded", e);
 				}finally{
 					isLoading = false;
 					monitor.done();
@@ -140,14 +140,14 @@ public class OpeumEclipseContext{
 		this.currentResourceSet = rs.getResourceSet();
 		NakedUmlEditingContext editingContext = emfWorkspaces.get(rs.getResourceSet());
 		if(editingContext != null){
-			getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
+			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
 			// could still be loading
 		}
 	}
 	public void onSave(IProgressMonitor monitor,ResourceSet resourceSet){
 		try{
 			monitor.beginTask("Saving UML Models", listeners.size() * 100);
-			getEmfToOpeumSynchronizer().getConfig().getWorkspaceMappingInfo().store();
+			getEmfToOpaeumSynchronizer().getConfig().getWorkspaceMappingInfo().store();
 			for(NakedUmlContextListener l:listeners){
 				l.onSave(new SubProgressMonitor(monitor, 100));
 			}
@@ -176,7 +176,7 @@ public class OpeumEclipseContext{
 		return umlDirectory;
 	}
 	public boolean isNakedRootObjectLoaded(IFile r){
-		for(INakedRootObject ro:getEmfToOpeumSynchronizer().getNakedWorkspace().getRootObjects()){
+		for(INakedRootObject ro:getEmfToOpaeumSynchronizer().getNakedWorkspace().getRootObjects()){
 			if(ro.getFileName().equals(r.getLocation().lastSegment()) && ro.getStatus().isExtracted()){
 				return true;
 			}
@@ -193,7 +193,7 @@ public class OpeumEclipseContext{
 	public void loadDirectory(IProgressMonitor monitor){
 		this.isLoading = true;
 		try{
-			getEmfToOpeumSynchronizer().suspend();
+			getEmfToOpaeumSynchronizer().suspend();
 			monitor.beginTask("Loading EMF resources", 300);
 			EmfWorkspace dew = getCurrentEmfWorkspace();
 			if(dew == null){
@@ -205,7 +205,7 @@ public class OpeumEclipseContext{
 					// No open editors - create a temp EmfWorkspace
 					ResourceSet rst = new ResourceSetImpl();
 					URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
-					OpeumConfig cfg = getEmfToOpeumSynchronizer().getConfig();
+					OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
 					dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 					dew.setUriToFileConverter(new EclipseUriToFileConverter());
 					dew.setName(cfg.getWorkspaceName());
@@ -223,10 +223,10 @@ public class OpeumEclipseContext{
 				monitor.worked(100 / umlDirectory.members().length);
 			}
 			dew.calculatePrimaryModels();
-			getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(dew);
+			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(dew);
 			// Will only process elements as per their RootObjectStatus
-			getEmfToOpeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
-			getEmfToOpeumSynchronizer().resume();
+			getEmfToOpaeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
+			getEmfToOpaeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
 		}catch(CoreException e){
 			throw new RuntimeException(e);
@@ -253,7 +253,7 @@ public class OpeumEclipseContext{
 		return resourceSetsStartedButNotLoaded.contains(resourceSet) || emfWorkspaces.containsKey(resourceSet);
 	}
 	public void removeNakedModel(ResourceSet resourceSet){
-		INakedModelWorkspace nws = getEmfToOpeumSynchronizer().getNakedWorkspace();
+		INakedModelWorkspace nws = getEmfToOpaeumSynchronizer().getNakedWorkspace();
 		nws.removeOwnedElement(nws.getModelElement(getId(emfWorkspaces.get(resourceSet).getModel())), true);
 	}
 	public boolean getAutoSync(){
@@ -273,27 +273,27 @@ public class OpeumEclipseContext{
 			return null;
 		}
 	}
-	public OpeumConfig getConfig(){
-		return getEmfToOpeumSynchronizer().getConfig();
+	public OpaeumConfig getConfig(){
+		return getEmfToOpaeumSynchronizer().getConfig();
 	}
 	public INakedModelWorkspace getNakedWorkspace(){
-		return getEmfToOpeumSynchronizer().getNakedWorkspace();
+		return getEmfToOpaeumSynchronizer().getNakedWorkspace();
 	}
-	public static OpeumEclipseContext getCurrentContext(){
+	public static OpaeumEclipseContext getCurrentContext(){
 		return currentContext;
 	}
-	public static void setCurrentContext(OpeumEclipseContext currentContext){
-		OpeumEclipseContext.currentContext = currentContext;
+	public static void setCurrentContext(OpaeumEclipseContext currentContext){
+		OpaeumEclipseContext.currentContext = currentContext;
 	}
-	public static OpeumEclipseContext findOrCreateContextFor(IContainer umlDir){
-		OpeumEclipseContext result = getContextFor(umlDir);
+	public static OpaeumEclipseContext findOrCreateContextFor(IContainer umlDir){
+		OpaeumEclipseContext result = getContextFor(umlDir);
 		if(result == null){
-			OpeumConfig cfg = null;
-			final IFile propsFile = (IFile) umlDir.getFile(new Path("opeum.properties"));
+			OpaeumConfig cfg = null;
+			final IFile propsFile = (IFile) umlDir.getFile(new Path("opaeum.properties"));
 			boolean newContext = !propsFile.exists();
 			if(newContext){
-				cfg = new OpeumConfig(new File(umlDir.getLocation().toFile(), "opeum.properties"));
-				OpeumConfigDialog dlg = new OpeumConfigDialog(Display.getDefault().getActiveShell(), cfg);
+				cfg = new OpaeumConfig(new File(umlDir.getLocation().toFile(), "opaeum.properties"));
+				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg);
 				final int dlgResult = dlg.open();
 				if(dlgResult != Window.OK){
 					return null;
@@ -305,19 +305,19 @@ public class OpeumEclipseContext{
 				}
 			}else{
 				// Load classes
-				OpeumEclipsePlugin.getDefault();
-				cfg = new OpeumConfig(propsFile.getLocation().toFile());
+				OpaeumEclipsePlugin.getDefault();
+				cfg = new OpaeumConfig(propsFile.getLocation().toFile());
 			}
 			cfg.calculateOutputRoot(umlDir.getProject().getLocation().toFile());
-			final OpeumEclipseContext newOne = new OpeumEclipseContext(cfg, umlDir, newContext);
+			final OpaeumEclipseContext newOne = new OpaeumEclipseContext(cfg, umlDir, newContext);
 			contexts.put(umlDir, newOne);
 			result = newOne;
 		}
 		setCurrentContext(result);
 		return result;
 	}
-	public static OpeumEclipseContext getContextFor(IContainer umlDir){
-		OpeumEclipseContext result = contexts.get(umlDir);
+	public static OpaeumEclipseContext getContextFor(IContainer umlDir){
+		OpaeumEclipseContext result = contexts.get(umlDir);
 		return result;
 	}
 

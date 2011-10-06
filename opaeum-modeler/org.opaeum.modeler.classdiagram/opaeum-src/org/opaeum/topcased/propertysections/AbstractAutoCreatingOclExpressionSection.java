@@ -1,10 +1,10 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.OpaqueExpression;
-import org.opeum.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
+import org.opaeum.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 
 public abstract class AbstractAutoCreatingOclExpressionSection extends AbstractOpaqueExpressionSection{
 	@Override

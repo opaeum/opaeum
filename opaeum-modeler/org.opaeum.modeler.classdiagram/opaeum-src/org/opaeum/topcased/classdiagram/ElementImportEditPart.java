@@ -1,4 +1,4 @@
-package org.opeum.topcased.classdiagram;
+package org.opaeum.topcased.classdiagram;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;

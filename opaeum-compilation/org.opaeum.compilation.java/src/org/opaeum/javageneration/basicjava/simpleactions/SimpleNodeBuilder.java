@@ -1,15 +1,15 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractNodeBuilder;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractNodeBuilder;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class SimpleNodeBuilder<E extends INakedActivityNode> extends AbstractNodeBuilder {
 	protected E node;
-	public SimpleNodeBuilder(OpeumLibrary oclEngine, E action, AbstractObjectNodeExpressor objectNodeExpressor) {
+	public SimpleNodeBuilder(OpaeumLibrary oclEngine, E action, AbstractObjectNodeExpressor objectNodeExpressor) {
 		super(oclEngine, objectNodeExpressor);
 		this.node = action;
 	}

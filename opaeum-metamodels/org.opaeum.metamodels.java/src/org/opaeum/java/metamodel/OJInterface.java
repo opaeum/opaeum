@@ -1,10 +1,10 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.opeum.java.metamodel.generated.OJInterfaceGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.generated.OJInterfaceGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 

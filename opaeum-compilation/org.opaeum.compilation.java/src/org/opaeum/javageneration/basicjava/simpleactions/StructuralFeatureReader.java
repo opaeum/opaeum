@@ -1,17 +1,17 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.actions.INakedReadStructuralFeatureAction;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedReadStructuralFeatureAction;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class StructuralFeatureReader extends SimpleNodeBuilder<INakedReadStructuralFeatureAction> {
-	public StructuralFeatureReader(OpeumLibrary oclEngine, INakedReadStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
+	public StructuralFeatureReader(OpaeumLibrary oclEngine, INakedReadStructuralFeatureAction action, AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}
 

@@ -1,16 +1,16 @@
-package org.opeum.metamodel.statemachines;
+package org.opaeum.metamodel.statemachines;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.PreAndPostConstrained;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.PreAndPostConstrained;
 
 public interface INakedTransition extends INakedElementOwner,GuardedFlow{
 	/**

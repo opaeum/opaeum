@@ -12,8 +12,8 @@ import java.util.List;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.IParameter;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
 /**
  * OperationMap : 

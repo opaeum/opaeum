@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.impl;
+package org.opaeum.uim.folder.impl;
 
 import java.util.Collection;
 
@@ -17,17 +17,17 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.folder.AbstractFolder;
-import org.opeum.uim.folder.AbstractFormFolder;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.folder.UserInteractionModel;
-import org.opeum.uim.impl.UmlReferenceImpl;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.folder.AbstractFolder;
+import org.opaeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.UserInteractionModel;
+import org.opaeum.uim.impl.UmlReferenceImpl;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,11 +36,11 @@ import org.opeum.uim.security.SecurityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.folder.impl.UserInteractionModelImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.opeum.uim.folder.impl.UserInteractionModelImpl#getChildren <em>Children</em>}</li>
- *   <li>{@link org.opeum.uim.folder.impl.UserInteractionModelImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.opeum.uim.folder.impl.UserInteractionModelImpl#getEditability <em>Editability</em>}</li>
- *   <li>{@link org.opeum.uim.folder.impl.UserInteractionModelImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *

@@ -1,11 +1,11 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 import org.apache.maven.pom.Dependency;
 

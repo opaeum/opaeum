@@ -1,19 +1,19 @@
-package org.opeum.validation.namegeneration;
+package org.opaeum.validation.namegeneration;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.linkage.LinkagePhase;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.RootObjectStatus;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.linkage.LinkagePhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 @PhaseDependency(after = {
 	LinkagePhase.class
@@ -22,8 +22,8 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	private List<AbstractNameGenerator> nameGenerators;
-	private OpeumConfig config;
-	public void initialize(OpeumConfig config){
+	private OpaeumConfig config;
+	public void initialize(OpaeumConfig config){
 	}
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
@@ -48,7 +48,7 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 		context.getLog().endLastTask();
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractNameGenerator> features){
+	public void initialize(OpaeumConfig config,List<AbstractNameGenerator> features){
 		this.nameGenerators = features;
 		this.config = config;
 	}

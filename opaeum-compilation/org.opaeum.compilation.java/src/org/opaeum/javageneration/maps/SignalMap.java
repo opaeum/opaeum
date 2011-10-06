@@ -1,8 +1,8 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 
 public class SignalMap extends NakedClassifierMap implements IMessageMap{
 	INakedSignal signal;

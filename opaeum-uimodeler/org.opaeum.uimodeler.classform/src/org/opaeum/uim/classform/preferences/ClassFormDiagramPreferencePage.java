@@ -1,12 +1,12 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.preferences;
+package org.opaeum.uim.classform.preferences;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
-import org.opeum.uim.classform.ClassFormPlugin;
+import org.opaeum.uim.classform.ClassFormPlugin;
 import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
 
 /**

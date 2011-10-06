@@ -1,14 +1,14 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.actions.INakedOclAction;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.metamodel.actions.INakedOclAction;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 
 public class NakedOclActionImpl extends NakedOpaqueActionImpl implements INakedOclAction{
 	/**

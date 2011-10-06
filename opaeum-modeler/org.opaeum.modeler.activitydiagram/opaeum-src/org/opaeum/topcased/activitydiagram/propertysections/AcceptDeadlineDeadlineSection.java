@@ -1,10 +1,10 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import java.awt.Desktop.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;

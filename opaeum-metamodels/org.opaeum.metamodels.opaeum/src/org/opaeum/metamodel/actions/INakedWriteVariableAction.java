@@ -1,6 +1,6 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
-import org.opeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedInputPin;
 
 public interface INakedWriteVariableAction extends INakedVariableAction{
 	INakedInputPin getValue();

@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
@@ -6,18 +6,18 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.GeneralizationSet;
 import org.eclipse.uml2.uml.InterfaceRealization;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedPowerTypeInstance;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.NakedGeneralizationImpl;
-import org.opeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
-import org.opeum.metamodel.core.internal.NakedPowerTypeInstanceImpl;
-import org.opeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedPowerType;
+import org.opaeum.metamodel.core.INakedPowerTypeInstance;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.NakedGeneralizationImpl;
+import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
+import org.opaeum.metamodel.core.internal.NakedPowerTypeInstanceImpl;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = NameSpaceExtractor.class,after = NameSpaceExtractor.class)
 public class GeneralizationExtractor extends AbstractExtractorFromEmf{

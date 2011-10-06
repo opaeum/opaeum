@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.List;
 

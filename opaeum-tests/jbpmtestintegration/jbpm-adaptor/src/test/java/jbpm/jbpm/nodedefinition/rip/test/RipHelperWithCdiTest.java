@@ -21,11 +21,11 @@ import jbpm.jbpm.rip.RipHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.opeum.environment.Environment;
-import org.opeum.environment.cdi.test.CdiTestEnvironment;
-import org.opeum.environment.cdi.test.CdiTestSeamTransaction;
-import org.opeum.environment.cdi.test.MockTransactionSession;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.environment.Environment;
+import org.opaeum.environment.cdi.test.CdiTestEnvironment;
+import org.opaeum.environment.cdi.test.CdiTestSeamTransaction;
+import org.opaeum.environment.cdi.test.MockTransactionSession;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class RipHelperWithCdiTest {
 	

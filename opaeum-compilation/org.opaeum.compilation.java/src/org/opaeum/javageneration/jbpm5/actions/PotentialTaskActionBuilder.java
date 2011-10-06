@@ -1,20 +1,20 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.IActionWithTargetElement;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 /**
  * Base class for all action builders that could potentially build a task representing a usertask.
@@ -23,7 +23,7 @@ import org.opeum.metamodel.workspace.OpeumLibrary;
  */
 public abstract class PotentialTaskActionBuilder<A extends INakedAction> extends Jbpm5ActionBuilder<A>{
 	protected NakedStructuralFeatureMap callMap;
-	protected PotentialTaskActionBuilder(OpeumLibrary oclEngine,A node){
+	protected PotentialTaskActionBuilder(OpaeumLibrary oclEngine,A node){
 		super(oclEngine, node);
 		if(node instanceof IActionWithTargetElement && BehaviorUtil.hasMessageStructure(node)){
 			callMap = OJUtil.buildStructuralFeatureMap((IActionWithTargetElement)node, getLibrary());

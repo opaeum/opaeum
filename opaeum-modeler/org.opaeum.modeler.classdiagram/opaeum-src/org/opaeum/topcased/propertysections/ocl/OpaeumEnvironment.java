@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.ocl;
+package org.opaeum.topcased.propertysections.ocl;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,9 +32,9 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Vertex;
-import org.opeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementFinder;
 
-public final class OpeumEnvironment extends UMLEnvironment{
+public final class OpaeumEnvironment extends UMLEnvironment{
 	@Override
 	public Variable<Classifier,Parameter> lookup(String name){
 		// TODO Auto-generated method stub
@@ -193,10 +193,10 @@ public final class OpeumEnvironment extends UMLEnvironment{
 		}
 		return additionalAttributes;
 	}
-	public OpeumEnvironment(EPackage.Registry registry,ResourceSet rset){
+	public OpaeumEnvironment(EPackage.Registry registry,ResourceSet rset){
 		super(registry, rset);
 	}
-	public OpeumEnvironment(
+	public OpaeumEnvironment(
 			Environment<Package,Classifier,Operation,Property,EnumerationLiteral,Parameter,State,CallOperationAction,SendSignalAction,Constraint,Class,EObject> parent){
 		super(parent);
 	}

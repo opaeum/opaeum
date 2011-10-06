@@ -1,20 +1,20 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opeum.metamodel.actions.ITargetElement;
-import org.opeum.metamodel.actions.internal.NakedOpaqueActionImpl;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.metamodel.profiles.INakedStereotype;
+import org.opaeum.metamodel.actions.ITargetElement;
+import org.opaeum.metamodel.actions.internal.NakedOpaqueActionImpl;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.profiles.INakedStereotype;
 
 public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl implements INakedEmbeddedSingleScreenTask{
 	private static final long serialVersionUID = -1263880243304275436L;

@@ -1,7 +1,7 @@
-package org.opeum.metamodel.components;
+package org.opaeum.metamodel.components;
 
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public interface INakedConnectorEnd extends INakedMultiplicityElement{
 	INakedProperty getPartWithPort();

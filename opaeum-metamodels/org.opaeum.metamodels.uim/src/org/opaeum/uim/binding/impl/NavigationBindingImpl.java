@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.impl;
+package org.opaeum.uim.binding.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.NavigationBinding;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.binding.NavigationBinding;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.binding.impl.NavigationBindingImpl#getNavigation <em>Navigation</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.impl.NavigationBindingImpl#getNavigation <em>Navigation</em>}</li>
  * </ul>
  * </p>
  *

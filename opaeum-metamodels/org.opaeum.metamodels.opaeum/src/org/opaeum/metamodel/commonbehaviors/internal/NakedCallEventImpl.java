@@ -1,11 +1,11 @@
-package org.opeum.metamodel.commonbehaviors.internal;
+package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.List;
 
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class NakedCallEventImpl extends NakedEventImpl implements INakedCallEvent{
 	private static final long serialVersionUID = -4805579769388763854L;

@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 public class Phases extends SequenceCalculator<TransformationPhase<? extends ITransformationStep,?>> {
 	@Override

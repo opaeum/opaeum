@@ -1,8 +1,8 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
 
 public interface INakedEvent extends INakedElement,INakedElementOwner{
 	INakedClassifier getContext();

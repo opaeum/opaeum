@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,20 +28,20 @@ import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 
-import org.opeum.metamodel.commonbehaviors.INakedReception;
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComment;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.commonbehaviors.INakedReception;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComment;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedPowerType;
+import org.opaeum.metamodel.core.INakedProperty;
 
 /**
  * Common superclass for all types that have ownedAttributes and generalizations. THis class deviates from UML2 in that it also supports
@@ -139,7 +139,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 		return findAttributeFrom(name, getEffectiveAttributes());
 	}
 	/**
-	 * Not to be confused with the Octopus getAllAttributes property - includes navigations. Used in Opeum only.
+	 * Not to be confused with the Octopus getAllAttributes property - includes navigations. Used in Opaeum only.
 	 */
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();

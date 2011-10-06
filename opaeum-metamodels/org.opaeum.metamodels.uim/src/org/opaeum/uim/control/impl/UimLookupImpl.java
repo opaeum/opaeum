@@ -4,17 +4,17 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.impl;
+package org.opaeum.uim.control.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.LookupBinding;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimLookup;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.LookupBinding;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimLookup;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opeum.uim.control.UimLookup;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.control.impl.UimLookupImpl#getLookupSource <em>Lookup Source</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.impl.UimLookupImpl#getLookupSource <em>Lookup Source</em>}</li>
  * </ul>
  * </p>
  *

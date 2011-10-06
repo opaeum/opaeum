@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -10,19 +10,19 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.Element;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
 
 @PhaseDependency(before={ModelCopyPhase.class})
 public class UimSynchronizationPhase implements TransformationPhase<AbstractUimSynchronizer,Element>{
 	@InputModel
 	EmfWorkspace workspace;
 	@SuppressWarnings("unused")
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<AbstractUimSynchronizer> features;
 	private ResourceSetImpl uimResourceSet;
 	@SuppressWarnings("rawtypes")
@@ -72,7 +72,7 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 		}
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractUimSynchronizer> features){
+	public void initialize(OpaeumConfig config,List<AbstractUimSynchronizer> features){
 		this.config = config;
 		this.uimResourceSet = new ResourceSetImpl();
 		this.features = features;

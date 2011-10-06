@@ -1,4 +1,4 @@
-package org.opeum.jbpmtestintegration.util;
+package org.opaeum.jbpmtestintegration.util;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
-import org.opeum.runtime.adaptor.DataGeneratorProperty;
-import org.opeum.seam3.persistence.DependentScopedSession;
+import org.opaeum.runtime.adaptor.DataGeneratorProperty;
+import org.opaeum.seam3.persistence.DependentScopedSession;
 
 public class ExampleStartUp {
 	@Inject

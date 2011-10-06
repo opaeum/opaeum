@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.opeum.emf.validation;
+package org.opaeum.emf.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +19,11 @@ import org.eclipse.emf.validation.model.IModelConstraint;
 import org.eclipse.emf.validation.service.AbstractConstraintDescriptor;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.metamodel.validation.BrokenElement;
-import org.opeum.metamodel.validation.ErrorMap;
-import org.opeum.metamodel.validation.IValidationRule;
-import org.opeum.name.NameConverter;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.validation.IValidationRule;
+import org.opaeum.name.NameConverter;
 
 final class ConstraintAdapter extends AbstractConstraintDescriptor implements IModelConstraint{
 	private static int statusCode = 0;
@@ -63,7 +63,7 @@ final class ConstraintAdapter extends AbstractConstraintDescriptor implements IM
 			Element e = (Element) ctx.getTarget();
 			Model m = e.getModel();
 			if(m != null){
-				ErrorMap validator = OpeumEclipseContext.getCurrentContext().getNakedWorkspace().getErrorMap();
+				ErrorMap validator = OpaeumEclipseContext.getCurrentContext().getNakedWorkspace().getErrorMap();
 				if(validator.hasBroken(rule, e)){
 					BrokenElement be = validator.getErrors().get(e);
 					List<Object> messageParams = new ArrayList<Object>();
@@ -86,7 +86,7 @@ final class ConstraintAdapter extends AbstractConstraintDescriptor implements IM
 		}
 	}
 	public String getPluginId(){
-		return "org.opeum.metamodel";
+		return "org.opaeum.metamodel";
 	}
 	public ConstraintSeverity getSeverity(){
 		return ConstraintSeverity.ERROR;

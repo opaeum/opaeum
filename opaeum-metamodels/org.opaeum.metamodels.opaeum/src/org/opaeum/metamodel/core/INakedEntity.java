@@ -1,10 +1,10 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
 import java.util.List;
 
 import nl.klasse.octopus.model.IClass;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 
 public interface INakedEntity extends IClass, INakedBehavioredClassifier, INakedComplexStructure, ICompositionParticipant {
 

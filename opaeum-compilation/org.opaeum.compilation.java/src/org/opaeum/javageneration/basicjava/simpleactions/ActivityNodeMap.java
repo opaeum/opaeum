@@ -1,6 +1,6 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedActivityNode;
 
 
 public class ActivityNodeMap {
@@ -11,7 +11,7 @@ public class ActivityNodeMap {
 		this.node = node;
 	}
 	public String doActionMethod(){
-		return "do"+node.getMappingInfo().getJavaName().getCapped() + node.getMappingInfo().getOpeumId();
+		return "do"+node.getMappingInfo().getJavaName().getCapped() + node.getMappingInfo().getOpaeumId();
 	}
 
 }

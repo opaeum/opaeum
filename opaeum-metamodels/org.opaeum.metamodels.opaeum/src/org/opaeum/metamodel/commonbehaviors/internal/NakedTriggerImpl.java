@@ -1,4 +1,4 @@
-package org.opeum.metamodel.commonbehaviors.internal;
+package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,18 +7,18 @@ import java.util.List;
 
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.bpm.INakedDeadline;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 	private static final long serialVersionUID = -8598466207353218533L;

@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.swt.graphics.Point;

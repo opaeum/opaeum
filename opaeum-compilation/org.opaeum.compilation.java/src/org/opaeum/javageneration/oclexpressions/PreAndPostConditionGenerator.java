@@ -1,33 +1,33 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import java.util.Collection;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.OperationAnnotator;
-import org.opeum.javageneration.basicjava.SpecificationImplementor;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.linkage.NakedParsedOclStringResolver;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.IParameterOwner;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.basicjava.SpecificationImplementor;
+import org.opaeum.javageneration.maps.NakedOperationMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.linkage.NakedParsedOclStringResolver;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.IParameterOwner;
 
 //TODO implement post conditions 
 //as a method similar to "checkInvariants" on operations that are represented as classifiers/ tuples

@@ -1,11 +1,11 @@
-package org.opeum.metamodel.components;
+package org.opaeum.metamodel.components;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedNameSpace;
 
 public interface INakedComponent extends INakedNameSpace,INakedClassifier,ICompositionParticipant,INakedComplexStructure{
 	boolean isOrganizationUnit();

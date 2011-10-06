@@ -1,6 +1,6 @@
-package org.opeum.metamodel.bpm;
+package org.opaeum.metamodel.bpm;
 
-import org.opeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedOperation;
 
 public interface INakedResponsibility extends INakedOperation,INakedDefinedResponsibility{
 }

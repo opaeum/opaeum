@@ -1,8 +1,8 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -12,12 +12,12 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
-import org.opeum.eclipse.EmfBehaviorUtil;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.folder.EntityFolder;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.UimForm;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.folder.EntityFolder;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.UimForm;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramInterchangeFactory;
 import org.topcased.modeler.di.model.EMFSemanticModelBridge;
@@ -33,7 +33,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		String resourceUri = OpeumEclipseContext.getCurrentContext().getId(a);
+		String resourceUri = OpaeumEclipseContext.getCurrentContext().getId(a);
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -50,7 +50,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 		diagramsResource.getContents().add(diagrams);
 		Diagram diag = DiagramInterchangeFactory.eINSTANCE.createDiagram();
 		EMFSemanticModelBridge bridge = DiagramInterchangeFactory.eINSTANCE.createEMFSemanticModelBridge();
-		bridge.setPresentation("org.opeum.uim.classform");
+		bridge.setPresentation("org.opaeum.uim.classform");
 		bridge.setElement(form);
 		diag.setSemanticModel(bridge);
 		diag.setName(form.getName());
@@ -71,7 +71,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	private void createClassForm(Class c,EntityFolder folder,ActionKind...actionKinds){
 		String suffix = actionKinds[0] == ActionKind.UPDATE ? "Editor" : "Creator";
-		String resourceUri = OpeumEclipseContext.getCurrentContext().getId(c) + suffix;
+		String resourceUri = OpaeumEclipseContext.getCurrentContext().getId(c) + suffix;
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -83,7 +83,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	@VisitBefore(matchSubclasses = false)
 	public void beforeOperation(Operation o){
 		if(EmfBehaviorUtil.isTask(o)){
-			String resourceUri = OpeumEclipseContext.getCurrentContext().getId(o) + "Task";
+			String resourceUri = OpaeumEclipseContext.getCurrentContext().getId(o) + "Task";
 			UimForm form = getFormFor(resourceUri, "uim");
 			if(form != null){
 				Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -93,7 +93,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 			}
 		}
 		// TODO generate table Panels for multi output parameters and detail panels for single output parameters
-		String resourceUri = OpeumEclipseContext.getCurrentContext().getId(o) + "Invoker";
+		String resourceUri = OpaeumEclipseContext.getCurrentContext().getId(o) + "Invoker";
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());
@@ -104,7 +104,7 @@ public class DiagramSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeState(State s){
-		String resourceUri = OpeumEclipseContext.getCurrentContext().getId(s);
+		String resourceUri = OpaeumEclipseContext.getCurrentContext().getId(s);
 		UimForm form = getFormFor(resourceUri, "uim");
 		if(form != null){
 			Diagram diagrams = recreateDiagrams(resourceUri, form.getPanel());

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.statemachines.internal;
+package org.opaeum.metamodel.statemachines.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,20 +9,20 @@ import java.util.Set;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IState;
 
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedMessageEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import org.opeum.metamodel.statemachines.INakedRegion;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.statemachines.INakedTransition;
-import org.opeum.metamodel.statemachines.IRegionOwner;
-import org.opeum.metamodel.statemachines.StateMachineKind;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import org.opaeum.metamodel.statemachines.INakedRegion;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.statemachines.IRegionOwner;
+import org.opaeum.metamodel.statemachines.StateMachineKind;
 
 public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedStateMachine{
 	private static final long serialVersionUID = -3976968471783003485L;

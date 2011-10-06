@@ -1,4 +1,4 @@
-package org.opeum.javageneration.hibernate;
+package org.opaeum.javageneration.hibernate;
 
 import java.util.Collections;
 import java.util.Date;
@@ -9,45 +9,45 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IClassifier;
 
 import org.hibernate.annotations.CascadeType;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
-import org.opeum.javageneration.basicjava.AttributeImplementor;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.oclexpressions.UtilCreator;
-import org.opeum.javageneration.persistence.JpaAnnotator;
-import org.opeum.javageneration.persistence.JpaUtil;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.InverseCalculator;
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.runtime.domain.HibernateEntity;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.validation.namegeneration.PersistentNameGenerator;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.oclexpressions.UtilCreator;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
+import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.InverseCalculator;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
@@ -131,7 +131,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
 					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName() + "_type="
-							+ (config.shouldBeCm1Compatible() ?  "'" + ojOwner.getPathName().toString() +"'" : owner.getMappingInfo().getOpeumId().toString()));
+							+ (config.shouldBeCm1Compatible() ?  "'" + ojOwner.getPathName().toString() +"'" : owner.getMappingInfo().getOpaeumId().toString()));
 					field.addAnnotationIfNew(where);
 				}
 				if(f.isOrdered()){
@@ -187,7 +187,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		}
 		// TODO parameterize development mode
 		if(f.isRequired() && !f.isInverse() && !JpaAnnotator.DEVELOPMENT_MODE){
-			if(f.getNakedBaseType().conformsTo(workspace.getOpeumLibrary().getStringType())){
+			if(f.getNakedBaseType().conformsTo(workspace.getOpaeumLibrary().getStringType())){
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotEmpty")));
 			}else{
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));

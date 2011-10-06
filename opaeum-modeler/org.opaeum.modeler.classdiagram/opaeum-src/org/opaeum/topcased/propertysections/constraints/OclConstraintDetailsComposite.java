@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.constraints;
+package org.opaeum.topcased.propertysections.constraints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
+import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 
 public class OclConstraintDetailsComposite extends Composite{
 	private TabbedPropertySheetWidgetFactory theFactory;

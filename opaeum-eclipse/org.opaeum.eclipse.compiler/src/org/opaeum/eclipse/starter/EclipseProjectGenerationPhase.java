@@ -1,29 +1,29 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.opeum.bootstrap.BootstrapGenerationPhase;
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.jbpm5.FlowGenerationPhase;
-import org.opeum.textmetamodel.TextOutputNode;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.jbpm5.FlowGenerationPhase;
+import org.opaeum.textmetamodel.TextOutputNode;
+import org.opaeum.textmetamodel.TextWorkspace;
 @PhaseDependency(after={JavaTransformationPhase.class, FlowGenerationPhase.class, BootstrapGenerationPhase.class})
 public class EclipseProjectGenerationPhase implements TransformationPhase<EclipseProjectGenerationStep,TextOutputNode>{
 	IWorkspaceRoot workspaceRoot;
 	@InputModel
 	TextWorkspace textWorkspace;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<EclipseProjectGenerationStep> features;
 	@Override
-	public void initialize(OpeumConfig config, List<EclipseProjectGenerationStep> features){
+	public void initialize(OpaeumConfig config, List<EclipseProjectGenerationStep> features){
 		this.config = config;
 		this.features=features;
 		workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();

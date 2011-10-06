@@ -1,32 +1,32 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.IntegrationPhase;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.LinkagePhase;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.TextOutputNode;
-import org.opeum.textmetamodel.TextWorkspace;
-import org.opeum.validation.ValidationPhase;
-import org.opeum.validation.namegeneration.NameGenerationPhase;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.IntegrationPhase;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.LinkagePhase;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.TextOutputNode;
+import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.validation.ValidationPhase;
+import org.opaeum.validation.namegeneration.NameGenerationPhase;
 
 @PhaseDependency(after = {
 		LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class
@@ -41,7 +41,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	private INakedModelWorkspace modelWorkspace;
 	@InputModel
 	OJPackage javaModel;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<JavaTransformationStep> features;
 	public static final boolean IS_RUNTIME_AVAILABLE = false;
 	private TextWorkspace getTextWorkspaceInternal(){
@@ -117,7 +117,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 		context.getLog().endLastTask();
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<JavaTransformationStep> features){
+	public void initialize(OpaeumConfig config,List<JavaTransformationStep> features){
 		this.config = config;
 		this.features = features;
 	}

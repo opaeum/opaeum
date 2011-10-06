@@ -1,4 +1,4 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,25 +11,25 @@ import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSlot;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public class ValueSpecificationUtil{
 	public static String expressValue(OJClass ojOwner,INakedValueSpecification valueSpec,IClassifier expectedType,boolean isStatic){
@@ -93,7 +93,7 @@ public class ValueSpecificationUtil{
 			operationContext.getBody().addToLocals(now);
 		}
 		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opeum.runtime.bpm.BusinessRole"));
+			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opaeum.runtime.bpm.BusinessRole"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}
@@ -124,7 +124,7 @@ public class ValueSpecificationUtil{
 		}else if(valueSpec.getValue() instanceof INakedInstanceSpecification){
 			INakedInstanceSpecification spec = (INakedInstanceSpecification) valueSpec.getValue();
 			NakedClassifierMap map = new NakedClassifierMap(spec.getClassifier());
-			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getOpeumId(), map.javaTypePath());
+			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getOpaeumId(), map.javaTypePath());
 			ojOwner.addToOperations(getInstance);
 			final OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
 			getInstance.getBody().addToLocals(result);

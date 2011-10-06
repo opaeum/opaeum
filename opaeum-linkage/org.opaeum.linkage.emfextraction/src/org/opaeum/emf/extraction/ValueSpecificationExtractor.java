@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
@@ -26,16 +26,16 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.internal.NakedActivityEdgeImpl;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.internal.NakedConstraintImpl;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.internal.NakedActivityEdgeImpl;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 
 /**
  * THe constraint extraction is done AFTER all possible constrained elements have been populated

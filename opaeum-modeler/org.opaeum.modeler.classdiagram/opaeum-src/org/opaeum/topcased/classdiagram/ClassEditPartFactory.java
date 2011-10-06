@@ -1,7 +1,7 @@
-package org.opeum.topcased.classdiagram;
+package org.opaeum.topcased.classdiagram;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -19,11 +19,11 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLSwitch;
-import org.opeum.topcased.classdiagram.edit.BusinessComponentEditPart;
-import org.opeum.topcased.classdiagram.edit.BusinessRoleEditPart;
-import org.opeum.topcased.classdiagram.edit.BusinessServiceEditPart;
-import org.opeum.topcased.classdiagram.edit.EditPartUtil;
-import org.opeum.topcased.classdiagram.figure.Gradient;
+import org.opaeum.topcased.classdiagram.edit.BusinessComponentEditPart;
+import org.opaeum.topcased.classdiagram.edit.BusinessRoleEditPart;
+import org.opaeum.topcased.classdiagram.edit.BusinessServiceEditPart;
+import org.opaeum.topcased.classdiagram.edit.EditPartUtil;
+import org.opaeum.topcased.classdiagram.figure.Gradient;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
@@ -541,7 +541,7 @@ public class ClassEditPartFactory extends ModelerEditPartFactory{
 			return new PackageImportEditPart(edge);
 		}
 		public EditPart caseElementImport(org.eclipse.uml2.uml.ElementImport object){
-			return new org.opeum.topcased.classdiagram.ElementImportEditPart(edge);
+			return new org.opaeum.topcased.classdiagram.ElementImportEditPart(edge);
 		}
 		public EditPart casePackageMerge(org.eclipse.uml2.uml.PackageMerge object){
 			return new PackageMergeEditPart(edge);

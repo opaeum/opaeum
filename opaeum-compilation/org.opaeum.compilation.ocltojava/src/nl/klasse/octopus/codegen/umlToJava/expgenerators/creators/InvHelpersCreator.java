@@ -6,8 +6,8 @@
 package nl.klasse.octopus.codegen.umlToJava.expgenerators.creators;
 /**<octel>
 <java>
-	%import org.opeum.javametamodel.OJParameter%;
-	%inet.sfsf.opeum.javametamodelametamodel.model.OJFieldnet.sf.sf.opeum.javametamodell.javametamodel.model.OJSimpleStanet.sft.sf.opeum.javametamodelkeduml.javametamodel.model.Onet.sfet.sf.opeum.javametamodelsf.opeum.javametamnet.sforg.opeum.javametamnet.sf org.opeum.javametnet.sfl.org.opeum.javametamodenet.sfrt org.opeum.javametamodel.utilities.JavaPathNames%;
+	%import org.opaeum.javametamodel.OJParameter%;
+	%inet.sfsf.opaeum.javametamodelametamodel.model.OJFieldnet.sf.sf.opaeum.javametamodell.javametamodel.model.OJSimpleStanet.sft.sf.opaeum.javametamodelkeduml.javametamodel.model.Onet.sfet.sf.opaeum.javametamodelsf.opaeum.javametamnet.sforg.opaeum.javametamnet.sf org.opaeum.javametnet.sfl.org.opaeum.javametamodenet.sfrt org.opaeum.javametamodel.utilities.JavaPathNames%;
 </java>
 </octel>*/
 
@@ -18,15 +18,15 @@ package nl.klasse.octopus.codegen.umlToJava.expgenerators.creators;
 /* <inline> */ 
 import nl.klasse.octopus.codegen.helpers.CommonNames;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
 
 /**

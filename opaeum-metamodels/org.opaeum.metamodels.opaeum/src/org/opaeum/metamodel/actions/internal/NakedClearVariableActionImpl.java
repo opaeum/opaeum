@@ -1,10 +1,10 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collections;
 import java.util.Set;
 
-import org.opeum.metamodel.actions.INakedClearVariableAction;
-import org.opeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.actions.INakedClearVariableAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
 
 public class NakedClearVariableActionImpl extends NakedVariableActionImpl implements INakedClearVariableAction{
 	/**

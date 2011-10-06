@@ -1,4 +1,4 @@
-package org.opeum.emf.load;
+package org.opaeum.emf.load;
 
 import java.io.File;
 import java.net.URL;
@@ -19,12 +19,12 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.DefaultTransformationLog;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.TransformationProcess.TransformationProgressLog;
-import org.opeum.feature.WorkspaceMappingInfo;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.DefaultTransformationLog;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
+import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @SuppressWarnings("unchecked")
 public class EmfWorkspaceLoader{
@@ -32,10 +32,10 @@ public class EmfWorkspaceLoader{
 	protected static void registerResourceFactories(){
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 	}
-	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,OpeumConfig cfg){
+	public static EmfWorkspace loadDirectory(ResourceSet resourceSet,File dir,OpaeumConfig cfg){
 		return loadDirectory(resourceSet, dir, cfg, new DefaultTransformationLog());
 	}
-	public static EmfWorkspace loadDirectory(final ResourceSet resourceSet,File dir,OpeumConfig cfg,TransformationProgressLog log){
+	public static EmfWorkspace loadDirectory(final ResourceSet resourceSet,File dir,OpaeumConfig cfg,TransformationProgressLog log){
 		File[] files = dir.listFiles();
 		log.startTask("Loading Emf Resources", files.length + 2);
 		String ext = UMLResource.FILE_EXTENSION;
@@ -70,7 +70,7 @@ public class EmfWorkspaceLoader{
 		}
 		log.endLastStep();
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");
-		log.startStep("Loading Opium Mapping Information");
+		log.startStep("Loading Opaeum Mapping Information");
 		WorkspaceMappingInfo workspaceMappingInfo = cfg.getWorkspaceMappingInfo();
 		log.endLastStep();
 		EmfWorkspace result = new EmfWorkspace(dirUri, resourceSet, workspaceMappingInfo, cfg.getWorkspaceIdentifier());
@@ -99,7 +99,7 @@ public class EmfWorkspaceLoader{
 		}
 		return dirUri;
 	}
-	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet,File modelFile,OpeumConfig cfg) throws Exception{
+	public static EmfWorkspace loadSingleModelWorkspace(ResourceSet resourceSet,File modelFile,OpaeumConfig cfg) throws Exception{
 		String ext = modelFile.getName().substring(modelFile.getName().lastIndexOf(".") + 1);
 		File dir = modelFile.getParentFile();
 		URI dirUri = findDirUri(resourceSet, dir, ext);
@@ -158,10 +158,10 @@ public class EmfWorkspaceLoader{
 			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri.appendSegment("libraries").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri.appendSegment("metamodels").appendSegment(""));
 			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri.appendSegment("profiles").appendSegment(""));
-			String jar = findLocation(loader, false, "org.opeum.transformation.engine/target/classes");// find the project directory in
+			String jar = findLocation(loader, false, "org.opaeum.transformation.engine/target/classes");// find the project directory in
 																										// workspace
 			if(jar == null){
-				jar = findLocation(loader, true, "org.opeum.transformation.engine");// Find jar file next
+				jar = findLocation(loader, true, "org.opaeum.transformation.engine");// Find jar file next
 				uri = URI.createURI(jar);
 				uri = uri.appendSegment("models");
 			}else{
@@ -169,7 +169,7 @@ public class EmfWorkspaceLoader{
 				uri = URI.createURI(jar);
 			}
 			uriMap.put(URI.createURI(StereotypeNames.MODELS_PATHMAP), uri.appendSegment(""));
-			resourceSet.getResource(URI.createURI("pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml"), true).getContents().get(0);
+			resourceSet.getResource(URI.createURI("pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml"), true).getContents().get(0);
 		}
 		return resourceSet;
 	}

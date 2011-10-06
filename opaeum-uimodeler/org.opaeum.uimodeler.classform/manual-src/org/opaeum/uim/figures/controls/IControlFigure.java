@@ -1,4 +1,4 @@
-package org.opeum.uim.figures.controls;
+package org.opaeum.uim.figures.controls;
 
 import org.eclipse.draw2d.IFigure;
 import org.topcased.draw2d.figures.ILabel;

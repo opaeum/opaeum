@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.opeum</groupId>
+  <groupId>org.opaeum</groupId>
   <artifactId>tinker-jetty-gen</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -16,8 +16,8 @@
 
   <dependencies>
 		<dependency>
-			<groupId>org.opeum</groupId>
-			<artifactId>opeum-java-generator</artifactId>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-java-generator</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>

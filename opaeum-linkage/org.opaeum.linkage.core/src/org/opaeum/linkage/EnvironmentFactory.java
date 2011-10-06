@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,34 +9,34 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IPackage;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityVariable;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedExpansionRegion;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedObjectFlow;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opeum.metamodel.activities.INakedValuePin;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.IParameterOwner;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.statemachines.INakedTransition;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityVariable;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedExpansionRegion;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public class EnvironmentFactory{
 	INakedModelWorkspace workspace;
@@ -116,8 +116,8 @@ public class EnvironmentFactory{
 		if(ns != null){
 			addPackageContents(ns, env);
 		}
-		if(workspace.getOpeumLibrary().getDateType() != null){
-			env.addElement("now", new VariableDeclaration("now", workspace.getOpeumLibrary().getDateType()), true);
+		if(workspace.getOpaeumLibrary().getDateType() != null){
+			env.addElement("now", new VariableDeclaration("now", workspace.getOpaeumLibrary().getDateType()), true);
 		}
 		for(INakedElement ne:workspace.getOwnedElements()){
 			if(ne.getName() != null){

@@ -1,13 +1,13 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
-import org.opeum.metamodel.core.internal.NakedPropertyImpl;
-import org.opeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
+import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 
 @StepDependency(phase = LinkagePhase.class,before = {
 		NakedParsedOclStringResolver.class,TypeResolver.class
@@ -23,7 +23,7 @@ public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker{
 			MappingInfo mi = (MappingInfo) e.getMappingInfo().getCopy();
 			mi.setJavaName(new SingularNameWrapper("values", "values"));
 			mi.setPersistentName(new SingularNameWrapper("values", "values"));
-			mi.setOpeumId(e.getMappingInfo().getOpeumId());
+			mi.setOpaeumId(e.getMappingInfo().getOpaeumId());
 			values.initialize("asf", "values", false);
 			values.setIsOrdered(false);
 			values.setIsUnique(true);

@@ -1,16 +1,16 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.Collection;
 import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedMultiplicity;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
 
 public class AssociationClassToEnd extends AbstractPropertyBridge{
 	/**

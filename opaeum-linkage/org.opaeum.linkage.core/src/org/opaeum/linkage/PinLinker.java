@@ -1,35 +1,35 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.List;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.IActionWithTargetPin;
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.actions.INakedCreateObjectAction;
-import org.opeum.metamodel.actions.INakedExceptionHandler;
-import org.opeum.metamodel.actions.INakedReadStructuralFeatureAction;
-import org.opeum.metamodel.actions.INakedReadVariableAction;
-import org.opeum.metamodel.actions.INakedReplyAction;
-import org.opeum.metamodel.actions.INakedSendSignalAction;
-import org.opeum.metamodel.actions.INakedWriteStructuralFeatureAction;
-import org.opeum.metamodel.actions.INakedWriteVariableAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedObjectFlow;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.bpm.INakedAcceptDeadlineAction;
-import org.opeum.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedMultiplicity;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.IActionWithTargetPin;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.actions.INakedCreateObjectAction;
+import org.opaeum.metamodel.actions.INakedExceptionHandler;
+import org.opaeum.metamodel.actions.INakedReadStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedReadVariableAction;
+import org.opaeum.metamodel.actions.INakedReplyAction;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.actions.INakedWriteStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedWriteVariableAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.bpm.INakedAcceptDeadlineAction;
+import org.opaeum.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		MappedTypeLinker.class,ParameterLinker.class
@@ -106,38 +106,38 @@ public class PinLinker extends AbstractModelElementLinker{
 		if(action.triggeredByTimeEventsOnly() && result.size() == 1){
 			INakedOutputPin time = result.get(0);
 			if(time.getNakedBaseType() == null){
-				time.setBaseType(workspace.getOpeumLibrary().getDateType());
+				time.setBaseType(workspace.getOpaeumLibrary().getDateType());
 			}
 			time.setType(time.getNakedBaseType());
 		}else if(action instanceof NakedAcceptTaskEventActionImpl && result.size() >= 1){
 			INakedOutputPin by = result.get(0);
 			if(by.getNakedBaseType() == null){
-				by.setBaseType(workspace.getOpeumLibrary().getBusinessRole());
-				by.setType(workspace.getOpeumLibrary().getBusinessRole());
+				by.setBaseType(workspace.getOpaeumLibrary().getBusinessRole());
+				by.setType(workspace.getOpaeumLibrary().getBusinessRole());
 			}
 			if(result.size() >= 2){
 				INakedOutputPin to = result.get(1);
 				if(by.getNakedBaseType() == null){
-					to.setBaseType(workspace.getOpeumLibrary().getBusinessRole());
-					to.setType(workspace.getOpeumLibrary().getBusinessRole());
+					to.setBaseType(workspace.getOpaeumLibrary().getBusinessRole());
+					to.setType(workspace.getOpaeumLibrary().getBusinessRole());
 				}
 				if(result.size() >= 3){
 					INakedOutputPin task = result.get(2);
-					task.setBaseType(workspace.getOpeumLibrary().getTaskRequest());
-					task.setType(workspace.getOpeumLibrary().getTaskRequest());
+					task.setBaseType(workspace.getOpaeumLibrary().getTaskRequest());
+					task.setType(workspace.getOpaeumLibrary().getTaskRequest());
 				}
 			}
 		}else if(action instanceof INakedAcceptDeadlineAction && result.size() >= 1){
 			INakedOutputPin by = result.get(0);
 			if(by.getNakedBaseType() == null){
-				by.setBaseType(workspace.getOpeumLibrary().getDateType());
-				by.setType(workspace.getOpeumLibrary().getDateType());
+				by.setBaseType(workspace.getOpaeumLibrary().getDateType());
+				by.setType(workspace.getOpaeumLibrary().getDateType());
 			}
 			if(result.size() >= 2){
 				INakedOutputPin task = result.get(1);
 				if(by.getNakedBaseType() == null){
-					task.setBaseType(workspace.getOpeumLibrary().getTaskRequest());
-					task.setType(workspace.getOpeumLibrary().getTaskRequest());
+					task.setBaseType(workspace.getOpaeumLibrary().getTaskRequest());
+					task.setType(workspace.getOpaeumLibrary().getTaskRequest());
 				}
 			}
 		}

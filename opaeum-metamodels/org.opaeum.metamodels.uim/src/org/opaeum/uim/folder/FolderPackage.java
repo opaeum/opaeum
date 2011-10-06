@@ -4,12 +4,12 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opeum.uim.UimPackage;
+import org.opaeum.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +22,7 @@ import org.opeum.uim.UimPackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.opeum.uim.folder.FolderFactory
+ * @see org.opaeum.uim.folder.FolderFactory
  * @model kind="package"
  * @generated
  */
@@ -41,7 +41,7 @@ public interface FolderPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://opeum.org/uimetamodel/folder/1.0";
+	String eNS_URI = "http://opaeum.org/uimetamodel/folder/1.0";
 
 	/**
 	 * The package namespace name.
@@ -57,14 +57,14 @@ public interface FolderPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	FolderPackage eINSTANCE = org.opeum.uim.folder.impl.FolderPackageImpl.init();
+	FolderPackage eINSTANCE = org.opaeum.uim.folder.impl.FolderPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.AbstractFolderImpl <em>Abstract Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.AbstractFolderImpl <em>Abstract Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.AbstractFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getAbstractFolder()
+	 * @see org.opaeum.uim.folder.impl.AbstractFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getAbstractFolder()
 	 * @generated
 	 */
 	int ABSTRACT_FOLDER = 0;
@@ -106,11 +106,11 @@ public interface FolderPackage extends EPackage {
 	int ABSTRACT_FOLDER_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.AbstractFormFolderImpl <em>Abstract Form Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.AbstractFormFolderImpl <em>Abstract Form Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.AbstractFormFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getAbstractFormFolder()
+	 * @see org.opaeum.uim.folder.impl.AbstractFormFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getAbstractFormFolder()
 	 * @generated
 	 */
 	int ABSTRACT_FORM_FOLDER = 4;
@@ -179,11 +179,11 @@ public interface FolderPackage extends EPackage {
 	int ABSTRACT_FORM_FOLDER_FEATURE_COUNT = ABSTRACT_FOLDER_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.ActivityFolderImpl <em>Activity Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.ActivityFolderImpl <em>Activity Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.ActivityFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getActivityFolder()
+	 * @see org.opaeum.uim.folder.impl.ActivityFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getActivityFolder()
 	 * @generated
 	 */
 	int ACTIVITY_FOLDER = 1;
@@ -252,11 +252,11 @@ public interface FolderPackage extends EPackage {
 	int ACTIVITY_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.OperationContainingFolderImpl <em>Operation Containing Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.OperationContainingFolderImpl <em>Operation Containing Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.OperationContainingFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getOperationContainingFolder()
+	 * @see org.opaeum.uim.folder.impl.OperationContainingFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getOperationContainingFolder()
 	 * @generated
 	 */
 	int OPERATION_CONTAINING_FOLDER = 6;
@@ -325,11 +325,11 @@ public interface FolderPackage extends EPackage {
 	int OPERATION_CONTAINING_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.EntityFolderImpl <em>Entity Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.EntityFolderImpl <em>Entity Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.EntityFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getEntityFolder()
+	 * @see org.opaeum.uim.folder.impl.EntityFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getEntityFolder()
 	 * @generated
 	 */
 	int ENTITY_FOLDER = 2;
@@ -398,11 +398,11 @@ public interface FolderPackage extends EPackage {
 	int ENTITY_FOLDER_FEATURE_COUNT = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.StateMachineFolderImpl <em>State Machine Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.StateMachineFolderImpl <em>State Machine Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.StateMachineFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getStateMachineFolder()
+	 * @see org.opaeum.uim.folder.impl.StateMachineFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getStateMachineFolder()
 	 * @generated
 	 */
 	int STATE_MACHINE_FOLDER = 3;
@@ -471,11 +471,11 @@ public interface FolderPackage extends EPackage {
 	int STATE_MACHINE_FOLDER_FEATURE_COUNT = OPERATION_CONTAINING_FOLDER_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.PackageFolderImpl <em>Package Folder</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.PackageFolderImpl <em>Package Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.PackageFolderImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getPackageFolder()
+	 * @see org.opaeum.uim.folder.impl.PackageFolderImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getPackageFolder()
 	 * @generated
 	 */
 	int PACKAGE_FOLDER = 5;
@@ -544,11 +544,11 @@ public interface FolderPackage extends EPackage {
 	int PACKAGE_FOLDER_FEATURE_COUNT = ABSTRACT_FORM_FOLDER_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.UserInteractionModelImpl <em>User Interaction Model</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl <em>User Interaction Model</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.UserInteractionModelImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getUserInteractionModel()
+	 * @see org.opaeum.uim.folder.impl.UserInteractionModelImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getUserInteractionModel()
 	 * @generated
 	 */
 	int USER_INTERACTION_MODEL = 7;
@@ -617,11 +617,11 @@ public interface FolderPackage extends EPackage {
 	int USER_INTERACTION_MODEL_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.folder.impl.UserInteractionWorkspaceImpl <em>User Interaction Workspace</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.folder.impl.UserInteractionWorkspaceImpl <em>User Interaction Workspace</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.folder.impl.UserInteractionWorkspaceImpl
-	 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getUserInteractionWorkspace()
+	 * @see org.opaeum.uim.folder.impl.UserInteractionWorkspaceImpl
+	 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getUserInteractionWorkspace()
 	 * @generated
 	 */
 	int USER_INTERACTION_WORKSPACE = 8;
@@ -682,134 +682,134 @@ public interface FolderPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.AbstractFolder <em>Abstract Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.AbstractFolder <em>Abstract Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Abstract Folder</em>'.
-	 * @see org.opeum.uim.folder.AbstractFolder
+	 * @see org.opaeum.uim.folder.AbstractFolder
 	 * @generated
 	 */
 	EClass getAbstractFolder();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opeum.uim.folder.AbstractFolder#getChildren <em>Children</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.folder.AbstractFolder#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Children</em>'.
-	 * @see org.opeum.uim.folder.AbstractFolder#getChildren()
+	 * @see org.opaeum.uim.folder.AbstractFolder#getChildren()
 	 * @see #getAbstractFolder()
 	 * @generated
 	 */
 	EReference getAbstractFolder_Children();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.ActivityFolder <em>Activity Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.ActivityFolder <em>Activity Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Activity Folder</em>'.
-	 * @see org.opeum.uim.folder.ActivityFolder
+	 * @see org.opaeum.uim.folder.ActivityFolder
 	 * @generated
 	 */
 	EClass getActivityFolder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.EntityFolder <em>Entity Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.EntityFolder <em>Entity Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Entity Folder</em>'.
-	 * @see org.opeum.uim.folder.EntityFolder
+	 * @see org.opaeum.uim.folder.EntityFolder
 	 * @generated
 	 */
 	EClass getEntityFolder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.StateMachineFolder <em>State Machine Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.StateMachineFolder <em>State Machine Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>State Machine Folder</em>'.
-	 * @see org.opeum.uim.folder.StateMachineFolder
+	 * @see org.opaeum.uim.folder.StateMachineFolder
 	 * @generated
 	 */
 	EClass getStateMachineFolder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.AbstractFormFolder <em>Abstract Form Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.AbstractFormFolder <em>Abstract Form Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Abstract Form Folder</em>'.
-	 * @see org.opeum.uim.folder.AbstractFormFolder
+	 * @see org.opaeum.uim.folder.AbstractFormFolder
 	 * @generated
 	 */
 	EClass getAbstractFormFolder();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Parent</em>'.
-	 * @see org.opeum.uim.folder.AbstractFormFolder#getParent()
+	 * @see org.opaeum.uim.folder.AbstractFormFolder#getParent()
 	 * @see #getAbstractFormFolder()
 	 * @generated
 	 */
 	EReference getAbstractFormFolder_Parent();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.PackageFolder <em>Package Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.PackageFolder <em>Package Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Package Folder</em>'.
-	 * @see org.opeum.uim.folder.PackageFolder
+	 * @see org.opaeum.uim.folder.PackageFolder
 	 * @generated
 	 */
 	EClass getPackageFolder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.OperationContainingFolder <em>Operation Containing Folder</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.OperationContainingFolder <em>Operation Containing Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Operation Containing Folder</em>'.
-	 * @see org.opeum.uim.folder.OperationContainingFolder
+	 * @see org.opaeum.uim.folder.OperationContainingFolder
 	 * @generated
 	 */
 	EClass getOperationContainingFolder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.UserInteractionModel <em>User Interaction Model</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.UserInteractionModel <em>User Interaction Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>User Interaction Model</em>'.
-	 * @see org.opeum.uim.folder.UserInteractionModel
+	 * @see org.opaeum.uim.folder.UserInteractionModel
 	 * @generated
 	 */
 	EClass getUserInteractionModel();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.folder.UserInteractionWorkspace <em>User Interaction Workspace</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.folder.UserInteractionWorkspace <em>User Interaction Workspace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>User Interaction Workspace</em>'.
-	 * @see org.opeum.uim.folder.UserInteractionWorkspace
+	 * @see org.opaeum.uim.folder.UserInteractionWorkspace
 	 * @generated
 	 */
 	EClass getUserInteractionWorkspace();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.folder.UserInteractionWorkspace#getVisibility <em>Visibility</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.folder.UserInteractionWorkspace#getVisibility <em>Visibility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Visibility</em>'.
-	 * @see org.opeum.uim.folder.UserInteractionWorkspace#getVisibility()
+	 * @see org.opaeum.uim.folder.UserInteractionWorkspace#getVisibility()
 	 * @see #getUserInteractionWorkspace()
 	 * @generated
 	 */
 	EReference getUserInteractionWorkspace_Visibility();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.folder.UserInteractionWorkspace#getEditability <em>Editability</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.folder.UserInteractionWorkspace#getEditability <em>Editability</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Editability</em>'.
-	 * @see org.opeum.uim.folder.UserInteractionWorkspace#getEditability()
+	 * @see org.opaeum.uim.folder.UserInteractionWorkspace#getEditability()
 	 * @see #getUserInteractionWorkspace()
 	 * @generated
 	 */
@@ -838,11 +838,11 @@ public interface FolderPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.AbstractFolderImpl <em>Abstract Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.AbstractFolderImpl <em>Abstract Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.AbstractFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getAbstractFolder()
+		 * @see org.opaeum.uim.folder.impl.AbstractFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getAbstractFolder()
 		 * @generated
 		 */
 		EClass ABSTRACT_FOLDER = eINSTANCE.getAbstractFolder();
@@ -856,41 +856,41 @@ public interface FolderPackage extends EPackage {
 		EReference ABSTRACT_FOLDER__CHILDREN = eINSTANCE.getAbstractFolder_Children();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.ActivityFolderImpl <em>Activity Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.ActivityFolderImpl <em>Activity Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.ActivityFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getActivityFolder()
+		 * @see org.opaeum.uim.folder.impl.ActivityFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getActivityFolder()
 		 * @generated
 		 */
 		EClass ACTIVITY_FOLDER = eINSTANCE.getActivityFolder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.EntityFolderImpl <em>Entity Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.EntityFolderImpl <em>Entity Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.EntityFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getEntityFolder()
+		 * @see org.opaeum.uim.folder.impl.EntityFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getEntityFolder()
 		 * @generated
 		 */
 		EClass ENTITY_FOLDER = eINSTANCE.getEntityFolder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.StateMachineFolderImpl <em>State Machine Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.StateMachineFolderImpl <em>State Machine Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.StateMachineFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getStateMachineFolder()
+		 * @see org.opaeum.uim.folder.impl.StateMachineFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getStateMachineFolder()
 		 * @generated
 		 */
 		EClass STATE_MACHINE_FOLDER = eINSTANCE.getStateMachineFolder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.AbstractFormFolderImpl <em>Abstract Form Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.AbstractFormFolderImpl <em>Abstract Form Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.AbstractFormFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getAbstractFormFolder()
+		 * @see org.opaeum.uim.folder.impl.AbstractFormFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getAbstractFormFolder()
 		 * @generated
 		 */
 		EClass ABSTRACT_FORM_FOLDER = eINSTANCE.getAbstractFormFolder();
@@ -904,41 +904,41 @@ public interface FolderPackage extends EPackage {
 		EReference ABSTRACT_FORM_FOLDER__PARENT = eINSTANCE.getAbstractFormFolder_Parent();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.PackageFolderImpl <em>Package Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.PackageFolderImpl <em>Package Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.PackageFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getPackageFolder()
+		 * @see org.opaeum.uim.folder.impl.PackageFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getPackageFolder()
 		 * @generated
 		 */
 		EClass PACKAGE_FOLDER = eINSTANCE.getPackageFolder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.OperationContainingFolderImpl <em>Operation Containing Folder</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.OperationContainingFolderImpl <em>Operation Containing Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.OperationContainingFolderImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getOperationContainingFolder()
+		 * @see org.opaeum.uim.folder.impl.OperationContainingFolderImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getOperationContainingFolder()
 		 * @generated
 		 */
 		EClass OPERATION_CONTAINING_FOLDER = eINSTANCE.getOperationContainingFolder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.UserInteractionModelImpl <em>User Interaction Model</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.UserInteractionModelImpl <em>User Interaction Model</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.UserInteractionModelImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getUserInteractionModel()
+		 * @see org.opaeum.uim.folder.impl.UserInteractionModelImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getUserInteractionModel()
 		 * @generated
 		 */
 		EClass USER_INTERACTION_MODEL = eINSTANCE.getUserInteractionModel();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.folder.impl.UserInteractionWorkspaceImpl <em>User Interaction Workspace</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.folder.impl.UserInteractionWorkspaceImpl <em>User Interaction Workspace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.folder.impl.UserInteractionWorkspaceImpl
-		 * @see org.opeum.uim.folder.impl.FolderPackageImpl#getUserInteractionWorkspace()
+		 * @see org.opaeum.uim.folder.impl.UserInteractionWorkspaceImpl
+		 * @see org.opaeum.uim.folder.impl.FolderPackageImpl#getUserInteractionWorkspace()
 		 * @generated
 		 */
 		EClass USER_INTERACTION_WORKSPACE = eINSTANCE.getUserInteractionWorkspace();

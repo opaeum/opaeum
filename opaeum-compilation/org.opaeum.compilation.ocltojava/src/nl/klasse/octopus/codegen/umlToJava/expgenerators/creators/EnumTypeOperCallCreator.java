@@ -11,7 +11,7 @@ import nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors.OclUtilityCrea
 import nl.klasse.octopus.expressions.internal.types.OperationCallExp;
 import nl.klasse.octopus.model.IOperation;
 
-import org.opeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClass;
 
 /**
  * BasisOperCallGenerator : 

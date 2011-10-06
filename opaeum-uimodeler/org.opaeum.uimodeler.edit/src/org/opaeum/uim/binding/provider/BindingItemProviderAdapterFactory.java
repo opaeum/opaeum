@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.provider;
+package org.opaeum.uim.binding.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.binding.util.BindingAdapterFactory;
+import org.opaeum.uim.binding.util.BindingAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.LookupBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.LookupBinding} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	protected LookupBindingItemProvider lookupBindingItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.LookupBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.LookupBinding}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.NavigationBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.NavigationBinding} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	protected NavigationBindingItemProvider navigationBindingItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.NavigationBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.NavigationBinding}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.TableBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.TableBinding} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	protected TableBindingItemProvider tableBindingItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.TableBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.TableBinding}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.FieldBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.FieldBinding} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	protected FieldBindingItemProvider fieldBindingItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.FieldBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.FieldBinding}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.PropertyRef} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.PropertyRef} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	protected PropertyRefItemProvider propertyRefItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.PropertyRef}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.PropertyRef}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

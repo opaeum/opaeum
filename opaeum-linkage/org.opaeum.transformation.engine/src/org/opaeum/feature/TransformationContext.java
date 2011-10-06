@@ -1,10 +1,10 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.feature.TransformationProcess.TransformationProgressLog;
+import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 
 public class TransformationContext {
 	boolean isIntegrationPhase;

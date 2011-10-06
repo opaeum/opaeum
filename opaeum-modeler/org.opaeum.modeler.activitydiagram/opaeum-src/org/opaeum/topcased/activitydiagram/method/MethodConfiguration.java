@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.method;
+package org.opaeum.topcased.activitydiagram.method;
 
 import org.eclipse.gef.EditPartFactory;
 import org.topcased.modeler.editor.IConfiguration;

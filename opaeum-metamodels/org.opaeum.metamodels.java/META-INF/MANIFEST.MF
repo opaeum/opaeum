@@ -1,14 +1,14 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.metamodels.java
-Bundle-Symbolic: org.opeum.java.metamodel;singleton:=true
+Bundle-Name: org.opaeum.metamodels.java
+Bundle-Symbolic: org.opaeum.java.metamodel;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: org.opeum.metamodels.java;singleton:=true
+Bundle-SymbolicName: org.opaeum.metamodels.java;singleton:=true
 Bundle-ClassPath: .
-Bundle-Vendor: Opeum
-Export-Package: org.opeum.java.metamodel,
- org.opeum.java.metamodel.annotation,
- org.opeum.java.metamodel.generated,
- org.opeum.java.metamodel.utilities
+Bundle-Vendor: Opaeum
+Export-Package: org.opaeum.java.metamodel,
+ org.opaeum.java.metamodel.annotation,
+ org.opaeum.java.metamodel.generated,
+ org.opaeum.java.metamodel.utilities
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 

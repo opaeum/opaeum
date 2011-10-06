@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.ocl;
+package org.opaeum.topcased.propertysections.ocl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -7,7 +7,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementFinder;
 
 public abstract class OpaqueExpressionComposite extends OclBodyComposite{
 	public OpaqueExpressionComposite(Composite parent,FormToolkit toolkit){

@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -22,20 +22,20 @@ import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.linkage.LinkagePhase;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.RootObjectStatus;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.linkage.LinkagePhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
 @PhaseDependency(before = {
 	LinkagePhase.class
@@ -45,7 +45,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	private INakedModelWorkspace modelWorkspace;
 	@InputModel
 	private EmfWorkspace emfWorkspace;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<AbstractExtractorFromEmf> extractors;
 	private INakedPackage getNakedPackage(Package emfModel){
 		return (INakedPackage) modelWorkspace.getModelElement(emfWorkspace.getId(emfModel));
@@ -91,7 +91,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		context.getLog().endLastTask();
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractExtractorFromEmf> features){
+	public void initialize(OpaeumConfig config,List<AbstractExtractorFromEmf> features){
 		this.config = config;
 		this.extractors = features;
 	}
@@ -126,7 +126,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 					result.add((Element) o);
 				}
 				if(eObject instanceof Association){
-					// TODO Opeum Metamodel still follows UML2.0 where navigable ends are contained by the class
+					// TODO Opaeum Metamodel still follows UML2.0 where navigable ends are contained by the class
 					result.addAll(((Association) eObject).getMemberEnds());
 				}
 			}

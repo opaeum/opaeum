@@ -4,13 +4,13 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.impl;
+package org.opaeum.uim.layout.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.UimGridLayout;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +19,7 @@ import org.opeum.uim.layout.UimGridLayout;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.layout.impl.UimGridLayoutImpl#getNumberOfColumns <em>Number Of Columns</em>}</li>
+ *   <li>{@link org.opaeum.uim.layout.impl.UimGridLayoutImpl#getNumberOfColumns <em>Number Of Columns</em>}</li>
  * </ul>
  * </p>
  *

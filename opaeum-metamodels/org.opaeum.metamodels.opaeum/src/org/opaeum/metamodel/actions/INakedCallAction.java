@@ -1,11 +1,11 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
 import java.util.List;
 
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.IParameterOwner;
 
 /**
  * The superclass action for the invocation of either behviors or operations.

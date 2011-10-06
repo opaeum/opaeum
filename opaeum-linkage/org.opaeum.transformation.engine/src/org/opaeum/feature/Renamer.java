@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,8 +15,8 @@ public class Renamer{
 					rename(child);
 				}
 			}else if(child.isFile()){
-				if(child.getName().equals("opeum")){
-					Runtime.getRuntime().exec("git mv opeum opaeum").waitFor();
+				if(child.getName().equals("opaeum")){
+					Runtime.getRuntime().exec("git mv opaeum opaeum").waitFor();
 				}
 			}
 		}

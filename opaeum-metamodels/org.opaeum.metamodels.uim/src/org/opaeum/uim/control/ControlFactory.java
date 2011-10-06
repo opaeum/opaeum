@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control;
+package org.opaeum.uim.control;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.control.ControlPackage
+ * @see org.opaeum.uim.control.ControlPackage
  * @generated
  */
 public interface ControlFactory extends EFactory {
@@ -23,7 +23,7 @@ public interface ControlFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	ControlFactory eINSTANCE = org.opeum.uim.control.impl.ControlFactoryImpl.init();
+	ControlFactory eINSTANCE = org.opaeum.uim.control.impl.ControlFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Uim Number Scroller</em>'.

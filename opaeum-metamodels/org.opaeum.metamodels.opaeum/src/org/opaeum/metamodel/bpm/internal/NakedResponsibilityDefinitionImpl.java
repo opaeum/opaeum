@@ -1,4 +1,4 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,15 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.runtime.domain.TaskDelegation;
+import org.opaeum.metamodel.bpm.INakedDeadline;
+import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedSlot;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.runtime.domain.TaskDelegation;
 
 public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implements INakedResponsibilityDefinition{
 	/**

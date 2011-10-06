@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram;
+package org.opaeum.bpmn2.diagram;
 
 import java.net.URL;
 
@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gef.EditPartFactory;
-import org.opeum.bpmn2.diagram.edit.BoundaryEventEditPart;
-import org.opeum.bpmn2.diagram.edit.FlowNodeEditPart;
-import org.opeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
-import org.opeum.bpmn2.diagram.edit.SequenceFlowEditPart;
-import org.opeum.bpmn2.diagram.edit.UserTaskEditPart;
+import org.opaeum.bpmn2.diagram.edit.BoundaryEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.FlowNodeEditPart;
+import org.opaeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
+import org.opaeum.bpmn2.diagram.edit.SequenceFlowEditPart;
+import org.opaeum.bpmn2.diagram.edit.UserTaskEditPart;
 import org.topcased.modeler.editor.IConfiguration;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.IPaletteManager;
@@ -74,7 +74,7 @@ public class BPMN2Configuration implements IConfiguration{
 	 * @generated
 	 */
 	public String getId(){
-		return new String("org.opeum.bpmn2.diagram");
+		return new String("org.opaeum.bpmn2.diagram");
 	}
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getName()
@@ -119,7 +119,7 @@ public class BPMN2Configuration implements IConfiguration{
 	 */
 	public DiagramGraphConf getDiagramGraphConf(){
 		if(diagramGraphConf == null){
-			URL url = BPMN2Plugin.getDefault().getBundle().getResource("org/opeum/bpmn2/diagram/diagram.graphconf");
+			URL url = BPMN2Plugin.getDefault().getBundle().getResource("org/opaeum/bpmn2/diagram/diagram.graphconf");
 			if(url != null){
 				URI fileURI = URI.createURI(url.toString());
 				ResourceSet resourceSet = new ResourceSetImpl();

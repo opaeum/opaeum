@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
-import org.opeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.OutlayableComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +14,7 @@ import org.opeum.uim.layout.OutlayableComponent;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.UimPackage#getObjectSelectorTree()
+ * @see org.opaeum.uim.UimPackage#getObjectSelectorTree()
  * @model
  * @generated
  */

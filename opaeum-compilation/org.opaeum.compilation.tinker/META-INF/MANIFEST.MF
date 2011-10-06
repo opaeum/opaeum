@@ -1,21 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.compilation.tinker
-Bundle-SymbolicName: org.opeum.compilation.tinker;singleton:=true
+Bundle-Name: org.opaeum.compilation.tinker
+Bundle-SymbolicName: org.opaeum.compilation.tinker;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.uml2.uml,
- org.opeum.transformation.engine,
- org.opeum.metamodels.text,
- org.opeum.compilation.java,
- org.opeum.compilation.ocltojava,
- org.opeum.metamodels.java,
- org.opeum.metamodels.ocl,
- org.opeum.metamodels.opeum,
- org.opeum.linkage.core
+ org.opaeum.transformation.engine,
+ org.opaeum.metamodels.text,
+ org.opaeum.compilation.java,
+ org.opaeum.compilation.ocltojava,
+ org.opaeum.metamodels.java,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.linkage.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
-Export-Package: org.opeum.compilation.tinker
-Bundle-Vendor: Opeum
+Export-Package: org.opaeum.compilation.tinker
+Bundle-Vendor: Opaeum

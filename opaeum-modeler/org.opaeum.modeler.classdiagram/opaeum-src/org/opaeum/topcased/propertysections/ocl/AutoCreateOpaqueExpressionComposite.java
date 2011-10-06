@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.ocl;
+package org.opaeum.topcased.propertysections.ocl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;

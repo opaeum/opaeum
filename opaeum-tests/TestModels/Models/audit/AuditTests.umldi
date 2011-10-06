@@ -22,7 +22,7 @@
   </diagrams>
   <subdiagrams xmi:id="_r8Y_MDtcEeCMrKXDY3mkjg">
     <model href="AuditTests.uml#_q2d48DtcEeCMrKXDY3mkjg"/>
-    <diagrams xmi:id="_r8Y_MTtcEeCMrKXDY3mkjg" position="0,0" size="100,100" name="opeum" viewport="0,0">
+    <diagrams xmi:id="_r8Y_MTtcEeCMrKXDY3mkjg" position="0,0" size="100,100" name="opaeum" viewport="0,0">
       <property xmi:id="_r87xwDtcEeCMrKXDY3mkjg" key="pageFormatName" value="A4"/>
       <property xmi:id="_r87xwTtcEeCMrKXDY3mkjg" key="diagramWidth" value="840"/>
       <property xmi:id="_r87xwjtcEeCMrKXDY3mkjg" key="diagramHeight" value="1188"/>

@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>org.opeum</groupId>
-		<artifactId>opeum-root</artifactId>
+		<groupId>org.opaeum</groupId>
+		<artifactId>opaeum-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-linkage</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-linkage</artifactId>
 	<packaging>pom</packaging>
-	<name>Opeum Linkage</name>
+	<name>Opaeum Linkage</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<repositories>
 		<repository>
@@ -21,13 +21,13 @@
 	</repositories>
 
 	<modules>
-		<module>org.opeum.linkage.core</module>
-		<module>org.opeum.linkage.emfextraction</module>
-		<module>org.opeum.linkage.namegeneration</module>
-		<module>org.opeum.linkage.validation</module>
-		<module>org.opeum.linkage.feature</module>
-		<module>org.opeum.linkage.source.feature</module>
-		<module>org.opeum.transformation.engine</module>
+		<module>org.opaeum.linkage.core</module>
+		<module>org.opaeum.linkage.emfextraction</module>
+		<module>org.opaeum.linkage.namegeneration</module>
+		<module>org.opaeum.linkage.validation</module>
+		<module>org.opaeum.linkage.feature</module>
+		<module>org.opaeum.linkage.source.feature</module>
+		<module>org.opaeum.transformation.engine</module>
 	</modules>
 	<build>
 		<plugins>

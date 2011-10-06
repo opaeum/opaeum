@@ -4,11 +4,11 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            class="org.opeum.uim.modeleditor.editor.UimEditor"
+            class="org.opaeum.uim.modeleditor.editor.UimEditor"
             default="true"
             name="User Interaction Model Editor"
-            id="org.opeum.uim.modeleditor.editor.UimEditor"
-            contributorClass="org.opeum.uim.modeleditor.actions.UimEditorActionBarContributor"
+            id="org.opaeum.uim.modeleditor.editor.UimEditor"
+            contributorClass="org.opaeum.uim.modeleditor.actions.UimEditorActionBarContributor"
             extensions="uimdi">
       </editor>
    </extension>
@@ -17,15 +17,15 @@
    <extension point="org.eclipse.ui.preferencePages">
       <page
             category="org.topcased.modeler.preferences.ModelerPreferencePage"
-            class="org.opeum.uim.modeleditor.preferences.UimPreferencePage"
-            id="org.opeum.uim.modeleditor.preferences.UimPreferencePage"
+            class="org.opaeum.uim.modeleditor.preferences.UimPreferencePage"
+            id="org.opaeum.uim.modeleditor.preferences.UimPreferencePage"
             name="Uim"/>
    </extension>
    
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			id="org.opeum.uim.modeleditor.preferences.property.UimPreferencePage"
-			class="org.opeum.uim.modeleditor.preferences.UimPreferencePage"
+			id="org.opaeum.uim.modeleditor.preferences.property.UimPreferencePage"
+			class="org.opaeum.uim.modeleditor.preferences.UimPreferencePage"
 			category="org.topcased.modeler.preferences.property.ModelerPreferencePage"
 			name="Uim">
 			<enabledWhen>
@@ -35,7 +35,7 @@
 	</extension>
    
    	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="org.opeum.uim.modeleditor.preferences.AllDiagramPreferenceInitializer"/>
+		<initializer class="org.opaeum.uim.modeleditor.preferences.AllDiagramPreferenceInitializer"/>
 	</extension>
 	
 </plugin>

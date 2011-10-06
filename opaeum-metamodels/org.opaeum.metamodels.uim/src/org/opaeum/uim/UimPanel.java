@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.OutlayableComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -15,7 +15,7 @@ import org.opeum.uim.layout.OutlayableComponent;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.UimPackage#getUimPanel()
+ * @see org.opaeum.uim.UimPackage#getUimPanel()
  * @model
  * @generated
  */

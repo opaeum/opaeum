@@ -1,14 +1,14 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.metamodel.bpm.INakedBusinessRole;
-import org.opeum.metamodel.bpm.INakedBusinessService;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.internal.NakedEntityImpl;
+import org.opaeum.metamodel.bpm.INakedBusinessRole;
+import org.opaeum.metamodel.bpm.INakedBusinessService;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 
 public class NakedUserInRoleImpl extends NakedEntityImpl implements INakedBusinessRole{
 	/**

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.workspace;
+package org.opaeum.metamodel.workspace;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Map;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
-public class OpeumLibrary {
+public class OpaeumLibrary {
 	private Map<String, MappedType> typeMap = new HashMap<String, MappedType>();
 	// Built in types
 	private INakedSimpleType emailAddressType;
@@ -26,7 +26,7 @@ public class OpeumLibrary {
 	private IOclLibrary oclLibrary;
 	private INakedStateMachine taskRequest;
 
-	public OpeumLibrary(IOclLibrary oclLibrary) {
+	public OpaeumLibrary(IOclLibrary oclLibrary) {
 		super();
 		this.setOclLibrary(oclLibrary);
 	}

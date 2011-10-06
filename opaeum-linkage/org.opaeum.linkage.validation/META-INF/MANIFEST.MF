@@ -1,21 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.linkage.validation
-Bundle-SymbolicName: org.opeum.linkage.validation;singleton:=true
+Bundle-Name: org.opaeum.linkage.validation
+Bundle-SymbolicName: org.opaeum.linkage.validation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.junit4,
- org.opeum.metamodels.opeum,
- org.opeum.metamodels.ocl,
- org.opeum.metamodels.emfworkspace,
- org.opeum.transformation.engine,
- org.opeum.linkage.core,
- org.opeum.linkage.namegeneration
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.transformation.engine,
+ org.opaeum.linkage.core,
+ org.opaeum.linkage.namegeneration
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opeum.validation,
- org.opeum.validation.activities,
- org.opeum.validation.commonbehavior,
- org.opeum.validation.composition,
- org.opeum.validation.core
+Export-Package: org.opaeum.validation,
+ org.opaeum.validation.activities,
+ org.opaeum.validation.commonbehavior,
+ org.opaeum.validation.composition,
+ org.opaeum.validation.core
 

@@ -5,11 +5,11 @@
   
    <extension point="org.topcased.modeler.diagrams">
       <diagram
-            configuration="org.opeum.uim.classform.ClassFormConfiguration"
-            id="org.opeum.uim.classform"
+            configuration="org.opaeum.uim.classform.ClassFormConfiguration"
+            id="org.opaeum.uim.classform"
             name="Class Form Diagram">
             <enableFor
-                  class="org.opeum.uim.form.FormPanel">
+                  class="org.opaeum.uim.form.FormPanel">
             </enableFor>
       </diagram>
 	</extension>
@@ -18,115 +18,115 @@
 	<extension
        point="org.topcased.modeler.topcasedPreferenceInitializer">
     <preferenceInitializer
-          class="org.opeum.uim.classform.preferences.ClassFormDiagramTopcasedPreferenceInitializer"
-          editorId="org.opeum.uim.modeleditor.editor.UimEditor"
-          id="org.opeum.uim.classform.preferences.ClassFormTopcasedPreferenceInitializer">
+          class="org.opaeum.uim.classform.preferences.ClassFormDiagramTopcasedPreferenceInitializer"
+          editorId="org.opaeum.uim.modeleditor.editor.UimEditor"
+          id="org.opaeum.uim.classform.preferences.ClassFormTopcasedPreferenceInitializer">
     </preferenceInitializer>
  </extension>
 
 	<extension point="org.eclipse.ui.preferencePages">
 		<page
-			id="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			category="org.opeum.uim.modeleditor.preferences.UimPreferencePage"
-			class="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			id="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			category="org.opaeum.uim.modeleditor.preferences.UimPreferencePage"
+			class="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
 			name="ClassFormDiagram"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimFieldPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimFieldPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimFieldPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimFieldPreferencePage"
 			name="UimField"/>
 		<page
-			id="org.opeum.uim.classform.preferences.NavigationToEntityPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.NavigationToEntityPreferencePage"
+			id="org.opaeum.uim.classform.preferences.NavigationToEntityPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.NavigationToEntityPreferencePage"
 			name="NavigationToEntity"/>
 		<page
-			id="org.opeum.uim.classform.preferences.NavigationToOperationPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.NavigationToOperationPreferencePage"
+			id="org.opaeum.uim.classform.preferences.NavigationToOperationPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.NavigationToOperationPreferencePage"
 			name="NavigationToOperation"/>
 		<page
-			id="org.opeum.uim.classform.preferences.BuiltInActionPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.BuiltInActionPreferencePage"
+			id="org.opaeum.uim.classform.preferences.BuiltInActionPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.BuiltInActionPreferencePage"
 			name="BuiltInAction"/>
 		<page
-			id="org.opeum.uim.classform.preferences.OperationActionPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.OperationActionPreferencePage"
+			id="org.opaeum.uim.classform.preferences.OperationActionPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.OperationActionPreferencePage"
 			name="OperationAction"/>
 		<page
-			id="org.opeum.uim.classform.preferences.TransitionActionPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.TransitionActionPreferencePage"
+			id="org.opaeum.uim.classform.preferences.TransitionActionPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.TransitionActionPreferencePage"
 			name="TransitionAction"/>
 		<page
-			id="org.opeum.uim.classform.preferences.FormPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.FormPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.FormPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.FormPanelPreferencePage"
 			name="FormPanel"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimPanelPreferencePage"
 			name="UimPanel"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimTabPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimTabPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimTabPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimTabPanelPreferencePage"
 			name="UimTabPanel"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimTabPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimTabPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimTabPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimTabPreferencePage"
 			name="UimTab"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimDataTablePreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimDataTablePreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimDataTablePreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimDataTablePreferencePage"
 			name="UimDataTable"/>
 		<page
-			id="org.opeum.uim.classform.preferences.DetailPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.DetailPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.DetailPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.DetailPanelPreferencePage"
 			name="DetailPanel"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimXYLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimXYLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimXYLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimXYLayoutPreferencePage"
 			name="UimXYLayout"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimGridLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimGridLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimGridLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimGridLayoutPreferencePage"
 			name="UimGridLayout"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimToolbarLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimToolbarLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimToolbarLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimToolbarLayoutPreferencePage"
 			name="UimToolbarLayout"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimBorderLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimBorderLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimBorderLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimBorderLayoutPreferencePage"
 			name="UimBorderLayout"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimFullLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimFullLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimFullLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimFullLayoutPreferencePage"
 			name="UimFullLayout"/>
 		<page
-			id="org.opeum.uim.classform.preferences.UimColumnLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimColumnLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.UimColumnLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimColumnLayoutPreferencePage"
 			name="UimColumnLayout"/>
 	</extension>
 
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			id="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			category="org.opeum.uim.modeleditor.preferences.property.UimPreferencePage"
-			class="org.opeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			category="org.opaeum.uim.modeleditor.preferences.property.UimPreferencePage"
+			class="org.opaeum.uim.classform.preferences.ClassFormDiagramPreferencePage"
 			name="ClassFormDiagram">       
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -134,9 +134,9 @@
 		</page>
 		
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimFieldPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimFieldPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimFieldPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimFieldPreferencePage"
 			name="UimField">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -144,9 +144,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.NavigationToEntityPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.NavigationToEntityPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.NavigationToEntityPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.NavigationToEntityPreferencePage"
 			name="NavigationToEntity">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -154,9 +154,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.NavigationToOperationPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.NavigationToOperationPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.NavigationToOperationPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.NavigationToOperationPreferencePage"
 			name="NavigationToOperation">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -164,9 +164,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.BuiltInActionPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.BuiltInActionPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.BuiltInActionPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.BuiltInActionPreferencePage"
 			name="BuiltInAction">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -174,9 +174,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.OperationActionPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.OperationActionPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.OperationActionPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.OperationActionPreferencePage"
 			name="OperationAction">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -184,9 +184,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.TransitionActionPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.TransitionActionPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.TransitionActionPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.TransitionActionPreferencePage"
 			name="TransitionAction">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -194,9 +194,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.FormPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.FormPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.FormPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.FormPanelPreferencePage"
 			name="FormPanel">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -204,9 +204,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimPanelPreferencePage"
 			name="UimPanel">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -214,9 +214,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimTabPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimTabPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimTabPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimTabPanelPreferencePage"
 			name="UimTabPanel">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -224,9 +224,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimTabPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimTabPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimTabPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimTabPreferencePage"
 			name="UimTab">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -234,9 +234,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimDataTablePreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimDataTablePreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimDataTablePreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimDataTablePreferencePage"
 			name="UimDataTable">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -244,9 +244,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.DetailPanelPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.DetailPanelPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.DetailPanelPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.DetailPanelPreferencePage"
 			name="DetailPanel">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -254,9 +254,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimXYLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimXYLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimXYLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimXYLayoutPreferencePage"
 			name="UimXYLayout">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -264,9 +264,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimGridLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimGridLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimGridLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimGridLayoutPreferencePage"
 			name="UimGridLayout">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -274,9 +274,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimToolbarLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimToolbarLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimToolbarLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimToolbarLayoutPreferencePage"
 			name="UimToolbarLayout">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -284,9 +284,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimBorderLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimBorderLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimBorderLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimBorderLayoutPreferencePage"
 			name="UimBorderLayout">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -294,9 +294,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimFullLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimFullLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimFullLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimFullLayoutPreferencePage"
 			name="UimFullLayout">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>
@@ -304,9 +304,9 @@
 		</page>
     	
 		<page
-			id="org.opeum.uim.classform.preferences.property.UimColumnLayoutPreferencePage"
-			category="org.opeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
-			class="org.opeum.uim.classform.preferences.UimColumnLayoutPreferencePage"
+			id="org.opaeum.uim.classform.preferences.property.UimColumnLayoutPreferencePage"
+			category="org.opaeum.uim.classform.preferences.property.ClassFormDiagramPreferencePage"
+			class="org.opaeum.uim.classform.preferences.UimColumnLayoutPreferencePage"
 			name="UimColumnLayout">
 			<enabledWhen>
 				<adapt type="org.eclipse.core.resources.IProject"/>

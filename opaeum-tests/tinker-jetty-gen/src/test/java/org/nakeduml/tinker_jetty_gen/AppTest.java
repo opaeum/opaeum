@@ -1,4 +1,4 @@
-package org.opeum.tinker_jetty_gen;
+package org.opaeum.tinker_jetty_gen;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

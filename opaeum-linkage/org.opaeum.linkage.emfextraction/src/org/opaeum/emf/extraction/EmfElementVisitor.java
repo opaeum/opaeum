@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,9 +7,9 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.visit.VisitorAdapter;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.visit.VisitorAdapter;
 
 public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 	@SuppressWarnings("unchecked")

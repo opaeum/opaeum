@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.impl;
+package org.opaeum.uim.control.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -12,24 +12,24 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.control.ControlFactory;
-import org.opeum.uim.control.ControlKind;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimCheckBox;
-import org.opeum.uim.control.UimControl;
-import org.opeum.uim.control.UimDatePopup;
-import org.opeum.uim.control.UimDropdown;
-import org.opeum.uim.control.UimLookup;
-import org.opeum.uim.control.UimMultiSelectListBox;
-import org.opeum.uim.control.UimMultiSelectPopupSearch;
-import org.opeum.uim.control.UimMultiSelectTreeView;
-import org.opeum.uim.control.UimNumberScroller;
-import org.opeum.uim.control.UimSingleSelectListBox;
-import org.opeum.uim.control.UimSingleSelectPopupSearch;
-import org.opeum.uim.control.UimSingleSelectTreeView;
-import org.opeum.uim.control.UimText;
-import org.opeum.uim.control.UimTextArea;
-import org.opeum.uim.control.UimToggleButton;
+import org.opaeum.uim.control.ControlFactory;
+import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimCheckBox;
+import org.opaeum.uim.control.UimControl;
+import org.opaeum.uim.control.UimDatePopup;
+import org.opaeum.uim.control.UimDropdown;
+import org.opaeum.uim.control.UimLookup;
+import org.opaeum.uim.control.UimMultiSelectListBox;
+import org.opaeum.uim.control.UimMultiSelectPopupSearch;
+import org.opaeum.uim.control.UimMultiSelectTreeView;
+import org.opaeum.uim.control.UimNumberScroller;
+import org.opaeum.uim.control.UimSingleSelectListBox;
+import org.opaeum.uim.control.UimSingleSelectPopupSearch;
+import org.opaeum.uim.control.UimSingleSelectTreeView;
+import org.opaeum.uim.control.UimText;
+import org.opaeum.uim.control.UimTextArea;
+import org.opaeum.uim.control.UimToggleButton;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +46,7 @@ public class ControlFactoryImpl extends EFactoryImpl implements ControlFactory {
 	 */
 	public static ControlFactory init() {
 		try {
-			ControlFactory theControlFactory = (ControlFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/control/1.0"); 
+			ControlFactory theControlFactory = (ControlFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/control/1.0"); 
 			if (theControlFactory != null) {
 				return theControlFactory;
 			}

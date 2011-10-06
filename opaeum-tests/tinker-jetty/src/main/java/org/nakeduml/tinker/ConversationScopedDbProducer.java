@@ -1,4 +1,4 @@
-package org.opeum.tinker;
+package org.opaeum.tinker;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;

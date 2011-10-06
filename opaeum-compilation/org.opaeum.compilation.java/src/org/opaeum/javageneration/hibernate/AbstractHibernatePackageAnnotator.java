@@ -1,29 +1,29 @@
-package org.opeum.javageneration.hibernate;
+package org.opaeum.javageneration.hibernate;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.jbpm5.ProcessStepResolverImplementor;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.GeneralizationUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.IntegrationCodeGenerator;
+import org.opaeum.javageneration.jbpm5.ProcessStepResolverImplementor;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.GeneralizationUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
 	public static final class MetaDefElementCollector {
@@ -130,7 +130,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
 			NakedClassifierMap map = new NakedClassifierMap(bc);
 			OJPathName javaTypePath = map.javaTypePath();
-			metaValue.putAttribute("value", config.shouldBeCm1Compatible()?OJUtil.classifierPathname(bc).toJavaString(): bc.getMappingInfo().getOpeumId().toString());
+			metaValue.putAttribute("value", config.shouldBeCm1Compatible()?OJUtil.classifierPathname(bc).toJavaString(): bc.getMappingInfo().getOpaeumId().toString());
 			metaValue.putAttribute("targetEntity", javaTypePath);
 			metaValues.addAnnotationValue(metaValue);
 		}

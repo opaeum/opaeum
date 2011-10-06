@@ -1,5 +1,5 @@
-package org.opeum.metamodel.activities;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
+package org.opaeum.metamodel.activities;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 public interface INakedObjectFlow extends INakedActivityEdge {
 	INakedObjectNode getOriginatingObjectNode();
 	INakedBehavior getTransformation();

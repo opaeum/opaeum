@@ -1,15 +1,15 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.actions.INakedClearVariableAction;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedClearVariableAction;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class VariableClearer extends SimpleNodeBuilder<INakedClearVariableAction>{
-	public VariableClearer(OpeumLibrary oclEngine,INakedClearVariableAction action, AbstractObjectNodeExpressor expressor){
+	public VariableClearer(OpaeumLibrary oclEngine,INakedClearVariableAction action, AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override

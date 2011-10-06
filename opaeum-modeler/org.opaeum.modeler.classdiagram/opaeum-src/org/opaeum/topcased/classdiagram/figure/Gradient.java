@@ -1,4 +1,4 @@
-package org.opeum.topcased.classdiagram.figure;
+package org.opaeum.topcased.classdiagram.figure;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;

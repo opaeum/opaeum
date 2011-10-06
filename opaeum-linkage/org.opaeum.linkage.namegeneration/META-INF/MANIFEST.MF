@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.linkage.namegeneration
-Bundle-SymbolicName: org.opeum.linkage.namegeneration;singleton:=true
+Bundle-Name: org.opaeum.linkage.namegeneration
+Bundle-SymbolicName: org.opaeum.linkage.namegeneration;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.junit4,
- org.opeum.metamodels.opeum,
- org.opeum.metamodels.ocl,
- org.opeum.transformation.engine,
- org.opeum.linkage.core
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.transformation.engine,
+ org.opaeum.linkage.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opeum.validation.namegeneration
+Export-Package: org.opaeum.validation.namegeneration
 

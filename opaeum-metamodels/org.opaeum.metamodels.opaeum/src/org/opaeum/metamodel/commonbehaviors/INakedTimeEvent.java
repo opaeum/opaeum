@@ -1,4 +1,4 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
 
 public interface INakedTimeEvent extends INakedTriggerEvent,INakedTimer{

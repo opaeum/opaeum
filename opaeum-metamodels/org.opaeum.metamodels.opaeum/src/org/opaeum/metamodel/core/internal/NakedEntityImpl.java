@@ -1,12 +1,12 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.metamodel.commonbehaviors.internal.NakedBehavioredClassifierImpl;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedBehavioredClassifierImpl;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class NakedEntityImpl extends NakedBehavioredClassifierImpl implements INakedEntity{
 	private static final long serialVersionUID = -257231836042506513L;

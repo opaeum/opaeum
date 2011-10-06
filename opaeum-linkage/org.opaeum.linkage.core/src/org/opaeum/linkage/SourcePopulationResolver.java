@@ -1,6 +1,6 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import static org.opeum.metamodel.core.internal.StereotypeNames.HIERARCHY;
+import static org.opaeum.metamodel.core.internal.StereotypeNames.HIERARCHY;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,24 +8,24 @@ import java.util.Map;
 
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.internal.CompositionSiblingsFinder;
-import org.opeum.metamodel.core.internal.NakedConstraintImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.name.NameConverter;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.internal.CompositionSiblingsFinder;
+import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class

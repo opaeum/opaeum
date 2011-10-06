@@ -1,10 +1,10 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collections;
 import java.util.Set;
 
-import org.opeum.metamodel.actions.INakedWriteVariableAction;
-import org.opeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.actions.INakedWriteVariableAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
 
 public abstract class NakedWriteVariableActionImpl extends NakedVariableActionImpl implements INakedWriteVariableAction{
 	/**

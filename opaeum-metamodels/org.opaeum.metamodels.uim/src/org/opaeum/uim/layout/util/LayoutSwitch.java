@@ -4,27 +4,27 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.util;
+package org.opaeum.uim.layout.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.layout.UimBorderLayout;
-import org.opeum.uim.layout.UimColumnLayout;
-import org.opeum.uim.layout.UimFullLayout;
-import org.opeum.uim.layout.UimGridLayout;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.layout.UimToolbarLayout;
-import org.opeum.uim.layout.UimXYLayout;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.UimBorderLayout;
+import org.opaeum.uim.layout.UimColumnLayout;
+import org.opaeum.uim.layout.UimFullLayout;
+import org.opaeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.layout.UimToolbarLayout;
+import org.opaeum.uim.layout.UimXYLayout;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +36,7 @@ import org.opeum.uim.security.SecureObject;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.layout.LayoutPackage
+ * @see org.opaeum.uim.layout.LayoutPackage
  * @generated
  */
 public class LayoutSwitch<T> {

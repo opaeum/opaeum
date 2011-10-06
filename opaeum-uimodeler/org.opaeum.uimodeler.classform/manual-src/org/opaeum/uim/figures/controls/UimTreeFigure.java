@@ -1,4 +1,4 @@
-package org.opeum.uim.figures.controls;
+package org.opaeum.uim.figures.controls;
 
 import java.awt.Color;
 import java.awt.Font;

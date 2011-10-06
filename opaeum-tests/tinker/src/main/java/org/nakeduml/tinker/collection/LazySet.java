@@ -1,4 +1,4 @@
-package org.opeum.tinker.collection;
+package org.opaeum.tinker.collection;
 
 import java.util.AbstractCollection;
 import java.util.Collection;

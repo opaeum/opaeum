@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 /**
  * A collection of Roles. Each identifier is used to key the EditPolicy.

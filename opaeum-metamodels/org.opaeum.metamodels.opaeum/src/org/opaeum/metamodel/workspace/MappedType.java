@@ -1,4 +1,4 @@
-package org.opeum.metamodel.workspace;
+package org.opaeum.metamodel.workspace;
 
 
 public class MappedType{

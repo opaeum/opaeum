@@ -1,4 +1,4 @@
-package net.sf.opeum.domain.ripper;
+package net.sf.opaeum.domain.ripper;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.rip.MMLCommand;

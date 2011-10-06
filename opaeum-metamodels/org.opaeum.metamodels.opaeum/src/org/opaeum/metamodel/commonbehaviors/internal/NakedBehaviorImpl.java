@@ -1,4 +1,4 @@
-package org.opeum.metamodel.commonbehaviors.internal;
+package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,25 +10,25 @@ import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.activities.ActivityKind;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.ParameterUtil;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.profiles.INakedProfile;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.activities.ActivityKind;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.ParameterUtil;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.profiles.INakedProfile;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedTransition;
 
 /**
  * Defines a common superclass for elements that: 1. Can be called as a method/operation/behavior 2. Has pre and post conditions expressed

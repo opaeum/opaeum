@@ -1,15 +1,15 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.io.IOException;
 
-import org.opeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.uml2.uml.NamedElement;
-import org.opeum.eclipse.context.OpeumEclipseContext;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 
 public class RegenerateAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
 	protected void runActionRecursively(NamedElement modelElement,IAction action){
@@ -18,7 +18,7 @@ public class RegenerateAction extends AbstractUimGenerationAction implements IOb
 
 	public static void doGenerate(NamedElement modelElement){
 		try{
-			OpeumEclipseContext e = OpeumEclipseContext.getCurrentContext();
+			OpaeumEclipseContext e = OpaeumEclipseContext.getCurrentContext();
 			EmfWorkspace workspace = e.getCurrentEmfWorkspace();
 			
 			ResourceSet uimResourceSet=new ResourceSetImpl();

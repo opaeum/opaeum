@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
-import org.opeum.uim.security.WorkspaceSecurityConstraint;
+import org.opaeum.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,12 +16,12 @@ import org.opeum.uim.security.WorkspaceSecurityConstraint;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.folder.UserInteractionWorkspace#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.opeum.uim.folder.UserInteractionWorkspace#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.UserInteractionWorkspace#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.UserInteractionWorkspace#getEditability <em>Editability</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.folder.FolderPackage#getUserInteractionWorkspace()
+ * @see org.opaeum.uim.folder.FolderPackage#getUserInteractionWorkspace()
  * @model
  * @generated
  */
@@ -36,14 +36,14 @@ public interface UserInteractionWorkspace extends AbstractFolder {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Visibility</em>' containment reference.
 	 * @see #setVisibility(WorkspaceSecurityConstraint)
-	 * @see org.opeum.uim.folder.FolderPackage#getUserInteractionWorkspace_Visibility()
+	 * @see org.opaeum.uim.folder.FolderPackage#getUserInteractionWorkspace_Visibility()
 	 * @model containment="true"
 	 * @generated
 	 */
 	WorkspaceSecurityConstraint getVisibility();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.folder.UserInteractionWorkspace#getVisibility <em>Visibility</em>}' containment reference.
+	 * Sets the value of the '{@link org.opaeum.uim.folder.UserInteractionWorkspace#getVisibility <em>Visibility</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Visibility</em>' containment reference.
@@ -62,14 +62,14 @@ public interface UserInteractionWorkspace extends AbstractFolder {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Editability</em>' containment reference.
 	 * @see #setEditability(WorkspaceSecurityConstraint)
-	 * @see org.opeum.uim.folder.FolderPackage#getUserInteractionWorkspace_Editability()
+	 * @see org.opaeum.uim.folder.FolderPackage#getUserInteractionWorkspace_Editability()
 	 * @model containment="true"
 	 * @generated
 	 */
 	WorkspaceSecurityConstraint getEditability();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.folder.UserInteractionWorkspace#getEditability <em>Editability</em>}' containment reference.
+	 * Sets the value of the '{@link org.opaeum.uim.folder.UserInteractionWorkspace#getEditability <em>Editability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Editability</em>' containment reference.

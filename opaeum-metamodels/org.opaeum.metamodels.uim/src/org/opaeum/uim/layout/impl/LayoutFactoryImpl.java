@@ -4,22 +4,22 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.impl;
+package org.opaeum.uim.layout.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.layout.LayoutFactory;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.UimBorderLayout;
-import org.opeum.uim.layout.UimColumnLayout;
-import org.opeum.uim.layout.UimFullLayout;
-import org.opeum.uim.layout.UimGridLayout;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.layout.UimToolbarLayout;
-import org.opeum.uim.layout.UimXYLayout;
+import org.opaeum.uim.layout.LayoutFactory;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.UimBorderLayout;
+import org.opaeum.uim.layout.UimColumnLayout;
+import org.opaeum.uim.layout.UimFullLayout;
+import org.opaeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.layout.UimToolbarLayout;
+import org.opaeum.uim.layout.UimXYLayout;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +36,7 @@ public class LayoutFactoryImpl extends EFactoryImpl implements LayoutFactory {
 	 */
 	public static LayoutFactory init() {
 		try {
-			LayoutFactory theLayoutFactory = (LayoutFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/layout/1.0"); 
+			LayoutFactory theLayoutFactory = (LayoutFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/layout/1.0"); 
 			if (theLayoutFactory != null) {
 				return theLayoutFactory;
 			}

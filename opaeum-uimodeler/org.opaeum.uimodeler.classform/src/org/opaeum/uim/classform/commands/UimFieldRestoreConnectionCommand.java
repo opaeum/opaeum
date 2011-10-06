@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.commands;
+package org.opaeum.uim.classform.commands;
 
 import org.eclipse.gef.EditPart;
 import org.topcased.modeler.commands.AbstractRestoreConnectionCommand;

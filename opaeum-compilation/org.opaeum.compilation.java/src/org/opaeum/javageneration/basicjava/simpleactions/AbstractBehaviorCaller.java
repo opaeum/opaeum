@@ -1,22 +1,22 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opeum.metamodel.activities.ActivityKind;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
+import org.opaeum.metamodel.activities.ActivityKind;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction> extends AbstractCaller<T>{
-	public AbstractBehaviorCaller(OpeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
+	public AbstractBehaviorCaller(OpaeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 	}
 	protected abstract void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap);

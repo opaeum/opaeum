@@ -4,8 +4,8 @@
 
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
-            uri="http://opeum.sf.net/uimetamodel/1.0"
-            class="org.opeum.uim.provider.UimItemProviderAdapterFactory"
+            uri="http://opaeum.sf.net/uimetamodel/1.0"
+            class="org.opaeum.uim.provider.UimItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

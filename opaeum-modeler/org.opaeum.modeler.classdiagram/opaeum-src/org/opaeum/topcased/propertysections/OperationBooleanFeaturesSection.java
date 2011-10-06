@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import nl.klasse.octopus.model.INameSpace;
 public interface INakedNameSpace extends INakedPackageableElement, INameSpace {
 

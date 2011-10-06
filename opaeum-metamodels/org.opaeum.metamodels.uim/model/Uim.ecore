@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="uim"
-    nsURI="http://opeum.org/uimetamodel/1.0" nsPrefix="uim">
+    nsURI="http://opaeum.org/uimetamodel/1.0" nsPrefix="uim">
   <eClassifiers xsi:type="ecore:EClass" name="UimField" eSuperTypes="#//security/EditableSecureObject #//layout/OutlayableComponent">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="A User Field is an abstract superclass for all fields a user can view and/or update on a form, typically represented as some kind of input/output form field."/>
@@ -44,7 +44,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UimPanel" eSuperTypes="#//layout/LayoutContainer #//layout/OutlayableComponent"/>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectSelectorTree" eSuperTypes="#//MasterComponent #//layout/OutlayableComponent"/>
-  <eSubpackages name="layout" nsURI="http://opeum.org/uimetamodel/layout/1.0" nsPrefix="lay">
+  <eSubpackages name="layout" nsURI="http://opaeum.org/uimetamodel/layout/1.0" nsPrefix="lay">
     <eClassifiers xsi:type="ecore:EClass" name="UimColumnLayout" eSuperTypes="#//layout/UimLayout"/>
     <eClassifiers xsi:type="ecore:EClass" name="UimFullLayout" eSuperTypes="#//layout/UimLayout"/>
     <eClassifiers xsi:type="ecore:EClass" name="UimXYLayout" eSuperTypes="#//layout/UimLayout"/>
@@ -71,7 +71,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfColumns" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EIntegerObject"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="control" nsURI="http://opeum.org/uimetamodel/control/1.0"
+  <eSubpackages name="control" nsURI="http://opaeum.org/uimetamodel/control/1.0"
       nsPrefix="ctl">
     <eClassifiers xsi:type="ecore:EClass" name="UimNumberScroller" eSuperTypes="#//control/UimControl"/>
     <eClassifiers xsi:type="ecore:EClass" name="UimToggleButton" eSuperTypes="#//control/UimControl"/>
@@ -127,7 +127,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimSingleSelectTreeView" eSuperTypes="#//control/UimLookup"/>
   </eSubpackages>
-  <eSubpackages name="folder" nsURI="http://opeum.org/uimetamodel/folder/1.0" nsPrefix="fld">
+  <eSubpackages name="folder" nsURI="http://opaeum.org/uimetamodel/folder/1.0" nsPrefix="fld">
     <eClassifiers xsi:type="ecore:EClass" name="AbstractFolder" abstract="true" eSuperTypes="#//UserInteractionElement #//UmlReference">
       <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
           eType="#//folder/AbstractFormFolder" containment="true" eOpposite="#//folder/AbstractFormFolder/parent">
@@ -160,7 +160,7 @@
           containment="true"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="form" nsURI="http://opeum.org/uimetamodel/form/1.0" nsPrefix="frm">
+  <eSubpackages name="form" nsURI="http://opaeum.org/uimetamodel/form/1.0" nsPrefix="frm">
     <eClassifiers xsi:type="ecore:EClass" name="FormPanel" eSuperTypes="#//UmlReference #//layout/LayoutContainer">
       <eStructuralFeatures xsi:type="ecore:EReference" name="form" eType="#//form/UimForm"
           eOpposite="#//form/UimForm/panel"/>
@@ -200,7 +200,7 @@
           eOpposite="#//MasterComponent/detailPanels"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="binding" nsURI="http://opeum.org/uimetamodel/binding/1.0"
+  <eSubpackages name="binding" nsURI="http://opaeum.org/uimetamodel/binding/1.0"
       nsPrefix="ubnd">
     <eClassifiers xsi:type="ecore:EClass" name="LookupBinding" eSuperTypes="#//binding/UimBinding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="lookup" eType="#//control/UimLookup"
@@ -231,7 +231,7 @@
           containment="true" eOpposite="#//binding/PropertyRef/previous"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="security" nsURI="http://opeum.org/uimetamodel/security/1.0"
+  <eSubpackages name="security" nsURI="http://opaeum.org/uimetamodel/security/1.0"
       nsPrefix="usec">
     <eClassifiers xsi:type="ecore:EClass" name="EditableSecureObject" eSuperTypes="#//security/SecureObject">
       <eStructuralFeatures xsi:type="ecore:EReference" name="editability" eType="#//security/SecurityConstraint"
@@ -254,7 +254,7 @@
           defaultValueLiteral="true"/>
     </eClassifiers>
   </eSubpackages>
-  <eSubpackages name="action" nsURI="http://opeum.org/uimetamodel/action/1.0" nsPrefix="uact">
+  <eSubpackages name="action" nsURI="http://opaeum.org/uimetamodel/action/1.0" nsPrefix="uact">
     <eClassifiers xsi:type="ecore:EClass" name="BuiltInAction" eSuperTypes="#//action/UimAction">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//action/ActionKind"/>
     </eClassifiers>

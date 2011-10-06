@@ -1,11 +1,11 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opeum.java.metamodel.generated.OJPackageGEN;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.java.metamodel.generated.OJPackageGEN;
 
 
 

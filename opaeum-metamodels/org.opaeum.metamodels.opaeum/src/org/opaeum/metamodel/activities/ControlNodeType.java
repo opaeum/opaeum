@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 import java.io.Serializable;
 public enum ControlNodeType implements Serializable {
 	DECISION_NODE,

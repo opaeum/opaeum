@@ -1,23 +1,23 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import java.util.Collections;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
-import org.opeum.javageneration.basicjava.OperationAnnotator;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.NakedParsedOclStringResolver;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
+import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.NakedParsedOclStringResolver;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class

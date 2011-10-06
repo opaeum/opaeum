@@ -1,8 +1,8 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface INakedStep extends INakedElement{
 	PathName getStatePath();

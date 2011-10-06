@@ -1,11 +1,11 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.AcceptEventAction;

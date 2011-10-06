@@ -17,10 +17,10 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IEnumerationType;
 import nl.klasse.octopus.modelVisitors.DefaultPackageVisitor;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
 
 
 /**

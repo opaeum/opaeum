@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.provider;
+package org.opaeum.uim.form.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.form.util.FormAdapterFactory;
+import org.opaeum.uim.form.util.FormAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.FormPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.FormPanel} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected FormPanelItemProvider formPanelItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.FormPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.FormPanel}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.ActionTaskForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.ActionTaskForm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected ActionTaskFormItemProvider actionTaskFormItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.ActionTaskForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.ActionTaskForm}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.StateForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.StateForm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected StateFormItemProvider stateFormItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.StateForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.StateForm}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.ClassForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.ClassForm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected ClassFormItemProvider classFormItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.ClassForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.ClassForm}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.UimForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.UimForm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected UimFormItemProvider uimFormItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.UimForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.UimForm}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -189,7 +189,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.OperationTaskForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.OperationTaskForm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -197,7 +197,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected OperationTaskFormItemProvider operationTaskFormItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.OperationTaskForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.OperationTaskForm}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -212,7 +212,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.OperationInvocationForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.OperationInvocationForm} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -220,7 +220,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected OperationInvocationFormItemProvider operationInvocationFormItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.OperationInvocationForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.OperationInvocationForm}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -235,7 +235,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.DetailPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.DetailPanel} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -243,7 +243,7 @@ public class FormItemProviderAdapterFactory extends FormAdapterFactory implement
 	protected DetailPanelItemProvider detailPanelItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.DetailPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.DetailPanel}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

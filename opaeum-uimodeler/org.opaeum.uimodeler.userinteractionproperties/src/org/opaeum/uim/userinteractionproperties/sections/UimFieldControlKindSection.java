@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
@@ -6,13 +6,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.control.ControlKind;
-import org.opeum.uim.control.UimControl;
-import org.opeum.uim.modeleditor.editor.UimEditor;
-import org.opeum.uim.util.ControlUtil;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.UimControl;
+import org.opaeum.uim.modeleditor.editor.UimEditor;
+import org.opaeum.uim.util.ControlUtil;
 import org.topcased.tabbedproperties.internal.utils.Messages;
 import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 

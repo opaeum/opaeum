@@ -1,4 +1,4 @@
-package org.opeum.feature.visit;
+package org.opaeum.feature.visit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

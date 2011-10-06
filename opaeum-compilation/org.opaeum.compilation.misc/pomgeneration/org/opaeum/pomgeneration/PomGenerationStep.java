@@ -1,15 +1,15 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 import nl.klasse.octopus.model.IImportedElement;
 
@@ -27,14 +27,14 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
 public abstract class PomGenerationStep implements ITransformationStep{
 	protected static final String HIBERNATE_VERSION = "3.4.0.GA";
 	public static final String ARQUILLIAN_VERSION = "1.0.0.Alpha4";
-	protected OpeumConfig config;
+	protected OpaeumConfig config;
 	protected INakedModelWorkspace workspace;
 	protected INakedRootObject model;
 	protected abstract SourceFolderDefinition getExampleTargetDir();
 	public boolean isIntegrationStep(){
 		return false;
 	}
-	public void initialize(OpeumConfig config,INakedModelWorkspace workspace){
+	public void initialize(OpaeumConfig config,INakedModelWorkspace workspace){
 		this.config = config;
 		this.workspace = workspace;
 	}
@@ -213,12 +213,12 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		dependencies.add(spec);
 	}
 	protected void addNumlTestAdaptor(Collection<Dependency> result){
-		Dependency opeumAdaptor = POMFactory.eINSTANCE.createDependency();
-		opeumAdaptor.setGroupId("org.opeum");
-		opeumAdaptor.setArtifactId("opeum-test-adaptor");
-		opeumAdaptor.setScope("test");
-		opeumAdaptor.setVersion("${opeum.version}");
-		result.add(opeumAdaptor);
+		Dependency opaeumAdaptor = POMFactory.eINSTANCE.createDependency();
+		opaeumAdaptor.setGroupId("org.opaeum");
+		opaeumAdaptor.setArtifactId("opaeum-test-adaptor");
+		opaeumAdaptor.setScope("test");
+		opaeumAdaptor.setVersion("${opaeum.version}");
+		result.add(opaeumAdaptor);
 	}
 	protected Collection<Dependency> getTestDepedencies(){
 		Collection<Dependency> result = new ArrayList<Dependency>();
@@ -279,7 +279,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 					d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
 					result.add(d);
 				}else{
-					// TODO Model level stereotype, or opeumconfig.properties get group
+					// TODO Model level stereotype, or opaeumconfig.properties get group
 					// id and version artifactid=filename
 				}
 			}

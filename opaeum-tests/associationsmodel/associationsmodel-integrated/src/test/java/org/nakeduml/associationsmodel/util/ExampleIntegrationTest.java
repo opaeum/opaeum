@@ -1,4 +1,4 @@
-package org.opeum.associationsmodel.util;
+package org.opaeum.associationsmodel.util;
 
 import assocationsmodel.root.Root;
 

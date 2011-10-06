@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.UserInteractionElement#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.UserInteractionElement#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.UimPackage#getUserInteractionElement()
+ * @see org.opaeum.uim.UimPackage#getUserInteractionElement()
  * @model abstract="true"
  * @generated
  */
@@ -35,14 +35,14 @@ public interface UserInteractionElement extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
-	 * @see org.opeum.uim.UimPackage#getUserInteractionElement_Name()
+	 * @see org.opaeum.uim.UimPackage#getUserInteractionElement_Name()
 	 * @model
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.UserInteractionElement#getName <em>Name</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.UserInteractionElement#getName <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.

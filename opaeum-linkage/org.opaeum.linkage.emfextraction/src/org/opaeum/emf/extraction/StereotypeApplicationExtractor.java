@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,23 +15,23 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.core.INakedComment;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedHelper;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.internal.NakedCommentImpl;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
-import org.opeum.metamodel.core.internal.NakedSlotImpl;
-import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
-import org.opeum.metamodel.profiles.INakedStereotype;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.core.INakedComment;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedHelper;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSlot;
+import org.opaeum.metamodel.core.internal.NakedCommentImpl;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
+import org.opaeum.metamodel.core.internal.NakedSlotImpl;
+import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.metamodel.profiles.INakedStereotype;
 
 /**
  * Applies stereotypes to elements. Uses InstanceSpecifications to represent stereotype applications Should be done last. pre: All
@@ -75,7 +75,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			if(nakedPeer instanceof INakedHelper){
 				System.out.println();
 			}
-			// Some element may not be supported by Opeum
+			// Some element may not be supported by Opaeum
 			addStereotypes(nakedPeer, element);
 			addKeywords(nakedPeer, element);
 		}
@@ -142,7 +142,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			INakedProperty attribute = (INakedProperty) attributes.next();
 			EStructuralFeature structuralFeature = application.eClass().getEStructuralFeature(attribute.getName());
 			if(structuralFeature != null){
-				// might be an "artificial" feature introduced by Opeum
+				// might be an "artificial" feature introduced by Opaeum
 				Object value = application.eGet(structuralFeature);
 				String id = attribute.getId() + "#" + stereotypeApplicationId;
 				INakedSlot slot = (INakedSlot) nakedWorkspace.getModelElement(id);

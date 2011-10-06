@@ -1,10 +1,10 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IStructuralFeature;
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElementOwner;
 
 public class NakedStructuralFeature extends NakedTypedElementImpl implements IStructuralFeature{
 	private static final long serialVersionUID = -7706816871787624121L;

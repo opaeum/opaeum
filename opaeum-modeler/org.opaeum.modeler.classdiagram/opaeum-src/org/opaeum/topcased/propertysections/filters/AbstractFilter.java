@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.filters;
+package org.opaeum.topcased.propertysections.filters;
 
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.uml2.uml.Element;

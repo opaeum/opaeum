@@ -1,6 +1,6 @@
-package org.opeum.metamodel.activities.internal;
-import org.opeum.metamodel.activities.ControlNodeType;
-import org.opeum.metamodel.activities.INakedDecisionNode;
+package org.opaeum.metamodel.activities.internal;
+import org.opaeum.metamodel.activities.ControlNodeType;
+import org.opaeum.metamodel.activities.INakedDecisionNode;
 public class NakedDecisionNodeImpl extends NakedControlNodeImpl implements INakedDecisionNode {
 	private static final long serialVersionUID = -6645818923798630608L;
 	@Override

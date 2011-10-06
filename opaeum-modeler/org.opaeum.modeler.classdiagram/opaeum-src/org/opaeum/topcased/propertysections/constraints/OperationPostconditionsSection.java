@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.constraints;
+package org.opaeum.topcased.propertysections.constraints;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.UMLPackage;

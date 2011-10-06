@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.modeler.source.feature"
-      label="Opeum Modeler Source Feature"
+      id="org.opaeum.modeler.source.feature"
+      label="Opaeum Modeler Source Feature"
       version="1.0.0.qualifier"
       provider-name="Opaeum"
-      license-feature="org.opeum.metamodels.feature"
+      license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
    <license url="">
@@ -28,32 +28,32 @@
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.emf.ecore"/>
       <import plugin="org.topcased.modeler.graphconf"/>
-      <import plugin="org.opeum.eclipse.core"/>
+      <import plugin="org.opaeum.eclipse.core"/>
       <import plugin="org.topcased.ui"/>
       <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.validation"/>
-      <import plugin="org.opeum.linkage.core"/>
-      <import plugin="org.opeum.linkage.emfextraction"/>
-      <import plugin="org.opeum.linkage.namegeneration"/>
-      <import plugin="org.opeum.linkage.validation"/>
-      <import plugin="org.opeum.metamodels.drools"/>
-      <import plugin="org.opeum.metamodels.emfworkspace"/>
-      <import plugin="org.opeum.metamodels.java"/>
-      <import plugin="org.opeum.metamodels.maven"/>
-      <import plugin="org.opeum.metamodels.ocl"/>
-      <import plugin="org.opeum.metamodels.opeum"/>
-      <import plugin="org.opeum.metamodels.text"/>
-      <import plugin="org.opeum.metamodels.uim"/>
-      <import plugin="org.opeum.transformation.engine"/>
-      <import plugin="org.opeum.compilation.uim"/>
-      <import plugin="org.opeum.uimodeler.classform"/>
+      <import plugin="org.opaeum.linkage.core"/>
+      <import plugin="org.opaeum.linkage.emfextraction"/>
+      <import plugin="org.opaeum.linkage.namegeneration"/>
+      <import plugin="org.opaeum.linkage.validation"/>
+      <import plugin="org.opaeum.metamodels.drools"/>
+      <import plugin="org.opaeum.metamodels.emfworkspace"/>
+      <import plugin="org.opaeum.metamodels.java"/>
+      <import plugin="org.opaeum.metamodels.maven"/>
+      <import plugin="org.opaeum.metamodels.ocl"/>
+      <import plugin="org.opaeum.metamodels.opaeum"/>
+      <import plugin="org.opaeum.metamodels.text"/>
+      <import plugin="org.opaeum.metamodels.uim"/>
+      <import plugin="org.opaeum.transformation.engine"/>
+      <import plugin="org.opaeum.compilation.uim"/>
+      <import plugin="org.opaeum.uimodeler.classform"/>
       <import plugin="org.topcased.modeler.diagrams"/>
-      <import plugin="org.opeum.uimodeler.editor"/>
-      <import plugin="org.opeum.uimodeler.userinteractionproperties"/>
-      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opaeum.uimodeler.editor"/>
+      <import plugin="org.opaeum.uimodeler.userinteractionproperties"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
@@ -71,49 +71,49 @@
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.activitydiagram"
+         id="org.opaeum.modeler.activitydiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.classdiagram"
+         id="org.opaeum.modeler.classdiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.compositestructuresdiagram"
+         id="org.opaeum.modeler.compositestructuresdiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.statemachinediagram"
+         id="org.opaeum.modeler.statemachinediagram"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.uimadapter"
+         id="org.opaeum.modeler.uimadapter"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.validation"
+         id="org.opaeum.modeler.validation"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.modeler.componentdiagram"
+         id="org.opaeum.modeler.componentdiagram"
          download-size="0"
          install-size="0"
          version="0.0.0"

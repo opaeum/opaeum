@@ -1,8 +1,8 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public interface INakedCreateObjectAction extends INakedAction {
 	INakedClassifier getClassifier();

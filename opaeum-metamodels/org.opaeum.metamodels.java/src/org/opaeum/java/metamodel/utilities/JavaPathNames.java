@@ -3,9 +3,9 @@
  *
  * Copyright Klasse Objecten
  */
-package org.opeum.java.metamodel.utilities;
+package org.opaeum.java.metamodel.utilities;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 
 /**

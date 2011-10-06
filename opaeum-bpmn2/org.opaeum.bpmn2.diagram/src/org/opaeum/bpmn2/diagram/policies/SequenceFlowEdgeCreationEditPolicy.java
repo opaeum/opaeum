@@ -1,13 +1,13 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.policies;
+package org.opaeum.bpmn2.diagram.policies;
 
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
-import org.opeum.bpmn2.diagram.commands.SequenceFlowEdgeCreationCommand;
+import org.opaeum.bpmn2.diagram.commands.SequenceFlowEdgeCreationCommand;
 import org.topcased.modeler.commands.CreateTypedEdgeCommand;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphElement;

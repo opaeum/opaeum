@@ -1,17 +1,17 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
-import org.opeum.metamodel.activities.INakedParameterNode;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
+import org.opaeum.metamodel.activities.INakedParameterNode;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ParameterNodeBuilder extends Jbpm5ActionBuilder<INakedParameterNode>{
 	private ParameterNodeImplementor delegate;
-	public ParameterNodeBuilder(OpeumLibrary oclEngine,INakedParameterNode node){
+	public ParameterNodeBuilder(OpaeumLibrary oclEngine,INakedParameterNode node){
 		super(oclEngine, node);
 		this.delegate = new ParameterNodeImplementor(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
 	}

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.action.util.ActionAdapterFactory;
+import org.opaeum.uim.action.util.ActionAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,43 +43,43 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.BuiltInAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.BuiltInAction} instances.
 	 * 
 	 * @generated
 	 */
 	private BuiltInActionModelerProvider builtinactionModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.UimAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.UimAction} instances.
 	 * 
 	 * @generated
 	 */
 	private UimActionModelerProvider uimactionModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.TransitionAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.TransitionAction} instances.
 	 * 
 	 * @generated
 	 */
 	private TransitionActionModelerProvider transitionactionModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.NavigationToOperation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.NavigationToOperation} instances.
 	 * 
 	 * @generated
 	 */
 	private NavigationToOperationModelerProvider navigationtooperationModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.OperationAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationAction} instances.
 	 * 
 	 * @generated
 	 */
 	private OperationActionModelerProvider operationactionModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.UimNavigation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.UimNavigation} instances.
 	 * 
 	 * @generated
 	 */
 	private UimNavigationModelerProvider uimnavigationModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.action.NavigationToEntity} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.NavigationToEntity} instances.
 	 * 
 	 * @generated
 	 */
@@ -177,7 +177,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.BuiltInAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.BuiltInAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -189,7 +189,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		return builtinactionModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.UimAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.UimAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -201,7 +201,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		return uimactionModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.TransitionAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.TransitionAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -213,7 +213,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		return transitionactionModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.NavigationToOperation}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.NavigationToOperation}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -225,7 +225,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		return navigationtooperationModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.OperationAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationAction}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -237,7 +237,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		return operationactionModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.UimNavigation}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.UimNavigation}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -249,7 +249,7 @@ public class ActionModelerProviderAdapterFactory extends ActionAdapterFactory im
 		return uimnavigationModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.action.NavigationToEntity}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.NavigationToEntity}.
 	 *
 	 * @return the Adapter
 	 * @generated

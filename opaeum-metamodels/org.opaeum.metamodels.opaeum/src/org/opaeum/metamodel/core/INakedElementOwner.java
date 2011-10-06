@@ -1,7 +1,7 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import java.util.Collection;
 
-import org.opeum.feature.MappingInfo;
+import org.opaeum.feature.MappingInfo;
 public interface INakedElementOwner {
 	MappingInfo getMappingInfo();
 	Collection<? extends INakedElement> getOwnedElements();

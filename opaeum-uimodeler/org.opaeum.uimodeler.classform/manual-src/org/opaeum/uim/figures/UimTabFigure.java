@@ -1,4 +1,4 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +10,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.opeum.uim.figure.TabListener;
+import org.opaeum.uim.figure.TabListener;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.IContainerFigure;
 import org.topcased.draw2d.figures.ILabel;
@@ -43,7 +43,7 @@ public class UimTabFigure extends Figure implements IContainerFigure,ILabelFigur
 		add(contentPane = new Figure());
 		contentPane.setOpaque(true);
 		contentPane.setBorder(new LineBorder(1));
-		contentPane.setLayoutManager(new org.opeum.uim.layouts.StackLayout());
+		contentPane.setLayoutManager(new org.opaeum.uim.layouts.StackLayout());
 	}
 	public void setLabelBounds(Rectangle rectangle){
 		this.labelBounds = rectangle;

@@ -1,4 +1,4 @@
-package org.opeum.generate;
+package org.opaeum.generate;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,14 +6,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sf.opeum.emf.load.EmfWorkspaceLoader;
-import net.sf.opeum.emf.workspace.EmfWorkspace;
-import net.sf.opeum.feature.NakedUmlConfig;
-import net.sf.opeum.feature.TransformationProcess;
-import net.sf.opeum.feature.TransformationStep;
-import net.sf.opeum.javageneration.JavaTextSource;
-import net.sf.opeum.javageneration.auditing.TinkerAuditImplementationStep;
-import net.sf.opeum.javageneration.auditing.TinkerImplementAttributeCacheStep;
+import net.sf.opaeum.emf.load.EmfWorkspaceLoader;
+import net.sf.opaeum.emf.workspace.EmfWorkspace;
+import net.sf.opaeum.feature.NakedUmlConfig;
+import net.sf.opaeum.feature.TransformationProcess;
+import net.sf.opaeum.feature.TransformationStep;
+import net.sf.opaeum.javageneration.JavaTextSource;
+import net.sf.opaeum.javageneration.auditing.TinkerAuditImplementationStep;
+import net.sf.opaeum.javageneration.auditing.TinkerImplementAttributeCacheStep;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -50,9 +50,9 @@ public class GenerateTinkerJetty {
 
 	@SuppressWarnings("unchecked")
 	private Set<Class<? extends TransformationStep>> getSteps() {
-		return toSet(net.sf.opeum.javageneration.basicjava.BasicJavaModelStep.class, 
-				net.sf.opeum.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
-				net.sf.opeum.emf.extraction.StereotypeApplicationExtractor.class,
+		return toSet(net.sf.opaeum.javageneration.basicjava.BasicJavaModelStep.class, 
+				net.sf.opaeum.javageneration.composition.ExtendedCompositionSemanticsJavaStep.class,
+				net.sf.opaeum.emf.extraction.StereotypeApplicationExtractor.class,
 				TinkerAuditImplementationStep.class,
 				TinkerImplementAttributeCacheStep.class);
 	}
@@ -60,7 +60,7 @@ public class GenerateTinkerJetty {
 	protected NakedUmlConfig buildConfig(EmfWorkspace workspace) throws IOException {
 		NakedUmlConfig cfg = new NakedUmlConfig();
 		cfg.setOutputRoot(outputRoot);
-		cfg.load(new File(modelFile.getParent(), workspace.getDirectoryName() + "-opeum.properties"), workspace.getName());
+		cfg.load(new File(modelFile.getParent(), workspace.getDirectoryName() + "-opaeum.properties"), workspace.getName());
 		cfg.store();
 		mapOutputRoots(cfg);
 		return cfg;

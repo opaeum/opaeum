@@ -1,7 +1,7 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedProperty;
 
 /**
  * 

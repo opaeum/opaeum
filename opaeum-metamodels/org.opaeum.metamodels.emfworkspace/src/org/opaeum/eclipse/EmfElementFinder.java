@@ -1,11 +1,11 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;

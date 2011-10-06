@@ -1,13 +1,13 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.generated.OJOperationGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.generated.OJOperationGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 

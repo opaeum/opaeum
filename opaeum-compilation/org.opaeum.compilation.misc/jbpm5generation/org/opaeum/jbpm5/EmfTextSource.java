@@ -1,9 +1,9 @@
-package org.opeum.jbpm5;
+package org.opaeum.jbpm5;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.opeum.textmetamodel.TextSource;
+import org.opaeum.textmetamodel.TextSource;
 
 import org.eclipse.emf.ecore.resource.Resource;
 

@@ -4,23 +4,23 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.ObjectSelectorTree;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UimFactory;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UimPanel;
-import org.opeum.uim.UimTab;
-import org.opeum.uim.UimTabPanel;
-import org.opeum.uim.UmlReference;
+import org.opaeum.uim.ObjectSelectorTree;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimFactory;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimPanel;
+import org.opaeum.uim.UimTab;
+import org.opaeum.uim.UimTabPanel;
+import org.opaeum.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +37,7 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 	 */
 	public static UimFactory init() {
 		try {
-			UimFactory theUimFactory = (UimFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/1.0"); 
+			UimFactory theUimFactory = (UimFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/1.0"); 
 			if (theUimFactory != null) {
 				return theUimFactory;
 			}

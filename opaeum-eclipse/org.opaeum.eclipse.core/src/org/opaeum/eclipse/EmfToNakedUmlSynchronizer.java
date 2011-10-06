@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,35 +30,35 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.resource.UMLResourceImpl;
 import org.eclipse.uml2.uml.resource.UMLResource;
-import org.opeum.emf.extraction.EmfExtractionPhase;
-import org.opeum.emf.extraction.StereotypeApplicationExtractor;
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.emf.workspace.UriToFileConverter;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.Steps;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.feature.TransformationProcess;
-import org.opeum.feature.TransformationProcess.TransformationProgressLog;
-import org.opeum.linkage.AbstractModelElementLinker;
-import org.opeum.linkage.LinkagePhase;
-import org.opeum.linkage.QualifierLogicCalculator;
-import org.opeum.linkage.SourcePopulationResolver;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
-import org.opeum.validation.ValidationPhase;
-import org.opeum.validation.namegeneration.JavaNameRegenerator;
-import org.opeum.validation.namegeneration.PersistentNameGenerator;
+import org.opaeum.emf.extraction.EmfExtractionPhase;
+import org.opaeum.emf.extraction.StereotypeApplicationExtractor;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.UriToFileConverter;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.Steps;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.feature.TransformationProcess;
+import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
+import org.opaeum.linkage.AbstractModelElementLinker;
+import org.opaeum.linkage.LinkagePhase;
+import org.opaeum.linkage.QualifierLogicCalculator;
+import org.opaeum.linkage.SourcePopulationResolver;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
+import org.opaeum.validation.ValidationPhase;
+import org.opaeum.validation.namegeneration.JavaNameRegenerator;
+import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @SuppressWarnings("restriction")
 public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 	private static ScheduledThreadPoolExecutor threadPool = new ScheduledThreadPoolExecutor(1);
 	protected TransformationProcess transformationProcess;
-	protected OpeumConfig cfg;
+	protected OpaeumConfig cfg;
 	protected Set<EObject> emfChanges = Collections.synchronizedSet(new HashSet<EObject>());
 	protected INakedModelWorkspace nakedModelWorspace;
 	protected UriToFileConverter resourceHelper;
@@ -69,7 +69,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 	boolean suspended = false;
 	private Set<NakedUmlSynchronizationListener> synchronizationListener = new HashSet<NakedUmlSynchronizationListener>();
 	NakedUmlElementLinker linker = new NakedUmlElementLinker();
-	public EmfToNakedUmlSynchronizer(OpeumConfig cfg){
+	public EmfToNakedUmlSynchronizer(OpaeumConfig cfg){
 		this.resourceHelper = new EclipseUriToFileConverter();
 		this.cfg = cfg;
 		reinitializeProcess();
@@ -273,7 +273,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 			}
 		};
 		final String id = currentEmfWorkspace.getResourceId(eResource) + "@" + uriFragment.toString();
-		StereotypesHelper.getNumlAnnotation(ne).getDetails().put("opiumId", id);
+		StereotypesHelper.getNumlAnnotation(ne).getDetails().put("opaeumId", id);
 		for(Element element:EmfElementFinder.getCorrectOwnedElements(ne)){
 			storeTempId(element, eResource);
 		}
@@ -318,7 +318,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 	public INakedModelWorkspace getNakedWorkspace(){
 		return nakedModelWorspace;
 	}
-	public OpeumConfig getConfig(){
+	public OpaeumConfig getConfig(){
 		return this.cfg;
 	}
 	public static void schedule(Runnable task,long delay){

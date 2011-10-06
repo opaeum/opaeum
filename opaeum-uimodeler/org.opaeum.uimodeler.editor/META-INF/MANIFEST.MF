@@ -1,27 +1,27 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.uimodeler.editor
-Bundle-SymbolicName: org.opeum.uimodeler.editor;singleton:=true
+Bundle-Name: org.opaeum.uimodeler.editor
+Bundle-SymbolicName: org.opaeum.uimodeler.editor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.opeum.uim.presentation.UimEditorPlugin$Implementation
-Bundle-Vendor: Opeum
+Bundle-Activator: org.opaeum.uim.presentation.UimEditorPlugin$Implementation
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.opeum.metamodels.uim,
+Require-Bundle: org.opaeum.metamodels.uim,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.edit.ui;visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.opeum.uimodeler.edit
-Export-Package: org.opeum.uim.action.presentation,
- org.opeum.uim.binding.presentation,
- org.opeum.uim.control.presentation,
- org.opeum.uim.folder.presentation,
- org.opeum.uim.form.presentation,
- org.opeum.uim.layout.presentation,
- org.opeum.uim.presentation,
- org.opeum.uim.security.presentation
+ org.opaeum.uimodeler.edit
+Export-Package: org.opaeum.uim.action.presentation,
+ org.opaeum.uim.binding.presentation,
+ org.opaeum.uim.control.presentation,
+ org.opaeum.uim.folder.presentation,
+ org.opaeum.uim.form.presentation,
+ org.opaeum.uim.layout.presentation,
+ org.opaeum.uim.presentation,
+ org.opaeum.uim.security.presentation
 Bundle-ActivationPolicy: lazy

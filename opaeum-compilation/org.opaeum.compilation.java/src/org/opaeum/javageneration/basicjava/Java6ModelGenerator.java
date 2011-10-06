@@ -1,4 +1,4 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,57 +6,57 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.StdlibMap;
 
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opeum.javageneration.JavaSourceKind;
-import org.opeum.javageneration.JavaTextSource;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.maps.SignalMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedDataType;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.runtime.domain.IEnum;
-import org.opeum.runtime.domain.ISignal;
-import org.opeum.strategies.DateTimeStrategyFactory;
-import org.opeum.strategies.TextStrategyFactory;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.textmetamodel.TextFile;
-import org.opeum.textmetamodel.TextSource;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJEnum;
+import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
+import org.opaeum.javageneration.JavaSourceKind;
+import org.opaeum.javageneration.JavaTextSource;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedDataType;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.IEnum;
+import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.strategies.DateTimeStrategyFactory;
+import org.opaeum.strategies.TextStrategyFactory;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextSource;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
 	static{
 		// Because of eclipse classloading issues
-		OpeumConfig.registerClass(DateTimeStrategyFactory.class);
-		OpeumConfig.registerClass(TextStrategyFactory.class);
+		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
+		OpaeumConfig.registerClass(TextStrategyFactory.class);
 		StdlibMap.javaRealType.replaceTail("double");
 		StdlibMap.javaRealObjectType.replaceTail("Double");
 	}
@@ -111,7 +111,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				seri.setStatic(true);
 				seri.setFinal(true);
 				seri.setVisibility(OJVisibilityKind.PRIVATE);
-				seri.setInitExp(c.getMappingInfo().getOpeumId() + "");
+				seri.setInitExp(c.getMappingInfo().getOpaeumId() + "");
 				myClass.addToFields(seri);
 			}
 			// TODO find another place

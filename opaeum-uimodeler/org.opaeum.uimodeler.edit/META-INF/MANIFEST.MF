@@ -1,24 +1,24 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.uimodeler.edit
-Bundle-SymbolicName: org.opeum.uimodeler.edit;singleton:=true
+Bundle-Name: org.opaeum.uimodeler.edit
+Bundle-SymbolicName: org.opaeum.uimodeler.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: org.opeum.uim.provider.UimEditPlugin$Implementation
-Bundle-Vendor: Opeum
+Bundle-Activator: org.opaeum.uim.provider.UimEditPlugin$Implementation
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opeum.uim.action.provider,
- org.opeum.uim.binding.provider,
- org.opeum.uim.control.provider,
- org.opeum.uim.folder.provider,
- org.opeum.uim.form.provider,
- org.opeum.uim.layout.provider,
- org.opeum.uim.provider,
- org.opeum.uim.security.provider
+Export-Package: org.opaeum.uim.action.provider,
+ org.opaeum.uim.binding.provider,
+ org.opaeum.uim.control.provider,
+ org.opaeum.uim.folder.provider,
+ org.opaeum.uim.form.provider,
+ org.opaeum.uim.layout.provider,
+ org.opaeum.uim.provider,
+ org.opaeum.uim.security.provider
 Require-Bundle: org.eclipse.emf.edit;visibility:=reexport,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
- org.opeum.metamodels.uim,
+ org.opaeum.metamodels.uim,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,14 +8,14 @@ import java.util.Set;
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
 
 public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements INakedAction{
 	private static final long serialVersionUID = 2697132216413111920L;

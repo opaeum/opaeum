@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security;
+package org.opaeum.uim.security;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.security.SecurityPackage
+ * @see org.opaeum.uim.security.SecurityPackage
  * @generated
  */
 public interface SecurityFactory extends EFactory {
@@ -23,7 +23,7 @@ public interface SecurityFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	SecurityFactory eINSTANCE = org.opeum.uim.security.impl.SecurityFactoryImpl.init();
+	SecurityFactory eINSTANCE = org.opaeum.uim.security.impl.SecurityFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Editable Secure Object</em>'.

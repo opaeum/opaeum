@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Variable;
 import org.eclipse.uml2.uml.VariableAction;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.topcased.propertysections.AbstractComboPropertySection;
+import org.opaeum.topcased.propertysections.AbstractComboPropertySection;
 
 public class VariableActionVariableSection extends AbstractComboPropertySection{
 	protected EStructuralFeature getFeature(){

@@ -12,9 +12,9 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * ModelTransformer : 

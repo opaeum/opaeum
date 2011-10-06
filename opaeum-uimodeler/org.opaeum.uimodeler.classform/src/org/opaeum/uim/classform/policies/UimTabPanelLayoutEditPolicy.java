@@ -1,10 +1,10 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.policies;
+package org.opaeum.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimTab;
+import org.opaeum.uim.UimTab;
 
 /**
  * @generated

@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.edit.command.AddCommand;
@@ -28,9 +28,9 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.opeum.eclipse.EmfPropertyUtil;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
-import org.opeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class SlotComposite extends Composite{

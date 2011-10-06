@@ -1,4 +1,4 @@
-package org.opeum.jbpm.test;
+package org.opaeum.jbpm.test;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.Customer;
@@ -9,7 +9,7 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.opeum.environment.Environment;
+import org.opaeum.environment.Environment;
 
 public class SimpleSyncTest {
 

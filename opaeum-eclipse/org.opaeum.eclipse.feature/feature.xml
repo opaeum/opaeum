@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.eclipse.feature"
+      id="org.opaeum.eclipse.feature"
       label="NakedUml Eclipse-Core  Feature"
       version="1.0.0.qualifier"
-      license-feature="org.opeum.metamodels.feature"
+      license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
    <license url="">
@@ -16,52 +16,52 @@
       <import plugin="org.eclipse.uml2.uml.resources"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="org.opeum.metamodels.opeum"/>
-      <import plugin="org.opeum.linkage.core"/>
-      <import plugin="org.opeum.linkage.emfextraction"/>
-      <import plugin="org.opeum.linkage.namegeneration"/>
-      <import plugin="org.opeum.linkage.validation"/>
-      <import plugin="org.opeum.transformation.engine"/>
-      <import plugin="org.opeum.metamodels.ocl"/>
-      <import plugin="org.opeum.metamodels.emfworkspace"/>
-      <import plugin="org.opeum.compilation.java"/>
+      <import plugin="org.opaeum.metamodels.opaeum"/>
+      <import plugin="org.opaeum.linkage.core"/>
+      <import plugin="org.opaeum.linkage.emfextraction"/>
+      <import plugin="org.opaeum.linkage.namegeneration"/>
+      <import plugin="org.opaeum.linkage.validation"/>
+      <import plugin="org.opaeum.transformation.engine"/>
+      <import plugin="org.opaeum.metamodels.ocl"/>
+      <import plugin="org.opaeum.metamodels.emfworkspace"/>
+      <import plugin="org.opaeum.compilation.java"/>
       <import plugin="org.eclipse.jdt.core"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.jdt.core.manipulation"/>
       <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.opeum.compilation.filegeneration"/>
-      <import plugin="org.opeum.compilation.misc"/>
-      <import plugin="org.opeum.compilation.ocltojava"/>
-      <import plugin="org.opeum.compilation.runtimedependencies"/>
-      <import plugin="org.opeum.compilation.tinker"/>
-      <import plugin="org.opeum.compilation.uim"/>
-      <import plugin="org.opeum.metamodels.drools" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opeum.metamodels.java" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opeum.metamodels.maven" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opeum.metamodels.text" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opeum.metamodels.uim" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.opeum.compilation.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opaeum.compilation.filegeneration"/>
+      <import plugin="org.opaeum.compilation.misc"/>
+      <import plugin="org.opaeum.compilation.ocltojava"/>
+      <import plugin="org.opaeum.compilation.runtimedependencies"/>
+      <import plugin="org.opaeum.compilation.tinker"/>
+      <import plugin="org.opaeum.compilation.uim"/>
+      <import plugin="org.opaeum.metamodels.drools" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opaeum.metamodels.java" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opaeum.metamodels.maven" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opaeum.metamodels.text" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opaeum.metamodels.uim" version="1.0.0" match="greaterOrEqual"/>
+      <import feature="org.opaeum.compilation.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
-         id="org.opeum.eclipse.core"
+         id="org.opaeum.eclipse.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.eclipse.reverse"
+         id="org.opaeum.eclipse.reverse"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.eclipse.compiler"
+         id="org.opaeum.eclipse.compiler"
          download-size="0"
          install-size="0"
          version="0.0.0"

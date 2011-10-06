@@ -1,8 +1,8 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 import java.util.List;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
 /**
  * 
  * An abstract super interface for the two incarnations of opaqueActions

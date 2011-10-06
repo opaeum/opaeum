@@ -1,6 +1,6 @@
-package org.opeum.metamodel.components;
+package org.opaeum.metamodel.components;
 
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface INakedConnector extends INakedElement{
 	INakedConnectorEnd getEnd1();

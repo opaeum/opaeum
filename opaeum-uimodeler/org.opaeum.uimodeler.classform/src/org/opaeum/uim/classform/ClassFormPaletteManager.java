@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.List;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.requests.CreationFactory;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.layout.LayoutPackage;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.palette.ModelerCreationToolEntry;

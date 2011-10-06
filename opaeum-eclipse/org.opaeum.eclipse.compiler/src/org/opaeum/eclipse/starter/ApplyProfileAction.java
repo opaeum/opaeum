@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -7,10 +7,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
-import org.opeum.eclipse.ModelLibrary;
-import org.opeum.eclipse.context.OpeumEclipseContext;
+import org.opaeum.eclipse.ModelLibrary;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 
-public class ApplyProfileAction extends AbstractOpiumAction{
+public class ApplyProfileAction extends AbstractOpaeumAction{
 	private ModelLibrary library;
 	public ApplyProfileAction(IStructuredSelection selection,ModelLibrary lib){
 		super(selection, lib.getName());
@@ -19,7 +19,7 @@ public class ApplyProfileAction extends AbstractOpiumAction{
 	@Override
 	public void run(){
 		final Model model = (Model) selection.getFirstElement();
-		final OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
+		final OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 		EditingDomain ed = currentContext.getEditingDomain();
 		final Profile profile = (Profile) model.eResource().getResourceSet().getResource(library.getUri(), true).getContents().get(0);
 		if(profile.getDefinition() == null){

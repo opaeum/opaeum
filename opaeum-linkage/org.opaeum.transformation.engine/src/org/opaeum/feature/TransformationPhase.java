@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +20,7 @@ public interface TransformationPhase<FEATURE extends ITransformationStep,ELEMENT
 	 * @return
 	 */
 	Collection<?> processElements(TransformationContext context,Collection<ELEMENT> elements);
-	void initialize(OpeumConfig config,List<FEATURE> features);
+	void initialize(OpaeumConfig config,List<FEATURE> features);
 	Collection<FEATURE> getSteps();
 	public void initializeSteps();
 }

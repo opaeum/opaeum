@@ -1,7 +1,7 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 public interface OJAnnotatedElement {
 	Set<OJAnnotationValue> getAnnotations();

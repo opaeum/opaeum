@@ -1,25 +1,25 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.IParameterOwner;
-import org.opeum.metamodel.name.SingularNameWrapper;
-import org.opeum.runtime.domain.ExceptionHolder;
-import org.opeum.runtime.environment.Environment;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.runtime.domain.ExceptionHolder;
+import org.opaeum.runtime.environment.Environment;
 
 public class Jbpm5Util{
 	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){

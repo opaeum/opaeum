@@ -4,12 +4,12 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            class="org.opeum.bpmn2.modeleditor.editor.Bpmn2Editor"
+            class="org.opaeum.bpmn2.modeleditor.editor.Bpmn2Editor"
             icon="icons/Bpmn2.gif"
             default="true"
             name="BPM2 Model Editor"
-            id="org.opeum.bpmn2.modeleditor.editor.Bpmn2Editor"
-            contributorClass="org.opeum.bpmn2.modeleditor.actions.Bpmn2EditorActionBarContributor"
+            id="org.opaeum.bpmn2.modeleditor.editor.Bpmn2Editor"
+            contributorClass="org.opaeum.bpmn2.modeleditor.actions.Bpmn2EditorActionBarContributor"
             extensions="bpmn2di">
       </editor>
    </extension>
@@ -17,32 +17,32 @@
    <extension point="org.eclipse.ui.newWizards">
       <wizard
             icon="icons/Bpmn2.gif"
-            class="org.opeum.bpmn2.modeleditor.wizards.NewBpmn2Diagrams"
+            class="org.opaeum.bpmn2.modeleditor.wizards.NewBpmn2Diagrams"
             category="org.topcased.facilities.newWizards/org.topcased.modeler.newdiagram"
             name="Bpmn2 Diagram"
-            id="org.opeum.bpmn2.modeleditor.wizards.NewBpmn2Diagrams">
+            id="org.opaeum.bpmn2.modeleditor.wizards.NewBpmn2Diagrams">
          <selection class="org.eclipse.core.resources.IResource"/>
       </wizard>
    </extension>
    
    <extension point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension targetID="org.topcased.modeler.perspective">
-         <newWizardShortcut id="org.opeum.bpmn2.modeleditor.wizards.NewBpmn2Diagrams"/>
+         <newWizardShortcut id="org.opaeum.bpmn2.modeleditor.wizards.NewBpmn2Diagrams"/>
       </perspectiveExtension>
    </extension>
    
    <extension point="org.eclipse.ui.preferencePages">
       <page
             category="org.topcased.modeler.preferences.ModelerPreferencePage"
-            class="org.opeum.bpmn2.modeleditor.preferences.Bpmn2PreferencePage"
-            id="org.opeum.bpmn2.modeleditor.preferences.Bpmn2PreferencePage"
+            class="org.opaeum.bpmn2.modeleditor.preferences.Bpmn2PreferencePage"
+            id="org.opaeum.bpmn2.modeleditor.preferences.Bpmn2PreferencePage"
             name="Bpmn2"/>
    </extension>
    
 	<extension point="org.eclipse.ui.propertyPages">
 		<page
-			id="org.opeum.bpmn2.modeleditor.preferences.property.Bpmn2PreferencePage"
-			class="org.opeum.bpmn2.modeleditor.preferences.Bpmn2PreferencePage"
+			id="org.opaeum.bpmn2.modeleditor.preferences.property.Bpmn2PreferencePage"
+			class="org.opaeum.bpmn2.modeleditor.preferences.Bpmn2PreferencePage"
 			category="org.topcased.modeler.preferences.property.ModelerPreferencePage"
 			name="Bpmn2">
 			<enabledWhen>
@@ -52,7 +52,7 @@
 	</extension>
    
    	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="org.opeum.bpmn2.modeleditor.preferences.AllDiagramPreferenceInitializer"/>
+		<initializer class="org.opaeum.bpmn2.modeleditor.preferences.AllDiagramPreferenceInitializer"/>
 	</extension>
 	
 </plugin>

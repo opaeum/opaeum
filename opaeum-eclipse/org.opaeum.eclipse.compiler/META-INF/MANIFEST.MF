@@ -1,37 +1,37 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.topcased.compiler
-Bundle-SymbolicName: org.opeum.eclipse.compiler;singleton:=true
+Bundle-Name: org.opaeum.topcased.compiler
+Bundle-SymbolicName: org.opaeum.eclipse.compiler;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.eclipse.starter.Activator
-Require-Bundle: org.opeum.eclipse.core,
+Bundle-Activator: org.opaeum.eclipse.starter.Activator
+Require-Bundle: org.opaeum.eclipse.core,
  org.eclipse.core.resources,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
  org.eclipse.jdt.ui,
  org.eclipse.jdt.core.manipulation,
  org.eclipse.core.expressions,
- org.opeum.compilation.filegeneration,
- org.opeum.compilation.java,
- org.opeum.compilation.misc,
- org.opeum.compilation.ocltojava,
- org.opeum.compilation.runtimedependencies,
- org.opeum.compilation.tinker,
- org.opeum.compilation.uim,
- org.opeum.metamodels.drools,
- org.opeum.metamodels.emfworkspace,
- org.opeum.metamodels.java,
- org.opeum.metamodels.maven,
- org.opeum.metamodels.ocl,
- org.opeum.metamodels.opeum,
- org.opeum.metamodels.text,
- org.opeum.metamodels.uim,
- org.opeum.transformation.engine,
- org.opeum.linkage.core,
- org.opeum.linkage.emfextraction,
- org.opeum.linkage.namegeneration,
- org.opeum.linkage.validation,
+ org.opaeum.compilation.filegeneration,
+ org.opaeum.compilation.java,
+ org.opaeum.compilation.misc,
+ org.opaeum.compilation.ocltojava,
+ org.opaeum.compilation.runtimedependencies,
+ org.opaeum.compilation.tinker,
+ org.opaeum.compilation.uim,
+ org.opaeum.metamodels.drools,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.metamodels.java,
+ org.opaeum.metamodels.maven,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.text,
+ org.opaeum.metamodels.uim,
+ org.opaeum.transformation.engine,
+ org.opaeum.linkage.core,
+ org.opaeum.linkage.emfextraction,
+ org.opaeum.linkage.namegeneration,
+ org.opaeum.linkage.validation,
  org.eclipse.emf.edit
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opeum.eclipse.starter
+Export-Package: org.opaeum.eclipse.starter

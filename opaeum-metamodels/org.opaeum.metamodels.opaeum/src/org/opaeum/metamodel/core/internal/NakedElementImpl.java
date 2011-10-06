@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,16 +12,16 @@ import java.util.UUID;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComment;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComment;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 /**
  * @author Ampie Barnard

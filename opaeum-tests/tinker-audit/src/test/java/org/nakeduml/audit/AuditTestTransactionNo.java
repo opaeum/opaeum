@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -18,7 +18,7 @@ import org.audittest.OneAudit;
 import org.audittest.OtherOne;
 import org.audittest.OtherOneAudit;
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

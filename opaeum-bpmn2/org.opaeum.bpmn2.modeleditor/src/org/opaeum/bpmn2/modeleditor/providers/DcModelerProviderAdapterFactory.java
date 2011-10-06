@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor.providers;
+package org.opaeum.bpmn2.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;

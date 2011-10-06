@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

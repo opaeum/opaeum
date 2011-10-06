@@ -1,6 +1,6 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 public class OJAnnotationAttributeValue extends OJMetaValue {
 	public OJAnnotationAttributeValue() {

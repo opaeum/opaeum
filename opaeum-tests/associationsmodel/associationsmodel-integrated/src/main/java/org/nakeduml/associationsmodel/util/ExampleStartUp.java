@@ -1,4 +1,4 @@
-package org.opeum.associationsmodel.util;
+package org.opaeum.associationsmodel.util;
 
 import assocationsmodel.root.Root;
 import assocationsmodel.root.RootDataGenerator;
@@ -13,8 +13,8 @@ import org.jboss.seam.persistence.transaction.DefaultTransaction;
 import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
-import org.opeum.runtime.adaptor.DataGeneratorProperty;
-import org.opeum.seam3.persistence.DependentScopedSession;
+import org.opaeum.runtime.adaptor.DataGeneratorProperty;
+import org.opaeum.seam3.persistence.DependentScopedSession;
 
 public class ExampleStartUp {
 	@Inject

@@ -1,6 +1,6 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
-import org.opeum.java.metamodel.generated.OJVisibleElementGEN;
+import org.opaeum.java.metamodel.generated.OJVisibleElementGEN;
 
 public class OJVisibleElement extends OJVisibleElementGEN {
 	

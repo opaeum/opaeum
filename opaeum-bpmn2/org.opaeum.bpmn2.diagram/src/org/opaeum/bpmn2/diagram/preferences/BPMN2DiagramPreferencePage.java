@@ -1,12 +1,12 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.preferences;
+package org.opaeum.bpmn2.diagram.preferences;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
-import org.opeum.bpmn2.diagram.BPMN2Plugin;
+import org.opaeum.bpmn2.diagram.BPMN2Plugin;
 import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
 
 /**

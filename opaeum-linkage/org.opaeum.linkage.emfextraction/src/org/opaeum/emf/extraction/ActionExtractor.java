@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,29 +23,29 @@ import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.StartClassifierBehaviorAction;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.internal.NakedCallBehaviorActionImpl;
-import org.opeum.metamodel.actions.internal.NakedCallOperationActionImpl;
-import org.opeum.metamodel.actions.internal.NakedCreateObjectActionimpl;
-import org.opeum.metamodel.actions.internal.NakedGenericActionImpl;
-import org.opeum.metamodel.actions.internal.NakedOclActionImpl;
-import org.opeum.metamodel.actions.internal.NakedOpaqueActionImpl;
-import org.opeum.metamodel.actions.internal.NakedRaiseExceptionActionImpl;
-import org.opeum.metamodel.actions.internal.NakedReplyActionImpl;
-import org.opeum.metamodel.actions.internal.NakedSendObjectActionImpl;
-import org.opeum.metamodel.actions.internal.NakedSendSignalActionImpl;
-import org.opeum.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.bpm.internal.NakedEmbeddedScreenFlowTaskImpl;
-import org.opeum.metamodel.bpm.internal.NakedEmbeddedSingleScreenTaskImpl;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.internal.NakedCallBehaviorActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedCallOperationActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedCreateObjectActionimpl;
+import org.opaeum.metamodel.actions.internal.NakedGenericActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedOclActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedOpaqueActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedRaiseExceptionActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedReplyActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedSendObjectActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedSendSignalActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedStartClassifierBehaviorActionImpl;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.bpm.internal.NakedEmbeddedScreenFlowTaskImpl;
+import org.opaeum.metamodel.bpm.internal.NakedEmbeddedSingleScreenTaskImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
 		FeatureExtractor.class,ActivityStructureExtractor.class,InstanceExtractor.class

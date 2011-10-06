@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
 import org.eclipse.emf.common.util.EList;
-import org.opeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.OutlayableComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,20 +17,20 @@ import org.opeum.uim.layout.OutlayableComponent;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.UimTabPanel#getChildren <em>Children</em>}</li>
- *   <li>{@link org.opeum.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}</li>
+ *   <li>{@link org.opaeum.uim.UimTabPanel#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.opaeum.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.UimPackage#getUimTabPanel()
+ * @see org.opaeum.uim.UimPackage#getUimTabPanel()
  * @model
  * @generated
  */
 public interface UimTabPanel extends UimContainer, OutlayableComponent {
 	/**
 	 * Returns the value of the '<em><b>Children</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opeum.uim.UimTab}.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.UimTab#getParent <em>Parent</em>}'.
+	 * The list contents are of type {@link org.opaeum.uim.UimTab}.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimTab#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Children</em>' containment reference list isn't clear,
@@ -38,8 +38,8 @@ public interface UimTabPanel extends UimContainer, OutlayableComponent {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Children</em>' containment reference list.
-	 * @see org.opeum.uim.UimPackage#getUimTabPanel_Children()
-	 * @see org.opeum.uim.UimTab#getParent
+	 * @see org.opaeum.uim.UimPackage#getUimTabPanel_Children()
+	 * @see org.opaeum.uim.UimTab#getParent
 	 * @model opposite="parent" containment="true"
 	 * @generated
 	 */
@@ -55,14 +55,14 @@ public interface UimTabPanel extends UimContainer, OutlayableComponent {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Active Tab Index</em>' attribute.
 	 * @see #setActiveTabIndex(Integer)
-	 * @see org.opeum.uim.UimPackage#getUimTabPanel_ActiveTabIndex()
+	 * @see org.opaeum.uim.UimPackage#getUimTabPanel_ActiveTabIndex()
 	 * @model
 	 * @generated
 	 */
 	Integer getActiveTabIndex();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Active Tab Index</em>' attribute.

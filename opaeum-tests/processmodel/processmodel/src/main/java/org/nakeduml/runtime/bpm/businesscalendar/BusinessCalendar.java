@@ -1,4 +1,4 @@
-package org.opeum.runtime.bpm.businesscalendar;
+package org.opaeum.runtime.bpm.businesscalendar;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -12,13 +12,13 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
-import org.opeum.annotation.NumlMetaInfo;
-import org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
-import org.opeum.runtime.bpm.businesscalendar.OnceOffHoliday;
-import org.opeum.runtime.bpm.businesscalendar.RecurringHoliday;
-import org.opeum.runtime.bpm.businesscalendar.TimeOfDay;
-import org.opeum.runtime.bpm.businesscalendar.WorkDay;
-import org.opeum.runtime.bpm.businesscalendar.WorkDayKind;
+import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
+import org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday;
+import org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday;
+import org.opaeum.runtime.bpm.businesscalendar.TimeOfDay;
+import org.opaeum.runtime.bpm.businesscalendar.WorkDay;
+import org.opaeum.runtime.bpm.businesscalendar.WorkDayKind;
 
 //This class is timezone agnostic. It assumes that all the Calendar objects
 // that it is being passed

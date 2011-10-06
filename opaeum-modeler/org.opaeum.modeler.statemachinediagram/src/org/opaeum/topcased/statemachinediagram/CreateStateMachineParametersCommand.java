@@ -1,4 +1,4 @@
-package org.opeum.topcased.statemachinediagram;
+package org.opaeum.topcased.statemachinediagram;
 
 import java.util.ArrayList;
 import java.util.Collection;

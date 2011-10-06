@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,8 +23,8 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.topcased.propertysections.UmlMetaTypeRemover;
-import org.opeum.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
+import org.opaeum.topcased.propertysections.UmlMetaTypeRemover;
+import org.opaeum.topcased.propertysections.ocl.AutoCreateOpaqueExpressionComposite;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;

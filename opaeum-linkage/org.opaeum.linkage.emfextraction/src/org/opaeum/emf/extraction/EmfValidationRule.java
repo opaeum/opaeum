@@ -1,6 +1,6 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum EmfValidationRule implements IValidationRule{
 	BROKEN_ASSOCIATION("Broken Assocation","{0} broken irrecoverably. Please delete it");

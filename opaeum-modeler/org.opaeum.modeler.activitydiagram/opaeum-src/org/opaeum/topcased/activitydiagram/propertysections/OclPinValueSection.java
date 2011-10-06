@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.edit.command.SetCommand;
@@ -7,8 +7,8 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
-import org.opeum.topcased.propertysections.AbstractOpaqueExpressionSection;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.AbstractOpaqueExpressionSection;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OclPinValueSection extends AbstractOpaqueExpressionSection{
 	@Override

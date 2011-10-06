@@ -1,11 +1,11 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * A helper class that provides common operations for elements that have annotations, i.e. <br>

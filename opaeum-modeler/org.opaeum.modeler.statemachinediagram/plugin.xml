@@ -32,29 +32,29 @@
          </enableFor>  
          <enableFor
                class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.opeum.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
+               creationCommand="org.opaeum.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
          </enableFor>        
       </diagram>
       <diagram
-            configuration="org.opeum.topcased.statemachinediagram.ScreenFlowDiagramConfiguration"
+            configuration="org.opaeum.topcased.statemachinediagram.ScreenFlowDiagramConfiguration"
             editorID="org.topcased.modeler.uml.editor.UMLEditor"
-            id="org.opeum.topcased.statemachinediagram.screenflow"
+            id="org.opaeum.topcased.statemachinediagram.screenflow"
             name="Screen Flow Diagram">
          <enableFor class="org.eclipse.uml2.uml.StateMachine"/>
          <enableFor
                class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.opeum.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
+               creationCommand="org.opaeum.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
          </enableFor>        
       </diagram>
       <diagram
             configuration="org.topcased.modeler.uml.statemachinediagram.STMConfiguration"
             editorID="org.topcased.modeler.uml.editor.UMLEditor"
-            id="org.opeum.topcased.statemachinediagram.businessstatemachine"
+            id="org.opaeum.topcased.statemachinediagram.businessstatemachine"
             name="Business State Machine Diagram">
          <enableFor class="org.eclipse.uml2.uml.StateMachine"/>
          <enableFor
                class="org.eclipse.uml2.uml.CallBehaviorAction"
-               creationCommand="org.opeum.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
+               creationCommand="org.opaeum.topcased.statemachinediagram.CreateStateMachineDiagramFromCallBehaviorAction">
          </enableFor>        
       </diagram>
 	</extension>
@@ -115,16 +115,16 @@
       <propertySections contributorId="org.topcased.modeler.editor.Modeler">
        <propertySection
                afterSection="org.topcased.modeler.uml.NamedElementSection"
-             class="org.opeum.topcased.statemachinediagram.TransitionGuardSection"
-             id="org.opeum.topcased.statemachinediagram.TransitionGuardSection"
-             tab="org.opeum.eclipse.opeumTab">
+             class="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
+             id="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
+             tab="org.opaeum.eclipse.opaeumTab">
           <input type="org.eclipse.uml2.uml.Transition"/>
        </propertySection>
        <propertySection
-               afterSection="org.opeum.topcased.statemachinediagram.TransitionGuardSection"
-             class="org.opeum.topcased.statemachinediagram.TransitionTriggerSection"
-             id="org.opeum.topcased.statemachinediagram.TransitionTriggerSection"
-             tab="org.opeum.eclipse.opeumTab">
+               afterSection="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
+             class="org.opaeum.topcased.statemachinediagram.TransitionTriggerSection"
+             id="org.opaeum.topcased.statemachinediagram.TransitionTriggerSection"
+             tab="org.opaeum.eclipse.opaeumTab">
           <input type="org.eclipse.uml2.uml.Transition"/>
        </propertySection>
          <propertySection

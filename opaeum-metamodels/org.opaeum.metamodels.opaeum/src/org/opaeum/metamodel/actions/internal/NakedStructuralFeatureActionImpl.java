@@ -1,17 +1,17 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.actions.ITargetElement;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.actions.IActionWithTargetElement;
+import org.opaeum.metamodel.actions.ITargetElement;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl implements IActionWithTargetElement{
 	private static final long serialVersionUID = 3165514874679324190L;

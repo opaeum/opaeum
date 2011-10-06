@@ -1,10 +1,10 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
-import org.opeum.metamodel.bpm.INakedResponsibility;
-import org.opeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.internal.NakedOperationImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.bpm.INakedResponsibility;
+import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.internal.NakedOperationImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class NakedResponsibilityImpl extends NakedOperationImpl implements INakedResponsibility{
 	/**

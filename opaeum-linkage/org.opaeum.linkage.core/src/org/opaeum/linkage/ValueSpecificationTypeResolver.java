@@ -1,14 +1,14 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedValuePin;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSlot;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 @StepDependency(phase = LinkagePhase.class, requires = { TypeResolver.class }, after = { TypeResolver.class })
 public class ValueSpecificationTypeResolver extends AbstractModelElementLinker {

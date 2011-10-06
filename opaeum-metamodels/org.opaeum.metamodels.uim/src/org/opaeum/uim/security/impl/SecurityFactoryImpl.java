@@ -4,20 +4,20 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.impl;
+package org.opaeum.uim.security.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.RequiredRole;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityFactory;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.WorkspaceSecurityConstraint;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.RequiredRole;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityFactory;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ public class SecurityFactoryImpl extends EFactoryImpl implements SecurityFactory
 	 */
 	public static SecurityFactory init() {
 		try {
-			SecurityFactory theSecurityFactory = (SecurityFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/security/1.0"); 
+			SecurityFactory theSecurityFactory = (SecurityFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/security/1.0"); 
 			if (theSecurityFactory != null) {
 				return theSecurityFactory;
 			}

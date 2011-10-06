@@ -1,4 +1,4 @@
-package net.sf.opeum.domain.ripper;
+package net.sf.opaeum.domain.ripper;
 
 import java.util.Set;
 
@@ -17,9 +17,9 @@ import org.jmock.Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.opeum.environment.Environment;
-import org.opeum.environment.ISignalDispatcher;
-import org.opeum.environment.domain.DomainEnvironment;
+import org.opaeum.environment.Environment;
+import org.opaeum.environment.ISignalDispatcher;
+import org.opaeum.environment.domain.DomainEnvironment;
 
 public class RipDomainTest {
 	

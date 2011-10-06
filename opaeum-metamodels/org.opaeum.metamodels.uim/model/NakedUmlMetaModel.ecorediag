@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_wp3vEK3PEd-JXYJRSx086A" type="EcoreTools" name="OpeumMetaModel" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_wp3vEK3PEd-JXYJRSx086A" type="EcoreTools" name="OpaeumMetaModel" measurementUnit="Pixel">
   <children xmi:type="notation:Node" xmi:id="_w_CGwK3PEd-JXYJRSx086A" type="1001">
     <children xmi:type="notation:Node" xmi:id="_w_CGw63PEd-JXYJRSx086A" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_w_CGxK3PEd-JXYJRSx086A" type="5001">
@@ -13,7 +13,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_w_CGy63PEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_w_CGwa3PEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//Entity"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//Entity"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w_CGwq3PEd-JXYJRSx086A" x="90" y="145"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_P6DNcK3QEd-JXYJRSx086A" type="1001">
@@ -48,7 +48,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_SnzNK63QEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_SnzNIa3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//OrganizationUnit"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//OrganizationUnit"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SnzNIq3QEd-JXYJRSx086A" x="40" y="315"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_UFhvYK3QEd-JXYJRSx086A" type="1001">
@@ -64,7 +64,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_UFhva63QEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_UFhvYa3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//Role"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//Role"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UFhvYq3QEd-JXYJRSx086A" x="210" y="235"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Xs8iAK3QEd-JXYJRSx086A" type="1001">
@@ -99,7 +99,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_ZX8EO63QEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ZX8EMa3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//BusinessProcess"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//BusinessProcess"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZX8EMq3QEd-JXYJRSx086A" x="245" y="425"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_ehjCUK3QEd-JXYJRSx086A" type="1001">
@@ -115,7 +115,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_eiJfSK3QEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_ehjCUa3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//ScreenFlow"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//ScreenFlow"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ehjCUq3QEd-JXYJRSx086A" x="795" y="155"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_hjkB0K3QEd-JXYJRSx086A" type="1001">
@@ -169,7 +169,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_smoGq63QEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_smoGoa3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//StandaloneTask"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//StandaloneTask"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_smoGoq3QEd-JXYJRSx086A" x="350" y="155"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="__N91MK3QEd-JXYJRSx086A" type="1001">
@@ -185,7 +185,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="__N91O63QEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="__N91Ma3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//EmbeddedSimpleTask"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//EmbeddedSimpleTask"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="__N91Mq3QEd-JXYJRSx086A" x="550" y="360"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_CMjtQK3REd-JXYJRSx086A" type="1001">
@@ -239,7 +239,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_jD46O63SEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_jD46Ma3SEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//EmbeddedScreenflowTask"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//EmbeddedScreenflowTask"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jD46Mq3SEd-JXYJRSx086A" x="555" y="520"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_xlHvAK3SEd-JXYJRSx086A" type="1001">
@@ -255,7 +255,7 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_xlHvC63SEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_xlHvAa3SEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//LifeCycle"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//LifeCycle"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xlHvAq3SEd-JXYJRSx086A" x="310" y="50"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_CAGTsK3TEd-JXYJRSx086A" type="1001">
@@ -271,11 +271,11 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_CAGTu63TEd-JXYJRSx086A"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_CAGTsa3TEd-JXYJRSx086A" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="OpeumMetaModel.ecore#//BusinessService"/>
+    <element xmi:type="ecore:EClass" href="OpaeumMetaModel.ecore#//BusinessService"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CAGTsq3TEd-JXYJRSx086A" x="255" y="305"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_wp3vEa3PEd-JXYJRSx086A"/>
-  <element xmi:type="ecore:EPackage" href="OpeumMetaModel.ecore#/"/>
+  <element xmi:type="ecore:EPackage" href="OpaeumMetaModel.ecore#/"/>
   <edges xmi:type="notation:Edge" xmi:id="_RvUtAK3QEd-JXYJRSx086A" type="3003" source="_w_CGwK3PEd-JXYJRSx086A" target="_P6DNcK3QEd-JXYJRSx086A">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_RvUtAa3QEd-JXYJRSx086A" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_RvUtAq3QEd-JXYJRSx086A"/>
@@ -316,7 +316,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_cQHLMa3QEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_cQHLMq3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//OrganizationUnit/businessProcesses"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//OrganizationUnit/businessProcesses"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_cQHLM63QEd-JXYJRSx086A" points="[61, 17, -213, -56]$[275, 68, 1, -5]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_cQHLOK3QEd-JXYJRSx086A" id="(0.4608695652173913,0.07142857142857142)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_cQHLOa3QEd-JXYJRSx086A" id="(0.14912280701754385,0.14285714285714285)"/>
@@ -358,7 +358,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_vx36oa3QEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_vx36oq3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//Role/Tasks"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//Role/Tasks"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vx36o63QEd-JXYJRSx086A" points="[9, -7, -89, 60]$[84, -87, -14, -20]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_vx36qK3QEd-JXYJRSx086A" id="(0.4803921568627451,0.19047619047619047)"/>
   </edges>
@@ -371,7 +371,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_8GS5oa3QEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_8GS5oq3QEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//StandaloneTask/implementation"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//StandaloneTask/implementation"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_8GS5o63QEd-JXYJRSx086A" points="[21, 5, -338, -91]$[360, 76, 1, -20]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_8GvllK3QEd-JXYJRSx086A" id="(0.7980769230769231,0.47619047619047616)"/>
   </edges>
@@ -390,7 +390,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_EUKS8a3REd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_EUKS8q3REd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//BusinessProcess/tasks"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//BusinessProcess/tasks"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EUKS863REd-JXYJRSx086A" points="[22, -5, -143, 23]$[165, -48, 0, -20]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EUKS-K3REd-JXYJRSx086A" id="(0.8070175438596491,0.4523809523809524)"/>
   </edges>
@@ -403,7 +403,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_kmFswa3SEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_kmFswq3SEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//BusinessProcess/screenflowTasks"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//BusinessProcess/screenflowTasks"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_kmFsw63SEd-JXYJRSx086A" points="[56, 7, -100, -12]$[157, 5, 1, -14]"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_kmO2sK3SEd-JXYJRSx086A" id="(0.046511627906976744,0.35714285714285715)"/>
   </edges>
@@ -423,7 +423,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_oHZQUa3SEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_oHZQUq3SEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//EmbeddedScreenflowTask/implementation"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//EmbeddedScreenflowTask/implementation"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_oHZQU63SEd-JXYJRSx086A" points="[16, -7, -118, 266]$[134, -60, 0, 213]$[134, -265, 0, 8]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_oHiaQK3SEd-JXYJRSx086A" id="(0.9069767441860465,0.38095238095238093)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_oHiaQa3SEd-JXYJRSx086A" id="(0.4803921568627451,0.8095238095238095)"/>
@@ -437,7 +437,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_y0sgga3SEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_y0sggq3SEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//Entity/lifeCycle"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//Entity/lifeCycle"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_y0sgg63SEd-JXYJRSx086A" points="[10, -5, -147, 90]$[158, -99, 1, -4]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_y0sgiK3SEd-JXYJRSx086A" id="(0.5980392156862745,0.14285714285714285)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_y0sgia3SEd-JXYJRSx086A" id="(0.47058823529411764,0.11904761904761904)"/>
@@ -459,7 +459,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_Gb0REa3TEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_Gb0REq3TEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//OrganizationUnit/services"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//OrganizationUnit/services"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Gb0RE63TEd-JXYJRSx086A" points="[25, -3, -125, 16]$[151, -19, 1, 0]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Gb0RGK3TEd-JXYJRSx086A" id="(0.782608695652174,0.11904761904761904)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_Gb0RGa3TEd-JXYJRSx086A" id="(0.30357142857142855,0.0)"/>
@@ -480,7 +480,7 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_LIOV0a3TEd-JXYJRSx086A" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_LIOV0q3TEd-JXYJRSx086A" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="OpeumMetaModel.ecore#//BusinessService/implementation"/>
+    <element xmi:type="ecore:EReference" href="OpaeumMetaModel.ecore#//BusinessService/implementation"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_LIOV063TEd-JXYJRSx086A" points="[-4, 20, 5, -100]$[-65, 120, -56, 0]"/>
   </edges>
 </notation:Diagram>

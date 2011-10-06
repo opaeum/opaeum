@@ -1,27 +1,27 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.util.Set;
 
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.eclipse.javasync.JavaTransformationProcessManager;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.name.NameConverter;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.IntegrationCodeGenerator;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class GeneratorGenerator extends AbstractJavaProducingVisitor implements IntegrationCodeGenerator{
@@ -81,7 +81,7 @@ public class GeneratorGenerator extends AbstractJavaProducingVisitor implements 
 		str.append("workspaceFile.getAbsolutePath() +\"/");
 		str.append(workspace.getIdentifier());
 		str.append("\",workspaceFile.getAbsolutePath()+\"");
-		str.append(OpeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getDirectoryUri().toPlatformString(true));
+		str.append(OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace().getDirectoryUri().toPlatformString(true));
 		str.append("\")");
 		instance.setInitExp(str.toString());
 		block2.addToLocals(instance);

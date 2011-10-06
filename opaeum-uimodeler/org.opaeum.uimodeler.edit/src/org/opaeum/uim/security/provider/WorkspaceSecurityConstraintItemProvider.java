@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.provider;
+package org.opaeum.uim.security.provider;
 
 
 import java.util.Collection;
@@ -24,13 +24,13 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.provider.UimEditPlugin;
-import org.opeum.uim.security.SecurityFactory;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.WorkspaceSecurityConstraint;
+import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.security.SecurityFactory;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.WorkspaceSecurityConstraint;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.security.WorkspaceSecurityConstraint} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.security.WorkspaceSecurityConstraint} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

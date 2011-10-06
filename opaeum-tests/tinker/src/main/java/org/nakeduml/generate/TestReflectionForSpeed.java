@@ -1,4 +1,4 @@
-package org.opeum.generate;
+package org.opaeum.generate;
 
 public class TestReflectionForSpeed {
 
@@ -18,7 +18,7 @@ public class TestReflectionForSpeed {
 	public static void doReflection() throws Exception {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 1000000; i++) {
-			ReflectionTestA a = (ReflectionTestA) Class.forName("org.opeum.generate.A").newInstance();
+			ReflectionTestA a = (ReflectionTestA) Class.forName("org.opaeum.generate.A").newInstance();
 		}
 		System.out.println(System.currentTimeMillis() - start);
 	}

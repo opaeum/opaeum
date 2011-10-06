@@ -1,46 +1,46 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 import java.util.Collection;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.StereotypeAnnotator;
-import org.opeum.javageneration.basicjava.OperationAnnotator;
-import org.opeum.javageneration.maps.IMessageMap;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.maps.SignalMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.bpm.INakedDefinedResponsibility;
-import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedMessageEvent;
-import org.opeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTriggerContainer;
-import org.opeum.metamodel.core.INakedOperation;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.StereotypeAnnotator;
+import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.maps.IMessageMap;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedOperationMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.bpm.INakedDeadline;
+import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
+import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
+import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
+import org.opaeum.metamodel.core.INakedOperation;
 
 public abstract class AbstractEventConsumptionImplementor extends StereotypeAnnotator{
 	protected static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
 	protected static final OJPathName NODE_CONTAINER = new OJPathName("org.jbpm.workflow.core.NodeContainer");
 	protected static final OJPathName NODE = new OJPathName("org.jbpm.workflow.core.Node");
-	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opeum.runtime.domain.UmlNodeInstance");
+	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
 	protected abstract void consumeEvent(OJOperation operationContext,FromNode node,OJIfStatement ifTokenFound);
 	abstract protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive);
 	protected void implementEventConsumption(OJAnnotatedClass ojBehavior,INakedTriggerContainer behavior,Collection<ElementsWaitingForEvent> ea){
@@ -226,13 +226,13 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 					}else{
 						pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
 					}
-					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getOpeumLibrary().getDateType()).javaTypePath());
+					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getOpaeumLibrary().getDateType()).javaTypePath());
 					listener.addParam("source", pn);
 				}else if(event instanceof INakedChangeEvent){
 					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 				}else if(event instanceof INakedTimeEvent){
 					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getOpeumLibrary().getDateType()).javaTypePath());
+					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getOpaeumLibrary().getDateType()).javaTypePath());
 				}
 			}
 			return listener;

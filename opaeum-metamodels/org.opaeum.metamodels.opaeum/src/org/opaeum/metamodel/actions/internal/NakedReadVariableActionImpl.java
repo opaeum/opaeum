@@ -1,13 +1,13 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import org.opeum.metamodel.actions.INakedReadVariableAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.actions.INakedReadVariableAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
 
 public class NakedReadVariableActionImpl extends NakedVariableActionImpl implements INakedReadVariableAction{
 	/**

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor;
+package org.opaeum.bpmn2.modeleditor;
 
 import java.lang.reflect.InvocationTargetException;
 

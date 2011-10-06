@@ -1,4 +1,4 @@
-package net.sf.opeum.arquillian;
+package net.sf.opaeum.arquillian;
 
 import javax.inject.Inject;
 

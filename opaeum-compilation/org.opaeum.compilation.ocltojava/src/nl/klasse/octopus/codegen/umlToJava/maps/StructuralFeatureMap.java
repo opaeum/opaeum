@@ -11,7 +11,7 @@ import nl.klasse.octopus.model.IStructuralFeature;
 import nl.klasse.tools.common.Check;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * StructuralfeatureMap : This class holds all the information on how a UML structural feature is transformed

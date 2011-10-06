@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor;
+package org.opaeum.uim.modeleditor;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -20,7 +20,7 @@ public final class UimImageRegistry{
 	 * The bundle id of the image
 	 * @generated
 	 */
-	public static final String BUNDLE = "org.opeum.uim.modeleditor.images";
+	public static final String BUNDLE = "org.opaeum.uim.modeleditor.images";
 	/**
 	 * The constructor
 	 *

@@ -1,13 +1,13 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.metamodel.bpm.INakedBusinessComponent;
-import org.opeum.metamodel.bpm.INakedBusinessService;
-import org.opeum.metamodel.components.INakedPort;
-import org.opeum.metamodel.components.internal.NakedComponentImpl;
+import org.opaeum.metamodel.bpm.INakedBusinessComponent;
+import org.opaeum.metamodel.bpm.INakedBusinessService;
+import org.opaeum.metamodel.components.INakedPort;
+import org.opaeum.metamodel.components.internal.NakedComponentImpl;
 
 public class NakedOrganizationUnitImpl extends NakedComponentImpl implements INakedBusinessComponent{
 	/**

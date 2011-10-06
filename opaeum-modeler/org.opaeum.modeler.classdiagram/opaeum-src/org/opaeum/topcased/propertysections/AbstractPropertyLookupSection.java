@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
-import org.opeum.eclipse.EmfClassifierUtil;
-import org.opeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfClassifierUtil;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 
 public abstract class AbstractPropertyLookupSection extends AbstractReferenceLookupSection{

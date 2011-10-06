@@ -1,12 +1,12 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.generated.OJVisibilityKindGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
-import org.opeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 
 public class OJEnum extends OJAnnotatedClass{

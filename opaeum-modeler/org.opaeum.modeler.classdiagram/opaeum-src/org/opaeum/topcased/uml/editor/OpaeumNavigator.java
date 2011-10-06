@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml.editor;
+package org.opaeum.topcased.uml.editor;
 
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -12,7 +12,7 @@ import org.topcased.modeler.uml.actions.DefineProfileAction;
 import org.topcased.modeler.uml.actions.UMLEObjectAction;
 import org.topcased.modeler.uml.editor.outline.UMLNavigator;
 
-public class OpeumNavigator extends UMLNavigator{
+public class OpaeumNavigator extends UMLNavigator{
 	@Override
 	protected void initProviders(){
 		super.initProviders();
@@ -50,7 +50,7 @@ public class OpeumNavigator extends UMLNavigator{
 //		});
 //
 	}
-	public OpeumNavigator(Composite parent,Modeler editor,IPageSite pageSite){
+	public OpaeumNavigator(Composite parent,Modeler editor,IPageSite pageSite){
 		super(parent, editor, pageSite);
 	}
 	@Override

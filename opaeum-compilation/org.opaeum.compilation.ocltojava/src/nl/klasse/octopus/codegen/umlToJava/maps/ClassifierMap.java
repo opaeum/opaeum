@@ -23,8 +23,8 @@ import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibTupleType;
 import nl.klasse.tools.common.Check;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
 /**
  * ClassifierMap : This class holds all the information on how a UML classifier is transformed into the corresponding Java class.

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
 
 /**
@@ -13,7 +13,7 @@ package org.opeum.uim.folder;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.folder.FolderPackage#getActivityFolder()
+ * @see org.opaeum.uim.folder.FolderPackage#getActivityFolder()
  * @model
  * @generated
  */

@@ -3,7 +3,7 @@ package nl.klasse.octopus.codegen.umlToJava.maps;
 import nl.klasse.octopus.model.IPackageableElement;
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 
 public class PackageableElementMap {
 	protected IPackageableElement e = null;

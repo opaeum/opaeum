@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opeum.feature.MappingInfo;
+import org.opaeum.feature.MappingInfo;
 public interface INakedElement extends IModelElement,INakedElementOwner, Serializable {
 	INakedRootObject getRootObject();
 	@Deprecated

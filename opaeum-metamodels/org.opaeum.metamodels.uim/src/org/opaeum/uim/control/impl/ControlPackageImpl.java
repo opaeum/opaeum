@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.impl;
+package org.opaeum.uim.control.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -13,38 +13,38 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.impl.ActionPackageImpl;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.impl.BindingPackageImpl;
-import org.opeum.uim.control.ControlFactory;
-import org.opeum.uim.control.ControlKind;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimCheckBox;
-import org.opeum.uim.control.UimControl;
-import org.opeum.uim.control.UimDatePopup;
-import org.opeum.uim.control.UimDropdown;
-import org.opeum.uim.control.UimLookup;
-import org.opeum.uim.control.UimMultiSelectListBox;
-import org.opeum.uim.control.UimMultiSelectPopupSearch;
-import org.opeum.uim.control.UimMultiSelectTreeView;
-import org.opeum.uim.control.UimNumberScroller;
-import org.opeum.uim.control.UimSingleSelectListBox;
-import org.opeum.uim.control.UimSingleSelectPopupSearch;
-import org.opeum.uim.control.UimSingleSelectTreeView;
-import org.opeum.uim.control.UimText;
-import org.opeum.uim.control.UimTextArea;
-import org.opeum.uim.control.UimToggleButton;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.folder.impl.FolderPackageImpl;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.impl.FormPackageImpl;
-import org.opeum.uim.impl.UimPackageImpl;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.impl.LayoutPackageImpl;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.impl.ActionPackageImpl;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.control.ControlFactory;
+import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimCheckBox;
+import org.opaeum.uim.control.UimControl;
+import org.opaeum.uim.control.UimDatePopup;
+import org.opaeum.uim.control.UimDropdown;
+import org.opaeum.uim.control.UimLookup;
+import org.opaeum.uim.control.UimMultiSelectListBox;
+import org.opaeum.uim.control.UimMultiSelectPopupSearch;
+import org.opaeum.uim.control.UimMultiSelectTreeView;
+import org.opaeum.uim.control.UimNumberScroller;
+import org.opaeum.uim.control.UimSingleSelectListBox;
+import org.opaeum.uim.control.UimSingleSelectPopupSearch;
+import org.opaeum.uim.control.UimSingleSelectTreeView;
+import org.opaeum.uim.control.UimText;
+import org.opaeum.uim.control.UimTextArea;
+import org.opaeum.uim.control.UimToggleButton;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.impl.FolderPackageImpl;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.impl.FormPackageImpl;
+import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.impl.LayoutPackageImpl;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.impl.SecurityPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -176,7 +176,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.opeum.uim.control.ControlPackage#eNS_URI
+	 * @see org.opaeum.uim.control.ControlPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

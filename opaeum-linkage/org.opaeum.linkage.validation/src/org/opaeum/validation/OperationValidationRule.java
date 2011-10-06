@@ -1,6 +1,6 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum OperationValidationRule implements IValidationRule{
 	INTERFACE_OPERATION_STATIC("Interface operations cannot be static","{0} is marked as static but belongs to an interface"),

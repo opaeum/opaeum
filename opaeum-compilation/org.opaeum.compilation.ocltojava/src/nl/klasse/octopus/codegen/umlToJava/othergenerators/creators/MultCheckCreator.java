@@ -1,8 +1,8 @@
 package nl.klasse.octopus.codegen.umlToJava.othergenerators.creators;
 /**<octel>
 <java>
-	%import org.opeum.javametamodel.OJSimpleStatement%;
-	%inet.sfsf.opeum.javametamodelametamodel.model.OJIfStatement%;
+	%import org.opaeum.javametamodel.OJSimpleStatement%;
+	%inet.sfsf.opaeum.javametamodelametamodel.model.OJIfStatement%;
 </java>
 </octel>*/
 
@@ -17,13 +17,13 @@ import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IStructuralFeature;
 import nl.klasse.octopus.model.internal.types.MultiplicityKindImpl;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
 
 public class MultCheckCreator {

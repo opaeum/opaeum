@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.provider;
+package org.opaeum.uim.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.util.UimAdapterFactory;
+import org.opaeum.uim.util.UimAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimField} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimField} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UimFieldItemProvider uimFieldItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimField}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimField}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimDataTable} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimDataTable} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UimDataTableItemProvider uimDataTableItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimDataTable}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimDataTable}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimTabPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimTabPanel} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UimTabPanelItemProvider uimTabPanelItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimTabPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimTabPanel}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimTab} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimTab} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UimTabItemProvider uimTabItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimTab}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimTab}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimContainer} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimContainer} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UimContainerItemProvider uimContainerItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimContainer}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimContainer}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -189,7 +189,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UmlReference} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UmlReference} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -197,7 +197,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UmlReferenceItemProvider umlReferenceItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UmlReference}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UmlReference}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -212,7 +212,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.UimPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UimPanel} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -220,7 +220,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected UimPanelItemProvider uimPanelItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.UimPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.UimPanel}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -235,7 +235,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.ObjectSelectorTree} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ObjectSelectorTree} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -243,7 +243,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	protected ObjectSelectorTreeItemProvider objectSelectorTreeItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.ObjectSelectorTree}.
+	 * This creates an adapter for a {@link org.opaeum.uim.ObjectSelectorTree}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

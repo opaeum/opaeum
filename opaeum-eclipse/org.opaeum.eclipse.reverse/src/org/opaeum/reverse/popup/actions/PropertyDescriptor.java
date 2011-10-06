@@ -1,4 +1,4 @@
-package org.opeum.reverse.popup.actions;
+package org.opaeum.reverse.popup.actions;
 
 import java.beans.Introspector;
 import java.lang.reflect.Modifier;

@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.control;
+package org.opaeum.uim.control;
 
-import org.opeum.uim.binding.LookupBinding;
+import org.opaeum.uim.binding.LookupBinding;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.binding.LookupBinding;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.control.UimLookup#getLookupSource <em>Lookup Source</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.UimLookup#getLookupSource <em>Lookup Source</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.control.ControlPackage#getUimLookup()
+ * @see org.opaeum.uim.control.ControlPackage#getUimLookup()
  * @model
  * @generated
  */
 public interface UimLookup extends UimControl {
 	/**
 	 * Returns the value of the '<em><b>Lookup Source</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.binding.LookupBinding#getLookup <em>Lookup</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.binding.LookupBinding#getLookup <em>Lookup</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Lookup Source</em>' containment reference isn't clear,
@@ -36,15 +36,15 @@ public interface UimLookup extends UimControl {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Lookup Source</em>' containment reference.
 	 * @see #setLookupSource(LookupBinding)
-	 * @see org.opeum.uim.control.ControlPackage#getUimLookup_LookupSource()
-	 * @see org.opeum.uim.binding.LookupBinding#getLookup
+	 * @see org.opaeum.uim.control.ControlPackage#getUimLookup_LookupSource()
+	 * @see org.opaeum.uim.binding.LookupBinding#getLookup
 	 * @model opposite="lookup" containment="true"
 	 * @generated
 	 */
 	LookupBinding getLookupSource();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.control.UimLookup#getLookupSource <em>Lookup Source</em>}' containment reference.
+	 * Sets the value of the '{@link org.opaeum.uim.control.UimLookup#getLookupSource <em>Lookup Source</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Lookup Source</em>' containment reference.

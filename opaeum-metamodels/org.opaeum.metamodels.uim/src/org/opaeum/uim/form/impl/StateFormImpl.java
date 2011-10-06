@@ -4,15 +4,15 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.impl;
+package org.opaeum.uim.form.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.folder.StateMachineFolder;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.StateForm;
+import org.opaeum.uim.folder.StateMachineFolder;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.StateForm;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +21,7 @@ import org.opeum.uim.form.StateForm;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.form.impl.StateFormImpl#getFolder <em>Folder</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.StateFormImpl#getFolder <em>Folder</em>}</li>
  * </ul>
  * </p>
  *

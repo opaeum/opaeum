@@ -1,4 +1,4 @@
-package org.opeum.topcased.classdiagram;
+package org.opaeum.topcased.classdiagram;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;

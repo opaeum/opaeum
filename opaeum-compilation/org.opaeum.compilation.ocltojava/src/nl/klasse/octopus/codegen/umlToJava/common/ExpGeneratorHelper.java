@@ -15,9 +15,9 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * ExpGeneratorHelper : 

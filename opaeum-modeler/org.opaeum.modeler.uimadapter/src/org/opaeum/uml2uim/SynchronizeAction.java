@@ -1,15 +1,15 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.io.IOException;
 
-import org.opeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.uml2.uml.NamedElement;
-import org.opeum.eclipse.context.OpeumEclipseContext;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
 
 public class SynchronizeAction extends AbstractUimGenerationAction implements IObjectActionDelegate{
 	protected void runActionRecursively(NamedElement modelElement,IAction action){
@@ -18,7 +18,7 @@ public class SynchronizeAction extends AbstractUimGenerationAction implements IO
 
 	public static void doSynchronize(NamedElement modelElement){
 		try{
-			EmfWorkspace workspace = OpeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace();
+			EmfWorkspace workspace = OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace();
 			ResourceSet uimResourceSet = new ResourceSetImpl();
 			FormFolderSynchronizer ffs = new FormFolderSynchronizer(workspace, uimResourceSet, true);
 			ffs.visitWorkspace(workspace);// load existing folder model

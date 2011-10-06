@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.edit;
+package org.opaeum.uim.classform.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -9,9 +9,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.opeum.uim.classform.commands.UimBorderLayoutRestoreConnectionCommand;
-import org.opeum.uim.classform.policies.UimBorderLayoutLayoutEditPolicy;
-import org.opeum.uim.classform.preferences.ClassFormDiagramPreferenceConstants;
+import org.opaeum.uim.classform.commands.UimBorderLayoutRestoreConnectionCommand;
+import org.opaeum.uim.classform.policies.UimBorderLayoutLayoutEditPolicy;
+import org.opaeum.uim.classform.preferences.ClassFormDiagramPreferenceConstants;
 import org.topcased.draw2d.figures.ContainerFigure;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;

@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,48 +26,48 @@ import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
-import org.opeum.eclipse.EmfValidationUtil;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.INakedOclAction;
-import org.opeum.metamodel.actions.INakedSendSignalAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedValuePin;
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.bpm.INakedDefinedResponsibility;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.bpm.INakedResponsibility;
-import org.opeum.metamodel.bpm.INakedResponsibilityDefinition;
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTriggerEvent;
-import org.opeum.metamodel.core.IModifiableTypedElement;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSlot;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
-import org.opeum.metamodel.core.internal.NakedOperationImpl;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.statemachines.INakedTransition;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.eclipse.EmfValidationUtil;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.INakedOclAction;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.bpm.INakedDeadline;
+import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.bpm.INakedResponsibility;
+import org.opaeum.metamodel.bpm.INakedResponsibilityDefinition;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTriggerEvent;
+import org.opaeum.metamodel.core.IModifiableTypedElement;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSlot;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
+import org.opaeum.metamodel.core.internal.NakedOperationImpl;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		EnumerationValuesAttributeAdder.class,PinLinker.class,MappedTypeLinker.class,SourcePopulationResolver.class,ReferenceResolver.class,TypeResolver.class,
@@ -88,7 +88,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		return children;
 	}
 	@Override
-	public void initialize(INakedModelWorkspace workspace,OpeumConfig config){
+	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
 		super.initialize(workspace, config);
 		environmentFactory = new EnvironmentFactory(workspace);
 	}
@@ -222,7 +222,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				if(te.isRelative()){
 					w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 				}else{
-					w.setType(workspace.getOpeumLibrary().getDateType());
+					w.setType(workspace.getOpaeumLibrary().getDateType());
 				}
 			}
 		}else{
@@ -291,7 +291,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		if(bodyCondition != null && bodyCondition.getOclValue() instanceof ParsedOclString){
 			ParsedOclString bodyExpression = (ParsedOclString) bodyCondition.getOclValue();
 			bodyExpression.setContext(owner, bodyCondition);
-			INakedInterface br = workspace.getOpeumLibrary().getBusinessRole();
+			INakedInterface br = workspace.getOpaeumLibrary().getBusinessRole();
 			ICollectionType t = getOclLibrary().lookupCollectionType(CollectionMetaType.COLLECTION, br);
 			bodyCondition.setValue(replaceSingleParsedOclString(bodyExpression, owner, t, env));
 		}
@@ -365,7 +365,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(d.isRelative()){
 				w.setType(getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			}else{
-				w.setType(workspace.getOpeumLibrary().getDateType());
+				w.setType(workspace.getOpaeumLibrary().getDateType());
 			}
 			if(w != null && w.getValue() instanceof ParsedOclString){
 				ParsedOclString value = (ParsedOclString) w.getValue();
@@ -383,7 +383,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			overridePinType(pin);
 		}
 		if(!pin.hasValidInput() && (pin.getNakedBaseType() == null || pin.getType() == null)){
-			pin.setBaseType(workspace.getOpeumLibrary().getStringType());
+			pin.setBaseType(workspace.getOpaeumLibrary().getStringType());
 			pin.setType(getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
 			pin.setMultiplicity(new NakedMultiplicityImpl(0, 1));
 		}

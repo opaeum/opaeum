@@ -1,18 +1,18 @@
-package org.opeum.javageneration.oclexpressions;
+package org.opaeum.javageneration.oclexpressions;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.visitors.OclUtilityCreator;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.Java6ModelGenerator;
-import org.opeum.linkage.NakedParsedOclStringResolver;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.Java6ModelGenerator;
+import org.opaeum.linkage.NakedParsedOclStringResolver;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		Java6ModelGenerator.class,NakedParsedOclStringResolver.class

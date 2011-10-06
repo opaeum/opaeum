@@ -3,7 +3,7 @@ package org.tinker;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 

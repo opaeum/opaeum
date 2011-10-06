@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -12,14 +12,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.action.ActionFactory;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.BuiltInAction;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.action.NavigationToOperation;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.ActionFactory;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,7 +36,7 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 */
 	public static ActionFactory init() {
 		try {
-			ActionFactory theActionFactory = (ActionFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/action/1.0"); 
+			ActionFactory theActionFactory = (ActionFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/action/1.0"); 
 			if (theActionFactory != null) {
 				return theActionFactory;
 			}

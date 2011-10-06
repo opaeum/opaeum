@@ -1,7 +1,7 @@
 package processmodel.unittest;
 
-import net.sf.opeum.seam.ITimeEventDispatcher;
-import net.sf.opeum.seam.TimeEventDispatcher;
+import net.sf.opaeum.seam.ITimeEventDispatcher;
+import net.sf.opaeum.seam.TimeEventDispatcher;
 
 import org.testng.annotations.Test;
 

@@ -1,6 +1,6 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
@@ -31,8 +31,8 @@ import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
-import org.opeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class AbsoluteTimeEventDetailsComposite extends Composite{

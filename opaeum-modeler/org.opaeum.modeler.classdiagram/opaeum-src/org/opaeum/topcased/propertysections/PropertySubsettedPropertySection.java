@@ -1,9 +1,9 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.EmfPropertyUtil;
 
 public class PropertySubsettedPropertySection extends AbstractPropertyLookupSection{
 

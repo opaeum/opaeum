@@ -1,6 +1,6 @@
-package org.opeum.metamodel.bpm;
+package org.opaeum.metamodel.bpm;
 
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 
 public interface INakedAcceptTaskEventAction extends INakedAcceptEventAction{
 }

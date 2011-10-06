@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml.editor;
+package org.opaeum.topcased.uml.editor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.eclipse.uml2.uml.Element;
 import org.topcased.modeler.editor.outline.VirtualContainer;
 
 public class StereotypeVirtualContainer implements VirtualContainer{
-	OpeumItemProviderAdapterFactory itemProviderAdapterFactory=new OpeumItemProviderAdapterFactory();
+	OpaeumItemProviderAdapterFactory itemProviderAdapterFactory=new OpaeumItemProviderAdapterFactory();
 	@Override
 	public EClass getEClassToMatch(){
 		return EcorePackage.eINSTANCE.getEObject();

@@ -1,11 +1,11 @@
-package org.opeum.javageneration.hibernate;
+package org.opaeum.javageneration.hibernate;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerator{
@@ -32,10 +32,10 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 	}
 	@Override
 	protected String getDomainEnvironmentImplementation(){
-		return "org.opeum.runtime.jpa.JpaEnvironment";
+		return "org.opaeum.runtime.jpa.JpaEnvironment";
 	}
 	@Override
 	protected String getAdaptorEnvironmentImplementation(){
-		return "org.opeum.environment.seam2.Seam2Environment";
+		return "org.opaeum.environment.seam2.Seam2Environment";
 	}
 }

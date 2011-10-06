@@ -1,13 +1,13 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaFeature;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.jbpm5.activity.ActivityEventConsumptionImplementor;
-import org.opeum.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
-import org.opeum.javageneration.jbpm5.activity.ResponsibilityImplementor;
-import org.opeum.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
-import org.opeum.javageneration.jbpm5.statemachine.StateMachineEventConsumptionImplementor;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.JavaFeature;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.jbpm5.activity.ActivityEventConsumptionImplementor;
+import org.opaeum.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
+import org.opaeum.javageneration.jbpm5.activity.ResponsibilityImplementor;
+import org.opaeum.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
+import org.opaeum.javageneration.jbpm5.statemachine.StateMachineEventConsumptionImplementor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		Jbpm5EnvironmentBuilder.class,ActivityNodeEnumerationImplementor.class,StateEnumerationImplementor.class,ResponsibilityImplementor.class,

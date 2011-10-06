@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -21,7 +21,7 @@ public final class ClassFormImageRegistry{
 	 * 
 	 * @generated
 	 */
-	public static final String BUNDLE = "org.opeum.uim.classform.images";
+	public static final String BUNDLE = "org.opaeum.uim.classform.images";
 	/**
 	 * The constructor
 	 * 

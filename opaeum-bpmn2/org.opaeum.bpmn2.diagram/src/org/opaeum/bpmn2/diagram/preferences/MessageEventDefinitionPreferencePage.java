@@ -1,9 +1,9 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.preferences;
+package org.opaeum.bpmn2.diagram.preferences;
 
-import org.opeum.bpmn2.modeleditor.Bpmn2Plugin;
+import org.opaeum.bpmn2.modeleditor.Bpmn2Plugin;
 import org.topcased.modeler.preferences.AbstractNodePreferencePage;
 
 /**

@@ -4,28 +4,28 @@
  *
  * $Id$
  */
-package org.opeum.uim.util;
+package org.opaeum.uim.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.MasterComponent;
-import org.opeum.uim.ObjectSelectorTree;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UimPanel;
-import org.opeum.uim.UimTab;
-import org.opeum.uim.UimTabPanel;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.MasterComponent;
+import org.opaeum.uim.ObjectSelectorTree;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimPanel;
+import org.opaeum.uim.UimTab;
+import org.opaeum.uim.UimTabPanel;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +37,7 @@ import org.opeum.uim.security.SecureObject;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.UimPackage
+ * @see org.opaeum.uim.UimPackage
  * @generated
  */
 public class UimSwitch<T> {

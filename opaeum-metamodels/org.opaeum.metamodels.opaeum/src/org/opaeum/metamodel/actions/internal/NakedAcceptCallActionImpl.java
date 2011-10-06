@@ -1,14 +1,14 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.actions.INakedReplyAction;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
+import org.opaeum.metamodel.actions.INakedReplyAction;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
 
 public class NakedAcceptCallActionImpl extends NakedAcceptEventActionImpl implements INakedAcceptCallAction{
 	private static final long serialVersionUID = 1472278565796238451L;

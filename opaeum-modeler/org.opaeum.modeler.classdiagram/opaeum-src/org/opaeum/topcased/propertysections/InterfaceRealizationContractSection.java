@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.topcased.uml.editor.OpeumItemProviderAdapterFactory;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
@@ -53,7 +53,7 @@ public class InterfaceRealizationContractSection extends AbstractChooserProperty
 		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
 	}
 	protected ILabelProvider getAdvancedLabeProvider(){
-		return new AdapterFactoryLabelProvider(new OpeumItemProviderAdapterFactory()){
+		return new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()){
 			public String getText(Object object){
 				IItemQualifiedTextProvider itemQualifiedTextProvider = (IItemQualifiedTextProvider) adapterFactory.adapt(object, IItemQualifiedTextProvider.class);
 				return itemQualifiedTextProvider != null ? itemQualifiedTextProvider.getQualifiedText(object) : super.getText(object);

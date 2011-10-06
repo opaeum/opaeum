@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram;
+package org.opaeum.bpmn2.diagram;
 
 import org.eclipse.bpmn2.di.util.BpmnDiSwitch;
 import org.eclipse.bpmn2.util.Bpmn2Switch;

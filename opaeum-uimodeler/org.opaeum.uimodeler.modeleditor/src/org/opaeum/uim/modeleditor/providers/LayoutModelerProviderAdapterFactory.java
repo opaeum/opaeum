@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.layout.util.LayoutAdapterFactory;
+import org.opaeum.uim.layout.util.LayoutAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,55 +43,55 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimColumnLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimColumnLayout} instances.
 	 * 
 	 * @generated
 	 */
 	private UimColumnLayoutModelerProvider uimcolumnlayoutModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimFullLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimFullLayout} instances.
 	 * 
 	 * @generated
 	 */
 	private UimFullLayoutModelerProvider uimfulllayoutModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimXYLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimXYLayout} instances.
 	 * 
 	 * @generated
 	 */
 	private UimXYLayoutModelerProvider uimxylayoutModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimBorderLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimBorderLayout} instances.
 	 * 
 	 * @generated
 	 */
 	private UimBorderLayoutModelerProvider uimborderlayoutModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimToolbarLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimToolbarLayout} instances.
 	 * 
 	 * @generated
 	 */
 	private UimToolbarLayoutModelerProvider uimtoolbarlayoutModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.OutlayableComponent} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.OutlayableComponent} instances.
 	 * 
 	 * @generated
 	 */
 	private OutlayableComponentModelerProvider outlayablecomponentModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimLayout} instances.
 	 * 
 	 * @generated
 	 */
 	private UimLayoutModelerProvider uimlayoutModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.LayoutContainer} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.LayoutContainer} instances.
 	 * 
 	 * @generated
 	 */
 	private LayoutContainerModelerProvider layoutcontainerModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimGridLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimGridLayout} instances.
 	 * 
 	 * @generated
 	 */
@@ -189,7 +189,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimColumnLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimColumnLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -201,7 +201,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return uimcolumnlayoutModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimFullLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimFullLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -213,7 +213,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return uimfulllayoutModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimXYLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimXYLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -225,7 +225,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return uimxylayoutModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimBorderLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimBorderLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -237,7 +237,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return uimborderlayoutModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimToolbarLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimToolbarLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -249,7 +249,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return uimtoolbarlayoutModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.OutlayableComponent}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.OutlayableComponent}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -261,7 +261,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return outlayablecomponentModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -273,7 +273,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return uimlayoutModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.LayoutContainer}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.LayoutContainer}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -285,7 +285,7 @@ public class LayoutModelerProviderAdapterFactory extends LayoutAdapterFactory im
 		return layoutcontainerModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimGridLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimGridLayout}.
 	 *
 	 * @return the Adapter
 	 * @generated

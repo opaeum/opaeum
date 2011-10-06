@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
@@ -11,7 +11,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{
 	@Override
@@ -66,7 +66,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 					oclComposite.getTextControl().setEnabled(true && !getOperation().isAbstract());
 				}else{
 					oclComposite.getTextControl().setEnabled(false);
-					// TODO do in OpeumModelElementLinker
+					// TODO do in OpaeumModelElementLinker
 					removeBodyCondition();
 				}
 				break;
@@ -75,7 +75,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 					oclComposite.getTextControl().setEnabled(false);
 				}else{
 					oclComposite.getTextControl().setEnabled(true && getOperation().isQuery());
-					// TODO do in OpeumModelElementLinker
+					// TODO do in OpaeumModelElementLinker
 					removeBodyCondition();
 				}
 				break;
@@ -90,7 +90,7 @@ public class OperationBodyConditionSection extends AbstractOpaqueExpressionSecti
 	private void createBodyCondition(){
 		if(getOperation().getBodyCondition() == null){
 			Constraint cnstr = UMLFactory.eINSTANCE.createConstraint();
-			// Specification created by OpeumElementLinker
+			// Specification created by OpaeumElementLinker
 			cnstr.setName(getOperation().getName() + "Body");
 			getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getEObject(), UMLPackage.eINSTANCE.getOperation_BodyCondition(), cnstr));
 		}

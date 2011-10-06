@@ -1,13 +1,13 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
@@ -37,7 +37,7 @@ public class BasicJavaAdaptorPomStep extends PomGenerationStep {
 	@Override
 	public Properties getProperties(){
 		Properties properties = super.getProperties();
-		properties.put("opeum.version", PomGenerationPhase.NUML_VERSION);
+		properties.put("opaeum.version", PomGenerationPhase.NUML_VERSION);
 		return properties;
 	}
 

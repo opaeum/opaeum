@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.commands;
+package org.opaeum.bpmn2.diagram.commands;
 
 import java.util.Iterator;
 import java.util.List;

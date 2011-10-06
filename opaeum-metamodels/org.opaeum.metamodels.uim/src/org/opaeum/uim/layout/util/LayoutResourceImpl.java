@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.util;
+package org.opaeum.uim.layout.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * <!-- begin-user-doc -->
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.layout.util.LayoutResourceFactoryImpl
+ * @see org.opaeum.uim.layout.util.LayoutResourceFactoryImpl
  * @generated
  */
 public class LayoutResourceImpl extends XMLResourceImpl {

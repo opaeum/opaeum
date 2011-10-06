@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.policies;
+package org.opaeum.uim.classform.policies;
 
 import org.topcased.modeler.edit.policies.ModelerLayoutEditPolicy;
 

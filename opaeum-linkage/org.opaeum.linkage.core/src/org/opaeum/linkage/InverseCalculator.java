@@ -1,12 +1,12 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedPropertyImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = LinkagePhase.class, requires = {TypeResolver.class}, after = {TypeResolver.class})
 public class InverseCalculator extends AbstractModelElementLinker {

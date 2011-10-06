@@ -1,6 +1,6 @@
-package org.opeum.topcased.propertysections.ocl;
+package org.opaeum.topcased.propertysections.ocl;
 
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -33,17 +33,17 @@ import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.eclipse.EmfBehaviorUtil;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.eclipse.EmfPropertyUtil;
-import org.opeum.eclipse.LibraryImporter;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.eclipse.LibraryImporter;
 import org.topcased.modeler.uml.oclinterpreter.DelegatingPackageRegistry;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.UMLOCLFactory;
 
-public final class OpeumOclFactory extends UMLOCLFactory{
-	private final class OpeumEnvironmentFactory extends UMLEnvironmentFactory{
-		private OpeumEnvironmentFactory(Registry registry,ResourceSet rset){
+public final class OpaeumOclFactory extends UMLOCLFactory{
+	private final class OpaeumEnvironmentFactory extends UMLEnvironmentFactory{
+		private OpaeumEnvironmentFactory(Registry registry,ResourceSet rset){
 			super(registry, rset);
 		}
 		@Override
@@ -52,13 +52,13 @@ public final class OpeumOclFactory extends UMLOCLFactory{
 			if(!(parent instanceof UMLEnvironment)){
 				throw new IllegalArgumentException("Parent environment must be a UML environment: " + parent); //$NON-NLS-1$
 			}
-			OpeumEnvironment result = new OpeumEnvironment(parent);
+			OpaeumEnvironment result = new OpaeumEnvironment(parent);
 			result.setFactory(this);
 			return result;
 		}
 		@Override
 		public UMLEnvironment createEnvironment(){
-			OpeumEnvironment result = new OpeumEnvironment(getResourceSet().getPackageRegistry(), getResourceSet());
+			OpaeumEnvironment result = new OpaeumEnvironment(getResourceSet().getPackageRegistry(), getResourceSet());
 			result.setFactory(this);
 			Classifier nearestClassifier = EmfElementFinder.getNearestClassifier(context);
 			if(nearestClassifier instanceof Behavior){
@@ -125,7 +125,7 @@ public final class OpeumOclFactory extends UMLOCLFactory{
 	@Override
 	public OCL<?,?,?,?,?,?,?,?,?,?,?,?> createOCL(ModelingLevel level){
 		try{
-			UMLEnvironmentFactory factory = new OpeumEnvironmentFactory(new DelegatingPackageRegistry(getContext().eResource().getResourceSet().getPackageRegistry(),
+			UMLEnvironmentFactory factory = new OpaeumEnvironmentFactory(new DelegatingPackageRegistry(getContext().eResource().getResourceSet().getPackageRegistry(),
 					EPackage.Registry.INSTANCE), getContext().eResource().getResourceSet());
 			OCL<?,?,?,?,?,?,?,?,?,?,?,?> result = OCL.newInstance(factory);
 			switch(level){

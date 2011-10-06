@@ -1,8 +1,8 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
-import org.opeum.java.metamodel.generated.OJConstructorGEN;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
-import org.opeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.generated.OJConstructorGEN;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 
 

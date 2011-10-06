@@ -1,10 +1,10 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
-import org.opeum.metamodel.name.NameWrapper;
-import org.opeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.metamodel.name.NameWrapper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 
 public class MappingInfo{
 	protected static final String DEL = "~";
@@ -214,10 +214,10 @@ public class MappingInfo{
 	public void setSinceVersion(Float sinceVersion){
 		this.sinceVersion = sinceVersion;
 	}
-	public Integer getOpeumId(){
+	public Integer getOpaeumId(){
 		return nakedUmlId;
 	}
-	public void setOpeumId(Integer nakedUmlId){
+	public void setOpaeumId(Integer nakedUmlId){
 		this.nakedUmlId = nakedUmlId;
 	}
 	public String toString(){

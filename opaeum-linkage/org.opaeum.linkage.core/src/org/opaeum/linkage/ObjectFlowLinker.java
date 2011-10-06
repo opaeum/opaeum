@@ -1,20 +1,20 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedControlNode;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedObjectFlow;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedParameterNode;
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedParameterNode;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	NakedParsedOclStringResolver.class

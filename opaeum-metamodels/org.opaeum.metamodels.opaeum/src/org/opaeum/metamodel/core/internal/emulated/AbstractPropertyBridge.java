@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal.emulated;
+package org.opaeum.metamodel.core.internal.emulated;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -9,14 +9,14 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IMultiplicityKind;
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedMultiplicity;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public abstract class AbstractPropertyBridge extends EmulatingElement implements INakedProperty{
 	/**

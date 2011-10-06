@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.security;
+package org.opaeum.uim.security;
 
-import org.opeum.uim.UmlReference;
+import org.opaeum.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +14,7 @@ import org.opeum.uim.UmlReference;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.security.SecurityPackage#getRequiredRole()
+ * @see org.opaeum.uim.security.SecurityPackage#getRequiredRole()
  * @model
  * @generated
  */

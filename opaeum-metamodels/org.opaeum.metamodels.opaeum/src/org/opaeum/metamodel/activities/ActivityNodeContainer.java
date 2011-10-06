@@ -1,8 +1,8 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface ActivityNodeContainer extends INakedElement{
 	Collection<INakedActivityVariable> getVariables();

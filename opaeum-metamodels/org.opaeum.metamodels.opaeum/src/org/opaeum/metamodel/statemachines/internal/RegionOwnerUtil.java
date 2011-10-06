@@ -1,4 +1,4 @@
-package org.opeum.metamodel.statemachines.internal;
+package org.opaeum.metamodel.statemachines.internal;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.metamodel.statemachines.INakedRegion;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.IRegionOwner;
+import org.opaeum.metamodel.statemachines.INakedRegion;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.IRegionOwner;
 
 public class RegionOwnerUtil{
 	public static boolean isAncestorOf(IRegionOwner one,IRegionOwner two){

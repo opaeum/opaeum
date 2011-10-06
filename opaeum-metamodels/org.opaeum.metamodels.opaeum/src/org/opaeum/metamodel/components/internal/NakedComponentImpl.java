@@ -1,4 +1,4 @@
-package org.opeum.metamodel.components.internal;
+package org.opaeum.metamodel.components.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,13 +6,13 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IPackage;
 
-import org.opeum.metamodel.components.INakedComponent;
-import org.opeum.metamodel.components.INakedConnector;
-import org.opeum.metamodel.components.INakedPort;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedEntityImpl;
+import org.opaeum.metamodel.components.INakedComponent;
+import org.opaeum.metamodel.components.INakedConnector;
+import org.opaeum.metamodel.components.INakedPort;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 
 public class NakedComponentImpl extends NakedEntityImpl implements INakedComponent{
 	protected Collection<INakedPackage> subPackages = new ArrayList<INakedPackage>();

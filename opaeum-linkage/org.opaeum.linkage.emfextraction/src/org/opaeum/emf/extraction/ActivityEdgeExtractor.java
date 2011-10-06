@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,20 +13,20 @@ import org.eclipse.uml2.uml.ControlFlow;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ObjectFlow;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.internal.NakedExceptionHandlerImpl;
-import org.opeum.metamodel.activities.ControlNodeType;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.internal.NakedActivityEdgeImpl;
-import org.opeum.metamodel.activities.internal.NakedControlNodeImpl;
-import org.opeum.metamodel.activities.internal.NakedObjectFlowImpl;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.internal.NakedExceptionHandlerImpl;
+import org.opaeum.metamodel.activities.ControlNodeType;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.internal.NakedActivityEdgeImpl;
+import org.opaeum.metamodel.activities.internal.NakedControlNodeImpl;
+import org.opaeum.metamodel.activities.internal.NakedObjectFlowImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
 		ActivityControlNodeExtractor.class,ObjectNodeExtractor.class,ActionExtractor.class,StructuralFeatureActionExtractor.class,VariableActionExtractor.class,

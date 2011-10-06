@@ -1,24 +1,24 @@
-package org.opeum.javageneration.basicjava;
+package org.opaeum.javageneration.basicjava;
 
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedControlNode;
-import org.opeum.metamodel.activities.INakedObjectFlow;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractObjectNodeExpressor{
-	protected OpeumLibrary library;
-	public AbstractObjectNodeExpressor(OpeumLibrary l){
+	protected OpaeumLibrary library;
+	public AbstractObjectNodeExpressor(OpaeumLibrary l){
 		this.library = l;
 	}
 	abstract public boolean pinsAvailableAsVariables();
@@ -121,7 +121,7 @@ public abstract class AbstractObjectNodeExpressor{
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin);
 		return "(" + map.javaType() + ")e.getValue()";
 	}
-	protected OpeumLibrary getLibrary(){
+	protected OpaeumLibrary getLibrary(){
 		return library;
 	}
 }

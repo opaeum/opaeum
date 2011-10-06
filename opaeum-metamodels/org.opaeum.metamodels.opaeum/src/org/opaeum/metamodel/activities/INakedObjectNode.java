@@ -1,8 +1,8 @@
-package org.opeum.metamodel.activities;
-import org.opeum.metamodel.actions.INakedExceptionHandler;
-import org.opeum.metamodel.core.IModifiableTypedElement;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedMultiplicity;
+package org.opaeum.metamodel.activities;
+import org.opaeum.metamodel.actions.INakedExceptionHandler;
+import org.opaeum.metamodel.core.IModifiableTypedElement;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedMultiplicity;
 public interface INakedObjectNode extends IModifiableTypedElement, INakedActivityNode {
 	void setBaseType(INakedClassifier nakedPeer);
 	void setIsOrdered(boolean ordered);

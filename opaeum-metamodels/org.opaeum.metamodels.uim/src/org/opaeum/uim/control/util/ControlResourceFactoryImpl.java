@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.util;
+package org.opaeum.uim.control.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * <!-- begin-user-doc -->
  * The <b>Resource Factory</b> associated with the package.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.control.util.ControlResourceImpl
+ * @see org.opaeum.uim.control.util.ControlResourceImpl
  * @generated
  */
 public class ControlResourceFactoryImpl extends ResourceFactoryImpl {

@@ -13,7 +13,7 @@
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
   </elementImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="org">
-    <packagedElement xmi:type="uml:Package" xmi:id="_jAYMgDCSEeCWzc6NLR9-uQ" name="opeum">
+    <packagedElement xmi:type="uml:Package" xmi:id="_jAYMgDCSEeCWzc6NLR9-uQ" name="opaeum">
       <packagedElement xmi:type="uml:Class" xmi:id="_xGrQQDLsEeCAGvdv9IjrAA" name="God">
         <ownedAttribute xmi:id="_ySQSkDLsEeCAGvdv9IjrAA" name="name">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>

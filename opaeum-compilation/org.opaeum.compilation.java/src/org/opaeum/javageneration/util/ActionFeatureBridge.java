@@ -1,4 +1,4 @@
-package org.opeum.javageneration.util;
+package org.opaeum.javageneration.util;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -6,18 +6,18 @@ import java.util.Collections;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.internal.types.StdlibCollectionType;
 
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
-import org.opeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
-import org.opeum.metamodel.workspace.OpeumLibrary;
-import org.opeum.name.NameConverter;
+import org.opaeum.metamodel.actions.IActionWithTargetElement;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
+import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.name.NameConverter;
 
 public class ActionFeatureBridge extends AbstractPropertyBridge{
 	private static final long serialVersionUID = 620463438474285488L;
@@ -33,14 +33,14 @@ public class ActionFeatureBridge extends AbstractPropertyBridge{
 	public void setMultiplicity(NakedMultiplicityImpl multiplicity){
 		this.multiplicity = multiplicity;
 	}
-	public ActionFeatureBridge(INakedAcceptCallAction action, OpeumLibrary lib){
+	public ActionFeatureBridge(INakedAcceptCallAction action, OpaeumLibrary lib){
 		super(action.getActivity(), action);
 		this.multiplicity = new NakedMultiplicityImpl(0, 1);//TODO What if invoked multiple times before reply takes place???
 		this.baseType = action.getOperation().getMessageStructure();
 		setType(getNakedBaseType());
 		this.action = action;
 	}
-	public ActionFeatureBridge(IActionWithTargetElement action, OpeumLibrary lib){
+	public ActionFeatureBridge(IActionWithTargetElement action, OpaeumLibrary lib){
 		super(action.getActivity(), action);
 		targetElement = action.getTargetElement();
 		this.baseType = getType(action);

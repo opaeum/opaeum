@@ -1,12 +1,12 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opeum.metamodel.actions.INakedVariableAction;
-import org.opeum.metamodel.activities.INakedActivityVariable;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.actions.INakedVariableAction;
+import org.opaeum.metamodel.activities.INakedActivityVariable;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
 
 public abstract class NakedVariableActionImpl extends NakedActionImpl implements INakedVariableAction {
 	/**

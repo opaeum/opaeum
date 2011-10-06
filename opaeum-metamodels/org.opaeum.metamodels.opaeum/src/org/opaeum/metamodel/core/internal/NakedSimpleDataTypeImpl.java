@@ -1,14 +1,14 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.Collections;
 import java.util.List;
 
 import nl.klasse.octopus.model.IState;
 
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 
 /**
  * A simple data type, i.e. a data type that can not be broken down into smaller bits like attributes. See ValueType and Primitive Typically

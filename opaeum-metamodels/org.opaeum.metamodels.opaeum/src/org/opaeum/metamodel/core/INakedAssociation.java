@@ -1,12 +1,12 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
 import java.util.List;
 
 import nl.klasse.octopus.model.IAssociationClass;
 
 /**
- * In Opeum assocations and association class are the same thing. Different types of assocations, including assocation classes could
- * potentially be a class in Opeum, e.g. Interface Assocations and Qualified Assocations
+ * In Opaeum assocations and association class are the same thing. Different types of assocations, including assocation classes could
+ * potentially be a class in Opaeum, e.g. Interface Assocations and Qualified Assocations
  * 
  * @author ampie
  * 

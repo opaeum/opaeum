@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -7,7 +7,7 @@ import org.eclipse.uml2.uml.Profile;
 
 public class ProfileApplier {
 	public static Profile applyNakedUmlProfile(Model model){
-		String profileName = "OpiumStandardProfile.uml";
+		String profileName = "OpaeumStandardProfile.uml";
 		return applyProfile(model, profileName);
 	}
 	public static Profile applyProfile(Model model,String profileName){

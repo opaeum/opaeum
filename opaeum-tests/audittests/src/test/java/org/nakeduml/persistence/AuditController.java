@@ -1,16 +1,16 @@
-package org.opeum.persistence;
+package org.opaeum.persistence;
 
 import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
 
 import org.hibernate.Session;
 
-import audittest.org.opeum.audit.Angel;
-import audittest.org.opeum.audit.Demon;
-import audittest.org.opeum.audit.Finger;
-import audittest.org.opeum.audit.God;
-import audittest.org.opeum.audit.Hand;
-import audittest.org.opeum.audit.Ring;
+import audittest.org.opaeum.audit.Angel;
+import audittest.org.opaeum.audit.Demon;
+import audittest.org.opaeum.audit.Finger;
+import audittest.org.opaeum.audit.God;
+import audittest.org.opaeum.audit.Hand;
+import audittest.org.opaeum.audit.Ring;
 
 @TransactionAttribute
 public class AuditController {

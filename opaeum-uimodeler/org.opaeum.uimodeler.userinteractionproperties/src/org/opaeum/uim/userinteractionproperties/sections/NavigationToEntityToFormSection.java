@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,11 +8,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Classifier;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.action.provider.ActionItemProviderAdapterFactory;
-import org.opeum.uim.form.ClassForm;
-import org.opeum.uim.modeleditor.editor.UimEditor;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.provider.ActionItemProviderAdapterFactory;
+import org.opaeum.uim.form.ClassForm;
+import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;

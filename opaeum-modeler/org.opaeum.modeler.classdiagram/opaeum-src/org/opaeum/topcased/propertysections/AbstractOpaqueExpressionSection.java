@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -12,8 +12,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
-import org.opeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedPropertySection{

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
 public interface INakedRemoveVariableValueAction extends INakedWriteVariableAction{
 }

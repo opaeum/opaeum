@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 
 import java.util.List;
@@ -9,7 +9,7 @@ import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.AbstractTriggerSection;
+import org.opaeum.topcased.propertysections.AbstractTriggerSection;
 
 public class AcceptEventActionTriggerSection extends AbstractTriggerSection{
 	@Override

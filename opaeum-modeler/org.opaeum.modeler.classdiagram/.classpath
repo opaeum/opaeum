@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="src" path="opeum-src"/>
+	<classpathentry kind="src" path="opaeum-src"/>
 	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml.oclinterpreter_2.5.1.201107220016.jar" sourcepath="/home/ampie/Workspaces/workspace_sandbox/topcased/topcased-uml2/plugins/org.topcased.modeler.uml.oclinterpreter"/>
 	<classpathentry exported="true" kind="lib" path="plugins/j2d4swt-2.3.0.jar" sourcepath="plugins/J2D4SWT_2.3.0.src.zip"/>
 	<classpathentry exported="true" kind="lib" path="plugins/org.topcased.modeler.uml_3.0.12.nakeduml.jar"/>

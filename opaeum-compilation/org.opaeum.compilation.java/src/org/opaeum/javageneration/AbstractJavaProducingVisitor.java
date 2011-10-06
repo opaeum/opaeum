@@ -1,4 +1,4 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,40 +14,40 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
-import org.opeum.feature.OpeumConfig;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.metamodel.workspace.OpeumLibrary;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.textmetamodel.TextDirectory;
-import org.opeum.textmetamodel.TextFile;
-import org.opeum.textmetamodel.TextOutputNode;
-import org.opeum.textmetamodel.TextProject;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextDirectory;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextOutputNode;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJPackage javaModel;
-	protected OpeumConfig config;
+	protected OpaeumConfig config;
 	protected TextWorkspace textWorkspace;
 	protected Set<TextOutputNode> textFiles;
 	protected INakedModelWorkspace workspace;
@@ -69,15 +69,15 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		return result;
 	}
 	@Override
-	public void initialize(OJPackage pac,OpeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJPackage pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
 		this.textWorkspace = textWorkspace;
 		this.workspace = workspace;
 	}
-	public OpeumLibrary getLibrary(){
-		return workspace.getOpeumLibrary();
+	public OpaeumLibrary getLibrary(){
+		return workspace.getOpaeumLibrary();
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){

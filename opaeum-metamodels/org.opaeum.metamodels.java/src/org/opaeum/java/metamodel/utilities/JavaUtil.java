@@ -1,11 +1,11 @@
 /** (c) Copyright 2002, Klasse Objecten
  */
-package org.opeum.java.metamodel.utilities;
+package org.opaeum.java.metamodel.utilities;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.opeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJElement;
 
 public class JavaUtil{
 	public JavaUtil(){

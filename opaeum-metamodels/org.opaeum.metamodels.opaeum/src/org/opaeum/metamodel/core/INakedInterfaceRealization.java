@@ -1,6 +1,6 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 
 public interface INakedInterfaceRealization extends INakedElement {
 	INakedInterface getContract();

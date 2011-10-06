@@ -1,6 +1,6 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
-import org.opeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedParameter;
 
 /**
  * From Octopus' perspective a ParameterNode is an attribute of the Activity -it needs to be persisted -it is accessible from OCL

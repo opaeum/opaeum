@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram;
+package org.opaeum.bpmn2.diagram;
 
 /**
  * A Set of properties that are used for the graphical objects that are not

@@ -10,8 +10,8 @@ import javax.inject.Inject;
 import org.hibernate.Session;
 import org.jboss.seam.persistence.transaction.DefaultTransaction;
 import org.jboss.seam.persistence.transaction.SeamTransaction;
-import org.opeum.runtime.adaptor.DataGeneratorProperty;
-import org.opeum.seam3.persistence.DependentScopedSession;
+import org.opaeum.runtime.adaptor.DataGeneratorProperty;
+import org.opaeum.seam3.persistence.DependentScopedSession;
 
 public class ExampleStartUp {
 	@Inject

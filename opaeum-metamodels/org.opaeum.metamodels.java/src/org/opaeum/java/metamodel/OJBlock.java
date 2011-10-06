@@ -1,11 +1,11 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.opeum.java.metamodel.generated.OJBlockGEN;
-import org.opeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.generated.OJBlockGEN;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJBlock extends OJBlockGEN{
 	/******************************************************

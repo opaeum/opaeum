@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.action;
+package org.opaeum.uim.action;
 
-import org.opeum.uim.UmlReference;
+import org.opaeum.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +18,7 @@ import org.opeum.uim.UmlReference;
  * <!-- end-model-doc -->
  *
  *
- * @see org.opeum.uim.action.ActionPackage#getTransitionAction()
+ * @see org.opaeum.uim.action.ActionPackage#getTransitionAction()
  * @model
  * @generated
  */

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.util;
+package org.opaeum.uim.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
  * <!-- begin-user-doc -->
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.util.UimResourceFactoryImpl
+ * @see org.opaeum.uim.util.UimResourceFactoryImpl
  * @generated
  */
 public class UimResourceImpl extends XMIResourceImpl {

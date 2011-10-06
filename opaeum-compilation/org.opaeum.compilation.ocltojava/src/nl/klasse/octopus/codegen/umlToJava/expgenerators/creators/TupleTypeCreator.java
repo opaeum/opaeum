@@ -19,17 +19,17 @@ import nl.klasse.octopus.model.IDataType;
 import nl.klasse.octopus.model.ITupleType;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJVisibilityKind;
-import org.opeum.java.metamodel.utilities.JavaPathNames;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.utilities.JavaPathNames;
 
 /* <octel> */ 
 

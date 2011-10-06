@@ -1,4 +1,4 @@
-package org.opeum.tinker;
+package org.opaeum.tinker;
 
 import java.io.Serializable;
 

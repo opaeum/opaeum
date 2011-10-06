@@ -1,9 +1,9 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 import java.io.Serializable;
 
 import nl.klasse.octopus.model.IMultiplicityKind;
 
-import org.opeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedMultiplicity;
 public class NakedMultiplicityImpl  implements Serializable, INakedMultiplicity {
 	private static final long serialVersionUID = -6607665956639495962L;
 	private int lowerbound = 0;	

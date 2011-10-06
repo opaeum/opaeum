@@ -1,8 +1,8 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 import java.util.Set;
 
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.core.INakedElement;
 public interface INakedActivityNode extends INakedElement,INakedStep{
 	INakedActivity getActivity();
 	INakedActivityPartition getInPartition();

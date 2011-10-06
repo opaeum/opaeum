@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -13,25 +13,25 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.internal.NakedActivityEdgeImpl;
-import org.opeum.metamodel.activities.internal.NakedActivityNodeImpl;
-import org.opeum.metamodel.components.internal.NakedConnectorEndImpl;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedOperationImpl;
-import org.opeum.metamodel.core.internal.NakedPropertyImpl;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedTransition;
-import org.opeum.metamodel.statemachines.internal.NakedStateImpl;
-import org.opeum.metamodel.statemachines.internal.NakedTransitionImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.internal.NakedActivityEdgeImpl;
+import org.opaeum.metamodel.activities.internal.NakedActivityNodeImpl;
+import org.opaeum.metamodel.components.internal.NakedConnectorEndImpl;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedOperationImpl;
+import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.statemachines.internal.NakedStateImpl;
+import org.opaeum.metamodel.statemachines.internal.NakedTransitionImpl;
 
 /**
- * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opeum and Octopus
+ * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opaeum and Octopus
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
 		FeatureExtractor.class,ActivityEdgeExtractor.class,TransitionExtractor.class
@@ -49,7 +49,7 @@ public class RedefinitionAndConnectorEndExtractor extends AbstractExtractorFromE
 	public void visitProperty(Property p){
 		NakedPropertyImpl np = (NakedPropertyImpl) getNakedPeer(p);
 		if(np != null){
-			// Could be an extension end which is not represented in opeum
+			// Could be an extension end which is not represented in opaeum
 			Set<INakedProperty> subsettedProperties = getRedefinedElements(p.getSubsettedProperties());
 			np.setSubsettedProperties(subsettedProperties);
 			Collection<INakedProperty> redefinedProperties = getRedefinedElements(p.getRedefinedProperties());

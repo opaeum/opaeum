@@ -1,22 +1,22 @@
-package org.opeum.javageneration.hibernate;
+package org.opaeum.javageneration.hibernate;
 
 import java.util.Collection;
 import java.util.Set;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.persistence.JpaAnnotator;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = JpaAnnotator.class)
 public class TooManyNavigationSupport extends AbstractJavaProducingVisitor{

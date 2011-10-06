@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.linkage.feature"
+      id="org.opaeum.linkage.feature"
       label="Opaeum Linkage Feature"
       version="1.0.0.qualifier"
-      license-feature="org.opeum.metamodels.feature"
+      license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
    <description>
@@ -18,44 +18,44 @@
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.uml2.uml.resources"/>
       <import plugin="org.junit4"/>
-      <import plugin="org.opeum.metamodels.opeum"/>
-      <import plugin="org.opeum.metamodels.ocl"/>
-      <import plugin="org.opeum.metamodels.emfworkspace"/>
-      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <import plugin="org.opeum.metamodels.text"/>
+      <import plugin="org.opaeum.metamodels.opaeum"/>
+      <import plugin="org.opaeum.metamodels.ocl"/>
+      <import plugin="org.opaeum.metamodels.emfworkspace"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opaeum.metamodels.text"/>
       <import plugin="org.eclipse.emf.ecore"/>
    </requires>
 
    <plugin
-         id="org.opeum.linkage.core"
+         id="org.opaeum.linkage.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.linkage.emfextraction"
+         id="org.opaeum.linkage.emfextraction"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.linkage.namegeneration"
+         id="org.opaeum.linkage.namegeneration"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.linkage.validation"
+         id="org.opaeum.linkage.validation"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.transformation.engine"
+         id="org.opaeum.transformation.engine"
          download-size="0"
          install-size="0"
          version="0.0.0"

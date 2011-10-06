@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.filters;
+package org.opaeum.topcased.propertysections.filters;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;

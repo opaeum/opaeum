@@ -1,4 +1,4 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,22 +8,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.opeum.emf.load.EmfWorkspaceLoader;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.DefaultTransformationLog;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.TransformationProcess;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.emf.load.EmfWorkspaceLoader;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.DefaultTransformationLog;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.TransformationProcess;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public abstract class MavenProjectCodeGenerator{
 	protected TransformationProcess process = new TransformationProcess();
 	protected File outputRoot;
 	protected File modelDirectory;
 	protected String workspaceIdentifier;
-	protected OpeumConfig cfg;
+	protected OpaeumConfig cfg;
 	private ResourceSet resourceSet;
 	// CAlled in standalone build process
 	protected MavenProjectCodeGenerator(String outputRoot,String modelDirectory){
@@ -33,7 +33,7 @@ public abstract class MavenProjectCodeGenerator{
 		this.resourceSet = EmfWorkspaceLoader.setupStandAloneAppForUML2();
 	}
 	// CAlled from Eclipse
-	protected MavenProjectCodeGenerator(ResourceSet rs,OpeumConfig cfg,File modelDirectory){
+	protected MavenProjectCodeGenerator(ResourceSet rs,OpaeumConfig cfg,File modelDirectory){
 		this.workspaceIdentifier = cfg.getWorkspaceIdentifier();
 		this.outputRoot = cfg.getOutputRoot();
 		this.modelDirectory = modelDirectory;
@@ -50,7 +50,7 @@ public abstract class MavenProjectCodeGenerator{
 		long start = System.currentTimeMillis();
 		File modelFile = new File(modelDirectory, modelFileName);
 		EmfWorkspace workspace = loadSingleModel(modelFile);
-		OpeumConfig cfg = prepareConfig();
+		OpaeumConfig cfg = prepareConfig();
 		cfg.store();
 		process.execute(cfg, workspace, getSteps(),new DefaultTransformationLog());
 		workspace.getMappingInfo().store();
@@ -60,9 +60,9 @@ public abstract class MavenProjectCodeGenerator{
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, prepareConfig());
 		return workspace;
 	}
-	protected OpeumConfig prepareConfig() throws IOException{
+	protected OpaeumConfig prepareConfig() throws IOException{
 		if(this.cfg == null){
-			OpeumConfig cfg = new OpeumConfig(new File(modelDirectory, "opeum.properties"));
+			OpaeumConfig cfg = new OpaeumConfig(new File(modelDirectory, "opaeum.properties"));
 			cfg.loadDefaults(workspaceIdentifier);
 			cfg.setOutputRoot(outputRoot);			
 		}
@@ -73,7 +73,7 @@ public abstract class MavenProjectCodeGenerator{
 		System.out.println("Transforming model directory: " + modelDirectory);
 		long start = System.currentTimeMillis();
 		EmfWorkspace workspace = loadDirectory();
-		OpeumConfig cfg = prepareConfig();
+		OpaeumConfig cfg = prepareConfig();
 		process.execute(cfg, workspace, getSteps(),new DefaultTransformationLog());
 		System.out.println("Transforming nakedWorkspace '" + modelDirectory + "' took " + (System.currentTimeMillis() - start) + " ms");
 	}

@@ -1,12 +1,12 @@
-package org.opeum.generation.features;
+package org.opaeum.generation.features;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaFeature;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.AttributeImplementor;
-import org.opeum.javageneration.persistence.JpaAnnotator;
-import org.opeum.javageneration.persistence.PersistentObjectImplementor;
-import org.opeum.validation.namegeneration.PersistentNameGenerator;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.JavaFeature;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.persistence.JpaAnnotator;
+import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
+import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		AttributeImplementor.class,PersistentNameGenerator.class,JpaAnnotator.class,PersistentObjectImplementor.class

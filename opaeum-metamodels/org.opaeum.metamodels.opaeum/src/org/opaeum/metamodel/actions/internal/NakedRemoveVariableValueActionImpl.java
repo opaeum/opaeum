@@ -1,6 +1,6 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
-import org.opeum.metamodel.actions.INakedRemoveVariableValueAction;
+import org.opaeum.metamodel.actions.INakedRemoveVariableValueAction;
 
 public class NakedRemoveVariableValueActionImpl extends NakedWriteVariableActionImpl implements INakedRemoveVariableValueAction{
 

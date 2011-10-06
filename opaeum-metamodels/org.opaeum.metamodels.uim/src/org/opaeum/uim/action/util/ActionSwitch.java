@@ -4,25 +4,25 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.util;
+package org.opaeum.uim.action.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.BuiltInAction;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.action.NavigationToOperation;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
-import org.opeum.uim.action.UimAction;
-import org.opeum.uim.action.UimNavigation;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.security.SecureObject;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.action.UimNavigation;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.security.SecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ import org.opeum.uim.security.SecureObject;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.action.ActionPackage
+ * @see org.opaeum.uim.action.ActionPackage
  * @generated
  */
 public class ActionSwitch<T> {

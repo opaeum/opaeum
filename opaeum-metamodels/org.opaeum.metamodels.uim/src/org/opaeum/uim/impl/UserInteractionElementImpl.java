@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UserInteractionElement;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +20,7 @@ import org.opeum.uim.UserInteractionElement;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UserInteractionElementImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UserInteractionElementImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *

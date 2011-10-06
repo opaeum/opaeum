@@ -4,20 +4,20 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.util;
+package org.opaeum.uim.binding.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.binding.LookupBinding;
-import org.opeum.uim.binding.NavigationBinding;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.binding.TableBinding;
-import org.opeum.uim.binding.UimBinding;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.binding.LookupBinding;
+import org.opaeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.binding.UimBinding;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +29,7 @@ import org.opeum.uim.binding.UimBinding;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.binding.BindingPackage
+ * @see org.opaeum.uim.binding.BindingPackage
  * @generated
  */
 public class BindingSwitch<T> {

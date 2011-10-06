@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 import java.io.Serializable;
 public enum ObjectNodeType implements Serializable {
 	OUTPUT_PIN ,

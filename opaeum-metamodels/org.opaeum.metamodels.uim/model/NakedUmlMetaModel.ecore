@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="opeummetamodel"
-    nsURI="http://opeummetamodel/1.0" nsPrefix="opeummetamodel">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="opaeummetamodel"
+    nsURI="http://opaeummetamodel/1.0" nsPrefix="opaeummetamodel">
   <eClassifiers xsi:type="ecore:EClass" name="Entity" eSuperTypes="platform:/plugin/org.eclipse.uml2.uml/model/UML.ecore#//Class">
     <eStructuralFeatures xsi:type="ecore:EReference" name="lifeCycle" eType="#//LifeCycle"
         containment="true"/>

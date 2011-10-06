@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.impl;
+package org.opaeum.uim.security.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,9 +12,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opeum.uim.security.SecurityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.security.impl.SecureObjectImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.impl.SecureObjectImpl#getVisibility <em>Visibility</em>}</li>
  * </ul>
  * </p>
  *

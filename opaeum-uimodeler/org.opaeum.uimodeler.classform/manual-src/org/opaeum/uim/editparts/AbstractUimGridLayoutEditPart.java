@@ -1,8 +1,8 @@
-package org.opeum.uim.editparts;
+package org.opaeum.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.opeum.uim.figures.UimGridLayoutFigure;
-import org.opeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.figures.UimGridLayoutFigure;
+import org.opaeum.uim.layout.UimGridLayout;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 

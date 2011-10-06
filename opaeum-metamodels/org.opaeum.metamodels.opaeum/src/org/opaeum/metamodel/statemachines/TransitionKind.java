@@ -1,4 +1,4 @@
-package org.opeum.metamodel.statemachines;
+package org.opaeum.metamodel.statemachines;
 import java.io.Serializable;
 public enum TransitionKind implements Serializable {
 	INTERNAL, LOCAL, EXTERNAL;

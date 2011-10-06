@@ -1,43 +1,43 @@
-package org.opeum.validation.namegeneration;
+package org.opaeum.validation.namegeneration;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.actions.INakedCreateObjectAction;
-import org.opeum.metamodel.actions.INakedSendSignalAction;
-import org.opeum.metamodel.actions.INakedStartClassifierBehaviorAction;
-import org.opeum.metamodel.actions.INakedWriteStructuralFeatureAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedParameterNode;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedComment;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.ArtificialProperty;
-import org.opeum.metamodel.name.NameWrapper;
-import org.opeum.metamodel.name.SingularNameWrapper;
-import org.opeum.metamodel.statemachines.INakedRegion;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.actions.INakedCreateObjectAction;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.actions.INakedStartClassifierBehaviorAction;
+import org.opaeum.metamodel.actions.INakedWriteStructuralFeatureAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedParameterNode;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedComment;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.ArtificialProperty;
+import org.opaeum.metamodel.name.NameWrapper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.metamodel.statemachines.INakedRegion;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedTransition;
 import nl.klasse.octopus.model.IAssociationEnd;
 
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 /**
  * Regenerates and sets the (UML) name of an originalElement. Also sets the name and
@@ -112,7 +112,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 		} else if (mew instanceof INakedState) {
 			if (name == null) {
 				INakedState state = (INakedState) mew;
-				name = state.getKind().getName() + state.getMappingInfo().getOpeumId() + "In" + state.getContainer().getName();
+				name = state.getKind().getName() + state.getMappingInfo().getOpaeumId() + "In" + state.getContainer().getName();
 			}
 		} else if (mew instanceof INakedRegion) {
 			if (name == null) {
@@ -120,7 +120,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 				if (region.getPeerRegions().size() == 0) {
 					name = region.getNameSpace().getName() + "Region";
 				} else {
-					name = region.getNameSpace().getName() + "Region" + region.getMappingInfo().getOpeumId();
+					name = region.getNameSpace().getName() + "Region" + region.getMappingInfo().getOpaeumId();
 				}
 			}
 		} else if (mew instanceof INakedAction) {
@@ -135,7 +135,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 			}
 		}
 		if (name == null) {
-			name = mew.getMetaClass() + mew.getMappingInfo().getOpeumId();
+			name = mew.getMetaClass() + mew.getMappingInfo().getOpaeumId();
 		}
 		name = name.replaceAll("[\\p{Punct}\\p{Space}]", "_");
 		return new SingularNameWrapper(name, null);
@@ -173,37 +173,37 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 		if (name == null) {
 			if (nakedAction instanceof INakedCallAction) {
 				INakedCallAction action = (INakedCallAction) nakedAction;
-				name = "call" + generateUmlName(action.getCalledElement()).getCapped() + action.getMappingInfo().getOpeumId();
+				name = "call" + generateUmlName(action.getCalledElement()).getCapped() + action.getMappingInfo().getOpaeumId();
 			} else if (nakedAction instanceof INakedStartClassifierBehaviorAction) {
 				INakedStartClassifierBehaviorAction action = (INakedStartClassifierBehaviorAction) nakedAction;
-				name = "start" + generateUmlName(action.getTarget()).getCapped() + action.getMappingInfo().getOpeumId();
+				name = "start" + generateUmlName(action.getTarget()).getCapped() + action.getMappingInfo().getOpaeumId();
 			} else if (nakedAction instanceof INakedCreateObjectAction) {
 				INakedCreateObjectAction action = (INakedCreateObjectAction) nakedAction;
-				name = "create" + generateUmlName(action.getClassifier()).getCapped() + action.getMappingInfo().getOpeumId();
+				name = "create" + generateUmlName(action.getClassifier()).getCapped() + action.getMappingInfo().getOpaeumId();
 			} else if (nakedAction instanceof INakedSendSignalAction) {
 				INakedSendSignalAction action = (INakedSendSignalAction) nakedAction;
-				name = "send" + generateUmlName(action.getSignal()).getCapped() + action.getMappingInfo().getOpeumId();
+				name = "send" + generateUmlName(action.getSignal()).getCapped() + action.getMappingInfo().getOpaeumId();
 			} else if (nakedAction instanceof INakedWriteStructuralFeatureAction) {
 				INakedWriteStructuralFeatureAction action = (INakedWriteStructuralFeatureAction) nakedAction;
-				name = "write" + generateUmlName(action.getFeature()).getCapped() + action.getMappingInfo().getOpeumId();
+				name = "write" + generateUmlName(action.getFeature()).getCapped() + action.getMappingInfo().getOpaeumId();
 			} else if (nakedAction instanceof INakedAcceptEventAction) {
 				INakedAcceptEventAction action = (INakedAcceptEventAction) nakedAction;
 				if (action.getTriggers().isEmpty()) {
-					name = "anonymousAcceptEventAction" + action.getMappingInfo().getOpeumId();
+					name = "anonymousAcceptEventAction" + action.getMappingInfo().getOpaeumId();
 				} else {
 					INakedTrigger trigger = action.getTriggers().iterator().next();
 					if (trigger.getEvent() instanceof NakedTimeEventImpl) {
-						name = "waitFor" + generateUmlName(trigger.getEvent()) + action.getMappingInfo().getOpeumId();
+						name = "waitFor" + generateUmlName(trigger.getEvent()) + action.getMappingInfo().getOpaeumId();
 					} else if (trigger.getEvent() instanceof INakedOperation) {
 						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
-								+ action.getMappingInfo().getOpeumId();
+								+ action.getMappingInfo().getOpaeumId();
 					} else if (trigger.getEvent() instanceof INakedSignal) {
 						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
-								+ action.getMappingInfo().getOpeumId();
+								+ action.getMappingInfo().getOpaeumId();
 					}
 				}
 			} else {
-				name = "action" + nakedAction.getMappingInfo().getOpeumId();
+				name = "action" + nakedAction.getMappingInfo().getOpaeumId();
 			}
 		}
 		return name;
@@ -227,7 +227,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 					name = "anonymousPin";
 				} else {
 					// Generate a unique name
-					name = NameConverter.decapitalize(node.getNakedBaseType().getName() + node.getMappingInfo().getOpeumId());
+					name = NameConverter.decapitalize(node.getNakedBaseType().getName() + node.getMappingInfo().getOpaeumId());
 				}
 			}
 		} else {

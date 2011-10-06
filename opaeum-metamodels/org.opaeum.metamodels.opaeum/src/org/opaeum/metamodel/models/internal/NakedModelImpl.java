@@ -1,11 +1,11 @@
-package org.opeum.metamodel.models.internal;
+package org.opaeum.metamodel.models.internal;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.internal.NakedRootObjectImpl;
-import org.opeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.internal.NakedRootObjectImpl;
+import org.opaeum.metamodel.models.INakedModel;
 
 public class NakedModelImpl extends NakedRootObjectImpl implements INakedModel{
 	public static final String META_CLASS = "model";

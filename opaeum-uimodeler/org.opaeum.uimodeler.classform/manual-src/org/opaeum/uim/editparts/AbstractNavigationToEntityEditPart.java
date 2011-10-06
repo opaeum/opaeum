@@ -1,8 +1,8 @@
-package org.opeum.uim.editparts;
+package org.opaeum.uim.editparts;
 
 import org.eclipse.draw2d.IFigure;
-import org.opeum.uim.action.NavigationToEntity;
-import org.opeum.uim.figures.NavigationToEntityFigure;
+import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.figures.NavigationToEntityFigure;
 import org.topcased.modeler.di.model.GraphNode;
 
 public class AbstractNavigationToEntityEditPart extends BoundEditPart{

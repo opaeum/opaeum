@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -9,14 +9,14 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.StateMachine;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.uim.folder.AbstractFolder;
-import org.opeum.uim.folder.AbstractFormFolder;
-import org.opeum.uim.folder.FolderFactory;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.folder.UserInteractionWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.uim.folder.AbstractFolder;
+import org.opaeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.folder.FolderFactory;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.UserInteractionWorkspace;
 @StepDependency(phase=UimSynchronizationPhase.class)
 public class FormFolderSynchronizer extends AbstractUimSynchronizer{
 	public FormFolderSynchronizer(){

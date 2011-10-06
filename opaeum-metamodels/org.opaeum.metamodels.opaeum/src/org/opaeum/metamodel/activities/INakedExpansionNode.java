@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 public interface INakedExpansionNode extends INakedObjectNode {
 	INakedExpansionRegion getExpansionRegion();

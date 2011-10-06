@@ -4,18 +4,18 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.impl;
+package org.opaeum.uim.form.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.folder.AbstractFormFolder;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.UimForm;
-import org.opeum.uim.impl.UserInteractionElementImpl;
+import org.opaeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.UimForm;
+import org.opaeum.uim.impl.UserInteractionElementImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.impl.UserInteractionElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.form.impl.UimFormImpl#getPanel <em>Panel</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.UimFormImpl#getPanel <em>Panel</em>}</li>
  * </ul>
  * </p>
  *

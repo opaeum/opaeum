@@ -1,41 +1,41 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.javageneration.maps.SignalMap;
-import org.opeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.bpm.INakedDeadline;
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTimer;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.statemachines.INakedCompletionEvent;
-import org.opeum.runtime.domain.CancelledEvent;
-import org.opeum.runtime.domain.IEventGenerator;
-import org.opeum.runtime.domain.OutgoingEvent;
-import org.opeum.runtime.domain.TimeUnit;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.javageneration.maps.NakedOperationMap;
+import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.bpm.INakedDeadline;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTimer;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
+import org.opaeum.runtime.domain.CancelledEvent;
+import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.domain.TimeUnit;
 
 //TODO refactor into an EventMap
 public class EventUtil{
@@ -53,7 +53,7 @@ public class EventUtil{
 		}
 	}
 	public static OJPathName handlerPathName(INakedOperation s){
-		return OJUtil.packagePathname(s.getOwner()).append(s.getMappingInfo().getJavaName().getCapped() + "Handler" + s.getMappingInfo().getOpeumId());
+		return OJUtil.packagePathname(s.getOwner()).append(s.getMappingInfo().getJavaName().getCapped() + "Handler" + s.getMappingInfo().getOpaeumId());
 	}
 	public static OJPathName handlerPathName(INakedEvent e){
 		return OJUtil.packagePathname(e.getContext()).append(e.getMappingInfo().getJavaName().getCapped() + "Handler");
@@ -116,7 +116,7 @@ public class EventUtil{
 				INakedEnumerationLiteral timeUnit = event.getTimeUnit();
 				if(businessTime){
 					String timeUnitConstant= timeUnit==null? "BUSINESSDAY":timeUnit.getName().toUpperCase();
-					owner.addToImports("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
+					owner.addToImports("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
 					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",BusinessTimeUnit."
 							+ timeUnitConstant + ",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId())))");
 				}else{
@@ -144,7 +144,7 @@ public class EventUtil{
 		block.addToStatements("getCancelledEvents().add(new CancelledEvent(this,\"" + event.getMappingInfo().getIdInModel() + "\"))");
 	}
 	public static String getInvokerName(INakedOperation o){
-		return o.getOwner().getMappingInfo().getJavaName().getAsIs() + o.getMappingInfo().getJavaName().getCapped() + o.getMappingInfo().getOpeumId() + "Invoker";
+		return o.getOwner().getMappingInfo().getJavaName().getAsIs() + o.getMappingInfo().getJavaName().getCapped() + o.getMappingInfo().getOpaeumId() + "Invoker";
 	}
 	public static void requestEvents(OJAnnotatedOperation operation,Collection<INakedActivityNode> activityNodes,boolean businessCalendarAvailable){
 		for(INakedActivityNode node:activityNodes){

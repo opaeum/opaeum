@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.folder.util.FolderAdapterFactory;
+import org.opaeum.uim.folder.util.FolderAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,55 +43,55 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.AbstractFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.AbstractFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private AbstractFolderModelerProvider abstractfolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.ActivityFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.ActivityFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private ActivityFolderModelerProvider activityfolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.EntityFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.EntityFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private EntityFolderModelerProvider entityfolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.StateMachineFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.StateMachineFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private StateMachineFolderModelerProvider statemachinefolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.AbstractFormFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.AbstractFormFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private AbstractFormFolderModelerProvider abstractformfolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.PackageFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.PackageFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private PackageFolderModelerProvider packagefolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.OperationContainingFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.OperationContainingFolder} instances.
 	 * 
 	 * @generated
 	 */
 	private OperationContainingFolderModelerProvider operationcontainingfolderModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.UserInteractionModel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.UserInteractionModel} instances.
 	 * 
 	 * @generated
 	 */
 	private UserInteractionModelModelerProvider userinteractionmodelModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.UserInteractionWorkspace} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.UserInteractionWorkspace} instances.
 	 * 
 	 * @generated
 	 */
@@ -189,7 +189,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.AbstractFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.AbstractFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -201,7 +201,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return abstractfolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.ActivityFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.ActivityFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -213,7 +213,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return activityfolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.EntityFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.EntityFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -225,7 +225,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return entityfolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.StateMachineFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.StateMachineFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -237,7 +237,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return statemachinefolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.AbstractFormFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.AbstractFormFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -249,7 +249,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return abstractformfolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.PackageFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.PackageFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -261,7 +261,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return packagefolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.OperationContainingFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.OperationContainingFolder}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -273,7 +273,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return operationcontainingfolderModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.UserInteractionModel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.UserInteractionModel}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -285,7 +285,7 @@ public class FolderModelerProviderAdapterFactory extends FolderAdapterFactory im
 		return userinteractionmodelModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.UserInteractionWorkspace}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.UserInteractionWorkspace}.
 	 *
 	 * @return the Adapter
 	 * @generated

@@ -1,6 +1,6 @@
-package org.opeum.processmodel.processmodel.util;
+package org.opaeum.processmodel.processmodel.util;
 
-import org.opeum.runtime.domain.AbstractFormatter;
+import org.opaeum.runtime.domain.AbstractFormatter;
 
 public class ProcessmodelFormatter extends AbstractFormatter implements IProcessmodelFormatter {
 	static final private ThreadLocal<ProcessmodelFormatter> INSTANCE = new ThreadLocal<ProcessmodelFormatter>();

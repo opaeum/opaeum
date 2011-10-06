@@ -1,4 +1,4 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -7,8 +7,8 @@ import java.util.Set;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.metamodel.core.INakedProperty;
 
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{

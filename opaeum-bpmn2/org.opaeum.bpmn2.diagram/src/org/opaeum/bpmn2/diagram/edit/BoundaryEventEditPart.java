@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.edit;
+package org.opaeum.bpmn2.diagram.edit;
 
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.Bpmn2Package;
@@ -12,9 +12,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.opeum.bpmn2.diagram.commands.BoundaryEventRestoreConnectionCommand;
-import org.opeum.bpmn2.diagram.figure.BoundaryEventFigure;
-import org.opeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
+import org.opaeum.bpmn2.diagram.commands.BoundaryEventRestoreConnectionCommand;
+import org.opaeum.bpmn2.diagram.figure.BoundaryEventFigure;
+import org.opaeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.policies.LabelDirectEditPolicy;

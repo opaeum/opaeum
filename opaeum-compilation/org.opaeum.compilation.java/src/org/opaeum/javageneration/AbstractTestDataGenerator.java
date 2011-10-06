@@ -1,4 +1,4 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,20 +6,20 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IEnumerationType;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.javageneration.composition.ConfigurableDataStrategy;
-import org.opeum.javageneration.maps.NakedClassifierMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.linkage.GeneralizationUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSimpleType;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJEnum;
+import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.linkage.GeneralizationUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSimpleType;
 
 public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVisitor {
 	public AbstractTestDataGenerator() {
@@ -100,7 +100,7 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 			INakedSimpleType baseType = (INakedSimpleType) f.getNakedBaseType();
 			if (baseType.hasStrategy(TestValueStrategy.class)) {
 				return baseType.getStrategy(TestValueStrategy.class).getDefaultValue();
-			} else if (workspace.getOpeumLibrary().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getOpeumLibrary().getDateType())) {
+			} else if (workspace.getOpaeumLibrary().getDateType() != null && f.getNakedBaseType().conformsTo(workspace.getOpaeumLibrary().getDateType())) {
 				String javaDate = baseType.getMappingInfo().getQualifiedJavaName();
 				if (javaDate.equals("java.util.Date")) {
 					return "new Date()";

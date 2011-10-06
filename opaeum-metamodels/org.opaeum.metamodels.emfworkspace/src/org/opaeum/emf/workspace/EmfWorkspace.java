@@ -1,4 +1,4 @@
-package org.opeum.emf.workspace;
+package org.opaeum.emf.workspace;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.opeum.feature.WorkspaceMappingInfo;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
@@ -434,7 +434,7 @@ public class EmfWorkspace implements Element{
 				uid = getResourceId(object.eResource()) + "@" + object.eResource().getURIFragment(object);
 			}else if(object instanceof EModelElement && ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
 				// Deleted in realtime - See UmlElementCache.notifyChanged
-				return ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION).getDetails().get("opiumId");
+				return ((EModelElement) object).getEAnnotation(StereotypeNames.NUML_ANNOTATION).getDetails().get("opaeumId");
 			}else{
 				uid = object.hashCode() + "";
 			}

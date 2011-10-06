@@ -1,9 +1,9 @@
-package org.opeum.javageneration.composition;
+package org.opaeum.javageneration.composition;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrategy;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrategy;
 
 
 public interface ConfigurableDataStrategy extends ISimpleTypeStrategy{

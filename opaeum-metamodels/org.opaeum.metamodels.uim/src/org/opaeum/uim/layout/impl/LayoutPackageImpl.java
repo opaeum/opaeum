@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.impl;
+package org.opaeum.uim.layout.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -12,31 +12,31 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.impl.ActionPackageImpl;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.impl.BindingPackageImpl;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.impl.ControlPackageImpl;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.folder.impl.FolderPackageImpl;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.impl.FormPackageImpl;
-import org.opeum.uim.impl.UimPackageImpl;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.LayoutFactory;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.layout.UimBorderLayout;
-import org.opeum.uim.layout.UimColumnLayout;
-import org.opeum.uim.layout.UimFullLayout;
-import org.opeum.uim.layout.UimGridLayout;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.layout.UimToolbarLayout;
-import org.opeum.uim.layout.UimXYLayout;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.impl.ActionPackageImpl;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.impl.ControlPackageImpl;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.impl.FolderPackageImpl;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.impl.FormPackageImpl;
+import org.opaeum.uim.impl.UimPackageImpl;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutFactory;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.UimBorderLayout;
+import org.opaeum.uim.layout.UimColumnLayout;
+import org.opaeum.uim.layout.UimFullLayout;
+import org.opaeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.layout.UimToolbarLayout;
+import org.opaeum.uim.layout.UimXYLayout;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.impl.SecurityPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -119,7 +119,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage {
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
-	 * @see org.opeum.uim.layout.LayoutPackage#eNS_URI
+	 * @see org.opaeum.uim.layout.LayoutPackage#eNS_URI
 	 * @see #init()
 	 * @generated
 	 */

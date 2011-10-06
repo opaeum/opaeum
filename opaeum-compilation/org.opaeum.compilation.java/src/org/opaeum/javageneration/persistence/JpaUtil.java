@@ -1,28 +1,28 @@
-package org.opeum.javageneration.persistence;
+package org.opaeum.javageneration.persistence;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.annotations.Filter;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedEntity;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.name.NameConverter;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.name.NameConverter;
 
 public class JpaUtil{
 	public static final String BACKTICK = "";
@@ -36,7 +36,7 @@ public class JpaUtil{
 		RESERVED_NAMES.add("sum");
 		RESERVED_NAMES.add("avg");
 	}
-	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpeumConfig config){
+	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);
 	}
 	public static INakedPackage getNearestSchema(INakedNameSpace ns){
@@ -51,13 +51,13 @@ public class JpaUtil{
 	private static boolean isSchema(INakedNameSpace ns){
 		return(ns instanceof INakedPackage && ((INakedPackage) ns).isSchema());
 	}
-	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpeumConfig config,INakedNameSpace ns){
+	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config,INakedNameSpace ns){
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
 		buildTableAndSchema(tableName, config, ns, table);
 		owner.addAnnotationIfNew(table);
 		return table;
 	}
-	private static void buildTableAndSchema(String tableName,OpeumConfig config,INakedNameSpace ns,OJAnnotationValue table){
+	private static void buildTableAndSchema(String tableName,OpaeumConfig config,INakedNameSpace ns,OJAnnotationValue table){
 		if(config.needsSchema()){
 			INakedPackage schema = getNearestSchema(ns);
 			table.putAttribute(new OJAnnotationAttributeValue("name", getValidSqlName(tableName)));
@@ -141,7 +141,7 @@ public class JpaUtil{
 		entity.putAttribute(new OJAnnotationAttributeValue("name", ojClass.getName()));
 		ojClass.addAnnotationIfNew(entity);
 	}
-	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field,OpeumConfig config){
+	public static void addJoinTable(INakedClassifier umlOwner,NakedStructuralFeatureMap map,OJAnnotatedField field,OpaeumConfig config){
 		// ManyToMany or non-navigable XToMany
 		INakedProperty f = map.getProperty();
 		String tableName = calculateTableName(umlOwner, f);

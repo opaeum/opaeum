@@ -1,15 +1,15 @@
-<StructuredBusinessUnit classUuid="a0a0955d_a840_4908_99f7_5bfeb273a84e" className="org.opeum.structuretests.test2.StructuredBusinessUnit" uid="79377fc9-4a1d-4943-a2ff-c07d6c870a32" >
+<StructuredBusinessUnit classUuid="a0a0955d_a840_4908_99f7_5bfeb273a84e" className="org.opaeum.structuretests.test2.StructuredBusinessUnit" uid="79377fc9-4a1d-4943-a2ff-c07d6c870a32" >
 <businessCalendar/>
 <rootFolder propertyId="259">
 </rootFolder>
 <test2BusinessService propertyId="67">
-<Manager classUuid="0c571b05_9ead_459e_8b9a_8636b4415c1f" className="org.opeum.structuretests.test2.structuredbusinessunit.Manager" uid="db601fd8-e405-4fa5-af2c-46fc56ba4ee5" >
+<Manager classUuid="0c571b05_9ead_459e_8b9a_8636b4415c1f" className="org.opaeum.structuretests.test2.structuredbusinessunit.Manager" uid="db601fd8-e405-4fa5-af2c-46fc56ba4ee5" >
 <employment propertyId="61">
 <Employment uid="cefe3d4c-1b43-447b-8c05-bcafef521908"/>
 <Employment uid="9aeb1dfd-6db7-4d36-b4bd-df30ef90e6f5"/>
 </employment>
 </Manager>
-<Employee classUuid="f8b14b4a_9dcb_4f7e_acd8_5ec629a276b5" className="org.opeum.structuretests.test2.structuredbusinessunit.Employee" uid="3935d25f-67a5-45e1-aa0a-e99d2b8415cd" >
+<Employee classUuid="f8b14b4a_9dcb_4f7e_acd8_5ec629a276b5" className="org.opaeum.structuretests.test2.structuredbusinessunit.Employee" uid="3935d25f-67a5-45e1-aa0a-e99d2b8415cd" >
 <currentManager propertyId="54">
 <Manager uid="db601fd8-e405-4fa5-af2c-46fc56ba4ee5"/>
 </currentManager>
@@ -17,22 +17,22 @@
 <Employment uid="9aeb1dfd-6db7-4d36-b4bd-df30ef90e6f5"/>
 </employment_employer>
 </Employee>
-<Employee classUuid="f8b14b4a_9dcb_4f7e_acd8_5ec629a276b5" className="org.opeum.structuretests.test2.structuredbusinessunit.Employee" uid="28a53dda-4353-4ce4-970f-32f44d2e9807" >
+<Employee classUuid="f8b14b4a_9dcb_4f7e_acd8_5ec629a276b5" className="org.opaeum.structuretests.test2.structuredbusinessunit.Employee" uid="28a53dda-4353-4ce4-970f-32f44d2e9807" >
 <currentManager/>
 <employment_employer propertyId="19">
 <Employment uid="cefe3d4c-1b43-447b-8c05-bcafef521908"/>
 </employment_employer>
 </Employee>
-<Manager classUuid="0c571b05_9ead_459e_8b9a_8636b4415c1f" className="org.opeum.structuretests.test2.structuredbusinessunit.Manager" uid="ae6cac89-c257-46a8-a41b-272d9c7d7353" >
+<Manager classUuid="0c571b05_9ead_459e_8b9a_8636b4415c1f" className="org.opaeum.structuretests.test2.structuredbusinessunit.Manager" uid="ae6cac89-c257-46a8-a41b-272d9c7d7353" >
 <employment propertyId="61">
 <Employment uid="9aeb1dfd-6db7-4d36-b4bd-df30ef90e6f5"/>
 </employment>
 </Manager>
 </test2BusinessService>
 <employer propertyId="18">
-<Employer classUuid="499a632f_01f6_435b_b720_bc7a24326e44" className="org.opeum.structuretests.test2.structuredbusinessunit.Employer" uid="aecc966c-039b-4345-83b5-cfbdbf909126" >
+<Employer classUuid="499a632f_01f6_435b_b720_bc7a24326e44" className="org.opaeum.structuretests.test2.structuredbusinessunit.Employer" uid="aecc966c-039b-4345-83b5-cfbdbf909126" >
 <employment_employee propertyId="19">
-<Employment classUuid="ed792f79_04b9_4fff_aa60_601b74f67c75" className="org.opeum.structuretests.test2.structuredbusinessunit.Employment" uid="cefe3d4c-1b43-447b-8c05-bcafef521908" >
+<Employment classUuid="ed792f79_04b9_4fff_aa60_601b74f67c75" className="org.opaeum.structuretests.test2.structuredbusinessunit.Employment" uid="cefe3d4c-1b43-447b-8c05-bcafef521908" >
 <employer propertyId="18">
 <Employer uid="aecc966c-039b-4345-83b5-cfbdbf909126"/>
 </employer>
@@ -40,7 +40,7 @@
 <Employee uid="28a53dda-4353-4ce4-970f-32f44d2e9807"/>
 </employee>
 </Employment>
-<Employment classUuid="ed792f79_04b9_4fff_aa60_601b74f67c75" className="org.opeum.structuretests.test2.structuredbusinessunit.Employment" uid="9aeb1dfd-6db7-4d36-b4bd-df30ef90e6f5" fromDate="2011-09-08 13:57:00 SAST" toDate="2011-09-08 14:13:40 SAST" employmentKind="PERMANENT" >
+<Employment classUuid="ed792f79_04b9_4fff_aa60_601b74f67c75" className="org.opaeum.structuretests.test2.structuredbusinessunit.Employment" uid="9aeb1dfd-6db7-4d36-b4bd-df30ef90e6f5" fromDate="2011-09-08 13:57:00 SAST" toDate="2011-09-08 14:13:40 SAST" employmentKind="PERMANENT" >
 <employer propertyId="18">
 <Employer uid="aecc966c-039b-4345-83b5-cfbdbf909126"/>
 </employer>

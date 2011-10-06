@@ -1,14 +1,14 @@
-package org.opeum.validation.namegeneration;
+package org.opaeum.validation.namegeneration;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.name.NameWrapper;
-import org.opeum.metamodel.name.SingularNameWrapper;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.name.NameWrapper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 
 @StepDependency(phase = NameGenerationPhase.class, requires = { UmlNameRegenerator.class }, after = { UmlNameRegenerator.class })
 public class HumanNameGenerator extends AbstractNameGenerator {

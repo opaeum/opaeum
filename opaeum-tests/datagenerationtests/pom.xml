@@ -216,9 +216,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.opeum</groupId>
+      <groupId>org.opaeum</groupId>
       <artifactId>util</artifactId>
-      <version>${opeum.version}</version>
+      <version>${opaeum.version}</version>
       <type>jar</type>
       <exclusions>
         <exclusion>
@@ -423,7 +423,7 @@
     <arquillian.version>1.0.0.Alpha4</arquillian.version>
     <jboss.domain>default</jboss.domain>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
-    <opeum.version>1.0.0.5-SNAPSHOT</opeum.version>
+    <opaeum.version>1.0.0.5-SNAPSHOT</opaeum.version>
     <hibernate.version>3.6.0.Final</hibernate.version>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
     <seam.servlet.version>3.0.0.Alpha3</seam.servlet.version>

@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.modeler.statemachinediagram
-Bundle-SymbolicName: org.opeum.modeler.statemachinediagram;singleton:=true
+Bundle-Name: org.opaeum.modeler.statemachinediagram
+Bundle-SymbolicName: org.opaeum.modeler.statemachinediagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.topcased.modeler.uml.statemachinediagram.STMPlugin
-Bundle-Vendor: Opeum
+Bundle-Vendor: Opaeum
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
  org.eclipse.emf.edit.ui,
@@ -20,11 +20,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.topcased.modeler,
  org.topcased.modeler.graphconf,
- org.opeum.eclipse.core,
- org.opeum.modeler.classdiagram,
- org.opeum.modeler.uimadapter
+ org.opaeum.eclipse.core,
+ org.opaeum.modeler.classdiagram,
+ org.opaeum.modeler.uimadapter
 Bundle-ActivationPolicy: lazy
-Export-Package: org.opeum.topcased.statemachinediagram,
+Export-Package: org.opaeum.topcased.statemachinediagram,
  org.topcased.modeler.uml.statemachinediagram;x-internal:=true,
  org.topcased.modeler.uml.statemachinediagram.commands;x-internal:=true,
  org.topcased.modeler.uml.statemachinediagram.dialogs;x-internal:=true,

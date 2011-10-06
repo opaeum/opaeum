@@ -1,4 +1,4 @@
-package org.opeum.generate;
+package org.opaeum.generate;
 
 public class ReflectionTestA {
 

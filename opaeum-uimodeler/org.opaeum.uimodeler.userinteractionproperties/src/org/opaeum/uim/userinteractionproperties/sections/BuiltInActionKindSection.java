@@ -1,16 +1,16 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.BuiltInAction;
-import org.opeum.uim.form.ActionTaskForm;
-import org.opeum.uim.form.ClassForm;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.OperationInvocationForm;
-import org.opeum.uim.form.OperationTaskForm;
-import org.opeum.uim.form.StateForm;
-import org.opeum.uim.modeleditor.editor.UimEditor;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.form.ActionTaskForm;
+import org.opaeum.uim.form.ClassForm;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.form.OperationTaskForm;
+import org.opaeum.uim.form.StateForm;
+import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
 
 /**

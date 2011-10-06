@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 import java.util.List;
 

@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>org.opeum</groupId>
-		<artifactId>opeum-root</artifactId>
+		<groupId>org.opaeum</groupId>
+		<artifactId>opaeum-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-modeler</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-modeler</artifactId>
 	<packaging>pom</packaging>
-	<name>Opeum Modeler</name>
+	<name>Opaeum Modeler</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<repositories>
 		<repository>
@@ -25,16 +25,16 @@
 		</repository>
 	</repositories>
 	<modules>
-		<module>org.opeum.modeler.classdiagram</module>
-		<module>org.opeum.modeler.activitydiagram</module>
-		<module>org.opeum.modeler.statemachinediagram</module>
-		<module>org.opeum.modeler.feature</module>
-		<module>org.opeum.modeler.source.feature</module>
-		<module>org.opeum.modeler.product</module>
-		<module>org.opeum.modeler.compositestructurediagram</module>
-		<module>org.opeum.modeler.componentdiagram</module>
-		<module>org.opeum.modeler.uimadapter</module>
-		<module>org.opeum.modeler.validation</module>
+		<module>org.opaeum.modeler.classdiagram</module>
+		<module>org.opaeum.modeler.activitydiagram</module>
+		<module>org.opaeum.modeler.statemachinediagram</module>
+		<module>org.opaeum.modeler.feature</module>
+		<module>org.opaeum.modeler.source.feature</module>
+		<module>org.opaeum.modeler.product</module>
+		<module>org.opaeum.modeler.compositestructurediagram</module>
+		<module>org.opaeum.modeler.componentdiagram</module>
+		<module>org.opaeum.modeler.uimadapter</module>
+		<module>org.opaeum.modeler.validation</module>
 	</modules>
 	<build>
 		<plugins>

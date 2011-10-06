@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 public interface INakedParameter extends IModifiableTypedElement, IParameter {

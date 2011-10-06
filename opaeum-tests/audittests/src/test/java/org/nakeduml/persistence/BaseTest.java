@@ -1,11 +1,11 @@
-package org.opeum.persistence;
+package org.opaeum.persistence;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.opeum.test.NakedUtilTestClasses;
-import audittest.org.opeum.audit.God;
+import net.sf.opaeum.test.NakedUtilTestClasses;
+import audittest.org.opaeum.audit.God;
 import audittest.util.InvariantError;
 
 public abstract class BaseTest {

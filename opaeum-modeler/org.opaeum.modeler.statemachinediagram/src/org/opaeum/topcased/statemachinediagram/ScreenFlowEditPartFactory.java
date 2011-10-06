@@ -1,4 +1,4 @@
-package org.opeum.topcased.statemachinediagram;
+package org.opaeum.topcased.statemachinediagram;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
@@ -14,9 +14,9 @@ import org.eclipse.swt.graphics.Pattern;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.util.UMLSwitch;
-import org.opeum.topcased.uml.editor.OpeumEditor;
-import org.opeum.uml2uim.AbstractUimGenerationAction;
-import org.opeum.uml2uim.SynchronizeAction;
+import org.opaeum.topcased.uml.editor.OpaeumEditor;
+import org.opaeum.uml2uim.AbstractUimGenerationAction;
+import org.opaeum.uml2uim.SynchronizeAction;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphNode;
@@ -91,7 +91,7 @@ public class ScreenFlowEditPartFactory extends STMEditPartFactory{
 						public void performRequest(Request request){
 							if(request.getType() == RequestConstants.REQ_OPEN){
 								NamedElement e = (NamedElement) getEObject();
-								String uuid = OpeumEditor.getCurrentContext().getId(e);
+								String uuid = OpaeumEditor.getCurrentContext().getId(e);
 								URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
 								if(!AbstractUimGenerationAction.getFile(uri).exists()){
 									SynchronizeAction.doSynchronize(e);

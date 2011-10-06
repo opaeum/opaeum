@@ -1,4 +1,4 @@
-package org.opeum.textmetamodel;
+package org.opaeum.textmetamodel;
 
 import java.io.CharArrayWriter;
 

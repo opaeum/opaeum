@@ -1,19 +1,19 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
 import org.eclipse.uml2.uml.ClearStructuralFeatureAction;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
 import org.eclipse.uml2.uml.RemoveStructuralFeatureValueAction;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.internal.NakedAddStructuralFeatureValueActionImpl;
-import org.opeum.metamodel.actions.internal.NakedClearStructuralFeatureActionImpl;
-import org.opeum.metamodel.actions.internal.NakedReadStructuralFeatureActionImpl;
-import org.opeum.metamodel.actions.internal.NakedRemoveStructuralFeatureValueActionImpl;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.internal.NakedAddStructuralFeatureValueActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedClearStructuralFeatureActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedReadStructuralFeatureActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedRemoveStructuralFeatureValueActionImpl;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
 		FeatureExtractor.class,ActivityStructureExtractor.class

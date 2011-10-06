@@ -4,13 +4,13 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.impl;
+package org.opaeum.uim.control.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimSingleSelectListBox;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimSingleSelectListBox;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +19,7 @@ import org.opeum.uim.control.UimSingleSelectListBox;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.control.impl.UimSingleSelectListBoxImpl#getRows <em>Rows</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.impl.UimSingleSelectListBoxImpl#getRows <em>Rows</em>}</li>
  * </ul>
  * </p>
  *

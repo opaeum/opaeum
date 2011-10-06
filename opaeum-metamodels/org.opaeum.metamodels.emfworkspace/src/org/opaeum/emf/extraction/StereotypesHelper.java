@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Iterator;
 
@@ -12,7 +12,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.util.UMLUtil.StereotypeApplicationHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class StereotypesHelper{
 	public static boolean hasStereotype(Element c,String string){

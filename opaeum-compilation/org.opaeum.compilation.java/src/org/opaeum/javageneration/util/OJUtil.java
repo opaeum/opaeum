@@ -1,4 +1,4 @@
-package org.opeum.javageneration.util;
+package org.opaeum.javageneration.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,49 +8,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.opeum.annotation.NumlMetaInfo;
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedElement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.IActionWithTargetElement;
-import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.compositestructures.INakedCollaboration;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.IParameterOwner;
-import org.opeum.metamodel.core.internal.ArtificialProperty;
-import org.opeum.metamodel.core.internal.emulated.MessageStructureImpl;
-import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
-import org.opeum.metamodel.profiles.INakedStereotype;
-import org.opeum.metamodel.usecases.INakedActor;
-import org.opeum.metamodel.usecases.INakedUseCase;
-import org.opeum.metamodel.workspace.OpeumLibrary;
-import org.opeum.name.NameConverter;
-import org.opeum.validation.namegeneration.AbstractJavaNameGenerator;
+import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnum;
+import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.IActionWithTargetElement;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.compositestructures.INakedCollaboration;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.internal.ArtificialProperty;
+import org.opaeum.metamodel.core.internal.emulated.MessageStructureImpl;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import org.opaeum.metamodel.profiles.INakedStereotype;
+import org.opaeum.metamodel.usecases.INakedActor;
+import org.opaeum.metamodel.usecases.INakedUseCase;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.name.NameConverter;
+import org.opaeum.validation.namegeneration.AbstractJavaNameGenerator;
 
 public class OJUtil{
 	public static void clearCache(){
@@ -102,7 +102,7 @@ public class OJUtil{
 		}
 		return map;
 	}
-	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(INakedAction action,OpeumLibrary lib){
+	public static synchronized NakedStructuralFeatureMap buildStructuralFeatureMap(INakedAction action,OpaeumLibrary lib){
 		NakedStructuralFeatureMap map = actionFeatureMaps.get(action);
 		if(map == null){
 			ActionFeatureBridge bridge = buildActionBridge(action, lib);
@@ -111,7 +111,7 @@ public class OJUtil{
 		}
 		return map;
 	}
-	private static ActionFeatureBridge buildActionBridge(INakedAction action,OpeumLibrary lib){
+	private static ActionFeatureBridge buildActionBridge(INakedAction action,OpaeumLibrary lib){
 		if(action instanceof IActionWithTargetElement){
 			return new ActionFeatureBridge((IActionWithTargetElement) action, lib);
 		}else{
@@ -119,7 +119,7 @@ public class OJUtil{
 		}
 	}
 	/**
-	 * A Opeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
 	 * nesting a package is generated for every classifier with nested classifiers
 	 * 
 	 * @param classifier
@@ -129,7 +129,7 @@ public class OJUtil{
 		return new OJPathName(AbstractJavaNameGenerator.packagePathname(p));
 	}
 	/**
-	 * A Opeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
+	 * A Opaeum specific algorithm that takes mapped implementation types into account as well as classifier nesting. With UML classifier
 	 * nesting a package is generated for every classifier with nested classifiers
 	 * 
 	 * @param classifier
@@ -193,8 +193,8 @@ public class OJUtil{
 	}
 	public static void addFailedConstraints(OJOperation execute){
 		// String failedConstraints = UtilityCreator.getUtilPathName() + ".FailedConstraintsException";
-		execute.getOwner().addToImports("org.opeum.runtime.domain.FailedConstraintsException");
-		execute.addToThrows("org.opeum.runtime.domain.FailedConstraintsException");
+		execute.getOwner().addToImports("org.opaeum.runtime.domain.FailedConstraintsException");
+		execute.addToThrows("org.opaeum.runtime.domain.FailedConstraintsException");
 	}
 	/**
 	 * Some classifiers in UML would not necessarily be generated as Java classes. Returns false for NakedBehaviors that have one or less

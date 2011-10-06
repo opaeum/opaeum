@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.impl;
+package org.opaeum.uim.control.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimControl;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimControl;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,8 +25,8 @@ import org.opeum.uim.control.UimControl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.control.impl.UimControlImpl#getWidth <em>Width</em>}</li>
- *   <li>{@link org.opeum.uim.control.impl.UimControlImpl#getField <em>Field</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.impl.UimControlImpl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.impl.UimControlImpl#getField <em>Field</em>}</li>
  * </ul>
  * </p>
  *

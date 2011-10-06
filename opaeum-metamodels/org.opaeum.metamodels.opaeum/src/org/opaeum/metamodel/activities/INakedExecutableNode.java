@@ -1,8 +1,8 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.actions.INakedExceptionHandler;
+import org.opaeum.metamodel.actions.INakedExceptionHandler;
 
 public interface INakedExecutableNode extends INakedActivityNode {
 

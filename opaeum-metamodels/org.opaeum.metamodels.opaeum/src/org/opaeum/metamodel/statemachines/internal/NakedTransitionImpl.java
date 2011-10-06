@@ -1,4 +1,4 @@
-package org.opeum.metamodel.statemachines.internal;
+package org.opaeum.metamodel.statemachines.internal;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,25 +7,25 @@ import java.util.List;
 
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedTypedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.PreAndPostConstrained;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.statemachines.INakedRegion;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.statemachines.INakedTransition;
-import org.opeum.metamodel.statemachines.IRegionOwner;
-import org.opeum.metamodel.statemachines.StateKind;
-import org.opeum.metamodel.statemachines.TransitionKind;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.PreAndPostConstrained;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.statemachines.INakedRegion;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.statemachines.IRegionOwner;
+import org.opaeum.metamodel.statemachines.StateKind;
+import org.opaeum.metamodel.statemachines.TransitionKind;
 
 public class NakedTransitionImpl extends NakedElementImpl implements INakedElement,INakedTransition{
 	private static final long serialVersionUID = 133077616488879831L;

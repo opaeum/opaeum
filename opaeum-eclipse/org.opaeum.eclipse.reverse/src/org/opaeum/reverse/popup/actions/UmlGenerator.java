@@ -1,4 +1,4 @@
-package org.opeum.reverse.popup.actions;
+package org.opaeum.reverse.popup.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,8 +31,8 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.emf.extraction.NameSpaceExtractor;
-import org.opeum.emf.reverse.EmfElementCreator;
+import org.opaeum.emf.extraction.NameSpaceExtractor;
+import org.opaeum.emf.reverse.EmfElementCreator;
 
 public class UmlGenerator{
 	private ClassifierFactory factory;

@@ -1,9 +1,9 @@
-package org.opeum.metamodel.components.internal;
+package org.opaeum.metamodel.components.internal;
 
-import org.opeum.metamodel.bpm.INakedBusinessRole;
-import org.opeum.metamodel.bpm.INakedBusinessService;
-import org.opeum.metamodel.components.INakedPort;
-import org.opeum.metamodel.core.internal.NakedPropertyImpl;
+import org.opaeum.metamodel.bpm.INakedBusinessRole;
+import org.opaeum.metamodel.bpm.INakedBusinessService;
+import org.opaeum.metamodel.components.INakedPort;
+import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
 
 public class NakedPortImpl extends NakedPropertyImpl implements INakedPort{
 

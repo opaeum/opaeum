@@ -4,12 +4,12 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opeum.uim.UimPackage;
+import org.opaeum.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,7 +22,7 @@ import org.opeum.uim.UimPackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.opeum.uim.form.FormFactory
+ * @see org.opaeum.uim.form.FormFactory
  * @model kind="package"
  * @generated
  */
@@ -41,7 +41,7 @@ public interface FormPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://opeum.org/uimetamodel/form/1.0";
+	String eNS_URI = "http://opaeum.org/uimetamodel/form/1.0";
 
 	/**
 	 * The package namespace name.
@@ -57,14 +57,14 @@ public interface FormPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	FormPackage eINSTANCE = org.opeum.uim.form.impl.FormPackageImpl.init();
+	FormPackage eINSTANCE = org.opaeum.uim.form.impl.FormPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.FormPanelImpl <em>Panel</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.FormPanelImpl <em>Panel</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.FormPanelImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getFormPanel()
+	 * @see org.opaeum.uim.form.impl.FormPanelImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getFormPanel()
 	 * @generated
 	 */
 	int FORM_PANEL = 0;
@@ -133,11 +133,11 @@ public interface FormPackage extends EPackage {
 	int FORM_PANEL_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.ActionTaskFormImpl <em>Action Task Form</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.ActionTaskFormImpl <em>Action Task Form</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.ActionTaskFormImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getActionTaskForm()
+	 * @see org.opaeum.uim.form.impl.ActionTaskFormImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getActionTaskForm()
 	 * @generated
 	 */
 	int ACTION_TASK_FORM = 1;
@@ -215,11 +215,11 @@ public interface FormPackage extends EPackage {
 	int ACTION_TASK_FORM_FEATURE_COUNT = FORM_PANEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.StateFormImpl <em>State Form</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.StateFormImpl <em>State Form</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.StateFormImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getStateForm()
+	 * @see org.opaeum.uim.form.impl.StateFormImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getStateForm()
 	 * @generated
 	 */
 	int STATE_FORM = 2;
@@ -297,11 +297,11 @@ public interface FormPackage extends EPackage {
 	int STATE_FORM_FEATURE_COUNT = FORM_PANEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.ClassFormImpl <em>Class Form</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.ClassFormImpl <em>Class Form</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.ClassFormImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getClassForm()
+	 * @see org.opaeum.uim.form.impl.ClassFormImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getClassForm()
 	 * @generated
 	 */
 	int CLASS_FORM = 3;
@@ -379,11 +379,11 @@ public interface FormPackage extends EPackage {
 	int CLASS_FORM_FEATURE_COUNT = FORM_PANEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.UimFormImpl <em>Uim Form</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.UimFormImpl <em>Uim Form</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.UimFormImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getUimForm()
+	 * @see org.opaeum.uim.form.impl.UimFormImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getUimForm()
 	 * @generated
 	 */
 	int UIM_FORM = 4;
@@ -416,11 +416,11 @@ public interface FormPackage extends EPackage {
 	int UIM_FORM_FEATURE_COUNT = UimPackage.USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.OperationTaskFormImpl <em>Operation Task Form</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.OperationTaskFormImpl <em>Operation Task Form</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.OperationTaskFormImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getOperationTaskForm()
+	 * @see org.opaeum.uim.form.impl.OperationTaskFormImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getOperationTaskForm()
 	 * @generated
 	 */
 	int OPERATION_TASK_FORM = 5;
@@ -498,11 +498,11 @@ public interface FormPackage extends EPackage {
 	int OPERATION_TASK_FORM_FEATURE_COUNT = FORM_PANEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.OperationInvocationFormImpl <em>Operation Invocation Form</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.OperationInvocationFormImpl <em>Operation Invocation Form</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.OperationInvocationFormImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getOperationInvocationForm()
+	 * @see org.opaeum.uim.form.impl.OperationInvocationFormImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getOperationInvocationForm()
 	 * @generated
 	 */
 	int OPERATION_INVOCATION_FORM = 6;
@@ -580,11 +580,11 @@ public interface FormPackage extends EPackage {
 	int OPERATION_INVOCATION_FORM_FEATURE_COUNT = FORM_PANEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.form.impl.DetailPanelImpl <em>Detail Panel</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.form.impl.DetailPanelImpl <em>Detail Panel</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.form.impl.DetailPanelImpl
-	 * @see org.opeum.uim.form.impl.FormPackageImpl#getDetailPanel()
+	 * @see org.opaeum.uim.form.impl.DetailPanelImpl
+	 * @see org.opaeum.uim.form.impl.FormPackageImpl#getDetailPanel()
 	 * @generated
 	 */
 	int DETAIL_PANEL = 7;
@@ -627,168 +627,168 @@ public interface FormPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.FormPanel <em>Panel</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.FormPanel <em>Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Panel</em>'.
-	 * @see org.opeum.uim.form.FormPanel
+	 * @see org.opaeum.uim.form.FormPanel
 	 * @generated
 	 */
 	EClass getFormPanel();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opeum.uim.form.FormPanel#getForm <em>Form</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.form.FormPanel#getForm <em>Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Form</em>'.
-	 * @see org.opeum.uim.form.FormPanel#getForm()
+	 * @see org.opaeum.uim.form.FormPanel#getForm()
 	 * @see #getFormPanel()
 	 * @generated
 	 */
 	EReference getFormPanel_Form();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.ActionTaskForm <em>Action Task Form</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.ActionTaskForm <em>Action Task Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Action Task Form</em>'.
-	 * @see org.opeum.uim.form.ActionTaskForm
+	 * @see org.opaeum.uim.form.ActionTaskForm
 	 * @generated
 	 */
 	EClass getActionTaskForm();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.form.ActionTaskForm#getFolder <em>Folder</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.form.ActionTaskForm#getFolder <em>Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Folder</em>'.
-	 * @see org.opeum.uim.form.ActionTaskForm#getFolder()
+	 * @see org.opaeum.uim.form.ActionTaskForm#getFolder()
 	 * @see #getActionTaskForm()
 	 * @generated
 	 */
 	EReference getActionTaskForm_Folder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.StateForm <em>State Form</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.StateForm <em>State Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>State Form</em>'.
-	 * @see org.opeum.uim.form.StateForm
+	 * @see org.opaeum.uim.form.StateForm
 	 * @generated
 	 */
 	EClass getStateForm();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.form.StateForm#getFolder <em>Folder</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.form.StateForm#getFolder <em>Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Folder</em>'.
-	 * @see org.opeum.uim.form.StateForm#getFolder()
+	 * @see org.opaeum.uim.form.StateForm#getFolder()
 	 * @see #getStateForm()
 	 * @generated
 	 */
 	EReference getStateForm_Folder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.ClassForm <em>Class Form</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.ClassForm <em>Class Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Class Form</em>'.
-	 * @see org.opeum.uim.form.ClassForm
+	 * @see org.opaeum.uim.form.ClassForm
 	 * @generated
 	 */
 	EClass getClassForm();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.form.ClassForm#getFolder <em>Folder</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.form.ClassForm#getFolder <em>Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Folder</em>'.
-	 * @see org.opeum.uim.form.ClassForm#getFolder()
+	 * @see org.opaeum.uim.form.ClassForm#getFolder()
 	 * @see #getClassForm()
 	 * @generated
 	 */
 	EReference getClassForm_Folder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.UimForm <em>Uim Form</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.UimForm <em>Uim Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Uim Form</em>'.
-	 * @see org.opeum.uim.form.UimForm
+	 * @see org.opaeum.uim.form.UimForm
 	 * @generated
 	 */
 	EClass getUimForm();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.form.UimForm#getPanel <em>Panel</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.form.UimForm#getPanel <em>Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Panel</em>'.
-	 * @see org.opeum.uim.form.UimForm#getPanel()
+	 * @see org.opaeum.uim.form.UimForm#getPanel()
 	 * @see #getUimForm()
 	 * @generated
 	 */
 	EReference getUimForm_Panel();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.OperationTaskForm <em>Operation Task Form</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.OperationTaskForm <em>Operation Task Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Operation Task Form</em>'.
-	 * @see org.opeum.uim.form.OperationTaskForm
+	 * @see org.opaeum.uim.form.OperationTaskForm
 	 * @generated
 	 */
 	EClass getOperationTaskForm();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.form.OperationTaskForm#getFolder <em>Folder</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.form.OperationTaskForm#getFolder <em>Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Folder</em>'.
-	 * @see org.opeum.uim.form.OperationTaskForm#getFolder()
+	 * @see org.opaeum.uim.form.OperationTaskForm#getFolder()
 	 * @see #getOperationTaskForm()
 	 * @generated
 	 */
 	EReference getOperationTaskForm_Folder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.OperationInvocationForm <em>Operation Invocation Form</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.OperationInvocationForm <em>Operation Invocation Form</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Operation Invocation Form</em>'.
-	 * @see org.opeum.uim.form.OperationInvocationForm
+	 * @see org.opaeum.uim.form.OperationInvocationForm
 	 * @generated
 	 */
 	EClass getOperationInvocationForm();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.form.OperationInvocationForm#getFolder <em>Folder</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.form.OperationInvocationForm#getFolder <em>Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Folder</em>'.
-	 * @see org.opeum.uim.form.OperationInvocationForm#getFolder()
+	 * @see org.opaeum.uim.form.OperationInvocationForm#getFolder()
 	 * @see #getOperationInvocationForm()
 	 * @generated
 	 */
 	EReference getOperationInvocationForm_Folder();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.form.DetailPanel <em>Detail Panel</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.form.DetailPanel <em>Detail Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Detail Panel</em>'.
-	 * @see org.opeum.uim.form.DetailPanel
+	 * @see org.opaeum.uim.form.DetailPanel
 	 * @generated
 	 */
 	EClass getDetailPanel();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opeum.uim.form.DetailPanel#getMasterComponent <em>Master Component</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.form.DetailPanel#getMasterComponent <em>Master Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Master Component</em>'.
-	 * @see org.opeum.uim.form.DetailPanel#getMasterComponent()
+	 * @see org.opaeum.uim.form.DetailPanel#getMasterComponent()
 	 * @see #getDetailPanel()
 	 * @generated
 	 */
@@ -817,11 +817,11 @@ public interface FormPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.FormPanelImpl <em>Panel</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.FormPanelImpl <em>Panel</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.FormPanelImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getFormPanel()
+		 * @see org.opaeum.uim.form.impl.FormPanelImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getFormPanel()
 		 * @generated
 		 */
 		EClass FORM_PANEL = eINSTANCE.getFormPanel();
@@ -835,11 +835,11 @@ public interface FormPackage extends EPackage {
 		EReference FORM_PANEL__FORM = eINSTANCE.getFormPanel_Form();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.ActionTaskFormImpl <em>Action Task Form</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.ActionTaskFormImpl <em>Action Task Form</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.ActionTaskFormImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getActionTaskForm()
+		 * @see org.opaeum.uim.form.impl.ActionTaskFormImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getActionTaskForm()
 		 * @generated
 		 */
 		EClass ACTION_TASK_FORM = eINSTANCE.getActionTaskForm();
@@ -853,11 +853,11 @@ public interface FormPackage extends EPackage {
 		EReference ACTION_TASK_FORM__FOLDER = eINSTANCE.getActionTaskForm_Folder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.StateFormImpl <em>State Form</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.StateFormImpl <em>State Form</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.StateFormImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getStateForm()
+		 * @see org.opaeum.uim.form.impl.StateFormImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getStateForm()
 		 * @generated
 		 */
 		EClass STATE_FORM = eINSTANCE.getStateForm();
@@ -871,11 +871,11 @@ public interface FormPackage extends EPackage {
 		EReference STATE_FORM__FOLDER = eINSTANCE.getStateForm_Folder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.ClassFormImpl <em>Class Form</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.ClassFormImpl <em>Class Form</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.ClassFormImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getClassForm()
+		 * @see org.opaeum.uim.form.impl.ClassFormImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getClassForm()
 		 * @generated
 		 */
 		EClass CLASS_FORM = eINSTANCE.getClassForm();
@@ -889,11 +889,11 @@ public interface FormPackage extends EPackage {
 		EReference CLASS_FORM__FOLDER = eINSTANCE.getClassForm_Folder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.UimFormImpl <em>Uim Form</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.UimFormImpl <em>Uim Form</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.UimFormImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getUimForm()
+		 * @see org.opaeum.uim.form.impl.UimFormImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getUimForm()
 		 * @generated
 		 */
 		EClass UIM_FORM = eINSTANCE.getUimForm();
@@ -907,11 +907,11 @@ public interface FormPackage extends EPackage {
 		EReference UIM_FORM__PANEL = eINSTANCE.getUimForm_Panel();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.OperationTaskFormImpl <em>Operation Task Form</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.OperationTaskFormImpl <em>Operation Task Form</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.OperationTaskFormImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getOperationTaskForm()
+		 * @see org.opaeum.uim.form.impl.OperationTaskFormImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getOperationTaskForm()
 		 * @generated
 		 */
 		EClass OPERATION_TASK_FORM = eINSTANCE.getOperationTaskForm();
@@ -925,11 +925,11 @@ public interface FormPackage extends EPackage {
 		EReference OPERATION_TASK_FORM__FOLDER = eINSTANCE.getOperationTaskForm_Folder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.OperationInvocationFormImpl <em>Operation Invocation Form</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.OperationInvocationFormImpl <em>Operation Invocation Form</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.OperationInvocationFormImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getOperationInvocationForm()
+		 * @see org.opaeum.uim.form.impl.OperationInvocationFormImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getOperationInvocationForm()
 		 * @generated
 		 */
 		EClass OPERATION_INVOCATION_FORM = eINSTANCE.getOperationInvocationForm();
@@ -943,11 +943,11 @@ public interface FormPackage extends EPackage {
 		EReference OPERATION_INVOCATION_FORM__FOLDER = eINSTANCE.getOperationInvocationForm_Folder();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.form.impl.DetailPanelImpl <em>Detail Panel</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.form.impl.DetailPanelImpl <em>Detail Panel</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.form.impl.DetailPanelImpl
-		 * @see org.opeum.uim.form.impl.FormPackageImpl#getDetailPanel()
+		 * @see org.opaeum.uim.form.impl.DetailPanelImpl
+		 * @see org.opaeum.uim.form.impl.FormPackageImpl#getDetailPanel()
 		 * @generated
 		 */
 		EClass DETAIL_PANEL = eINSTANCE.getDetailPanel();

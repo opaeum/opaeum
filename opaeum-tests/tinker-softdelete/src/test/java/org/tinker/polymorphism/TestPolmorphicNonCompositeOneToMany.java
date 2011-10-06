@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
 public class TestPolmorphicNonCompositeOneToMany extends BaseLocalDbTest {

@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml.editor;
+package org.opaeum.topcased.uml.editor;
 
 import java.util.Collection;
 
@@ -35,12 +35,12 @@ import org.eclipse.uml2.uml.edit.providers.StateMachineItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StereotypeApplicationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.eclipse.uml2.uml.util.UMLUtil;
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.uml.editor.outline.CustomCallBehaviorActionItemProvider;
 
-public class OpeumItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
-	public OpeumItemProviderAdapterFactory(){
+public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
+	public OpaeumItemProviderAdapterFactory(){
 	}
 	@Override
 	public Adapter createCallBehaviorActionAdapter(){
@@ -67,7 +67,7 @@ public class OpeumItemProviderAdapterFactory extends UMLItemProviderAdapterFacto
 				@Override
 				public Object getImage(Object object){
 					return super.getImage(object);
-					//					return overlayImage(object, OpeumPlugin.getDefault().getImageRegistry().getDescriptor("Actor")); //$NON-NLS-1$
+					//					return overlayImage(object, OpaeumPlugin.getDefault().getImageRegistry().getDescriptor("Actor")); //$NON-NLS-1$
 				}
 			};
 		}

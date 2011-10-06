@@ -4,11 +4,11 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.impl;
+package org.opaeum.uim.control.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimText;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimText;
 
 /**
  * <!-- begin-user-doc -->

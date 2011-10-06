@@ -1,8 +1,8 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 /**
  * A common interface for both Transitions from StateMachines and ActivityEdge from Activities.
  * Both have a guard and a context from which the guard should be derived

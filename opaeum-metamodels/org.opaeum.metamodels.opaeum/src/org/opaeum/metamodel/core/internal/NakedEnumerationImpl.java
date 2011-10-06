@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +9,9 @@ import java.util.List;
 import nl.klasse.octopus.model.IEnumLiteral;
 import nl.klasse.octopus.model.IModelElement;
 
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 
 public class NakedEnumerationImpl extends NakedClassifierImpl implements INakedEnumeration{
 	private static final long serialVersionUID = 2719597562476111234L;

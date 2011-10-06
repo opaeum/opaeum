@@ -8,7 +8,7 @@ package nl.klasse.octopus.codegen.umlToJava.maps;
 import nl.klasse.octopus.model.IState;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * StateMap : 

@@ -1,21 +1,21 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedMultiplicity;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.IParameterOwner;
-import org.opeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
-import org.opeum.metamodel.core.internal.emulated.MessageStructureImpl;
-import org.opeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import org.opeum.name.NameConverter;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
+import org.opaeum.metamodel.core.internal.emulated.MessageStructureImpl;
+import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import org.opaeum.name.NameConverter;
 
 public class ArtificialProperty extends AbstractPropertyBridge{
 	private static final long serialVersionUID = 1L;

@@ -1,7 +1,7 @@
 #set($shouldGenerate=true)
 DROP TABLE abstract_${model.mappingInfo.persistentName}_aud;
 DROP TABLE hi_value;
-DROP TABLE opeum_version_info;
+DROP TABLE opaeum_version_info;
 #foreach($entity in $model.entities)
 DROP TABLE ${entity.mappingInfo.persistentName};
 #foreach($property in $entity.nakedAttributes)

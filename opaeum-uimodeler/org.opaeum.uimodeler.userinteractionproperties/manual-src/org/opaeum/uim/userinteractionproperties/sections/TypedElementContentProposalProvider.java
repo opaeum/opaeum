@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfElementFinder;
 
 public class TypedElementContentProposalProvider extends SimpleContentProposalProvider{
 	private final TypedElementCodeCompletingSection codeCompletingSection;

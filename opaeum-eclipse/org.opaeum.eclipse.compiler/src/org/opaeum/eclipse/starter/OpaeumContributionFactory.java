@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import org.eclipse.core.expressions.EvaluationResult;
 import org.eclipse.core.expressions.Expression;
@@ -14,12 +14,12 @@ import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Model;
 
-public class OpiumContributionFactory extends ExtensionContributionFactory{
-	public OpiumContributionFactory(){
+public class OpaeumContributionFactory extends ExtensionContributionFactory{
+	public OpaeumContributionFactory(){
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
-		MenuManager menuManager = new MenuManager("Opium");
+		MenuManager menuManager = new MenuManager("Opaeum");
 		additions.addContributionItem(menuManager, new Expression(){
 			@Override
 			public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
@@ -27,7 +27,7 @@ public class OpiumContributionFactory extends ExtensionContributionFactory{
 				if(s.getSelection() instanceof IStructuredSelection){
 					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
 					if(selection.getFirstElement() instanceof IContainer){
-						if(DynamicOpiumMenu.hasUmlModels(selection) || DynamicOpiumMenu.hasConfigFile(selection)){
+						if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
 							return EvaluationResult.TRUE;
 						}
 						System.out.println("NO UML Models");
@@ -39,7 +39,7 @@ public class OpiumContributionFactory extends ExtensionContributionFactory{
 				return EvaluationResult.FALSE;
 			}
 		});
-		menuManager.add(new DynamicOpiumMenu());
+		menuManager.add(new DynamicOpaeumMenu());
 		MenuManager applyProfileMenu = new MenuManager("Apply Profile");
 		Expression visibleWhen = new Expression(){
 			@Override

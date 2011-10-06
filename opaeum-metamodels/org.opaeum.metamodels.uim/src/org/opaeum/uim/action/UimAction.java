@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.action;
+package org.opaeum.uim.action;
 
-import org.opeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.OutlayableComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +18,7 @@ import org.opeum.uim.layout.OutlayableComponent;
  * <!-- end-model-doc -->
  *
  *
- * @see org.opeum.uim.action.ActionPackage#getUimAction()
+ * @see org.opaeum.uim.action.ActionPackage#getUimAction()
  * @model abstract="true"
  * @generated
  */

@@ -1,29 +1,29 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJForStatement;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.java.metamodel.annotation.OJEnumLiteral;
-import org.opeum.javageneration.StereotypeAnnotator;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.javageneration.util.ReflectionUtil;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.runtime.domain.IProcessStep;
-import org.opeum.runtime.domain.TriggerMethod;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJEnum;
+import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
+import org.opaeum.javageneration.StereotypeAnnotator;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.javageneration.util.ReflectionUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.runtime.domain.IProcessStep;
+import org.opaeum.runtime.domain.TriggerMethod;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
@@ -81,7 +81,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 			OJUtil.addParameter(l, "parentState", "null");
 		}
 		OJUtil.addParameter(l, "uuid", '"' + step.getMappingInfo().getIdInModel()+ '"');
-		OJUtil.addParameter(l, "id", step.getMappingInfo().getOpeumId().toString() + 'l');
+		OJUtil.addParameter(l, "id", step.getMappingInfo().getOpaeumId().toString() + 'l');
 		OJUtil.addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
 		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getOperationTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);

@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -15,24 +15,24 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.widgets.Display;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.validation.BrokenElement;
-import org.opeum.metamodel.validation.BrokenRule;
-import org.opeum.metamodel.validation.IValidationRule;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.BrokenRule;
+import org.opaeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public class NakedUmlErrorMarker implements NakedUmlSynchronizationListener{
 	public static final String VALIDATION_MARKER_TYPE = "org.eclipse.emf.validation.problem"; //$NON-NLS-1$
 	public static final String RULE_ATTRIBUTE = "rule"; //$NON-NLS-1$
 	//TODO eliminate dependency on context
-	private OpeumEclipseContext context;
+	private OpaeumEclipseContext context;
 	private long nextMarked = 0;
 	private long lastMarked = 0;
 	private Map<EObject,BrokenElement> brokenElements;
 	private HashMap<String,IMarker> existingMarkers;
-	public NakedUmlErrorMarker(OpeumEclipseContext context){
+	public NakedUmlErrorMarker(OpaeumEclipseContext context){
 		super();
 		this.context = context;
 	}
@@ -82,7 +82,7 @@ public class NakedUmlErrorMarker implements NakedUmlSynchronizationListener{
 	}
 	public Set<String> calcBrokenElements(){
 		Set<String> brokenUris = new HashSet<String>();
-		for(Entry<String,BrokenElement> entry:context.getEmfToOpeumSynchronizer().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
+		for(Entry<String,BrokenElement> entry:context.getEmfToOpaeumSynchronizer().getNakedWorkspace().getErrorMap().getErrors().entrySet()){
 			EObject o = findElement(entry.getKey());
 			if(o != null && o.eResource() != null){
 				for(Entry<IValidationRule,BrokenRule> entry2:entry.getValue().getBrokenRules().entrySet()){

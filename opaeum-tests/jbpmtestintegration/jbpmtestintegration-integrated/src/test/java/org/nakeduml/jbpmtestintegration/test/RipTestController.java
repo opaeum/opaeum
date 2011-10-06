@@ -1,4 +1,4 @@
-package org.opeum.jbpmtestintegration.test;
+package org.opaeum.jbpmtestintegration.test;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;

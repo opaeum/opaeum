@@ -1,16 +1,16 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedInterfaceRealization;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.internal.ParameterUtil;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedInterfaceRealization;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.internal.ParameterUtil;
 
 @StepDependency(phase = ValidationPhase.class)
 public class OperationValidation extends AbstractValidator{

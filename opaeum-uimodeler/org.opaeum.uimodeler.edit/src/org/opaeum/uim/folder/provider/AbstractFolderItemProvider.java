@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.provider;
+package org.opaeum.uim.folder.provider;
 
 
 import java.util.Collection;
@@ -23,15 +23,15 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.folder.AbstractFolder;
-import org.opeum.uim.folder.FolderFactory;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.provider.UimEditPlugin;
-import org.opeum.uim.provider.UserInteractionElementItemProvider;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.folder.AbstractFolder;
+import org.opaeum.uim.folder.FolderFactory;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.provider.UserInteractionElementItemProvider;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.folder.AbstractFolder} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.folder.AbstractFolder} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

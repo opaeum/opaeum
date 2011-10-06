@@ -1,4 +1,4 @@
-package net.sf.opeum.arquillian;
+package net.sf.opaeum.arquillian;
 
 import java.io.File;
 import java.util.ArrayList;

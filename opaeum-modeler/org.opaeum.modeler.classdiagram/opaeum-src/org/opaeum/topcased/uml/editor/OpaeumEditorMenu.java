@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml.editor;
+package org.opaeum.topcased.uml.editor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,13 +23,13 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.name.NameConverter;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.name.NameConverter;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu;
 
-public class OpeumEditorMenu extends UMLEditorMenu{
+public class OpaeumEditorMenu extends UMLEditorMenu{
 	private MixedEditDomain domain;
 	private EObject selectedObject;
 	private Collection<CommandParameter> descriptors;
@@ -37,7 +37,7 @@ public class OpeumEditorMenu extends UMLEditorMenu{
 		this.descriptors = new ArrayList<CommandParameter>();
 		for(Object o:domain.getEMFEditingDomain().getNewChildDescriptors(selectedObject, null)){
 			CommandParameter cp = (CommandParameter) o;
-			if(OpeumFilter.isAllowedElement((EObject) cp.getValue())){
+			if(OpaeumFilter.isAllowedElement((EObject) cp.getValue())){
 				this.descriptors.add(cp);
 			}
 		}

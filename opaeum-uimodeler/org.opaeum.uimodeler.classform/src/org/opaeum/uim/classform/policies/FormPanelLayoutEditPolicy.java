@@ -1,14 +1,14 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.policies;
+package org.opaeum.uim.classform.policies;
 
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.layout.UimBorderLayout;
-import org.opeum.uim.layout.UimFullLayout;
-import org.opeum.uim.layout.UimGridLayout;
-import org.opeum.uim.layout.UimToolbarLayout;
-import org.opeum.uim.layout.UimXYLayout;
+import org.opaeum.uim.layout.UimBorderLayout;
+import org.opaeum.uim.layout.UimFullLayout;
+import org.opaeum.uim.layout.UimGridLayout;
+import org.opaeum.uim.layout.UimToolbarLayout;
+import org.opaeum.uim.layout.UimXYLayout;
 
 /**
  * @generated

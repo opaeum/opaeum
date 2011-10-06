@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.compilation.filegeneration
-Bundle-SymbolicName: org.opeum.compilation.filegeneration;singleton:=true
+Bundle-Name: org.opaeum.compilation.filegeneration
+Bundle-SymbolicName: org.opaeum.compilation.filegeneration;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.uml2.uml,
- org.opeum.transformation.engine,
- org.opeum.metamodels.text
+ org.opaeum.transformation.engine,
+ org.opaeum.metamodels.text
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
-Export-Package: org.opeum.filegeneration
-Bundle-Vendor: Opeum
+Export-Package: org.opaeum.filegeneration
+Bundle-Vendor: Opaeum

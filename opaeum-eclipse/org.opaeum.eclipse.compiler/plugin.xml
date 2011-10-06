@@ -4,55 +4,55 @@
  <extension
        point="org.eclipse.ui.startup">
     <startup
-          class="org.opeum.eclipse.javasync.JavaTransformationProcessManager"></startup>
+          class="org.opaeum.eclipse.javasync.JavaTransformationProcessManager"></startup>
  </extension>
  <extension
        id="lkjl"
-       point="org.opeum.eclipse.sourceFolderStrategy">
+       point="org.opaeum.eclipse.sourceFolderStrategy">
     <sourceFolderStrategy
-          className="org.opeum.pomgeneration.MultiProjectMavenSourceFolderStrategy">
+          className="org.opaeum.pomgeneration.MultiProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
-          className="org.opeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
+          className="org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
  <extension
        point="org.eclipse.ui.menus">
     <menuContribution
           allPopups="false"
-          class="org.opeum.eclipse.starter.OpiumContributionFactory"
+          class="org.opaeum.eclipse.starter.OpaeumContributionFactory"
           locationURI="popup:org.eclipse.ui.popup.any?before=additions">
     </menuContribution>
  </extension>
  <extension
-       point="org.opeum.eclipse.transformationStep">
+       point="org.opaeum.eclipse.transformationStep">
     <transformationStep
-          className="org.opeum.generation.features.PersistenceUsingHibernate">
+          className="org.opaeum.generation.features.PersistenceUsingHibernate">
     </transformationStep>
     <transformationStep
-          className="org.opeum.generation.features.PersistenceUsingJpa">
+          className="org.opaeum.generation.features.PersistenceUsingJpa">
     </transformationStep>
  </extension>
  <extension
-       point="org.opeum.eclipse.modelLibrary">
+       point="org.opaeum.eclipse.modelLibrary">
     <modelLibrary
-          name="Opium Simple Types"
-          uri="pathmap://NAKEDUML_MODELS/libraries/OpiumSimpleTypes.library.uml">
+          name="Opaeum Simple Types"
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml">
     </modelLibrary>
     <modelLibrary
-          name="Opium BPM and Business Calendar Library"
-          uri="pathmap://NAKEDUML_MODELS/libraries/OpiumBPM.library.uml">
+          name="Opaeum BPM and Business Calendar Library"
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml">
     </modelLibrary>
  </extension>
  <extension
-       point="org.opeum.eclipse.profile">
+       point="org.opaeum.eclipse.profile">
     <profile
-          name="Opium Standard Profile"
-          uri="pathmap://NAKEDUML_MODELS/profiles/OpiumStandardProfile.uml">
+          name="Opaeum Standard Profile"
+          uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml">
     </profile>
     <profile
-          name="Opium BPM Profile"
-          uri="pathmap://NAKEDUML_MODELS/profiles/OpiumBPMProfile.uml">
+          name="Opaeum BPM Profile"
+          uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml">
     </profile>
     <profile
           name="javax.validation"

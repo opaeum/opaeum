@@ -1,17 +1,17 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<INakedEmbeddedSingleScreenTask>{
 	EmbeddedSingleScreenTaskCaller delegate;
-	public EmbeddedSingleScreenTaskBuilder(OpeumLibrary oclEngine,INakedEmbeddedSingleScreenTask node){
+	public EmbeddedSingleScreenTaskBuilder(OpaeumLibrary oclEngine,INakedEmbeddedSingleScreenTask node){
 		super(oclEngine, node);
 		delegate = new EmbeddedSingleScreenTaskCaller(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));
 	}

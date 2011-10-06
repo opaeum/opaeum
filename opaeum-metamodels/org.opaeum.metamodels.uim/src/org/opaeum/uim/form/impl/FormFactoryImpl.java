@@ -4,23 +4,23 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.impl;
+package org.opaeum.uim.form.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.form.ActionTaskForm;
-import org.opeum.uim.form.ClassForm;
-import org.opeum.uim.form.DetailPanel;
-import org.opeum.uim.form.FormFactory;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.OperationInvocationForm;
-import org.opeum.uim.form.OperationTaskForm;
-import org.opeum.uim.form.StateForm;
-import org.opeum.uim.form.UimForm;
+import org.opaeum.uim.form.ActionTaskForm;
+import org.opaeum.uim.form.ClassForm;
+import org.opaeum.uim.form.DetailPanel;
+import org.opaeum.uim.form.FormFactory;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.form.OperationTaskForm;
+import org.opaeum.uim.form.StateForm;
+import org.opaeum.uim.form.UimForm;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,7 +37,7 @@ public class FormFactoryImpl extends EFactoryImpl implements FormFactory {
 	 */
 	public static FormFactory init() {
 		try {
-			FormFactory theFormFactory = (FormFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/form/1.0"); 
+			FormFactory theFormFactory = (FormFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/form/1.0"); 
 			if (theFormFactory != null) {
 				return theFormFactory;
 			}

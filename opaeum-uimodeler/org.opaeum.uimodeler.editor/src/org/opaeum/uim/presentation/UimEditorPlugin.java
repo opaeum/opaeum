@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.presentation;
+package org.opaeum.uim.presentation;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;

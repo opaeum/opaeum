@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.provider;
+package org.opaeum.uim.layout.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.layout.util.LayoutAdapterFactory;
+import org.opaeum.uim.layout.util.LayoutAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimColumnLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimColumnLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimColumnLayoutItemProvider uimColumnLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimColumnLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimColumnLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimFullLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimFullLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimFullLayoutItemProvider uimFullLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimFullLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimFullLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimXYLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimXYLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimXYLayoutItemProvider uimXYLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimXYLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimXYLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimBorderLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimBorderLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimBorderLayoutItemProvider uimBorderLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimBorderLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimBorderLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimToolbarLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimToolbarLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimToolbarLayoutItemProvider uimToolbarLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimToolbarLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimToolbarLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -189,7 +189,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -197,7 +197,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimLayoutItemProvider uimLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -212,7 +212,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.layout.UimGridLayout} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.layout.UimGridLayout} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -220,7 +220,7 @@ public class LayoutItemProviderAdapterFactory extends LayoutAdapterFactory imple
 	protected UimGridLayoutItemProvider uimGridLayoutItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.layout.UimGridLayout}.
+	 * This creates an adapter for a {@link org.opaeum.uim.layout.UimGridLayout}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

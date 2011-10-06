@@ -1,4 +1,4 @@
-package org.opeum.eclipse.javasync;
+package org.opaeum.eclipse.javasync;
 
 import java.io.File;
 import java.util.Iterator;
@@ -16,20 +16,20 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.eclipse.starter.AbstractOpiumAction;
-import org.opeum.eclipse.starter.Activator;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.TransformationProcess;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.textmetamodel.TextWorkspace;
-import org.opeum.validation.namegeneration.PersistentNameGenerator;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.ProgressMonitorTransformationLog;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.starter.AbstractOpaeumAction;
+import org.opaeum.eclipse.starter.Activator;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.TransformationProcess;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
-public class RecompileModelAction extends AbstractOpiumAction{
+public class RecompileModelAction extends AbstractOpaeumAction{
 	public RecompileModelAction(IStructuredSelection selection){
 		super(selection, "Recompile Model");
 		this.selection = selection;
@@ -50,17 +50,17 @@ public class RecompileModelAction extends AbstractOpiumAction{
 							if(p == null){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
-										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opium is still initializing",
-												"The Opium tooling is still initializing. Please try again shortly.");
+										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
+												"The Opaeum tooling is still initializing. Please try again shortly.");
 									}
 								});
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
-								OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
-								currentContext. getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
+								OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
+								currentContext. getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
-								OpeumConfig cfg = currentContext.getConfig();
+								OpaeumConfig cfg = currentContext.getConfig();
 								PersistentNameGenerator png = new PersistentNameGenerator();
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60));
@@ -68,11 +68,11 @@ public class RecompileModelAction extends AbstractOpiumAction{
 								p.findModel(EmfWorkspace.class).saveAll();
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-								currentContext. getEmfToOpeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
+								currentContext. getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 
 							}
 						}catch(Exception e){
-							OpeumEclipsePlugin.logError("Recompilation Failed", e);
+							OpaeumEclipsePlugin.logError("Recompilation Failed", e);
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}finally{

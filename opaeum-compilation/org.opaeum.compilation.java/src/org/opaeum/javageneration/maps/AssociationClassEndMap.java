@@ -1,8 +1,8 @@
-package org.opeum.javageneration.maps;
+package org.opaeum.javageneration.maps;
 
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class AssociationClassEndMap{
 	private NakedStructuralFeatureMap map;

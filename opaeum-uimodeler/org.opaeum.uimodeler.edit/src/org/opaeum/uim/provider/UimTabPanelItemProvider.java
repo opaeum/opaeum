@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.provider;
+package org.opaeum.uim.provider;
 
 
 import java.util.Collection;
@@ -22,13 +22,13 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.UimFactory;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UimTabPanel;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimFactory;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimTabPanel;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.UimTabPanel} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.UimTabPanel} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

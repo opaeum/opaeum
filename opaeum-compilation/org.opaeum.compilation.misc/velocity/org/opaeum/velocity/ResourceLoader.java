@@ -1,4 +1,4 @@
-package org.opeum.velocity;
+package org.opaeum.velocity;
 import java.io.InputStream;
 
 import org.apache.velocity.exception.ResourceNotFoundException;

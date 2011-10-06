@@ -1,9 +1,9 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.IParameterOwner;
 
 /**
  * From an Octopus perspective, any Behavior could possibly be called from an

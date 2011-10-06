@@ -1,4 +1,4 @@
-package org.opeum.reverse.popup.actions;
+package org.opaeum.reverse.popup.actions;
 
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,19 +12,19 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.control.ControlKind;
-import org.opeum.uim.control.ControlPackage;
-import org.opeum.uim.control.UimControl;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.security.impl.EditableSecureObjectImpl;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.ControlPackage;
+import org.opaeum.uim.control.UimControl;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.security.impl.EditableSecureObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,12 +33,12 @@ import org.opeum.uim.security.impl.EditableSecureObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UimFieldImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimFieldImpl#getParent <em>Parent</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimFieldImpl#getControl <em>Control</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimFieldImpl#getControlKind <em>Control Kind</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimFieldImpl#getLabelWidth <em>Label Width</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimFieldImpl#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getControl <em>Control</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getControlKind <em>Control Kind</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getLabelWidth <em>Label Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getBinding <em>Binding</em>}</li>
  * </ul>
  * </p>
  *

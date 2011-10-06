@@ -1,12 +1,12 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.actions.INakedExceptionHandler;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.actions.INakedExceptionHandler;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedExceptionHandlerImpl extends NakedElementImpl implements INakedExceptionHandler{
 	/**

@@ -1,9 +1,9 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.PreAndPostConstrained;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.PreAndPostConstrained;
 
 public interface INakedAction extends INakedExecutableNode,INakedElementOwner,PreAndPostConstrained{
 	Collection<INakedInputPin> getInput();

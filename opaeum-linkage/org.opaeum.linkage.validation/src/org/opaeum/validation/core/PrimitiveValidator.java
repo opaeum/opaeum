@@ -1,12 +1,12 @@
-package org.opeum.validation.core;
+package org.opaeum.validation.core;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.linkage.CoreValidationRule;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.validation.AbstractValidator;
-import org.opeum.validation.ValidationPhase;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.linkage.CoreValidationRule;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.validation.AbstractValidator;
+import org.opaeum.validation.ValidationPhase;
 
 @StepDependency(phase = ValidationPhase.class)
 public class PrimitiveValidator extends AbstractValidator{

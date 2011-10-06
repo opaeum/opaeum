@@ -1,7 +1,7 @@
-package org.opeum.eclipse.context;
+package org.opaeum.eclipse.context;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.opeum.eclipse.NakedUmlSynchronizationListener;
+import org.opaeum.eclipse.NakedUmlSynchronizationListener;
 
 public interface NakedUmlContextListener extends NakedUmlSynchronizationListener{
 

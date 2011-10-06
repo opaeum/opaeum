@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.util;
+package org.opaeum.uim.folder.util;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * <!-- begin-user-doc -->
  * The <b>Resource Factory</b> associated with the package.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.folder.util.FolderResourceImpl
+ * @see org.opaeum.uim.folder.util.FolderResourceImpl
  * @generated
  */
 public class FolderResourceFactoryImpl extends ResourceFactoryImpl {

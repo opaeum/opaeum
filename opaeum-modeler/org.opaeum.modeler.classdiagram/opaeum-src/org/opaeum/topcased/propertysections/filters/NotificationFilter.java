@@ -1,7 +1,7 @@
-package org.opeum.topcased.propertysections.filters;
+package org.opaeum.topcased.propertysections.filters;
 
-import org.opeum.emf.extraction.StereotypesHelper;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 import org.eclipse.uml2.uml.Element;
 

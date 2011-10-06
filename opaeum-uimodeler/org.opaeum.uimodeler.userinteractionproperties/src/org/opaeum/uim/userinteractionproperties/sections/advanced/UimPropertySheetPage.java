@@ -1,9 +1,9 @@
-package org.opeum.uim.userinteractionproperties.sections.advanced;
+package org.opaeum.uim.userinteractionproperties.sections.advanced;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.uim.provider.UimItemProviderAdapterFactory;
+import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.properties.ModelerPropertySheetPage;
 

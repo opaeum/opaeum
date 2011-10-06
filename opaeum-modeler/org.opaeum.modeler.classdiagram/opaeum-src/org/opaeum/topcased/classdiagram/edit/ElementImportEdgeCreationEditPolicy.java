@@ -1,4 +1,4 @@
-package org.opeum.topcased.classdiagram.edit;
+package org.opaeum.topcased.classdiagram.edit;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ConnectionEditPart;

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.action;
+package org.opaeum.uim.action;
 
 
 /**
@@ -15,18 +15,18 @@ package org.opeum.uim.action;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.action.BuiltInAction#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.BuiltInAction#getKind <em>Kind</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.action.ActionPackage#getBuiltInAction()
+ * @see org.opaeum.uim.action.ActionPackage#getBuiltInAction()
  * @model
  * @generated
  */
 public interface BuiltInAction extends UimAction {
 	/**
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.opeum.uim.action.ActionKind}.
+	 * The literals are from the enumeration {@link org.opaeum.uim.action.ActionKind}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Kind</em>' attribute isn't clear,
@@ -34,20 +34,20 @@ public interface BuiltInAction extends UimAction {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Kind</em>' attribute.
-	 * @see org.opeum.uim.action.ActionKind
+	 * @see org.opaeum.uim.action.ActionKind
 	 * @see #setKind(ActionKind)
-	 * @see org.opeum.uim.action.ActionPackage#getBuiltInAction_Kind()
+	 * @see org.opaeum.uim.action.ActionPackage#getBuiltInAction_Kind()
 	 * @model
 	 * @generated
 	 */
 	ActionKind getKind();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.action.BuiltInAction#getKind <em>Kind</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.action.BuiltInAction#getKind <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Kind</em>' attribute.
-	 * @see org.opeum.uim.action.ActionKind
+	 * @see org.opaeum.uim.action.ActionKind
 	 * @see #getKind()
 	 * @generated
 	 */

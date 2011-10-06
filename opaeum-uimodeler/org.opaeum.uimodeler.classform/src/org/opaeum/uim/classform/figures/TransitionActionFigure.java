@@ -1,2 +1,2 @@
-package org.opeum.uim.classform.figures;
+package org.opaeum.uim.classform.figures;
 

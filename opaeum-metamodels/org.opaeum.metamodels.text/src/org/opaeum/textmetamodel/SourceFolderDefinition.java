@@ -1,4 +1,4 @@
-package org.opeum.textmetamodel;
+package org.opaeum.textmetamodel;
 
 public class SourceFolderDefinition {
 	boolean overwriteFiles=true;

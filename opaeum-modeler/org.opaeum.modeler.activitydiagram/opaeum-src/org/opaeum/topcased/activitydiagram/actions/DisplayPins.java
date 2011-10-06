@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.actions;
+package org.opaeum.topcased.activitydiagram.actions;
 
 import java.util.Iterator;
 
@@ -16,7 +16,7 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Pin;
-import org.opeum.topcased.uml.editor.OpeumEditor;
+import org.opaeum.topcased.uml.editor.OpaeumEditor;
 import org.topcased.modeler.commands.ChangeBoundsCommand;
 import org.topcased.modeler.commands.ChangeGraphElementPresentationCommand;
 import org.topcased.modeler.commands.CreateGraphNodeCommand;
@@ -28,7 +28,7 @@ import org.topcased.modeler.utils.Utils;
 
 public class DisplayPins implements IObjectActionDelegate{
 	private IStructuredSelection selection;
-	private OpeumEditor editor;
+	private OpaeumEditor editor;
 	@Override
 	public void run(IAction a){
 		for(Iterator<?> it = selection.iterator();it.hasNext();){
@@ -89,8 +89,8 @@ public class DisplayPins implements IObjectActionDelegate{
 	}
 	@Override
 	public void setActivePart(IAction action,IWorkbenchPart targetPart){
-		if(targetPart instanceof OpeumEditor){
-			this.editor = (OpeumEditor) targetPart;
+		if(targetPart instanceof OpaeumEditor){
+			this.editor = (OpaeumEditor) targetPart;
 		}
 		// TODO Auto-generated method stub
 	}

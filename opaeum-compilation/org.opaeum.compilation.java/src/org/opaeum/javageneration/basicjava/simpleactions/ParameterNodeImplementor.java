@@ -1,20 +1,20 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.activities.ActivityKind;
-import org.opeum.metamodel.activities.INakedParameterNode;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.ActivityKind;
+import org.opaeum.metamodel.activities.INakedParameterNode;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ParameterNodeImplementor extends SimpleNodeBuilder<INakedParameterNode> {
-	public ParameterNodeImplementor(OpeumLibrary oclEngine, INakedParameterNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
+	public ParameterNodeImplementor(OpaeumLibrary oclEngine, INakedParameterNode action, AbstractObjectNodeExpressor objectNodeExpressor) {
 		super(oclEngine, action, objectNodeExpressor);
 	}
 

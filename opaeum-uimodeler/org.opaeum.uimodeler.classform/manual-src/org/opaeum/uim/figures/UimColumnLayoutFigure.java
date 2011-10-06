@@ -1,4 +1,4 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.SimpleLoweredBorder;
 import org.eclipse.draw2d.SimpleRaisedBorder;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.opeum.uim.layouts.UimColumnLayoutManager;
+import org.opaeum.uim.layouts.UimColumnLayoutManager;
 
 
 public class UimColumnLayoutFigure extends AbstractLayoutFigure{

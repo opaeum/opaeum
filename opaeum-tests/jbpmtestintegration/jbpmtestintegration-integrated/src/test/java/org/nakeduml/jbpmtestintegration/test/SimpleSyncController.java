@@ -1,4 +1,4 @@
-package org.opeum.jbpmtestintegration.test;
+package org.opaeum.jbpmtestintegration.test;
 
 import java.util.List;
 

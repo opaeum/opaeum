@@ -1,6 +1,6 @@
-package org.opeum.metamodel.usecases;
+package org.opaeum.metamodel.usecases;
 
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public interface INakedActor extends INakedClassifier {
 }

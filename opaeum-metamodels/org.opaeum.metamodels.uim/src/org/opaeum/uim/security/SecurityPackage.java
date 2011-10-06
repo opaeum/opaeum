@@ -4,13 +4,13 @@
  *
  * $Id$
  */
-package org.opeum.uim.security;
+package org.opaeum.uim.security;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opeum.uim.UimPackage;
+import org.opaeum.uim.UimPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opeum.uim.UimPackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.opeum.uim.security.SecurityFactory
+ * @see org.opaeum.uim.security.SecurityFactory
  * @model kind="package"
  * @generated
  */
@@ -42,7 +42,7 @@ public interface SecurityPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://opeum.org/uimetamodel/security/1.0";
+	String eNS_URI = "http://opaeum.org/uimetamodel/security/1.0";
 
 	/**
 	 * The package namespace name.
@@ -58,14 +58,14 @@ public interface SecurityPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	SecurityPackage eINSTANCE = org.opeum.uim.security.impl.SecurityPackageImpl.init();
+	SecurityPackage eINSTANCE = org.opaeum.uim.security.impl.SecurityPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.security.impl.SecureObjectImpl <em>Secure Object</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.security.impl.SecureObjectImpl <em>Secure Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.security.impl.SecureObjectImpl
-	 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getSecureObject()
+	 * @see org.opaeum.uim.security.impl.SecureObjectImpl
+	 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getSecureObject()
 	 * @generated
 	 */
 	int SECURE_OBJECT = 1;
@@ -89,11 +89,11 @@ public interface SecurityPackage extends EPackage {
 	int SECURE_OBJECT_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.security.impl.EditableSecureObjectImpl <em>Editable Secure Object</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.security.impl.EditableSecureObjectImpl <em>Editable Secure Object</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.security.impl.EditableSecureObjectImpl
-	 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getEditableSecureObject()
+	 * @see org.opaeum.uim.security.impl.EditableSecureObjectImpl
+	 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getEditableSecureObject()
 	 * @generated
 	 */
 	int EDITABLE_SECURE_OBJECT = 0;
@@ -126,11 +126,11 @@ public interface SecurityPackage extends EPackage {
 	int EDITABLE_SECURE_OBJECT_FEATURE_COUNT = SECURE_OBJECT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.security.impl.RequiredRoleImpl <em>Required Role</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.security.impl.RequiredRoleImpl <em>Required Role</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.security.impl.RequiredRoleImpl
-	 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getRequiredRole()
+	 * @see org.opaeum.uim.security.impl.RequiredRoleImpl
+	 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getRequiredRole()
 	 * @generated
 	 */
 	int REQUIRED_ROLE = 2;
@@ -154,11 +154,11 @@ public interface SecurityPackage extends EPackage {
 	int REQUIRED_ROLE_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl <em>Workspace Security Constraint</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl <em>Workspace Security Constraint</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl
-	 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getWorkspaceSecurityConstraint()
+	 * @see org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl
+	 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getWorkspaceSecurityConstraint()
 	 * @generated
 	 */
 	int WORKSPACE_SECURITY_CONSTRAINT = 3;
@@ -200,11 +200,11 @@ public interface SecurityPackage extends EPackage {
 	int WORKSPACE_SECURITY_CONSTRAINT_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.security.impl.SecurityConstraintImpl <em>Constraint</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.security.impl.SecurityConstraintImpl <em>Constraint</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.security.impl.SecurityConstraintImpl
-	 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getSecurityConstraint()
+	 * @see org.opaeum.uim.security.impl.SecurityConstraintImpl
+	 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getSecurityConstraint()
 	 * @generated
 	 */
 	int SECURITY_CONSTRAINT = 4;
@@ -256,116 +256,116 @@ public interface SecurityPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Editable Secure Object</em>'.
-	 * @see org.opeum.uim.security.EditableSecureObject
+	 * @see org.opaeum.uim.security.EditableSecureObject
 	 * @generated
 	 */
 	EClass getEditableSecureObject();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.security.EditableSecureObject#getEditability <em>Editability</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.security.EditableSecureObject#getEditability <em>Editability</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Editability</em>'.
-	 * @see org.opeum.uim.security.EditableSecureObject#getEditability()
+	 * @see org.opaeum.uim.security.EditableSecureObject#getEditability()
 	 * @see #getEditableSecureObject()
 	 * @generated
 	 */
 	EReference getEditableSecureObject_Editability();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.security.SecureObject <em>Secure Object</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.security.SecureObject <em>Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Secure Object</em>'.
-	 * @see org.opeum.uim.security.SecureObject
+	 * @see org.opaeum.uim.security.SecureObject
 	 * @generated
 	 */
 	EClass getSecureObject();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.security.SecureObject#getVisibility <em>Visibility</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.security.SecureObject#getVisibility <em>Visibility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Visibility</em>'.
-	 * @see org.opeum.uim.security.SecureObject#getVisibility()
+	 * @see org.opaeum.uim.security.SecureObject#getVisibility()
 	 * @see #getSecureObject()
 	 * @generated
 	 */
 	EReference getSecureObject_Visibility();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.security.RequiredRole <em>Required Role</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.security.RequiredRole <em>Required Role</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Required Role</em>'.
-	 * @see org.opeum.uim.security.RequiredRole
+	 * @see org.opaeum.uim.security.RequiredRole
 	 * @generated
 	 */
 	EClass getRequiredRole();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.security.WorkspaceSecurityConstraint <em>Workspace Security Constraint</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint <em>Workspace Security Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Workspace Security Constraint</em>'.
-	 * @see org.opeum.uim.security.WorkspaceSecurityConstraint
+	 * @see org.opaeum.uim.security.WorkspaceSecurityConstraint
 	 * @generated
 	 */
 	EClass getWorkspaceSecurityConstraint();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership <em>Requires Group Ownership</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership <em>Requires Group Ownership</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Requires Group Ownership</em>'.
-	 * @see org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership()
+	 * @see org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresGroupOwnership()
 	 * @see #getWorkspaceSecurityConstraint()
 	 * @generated
 	 */
 	EAttribute getWorkspaceSecurityConstraint_RequiresGroupOwnership();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership <em>Requires Ownership</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership <em>Requires Ownership</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Requires Ownership</em>'.
-	 * @see org.opeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership()
+	 * @see org.opaeum.uim.security.WorkspaceSecurityConstraint#isRequiresOwnership()
 	 * @see #getWorkspaceSecurityConstraint()
 	 * @generated
 	 */
 	EAttribute getWorkspaceSecurityConstraint_RequiresOwnership();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opeum.uim.security.WorkspaceSecurityConstraint#getRequiredRoles <em>Required Roles</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint#getRequiredRoles <em>Required Roles</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Required Roles</em>'.
-	 * @see org.opeum.uim.security.WorkspaceSecurityConstraint#getRequiredRoles()
+	 * @see org.opaeum.uim.security.WorkspaceSecurityConstraint#getRequiredRoles()
 	 * @see #getWorkspaceSecurityConstraint()
 	 * @generated
 	 */
 	EReference getWorkspaceSecurityConstraint_RequiredRoles();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.security.SecurityConstraint <em>Constraint</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.security.SecurityConstraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Constraint</em>'.
-	 * @see org.opeum.uim.security.SecurityConstraint
+	 * @see org.opaeum.uim.security.SecurityConstraint
 	 * @generated
 	 */
 	EClass getSecurityConstraint();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.security.SecurityConstraint#isInheritFromParent <em>Inherit From Parent</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.security.SecurityConstraint#isInheritFromParent <em>Inherit From Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Inherit From Parent</em>'.
-	 * @see org.opeum.uim.security.SecurityConstraint#isInheritFromParent()
+	 * @see org.opaeum.uim.security.SecurityConstraint#isInheritFromParent()
 	 * @see #getSecurityConstraint()
 	 * @generated
 	 */
@@ -394,11 +394,11 @@ public interface SecurityPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.security.impl.EditableSecureObjectImpl <em>Editable Secure Object</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.security.impl.EditableSecureObjectImpl <em>Editable Secure Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.security.impl.EditableSecureObjectImpl
-		 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getEditableSecureObject()
+		 * @see org.opaeum.uim.security.impl.EditableSecureObjectImpl
+		 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getEditableSecureObject()
 		 * @generated
 		 */
 		EClass EDITABLE_SECURE_OBJECT = eINSTANCE.getEditableSecureObject();
@@ -412,11 +412,11 @@ public interface SecurityPackage extends EPackage {
 		EReference EDITABLE_SECURE_OBJECT__EDITABILITY = eINSTANCE.getEditableSecureObject_Editability();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.security.impl.SecureObjectImpl <em>Secure Object</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.security.impl.SecureObjectImpl <em>Secure Object</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.security.impl.SecureObjectImpl
-		 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getSecureObject()
+		 * @see org.opaeum.uim.security.impl.SecureObjectImpl
+		 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getSecureObject()
 		 * @generated
 		 */
 		EClass SECURE_OBJECT = eINSTANCE.getSecureObject();
@@ -430,21 +430,21 @@ public interface SecurityPackage extends EPackage {
 		EReference SECURE_OBJECT__VISIBILITY = eINSTANCE.getSecureObject_Visibility();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.security.impl.RequiredRoleImpl <em>Required Role</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.security.impl.RequiredRoleImpl <em>Required Role</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.security.impl.RequiredRoleImpl
-		 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getRequiredRole()
+		 * @see org.opaeum.uim.security.impl.RequiredRoleImpl
+		 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getRequiredRole()
 		 * @generated
 		 */
 		EClass REQUIRED_ROLE = eINSTANCE.getRequiredRole();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl <em>Workspace Security Constraint</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl <em>Workspace Security Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl
-		 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getWorkspaceSecurityConstraint()
+		 * @see org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl
+		 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getWorkspaceSecurityConstraint()
 		 * @generated
 		 */
 		EClass WORKSPACE_SECURITY_CONSTRAINT = eINSTANCE.getWorkspaceSecurityConstraint();
@@ -474,11 +474,11 @@ public interface SecurityPackage extends EPackage {
 		EReference WORKSPACE_SECURITY_CONSTRAINT__REQUIRED_ROLES = eINSTANCE.getWorkspaceSecurityConstraint_RequiredRoles();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.security.impl.SecurityConstraintImpl <em>Constraint</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.security.impl.SecurityConstraintImpl <em>Constraint</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.security.impl.SecurityConstraintImpl
-		 * @see org.opeum.uim.security.impl.SecurityPackageImpl#getSecurityConstraint()
+		 * @see org.opaeum.uim.security.impl.SecurityConstraintImpl
+		 * @see org.opaeum.uim.security.impl.SecurityPackageImpl#getSecurityConstraint()
 		 * @generated
 		 */
 		EClass SECURITY_CONSTRAINT = eINSTANCE.getSecurityConstraint();

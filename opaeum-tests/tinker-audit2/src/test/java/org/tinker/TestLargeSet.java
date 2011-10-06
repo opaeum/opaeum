@@ -3,7 +3,7 @@ package org.tinker;
 import java.util.Set;
 
 import org.apache.commons.lang.time.StopWatch;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.derivedunion.Hand;
 import org.tinker.derivedunion.MamalHand;
 

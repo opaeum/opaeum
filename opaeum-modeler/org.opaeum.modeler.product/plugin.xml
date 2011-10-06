@@ -4,17 +4,17 @@
    <extension
          point="org.eclipse.core.runtime.products">
       <product
-            application="org.opeum.modeler.product"
-            name="Opeum Modeler">
+            application="org.opaeum.modeler.product"
+            name="Opaeum Modeler">
       </product>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.opeum.modeler.product.OpeumPerspectiveFactory"
+            class="org.opaeum.modeler.product.OpaeumPerspectiveFactory"
             fixed="false"
-            id="org.opeum.modeler.product.perspective"
-            name="Opeum Modelling">
+            id="org.opaeum.modeler.product.perspective"
+            name="Opaeum Modelling">
       </perspective>
    </extension>
 

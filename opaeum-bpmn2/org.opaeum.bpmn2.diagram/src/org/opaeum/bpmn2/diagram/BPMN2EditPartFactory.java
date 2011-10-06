@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram;
+package org.opaeum.bpmn2.diagram;
 
 import org.eclipse.bpmn2.di.util.BpmnDiSwitch;
 import org.eclipse.bpmn2.util.Bpmn2Switch;
@@ -9,12 +9,12 @@ import org.eclipse.dd.dc.util.DcSwitch;
 import org.eclipse.dd.di.util.DiSwitch;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.opeum.bpmn2.diagram.edit.BPMN2DiagramEditPart;
-import org.opeum.bpmn2.diagram.edit.BoundaryEventEditPart;
-import org.opeum.bpmn2.diagram.edit.FlowNodeEditPart;
-import org.opeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
-import org.opeum.bpmn2.diagram.edit.SequenceFlowEditPart;
-import org.opeum.bpmn2.diagram.edit.UserTaskEditPart;
+import org.opaeum.bpmn2.diagram.edit.BPMN2DiagramEditPart;
+import org.opaeum.bpmn2.diagram.edit.BoundaryEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.FlowNodeEditPart;
+import org.opaeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
+import org.opaeum.bpmn2.diagram.edit.SequenceFlowEditPart;
+import org.opaeum.bpmn2.diagram.edit.UserTaskEditPart;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphNode;

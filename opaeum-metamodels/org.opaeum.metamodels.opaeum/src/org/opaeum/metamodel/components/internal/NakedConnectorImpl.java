@@ -1,9 +1,9 @@
-package org.opeum.metamodel.components.internal;
+package org.opaeum.metamodel.components.internal;
 
-import org.opeum.metamodel.components.INakedConnector;
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.components.NakedConnectorKind;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.components.INakedConnector;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.components.NakedConnectorKind;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedConnectorImpl extends NakedElementImpl implements INakedConnector{
 	/**

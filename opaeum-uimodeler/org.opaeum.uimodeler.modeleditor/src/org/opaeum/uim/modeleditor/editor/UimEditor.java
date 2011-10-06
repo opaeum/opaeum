@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.editor;
+package org.opaeum.uim.modeleditor.editor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.uim.modeleditor.UimPlugin;
-import org.opeum.uim.util.UmlUimLinks;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.uim.modeleditor.UimPlugin;
+import org.opaeum.uim.util.UmlUimLinks;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.topcased.modeler.commands.GEFtoEMFCommandStackWrapper;
@@ -38,8 +38,8 @@ public class UimEditor extends Modeler{
 	@Override
 	protected void setInput(IEditorInput input){
 		super.setInput(input);
-		if(OpeumEclipseContext.getCurrentContext() != null){
-			currentUmlLinks=new UmlUimLinks(OpeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace());
+		if(OpaeumEclipseContext.getCurrentContext() != null){
+			currentUmlLinks=new UmlUimLinks(OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace());
 		}
 	}
 	@Override
@@ -47,7 +47,7 @@ public class UimEditor extends Modeler{
 		EObject openFile = super.openFile(file, b);
 		return openFile;
 	}
-	public static final String EDITOR_ID = "org.opeum.uim.modeleditor.editor.UimEditor";
+	public static final String EDITOR_ID = "org.opaeum.uim.modeleditor.editor.UimEditor";
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapterFactories()
 	 * @generated
@@ -57,22 +57,22 @@ public class UimEditor extends Modeler{
 	})
 	protected List getAdapterFactories(){
 		List factories = new ArrayList();
-		factories.add(new org.opeum.uim.provider.UimItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.UimModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.layout.provider.LayoutItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.LayoutModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.control.provider.ControlItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.ControlModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.folder.provider.FolderItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.FolderModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.form.provider.FormItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.FormModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.binding.provider.BindingItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.BindingModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.security.provider.SecurityItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.SecurityModelerProviderAdapterFactory());
-		factories.add(new org.opeum.uim.action.provider.ActionItemProviderAdapterFactory());
-		factories.add(new org.opeum.uim.modeleditor.providers.ActionModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.provider.UimItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.UimModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.layout.provider.LayoutItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.LayoutModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.control.provider.ControlItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.ControlModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.folder.provider.FolderItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.FolderModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.form.provider.FormItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.FormModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.binding.provider.BindingItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.BindingModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.security.provider.SecurityItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.SecurityModelerProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.action.provider.ActionItemProviderAdapterFactory());
+		factories.add(new org.opaeum.uim.modeleditor.providers.ActionModelerProviderAdapterFactory());
 		factories.addAll(super.getAdapterFactories());
 		return factories;
 	}

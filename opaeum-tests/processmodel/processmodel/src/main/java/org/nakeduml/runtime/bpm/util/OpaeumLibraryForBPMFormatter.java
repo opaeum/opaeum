@@ -1,15 +1,15 @@
-package org.opeum.runtime.bpm.util;
+package org.opaeum.runtime.bpm.util;
 
-import org.opeum.runtime.domain.AbstractFormatter;
+import org.opaeum.runtime.domain.AbstractFormatter;
 
-public class OpiumLibraryForBPMFormatter extends AbstractFormatter implements IOpiumLibraryForBPMFormatter {
-	static final private ThreadLocal<OpiumLibraryForBPMFormatter> INSTANCE = new ThreadLocal<OpiumLibraryForBPMFormatter>();
+public class OpaeumLibraryForBPMFormatter extends AbstractFormatter implements IOpaeumLibraryForBPMFormatter {
+	static final private ThreadLocal<OpaeumLibraryForBPMFormatter> INSTANCE = new ThreadLocal<OpaeumLibraryForBPMFormatter>();
 
 
-	static public OpiumLibraryForBPMFormatter getInstance() {
-		OpiumLibraryForBPMFormatter result = INSTANCE.get();
+	static public OpaeumLibraryForBPMFormatter getInstance() {
+		OpaeumLibraryForBPMFormatter result = INSTANCE.get();
 		if ( result==null ) {
-			INSTANCE.set(result=new OpiumLibraryForBPMFormatter());
+			INSTANCE.set(result=new OpaeumLibraryForBPMFormatter());
 		}
 		return result;
 	}

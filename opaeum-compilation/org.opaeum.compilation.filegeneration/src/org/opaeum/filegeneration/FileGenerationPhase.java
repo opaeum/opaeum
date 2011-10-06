@@ -1,23 +1,23 @@
-package org.opeum.filegeneration;
+package org.opaeum.filegeneration;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.textmetamodel.TextOutputNode;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.textmetamodel.TextOutputNode;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency()
 public class FileGenerationPhase implements TransformationPhase<AbstractTextNodeVisitor,TextOutputNode>{
 	@InputModel
 	private TextWorkspace textWorkspace;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private List<AbstractTextNodeVisitor> features;
-	public void initialize(OpeumConfig config){
+	public void initialize(OpaeumConfig config){
 		this.config = config;
 	}
 	@Override
@@ -39,7 +39,7 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 		}
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractTextNodeVisitor> features){
+	public void initialize(OpaeumConfig config,List<AbstractTextNodeVisitor> features){
 		this.features = features;
 		this.config = config;
 	}

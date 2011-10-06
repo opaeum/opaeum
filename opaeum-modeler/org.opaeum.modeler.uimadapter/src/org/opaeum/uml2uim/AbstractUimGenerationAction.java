@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,11 +29,11 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.uim.form.UimForm;
-import org.opeum.uim.modeleditor.UimPlugin;
-import org.opeum.uim.modeleditor.editor.UimEditor;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.uim.form.UimForm;
+import org.opaeum.uim.modeleditor.UimPlugin;
+import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;
 
 public abstract class AbstractUimGenerationAction{
@@ -104,10 +104,10 @@ public abstract class AbstractUimGenerationAction{
 				}
 			}
 		}catch(PartInitException e){
-			OpeumEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, OpeumEclipsePlugin.getPluginId(), e.getMessage(),e));
+			OpaeumEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), e.getMessage(),e));
 			e.printStackTrace();
 		}catch(CoreException e){
-			OpeumEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, OpeumEclipsePlugin.getPluginId(), e.getMessage(),e));
+			OpaeumEclipsePlugin.getDefault().getLog().log(new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), e.getMessage(),e));
 			e.printStackTrace();
 		}
 	}
@@ -150,10 +150,10 @@ public abstract class AbstractUimGenerationAction{
 				suffix = "Task";
 			}
 		}
-		return OpeumEclipseContext.getCurrentContext().getId(namedElement) + suffix;
+		return OpaeumEclipseContext.getCurrentContext().getId(namedElement) + suffix;
 	}
 	private static UimForm getReferencedForm(UimEditor editor,NamedElement objectToFind){
-		String uid = OpeumEclipseContext.getCurrentContext().getId(objectToFind);
+		String uid = OpaeumEclipseContext.getCurrentContext().getId(objectToFind);
 		ResourceSet set = editor.getEditingDomain().getResourceSet();
 		for(Resource r:set.getResources()){
 			EList<EObject> contents = r.getContents();
@@ -165,7 +165,7 @@ public abstract class AbstractUimGenerationAction{
 		}
 		return null;
 	}
-//	protected static OpeumEclipseContext findOpeumEditor(NamedElement modelElement){
-//		return OpeumEclipseContext.findOpeumEditor(modelElement);
+//	protected static OpaeumEclipseContext findOpaeumEditor(NamedElement modelElement){
+//		return OpaeumEclipseContext.findOpaeumEditor(modelElement);
 //	}
 }

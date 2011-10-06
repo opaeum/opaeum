@@ -1,4 +1,4 @@
-package org.opeum.reverse.popup.actions;
+package org.opaeum.reverse.popup.actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			MessageDialog.openInformation(shell, "org.opeum.reverse.Reverse", "Successes!");
+			MessageDialog.openInformation(shell, "org.opaeum.reverse.Reverse", "Successes!");
 		}
 	}
 	private List<ITypeBinding> selectTypeDeclarations(IStructuredSelection selection) throws JavaModelException{

@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,20 +18,20 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.opeum.feature.ISourceFolderStrategy;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.name.NameConverter;
+import org.opaeum.feature.ISourceFolderStrategy;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.name.NameConverter;
 
-public class OpeumConfigDialog extends TitleAreaDialog{
+public class OpaeumConfigDialog extends TitleAreaDialog{
 	private Text txtWorkspaceName;
 	private Text txtWorkspaceIdentifier;
 	private Text txtCompanyDomain;
 	private Button chkGeneratePoms;
 	private CCombo cboSourceFolderStrategy;
 	private List lstTransformationSteps;
-	private OpeumConfig config;
-	public OpeumConfigDialog(Shell shell,OpeumConfig config){
+	private OpaeumConfig config;
+	public OpaeumConfigDialog(Shell shell,OpaeumConfig config){
 		super(shell);
 		this.config = config;
 	}
@@ -65,19 +65,19 @@ public class OpeumConfigDialog extends TitleAreaDialog{
 		new Label(panel, 0).setText("Source Folder Strategy");
 		cboSourceFolderStrategy = new CCombo(panel, SWT.BORDER);
 		cboSourceFolderStrategy.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
-		for(Class<? extends ISourceFolderStrategy> s:OpeumEclipsePlugin.getDefault().getSourceFolderStrategies()){
+		for(Class<? extends ISourceFolderStrategy> s:OpaeumEclipsePlugin.getDefault().getSourceFolderStrategies()){
 			cboSourceFolderStrategy.add(s.getName());
 		}
 		cboSourceFolderStrategy.setText(config.getSourceFolderStrategy().getClass().getName());
 		new Label(panel, 0).setText("Additional Transformation Steps");
 		lstTransformationSteps = new List(panel, SWT.MULTI | SWT.BORDER);
 		lstTransformationSteps.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
-		for(Class<? extends ITransformationStep> t:OpeumEclipsePlugin.getDefault().getTransformationSteps()){
+		for(Class<? extends ITransformationStep> t:OpaeumEclipsePlugin.getDefault().getTransformationSteps()){
 			lstTransformationSteps.add(t.getName());
 		}
 		String[] items = lstTransformationSteps.getItems();
 		for(int i = 0;i < items.length;i++){
-			if(config.getAdditionalTransformationSteps().contains(OpeumConfig.getClass(items[i]))){
+			if(config.getAdditionalTransformationSteps().contains(OpaeumConfig.getClass(items[i]))){
 				lstTransformationSteps.select(i);
 			}
 		}
@@ -125,7 +125,7 @@ public class OpeumConfigDialog extends TitleAreaDialog{
 	protected void createButtonsForButtonBar(Composite parent){
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 	}
-	public OpeumConfig getConfig(){
+	public OpaeumConfig getConfig(){
 		return config;
 	}
 }

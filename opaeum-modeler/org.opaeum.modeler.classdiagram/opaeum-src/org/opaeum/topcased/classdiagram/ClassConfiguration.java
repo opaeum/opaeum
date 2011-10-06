@@ -1,4 +1,4 @@
-package org.opeum.topcased.classdiagram;
+package org.opaeum.topcased.classdiagram;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.EditPartFactory;

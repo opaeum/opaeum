@@ -1,9 +1,9 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class NakedTypedElementImpl extends NakedMultiplicityElement implements INakedTypedElement {
 	private static final long serialVersionUID = -5574117047617953873L;

@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,12 +12,12 @@ import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.types.AttributeImpl;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedPackage;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedProperty;
 
 /**
  * @author Ampie Barnard

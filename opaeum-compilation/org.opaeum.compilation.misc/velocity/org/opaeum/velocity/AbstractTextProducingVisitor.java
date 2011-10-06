@@ -1,4 +1,4 @@
-package org.opeum.velocity;
+package org.opaeum.velocity;
 
 import java.io.CharArrayWriter;
 import java.util.Arrays;
@@ -15,22 +15,22 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.CharArrayTextSource;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.PropertiesSource;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.textmetamodel.TextFile;
-import org.opeum.textmetamodel.TextProject;
-import org.opeum.textmetamodel.TextWorkspace;
-import org.opeum.util.SortedProperties;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.CharArrayTextSource;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.PropertiesSource;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.util.SortedProperties;
 
 public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 	protected INakedModelWorkspace workspace;
@@ -39,7 +39,7 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 	}
 	protected VelocityEngine ve;
 	protected Set<TextFile> textFiles=new HashSet<TextFile>();
-	protected OpeumConfig config;
+	protected OpaeumConfig config;
 	protected TextWorkspace textWorkspace;
 	protected INakedRootObject currentRootObject;
 	@Override
@@ -55,7 +55,7 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		}
 		super.visitRecursively(o);
 	}
-	public void initialize(OpeumConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
+	public void initialize(OpaeumConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
 		this.workspace=workspace;
 		this.config = config;
 		this.textWorkspace = textWorkspace;

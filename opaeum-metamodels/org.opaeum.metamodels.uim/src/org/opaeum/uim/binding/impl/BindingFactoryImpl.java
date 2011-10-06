@@ -4,20 +4,20 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.impl;
+package org.opaeum.uim.binding.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opeum.uim.binding.BindingFactory;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.binding.LookupBinding;
-import org.opeum.uim.binding.NavigationBinding;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.binding.TableBinding;
+import org.opaeum.uim.binding.BindingFactory;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.binding.LookupBinding;
+import org.opaeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.binding.TableBinding;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ public class BindingFactoryImpl extends EFactoryImpl implements BindingFactory {
 	 */
 	public static BindingFactory init() {
 		try {
-			BindingFactory theBindingFactory = (BindingFactory)EPackage.Registry.INSTANCE.getEFactory("http://opeum.org/uimetamodel/binding/1.0"); 
+			BindingFactory theBindingFactory = (BindingFactory)EPackage.Registry.INSTANCE.getEFactory("http://opaeum.org/uimetamodel/binding/1.0"); 
 			if (theBindingFactory != null) {
 				return theBindingFactory;
 			}

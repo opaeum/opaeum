@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Property;

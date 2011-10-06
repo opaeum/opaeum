@@ -1,4 +1,4 @@
-package org.opeum.topcased.bpmn2;
+package org.opaeum.topcased.bpmn2;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -14,7 +14,7 @@ public class Bpmn2Plugin extends AbstractUIPlugin{
 		super();
 		plugin = this;
 		try {
-			resourceBundle = ResourceBundle.getBundle("org.opeum.eclipse.plugin.messages");//$NON-NLS-1$
+			resourceBundle = ResourceBundle.getBundle("org.opaeum.eclipse.plugin.messages");//$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}

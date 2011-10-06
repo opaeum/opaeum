@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security;
+package org.opaeum.uim.security;
 
 
 /**
@@ -15,11 +15,11 @@ package org.opeum.uim.security;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.security.SecurityConstraint#isInheritFromParent <em>Inherit From Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.SecurityConstraint#isInheritFromParent <em>Inherit From Parent</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.security.SecurityPackage#getSecurityConstraint()
+ * @see org.opaeum.uim.security.SecurityPackage#getSecurityConstraint()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface SecurityConstraint extends WorkspaceSecurityConstraint {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Inherit From Parent</em>' attribute.
 	 * @see #setInheritFromParent(boolean)
-	 * @see org.opeum.uim.security.SecurityPackage#getSecurityConstraint_InheritFromParent()
+	 * @see org.opaeum.uim.security.SecurityPackage#getSecurityConstraint_InheritFromParent()
 	 * @model default="true"
 	 * @generated
 	 */
 	boolean isInheritFromParent();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.security.SecurityConstraint#isInheritFromParent <em>Inherit From Parent</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.security.SecurityConstraint#isInheritFromParent <em>Inherit From Parent</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Inherit From Parent</em>' attribute.

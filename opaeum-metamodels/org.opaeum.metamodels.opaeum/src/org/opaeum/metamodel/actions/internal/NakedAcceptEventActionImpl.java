@@ -1,4 +1,4 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,17 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
-import org.opeum.metamodel.commonbehaviors.INakedChangeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTimeEvent;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 public class NakedAcceptEventActionImpl extends NakedActionImpl implements INakedAcceptEventAction{
 	private static final long serialVersionUID = -4255852720379805141L;

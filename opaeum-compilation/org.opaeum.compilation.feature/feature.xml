@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.compilation.feature"
-      label="Opeum Compiler"
+      id="org.opaeum.compilation.feature"
+      label="Opaeum Compiler"
       version="1.0.0.qualifier"
-      license-feature="org.opeum.metamodels.feature"
+      license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
    <license url="">
@@ -13,66 +13,66 @@
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.opeum.transformation.engine"/>
-      <import plugin="org.opeum.metamodels.text"/>
-      <import plugin="org.opeum.metamodels.opeum"/>
-      <import plugin="org.opeum.metamodels.java"/>
-      <import plugin="org.opeum.metamodels.ocl"/>
-      <import plugin="org.opeum.linkage.core"/>
-      <import plugin="org.opeum.linkage.namegeneration"/>
-      <import plugin="org.opeum.linkage.validation"/>
-      <import plugin="org.opeum.metamodels.maven"/>
-      <import plugin="org.opeum.metamodels.drools"/>
-      <import plugin="org.opeum.metamodels.emfworkspace"/>
-      <import plugin="org.opeum.linkage.emfextraction"/>
-      <import plugin="org.opeum.metamodels.uim"/>
-      <import feature="org.opeum.linkage.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opaeum.transformation.engine"/>
+      <import plugin="org.opaeum.metamodels.text"/>
+      <import plugin="org.opaeum.metamodels.opaeum"/>
+      <import plugin="org.opaeum.metamodels.java"/>
+      <import plugin="org.opaeum.metamodels.ocl"/>
+      <import plugin="org.opaeum.linkage.core"/>
+      <import plugin="org.opaeum.linkage.namegeneration"/>
+      <import plugin="org.opaeum.linkage.validation"/>
+      <import plugin="org.opaeum.metamodels.maven"/>
+      <import plugin="org.opaeum.metamodels.drools"/>
+      <import plugin="org.opaeum.metamodels.emfworkspace"/>
+      <import plugin="org.opaeum.linkage.emfextraction"/>
+      <import plugin="org.opaeum.metamodels.uim"/>
+      <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
-         id="org.opeum.compilation.filegeneration"
+         id="org.opaeum.compilation.filegeneration"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.compilation.java"
+         id="org.opaeum.compilation.java"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.compilation.misc"
+         id="org.opaeum.compilation.misc"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.compilation.ocltojava"
+         id="org.opaeum.compilation.ocltojava"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.compilation.runtimedependencies"
+         id="org.opaeum.compilation.runtimedependencies"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
 
    <plugin
-         id="org.opeum.compilation.tinker"
+         id="org.opaeum.compilation.tinker"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.compilation.uim"
+         id="org.opaeum.compilation.uim"
          download-size="0"
          install-size="0"
          version="0.0.0"

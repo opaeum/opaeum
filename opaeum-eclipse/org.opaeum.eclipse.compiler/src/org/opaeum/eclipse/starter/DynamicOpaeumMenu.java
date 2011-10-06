@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.uml2.uml.Model;
-import org.opeum.eclipse.javasync.RecompileIntegrationCodeAction;
-import org.opeum.eclipse.javasync.RecompileModelAction;
-import org.opeum.eclipse.javasync.RecompileModelDirectoryAction;
-import org.opeum.eclipse.javasync.ToggleAutomaticSynchronization;
+import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
+import org.opaeum.eclipse.javasync.RecompileModelAction;
+import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
+import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
 
-public class DynamicOpiumMenu extends CompoundContributionItem{
+public class DynamicOpaeumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
 	@Override
 	protected IContributionItem[] getContributionItems(){
@@ -28,11 +28,11 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 			actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
 		}else if(selection.getFirstElement() instanceof IContainer){
 			if(hasUmlModels(selection)){
-				EditOpiumConfigAction action = new EditOpiumConfigAction(selection);
+				EditOpaeumConfigAction action = new EditOpaeumConfigAction(selection);
 				actions.add(new ActionContributionItem(action));
 				if(hasConfigFile(selection)){
-					action.setText("Edit Opium Settings");
-					ClearOpiumCacheACtion clc = new ClearOpiumCacheACtion(selection);
+					action.setText("Edit Opaeum Settings");
+					ClearOpaeumCacheACtion clc = new ClearOpaeumCacheACtion(selection);
 					actions.add(new ActionContributionItem(clc));
 					RecompileModelDirectoryAction rmda = new RecompileModelDirectoryAction(selection);
 					actions.add(new ActionContributionItem(rmda));
@@ -45,7 +45,7 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 					UpdateClasspathAction uc = new UpdateClasspathAction(selection);
 					actions.add(new ActionContributionItem(uc));
 				}else{
-					action.setText("Convert to  Opium Model Directory");
+					action.setText("Convert to  Opaeum Model Directory");
 				}
 			}
 		}
@@ -70,7 +70,7 @@ public class DynamicOpiumMenu extends CompoundContributionItem{
 	public static boolean hasConfigFile(IStructuredSelection selection2){
 		IContainer firstElement = (IContainer) selection2.getFirstElement();
 		if(firstElement != null){
-			return firstElement.findMember("opeum.properties") != null;
+			return firstElement.findMember("opaeum.properties") != null;
 		}else{
 			return false;
 		}

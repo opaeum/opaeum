@@ -1,4 +1,4 @@
-package org.opeum.metamodel.statemachines.internal;
+package org.opaeum.metamodel.statemachines.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,18 +10,18 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.internal.NakedNameSpaceImpl;
-import org.opeum.metamodel.statemachines.INakedCompletionEvent;
-import org.opeum.metamodel.statemachines.INakedRegion;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.statemachines.INakedTransition;
-import org.opeum.metamodel.statemachines.IRegionOwner;
-import org.opeum.metamodel.statemachines.StateKind;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.internal.NakedNameSpaceImpl;
+import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
+import org.opaeum.metamodel.statemachines.INakedRegion;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.statemachines.INakedTransition;
+import org.opaeum.metamodel.statemachines.IRegionOwner;
+import org.opaeum.metamodel.statemachines.StateKind;
 
 public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private static final long serialVersionUID = 1L;

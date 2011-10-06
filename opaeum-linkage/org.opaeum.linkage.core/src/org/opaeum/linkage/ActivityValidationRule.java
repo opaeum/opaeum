@@ -1,6 +1,6 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum ActivityValidationRule implements IValidationRule{
 	AT_LEAST_ONE_DEFAULT_FLOW("1","Action {0} requires at least one flow without a guard condition"),

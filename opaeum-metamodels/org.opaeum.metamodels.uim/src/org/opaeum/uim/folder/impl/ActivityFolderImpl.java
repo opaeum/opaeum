@@ -4,11 +4,11 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.impl;
+package org.opaeum.uim.folder.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.opeum.uim.folder.ActivityFolder;
-import org.opeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.ActivityFolder;
+import org.opaeum.uim.folder.FolderPackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -1,4 +1,4 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -6,28 +6,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.linkage.LinkagePhase;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.core.RootObjectStatus;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.validation.activities.ActionValidation;
-import org.opeum.validation.activities.ActivityValidator;
-import org.opeum.validation.commonbehavior.BehaviorValidator;
-import org.opeum.validation.core.GeneralizationValidator;
-import org.opeum.validation.core.PrimitiveValidator;
-import org.opeum.validation.namegeneration.NameGenerationPhase;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.linkage.LinkagePhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.validation.activities.ActionValidation;
+import org.opaeum.validation.activities.ActivityValidator;
+import org.opaeum.validation.commonbehavior.BehaviorValidator;
+import org.opaeum.validation.core.GeneralizationValidator;
+import org.opaeum.validation.core.PrimitiveValidator;
+import org.opaeum.validation.namegeneration.NameGenerationPhase;
 
 @PhaseDependency(after = {
 		NameGenerationPhase.class,LinkagePhase.class
 })
 public class ValidationPhase implements TransformationPhase<AbstractValidator,INakedElement>{
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	private List<AbstractValidator> validators;
@@ -56,7 +56,7 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 		context.getLog().endLastTask();
 	}
 	@Override
-	public void initialize(OpeumConfig config,List<AbstractValidator> features){
+	public void initialize(OpaeumConfig config,List<AbstractValidator> features){
 		this.validators = features;
 		this.config = config;
 	}

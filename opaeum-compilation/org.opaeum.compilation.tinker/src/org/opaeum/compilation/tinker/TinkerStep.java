@@ -1,11 +1,11 @@
-package org.opeum.compilation.tinker;
+package org.opaeum.compilation.tinker;
 
 import nl.klasse.octopus.model.internal.types.AttributeImpl;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.AbstractJavaProducingVisitor;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.AbstractJavaProducingVisitor;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	AttributeImplementor.class

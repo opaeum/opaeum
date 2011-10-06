@@ -1,4 +1,4 @@
-package org.opeum.topcased.bpmn2;
+package org.opaeum.topcased.bpmn2;
 
 
 public class BpmnIntermediateEventEditPart {

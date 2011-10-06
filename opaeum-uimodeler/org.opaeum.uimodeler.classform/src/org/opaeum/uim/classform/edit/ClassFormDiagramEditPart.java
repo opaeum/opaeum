@@ -1,12 +1,12 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.edit;
+package org.opaeum.uim.classform.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.opeum.uim.classform.figures.ClassFormDiagramFigure;
-import org.opeum.uim.classform.policies.ClassFormDiagramLayoutEditPolicy;
+import org.opaeum.uim.classform.figures.ClassFormDiagramFigure;
+import org.opaeum.uim.classform.policies.ClassFormDiagramLayoutEditPolicy;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.edit.DiagramEditPart;
 

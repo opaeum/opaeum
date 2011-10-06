@@ -1,9 +1,9 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.preferences;
+package org.opaeum.uim.classform.preferences;
 
-import org.opeum.uim.modeleditor.UimPlugin;
+import org.opaeum.uim.modeleditor.UimPlugin;
 import org.topcased.modeler.preferences.AbstractNodePreferencePage;
 
 /**

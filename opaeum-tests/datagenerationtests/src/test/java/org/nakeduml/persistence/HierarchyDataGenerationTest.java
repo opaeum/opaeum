@@ -1,4 +1,4 @@
-package org.opeum.persistence;
+package org.opaeum.persistence;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,8 +11,8 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import junit.framework.Assert;
-import net.sf.opeum.arquillian.ArquillianUtils;
-import net.sf.opeum.test.NakedUtilTestClasses;
+import net.sf.opaeum.arquillian.ArquillianUtils;
+import net.sf.opaeum.test.NakedUtilTestClasses;
 
 import org.hibernate.Session;
 import org.jboss.arquillian.api.Deployment;
@@ -26,14 +26,14 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import datagenerationtest.org.opeum.Canvas;
-import datagenerationtest.org.opeum.Component;
-import datagenerationtest.org.opeum.Folder;
-import datagenerationtest.org.opeum.God;
-import datagenerationtest.org.opeum.GodFolder;
-import datagenerationtest.org.opeum.Subject;
-import datagenerationtest.org.opeum.SubjectFolder;
-import datagenerationtest.org.opeum.UI;
+import datagenerationtest.org.opaeum.Canvas;
+import datagenerationtest.org.opaeum.Component;
+import datagenerationtest.org.opaeum.Folder;
+import datagenerationtest.org.opaeum.God;
+import datagenerationtest.org.opaeum.GodFolder;
+import datagenerationtest.org.opaeum.Subject;
+import datagenerationtest.org.opaeum.SubjectFolder;
+import datagenerationtest.org.opaeum.UI;
 
 @RunWith(Arquillian.class)
 public class HierarchyDataGenerationTest extends BaseTest {

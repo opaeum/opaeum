@@ -1,11 +1,11 @@
-package org.opeum.persistence;
+package org.opaeum.persistence;
 
 import java.util.List;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import net.sf.opeum.util.DataGeneratorProperty;
+import net.sf.opaeum.util.DataGeneratorProperty;
 
 import org.hibernate.Session;
 import org.jboss.seam.persistence.transaction.DefaultTransaction;
@@ -13,8 +13,8 @@ import org.jboss.seam.persistence.transaction.SeamTransaction;
 import org.jboss.seam.servlet.WebApplication;
 import org.jboss.seam.servlet.event.Started;
 
-import datagenerationtest.org.opeum.God;
-import datagenerationtest.org.opeum.GodDataGenerator;
+import datagenerationtest.org.opaeum.God;
+import datagenerationtest.org.opaeum.GodDataGenerator;
 
 public class StartUpLoadData {
 

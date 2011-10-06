@@ -1,12 +1,12 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.figures;
+package org.opaeum.bpmn2.diagram.figures;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opeum.bpmn2.diagram.figure.BoundaryEventFigure;
+import org.opaeum.bpmn2.diagram.figure.BoundaryEventFigure;
 import org.topcased.modeler.figures.DiagramFigure;
 
 /**

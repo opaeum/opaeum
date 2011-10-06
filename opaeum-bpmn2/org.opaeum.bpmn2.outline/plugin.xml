@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin
-   id="org.opeum.bpmn2.outline"
+   id="org.opaeum.bpmn2.outline"
    name="BPMN2Outline"
    version="1.0"
    provider-name="Topcased"
-   class="org.opeum.bpmn2.outline.org.opeum.bpmn2.outline.Plugin">
+   class="org.opaeum.bpmn2.outline.org.opaeum.bpmn2.outline.Plugin">
 
    <runtime>
-      <library name="org.opeum.bpmn2.outline.jar">
+      <library name="org.opaeum.bpmn2.outline.jar">
          <export name="*"/>
       </library>
    </runtime>

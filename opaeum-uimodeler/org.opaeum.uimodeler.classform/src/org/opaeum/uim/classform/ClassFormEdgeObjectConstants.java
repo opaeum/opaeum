@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 /**
  * An interface defining EdgeObject Constants.<br>

@@ -1,4 +1,4 @@
-package org.opeum.emf.reverse;
+package org.opaeum.emf.reverse;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;

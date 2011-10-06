@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.layout.LayoutContainer;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,18 +17,18 @@ import org.opeum.uim.layout.LayoutContainer;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.FormPanel#getForm <em>Form</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.FormPanel#getForm <em>Form</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getFormPanel()
+ * @see org.opaeum.uim.form.FormPackage#getFormPanel()
  * @model
  * @generated
  */
 public interface FormPanel extends UmlReference, LayoutContainer {
 	/**
 	 * Returns the value of the '<em><b>Form</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.form.UimForm#getPanel <em>Panel</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.form.UimForm#getPanel <em>Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Form</em>' container reference isn't clear,
@@ -37,15 +37,15 @@ public interface FormPanel extends UmlReference, LayoutContainer {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Form</em>' container reference.
 	 * @see #setForm(UimForm)
-	 * @see org.opeum.uim.form.FormPackage#getFormPanel_Form()
-	 * @see org.opeum.uim.form.UimForm#getPanel
+	 * @see org.opaeum.uim.form.FormPackage#getFormPanel_Form()
+	 * @see org.opaeum.uim.form.UimForm#getPanel
 	 * @model opposite="panel" transient="false"
 	 * @generated
 	 */
 	UimForm getForm();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.FormPanel#getForm <em>Form</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.FormPanel#getForm <em>Form</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Form</em>' container reference.

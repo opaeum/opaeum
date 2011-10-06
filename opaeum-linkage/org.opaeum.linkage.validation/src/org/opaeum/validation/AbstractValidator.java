@@ -1,18 +1,18 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
 import java.util.Collection;
 
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.validation.ErrorMap;
-import org.opeum.metamodel.visitor.NakedElementOwnerVisitor;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public abstract class AbstractValidator extends NakedElementOwnerVisitor implements ITransformationStep{
 	protected INakedModelWorkspace workspace;
-	protected OpeumConfig config;
+	protected OpaeumConfig config;
 	@Override
 	public Collection<? extends INakedElement> getChildren(INakedElementOwner root){
 		if(root instanceof INakedModelWorkspace){
@@ -21,7 +21,7 @@ public abstract class AbstractValidator extends NakedElementOwnerVisitor impleme
 			return root.getOwnedElements();
 		}
 	}
-	public void initialize(INakedModelWorkspace workspace,OpeumConfig config){
+	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
 		this.workspace = workspace;
 		this.config = config;
 	}

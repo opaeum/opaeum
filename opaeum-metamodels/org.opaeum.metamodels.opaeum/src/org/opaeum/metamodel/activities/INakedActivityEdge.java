@@ -1,9 +1,9 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 import java.util.Set;
 
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 public interface INakedActivityEdge extends GuardedFlow,INakedElementOwner{
 	INakedActivityNode getSource();	
 	void setSource(INakedActivityNode source);

@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.modeler.classdiagram
-Bundle-SymbolicName: org.opeum.modeler.classdiagram;singleton:=true
+Bundle-Name: org.opaeum.modeler.classdiagram
+Bundle-SymbolicName: org.opaeum.modeler.classdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.topcased.uml.OpeumPlugin
-Bundle-Vendor: Opeum
+Bundle-Activator: org.opaeum.topcased.uml.OpaeumPlugin
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
@@ -24,23 +24,23 @@ Require-Bundle: org.eclipse.core.runtime,
  org.topcased.ui,
  org.topcased.validation.ocl,
  org.topcased.modeler.diagrams.validation,
- org.opeum.eclipse.core,
+ org.opaeum.eclipse.core,
  org.eclipse.ocl.uml,
  org.eclipse.gmf.runtime.draw2d.ui.render.awt;bundle-version="1.4.1",
  org.eclipse.gmf.runtime.draw2d.ui.render;bundle-version="1.4.1",
- org.opeum.linkage.core;visibility:=reexport,
- org.opeum.linkage.emfextraction;visibility:=reexport,
- org.opeum.linkage.namegeneration;visibility:=reexport,
- org.opeum.linkage.validation;visibility:=reexport,
- org.opeum.metamodels.drools;visibility:=reexport,
- org.opeum.metamodels.emfworkspace;visibility:=reexport,
- org.opeum.metamodels.java;visibility:=reexport,
- org.opeum.metamodels.maven;visibility:=reexport,
- org.opeum.metamodels.ocl;visibility:=reexport,
- org.opeum.metamodels.opeum;visibility:=reexport,
- org.opeum.metamodels.text;visibility:=reexport,
- org.opeum.metamodels.uim;visibility:=reexport,
- org.opeum.transformation.engine;visibility:=reexport
+ org.opaeum.linkage.core;visibility:=reexport,
+ org.opaeum.linkage.emfextraction;visibility:=reexport,
+ org.opaeum.linkage.namegeneration;visibility:=reexport,
+ org.opaeum.linkage.validation;visibility:=reexport,
+ org.opaeum.metamodels.drools;visibility:=reexport,
+ org.opaeum.metamodels.emfworkspace;visibility:=reexport,
+ org.opaeum.metamodels.java;visibility:=reexport,
+ org.opaeum.metamodels.maven;visibility:=reexport,
+ org.opaeum.metamodels.ocl;visibility:=reexport,
+ org.opaeum.metamodels.opaeum;visibility:=reexport,
+ org.opaeum.metamodels.text;visibility:=reexport,
+ org.opaeum.metamodels.uim;visibility:=reexport,
+ org.opaeum.transformation.engine;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.draw2d,
  org.eclipse.gef.editparts,
@@ -53,16 +53,16 @@ Export-Package: org.eclipse.draw2d,
  org.holongate.jai,
  org.holongate.svg,
  org.holongate.svg.dynamic.events,
- org.opeum.topcased,
- org.opeum.topcased.classdiagram,
- org.opeum.topcased.classdiagram.edit,
- org.opeum.topcased.classdiagram.figure,
- org.opeum.topcased.propertysections,
- org.opeum.topcased.propertysections.constraints,
- org.opeum.topcased.propertysections.filters,
- org.opeum.topcased.propertysections.ocl,
- org.opeum.topcased.uml,
- org.opeum.topcased.uml.editor,
+ org.opaeum.topcased,
+ org.opaeum.topcased.classdiagram,
+ org.opaeum.topcased.classdiagram.edit,
+ org.opaeum.topcased.classdiagram.figure,
+ org.opaeum.topcased.propertysections,
+ org.opaeum.topcased.propertysections.constraints,
+ org.opaeum.topcased.propertysections.filters,
+ org.opaeum.topcased.propertysections.ocl,
+ org.opaeum.topcased.uml,
+ org.opaeum.topcased.uml.editor,
  org.topcased.modeler.uml,
  org.topcased.modeler.uml.actions,
  org.topcased.modeler.uml.alldiagram,

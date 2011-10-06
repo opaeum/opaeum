@@ -1,15 +1,15 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.metamodel.activities.INakedActivityPartition;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedMultiplicity;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedMultiplicityElement;
-import org.opeum.metamodel.core.internal.NakedMultiplicityImpl;
+import org.opaeum.metamodel.activities.INakedActivityPartition;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 public class NakedActivityPartitionImpl extends NakedMultiplicityElement implements INakedActivityPartition{
 	private static final long serialVersionUID = -2640734629787128086L;

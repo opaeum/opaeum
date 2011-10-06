@@ -1,17 +1,17 @@
-package org.opeum.generation.features;
+package org.opaeum.generation.features;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaFeature;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.AttributeImplementor;
-import org.opeum.javageneration.basicjava.DerivedUnionImplementor;
-import org.opeum.javageneration.basicjava.EnumerationLiteralImplementor;
-import org.opeum.javageneration.basicjava.HashcodeBuilder;
-import org.opeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import org.opeum.javageneration.basicjava.OperationAnnotator;
-import org.opeum.javageneration.basicjava.RedefinitionImplementor;
-import org.opeum.javageneration.basicjava.SimpleActivityMethodImplementor;
-import org.opeum.javageneration.basicjava.SpecificationImplementor;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.JavaFeature;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.basicjava.DerivedUnionImplementor;
+import org.opaeum.javageneration.basicjava.EnumerationLiteralImplementor;
+import org.opaeum.javageneration.basicjava.HashcodeBuilder;
+import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opaeum.javageneration.basicjava.OperationAnnotator;
+import org.opaeum.javageneration.basicjava.RedefinitionImplementor;
+import org.opaeum.javageneration.basicjava.SimpleActivityMethodImplementor;
+import org.opaeum.javageneration.basicjava.SpecificationImplementor;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,AttributeImplementor.class,EnumerationLiteralImplementor.class,

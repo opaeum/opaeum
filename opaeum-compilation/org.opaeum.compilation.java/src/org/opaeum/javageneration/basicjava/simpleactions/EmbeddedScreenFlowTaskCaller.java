@@ -1,16 +1,16 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.jbpm5.TaskUtil;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.jbpm5.TaskUtil;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class EmbeddedScreenFlowTaskCaller extends AbstractBehaviorCaller<INakedEmbeddedScreenFlowTask>{
-	public EmbeddedScreenFlowTaskCaller(OpeumLibrary oclEngine,INakedEmbeddedScreenFlowTask action,AbstractObjectNodeExpressor expressor){
+	public EmbeddedScreenFlowTaskCaller(OpaeumLibrary oclEngine,INakedEmbeddedScreenFlowTask action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
 	@Override

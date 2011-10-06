@@ -1,4 +1,4 @@
-package org.opeum.javageneration.persistence;
+package org.opaeum.javageneration.persistence;
 
 import javax.persistence.GenerationType;
 

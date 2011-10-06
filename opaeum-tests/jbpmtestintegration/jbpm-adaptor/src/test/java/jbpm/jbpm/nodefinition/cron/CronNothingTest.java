@@ -12,9 +12,9 @@ import org.jboss.seam.scheduling.events.Event;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.opeum.environment.Environment;
-import org.opeum.environment.cdi.test.CdiTestEnvironment;
-import org.opeum.environment.cdi.test.CdiTestSeamTransaction;
+import org.opaeum.environment.Environment;
+import org.opaeum.environment.cdi.test.CdiTestEnvironment;
+import org.opaeum.environment.cdi.test.CdiTestSeamTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

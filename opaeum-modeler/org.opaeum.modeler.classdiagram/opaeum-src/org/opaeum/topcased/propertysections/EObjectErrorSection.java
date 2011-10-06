@@ -1,14 +1,14 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.validation.BrokenElement;
-import org.opeum.metamodel.validation.BrokenRule;
-import org.opeum.metamodel.validation.ErrorMap;
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.BrokenRule;
+import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -42,9 +42,9 @@ import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.topcased.uml.editor.OpeumEditor;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.topcased.uml.editor.OpaeumEditor;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class EObjectErrorSection extends AbstractTabbedPropertySection implements IResourceChangeListener{
@@ -113,7 +113,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 			for(Control control:group.getChildren()){
 				control.dispose();
 			}
-			OpeumEclipseContext ctx = OpeumEditor.getCurrentContext();
+			OpaeumEclipseContext ctx = OpaeumEditor.getCurrentContext();
 			if(markers.isEmpty() || ctx == null || ctx.getCurrentEmfWorkspace() == null){
 				hide();
 			}else{
@@ -161,7 +161,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				txt = createHyperlink(comp, o1.getOwnerElement().getName() + "::" + o1.getName(), o1.getId());
 			}else if(o instanceof Element){
 				Element element = (Element) o;
-				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element), OpeumEditor.getCurrentContext()
+				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element), OpaeumEditor.getCurrentContext()
 						.getId(element));
 			}else{
 				txt = getWidgetFactory().createLabel(comp, o.toString());
@@ -200,15 +200,15 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 	}
 	protected Hyperlink createHyperlink(Composite comp,String text,String id){
 		Hyperlink lbl = getWidgetFactory().createHyperlink(comp, text, SWT.NONE);
-		final EObject key = OpeumEditor.getCurrentContext().getCurrentEmfWorkspace().getElement(id);
+		final EObject key = OpaeumEditor.getCurrentContext().getCurrentEmfWorkspace().getElement(id);
 		lbl.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseUp(MouseEvent e){
 			}
 			@Override
 			public void mouseDown(MouseEvent e){
-				if(getActivePage().getActiveEditor() instanceof OpeumEditor){
-					OpeumEditor nakedUmlEditor = (OpeumEditor) getActivePage().getActiveEditor();
+				if(getActivePage().getActiveEditor() instanceof OpaeumEditor){
+					OpaeumEditor nakedUmlEditor = (OpaeumEditor) getActivePage().getActiveEditor();
 					nakedUmlEditor.gotoEObject(key);
 					page.selectionChanged(nakedUmlEditor, new StructuredSelection(key));
 				}

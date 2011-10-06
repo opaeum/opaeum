@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.MasterComponent;
+import org.opaeum.uim.MasterComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.MasterComponent;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.DetailPanel#getMasterComponent <em>Master Component</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.DetailPanel#getMasterComponent <em>Master Component</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getDetailPanel()
+ * @see org.opaeum.uim.form.FormPackage#getDetailPanel()
  * @model
  * @generated
  */
 public interface DetailPanel extends UimForm {
 	/**
 	 * Returns the value of the '<em><b>Master Component</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.MasterComponent#getDetailPanels <em>Detail Panels</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.MasterComponent#getDetailPanels <em>Detail Panels</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Master Component</em>' reference isn't clear,
@@ -36,15 +36,15 @@ public interface DetailPanel extends UimForm {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Master Component</em>' reference.
 	 * @see #setMasterComponent(MasterComponent)
-	 * @see org.opeum.uim.form.FormPackage#getDetailPanel_MasterComponent()
-	 * @see org.opeum.uim.MasterComponent#getDetailPanels
+	 * @see org.opaeum.uim.form.FormPackage#getDetailPanel_MasterComponent()
+	 * @see org.opaeum.uim.MasterComponent#getDetailPanels
 	 * @model opposite="detailPanels"
 	 * @generated
 	 */
 	MasterComponent getMasterComponent();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.DetailPanel#getMasterComponent <em>Master Component</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.DetailPanel#getMasterComponent <em>Master Component</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Master Component</em>' reference.

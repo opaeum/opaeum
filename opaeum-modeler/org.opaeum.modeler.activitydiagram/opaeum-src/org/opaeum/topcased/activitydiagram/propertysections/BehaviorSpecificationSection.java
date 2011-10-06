@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 public class BehaviorSpecificationSection extends AbstractChooserPropertySection{

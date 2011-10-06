@@ -1,4 +1,4 @@
-package org.opeum.persistence;
+package org.opaeum.persistence;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -12,8 +12,8 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
-import net.sf.opeum.arquillian.ArquillianUtils;
-import net.sf.opeum.test.NakedUtilTestClasses;
+import net.sf.opaeum.arquillian.ArquillianUtils;
+import net.sf.opaeum.test.NakedUtilTestClasses;
 
 import org.hibernate.Session;
 import org.hibernate.annotations.common.util.ReflectHelper;
@@ -25,14 +25,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import audittest.org.opeum.audit.Angel;
-import audittest.org.opeum.audit.Angel_Audit;
-import audittest.org.opeum.audit.Demon;
-import audittest.org.opeum.audit.Finger;
-import audittest.org.opeum.audit.God;
-import audittest.org.opeum.audit.God_Audit;
-import audittest.org.opeum.audit.Hand;
-import audittest.org.opeum.audit.Ring;
+import audittest.org.opaeum.audit.Angel;
+import audittest.org.opaeum.audit.Angel_Audit;
+import audittest.org.opaeum.audit.Demon;
+import audittest.org.opaeum.audit.Finger;
+import audittest.org.opaeum.audit.God;
+import audittest.org.opaeum.audit.God_Audit;
+import audittest.org.opaeum.audit.Hand;
+import audittest.org.opaeum.audit.Ring;
 
 @RunWith(Arquillian.class)
 public class AuditTest extends BaseTest {

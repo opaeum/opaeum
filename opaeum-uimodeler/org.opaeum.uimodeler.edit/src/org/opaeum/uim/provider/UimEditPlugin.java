@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.provider;
+package org.opaeum.uim.provider;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;

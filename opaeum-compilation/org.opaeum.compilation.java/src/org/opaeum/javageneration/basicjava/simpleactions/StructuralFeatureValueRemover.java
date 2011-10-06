@@ -1,15 +1,15 @@
-package org.opeum.javageneration.basicjava.simpleactions;
+package org.opaeum.javageneration.basicjava.simpleactions;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.metamodel.actions.INakedRemoveStructuralFeatureValueAction;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class StructuralFeatureValueRemover extends SimpleNodeBuilder<INakedRemoveStructuralFeatureValueAction> {
-	public StructuralFeatureValueRemover(OpeumLibrary oclEngine, INakedRemoveStructuralFeatureValueAction action,
+	public StructuralFeatureValueRemover(OpaeumLibrary oclEngine, INakedRemoveStructuralFeatureValueAction action,
 			AbstractObjectNodeExpressor expressor) {
 		super(oclEngine, action, expressor);
 	}

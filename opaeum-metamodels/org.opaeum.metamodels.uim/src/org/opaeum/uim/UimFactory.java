@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.UimPackage
+ * @see org.opaeum.uim.UimPackage
  * @generated
  */
 public interface UimFactory extends EFactory {
@@ -23,7 +23,7 @@ public interface UimFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	UimFactory eINSTANCE = org.opeum.uim.impl.UimFactoryImpl.init();
+	UimFactory eINSTANCE = org.opaeum.uim.impl.UimFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Field</em>'.

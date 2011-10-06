@@ -1,4 +1,4 @@
-package org.opeum.processmodel.processmodel.processes;
+package org.opaeum.processmodel.processmodel.processes;
 
 import org.junit.Test;
 

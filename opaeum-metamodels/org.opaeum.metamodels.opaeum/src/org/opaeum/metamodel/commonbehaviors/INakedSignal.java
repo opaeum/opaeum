@@ -1,5 +1,5 @@
-package org.opeum.metamodel.commonbehaviors;
-import org.opeum.metamodel.core.INakedComplexStructure;
+package org.opaeum.metamodel.commonbehaviors;
+import org.opaeum.metamodel.core.INakedComplexStructure;
 public interface INakedSignal extends INakedComplexStructure{
 	Integer getListenerPoolSize();
 }

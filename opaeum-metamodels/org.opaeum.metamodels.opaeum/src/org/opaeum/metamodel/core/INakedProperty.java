@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
 import java.util.Collection;
 import java.util.List;
@@ -6,14 +6,14 @@ import java.util.List;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 
-import org.opeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
 
 /**
  * Common superclass for properties, objectNodes and call actions that require persistence in activities Typically one would like any
  * implementors of this interface to be accessible from OCL, hence the implementation of the IAttribute interface
  * 
  */
-// TODO refactore all this out to the OpeumStructuralFeatureMap
+// TODO refactore all this out to the OpaeumStructuralFeatureMap
 public interface INakedProperty extends INakedPackageableElement,IModifiableTypedElement,IAttribute,IAssociationEnd{
 	INakedProperty getOtherEnd();
 	/**
@@ -25,16 +25,16 @@ public interface INakedProperty extends INakedPackageableElement,IModifiableType
 	 */
 	boolean hasQualifier(String name);
 	/**
-	 * Opeum deviates from the UML spec in that it considers qualifiers to be properties of the baseType of the property. Since values of
+	 * Opaeum deviates from the UML spec in that it considers qualifiers to be properties of the baseType of the property. Since values of
 	 * the qualifier property are assumed to vary along with instances of the baseType, they are treated as part of baseType. UML considers
 	 * qualifiers to belong to the property itself, and expects qualifier values to vary along with the instances of the association. In
-	 * compositional relationships this distinction becomes immaterial, but Opeum has extended this interpretation to all associations.
+	 * compositional relationships this distinction becomes immaterial, but Opaeum has extended this interpretation to all associations.
 	 * 
 	 */
 	List<INakedProperty> getQualifiers();
 	String[] getQualifierNames();
 	/**
-	 * A discriminator in Hibernate is used to determine the actual type of an instance represented by a row in the database. Opeum uses
+	 * A discriminator in Hibernate is used to determine the actual type of an instance represented by a row in the database. Opaeum uses
 	 * its PowerType logic to determine whether this property is actually a discriminator type column
 	 */
 	boolean isDiscriminator();
@@ -50,7 +50,7 @@ public interface INakedProperty extends INakedPackageableElement,IModifiableType
 	void setRedefinedProperties(Collection<INakedProperty> p);
 	/**
 	 * Returns true if this property is used as a backing property for a qualifier specified on one the associations the owner of this
-	 * property participates in NB! Opeum does not apply qualifier semantics in the generation of OCL code. It rather allows OCL code to
+	 * property participates in NB! Opaeum does not apply qualifier semantics in the generation of OCL code. It rather allows OCL code to
 	 * access the property as if it is a normal Set,Bag,OrderedSet or Sequence. They are also not represented as "Map" relationships in
 	 * Hibernate. Qualifiers are used primarily in establishing uniqueness constraints.
 	 */

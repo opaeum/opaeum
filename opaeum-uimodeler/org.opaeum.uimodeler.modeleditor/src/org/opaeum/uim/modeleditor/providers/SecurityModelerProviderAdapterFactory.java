@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.security.util.SecurityAdapterFactory;
+import org.opaeum.uim.security.util.SecurityAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,31 +43,31 @@ public class SecurityModelerProviderAdapterFactory extends SecurityAdapterFactor
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.EditableSecureObject} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.EditableSecureObject} instances.
 	 * 
 	 * @generated
 	 */
 	private EditableSecureObjectModelerProvider editablesecureobjectModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.SecureObject} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.SecureObject} instances.
 	 * 
 	 * @generated
 	 */
 	private SecureObjectModelerProvider secureobjectModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.RequiredRole} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.RequiredRole} instances.
 	 * 
 	 * @generated
 	 */
 	private RequiredRoleModelerProvider requiredroleModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.WorkspaceSecurityConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.WorkspaceSecurityConstraint} instances.
 	 * 
 	 * @generated
 	 */
 	private WorkspaceSecurityConstraintModelerProvider workspacesecurityconstraintModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.security.SecurityConstraint} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.security.SecurityConstraint} instances.
 	 * 
 	 * @generated
 	 */
@@ -165,7 +165,7 @@ public class SecurityModelerProviderAdapterFactory extends SecurityAdapterFactor
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.EditableSecureObject}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.EditableSecureObject}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -177,7 +177,7 @@ public class SecurityModelerProviderAdapterFactory extends SecurityAdapterFactor
 		return editablesecureobjectModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.SecureObject}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.SecureObject}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -189,7 +189,7 @@ public class SecurityModelerProviderAdapterFactory extends SecurityAdapterFactor
 		return secureobjectModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.RequiredRole}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.RequiredRole}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -201,7 +201,7 @@ public class SecurityModelerProviderAdapterFactory extends SecurityAdapterFactor
 		return requiredroleModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.WorkspaceSecurityConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.WorkspaceSecurityConstraint}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -213,7 +213,7 @@ public class SecurityModelerProviderAdapterFactory extends SecurityAdapterFactor
 		return workspacesecurityconstraintModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.security.SecurityConstraint}.
+	 * This creates an adapter for a {@link org.opaeum.uim.security.SecurityConstraint}.
 	 *
 	 * @return the Adapter
 	 * @generated

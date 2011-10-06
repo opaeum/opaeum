@@ -1,15 +1,15 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.SecurityPackage;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
- * This is the item provider adpater for a {@link org.opeum.uim.security.SecurityConstraint} object.
+ * This is the item provider adpater for a {@link org.opaeum.uim.security.SecurityConstraint} object.
  *
  * @generated
  */

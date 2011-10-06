@@ -1,6 +1,6 @@
-package org.opeum.metamodel.actions;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.core.INakedOperation;
+package org.opaeum.metamodel.actions;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.core.INakedOperation;
 /**
  * Implement INakedTypedElement to ensure the actual type is resolved correctly
  * @author barnar_a

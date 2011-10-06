@@ -1,6 +1,6 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
-import org.opeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
 
 public interface INakedReadStructuralFeatureAction extends INakedStructuralFeatureAction{
 

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.provider;
+package org.opaeum.uim.provider;
 
 
 import java.util.Collection;
@@ -24,13 +24,13 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.ObjectSelectorTree;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.security.SecurityFactory;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.ObjectSelectorTree;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.security.SecurityFactory;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.ObjectSelectorTree} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.ObjectSelectorTree} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

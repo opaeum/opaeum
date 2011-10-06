@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
 
 /**
@@ -17,7 +17,7 @@ package org.opeum.uim.folder;
  * <!-- end-model-doc -->
  *
  *
- * @see org.opeum.uim.folder.FolderPackage#getEntityFolder()
+ * @see org.opaeum.uim.folder.FolderPackage#getEntityFolder()
  * @model
  * @generated
  */

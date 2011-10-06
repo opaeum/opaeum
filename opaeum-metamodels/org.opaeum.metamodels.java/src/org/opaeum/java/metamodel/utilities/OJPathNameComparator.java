@@ -2,11 +2,11 @@
  * Created on Nov 1, 2004
  *
  */
-package org.opeum.java.metamodel.utilities;
+package org.opaeum.java.metamodel.utilities;
 
 import java.util.Comparator;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 
 

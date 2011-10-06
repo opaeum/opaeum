@@ -1,4 +1,4 @@
-package org.opeum.topcased.classdiagram.edit;
+package org.opaeum.topcased.classdiagram.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.topcased.draw2d.figures.ComposedLabel;

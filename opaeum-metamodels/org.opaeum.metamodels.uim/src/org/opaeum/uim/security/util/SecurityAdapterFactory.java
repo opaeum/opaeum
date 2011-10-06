@@ -4,26 +4,26 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.util;
+package org.opaeum.uim.security.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.RequiredRole;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.WorkspaceSecurityConstraint;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.RequiredRole;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.security.SecurityPackage
+ * @see org.opaeum.uim.security.SecurityPackage
  * @generated
  */
 public class SecurityAdapterFactory extends AdapterFactoryImpl {
@@ -119,13 +119,13 @@ public class SecurityAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.EditableSecureObject
+	 * @see org.opaeum.uim.security.EditableSecureObject
 	 * @generated
 	 */
 	public Adapter createEditableSecureObjectAdapter() {
@@ -133,13 +133,13 @@ public class SecurityAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.SecureObject <em>Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.SecureObject <em>Secure Object</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.SecureObject
+	 * @see org.opaeum.uim.security.SecureObject
 	 * @generated
 	 */
 	public Adapter createSecureObjectAdapter() {
@@ -147,13 +147,13 @@ public class SecurityAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.RequiredRole <em>Required Role</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.RequiredRole <em>Required Role</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.RequiredRole
+	 * @see org.opaeum.uim.security.RequiredRole
 	 * @generated
 	 */
 	public Adapter createRequiredRoleAdapter() {
@@ -161,13 +161,13 @@ public class SecurityAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.WorkspaceSecurityConstraint <em>Workspace Security Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.WorkspaceSecurityConstraint <em>Workspace Security Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.WorkspaceSecurityConstraint
+	 * @see org.opaeum.uim.security.WorkspaceSecurityConstraint
 	 * @generated
 	 */
 	public Adapter createWorkspaceSecurityConstraintAdapter() {
@@ -175,13 +175,13 @@ public class SecurityAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.security.SecurityConstraint <em>Constraint</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.SecurityConstraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.security.SecurityConstraint
+	 * @see org.opaeum.uim.security.SecurityConstraint
 	 * @generated
 	 */
 	public Adapter createSecurityConstraintAdapter() {
@@ -189,13 +189,13 @@ public class SecurityAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UmlReference
+	 * @see org.opaeum.uim.UmlReference
 	 * @generated
 	 */
 	public Adapter createUmlReferenceAdapter() {

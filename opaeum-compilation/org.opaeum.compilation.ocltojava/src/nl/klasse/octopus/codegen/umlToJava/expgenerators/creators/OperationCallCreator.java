@@ -29,9 +29,9 @@ import nl.klasse.tools.common.Check;
 import nl.klasse.tools.common.StringHelpers;
 import nl.klasse.tools.common.Util;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJParameter;
 
 /**
  * PropCallTransformer : 

@@ -1,7 +1,7 @@
-package net.sf.opeum.arquillian;
+package net.sf.opaeum.arquillian;
 
 public class ArtifactNames {
-	public static final String NAKED_UML_UTIL = "org.opeum:util";
+	public static final String NAKED_UML_UTIL = "org.opaeum:util";
 
 	public static final String SEAM_SOLDER_API = "org.jboss.seam.solder:seam-solder-api";
 	public static final String SEAM_SOLDER_IMPL = "org.jboss.seam.solder:seam-solder-impl";

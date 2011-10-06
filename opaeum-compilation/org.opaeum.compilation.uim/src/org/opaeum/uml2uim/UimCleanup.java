@@ -1,18 +1,18 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
-import org.opeum.feature.StepDependency;
+import org.opaeum.feature.StepDependency;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.action.OperationAction;
-import org.opeum.uim.action.TransitionAction;
-import org.opeum.uim.action.UimAction;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.binding.NavigationBinding;
-import org.opeum.uim.binding.TableBinding;
-import org.opeum.uim.layout.UimLayout;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.layout.UimLayout;
 
 @StepDependency(phase = UimSynchronizationPhase.class)
 public class UimCleanup extends AbstractUimSynchronizer{

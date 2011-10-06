@@ -1,9 +1,9 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.io.File;
 
 public interface ISourceFolderStrategy{
-	void defineSourceFolders(OpeumConfig config);
+	void defineSourceFolders(OpaeumConfig config);
 	boolean isSingleProjectStrategy();
 	File calculateOutputRoot(File configFile,File projectRoot, String workspaceIdentifier);
 }

@@ -1,6 +1,6 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.UMLPackage;

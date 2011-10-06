@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,8 +24,8 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opeum.topcased.uml.editor.OpeumItemProviderAdapterFactory;
-import org.opeum.topcased.uml.editor.OpeumQualifiedNameLabelProvider;
+import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
+import org.opaeum.topcased.uml.editor.OpaeumQualifiedNameLabelProvider;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
@@ -73,8 +73,8 @@ public class ParameterComposite extends Composite{
 		parameterNameTxt.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Type : ");
 		parameterType = new CSingleObjectChooser(parent, widgetFactory, SWT.NONE);
-		parameterType.setAdvancedLabelProvider(new OpeumQualifiedNameLabelProvider(new OpeumItemProviderAdapterFactory()));
-		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new OpeumItemProviderAdapterFactory()));
+		parameterType.setAdvancedLabelProvider(new OpaeumQualifiedNameLabelProvider(new OpaeumItemProviderAdapterFactory()));
+		parameterType.setLabelProvider(new AdapterFactoryLabelProvider(new OpaeumItemProviderAdapterFactory()));
 		parameterType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		widgetFactory.createLabel(parent, "Direction : ");
 		parameterDirectionCb = widgetFactory.createCCombo(parent, SWT.BORDER | SWT.FLAT);

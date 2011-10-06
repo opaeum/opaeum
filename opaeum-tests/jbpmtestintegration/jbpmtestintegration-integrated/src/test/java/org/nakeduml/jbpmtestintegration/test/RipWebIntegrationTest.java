@@ -1,4 +1,4 @@
-package org.opeum.jbpmtestintegration.test;
+package org.opaeum.jbpmtestintegration.test;
 
 import java.io.IOException;
 
@@ -17,9 +17,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.opeum.jbpmtestintegration.util.NakedUmlTestUtil;
-import org.opeum.test.adaptor.ArtifactNames;
-import org.opeum.test.adaptor.MavenArtifactResolver;
+import org.opaeum.jbpmtestintegration.util.NakedUmlTestUtil;
+import org.opaeum.test.adaptor.ArtifactNames;
+import org.opaeum.test.adaptor.MavenArtifactResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class RipWebIntegrationTest  {
 		WebArchive war = (WebArchive) NakedUmlTestUtil.createTestArchive();
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_API));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.SEAM_SERVLET_IMPL));
-		war.addClass(org.opeum.jbpmtestintegration.util.jbpm.adaptor.JbpmKnowledgeBase.class);
+		war.addClass(org.opaeum.jbpmtestintegration.util.jbpm.adaptor.JbpmKnowledgeBase.class);
 		war.addClass(RipWebIntegrationTest.class);
 		war.addClass(RipTestController.class);
 		war.addClass(StartDataGeneration.class);

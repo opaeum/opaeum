@@ -12,15 +12,15 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://opeum.sf.net/uimetamodel/1.0"
-            class="org.opeum.uim.UimPackage"
+            uri="http://opaeum.sf.net/uimetamodel/1.0"
+            class="org.opaeum.uim.UimPackage"
             genModel="model/Uim.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <parser
             type="uim"
-            class="org.opeum.uim.util.UimResourceFactoryImpl"/>
+            class="org.opaeum.uim.util.UimResourceFactoryImpl"/>
    </extension>
 
 </plugin>

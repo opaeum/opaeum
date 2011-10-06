@@ -1,4 +1,4 @@
-package org.opeum.topcased.statemachinediagram;
+package org.opaeum.topcased.statemachinediagram;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.AbstractTriggerSection;
+import org.opaeum.topcased.propertysections.AbstractTriggerSection;
 
 public class TransitionTriggerSection extends AbstractTriggerSection{
 	@Override

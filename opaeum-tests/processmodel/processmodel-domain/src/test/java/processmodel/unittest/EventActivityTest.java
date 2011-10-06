@@ -2,8 +2,8 @@ package processmodel.unittest;
 
 import javax.jms.JMSException;
 
-import net.sf.opeum.seam.SignalDispatcher;
-import net.sf.opeum.seam.TimeEventDispatcher;
+import net.sf.opaeum.seam.SignalDispatcher;
+import net.sf.opaeum.seam.TimeEventDispatcher;
 
 import org.testng.annotations.Test;
 

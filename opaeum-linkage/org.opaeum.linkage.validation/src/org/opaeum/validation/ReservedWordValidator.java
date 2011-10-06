@@ -1,6 +1,6 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
-import org.opeum.feature.StepDependency;
+import org.opaeum.feature.StepDependency;
 
 @StepDependency(phase = ValidationPhase.class)
 public class ReservedWordValidator extends AbstractValidator{

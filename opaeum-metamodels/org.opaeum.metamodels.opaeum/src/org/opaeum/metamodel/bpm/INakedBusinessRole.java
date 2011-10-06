@@ -1,8 +1,8 @@
-package org.opeum.metamodel.bpm;
+package org.opaeum.metamodel.bpm;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedEntity;
 
 public interface INakedBusinessRole extends INakedEntity{
 	Collection<INakedBusinessService> getServicesProvided();

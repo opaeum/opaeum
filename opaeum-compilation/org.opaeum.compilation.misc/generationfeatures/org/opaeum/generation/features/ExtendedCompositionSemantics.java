@@ -1,14 +1,14 @@
-package org.opeum.generation.features;
+package org.opaeum.generation.features;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.javageneration.JavaFeature;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.basicjava.FromXmlBuilder;
-import org.opeum.javageneration.basicjava.ToXmlStringBuilder;
-import org.opeum.javageneration.composition.ComponentInitializer;
-import org.opeum.javageneration.composition.CompositionNodeImplementor;
-import org.opeum.javageneration.composition.CopyMethodImplementor;
-import org.opeum.linkage.CompositionEmulator;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.javageneration.JavaFeature;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.FromXmlBuilder;
+import org.opaeum.javageneration.basicjava.ToXmlStringBuilder;
+import org.opaeum.javageneration.composition.ComponentInitializer;
+import org.opaeum.javageneration.composition.CompositionNodeImplementor;
+import org.opaeum.javageneration.composition.CopyMethodImplementor;
+import org.opaeum.linkage.CompositionEmulator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		CompositionEmulator.class,CompositionNodeImplementor.class,ComponentInitializer.class,CopyMethodImplementor.class,

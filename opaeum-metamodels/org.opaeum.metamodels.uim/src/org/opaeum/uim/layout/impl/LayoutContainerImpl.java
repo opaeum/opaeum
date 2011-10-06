@@ -4,17 +4,17 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.impl;
+package org.opaeum.uim.layout.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.impl.UimContainerImpl;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.UimLayout;
+import org.opaeum.uim.impl.UimContainerImpl;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.UimLayout;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opeum.uim.layout.UimLayout;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.layout.impl.LayoutContainerImpl#getLayout <em>Layout</em>}</li>
+ *   <li>{@link org.opaeum.uim.layout.impl.LayoutContainerImpl#getLayout <em>Layout</em>}</li>
  * </ul>
  * </p>
  *

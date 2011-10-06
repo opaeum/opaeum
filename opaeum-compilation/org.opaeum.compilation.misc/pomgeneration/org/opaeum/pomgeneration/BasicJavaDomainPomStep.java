@@ -1,13 +1,13 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
@@ -23,9 +23,9 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	}
 	private void addNakedumlDomain(Collection<Dependency> result){
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
-		nakedUmlUtil.setGroupId("org.opeum");
-		nakedUmlUtil.setArtifactId("opeum-runtime-domain");
-		nakedUmlUtil.setVersion("${opeum.version}");
+		nakedUmlUtil.setGroupId("org.opaeum");
+		nakedUmlUtil.setArtifactId("opaeum-runtime-domain");
+		nakedUmlUtil.setVersion("${opaeum.version}");
 		nakedUmlUtil.setScope("compile");
 		nakedUmlUtil.setType("jar");
 		result.add(nakedUmlUtil);
@@ -45,7 +45,7 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	@Override
 	public Properties getParentPomProperties(){
 		Properties props = super.getParentPomProperties();
-		props.put("opeum.version", PomGenerationPhase.NUML_VERSION);
+		props.put("opaeum.version", PomGenerationPhase.NUML_VERSION);
 		return props;
 	}
 }

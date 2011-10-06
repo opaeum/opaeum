@@ -4,19 +4,19 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.util;
+package org.opaeum.uim.security.util;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.RequiredRole;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.WorkspaceSecurityConstraint;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.RequiredRole;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,7 +28,7 @@ import org.opeum.uim.security.WorkspaceSecurityConstraint;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.security.SecurityPackage
+ * @see org.opaeum.uim.security.SecurityPackage
  * @generated
  */
 public class SecuritySwitch<T> {

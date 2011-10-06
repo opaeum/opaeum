@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.edit;
+package org.opaeum.bpmn2.diagram.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
@@ -9,8 +9,8 @@ import org.eclipse.draw2d.PolylineDecoration;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.opeum.bpmn2.diagram.figures.SequenceFlowFigure;
-import org.opeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
+import org.opaeum.bpmn2.diagram.figures.SequenceFlowFigure;
+import org.opaeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.edit.EMFGraphEdgeEditPart;

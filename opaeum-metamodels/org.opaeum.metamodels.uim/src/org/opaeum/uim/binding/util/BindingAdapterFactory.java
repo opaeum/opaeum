@@ -4,27 +4,27 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding.util;
+package org.opaeum.uim.binding.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.binding.BindingPackage;
-import org.opeum.uim.binding.FieldBinding;
-import org.opeum.uim.binding.LookupBinding;
-import org.opeum.uim.binding.NavigationBinding;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.binding.TableBinding;
-import org.opeum.uim.binding.UimBinding;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.binding.BindingPackage;
+import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.binding.LookupBinding;
+import org.opaeum.uim.binding.NavigationBinding;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.binding.TableBinding;
+import org.opaeum.uim.binding.UimBinding;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see org.opeum.uim.binding.BindingPackage
+ * @see org.opaeum.uim.binding.BindingPackage
  * @generated
  */
 public class BindingAdapterFactory extends AdapterFactoryImpl {
@@ -124,13 +124,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.binding.LookupBinding <em>Lookup Binding</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.LookupBinding <em>Lookup Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.binding.LookupBinding
+	 * @see org.opaeum.uim.binding.LookupBinding
 	 * @generated
 	 */
 	public Adapter createLookupBindingAdapter() {
@@ -138,13 +138,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.binding.NavigationBinding <em>Navigation Binding</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.NavigationBinding <em>Navigation Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.binding.NavigationBinding
+	 * @see org.opaeum.uim.binding.NavigationBinding
 	 * @generated
 	 */
 	public Adapter createNavigationBindingAdapter() {
@@ -152,13 +152,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.binding.TableBinding <em>Table Binding</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.TableBinding <em>Table Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.binding.TableBinding
+	 * @see org.opaeum.uim.binding.TableBinding
 	 * @generated
 	 */
 	public Adapter createTableBindingAdapter() {
@@ -166,13 +166,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.binding.FieldBinding <em>Field Binding</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.FieldBinding <em>Field Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.binding.FieldBinding
+	 * @see org.opaeum.uim.binding.FieldBinding
 	 * @generated
 	 */
 	public Adapter createFieldBindingAdapter() {
@@ -180,13 +180,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.binding.UimBinding <em>Uim Binding</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.UimBinding <em>Uim Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.binding.UimBinding
+	 * @see org.opaeum.uim.binding.UimBinding
 	 * @generated
 	 */
 	public Adapter createUimBindingAdapter() {
@@ -194,13 +194,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.binding.PropertyRef <em>Property Ref</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.PropertyRef <em>Property Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.binding.PropertyRef
+	 * @see org.opaeum.uim.binding.PropertyRef
 	 * @generated
 	 */
 	public Adapter createPropertyRefAdapter() {
@@ -208,13 +208,13 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opeum.uim.UmlReference
+	 * @see org.opaeum.uim.UmlReference
 	 * @generated
 	 */
 	public Adapter createUmlReferenceAdapter() {

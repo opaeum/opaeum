@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.method;
+package org.opaeum.topcased.activitydiagram.method;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package org.opeum.eclipse.context;
+package org.opaeum.eclipse.context;
 
-import org.opeum.emf.workspace.EmfWorkspace;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.edit.domain.EditingDomain;

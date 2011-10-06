@@ -1,6 +1,6 @@
-package org.opeum.metamodel.components;
+package org.opaeum.metamodel.components;
 
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public interface INakedPort extends INakedProperty{
 	boolean isBusinessService();

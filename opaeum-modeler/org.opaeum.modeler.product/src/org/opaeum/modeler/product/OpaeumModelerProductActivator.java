@@ -1,4 +1,4 @@
-package org.opeum.modeler.product;
+package org.opaeum.modeler.product;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -6,18 +6,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class OpeumModelerProductActivator extends AbstractUIPlugin {
+public class OpaeumModelerProductActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.opeum.modeler.product"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.opaeum.modeler.product"; //$NON-NLS-1$
 
 	// The shared instance
-	private static OpeumModelerProductActivator plugin;
+	private static OpaeumModelerProductActivator plugin;
 	
 	/**
 	 * The constructor
 	 */
-	public OpeumModelerProductActivator() {
+	public OpaeumModelerProductActivator() {
 	}
 
 	/*
@@ -43,7 +43,7 @@ public class OpeumModelerProductActivator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static OpeumModelerProductActivator getDefault() {
+	public static OpaeumModelerProductActivator getDefault() {
 		return plugin;
 	}
 

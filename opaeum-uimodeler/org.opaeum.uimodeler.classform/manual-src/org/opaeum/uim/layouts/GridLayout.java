@@ -1,4 +1,4 @@
-package org.opeum.uim.layouts;
+package org.opaeum.uim.layouts;
 
 import java.util.Collection;
 import java.util.Comparator;

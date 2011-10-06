@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -30,7 +30,7 @@ public class TransformationProcess{
 	Set<Object> changedElements = new HashSet<Object>();
 	Set<Class<? extends ITransformationStep>> actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 	private Phases phases;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	public void integrate(TransformationProgressLog log){
 		TransformationContext context = new TransformationContext(actualClasses, true,log);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
@@ -56,7 +56,7 @@ public class TransformationProcess{
 		phase.execute(context);
 		context.featuresApplied(phase.getSteps());
 	}
-	public void execute(OpeumConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses,TransformationProgressLog log){
+	public void execute(OpaeumConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses,TransformationProgressLog log){
 		initialize(config, proposedStepClasses);
 		models.add(sourceModel);
 		execute(log);
@@ -99,7 +99,7 @@ public class TransformationProcess{
 		}
 		log.endLastTask();
 	}
-	public void initialize(OpeumConfig config,Set<Class<? extends ITransformationStep>> proposedStepClasses){
+	public void initialize(OpaeumConfig config,Set<Class<? extends ITransformationStep>> proposedStepClasses){
 		this.models.clear();
 		this.config=config;
 		this.actualClasses = new HashSet<Class<? extends ITransformationStep>>();
@@ -256,7 +256,7 @@ public class TransformationProcess{
 		removeModel(model.getClass());
 		this.models.add(model);
 	}
-	public OpeumConfig getConfig(){
+	public OpaeumConfig getConfig(){
 		return this.config;
 	}
 }

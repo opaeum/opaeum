@@ -1,13 +1,13 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.modeleditor.editor.UimEditor;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 /**

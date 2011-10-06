@@ -1,8 +1,8 @@
-package org.opeum.topcased.classdiagram.edit;
+package org.opaeum.topcased.classdiagram.edit;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.opeum.topcased.classdiagram.figure.Gradient;
+import org.opaeum.topcased.classdiagram.figure.Gradient;
 import org.topcased.draw2d.figures.ComposedLabel;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.uml.classdiagram.edit.ClassEditPart;
@@ -24,7 +24,7 @@ public class BusinessComponentEditPart extends ClassEditPart{
 		ClassFigure fig = (ClassFigure) getFigure();
 		ComposedLabel lbl = (ComposedLabel) fig.getLabel();
 		lbl.setPrefix("<<businessComponent>>");
-//		lbl.setPrefixIcon(OpeumPlugin.getDefault().getImageRegistry().get("Actor"));
+//		lbl.setPrefixIcon(OpaeumPlugin.getDefault().getImageRegistry().get("Actor"));
 	}
 	@Override
 	protected IFigure createFigure(){

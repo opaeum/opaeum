@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml.editor;
+package org.opaeum.topcased.uml.editor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +13,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.topcased.modeler.editor.outline.AdditionalResources;
 
-public class OpeumFilter extends ViewerFilter{
+public class OpaeumFilter extends ViewerFilter{
 	public static Set<EClassifier> DISALLOWED_CLASSES = new HashSet<EClassifier>();
 	public static Set<EClassifier> ALLOWED_CLASSES = new HashSet<EClassifier>();
 	static{

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -16,11 +16,11 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.UimPackage#getUmlReference()
+ * @see org.opaeum.uim.UimPackage#getUmlReference()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface UmlReference extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Uml Element Uid</em>' attribute.
 	 * @see #setUmlElementUid(String)
-	 * @see org.opeum.uim.UimPackage#getUmlReference_UmlElementUid()
+	 * @see org.opaeum.uim.UimPackage#getUmlReference_UmlElementUid()
 	 * @model
 	 * @generated
 	 */
 	String getUmlElementUid();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Uml Element Uid</em>' attribute.

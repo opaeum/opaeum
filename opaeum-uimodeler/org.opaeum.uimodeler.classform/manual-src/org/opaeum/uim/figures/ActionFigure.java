@@ -1,4 +1,4 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
 import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
@@ -7,7 +7,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
-import org.opeum.uim.figures.controls.GraphicsBridge;
+import org.opaeum.uim.figures.controls.GraphicsBridge;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.ILabelFigure;
 import org.topcased.draw2d.figures.Label;

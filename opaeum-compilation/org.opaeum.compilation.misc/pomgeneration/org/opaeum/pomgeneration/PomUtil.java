@@ -1,4 +1,4 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.opeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.SourceFolder;
 
 import org.apache.maven.pom.Build;
 import org.apache.maven.pom.ConfigurationType3;

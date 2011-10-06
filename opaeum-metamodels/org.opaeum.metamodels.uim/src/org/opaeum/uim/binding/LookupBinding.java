@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding;
+package org.opaeum.uim.binding;
 
-import org.opeum.uim.control.UimLookup;
+import org.opaeum.uim.control.UimLookup;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.control.UimLookup;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.binding.LookupBinding#getLookup <em>Lookup</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.LookupBinding#getLookup <em>Lookup</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.binding.BindingPackage#getLookupBinding()
+ * @see org.opaeum.uim.binding.BindingPackage#getLookupBinding()
  * @model
  * @generated
  */
 public interface LookupBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Lookup</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.control.UimLookup#getLookupSource <em>Lookup Source</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.control.UimLookup#getLookupSource <em>Lookup Source</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Lookup</em>' container reference isn't clear,
@@ -36,15 +36,15 @@ public interface LookupBinding extends UimBinding {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Lookup</em>' container reference.
 	 * @see #setLookup(UimLookup)
-	 * @see org.opeum.uim.binding.BindingPackage#getLookupBinding_Lookup()
-	 * @see org.opeum.uim.control.UimLookup#getLookupSource
+	 * @see org.opaeum.uim.binding.BindingPackage#getLookupBinding_Lookup()
+	 * @see org.opaeum.uim.control.UimLookup#getLookupSource
 	 * @model opposite="lookupSource" transient="false"
 	 * @generated
 	 */
 	UimLookup getLookup();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.binding.LookupBinding#getLookup <em>Lookup</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.binding.LookupBinding#getLookup <em>Lookup</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Lookup</em>' container reference.

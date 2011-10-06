@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml;
+package org.opaeum.topcased.uml;
 
 import java.util.HashMap;
 

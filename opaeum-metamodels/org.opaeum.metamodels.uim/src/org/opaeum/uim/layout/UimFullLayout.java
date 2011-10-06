@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout;
+package org.opaeum.uim.layout;
 
 
 /**
@@ -13,7 +13,7 @@ package org.opeum.uim.layout;
  * <!-- end-user-doc -->
  *
  *
- * @see org.opeum.uim.layout.LayoutPackage#getUimFullLayout()
+ * @see org.opaeum.uim.layout.LayoutPackage#getUimFullLayout()
  * @model
  * @generated
  */

@@ -1,4 +1,4 @@
-package org.opeum.eclipse.javasync;
+package org.opaeum.eclipse.javasync;
 
 import java.io.File;
 import java.util.Arrays;
@@ -10,29 +10,29 @@ import java.util.WeakHashMap;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
-import org.opeum.eclipse.EmfToNakedUmlSynchronizer;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.eclipse.starter.GeneratorSourceFolderIdentifier;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.TransformationProcess;
-import org.opeum.generation.features.BpmUsingJbpm5;
-import org.opeum.generation.features.ExtendedCompositionSemantics;
-import org.opeum.generation.features.OclExpressionExecution;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import org.opeum.javageneration.hibernate.HibernatePackageAnnotator;
-import org.opeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.eclipse.EmfToNakedUmlSynchronizer;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.starter.GeneratorSourceFolderIdentifier;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.TransformationProcess;
+import org.opaeum.generation.features.BpmUsingJbpm5;
+import org.opaeum.generation.features.ExtendedCompositionSemantics;
+import org.opaeum.generation.features.OclExpressionExecution;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
+import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public static TransformationProcess getCurrentTransformationProcess(){
 		return currentTransformationProcess;
 	}
-	private static Map<OpeumEclipseContext,TransformationProcess> processes = new WeakHashMap<OpeumEclipseContext,TransformationProcess>();
+	private static Map<OpaeumEclipseContext,TransformationProcess> processes = new WeakHashMap<OpaeumEclipseContext,TransformationProcess>();
 	private static TransformationProcess currentTransformationProcess;
 	public JavaTransformationProcessManager(){
 	}
@@ -40,7 +40,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	public void run(){
 		try{
 			// Continuously associate new contexts with transformation processes
-			OpeumEclipseContext currentContext = OpeumEclipseContext.getCurrentContext();
+			OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 			if(currentContext != null && !currentContext.isLoading()){
 				getTransformationProcess(currentContext);
 			}
@@ -56,12 +56,12 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			}
 		}
 	}
-	private static synchronized TransformationProcess getTransformationProcess(final OpeumEclipseContext ne){
+	private static synchronized TransformationProcess getTransformationProcess(final OpaeumEclipseContext ne){
 		TransformationProcess process = processes.get(ne);
 		if(process == null){
 			process = new TransformationProcess();
 			// Load classes for config
-			OpeumEclipsePlugin.getDefault();
+			OpaeumEclipsePlugin.getDefault();
 			ne.addContextListener(new JavaSourceSynchronizer(ne, process));
 			reinitializeProcess(process, ne);
 			processes.put(ne, process);
@@ -72,7 +72,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		currentTransformationProcess = process;
 		return process;
 	}
-	public static void reinitializeProcess(TransformationProcess process, OpeumEclipseContext ne){
+	public static void reinitializeProcess(TransformationProcess process, OpaeumEclipseContext ne){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(ne.getConfig());
 		ne.getConfig().calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
 		mapAdditionalOutputRoots(ne.getConfig());
@@ -83,7 +83,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		process.initialize(ne.getConfig(), steps);
 		process.replaceModel(ne.getNakedWorkspace());
 	}
-	public static Set<Class<? extends ITransformationStep>> getAllSteps(OpeumConfig cfg){
+	public static Set<Class<? extends ITransformationStep>> getAllSteps(OpaeumConfig cfg){
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps();
 		steps.addAll(cfg.getAdditionalTransformationSteps());
 		return steps;
@@ -95,7 +95,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		basicIntegrationSteps.addAll(getBasicSteps());
 		return basicIntegrationSteps;
 	}
-	private static void mapAdditionalOutputRoots(OpeumConfig cfg){
+	private static void mapAdditionalOutputRoots(OpaeumConfig cfg){
 		cfg.defineSourceFolder(GeneratorSourceFolderIdentifier.GENERATOR_SRC, true, "-generator", "src/main/java");
 		if(cfg.getOutputRoot().exists()){
 			for(File file:cfg.getOutputRoot().listFiles()){
@@ -128,6 +128,6 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		return toSet(HibernatePackageAnnotator.class, Jbpm5EnvironmentBuilder.class,JavaMetaInfoMapGenerator.class);
 	}
 	public static TransformationProcess getTransformationProcessFor(IContainer folder){
-		return getTransformationProcess(OpeumEclipseContext.findOrCreateContextFor(folder));
+		return getTransformationProcess(OpaeumEclipseContext.findOrCreateContextFor(folder));
 	}
 }

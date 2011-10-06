@@ -1,13 +1,13 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.POMFactory;
@@ -28,16 +28,16 @@ public class HibernateDomainPomStep extends PomGenerationStep{
 	private void addNakedumlHibernate(Collection<Dependency> result){
 		//only insert when BpmUsingJbpm5 is selected
 		Dependency nakedUmlBpm= POMFactory.eINSTANCE.createDependency();
-		nakedUmlBpm.setGroupId("org.opeum");
-		nakedUmlBpm.setArtifactId("opeum-runtime-bpm-hibernate");
-		nakedUmlBpm.setVersion("${opeum.version}");
+		nakedUmlBpm.setGroupId("org.opaeum");
+		nakedUmlBpm.setArtifactId("opaeum-runtime-bpm-hibernate");
+		nakedUmlBpm.setVersion("${opaeum.version}");
 		nakedUmlBpm.setScope("compile");
 		nakedUmlBpm.setType("jar");
 		result.add(nakedUmlBpm);
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
-		nakedUmlUtil.setGroupId("org.opeum");
-		nakedUmlUtil.setArtifactId("opeum-runtime-hibernate");
-		nakedUmlUtil.setVersion("${opeum.version}");
+		nakedUmlUtil.setGroupId("org.opaeum");
+		nakedUmlUtil.setArtifactId("opaeum-runtime-hibernate");
+		nakedUmlUtil.setVersion("${opaeum.version}");
 		nakedUmlUtil.setScope("compile");
 		nakedUmlUtil.setType("jar");
 		result.add(nakedUmlUtil);
@@ -58,7 +58,7 @@ public class HibernateDomainPomStep extends PomGenerationStep{
 	public Properties getParentPomProperties(){
 		Properties props = super.getParentPomProperties();
 		props.put("hibernate.version", HIBERNATE_VERSION);
-		props.put("opeum.version", PomGenerationPhase.NUML_VERSION);
+		props.put("opaeum.version", PomGenerationPhase.NUML_VERSION);
 		return props;
 	}
 }

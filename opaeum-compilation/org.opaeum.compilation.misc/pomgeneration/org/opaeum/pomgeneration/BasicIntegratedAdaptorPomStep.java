@@ -1,14 +1,14 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Plugin;
@@ -33,7 +33,7 @@ public class BasicIntegratedAdaptorPomStep extends PomGenerationStep{
 		Properties p = super.getParentPomProperties();
 		p.put("jboss.home", "${env.JBOSS_HOME}");
 		p.put("jboss.domain", "default");
-		p.put("opeum.version", PomGenerationPhase.NUML_VERSION);
+		p.put("opaeum.version", PomGenerationPhase.NUML_VERSION);
 		return p;
 	}
 	@Override

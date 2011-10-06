@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.opeum.jbpmtestintegration</groupId>
+  <groupId>org.opaeum.jbpmtestintegration</groupId>
   <artifactId>jbpmtestintegration</artifactId>
   <packaging>pom</packaging>
   <name>jbpmtestintegration</name>
@@ -60,7 +60,7 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>org.opeum.jbpmtestintegration</groupId>
+      <groupId>org.opaeum.jbpmtestintegration</groupId>
       <artifactId>jbpmtestintegration-generator</artifactId>
       <version>0.0.1</version>
       <type>jar</type>
@@ -91,9 +91,9 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-domain</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-domain</artifactId>
+        <version>${opaeum.version}</version>
         <type>jar</type>
         <scope>compile</scope>
         <exclusions>
@@ -159,16 +159,16 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.opeum.jbpmtestintegration</groupId>
+        <groupId>org.opaeum.jbpmtestintegration</groupId>
         <artifactId>jbpm-domain</artifactId>
         <version>${jbpmtestintegration.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-adaptor</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-adaptor</artifactId>
+        <version>${opaeum.version}</version>
         <scope>compile</scope>
         <exclusions>
           <exclusion>
@@ -178,9 +178,9 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-test-adaptor</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-test-adaptor</artifactId>
+        <version>${opaeum.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -212,7 +212,7 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum.jbpmtestintegration</groupId>
+        <groupId>org.opaeum.jbpmtestintegration</groupId>
         <artifactId>jbpmtestintegration-integrated</artifactId>
         <version>0.0.1</version>
         <scope>compile</scope>
@@ -266,7 +266,7 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.opeum.jbpmtestintegration</groupId>
+        <groupId>org.opaeum.jbpmtestintegration</groupId>
         <artifactId>jbpm-adaptor</artifactId>
         <version>${jbpmtestintegration.version}</version>
         <type>jar</type>
@@ -311,7 +311,7 @@
     <drools.version>5.2.0.M1</drools.version>
     <jbpmtestintegration.version>0.0.1</jbpmtestintegration.version>
     <hibernate.version>3.6.0.Final</hibernate.version>
-    <opeum.version>1.0.0.5-SNAPSHOT</opeum.version>
+    <opaeum.version>1.0.0.5-SNAPSHOT</opaeum.version>
     <jboss.domain>default</jboss.domain>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
     <arquillian.version>1.0.0.Alpha4</arquillian.version>

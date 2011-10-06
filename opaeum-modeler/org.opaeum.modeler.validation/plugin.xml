@@ -4,8 +4,8 @@
    <extension
          point="org.topcased.validation.core.validators">
       <validator
-            class="org.opeum.topcased.validation.NakedValidator"
-            id="org.opeum.topcased.validation"
+            class="org.opaeum.topcased.validation.NakedValidator"
+            id="org.opaeum.topcased.validation"
             name="name">
          <description>
             Validates the UML model against Naked UML constraints

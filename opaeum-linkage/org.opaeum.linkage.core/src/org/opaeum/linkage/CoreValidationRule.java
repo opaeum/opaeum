@@ -1,6 +1,6 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum CoreValidationRule implements IValidationRule{
 	OCL("Validates correctness of OCL statements both syntactically and contextually","The OCL on {0} is invalid: {1}"),

@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import nl.klasse.octopus.model.OclUsageType;
 
@@ -9,19 +9,19 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedCallEventImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedEventImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedSignalEventImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedCallEventImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedChangeEventImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedEventImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedSignalEventImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedTimeEventImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedTriggerImpl;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
 		AcceptEventActionExtractor.class,TransitionExtractor.class

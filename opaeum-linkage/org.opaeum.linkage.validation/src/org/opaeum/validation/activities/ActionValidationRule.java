@@ -1,6 +1,6 @@
-package org.opeum.validation.activities;
+package org.opaeum.validation.activities;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum ActionValidationRule implements IValidationRule{
 	REQUIRED_PIN("Certain actions require input and output pins","{0} needs to have an {1} specified as its {2}"),

@@ -1,20 +1,20 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.ExtensionEnd;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedPowerType;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.NakedEnumerationLiteralImpl;
-import org.opeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
-import org.opeum.metamodel.core.internal.NakedPowerTypeInstanceImpl;
-import org.opeum.metamodel.core.internal.NakedSlotImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedPowerType;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.NakedEnumerationLiteralImpl;
+import org.opaeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
+import org.opaeum.metamodel.core.internal.NakedPowerTypeInstanceImpl;
+import org.opaeum.metamodel.core.internal.NakedSlotImpl;
 
 /**
  * Builds all instance specifications and their slots. Enumeration literals are a specialised form of instance specification and are also

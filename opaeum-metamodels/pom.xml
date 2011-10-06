@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>org.opeum</groupId>
-		<artifactId>opeum-root</artifactId>
+		<groupId>org.opaeum</groupId>
+		<artifactId>opaeum-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-metamodels</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-metamodels</artifactId>
 	<packaging>pom</packaging>
-	<name>opeum-core</name>
+	<name>opaeum-core</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<repositories>
 		<repository>
@@ -21,16 +21,16 @@
 	</repositories>
 
 	<modules>
-		<module>org.opeum.metamodels.drools</module>
-		<module>org.opeum.metamodels.emfworkspace</module>
-		<module>org.opeum.metamodels.java</module>
-		<module>org.opeum.metamodels.feature</module>
-		<module>org.opeum.metamodels.source.feature</module>
-		<module>org.opeum.metamodels.maven</module>
-		<module>org.opeum.metamodels.ocl</module>
-		<module>org.opeum.metamodels.opeum</module>
-		<module>org.opeum.metamodels.text</module>
-		<module>org.opeum.metamodels.uim</module>
+		<module>org.opaeum.metamodels.drools</module>
+		<module>org.opaeum.metamodels.emfworkspace</module>
+		<module>org.opaeum.metamodels.java</module>
+		<module>org.opaeum.metamodels.feature</module>
+		<module>org.opaeum.metamodels.source.feature</module>
+		<module>org.opaeum.metamodels.maven</module>
+		<module>org.opaeum.metamodels.ocl</module>
+		<module>org.opaeum.metamodels.opaeum</module>
+		<module>org.opaeum.metamodels.text</module>
+		<module>org.opaeum.metamodels.uim</module>
 	</modules>
 	<build>
 		<plugins>

@@ -7,8 +7,8 @@ package nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors;
 
 import nl.klasse.octopus.codegen.helpers.GenerationHelpers;
 
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
 
 /**
  * ModelTransformer :

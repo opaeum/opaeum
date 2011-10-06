@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Opeum Modeler
-Bundle-SymbolicName: org.opeum.modeler.product;singleton:=true
+Bundle-Name: Opaeum Modeler
+Bundle-SymbolicName: org.opaeum.modeler.product;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.modeler.product.OpeumModelerProductActivator
-Bundle-Vendor: Opeum
+Bundle-Activator: org.opaeum.modeler.product.OpaeumModelerProductActivator
+Bundle-Vendor: Opaeum
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

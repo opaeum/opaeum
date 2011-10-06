@@ -1,4 +1,4 @@
-package org.opeum.processmodel.util;
+package org.opaeum.processmodel.util;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,23 +1,23 @@
-package org.opeum.javageneration.jbpm5.activity;
+package org.opaeum.javageneration.jbpm5.activity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedAcceptEventAction;
-import org.opeum.metamodel.activities.ActivityKind;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedStructuredActivityNode;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.commonbehaviors.INakedTrigger;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedOperation;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.annotation.OJEnum;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
+import org.opaeum.metamodel.activities.ActivityKind;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = ActivityProcessImplementor.class,after = ActivityProcessImplementor.class)
 public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationImplementor{

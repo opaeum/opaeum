@@ -1,4 +1,4 @@
-package org.opeum.metamodel.commonbehaviors;
+package org.opaeum.metamodel.commonbehaviors;
 
 import java.util.Set;
 

@@ -1,8 +1,8 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrategy;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory.ISimpleTypeStrategy;
 
 
 public interface TestValueStrategy  extends ISimpleTypeStrategy{

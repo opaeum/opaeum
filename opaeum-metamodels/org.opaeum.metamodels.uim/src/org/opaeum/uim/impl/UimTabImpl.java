@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UimTab;
-import org.opeum.uim.UimTabPanel;
-import org.opeum.uim.layout.impl.LayoutContainerImpl;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimTab;
+import org.opaeum.uim.UimTabPanel;
+import org.opaeum.uim.layout.impl.LayoutContainerImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.layout.impl.LayoutContainerImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UimTabImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimTabImpl#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *

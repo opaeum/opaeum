@@ -4,11 +4,11 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.impl;
+package org.opaeum.uim.layout.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.UimToolbarLayout;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.UimToolbarLayout;
 
 /**
  * <!-- begin-user-doc -->

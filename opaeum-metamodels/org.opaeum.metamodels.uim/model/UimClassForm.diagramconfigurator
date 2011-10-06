@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmi:id="_5kM1MLZ0Ed-RJ8wcAxIiqQ" projectName="org.opeum.uim.classform" name="Class Form Diagram" package="org.opeum.uim.classform" prefix="ClassForm" organizeImports="false" copyrightText="" provider="Ampie Barnard">
+<diagramconfigurator:DiagramConfiguration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagramconfigurator="http://www.topcased.org/diagramconfigurator/0.10" xmi:id="_5kM1MLZ0Ed-RJ8wcAxIiqQ" projectName="org.opaeum.uim.classform" name="Class Form Diagram" package="org.opaeum.uim.classform" prefix="ClassForm" organizeImports="false" copyrightText="" provider="Ampie Barnard">
   <palette xmi:id="_9ZRM0LZ1Ed-RJ8wcAxIiqQ" name="Class Form Palette">
     <paletteCategories xmi:id="_--I44LZ1Ed-RJ8wcAxIiqQ" name="Controls">
       <items xmi:id="_ETGLYLZ2Ed-RJ8wcAxIiqQ" name="Field" part="_2dIhILZ1Ed-RJ8wcAxIiqQ"/>

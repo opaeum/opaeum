@@ -1,15 +1,15 @@
-package org.opeum.metamodel.commonbehaviors.internal;
+package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.List;
 
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.NakedValueSpecificationImpl;
-import org.opeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
+import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 public class NakedOpaqueBehaviorImpl extends NakedBehaviorImpl implements INakedOpaqueBehavior {
 	private static final long serialVersionUID = 4959233999272640273L;

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.presentation;
+package org.opaeum.uim.security.presentation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +37,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
-import org.opeum.uim.presentation.UimEditorPlugin;
+import org.opaeum.uim.presentation.UimEditorPlugin;
 
 /**
  * This is the action bar contributor for the Security model editor.
@@ -187,7 +187,7 @@ public class SecurityActionBarContributor
 	public void contributeToMenu(IMenuManager menuManager) {
     super.contributeToMenu(menuManager);
 
-    IMenuManager submenuManager = new MenuManager(UimEditorPlugin.INSTANCE.getString("_UI_SecurityEditor_menu"), "org.opeum.uim.securityMenuID");
+    IMenuManager submenuManager = new MenuManager(UimEditorPlugin.INSTANCE.getString("_UI_SecurityEditor_menu"), "org.opaeum.uim.securityMenuID");
     menuManager.insertAfter("additions", submenuManager);
     submenuManager.add(new Separator("settings"));
     submenuManager.add(new Separator("actions"));

@@ -1,6 +1,6 @@
-package org.opeum.metamodel.compositestructures;
+package org.opaeum.metamodel.compositestructures;
 
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public interface INakedCollaboration extends INakedClassifier{
 

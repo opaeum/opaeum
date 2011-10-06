@@ -1,4 +1,4 @@
-package org.opeum.feature.visit;
+package org.opaeum.feature.visit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

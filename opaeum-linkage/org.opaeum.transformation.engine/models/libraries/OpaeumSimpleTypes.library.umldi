@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_kxYA0MP5Ed-SNsUNWzjz5A" activeDiagram="_Hp49wMbtEd-qWtMD5IZMIA">
-  <model href="OpiumSimpleTypes.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="OpeumSimpleTypes" viewport="19,68">
+  <model href="OpaeumSimpleTypes.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_Hp49wMbtEd-qWtMD5IZMIA" position="0,0" size="100,100" name="OpaeumSimpleTypes" viewport="19,68">
     <property xmi:id="_HqO8AMbtEd-qWtMD5IZMIA" key="pageFormatName" value="A4"/>
     <property xmi:id="_HqO8AcbtEd-qWtMD5IZMIA" key="diagramWidth" value="840"/>
     <property xmi:id="_HqO8AsbtEd-qWtMD5IZMIA" key="diagramHeight" value="1188"/>
@@ -12,26 +12,26 @@
     <property xmi:id="_HqO8B8btEd-qWtMD5IZMIA" key="diagramRightMargin" value="20"/>
     <property xmi:id="_HqO8CMbtEd-qWtMD5IZMIA" key="orientation" value="portrait"/>
     <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Hp49wcbtEd-qWtMD5IZMIA" presentation="org.topcased.modeler.uml.classdiagram">
-      <element href="OpiumSimpleTypes.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
+      <element href="OpaeumSimpleTypes.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_IYESYMbtEd-qWtMD5IZMIA" position="59,54" size="240,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_IYESYcbtEd-qWtMD5IZMIA" presentation="default">
-        <element href="OpiumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        <element href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_IYESYsbtEd-qWtMD5IZMIA">
         <property xmi:id="_IYESY8btEd-qWtMD5IZMIA" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_IYESZMbtEd-qWtMD5IZMIA" presentation="default">
-          <element href="OpiumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <element href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </semanticModel>
       </contained>
       <contained xsi:type="di:GraphNode" xmi:id="_IYESZcbtEd-qWtMD5IZMIA">
         <property xmi:id="_IYESZsbtEd-qWtMD5IZMIA" key="eStructuralFeatureID" value="38"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_IYESZ8btEd-qWtMD5IZMIA" presentation="default">
-          <element href="OpiumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <element href="OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_ghEqoM5VEeC1yrA33E3a4g" position="0,0" size="-1,-1">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ghEqoc5VEeC1yrA33E3a4g" presentation="default">
-            <element href="OpiumSimpleTypes.library.uml#_ghKKMM5VEeC1yrA33E3a4g"/>
+            <element href="OpaeumSimpleTypes.library.uml#_ghKKMM5VEeC1yrA33E3a4g"/>
           </semanticModel>
         </contained>
       </contained>
@@ -39,18 +39,18 @@
     <contained xsi:type="di:GraphNode" xmi:id="_jOtdUMbwEd-qWtMD5IZMIA" position="382,214" size="178,-1">
       <anchorage xmi:id="_1JQ-YMbwEd-qWtMD5IZMIA" graphEdge="_1JSzkMbwEd-qWtMD5IZMIA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jOtdUcbwEd-qWtMD5IZMIA" presentation="default">
-        <element href="OpiumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
+        <element href="OpaeumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_jOtdUsbwEd-qWtMD5IZMIA">
         <property xmi:id="_jOtdU8bwEd-qWtMD5IZMIA" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jOtdVMbwEd-qWtMD5IZMIA" presentation="default">
-          <element href="OpiumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
+          <element href="OpaeumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
         </semanticModel>
       </contained>
       <contained xsi:type="di:GraphNode" xmi:id="_jOtdVcbwEd-qWtMD5IZMIA">
         <property xmi:id="_jOtdVsbwEd-qWtMD5IZMIA" key="eStructuralFeatureID" value="38"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_jOtdV8bwEd-qWtMD5IZMIA" presentation="default">
-          <element href="OpiumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
+          <element href="OpaeumSimpleTypes.library.uml#_i0SLIMbwEd-qWtMD5IZMIA"/>
         </semanticModel>
       </contained>
     </contained>
@@ -74,24 +74,24 @@
     </contained>
     <contained xsi:type="di:GraphEdge" xmi:id="_1JSzkMbwEd-qWtMD5IZMIA" anchor="_1JQ-YMbwEd-qWtMD5IZMIA _1JQ-YcbwEd-qWtMD5IZMIA">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_1JSzkcbwEd-qWtMD5IZMIA" presentation="default">
-        <element href="OpiumSimpleTypes.library.uml#_1JWd8MbwEd-qWtMD5IZMIA"/>
+        <element href="OpaeumSimpleTypes.library.uml#_1JWd8MbwEd-qWtMD5IZMIA"/>
       </semanticModel>
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_1JSzksbwEd-qWtMD5IZMIA" id="stereotypeEdgeObject"/>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_UjcoMMkJEeCqJJ6VBTMkzg" position="77,226" size="171,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UjcoMckJEeCqJJ6VBTMkzg" presentation="default">
-        <element href="OpiumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        <element href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </semanticModel>
       <contained xsi:type="di:GraphNode" xmi:id="_UjcoMskJEeCqJJ6VBTMkzg">
         <property xmi:id="_UjcoM8kJEeCqJJ6VBTMkzg" key="eStructuralFeatureID" value="37"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UjcoNMkJEeCqJJ6VBTMkzg" presentation="default">
-          <element href="OpiumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+          <element href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
         </semanticModel>
       </contained>
       <contained xsi:type="di:GraphNode" xmi:id="_UjcoNckJEeCqJJ6VBTMkzg">
         <property xmi:id="_UjcoNskJEeCqJJ6VBTMkzg" key="eStructuralFeatureID" value="38"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UjcoN8kJEeCqJJ6VBTMkzg" presentation="default">
-          <element href="OpiumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+          <element href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
         </semanticModel>
       </contained>
     </contained>

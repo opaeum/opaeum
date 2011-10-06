@@ -1,6 +1,6 @@
-package org.opeum.uim.figure;
+package org.opaeum.uim.figure;
 
-import org.opeum.uim.figures.UimTabFigure;
+import org.opaeum.uim.figures.UimTabFigure;
 
 public interface TabListener{
 	public void tabSelected(UimTabFigure a);

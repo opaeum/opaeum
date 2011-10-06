@@ -1,4 +1,4 @@
-package org.opeum.metamodel.bpm.internal;
+package org.opaeum.metamodel.bpm.internal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,12 +8,12 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IPackage;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.ArtificialProperty;
-import org.opeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
+import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.ArtificialProperty;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 
 public class EmbeddedScreenFlowTaskMessageStructureImpl extends EmulatedCompositionMessageStructure{
 	/**

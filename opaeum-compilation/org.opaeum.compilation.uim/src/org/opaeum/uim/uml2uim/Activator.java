@@ -1,4 +1,4 @@
-package org.opeum.uim.uml2uim;
+package org.opaeum.uim.uml2uim;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.opeum.uim.uml2uim"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.opaeum.uim.uml2uim"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

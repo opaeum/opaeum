@@ -10,7 +10,7 @@ Reverse engineer a profile into the workspace
 StarterAction - automatically set maven group id as package prefix of mappedimplementationpackage of rootObjects
 GEneratorGenerator - make this an eclipse plugin too
 
-Opeum Topcased
+Opaeum Topcased
 Async actions in pallete for Screenflows, Responsibilities, 
 Action to Convert methods to business processes
 On Argument Pin table, provide add and remove buttons to add and remove params from the called element  
@@ -29,7 +29,7 @@ Display Operation.name at the top
 
 Refactoring
 Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction, 
-OR port eclipse code to use OpeumWorkspace instead
+OR port eclipse code to use OpaeumWorkspace instead
 Introduce a new construct @TransformationFeature that ONLY specifies requirements and not positioning
 
 UIM

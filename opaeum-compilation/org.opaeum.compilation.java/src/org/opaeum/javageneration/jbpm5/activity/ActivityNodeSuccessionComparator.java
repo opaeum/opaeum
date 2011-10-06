@@ -1,14 +1,14 @@
-package org.opeum.javageneration.jbpm5.activity;
+package org.opaeum.javageneration.jbpm5.activity;
 
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedControlNode;
-import org.opeum.metamodel.activities.INakedParameterNode;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedParameterNode;
 
 public class ActivityNodeSuccessionComparator implements Comparator<INakedActivityNode> {
 	boolean byTarget = true;

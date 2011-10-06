@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.metamodels.ocl
-Bundle-SymbolicName: org.opeum.metamodels.ocl;singleton:=true
+Bundle-Name: org.opaeum.metamodels.ocl
+Bundle-SymbolicName: org.opaeum.metamodels.ocl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: nl.klasse.octopus,

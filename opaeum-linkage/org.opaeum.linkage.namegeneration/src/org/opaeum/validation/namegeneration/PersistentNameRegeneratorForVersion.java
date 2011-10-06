@@ -1,8 +1,8 @@
-package org.opeum.validation.namegeneration;
+package org.opaeum.validation.namegeneration;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedElement;
 
 /**
  * 

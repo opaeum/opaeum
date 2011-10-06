@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control;
+package org.opaeum.uim.control;
 
 
 /**
@@ -15,11 +15,11 @@ package org.opeum.uim.control;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.control.UimSingleSelectListBox#getRows <em>Rows</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.UimSingleSelectListBox#getRows <em>Rows</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.control.ControlPackage#getUimSingleSelectListBox()
+ * @see org.opaeum.uim.control.ControlPackage#getUimSingleSelectListBox()
  * @model
  * @generated
  */
@@ -34,14 +34,14 @@ public interface UimSingleSelectListBox extends UimLookup {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rows</em>' attribute.
 	 * @see #setRows(Integer)
-	 * @see org.opeum.uim.control.ControlPackage#getUimSingleSelectListBox_Rows()
+	 * @see org.opaeum.uim.control.ControlPackage#getUimSingleSelectListBox_Rows()
 	 * @model
 	 * @generated
 	 */
 	Integer getRows();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.control.UimSingleSelectListBox#getRows <em>Rows</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.control.UimSingleSelectListBox#getRows <em>Rows</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Rows</em>' attribute.

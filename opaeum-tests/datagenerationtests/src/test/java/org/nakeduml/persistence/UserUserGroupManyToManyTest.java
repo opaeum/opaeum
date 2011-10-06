@@ -1,4 +1,4 @@
-package org.opeum.persistence;
+package org.opaeum.persistence;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,8 +10,8 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
-import net.sf.opeum.arquillian.ArquillianUtils;
-import net.sf.opeum.test.NakedUtilTestClasses;
+import net.sf.opaeum.arquillian.ArquillianUtils;
+import net.sf.opaeum.test.NakedUtilTestClasses;
 
 import org.hibernate.Session;
 import org.jboss.arquillian.api.Deployment;
@@ -24,9 +24,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import datagenerationtest.org.opeum.God;
-import datagenerationtest.org.opeum.User;
-import datagenerationtest.org.opeum.UserGroup;
+import datagenerationtest.org.opaeum.God;
+import datagenerationtest.org.opaeum.User;
+import datagenerationtest.org.opaeum.UserGroup;
 
 
 @RunWith(Arquillian.class)

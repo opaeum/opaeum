@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.bpm;
+package org.opaeum.topcased.activitydiagram.bpm;
 
 import java.util.HashMap;
 

@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding;
+package org.opaeum.uim.binding;
 
-import org.opeum.uim.UimDataTable;
+import org.opaeum.uim.UimDataTable;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.UimDataTable;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.binding.TableBinding#getTable <em>Table</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.TableBinding#getTable <em>Table</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.binding.BindingPackage#getTableBinding()
+ * @see org.opaeum.uim.binding.BindingPackage#getTableBinding()
  * @model
  * @generated
  */
 public interface TableBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Table</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.UimDataTable#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimDataTable#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Table</em>' container reference isn't clear,
@@ -36,15 +36,15 @@ public interface TableBinding extends UimBinding {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Table</em>' container reference.
 	 * @see #setTable(UimDataTable)
-	 * @see org.opeum.uim.binding.BindingPackage#getTableBinding_Table()
-	 * @see org.opeum.uim.UimDataTable#getBinding
+	 * @see org.opaeum.uim.binding.BindingPackage#getTableBinding_Table()
+	 * @see org.opaeum.uim.UimDataTable#getBinding
 	 * @model opposite="binding" required="true" transient="false"
 	 * @generated
 	 */
 	UimDataTable getTable();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.binding.TableBinding#getTable <em>Table</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.binding.TableBinding#getTable <em>Table</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Table</em>' container reference.

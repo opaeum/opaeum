@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,18 +21,18 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.NakedUmlElementLinker;
-import org.opeum.eclipse.NakedUmlElementLinker.EmfUmlElementLinker;
-import org.opeum.eclipse.ProgressMonitorTransformationLog;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.emf.extraction.EmfElementVisitor;
-import org.opeum.emf.load.EmfWorkspaceLoader;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.visit.VisitBefore;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.NakedUmlElementLinker;
+import org.opaeum.eclipse.NakedUmlElementLinker.EmfUmlElementLinker;
+import org.opaeum.eclipse.ProgressMonitorTransformationLog;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.emf.extraction.EmfElementVisitor;
+import org.opaeum.emf.load.EmfWorkspaceLoader;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.visit.VisitBefore;
 
-public class RegenerateUuids extends AbstractOpiumAction{
+public class RegenerateUuids extends AbstractOpaeumAction{
 	public static final class LinkingVisitor extends EmfElementVisitor{
 		private LinkingVisitor(){
 		}
@@ -89,7 +89,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 		public void element(Element e){
 			Set<String> keywords = new HashSet<String>();
 			for(EAnnotation a:new ArrayList<EAnnotation>(e.getEAnnotations())){
-				if(a.getSource().contains("opeum")){
+				if(a.getSource().contains("opaeum")){
 					for(Entry<String,String> entry:a.getDetails().entrySet()){
 						if(entry.getValue() == null || entry.getValue().trim().length() == 0){
 							keywords.add(entry.getKey());
@@ -115,12 +115,12 @@ public class RegenerateUuids extends AbstractOpiumAction{
 		}
 	}
 	public RegenerateUuids(IStructuredSelection selection2){
-		super(selection2, "Regenerate Opium UUIDS");
+		super(selection2, "Regenerate Opaeum UUIDS");
 	}
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
-		final OpeumEclipseContext currentContext = OpeumEclipseContext.findOrCreateContextFor(folder);
+		final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		new Job("Regenerating UUIDS"){
 			@Override
 			protected IStatus run(IProgressMonitor monitor){
@@ -128,7 +128,7 @@ public class RegenerateUuids extends AbstractOpiumAction{
 					monitor.beginTask("Regenerating UUIDS", 7);
 					monitor.subTask("Removing UUIDS");
 					File dir = currentContext.getUmlDirectory().getLocation().toFile();
-					OpeumConfig cfg = currentContext.getConfig();
+					OpaeumConfig cfg = currentContext.getConfig();
 					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 3);
 					final EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(new ResourceSetImpl(), dir, cfg, log);
 					// No cache listening - just linking
@@ -148,11 +148,11 @@ public class RegenerateUuids extends AbstractOpiumAction{
 					workspace.saveAll();
 					workspace.getResourceSet().eAdapters().remove(linker);
 					monitor.worked(1);
-					new ClearOpiumCacheACtion(selection).run();
+					new ClearOpaeumCacheACtion(selection).run();
 				}finally{
 					monitor.done();
 				}
-				return new Status(IStatus.OK, OpeumEclipsePlugin.getId(), "Regenerated");
+				return new Status(IStatus.OK, OpaeumEclipsePlugin.getId(), "Regenerated");
 			}
 		}.schedule();
 	}

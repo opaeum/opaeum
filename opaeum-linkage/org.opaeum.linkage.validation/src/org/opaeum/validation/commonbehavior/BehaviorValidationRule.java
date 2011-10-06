@@ -1,6 +1,6 @@
-package org.opeum.validation.commonbehavior;
+package org.opaeum.validation.commonbehavior;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum BehaviorValidationRule implements IValidationRule{
 	SINGLE_RESULT_FOR_OCL_BEHAVIOR("asdf","Ocl Behaviors can only have one result parameter"),

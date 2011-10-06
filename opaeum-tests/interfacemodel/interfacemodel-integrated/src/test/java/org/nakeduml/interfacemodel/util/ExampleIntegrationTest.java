@@ -1,4 +1,4 @@
-package org.opeum.interfacemodel.util;
+package org.opaeum.interfacemodel.util;
 
 import interfacetestmodel.interfacetests.RootClass;
 

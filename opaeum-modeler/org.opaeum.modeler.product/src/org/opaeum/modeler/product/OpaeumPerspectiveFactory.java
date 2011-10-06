@@ -1,11 +1,11 @@
-package org.opeum.modeler.product;
+package org.opaeum.modeler.product;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
-public class OpeumPerspectiveFactory implements IPerspectiveFactory{
+public class OpaeumPerspectiveFactory implements IPerspectiveFactory{
 	public void createInitialLayout(IPageLayout layout){
 		// Editors are placed for free.
 		String editorArea = layout.getEditorArea();

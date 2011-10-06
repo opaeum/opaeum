@@ -1,25 +1,25 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.io.File;
 
-import org.opeum.feature.ISourceFolderStrategy;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.feature.ISourceFolderStrategy;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
+import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStrategy{
 	@Override
-	public void defineSourceFolders(OpeumConfig config){
+	public void defineSourceFolders(OpaeumConfig config){
 		mapDefaultMavenOutputRoots(config);
 	}
-	private static void mapDefaultMavenOutputRoots(OpeumConfig cfg){
+	private static void mapDefaultMavenOutputRoots(OpaeumConfig cfg){
 		mapDomainProjects(cfg);
 		mapAdaptorProjects(cfg);
 		mapIntegratedAdaptorProject(cfg);
 		mapWebProject(cfg);
 	}
-	private static void mapWebProject(OpeumConfig cfg){
+	private static void mapWebProject(OpaeumConfig cfg){
 		SourceFolderDefinition webTestResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.WEB_TEST_RESOURCE, true, "", "src/test/resources");
 		webTestResources.dontCleanDirectoriesOrOverwriteFiles();
 		SourceFolderDefinition jbossResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.WEB_TEST_RESOURCE_JBOSSAS, true, "", "src/test/jboss-resources");
@@ -28,7 +28,7 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		SourceFolderDefinition webAppRoot = cfg.defineSourceFolder(TextSourceFolderIdentifier.WEBAPP_RESOURCE, true, "", "src/main/webapp");
 		webAppRoot.dontCleanDirectoriesOrOverwriteFiles();
 	}
-	private static void mapDomainProjects(OpeumConfig cfg){
+	private static void mapDomainProjects(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, true, "", "src/main/generated-java");
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, true, "", "src/test/generated-java");
 		SourceFolderDefinition domainSrc = cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_SRC, true, "", "src/main/java");
@@ -38,7 +38,7 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE, true, "", "src/test/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, true, "", "src/main/generated-resources");
 	}
-	private static void mapAdaptorProjects(OpeumConfig cfg){
+	private static void mapAdaptorProjects(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, true, "", "src/main/generated-java");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, true, "", "src/main/generated-resources");
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, true, "", "src/test/generated-java");
@@ -52,7 +52,7 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		SourceFolderDefinition mainResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_RESOURCE, true, "", "src/main/resources");
 		mainResources.dontCleanDirectoriesOrOverwriteFiles();
 	}
-	private static void mapIntegratedAdaptorProject(OpeumConfig cfg){
+	private static void mapIntegratedAdaptorProject(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC, true, "", "src/main/generated-java");
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_TEST_SRC, true, "", "src/test/generated-java");
 		SourceFolderDefinition integratedTestSource = cfg.defineSourceFolder(JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_SRC, true, "", "src/test/java");

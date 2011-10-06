@@ -1,28 +1,28 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: UIMEdit
-Bundle-SymbolicName: org.opeum.eclipse.core;singleton:=true
+Bundle-SymbolicName: org.opaeum.eclipse.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: 
- org.opeum.eclipse.OpeumEclipsePlugin
+ org.opaeum.eclipse.OpaeumEclipsePlugin
 Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.eclipse.core.resources,
  org.eclipse.emf.edit,
- org.opeum.metamodels.opeum,
- org.opeum.linkage.core,
- org.opeum.linkage.emfextraction,
- org.opeum.linkage.namegeneration,
- org.opeum.linkage.validation,
- org.opeum.transformation.engine,
- org.opeum.metamodels.ocl,
- org.opeum.metamodels.emfworkspace,
- org.opeum.compilation.java
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.linkage.core,
+ org.opaeum.linkage.emfextraction,
+ org.opaeum.linkage.namegeneration,
+ org.opaeum.linkage.validation,
+ org.opaeum.transformation.engine,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.compilation.java
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
-Export-Package: org.opeum.eclipse,
- org.opeum.eclipse.commands,
- org.opeum.eclipse.context
+Export-Package: org.opaeum.eclipse,
+ org.opaeum.eclipse.commands,
+ org.opaeum.eclipse.context
 Bundle-ClassPath: .

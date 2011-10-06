@@ -4,12 +4,12 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.impl;
+package org.opaeum.uim.security.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.opeum.uim.impl.UmlReferenceImpl;
-import org.opeum.uim.security.RequiredRole;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.impl.UmlReferenceImpl;
+import org.opaeum.uim.security.RequiredRole;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->

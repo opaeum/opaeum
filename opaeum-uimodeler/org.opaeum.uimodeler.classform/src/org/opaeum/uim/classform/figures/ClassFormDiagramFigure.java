@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.figures;
+package org.opaeum.uim.classform.figures;
 
 import org.eclipse.draw2d.Graphics;
 import org.topcased.modeler.figures.DiagramFigure;

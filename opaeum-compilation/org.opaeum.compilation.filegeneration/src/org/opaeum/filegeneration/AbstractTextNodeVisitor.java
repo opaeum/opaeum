@@ -1,19 +1,19 @@
-package org.opeum.filegeneration;
+package org.opaeum.filegeneration;
 
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.visit.VisitorAdapter;
-import org.opeum.textmetamodel.TextDirectory;
-import org.opeum.textmetamodel.TextOutputNode;
-import org.opeum.textmetamodel.TextProject;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.visit.VisitorAdapter;
+import org.opaeum.textmetamodel.TextDirectory;
+import org.opaeum.textmetamodel.TextOutputNode;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode,TextWorkspace> implements ITransformationStep{
-	protected OpeumConfig config;
-	public void initialize(OpeumConfig config2){
+	protected OpaeumConfig config;
+	public void initialize(OpaeumConfig config2){
 		this.config = config2;
 	}
 	@Override

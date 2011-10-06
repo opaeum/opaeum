@@ -1,11 +1,11 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 
 import java.util.Collection;
 
 import nl.klasse.octopus.model.IInterface;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.commonbehaviors.INakedReception;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedReception;
 
 public interface INakedInterface extends ICompositionParticipant,IInterface{
 	void addImplementingClassifier(INakedBehavioredClassifier c);

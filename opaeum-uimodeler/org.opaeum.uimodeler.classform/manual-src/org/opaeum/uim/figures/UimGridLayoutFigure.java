@@ -1,6 +1,6 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
-import org.opeum.uim.layouts.GridLayout;
+import org.opaeum.uim.layouts.GridLayout;
 
 /**
  * The figure to display a User Interaction Diagram.

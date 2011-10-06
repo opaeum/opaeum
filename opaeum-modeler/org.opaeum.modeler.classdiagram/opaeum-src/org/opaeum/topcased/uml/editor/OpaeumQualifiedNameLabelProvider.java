@@ -1,10 +1,10 @@
-package org.opeum.topcased.uml.editor;
+package org.opaeum.topcased.uml.editor;
 
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 
-public class OpeumQualifiedNameLabelProvider extends AdapterFactoryLabelProvider{
-	public OpeumQualifiedNameLabelProvider(OpeumItemProviderAdapterFactory adapterFactory){
+public class OpaeumQualifiedNameLabelProvider extends AdapterFactoryLabelProvider{
+	public OpaeumQualifiedNameLabelProvider(OpaeumItemProviderAdapterFactory adapterFactory){
 		super(adapterFactory);
 	}
 

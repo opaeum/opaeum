@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.modeler.compositestructuresdiagram
-Bundle-SymbolicName: org.opeum.modeler.compositestructuresdiagram;singleton:=true
+Bundle-Name: org.opaeum.modeler.compositestructuresdiagram
+Bundle-SymbolicName: org.opaeum.modeler.compositestructuresdiagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Vendor: Opeum
+Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.uml2.uml.edit,
  org.topcased.modeler,
- org.opeum.modeler.classdiagram
+ org.opaeum.modeler.classdiagram
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresPlugin
 Export-Package: org.topcased.modeler.uml.compositestructuresdiagram,

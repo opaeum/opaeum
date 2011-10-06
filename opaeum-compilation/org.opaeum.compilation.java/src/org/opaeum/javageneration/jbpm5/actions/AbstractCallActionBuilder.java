@@ -1,4 +1,4 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -6,35 +6,35 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJTryStatement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.simpleactions.AbstractCaller;
-import org.opeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.maps.NakedOperationMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.actions.INakedExceptionHandler;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedMessageStructure;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedParameter;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJTryStatement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.simpleactions.AbstractCaller;
+import org.opaeum.javageneration.jbpm5.AbstractEventConsumptionImplementor;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.maps.NakedOperationMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.actions.INakedExceptionHandler;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractCallActionBuilder<T extends INakedCallAction> extends PotentialTaskActionBuilder<T>{
 	static final String IF_TOKEN_FOUND = "ifTokenFound";
 	private AbstractCaller<T> delegate;
-	public AbstractCallActionBuilder(OpeumLibrary l,T node,AbstractCaller<T> behaviorCaller){
+	public AbstractCallActionBuilder(OpaeumLibrary l,T node,AbstractCaller<T> behaviorCaller){
 		super(l, node);
 		this.delegate = behaviorCaller;
 	}

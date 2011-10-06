@@ -1,4 +1,4 @@
-package org.opeum.uim.util;
+package org.opaeum.uim.util;
 
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Parameter;
@@ -6,12 +6,12 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.eclipse.EmfPropertyUtil;
-import org.opeum.uim.control.ControlFactory;
-import org.opeum.uim.control.ControlKind;
-import org.opeum.uim.control.UimControl;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.OperationInvocationForm;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.uim.control.ControlFactory;
+import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.UimControl;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.OperationInvocationForm;
 
 public class ControlUtil{
 	public static ControlKind[] getAllowedControlKinds(FormPanel form,TypedElement typedElement){

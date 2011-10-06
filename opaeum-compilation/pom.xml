@@ -1,27 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<groupId>org.opeum</groupId>
-		<artifactId>opeum-root</artifactId>
+		<groupId>org.opaeum</groupId>
+		<artifactId>opaeum-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-compilation</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-compilation</artifactId>
 	<packaging>pom</packaging>
-	<name>Opeum Compiler</name>
+	<name>Opaeum Compiler</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<modules>
-		<module>org.opeum.compilation.feature</module>
-		<module>org.opeum.compilation.filegeneration</module>
-		<module>org.opeum.compilation.java</module>
-		<module>org.opeum.compilation.misc</module>
-		<module>org.opeum.compilation.ocltojava</module>
-		<module>org.opeum.compilation.runtimedependencies</module>
-		<module>org.opeum.compilation.source.feature</module>
-		<module>org.opeum.compilation.tinker</module>
-		<module>org.opeum.compilation.uim</module>
+		<module>org.opaeum.compilation.feature</module>
+		<module>org.opaeum.compilation.filegeneration</module>
+		<module>org.opaeum.compilation.java</module>
+		<module>org.opaeum.compilation.misc</module>
+		<module>org.opaeum.compilation.ocltojava</module>
+		<module>org.opaeum.compilation.runtimedependencies</module>
+		<module>org.opaeum.compilation.source.feature</module>
+		<module>org.opaeum.compilation.tinker</module>
+		<module>org.opaeum.compilation.uim</module>
 	</modules>
 	<repositories>
 		<repository>

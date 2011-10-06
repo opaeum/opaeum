@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.List;
 
@@ -6,15 +6,15 @@ import org.eclipse.uml2.uml.AcceptCallAction;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Element;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.internal.NakedAcceptCallActionImpl;
-import org.opeum.metamodel.actions.internal.NakedAcceptEventActionImpl;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.bpm.internal.NakedAcceptDeadlineActionImpl;
-import org.opeum.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.internal.NakedAcceptCallActionImpl;
+import org.opaeum.metamodel.actions.internal.NakedAcceptEventActionImpl;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.bpm.internal.NakedAcceptDeadlineActionImpl;
+import org.opaeum.metamodel.bpm.internal.NakedAcceptTaskEventActionImpl;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = ActionExtractor.class,after = {
 	ActionExtractor.class

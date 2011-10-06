@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform.preferences;
+package org.opaeum.uim.classform.preferences;
 
 /**
  * A set of constant that are used in the diagram graphical preferences

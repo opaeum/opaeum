@@ -1,10 +1,10 @@
-package org.opeum.bootstrap;
+package org.opaeum.bootstrap;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.pomgeneration.IntegratedArquillianPomStep;
-import org.opeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.pomgeneration.IntegratedArquillianPomStep;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 
 @StepDependency(phase = BootstrapGenerationPhase.class, requires = { IntegratedArquillianPomStep.class}, before = { })
 public class IntegratedArquillianBootstrapStep extends AbstractBootstrapStep {

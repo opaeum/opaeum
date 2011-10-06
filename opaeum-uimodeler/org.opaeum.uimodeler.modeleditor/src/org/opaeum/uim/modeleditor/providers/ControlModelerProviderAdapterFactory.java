@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.control.util.ControlAdapterFactory;
+import org.opaeum.uim.control.util.ControlAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,91 +43,91 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimNumberScroller} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimNumberScroller} instances.
 	 * 
 	 * @generated
 	 */
 	private UimNumberScrollerModelerProvider uimnumberscrollerModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimToggleButton} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimToggleButton} instances.
 	 * 
 	 * @generated
 	 */
 	private UimToggleButtonModelerProvider uimtogglebuttonModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimSingleSelectPopupSearch} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectPopupSearch} instances.
 	 * 
 	 * @generated
 	 */
 	private UimSingleSelectPopupSearchModelerProvider uimsingleselectpopupsearchModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimMultiSelectPopupSearch} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectPopupSearch} instances.
 	 * 
 	 * @generated
 	 */
 	private UimMultiSelectPopupSearchModelerProvider uimmultiselectpopupsearchModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimMultiSelectTreeView} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectTreeView} instances.
 	 * 
 	 * @generated
 	 */
 	private UimMultiSelectTreeViewModelerProvider uimmultiselecttreeviewModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimMultiSelectListBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectListBox} instances.
 	 * 
 	 * @generated
 	 */
 	private UimMultiSelectListBoxModelerProvider uimmultiselectlistboxModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimDropdown} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimDropdown} instances.
 	 * 
 	 * @generated
 	 */
 	private UimDropdownModelerProvider uimdropdownModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimCheckBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimCheckBox} instances.
 	 * 
 	 * @generated
 	 */
 	private UimCheckBoxModelerProvider uimcheckboxModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimLookup} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimLookup} instances.
 	 * 
 	 * @generated
 	 */
 	private UimLookupModelerProvider uimlookupModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimTextArea} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimTextArea} instances.
 	 * 
 	 * @generated
 	 */
 	private UimTextAreaModelerProvider uimtextareaModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimText} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimText} instances.
 	 * 
 	 * @generated
 	 */
 	private UimTextModelerProvider uimtextModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimDatePopup} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimDatePopup} instances.
 	 * 
 	 * @generated
 	 */
 	private UimDatePopupModelerProvider uimdatepopupModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimSingleSelectListBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectListBox} instances.
 	 * 
 	 * @generated
 	 */
 	private UimSingleSelectListBoxModelerProvider uimsingleselectlistboxModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimControl} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimControl} instances.
 	 * 
 	 * @generated
 	 */
 	private UimControlModelerProvider uimcontrolModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimSingleSelectTreeView} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectTreeView} instances.
 	 * 
 	 * @generated
 	 */
@@ -225,7 +225,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimNumberScroller}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimNumberScroller}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -237,7 +237,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimnumberscrollerModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimToggleButton}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimToggleButton}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -249,7 +249,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimtogglebuttonModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimSingleSelectPopupSearch}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectPopupSearch}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -261,7 +261,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimsingleselectpopupsearchModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimMultiSelectPopupSearch}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectPopupSearch}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -273,7 +273,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimmultiselectpopupsearchModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimMultiSelectTreeView}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectTreeView}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -285,7 +285,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimmultiselecttreeviewModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimMultiSelectListBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectListBox}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -297,7 +297,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimmultiselectlistboxModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimDropdown}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimDropdown}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -309,7 +309,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimdropdownModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimCheckBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimCheckBox}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -321,7 +321,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimcheckboxModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimLookup}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimLookup}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -333,7 +333,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimlookupModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimTextArea}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimTextArea}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -345,7 +345,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimtextareaModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimText}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimText}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -357,7 +357,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimtextModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimDatePopup}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimDatePopup}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -369,7 +369,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimdatepopupModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimSingleSelectListBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectListBox}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -381,7 +381,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimsingleselectlistboxModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimControl}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimControl}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -393,7 +393,7 @@ public class ControlModelerProviderAdapterFactory extends ControlAdapterFactory 
 		return uimcontrolModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimSingleSelectTreeView}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectTreeView}.
 	 *
 	 * @return the Adapter
 	 * @generated

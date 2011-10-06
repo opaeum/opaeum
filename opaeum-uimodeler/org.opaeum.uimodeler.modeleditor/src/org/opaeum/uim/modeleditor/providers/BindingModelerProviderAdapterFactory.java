@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.binding.util.BindingAdapterFactory;
+import org.opaeum.uim.binding.util.BindingAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,37 +43,37 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.LookupBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.LookupBinding} instances.
 	 * 
 	 * @generated
 	 */
 	private LookupBindingModelerProvider lookupbindingModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.NavigationBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.NavigationBinding} instances.
 	 * 
 	 * @generated
 	 */
 	private NavigationBindingModelerProvider navigationbindingModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.TableBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.TableBinding} instances.
 	 * 
 	 * @generated
 	 */
 	private TableBindingModelerProvider tablebindingModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.FieldBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.FieldBinding} instances.
 	 * 
 	 * @generated
 	 */
 	private FieldBindingModelerProvider fieldbindingModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.UimBinding} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.UimBinding} instances.
 	 * 
 	 * @generated
 	 */
 	private UimBindingModelerProvider uimbindingModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.binding.PropertyRef} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.PropertyRef} instances.
 	 * 
 	 * @generated
 	 */
@@ -171,7 +171,7 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.LookupBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.LookupBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -183,7 +183,7 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 		return lookupbindingModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.NavigationBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.NavigationBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -195,7 +195,7 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 		return navigationbindingModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.TableBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.TableBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -207,7 +207,7 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 		return tablebindingModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.FieldBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.FieldBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -219,7 +219,7 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 		return fieldbindingModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.UimBinding}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.UimBinding}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -231,7 +231,7 @@ public class BindingModelerProviderAdapterFactory extends BindingAdapterFactory 
 		return uimbindingModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.binding.PropertyRef}.
+	 * This creates an adapter for a {@link org.opaeum.uim.binding.PropertyRef}.
 	 *
 	 * @return the Adapter
 	 * @generated

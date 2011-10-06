@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout;
+package org.opaeum.uim.layout;
 
 
 /**
@@ -15,11 +15,11 @@ package org.opeum.uim.layout;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.layout.UimBorderLayout#isHorizontal <em>Horizontal</em>}</li>
+ *   <li>{@link org.opaeum.uim.layout.UimBorderLayout#isHorizontal <em>Horizontal</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.layout.LayoutPackage#getUimBorderLayout()
+ * @see org.opaeum.uim.layout.LayoutPackage#getUimBorderLayout()
  * @model
  * @generated
  */
@@ -34,14 +34,14 @@ public interface UimBorderLayout extends UimLayout {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Horizontal</em>' attribute.
 	 * @see #setHorizontal(boolean)
-	 * @see org.opeum.uim.layout.LayoutPackage#getUimBorderLayout_Horizontal()
+	 * @see org.opaeum.uim.layout.LayoutPackage#getUimBorderLayout_Horizontal()
 	 * @model
 	 * @generated
 	 */
 	boolean isHorizontal();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.layout.UimBorderLayout#isHorizontal <em>Horizontal</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.layout.UimBorderLayout#isHorizontal <em>Horizontal</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Horizontal</em>' attribute.

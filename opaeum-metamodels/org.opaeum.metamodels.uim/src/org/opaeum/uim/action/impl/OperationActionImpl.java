@@ -4,15 +4,15 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.OperationAction;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.OperationAction;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,7 +21,7 @@ import org.opeum.uim.action.OperationAction;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.action.impl.OperationActionImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.OperationActionImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  * </ul>
  * </p>
  *

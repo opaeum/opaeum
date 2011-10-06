@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import java.util.Collection;
 /**
  * A common interface for all elements that could have preconditions and/or postconditions.

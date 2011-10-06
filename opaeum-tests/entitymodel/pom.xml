@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.opeum.entitymodel</groupId>
+  <groupId>org.opaeum.entitymodel</groupId>
   <artifactId>entitymodel</artifactId>
   <packaging>pom</packaging>
   <name>entitymodel</name>
@@ -74,9 +74,9 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-domain</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-domain</artifactId>
+        <version>${opaeum.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
@@ -88,22 +88,22 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum.entitymodel</groupId>
+        <groupId>org.opaeum.entitymodel</groupId>
         <artifactId>entitymodel-domain</artifactId>
         <version>${entitymodel.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-adaptor</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-adaptor</artifactId>
+        <version>${opaeum.version}</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-test-adaptor</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-test-adaptor</artifactId>
+        <version>${opaeum.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -170,7 +170,7 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum.entitymodel</groupId>
+        <groupId>org.opaeum.entitymodel</groupId>
         <artifactId>entitymodel-adaptor</artifactId>
         <version>${entitymodel.version}</version>
         <type>jar</type>
@@ -189,14 +189,14 @@
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-generators</artifactId>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-generators</artifactId>
         <version>1.0.0.5-SNAPSHOT</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum.entitymodel</groupId>
+        <groupId>org.opaeum.entitymodel</groupId>
         <artifactId>entitymodel-integrated</artifactId>
         <version>0.0.1</version>
         <scope>compile</scope>
@@ -205,7 +205,7 @@
   </dependencyManagement>
   <properties>
     <hibernate.version>3.6.0.Final</hibernate.version>
-    <opeum.version>1.0.0.5-SNAPSHOT</opeum.version>
+    <opaeum.version>1.0.0.5-SNAPSHOT</opaeum.version>
     <entitymodel.version>0.0.1</entitymodel.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
     <drools.version>5.2.0-alpha1</drools.version>

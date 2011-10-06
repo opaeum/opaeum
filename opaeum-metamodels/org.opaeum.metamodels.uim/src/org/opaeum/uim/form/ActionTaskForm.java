@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.folder.ActivityFolder;
+import org.opaeum.uim.folder.ActivityFolder;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,11 +16,11 @@ import org.opeum.uim.folder.ActivityFolder;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.ActionTaskForm#getFolder <em>Folder</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.ActionTaskForm#getFolder <em>Folder</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getActionTaskForm()
+ * @see org.opaeum.uim.form.FormPackage#getActionTaskForm()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface ActionTaskForm extends FormPanel {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Folder</em>' reference.
 	 * @see #setFolder(ActivityFolder)
-	 * @see org.opeum.uim.form.FormPackage#getActionTaskForm_Folder()
+	 * @see org.opaeum.uim.form.FormPackage#getActionTaskForm_Folder()
 	 * @model
 	 * @generated
 	 */
 	ActivityFolder getFolder();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.ActionTaskForm#getFolder <em>Folder</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.ActionTaskForm#getFolder <em>Folder</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Folder</em>' reference.

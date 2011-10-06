@@ -1,4 +1,4 @@
-package org.opeum.uml2uim;
+package org.opaeum.uml2uim;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,25 +15,25 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.eclipse.EmfBehaviorUtil;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.eclipse.EmfStateMachineUtil;
-import org.opeum.emf.workspace.EmfWorkspace;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.name.NameConverter;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.folder.ActivityFolder;
-import org.opeum.uim.folder.EntityFolder;
-import org.opeum.uim.folder.StateMachineFolder;
-import org.opeum.uim.form.ActionTaskForm;
-import org.opeum.uim.form.ClassForm;
-import org.opeum.uim.form.FormFactory;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.OperationInvocationForm;
-import org.opeum.uim.form.OperationTaskForm;
-import org.opeum.uim.form.StateForm;
-import org.opeum.uim.form.UimForm;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.EmfStateMachineUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.name.NameConverter;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.folder.ActivityFolder;
+import org.opaeum.uim.folder.EntityFolder;
+import org.opaeum.uim.folder.StateMachineFolder;
+import org.opaeum.uim.form.ActionTaskForm;
+import org.opaeum.uim.form.ClassForm;
+import org.opaeum.uim.form.FormFactory;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.form.OperationTaskForm;
+import org.opaeum.uim.form.StateForm;
+import org.opaeum.uim.form.UimForm;
 
 @StepDependency(phase = UimSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
 public class FormSynchronizer extends AbstractUimSynchronizer{

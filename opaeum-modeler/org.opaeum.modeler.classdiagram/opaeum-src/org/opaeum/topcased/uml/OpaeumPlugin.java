@@ -1,4 +1,4 @@
-package org.opeum.topcased.uml;
+package org.opaeum.topcased.uml;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -11,11 +11,11 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.uml2.uml.NamedElement;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.topcased.uml.editor.OpeumEditor;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.topcased.uml.editor.OpaeumEditor;
 import org.topcased.modeler.uml.UMLPlugin;
 
-public class OpeumPlugin extends UMLPlugin{
+public class OpaeumPlugin extends UMLPlugin{
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg){
 ImageDescriptor img;
@@ -33,21 +33,21 @@ ImageDescriptor img;
 //		img = new Image(getWorkbench().getDisplay(), data, maskData);
 //		reg.put("Actor", img);
 	}
-	public static void saveAllOpenFilesIn(final OpeumEclipseContext currentContext,final IProgressMonitor monitor){
-		if(OpeumPlugin.getActivePage() != null){
-			IEditorReference[] editorReferences = OpeumPlugin.getActivePage().getEditorReferences();
+	public static void saveAllOpenFilesIn(final OpaeumEclipseContext currentContext,final IProgressMonitor monitor){
+		if(OpaeumPlugin.getActivePage() != null){
+			IEditorReference[] editorReferences = OpaeumPlugin.getActivePage().getEditorReferences();
 			for(IEditorReference r:editorReferences){
 				IEditorPart ed = r.getEditor(false);
-				if(ed instanceof OpeumEditor){
-					if(((OpeumEditor) ed).getCurrentIFile().getParent().equals(currentContext.getUmlDirectory())){
+				if(ed instanceof OpaeumEditor){
+					if(((OpaeumEditor) ed).getCurrentIFile().getParent().equals(currentContext.getUmlDirectory())){
 						ed.doSave(new SubProgressMonitor(monitor, 20 / editorReferences.length));
 					}
 				}
 			}
 		}
 	}
-	public static OpeumEditor findOpeumEditor(NamedElement modelElement){
-		OpeumEditor e = null;
+	public static OpaeumEditor findOpaeumEditor(NamedElement modelElement){
+		OpaeumEditor e = null;
 		IWorkbench workbench = getDefault().getWorkbench();
 		IWorkbenchWindow[] workbenchWindows = workbench.getWorkbenchWindows();
 		outer:for(IWorkbenchWindow w:workbenchWindows){
@@ -55,10 +55,10 @@ ImageDescriptor img;
 			for(IWorkbenchPage activePage:pages){
 				for(IEditorReference er:activePage.getEditorReferences()){
 					IEditorPart curEditor = er.getEditor(false);
-					if(curEditor instanceof OpeumEditor){
+					if(curEditor instanceof OpaeumEditor){
 						IFileEditorInput input = (IFileEditorInput) curEditor.getEditorInput();
 						String lastSegment = input.getFile().getLocation().removeFileExtension().lastSegment();
-						e = (OpeumEditor) curEditor;
+						e = (OpaeumEditor) curEditor;
 						if(lastSegment.equals(modelElement.eResource().getURI().trimFileExtension().lastSegment())){
 							break outer;
 						}

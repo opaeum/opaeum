@@ -1,15 +1,15 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.edit;
+package org.opaeum.bpmn2.diagram.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
-import org.opeum.bpmn2.diagram.BPMN2EditPolicyConstants;
-import org.opeum.bpmn2.diagram.commands.FlowNodeRestoreConnectionCommand;
-import org.opeum.bpmn2.diagram.figure.FlowNodeFigure;
-import org.opeum.bpmn2.diagram.policies.SequenceFlowEdgeCreationEditPolicy;
+import org.opaeum.bpmn2.diagram.BPMN2EditPolicyConstants;
+import org.opaeum.bpmn2.diagram.commands.FlowNodeRestoreConnectionCommand;
+import org.opaeum.bpmn2.diagram.figure.FlowNodeFigure;
+import org.opaeum.bpmn2.diagram.policies.SequenceFlowEdgeCreationEditPolicy;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;

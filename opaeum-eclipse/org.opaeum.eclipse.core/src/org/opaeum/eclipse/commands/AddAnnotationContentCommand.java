@@ -1,9 +1,9 @@
-package org.opeum.eclipse.commands;
+package org.opaeum.eclipse.commands;
 
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opeum.emf.extraction.StereotypesHelper;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;

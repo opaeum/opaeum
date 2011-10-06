@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 
 
@@ -9,7 +9,7 @@ public class StereotypeNames {
 	public static final String USER_GROUP = "UserGroup";
 	public static final String PRIMITIVE_TYPE = "PrimitiveType";
 	public static final String HELPER = "Helper";
-	public static final String NUML_ANNOTATION = "http://www.opeum.org";
+	public static final String NUML_ANNOTATION = "http://www.opaeum.org";
 	//RUP
 	public static String BUSINESS_ACTOR = "BusinessActor";
 	public static String BUSINESS_WORKER = "BusinessWorker";
@@ -66,7 +66,7 @@ public class StereotypeNames {
 	public static final String ACCEPT_DEADLINE_ACTION = "AcceptDeadlineAction";
 	public static final String SEND_NOTIFICATION_ACTION = "SendNotificationAction";
 	public static final String NOTIFICATION= "Notification";
-	public static final String OPIUM_STANDARD_PROFILE = "OpiumStandardProfile.uml";
+	public static final String OPIUM_STANDARD_PROFILE = "OpaeumStandardProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 	public static final String SCREEN_FLOW = "ScreenFlow";
@@ -74,9 +74,9 @@ public class StereotypeNames {
 	public static final String SCREEN = "Screen";
 	public static final String OCL_INPUT = "OclInput";
 	public static final String NEW_OBJECT_INPUT = "NewObjectInput";
-	public static final String OPIUM_BPM_PROFILE = "OpiumBPMProfile.uml";
-	public static final String OPIUM_BPM_LIBRARY = "OpiumBPM.library.uml";
-	public static final String OPIUM_SIMPLE_TYPES = "OpiumSimpleTypes.library.uml";
+	public static final String OPIUM_BPM_PROFILE = "OpaeumBPMProfile.uml";
+	public static final String OPIUM_BPM_LIBRARY = "OpaeumBPM.library.uml";
+	public static final String OPIUM_SIMPLE_TYPES = "OpaeumSimpleTypes.library.uml";
 	public static final String MODEL_LIBRARY ="ModelLibrary";
 	
 

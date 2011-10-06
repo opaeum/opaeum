@@ -1,10 +1,10 @@
-package org.opeum.interfacemodel.generator;
+package org.opaeum.interfacemodel.generator;
 
 import java.io.File;
 import java.util.Set;
 
-import net.sf.opeum.feature.TransformationStep;
-import net.sf.opeum.pomgeneration.MavenProjectCodeGenerator;
+import net.sf.opaeum.feature.TransformationStep;
+import net.sf.opaeum.pomgeneration.MavenProjectCodeGenerator;
 
 public class InterfacemodelGenerator extends MavenProjectCodeGenerator {
 
@@ -19,11 +19,11 @@ public class InterfacemodelGenerator extends MavenProjectCodeGenerator {
 	}
 
 	public Set<Class<? extends TransformationStep>> getIntegrationSteps() {
-		return toSet(org.opeum.bootstrap.WarBootstrapStep.class,org.opeum.generation.features.IntegrationTestsAcrossMultipleModels.class,org.opeum.generation.features.HibernateIntegratedAcrossMultipleProjects.class,org.opeum.generation.features.Jbpm5IntegratedAcrossMultipleProjects.class);
+		return toSet(org.opaeum.bootstrap.WarBootstrapStep.class,org.opaeum.generation.features.IntegrationTestsAcrossMultipleModels.class,org.opaeum.generation.features.HibernateIntegratedAcrossMultipleProjects.class,org.opaeum.generation.features.Jbpm5IntegratedAcrossMultipleProjects.class);
 	}
 	
 	public Set<Class<? extends TransformationStep>> getSteps() {
-		return toSet(net.sf.opeum.javageneration.oclexpressions.OclExpressionExecution.class,org.opeum.generation.features.BpmUsingJbpm5.class,org.opeum.generation.features.IntegrationTests.class,net.sf.opeum.emf.extraction.StereotypeApplicationExtractor.class,org.opeum.generation.features.PersistenceUsingHibernate.class,org.opeum.generation.features.ExtendedCompositionSemantics.class,net.sf.opeum.javageneration.hibernate.PersistenceUsingHibernateStep.class);
+		return toSet(net.sf.opaeum.javageneration.oclexpressions.OclExpressionExecution.class,org.opaeum.generation.features.BpmUsingJbpm5.class,org.opaeum.generation.features.IntegrationTests.class,net.sf.opaeum.emf.extraction.StereotypeApplicationExtractor.class,org.opaeum.generation.features.PersistenceUsingHibernate.class,org.opaeum.generation.features.ExtendedCompositionSemantics.class,net.sf.opaeum.javageneration.hibernate.PersistenceUsingHibernateStep.class);
 	}
 	
 	static public void main(String[] args) throws Exception {

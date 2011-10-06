@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.binding;
+package org.opaeum.uim.binding;
 
-import org.opeum.uim.UimField;
+import org.opaeum.uim.UimField;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.UimField;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.binding.FieldBinding#getField <em>Field</em>}</li>
+ *   <li>{@link org.opaeum.uim.binding.FieldBinding#getField <em>Field</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.binding.BindingPackage#getFieldBinding()
+ * @see org.opaeum.uim.binding.BindingPackage#getFieldBinding()
  * @model
  * @generated
  */
 public interface FieldBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Field</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.UimField#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimField#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Field</em>' container reference isn't clear,
@@ -36,15 +36,15 @@ public interface FieldBinding extends UimBinding {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Field</em>' container reference.
 	 * @see #setField(UimField)
-	 * @see org.opeum.uim.binding.BindingPackage#getFieldBinding_Field()
-	 * @see org.opeum.uim.UimField#getBinding
+	 * @see org.opaeum.uim.binding.BindingPackage#getFieldBinding_Field()
+	 * @see org.opaeum.uim.UimField#getBinding
 	 * @model opposite="binding" transient="false"
 	 * @generated
 	 */
 	UimField getField();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.binding.FieldBinding#getField <em>Field</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.binding.FieldBinding#getField <em>Field</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Field</em>' container reference.

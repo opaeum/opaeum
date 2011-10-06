@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,41 +42,41 @@ import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.UseCase;
-import org.opeum.eclipse.EmfPropertyUtil;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.ActivityKind;
-import org.opeum.metamodel.activities.internal.NakedActivityImpl;
-import org.opeum.metamodel.bpm.internal.NakedBusinessServiceImpl;
-import org.opeum.metamodel.bpm.internal.NakedUserInRoleImpl;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.internal.NakedOpaqueBehaviorImpl;
-import org.opeum.metamodel.commonbehaviors.internal.NakedSignalImpl;
-import org.opeum.metamodel.components.internal.NakedComponentImpl;
-import org.opeum.metamodel.compositestructures.internal.NakedCollaborationImpl;
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.internal.NakedAssociationImpl;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.NakedEntityImpl;
-import org.opeum.metamodel.core.internal.NakedEnumerationImpl;
-import org.opeum.metamodel.core.internal.NakedHelperImpl;
-import org.opeum.metamodel.core.internal.NakedInterfaceImpl;
-import org.opeum.metamodel.core.internal.NakedPackageImpl;
-import org.opeum.metamodel.core.internal.NakedPowerTypeImpl;
-import org.opeum.metamodel.core.internal.NakedPrimitiveType;
-import org.opeum.metamodel.core.internal.NakedRootObjectImpl;
-import org.opeum.metamodel.core.internal.NakedStructuredDataType;
-import org.opeum.metamodel.core.internal.NakedValueTypeImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.metamodel.models.internal.NakedModelImpl;
-import org.opeum.metamodel.profiles.internal.NakedProfileImpl;
-import org.opeum.metamodel.profiles.internal.NakedStereotypeImpl;
-import org.opeum.metamodel.statemachines.StateMachineKind;
-import org.opeum.metamodel.statemachines.internal.NakedStateMachineImpl;
-import org.opeum.metamodel.usecases.internal.NakedActorImpl;
-import org.opeum.metamodel.usecases.internal.NakedUseCaseImpl;
-import org.opeum.metamodel.workspace.MappedType;
+import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.ActivityKind;
+import org.opaeum.metamodel.activities.internal.NakedActivityImpl;
+import org.opaeum.metamodel.bpm.internal.NakedBusinessServiceImpl;
+import org.opaeum.metamodel.bpm.internal.NakedUserInRoleImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedOpaqueBehaviorImpl;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedSignalImpl;
+import org.opaeum.metamodel.components.internal.NakedComponentImpl;
+import org.opaeum.metamodel.compositestructures.internal.NakedCollaborationImpl;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.internal.NakedAssociationImpl;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.NakedEntityImpl;
+import org.opaeum.metamodel.core.internal.NakedEnumerationImpl;
+import org.opaeum.metamodel.core.internal.NakedHelperImpl;
+import org.opaeum.metamodel.core.internal.NakedInterfaceImpl;
+import org.opaeum.metamodel.core.internal.NakedPackageImpl;
+import org.opaeum.metamodel.core.internal.NakedPowerTypeImpl;
+import org.opaeum.metamodel.core.internal.NakedPrimitiveType;
+import org.opaeum.metamodel.core.internal.NakedRootObjectImpl;
+import org.opaeum.metamodel.core.internal.NakedStructuredDataType;
+import org.opaeum.metamodel.core.internal.NakedValueTypeImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.models.internal.NakedModelImpl;
+import org.opaeum.metamodel.profiles.internal.NakedProfileImpl;
+import org.opaeum.metamodel.profiles.internal.NakedStereotypeImpl;
+import org.opaeum.metamodel.statemachines.StateMachineKind;
+import org.opaeum.metamodel.statemachines.internal.NakedStateMachineImpl;
+import org.opaeum.metamodel.usecases.internal.NakedActorImpl;
+import org.opaeum.metamodel.usecases.internal.NakedUseCaseImpl;
+import org.opaeum.metamodel.workspace.MappedType;
 
 /**
  * Builds all classifier and the namespaces required to hostr them
@@ -106,7 +106,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			props.load(inStream);
 			Set<Entry<Object,Object>> entrySet = props.entrySet();
 			for(Entry<Object,Object> entry:entrySet){
-				super.nakedWorkspace.getOpeumLibrary().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
+				super.nakedWorkspace.getOpaeumLibrary().getTypeMap().put((String) entry.getKey(), new MappedType((String) entry.getValue()));
 			}
 			System.out.println("Loaded mappings: " + mappedTypesUri);
 		}catch(IOException e1){

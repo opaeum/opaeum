@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor.wizards;
+package org.opaeum.bpmn2.modeleditor.wizards;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -19,8 +19,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IDE;
-import org.opeum.bpmn2.modeleditor.Bpmn2ImageRegistry;
-import org.opeum.bpmn2.modeleditor.Bpmn2Plugin;
+import org.opaeum.bpmn2.modeleditor.Bpmn2ImageRegistry;
+import org.opaeum.bpmn2.modeleditor.Bpmn2Plugin;
 import org.topcased.modeler.extensions.Template;
 import org.topcased.modeler.extensions.TemplatesManager;
 import org.topcased.modeler.tools.DiagramFileInitializer;

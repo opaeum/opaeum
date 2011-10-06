@@ -1,4 +1,4 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.HashSet;
 import java.util.MissingResourceException;
@@ -16,53 +16,53 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
-import org.opeum.feature.ISourceFolderStrategy;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory;
-import org.opeum.strategies.DateTimeStrategyFactory;
-import org.opeum.strategies.TextStrategyFactory;
+import org.opaeum.feature.ISourceFolderStrategy;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.strategies.DateTimeStrategyFactory;
+import org.opaeum.strategies.TextStrategyFactory;
 
-public class OpeumEclipsePlugin extends Plugin implements IRegistryChangeListener{
-	public static final String PLUGIN_ID = "org.opeum.eclipse";
+public class OpaeumEclipsePlugin extends Plugin implements IRegistryChangeListener{
+	public static final String PLUGIN_ID = "org.opaeum.eclipse";
 	public static final String TRANSFORMATION_STEP_EXTENSION_POINT_ID = "transformationStep";
 	public static final String SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID = "sourceFolderStrategy";
 	public static final String MODEL_LIBRARY_EXTENSION_POINT_ID = "modelLibrary";
 	private static final String PROFILE_EXTENSION_POINT_ID = "profile";
 	private static final String STRATEGY_FACTORY_EXTENSION_POINT_ID = "strategyFactory";
-	private static OpeumEclipsePlugin plugin;
+	private static OpaeumEclipsePlugin plugin;
 	private ResourceBundle resourceBundle;
 	private Set<Class<? extends ITransformationStep>> transformationSteps = new HashSet<Class<? extends ITransformationStep>>();
 	private Set<Class<? extends ISourceFolderStrategy>> sourceFolderStrategies = new HashSet<Class<? extends ISourceFolderStrategy>>();
 	private Set<Class<? extends AbstractStrategyFactory>> strategyFactories = new HashSet<Class<? extends AbstractStrategyFactory>>();
 	private Set<ModelLibrary> modelLibraries = new HashSet<ModelLibrary>();
 	private Set<ModelLibrary> profiles = new HashSet<ModelLibrary>();
-	public OpeumEclipsePlugin(){
+	public OpaeumEclipsePlugin(){
 		super();
 		plugin = this;
 		try{
-			resourceBundle = ResourceBundle.getBundle("org.opeum.eclipse.plugin.messages");//$NON-NLS-1$
+			resourceBundle = ResourceBundle.getBundle("org.opaeum.eclipse.plugin.messages");//$NON-NLS-1$
 		}catch(MissingResourceException x){
 			resourceBundle = null;
 		}
-		OpeumConfig.registerClass(DateTimeStrategyFactory.class);
-		OpeumConfig.registerClass(TextStrategyFactory.class);
+		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
+		OpaeumConfig.registerClass(TextStrategyFactory.class);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
-		registerExtensions(r.getConfigurationElementsFor("org.opeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
-		registerExtensions(r.getConfigurationElementsFor("org.opeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
-		registerExtensions(r.getConfigurationElementsFor("org.opeum.eclipse",STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
-		addModelLibraries(r.getConfigurationElementsFor("org.opeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID));
-		addProfiles(r.getConfigurationElementsFor("org.opeum.eclipse", PROFILE_EXTENSION_POINT_ID));
+		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
+		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
+		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse",STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
+		addModelLibraries(r.getConfigurationElementsFor("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID));
+		addProfiles(r.getConfigurationElementsFor("org.opaeum.eclipse", PROFILE_EXTENSION_POINT_ID));
 		r.addRegistryChangeListener(this);
 	}
 	public static void logError(String message,Throwable t){
 		getDefault().getLog().log(new Status(IStatus.ERROR, getPluginId(), message, t));
 	}
-	public static OpeumEclipsePlugin getDefault(){
+	public static OpaeumEclipsePlugin getDefault(){
 		return plugin;
 	}
 	public static String getResourceString(String key){
-		ResourceBundle bundle = OpeumEclipsePlugin.getDefault().getResourceBundle();
+		ResourceBundle bundle = OpaeumEclipsePlugin.getDefault().getResourceBundle();
 		try{
 			return (bundle != null) ? bundle.getString(key) : key;
 		}catch(MissingResourceException e){
@@ -77,16 +77,16 @@ public class OpeumEclipsePlugin extends Plugin implements IRegistryChangeListene
 	}
 	@Override
 	public void registryChanged(IRegistryChangeEvent event){
-		registerExtensionDeltas(event.getExtensionDeltas("org.opeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
-		registerExtensionDeltas(event.getExtensionDeltas("org.opeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
-		registerExtensionDeltas(event.getExtensionDeltas("org.opeum.eclipse", STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
-		IExtensionDelta[] extensionDeltas = event.getExtensionDeltas("org.opeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID);
+		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
+		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);
+		registerExtensionDeltas(event.getExtensionDeltas("org.opaeum.eclipse", STRATEGY_FACTORY_EXTENSION_POINT_ID), strategyFactories);
+		IExtensionDelta[] extensionDeltas = event.getExtensionDeltas("org.opaeum.eclipse", MODEL_LIBRARY_EXTENSION_POINT_ID);
 		for(IExtensionDelta delta:extensionDeltas){
 			if(delta.getKind() == IExtensionDelta.ADDED){
 				addModelLibraries(delta.getExtension().getConfigurationElements());
 			}
 		}
-		extensionDeltas = event.getExtensionDeltas("org.opeum.eclipse", PROFILE_EXTENSION_POINT_ID);
+		extensionDeltas = event.getExtensionDeltas("org.opaeum.eclipse", PROFILE_EXTENSION_POINT_ID);
 		for(IExtensionDelta delta:extensionDeltas){
 			if(delta.getKind() == IExtensionDelta.ADDED){
 				addProfiles(delta.getExtension().getConfigurationElements());
@@ -121,7 +121,7 @@ public class OpeumEclipsePlugin extends Plugin implements IRegistryChangeListene
 			for(IConfigurationElement ce:configurationElements){
 				Class<? extends Object> clz = ce.createExecutableExtension("className").getClass();
 				classes.add(clz);
-				OpeumConfig.registerClass(clz);
+				OpaeumConfig.registerClass(clz);
 			}
 		}catch(CoreException e){
 			e.printStackTrace();

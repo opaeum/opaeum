@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.provider;
+package org.opaeum.uim.provider;
 
 
 import java.util.Collection;
@@ -24,16 +24,16 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.UimDataTable;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.binding.BindingFactory;
-import org.opeum.uim.layout.LayoutFactory;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.security.SecurityFactory;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.binding.BindingFactory;
+import org.opaeum.uim.layout.LayoutFactory;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.security.SecurityFactory;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.UimDataTable} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.UimDataTable} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

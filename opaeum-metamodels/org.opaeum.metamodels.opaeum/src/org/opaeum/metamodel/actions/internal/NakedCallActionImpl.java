@@ -1,4 +1,4 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,12 +8,12 @@ import java.util.Set;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
-import org.opeum.metamodel.actions.INakedCallAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedParameter;
 
 public abstract class NakedCallActionImpl extends NakedInvocationActionImpl implements INakedCallAction {
 	/**

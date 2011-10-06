@@ -1,4 +1,4 @@
-package org.opeum.textmetamodel;
+package org.opaeum.textmetamodel;
 
 public abstract class TextOutputNode{
 	protected TextOutputNode parent;

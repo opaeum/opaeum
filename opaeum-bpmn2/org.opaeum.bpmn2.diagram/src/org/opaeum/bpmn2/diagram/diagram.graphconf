@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <graphconf:DiagramGraphConf xmlns:graphconf="http://www.topcased.org/1.0/graphconf"
-    id="org.opeum.bpmn2.diagram"
+    id="org.opaeum.bpmn2.diagram"
     defaultBackgroundColor="255,255,255"
     defaultForegroundColor="0,0,0"
     defaultFont="Sans-regular-8">

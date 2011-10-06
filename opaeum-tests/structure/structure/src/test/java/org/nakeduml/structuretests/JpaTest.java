@@ -1,17 +1,17 @@
-package org.opeum.structuretests;
+package org.opaeum.structuretests;
 
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Test;
-import org.opeum.runtime.bpm.businesscalendar.impl.BusinessCalendar;
-import org.opeum.runtime.jpa.StandaloneJpaEnvironment;
-import org.opeum.runtime.jpa.StandaloneJpaUmtPersistence;
-import org.opeum.structuretests.test2.StructuredBusinessUnit;
-import org.opeum.structuretests.test2.structuredbusinessunit.Employee;
-import org.opeum.structuretests.test2.structuredbusinessunit.Employer;
-import org.opeum.structuretests.test2.structuredbusinessunit.Employment;
-import org.opeum.structuretests.test2.structuredbusinessunit.Manager;
+import org.opaeum.runtime.bpm.businesscalendar.impl.BusinessCalendar;
+import org.opaeum.runtime.jpa.StandaloneJpaEnvironment;
+import org.opaeum.runtime.jpa.StandaloneJpaUmtPersistence;
+import org.opaeum.structuretests.test2.StructuredBusinessUnit;
+import org.opaeum.structuretests.test2.structuredbusinessunit.Employee;
+import org.opaeum.structuretests.test2.structuredbusinessunit.Employer;
+import org.opaeum.structuretests.test2.structuredbusinessunit.Employment;
+import org.opaeum.structuretests.test2.structuredbusinessunit.Manager;
 
 public class JpaTest {
 	@After

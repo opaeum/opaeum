@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder;
+package org.opaeum.uim.folder;
 
-import org.opeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.EditableSecureObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,18 +16,18 @@ import org.opeum.uim.security.EditableSecureObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.folder.FolderPackage#getAbstractFormFolder()
+ * @see org.opaeum.uim.folder.FolderPackage#getAbstractFormFolder()
  * @model abstract="true"
  * @generated
  */
 public interface AbstractFormFolder extends AbstractFolder, EditableSecureObject {
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.folder.AbstractFolder#getChildren <em>Children</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.folder.AbstractFolder#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Parent</em>' container reference isn't clear,
@@ -36,15 +36,15 @@ public interface AbstractFormFolder extends AbstractFolder, EditableSecureObject
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parent</em>' container reference.
 	 * @see #setParent(AbstractFolder)
-	 * @see org.opeum.uim.folder.FolderPackage#getAbstractFormFolder_Parent()
-	 * @see org.opeum.uim.folder.AbstractFolder#getChildren
+	 * @see org.opaeum.uim.folder.FolderPackage#getAbstractFormFolder_Parent()
+	 * @see org.opaeum.uim.folder.AbstractFolder#getChildren
 	 * @model opposite="children" transient="false"
 	 * @generated
 	 */
 	AbstractFolder getParent();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.folder.AbstractFormFolder#getParent <em>Parent</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Parent</em>' container reference.

@@ -1,11 +1,11 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
-import org.opeum.uim.layouts.StackLayout;
+import org.opaeum.uim.layouts.StackLayout;
 import org.topcased.draw2d.figures.EditableLabel;
 import org.topcased.draw2d.figures.IContainerFigure;
 import org.topcased.draw2d.figures.ILabel;

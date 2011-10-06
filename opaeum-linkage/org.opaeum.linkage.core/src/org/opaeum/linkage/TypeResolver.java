@@ -1,17 +1,17 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedValuePin;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 /**
  */
@@ -31,8 +31,8 @@ public class TypeResolver extends AbstractModelElementLinker {
 			//VAlue pins will have their basetype calculated from the ocl
 			INakedClassifier baseType = aw.getNakedBaseType();
 			if (baseType == null) {
-				(aw).setBaseType(this.workspace.getOpeumLibrary().getDefaultType());
-				baseType = this.workspace.getOpeumLibrary().getDefaultType();
+				(aw).setBaseType(this.workspace.getOpaeumLibrary().getDefaultType());
+				baseType = this.workspace.getOpaeumLibrary().getDefaultType();
 			}
 			IClassifier type = baseType;
 			if (baseType instanceof INakedPrimitiveType) {

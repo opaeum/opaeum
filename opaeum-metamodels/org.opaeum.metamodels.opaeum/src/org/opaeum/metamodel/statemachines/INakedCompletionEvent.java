@@ -1,6 +1,6 @@
-package org.opeum.metamodel.statemachines;
+package org.opaeum.metamodel.statemachines;
 
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 
 public interface INakedCompletionEvent extends INakedEvent{
 }

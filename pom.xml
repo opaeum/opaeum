@@ -6,14 +6,14 @@
 		<version>5</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-root</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-root</artifactId>
 	<packaging>pom</packaging>
-	<name>Opeum-Root</name>
+	<name>Opaeum-Root</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<description>Objects and Processes through Executable Unified Models</description>
 	<properties>
-		<opeum.version>1.0.0-SNAPSHOT</opeum.version>
+		<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
 		<tycho-version>0.12.0</tycho-version>
 		<forceContextQualifier>2011100513</forceContextQualifier>
 	</properties>
@@ -40,14 +40,14 @@
 	</build>
 
 	<modules>
-		<module>opeum-bpmn2</module>
-		<module>opeum-compilation</module>
-		<module>opeum-eclipse</module>
-		<module>opeum-linkage</module>
-		<module>opeum-metamodels</module>
-		<module>opeum-modeler</module>
-		<module>opeum-uimodeler</module>
-		<!--module>opeum-runtime</module-->
-		<!--module>opeum-tests/jbpmtestintegration/jbpmtestintegration-generator</module -->
+		<module>opaeum-bpmn2</module>
+		<module>opaeum-compilation</module>
+		<module>opaeum-eclipse</module>
+		<module>opaeum-linkage</module>
+		<module>opaeum-metamodels</module>
+		<module>opaeum-modeler</module>
+		<module>opaeum-uimodeler</module>
+		<!--module>opaeum-runtime</module-->
+		<!--module>opaeum-tests/jbpmtestintegration/jbpmtestintegration-generator</module -->
 	</modules>
 </project>

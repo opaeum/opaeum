@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.opeum.structuretests</groupId>
+  <groupId>org.opaeum.structuretests</groupId>
   <artifactId>structure-parent</artifactId>
   <packaging>pom</packaging>
   <name>structure-parent</name>
@@ -80,9 +80,9 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-bpm-hibernate</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-bpm-hibernate</artifactId>
+        <version>${opaeum.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
@@ -94,9 +94,9 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-jpa</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-jpa</artifactId>
+        <version>${opaeum.version}</version>
         <type>jar</type>
         <scope>compile</scope>
         <exclusions>
@@ -134,9 +134,9 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-runtime-domain</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-domain</artifactId>
+        <version>${opaeum.version}</version>
         <type>jar</type>
         <scope>compile</scope>
         <exclusions>
@@ -147,16 +147,16 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.opeum.structuretests</groupId>
+        <groupId>org.opaeum.structuretests</groupId>
         <artifactId>structure</artifactId>
         <version>${structure.version}</version>
         <type>jar</type>
         <scope>compile</scope>
       </dependency>
       <dependency>
-        <groupId>org.opeum</groupId>
-        <artifactId>opeum-test-adaptor</artifactId>
-        <version>${opeum.version}</version>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-test-adaptor</artifactId>
+        <version>${opaeum.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -199,7 +199,7 @@
     <drools.version>5.2.0.M1</drools.version>
     <structure.version>0.0.1</structure.version>
     <hibernate.version>3.4.0.GA</hibernate.version>
-    <opeum.version>1.0.0-SNAPSHOT</opeum.version>
+    <opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
     <null.version>0.0.1</null.version>
   </properties>
 </project>

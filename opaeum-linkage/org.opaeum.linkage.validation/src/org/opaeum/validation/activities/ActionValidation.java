@@ -1,24 +1,24 @@
-package org.opeum.validation.activities;
+package org.opaeum.validation.activities;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.actions.INakedAcceptCallAction;
-import org.opeum.metamodel.actions.INakedCallBehaviorAction;
-import org.opeum.metamodel.actions.INakedCallOperationAction;
-import org.opeum.metamodel.actions.INakedCreateObjectAction;
-import org.opeum.metamodel.actions.INakedReadStructuralFeatureAction;
-import org.opeum.metamodel.actions.INakedReadVariableAction;
-import org.opeum.metamodel.actions.INakedReplyAction;
-import org.opeum.metamodel.actions.INakedSendSignalAction;
-import org.opeum.metamodel.actions.INakedStructuralFeatureAction;
-import org.opeum.metamodel.actions.INakedVariableAction;
-import org.opeum.metamodel.actions.INakedWriteStructuralFeatureAction;
-import org.opeum.metamodel.actions.INakedWriteVariableAction;
-import org.opeum.metamodel.activities.INakedExpansionNode;
-import org.opeum.metamodel.activities.INakedExpansionRegion;
-import org.opeum.metamodel.commonbehaviors.INakedCallEvent;
-import org.opeum.validation.AbstractValidator;
-import org.opeum.validation.ValidationPhase;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
+import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
+import org.opaeum.metamodel.actions.INakedCallOperationAction;
+import org.opaeum.metamodel.actions.INakedCreateObjectAction;
+import org.opaeum.metamodel.actions.INakedReadStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedReadVariableAction;
+import org.opaeum.metamodel.actions.INakedReplyAction;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.actions.INakedStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedVariableAction;
+import org.opaeum.metamodel.actions.INakedWriteStructuralFeatureAction;
+import org.opaeum.metamodel.actions.INakedWriteVariableAction;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedExpansionRegion;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.validation.AbstractValidator;
+import org.opaeum.validation.ValidationPhase;
 
 @StepDependency(phase = ValidationPhase.class)
 public class ActionValidation extends AbstractValidator{

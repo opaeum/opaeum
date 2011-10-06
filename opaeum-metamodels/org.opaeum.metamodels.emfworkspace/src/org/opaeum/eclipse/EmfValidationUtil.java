@@ -1,6 +1,6 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
-import org.opeum.metamodel.validation.BrokenRule;
+import org.opaeum.metamodel.validation.BrokenRule;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;

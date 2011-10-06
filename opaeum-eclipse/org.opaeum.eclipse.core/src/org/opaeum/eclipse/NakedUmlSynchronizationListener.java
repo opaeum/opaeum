@@ -1,9 +1,9 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.Set;
 
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 
 public interface NakedUmlSynchronizationListener{

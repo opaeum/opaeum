@@ -1,37 +1,37 @@
-package org.opeum.javageneration.jbpm5.actions;
+package org.opaeum.javageneration.jbpm5.actions;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJIfStatement;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.basicjava.AbstractNodeBuilder;
-import org.opeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.jbpm5.activity.ActivityUtil;
-import org.opeum.javageneration.maps.ActionMap;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.oclexpressions.ConstraintGenerator;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.actions.INakedReplyAction;
-import org.opeum.metamodel.activities.ControlNodeType;
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedActivityEdge;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.activities.INakedControlNode;
-import org.opeum.metamodel.activities.INakedExpansionRegion;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.PreAndPostConstrained;
-import org.opeum.metamodel.workspace.OpeumLibrary;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.basicjava.AbstractNodeBuilder;
+import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.jbpm5.activity.ActivityUtil;
+import org.opaeum.javageneration.maps.ActionMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.oclexpressions.ConstraintGenerator;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.INakedReplyAction;
+import org.opaeum.metamodel.activities.ControlNodeType;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedExpansionRegion;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.PreAndPostConstrained;
+import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends AbstractNodeBuilder{
 	protected A node;
@@ -40,7 +40,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		return map;
 	}
 	protected ActivityNodeMap map;
-	protected Jbpm5ActionBuilder(final OpeumLibrary l,A node){
+	protected Jbpm5ActionBuilder(final OpaeumLibrary l,A node){
 		super(l, new Jbpm5ObjectNodeExpressor(l));
 		this.node = node;
 		if(node instanceof INakedAction){

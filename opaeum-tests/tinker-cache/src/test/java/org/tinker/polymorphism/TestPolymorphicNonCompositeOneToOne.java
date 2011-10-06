@@ -3,7 +3,7 @@ package org.tinker.polymorphism;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.God;
 
 public class TestPolymorphicNonCompositeOneToOne extends BaseLocalDbTest {

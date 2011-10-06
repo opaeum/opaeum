@@ -1,18 +1,18 @@
-package org.opeum.metamodel.core.internal.emulated;
+package org.opaeum.metamodel.core.internal.emulated;
 
 import java.util.Collection;
 import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.activities.INakedPin;
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedMultiplicity;
-import org.opeum.metamodel.core.INakedMultiplicityElement;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedTypedElement;
 
 /**
  * This class is need to emulate attibutes in namespaces where other typed elements should also function appear as attributes to Octopus

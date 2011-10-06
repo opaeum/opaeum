@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.impl;
+package org.opaeum.uim.form.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -12,21 +12,21 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.UimContainer;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UserInteractionElement;
-import org.opeum.uim.form.FormPackage;
-import org.opeum.uim.form.FormPanel;
-import org.opeum.uim.form.UimForm;
-import org.opeum.uim.impl.UmlReferenceImpl;
-import org.opeum.uim.layout.LayoutContainer;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.UimLayout;
-import org.opeum.uim.security.EditableSecureObject;
-import org.opeum.uim.security.SecureObject;
-import org.opeum.uim.security.SecurityConstraint;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimContainer;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.form.FormPackage;
+import org.opaeum.uim.form.FormPanel;
+import org.opaeum.uim.form.UimForm;
+import org.opaeum.uim.impl.UmlReferenceImpl;
+import org.opaeum.uim.layout.LayoutContainer;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.UimLayout;
+import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.security.SecurityConstraint;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,11 +35,11 @@ import org.opeum.uim.security.SecurityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.form.impl.FormPanelImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.opeum.uim.form.impl.FormPanelImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.opeum.uim.form.impl.FormPanelImpl#getEditability <em>Editability</em>}</li>
- *   <li>{@link org.opeum.uim.form.impl.FormPanelImpl#getLayout <em>Layout</em>}</li>
- *   <li>{@link org.opeum.uim.form.impl.FormPanelImpl#getForm <em>Form</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.FormPanelImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.FormPanelImpl#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.FormPanelImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.FormPanelImpl#getLayout <em>Layout</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.FormPanelImpl#getForm <em>Form</em>}</li>
  * </ul>
  * </p>
  *

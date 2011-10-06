@@ -1,10 +1,10 @@
-package org.opeum.metamodel.validation;
+package org.opaeum.metamodel.validation;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.opeum.metamodel.commonbehaviors.INakedEvent;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.core.INakedElement;
 
 public class ErrorMap{
 	public ErrorMap(){

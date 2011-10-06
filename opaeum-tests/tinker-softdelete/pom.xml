@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.opeum</groupId>
+	<groupId>org.opaeum</groupId>
 	<artifactId>tinker-softdelete</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -61,18 +61,18 @@
 	</build>
 	<dependencies>
 <!--		<dependency>-->
-<!--			<groupId>org.opeum</groupId>-->
-<!--			<artifactId>opeum-runtime-neo4j</artifactId>-->
+<!--			<groupId>org.opaeum</groupId>-->
+<!--			<artifactId>opaeum-runtime-neo4j</artifactId>-->
 <!--			<version>1.0.0.5-SNAPSHOT</version>-->
 <!--		</dependency>-->
 		<dependency>
-			<groupId>org.opeum</groupId>
-			<artifactId>opeum-runtime-orient</artifactId>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-runtime-orient</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.opeum</groupId>
-			<artifactId>opeum-test-tinker</artifactId>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-test-tinker</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>	

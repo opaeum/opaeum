@@ -1,13 +1,13 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
-import org.opeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElement {
 	private OJPackage myPackage;

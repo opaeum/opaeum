@@ -1,14 +1,14 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
 import java.util.Collections;
 import java.util.List;
 
 import nl.klasse.octopus.model.IClassifier;
 
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 
 public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStructure{
 	private static final long serialVersionUID = -3057414460280596858L;

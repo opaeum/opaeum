@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor;
+package org.opaeum.bpmn2.modeleditor;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -20,7 +20,7 @@ public final class Bpmn2ImageRegistry{
 	 * The bundle id of the image
 	 * @generated
 	 */
-	public static final String BUNDLE = "org.opeum.bpmn2.modeleditor.images";
+	public static final String BUNDLE = "org.opaeum.bpmn2.modeleditor.images";
 	/**
 	 * The constructor
 	 *

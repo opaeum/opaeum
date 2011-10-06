@@ -1,4 +1,4 @@
-package org.opeum.uim.editparts;
+package org.opaeum.uim.editparts;
 
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;

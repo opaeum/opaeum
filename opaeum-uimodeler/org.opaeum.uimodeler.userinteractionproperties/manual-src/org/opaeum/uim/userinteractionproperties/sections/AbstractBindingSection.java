@@ -1,4 +1,4 @@
-package org.opeum.uim.userinteractionproperties.sections;
+package org.opaeum.uim.userinteractionproperties.sections;
 
 import java.util.Collection;
 import java.util.StringTokenizer;
@@ -8,13 +8,13 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
-import org.opeum.eclipse.EmfElementFinder;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.uim.UimComponent;
-import org.opeum.uim.binding.BindingFactory;
-import org.opeum.uim.binding.PropertyRef;
-import org.opeum.uim.binding.UimBinding;
-import org.opeum.uim.modeleditor.editor.UimEditor;
+import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.binding.BindingFactory;
+import org.opaeum.uim.binding.PropertyRef;
+import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.modeleditor.editor.UimEditor;
 
 public abstract class AbstractBindingSection extends TypedElementCodeCompletingSection{
 	protected abstract Object getFeatureValue();
@@ -64,14 +64,14 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 			TypedElement te = getTypedElement(teName);
 			if(te != null){
 				UimBinding fb = (UimBinding) BindingFactory.eINSTANCE.create(getFeatureEClass());
-				fb.setUmlElementUid(OpeumEclipseContext.getCurrentContext().getId(te));
+				fb.setUmlElementUid(OpaeumEclipseContext.getCurrentContext().getId(te));
 				PropertyRef prev = null;
 				while(st.hasMoreTokens()){
 					Classifier cl = (Classifier) te.getType();
 					Property p = getProperty(cl, st.nextToken());
 					if(p != null){
 						PropertyRef pr2 = BindingFactory.eINSTANCE.createPropertyRef();
-						pr2.setUmlElementUid(OpeumEclipseContext.getCurrentContext().getId(p));
+						pr2.setUmlElementUid(OpaeumEclipseContext.getCurrentContext().getId(p));
 						if(fb.getNext() == null){
 							fb.setNext(pr2);
 						}else{

@@ -1,25 +1,25 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Opeum User Interface Modeler
-Bundle-SymbolicName: org.opeum.uimodeler.modeleditor;singleton:=true
+Bundle-Name: Opaeum User Interface Modeler
+Bundle-SymbolicName: org.opaeum.uimodeler.modeleditor;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opeum.uim.modeleditor.UimPlugin
-Bundle-Vendor: Opeum
+Bundle-Activator: org.opaeum.uim.modeleditor.UimPlugin
+Bundle-Vendor: Opaeum
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.ide,
  org.eclipse.core.resources,
- org.opeum.uimodeler.edit;visibility:=reexport,
+ org.opaeum.uimodeler.edit;visibility:=reexport,
  org.eclipse.uml2.uml;visibility:=reexport,
  org.topcased.modeler;visibility:=reexport,
  org.eclipse.ui.views.properties.tabbed;visibility:=reexport,
- org.opeum.uimodeler.editor,
- org.opeum.metamodels.uim,
- org.opeum.metamodels.emfworkspace,
- org.opeum.eclipse.core
-Export-Package: org.opeum.uim.modeleditor,
- org.opeum.uim.modeleditor.actions,
- org.opeum.uim.modeleditor.editor,
- org.opeum.uim.modeleditor.preferences,
- org.opeum.uim.modeleditor.providers,
- org.opeum.uim.modeleditor.wizards
+ org.opaeum.uimodeler.editor,
+ org.opaeum.metamodels.uim,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.eclipse.core
+Export-Package: org.opaeum.uim.modeleditor,
+ org.opaeum.uim.modeleditor.actions,
+ org.opaeum.uim.modeleditor.editor,
+ org.opaeum.uim.modeleditor.preferences,
+ org.opaeum.uim.modeleditor.providers,
+ org.opaeum.uim.modeleditor.wizards
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

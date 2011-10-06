@@ -1,4 +1,4 @@
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.model.IModelElement;
 import nl.klasse.octopus.oclengine.IOclContext;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.IParameterOwner;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.IParameterOwner;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	NakedParsedOclStringResolver.class

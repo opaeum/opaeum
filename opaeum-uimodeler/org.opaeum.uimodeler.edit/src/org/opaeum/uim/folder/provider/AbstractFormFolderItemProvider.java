@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.provider;
+package org.opaeum.uim.folder.provider;
 
 
 import java.util.Collection;
@@ -20,13 +20,13 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.folder.AbstractFormFolder;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.security.SecurityFactory;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.security.SecurityFactory;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.folder.AbstractFormFolder} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.folder.AbstractFormFolder} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

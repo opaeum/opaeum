@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.security.impl;
+package org.opaeum.uim.security.impl;
 
 import java.util.Collection;
 
@@ -17,9 +17,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opeum.uim.security.RequiredRole;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.WorkspaceSecurityConstraint;
+import org.opaeum.uim.security.RequiredRole;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.WorkspaceSecurityConstraint;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,9 +28,9 @@ import org.opeum.uim.security.WorkspaceSecurityConstraint;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl#isRequiresGroupOwnership <em>Requires Group Ownership</em>}</li>
- *   <li>{@link org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl#isRequiresOwnership <em>Requires Ownership</em>}</li>
- *   <li>{@link org.opeum.uim.security.impl.WorkspaceSecurityConstraintImpl#getRequiredRoles <em>Required Roles</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl#isRequiresGroupOwnership <em>Requires Group Ownership</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl#isRequiresOwnership <em>Requires Ownership</em>}</li>
+ *   <li>{@link org.opaeum.uim.security.impl.WorkspaceSecurityConstraintImpl#getRequiredRoles <em>Required Roles</em>}</li>
  * </ul>
  * </p>
  *

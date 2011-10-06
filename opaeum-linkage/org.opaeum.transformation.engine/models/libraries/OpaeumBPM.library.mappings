@@ -1,2 +1,2 @@
-OpiumLibraryForBPM\:\:TaskDelegation=org.opeum.runtime.domain.TaskDelegation
-##OpiumLibraryForBPM\:\:businesscalendar\:\:BusinessCalendar=org.opeum.runtime.bpm.businesscalendar.impl.BusinessCalendar
+OpaeumLibraryForBPM\:\:TaskDelegation=org.opaeum.runtime.domain.TaskDelegation
+##OpaeumLibraryForBPM\:\:businesscalendar\:\:BusinessCalendar=org.opaeum.runtime.bpm.businesscalendar.impl.BusinessCalendar

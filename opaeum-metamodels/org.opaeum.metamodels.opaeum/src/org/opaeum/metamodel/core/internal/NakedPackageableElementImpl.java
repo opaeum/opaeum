@@ -1,8 +1,8 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import nl.klasse.octopus.model.VisibilityKind;
 
-import org.opeum.metamodel.core.INakedPackageableElement;
+import org.opaeum.metamodel.core.INakedPackageableElement;
 
 public abstract class NakedPackageableElementImpl extends NakedElementImpl implements INakedPackageableElement{
 	/**

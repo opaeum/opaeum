@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.provider;
+package org.opaeum.uim.folder.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.folder.util.FolderAdapterFactory;
+import org.opaeum.uim.folder.util.FolderAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.ActivityFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.ActivityFolder} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	protected ActivityFolderItemProvider activityFolderItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.ActivityFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.ActivityFolder}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.EntityFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.EntityFolder} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	protected EntityFolderItemProvider entityFolderItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.EntityFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.EntityFolder}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.StateMachineFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.StateMachineFolder} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	protected StateMachineFolderItemProvider stateMachineFolderItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.StateMachineFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.StateMachineFolder}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.PackageFolder} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.PackageFolder} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	protected PackageFolderItemProvider packageFolderItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.PackageFolder}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.PackageFolder}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.UserInteractionModel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.UserInteractionModel} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	protected UserInteractionModelItemProvider userInteractionModelItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.UserInteractionModel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.UserInteractionModel}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -189,7 +189,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.folder.UserInteractionWorkspace} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.folder.UserInteractionWorkspace} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -197,7 +197,7 @@ public class FolderItemProviderAdapterFactory extends FolderAdapterFactory imple
 	protected UserInteractionWorkspaceItemProvider userInteractionWorkspaceItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.folder.UserInteractionWorkspace}.
+	 * This creates an adapter for a {@link org.opaeum.uim.folder.UserInteractionWorkspace}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

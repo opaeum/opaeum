@@ -1,6 +1,6 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
-import org.opeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.INakedTypedElement;
 /**
  * A common interface for pins and swimlanes - both of which could
  * be used as the target for invocations 

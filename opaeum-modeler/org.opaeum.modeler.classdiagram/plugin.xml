@@ -7,10 +7,10 @@
 
    <extension point="org.eclipse.ui.editors">
       <editor
-            class="org.opeum.topcased.uml.editor.OpeumEditor"
+            class="org.opaeum.topcased.uml.editor.OpaeumEditor"
             icon="icons/UML.gif"
             default="true"
-            name="Opeum Editor"
+            name="Opaeum Editor"
             id="org.topcased.modeler.uml.editor.UMLEditor"
             contributorClass="org.topcased.modeler.uml.actions.UMLEditorActionBarContributor"
             extensions="umldi,uml">
@@ -18,17 +18,17 @@
    </extension>
    
 	<extension point="org.eclipse.ui.newWizards">
-		<category id="org.opeum.eclipse.newWizards" name="Opeum"/>
+		<category id="org.opaeum.eclipse.newWizards" name="Opaeum"/>
    </extension>
 		
 	<extension point="org.eclipse.ui.newWizards">
 		<wizard
 			icon="icons/UML.gif"
 			class="org.topcased.modeler.uml.wizards.NewUMLDiagrams"
-			category="org.opeum.eclipse.newWizards"
-			name="Executable Model with Opium"
+			category="org.opaeum.eclipse.newWizards"
+			name="Executable Model with Opaeum"
 			id="org.topcased.modeler.uml.wizards.NewUMLDiagrams">
-			<description>Create a new Executable Model with Opium</description>
+			<description>Create a new Executable Model with Opaeum</description>
 			<selection class="org.eclipse.core.resources.IResource"/>
 		</wizard>
 	</extension>
@@ -69,7 +69,7 @@
 	
 	<extension point="org.topcased.modeler.topcasedPreferenceInitializer">
 	         <preferenceInitializer
-               class="org.opeum.topcased.uml.ClassDiagramTopcasedPreferenceInitializer"
+               class="org.opaeum.topcased.uml.ClassDiagramTopcasedPreferenceInitializer"
                editorId="org.topcased.modeler.uml.editor.UMLEditor"
                id="org.topcased.modeler.uml.classdiagram.preferenceInitializer">
          </preferenceInitializer>
@@ -954,7 +954,7 @@
    
    <extension point="org.topcased.modeler.diagrams">    
       <diagram
-            configuration="org.opeum.topcased.classdiagram.ClassConfiguration"
+            configuration="org.opaeum.topcased.classdiagram.ClassConfiguration"
             editorID="org.topcased.modeler.uml.editor.UMLEditor"
             icon="icons/diagram/ClassDiagram.gif"
             id="org.topcased.modeler.uml.classdiagram"
@@ -982,7 +982,7 @@
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
          <propertyTab
-            id="org.opeum.eclipse.opeumTab"
+            id="org.opaeum.eclipse.opaeumTab"
             category="model"
             label="UML"
             indented="false"/>
@@ -991,31 +991,31 @@
                category="model"
                indented="true"
                label="Parameters"
-         	   afterTab="org.opeum.eclipse.opeumTab"/>
+         	   afterTab="org.opaeum.eclipse.opaeumTab"/>
          <propertyTab
-               id="org.opeum.eclipse.preconditionsTab"
+               id="org.opaeum.eclipse.preconditionsTab"
                category="model"
                indented="true"
                label="Preconditions"
          	   afterTab="org.topcased.modeler.modelTab.parametersTab"/>
          <propertyTab
-               id="org.opeum.eclipse.postconditionsTab"
+               id="org.opaeum.eclipse.postconditionsTab"
                category="model"
                indented="true"
                label="Postconditions"
-         	   afterTab="org.opeum.eclipse.preconditionsTab"/>
+         	   afterTab="org.opaeum.eclipse.preconditionsTab"/>
          <propertyTab
-               id="org.opeum.eclipse.invariantsTab"
+               id="org.opaeum.eclipse.invariantsTab"
                category="model"
                indented="true"
                label="Invariants"
-         	   afterTab="org.opeum.eclipse.opeumTab"/>
+         	   afterTab="org.opaeum.eclipse.opaeumTab"/>
          <propertyTab
                id="org.topcased.modeler.modelTab.firstEndTab"
                category="model"
                indented="true"
                label="First End"
-         	   afterTab="org.opeum.eclipse.opeumTab"/>
+         	   afterTab="org.opaeum.eclipse.opaeumTab"/>
          <propertyTab
                id="org.topcased.modeler.modelTab.secondEndTab"
                category="model"
@@ -1026,17 +1026,17 @@
             id="org.topcased.modeler.profilesTab"
             category="modelDetails"
             label="Profiles"
-            afterTab="org.opeum.eclipse.opeumTab"/>
+            afterTab="org.opaeum.eclipse.opaeumTab"/>
          <propertyTab
             id="org.topcased.modeler.stereotypesTab"
             category="modelDetails"
             label="Stereotypes"
-            afterTab="org.opeum.eclipse.opeumTab"/>
+            afterTab="org.opaeum.eclipse.opaeumTab"/>
          <propertyTab
-            id="org.opeum.eclipse.redefinitionTab"
+            id="org.opaeum.eclipse.redefinitionTab"
             category="modelDetails"
             label="Redefinition"
-            afterTab="org.opeum.eclipse.opeumTab"/>
+            afterTab="org.opaeum.eclipse.opaeumTab"/>
          <propertyTab
             id="org.topcased.modeler.stereotypeAttributesTab"
             category="modelDetails"
@@ -1050,10 +1050,10 @@
             afterTab="org.topcased.modeler.advancedTab"
             indented="true"/>
          <propertyTab
-            id="org.opeum.eclipse.templateTab"
+            id="org.opaeum.eclipse.templateTab"
             category="model"
             label="Notification Text"
-            afterTab="org.opeum.eclipse.opeumTab"
+            afterTab="org.opaeum.eclipse.opaeumTab"
             indented="true"/>
       </propertyTabs>
    </extension>
@@ -1062,10 +1062,10 @@
 		<propertySections
         		contributorId="org.topcased.modeler.editor.Modeler">
    			<propertySection
-		         class="org.opeum.topcased.propertysections.NamedStereotypeNameSection"
-		         id="org.opeum.topcased.propertysections.NamedStereotypeNameSection"
-		         filter="org.opeum.topcased.propertysections.NamedStereotypeNameFilter"
-		         tab="org.opeum.eclipse.opeumTab">
+		         class="org.opaeum.topcased.propertysections.NamedStereotypeNameSection"
+		         id="org.opaeum.topcased.propertysections.NamedStereotypeNameSection"
+		         filter="org.opaeum.topcased.propertysections.NamedStereotypeNameFilter"
+		         tab="org.opaeum.eclipse.opaeumTab">
 		      <input
 		            type="org.eclipse.emf.ecore.impl.DynamicEObjectImpl">
 		            
@@ -1073,57 +1073,57 @@
 		   </propertySection>
    			<propertySection
 		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-		         class="org.opeum.topcased.propertysections.TypedElementTypeSection"
-		         id="org.opeum.topcased.propertysections.TypedElementTypeSection"
-		         tab="org.opeum.eclipse.opeumTab">
+		         class="org.opaeum.topcased.propertysections.TypedElementTypeSection"
+		         id="org.opaeum.topcased.propertysections.TypedElementTypeSection"
+		         tab="org.opaeum.eclipse.opaeumTab">
 		      <input
 		            type="org.eclipse.uml2.uml.TypedElement">
 		      </input>
 		   </propertySection>
    			
 			<propertySection
-				id="org.opeum.topcased.propertysections.EObjectErrorSection"
-				class="org.opeum.topcased.propertysections.EObjectErrorSection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.propertysections.EObjectErrorSection"
+				class="org.opaeum.topcased.propertysections.EObjectErrorSection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				>
          		<input type="org.eclipse.uml2.uml.Element"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.MultiplicityElementFeaturesSection"
-				class="org.opeum.topcased.propertysections.MultiplicityElementFeaturesSection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
+				class="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
          		<input type="org.eclipse.uml2.uml.MultiplicityElement"/>
 			</propertySection>
 			<!--Property PropertySections --> 
 			<propertySection
-				id="org.opeum.topcased.propertysections.PropertyBooleanFeaturesSection"
-				class="org.opeum.topcased.propertysections.PropertyBooleanFeaturesSection"
-				tab="org.opeum.eclipse.opeumTab"
-				afterSection="org.opeum.topcased.propertysections.MultiplicityElementFeaturesSection">
+				id="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
+				class="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
+				tab="org.opaeum.eclipse.opaeumTab"
+				afterSection="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection">
          		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.PropertyBooleanFeaturesSection"
-         			class="org.opeum.topcased.propertysections.PropertyDefaultValueSection"
-         			id="org.opeum.topcased.propertysections.PropertyDefaultValueSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			afterSection="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
+         			class="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
+         			id="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.Property">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.PropertyDefaultValueSection"
-         			class="org.opeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			id="org.opeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			afterSection="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
+         			class="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
+         			id="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.Property">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			class="org.opeum.topcased.propertysections.PropertySubsettedPropertySection"
-         			id="org.opeum.topcased.propertysections.PropertySubsettedPropertySection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			afterSection="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
+         			class="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
+         			id="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.Property">
       			</input>
 			</propertySection>
@@ -1155,77 +1155,77 @@
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
-				class="org.opeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				id="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				class="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
 				tab="org.topcased.modeler.modelTab.firstEndTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection">
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
-				class="org.opeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
+				id="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
+				class="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
 				tab="org.topcased.modeler.modelTab.secondEndTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection">
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
-				class="org.opeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
+				id="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
+				class="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
 				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.opeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
+				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
-				class="org.opeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
+				id="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
+				class="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
 				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.opeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
+				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
 				<input type="org.eclipse.uml2.uml.Association"/>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
-         			class="org.opeum.topcased.propertysections.FirstEndDefaultValueSection"
-         			id="org.opeum.topcased.propertysections.FirstEndDefaultValueSection"
+         			afterSection="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
+         			class="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
+         			id="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
          			tab="org.topcased.modeler.modelTab.firstEndTab">
       			<input type="org.eclipse.uml2.uml.Association">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
-         			class="org.opeum.topcased.propertysections.SecondEndDefaultValueSection"
-         			id="org.opeum.topcased.propertysections.SecondEndDefaultValueSection"
+         			afterSection="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
+         			class="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
+         			id="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
          			tab="org.topcased.modeler.modelTab.secondEndTab">
       			<input type="org.eclipse.uml2.uml.Association">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.FirstEndDefaultValueSection"
-         			class="org.opeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-         			id="org.opeum.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			afterSection="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
+         			class="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
          			tab="org.topcased.modeler.modelTab.firstEndTab">
       			<input type="org.eclipse.uml2.uml.Association">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.SecondEndDefaultValueSection"
-         			class="org.opeum.topcased.propertysections.SecondEndRedefinedPropertySection"
-         			id="org.opeum.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			afterSection="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
+         			class="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection"
+         			id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
          			tab="org.topcased.modeler.modelTab.secondEndTab">
       			<input type="org.eclipse.uml2.uml.Association">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-         			class="org.opeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
-         			id="org.opeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
+         			afterSection="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
+         			class="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
+         			id="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
          			tab="org.topcased.modeler.modelTab.firstEndTab">
       			<input type="org.eclipse.uml2.uml.Association">
       			</input>
 			</propertySection>
 			<propertySection
-         			afterSection="org.opeum.topcased.propertysections.SecondEndRedefinedPropertySection"
-         			class="org.opeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
-         			id="org.opeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
+         			afterSection="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection"
+         			class="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
+         			id="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
          			tab="org.topcased.modeler.modelTab.secondEndTab">
       			<input type="org.eclipse.uml2.uml.Association">
       			</input>
@@ -1233,90 +1233,90 @@
 			
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.propertysections.ConstraintValueSpecificationSection"
-         			id="org.opeum.topcased.propertysections.ConstraintValueSpecificationSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.propertysections.ConstraintValueSpecificationSection"
+         			id="org.opaeum.topcased.propertysections.ConstraintValueSpecificationSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.Constraint">
       			</input>
 			</propertySection>
 			<propertySection
          			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opeum.topcased.propertysections.InstanceSpecificationSlotsSection"
-         			id="org.opeum.topcased.propertysections.InstanceSpecificationSlotsSection"
-         			tab="org.opeum.eclipse.opeumTab">
+         			class="org.opaeum.topcased.propertysections.InstanceSpecificationSlotsSection"
+         			id="org.opaeum.topcased.propertysections.InstanceSpecificationSlotsSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
       			<input type="org.eclipse.uml2.uml.InstanceSpecification">
       			</input>
 			</propertySection>
 			
 			<propertySection
-				id="org.opeum.topcased.propertysections.BehaviorParametersSection"
-				class="org.opeum.topcased.propertysections.BehaviorParametersSection"
+				id="org.opaeum.topcased.propertysections.BehaviorParametersSection"
+				class="org.opaeum.topcased.propertysections.BehaviorParametersSection"
 				tab="org.topcased.modeler.modelTab.parametersTab">
          		<input type="org.eclipse.uml2.uml.Behavior"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.SignalTemplateSection"
-				class="org.opeum.topcased.propertysections.NotificationTemplateSection"
-				filter="org.opeum.topcased.propertysections.filters.NotificationFilter"
-				tab="org.opeum.eclipse.templateTab">
+				id="org.opaeum.topcased.propertysections.SignalTemplateSection"
+				class="org.opaeum.topcased.propertysections.NotificationTemplateSection"
+				filter="org.opaeum.topcased.propertysections.filters.NotificationFilter"
+				tab="org.opaeum.eclipse.templateTab">
          		<input type="org.eclipse.uml2.uml.Signal"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.OperationIsQuerySection"
+				id="org.opaeum.topcased.propertysections.OperationIsQuerySection"
 		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opeum.topcased.propertysections.OperationBooleanFeaturesSection"
-				tab="org.opeum.eclipse.opeumTab">
+				class="org.opaeum.topcased.propertysections.OperationBooleanFeaturesSection"
+				tab="org.opaeum.eclipse.opaeumTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.OperationBodyConditionSection"
-				afterSection="org.opeum.topcased.propertysections.OperationIsQuerySection"
-				class="org.opeum.topcased.propertysections.OperationBodyConditionSection"
-				tab="org.opeum.eclipse.opeumTab">
+				id="org.opaeum.topcased.propertysections.OperationBodyConditionSection"
+				afterSection="org.opaeum.topcased.propertysections.OperationIsQuerySection"
+				class="org.opaeum.topcased.propertysections.OperationBodyConditionSection"
+				tab="org.opaeum.eclipse.opaeumTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.constraints.OperationPostconditionsSection"
-				class="org.opeum.topcased.propertysections.constraints.OperationPostconditionsSection"
-				tab="org.opeum.eclipse.postconditionsTab">
+				id="org.opaeum.topcased.propertysections.constraints.OperationPostconditionsSection"
+				class="org.opaeum.topcased.propertysections.constraints.OperationPostconditionsSection"
+				tab="org.opaeum.eclipse.postconditionsTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.GeneralizationGeneralSection"
+				id="org.opaeum.topcased.propertysections.GeneralizationGeneralSection"
 		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opeum.topcased.propertysections.GeneralizationGeneralSection"
-				tab="org.opeum.eclipse.opeumTab">
+				class="org.opaeum.topcased.propertysections.GeneralizationGeneralSection"
+				tab="org.opaeum.eclipse.opaeumTab">
          		<input type="org.eclipse.uml2.uml.Generalization"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.InterfaceRealizationContractSection"
+				id="org.opaeum.topcased.propertysections.InterfaceRealizationContractSection"
 		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opeum.topcased.propertysections.InterfaceRealizationContractSection"
-				tab="org.opeum.eclipse.opeumTab">
+				class="org.opaeum.topcased.propertysections.InterfaceRealizationContractSection"
+				tab="org.opaeum.eclipse.opaeumTab">
          		<input type="org.eclipse.uml2.uml.InterfaceRealization"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.constraints.OperationPreconditionsSection"
-				class="org.opeum.topcased.propertysections.constraints.OperationPreconditionsSection"
-				tab="org.opeum.eclipse.preconditionsTab">
+				id="org.opaeum.topcased.propertysections.constraints.OperationPreconditionsSection"
+				class="org.opaeum.topcased.propertysections.constraints.OperationPreconditionsSection"
+				tab="org.opaeum.eclipse.preconditionsTab">
          		<input type="org.eclipse.uml2.uml.Operation"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
-				class="org.opeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
-				tab="org.opeum.eclipse.postconditionsTab">
+				id="org.opaeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
+				class="org.opaeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
+				tab="org.opaeum.eclipse.postconditionsTab">
          		<input type="org.eclipse.uml2.uml.Behavior"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
-				class="org.opeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
-				tab="org.opeum.eclipse.preconditionsTab">
+				id="org.opaeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
+				class="org.opaeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
+				tab="org.opaeum.eclipse.preconditionsTab">
          		<input type="org.eclipse.uml2.uml.Behavior"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.constraints.ClassInvariantsSection"
-				class="org.opeum.topcased.propertysections.constraints.ClassInvariantsSection"
-				tab="org.opeum.eclipse.invariantsTab">
+				id="org.opaeum.topcased.propertysections.constraints.ClassInvariantsSection"
+				class="org.opaeum.topcased.propertysections.constraints.ClassInvariantsSection"
+				tab="org.opaeum.eclipse.invariantsTab">
          		<input type="org.eclipse.uml2.uml.Class"/>
 			</propertySection>
 			<propertySection
@@ -1338,37 +1338,37 @@
          		<input type="org.eclipse.uml2.uml.Element"/>
 			</propertySection>
 			<propertySection
-				afterSection="org.opeum.topcased.propertysections.EObjectErrorSection"
+				afterSection="org.opaeum.topcased.propertysections.EObjectErrorSection"
 		         class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 		         filter="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSectionFilter"
 		         id="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-		         tab="org.opeum.eclipse.opeumTab">
+		         tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.NamedElement"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.InstanceSpecification"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
-				tab="org.opeum.eclipse.opeumTab">
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Slot"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
 				<input type="org.eclipse.uml2.uml.Slot"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.Classifier"/>
 			</propertySection>
@@ -1383,29 +1383,29 @@
 			</propertySection>
 			
 			<propertySection
-				id="org.opeum.topcased.propertysections.OpaqueExpressionBodySection"
-				class="org.opeum.topcased.propertysections.OpaqueExpressionBodySection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.propertysections.OpaqueExpressionBodySection"
+				class="org.opaeum.topcased.propertysections.OpaqueExpressionBodySection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
 				<input type="org.eclipse.uml2.uml.OpaqueExpression"/>
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.OpaqueBehaviorBodySection"
-				class="org.opeum.topcased.propertysections.OpaqueBehaviorBodySection"
-				tab="org.opeum.eclipse.opeumTab"
+				id="org.opaeum.topcased.propertysections.OpaqueBehaviorBodySection"
+				class="org.opaeum.topcased.propertysections.OpaqueBehaviorBodySection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
 				<input type="org.eclipse.uml2.uml.OpaqueBehavior"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
 				filter="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSectionFilter">
 			</propertySection>
 			<propertySection
-				id="org.opeum.topcased.propertysections.OperationParametersSection"
-				class="org.opeum.topcased.propertysections.OperationParametersSection"
+				id="org.opaeum.topcased.propertysections.OperationParametersSection"
+				class="org.opaeum.topcased.propertysections.OperationParametersSection"
 				tab="org.topcased.modeler.modelTab.parametersTab">
 				<input type="org.eclipse.uml2.uml.Operation"/>
 			</propertySection>
@@ -1413,28 +1413,28 @@
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
 				class="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
-				tab="org.opeum.eclipse.opeumTab"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection">
 				<input type="org.eclipse.uml2.uml.Parameter"/>
 			</propertySection>
@@ -1442,7 +1442,7 @@
 			<propertySection
 				id="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
 				class="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
-				tab="org.opeum.eclipse.opeumTab">
+				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Comment"/>
 			</propertySection>
 
@@ -1498,14 +1498,14 @@
 	         class="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection"
 	         filter="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSectionFilter"
 	         id="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection"
-	         tab="org.opeum.eclipse.opeumTab">
+	         tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.ElementImport"/>
 			</propertySection>
 		<propertySection
 		     afterSection="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
 		     class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeMetaclassSection"
 		     id="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection"
-		     tab="org.opeum.eclipse.opeumTab">
+		     tab="org.opaeum.eclipse.opaeumTab">
 		     <input
 		            type="org.eclipse.uml2.uml.Stereotype">
 		     </input>
@@ -1514,7 +1514,7 @@
 	         afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection"
 	         class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeImageSection"
 	         id="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection"
-	         tab="org.opeum.eclipse.opeumTab">
+	         tab="org.opaeum.eclipse.opaeumTab">
 	      <input
 	            type="org.eclipse.uml2.uml.Stereotype">
 	      </input>
@@ -1523,7 +1523,7 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection"
          class="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
          id="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
-         tab="org.opeum.eclipse.opeumTab">
+         tab="org.opaeum.eclipse.opaeumTab">
       <input
             type="org.eclipse.uml2.uml.Stereotype">
       </input>
@@ -1532,7 +1532,7 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
          class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
          id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
-         tab="org.opeum.eclipse.opeumTab">
+         tab="org.opaeum.eclipse.opaeumTab">
       <input
             type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
       </input>
@@ -1541,7 +1541,7 @@
          afterSection="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
          class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
          id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
-         tab="org.opeum.eclipse.opeumTab">
+         tab="org.opaeum.eclipse.opaeumTab">
       <input
             type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
       </input>
@@ -1565,10 +1565,10 @@
 
 	<extension point="org.topcased.modeler.outline">
 		<createChildMenu
-        	class="org.opeum.topcased.uml.editor.OpeumEditorMenu"
+        	class="org.opaeum.topcased.uml.editor.OpaeumEditorMenu"
         	editorId="org.topcased.modeler.uml.editor.UMLEditor"
-        	id="org.opeum.topcased.uml.editor.OpeumEditorMenu"
-        	name="Opeum Editor Menu"/>
+        	id="org.opaeum.topcased.uml.editor.OpaeumEditorMenu"
+        	name="Opaeum Editor Menu"/>
 		<createChildMenu
         	class="org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu"
         	editorId="org.topcased.modeler.uml.editor.UMLEditor"
@@ -1580,10 +1580,10 @@
 		        id="UMLMetamodelFilter">
 		</metamodelFilter>
 		<filter
-		        class="org.opeum.topcased.uml.editor.OpeumFilter"
+		        class="org.opaeum.topcased.uml.editor.OpaeumFilter"
 		        editorId="org.topcased.modeler.uml.editor.UMLEditor"
-		        id="org.opeum.topcased.uml.editor.OpeumFilter"
-		        name="Show Opeum elements">
+		        id="org.opaeum.topcased.uml.editor.OpaeumFilter"
+		        name="Show Opaeum elements">
 		</filter>
 		<filter
 		        class="org.topcased.modeler.uml.editor.outline.HideEdgeFilter"
@@ -1917,7 +1917,7 @@
       <extension
             point="org.topcased.modeler.OutlineVirtualContainer">
          <VirtualContainer
-               virtualContainer="org.opeum.topcased.uml.editor.StereotypeVirtualContainer">
+               virtualContainer="org.opaeum.topcased.uml.editor.StereotypeVirtualContainer">
          </VirtualContainer>
       </extension>
 

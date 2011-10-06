@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections;
 
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.uml2.uml.Constraint;
@@ -9,7 +9,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 public class ConstraintValueSpecificationSection extends AbstractOpaqueExpressionSection{
 	@Override
 	protected OpaqueExpression beforeOclChanged(String text){
-		//Specification created by OpeumElementLinker
+		//Specification created by OpaeumElementLinker
 		return (OpaqueExpression) ((Constraint)getEObject()).getSpecification();
 	}
 	@Override

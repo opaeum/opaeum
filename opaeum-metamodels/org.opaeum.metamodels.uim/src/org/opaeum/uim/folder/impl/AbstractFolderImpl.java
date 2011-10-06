@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.impl;
+package org.opaeum.uim.folder.impl;
 
 import java.util.Collection;
 
@@ -16,12 +16,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.folder.AbstractFolder;
-import org.opeum.uim.folder.AbstractFormFolder;
-import org.opeum.uim.folder.FolderPackage;
-import org.opeum.uim.impl.UserInteractionElementImpl;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.folder.AbstractFolder;
+import org.opaeum.uim.folder.AbstractFormFolder;
+import org.opaeum.uim.folder.FolderPackage;
+import org.opaeum.uim.impl.UserInteractionElementImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,8 +30,8 @@ import org.opeum.uim.impl.UserInteractionElementImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.folder.impl.AbstractFolderImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.opeum.uim.folder.impl.AbstractFolderImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.AbstractFolderImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.folder.impl.AbstractFolderImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *

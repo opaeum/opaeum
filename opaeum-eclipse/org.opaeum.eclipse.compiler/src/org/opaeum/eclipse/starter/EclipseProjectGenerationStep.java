@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.io.ByteArrayInputStream;
 
@@ -10,17 +10,17 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
-import org.opeum.feature.ITransformationStep;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.feature.visit.VisitSpec;
-import org.opeum.filegeneration.AbstractTextNodeVisitor;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.TextDirectory;
-import org.opeum.textmetamodel.TextFile;
-import org.opeum.textmetamodel.TextOutputNode;
-import org.opeum.textmetamodel.TextProject;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.feature.visit.VisitSpec;
+import org.opaeum.filegeneration.AbstractTextNodeVisitor;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.TextDirectory;
+import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextOutputNode;
+import org.opaeum.textmetamodel.TextProject;
 
 @StepDependency(phase = EclipseProjectGenerationPhase.class)
 public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implements ITransformationStep{
@@ -112,7 +112,7 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	public ByteArrayInputStream getContents(TextFile tf){
 		return new ByteArrayInputStream(new String(tf.getTextSource().toCharArray()).getBytes());
 	}
-	public void initialize(IWorkspaceRoot workspaceRoot,OpeumConfig config){
+	public void initialize(IWorkspaceRoot workspaceRoot,OpaeumConfig config){
 		this.root = workspaceRoot;
 		this.config = config;
 	}

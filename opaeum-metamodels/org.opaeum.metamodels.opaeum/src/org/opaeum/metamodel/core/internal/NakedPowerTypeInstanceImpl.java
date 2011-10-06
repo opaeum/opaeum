@@ -1,6 +1,6 @@
-package org.opeum.metamodel.core.internal;
-import org.opeum.metamodel.core.INakedGeneralization;
-import org.opeum.metamodel.core.INakedPowerTypeInstance;
+package org.opaeum.metamodel.core.internal;
+import org.opaeum.metamodel.core.INakedGeneralization;
+import org.opaeum.metamodel.core.INakedPowerTypeInstance;
 /**
  * A type of enumeration literal that, being an instance of a powertype. None of
  * its specific features are used yet

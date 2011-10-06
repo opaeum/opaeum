@@ -13,7 +13,7 @@ CREATE INDEX idx_audit_user ON abstract_${model.mappingInfo.persistentName}_aud(
 CREATE INDEX idx_audit_date ON abstract_${model.mappingInfo.persistentName}_aud(changed_on);
 CREATE TABLE hi_value(next_value BIGINT);
 INSERT INTO hi_value (next_value) values(1);
-CREATE TABLE opeum_version_info(version_no float, revision_no int);
+CREATE TABLE opaeum_version_info(version_no float, revision_no int);
 #end
 #foreach($dataType in $model.structuredTypes)
 #if($dataType.classifierKind.isStructuredDataType())
@@ -118,4 +118,4 @@ CREATE UNIQUE INDEX idx_sc_${entity.stateMachine.mappingInfo.nakedUmlId} ON ${en
 #end
 #end
 #set($revisionNo=$model.revisionNo+1)
-insert into opeum_version_info (version_no, revision_no) values(${model.versionNo},${revisionNo});
+insert into opaeum_version_info (version_no, revision_no) values(${model.versionNo},${revisionNo});

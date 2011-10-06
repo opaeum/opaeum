@@ -1,4 +1,4 @@
-package org.opeum.topcased.activitydiagram.propertysections;
+package org.opaeum.topcased.activitydiagram.propertysections;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 import org.topcased.modeler.listeners.UIAdapterImpl;
 import org.topcased.modeler.uml.activitydiagram.internal.editingsupport.DelegatingEditingSupport;
 

@@ -1,11 +1,11 @@
-package org.opeum.uim.userinteractionproperties.providers;
+package org.opaeum.uim.userinteractionproperties.providers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.opeum.uim.provider.UimItemProviderAdapterFactory;
+import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.AbstractSectionLabelProvider;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;

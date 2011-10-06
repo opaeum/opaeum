@@ -5,7 +5,7 @@
  */
 package nl.klasse.octopus.codegen.umlToJava.maps;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 
 /**

@@ -1,4 +1,4 @@
-package org.opeum.uim.layouts;
+package org.opaeum.uim.layouts;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -9,7 +9,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.XYLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.opeum.uim.figures.ColumnFigure;
+import org.opaeum.uim.figures.ColumnFigure;
 
 public class UimColumnLayoutManager extends XYLayout implements IUimLayoutManager{
 	@SuppressWarnings("unchecked")

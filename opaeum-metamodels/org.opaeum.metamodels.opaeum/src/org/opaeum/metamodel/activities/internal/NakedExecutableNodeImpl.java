@@ -1,11 +1,11 @@
-package org.opeum.metamodel.activities.internal;
+package org.opaeum.metamodel.activities.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.opeum.metamodel.actions.INakedExceptionHandler;
-import org.opeum.metamodel.activities.INakedExecutableNode;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.actions.INakedExceptionHandler;
+import org.opaeum.metamodel.activities.INakedExecutableNode;
+import org.opaeum.metamodel.core.INakedElement;
 
 public class NakedExecutableNodeImpl extends NakedActivityNodeImpl implements INakedExecutableNode {
 	/**

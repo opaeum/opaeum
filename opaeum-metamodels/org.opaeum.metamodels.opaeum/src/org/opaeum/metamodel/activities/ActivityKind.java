@@ -1,4 +1,4 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 public enum ActivityKind {
 	PROCESS, SIMPLE_SYNCHRONOUS_METHOD, COMPLEX_SYNCHRONOUS_METHOD;

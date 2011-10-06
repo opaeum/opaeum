@@ -5,7 +5,7 @@
      point="org.eclipse.emf.ecore.uri_mapping">
     <mapping
        source="pathmap://NAKEDUML_MODELS/"
-       target="platform:/plugin/org.opeum.transformation.engine/models/">
+       target="platform:/plugin/org.opaeum.transformation.engine/models/">
     </mapping>
   </extension>
  

@@ -1,10 +1,10 @@
-package org.opeum.validation;
+package org.opaeum.validation;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 @StepDependency(phase = ValidationPhase.class)
 public class PropertyValidation extends AbstractValidator{

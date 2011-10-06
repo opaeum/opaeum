@@ -1,4 +1,4 @@
-package org.opeum.bpmn2.diagram.figure;
+package org.opaeum.bpmn2.diagram.figure;
 
 import org.eclipse.draw2d.Figure;
 

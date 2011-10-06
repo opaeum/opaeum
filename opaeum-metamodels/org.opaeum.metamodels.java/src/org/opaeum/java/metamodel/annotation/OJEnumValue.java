@@ -1,7 +1,7 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJPathName;
 /**
  * A class representing the invocation of a Enum literal, typically from an annotation attribute value.
  * 

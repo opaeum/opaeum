@@ -1,7 +1,7 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.core.INakedClassifier;
 
 public interface IActionWithTargetPin extends IActionWithTargetElement{
 	INakedInputPin getTarget();

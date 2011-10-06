@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.metamodels.feature"
-      label="Opeum Metamodels"
+      id="org.opaeum.metamodels.feature"
+      label="Opaeum Metamodels"
       version="1.0.0.qualifier">
 
    <description url="%license">
@@ -24,55 +24,55 @@
    </requires>
 
    <plugin
-         id="org.opeum.metamodels.drools"
+         id="org.opaeum.metamodels.drools"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.metamodels.java"
+         id="org.opaeum.metamodels.java"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.metamodels.maven"
+         id="org.opaeum.metamodels.maven"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.metamodels.ocl"
+         id="org.opaeum.metamodels.ocl"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.metamodels.text"
+         id="org.opaeum.metamodels.text"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.metamodels.uim"
+         id="org.opaeum.metamodels.uim"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.metamodels.emfworkspace"
+         id="org.opaeum.metamodels.emfworkspace"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
 
    <plugin
-         id="org.opeum.metamodels.opeum"
+         id="org.opaeum.metamodels.opaeum"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

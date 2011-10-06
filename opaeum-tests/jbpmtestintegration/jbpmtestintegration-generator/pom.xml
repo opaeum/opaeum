@@ -2,7 +2,7 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.opeum.jbpmtestintegration</groupId>
+  <groupId>org.opaeum.jbpmtestintegration</groupId>
   <artifactId>jbpmtestintegration-generator</artifactId>
   <packaging>jar</packaging>
   <name>jbpmtestintegration-generator</name>
@@ -46,7 +46,7 @@
               <target>
                 <property name="test_classpath" refid="maven.test.classpath"/>
 
-                <java classname="org.opeum.jbpmtestintegration.generator.JbpmtestintegrationGenerator"
+                <java classname="org.opaeum.jbpmtestintegration.generator.JbpmtestintegrationGenerator"
                       failonerror="true"
                       fork="true">
                   <sysproperty key="DEBUG" value="true"/>
@@ -68,8 +68,8 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>org.opeum</groupId>
-      <artifactId>opeum-generators</artifactId>
+      <groupId>org.opaeum</groupId>
+      <artifactId>opaeum-generators</artifactId>
       <version>1.0.0.5-SNAPSHOT</version>
     </dependency>
   </dependencies>

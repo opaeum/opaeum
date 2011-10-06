@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import org.eclipse.uml2.uml.FinalState;
 import org.eclipse.uml2.uml.Pseudostate;
@@ -6,13 +6,13 @@ import org.eclipse.uml2.uml.PseudostateKind;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
-import org.opeum.metamodel.statemachines.StateKind;
-import org.opeum.metamodel.statemachines.internal.NakedRegionImpl;
-import org.opeum.metamodel.statemachines.internal.NakedStateImpl;
-import org.opeum.metamodel.statemachines.internal.NakedStateMachineImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.statemachines.StateKind;
+import org.opaeum.metamodel.statemachines.internal.NakedRegionImpl;
+import org.opaeum.metamodel.statemachines.internal.NakedStateImpl;
+import org.opaeum.metamodel.statemachines.internal.NakedStateMachineImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class,requires = FeatureExtractor.class,after = FeatureExtractor.class)
 public class StateExtractor extends CommonBehaviorExtractor{

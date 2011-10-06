@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package org.opeum.uim;
+package org.opaeum.uim;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.opeum.uim.security.SecurityPackage;
  *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * @see org.opeum.uim.UimFactory
+ * @see org.opaeum.uim.UimFactory
  * @model kind="package"
  * @generated
  */
@@ -43,7 +43,7 @@ public interface UimPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://opeum.org/uimetamodel/1.0";
+	String eNS_URI = "http://opaeum.org/uimetamodel/1.0";
 
 	/**
 	 * The package namespace name.
@@ -59,14 +59,14 @@ public interface UimPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	UimPackage eINSTANCE = org.opeum.uim.impl.UimPackageImpl.init();
+	UimPackage eINSTANCE = org.opaeum.uim.impl.UimPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimFieldImpl <em>Field</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimFieldImpl <em>Field</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimFieldImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimField()
+	 * @see org.opaeum.uim.impl.UimFieldImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimField()
 	 * @generated
 	 */
 	int UIM_FIELD = 0;
@@ -153,11 +153,11 @@ public interface UimPackage extends EPackage {
 	int UIM_FIELD_FEATURE_COUNT = SecurityPackage.EDITABLE_SECURE_OBJECT_FEATURE_COUNT + 6;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UserInteractionElementImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUserInteractionElement()
+	 * @see org.opaeum.uim.impl.UserInteractionElementImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUserInteractionElement()
 	 * @generated
 	 */
 	int USER_INTERACTION_ELEMENT = 2;
@@ -181,11 +181,11 @@ public interface UimPackage extends EPackage {
 	int USER_INTERACTION_ELEMENT_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimComponentImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimComponent()
+	 * @see org.opaeum.uim.impl.UimComponentImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimComponent()
 	 * @generated
 	 */
 	int UIM_COMPONENT = 1;
@@ -218,11 +218,11 @@ public interface UimPackage extends EPackage {
 	int UIM_COMPONENT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.MasterComponent <em>Master Component</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.MasterComponent
-	 * @see org.opeum.uim.impl.UimPackageImpl#getMasterComponent()
+	 * @see org.opaeum.uim.MasterComponent
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getMasterComponent()
 	 * @generated
 	 */
 	int MASTER_COMPONENT = 7;
@@ -246,11 +246,11 @@ public interface UimPackage extends EPackage {
 	int MASTER_COMPONENT_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimDataTableImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimDataTable()
+	 * @see org.opaeum.uim.impl.UimDataTableImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimDataTable()
 	 * @generated
 	 */
 	int UIM_DATA_TABLE = 3;
@@ -328,11 +328,11 @@ public interface UimPackage extends EPackage {
 	int UIM_DATA_TABLE_FEATURE_COUNT = MASTER_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimContainerImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimContainer()
+	 * @see org.opaeum.uim.impl.UimContainerImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimContainer()
 	 * @generated
 	 */
 	int UIM_CONTAINER = 6;
@@ -374,11 +374,11 @@ public interface UimPackage extends EPackage {
 	int UIM_CONTAINER_FEATURE_COUNT = UIM_COMPONENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimTabPanelImpl <em>Tab Panel</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimTabPanelImpl <em>Tab Panel</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimTabPanelImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimTabPanel()
+	 * @see org.opaeum.uim.impl.UimTabPanelImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimTabPanel()
 	 * @generated
 	 */
 	int UIM_TAB_PANEL = 4;
@@ -447,11 +447,11 @@ public interface UimPackage extends EPackage {
 	int UIM_TAB_PANEL_FEATURE_COUNT = UIM_CONTAINER_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimTabImpl <em>Tab</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimTabImpl <em>Tab</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimTabImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimTab()
+	 * @see org.opaeum.uim.impl.UimTabImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimTab()
 	 * @generated
 	 */
 	int UIM_TAB = 5;
@@ -511,11 +511,11 @@ public interface UimPackage extends EPackage {
 	int UIM_TAB_FEATURE_COUNT = LayoutPackage.LAYOUT_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UmlReferenceImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUmlReference()
+	 * @see org.opaeum.uim.impl.UmlReferenceImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUmlReference()
 	 * @generated
 	 */
 	int UML_REFERENCE = 8;
@@ -539,11 +539,11 @@ public interface UimPackage extends EPackage {
 	int UML_REFERENCE_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.UimPanelImpl <em>Panel</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimPanelImpl <em>Panel</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.UimPanelImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getUimPanel()
+	 * @see org.opaeum.uim.impl.UimPanelImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimPanel()
 	 * @generated
 	 */
 	int UIM_PANEL = 9;
@@ -603,11 +603,11 @@ public interface UimPackage extends EPackage {
 	int UIM_PANEL_FEATURE_COUNT = LayoutPackage.LAYOUT_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opeum.uim.impl.ObjectSelectorTreeImpl <em>Object Selector Tree</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.impl.ObjectSelectorTreeImpl <em>Object Selector Tree</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opeum.uim.impl.ObjectSelectorTreeImpl
-	 * @see org.opeum.uim.impl.UimPackageImpl#getObjectSelectorTree()
+	 * @see org.opaeum.uim.impl.ObjectSelectorTreeImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getObjectSelectorTree()
 	 * @generated
 	 */
 	int OBJECT_SELECTOR_TREE = 10;
@@ -659,232 +659,232 @@ public interface UimPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimField <em>Field</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimField <em>Field</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Field</em>'.
-	 * @see org.opeum.uim.UimField
+	 * @see org.opaeum.uim.UimField
 	 * @generated
 	 */
 	EClass getUimField();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.UimField#getControl <em>Control</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.UimField#getControl <em>Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Control</em>'.
-	 * @see org.opeum.uim.UimField#getControl()
+	 * @see org.opaeum.uim.UimField#getControl()
 	 * @see #getUimField()
 	 * @generated
 	 */
 	EReference getUimField_Control();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.UimField#getControlKind <em>Control Kind</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimField#getControlKind <em>Control Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Control Kind</em>'.
-	 * @see org.opeum.uim.UimField#getControlKind()
+	 * @see org.opaeum.uim.UimField#getControlKind()
 	 * @see #getUimField()
 	 * @generated
 	 */
 	EAttribute getUimField_ControlKind();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.UimField#getLabelWidth <em>Label Width</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimField#getLabelWidth <em>Label Width</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Label Width</em>'.
-	 * @see org.opeum.uim.UimField#getLabelWidth()
+	 * @see org.opaeum.uim.UimField#getLabelWidth()
 	 * @see #getUimField()
 	 * @generated
 	 */
 	EAttribute getUimField_LabelWidth();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.UimField#getBinding <em>Binding</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.UimField#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Binding</em>'.
-	 * @see org.opeum.uim.UimField#getBinding()
+	 * @see org.opaeum.uim.UimField#getBinding()
 	 * @see #getUimField()
 	 * @generated
 	 */
 	EReference getUimField_Binding();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimComponent <em>Component</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Component</em>'.
-	 * @see org.opeum.uim.UimComponent
+	 * @see org.opaeum.uim.UimComponent
 	 * @generated
 	 */
 	EClass getUimComponent();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>User Interaction Element</em>'.
-	 * @see org.opeum.uim.UserInteractionElement
+	 * @see org.opaeum.uim.UserInteractionElement
 	 * @generated
 	 */
 	EClass getUserInteractionElement();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.UserInteractionElement#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UserInteractionElement#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.opeum.uim.UserInteractionElement#getName()
+	 * @see org.opaeum.uim.UserInteractionElement#getName()
 	 * @see #getUserInteractionElement()
 	 * @generated
 	 */
 	EAttribute getUserInteractionElement_Name();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimDataTable <em>Data Table</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimDataTable <em>Data Table</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Data Table</em>'.
-	 * @see org.opeum.uim.UimDataTable
+	 * @see org.opaeum.uim.UimDataTable
 	 * @generated
 	 */
 	EClass getUimDataTable();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opeum.uim.UimDataTable#getBinding <em>Binding</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.UimDataTable#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Binding</em>'.
-	 * @see org.opeum.uim.UimDataTable#getBinding()
+	 * @see org.opaeum.uim.UimDataTable#getBinding()
 	 * @see #getUimDataTable()
 	 * @generated
 	 */
 	EReference getUimDataTable_Binding();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimTabPanel <em>Tab Panel</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimTabPanel <em>Tab Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Tab Panel</em>'.
-	 * @see org.opeum.uim.UimTabPanel
+	 * @see org.opaeum.uim.UimTabPanel
 	 * @generated
 	 */
 	EClass getUimTabPanel();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opeum.uim.UimTabPanel#getChildren <em>Children</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.UimTabPanel#getChildren <em>Children</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Children</em>'.
-	 * @see org.opeum.uim.UimTabPanel#getChildren()
+	 * @see org.opaeum.uim.UimTabPanel#getChildren()
 	 * @see #getUimTabPanel()
 	 * @generated
 	 */
 	EReference getUimTabPanel_Children();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimTabPanel#getActiveTabIndex <em>Active Tab Index</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Active Tab Index</em>'.
-	 * @see org.opeum.uim.UimTabPanel#getActiveTabIndex()
+	 * @see org.opaeum.uim.UimTabPanel#getActiveTabIndex()
 	 * @see #getUimTabPanel()
 	 * @generated
 	 */
 	EAttribute getUimTabPanel_ActiveTabIndex();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimTab <em>Tab</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimTab <em>Tab</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Tab</em>'.
-	 * @see org.opeum.uim.UimTab
+	 * @see org.opaeum.uim.UimTab
 	 * @generated
 	 */
 	EClass getUimTab();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opeum.uim.UimTab#getParent <em>Parent</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.UimTab#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Parent</em>'.
-	 * @see org.opeum.uim.UimTab#getParent()
+	 * @see org.opaeum.uim.UimTab#getParent()
 	 * @see #getUimTab()
 	 * @generated
 	 */
 	EReference getUimTab_Parent();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimContainer <em>Container</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimContainer <em>Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Container</em>'.
-	 * @see org.opeum.uim.UimContainer
+	 * @see org.opaeum.uim.UimContainer
 	 * @generated
 	 */
 	EClass getUimContainer();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.MasterComponent <em>Master Component</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Master Component</em>'.
-	 * @see org.opeum.uim.MasterComponent
+	 * @see org.opaeum.uim.MasterComponent
 	 * @generated
 	 */
 	EClass getMasterComponent();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.opeum.uim.MasterComponent#getDetailPanels <em>Detail Panels</em>}'.
+	 * Returns the meta object for the reference list '{@link org.opaeum.uim.MasterComponent#getDetailPanels <em>Detail Panels</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Detail Panels</em>'.
-	 * @see org.opeum.uim.MasterComponent#getDetailPanels()
+	 * @see org.opaeum.uim.MasterComponent#getDetailPanels()
 	 * @see #getMasterComponent()
 	 * @generated
 	 */
 	EReference getMasterComponent_DetailPanels();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Uml Reference</em>'.
-	 * @see org.opeum.uim.UmlReference
+	 * @see org.opaeum.uim.UmlReference
 	 * @generated
 	 */
 	EClass getUmlReference();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Uml Element Uid</em>'.
-	 * @see org.opeum.uim.UmlReference#getUmlElementUid()
+	 * @see org.opaeum.uim.UmlReference#getUmlElementUid()
 	 * @see #getUmlReference()
 	 * @generated
 	 */
 	EAttribute getUmlReference_UmlElementUid();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.UimPanel <em>Panel</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimPanel <em>Panel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Panel</em>'.
-	 * @see org.opeum.uim.UimPanel
+	 * @see org.opaeum.uim.UimPanel
 	 * @generated
 	 */
 	EClass getUimPanel();
 
 	/**
-	 * Returns the meta object for class '{@link org.opeum.uim.ObjectSelectorTree <em>Object Selector Tree</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.ObjectSelectorTree <em>Object Selector Tree</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Object Selector Tree</em>'.
-	 * @see org.opeum.uim.ObjectSelectorTree
+	 * @see org.opaeum.uim.ObjectSelectorTree
 	 * @generated
 	 */
 	EClass getObjectSelectorTree();
@@ -912,11 +912,11 @@ public interface UimPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimFieldImpl <em>Field</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimFieldImpl <em>Field</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimFieldImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimField()
+		 * @see org.opaeum.uim.impl.UimFieldImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimField()
 		 * @generated
 		 */
 		EClass UIM_FIELD = eINSTANCE.getUimField();
@@ -954,21 +954,21 @@ public interface UimPackage extends EPackage {
 		EReference UIM_FIELD__BINDING = eINSTANCE.getUimField_Binding();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimComponentImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimComponent()
+		 * @see org.opaeum.uim.impl.UimComponentImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimComponent()
 		 * @generated
 		 */
 		EClass UIM_COMPONENT = eINSTANCE.getUimComponent();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UserInteractionElementImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUserInteractionElement()
+		 * @see org.opaeum.uim.impl.UserInteractionElementImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUserInteractionElement()
 		 * @generated
 		 */
 		EClass USER_INTERACTION_ELEMENT = eINSTANCE.getUserInteractionElement();
@@ -982,11 +982,11 @@ public interface UimPackage extends EPackage {
 		EAttribute USER_INTERACTION_ELEMENT__NAME = eINSTANCE.getUserInteractionElement_Name();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimDataTableImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimDataTable()
+		 * @see org.opaeum.uim.impl.UimDataTableImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimDataTable()
 		 * @generated
 		 */
 		EClass UIM_DATA_TABLE = eINSTANCE.getUimDataTable();
@@ -1000,11 +1000,11 @@ public interface UimPackage extends EPackage {
 		EReference UIM_DATA_TABLE__BINDING = eINSTANCE.getUimDataTable_Binding();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimTabPanelImpl <em>Tab Panel</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimTabPanelImpl <em>Tab Panel</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimTabPanelImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimTabPanel()
+		 * @see org.opaeum.uim.impl.UimTabPanelImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimTabPanel()
 		 * @generated
 		 */
 		EClass UIM_TAB_PANEL = eINSTANCE.getUimTabPanel();
@@ -1026,11 +1026,11 @@ public interface UimPackage extends EPackage {
 		EAttribute UIM_TAB_PANEL__ACTIVE_TAB_INDEX = eINSTANCE.getUimTabPanel_ActiveTabIndex();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimTabImpl <em>Tab</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimTabImpl <em>Tab</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimTabImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimTab()
+		 * @see org.opaeum.uim.impl.UimTabImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimTab()
 		 * @generated
 		 */
 		EClass UIM_TAB = eINSTANCE.getUimTab();
@@ -1044,21 +1044,21 @@ public interface UimPackage extends EPackage {
 		EReference UIM_TAB__PARENT = eINSTANCE.getUimTab_Parent();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimContainerImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimContainer()
+		 * @see org.opaeum.uim.impl.UimContainerImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimContainer()
 		 * @generated
 		 */
 		EClass UIM_CONTAINER = eINSTANCE.getUimContainer();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.MasterComponent <em>Master Component</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.MasterComponent
-		 * @see org.opeum.uim.impl.UimPackageImpl#getMasterComponent()
+		 * @see org.opaeum.uim.MasterComponent
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getMasterComponent()
 		 * @generated
 		 */
 		EClass MASTER_COMPONENT = eINSTANCE.getMasterComponent();
@@ -1072,11 +1072,11 @@ public interface UimPackage extends EPackage {
 		EReference MASTER_COMPONENT__DETAIL_PANELS = eINSTANCE.getMasterComponent_DetailPanels();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UmlReferenceImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUmlReference()
+		 * @see org.opaeum.uim.impl.UmlReferenceImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUmlReference()
 		 * @generated
 		 */
 		EClass UML_REFERENCE = eINSTANCE.getUmlReference();
@@ -1090,21 +1090,21 @@ public interface UimPackage extends EPackage {
 		EAttribute UML_REFERENCE__UML_ELEMENT_UID = eINSTANCE.getUmlReference_UmlElementUid();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.UimPanelImpl <em>Panel</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimPanelImpl <em>Panel</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.UimPanelImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getUimPanel()
+		 * @see org.opaeum.uim.impl.UimPanelImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimPanel()
 		 * @generated
 		 */
 		EClass UIM_PANEL = eINSTANCE.getUimPanel();
 
 		/**
-		 * The meta object literal for the '{@link org.opeum.uim.impl.ObjectSelectorTreeImpl <em>Object Selector Tree</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.ObjectSelectorTreeImpl <em>Object Selector Tree</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opeum.uim.impl.ObjectSelectorTreeImpl
-		 * @see org.opeum.uim.impl.UimPackageImpl#getObjectSelectorTree()
+		 * @see org.opaeum.uim.impl.ObjectSelectorTreeImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getObjectSelectorTree()
 		 * @generated
 		 */
 		EClass OBJECT_SELECTOR_TREE = eINSTANCE.getObjectSelectorTree();

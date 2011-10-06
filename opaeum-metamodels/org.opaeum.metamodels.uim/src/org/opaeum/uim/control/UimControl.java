@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package org.opeum.uim.control;
+package org.opaeum.uim.control;
 
 import org.eclipse.emf.ecore.EObject;
-import org.opeum.uim.UimField;
+import org.opaeum.uim.UimField;
 
 /**
  * <!-- begin-user-doc -->
@@ -17,12 +17,12 @@ import org.opeum.uim.UimField;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.control.UimControl#getWidth <em>Width</em>}</li>
- *   <li>{@link org.opeum.uim.control.UimControl#getField <em>Field</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.UimControl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.UimControl#getField <em>Field</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.control.ControlPackage#getUimControl()
+ * @see org.opaeum.uim.control.ControlPackage#getUimControl()
  * @model
  * @generated
  */
@@ -37,14 +37,14 @@ public interface UimControl extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Width</em>' attribute.
 	 * @see #setWidth(String)
-	 * @see org.opeum.uim.control.ControlPackage#getUimControl_Width()
+	 * @see org.opaeum.uim.control.ControlPackage#getUimControl_Width()
 	 * @model
 	 * @generated
 	 */
 	String getWidth();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.control.UimControl#getWidth <em>Width</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.control.UimControl#getWidth <em>Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Width</em>' attribute.
@@ -55,7 +55,7 @@ public interface UimControl extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Field</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opeum.uim.UimField#getControl <em>Control</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.UimField#getControl <em>Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Field</em>' container reference isn't clear,
@@ -64,15 +64,15 @@ public interface UimControl extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Field</em>' container reference.
 	 * @see #setField(UimField)
-	 * @see org.opeum.uim.control.ControlPackage#getUimControl_Field()
-	 * @see org.opeum.uim.UimField#getControl
+	 * @see org.opaeum.uim.control.ControlPackage#getUimControl_Field()
+	 * @see org.opaeum.uim.UimField#getControl
 	 * @model opposite="control" transient="false"
 	 * @generated
 	 */
 	UimField getField();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.control.UimControl#getField <em>Field</em>}' container reference.
+	 * Sets the value of the '{@link org.opaeum.uim.control.UimControl#getField <em>Field</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Field</em>' container reference.

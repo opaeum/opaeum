@@ -1,6 +1,6 @@
-package org.opeum.validation.composition;
+package org.opaeum.validation.composition;
 
-import org.opeum.metamodel.validation.IValidationRule;
+import org.opaeum.metamodel.validation.IValidationRule;
 
 public enum CompositionValidationRule implements IValidationRule {
 	PERSISTENT_CONTAINS_PERSISTENT(

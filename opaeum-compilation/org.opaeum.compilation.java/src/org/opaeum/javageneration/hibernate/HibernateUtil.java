@@ -1,17 +1,17 @@
-package org.opeum.javageneration.hibernate;
+package org.opaeum.javageneration.hibernate;
 
 import org.hibernate.annotations.CascadeType;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.SqlDialect;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.javageneration.persistence.JpaUtil;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.SqlDialect;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.persistence.JpaUtil;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class HibernateUtil{
 	public static void addAny(OJAnnotatedField field,NakedStructuralFeatureMap map){
@@ -40,7 +40,7 @@ public class HibernateUtil{
 		cascade.putAttribute(value);
 		field.addAnnotationIfNew(cascade);
 	}
-	public static void addManyToAny(INakedClassifier umlOwner,OJAnnotatedField field,NakedStructuralFeatureMap map,OpeumConfig config){
+	public static void addManyToAny(INakedClassifier umlOwner,OJAnnotatedField field,NakedStructuralFeatureMap map,OpaeumConfig config){
 		JpaUtil.addJoinTable(umlOwner, map, field, config);
 		OJAnnotationValue any = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.ManyToAny"));
 		OJAnnotationValue metaColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));

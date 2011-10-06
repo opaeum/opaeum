@@ -1,4 +1,4 @@
-package org.opeum.metamodel.visitor;
+package org.opaeum.metamodel.visitor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,15 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.visit.VisitSpec;
-import org.opeum.feature.visit.VisitorAdapter;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedNameSpace;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.visit.VisitSpec;
+import org.opaeum.feature.visit.VisitorAdapter;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
 public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace>{

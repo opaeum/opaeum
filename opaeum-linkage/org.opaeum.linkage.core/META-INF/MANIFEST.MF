@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opeum.linkage.core
-Bundle-SymbolicName: org.opeum.linkage.core;singleton:=true
+Bundle-Name: org.opaeum.linkage.core
+Bundle-SymbolicName: org.opaeum.linkage.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
  org.junit4,
- org.opeum.metamodels.opeum,
- org.opeum.metamodels.ocl,
- org.opeum.metamodels.emfworkspace,
- org.opeum.transformation.engine
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.metamodels.ocl,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.transformation.engine
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opeum.linkage,
- org.opeum.metamodel.visitor
+Export-Package: org.opaeum.linkage,
+ org.opaeum.metamodel.visitor
 

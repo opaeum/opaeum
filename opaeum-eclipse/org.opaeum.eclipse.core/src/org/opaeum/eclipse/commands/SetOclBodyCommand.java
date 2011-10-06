@@ -1,4 +1,4 @@
-package org.opeum.eclipse.commands;
+package org.opaeum.eclipse.commands;
 
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;

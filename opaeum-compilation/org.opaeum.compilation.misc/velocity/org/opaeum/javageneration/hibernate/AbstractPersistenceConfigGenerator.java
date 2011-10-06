@@ -1,41 +1,41 @@
-package org.opeum.javageneration.hibernate;
+package org.opaeum.javageneration.hibernate;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.javageneration.IntegrationCodeGenerator;
-import org.opeum.javageneration.JavaTransformationStep;
-import org.opeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
-import org.opeum.javageneration.jbpm5.Jbpm5JavaStep;
-import org.opeum.javageneration.jbpm5.Jbpm5Util;
-import org.opeum.javageneration.util.OJUtil;
-import org.opeum.metamodel.bpm.INakedEmbeddedTask;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedComplexStructure;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedElementOwner;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.textmetamodel.TextSourceFolderIdentifier;
-import org.opeum.textmetamodel.TextWorkspace;
-import org.opeum.util.SortedProperties;
-import org.opeum.velocity.AbstractTextProducingVisitor;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.IntegrationCodeGenerator;
+import org.opaeum.javageneration.JavaTransformationStep;
+import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
+import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
+import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.util.SortedProperties;
+import org.opaeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,IntegrationCodeGenerator{
 	public AbstractPersistenceConfigGenerator(){
 		super();
 	}
 	@Override
-	public void initialize(OJPackage pac,OpeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJPackage pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		this.initialize(config, textWorkspace, workspace);
 	}
 	@SuppressWarnings("unchecked")
@@ -78,13 +78,13 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
 			properties.setProperty(Environment.DBMS, "POSTGRESQL");
 			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
-			properties.setProperty("opeum.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
+			properties.setProperty("opaeum.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
 		}else{
 			properties.setProperty(Environment.DBMS, "HSQL");
 			properties.setProperty(Environment.JBPM_KNOWLEDGE_BASE_IMPLEMENTATION, Jbpm5Util.jbpmKnowledgeBase(owner).toJavaString());
 			properties.setProperty(Environment.PERSISTENT_NAME_CLASS_MAP, JavaMetaInfoMapGenerator.javaMetaInfoMapPath(owner).toJavaString());
 			// properties.setProperty(Environment.JDBC_CONNECTION_URL, "jdbc:hsqldb:mem:"+owner.getName()+"DB");
-			properties.setProperty("opeum.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
+			properties.setProperty("opaeum.jdbc.connection.url", "jdbc:hsqldb:mem:" + owner.getName() + "DB");
 		}
 		properties.setProperty(Environment.DB_USER, config.getDbUser());
 		properties.setProperty(Environment.ENVIRONMENT_IMPLEMENTATION, isAdaptorEnvironment ? getAdaptorEnvironmentImplementation()

@@ -1,11 +1,11 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opeum.metamodel.actions.INakedSendSignalAction;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 
 public class NakedSendSignalActionImpl extends NakedInvocationActionImpl implements INakedSendSignalAction{
 	private static final long serialVersionUID = 3809690763786259025L;

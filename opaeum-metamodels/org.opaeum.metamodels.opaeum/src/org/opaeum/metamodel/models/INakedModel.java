@@ -1,6 +1,6 @@
-package org.opeum.metamodel.models;
+package org.opaeum.metamodel.models;
 
-import org.opeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.INakedRootObject;
 
 public interface INakedModel extends INakedRootObject {
 	void setViewpoint(String s);

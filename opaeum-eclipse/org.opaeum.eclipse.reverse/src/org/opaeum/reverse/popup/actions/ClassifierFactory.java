@@ -1,4 +1,4 @@
-package org.opeum.reverse.popup.actions;
+package org.opaeum.reverse.popup.actions;
 
 import java.beans.IntrospectionException;
 import java.lang.annotation.Target;
@@ -199,7 +199,7 @@ public class ClassifierFactory{
 		org.eclipse.uml2.uml.Class umlClass = (Class) createType(returnType, UMLPackage.eINSTANCE.getClass_());
 		ITypeBinding[] interfaces = returnType.getInterfaces();
 		for(ITypeBinding intfce:interfaces){
-			if(!intfce.getQualifiedName().startsWith("net.sf.opeum")){
+			if(!intfce.getQualifiedName().startsWith("net.sf.opaeum")){
 				umlClass.createInterfaceRealization(intfce.getName(), (Interface) getClassifierFor(intfce));
 			}
 		}
@@ -209,11 +209,11 @@ public class ClassifierFactory{
 		Interface umlInterface = (Interface) createType(returnType, UMLPackage.eINSTANCE.getInterface());
 		ITypeBinding[] interfaces = returnType.getInterfaces();
 		for(ITypeBinding intfce:interfaces){
-			if(!intfce.getQualifiedName().startsWith("net.sf.opeum")){
+			if(!intfce.getQualifiedName().startsWith("net.sf.opaeum")){
 				umlInterface.createGeneralization(getClassifierFor(intfce));
 			}
 		}
-		IAnnotationBinding ann = Annotations.getAnnotationAttribute("net.sf.opeum.annotation.HelperInterface", returnType.getAnnotations());
+		IAnnotationBinding ann = Annotations.getAnnotationAttribute("net.sf.opaeum.annotation.HelperInterface", returnType.getAnnotations());
 		if(ann != null){
 			umlInterface.applyStereotype(helperStereotype);
 			umlInterface.setValue(helperStereotype, "name", Annotations.getAnnotationAttribute(ann, "name").getValue());

@@ -1,4 +1,4 @@
-package org.opeum.java.metamodel.annotation;
+package org.opaeum.java.metamodel.annotation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJConstructor;
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.OJField;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJPackage;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.utilities.JavaStringHelpers;
-import org.opeum.java.metamodel.utilities.JavaUtil;
-import org.opeum.java.metamodel.utilities.OJOperationComparator;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJField;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.utilities.OJOperationComparator;
 
 public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();

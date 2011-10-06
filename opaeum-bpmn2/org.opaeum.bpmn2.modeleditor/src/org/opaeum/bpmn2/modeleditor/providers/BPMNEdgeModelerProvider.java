@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor.providers;
+package org.opaeum.bpmn2.modeleditor.providers;
 
 import org.eclipse.dd.di.DiPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;

@@ -4,17 +4,17 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UmlReference;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.NavigationToOperation;
-import org.opeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.form.OperationInvocationForm;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,8 +23,8 @@ import org.opeum.uim.form.OperationInvocationForm;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.action.impl.NavigationToOperationImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.opeum.uim.action.impl.NavigationToOperationImpl#getToForm <em>To Form</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.NavigationToOperationImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.NavigationToOperationImpl#getToForm <em>To Form</em>}</li>
  * </ul>
  * </p>
  *

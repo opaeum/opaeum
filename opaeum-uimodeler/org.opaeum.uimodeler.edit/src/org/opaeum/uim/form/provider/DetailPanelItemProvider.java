@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.provider;
+package org.opaeum.uim.form.provider;
 
 
 import java.util.Collection;
@@ -19,11 +19,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.form.DetailPanel;
-import org.opeum.uim.form.FormPackage;
+import org.opaeum.uim.form.DetailPanel;
+import org.opaeum.uim.form.FormPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.form.DetailPanel} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.form.DetailPanel} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

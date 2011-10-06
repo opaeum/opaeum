@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UmlReference;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UmlReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +20,7 @@ import org.opeum.uim.UmlReference;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UmlReferenceImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UmlReferenceImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
  * </ul>
  * </p>
  *

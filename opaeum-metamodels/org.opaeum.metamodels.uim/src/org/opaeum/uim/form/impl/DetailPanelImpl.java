@@ -4,17 +4,17 @@
  *
  * $Id$
  */
-package org.opeum.uim.form.impl;
+package org.opaeum.uim.form.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.MasterComponent;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.form.DetailPanel;
-import org.opeum.uim.form.FormPackage;
+import org.opaeum.uim.MasterComponent;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.form.DetailPanel;
+import org.opaeum.uim.form.FormPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +23,7 @@ import org.opeum.uim.form.FormPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.form.impl.DetailPanelImpl#getMasterComponent <em>Master Component</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.impl.DetailPanelImpl#getMasterComponent <em>Master Component</em>}</li>
  * </ul>
  * </p>
  *

@@ -1,6 +1,6 @@
 /** (c) Copyright 2003 by Klasse Objecten
  */
-package org.opeum.java.metamodel.utilities;
+package org.opaeum.java.metamodel.utilities;
 
 import java.util.StringTokenizer;
 

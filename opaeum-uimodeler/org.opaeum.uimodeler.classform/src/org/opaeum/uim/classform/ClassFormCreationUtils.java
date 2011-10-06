@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
@@ -11,14 +11,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.opeum.uim.action.util.ActionSwitch;
-import org.opeum.uim.binding.util.BindingSwitch;
-import org.opeum.uim.control.util.ControlSwitch;
-import org.opeum.uim.folder.util.FolderSwitch;
-import org.opeum.uim.form.util.FormSwitch;
-import org.opeum.uim.layout.util.LayoutSwitch;
-import org.opeum.uim.security.util.SecuritySwitch;
-import org.opeum.uim.util.UimSwitch;
+import org.opaeum.uim.action.util.ActionSwitch;
+import org.opaeum.uim.binding.util.BindingSwitch;
+import org.opaeum.uim.control.util.ControlSwitch;
+import org.opaeum.uim.folder.util.FolderSwitch;
+import org.opaeum.uim.form.util.FormSwitch;
+import org.opaeum.uim.layout.util.LayoutSwitch;
+import org.opaeum.uim.security.util.SecuritySwitch;
+import org.opaeum.uim.util.UimSwitch;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.topcased.modeler.di.model.GraphElement;
@@ -60,57 +60,57 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimField(org.opeum.uim.UimField)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimField(org.opaeum.uim.UimField)
 		 * @generated
 		 */
-		public Object caseUimField(org.opeum.uim.UimField object){
+		public Object caseUimField(org.opaeum.uim.UimField object){
 			if("default".equals(presentation)){
 				return createGraphElementUimField(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimPanel(org.opeum.uim.UimPanel)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimPanel(org.opaeum.uim.UimPanel)
 		 * @generated
 		 */
-		public Object caseUimPanel(org.opeum.uim.UimPanel object){
+		public Object caseUimPanel(org.opaeum.uim.UimPanel object){
 			if("default".equals(presentation)){
 				return createGraphElementUimPanel(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimTabPanel(org.opeum.uim.UimTabPanel)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimTabPanel(org.opaeum.uim.UimTabPanel)
 		 * @generated
 		 */
-		public Object caseUimTabPanel(org.opeum.uim.UimTabPanel object){
+		public Object caseUimTabPanel(org.opaeum.uim.UimTabPanel object){
 			if("default".equals(presentation)){
 				return createGraphElementUimTabPanel(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimTab(org.opeum.uim.UimTab)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimTab(org.opaeum.uim.UimTab)
 		 * @generated
 		 */
-		public Object caseUimTab(org.opeum.uim.UimTab object){
+		public Object caseUimTab(org.opaeum.uim.UimTab object){
 			if("default".equals(presentation)){
 				return createGraphElementUimTab(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimDataTable(org.opeum.uim.UimDataTable)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimDataTable(org.opaeum.uim.UimDataTable)
 		 * @generated
 		 */
-		public Object caseUimDataTable(org.opeum.uim.UimDataTable object){
+		public Object caseUimDataTable(org.opaeum.uim.UimDataTable object){
 			if("default".equals(presentation)){
 				return createGraphElementUimDataTable(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -137,67 +137,67 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimXYLayout(org.opeum.uim.layout.UimXYLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimXYLayout(org.opaeum.uim.layout.UimXYLayout)
 		 * @generated
 		 */
-		public Object caseUimXYLayout(org.opeum.uim.layout.UimXYLayout object){
+		public Object caseUimXYLayout(org.opaeum.uim.layout.UimXYLayout object){
 			if("default".equals(presentation)){
 				return createGraphElementUimXYLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimGridLayout(org.opeum.uim.layout.UimGridLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimGridLayout(org.opaeum.uim.layout.UimGridLayout)
 		 * @generated
 		 */
-		public Object caseUimGridLayout(org.opeum.uim.layout.UimGridLayout object){
+		public Object caseUimGridLayout(org.opaeum.uim.layout.UimGridLayout object){
 			if("default".equals(presentation)){
 				return createGraphElementUimGridLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimToolbarLayout(org.opeum.uim.layout.UimToolbarLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimToolbarLayout(org.opaeum.uim.layout.UimToolbarLayout)
 		 * @generated
 		 */
-		public Object caseUimToolbarLayout(org.opeum.uim.layout.UimToolbarLayout object){
+		public Object caseUimToolbarLayout(org.opaeum.uim.layout.UimToolbarLayout object){
 			if("default".equals(presentation)){
 				return createGraphElementUimToolbarLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimBorderLayout(org.opeum.uim.layout.UimBorderLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimBorderLayout(org.opaeum.uim.layout.UimBorderLayout)
 		 * @generated
 		 */
-		public Object caseUimBorderLayout(org.opeum.uim.layout.UimBorderLayout object){
+		public Object caseUimBorderLayout(org.opaeum.uim.layout.UimBorderLayout object){
 			if("default".equals(presentation)){
 				return createGraphElementUimBorderLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimFullLayout(org.opeum.uim.layout.UimFullLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimFullLayout(org.opaeum.uim.layout.UimFullLayout)
 		 * @generated
 		 */
-		public Object caseUimFullLayout(org.opeum.uim.layout.UimFullLayout object){
+		public Object caseUimFullLayout(org.opaeum.uim.layout.UimFullLayout object){
 			if("default".equals(presentation)){
 				return createGraphElementUimFullLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimColumnLayout(org.opeum.uim.layout.UimColumnLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimColumnLayout(org.opaeum.uim.layout.UimColumnLayout)
 		 * @generated
 		 */
-		public Object caseUimColumnLayout(org.opeum.uim.layout.UimColumnLayout object){
+		public Object caseUimColumnLayout(org.opaeum.uim.layout.UimColumnLayout object){
 			if("default".equals(presentation)){
 				return createGraphElementUimColumnLayout(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -224,7 +224,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.control.util.ControlSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.control.util.ControlSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -252,7 +252,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.folder.util.FolderSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.folder.util.FolderSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -279,27 +279,27 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#caseFormPanel(org.opeum.uim.form.FormPanel)
+		 * @see org.opaeum.uim.form.util.FormSwitch#caseFormPanel(org.opaeum.uim.form.FormPanel)
 		 * @generated
 		 */
-		public Object caseFormPanel(org.opeum.uim.form.FormPanel object){
+		public Object caseFormPanel(org.opaeum.uim.form.FormPanel object){
 			if("default".equals(presentation)){
 				return createGraphElementFormPanel(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#caseDetailPanel(org.opeum.uim.form.DetailPanel)
+		 * @see org.opaeum.uim.form.util.FormSwitch#caseDetailPanel(org.opaeum.uim.form.DetailPanel)
 		 * @generated
 		 */
-		public Object caseDetailPanel(org.opeum.uim.form.DetailPanel object){
+		public Object caseDetailPanel(org.opaeum.uim.form.DetailPanel object){
 			if("default".equals(presentation)){
 				return createGraphElementDetailPanel(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.form.util.FormSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -327,7 +327,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.binding.util.BindingSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.binding.util.BindingSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -355,7 +355,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.security.util.SecuritySwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.security.util.SecuritySwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -382,57 +382,57 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 			this.presentation = presentation;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseNavigationToEntity(org.opeum.uim.action.NavigationToEntity)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseNavigationToEntity(org.opaeum.uim.action.NavigationToEntity)
 		 * @generated
 		 */
-		public Object caseNavigationToEntity(org.opeum.uim.action.NavigationToEntity object){
+		public Object caseNavigationToEntity(org.opaeum.uim.action.NavigationToEntity object){
 			if("default".equals(presentation)){
 				return createGraphElementNavigationToEntity(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseNavigationToOperation(org.opeum.uim.action.NavigationToOperation)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseNavigationToOperation(org.opaeum.uim.action.NavigationToOperation)
 		 * @generated
 		 */
-		public Object caseNavigationToOperation(org.opeum.uim.action.NavigationToOperation object){
+		public Object caseNavigationToOperation(org.opaeum.uim.action.NavigationToOperation object){
 			if("default".equals(presentation)){
 				return createGraphElementNavigationToOperation(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseOperationAction(org.opeum.uim.action.OperationAction)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseOperationAction(org.opaeum.uim.action.OperationAction)
 		 * @generated
 		 */
-		public Object caseOperationAction(org.opeum.uim.action.OperationAction object){
+		public Object caseOperationAction(org.opaeum.uim.action.OperationAction object){
 			if("default".equals(presentation)){
 				return createGraphElementOperationAction(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseBuiltInAction(org.opeum.uim.action.BuiltInAction)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseBuiltInAction(org.opaeum.uim.action.BuiltInAction)
 		 * @generated
 		 */
-		public Object caseBuiltInAction(org.opeum.uim.action.BuiltInAction object){
+		public Object caseBuiltInAction(org.opaeum.uim.action.BuiltInAction object){
 			if("default".equals(presentation)){
 				return createGraphElementBuiltInAction(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseTransitionAction(org.opeum.uim.action.TransitionAction)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseTransitionAction(org.opaeum.uim.action.TransitionAction)
 		 * @generated
 		 */
-		public Object caseTransitionAction(org.opeum.uim.action.TransitionAction object){
+		public Object caseTransitionAction(org.opaeum.uim.action.TransitionAction object){
 			if("default".equals(presentation)){
 				return createGraphElementTransitionAction(object, presentation);
 			}
 			return null;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -445,28 +445,28 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 */
 	public GraphElement createGraphElement(EObject obj,String presentation){
 		Object graphElt = null;
-		if("http://opeum.org/uimetamodel/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicUimSwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/layout/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/layout/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicLayoutSwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/control/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/control/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicControlSwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/folder/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/folder/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicFolderSwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/form/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/form/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicFormSwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/binding/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/binding/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicBindingSwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/security/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/security/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicSecuritySwitch(presentation).doSwitch(obj);
 		}
-		if("http://opeum.org/uimetamodel/action/1.0".equals(obj.eClass().getEPackage().getNsURI())){
+		if("http://opaeum.org/uimetamodel/action/1.0".equals(obj.eClass().getEPackage().getNsURI())){
 			graphElt = new GraphicActionSwitch(presentation).doSwitch(obj);
 		}
 		return (GraphElement) graphElt;
@@ -477,7 +477,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimField(org.opeum.uim.UimField element,String presentation){
+	protected GraphElement createGraphElementUimField(org.opaeum.uim.UimField element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -486,7 +486,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementNavigationToEntity(org.opeum.uim.action.NavigationToEntity element,String presentation){
+	protected GraphElement createGraphElementNavigationToEntity(org.opaeum.uim.action.NavigationToEntity element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -495,7 +495,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementNavigationToOperation(org.opeum.uim.action.NavigationToOperation element,String presentation){
+	protected GraphElement createGraphElementNavigationToOperation(org.opaeum.uim.action.NavigationToOperation element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -504,7 +504,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementOperationAction(org.opeum.uim.action.OperationAction element,String presentation){
+	protected GraphElement createGraphElementOperationAction(org.opaeum.uim.action.OperationAction element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -513,7 +513,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementBuiltInAction(org.opeum.uim.action.BuiltInAction element,String presentation){
+	protected GraphElement createGraphElementBuiltInAction(org.opaeum.uim.action.BuiltInAction element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -522,7 +522,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementTransitionAction(org.opeum.uim.action.TransitionAction element,String presentation){
+	protected GraphElement createGraphElementTransitionAction(org.opaeum.uim.action.TransitionAction element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -531,7 +531,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementFormPanel(org.opeum.uim.form.FormPanel element,String presentation){
+	protected GraphElement createGraphElementFormPanel(org.opaeum.uim.form.FormPanel element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -540,7 +540,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimPanel(org.opeum.uim.UimPanel element,String presentation){
+	protected GraphElement createGraphElementUimPanel(org.opaeum.uim.UimPanel element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -549,7 +549,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimTabPanel(org.opeum.uim.UimTabPanel element,String presentation){
+	protected GraphElement createGraphElementUimTabPanel(org.opaeum.uim.UimTabPanel element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -558,7 +558,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimTab(org.opeum.uim.UimTab element,String presentation){
+	protected GraphElement createGraphElementUimTab(org.opaeum.uim.UimTab element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -567,7 +567,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimDataTable(org.opeum.uim.UimDataTable element,String presentation){
+	protected GraphElement createGraphElementUimDataTable(org.opaeum.uim.UimDataTable element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -576,7 +576,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementDetailPanel(org.opeum.uim.form.DetailPanel element,String presentation){
+	protected GraphElement createGraphElementDetailPanel(org.opaeum.uim.form.DetailPanel element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -585,7 +585,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimXYLayout(org.opeum.uim.layout.UimXYLayout element,String presentation){
+	protected GraphElement createGraphElementUimXYLayout(org.opaeum.uim.layout.UimXYLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -594,7 +594,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimGridLayout(org.opeum.uim.layout.UimGridLayout element,String presentation){
+	protected GraphElement createGraphElementUimGridLayout(org.opaeum.uim.layout.UimGridLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -603,7 +603,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimToolbarLayout(org.opeum.uim.layout.UimToolbarLayout element,String presentation){
+	protected GraphElement createGraphElementUimToolbarLayout(org.opaeum.uim.layout.UimToolbarLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -612,7 +612,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimBorderLayout(org.opeum.uim.layout.UimBorderLayout element,String presentation){
+	protected GraphElement createGraphElementUimBorderLayout(org.opaeum.uim.layout.UimBorderLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -621,7 +621,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimFullLayout(org.opeum.uim.layout.UimFullLayout element,String presentation){
+	protected GraphElement createGraphElementUimFullLayout(org.opaeum.uim.layout.UimFullLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**
@@ -630,7 +630,7 @@ public class ClassFormCreationUtils extends AbstractCreationUtils{
 	 * @return the complete GraphElement
 	 * @generated
 	 */
-	protected GraphElement createGraphElementUimColumnLayout(org.opeum.uim.layout.UimColumnLayout element,String presentation){
+	protected GraphElement createGraphElementUimColumnLayout(org.opaeum.uim.layout.UimColumnLayout element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**

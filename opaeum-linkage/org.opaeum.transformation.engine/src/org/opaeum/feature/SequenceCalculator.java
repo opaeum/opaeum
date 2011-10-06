@@ -1,4 +1,4 @@
-package org.opeum.feature;
+package org.opaeum.feature;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,8 +1,8 @@
-package org.opeum.metamodel.components.internal;
+package org.opaeum.metamodel.components.internal;
 
-import org.opeum.metamodel.components.INakedConnectorEnd;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedMultiplicityElement;
+import org.opaeum.metamodel.components.INakedConnectorEnd;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 
 public class NakedConnectorEndImpl extends NakedMultiplicityElement implements INakedConnectorEnd{
 	/**

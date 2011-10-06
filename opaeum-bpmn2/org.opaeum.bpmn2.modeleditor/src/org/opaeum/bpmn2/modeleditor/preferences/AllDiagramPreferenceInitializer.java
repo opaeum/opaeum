@@ -1,11 +1,11 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.modeleditor.preferences;
+package org.opaeum.bpmn2.modeleditor.preferences;
 
 import org.eclipse.core.runtime.Preferences;
-import org.opeum.bpmn2.modeleditor.Bpmn2Plugin;
-import org.opeum.bpmn2.modeleditor.editor.Bpmn2Editor;
+import org.opaeum.bpmn2.modeleditor.Bpmn2Plugin;
+import org.opaeum.bpmn2.modeleditor.editor.Bpmn2Editor;
 import org.topcased.modeler.preferences.AbstractTopcasedPreferenceInitializer;
 
 /**

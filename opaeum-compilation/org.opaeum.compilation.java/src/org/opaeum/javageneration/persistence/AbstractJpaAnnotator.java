@@ -1,20 +1,20 @@
-package org.opeum.javageneration.persistence;
+package org.opaeum.javageneration.persistence;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedField;
-import org.opeum.java.metamodel.annotation.OJAnnotationAttributeValue;
-import org.opeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opeum.java.metamodel.annotation.OJEnumValue;
-import org.opeum.javageneration.basicjava.AbstractStructureVisitor;
-import org.opeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedEnumeration;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.core.INakedStructuredDataType;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
+import org.opaeum.java.metamodel.annotation.OJEnumValue;
+import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEnumeration;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 
@@ -30,8 +30,8 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 	}
 
 	protected final void mapXToOneSimpleType(INakedProperty f, OJAnnotatedClass owner, OJAnnotatedField field) {
-		if (this.workspace.getOpeumLibrary().getDateType() != null
-				&& f.getNakedBaseType().conformsTo(this.workspace.getOpeumLibrary().getDateType())) {
+		if (this.workspace.getOpaeumLibrary().getDateType() != null
+				&& f.getNakedBaseType().conformsTo(this.workspace.getOpaeumLibrary().getDateType())) {
 			OJAnnotationValue temporal = new OJAnnotationValue(new OJPathName("javax.persistence.Temporal"));
 			temporal.addEnumValue(new OJEnumValue(new OJPathName("javax.persistence.TemporalType"), "DATE"));
 			field.addAnnotationIfNew(temporal);

@@ -1,4 +1,4 @@
-package org.opeum.jbpm.test;
+package org.opaeum.jbpm.test;
 
 import jbpm.jbpm.Application;
 import jbpm.jbpm.Customer;
@@ -9,8 +9,8 @@ import jbpm.jbpm.dispatch.SimpleAsyncShipping;
 import jbpm.jbpm.dispatch.SimpleAsyncShippingState;
 
 import org.junit.Test;
-import org.opeum.environment.Environment;
-import org.opeum.environment.ISignalDispatcher;
+import org.opaeum.environment.Environment;
+import org.opaeum.environment.ISignalDispatcher;
 
 public class SimpleAsyncDebug {
 	

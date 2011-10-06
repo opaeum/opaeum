@@ -10,7 +10,7 @@ import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.tools.common.Check;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJPathName;
 
 /** NavToAssocClassMap : This class holds all the information on how a UML association end
  *  that is part of an association class is transformed.

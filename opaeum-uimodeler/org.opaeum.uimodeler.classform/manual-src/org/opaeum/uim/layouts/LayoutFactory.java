@@ -1,4 +1,4 @@
-package org.opeum.uim.layouts;
+package org.opaeum.uim.layouts;
 
 import org.eclipse.draw2d.GridLayout;
 

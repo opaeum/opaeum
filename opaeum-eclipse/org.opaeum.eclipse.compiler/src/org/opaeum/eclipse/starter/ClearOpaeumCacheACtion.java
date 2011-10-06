@@ -1,23 +1,23 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.opeum.eclipse.OpeumEclipsePlugin;
-import org.opeum.eclipse.context.OpeumEclipseContext;
-import org.opeum.eclipse.javasync.JavaTransformationProcessManager;
-import org.opeum.feature.TransformationProcess;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
+import org.opaeum.feature.TransformationProcess;
 
-public class ClearOpiumCacheACtion extends AbstractOpiumAction{
-	public ClearOpiumCacheACtion(IStructuredSelection selection){
-		super(selection, "Clear Opium Cache");
+public class ClearOpaeumCacheACtion extends AbstractOpaeumAction{
+	public ClearOpaeumCacheACtion(IStructuredSelection selection){
+		super(selection, "Clear Opaeum Cache");
 	}
 	public void run(){
 		// Load classes
-		OpeumEclipsePlugin.getDefault();
+		OpaeumEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();
-		OpeumEclipseContext ne = OpeumEclipseContext.findOrCreateContextFor(umlDir);
+		OpaeumEclipseContext ne = OpaeumEclipseContext.findOrCreateContextFor(umlDir);
 		ne.reinitialize();
 		
 		TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);

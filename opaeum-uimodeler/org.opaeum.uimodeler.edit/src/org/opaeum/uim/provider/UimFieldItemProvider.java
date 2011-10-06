@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.provider;
+package org.opaeum.uim.provider;
 
 
 import java.util.Collection;
@@ -23,15 +23,15 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.opeum.uim.UimField;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.binding.BindingFactory;
-import org.opeum.uim.control.ControlFactory;
-import org.opeum.uim.security.SecurityPackage;
-import org.opeum.uim.security.provider.EditableSecureObjectItemProvider;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.binding.BindingFactory;
+import org.opaeum.uim.control.ControlFactory;
+import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.security.provider.EditableSecureObjectItemProvider;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.UimField} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.UimField} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

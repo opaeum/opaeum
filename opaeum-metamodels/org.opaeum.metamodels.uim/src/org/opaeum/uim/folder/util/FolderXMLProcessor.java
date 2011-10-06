@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.util;
+package org.opaeum.uim.folder.util;
 
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
-import org.opeum.uim.folder.FolderPackage;
+import org.opaeum.uim.folder.FolderPackage;
 
 /**
  * This class contains helper methods to serialize and deserialize XML documents

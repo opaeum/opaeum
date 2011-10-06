@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.presentation;
+package org.opaeum.uim.presentation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -160,7 +160,7 @@ public class UimActionBarContributor extends EditingDomainActionBarContributor i
 	@Override
 	public void contributeToMenu(IMenuManager menuManager){
 		super.contributeToMenu(menuManager);
-		IMenuManager submenuManager = new MenuManager(UimEditorPlugin.INSTANCE.getString("_UI_UimEditor_menu"), "org.opeum.uimMenuID");
+		IMenuManager submenuManager = new MenuManager(UimEditorPlugin.INSTANCE.getString("_UI_UimEditor_menu"), "org.opaeum.uimMenuID");
 		menuManager.insertAfter("additions", submenuManager);
 		submenuManager.add(new Separator("settings"));
 		submenuManager.add(new Separator("actions"));

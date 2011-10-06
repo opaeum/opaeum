@@ -1,4 +1,4 @@
-package org.opeum.topcased.statemachinediagram;
+package org.opaeum.topcased.statemachinediagram;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EReference;
@@ -10,8 +10,8 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opeum.topcased.propertysections.AbstractOpaqueExpressionSection;
-import org.opeum.topcased.propertysections.ocl.OclBodyComposite;
+import org.opaeum.topcased.propertysections.AbstractOpaqueExpressionSection;
+import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class TransitionGuardSection extends AbstractOpaqueExpressionSection{
 	@Override

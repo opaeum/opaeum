@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.presentation;
+package org.opaeum.uim.layout.presentation;
 
 
 import java.util.ArrayList;
@@ -59,10 +59,10 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
-import org.opeum.uim.layout.LayoutFactory;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.presentation.UimEditorPlugin;
-import org.opeum.uim.provider.UimEditPlugin;
+import org.opaeum.uim.layout.LayoutFactory;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.presentation.UimEditorPlugin;
+import org.opaeum.uim.provider.UimEditPlugin;
 
 
 /**

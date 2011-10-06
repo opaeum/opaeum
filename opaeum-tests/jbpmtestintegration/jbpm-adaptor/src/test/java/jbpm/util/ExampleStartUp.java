@@ -10,8 +10,8 @@ import jbpm.jbpm.ApplicationDataGenerator;
 import org.hibernate.Session;
 import org.jboss.seam.transaction.DefaultTransaction;
 import org.jboss.seam.transaction.SeamTransaction;
-import org.opeum.runtime.adaptor.DataGeneratorProperty;
-import org.opeum.seam3.persistence.DependentScopedSession;
+import org.opaeum.runtime.adaptor.DataGeneratorProperty;
+import org.opaeum.seam3.persistence.DependentScopedSession;
 
 public class ExampleStartUp {
 	@DependentScopedSession

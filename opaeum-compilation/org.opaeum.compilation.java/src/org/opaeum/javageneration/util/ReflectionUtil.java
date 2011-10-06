@@ -1,4 +1,4 @@
-package org.opeum.javageneration.util;
+package org.opaeum.javageneration.util;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
@@ -11,11 +11,11 @@ import java.util.Map;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedInterface;
-import org.opeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opeum.javageneration.JavaTransformationPhase;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.javageneration.JavaTransformationPhase;
 
 public class ReflectionUtil {
 	static boolean runtimeAvailable = true;
@@ -121,7 +121,7 @@ public class ReflectionUtil {
 		UtilityCreator.getUtilPack().addToClasses(ojinterface);
 		addOperationsFromJava(clazz, ojinterface, null, mappedTypes);
 		for (Class<?> intf : clazz.getInterfaces()) {
-			if (intf.getName().startsWith("org.opeum")) {
+			if (intf.getName().startsWith("org.opaeum")) {
 				OJAnnotatedInterface superInterface = duplicateInterface(intf);
 				UtilityCreator.getUtilPack().addToClasses(superInterface);
 				ojinterface.addToSuperInterfaces(superInterface.getPathName());

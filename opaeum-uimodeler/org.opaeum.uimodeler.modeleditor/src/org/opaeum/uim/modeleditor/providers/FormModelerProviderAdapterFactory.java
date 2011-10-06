@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.uim.modeleditor.providers;
+package org.opaeum.uim.modeleditor.providers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.opeum.uim.form.util.FormAdapterFactory;
+import org.opaeum.uim.form.util.FormAdapterFactory;
 import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
@@ -43,49 +43,49 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 	 */
 	private Collection supportedTypes = new ArrayList();
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.FormPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.FormPanel} instances.
 	 * 
 	 * @generated
 	 */
 	private FormPanelModelerProvider formpanelModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.ActionTaskForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.ActionTaskForm} instances.
 	 * 
 	 * @generated
 	 */
 	private ActionTaskFormModelerProvider actiontaskformModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.StateForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.StateForm} instances.
 	 * 
 	 * @generated
 	 */
 	private StateFormModelerProvider stateformModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.ClassForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.ClassForm} instances.
 	 * 
 	 * @generated
 	 */
 	private ClassFormModelerProvider classformModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.UimForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.UimForm} instances.
 	 * 
 	 * @generated
 	 */
 	private UimFormModelerProvider uimformModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.OperationTaskForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.OperationTaskForm} instances.
 	 * 
 	 * @generated
 	 */
 	private OperationTaskFormModelerProvider operationtaskformModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.OperationInvocationForm} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.OperationInvocationForm} instances.
 	 * 
 	 * @generated
 	 */
 	private OperationInvocationFormModelerProvider operationinvocationformModelerProvider;
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.form.DetailPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.form.DetailPanel} instances.
 	 * 
 	 * @generated
 	 */
@@ -183,7 +183,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		}
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.FormPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.FormPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -195,7 +195,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return formpanelModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.ActionTaskForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.ActionTaskForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -207,7 +207,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return actiontaskformModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.StateForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.StateForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -219,7 +219,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return stateformModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.ClassForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.ClassForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -231,7 +231,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return classformModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.UimForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.UimForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -243,7 +243,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return uimformModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.OperationTaskForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.OperationTaskForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -255,7 +255,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return operationtaskformModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.OperationInvocationForm}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.OperationInvocationForm}.
 	 *
 	 * @return the Adapter
 	 * @generated
@@ -267,7 +267,7 @@ public class FormModelerProviderAdapterFactory extends FormAdapterFactory implem
 		return operationinvocationformModelerProvider;
 	}
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.form.DetailPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.form.DetailPanel}.
 	 *
 	 * @return the Adapter
 	 * @generated

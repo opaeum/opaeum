@@ -1,7 +1,7 @@
 package org.tinker;
 
 import org.apache.commons.lang.time.StopWatch;
-import org.opeum.test.tinker.BaseLocalDbTest;
+import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.derivedunion.HumanHand;
 
 import com.tinkerpop.blueprints.pgm.Edge;

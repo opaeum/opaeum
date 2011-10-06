@@ -1,16 +1,16 @@
-package org.opeum.metamodel.core.internal.emulated;
+package org.opaeum.metamodel.core.internal.emulated;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opeum.feature.MappingInfo;
-import org.opeum.metamodel.core.ICompositionParticipant;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedConstraint;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public abstract class EmulatedCompositionMessageStructure extends MessageStructureImpl implements ICompositionParticipant{
 	private static final long serialVersionUID = -3198245957575601442L;

@@ -1,4 +1,4 @@
-package org.opeum.eclipse.starter;
+package org.opaeum.eclipse.starter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.CompoundContributionItem;
-import org.opeum.eclipse.ModelLibrary;
-import org.opeum.eclipse.OpeumEclipsePlugin;
+import org.opaeum.eclipse.ModelLibrary;
+import org.opaeum.eclipse.OpaeumEclipsePlugin;
 
 public class ImportLibraryMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
@@ -18,7 +18,7 @@ public class ImportLibraryMenu extends CompoundContributionItem{
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		List<IContributionItem> actions = new ArrayList<IContributionItem>();
-		Set<ModelLibrary> modelLibraries = OpeumEclipsePlugin.getDefault().getModelLibraries();
+		Set<ModelLibrary> modelLibraries = OpaeumEclipsePlugin.getDefault().getModelLibraries();
 		for(ModelLibrary uri:modelLibraries){
 			actions.add(new ActionContributionItem(new ImportLibraryAction(selection, uri)));
 		}

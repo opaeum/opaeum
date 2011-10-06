@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.layout.provider;
+package org.opaeum.uim.layout.provider;
 
 
 import java.util.Collection;
@@ -18,11 +18,11 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.layout.UimXYLayout;
-import org.opeum.uim.security.SecurityPackage;
+import org.opaeum.uim.layout.UimXYLayout;
+import org.opaeum.uim.security.SecurityPackage;
 
 /**
- * This is the item provider adapter for a {@link org.opeum.uim.layout.UimXYLayout} object.
+ * This is the item provider adapter for a {@link org.opaeum.uim.layout.UimXYLayout} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated

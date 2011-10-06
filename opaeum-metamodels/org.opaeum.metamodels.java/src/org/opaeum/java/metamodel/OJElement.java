@@ -1,6 +1,6 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
-import org.opeum.java.metamodel.generated.OJElementGEN;
+import org.opaeum.java.metamodel.generated.OJElementGEN;
 
 public class OJElement extends OJElementGEN{
 	/******************************************************

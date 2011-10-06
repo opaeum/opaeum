@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,26 +16,26 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
-import org.opeum.eclipse.EmfParameterUtil;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.bpm.internal.NakedResponsibilityImpl;
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedSignal;
-import org.opeum.metamodel.commonbehaviors.internal.NakedReceptionImpl;
-import org.opeum.metamodel.components.internal.NakedPortImpl;
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedProperty;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.metamodel.core.internal.NakedOperationImpl;
-import org.opeum.metamodel.core.internal.NakedParameterImpl;
-import org.opeum.metamodel.core.internal.NakedPropertyImpl;
-import org.opeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.eclipse.EmfParameterUtil;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.bpm.internal.NakedResponsibilityImpl;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.internal.NakedReceptionImpl;
+import org.opaeum.metamodel.components.internal.NakedPortImpl;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.metamodel.core.internal.NakedOperationImpl;
+import org.opaeum.metamodel.core.internal.NakedParameterImpl;
+import org.opaeum.metamodel.core.internal.NakedPropertyImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 /**
- * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opeum and Octopus
+ * Builds operations, properties,parameter and associations. Only builds associations if they are supported by Opaeum and Octopus
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = GeneralizationExtractor.class,after = GeneralizationExtractor.class)
 public class FeatureExtractor extends AbstractExtractorFromEmf{

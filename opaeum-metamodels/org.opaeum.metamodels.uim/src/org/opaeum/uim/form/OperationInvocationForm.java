@@ -4,9 +4,9 @@
  *
  * $Id$
  */
-package org.opeum.uim.form;
+package org.opaeum.uim.form;
 
-import org.opeum.uim.folder.OperationContainingFolder;
+import org.opaeum.uim.folder.OperationContainingFolder;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,11 +16,11 @@ import org.opeum.uim.folder.OperationContainingFolder;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opeum.uim.form.OperationInvocationForm#getFolder <em>Folder</em>}</li>
+ *   <li>{@link org.opaeum.uim.form.OperationInvocationForm#getFolder <em>Folder</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.opeum.uim.form.FormPackage#getOperationInvocationForm()
+ * @see org.opaeum.uim.form.FormPackage#getOperationInvocationForm()
  * @model
  * @generated
  */
@@ -35,14 +35,14 @@ public interface OperationInvocationForm extends FormPanel {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Folder</em>' reference.
 	 * @see #setFolder(OperationContainingFolder)
-	 * @see org.opeum.uim.form.FormPackage#getOperationInvocationForm_Folder()
+	 * @see org.opaeum.uim.form.FormPackage#getOperationInvocationForm_Folder()
 	 * @model required="true"
 	 * @generated
 	 */
 	OperationContainingFolder getFolder();
 
 	/**
-	 * Sets the value of the '{@link org.opeum.uim.form.OperationInvocationForm#getFolder <em>Folder</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.form.OperationInvocationForm#getFolder <em>Folder</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Folder</em>' reference.

@@ -1,13 +1,13 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opeum.metamodel.actions.INakedReadStructuralFeatureAction;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.actions.INakedReadStructuralFeatureAction;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class NakedReadStructuralFeatureActionImpl extends NakedStructuralFeatureActionImpl implements INakedReadStructuralFeatureAction{
 	private static final long serialVersionUID = 1730941677240408016L;

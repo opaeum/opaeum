@@ -1,12 +1,12 @@
-package org.opeum.metamodel.activities;
+package org.opaeum.metamodel.activities;
 
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opeum.metamodel.commonbehaviors.INakedTriggerContainer;
-import org.opeum.metamodel.core.INakedOperation;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
 
 /**
  * 

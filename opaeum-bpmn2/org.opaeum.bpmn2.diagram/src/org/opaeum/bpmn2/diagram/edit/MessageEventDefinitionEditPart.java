@@ -1,7 +1,7 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.edit;
+package org.opaeum.bpmn2.diagram.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
@@ -9,9 +9,9 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.opeum.bpmn2.diagram.commands.MessageEventDefinitionRestoreConnectionCommand;
-import org.opeum.bpmn2.diagram.figure.MessageEventDefinitionFigure;
-import org.opeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
+import org.opaeum.bpmn2.diagram.commands.MessageEventDefinitionRestoreConnectionCommand;
+import org.opaeum.bpmn2.diagram.figure.MessageEventDefinitionFigure;
+import org.opaeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.edit.EMFGraphNodeEditPart;

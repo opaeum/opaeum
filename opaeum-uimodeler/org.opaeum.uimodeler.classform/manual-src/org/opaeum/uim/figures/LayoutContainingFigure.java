@@ -1,6 +1,6 @@
-package org.opeum.uim.figures;
+package org.opaeum.uim.figures;
 
-import org.opeum.uim.layouts.StackLayout;
+import org.opaeum.uim.layouts.StackLayout;
 import org.topcased.draw2d.figures.ContainerFigure;
 
 public class LayoutContainingFigure extends ContainerFigure{

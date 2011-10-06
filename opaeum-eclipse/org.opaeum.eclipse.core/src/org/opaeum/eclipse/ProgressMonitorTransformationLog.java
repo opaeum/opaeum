@@ -1,10 +1,10 @@
-package org.opeum.eclipse;
+package org.opaeum.eclipse;
 
 import java.util.Stack;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.opeum.feature.DefaultTransformationLog;
+import org.opaeum.feature.DefaultTransformationLog;
 
 public class ProgressMonitorTransformationLog extends DefaultTransformationLog{
 	private final Stack<IProgressMonitor> monitors = new Stack<IProgressMonitor>();

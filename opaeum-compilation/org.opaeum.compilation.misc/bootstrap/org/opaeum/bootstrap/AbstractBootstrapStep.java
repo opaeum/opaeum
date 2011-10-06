@@ -1,4 +1,4 @@
-package org.opeum.bootstrap;
+package org.opaeum.bootstrap;
 
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.opeum.feature.ITransformationStep;
-import org.opeum.metamodel.models.INakedModel;
-import org.opeum.textmetamodel.ISourceFolderIdentifier;
-import org.opeum.textmetamodel.TextSourceFolderIdentifier;
-import org.opeum.velocity.AbstractTextProducingVisitor;
+import org.opaeum.feature.ITransformationStep;
+import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
+import org.opaeum.velocity.AbstractTextProducingVisitor;
 
 public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements ITransformationStep {
 	protected INakedModel currentModel;

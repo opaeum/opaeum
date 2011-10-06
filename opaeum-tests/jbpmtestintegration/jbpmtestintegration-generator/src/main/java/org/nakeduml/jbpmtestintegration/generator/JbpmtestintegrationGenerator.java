@@ -1,4 +1,4 @@
-package org.opeum.jbpmtestintegration.generator;
+package org.opaeum.jbpmtestintegration.generator;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,19 +6,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.opeum.feature.OutputRoot;
-import net.sf.opeum.feature.StepDependency;
-import net.sf.opeum.feature.TransformationStep;
-import net.sf.opeum.javageneration.JavaTextSource;
-import net.sf.opeum.pomgeneration.IntegratedSeam3PomStep;
-import net.sf.opeum.pomgeneration.MavenProjectCodeGenerator;
-import net.sf.opeum.pomgeneration.PomGenerationPhase;
-import net.sf.opeum.pomgeneration.PomGenerationStep;
+import net.sf.opaeum.feature.OutputRoot;
+import net.sf.opaeum.feature.StepDependency;
+import net.sf.opaeum.feature.TransformationStep;
+import net.sf.opaeum.javageneration.JavaTextSource;
+import net.sf.opaeum.pomgeneration.IntegratedSeam3PomStep;
+import net.sf.opaeum.pomgeneration.MavenProjectCodeGenerator;
+import net.sf.opaeum.pomgeneration.PomGenerationPhase;
+import net.sf.opaeum.pomgeneration.PomGenerationStep;
 
 import org.apache.maven.pom.Dependency;
 import org.apache.maven.pom.Exclusion;
 import org.apache.maven.pom.POMFactory;
-import org.opeum.generation.features.IntegrationTestsAcrossMultipleModels;
+import org.opaeum.generation.features.IntegrationTestsAcrossMultipleModels;
 
 public class JbpmtestintegrationGenerator extends MavenProjectCodeGenerator {
 
@@ -33,18 +33,18 @@ public class JbpmtestintegrationGenerator extends MavenProjectCodeGenerator {
 	}
 
 	public Set<Class<? extends TransformationStep>> getIntegrationSteps() {
-		return toSet(org.opeum.generation.features.Jbpm5IntegratedAcrossMultipleProjects.class,
-				org.opeum.generation.features.IntegrationTestsAcrossMultipleModels.class,
-				org.opeum.generation.features.HibernateIntegratedAcrossMultipleProjects.class,
-				org.opeum.bootstrap.WarBootstrapStep.class);
+		return toSet(org.opaeum.generation.features.Jbpm5IntegratedAcrossMultipleProjects.class,
+				org.opaeum.generation.features.IntegrationTestsAcrossMultipleModels.class,
+				org.opaeum.generation.features.HibernateIntegratedAcrossMultipleProjects.class,
+				org.opaeum.bootstrap.WarBootstrapStep.class);
 	}
 
 	public Set<Class<? extends TransformationStep>> getSteps() {
-		return toSet(org.opeum.generation.features.PersistenceUsingHibernate.class,
-				net.sf.opeum.javageneration.oclexpressions.OclExpressionExecution.class,
-				org.opeum.generation.features.ExtendedCompositionSemantics.class, org.opeum.generation.features.BpmUsingJbpm5.class,
-				org.opeum.generation.features.IntegrationTests.class, net.sf.opeum.emf.extraction.StereotypeApplicationExtractor.class,
-				net.sf.opeum.javageneration.hibernate.PersistenceUsingHibernateStep.class, AddRipDependencies.class);
+		return toSet(org.opaeum.generation.features.PersistenceUsingHibernate.class,
+				net.sf.opaeum.javageneration.oclexpressions.OclExpressionExecution.class,
+				org.opaeum.generation.features.ExtendedCompositionSemantics.class, org.opaeum.generation.features.BpmUsingJbpm5.class,
+				org.opaeum.generation.features.IntegrationTests.class, net.sf.opaeum.emf.extraction.StereotypeApplicationExtractor.class,
+				net.sf.opaeum.javageneration.hibernate.PersistenceUsingHibernateStep.class, AddRipDependencies.class);
 	}
 
 	static public void main(String[] args) throws Exception {

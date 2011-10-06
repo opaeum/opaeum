@@ -1,4 +1,4 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
 public enum JavaSourceKind{
 	PROVIDED_IMPLEMENTATION(""),

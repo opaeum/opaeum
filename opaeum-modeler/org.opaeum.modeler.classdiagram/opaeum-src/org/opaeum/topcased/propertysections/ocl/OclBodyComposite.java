@@ -1,9 +1,9 @@
-package org.opeum.topcased.propertysections.ocl;
+package org.opaeum.topcased.propertysections.ocl;
 
-import org.opeum.metamodel.validation.BrokenElement;
-import org.opeum.metamodel.validation.ErrorMap;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.linkage.CoreValidationRule;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.linkage.CoreValidationRule;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.EList;
@@ -33,10 +33,10 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.ValuePin;
-import org.opeum.eclipse.EmfBehaviorUtil;
-import org.opeum.eclipse.EmfValidationUtil;
-import org.opeum.eclipse.commands.SetOclBodyCommand;
-import org.opeum.topcased.uml.editor.OpeumEditor;
+import org.opaeum.eclipse.EmfBehaviorUtil;
+import org.opaeum.eclipse.EmfValidationUtil;
+import org.opaeum.eclipse.commands.SetOclBodyCommand;
+import org.opaeum.topcased.uml.editor.OpaeumEditor;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
@@ -120,7 +120,7 @@ public abstract class OclBodyComposite extends Composite{
 		}
 	}
 	protected NakedOclViewer viewer;
-	private OpeumOclFactory factory;
+	private OpaeumOclFactory factory;
 	protected NamedElement oclBodyOwner;
 	public static final String DEFAULT_TEXT = EmfValidationUtil.TYPE_EXPRESSION_HERE;
 	public static final String REQUIRED_TEXT = EmfValidationUtil.OCL_EXPRESSION_REQUIRED; 
@@ -141,7 +141,7 @@ public abstract class OclBodyComposite extends Composite{
 		viewer = new NakedOclViewer(this, new ColorManager(), SWT.MULTI | SWT.V_SCROLL | textControlStyle);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		document = new OCLDocument();
-		factory = new OpeumOclFactory();
+		factory = new OpaeumOclFactory();
 		document.setOCLFactory(factory);
 		document.setModelingLevel(ModelingLevel.M1);
 		viewer.setInput(document);
@@ -214,9 +214,9 @@ public abstract class OclBodyComposite extends Composite{
 	public void highlightError(){
 		StyledText t = viewer.getTextWidget();
 		if(!(oclBodyOwner == null || t == null || t.isDisposed())){
-			INakedModelWorkspace ws = OpeumEditor.getCurrentContext().getNakedWorkspace();
+			INakedModelWorkspace ws = OpaeumEditor.getCurrentContext().getNakedWorkspace();
 			ErrorMap errors = ws.getErrorMap();
-			String id = OpeumEditor.getCurrentContext().getId(oclBodyOwner);
+			String id = OpaeumEditor.getCurrentContext().getId(oclBodyOwner);
 			BrokenElement be = errors.getErrors().get(id);
 			if(be != null && be.hasBroken(CoreValidationRule.OCL)){
 				Object[] objects = be.getBrokenRules().get(CoreValidationRule.OCL).getParameters();

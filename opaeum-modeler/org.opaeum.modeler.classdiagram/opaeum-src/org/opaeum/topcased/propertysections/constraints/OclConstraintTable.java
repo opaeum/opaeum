@@ -1,4 +1,4 @@
-package org.opeum.topcased.propertysections.constraints;
+package org.opaeum.topcased.propertysections.constraints;
 
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +61,7 @@ public class OclConstraintTable extends Composite{
 			}
 		});
 		// create the columns
-		applyTableInfo(constraintTableViewer, null /* OpeumPlugin.getDefault().getImageRegistry().getDescriptor("Actor").createImage()*/, new int[]{
+		applyTableInfo(constraintTableViewer, null /* OpaeumPlugin.getDefault().getImageRegistry().getDescriptor("Actor").createImage()*/, new int[]{
 				200,200
 		}, "Name", "Expression");
 		GridData layoutDataConstraintsList = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 2);

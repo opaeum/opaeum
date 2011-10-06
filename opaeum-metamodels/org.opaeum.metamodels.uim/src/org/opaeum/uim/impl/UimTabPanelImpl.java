@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.impl;
+package org.opaeum.uim.impl;
 
 import java.util.Collection;
 
@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.opeum.uim.UimPackage;
-import org.opeum.uim.UimTab;
-import org.opeum.uim.UimTabPanel;
-import org.opeum.uim.layout.LayoutPackage;
-import org.opeum.uim.layout.OutlayableComponent;
-import org.opeum.uim.layout.UimLayout;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UimTab;
+import org.opaeum.uim.UimTabPanel;
+import org.opaeum.uim.layout.LayoutPackage;
+import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.layout.UimLayout;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,9 +31,9 @@ import org.opeum.uim.layout.UimLayout;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.impl.UimTabPanelImpl#getParent <em>Parent</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimTabPanelImpl#getChildren <em>Children</em>}</li>
- *   <li>{@link org.opeum.uim.impl.UimTabPanelImpl#getActiveTabIndex <em>Active Tab Index</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimTabPanelImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimTabPanelImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimTabPanelImpl#getActiveTabIndex <em>Active Tab Index</em>}</li>
  * </ul>
  * </p>
  *

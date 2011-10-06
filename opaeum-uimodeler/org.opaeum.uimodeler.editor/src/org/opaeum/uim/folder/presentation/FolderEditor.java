@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.folder.presentation;
+package org.opaeum.uim.folder.presentation;
 
 
 import java.io.IOException;
@@ -122,15 +122,15 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-import org.opeum.uim.action.provider.ActionItemProviderAdapterFactory;
-import org.opeum.uim.binding.provider.BindingItemProviderAdapterFactory;
-import org.opeum.uim.control.provider.ControlItemProviderAdapterFactory;
-import org.opeum.uim.folder.provider.FolderItemProviderAdapterFactory;
-import org.opeum.uim.form.provider.FormItemProviderAdapterFactory;
-import org.opeum.uim.layout.provider.LayoutItemProviderAdapterFactory;
-import org.opeum.uim.presentation.UimEditorPlugin;
-import org.opeum.uim.provider.UimItemProviderAdapterFactory;
-import org.opeum.uim.security.provider.SecurityItemProviderAdapterFactory;
+import org.opaeum.uim.action.provider.ActionItemProviderAdapterFactory;
+import org.opaeum.uim.binding.provider.BindingItemProviderAdapterFactory;
+import org.opaeum.uim.control.provider.ControlItemProviderAdapterFactory;
+import org.opaeum.uim.folder.provider.FolderItemProviderAdapterFactory;
+import org.opaeum.uim.form.provider.FormItemProviderAdapterFactory;
+import org.opaeum.uim.layout.provider.LayoutItemProviderAdapterFactory;
+import org.opaeum.uim.presentation.UimEditorPlugin;
+import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
+import org.opaeum.uim.security.provider.SecurityItemProviderAdapterFactory;
 
 
 /**
@@ -641,7 +641,7 @@ public class FolderEditor
       BasicDiagnostic diagnostic =
         new BasicDiagnostic
           (Diagnostic.OK,
-           "org.opeum.uim.editor",
+           "org.opaeum.uim.editor",
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
@@ -1039,7 +1039,7 @@ public class FolderEditor
       BasicDiagnostic basicDiagnostic =
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.opeum.uim.editor",
+           "org.opaeum.uim.editor",
            0,
            getString("_UI_CreateModelError_message", resource.getURI()),
            new Object [] { exception == null ? (Object)resource : exception });
@@ -1051,7 +1051,7 @@ public class FolderEditor
       return
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.opeum.uim.editor",
+           "org.opaeum.uim.editor",
            0,
            getString("_UI_CreateModelError_message", resource.getURI()),
            new Object[] { exception });

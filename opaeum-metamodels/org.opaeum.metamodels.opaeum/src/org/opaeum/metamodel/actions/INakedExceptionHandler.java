@@ -1,11 +1,11 @@
-package org.opeum.metamodel.actions;
+package org.opaeum.metamodel.actions;
 
 import java.util.Collection;
 
-import org.opeum.metamodel.activities.INakedAction;
-import org.opeum.metamodel.activities.INakedObjectNode;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface INakedExceptionHandler extends INakedElement{
 	Collection<INakedClassifier> getExceptionTypes();

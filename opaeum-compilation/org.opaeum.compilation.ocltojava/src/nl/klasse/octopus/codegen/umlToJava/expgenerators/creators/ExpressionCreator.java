@@ -6,8 +6,8 @@
 package nl.klasse.octopus.codegen.umlToJava.expgenerators.creators;
 /**<octel>
 <java>
-	%import org.opeum.javametamodel.OJSimpleStatement%;
-	%inet.sfsf.opeum.javametamodelametamodel.model.OJBlocknet.sf.sf.opeum.javametamodell.javametamodel.model.OJVisibilityKind%;
+	%import org.opaeum.javametamodel.OJSimpleStatement%;
+	%inet.sfsf.opaeum.javametamodelametamodel.model.OJBlocknet.sf.sf.opaeum.javametamodell.javametamodel.model.OJVisibilityKind%;
 </java>
 </octel>*/
 
@@ -35,13 +35,13 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.tools.common.StringHelpers;
 
-import org.opeum.java.metamodel.OJBlock;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJOperation;
-import org.opeum.java.metamodel.OJParameter;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.OJSimpleStatement;
-import org.opeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJOperation;
+import org.opaeum.java.metamodel.OJParameter;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 
 /**
  * ExpressionGenerator : 

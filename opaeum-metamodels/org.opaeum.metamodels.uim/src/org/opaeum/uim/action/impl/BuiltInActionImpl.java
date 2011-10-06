@@ -4,14 +4,14 @@
  *
  * $Id$
  */
-package org.opeum.uim.action.impl;
+package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.opeum.uim.action.ActionKind;
-import org.opeum.uim.action.ActionPackage;
-import org.opeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.ActionKind;
+import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.BuiltInAction;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +20,7 @@ import org.opeum.uim.action.BuiltInAction;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opeum.uim.action.impl.BuiltInActionImpl#getKind <em>Kind</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.BuiltInActionImpl#getKind <em>Kind</em>}</li>
  * </ul>
  * </p>
  *

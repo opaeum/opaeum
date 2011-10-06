@@ -1,6 +1,6 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
-import org.opeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.metamodel.core.INakedStructuredDataType;
 
 public class NakedStructuredDataType extends NakedClassifierImpl implements INakedStructuredDataType{
 	private static final long serialVersionUID = 7015789903579595473L;

@@ -1,4 +1,4 @@
-package org.opeum.topcased.statemachinediagram;
+package org.opaeum.topcased.statemachinediagram;
 
 import org.eclipse.gef.EditPartFactory;
 import org.topcased.modeler.editor.IPaletteManager;

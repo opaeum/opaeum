@@ -1,6 +1,6 @@
-package org.opeum.metamodel.bpm;
+package org.opaeum.metamodel.bpm;
 
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElement;
 
 public interface INakedDefinedResponsibility extends INakedElement{
 	INakedResponsibilityDefinition getTaskDefinition();

@@ -1,25 +1,25 @@
-package org.opeum.javageneration.jbpm5;
+package org.opaeum.javageneration.jbpm5;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.java.metamodel.OJClass;
-import org.opeum.java.metamodel.OJPathName;
-import org.opeum.java.metamodel.annotation.OJEnum;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
-import org.opeum.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
-import org.opeum.javageneration.persistence.AbstractEnumResolverImplementor;
-import org.opeum.linkage.BehaviorUtil;
-import org.opeum.metamodel.activities.INakedActivity;
-import org.opeum.metamodel.activities.INakedActivityNode;
-import org.opeum.metamodel.commonbehaviors.INakedStep;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.statemachines.INakedState;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJEnum;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.jbpm5.activity.ActivityNodeEnumerationImplementor;
+import org.opaeum.javageneration.jbpm5.statemachine.StateEnumerationImplementor;
+import org.opaeum.javageneration.persistence.AbstractEnumResolverImplementor;
+import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {StateEnumerationImplementor.class,ActivityNodeEnumerationImplementor.class},after = {StateEnumerationImplementor.class,ActivityNodeEnumerationImplementor.class})
 public class ProcessStepResolverImplementor extends AbstractEnumResolverImplementor{

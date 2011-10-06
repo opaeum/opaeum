@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.opeum.uim.control.provider;
+package org.opaeum.uim.control.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.opeum.uim.control.util.ControlAdapterFactory;
+import org.opaeum.uim.control.util.ControlAdapterFactory;
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -74,7 +74,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimNumberScroller} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimNumberScroller} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -82,7 +82,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimNumberScrollerItemProvider uimNumberScrollerItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimNumberScroller}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimNumberScroller}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -97,7 +97,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimToggleButton} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimToggleButton} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -105,7 +105,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimToggleButtonItemProvider uimToggleButtonItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimToggleButton}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimToggleButton}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -120,7 +120,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimSingleSelectPopupSearch} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectPopupSearch} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -128,7 +128,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimSingleSelectPopupSearchItemProvider uimSingleSelectPopupSearchItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimSingleSelectPopupSearch}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectPopupSearch}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -143,7 +143,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimMultiSelectPopupSearch} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectPopupSearch} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -151,7 +151,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimMultiSelectPopupSearchItemProvider uimMultiSelectPopupSearchItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimMultiSelectPopupSearch}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectPopupSearch}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -166,7 +166,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimMultiSelectTreeView} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectTreeView} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -174,7 +174,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimMultiSelectTreeViewItemProvider uimMultiSelectTreeViewItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimMultiSelectTreeView}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectTreeView}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -189,7 +189,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimMultiSelectListBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectListBox} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -197,7 +197,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimMultiSelectListBoxItemProvider uimMultiSelectListBoxItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimMultiSelectListBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectListBox}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -212,7 +212,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimDropdown} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimDropdown} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -220,7 +220,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimDropdownItemProvider uimDropdownItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimDropdown}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimDropdown}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -235,7 +235,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimCheckBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimCheckBox} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -243,7 +243,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimCheckBoxItemProvider uimCheckBoxItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimCheckBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimCheckBox}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -258,7 +258,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimLookup} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimLookup} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -266,7 +266,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimLookupItemProvider uimLookupItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimLookup}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimLookup}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -281,7 +281,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimTextArea} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimTextArea} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -289,7 +289,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimTextAreaItemProvider uimTextAreaItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimTextArea}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimTextArea}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -304,7 +304,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimText} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimText} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -312,7 +312,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimTextItemProvider uimTextItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimText}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimText}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -327,7 +327,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimDatePopup} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimDatePopup} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -335,7 +335,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimDatePopupItemProvider uimDatePopupItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimDatePopup}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimDatePopup}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -350,7 +350,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimSingleSelectListBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectListBox} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -358,7 +358,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimSingleSelectListBoxItemProvider uimSingleSelectListBoxItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimSingleSelectListBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectListBox}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -373,7 +373,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimControl} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimControl} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -381,7 +381,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimControlItemProvider uimControlItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimControl}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimControl}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -396,7 +396,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opeum.uim.control.UimSingleSelectTreeView} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectTreeView} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -404,7 +404,7 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	protected UimSingleSelectTreeViewItemProvider uimSingleSelectTreeViewItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opeum.uim.control.UimSingleSelectTreeView}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectTreeView}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

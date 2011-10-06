@@ -1,4 +1,4 @@
-package org.opeum.topcased;
+package org.opaeum.topcased;
 
 import java.util.Collections;
 import java.util.List;

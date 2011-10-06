@@ -1,4 +1,4 @@
-package org.opeum.emf.extraction;
+package org.opaeum.emf.extraction;
 
 import java.util.Collection;
 
@@ -12,15 +12,15 @@ import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Variable;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActivityPartitionImpl;
-import org.opeum.metamodel.activities.internal.NakedActivityVariable;
-import org.opeum.metamodel.activities.internal.NakedExpansionRegionImpl;
-import org.opeum.metamodel.activities.internal.NakedStructuredActivityNodeImpl;
-import org.opeum.metamodel.core.internal.NakedElementImpl;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActivityPartitionImpl;
+import org.opaeum.metamodel.activities.internal.NakedActivityVariable;
+import org.opaeum.metamodel.activities.internal.NakedExpansionRegionImpl;
+import org.opaeum.metamodel.activities.internal.NakedStructuredActivityNodeImpl;
+import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 @StepDependency(phase = EmfExtractionPhase.class, requires = { FeatureExtractor.class }, after = { FeatureExtractor.class })
 public class ActivityStructureExtractor extends AbstractActionExtractor {

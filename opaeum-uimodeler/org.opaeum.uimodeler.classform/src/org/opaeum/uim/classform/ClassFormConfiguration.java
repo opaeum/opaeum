@@ -1,7 +1,7 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 import java.net.URL;
 
@@ -11,24 +11,24 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gef.EditPartFactory;
-import org.opeum.uim.classform.edit.BuiltInActionEditPart;
-import org.opeum.uim.classform.edit.DetailPanelEditPart;
-import org.opeum.uim.classform.edit.FormPanelEditPart;
-import org.opeum.uim.classform.edit.NavigationToEntityEditPart;
-import org.opeum.uim.classform.edit.NavigationToOperationEditPart;
-import org.opeum.uim.classform.edit.OperationActionEditPart;
-import org.opeum.uim.classform.edit.TransitionActionEditPart;
-import org.opeum.uim.classform.edit.UimBorderLayoutEditPart;
-import org.opeum.uim.classform.edit.UimColumnLayoutEditPart;
-import org.opeum.uim.classform.edit.UimDataTableEditPart;
-import org.opeum.uim.classform.edit.UimFieldEditPart;
-import org.opeum.uim.classform.edit.UimFullLayoutEditPart;
-import org.opeum.uim.classform.edit.UimGridLayoutEditPart;
-import org.opeum.uim.classform.edit.UimPanelEditPart;
-import org.opeum.uim.classform.edit.UimTabEditPart;
-import org.opeum.uim.classform.edit.UimTabPanelEditPart;
-import org.opeum.uim.classform.edit.UimToolbarLayoutEditPart;
-import org.opeum.uim.classform.edit.UimXYLayoutEditPart;
+import org.opaeum.uim.classform.edit.BuiltInActionEditPart;
+import org.opaeum.uim.classform.edit.DetailPanelEditPart;
+import org.opaeum.uim.classform.edit.FormPanelEditPart;
+import org.opaeum.uim.classform.edit.NavigationToEntityEditPart;
+import org.opaeum.uim.classform.edit.NavigationToOperationEditPart;
+import org.opaeum.uim.classform.edit.OperationActionEditPart;
+import org.opaeum.uim.classform.edit.TransitionActionEditPart;
+import org.opaeum.uim.classform.edit.UimBorderLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimColumnLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimDataTableEditPart;
+import org.opaeum.uim.classform.edit.UimFieldEditPart;
+import org.opaeum.uim.classform.edit.UimFullLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimGridLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimPanelEditPart;
+import org.opaeum.uim.classform.edit.UimTabEditPart;
+import org.opaeum.uim.classform.edit.UimTabPanelEditPart;
+import org.opaeum.uim.classform.edit.UimToolbarLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimXYLayoutEditPart;
 import org.topcased.modeler.editor.IConfiguration;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.IPaletteManager;
@@ -73,39 +73,39 @@ public class ClassFormConfiguration implements IConfiguration{
 	 * @generated
 	 */
 	private void registerAdapters(){
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimFieldEditPart.class, org.opeum.uim.UimField.class), UimFieldEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimFieldEditPart.class, org.opaeum.uim.UimField.class), UimFieldEditPart.class);
 		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(NavigationToEntityEditPart.class, org.opeum.uim.action.NavigationToEntity.class), NavigationToEntityEditPart.class);
+				new EditPart2ModelAdapterFactory(NavigationToEntityEditPart.class, org.opaeum.uim.action.NavigationToEntity.class), NavigationToEntityEditPart.class);
 		Platform.getAdapterManager().registerAdapters(
-				new EditPart2ModelAdapterFactory(NavigationToOperationEditPart.class, org.opeum.uim.action.NavigationToOperation.class),
+				new EditPart2ModelAdapterFactory(NavigationToOperationEditPart.class, org.opaeum.uim.action.NavigationToOperation.class),
 				NavigationToOperationEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(BuiltInActionEditPart.class, org.opeum.uim.action.BuiltInAction.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(BuiltInActionEditPart.class, org.opaeum.uim.action.BuiltInAction.class),
 				BuiltInActionEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(OperationActionEditPart.class, org.opeum.uim.action.OperationAction.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(OperationActionEditPart.class, org.opaeum.uim.action.OperationAction.class),
 				OperationActionEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(TransitionActionEditPart.class, org.opeum.uim.action.TransitionAction.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(TransitionActionEditPart.class, org.opaeum.uim.action.TransitionAction.class),
 				TransitionActionEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(FormPanelEditPart.class, org.opeum.uim.form.FormPanel.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(FormPanelEditPart.class, org.opaeum.uim.form.FormPanel.class),
 				FormPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimPanelEditPart.class, org.opeum.uim.UimPanel.class), UimPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimTabPanelEditPart.class, org.opeum.uim.UimTabPanel.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimPanelEditPart.class, org.opaeum.uim.UimPanel.class), UimPanelEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimTabPanelEditPart.class, org.opaeum.uim.UimTabPanel.class),
 				UimTabPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimTabEditPart.class, org.opeum.uim.UimTab.class), UimTabEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimDataTableEditPart.class, org.opeum.uim.UimDataTable.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimTabEditPart.class, org.opaeum.uim.UimTab.class), UimTabEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimDataTableEditPart.class, org.opaeum.uim.UimDataTable.class),
 				UimDataTableEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(DetailPanelEditPart.class, org.opeum.uim.form.DetailPanel.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(DetailPanelEditPart.class, org.opaeum.uim.form.DetailPanel.class),
 				DetailPanelEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimXYLayoutEditPart.class, org.opeum.uim.layout.UimXYLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimXYLayoutEditPart.class, org.opaeum.uim.layout.UimXYLayout.class),
 				UimXYLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimGridLayoutEditPart.class, org.opeum.uim.layout.UimGridLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimGridLayoutEditPart.class, org.opaeum.uim.layout.UimGridLayout.class),
 				UimGridLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimToolbarLayoutEditPart.class, org.opeum.uim.layout.UimToolbarLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimToolbarLayoutEditPart.class, org.opaeum.uim.layout.UimToolbarLayout.class),
 				UimToolbarLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimBorderLayoutEditPart.class, org.opeum.uim.layout.UimBorderLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimBorderLayoutEditPart.class, org.opaeum.uim.layout.UimBorderLayout.class),
 				UimBorderLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimFullLayoutEditPart.class, org.opeum.uim.layout.UimFullLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimFullLayoutEditPart.class, org.opaeum.uim.layout.UimFullLayout.class),
 				UimFullLayoutEditPart.class);
-		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimColumnLayoutEditPart.class, org.opeum.uim.layout.UimColumnLayout.class),
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(UimColumnLayoutEditPart.class, org.opaeum.uim.layout.UimColumnLayout.class),
 				UimColumnLayoutEditPart.class);
 	}
 	/**
@@ -113,7 +113,7 @@ public class ClassFormConfiguration implements IConfiguration{
 	 * @generated
 	 */
 	public String getId(){
-		return new String("org.opeum.uim.classform");
+		return new String("org.opaeum.uim.classform");
 	}
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getName()
@@ -158,7 +158,7 @@ public class ClassFormConfiguration implements IConfiguration{
 	 */
 	public DiagramGraphConf getDiagramGraphConf(){
 		if(diagramGraphConf == null){
-			URL url = ClassFormPlugin.getDefault().getBundle().getResource("org/opeum/uim/classform/diagram.graphconf");
+			URL url = ClassFormPlugin.getDefault().getBundle().getResource("org/opaeum/uim/classform/diagram.graphconf");
 			if(url != null){
 				URI fileURI = URI.createURI(url.toString());
 				ResourceSet resourceSet = new ResourceSetImpl();

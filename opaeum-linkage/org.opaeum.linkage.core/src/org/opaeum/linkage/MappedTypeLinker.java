@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.opeum.linkage;
+package org.opaeum.linkage;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,23 +9,23 @@ import java.util.Set;
 import nl.klasse.octopus.model.IPrimitiveType;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.StepDependency;
-import org.opeum.feature.visit.VisitAfter;
-import org.opeum.feature.visit.VisitBefore;
-import org.opeum.metamodel.core.CodeGenerationStrategy;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedInstanceSpecification;
-import org.opeum.metamodel.core.INakedInterface;
-import org.opeum.metamodel.core.INakedPrimitiveType;
-import org.opeum.metamodel.core.INakedSimpleType;
-import org.opeum.metamodel.core.INakedValueSpecification;
-import org.opeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.metamodel.statemachines.INakedStateMachine;
-import org.opeum.metamodel.workspace.AbstractStrategyFactory;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.metamodel.workspace.MappedType;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
+import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
+import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.MappedType;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 /**
  * Identifies the SimpleTypes that may be required by an application, such as EMailAddresses, CellPhoneNumbers and Dates Also identifies the
@@ -163,7 +163,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		javaType.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
 	}
 	@Override
-	public void initialize(INakedModelWorkspace workspace,OpeumConfig config){
+	public void initialize(INakedModelWorkspace workspace,OpaeumConfig config){
 		super.initialize(workspace, config);
 		for(Class<? extends AbstractStrategyFactory> class1:config.getStrategyFactories()){
 			strategyFactories.add(IntrospectionUtil.newInstance(class1));

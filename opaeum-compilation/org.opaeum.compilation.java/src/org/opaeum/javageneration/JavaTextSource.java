@@ -1,10 +1,10 @@
-package org.opeum.javageneration;
+package org.opaeum.javageneration;
 
-import org.opeum.java.metamodel.OJClassifier;
-import org.opeum.java.metamodel.OJElement;
-import org.opeum.java.metamodel.annotation.OJAnnotatedClass;
-import org.opeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opeum.textmetamodel.TextSource;
+import org.opaeum.java.metamodel.OJClassifier;
+import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
+import org.opaeum.textmetamodel.TextSource;
 
 public class JavaTextSource implements TextSource{
 	private OJElement javaSource;

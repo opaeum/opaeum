@@ -1,4 +1,4 @@
-package org.opeum.feature.visit;
+package org.opaeum.feature.visit;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 
-import org.opeum.runtime.domain.ExceptionAnalyser;
+import org.opaeum.runtime.domain.ExceptionAnalyser;
 
 /**
  * VisitorAdapter is an abstract adapter class that traverses a tree starting with the root. Subclasses have to annotate methods that serve

@@ -1,4 +1,4 @@
-package org.opeum.pomgeneration;
+package org.opaeum.pomgeneration;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -18,21 +18,21 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.opeum.feature.InputModel;
-import org.opeum.feature.IntegrationPhase;
-import org.opeum.feature.OpeumConfig;
-import org.opeum.feature.PhaseDependency;
-import org.opeum.feature.TransformationContext;
-import org.opeum.feature.TransformationPhase;
-import org.opeum.filegeneration.FileGenerationPhase;
-import org.opeum.javageneration.JavaTransformationPhase;
-import org.opeum.jbpm5.FlowGenerationPhase;
-import org.opeum.metamodel.core.INakedElement;
-import org.opeum.metamodel.core.INakedRootObject;
-import org.opeum.metamodel.workspace.INakedModelWorkspace;
-import org.opeum.textmetamodel.SourceFolder;
-import org.opeum.textmetamodel.TextProject;
-import org.opeum.textmetamodel.TextWorkspace;
+import org.opaeum.feature.InputModel;
+import org.opaeum.feature.IntegrationPhase;
+import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.feature.PhaseDependency;
+import org.opaeum.feature.TransformationContext;
+import org.opaeum.feature.TransformationPhase;
+import org.opaeum.filegeneration.FileGenerationPhase;
+import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.jbpm5.FlowGenerationPhase;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.textmetamodel.SourceFolder;
+import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextWorkspace;
 
 import org.apache.maven.pom.ConfigurationType2;
 import org.apache.maven.pom.Dependency;
@@ -48,7 +48,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.opeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.bootstrap.BootstrapGenerationPhase;
 
 @PhaseDependency(after = {
 		JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class
@@ -60,14 +60,14 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private INakedModelWorkspace workspace;
 	@InputModel
 	private TextWorkspace textWorkspace;
-	private OpeumConfig config;
+	private OpaeumConfig config;
 	private Map<String,DocumentRoot> rootMap = new HashMap<String,DocumentRoot>();
 	private DocumentRoot parentPom;
 	private SortedSet<String> ignores = new TreeSet<String>();
 	private Collection<PomGenerationStep> features;
 	public static final String NUML_VERSION = "1.0.0.6-SNAPSHOT";
 	@Override
-	public void initialize(OpeumConfig config,List<PomGenerationStep> features){
+	public void initialize(OpaeumConfig config,List<PomGenerationStep> features){
 		this.features = features;
 		this.config = config;
 		if(config.generateMavenPoms()){
@@ -100,7 +100,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			PomUtil.addRepositoryIfNew(parentPom, "java.net", "http://download.java.net/maven/2/", "java net");
 		}
 	}
-	private void readIgnoreFile(OpeumConfig config){
+	private void readIgnoreFile(OpaeumConfig config){
 		try{
 			File ignoreFile = getIgnoreFile(config);
 			if(ignoreFile.exists()){
@@ -114,7 +114,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			throw new RuntimeException(e);
 		}
 	}
-	private File getIgnoreFile(OpeumConfig config){
+	private File getIgnoreFile(OpaeumConfig config){
 		File ignoreFile = new File(config.getOutputRoot(), "." + config.getScmTool() + "ignore");
 		return ignoreFile;
 	}

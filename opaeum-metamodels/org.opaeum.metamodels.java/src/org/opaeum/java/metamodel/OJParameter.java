@@ -1,8 +1,8 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.Map;
 
-import org.opeum.java.metamodel.generated.OJParameterGEN;
+import org.opaeum.java.metamodel.generated.OJParameterGEN;
 
 
 public class OJParameter extends OJParameterGEN {

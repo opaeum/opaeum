@@ -1,8 +1,8 @@
-package org.opeum.topcased.classdiagram.edit;
+package org.opaeum.topcased.classdiagram.edit;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.opeum.topcased.classdiagram.figure.Gradient;
+import org.opaeum.topcased.classdiagram.figure.Gradient;
 import org.topcased.draw2d.figures.ClassFigure;
 import org.topcased.draw2d.figures.ComposedLabel;
 import org.topcased.draw2d.figures.EditableLabel;

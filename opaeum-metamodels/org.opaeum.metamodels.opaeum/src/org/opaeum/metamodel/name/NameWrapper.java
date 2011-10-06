@@ -1,4 +1,4 @@
-package org.opeum.metamodel.name;
+package org.opaeum.metamodel.name;
 
 import java.io.Serializable;
 

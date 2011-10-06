@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core;
+package org.opaeum.metamodel.core;
 import java.util.List;
 public interface INakedSlot extends INakedElement, INakedElementOwner {
 	INakedInstanceSpecification getOwningInstance();

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.opeum.uimodeler.feature"
+      id="org.opaeum.uimodeler.feature"
       label="User Interaction Modeler"
       version="1.0.0.qualifier"
-      provider-name="Opeum"
-      license-feature="org.opeum.metamodels.feature"
+      provider-name="Opaeum"
+      license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
    <license url="">
@@ -26,41 +26,41 @@
       <import plugin="org.topcased.tabbedproperties"/>
       <import plugin="org.eclipse.emf.edit"/>
       <import plugin="org.eclipse.emf.ecore"/>
-      <import feature="org.opeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <import plugin="org.opeum.metamodels.uim"/>
-      <import plugin="org.opeum.metamodels.emfworkspace"/>
+      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opaeum.metamodels.uim"/>
+      <import plugin="org.opaeum.metamodels.emfworkspace"/>
    </requires>
 
    <plugin
-         id="org.opeum.uimodeler.classform"
+         id="org.opaeum.uimodeler.classform"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uimodeler.edit"
+         id="org.opaeum.uimodeler.edit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uimodeler.editor"
+         id="org.opaeum.uimodeler.editor"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uimodeler.modeleditor"
+         id="org.opaeum.uimodeler.modeleditor"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opeum.uimodeler.userinteractionproperties"
+         id="org.opaeum.uimodeler.userinteractionproperties"
          download-size="0"
          install-size="0"
          version="0.0.0"

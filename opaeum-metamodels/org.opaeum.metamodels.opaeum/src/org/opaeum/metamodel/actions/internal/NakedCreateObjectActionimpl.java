@@ -1,14 +1,14 @@
-package org.opeum.metamodel.actions.internal;
+package org.opaeum.metamodel.actions.internal;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.opeum.metamodel.actions.INakedCreateObjectAction;
-import org.opeum.metamodel.activities.INakedInputPin;
-import org.opeum.metamodel.activities.INakedOutputPin;
-import org.opeum.metamodel.activities.internal.NakedActionImpl;
-import org.opeum.metamodel.core.INakedClassifier;
-import org.opeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.actions.INakedCreateObjectAction;
+import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.internal.NakedActionImpl;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
 
 public class NakedCreateObjectActionimpl extends NakedActionImpl implements INakedCreateObjectAction{
 	private static final long serialVersionUID = -7769342738149726492L;

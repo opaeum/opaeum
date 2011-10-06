@@ -1,12 +1,12 @@
 /*******************************************************************************
  * No CopyrightText Defined in the configurator file.
  ******************************************************************************/
-package org.opeum.bpmn2.diagram.edit;
+package org.opaeum.bpmn2.diagram.edit;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPolicy;
-import org.opeum.bpmn2.diagram.figures.BPMN2DiagramFigure;
-import org.opeum.bpmn2.diagram.policies.BPMN2DiagramLayoutEditPolicy;
+import org.opaeum.bpmn2.diagram.figures.BPMN2DiagramFigure;
+import org.opaeum.bpmn2.diagram.policies.BPMN2DiagramLayoutEditPolicy;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.edit.DiagramEditPart;
 

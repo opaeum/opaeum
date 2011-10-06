@@ -1,4 +1,4 @@
-package org.opeum.metamodel.core.internal;
+package org.opaeum.metamodel.core.internal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 
-import org.opeum.metamodel.core.INakedAssociation;
-import org.opeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedProperty;
 
 public class NakedAssociationImpl extends NakedClassifierImpl implements INakedAssociation{
 	private static final long serialVersionUID = 4136541106305681924L;

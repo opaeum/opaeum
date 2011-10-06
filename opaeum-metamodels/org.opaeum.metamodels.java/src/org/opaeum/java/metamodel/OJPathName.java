@@ -1,4 +1,4 @@
-package org.opeum.java.metamodel;
+package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.opeum.java.metamodel.generated.OJPathNameGEN;
-import org.opeum.java.metamodel.utilities.JavaUtil;
+import org.opaeum.java.metamodel.generated.OJPathNameGEN;
+import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<propertiesconfigurator:TabbedView xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:propertiesconfigurator="http://www.topcased.org/PropertiesViewConfiguration/1.0" projectName="org.opeum.uim.userinteractionproperties" id="org.opeum.uim.userinteractionproperties" name="User Interaction Properties" basePackage="org.opeum.uim.userinteractionproperties">
+<propertiesconfigurator:TabbedView xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:propertiesconfigurator="http://www.topcased.org/PropertiesViewConfiguration/1.0" projectName="org.opaeum.uim.userinteractionproperties" id="org.opaeum.uim.userinteractionproperties" name="User Interaction Properties" basePackage="org.opaeum.uim.userinteractionproperties">
   <categories name="Nakeduml">
     <tabs label="Basic">
       <sections xsi:type="propertiesconfigurator:SingleFeatureSection" label="Name">

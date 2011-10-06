@@ -1,37 +1,37 @@
 /*******************************************************************************
  * 
  ******************************************************************************/
-package org.opeum.uim.classform;
+package org.opaeum.uim.classform;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
-import org.opeum.uim.action.util.ActionSwitch;
-import org.opeum.uim.binding.util.BindingSwitch;
-import org.opeum.uim.classform.edit.BuiltInActionEditPart;
-import org.opeum.uim.classform.edit.ClassFormDiagramEditPart;
-import org.opeum.uim.classform.edit.DetailPanelEditPart;
-import org.opeum.uim.classform.edit.FormPanelEditPart;
-import org.opeum.uim.classform.edit.NavigationToEntityEditPart;
-import org.opeum.uim.classform.edit.NavigationToOperationEditPart;
-import org.opeum.uim.classform.edit.OperationActionEditPart;
-import org.opeum.uim.classform.edit.TransitionActionEditPart;
-import org.opeum.uim.classform.edit.UimBorderLayoutEditPart;
-import org.opeum.uim.classform.edit.UimColumnLayoutEditPart;
-import org.opeum.uim.classform.edit.UimDataTableEditPart;
-import org.opeum.uim.classform.edit.UimFieldEditPart;
-import org.opeum.uim.classform.edit.UimFullLayoutEditPart;
-import org.opeum.uim.classform.edit.UimGridLayoutEditPart;
-import org.opeum.uim.classform.edit.UimPanelEditPart;
-import org.opeum.uim.classform.edit.UimTabEditPart;
-import org.opeum.uim.classform.edit.UimTabPanelEditPart;
-import org.opeum.uim.classform.edit.UimToolbarLayoutEditPart;
-import org.opeum.uim.classform.edit.UimXYLayoutEditPart;
-import org.opeum.uim.control.util.ControlSwitch;
-import org.opeum.uim.folder.util.FolderSwitch;
-import org.opeum.uim.form.util.FormSwitch;
-import org.opeum.uim.layout.util.LayoutSwitch;
-import org.opeum.uim.security.util.SecuritySwitch;
-import org.opeum.uim.util.UimSwitch;
+import org.opaeum.uim.action.util.ActionSwitch;
+import org.opaeum.uim.binding.util.BindingSwitch;
+import org.opaeum.uim.classform.edit.BuiltInActionEditPart;
+import org.opaeum.uim.classform.edit.ClassFormDiagramEditPart;
+import org.opaeum.uim.classform.edit.DetailPanelEditPart;
+import org.opaeum.uim.classform.edit.FormPanelEditPart;
+import org.opaeum.uim.classform.edit.NavigationToEntityEditPart;
+import org.opaeum.uim.classform.edit.NavigationToOperationEditPart;
+import org.opaeum.uim.classform.edit.OperationActionEditPart;
+import org.opaeum.uim.classform.edit.TransitionActionEditPart;
+import org.opaeum.uim.classform.edit.UimBorderLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimColumnLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimDataTableEditPart;
+import org.opaeum.uim.classform.edit.UimFieldEditPart;
+import org.opaeum.uim.classform.edit.UimFullLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimGridLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimPanelEditPart;
+import org.opaeum.uim.classform.edit.UimTabEditPart;
+import org.opaeum.uim.classform.edit.UimTabPanelEditPart;
+import org.opaeum.uim.classform.edit.UimToolbarLayoutEditPart;
+import org.opaeum.uim.classform.edit.UimXYLayoutEditPart;
+import org.opaeum.uim.control.util.ControlSwitch;
+import org.opaeum.uim.folder.util.FolderSwitch;
+import org.opaeum.uim.form.util.FormSwitch;
+import org.opaeum.uim.layout.util.LayoutSwitch;
+import org.opaeum.uim.security.util.SecuritySwitch;
+import org.opaeum.uim.util.UimSwitch;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
@@ -61,28 +61,28 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			final GraphNode node = (GraphNode) model;
 			EObject element = Utils.getElement(node);
 			if(element != null){
-				if("http://opeum.org/uimetamodel/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeUimSwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/layout/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/layout/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeLayoutSwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/control/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/control/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeControlSwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/folder/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/folder/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeFolderSwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/form/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/form/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeFormSwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/binding/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/binding/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeBindingSwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/security/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/security/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeSecuritySwitch(node).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/action/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/action/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new NodeActionSwitch(node).doSwitch(element);
 				}
 			}
@@ -93,28 +93,28 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			final GraphEdge edge = (GraphEdge) model;
 			EObject element = Utils.getElement(edge);
 			if(element != null){
-				if("http://opeum.org/uimetamodel/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeUimSwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/layout/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/layout/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeLayoutSwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/control/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/control/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeControlSwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/folder/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/folder/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeFolderSwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/form/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/form/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeFormSwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/binding/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/binding/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeBindingSwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/security/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/security/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeSecuritySwitch(edge).doSwitch(element);
 				}
-				if("http://opeum.org/uimetamodel/action/1.0".equals(element.eClass().getEPackage().getNsURI())){
+				if("http://opaeum.org/uimetamodel/action/1.0".equals(element.eClass().getEPackage().getNsURI())){
 					return (EditPart) new EdgeActionSwitch(edge).doSwitch(element);
 				}
 			}
@@ -143,42 +143,42 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimField(org.opeum.uim.UimField)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimField(org.opaeum.uim.UimField)
 		 * @generated
 		 */
-		public Object caseUimField(org.opeum.uim.UimField object){
+		public Object caseUimField(org.opaeum.uim.UimField object){
 			return new UimFieldEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimPanel(org.opeum.uim.UimPanel)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimPanel(org.opaeum.uim.UimPanel)
 		 * @generated
 		 */
-		public Object caseUimPanel(org.opeum.uim.UimPanel object){
+		public Object caseUimPanel(org.opaeum.uim.UimPanel object){
 			return new UimPanelEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimTabPanel(org.opeum.uim.UimTabPanel)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimTabPanel(org.opaeum.uim.UimTabPanel)
 		 * @generated
 		 */
-		public Object caseUimTabPanel(org.opeum.uim.UimTabPanel object){
+		public Object caseUimTabPanel(org.opaeum.uim.UimTabPanel object){
 			return new UimTabPanelEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimTab(org.opeum.uim.UimTab)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimTab(org.opaeum.uim.UimTab)
 		 * @generated
 		 */
-		public Object caseUimTab(org.opeum.uim.UimTab object){
+		public Object caseUimTab(org.opaeum.uim.UimTab object){
 			return new UimTabEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#caseUimDataTable(org.opeum.uim.UimDataTable)
+		 * @see org.opaeum.uim.util.UimSwitch#caseUimDataTable(org.opaeum.uim.UimDataTable)
 		 * @generated
 		 */
-		public Object caseUimDataTable(org.opeum.uim.UimDataTable object){
+		public Object caseUimDataTable(org.opaeum.uim.UimDataTable object){
 			return new UimDataTableEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -204,31 +204,31 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimXYLayout(org.opeum.uim.layout.UimXYLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimXYLayout(org.opaeum.uim.layout.UimXYLayout)
 		 * @generated
 		 */
-		public Object caseUimXYLayout(org.opeum.uim.layout.UimXYLayout object){
+		public Object caseUimXYLayout(org.opaeum.uim.layout.UimXYLayout object){
 			return new UimXYLayoutEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimGridLayout(org.opeum.uim.layout.UimGridLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimGridLayout(org.opaeum.uim.layout.UimGridLayout)
 		 * @generated
 		 */
-		public Object caseUimGridLayout(org.opeum.uim.layout.UimGridLayout object){
+		public Object caseUimGridLayout(org.opaeum.uim.layout.UimGridLayout object){
 			return new UimGridLayoutEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimToolbarLayout(org.opeum.uim.layout.UimToolbarLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimToolbarLayout(org.opaeum.uim.layout.UimToolbarLayout)
 		 * @generated
 		 */
-		public Object caseUimToolbarLayout(org.opeum.uim.layout.UimToolbarLayout object){
+		public Object caseUimToolbarLayout(org.opaeum.uim.layout.UimToolbarLayout object){
 			return new UimToolbarLayoutEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimBorderLayout(org.opeum.uim.layout.UimBorderLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimBorderLayout(org.opaeum.uim.layout.UimBorderLayout)
 		 * @generated
 		 */
-		public Object caseUimBorderLayout(org.opeum.uim.layout.UimBorderLayout object){
+		public Object caseUimBorderLayout(org.opaeum.uim.layout.UimBorderLayout object){
 			String feature = DIUtils.getPropertyValue(node, ModelerPropertyConstants.ESTRUCTURAL_FEATURE_ID);
 			if(!"".equals(feature)){
 				int featureID = Integer.parseInt(feature);
@@ -238,21 +238,21 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			}
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimFullLayout(org.opeum.uim.layout.UimFullLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimFullLayout(org.opaeum.uim.layout.UimFullLayout)
 		 * @generated
 		 */
-		public Object caseUimFullLayout(org.opeum.uim.layout.UimFullLayout object){
+		public Object caseUimFullLayout(org.opaeum.uim.layout.UimFullLayout object){
 			return new UimFullLayoutEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#caseUimColumnLayout(org.opeum.uim.layout.UimColumnLayout)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#caseUimColumnLayout(org.opaeum.uim.layout.UimColumnLayout)
 		 * @generated
 		 */
-		public Object caseUimColumnLayout(org.opeum.uim.layout.UimColumnLayout object){
+		public Object caseUimColumnLayout(org.opaeum.uim.layout.UimColumnLayout object){
 			return new UimColumnLayoutEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -278,7 +278,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.control.util.ControlSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.control.util.ControlSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -304,7 +304,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.folder.util.FolderSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.folder.util.FolderSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -330,21 +330,21 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#caseFormPanel(org.opeum.uim.form.FormPanel)
+		 * @see org.opaeum.uim.form.util.FormSwitch#caseFormPanel(org.opaeum.uim.form.FormPanel)
 		 * @generated
 		 */
-		public Object caseFormPanel(org.opeum.uim.form.FormPanel object){
+		public Object caseFormPanel(org.opaeum.uim.form.FormPanel object){
 			return new FormPanelEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#caseDetailPanel(org.opeum.uim.form.DetailPanel)
+		 * @see org.opaeum.uim.form.util.FormSwitch#caseDetailPanel(org.opaeum.uim.form.DetailPanel)
 		 * @generated
 		 */
-		public Object caseDetailPanel(org.opeum.uim.form.DetailPanel object){
+		public Object caseDetailPanel(org.opaeum.uim.form.DetailPanel object){
 			return new DetailPanelEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.form.util.FormSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -370,7 +370,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.binding.util.BindingSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.binding.util.BindingSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -396,7 +396,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.security.util.SecuritySwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.security.util.SecuritySwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -422,42 +422,42 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.node = node;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseNavigationToEntity(org.opeum.uim.action.NavigationToEntity)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseNavigationToEntity(org.opaeum.uim.action.NavigationToEntity)
 		 * @generated
 		 */
-		public Object caseNavigationToEntity(org.opeum.uim.action.NavigationToEntity object){
+		public Object caseNavigationToEntity(org.opaeum.uim.action.NavigationToEntity object){
 			return new NavigationToEntityEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseNavigationToOperation(org.opeum.uim.action.NavigationToOperation)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseNavigationToOperation(org.opaeum.uim.action.NavigationToOperation)
 		 * @generated
 		 */
-		public Object caseNavigationToOperation(org.opeum.uim.action.NavigationToOperation object){
+		public Object caseNavigationToOperation(org.opaeum.uim.action.NavigationToOperation object){
 			return new NavigationToOperationEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseBuiltInAction(org.opeum.uim.action.BuiltInAction)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseBuiltInAction(org.opaeum.uim.action.BuiltInAction)
 		 * @generated
 		 */
-		public Object caseBuiltInAction(org.opeum.uim.action.BuiltInAction object){
+		public Object caseBuiltInAction(org.opaeum.uim.action.BuiltInAction object){
 			return new BuiltInActionEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseOperationAction(org.opeum.uim.action.OperationAction)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseOperationAction(org.opaeum.uim.action.OperationAction)
 		 * @generated
 		 */
-		public Object caseOperationAction(org.opeum.uim.action.OperationAction object){
+		public Object caseOperationAction(org.opaeum.uim.action.OperationAction object){
 			return new OperationActionEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#caseTransitionAction(org.opeum.uim.action.TransitionAction)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#caseTransitionAction(org.opaeum.uim.action.TransitionAction)
 		 * @generated
 		 */
-		public Object caseTransitionAction(org.opeum.uim.action.TransitionAction object){
+		public Object caseTransitionAction(org.opaeum.uim.action.TransitionAction object){
 			return new TransitionActionEditPart(node);
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -483,7 +483,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.util.UimSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -509,7 +509,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.layout.util.LayoutSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -535,7 +535,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.control.util.ControlSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.control.util.ControlSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -561,7 +561,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.folder.util.FolderSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.folder.util.FolderSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -587,7 +587,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.form.util.FormSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.form.util.FormSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -613,7 +613,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.binding.util.BindingSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.binding.util.BindingSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -639,7 +639,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.security.util.SecuritySwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.security.util.SecuritySwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
@@ -665,7 +665,7 @@ public class ClassFormEditPartFactory extends ModelerEditPartFactory{
 			this.edge = edge;
 		}
 		/**
-		 * @see org.opeum.uim.action.util.ActionSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
+		 * @see org.opaeum.uim.action.util.ActionSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
 		public Object defaultCase(EObject object){
