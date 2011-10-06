@@ -1,7 +1,5 @@
 package org.opaeum.topcased.propertysections;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -31,6 +29,7 @@ import org.eclipse.uml2.uml.TimeExpression;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;

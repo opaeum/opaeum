@@ -15,7 +15,7 @@ import java.util.Set;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opaeum.util.SortedProperties;
+import org.opeum.util.SortedProperties;
 
 public class OpaeumConfig{
 	private static final String DB_USER = "opaeum.database.user";

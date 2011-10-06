@@ -1,9 +1,10 @@
 package org.opaeum.validation.namegeneration;
 import java.util.Iterator;
 
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
-import nl.klasse.octopus.model.IModelElement;
 /**
  * This class recursively calculates whether a specific model originalElement is new in
  * either the deployed version or the deployed revision. It also has

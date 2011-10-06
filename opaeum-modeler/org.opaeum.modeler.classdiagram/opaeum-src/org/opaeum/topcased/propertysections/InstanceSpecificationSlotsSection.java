@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySection{

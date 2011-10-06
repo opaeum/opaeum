@@ -23,7 +23,7 @@ import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.validation.IValidationRule;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 final class ConstraintAdapter extends AbstractConstraintDescriptor implements IModelConstraint{
 	private static int statusCode = 0;

@@ -1,5 +1,8 @@
 package org.opaeum.validation.namegeneration;
 
+import nl.klasse.octopus.expressions.internal.types.PathName;
+import nl.klasse.octopus.model.IModelElement;
+
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
@@ -18,8 +21,6 @@ import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.profiles.INakedProfile;
 import org.opaeum.metamodel.statemachines.INakedState;
-import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.model.IModelElement;
 
 public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	protected final NameWrapper generateJavaName(INakedElement element){

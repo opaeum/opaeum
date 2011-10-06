@@ -6,7 +6,7 @@ import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.commonbehaviors.internal.AbstractTimeEventImpl;
 import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.runtime.domain.DeadlineKind;
+import org.opeum.runtime.domain.DeadlineKind;
 
 public class NakedDeadlineImpl extends AbstractTimeEventImpl implements INakedDeadline{
 	private static final long serialVersionUID = -2226272827359217290L;

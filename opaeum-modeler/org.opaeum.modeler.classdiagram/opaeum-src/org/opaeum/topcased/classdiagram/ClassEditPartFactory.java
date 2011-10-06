@@ -1,8 +1,5 @@
 package org.opaeum.topcased.classdiagram;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -19,6 +16,8 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.util.UMLSwitch;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.topcased.classdiagram.edit.BusinessComponentEditPart;
 import org.opaeum.topcased.classdiagram.edit.BusinessRoleEditPart;
 import org.opaeum.topcased.classdiagram.edit.BusinessServiceEditPart;

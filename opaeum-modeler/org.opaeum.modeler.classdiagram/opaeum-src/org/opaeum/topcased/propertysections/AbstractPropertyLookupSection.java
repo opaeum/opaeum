@@ -5,16 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.topcased.tabbedproperties.internal.sections.TableObjectManager;
 
 public abstract class AbstractPropertyLookupSection extends AbstractReferenceLookupSection{
 	public AbstractPropertyLookupSection(){

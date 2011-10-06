@@ -3,8 +3,6 @@ package org.opaeum.eclipse.commands;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -13,6 +11,7 @@ import org.eclipse.emf.edit.command.AbstractOverrideableCommand;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Element;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 public class AddAnnotationContentCommand extends AbstractOverrideableCommand{
 	public static Command create(EditingDomain domain,Element owner,Element value){

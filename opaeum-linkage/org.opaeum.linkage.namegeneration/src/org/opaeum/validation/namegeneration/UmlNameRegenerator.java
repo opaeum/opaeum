@@ -1,5 +1,7 @@
 package org.opaeum.validation.namegeneration;
 
+import nl.klasse.octopus.model.IAssociationEnd;
+
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -35,9 +37,7 @@ import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedTransition;
-import nl.klasse.octopus.model.IAssociationEnd;
-
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 /**
  * Regenerates and sets the (UML) name of an originalElement. Also sets the name and

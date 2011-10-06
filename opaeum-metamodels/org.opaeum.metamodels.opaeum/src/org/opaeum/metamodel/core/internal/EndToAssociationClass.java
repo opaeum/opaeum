@@ -12,7 +12,7 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedMultiplicity;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 public class EndToAssociationClass extends AbstractPropertyBridge{
 	/**

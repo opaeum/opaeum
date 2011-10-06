@@ -15,7 +15,7 @@ import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
 import org.opaeum.metamodel.core.internal.emulated.MessageStructureImpl;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 public class ArtificialProperty extends AbstractPropertyBridge{
 	private static final long serialVersionUID = 1L;

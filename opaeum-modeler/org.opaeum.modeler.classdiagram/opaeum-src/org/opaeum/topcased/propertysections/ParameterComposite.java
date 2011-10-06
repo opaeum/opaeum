@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.swt.SWT;
@@ -23,12 +22,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
 import org.opaeum.topcased.uml.editor.OpaeumQualifiedNameLabelProvider;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
-import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 import org.topcased.tabbedproperties.sections.widgets.CSingleObjectChooser;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 

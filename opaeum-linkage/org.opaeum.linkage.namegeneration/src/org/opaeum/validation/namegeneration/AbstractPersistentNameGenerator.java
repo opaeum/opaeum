@@ -14,8 +14,7 @@ import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.statemachines.INakedState;
-
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 public abstract class AbstractPersistentNameGenerator extends AbstractNameGenerator {
 	protected final String generateQualifiedPersistentName(INakedElement nme) {
 		if (nme instanceof INakedState) {

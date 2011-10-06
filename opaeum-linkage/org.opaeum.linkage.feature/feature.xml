@@ -6,12 +6,16 @@
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
-   <description>
-      Opaeum linkage
+   <description url="%license">
+      Opaeum Linkage Feature
    </description>
 
-   <license url="">
-      
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
    </license>
 
    <requires>

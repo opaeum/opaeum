@@ -21,7 +21,6 @@ import org.opaeum.eclipse.EmfStateMachineUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.name.NameConverter;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.folder.ActivityFolder;
 import org.opaeum.uim.folder.EntityFolder;
@@ -34,6 +33,7 @@ import org.opaeum.uim.form.OperationInvocationForm;
 import org.opaeum.uim.form.OperationTaskForm;
 import org.opaeum.uim.form.StateForm;
 import org.opaeum.uim.form.UimForm;
+import org.opeum.name.NameConverter;
 
 @StepDependency(phase = UimSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
 public class FormSynchronizer extends AbstractUimSynchronizer{

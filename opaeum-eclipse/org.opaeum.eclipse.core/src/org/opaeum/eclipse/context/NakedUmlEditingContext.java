@@ -1,10 +1,9 @@
 package org.opaeum.eclipse.context;
 
-import org.opaeum.emf.workspace.EmfWorkspace;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Package;
+import org.opaeum.emf.workspace.EmfWorkspace;
 
 public class NakedUmlEditingContext{
 	private EmfWorkspace emfWorkspace;

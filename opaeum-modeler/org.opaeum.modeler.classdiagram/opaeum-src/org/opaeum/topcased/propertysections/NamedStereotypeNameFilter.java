@@ -1,10 +1,9 @@
 package org.opaeum.topcased.propertysections;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.jface.viewers.IFilter;
+import org.opaeum.emf.extraction.StereotypesHelper;
 
 public class NamedStereotypeNameFilter implements IFilter{
 	@Override

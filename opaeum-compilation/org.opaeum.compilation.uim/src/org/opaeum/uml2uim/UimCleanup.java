@@ -1,10 +1,9 @@
 package org.opaeum.uml2uim;
 
-import org.opaeum.feature.StepDependency;
-
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.opaeum.feature.StepDependency;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.action.OperationAction;
 import org.opaeum.uim.action.TransitionAction;

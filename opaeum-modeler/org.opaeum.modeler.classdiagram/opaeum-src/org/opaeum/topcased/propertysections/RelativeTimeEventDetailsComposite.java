@@ -3,9 +3,6 @@ package org.opaeum.topcased.propertysections;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -27,6 +24,8 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsComposite{
 	private CLabel timeUnitLabel;

@@ -25,7 +25,7 @@ import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.CompositionSiblingsFinder;
 import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class

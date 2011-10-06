@@ -22,7 +22,7 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 
-import org.opaeum.runtime.domain.ExceptionAnalyser;
+import org.opeum.runtime.domain.ExceptionAnalyser;
 
 /**
  * VisitorAdapter is an abstract adapter class that traverses a tree starting with the root. Subclasses have to annotate methods that serve

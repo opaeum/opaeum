@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.name;
 
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 
 public class SingularNameWrapper extends NameWrapper{

@@ -16,7 +16,7 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
-import org.opaeum.util.SortedProperties;
+import org.opeum.util.SortedProperties;
 
 
 public class WorkspaceMappingInfo {

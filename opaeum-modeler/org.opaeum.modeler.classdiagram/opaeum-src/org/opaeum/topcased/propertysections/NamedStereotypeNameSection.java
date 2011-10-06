@@ -1,9 +1,7 @@
 package org.opaeum.topcased.propertysections;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.topcased.tabbedproperties.sections.AbstractStringPropertySection;
 
 public class NamedStereotypeNameSection extends AbstractStringPropertySection

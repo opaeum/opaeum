@@ -25,7 +25,7 @@ import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.MappedType;
-import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opeum.runtime.domain.IntrospectionUtil;
 
 /**
  * Identifies the SimpleTypes that may be required by an application, such as EMailAddresses, CellPhoneNumbers and Dates Also identifies the

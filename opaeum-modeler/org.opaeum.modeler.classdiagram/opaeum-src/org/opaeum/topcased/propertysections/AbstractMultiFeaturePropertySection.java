@@ -15,7 +15,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.uml2.uml.Element;
 import org.topcased.modeler.editor.properties.TextChangeHelper;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 

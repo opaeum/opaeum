@@ -2,8 +2,6 @@ package org.opaeum.topcased.classdiagram;
 
 import java.util.List;
 
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
@@ -15,6 +13,7 @@ import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.palette.ModelerConnectionCreationToolEntry;

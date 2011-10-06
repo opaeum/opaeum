@@ -3,7 +3,7 @@ package org.opaeum.linkage;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {MappedTypeLinker.class,PinLinker.class,
 		ReferenceResolver.class,TypeResolver.class},requires = {MappedTypeLinker.class,

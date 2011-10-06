@@ -1,12 +1,11 @@
 package org.opaeum.topcased.classdiagram;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 

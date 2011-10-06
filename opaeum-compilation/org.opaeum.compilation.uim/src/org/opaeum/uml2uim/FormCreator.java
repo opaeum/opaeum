@@ -8,7 +8,6 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
-import org.opaeum.name.NameConverter;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimField;
@@ -29,6 +28,7 @@ import org.opaeum.uim.layout.UimFullLayout;
 import org.opaeum.uim.layout.UimGridLayout;
 import org.opaeum.uim.layout.UimLayout;
 import org.opaeum.uim.util.ControlUtil;
+import org.opeum.name.NameConverter;
 
 public class FormCreator{
 	private UimGridLayout mainTabLayout;
