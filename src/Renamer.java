@@ -34,7 +34,7 @@ public class Renamer{
 			pipe(Runtime.getRuntime().exec(gitMove, new String[0], child.getParentFile()));
 			child = new File(child.getParentFile(), child.getName().replaceAll(s, replacement));
 			pipe(Runtime.getRuntime().exec("git add --a", new String[0], child.getParentFile()));
-			pipe(Runtime.getRuntime().exec("git commit -a -m \"Opaeum rename\" ", new String[0], child.getParentFile()));
+			pipe(Runtime.getRuntime().exec("git commit -a -m \"Opaeum rename\"", new String[0], child.getParentFile()));
 		}
 		return child;
 	}
