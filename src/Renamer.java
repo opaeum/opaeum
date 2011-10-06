@@ -15,6 +15,8 @@ public class Renamer{
 		ignore.add("target");
 		ignore.add("opeum-runtime");
 		ignore.add(".git");
+		ignore.add("bin");
+		ignore.add("classes");
 		for(File child:dir.listFiles()){
 			if(child.isDirectory()){
 				if(!ignore.contains(child.getName())){
