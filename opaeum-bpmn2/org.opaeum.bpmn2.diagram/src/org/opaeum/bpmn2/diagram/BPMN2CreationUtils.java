@@ -87,6 +87,56 @@ public class BPMN2CreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseIntermediateCatchEvent(org.eclipse.bpmn2.IntermediateCatchEvent)
+		 * @generated
+		 */
+		public Object caseIntermediateCatchEvent(org.eclipse.bpmn2.IntermediateCatchEvent object){
+			if("default".equals(presentation)){
+				return createGraphElementIntermediateCatchEvent(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseStartEvent(org.eclipse.bpmn2.StartEvent)
+		 * @generated
+		 */
+		public Object caseStartEvent(org.eclipse.bpmn2.StartEvent object){
+			if("default".equals(presentation)){
+				return createGraphElementStartEvent(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseEndEvent(org.eclipse.bpmn2.EndEvent)
+		 * @generated
+		 */
+		public Object caseEndEvent(org.eclipse.bpmn2.EndEvent object){
+			if("default".equals(presentation)){
+				return createGraphElementEndEvent(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseMessageEventDefinition(org.eclipse.bpmn2.MessageEventDefinition)
+		 * @generated
+		 */
+		public Object caseMessageEventDefinition(org.eclipse.bpmn2.MessageEventDefinition object){
+			if("default".equals(presentation)){
+				return createGraphElementMessageEventDefinition(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition)
+		 * @generated
+		 */
+		public Object caseSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition object){
+			if("default".equals(presentation)){
+				return createGraphElementSignalEventDefinition(object, presentation);
+			}
+			return null;
+		}
+		/**
 		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
@@ -221,6 +271,51 @@ public class BPMN2CreationUtils extends AbstractCreationUtils{
 	 * @generated
 	 */
 	protected GraphElement createGraphElementBoundaryEvent(org.eclipse.bpmn2.BoundaryEvent element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementIntermediateCatchEvent(org.eclipse.bpmn2.IntermediateCatchEvent element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementStartEvent(org.eclipse.bpmn2.StartEvent element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementEndEvent(org.eclipse.bpmn2.EndEvent element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementMessageEventDefinition(org.eclipse.bpmn2.MessageEventDefinition element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**

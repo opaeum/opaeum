@@ -34,4 +34,29 @@ public interface BPMN2EditPolicyConstants{
 	 * @generated
 	 */
 	String FLOWNODE_EDITPOLICY = "FlowNode EditPolicy";
+	/**
+	 * The key used to install an <i>IntermediateCatchEvent</i> EditPolicy.
+	 * @generated
+	 */
+	String INTERMEDIATECATCHEVENT_EDITPOLICY = "IntermediateCatchEvent EditPolicy";
+	/**
+	 * The key used to install an <i>StartEvent</i> EditPolicy.
+	 * @generated
+	 */
+	String STARTEVENT_EDITPOLICY = "StartEvent EditPolicy";
+	/**
+	 * The key used to install an <i>EndEvent</i> EditPolicy.
+	 * @generated
+	 */
+	String ENDEVENT_EDITPOLICY = "EndEvent EditPolicy";
+	/**
+	 * The key used to install an <i>IntermediateThrowEvent</i> EditPolicy.
+	 * @generated
+	 */
+	String INTERMEDIATETHROWEVENT_EDITPOLICY = "IntermediateThrowEvent EditPolicy";
+	/**
+	 * The key used to install an <i>SignalEventDefinition</i> EditPolicy.
+	 * @generated
+	 */
+	String SIGNALEVENTDEFINITION_EDITPOLICY = "SignalEventDefinition EditPolicy";
 }

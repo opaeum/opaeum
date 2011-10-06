@@ -12,9 +12,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gef.EditPartFactory;
 import org.opaeum.bpmn2.diagram.edit.BoundaryEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.EndEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.FlowNodeEditPart;
+import org.opaeum.bpmn2.diagram.edit.IntermediateCatchEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.IntermediateThrowEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
 import org.opaeum.bpmn2.diagram.edit.SequenceFlowEditPart;
+import org.opaeum.bpmn2.diagram.edit.SignalEventDefinitionEditPart;
+import org.opaeum.bpmn2.diagram.edit.StartEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.UserTaskEditPart;
 import org.topcased.modeler.editor.IConfiguration;
 import org.topcased.modeler.editor.ICreationUtils;
@@ -68,6 +73,18 @@ public class BPMN2Configuration implements IConfiguration{
 				new EditPart2ModelAdapterFactory(MessageEventDefinitionEditPart.class, org.eclipse.bpmn2.MessageEventDefinition.class),
 				MessageEventDefinitionEditPart.class);
 		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(FlowNodeEditPart.class, org.eclipse.bpmn2.FlowNode.class), FlowNodeEditPart.class);
+		Platform.getAdapterManager().registerAdapters(
+				new EditPart2ModelAdapterFactory(IntermediateCatchEventEditPart.class, org.eclipse.bpmn2.IntermediateCatchEvent.class),
+				IntermediateCatchEventEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(StartEventEditPart.class, org.eclipse.bpmn2.StartEvent.class),
+				StartEventEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(EndEventEditPart.class, org.eclipse.bpmn2.EndEvent.class), EndEventEditPart.class);
+		Platform.getAdapterManager().registerAdapters(
+				new EditPart2ModelAdapterFactory(IntermediateThrowEventEditPart.class, org.eclipse.bpmn2.IntermediateThrowEvent.class),
+				IntermediateThrowEventEditPart.class);
+		Platform.getAdapterManager()
+				.registerAdapters(new EditPart2ModelAdapterFactory(SignalEventDefinitionEditPart.class, org.eclipse.bpmn2.SignalEventDefinition.class),
+						SignalEventDefinitionEditPart.class);
 	}
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getId()

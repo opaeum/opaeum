@@ -11,9 +11,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.opaeum.bpmn2.diagram.edit.BPMN2DiagramEditPart;
 import org.opaeum.bpmn2.diagram.edit.BoundaryEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.EndEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.FlowNodeEditPart;
+import org.opaeum.bpmn2.diagram.edit.IntermediateCatchEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.IntermediateThrowEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
 import org.opaeum.bpmn2.diagram.edit.SequenceFlowEditPart;
+import org.opaeum.bpmn2.diagram.edit.SignalEventDefinitionEditPart;
+import org.opaeum.bpmn2.diagram.edit.StartEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.UserTaskEditPart;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphEdge;
@@ -125,6 +130,41 @@ public class BPMN2EditPartFactory extends ModelerEditPartFactory{
 		 */
 		public Object caseFlowNode(org.eclipse.bpmn2.FlowNode object){
 			return new FlowNodeEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseIntermediateCatchEvent(org.eclipse.bpmn2.IntermediateCatchEvent)
+		 * @generated
+		 */
+		public Object caseIntermediateCatchEvent(org.eclipse.bpmn2.IntermediateCatchEvent object){
+			return new IntermediateCatchEventEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseStartEvent(org.eclipse.bpmn2.StartEvent)
+		 * @generated
+		 */
+		public Object caseStartEvent(org.eclipse.bpmn2.StartEvent object){
+			return new StartEventEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseEndEvent(org.eclipse.bpmn2.EndEvent)
+		 * @generated
+		 */
+		public Object caseEndEvent(org.eclipse.bpmn2.EndEvent object){
+			return new EndEventEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseIntermediateThrowEvent(org.eclipse.bpmn2.IntermediateThrowEvent)
+		 * @generated
+		 */
+		public Object caseIntermediateThrowEvent(org.eclipse.bpmn2.IntermediateThrowEvent object){
+			return new IntermediateThrowEventEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition)
+		 * @generated
+		 */
+		public Object caseSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition object){
+			return new SignalEventDefinitionEditPart(node);
 		}
 		/**
 		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#defaultCase(org.eclipse.emf.ecore.EObject)

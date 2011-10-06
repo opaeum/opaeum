@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.opaeum.bpmn2.diagram.commands.BoundaryEventRestoreConnectionCommand;
 import org.opaeum.bpmn2.diagram.figure.BoundaryEventFigure;
+import org.opaeum.bpmn2.diagram.policies.BoundaryEventLayoutEditPolicy;
 import org.opaeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
@@ -25,15 +26,14 @@ import org.topcased.modeler.utils.Utils;
 
 /**
  * The BoundaryEvent object controller
- * 
- * @generated NOT
+ *
+ * @generated
  */
-public class BoundaryEventEditPart extends org.topcased.modeler.edit.PortEditPart{
+public class BoundaryEventEditPart extends FlowNodeEditPart{
 	/**
 	 * Constructor
-	 * 
-	 * @param obj
-	 *            the graph node
+	 *
+	 * @param obj the graph node
 	 * @generated
 	 */
 	public BoundaryEventEditPart(GraphNode obj){
@@ -41,7 +41,7 @@ public class BoundaryEventEditPart extends org.topcased.modeler.edit.PortEditPar
 	}
 	/**
 	 * Creates edit policies and associates these with roles
-	 * 
+	 *
 	 * @generated
 	 */
 	protected void createEditPolicies(){
@@ -52,6 +52,7 @@ public class BoundaryEventEditPart extends org.topcased.modeler.edit.PortEditPar
 			}
 		});
 		installEditPolicy(ModelerEditPolicyConstants.RESIZABLE_EDITPOLICY, new ResizableEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new BoundaryEventLayoutEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 	}
 	/**
@@ -60,13 +61,6 @@ public class BoundaryEventEditPart extends org.topcased.modeler.edit.PortEditPar
 	 */
 	protected IFigure createFigure(){
 		return new BoundaryEventFigure();
-	}
-	@Override
-	public void activate(){
-		super.activate();
-		if(getBoundaryEvent().getAttachedToRef() != null){
-			((BoundaryEventFigure) getFigure()).setUserTaskId(getBoundaryEvent().getAttachedToRef().getId());
-		}
 	}
 	/**
 	 * @see org.topcased.modeler.edit.GraphNodeEditPart#getPreferenceDefaultBackgroundColor()
@@ -100,6 +94,13 @@ public class BoundaryEventEditPart extends org.topcased.modeler.edit.PortEditPar
 			return Utils.getFont(new FontData(preferenceFont));
 		}
 		return null;
+	}
+	@Override
+	public void activate(){
+		super.activate();
+		if(getBoundaryEvent().getAttachedToRef() != null){
+			((BoundaryEventFigure) getFigure()).setUserTaskId(getBoundaryEvent().getAttachedToRef().getId());
+		}
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){

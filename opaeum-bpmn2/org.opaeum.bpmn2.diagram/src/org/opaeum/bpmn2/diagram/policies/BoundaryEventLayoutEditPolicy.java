@@ -4,6 +4,7 @@
 package org.opaeum.bpmn2.diagram.policies;
 
 import org.eclipse.bpmn2.MessageEventDefinition;
+import org.eclipse.bpmn2.SignalEventDefinition;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -24,6 +25,9 @@ public class BoundaryEventLayoutEditPolicy extends org.topcased.modeler.edit.pol
 	 */
 	protected boolean isValid(EObject child,EObject parent){
 		if(child instanceof MessageEventDefinition){
+			return true;
+		}
+		if(child instanceof SignalEventDefinition){
 			return true;
 		}
 		return false;

@@ -12,7 +12,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.opaeum.bpmn2.diagram.commands.UserTaskRestoreConnectionCommand;
 import org.opaeum.bpmn2.diagram.figure.UserTaskFigure;
-import org.opaeum.bpmn2.diagram.policies.UserTaskLayoutEditPolicy;
 import org.opaeum.bpmn2.diagram.preferences.BPMN2DiagramPreferenceConstants;
 import org.topcased.modeler.ModelerEditPolicyConstants;
 import org.topcased.modeler.di.model.GraphNode;
@@ -60,7 +59,6 @@ public class UserTaskEditPart extends FlowNodeEditPart{
 			}
 		});
 		installEditPolicy(ModelerEditPolicyConstants.RESIZABLE_EDITPOLICY, new ResizableEditPolicy());
-		installEditPolicy(EditPolicy.LAYOUT_ROLE, new UserTaskLayoutEditPolicy());
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 	}
 	/**

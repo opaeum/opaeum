@@ -2,57 +2,87 @@ package org.opaeum.bpmn2.diagram.figure;
 
 import java.util.List;
 
-import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.topcased.draw2d.figures.IPortFigure;
 
-public class BoundaryEventFigure extends Ellipse implements IPortFigure{
-	@Override
-	public Rectangle getBounds(){
-		Rectangle bounds2 = super.getBounds();
+public class BoundaryEventFigure extends IntermediateEventFigure {
+	protected enum Position{
+		LEFT,
+		TOP,
+		RIGHT,
+		BOTTOM
+	}
+	private static final int offsetRatio = 2;
+	private UserTaskFigure getTaskFigure(){
+		UserTaskFigure taskFigure = null;
 		if(getUserTaskId() != null){
 			for(Figure figure:(List<Figure>) getParent().getChildren()){
 				if(figure instanceof UserTaskFigure && getUserTaskId().equals(((UserTaskFigure) figure).getUserTaskId())){
-					if(bounds2.y < figure.getBounds().y){
-						bounds2.y = figure.getBounds().y;
-					}else if( bounds2.y > figure.getBounds().y + figure.getBounds().height){
-						bounds2.y = figure.getBounds().y+figure.getBounds().height;
-					}
-					if(bounds2.x < figure.getBounds().x){
-						bounds2.x = figure.getBounds().x;
-					}else if( bounds2.x > figure.getBounds().x + figure.getBounds().width){
-						bounds2.x = figure.getBounds().x+figure.getBounds().width;
-					}
+					taskFigure = (UserTaskFigure) figure;
 					break;
 				}
 			}
 		}
-		return bounds2;
+		return taskFigure;
 	}
-	private String userTaskId;
-	private int position;
-	@Override
-	public int getPosition(){
-		return this.position;
+	public BoundaryEventFigure(){
+		super();
 	}
 	@Override
-	public void setPosition(int pos){
-		this.position = pos;
+	public void setBounds(Rectangle bounds2){
+		UserTaskFigure figure = getTaskFigure();
+		if(figure != null){
+			Position position = calcPosition(bounds2, figure);
+			Rectangle utfBnds = figure.getBounds();
+			switch(position){
+			case LEFT:
+				bounds2.x = utfBnds.x - (bounds2.width  / offsetRatio);
+				calculateY(bounds2, utfBnds);
+				break;
+			case RIGHT:
+				bounds2.x = utfBnds.x + utfBnds.width + (bounds2.width  / offsetRatio) - bounds2.width;
+				calculateY(bounds2, utfBnds);
+				break;
+			case BOTTOM:
+				bounds2.y = utfBnds.y - (bounds2.height  / offsetRatio);
+				calculateX(bounds2, utfBnds);
+				break;
+			case TOP:
+				bounds2.y = utfBnds.y + utfBnds.height + (bounds2.height  / offsetRatio) - bounds2.height;
+				calculateX(bounds2, utfBnds);
+				break;
+			default:
+				break;
+			}
+		}
+		super.setBounds(bounds2);
 	}
-	protected void outlineShape(Graphics graphics){
-		Rectangle r = getBounds();
-		int x = r.x + lineWidth / 2;
-		int y = r.y + lineWidth / 2;
-		int w = r.width - Math.max(1, lineWidth);
-		int h = r.height - Math.max(1, lineWidth);
-		graphics.drawOval(r);
+	private void calculateX(Rectangle bounds2,Rectangle utfBnds){
+		if(bounds2.x < utfBnds.x - (bounds2.width  / offsetRatio)){
+			bounds2.x = utfBnds.x - (bounds2.width  / offsetRatio);
+		}else if(bounds2.x + bounds2.width > utfBnds.x + utfBnds.width + (bounds2.width  / offsetRatio)){
+			bounds2.x = utfBnds.x + utfBnds.width + (bounds2.width  / offsetRatio) - bounds2.width;
+		}
 	}
-	public String getUserTaskId(){
-		return userTaskId;
+	private void calculateY(Rectangle bounds2,Rectangle utfBnds){
+		if(bounds2.y < utfBnds.y - (bounds2.height  / offsetRatio)){
+			bounds2.y = utfBnds.y - (bounds2.height  / offsetRatio);
+		}else if(bounds2.y + bounds2.height > utfBnds.y + utfBnds.height + (bounds2.height  / offsetRatio)){
+			bounds2.y = utfBnds.y + utfBnds.height + (bounds2.height  / offsetRatio) - bounds2.height;
+		}
 	}
-	public void setUserTaskId(String userTaskId){
-		this.userTaskId = userTaskId;
+	private Position calcPosition(Rectangle bounds2,UserTaskFigure utf){
+		Rectangle utfBnds = utf.getBounds();
+		if(bounds2.x < utfBnds.x - (bounds2.width  / offsetRatio)){
+			return Position.LEFT;
+		}else if(bounds2.x + bounds2.width > utfBnds.x + utfBnds.width + (bounds2.width  / offsetRatio)){
+			return Position.RIGHT;
+		}else if(bounds2.y < utfBnds.y - (bounds2.height  / offsetRatio)){
+			return Position.BOTTOM;
+		}else if(bounds2.y + bounds2.height > utfBnds.y + utfBnds.height + (bounds2.height  / offsetRatio)){
+			return Position.TOP;
+		}else{
+			return Position.LEFT;
+		}
 	}
 }

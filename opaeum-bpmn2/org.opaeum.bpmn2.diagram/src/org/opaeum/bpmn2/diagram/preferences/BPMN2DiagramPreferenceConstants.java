@@ -69,4 +69,79 @@ public interface BPMN2DiagramPreferenceConstants{
 	 * @generated
 	 */
 	String MESSAGEEVENTDEFINITION_DEFAULT_FONT = "MessageEventDefinition Default Font";
+	/**
+	 * The key used to install a <i>IntermediateCatchEvent Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String INTERMEDIATECATCHEVENT_DEFAULT_BACKGROUND_COLOR = "IntermediateCatchEvent Default Background Color";
+	/**
+	 * The key used to install a <i>IntermediateCatchEvent Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String INTERMEDIATECATCHEVENT_DEFAULT_FOREGROUND_COLOR = "IntermediateCatchEvent Default Foreground Color";
+	/**
+	 * The key used to install a <i>IntermediateCatchEvent Default Font</i> Preference.
+	 * @generated
+	 */
+	String INTERMEDIATECATCHEVENT_DEFAULT_FONT = "IntermediateCatchEvent Default Font";
+	/**
+	 * The key used to install a <i>StartEvent Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String STARTEVENT_DEFAULT_BACKGROUND_COLOR = "StartEvent Default Background Color";
+	/**
+	 * The key used to install a <i>StartEvent Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String STARTEVENT_DEFAULT_FOREGROUND_COLOR = "StartEvent Default Foreground Color";
+	/**
+	 * The key used to install a <i>StartEvent Default Font</i> Preference.
+	 * @generated
+	 */
+	String STARTEVENT_DEFAULT_FONT = "StartEvent Default Font";
+	/**
+	 * The key used to install a <i>EndEvent Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String ENDEVENT_DEFAULT_BACKGROUND_COLOR = "EndEvent Default Background Color";
+	/**
+	 * The key used to install a <i>EndEvent Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String ENDEVENT_DEFAULT_FOREGROUND_COLOR = "EndEvent Default Foreground Color";
+	/**
+	 * The key used to install a <i>EndEvent Default Font</i> Preference.
+	 * @generated
+	 */
+	String ENDEVENT_DEFAULT_FONT = "EndEvent Default Font";
+	/**
+	 * The key used to install a <i>IntermediateThrowEvent Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String INTERMEDIATETHROWEVENT_DEFAULT_BACKGROUND_COLOR = "IntermediateThrowEvent Default Background Color";
+	/**
+	 * The key used to install a <i>IntermediateThrowEvent Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String INTERMEDIATETHROWEVENT_DEFAULT_FOREGROUND_COLOR = "IntermediateThrowEvent Default Foreground Color";
+	/**
+	 * The key used to install a <i>IntermediateThrowEvent Default Font</i> Preference.
+	 * @generated
+	 */
+	String INTERMEDIATETHROWEVENT_DEFAULT_FONT = "IntermediateThrowEvent Default Font";
+	/**
+	 * The key used to install a <i>SignalEventDefinition Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String SIGNALEVENTDEFINITION_DEFAULT_BACKGROUND_COLOR = "SignalEventDefinition Default Background Color";
+	/**
+	 * The key used to install a <i>SignalEventDefinition Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String SIGNALEVENTDEFINITION_DEFAULT_FOREGROUND_COLOR = "SignalEventDefinition Default Foreground Color";
+	/**
+	 * The key used to install a <i>SignalEventDefinition Default Font</i> Preference.
+	 * @generated
+	 */
+	String SIGNALEVENTDEFINITION_DEFAULT_FONT = "SignalEventDefinition Default Font";
 }

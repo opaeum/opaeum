@@ -9,6 +9,13 @@
     </paletteCategories>
     <paletteCategories xmi:id="_17BqYO3IEeCDCve3Q7hDLQ" name="Events">
       <items xmi:id="_27m9oO3IEeCDCve3Q7hDLQ" name="BoundaryEvent" part="_l4jFQO3IEeCDCve3Q7hDLQ"/>
+      <items xmi:id="_IrzmoPArEeCosMFTIipWFw" name="IntermediateCatchEvent" part="_r-jYAPAqEeCosMFTIipWFw"/>
+      <items xmi:id="_tP4kkPBMEeCNAOD6GIDTAg" name="Start Event" part="_I3hrcPBMEeCNAOD6GIDTAg"/>
+      <items xmi:id="_u2LM8PBMEeCNAOD6GIDTAg" name="End Event" part="_L1QA0PBMEeCNAOD6GIDTAg"/>
+    </paletteCategories>
+    <paletteCategories xmi:id="_S0R6MPAlEeCosMFTIipWFw" name="EventDefinitions">
+      <items xmi:id="_UyFDoPAlEeCosMFTIipWFw" name="Message Event" part="_sZeBUO3YEeCDCve3Q7hDLQ"/>
+      <items xmi:id="_qg-uUPBMEeCNAOD6GIDTAg" name="SignalEvent" part="_oN_YAPBMEeCNAOD6GIDTAg"/>
     </paletteCategories>
   </palette>
   <parts xsi:type="diagramconfigurator:EdgePartConfiguration" xmi:id="_cRJtMO3IEeCDCve3Q7hDLQ" object="_Z-fuEO3IEeCDCve3Q7hDLQ" targetDecoration="ARROW">
@@ -20,11 +27,32 @@
       <refTargetToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>
       <refEdgeToTarget xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/targetRef"/>
     </sourceTargetCouple>
+    <sourceTargetCouple xmi:id="_jOoiEPBMEeCNAOD6GIDTAg" containerType="SOURCE_CONTAINER" sourceNode="_I3hrcPBMEeCNAOD6GIDTAg" targetNode="_PuLsIO3ZEeCDCve3Q7hDLQ">
+      <containerObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/Process"/>
+      <containerRef xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowElementsContainer/flowElements"/>
+      <refSourceToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/outgoing"/>
+      <refEdgeToSource xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/sourceRef"/>
+      <refTargetToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>
+      <refEdgeToTarget xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/targetRef"/>
+    </sourceTargetCouple>
+    <sourceTargetCouple xmi:id="_mjwq0PBMEeCNAOD6GIDTAg" containerType="SOURCE_CONTAINER" sourceNode="_PuLsIO3ZEeCDCve3Q7hDLQ" targetNode="_L1QA0PBMEeCNAOD6GIDTAg">
+      <containerObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/Process"/>
+      <containerRef xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowElementsContainer/flowElements"/>
+      <refSourceToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/outgoing"/>
+      <refEdgeToSource xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/sourceRef"/>
+      <refTargetToEdge xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//FlowNode/incoming"/>
+      <refEdgeToTarget xsi:type="ecore:EReference" href="../org.eclipse.bpmn2/model/BPMN20.ecore#//SequenceFlow/targetRef"/>
+    </sourceTargetCouple>
   </parts>
-  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_dmQe8O3IEeCDCve3Q7hDLQ" object="_TStLge3IEeCDCve3Q7hDLQ" childElements="_l4jFQO3IEeCDCve3Q7hDLQ" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="127,127,127" container="true" layout="MultiPortLayout"/>
-  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_l4jFQO3IEeCDCve3Q7hDLQ" object="_f--p0O3IEeCDCve3Q7hDLQ" type="ImageFigure" childElements="_sZeBUO3YEeCDCve3Q7hDLQ" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="0,0,255" container="true"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_dmQe8O3IEeCDCve3Q7hDLQ" object="_TStLge3IEeCDCve3Q7hDLQ" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="127,127,127" layout="MultiPortLayout" defaultWidth="150" defaultHeight="80" maximumWidth="1200" maximumHeight="1200"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_l4jFQO3IEeCDCve3Q7hDLQ" object="_f--p0O3IEeCDCve3Q7hDLQ" type="Container" childElements="_sZeBUO3YEeCDCve3Q7hDLQ _oN_YAPBMEeCNAOD6GIDTAg" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="134,129,165" container="true"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_sZeBUO3YEeCDCve3Q7hDLQ" object="_psoAkO3YEeCDCve3Q7hDLQ"/>
   <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_PuLsIO3ZEeCDCve3Q7hDLQ" object="_Gk3XMO3ZEeCDCve3Q7hDLQ"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_r-jYAPAqEeCosMFTIipWFw" object="_o4BE4PAqEeCosMFTIipWFw" childElements="_sZeBUO3YEeCDCve3Q7hDLQ" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="134,129,165" container="true"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_I3hrcPBMEeCNAOD6GIDTAg" object="_uw-ZUfBLEeCNAOD6GIDTAg" childElements="_oN_YAPBMEeCNAOD6GIDTAg _sZeBUO3YEeCDCve3Q7hDLQ" defaultBackgroundColor="134,129,165" container="true"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_L1QA0PBMEeCNAOD6GIDTAg" object="_wkkd4PBLEeCNAOD6GIDTAg" childElements="_oN_YAPBMEeCNAOD6GIDTAg _sZeBUO3YEeCDCve3Q7hDLQ" defaultBackgroundColor="134,129,165" container="true"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_U-F0oPBMEeCNAOD6GIDTAg" object="_x2DT4PBLEeCNAOD6GIDTAg" childElements="_sZeBUO3YEeCDCve3Q7hDLQ _oN_YAPBMEeCNAOD6GIDTAg" superType="_PuLsIO3ZEeCDCve3Q7hDLQ" defaultBackgroundColor="134,129,165" container="true"/>
+  <parts xsi:type="diagramconfigurator:NodePartConfiguration" xmi:id="_oN_YAPBMEeCNAOD6GIDTAg" object="_QgH0gPBMEeCNAOD6GIDTAg"/>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_TStLge3IEeCDCve3Q7hDLQ">
     <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/UserTask"/>
   </objects>
@@ -39,6 +67,24 @@
   </objects>
   <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_Gk3XMO3ZEeCDCve3Q7hDLQ">
     <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/FlowNode"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_o4BE4PAqEeCosMFTIipWFw">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/IntermediateCatchEvent"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_uw-ZUfBLEeCNAOD6GIDTAg">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/StartEvent"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_wkkd4PBLEeCNAOD6GIDTAg">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/EndEvent"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_x2DT4PBLEeCNAOD6GIDTAg">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/IntermediateThrowEvent"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_QgH0gPBMEeCNAOD6GIDTAg">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/SignalEventDefinition"/>
+  </objects>
+  <objects xsi:type="diagramconfigurator:ModelObjectConfiguration" xmi:id="_eYggoPBMEeCNAOD6GIDTAg">
+    <genClass href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/Process"/>
   </objects>
   <genModel href="../org.eclipse.bpmn2/model/BPMN20.genmodel#/"/>
   <templateRootObject href="../org.eclipse.bpmn2/model/BPMN20.genmodel#//bpmn2/DocumentRoot"/>
