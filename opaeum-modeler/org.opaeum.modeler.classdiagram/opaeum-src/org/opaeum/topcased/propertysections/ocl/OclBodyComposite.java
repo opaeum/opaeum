@@ -1,10 +1,5 @@
 package org.opaeum.topcased.propertysections.ocl;
 
-import org.opaeum.metamodel.validation.BrokenElement;
-import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.linkage.CoreValidationRule;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -36,6 +31,10 @@ import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfValidationUtil;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
+import org.opaeum.linkage.CoreValidationRule;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.ErrorMap;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.topcased.uml.editor.OpaeumEditor;
 import org.topcased.modeler.uml.oclinterpreter.ColorManager;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;

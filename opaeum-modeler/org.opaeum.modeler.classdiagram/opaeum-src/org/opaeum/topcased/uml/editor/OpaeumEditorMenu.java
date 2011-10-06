@@ -25,7 +25,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.name.NameConverter;
+import org.opeum.name.NameConverter;
 import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu;
 

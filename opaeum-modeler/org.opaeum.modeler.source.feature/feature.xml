@@ -6,10 +6,18 @@
       provider-name="Opaeum"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
+  <description url="%license">
+      Opaeum Modeler Source Feature
+   </description>
 
-   <license url="">
-      
-   </license>
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>   
+
 
    <requires>
       <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>

@@ -7,9 +7,17 @@
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
-   <license url="">
-      
-   </license>
+  <description url="%license">
+      Opaeum Modeler Feature
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>   
 
    <requires>
       <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>
@@ -119,11 +127,11 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
+   <!--plugin
          id="org.opaeum.modeler.product"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
+         unpack="false"/-->
 
 </feature>

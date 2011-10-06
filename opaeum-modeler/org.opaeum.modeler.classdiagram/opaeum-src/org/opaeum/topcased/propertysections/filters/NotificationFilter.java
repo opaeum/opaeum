@@ -1,9 +1,8 @@
 package org.opaeum.topcased.propertysections.filters;
 
+import org.eclipse.uml2.uml.Element;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-
-import org.eclipse.uml2.uml.Element;
 
 public class NotificationFilter extends AbstractFilter{
 	@Override

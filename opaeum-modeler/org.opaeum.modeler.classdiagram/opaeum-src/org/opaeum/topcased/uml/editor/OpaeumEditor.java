@@ -35,7 +35,7 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 					"Cannot close the model while the Opaeum tooling is still initializing. Please try again shortly.");
 		}else{
 			super.close(save);
-			if(save == false && getCurrentContext() != null){
+			if(isDirty() && save == false && getCurrentContext() != null){
 				getCurrentContext().removeNakedModel(getResourceSet());
 			}
 			if(getCurrentContext() != null){

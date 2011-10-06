@@ -1,7 +1,5 @@
 package org.opaeum.topcased.propertysections.ocl;
 
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -37,6 +35,7 @@ import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.LibraryImporter;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.uml.oclinterpreter.DelegatingPackageRegistry;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
 import org.topcased.modeler.uml.oclinterpreter.UMLOCLFactory;
