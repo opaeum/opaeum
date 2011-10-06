@@ -45,7 +45,7 @@ public class CompleteHandler87 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::AbstractRequest::complete";
+		return "OpeumLibraryForBPM::AbstractRequest::complete";
 	}
 	
 	public boolean handleOn(Object t) {

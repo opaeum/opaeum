@@ -48,7 +48,7 @@ import org.w3c.dom.NodeList;
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @NamedQueries(value=@NamedQuery(query="from WorkDay a where a.businessCalendar = :businessCalendar and a.kind = :kind",name="QueryWorkDayWithKindForBusinessCalendar"))
-@Table(schema="opium_bpm",uniqueConstraints={@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"}),@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"})},name="work_day")
+@Table(schema="opeum_bpm",uniqueConstraints={@UniqueConstraint(columnNames={"end_time_id","deleted_on"}),@UniqueConstraint(columnNames={"start_time_id","deleted_on"}),@UniqueConstraint(columnNames={"business_calendar_id","kind","deleted_on"})},name="work_day")
 @NumlMetaInfo(uuid="252060@_Jn9QcNb-EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class WorkDay implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {

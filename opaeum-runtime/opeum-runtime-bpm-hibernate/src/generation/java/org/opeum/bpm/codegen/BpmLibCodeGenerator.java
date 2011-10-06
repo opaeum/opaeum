@@ -22,10 +22,10 @@
 //		this.outputRoot = new File(".").getAbsoluteFile().getParentFile().getParentFile();
 //	}
 //	protected void generateCodeForSingleModel() throws Exception,IOException,FileNotFoundException{
-//		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/opeum/opeum-core/org.opeum.metamodels/models/libraries/OpiumBPM.library.uml");
+//		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/opeum/opeum-core/org.opeum.metamodels/models/libraries/OpeumBPM.library.uml");
 //		OpeumConfig cfg = buildConfig();
 //		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
-//		workspace.markLibraries("OpiumSimpleTypes.library.uml");
+//		workspace.markLibraries("OpeumSimpleTypes.library.uml");
 //		process.execute(cfg, workspace, getSteps(),new DefaultTransformationLog());
 //		workspace.getMappingInfo().store();
 //	}

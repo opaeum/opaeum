@@ -61,7 +61,7 @@ public class AddTaskRequestParticipantHandler177 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskRequest::addTaskRequestParticipant";
+		return "OpeumLibraryForBPM::TaskRequest::addTaskRequestParticipant";
 	}
 	
 	public boolean handleOn(Object t) {

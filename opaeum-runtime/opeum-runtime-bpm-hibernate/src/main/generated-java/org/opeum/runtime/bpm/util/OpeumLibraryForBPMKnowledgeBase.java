@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 
-public class OpiumLibraryForBPMKnowledgeBase extends AbstractJbpmKnowledgeBase {
-	static final public OpiumLibraryForBPMKnowledgeBase INSTANCE = new OpiumLibraryForBPMKnowledgeBase();
+public class OpeumLibraryForBPMKnowledgeBase extends AbstractJbpmKnowledgeBase {
+	static final public OpeumLibraryForBPMKnowledgeBase INSTANCE = new OpeumLibraryForBPMKnowledgeBase();
 
 
 	public Set<String> getProcessLocations() {

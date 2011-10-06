@@ -39,7 +39,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="ParticipationInTask")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",name="participation_in_task")
+@Table(schema="opeum_bpm",name="participation_in_task")
 @NumlMetaInfo(uuid="252060@_vZOC4I6UEeCne5ArYLDbiA")
 @AccessType("field")
 @DiscriminatorValue("participation_in_task")

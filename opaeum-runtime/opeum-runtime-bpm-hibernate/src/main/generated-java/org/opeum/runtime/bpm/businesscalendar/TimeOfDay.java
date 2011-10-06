@@ -25,7 +25,7 @@ import org.hibernate.Session;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.opeum.annotation.NumlMetaInfo;
-import org.opeum.runtime.bpm.util.OpiumLibraryForBPMFormatter;
+import org.opeum.runtime.bpm.util.OpeumLibraryForBPMFormatter;
 import org.opeum.runtime.bpm.util.Stdlib;
 import org.opeum.runtime.domain.HibernateEntity;
 import org.opeum.runtime.domain.IPersistentObject;
@@ -38,7 +38,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="TimeOfDay")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",name="time_of_day")
+@Table(schema="opeum_bpm",name="time_of_day")
 @NumlMetaInfo(uuid="252060@_UjTHMNb_EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObject {
@@ -83,10 +83,10 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		if ( xml.getAttribute("hours").length()>0 ) {
-			setHours(OpiumLibraryForBPMFormatter.getInstance().parseHourOfDay(xml.getAttribute("hours")));
+			setHours(OpeumLibraryForBPMFormatter.getInstance().parseHourOfDay(xml.getAttribute("hours")));
 		}
 		if ( xml.getAttribute("minutes").length()>0 ) {
-			setMinutes(OpiumLibraryForBPMFormatter.getInstance().parseMinuteOfHour(xml.getAttribute("minutes")));
+			setMinutes(OpeumLibraryForBPMFormatter.getInstance().parseMinuteOfHour(xml.getAttribute("minutes")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -215,10 +215,10 @@ public class TimeOfDay implements HibernateEntity, Serializable, IPersistentObje
 		sb.append("className=\"org.opeum.runtime.bpm.businesscalendar.TimeOfDay\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getHours()!=null ) {
-			sb.append("hours=\""+ OpiumLibraryForBPMFormatter.getInstance().formatHourOfDay(getHours())+"\" ");
+			sb.append("hours=\""+ OpeumLibraryForBPMFormatter.getInstance().formatHourOfDay(getHours())+"\" ");
 		}
 		if ( getMinutes()!=null ) {
-			sb.append("minutes=\""+ OpiumLibraryForBPMFormatter.getInstance().formatMinuteOfHour(getMinutes())+"\" ");
+			sb.append("minutes=\""+ OpeumLibraryForBPMFormatter.getInstance().formatMinuteOfHour(getMinutes())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n</TimeOfDay>");

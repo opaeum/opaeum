@@ -25,7 +25,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opeum.annotation.NumlMetaInfo;
-import org.opeum.runtime.bpm.util.OpiumLibraryForBPMFormatter;
+import org.opeum.runtime.bpm.util.OpeumLibraryForBPMFormatter;
 import org.opeum.runtime.bpm.util.Stdlib;
 import org.opeum.runtime.domain.CancelledEvent;
 import org.opeum.runtime.domain.CompositionNode;
@@ -42,7 +42,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="OnceOffHoliday")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",name="once_off_holiday")
+@Table(schema="opeum_bpm",name="once_off_holiday")
 @NumlMetaInfo(uuid="252060@_5rW3kNcCEeCJ0dmaHEVVnw")
 @AccessType("field")
 public class OnceOffHoliday implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
@@ -104,10 +104,10 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		if ( xml.getAttribute("name").length()>0 ) {
-			setName(OpiumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
+			setName(OpeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
 		}
 		if ( xml.getAttribute("date").length()>0 ) {
-			setDate(OpiumLibraryForBPMFormatter.getInstance().parseDate(xml.getAttribute("date")));
+			setDate(OpeumLibraryForBPMFormatter.getInstance().parseDate(xml.getAttribute("date")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -291,10 +291,10 @@ public class OnceOffHoliday implements IEventGenerator, CompositionNode, Hiberna
 		sb.append("className=\"org.opeum.runtime.bpm.businesscalendar.OnceOffHoliday\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getName()!=null ) {
-			sb.append("name=\""+ OpiumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
+			sb.append("name=\""+ OpeumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
 		}
 		if ( getDate()!=null ) {
-			sb.append("date=\""+ OpiumLibraryForBPMFormatter.getInstance().formatDate(getDate())+"\" ");
+			sb.append("date=\""+ OpeumLibraryForBPMFormatter.getInstance().formatDate(getDate())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n</OnceOffHoliday>");

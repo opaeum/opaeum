@@ -49,7 +49,7 @@ public class OnSkippedHandler114 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onSkipped";
+		return "OpeumLibraryForBPM::TaskObject::onSkipped";
 	}
 	
 	public BusinessRole getSkippedBy() {

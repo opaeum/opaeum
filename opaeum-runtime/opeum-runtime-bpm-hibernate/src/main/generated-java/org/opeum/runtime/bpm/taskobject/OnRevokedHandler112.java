@@ -49,7 +49,7 @@ public class OnRevokedHandler112 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onRevoked";
+		return "OpeumLibraryForBPM::TaskObject::onRevoked";
 	}
 	
 	public BusinessRole getRevokedBy() {

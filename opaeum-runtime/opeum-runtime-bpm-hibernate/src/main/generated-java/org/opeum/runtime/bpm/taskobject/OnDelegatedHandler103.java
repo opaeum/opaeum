@@ -60,7 +60,7 @@ public class OnDelegatedHandler103 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onDelegated";
+		return "OpeumLibraryForBPM::TaskObject::onDelegated";
 	}
 	
 	public boolean handleOn(Object t) {

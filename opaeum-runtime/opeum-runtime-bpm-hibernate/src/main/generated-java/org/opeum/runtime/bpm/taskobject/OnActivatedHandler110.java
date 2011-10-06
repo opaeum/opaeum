@@ -53,7 +53,7 @@ public class OnActivatedHandler110 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onActivated";
+		return "OpeumLibraryForBPM::TaskObject::onActivated";
 	}
 	
 	public boolean handleOn(Object t) {

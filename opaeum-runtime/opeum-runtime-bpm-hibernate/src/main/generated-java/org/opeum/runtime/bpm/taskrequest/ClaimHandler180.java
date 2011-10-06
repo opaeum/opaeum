@@ -45,7 +45,7 @@ public class ClaimHandler180 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskRequest::claim";
+		return "OpeumLibraryForBPM::TaskRequest::claim";
 	}
 	
 	public boolean handleOn(Object t) {

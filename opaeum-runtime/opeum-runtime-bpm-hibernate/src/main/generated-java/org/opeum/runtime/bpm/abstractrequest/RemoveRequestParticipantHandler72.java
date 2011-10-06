@@ -61,7 +61,7 @@ public class RemoveRequestParticipantHandler72 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::AbstractRequest::removeRequestParticipant";
+		return "OpeumLibraryForBPM::AbstractRequest::removeRequestParticipant";
 	}
 	
 	public boolean handleOn(Object t) {

@@ -45,7 +45,7 @@ public class StartHandler82 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::AbstractRequest::start";
+		return "OpeumLibraryForBPM::AbstractRequest::start";
 	}
 	
 	public boolean handleOn(Object t) {

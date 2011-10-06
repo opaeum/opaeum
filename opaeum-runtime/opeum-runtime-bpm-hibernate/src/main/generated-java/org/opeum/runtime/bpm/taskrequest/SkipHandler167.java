@@ -45,7 +45,7 @@ public class SkipHandler167 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskRequest::skip";
+		return "OpeumLibraryForBPM::TaskRequest::skip";
 	}
 	
 	public boolean handleOn(Object t) {

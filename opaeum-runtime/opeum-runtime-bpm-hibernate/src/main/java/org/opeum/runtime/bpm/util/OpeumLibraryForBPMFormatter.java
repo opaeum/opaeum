@@ -4,14 +4,14 @@ import java.util.Date;
 
 import org.opeum.runtime.domain.AbstractFormatter;
 
-public class OpiumLibraryForBPMFormatter extends AbstractFormatter implements IOpiumLibraryForBPMFormatter {
-	static final private ThreadLocal<OpiumLibraryForBPMFormatter> INSTANCE = new ThreadLocal<OpiumLibraryForBPMFormatter>();
+public class OpeumLibraryForBPMFormatter extends AbstractFormatter implements IOpeumLibraryForBPMFormatter {
+	static final private ThreadLocal<OpeumLibraryForBPMFormatter> INSTANCE = new ThreadLocal<OpeumLibraryForBPMFormatter>();
 
 
-	static public OpiumLibraryForBPMFormatter getInstance() {
-		OpiumLibraryForBPMFormatter result = INSTANCE.get();
+	static public OpeumLibraryForBPMFormatter getInstance() {
+		OpeumLibraryForBPMFormatter result = INSTANCE.get();
 		if ( result==null ) {
-			INSTANCE.set(result=new OpiumLibraryForBPMFormatter());
+			INSTANCE.set(result=new OpeumLibraryForBPMFormatter());
 		}
 		return result;
 	}

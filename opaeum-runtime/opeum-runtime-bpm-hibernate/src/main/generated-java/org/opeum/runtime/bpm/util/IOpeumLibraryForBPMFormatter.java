@@ -2,7 +2,7 @@ package org.opeum.runtime.bpm.util;
 
 import java.util.Date;
 
-public interface IOpiumLibraryForBPMFormatter {
+public interface IOpeumLibraryForBPMFormatter {
 	public String formatBoolean(Boolean value);
 	
 	public String formatDate(Date value);

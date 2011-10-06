@@ -49,7 +49,7 @@ public class OnStartedHandler120 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onStarted";
+		return "OpeumLibraryForBPM::TaskObject::onStarted";
 	}
 	
 	public BusinessRole getStartedBy() {

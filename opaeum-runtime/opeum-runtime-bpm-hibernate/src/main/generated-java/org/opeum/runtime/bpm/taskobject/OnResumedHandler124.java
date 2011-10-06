@@ -49,7 +49,7 @@ public class OnResumedHandler124 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onResumed";
+		return "OpeumLibraryForBPM::TaskObject::onResumed";
 	}
 	
 	public BusinessRole getResumedBy() {

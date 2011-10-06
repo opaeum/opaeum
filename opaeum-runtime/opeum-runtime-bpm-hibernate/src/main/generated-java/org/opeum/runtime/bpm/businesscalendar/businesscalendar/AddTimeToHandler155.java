@@ -66,7 +66,7 @@ public class AddTimeToHandler155 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::businesscalendar::BusinessCalendar::addTimeTo";
+		return "OpeumLibraryForBPM::businesscalendar::BusinessCalendar::addTimeTo";
 	}
 	
 	public Date getResult() {

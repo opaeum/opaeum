@@ -45,7 +45,7 @@ public class ActivateHandler89 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::AbstractRequest::activate";
+		return "OpeumLibraryForBPM::AbstractRequest::activate";
 	}
 	
 	public boolean handleOn(Object t) {

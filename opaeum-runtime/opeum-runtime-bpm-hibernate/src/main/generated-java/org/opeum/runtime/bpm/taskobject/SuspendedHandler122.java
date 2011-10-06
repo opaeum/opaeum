@@ -49,7 +49,7 @@ public class SuspendedHandler122 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::suspended";
+		return "OpeumLibraryForBPM::TaskObject::suspended";
 	}
 	
 	public BusinessRole getSuspendedBy() {

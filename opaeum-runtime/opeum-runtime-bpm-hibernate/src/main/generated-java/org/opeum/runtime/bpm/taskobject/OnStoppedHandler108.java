@@ -49,7 +49,7 @@ public class OnStoppedHandler108 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onStopped";
+		return "OpeumLibraryForBPM::TaskObject::onStopped";
 	}
 	
 	public BusinessRole getStoppedBy() {

@@ -43,7 +43,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="Participation")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",name="participation")
+@Table(schema="opeum_bpm",name="participation")
 @NumlMetaInfo(uuid="252060@_jRjnII6MEeCrtavWRHwoHg")
 @AccessType("field")
 public class Participation implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {

@@ -30,7 +30,7 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opeum.annotation.NumlMetaInfo;
 import org.opeum.runtime.bpm.BusinessComponent;
-import org.opeum.runtime.bpm.util.OpiumLibraryForBPMFormatter;
+import org.opeum.runtime.bpm.util.OpeumLibraryForBPMFormatter;
 import org.opeum.runtime.bpm.util.Stdlib;
 import org.opeum.runtime.domain.CancelledEvent;
 import org.opeum.runtime.domain.CompositionNode;
@@ -49,7 +49,7 @@ import org.w3c.dom.NodeList;
 @MappedSuperclass
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",uniqueConstraints=@UniqueConstraint(columnNames={"business_component","deleted_on"}),name="business_calendar")
+@Table(schema="opeum_bpm",uniqueConstraints=@UniqueConstraint(columnNames={"business_component","deleted_on"}),name="business_calendar")
 @NumlMetaInfo(uuid="252060@_x9fmQNb9EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class BusinessCalendarGenerated implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
@@ -172,13 +172,13 @@ public class BusinessCalendarGenerated implements IEventGenerator, CompositionNo
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		if ( xml.getAttribute("businessHoursPerDay").length()>0 ) {
-			setBusinessHoursPerDay(OpiumLibraryForBPMFormatter.getInstance().parseReal(xml.getAttribute("businessHoursPerDay")));
+			setBusinessHoursPerDay(OpeumLibraryForBPMFormatter.getInstance().parseReal(xml.getAttribute("businessHoursPerDay")));
 		}
 		if ( xml.getAttribute("businessHoursPerWeek").length()>0 ) {
-			setBusinessHoursPerWeek(OpiumLibraryForBPMFormatter.getInstance().parseReal(xml.getAttribute("businessHoursPerWeek")));
+			setBusinessHoursPerWeek(OpeumLibraryForBPMFormatter.getInstance().parseReal(xml.getAttribute("businessHoursPerWeek")));
 		}
 		if ( xml.getAttribute("businessDaysPerMonth").length()>0 ) {
-			setBusinessDaysPerMonth(OpiumLibraryForBPMFormatter.getInstance().parseInteger(xml.getAttribute("businessDaysPerMonth")));
+			setBusinessDaysPerMonth(OpeumLibraryForBPMFormatter.getInstance().parseInteger(xml.getAttribute("businessDaysPerMonth")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -610,13 +610,13 @@ public class BusinessCalendarGenerated implements IEventGenerator, CompositionNo
 		sb.append("className=\"org.opeum.runtime.bpm.businesscalendar.BusinessCalendar\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getBusinessHoursPerDay()!=null ) {
-			sb.append("businessHoursPerDay=\""+ OpiumLibraryForBPMFormatter.getInstance().formatReal(getBusinessHoursPerDay())+"\" ");
+			sb.append("businessHoursPerDay=\""+ OpeumLibraryForBPMFormatter.getInstance().formatReal(getBusinessHoursPerDay())+"\" ");
 		}
 		if ( getBusinessHoursPerWeek()!=null ) {
-			sb.append("businessHoursPerWeek=\""+ OpiumLibraryForBPMFormatter.getInstance().formatReal(getBusinessHoursPerWeek())+"\" ");
+			sb.append("businessHoursPerWeek=\""+ OpeumLibraryForBPMFormatter.getInstance().formatReal(getBusinessHoursPerWeek())+"\" ");
 		}
 		if ( getBusinessDaysPerMonth()!=null ) {
-			sb.append("businessDaysPerMonth=\""+ OpiumLibraryForBPMFormatter.getInstance().formatInteger(getBusinessDaysPerMonth())+"\" ");
+			sb.append("businessDaysPerMonth=\""+ OpeumLibraryForBPMFormatter.getInstance().formatInteger(getBusinessDaysPerMonth())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n<onceOffHoliday propertyId=\"161\">");

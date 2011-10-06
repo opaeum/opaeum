@@ -53,7 +53,7 @@ public class OnClaimedHandler101 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onClaimed";
+		return "OpeumLibraryForBPM::TaskObject::onClaimed";
 	}
 	
 	public boolean handleOn(Object t) {

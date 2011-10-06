@@ -2,12 +2,12 @@ package org.opeum.runtime.bpm.util;
 
 import org.opeum.runtime.environment.JavaMetaInfoMap;
 
-public class OpiumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
-	static final public OpiumLibraryForBPMJavaMetaInfoMap INSTANCE = new OpiumLibraryForBPMJavaMetaInfoMap();
+public class OpeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
+	static final public OpeumLibraryForBPMJavaMetaInfoMap INSTANCE = new OpeumLibraryForBPMJavaMetaInfoMap();
 
-	/** Constructor for OpiumLibraryForBPMJavaMetaInfoMap
+	/** Constructor for OpeumLibraryForBPMJavaMetaInfoMap
 	 */
-	public OpiumLibraryForBPMJavaMetaInfoMap() {
+	public OpeumLibraryForBPMJavaMetaInfoMap() {
 		putClass(org.opeum.runtime.bpm.Participation.class,"252060@_jRjnII6MEeCrtavWRHwoHg");
 		putClass(org.opeum.runtime.bpm.OperationProcessObject.class,"252060@_5DVD4I3oEeCfQedkc0TCdA");
 		putClass(org.opeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_x9fmQNb9EeCJ0dmaHEVVnw");

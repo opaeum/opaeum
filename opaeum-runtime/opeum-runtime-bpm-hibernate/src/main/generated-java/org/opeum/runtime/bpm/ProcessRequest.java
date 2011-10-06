@@ -52,7 +52,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="ProcessRequest")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",name="process_request")
+@Table(schema="opeum_bpm",name="process_request")
 @NumlMetaInfo(uuid="252060@_ciiWAI2-EeCrtavWRHwoHg")
 @AccessType("field")
 @DiscriminatorValue("process_request")
@@ -169,7 +169,7 @@ public class ProcessRequest extends AbstractRequest implements IEventGenerator, 
 		WorkflowProcessInstance processInstance;
 		setExecutedOn(new Date());
 		params.put("processObject", this);
-		processInstance = (WorkflowProcessInstance)org.opeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opium_bpm_process_request",params);
+		processInstance = (WorkflowProcessInstance)org.opeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class).startProcess("opeum_bpm_process_request",params);
 		((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true);
 		this.processInstance=processInstance;
 		this.setProcessInstanceId(processInstance.getId());

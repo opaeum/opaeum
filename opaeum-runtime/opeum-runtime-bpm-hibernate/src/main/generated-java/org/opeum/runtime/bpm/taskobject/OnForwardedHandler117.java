@@ -60,7 +60,7 @@ public class OnForwardedHandler117 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onForwarded";
+		return "OpeumLibraryForBPM::TaskObject::onForwarded";
 	}
 	
 	public boolean handleOn(Object t) {

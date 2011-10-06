@@ -28,7 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opeum.annotation.NumlMetaInfo;
-import org.opeum.runtime.bpm.util.OpiumLibraryForBPMFormatter;
+import org.opeum.runtime.bpm.util.OpeumLibraryForBPMFormatter;
 import org.opeum.runtime.bpm.util.Stdlib;
 import org.opeum.runtime.domain.CancelledEvent;
 import org.opeum.runtime.domain.CompositionNode;
@@ -45,7 +45,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="RecurringHoliday")
 @DiscriminatorColumn(name="type_descriminator",discriminatorType=javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
-@Table(schema="opium_bpm",name="recurring_holiday")
+@Table(schema="opeum_bpm",name="recurring_holiday")
 @NumlMetaInfo(uuid="252060@_TFKVQNb_EeCJ0dmaHEVVnw")
 @AccessType("field")
 public class RecurringHoliday implements IEventGenerator, CompositionNode, HibernateEntity, Serializable, IPersistentObject {
@@ -112,13 +112,13 @@ public class RecurringHoliday implements IEventGenerator, CompositionNode, Hiber
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		if ( xml.getAttribute("name").length()>0 ) {
-			setName(OpiumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
+			setName(OpeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("name")));
 		}
 		if ( xml.getAttribute("month").length()>0 ) {
 			setMonth(Month.valueOf(xml.getAttribute("month")));
 		}
 		if ( xml.getAttribute("day").length()>0 ) {
-			setDay(OpiumLibraryForBPMFormatter.getInstance().parseDayOfMonth(xml.getAttribute("day")));
+			setDay(OpeumLibraryForBPMFormatter.getInstance().parseDayOfMonth(xml.getAttribute("day")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -315,13 +315,13 @@ public class RecurringHoliday implements IEventGenerator, CompositionNode, Hiber
 		sb.append("className=\"org.opeum.runtime.bpm.businesscalendar.RecurringHoliday\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getName()!=null ) {
-			sb.append("name=\""+ OpiumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
+			sb.append("name=\""+ OpeumLibraryForBPMFormatter.getInstance().formatString(getName())+"\" ");
 		}
 		if ( getMonth()!=null ) {
 			sb.append("month=\""+ getMonth().name() + "\" ");
 		}
 		if ( getDay()!=null ) {
-			sb.append("day=\""+ OpiumLibraryForBPMFormatter.getInstance().formatDayOfMonth(getDay())+"\" ");
+			sb.append("day=\""+ OpeumLibraryForBPMFormatter.getInstance().formatDayOfMonth(getDay())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n</RecurringHoliday>");

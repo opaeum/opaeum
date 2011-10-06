@@ -49,7 +49,7 @@ public class ForwardHandler171 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskRequest::forward";
+		return "OpeumLibraryForBPM::TaskRequest::forward";
 	}
 	
 	public BusinessRole getToPerson() {

@@ -45,7 +45,7 @@ public class StopHandler176 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskRequest::stop";
+		return "OpeumLibraryForBPM::TaskRequest::stop";
 	}
 	
 	public boolean handleOn(Object t) {

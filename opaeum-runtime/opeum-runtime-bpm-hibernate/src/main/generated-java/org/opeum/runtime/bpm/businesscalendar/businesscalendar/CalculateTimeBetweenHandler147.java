@@ -66,7 +66,7 @@ public class CalculateTimeBetweenHandler147 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::businesscalendar::BusinessCalendar::calculateTimeBetween";
+		return "OpeumLibraryForBPM::businesscalendar::BusinessCalendar::calculateTimeBetween";
 	}
 	
 	public Double getResult() {

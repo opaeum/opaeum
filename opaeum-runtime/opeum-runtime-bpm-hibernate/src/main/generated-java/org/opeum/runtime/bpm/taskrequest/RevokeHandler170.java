@@ -45,7 +45,7 @@ public class RevokeHandler170 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskRequest::revoke";
+		return "OpeumLibraryForBPM::TaskRequest::revoke";
 	}
 	
 	public boolean handleOn(Object t) {

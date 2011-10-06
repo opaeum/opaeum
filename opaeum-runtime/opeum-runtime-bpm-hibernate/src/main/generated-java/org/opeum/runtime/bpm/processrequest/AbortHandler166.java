@@ -45,7 +45,7 @@ public class AbortHandler166 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::ProcessRequest::abort";
+		return "OpeumLibraryForBPM::ProcessRequest::abort";
 	}
 	
 	public boolean handleOn(Object t) {

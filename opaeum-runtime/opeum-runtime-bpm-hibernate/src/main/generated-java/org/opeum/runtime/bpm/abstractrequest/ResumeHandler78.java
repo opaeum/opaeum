@@ -45,7 +45,7 @@ public class ResumeHandler78 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::AbstractRequest::resume";
+		return "OpeumLibraryForBPM::AbstractRequest::resume";
 	}
 	
 	public boolean handleOn(Object t) {

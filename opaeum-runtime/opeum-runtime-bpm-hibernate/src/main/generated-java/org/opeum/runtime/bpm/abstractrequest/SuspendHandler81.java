@@ -45,7 +45,7 @@ public class SuspendHandler81 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::AbstractRequest::suspend";
+		return "OpeumLibraryForBPM::AbstractRequest::suspend";
 	}
 	
 	public boolean handleOn(Object t) {

@@ -53,7 +53,7 @@ public class OnCompletedHandler106 implements ICallEventHandler {
 	}
 	
 	public String getQueueName() {
-		return "OpiumLibraryForBPM::TaskObject::onCompleted";
+		return "OpeumLibraryForBPM::TaskObject::onCompleted";
 	}
 	
 	public boolean handleOn(Object t) {
