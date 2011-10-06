@@ -40,7 +40,7 @@ public class Renamer{
 	}
 	public static void pipe(Process exec) throws InterruptedException,IOException{
 		System.out.println(exec.waitFor());
-		BufferedReader r = new BufferedReader(new InputStreamReader(exec.getInputStream()));
+		BufferedReader r = new BufferedReader(new InputStreamReader(exec.getErrorStream()));
 		String line = null;
 		while((line = r.readLine()) != null){
 			System.out.println(line);
