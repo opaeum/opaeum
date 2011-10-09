@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.internal.StructureActivityNodeClassifier;
 import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.components.INakedConnectorEnd;
@@ -116,6 +118,8 @@ public class ArtificialProperty extends AbstractPropertyBridge{
 	private static INakedClassifier getOwner(MessageStructureImpl task){
 		if(task instanceof OperationMessageStructureImpl){
 			return ((OperationMessageStructureImpl) task).getOperation().getOwner();
+		}else if(task instanceof StructureActivityNodeClassifier){
+			return ((StructureActivityNodeClassifier) task).getNearestStructuredParent();
 		}else{
 			return ((EmbeddedSingleScreenTaskMessageStructureImpl) task).getAction().getActivity();
 		}
@@ -155,7 +159,11 @@ public class ArtificialProperty extends AbstractPropertyBridge{
 	}
 	public INakedProperty getOtherEnd(){
 		if(otherEnd == null){
-			if(baseType instanceof OperationMessageStructureImpl && ((OperationMessageStructureImpl) baseType).getOperation().getOwner() == owner){
+			if(baseType instanceof StructureActivityNodeClassifier){
+				if(!"nodeContainer".equals(getName())){
+					otherEnd = new ArtificialProperty(this, "nodeContainer");
+				}
+			}else if(baseType instanceof OperationMessageStructureImpl && ((OperationMessageStructureImpl) baseType).getOperation().getOwner() == owner){
 				otherEnd = new ArtificialProperty(this, "contextObject");
 			}else if(baseType instanceof IParameterOwner && ((IParameterOwner) baseType).getContext() == owner){
 				otherEnd = new ArtificialProperty(this, "contextObject");

@@ -13,6 +13,6 @@ import org.opaeum.textmetamodel.TextWorkspace;
 public interface JavaTransformationStep extends ITransformationStep{
 	public void initialize(OJPackage pac, OpaeumConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) ;
 	public void setTransformationContext(TransformationContext c);
-	public Collection<? extends TextOutputNode> getTextFiles();
+	public Collection<TextOutputNode> getTextFiles();
 }
 

@@ -15,6 +15,9 @@
     <sourceFolderStrategy
           className="org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
+    <sourceFolderStrategy
+          className="org.opaeum.pomgeneration.TestSourceFolderStrategy">
+    </sourceFolderStrategy>
  </extension>
  <extension
        point="org.eclipse.ui.menus">

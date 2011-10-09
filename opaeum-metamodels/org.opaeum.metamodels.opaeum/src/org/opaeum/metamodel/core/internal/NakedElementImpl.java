@@ -207,7 +207,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	@Override
 	public int hashCode(){
 		if(id==null){
-			System.out.println();
+			
 		}
 		return id.hashCode();
 	}

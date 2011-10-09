@@ -1,5 +1,7 @@
 package org.opaeum.topcased.propertysections.ocl;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -80,7 +82,8 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 					}
 				}
 			}
-			for(TypedElement te:EmfElementFinder.getTypedElementsInScope(context)){
+			List<TypedElement> tes = EmfElementFinder.getTypedElementsInScope(context);
+			for(TypedElement te:tes){
 				if(te instanceof org.eclipse.uml2.uml.Variable || te instanceof Parameter || te instanceof Pin){
 					Variable var = UMLFactory.eINSTANCE.createVariable();
 					var.setType(te.getType());

@@ -517,4 +517,15 @@ public class Environment implements INameSpace {
 	public Collection<IPackage> getSubpackages() {
 		return Collections.emptySet();
 	}
+
+	public void replaceElement(String string,IModelElement messageStructure, boolean imp){
+		Iterator<NamedElement> iterator = namedElements.iterator();
+		while(iterator.hasNext()){
+			if(iterator.next().getName().equals(string)){
+				iterator.remove();
+			}
+		}
+		addElement(string, messageStructure, imp);
+		
+	}
 }

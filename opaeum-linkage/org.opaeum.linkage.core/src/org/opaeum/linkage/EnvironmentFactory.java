@@ -9,6 +9,7 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IPackage;
 
+import org.opaeum.metamodel.activities.ActivityNodeContainer;
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
@@ -93,10 +94,15 @@ public class EnvironmentFactory{
 	public Environment createBehaviorEnvironment(INakedBehavior owningBehavior){
 		return createBehavioralEnvironment(owningBehavior, owningBehavior);
 	}
-	public Environment createActivityEnvironment(INakedElement startingElement,INakedActivity owningBehavior){
+	Environment createActivityEnvironment(INakedElement startingElement,INakedActivity owningBehavior){
 		Environment env = createBehavioralEnvironment(owningBehavior, owningBehavior);
 		if(BehaviorUtil.hasExecutionInstance(owningBehavior)){
-			addActivityStructureAsLocalContext(env, startingElement, false);
+			while((startingElement.getOwnerElement() instanceof ActivityNodeContainer)){
+				startingElement = (INakedElement) startingElement.getOwnerElement();
+			}
+			if(startingElement.getOwnerElement() instanceof INakedStructuredActivityNode){
+				env.replaceElement("self", ((INakedStructuredActivityNode) startingElement.getOwnerElement()).getMessageStructure(),true);
+			}
 		}else{
 			addActivityStructureAsLocalContext(env, startingElement, true);
 		}

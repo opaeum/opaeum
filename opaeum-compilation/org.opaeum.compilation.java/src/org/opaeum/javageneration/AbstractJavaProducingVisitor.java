@@ -31,7 +31,6 @@ import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedTypedElement;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -41,19 +40,12 @@ import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextDirectory;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextOutputNode;
-import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.visitor.TextFileGeneratingVisitor;
 
-public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor implements JavaTransformationStep{
+public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJPackage javaModel;
-	protected OpaeumConfig config;
-	protected TextWorkspace textWorkspace;
-	protected Set<TextOutputNode> textFiles;
-	protected INakedModelWorkspace workspace;
-	public Set<TextOutputNode> getTextFiles(){
-		return textFiles;
-	}
 	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
 		Set<T> result = new HashSet<T>();
 		for(INakedRootObject r:roots){
@@ -113,29 +105,12 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 		OJPathName utilPath = new OJPathName(qualifiedJavaName + ".util");
 		return utilPath;
 	}
-	public synchronized TextFile createTextPath(OJClassifier c,ISourceFolderIdentifier id){
-		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(id);
-		SourceFolder or = getSourceFolder(outputRoot);
-		List<String> names = c.getPathName().getHead().getNames();
-		names.add(c.getName() + ".java");
-		JavaTextSource jts = new JavaTextSource(c);
-		TextFile file = or.findOrCreateTextFile(names, jts, outputRoot.overwriteFiles());
-		file.setTextSource(jts);
-		this.textFiles.add(file);
-		return file;
-	}
-	protected synchronized SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : getCurrentRootObject().getIdentifier();
-		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
-		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
-		return or;
-	}
 	protected final OJAnnotatedPackageInfo findOrCreatePackageInfo(OJPathName packageName,JavaSourceFolderIdentifier id){
 		SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(id);
 		SourceFolder or = getSourceFolder(sourceFolderDefinition);
 		List<String> names = packageName.getNames();
 		TextDirectory txtDir = or.findOrCreateTextDirectory(names);
-		TextFile txtFile = txtDir.findOrCreateTextFile(Arrays.asList("package-info.java"), null, sourceFolderDefinition.overwriteFiles());
+		TextFile txtFile = txtDir.findOrCreateTextFile(Arrays.asList("package-info.java"),  sourceFolderDefinition.overwriteFiles());
 		if(txtFile.getTextSource() == null){
 			OJAnnotatedPackageInfo pkgInfo = new OJAnnotatedPackageInfo();
 			findOrCreatePackage(packageName).addToPackageInfo(pkgInfo);
@@ -265,4 +240,13 @@ public class AbstractJavaProducingVisitor extends NakedElementOwnerVisitor imple
 	protected int getThreadPoolSize(){
 		return 1;
 	}
+	public synchronized TextFile createTextPath(OJClassifier c,ISourceFolderIdentifier id){
+		List<String> names = c.getPathName().getHead().getNames();
+		names.add(c.getName() + ".java");
+		TextFile file = createTextPath( id, names);
+		JavaTextSource jts = new JavaTextSource(c);
+		file.setTextSource(jts);
+		return file;
+	}
+
 }

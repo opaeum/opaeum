@@ -65,7 +65,6 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60));
 								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,!cfg.getSourceFolderStrategy().isSingleProjectStrategy());
-								p.findModel(EmfWorkspace.class).saveAll();
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
 								currentContext. getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());

@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
+import org.opaeum.textmetamodel.ProjectNameStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opeum.util.SortedProperties;
 
@@ -218,7 +219,12 @@ public class OpaeumConfig{
 		return sourceFolderDefinitions.get(id);
 	}
 	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,boolean useWorkspaceName,String projectSuffix,String relativeSourceFolder){
-		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName, projectSuffix, relativeSourceFolder);
+		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName?ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX:ProjectNameStrategy.MODEL_NAME_AND_SUFFIX, projectSuffix, relativeSourceFolder);
+		sourceFolderDefinitions.put(id, value);
+		return value;
+	}
+	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectSuffix,String relativeSourceFolder){
+		SourceFolderDefinition value = new SourceFolderDefinition(pns, projectSuffix, relativeSourceFolder);
 		sourceFolderDefinitions.put(id, value);
 		return value;
 	}

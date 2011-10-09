@@ -1,6 +1,7 @@
 package org.opaeum.feature;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -47,14 +48,18 @@ public abstract class SequenceCalculator<T>{
 	private void resolvePredecessors(){
 		for(Class<? extends T> clzz:selectedSteps){
 			BeforeAndAfter me = getBeforeAndAfter(clzz);
-			addMyPredecessors(me);
-			addMeToMySuccessors(me);
+			addMyPredecessors(me,0);
+			addMeToMySuccessors(me,0);
 		}
 	}
-	private void addMeToMySuccessors(BeforeAndAfter me){
+	private void addMeToMySuccessors(BeforeAndAfter me, int depth){
+		if(depth>200){
+			throw new CircularPrecessionException(Collections.emptyList(), me);
+		}
 		for(Class<? extends T> c:me.before()){
 			BeforeAndAfter successor = getBeforeAndAfter(c);
-			addMeToMySuccessors(successor);
+			
+			addMeToMySuccessors(successor,depth+1);
 			successor.addPredecessor(me);
 		}
 	}
@@ -65,10 +70,13 @@ public abstract class SequenceCalculator<T>{
 		}
 		return beforeAndAfter;
 	}
-	private void addMyPredecessors(BeforeAndAfter me){
+	private void addMyPredecessors(BeforeAndAfter me, int depth){
+		if(depth>200){
+			throw new CircularPrecessionException(Collections.emptyList(), me);
+		}
 		for(Class<? extends T> c:me.after()){
 			BeforeAndAfter predecessor = getBeforeAndAfter(c);
-			addMyPredecessors(predecessor);
+			addMyPredecessors(predecessor,depth+1);
 			me.addPredecessor(predecessor);
 		}
 	}

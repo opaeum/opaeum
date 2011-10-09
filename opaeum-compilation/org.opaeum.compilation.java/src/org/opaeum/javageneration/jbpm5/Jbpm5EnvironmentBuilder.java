@@ -29,7 +29,6 @@ import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	ProcessIdentifier.class
@@ -101,7 +100,8 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		instance.setFinal(true);
 		instance.setInitExp("new " + pn.getLast() + "()");
 		knowledgeBase.addToFields(instance);
-		knowledgeBase.setSuperclass(new OJPathName(AbstractJbpmKnowledgeBase.class.getName()));
+		//TODO introduce constant
+		knowledgeBase.setSuperclass(new OJPathName("org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase"));
 	}
 	@Override
 	protected int getThreadPoolSize(){

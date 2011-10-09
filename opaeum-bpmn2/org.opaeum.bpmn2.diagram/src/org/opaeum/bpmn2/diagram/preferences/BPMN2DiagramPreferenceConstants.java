@@ -144,4 +144,79 @@ public interface BPMN2DiagramPreferenceConstants{
 	 * @generated
 	 */
 	String SIGNALEVENTDEFINITION_DEFAULT_FONT = "SignalEventDefinition Default Font";
+	/**
+	 * The key used to install a <i>InclusiveGateway Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String INCLUSIVEGATEWAY_DEFAULT_BACKGROUND_COLOR = "InclusiveGateway Default Background Color";
+	/**
+	 * The key used to install a <i>InclusiveGateway Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String INCLUSIVEGATEWAY_DEFAULT_FOREGROUND_COLOR = "InclusiveGateway Default Foreground Color";
+	/**
+	 * The key used to install a <i>InclusiveGateway Default Font</i> Preference.
+	 * @generated
+	 */
+	String INCLUSIVEGATEWAY_DEFAULT_FONT = "InclusiveGateway Default Font";
+	/**
+	 * The key used to install a <i>ExclusiveGateway Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String EXCLUSIVEGATEWAY_DEFAULT_BACKGROUND_COLOR = "ExclusiveGateway Default Background Color";
+	/**
+	 * The key used to install a <i>ExclusiveGateway Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String EXCLUSIVEGATEWAY_DEFAULT_FOREGROUND_COLOR = "ExclusiveGateway Default Foreground Color";
+	/**
+	 * The key used to install a <i>ExclusiveGateway Default Font</i> Preference.
+	 * @generated
+	 */
+	String EXCLUSIVEGATEWAY_DEFAULT_FONT = "ExclusiveGateway Default Font";
+	/**
+	 * The key used to install a <i>ParallelGateway Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String PARALLELGATEWAY_DEFAULT_BACKGROUND_COLOR = "ParallelGateway Default Background Color";
+	/**
+	 * The key used to install a <i>ParallelGateway Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String PARALLELGATEWAY_DEFAULT_FOREGROUND_COLOR = "ParallelGateway Default Foreground Color";
+	/**
+	 * The key used to install a <i>ParallelGateway Default Font</i> Preference.
+	 * @generated
+	 */
+	String PARALLELGATEWAY_DEFAULT_FONT = "ParallelGateway Default Font";
+	/**
+	 * The key used to install a <i>EventBasedGateway Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String EVENTBASEDGATEWAY_DEFAULT_BACKGROUND_COLOR = "EventBasedGateway Default Background Color";
+	/**
+	 * The key used to install a <i>EventBasedGateway Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String EVENTBASEDGATEWAY_DEFAULT_FOREGROUND_COLOR = "EventBasedGateway Default Foreground Color";
+	/**
+	 * The key used to install a <i>EventBasedGateway Default Font</i> Preference.
+	 * @generated
+	 */
+	String EVENTBASEDGATEWAY_DEFAULT_FONT = "EventBasedGateway Default Font";
+	/**
+	 * The key used to install a <i>ComplexGateway Default Background Color</i> Preference.
+	 * @generated
+	 */
+	String COMPLEXGATEWAY_DEFAULT_BACKGROUND_COLOR = "ComplexGateway Default Background Color";
+	/**
+	 * The key used to install a <i>ComplexGateway Default Foreground Color</i> Preference.
+	 * @generated
+	 */
+	String COMPLEXGATEWAY_DEFAULT_FOREGROUND_COLOR = "ComplexGateway Default Foreground Color";
+	/**
+	 * The key used to install a <i>ComplexGateway Default Font</i> Preference.
+	 * @generated
+	 */
+	String COMPLEXGATEWAY_DEFAULT_FONT = "ComplexGateway Default Font";
 }

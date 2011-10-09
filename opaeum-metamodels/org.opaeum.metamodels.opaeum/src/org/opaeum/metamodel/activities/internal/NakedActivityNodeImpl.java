@@ -12,6 +12,7 @@ import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedActivityPartition;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
@@ -140,5 +141,16 @@ public class NakedActivityNodeImpl extends NakedElementImpl implements INakedAct
 			statePath.addString(getName());
 			return statePath;
 		}
+	}
+	@Override
+	public INakedClassifier getNearestStructuredElementAsClassifier(){
+		if(getOwnerElement() instanceof INakedActivity){
+			return (INakedClassifier) getOwnerElement();
+		}else if(getOwnerElement() instanceof INakedStructuredActivityNode){
+			return ((INakedStructuredActivityNode)getOwnerElement()).getMessageStructure();
+		}else if(getOwnerElement() instanceof INakedActivityNode){
+			return ((INakedActivityNode)getOwnerElement()).getNearestStructuredElementAsClassifier();
+		}
+		return null;
 	}
 }

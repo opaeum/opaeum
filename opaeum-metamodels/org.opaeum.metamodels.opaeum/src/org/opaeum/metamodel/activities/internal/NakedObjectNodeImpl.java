@@ -26,17 +26,15 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	public INakedObjectNode getFeedingNode(){
 		return getObjectNodeSource(getIncoming());
 	}
-	
-	public INakedExceptionHandler getIncomingExceptionHandler() {
+	public INakedExceptionHandler getIncomingExceptionHandler(){
 		return incomingExceptionHandler;
 	}
-
-	public void setIncomingExceptionHandler(INakedExceptionHandler incomingExceptionHandler) {
+	public void setIncomingExceptionHandler(INakedExceptionHandler incomingExceptionHandler){
 		this.incomingExceptionHandler = incomingExceptionHandler;
 	}
 	private INakedObjectNode getObjectNodeSource(Collection<INakedActivityEdge> source){
-		for (INakedActivityEdge edge : source) {
-			return ((INakedObjectFlow)edge).getOriginatingObjectNode();
+		for(INakedActivityEdge edge:source){
+			return ((INakedObjectFlow) edge).getOriginatingObjectNode();
 		}
 		return null;
 	}
@@ -45,12 +43,15 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	}
 	private INakedObjectNode getObjectNodeTarget(Collection<INakedActivityEdge> outgoing){
 		Iterator<INakedActivityEdge> iter = outgoing.iterator();
-		if(iter.hasNext()){
-			INakedObjectFlow flow = (INakedObjectFlow) iter.next();
-			if(flow.getTarget() instanceof INakedObjectNode){
-				return (INakedObjectNode) flow.getTarget();
-			}else if(flow.getTarget() instanceof INakedControlNode){
-				return getObjectNodeSource(flow.getTarget().getOutgoing());
+		while(iter.hasNext()){
+			INakedActivityEdge next = iter.next();
+			if(next instanceof INakedObjectFlow){
+				INakedObjectFlow flow = (INakedObjectFlow) next;
+				if(flow.getTarget() instanceof INakedObjectNode){
+					return (INakedObjectNode) flow.getTarget();
+				}else if(flow.getTarget() instanceof INakedControlNode){
+					return getObjectNodeTarget(flow.getTarget().getOutgoing());
+				}
 			}
 		}
 		return null;

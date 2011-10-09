@@ -15,7 +15,7 @@
    viewBox="0 0 24 24"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.48.0 r9654"
    sodipodi:docname="Signal.svg"
    inkscape:export-filename="/home/hmalphettes/proj/stp-europa/org.eclipse.stp.bpmn.edit/icons/full/obj16/activities/intermediate_signal.png"
    inkscape:export-xdpi="60"
@@ -64,7 +64,7 @@
   </defs>
   <path
      sodipodi:type="star"
-     style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
      id="path2163"
      sodipodi:sides="3"
      sodipodi:cx="-9.9200001"
@@ -76,6 +76,6 @@
      inkscape:flatsided="true"
      inkscape:rounded="0"
      inkscape:randomized="0"
-     d="M -4.8640003,6.016 L -15.163856,5.6906244 L -9.7321444,-3.0666241 L -4.8640003,6.016 z"
-     transform="matrix(1.1072169,-3.5824931e-2,3.5824931e-2,1.1072169,22.877896,8.7749156)" />
+     d="M -4.8640003,6.016 -15.163856,5.6906244 -9.7321444,-3.0666241 z"
+     transform="matrix(1.8842487,-0.06760271,0.06096644,2.089351,30.511876,8.4241192)" />
 </svg>

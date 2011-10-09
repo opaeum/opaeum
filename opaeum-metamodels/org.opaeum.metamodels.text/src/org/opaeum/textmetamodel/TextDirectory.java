@@ -22,11 +22,11 @@ public class TextDirectory extends TextOutputNode{
 	public SourceFolder getSourceFolder(){
 		return ((TextDirectory) getParent()).getSourceFolder();
 	}
-	public TextFile findOrCreateTextFile(List<String> path,TextSource source,boolean overwrite){
+	public TextFile findOrCreateTextFile(List<String> path, boolean overwrite){
 		TextOutputNode root = findNode(path.get(0));
 		if(path.size() == 1){
 			if(root == null){
-				root = new TextFile(this, path.get(0), source, overwrite);
+				root = new TextFile(this, path.get(0), overwrite);
 				children.add(root);
 			}else{
 				root.restore();
@@ -39,7 +39,7 @@ public class TextDirectory extends TextOutputNode{
 			}else{
 				root.restore();
 			}
-			return ((TextDirectory) root).findOrCreateTextFile(path.subList(1, path.size()), source, overwrite);
+			return ((TextDirectory) root).findOrCreateTextFile(path.subList(1, path.size()), overwrite);
 		}
 	}
 	public TextOutputNode markNodeForDeletion(List<String> path,boolean targetIsFile){

@@ -137,6 +137,36 @@ public class BPMN2CreationUtils extends AbstractCreationUtils{
 			return null;
 		}
 		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseExclusiveGateway(org.eclipse.bpmn2.ExclusiveGateway)
+		 * @generated
+		 */
+		public Object caseExclusiveGateway(org.eclipse.bpmn2.ExclusiveGateway object){
+			if("default".equals(presentation)){
+				return createGraphElementExclusiveGateway(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseInclusiveGateway(org.eclipse.bpmn2.InclusiveGateway)
+		 * @generated
+		 */
+		public Object caseInclusiveGateway(org.eclipse.bpmn2.InclusiveGateway object){
+			if("default".equals(presentation)){
+				return createGraphElementInclusiveGateway(object, presentation);
+			}
+			return null;
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseParallelGateway(org.eclipse.bpmn2.ParallelGateway)
+		 * @generated
+		 */
+		public Object caseParallelGateway(org.eclipse.bpmn2.ParallelGateway object){
+			if("default".equals(presentation)){
+				return createGraphElementParallelGateway(object, presentation);
+			}
+			return null;
+		}
+		/**
 		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#defaultCase(org.eclipse.emf.ecore.EObject)
 		 * @generated
 		 */
@@ -316,6 +346,33 @@ public class BPMN2CreationUtils extends AbstractCreationUtils{
 	 * @generated
 	 */
 	protected GraphElement createGraphElementSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementExclusiveGateway(org.eclipse.bpmn2.ExclusiveGateway element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementInclusiveGateway(org.eclipse.bpmn2.InclusiveGateway element,String presentation){
+		return createGraphNode(element, presentation);
+	}
+	/**
+	 * @param element the model element
+	 * @param presentation the presentation of the graphical element
+	 * @return the complete GraphElement
+	 * @generated
+	 */
+	protected GraphElement createGraphElementParallelGateway(org.eclipse.bpmn2.ParallelGateway element,String presentation){
 		return createGraphNode(element, presentation);
 	}
 	/**

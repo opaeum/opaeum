@@ -5,10 +5,16 @@ package org.opaeum.bpmn2.modeleditor.editor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.eclipse.bpmn2.BaseElement;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
@@ -26,6 +32,23 @@ import org.topcased.modeler.editor.Modeler;
  * @generated
  */
 public class Bpmn2Editor extends Modeler{
+	@Override
+	protected EObject openFile(IFile file){
+		EObject openFile = super.openFile(file);
+		openFile.eResource().getResourceSet().eAdapters().add(new EContentAdapter(){
+
+			@Override
+			public void notifyChanged(Notification notification){
+				super.notifyChanged(notification);
+				if(notification.getEventType()==Notification.ADD && notification.getNewValue() instanceof BaseElement){
+					BaseElement be = (BaseElement)notification.getNewValue();
+					be.setId(UUID.randomUUID().toString());
+				}
+			}
+			
+		});
+		return openFile;
+	}
 	public static final String EDITOR_ID = "org.opaeum.bpmn2.modeleditor.editor.Bpmn2Editor";
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapterFactories()

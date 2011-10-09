@@ -59,4 +59,34 @@ public interface BPMN2EditPolicyConstants{
 	 * @generated
 	 */
 	String SIGNALEVENTDEFINITION_EDITPOLICY = "SignalEventDefinition EditPolicy";
+	/**
+	 * The key used to install an <i>Gateway</i> EditPolicy.
+	 * @generated
+	 */
+	String GATEWAY_EDITPOLICY = "Gateway EditPolicy";
+	/**
+	 * The key used to install an <i>InclusiveGateway</i> EditPolicy.
+	 * @generated
+	 */
+	String INCLUSIVEGATEWAY_EDITPOLICY = "InclusiveGateway EditPolicy";
+	/**
+	 * The key used to install an <i>ExclusiveGateway</i> EditPolicy.
+	 * @generated
+	 */
+	String EXCLUSIVEGATEWAY_EDITPOLICY = "ExclusiveGateway EditPolicy";
+	/**
+	 * The key used to install an <i>ParallelGateway</i> EditPolicy.
+	 * @generated
+	 */
+	String PARALLELGATEWAY_EDITPOLICY = "ParallelGateway EditPolicy";
+	/**
+	 * The key used to install an <i>EventBasedGateway</i> EditPolicy.
+	 * @generated
+	 */
+	String EVENTBASEDGATEWAY_EDITPOLICY = "EventBasedGateway EditPolicy";
+	/**
+	 * The key used to install an <i>ComplexGateway</i> EditPolicy.
+	 * @generated
+	 */
+	String COMPLEXGATEWAY_EDITPOLICY = "ComplexGateway EditPolicy";
 }

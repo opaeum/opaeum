@@ -34,6 +34,7 @@ public interface INakedCallAction extends INakedInvocationAction,IActionWithTarg
 	boolean isLongRunning();
 
 	void initMessageStructure();
+	
 	INakedMessageStructure getMessageStructure();
 
 	public boolean isSynchronous();

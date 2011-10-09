@@ -64,7 +64,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private DocumentRoot parentPom;
 	private SortedSet<String> ignores = new TreeSet<String>();
 	private Collection<PomGenerationStep> features;
-	public static final String NUML_VERSION = "1.0.0.6-SNAPSHOT";
+	public static final String NUML_VERSION = "1.0.0-SNAPSHOT";
 	@Override
 	public void initialize(OpaeumConfig config,List<PomGenerationStep> features){
 		this.features = features;
@@ -123,7 +123,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			for(PomGenerationStep step:features){
 				if(step.isIntegrationStep() == context.isIntegrationPhase() && !context.getLog().isCanceled()){
 					step.initialize(config, workspace);
-					if(step.getExampleTargetDir().useWorkspaceName()){
+					if(step.getExampleTargetDir().isOneProjectPerWorkspace()){
 						String prefix = workspace.getIdentifier();
 						DocumentRoot root = getRoot(step, prefix);
 						updatePom(step, root);
@@ -147,9 +147,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 				documentRoot.getProject().getParent().setArtifactId(this.parentPom.getProject().getArtifactId());
 				outputToFile(documentRoot);
 			}
-			
 			Set<String> list = new HashSet<String>(Arrays.asList(config.getOutputRoot().list()));
-			for(String m:new ArrayList<String>( parentPom.getProject().getModules().getModule())){
+			for(String m:new ArrayList<String>(parentPom.getProject().getModules().getModule())){
 				if(!list.contains(m)){
 					parentPom.getProject().getModules().getModule().remove(m);
 				}
@@ -171,12 +170,11 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		}
 	}
 	private DocumentRoot getRoot(PomGenerationStep step,String prefix){
-		String projectName = prefix + step.getExampleTargetDir().getProjectSuffix();
-		DocumentRoot root = rootMap.get(projectName);
+		DocumentRoot root = rootMap.get(step.getProjectName());
 		if(root == null){
-			File projectRoot = new File(config.getOutputRoot(), projectName);
+			File projectRoot = new File(config.getOutputRoot(), step.getProjectName());
 			root = buildPomRoot(projectRoot, step.getProjectName(), step.getPackaging(), false);
-			this.rootMap.put(projectName, root);
+			this.rootMap.put(step.getProjectName(), root);
 		}
 		return root;
 	}
@@ -280,10 +278,17 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		if(root.getProject().getParent() == null){
 			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 		}
-		root.getProject().setParent(POMFactory.eINSTANCE.createParent());
-		root.getProject().getParent().setGroupId(config.getMavenGroupId());
-		root.getProject().getParent().setArtifactId(config.getWorkspaceIdentifier());
-		root.getProject().getParent().setVersion(config.getMavenGroupVersion());
+		if(parentPom != null && parentPom.getProject() != null){
+			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
+			root.getProject().getParent().setGroupId(parentPom.getProject().getGroupId());
+			root.getProject().getParent().setArtifactId(parentPom.getProject().getArtifactId());
+			root.getProject().getParent().setVersion(parentPom.getProject().getVersion());
+		}else{
+			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
+			root.getProject().getParent().setGroupId(config.getMavenGroupId());
+			root.getProject().getParent().setArtifactId(config.getWorkspaceIdentifier());
+			root.getProject().getParent().setVersion(config.getMavenGroupVersion());
+		}
 	}
 	public void outputToFile(DocumentRoot root){
 		try{
@@ -385,5 +390,6 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	public DocumentRoot getParentPom(){
 		return parentPom;
 	}
-	public void initializeSteps(){}
+	public void initializeSteps(){
+	}
 }

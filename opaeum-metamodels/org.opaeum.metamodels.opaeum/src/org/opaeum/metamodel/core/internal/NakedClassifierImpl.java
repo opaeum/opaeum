@@ -438,8 +438,9 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			INakedProperty p = (INakedProperty) element;
 			// Order in list is important
 			if(this.ownedAttributes.contains(p)){
-				// TODO investigate why this hapens
-				throw new IllegalStateException("Property " + element.getName() + " has already been added to " + getName());
+				System.out.println("Property " + element.getName() + " has already been added to " + getName());
+				// TODO investigate why this happens
+//				throw new IllegalStateException("Property " + element.getName() + " has already been added to " + getName());
 			}
 			this.ownedAttributes.add(p);
 		}else if(element instanceof INakedOperation){

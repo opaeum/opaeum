@@ -27,15 +27,15 @@ public class HibernateDomainPomStep extends PomGenerationStep{
 	private void addNakedumlHibernate(Collection<Dependency> result){
 		//only insert when BpmUsingJbpm5 is selected
 		Dependency nakedUmlBpm= POMFactory.eINSTANCE.createDependency();
-		nakedUmlBpm.setGroupId("org.opaeum");
-		nakedUmlBpm.setArtifactId("opaeum-runtime-bpm-hibernate");
+		nakedUmlBpm.setGroupId("org.opeum");
+		nakedUmlBpm.setArtifactId("opeum-runtime-bpm-hibernate");
 		nakedUmlBpm.setVersion("${opaeum.version}");
 		nakedUmlBpm.setScope("compile");
 		nakedUmlBpm.setType("jar");
 		result.add(nakedUmlBpm);
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
 		nakedUmlUtil.setGroupId("org.opaeum");
-		nakedUmlUtil.setArtifactId("opaeum-runtime-hibernate");
+		nakedUmlUtil.setArtifactId("opeum-runtime-hibernate");
 		nakedUmlUtil.setVersion("${opaeum.version}");
 		nakedUmlUtil.setScope("compile");
 		nakedUmlUtil.setType("jar");

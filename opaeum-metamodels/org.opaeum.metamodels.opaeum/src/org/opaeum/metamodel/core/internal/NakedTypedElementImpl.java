@@ -19,6 +19,9 @@ public class NakedTypedElementImpl extends NakedMultiplicityElement implements I
 	}
 
 	public void setBaseType(INakedClassifier baseType) {
+		if(baseType==null){
+			
+		}
 		this.baseType = baseType;
 	}
 	public IClassifier getType() {
@@ -26,6 +29,9 @@ public class NakedTypedElementImpl extends NakedMultiplicityElement implements I
 	}
 
 	public void setType(IClassifier type) {
+		if(type==null){
+			
+		}
 		this.type = type;
 	}
 

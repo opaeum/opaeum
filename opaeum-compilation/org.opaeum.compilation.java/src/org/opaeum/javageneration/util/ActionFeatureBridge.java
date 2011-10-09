@@ -26,22 +26,21 @@ public class ActionFeatureBridge extends AbstractPropertyBridge{
 	NakedMultiplicityImpl multiplicity = null;
 	private INakedClassifier baseType;
 	private INakedTypedElement targetElement;
-	
 	public NakedMultiplicityImpl getNakedMultiplicity(){
 		return multiplicity;
 	}
 	public void setMultiplicity(NakedMultiplicityImpl multiplicity){
 		this.multiplicity = multiplicity;
 	}
-	public ActionFeatureBridge(INakedAcceptCallAction action, OpaeumLibrary lib){
-		super(action.getActivity(), action);
-		this.multiplicity = new NakedMultiplicityImpl(0, 1);//TODO What if invoked multiple times before reply takes place???
+	public ActionFeatureBridge(INakedAcceptCallAction action,OpaeumLibrary lib){
+		super(action.getNearestStructuredElementAsClassifier(), action);
+		this.multiplicity = new NakedMultiplicityImpl(0, 1);// TODO What if invoked multiple times before reply takes place???
 		this.baseType = action.getOperation().getMessageStructure();
 		setType(getNakedBaseType());
 		this.action = action;
 	}
-	public ActionFeatureBridge(IActionWithTargetElement action, OpaeumLibrary lib){
-		super(action.getActivity(), action);
+	public ActionFeatureBridge(IActionWithTargetElement action,OpaeumLibrary lib){
+		super(action.getNearestStructuredElementAsClassifier(), action);
 		targetElement = action.getTargetElement();
 		this.baseType = getType(action);
 		if(targetElement == null){
@@ -51,7 +50,7 @@ public class ActionFeatureBridge extends AbstractPropertyBridge{
 			this.multiplicity = (NakedMultiplicityImpl) targetElement.getNakedMultiplicity();
 			IClassifier type = targetElement.getType();
 			if(type instanceof StdlibCollectionType){
-				setType(lib.getOclLibrary(). lookupCollectionType(((StdlibCollectionType) type).getMetaType(), getNakedBaseType()));
+				setType(lib.getOclLibrary().lookupCollectionType(((StdlibCollectionType) type).getMetaType(), getNakedBaseType()));
 			}else{
 				setType(getNakedBaseType());
 			}
@@ -59,7 +58,7 @@ public class ActionFeatureBridge extends AbstractPropertyBridge{
 		this.action = action;
 	}
 	private static INakedClassifier getType(IActionWithTargetElement action){
-		INakedClassifier baseType=null;
+		INakedClassifier baseType = null;
 		if(action instanceof INakedCallAction){
 			baseType = ((INakedCallAction) action).getMessageStructure();
 		}else if(action instanceof INakedEmbeddedTask){
@@ -81,7 +80,7 @@ public class ActionFeatureBridge extends AbstractPropertyBridge{
 		return baseType;
 	}
 	public String getName(){
-		return "invoked" + NameConverter.capitalize(action.getName()) ;
+		return "invoked" + NameConverter.capitalize(action.getName());
 	}
 	public IClassifier getType(){
 		return type;

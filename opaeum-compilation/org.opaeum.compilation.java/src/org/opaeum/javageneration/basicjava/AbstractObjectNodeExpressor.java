@@ -7,13 +7,10 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractObjectNodeExpressor{
@@ -22,16 +19,7 @@ public abstract class AbstractObjectNodeExpressor{
 		this.library = l;
 	}
 	abstract public boolean pinsAvailableAsVariables();
-	public final String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow){
-		INakedObjectNode feedingNode = (INakedObjectNode) flow.getOriginatingObjectNode();
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode);
-		String call = map.umlName();// ParameterNode or top level output
-									// pin or expansion node
-		if(feedingNode instanceof INakedOutputPin){
-			call = retrieveFromExecutionInstanceIfNecessary((INakedOutputPin) feedingNode, call);
-		}
-		return surroundWithSelectionAndTransformation(call, flow);
-	}
+	public abstract String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow);
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block,INakedObjectNode pin);
 	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map);
 	public abstract String setterForSingleResult(NakedStructuralFeatureMap resultMap,String call);
@@ -79,41 +67,6 @@ public abstract class AbstractObjectNodeExpressor{
 			}
 		}else{
 			call = setterForSingleResult(resultMap, call);
-		}
-		return call;
-	}
-	protected String retrieveFromExecutionInstanceIfNecessary(INakedOutputPin feedingNode,String call){
-		if(BehaviorUtil.hasMessageStructure(feedingNode.getAction())){
-			INakedAction callAction = feedingNode.getAction();
-			if(BehaviorUtil.hasMessageStructure(callAction)){
-				NakedStructuralFeatureMap pinMap = null;
-				if(feedingNode.getLinkedTypedElement() == null){
-					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode, false);
-				}else{
-					pinMap = OJUtil.buildStructuralFeatureMap(callAction.getActivity(), feedingNode.getLinkedTypedElement());
-				}
-				NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap(callAction, this.library);
-				call = getterForStructuredResults(actionMap);
-				if(actionMap.isOne()){
-					// Only one call, so retrieve the single result
-					return call + "." + pinMap.getter() + "()";
-				}else{
-					// TODO Could be Multiple calls, so implement a getter for the output pin that retrieves the result of the
-					// last, or aggregate the results. THis would vastly simply this logic
-					// NakedStructuralFeatureMap actionMap =
-					// OJUtil.buildStructuralFeatureMap(callAction,
-					// oclEngine.getOclLibrary());
-					// ClassifierMap calledElement = new
-					// NakedClassifierMap(callAction.getMessageStructure());
-					// String local = calledElement.javaType() + " " +
-					// actionMap.umlName();
-					// String exp = "=(" + calledElement.javaType() + ")" +
-					// actionMap.getter() + "().get(" + actionMap.getter()
-					// + "().size())";
-					// block.addToStatements(local + exp);
-					call = call + ".iterator().next()." + pinMap.getter() + "()";
-				}
-			}
 		}
 		return call;
 	}

@@ -73,7 +73,7 @@ public abstract class AbstractNodeBuilder {
 	}
 	protected final String readPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
 		if(expressor.pinsAvailableAsVariables()){
-			return TypedElementPropertyBridge.locallyUniqueName(pin);
+			return pin.getName();
 		}else{
 			return expressPin(operationContext, block, pin);
 		}

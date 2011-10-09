@@ -5,9 +5,8 @@ public class TextFile extends TextOutputNode {
 	private char[] content;
 	private boolean overwrite;
 
-	public TextFile(TextDirectory parent, String name, TextSource source, boolean overwrite) {
+	public TextFile(TextDirectory parent, String name, boolean overwrite) {
 		super(parent, name);
-		this.textSource = source;
 		this.overwrite = overwrite;
 	}
 	/**

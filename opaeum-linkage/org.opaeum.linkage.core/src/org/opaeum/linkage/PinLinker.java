@@ -32,11 +32,9 @@ import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedTypedElement;
 
 @StepDependency(phase = LinkagePhase.class,after = {
-		MappedTypeLinker.class,ParameterLinker.class
-},before = {
-	ObjectFlowLinker.class
-},requires = {
-		MappedTypeLinker.class,ObjectFlowLinker.class,ParameterLinker.class
+		ParameterLinker.class
+},before = {},requires = {
+		ParameterLinker.class
 })
 public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)

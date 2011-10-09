@@ -5,6 +5,7 @@ import java.util.List;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
@@ -154,6 +155,13 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 				workspace.putModelElement(o.getMessageStructure());
 			}
 		}
+	}
+	@VisitBefore(matchSubclasses = true)
+	public void visitStructuredActivityNode(INakedStructuredActivityNode o){
+		if(o.getMessageStructure()==null){
+			o.initMessageStructure();
+		}
+		setEndToComposite(o.getMessageStructure());
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEmbeddedTask(INakedEmbeddedTask o){

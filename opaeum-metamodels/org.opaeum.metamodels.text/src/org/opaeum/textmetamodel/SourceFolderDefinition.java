@@ -1,30 +1,32 @@
 package org.opaeum.textmetamodel;
 
-public class SourceFolderDefinition {
-	boolean overwriteFiles=true;
-	boolean cleanDirectories=true;
-	boolean userWorkspaceName;
-	String sourceFolder;
-	String projectSuffix;
-	
-	public SourceFolderDefinition(boolean useWorkspaceName, String projectSuffix, String sourceFolder) {
+public class SourceFolderDefinition{
+	private boolean overwriteFiles = true;
+	private boolean cleanDirectories = true;
+	private ProjectNameStrategy projectNameStrategy;
+	private String sourceFolder;
+	private String projectSuffix;
+	public SourceFolderDefinition(ProjectNameStrategy pns,String projectSuffix,String sourceFolder){
 		super();
-		this.userWorkspaceName = useWorkspaceName;
+		this.projectNameStrategy = pns;
 		this.projectSuffix = projectSuffix;
 		this.sourceFolder = sourceFolder;
 	}
-	public boolean useWorkspaceName(){
-		return userWorkspaceName;
+	public boolean isOneProjectPerWorkspace(){
+		return projectNameStrategy != ProjectNameStrategy.MODEL_NAME_AND_SUFFIX;
+	}
+	public ProjectNameStrategy getProjectNameStrategy(){
+		return projectNameStrategy;
 	}
 	public void dontCleanDirectories(){
-		cleanDirectories=false;
+		cleanDirectories = false;
 	}
 	public void dontCleanDirectoriesOrOverwriteFiles(){
 		dontCleanDirectories();
 		dontOverwriteFiles();
 	}
 	public void dontOverwriteFiles(){
-		overwriteFiles=false;
+		overwriteFiles = false;
 	}
 	public boolean overwriteFiles(){
 		return overwriteFiles;

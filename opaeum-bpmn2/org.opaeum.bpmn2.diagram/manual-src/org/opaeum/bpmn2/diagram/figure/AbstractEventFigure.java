@@ -22,52 +22,28 @@ public class AbstractEventFigure extends Ellipse implements IContainerFigure {
 
 			@Override
 			public void layout(IFigure container){
-				float outlineWidth = (getBounds().height + getBounds().width)/2f*0.07f;
+				float outlineWidth = (getBounds().height + getBounds().width)/2f*0.12f;
 				Rectangle cp = getBounds().getCopy();
-				cp.height=cp.height-Math.round(outlineWidth*5.6f);
-				cp.width=cp.width-Math.round(outlineWidth*5.6f);
-				cp.x=getBounds().x+Math.round(outlineWidth*2.8f);
-				cp.y=getBounds().y+Math.round(outlineWidth*2.8f);
+				cp.height=cp.height-Math.round(outlineWidth*4f);
+				cp.width=cp.width-Math.round(outlineWidth*4f);
+				cp.x=getBounds().x+Math.round(outlineWidth*2f);
+				cp.y=getBounds().y+Math.round(outlineWidth*2f);
 				contentPane.setBounds(cp);
 			}
 			
 		};
 		setLayoutManager(layout);
-//		final IFigure outerRectangle = new Figure();
-//		outerRectangle.setOpaque(false);
-//		outerRectangle.setLayoutManager(new BorderLayout());
-//		IFigure outerCircle = new Ellipse();
-//		outerCircle.setLayoutManager(new StackLayout());
-//		outerCircle.setBorder(new MarginBorder(2));
-//		outerCircle.setOpaque(false);
-//		outerRectangle.add(outerCircle, new Integer(PositionConstants.CENTER));
-//		innerCircle = createBackgroundFigure();
-//		innerCircle.setLayoutManager(new StackLayout());
-//		innerCircle.setOpaque(true);
-//		SVGFigure figure = new SVGFigure();
-//		figure.setSpecifyCanvasWidth(true);
-//		URL entry = Bpmn2EditPlugin.getPlugin().getBundle().getEntry(calcImage());
-//		figure.setURI(entry.toString());
-//		innerCircle.add(figure);
-//		outerCircle.add(innerCircle);
-//		EditableLabel nameLbl = new EditableLabel(true);
-//		nameLbl.setTextJustification(PositionConstants.CENTER);
-//		add(outerRectangle);
 		contentPane = createBackgroundFigure();
 		contentPane.setOpaque(true);
 		
 		contentPane.setLayoutManager(new FullLayoutManager());
-//		add(new Label(),BorderLayout.TOP);
-//		add(new Label(),BorderLayout.BOTTOM);
-//		add(new Label(),BorderLayout.RIGHT);
-//		add(new Label(),BorderLayout.LEFT);
 		add(contentPane);
 	}
 	public void paintChildren(Graphics graphics){
 		super.paintChildren(graphics);
 	}
 	protected int getOutlineWidth(){
-		return Math.round(((getBounds().height + getBounds().width)/2f*0.07f)) ;
+		return Math.round(((getBounds().height + getBounds().width)/2f*0.12f)) ;
 	}
 	@Override
 	public void paintFigure(Graphics graphics){

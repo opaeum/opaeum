@@ -7,10 +7,16 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractValidator extends NakedElementOwnerVisitor implements ITransformationStep{
+	@Override
+	public void visitRecursively(INakedElementOwner o){
+		if(o instanceof INakedElement && !((INakedElement) o).isMarkedForDeletion()){
+			super.visitRecursively(o);
+		}
+	}
 	protected INakedModelWorkspace workspace;
 	protected OpaeumConfig config;
 	@Override
@@ -30,7 +36,7 @@ public abstract class AbstractValidator extends NakedElementOwnerVisitor impleme
 	}
 	@Override
 	protected int getThreadPoolSize(){
-		//It is read-only
+		// It is read-only
 		return 12;
 	}
 }

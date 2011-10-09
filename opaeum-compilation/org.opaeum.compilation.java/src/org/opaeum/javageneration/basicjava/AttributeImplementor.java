@@ -101,7 +101,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
-
+		if(map.umlName().equals("stringsOnAcceptEventAction1")){
+			System.out.println();
+		}
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -309,6 +311,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		owner.addToOperations(adder);
 	}
 	OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+		System.out.println();
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		if(map.isJavaPrimitive() || map.isCollection()){
 			field.setInitExp(map.javaDefaultValue());

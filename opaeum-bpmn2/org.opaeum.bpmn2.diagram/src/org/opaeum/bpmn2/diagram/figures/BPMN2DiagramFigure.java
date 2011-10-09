@@ -6,6 +6,7 @@ package org.opaeum.bpmn2.diagram.figures;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.draw2d.Figure;
 import org.opaeum.bpmn2.diagram.figure.BoundaryEventFigure;
 import org.topcased.modeler.figures.DiagramFigure;
 
@@ -36,6 +37,19 @@ public class BPMN2DiagramFigure extends DiagramFigure{
 	}
 	@Override
 	protected void layout(){
+		Figure content=(Figure) getChildren().get(1);
+		List children = new ArrayList(content.getChildren());
+		content.getChildren().clear();
+		for(Object object:children){
+			if(!(object instanceof BoundaryEventFigure)){
+				content.getChildren().add(object);
+			}
+		}
+		for(Object object:children){
+			if(object instanceof BoundaryEventFigure){
+				content.getChildren().add(object);
+			}
+		}
 		super.layout();
 	}
 }

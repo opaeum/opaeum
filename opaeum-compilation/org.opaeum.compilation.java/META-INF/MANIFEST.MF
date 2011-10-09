@@ -48,4 +48,5 @@ Export-Package: javax.decorator,
  org.opaeum.javageneration.persistence,
  org.opaeum.javageneration.util,
  org.opaeum.jaxb,
- org.opaeum.strategies
+ org.opaeum.strategies,
+ org.opaeum.visitor

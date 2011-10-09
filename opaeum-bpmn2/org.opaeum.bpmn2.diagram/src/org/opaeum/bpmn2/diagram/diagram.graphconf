@@ -23,7 +23,7 @@
         minimumWidth="20"
         maximumHeight="1200"
         maximumWidth="1200"
-        defaultBackgroundColor="127,127,127"
+        defaultBackgroundColor="165,144,61"
         defaultForegroundColor="0,0,0"
         defaultFont="Sans-regular-8"
         lineWidth="1"
@@ -184,6 +184,120 @@
         isHeightResizable="true">
         <bridge xsi:type="graphconf:EMFBridge">
             <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//SignalEventDefinition"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="255,255,255"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//Gateway"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="126,51,51"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//InclusiveGateway"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="126,51,51"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//ExclusiveGateway"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="126,51,51"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//ParallelGateway"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="126,51,51"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//EventBasedGateway"/>
+        </bridge>
+    </node>
+    <node
+        presentation="default"
+        defaultHeight="50"
+        defaultWidth="50"
+        minimumHeight="20"
+        minimumWidth="20"
+        maximumHeight="200"
+        maximumWidth="200"
+        defaultBackgroundColor="126,51,51"
+        defaultForegroundColor="0,0,0"
+        defaultFont="Sans-regular-8"
+        lineWidth="1"
+        lineStyle="SOLID"
+        isWidthResizable="true"
+        isHeightResizable="true">
+        <bridge xsi:type="graphconf:EMFBridge">
+            <type href="http://www.omg.org/spec/BPMN/20100524/MODEL-XMI#//ComplexGateway"/>
         </bridge>
     </node>
 </graphconf:DiagramGraphConf>

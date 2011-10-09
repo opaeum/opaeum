@@ -60,7 +60,8 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	@Override
 	public synchronized void putModelElement(INakedElement mw){
 		if(this.allElementsByModelId.containsKey(mw.getId())){
-			System.err.println("Element " + mw.toString() + " already in workspace");
+			System.out.println("Element " + mw.toString() + " already in workspace");
+			//TODO investigate why this happens
 //			throw new IllegalStateException("Element " + mw.getName() + " is already in the workspace");
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);

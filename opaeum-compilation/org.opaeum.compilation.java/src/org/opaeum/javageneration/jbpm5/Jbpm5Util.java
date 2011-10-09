@@ -22,6 +22,7 @@ import org.opeum.runtime.domain.ExceptionHolder;
 import org.opeum.runtime.environment.Environment;
 
 public class Jbpm5Util{
+	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opeum.runtime.domain.UmlNodeInstance");
 	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){
 		OJPathName result = new OJPathName(m.getMappingInfo().getQualifiedJavaName());
 		return result.append("util").append(m.getMappingInfo().getJavaName().getCapped() + "KnowledgeBase");

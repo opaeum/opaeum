@@ -166,6 +166,9 @@ public class JpaUtil{
 		String keyToParentTable = null;
 		if(f instanceof INakedProperty && f.getOtherEnd() != null){
 			INakedProperty p = f;
+			if(p.getOtherEnd().getMappingInfo().getPersistentName()==null){
+				System.out.println();
+			}
 			keyToParentTable = p.getOtherEnd().getMappingInfo().getPersistentName().getAsIs();
 		}else{
 			INakedClassifier nakedOwner = f.getOwner();

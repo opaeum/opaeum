@@ -15,6 +15,7 @@ import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -34,7 +35,6 @@ public class ActivityValidator extends AbstractValidator{
 			INakedActivity activity = (INakedActivity) c;
 			for(INakedActivityNode node:activity.getActivityNodesRecursively()){
 				if(node instanceof INakedAction){
-				}else if(node instanceof INakedControlNode){
 				}else if(node instanceof INakedObjectNode){
 					INakedObjectNode object = (INakedObjectNode) node;
 					validateFlows(object);
@@ -42,7 +42,7 @@ public class ActivityValidator extends AbstractValidator{
 			}
 		}
 	}
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	protected void validateControlNode(INakedControlNode control){
 		if(control.getControlNodeType().isJoinNode()){
 			for(INakedActivityEdge e:control.getAllEffectiveIncoming()){
@@ -50,14 +50,35 @@ public class ActivityValidator extends AbstractValidator{
 			}
 		}
 	}
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(INakedActivityEdge e){
 		INakedActivityNode es = e.getEffectiveTarget();
-		if((es.isImplicitJoin() || (es instanceof INakedControlNode  && ((INakedControlNode) es).getControlNodeType().isJoinNode())) && e.hasGuard()){
-			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, es.isImplicitJoin()?"implicit":"explicit", e.getEffectiveTarget());
+		if((es.isImplicitJoin() || (es instanceof INakedControlNode && ((INakedControlNode) es).getControlNodeType().isJoinNode())) && e.hasGuard()){
+			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, es.isImplicitJoin() ? "implicit" : "explicit", e.getEffectiveTarget());
+		}
+		if(e instanceof INakedObjectFlow){
+			INakedObjectFlow of = (INakedObjectFlow) e;
+			INakedObjectNode target = null;
+			INakedObjectNode source=null;
+			if(of.getTarget() instanceof INakedObjectNode){
+				target = (INakedObjectNode) of.getTarget();
+				source = target.getFeedingNode();
+			}else if(of.getSource() instanceof INakedObjectNode){
+				source = (INakedObjectNode) of.getSource();
+				target = source.getFedNode();
+			}
+			if(source != null && target != null){
+				if(of.getTransformation() == null){
+					if(!target.getNakedBaseType().conformsTo(source.getNakedBaseType())){
+						getErrorMap().putError(e, ActivityValidationRule.OBJECT_NODE_TYPES_MUST_MATCH, source, target);
+					}
+				}else{
+					// TODO check for output/input match
+				}
+			}
 		}
 	}
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void validateAction(INakedAction action){
 		validateFlows(action);
 		if(!action.getActivity().isProcess()){
@@ -86,7 +107,7 @@ public class ActivityValidator extends AbstractValidator{
 		}
 	}
 	private void validateFlows(INakedAction action){
-		if(action.getDefaultOutgoing().isEmpty() && action.getConditionalOutgoing().size()>0){
+		if(action.getDefaultOutgoing().isEmpty() && action.getConditionalOutgoing().size() > 0){
 			getErrorMap().putError(action, ActivityValidationRule.AT_LEAST_ONE_DEFAULT_FLOW, "No default flows found");
 		}else if(action.isImplicitJoin()){
 			for(INakedActivityEdge e:action.getAllEffectiveIncoming()){

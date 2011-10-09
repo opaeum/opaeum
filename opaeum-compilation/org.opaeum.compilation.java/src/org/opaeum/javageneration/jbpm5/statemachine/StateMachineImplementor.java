@@ -137,8 +137,8 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			OJBlock defaultTransitions = onEntry.getBody();
 			if(state.getKind().isShallowHistory()){
 				String stateGetter = "get" + state.getMappingInfo().getJavaName().getCapped().getAsIs();
-				OJAnnotatedField umlState = new OJAnnotatedField("umlState", new OJPathName("org.opeum.runtime.domain.UmlNodeInstance"));
-				getJavaStateMachine().addToImports(new OJPathName(UmlNodeInstance.class.getName()));
+				OJAnnotatedField umlState = new OJAnnotatedField("umlState", Jbpm5Util.UML_NODE_INSTANCE);
+				getJavaStateMachine().addToImports(Jbpm5Util.UML_NODE_INSTANCE);
 				umlState.setInitExp("(UmlNodeInstance)context.getNodeInstance()");
 				onEntry.getBody().addToLocals(umlState);
 				OJIfStatement ifNotNul = new OJIfStatement(stateGetter + "()!=null");

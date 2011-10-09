@@ -15,6 +15,7 @@ import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
@@ -112,6 +113,8 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 				persistentClasses.add(OJUtil.classifierPathname(((INakedOperation) e).getMessageStructure()));
 			}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
 				persistentClasses.add(OJUtil.classifierPathname(((INakedEmbeddedTask) e).getMessageStructure()));
+			}else if(e instanceof INakedStructuredActivityNode && isGeneratingElement(e)){
+				persistentClasses.add(OJUtil.classifierPathname(((INakedStructuredActivityNode) e).getMessageStructure()));
 			}
 		}
 		vars.put("persistentClasses", persistentClasses);

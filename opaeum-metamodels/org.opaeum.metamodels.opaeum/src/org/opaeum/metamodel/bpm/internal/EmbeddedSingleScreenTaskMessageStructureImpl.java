@@ -36,7 +36,7 @@ public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompos
 		if (attributes == null) {
 			attributes = new ArrayList<INakedProperty>();
 			for (INakedObjectNode p : action.getPins()) {
-				attributes.add(new TypedElementPropertyBridge(this, p,false));
+				attributes.add(new TypedElementPropertyBridge(this, p,false,false));
 			}
 			attributes.add(getEndToComposite());
 		}

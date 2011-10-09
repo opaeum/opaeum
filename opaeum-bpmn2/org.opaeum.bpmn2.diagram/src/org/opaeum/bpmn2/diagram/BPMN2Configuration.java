@@ -12,11 +12,17 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gef.EditPartFactory;
 import org.opaeum.bpmn2.diagram.edit.BoundaryEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.ComplexGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.EndEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.EventBasedGatewayEditPart;
+import org.opaeum.bpmn2.diagram.edit.ExclusiveGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.FlowNodeEditPart;
+import org.opaeum.bpmn2.diagram.edit.GatewayEditPart;
+import org.opaeum.bpmn2.diagram.edit.InclusiveGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.IntermediateCatchEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.IntermediateThrowEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
+import org.opaeum.bpmn2.diagram.edit.ParallelGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.SequenceFlowEditPart;
 import org.opaeum.bpmn2.diagram.edit.SignalEventDefinitionEditPart;
 import org.opaeum.bpmn2.diagram.edit.StartEventEditPart;
@@ -85,6 +91,17 @@ public class BPMN2Configuration implements IConfiguration{
 		Platform.getAdapterManager()
 				.registerAdapters(new EditPart2ModelAdapterFactory(SignalEventDefinitionEditPart.class, org.eclipse.bpmn2.SignalEventDefinition.class),
 						SignalEventDefinitionEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(GatewayEditPart.class, org.eclipse.bpmn2.Gateway.class), GatewayEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(InclusiveGatewayEditPart.class, org.eclipse.bpmn2.InclusiveGateway.class),
+				InclusiveGatewayEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(ExclusiveGatewayEditPart.class, org.eclipse.bpmn2.ExclusiveGateway.class),
+				ExclusiveGatewayEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(ParallelGatewayEditPart.class, org.eclipse.bpmn2.ParallelGateway.class),
+				ParallelGatewayEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(EventBasedGatewayEditPart.class, org.eclipse.bpmn2.EventBasedGateway.class),
+				EventBasedGatewayEditPart.class);
+		Platform.getAdapterManager().registerAdapters(new EditPart2ModelAdapterFactory(ComplexGatewayEditPart.class, org.eclipse.bpmn2.ComplexGateway.class),
+				ComplexGatewayEditPart.class);
 	}
 	/**
 	 * @see org.topcased.modeler.editor.IConfiguration#getId()

@@ -36,46 +36,31 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
-import org.opaeum.feature.visit.VisitorAdapter;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.SourceFolder;
-import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
-import org.opaeum.textmetamodel.TextProject;
+import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.visitor.TextFileGeneratingVisitor;
 
-public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedModelWorkspace> implements ITransformationStep {
+public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";
-	protected TextWorkspace textWorkspace;
-	protected INakedModelWorkspace workspace;
 	protected Map<INakedElement, Integer> targetIdMap;
 	protected Map<INakedElement, Integer> sourceIdMap;
 	protected OpaeumConfig config;
-	private INakedRootObject currentModelOrProfile;
-	private HashSet<TextFile> textFiles;
 
-
-	@Override
-	public void visitRecursively(INakedElementOwner o) {
-		if(o instanceof INakedRootObject){
-			this.currentModelOrProfile=(INakedRootObject) o;
-		}
-		super.visitRecursively(o);
-	}
 
 	public void initialize(OpaeumConfig config, TextWorkspace textWorkspace, INakedModelWorkspace workspace) {
-		textFiles=new HashSet<TextFile>();
-		this.textWorkspace = textWorkspace;
-		this.workspace = workspace;
-		this.config = config;
+		super.textWorkspace = textWorkspace;
+		super.workspace = workspace;
+		super.config = config;
+		super.textFiles=new HashSet<TextOutputNode>();
 	}
 
 	protected DocumentRoot createRoot(INakedBehavior behavior) {
@@ -101,21 +86,11 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getCurrentVersion());
 		root.getProcess().setType("RuleFlow");
-		
-		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE);
-		SourceFolder or = getSourceFolder(outputRoot);
 		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getNames();
 		names.add(behavior.getMappingInfo().getJavaName() + ".rf");
-		TextFile textFile = or.findOrCreateTextFile(names, new EmfTextSource(r, "process"), outputRoot.overwriteFiles());
-		this.textFiles.add(textFile);
+		TextFile textFile = createTextPath(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE,names);
+		textFile.setTextSource(new EmfTextSource(r, "process"));
 		return root;
-	}
-	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot) {
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentModelOrProfile
-				.getIdentifier();
-		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
-		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
-		return or;
 	}
 
 	protected void createVariable(VariablesType variables, String variableName, String qualifiedJavaName) {
@@ -311,10 +286,6 @@ public class AbstractFlowStep extends VisitorAdapter<INakedElementOwner, INakedM
 		String string = passContext ? "context" : "";
 		entryAction.setValue("processObject." + methodName + "(" + string + ")");
 		return entryAction;
-	}
-
-	public Collection<? extends TextFile> getTextFiles(){
-		return textFiles;
 	}
 
 	@Override

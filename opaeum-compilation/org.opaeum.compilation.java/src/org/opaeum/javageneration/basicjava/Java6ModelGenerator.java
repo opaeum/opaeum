@@ -194,6 +194,9 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
+		if(no.getName().equals("doWork")){
+			System.out.println();
+		}
 		if(BehaviorUtil.hasExecutionInstance(no)){
 			INakedMessageStructure message = no.getMessageStructure();
 			this.visitClass(message);
@@ -208,7 +211,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 		List<String> names = c.getPathName().getHead().getNames();
 		names.add(c.getName() + kind.getSuffix() + ".java");
 		JavaTextSource jts = new JavaTextSource(kind, c);
-		TextFile file = or.findOrCreateTextFile(names, jts, outputRoot.overwriteFiles());
+		TextFile file = or.findOrCreateTextFile(names, outputRoot.overwriteFiles());
 		file.setTextSource(jts);
 		this.textFiles.add(file);
 		return file;

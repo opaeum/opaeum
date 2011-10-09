@@ -12,6 +12,7 @@ import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedMessageStructure;
 
 public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements INakedStructuredActivityNode{
 	/**
@@ -23,6 +24,7 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	Collection<INakedActivityVariable> variables = new ArrayList<INakedActivityVariable>();
 	private Collection<INakedOutputPin> output = new ArrayList<INakedOutputPin>();
 	private Collection<INakedInputPin> input = new ArrayList<INakedInputPin>();
+	StructureActivityNodeClassifier messageStructure;
 	public Collection<INakedActivityEdge> getActivityEdges(){
 		return activityEdges;
 	}
@@ -105,5 +107,13 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	}
 	public void setInput(Collection<INakedInputPin> input){
 		this.input = input;
+	}
+	@Override
+	public INakedMessageStructure getMessageStructure(){
+		return messageStructure;
+	}
+	@Override
+	public void initMessageStructure(){
+		this.messageStructure = new StructureActivityNodeClassifier(this);
 	}
 }

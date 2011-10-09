@@ -51,9 +51,6 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 						p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					}
 					EmfWorkspace emfWorkspace = p.findModel(EmfWorkspace.class);
-					if(emfWorkspace != null){
-						emfWorkspace.saveAll();
-					}
 					monitor.subTask("Generating text files");
 					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, currentContext, true);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

@@ -8,7 +8,6 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
@@ -18,6 +17,13 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	public boolean pinsAvailableAsVariables(){
 		return false;
 	}
+	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow){
+		INakedObjectNode feedingNode = (INakedObjectNode) flow.getOriginatingObjectNode();
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode);
+		String call = map.umlName();// ParameterNode or top level output
+		return surroundWithSelectionAndTransformation(call, flow);
+	}
+
 	public final String expressInputPinOrOutParamOrExpansionNode(OJBlock block,INakedObjectNode pin){
 		// Either an outputpin or parameterNode
 		INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
@@ -25,9 +31,6 @@ public class ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), feedingNode);
 		String call = map.umlName();// ParameterNode or top level output
 									// pin or expansion node
-		if(feedingNode instanceof INakedOutputPin){
-			call = retrieveFromExecutionInstanceIfNecessary((INakedOutputPin) feedingNode, call);
-		}
 		return surroundWithSelectionAndTransformation(call, edge);
 	}
 	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map){

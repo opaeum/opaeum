@@ -21,12 +21,12 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.ValidationPhase;
 import org.opaeum.validation.namegeneration.NameGenerationPhase;
+import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 @PhaseDependency(after = {
 		LinkagePhase.class,NameGenerationPhase.class,ValidationPhase.class
@@ -61,9 +61,9 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 			}
 		}
 		for(JavaTransformationStep f:features){
-			if(f instanceof NakedElementOwnerVisitor){
+			if(f instanceof TextFileGeneratingVisitor){
 				f.setTransformationContext(context);
-				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
+				TextFileGeneratingVisitor v = (TextFileGeneratingVisitor) f;
 				f.getTextFiles().clear();
 				f.setTransformationContext(context);
 				if(v instanceof IntegrationCodeGenerator){
@@ -105,9 +105,9 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 			if(context.isIntegrationPhase()){
 				matchesPhase = f instanceof IntegrationCodeGenerator;
 			}
-			if(f instanceof NakedElementOwnerVisitor && !context.getLog().isCanceled() && matchesPhase){
+			if(f instanceof TextFileGeneratingVisitor && !context.getLog().isCanceled() && matchesPhase){
 				// Remember HibernateConfigGenerator
-				NakedElementOwnerVisitor v = (NakedElementOwnerVisitor) f;
+				TextFileGeneratingVisitor v = (TextFileGeneratingVisitor) f;
 				f.setTransformationContext(context);
 				v.startVisiting(this.modelWorkspace);
 			}

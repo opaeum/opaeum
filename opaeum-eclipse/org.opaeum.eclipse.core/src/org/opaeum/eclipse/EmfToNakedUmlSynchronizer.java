@@ -170,7 +170,6 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		this.transformationProcess.replaceModel(nakedModelWorspace);
 	}
 	public EmfWorkspace buildWorkspaces(Package model,TransformationProgressLog log) throws Exception,IOException{
-		EcoreUtil.resolveAll(model.eResource().getResourceSet());
 		EmfWorkspace emfWorkspace = new EmfWorkspace(model, this.cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
 		emfWorkspace.setUriToFileConverter(new EclipseUriToFileConverter());
 		emfWorkspace.setName(cfg.getWorkspaceName());

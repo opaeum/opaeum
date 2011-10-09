@@ -33,9 +33,6 @@ public class RecompileIntegrationCodeAction extends RecompileModelDirectoryActio
 					monitor.subTask("Generating Java Code");
 					p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					EmfWorkspace emfWorkspace = p.findModel(EmfWorkspace.class);
-					if(emfWorkspace != null){
-						emfWorkspace.saveAll();
-					}
 					monitor.subTask("Generating text files");
 					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 100), p, currentContext,false);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

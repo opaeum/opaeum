@@ -109,7 +109,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 		return owner.findAssociationEnd(assName);
 	}
 	public IAttribute findAttribute(String attName){
-		for(INakedProperty a:getOwnedAttributes()){
+		for(INakedProperty a:getEffectiveAttributes()){
 			if(a.getName().equals(attName)){
 				return a;
 			}

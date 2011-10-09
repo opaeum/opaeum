@@ -27,7 +27,7 @@ public class BPMN2DiagramTopcasedPreferenceInitializer implements ITopcasedPrefe
 		// Initialize the default value of the SEQUENCEFLOW_EDGE_DEFAULT_ROUTER property
 		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.SEQUENCEFLOW_EDGE_DEFAULT_ROUTER, "ObliqueRouter");
 		// Initialize the default value of the USERTASK_DEFAULT_BACKGROUND_COLOR property 
-		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.USERTASK_DEFAULT_BACKGROUND_COLOR, "127,127,127");
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.USERTASK_DEFAULT_BACKGROUND_COLOR, "165,144,61");
 		// Initialize the default value of the USERTASK_DEFAULT_FOREGROUND_COLOR property
 		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.USERTASK_DEFAULT_FOREGROUND_COLOR, "0,0,0");
 		// Initialize the default value of the USERTASK_DEFAULT_FONT property
@@ -74,6 +74,36 @@ public class BPMN2DiagramTopcasedPreferenceInitializer implements ITopcasedPrefe
 		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.SIGNALEVENTDEFINITION_DEFAULT_FOREGROUND_COLOR, "0,0,0");
 		// Initialize the default value of the SIGNALEVENTDEFINITION_DEFAULT_FONT property
 		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.SIGNALEVENTDEFINITION_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the INCLUSIVEGATEWAY_DEFAULT_BACKGROUND_COLOR property 
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.INCLUSIVEGATEWAY_DEFAULT_BACKGROUND_COLOR, "126,51,51");
+		// Initialize the default value of the INCLUSIVEGATEWAY_DEFAULT_FOREGROUND_COLOR property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.INCLUSIVEGATEWAY_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the INCLUSIVEGATEWAY_DEFAULT_FONT property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.INCLUSIVEGATEWAY_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the EXCLUSIVEGATEWAY_DEFAULT_BACKGROUND_COLOR property 
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.EXCLUSIVEGATEWAY_DEFAULT_BACKGROUND_COLOR, "126,51,51");
+		// Initialize the default value of the EXCLUSIVEGATEWAY_DEFAULT_FOREGROUND_COLOR property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.EXCLUSIVEGATEWAY_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the EXCLUSIVEGATEWAY_DEFAULT_FONT property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.EXCLUSIVEGATEWAY_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the PARALLELGATEWAY_DEFAULT_BACKGROUND_COLOR property 
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.PARALLELGATEWAY_DEFAULT_BACKGROUND_COLOR, "126,51,51");
+		// Initialize the default value of the PARALLELGATEWAY_DEFAULT_FOREGROUND_COLOR property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.PARALLELGATEWAY_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the PARALLELGATEWAY_DEFAULT_FONT property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.PARALLELGATEWAY_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the EVENTBASEDGATEWAY_DEFAULT_BACKGROUND_COLOR property 
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.EVENTBASEDGATEWAY_DEFAULT_BACKGROUND_COLOR, "126,51,51");
+		// Initialize the default value of the EVENTBASEDGATEWAY_DEFAULT_FOREGROUND_COLOR property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.EVENTBASEDGATEWAY_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the EVENTBASEDGATEWAY_DEFAULT_FONT property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.EVENTBASEDGATEWAY_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
+		// Initialize the default value of the COMPLEXGATEWAY_DEFAULT_BACKGROUND_COLOR property 
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.COMPLEXGATEWAY_DEFAULT_BACKGROUND_COLOR, "126,51,51");
+		// Initialize the default value of the COMPLEXGATEWAY_DEFAULT_FOREGROUND_COLOR property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.COMPLEXGATEWAY_DEFAULT_FOREGROUND_COLOR, "0,0,0");
+		// Initialize the default value of the COMPLEXGATEWAY_DEFAULT_FONT property
+		defaultBPMN2Preference.put(BPMN2DiagramPreferenceConstants.COMPLEXGATEWAY_DEFAULT_FONT, StringConverter.asFontData("Sans-regular-8").toString());
 		return defaultBPMN2Preference;
 	}
 }

@@ -20,7 +20,6 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.CharArrayTextSource;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -28,25 +27,19 @@ import org.opaeum.textmetamodel.PropertiesSource;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.visitor.TextFileGeneratingVisitor;
 import org.opeum.util.SortedProperties;
 
-public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
-	protected INakedModelWorkspace workspace;
-	public Set<TextFile> getTextFiles(){
-		return textFiles;
-	}
+public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 	protected VelocityEngine ve;
 	protected Set<TextFile> textFiles=new HashSet<TextFile>();
-	protected OpaeumConfig config;
-	protected TextWorkspace textWorkspace;
-	protected INakedRootObject currentRootObject;
 	@Override
 	public void visitRecursively(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
-			this.currentRootObject = pkg;
 			OJPathName utilPath = new OJPathName(pkg.getMappingInfo().getQualifiedJavaName() + ".util");
 			UtilityCreator.setUtilPathName(utilPath);
 		}else if(o instanceof INakedModelWorkspace){
@@ -58,6 +51,7 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 	public void initialize(OpaeumConfig config,TextWorkspace textWorkspace, INakedModelWorkspace workspace){
 		this.workspace=workspace;
 		this.config = config;
+		super.textFiles=new HashSet<TextOutputNode>();
 		this.textWorkspace = textWorkspace;
 		this.ve = new VelocityEngine();
 		Properties velocityProperties = new Properties();
@@ -102,9 +96,7 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		List<String> path = Arrays.asList(new String(fileNameWriter.toCharArray()).split("[/]"));
 		contentWriter.close();
 		if(Boolean.TRUE.equals(context.get("shouldGenerate"))){
-			SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(outputRootId);
-			SourceFolder sourceFolder = getSourceFolder(outputRoot);
-			sourceFolder.findOrCreateTextFile(path, new CharArrayTextSource(contentWriter), outputRoot.overwriteFiles());
+			createTextPath(outputRootId, path).setTextSource(new CharArrayTextSource(contentWriter));
 		}
 	}
 	@Override
@@ -116,21 +108,16 @@ public class AbstractTextProducingVisitor extends NakedElementOwnerVisitor{
 		}
 	}
 	protected SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
-		String projectPrefix = outputRoot.useWorkspaceName() ? workspace.getIdentifier() : currentRootObject.getIdentifier();
-		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix + outputRoot.getProjectSuffix());
+		String projectPrefix = getProjectName(outputRoot);
+		TextProject textProject = textWorkspace.findOrCreateTextProject(projectPrefix);
 		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
 		return or;
 	}
 	public void findOrCreateTextFile(CharArrayWriter outputBuilder,ISourceFolderIdentifier outputRootId,String...names){
-		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(outputRootId);
-		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
-		TextFile tf = sourceFolder.findOrCreateTextFile(Arrays.asList(names), new CharArrayTextSource(outputBuilder), outputRoot.overwriteFiles());
-		textFiles.add(tf);
+		createTextPath(outputRootId, Arrays.asList(names)).setTextSource(new CharArrayTextSource(outputBuilder));
 	}
 	public void findOrCreateTextFile(SortedProperties outputBuilder,ISourceFolderIdentifier outputRootId,String...names){
-		SourceFolderDefinition outputRoot = config.getSourceFolderDefinition(outputRootId);
-		SourceFolder sourceFolder = this.getSourceFolder(outputRoot);
-		sourceFolder.findOrCreateTextFile(Arrays.asList(names), new PropertiesSource(outputBuilder), outputRoot.overwriteFiles());
+		createTextPath(outputRootId, Arrays.asList(names)).setTextSource(new PropertiesSource(outputBuilder));
 	}
 	@Override
 	protected int getThreadPoolSize(){

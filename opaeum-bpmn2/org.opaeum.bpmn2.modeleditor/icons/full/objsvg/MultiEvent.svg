@@ -16,7 +16,7 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.48.0 r9654"
-   sodipodi:docname="BoundaryEvent.svg"
+   sodipodi:docname="MultiEvent.svg"
    inkscape:export-filename="/home/hmalphettes/proj/stp-europa/org.eclipse.stp.bpmn.edit/icons/full/obj16/activities/intermediate_multiple.png"
    inkscape:export-xdpi="60"
    inkscape:export-ydpi="60"
@@ -29,7 +29,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -78,5 +78,5 @@
      inkscape:rounded="0"
      inkscape:randomized="0"
      d="M -1.9200001,8.0639999 -9.6420317,7.9404647 -11.910782,0.55820175 -5.5909148,-3.8807525 0.58372786,0.7580859 z"
-     transform="matrix(1.0369656,-0.01160639,0.01021439,1.0884298,17.86616,9.6798273)" />
+     transform="matrix(1.5545288,-0.01810326,0.01531253,1.6976969,20.698799,8.2620911)" />
 </svg>

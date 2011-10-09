@@ -96,12 +96,11 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				initialize(ne, o, owner);
 			}
 		}else if(o instanceof NamedElement && ne!=null){
-			if((owner == null || getId(owner) == null) && ne.getOwnerElement() != null){
+			if((owner == null || getId(owner) == null || o.eResource()==null) && ne.getOwnerElement() != null ){
 				//do deletion
-				ne.getOwnerElement().removeOwnedElement(ne, true);
-				ne.setOwnerElement(null);
-				ne.markForDeletion();
 				nakedWorkspace.removeModelElement(ne);
+				ne.getOwnerElement().removeOwnedElement(ne, true);
+				ne.markForDeletion();
 			}else{
 				//do reparenting
 				INakedElement nakedOwner = getNakedPeer(owner);

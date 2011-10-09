@@ -42,6 +42,10 @@ public class BPMN2PaletteManager extends ModelerPaletteManager{
 	/**
 	 * @generated
 	 */
+	private PaletteDrawer gatewaysDrawer;
+	/**
+	 * @generated
+	 */
 	private ICreationUtils creationUtils;
 	/**
 	 * The Constructor
@@ -63,6 +67,7 @@ public class BPMN2PaletteManager extends ModelerPaletteManager{
 		createFlowsDrawer();
 		createEventsDrawer();
 		createEventDefinitionsDrawer();
+		createGatewaysDrawer();
 	}
 	/**
 	 * Updates the main categories of the palette
@@ -79,6 +84,8 @@ public class BPMN2PaletteManager extends ModelerPaletteManager{
 		createEventsDrawer();
 		getRoot().remove(eventdefinitionsDrawer);
 		createEventDefinitionsDrawer();
+		getRoot().remove(gatewaysDrawer);
+		createGatewaysDrawer();
 	}
 	/**
 	 * Creates the Palette container containing all the Palette entries for each figure.
@@ -151,5 +158,26 @@ public class BPMN2PaletteManager extends ModelerPaletteManager{
 				BPMN2ImageRegistry.getImageDescriptor("SIGNALEVENTDEFINITION_LARGE")));
 		eventdefinitionsDrawer.addAll(entries);
 		getRoot().add(eventdefinitionsDrawer);
+	}
+	/**
+	 * Creates the Palette container containing all the Palette entries for each figure.
+	 *
+	 * @generated
+	 */
+	private void createGatewaysDrawer(){
+		gatewaysDrawer = new PaletteDrawer("Gateways", null);
+		List<PaletteEntry> entries = new ArrayList<PaletteEntry>();
+		CreationFactory factory;
+		factory = new GraphElementCreationFactory(creationUtils, Bpmn2Package.eINSTANCE.getExclusiveGateway(), "default");
+		entries.add(new ModelerCreationToolEntry("Exclusive Gateway", "Exclusive Gateway", factory, BPMN2ImageRegistry.getImageDescriptor("EXCLUSIVEGATEWAY"),
+				BPMN2ImageRegistry.getImageDescriptor("EXCLUSIVEGATEWAY_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, Bpmn2Package.eINSTANCE.getInclusiveGateway(), "default");
+		entries.add(new ModelerCreationToolEntry("Inclusive Gateway", "Inclusive Gateway", factory, BPMN2ImageRegistry.getImageDescriptor("INCLUSIVEGATEWAY"),
+				BPMN2ImageRegistry.getImageDescriptor("INCLUSIVEGATEWAY_LARGE")));
+		factory = new GraphElementCreationFactory(creationUtils, Bpmn2Package.eINSTANCE.getParallelGateway(), "default");
+		entries.add(new ModelerCreationToolEntry("Parallel Gateway", "Parallel Gateway", factory, BPMN2ImageRegistry.getImageDescriptor("PARALLELGATEWAY"),
+				BPMN2ImageRegistry.getImageDescriptor("PARALLELGATEWAY_LARGE")));
+		gatewaysDrawer.addAll(entries);
+		getRoot().add(gatewaysDrawer);
 	}
 }

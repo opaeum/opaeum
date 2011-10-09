@@ -16,8 +16,8 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.RootObjectStatus;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 @PhaseDependency()
 public class LinkagePhase implements TransformationPhase<AbstractModelElementLinker,INakedElement>{

@@ -11,7 +11,6 @@ import org.opaeum.metamodel.core.INakedParameter;
 @StepDependency(phase = LinkagePhase.class,after = {
 	MappedTypeLinker.class
 },before = {
-	ObjectFlowLinker.class
 },requires = {})
 public class ParameterLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)

@@ -11,11 +11,15 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.actions.INakedAcceptCallAction;
 import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.ActivityNodeContainer;
+import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
+import org.opaeum.metamodel.activities.INakedExpansionRegion;
 import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
@@ -56,19 +60,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					}
 					if(umlOwner instanceof INakedActivity){
 						INakedActivity a = (INakedActivity) umlOwner;
-						visitVariables(a.getVariables());
-						for(INakedActivityNode n:a.getActivityNodesRecursively()){
-							if(n instanceof INakedOutputPin){
-								visitOutputPin((INakedOutputPin) n);
-							}else if(n instanceof INakedExpansionNode){
-								visitExpansionNode((INakedExpansionNode) n);
-							}else if(n instanceof INakedEmbeddedTask){
-								visitTask((INakedEmbeddedTask) n);
-							}else if(n instanceof INakedCallAction){
-								visitCallAction((INakedCallAction) n);
-							}else if(n instanceof INakedAcceptCallAction){
-								visitAcceptCallAction((INakedAcceptCallAction) n);
-							}
+						if(BehaviorUtil.hasExecutionInstance(a)){
+							visitActivityNodesRecursively(a, (ActivityNodeContainer) a);
 						}
 					}
 				}
@@ -88,9 +81,30 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 	}
+	protected void visitActivityNodesRecursively(INakedClassifier owner,ActivityNodeContainer container){
+		visitVariables(owner, container.getVariables());
+		for(INakedActivityNode n:container.getActivityNodes()){
+			if(n instanceof INakedAction){
+				visitOutputPins((INakedAction) n);
+			}else if(n instanceof INakedExpansionRegion){
+				visitExpansionNodes((INakedExpansionRegion) n);
+			}
+			if(n instanceof INakedEmbeddedTask){
+				visitTask((INakedEmbeddedTask) n);
+			}else if(n instanceof INakedCallAction){
+				visitCallAction((INakedCallAction) n);
+			}else if(n instanceof INakedAcceptCallAction){
+				visitAcceptCallAction((INakedAcceptCallAction) n);
+			}
+			if(n instanceof INakedStructuredActivityNode){
+				INakedMessageStructure msg = ((INakedStructuredActivityNode) n).getMessageStructure();
+				visitFeaturesOf(msg);
+				visitActivityNodesRecursively(msg, (ActivityNodeContainer) n);
+			}
+		}
+	}
 	private void visitAcceptCallAction(INakedAcceptCallAction node){
-		if(BehaviorUtil.mustBeStoredOnActivity(node)){
-			// Their classes will be built elsewhere, so just visit the relationship with the message structure as an artificial association
+		if(BehaviorUtil.hasMessageStructure(node)){
 			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
 		}
 	}
@@ -100,23 +114,21 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	}
 	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap map){
 	}
-	private void visitVariables(Collection<INakedActivityVariable> vars){
+	private void visitVariables(INakedClassifier owner,Collection<INakedActivityVariable> vars){
 		for(INakedActivityVariable var:vars){
-			if(BehaviorUtil.mustBeStoredOnActivity(var)){
-				// Variables contained by StructuredActivityNodes require
-				// contextable variables which will be delegated to BPM engine
-				visitProperty(var.getActivity(), OJUtil.buildStructuralFeatureMap(var.getActivity(), var));
-			}
+			visitProperty(owner, OJUtil.buildStructuralFeatureMap(owner, var));
 		}
 	}
-	private void visitOutputPin(INakedOutputPin node){
-		if(BehaviorUtil.mustBeStoredOnActivity(node)){
-			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node, true));
+	private void visitOutputPins(INakedAction a){
+		Collection<INakedOutputPin> nodes = a.getOutput();
+		for(INakedOutputPin node:nodes){
+			visitProperty(a.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(a.getNearestStructuredElementAsClassifier(), node, true));
 		}
 	}
-	private void visitExpansionNode(INakedExpansionNode node){
-		if(BehaviorUtil.mustBeStoredOnActivity(node)){
-			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node.getActivity(), node));
+	private void visitExpansionNodes(INakedExpansionRegion region){
+		for(INakedExpansionNode node:region.getOutputElement()){
+			// NB expansion nodes sit on the parent container
+			visitProperty(region.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(region.getNearestStructuredElementAsClassifier(), node));
 		}
 	}
 	private void visitOperation(INakedOperation o){
@@ -127,20 +139,20 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	}
 	public void visitTask(INakedEmbeddedTask node){
 		INakedMessageStructure msg = node.getMessageStructure();
-		if((BehaviorUtil.mustBeStoredOnActivity(node))){
-			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
-		}
+		visitProperty(node.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
 		visitFeaturesOf(msg);
 	}
 	protected void visitCallAction(INakedCallAction node){
-		if(node.getCalledElement().getContext() == null && node.getMessageStructure() != null){
-			// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
-			// persistence
-			INakedComplexStructure umlOwner = node.getMessageStructure();
-			visitFeaturesOf(umlOwner);
-		}else if((BehaviorUtil.mustBeStoredOnActivity(node))){
-			// Their classes will be built elsewhere, so just visit the action as an artificial association with the message structure
-			visitProperty(node.getActivity(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
+		if(BehaviorUtil.hasMessageStructure(node)){
+			if(node.getCalledElement().getContext() == null){
+				// Contextless behaviors need to be attached to the process in an emulated compositional association to ensure transitive
+				// persistence
+				INakedComplexStructure umlOwner = node.getMessageStructure();
+				visitFeaturesOf(umlOwner);
+			}else{
+				// Their classes will be built elsewhere, so just visit the action as an artificial association with the message structure
+				visitProperty(node.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(node, getLibrary()));
+			}
 		}
 	}
 }

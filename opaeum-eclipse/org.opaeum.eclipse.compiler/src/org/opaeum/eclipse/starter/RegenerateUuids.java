@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Profile;
 import org.opaeum.eclipse.NakedUmlElementLinker;
 import org.opaeum.eclipse.NakedUmlElementLinker.EmfUmlElementLinker;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
@@ -88,27 +90,30 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 		@VisitBefore(matchSubclasses = true)
 		public void element(Element e){
 			Set<String> keywords = new HashSet<String>();
-			for(EAnnotation a:new ArrayList<EAnnotation>(e.getEAnnotations())){
-				if(a.getSource().contains("opaeum")){
-					for(Entry<String,String> entry:a.getDetails().entrySet()){
-						if(entry.getValue() == null || entry.getValue().trim().length() == 0){
-							keywords.add(entry.getKey());
-						}
-					}
-					e.getEAnnotations().remove(a);
-				}
+			if(!(e instanceof Model || e instanceof Profile)){
+				e.getEAnnotations().clear();
+//				for(EAnnotation a:new ArrayList<EAnnotation>(e.getEAnnotations())){
+//					if(a.getSource().contains("opaeum") || a.getSource().contains("opeum") || a.getSource().contains("nakeduml")){
+//						// for(Entry<String,String> entry:a.getDetails().entrySet()){
+//						// if(entry.getValue() == null || entry.getValue().trim().length() == 0){
+//						// keywords.add(entry.getKey());
+//						// }
+//						// }
+//						e.getEAnnotations().remove(a);
+//					}
+//				}
 			}
-//			populateAnnotation(e, keywords);
+			// populateAnnotation(e, keywords);
 		}
-//		private void populateAnnotation(Element o,Set<String> keywords){
-//			// FIrst generate the ID appropriately
-//			currentEmfWorkspace.getId(o);
-//			// Now the annotation already exists
-//			EAnnotation ann = StereotypesHelper.getNumlAnnotation(o);
-//			for(String string:keywords){
-//				ann.getDetails().put(string, "");
-//			}
-//		}
+		// private void populateAnnotation(Element o,Set<String> keywords){
+		// // FIrst generate the ID appropriately
+		// currentEmfWorkspace.getId(o);
+		// // Now the annotation already exists
+		// EAnnotation ann = StereotypesHelper.getNumlAnnotation(o);
+		// for(String string:keywords){
+		// ann.getDetails().put(string, "");
+		// }
+		// }
 		@Override
 		protected int getThreadPoolSize(){
 			return 1;
@@ -139,10 +144,10 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 						v1.visitRecursively(element);
 					}
 					monitor.subTask("Generating new UUIDS");
-//					LinkingVisitor v2 = new LinkingVisitor();
-//					for(Element element:workspace.getOwnedElements()){
-//						v2.visitRecursively(element);
-//					}
+					// LinkingVisitor v2 = new LinkingVisitor();
+					// for(Element element:workspace.getOwnedElements()){
+					// v2.visitRecursively(element);
+					// }
 					monitor.worked(1);
 					monitor.subTask("Saving All Models");
 					workspace.saveAll();

@@ -21,4 +21,5 @@ public interface INakedSimpleType extends INakedDataType {
 	public <T> T getStrategy(Class<T> c);
 	public void setStrategyFactory(AbstractStrategyFactory strategies);
 	public boolean hasStrategy(Class<?> class1);
+	public AbstractStrategyFactory getStrategyFactory();
 }

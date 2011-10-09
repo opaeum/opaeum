@@ -299,7 +299,7 @@
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
     <drools.version>5.2.0.M1</drools.version>
     <hibernate.version>3.4.0.GA</hibernate.version>
-    <opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
+    <opaeum.version>1.0.0.6-SNAPSHOT</opaeum.version>
     <jboss.domain>default</jboss.domain>
     <jboss.home>${env.JBOSS_HOME}</jboss.home>
     <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>

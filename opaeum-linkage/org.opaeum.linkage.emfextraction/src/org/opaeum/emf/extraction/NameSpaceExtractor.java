@@ -64,7 +64,7 @@ import org.opaeum.metamodel.core.internal.NakedHelperImpl;
 import org.opaeum.metamodel.core.internal.NakedInterfaceImpl;
 import org.opaeum.metamodel.core.internal.NakedPackageImpl;
 import org.opaeum.metamodel.core.internal.NakedPowerTypeImpl;
-import org.opaeum.metamodel.core.internal.NakedPrimitiveType;
+import org.opaeum.metamodel.core.internal.NakedPrimitiveTypeImpl;
 import org.opaeum.metamodel.core.internal.NakedRootObjectImpl;
 import org.opaeum.metamodel.core.internal.NakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.NakedValueTypeImpl;
@@ -143,7 +143,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(nc, c);
 	}
 	@VisitBefore
-	public void visitPrimitiveType(PrimitiveType p,NakedPrimitiveType npt){
+	public void visitPrimitiveType(PrimitiveType p,NakedPrimitiveTypeImpl npt){
 		initializeClassifier(npt, p);
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){

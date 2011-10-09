@@ -40,10 +40,13 @@ public class SequenceFlowEdgeCreationEditPolicy extends AbstractEdgeCreationEdit
 	}
 	/**
 	 * @see org.topcased.modeler.edit.policies.AbstractEdgeCreationEditPolicy#checkSource(org.topcased.modeler.di.model.GraphElement)
-	 * @generated
+	 * @generated NOT
 	 */
 	protected boolean checkSource(GraphElement source){
 		EObject object = Utils.getElement(source);
+		if(object instanceof EndEvent){
+			return false;
+		}
 		if(object instanceof org.eclipse.bpmn2.FlowNode){
 			return true;
 		}

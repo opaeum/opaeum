@@ -1,13 +1,5 @@
-CM1
-Environment implementation for Seam2
-Persistence implementation
-Remove old auditing
-Do data restoration with an XML document
-
 ECLIPSE
 General
-Reverse engineer a profile into the workspace
-StarterAction - automatically set maven group id as package prefix of mappedimplementationpackage of rootObjects
 GEneratorGenerator - make this an eclipse plugin too
 
 Opaeum Topcased
@@ -41,18 +33,25 @@ remove operation navigations and action buttons to obsolete operations
 remove obsolete forms 
 allow forms to be reused as panels
 Add button bar for actions on multiple rows in the table
-Introduce entryScreen for components, allow formpanels to be used, have an external and internal view
+Introduce entryScreen for components:
+ allow formpanels to be used, 
+ have an external and internal view
+ by default, don't allow compositional browsing beyond the component external view, but allow this to be overridden for manager type users
+ show menu items for each operation on each outgoing gateway port that the current users has a required dependency for
 Introduce ocl expressions for things such as lookups and security constraints
+Generate UIM from INakedWorkspace
 
 Processes
+For all events implement correlation logic in the context;s event handler
+Implement global change events and repeating absolute time events. Broadcast these to subscribing processes.
+RelativeTimeEvents should have instancespecifications of type DurationSpecification, with repeats flag
+ABsoluteTimeEvents should have instancespecifications of type DatTimeSpecification (i.e.1st day of week) with repeats flag
 Operation Message Structure to become interface with a default implementation
 BehaviorMessageStructures should implement the Operation Message Structure as contract and extend super behaviors
 Implement expiry logic for events
 Remember to allow ALL events to be retryable - retry until expiry 
 timevents may want to repeat
 Support Asynchandlers for behaviors
-
-
 
 TaskManagement
 Model UserInterface too
@@ -62,21 +61,15 @@ Swimlanes WITHOUT property "represents" and task definitions specify potentialOw
 Swimlanes with Classifier Represents and no potential Owners will use ClassifierX.allInstance() for POTENTIAL owners 
 Create one task per value in targetElement expression
 Remember that Responsibilities implemented as StateMachines are TaskObjects, not OperationProcessObjects
+Display current task control buttons in the ui
+Track audit changes against current task
 
 Operations
-Calculate which operations are long running
-All long-running operations should provide a second method providing the calling context
-AcceptCallAction - store operation structure
 unmarshall the pins to allow OCL compilation for postconditions
-Consider all operations that have triggers associated with them to be long -running - remember the event occurrence queue ide
-
 
 Statemachines
-include full state path in state name
 Implement effects, entry and do-action subprocess calls
 Implement state invariants
-
-
 
 Classes
 Generalizationsets
@@ -84,18 +77,12 @@ PowerTypes
 link powerTypeInstances with generalization
 
 Activities
-Implement real asynchronous actions, i.e. call the action in another physical thread
-Log all events as well as asynchronous actions and signals directly in database and deliver them asynchronously
-For events (including operations and signals) with triggers in a classifier, if the event is not consumed, store it in the input pool  
-For all activities that start with an event, instantiate the activity in the context's event handler
-For all events implement correlation logic in the context;s event handler
-For time events and change events, request the events when the context is created. Assume that relative time events need to be repeated.
+URGENT:
+Implement structured nodes as individual processes with their own flows
 Implement link actions, specifically for qualifiers
-InstanceValuepins
-RelativeTimeEvents should have instancespecifications of type DurationSpecification, with repeats flag
-ABsoluteTimeEvents should have instancespecifications of type DatTimeSpecification (1st day of week) with repeats flag
-
-
+Implement structuredactivitynodes as classes
+Merge object tokens on objectflows targeting a join 
+Implement getters for outputnodes that aggregate the results over possibly multiple invocations
 
 Maven
 put MavenArtefatId in profile

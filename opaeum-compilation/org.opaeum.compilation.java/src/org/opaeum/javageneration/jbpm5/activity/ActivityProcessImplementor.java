@@ -2,6 +2,7 @@ package org.opaeum.javageneration.jbpm5.activity;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import nl.klasse.octopus.model.IClassifier;
@@ -9,7 +10,9 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -59,7 +62,9 @@ import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedExpansionRegion;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
@@ -115,12 +120,12 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			OJAnnotatedClass activityClass = findJavaClass(activity);
 			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
 			stateClass.addToNames(activity.getMappingInfo().getJavaName() + "State");
-			implementNodeMethods(activityClass, activity);
+			implementNodeMethods(activity);
 			doExecute(activity, activityClass);
 			if(activity.getActivityKind() == ActivityKind.PROCESS){
 				implementProcessInterfaceOperations(activityClass, stateClass, activity);
 				OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
-				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes(),getLibrary().getBusinessRole()!=null);
+				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes(), getLibrary().getBusinessRole() != null);
 			}else{
 				Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 				doIsStepActive(activityClass, activity);
@@ -141,7 +146,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 						if(!ojTarget.getImplementedInterfaces().contains(map.receiverContractTypePath())){
 							ojTarget.addToImplementedInterfaces(map.receiverContractTypePath());
 							OperationAnnotator.findOrCreateJavaReception(ojTarget, map);
-							OperationAnnotator.findOrCreateEventGenerator( (INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(),ojTarget, map);
+							OperationAnnotator.findOrCreateEventGenerator((INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(), ojTarget, map);
 							OperationAnnotator.findOrCreateEventConsumer((INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(), ojTarget, map);
 						}
 					}
@@ -155,18 +160,54 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		}
 	}
-	private void implementNodeMethods(OJClass activityClass,INakedActivity activity){
+	private void implementNodeMethods(ActivityNodeContainer activity){
+		OJAnnotatedClass activityClass;
+		if(activity instanceof INakedStructuredActivityNode){
+			activityClass = findJavaClass(((INakedStructuredActivityNode) activity).getMessageStructure());
+		}else{
+			activityClass = findJavaClass((INakedActivity) activity);
+		}
 		activityClass.addToImports(Jbpm5Util.getProcessContext());
-		for(INakedActivityNode node:activity.getActivityNodesRecursively()){
+		for(INakedActivityNode node:activity.getActivityNodes()){
 			if(node instanceof INakedAction || node instanceof INakedParameterNode || node instanceof INakedControlNode || node instanceof INakedExpansionRegion
 					|| node instanceof INakedExpansionNode){
 				this.implementNodeMethod(activityClass, node);
 				if(node instanceof ActivityNodeContainer){
 					visitEdges(((ActivityNodeContainer) node).getActivityEdges());
 				}
+			}else if(node instanceof INakedOutputPin){
+				if(BehaviorUtil.hasMessageStructure((INakedAction) node.getOwnerElement())){
+					implementDerivedGetter(activityClass, (INakedObjectNode) node);
+				}
 			}
 		}
 		visitEdges(activity.getActivityEdges());
+	}
+	private void implementDerivedGetter(OJAnnotatedClass activityClass,INakedObjectNode node2){
+		NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap((INakedAction) node2.getOwnerElement(), getLibrary());
+		NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2, true);
+		NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2,
+				false);
+		List<OJPathName> emptyList = Collections.emptyList();
+		OJAnnotatedOperation oper = (OJAnnotatedOperation) activityClass.findOperation(pinMap.getter(), emptyList);
+		oper.setBody(new OJBlock());
+		if(actionMap.isMany()){
+			if(pinMap.isMany()){
+				oper.initializeResultVariable(actionMap.javaDefaultValue());
+				OJForStatement forEach = new OJForStatement("tmp", actionMap.javaBaseTypePath(), actionMap.getter() + "()");
+				oper.getBody().addToStatements(forEach);
+				forEach.getBody().addToStatements("result.add(tmp." + propertyMap.getter() + "())");
+			}else{
+				// TODO validate against this
+			}
+		}else{
+			if(pinMap.isMany()){
+				oper.initializeResultVariable(actionMap.javaDefaultValue());
+				oper.getBody().addToStatements("result.add(tmp." + propertyMap.getter() + "())");
+			}else{
+				oper.initializeResultVariable(actionMap.getter() + "()." + propertyMap.getter() + "()");
+			}
+		}
 	}
 	protected void visitEdges(Collection<INakedActivityEdge> activityEdges){
 		for(INakedActivityEdge edge:activityEdges){
@@ -192,7 +233,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			implementor = new ParameterNodeBuilder(getLibrary(), parameterNode);
 		}else if(node instanceof INakedReplyAction){
 			INakedReplyAction action = (INakedReplyAction) node;
-			implementor = new ReplyActionBuilder(getLibrary(),action);
+			implementor = new ReplyActionBuilder(getLibrary(), action);
 		}else{
 			implementor = new SimpleActionBridge(getLibrary(), node, SimpleActivityMethodImplementor.resolveBuilder(node, getLibrary(), new Jbpm5ObjectNodeExpressor(
 					getLibrary())));

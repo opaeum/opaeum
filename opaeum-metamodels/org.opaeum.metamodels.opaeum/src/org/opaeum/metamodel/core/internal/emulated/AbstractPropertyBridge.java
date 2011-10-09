@@ -10,6 +10,9 @@ import nl.klasse.octopus.model.IMultiplicityKind;
 import nl.klasse.octopus.model.VisibilityKind;
 
 import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;

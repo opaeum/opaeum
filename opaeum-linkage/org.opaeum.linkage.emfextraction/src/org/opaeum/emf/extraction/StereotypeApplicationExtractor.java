@@ -73,7 +73,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		}
 		if(nakedPeer != null){
 			if(nakedPeer instanceof INakedHelper){
-				System.out.println();
+				
 			}
 			// Some element may not be supported by Opaeum
 			addStereotypes(nakedPeer, element);

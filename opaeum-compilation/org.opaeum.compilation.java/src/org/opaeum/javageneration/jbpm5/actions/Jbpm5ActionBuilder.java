@@ -57,7 +57,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				boolean ignore = node instanceof INakedReplyAction && pin.equals(((INakedReplyAction) node).getReturnInfo());
 				if(!ignore){
 					OJBlock block = oper.getBody();
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
 					oper.getOwner().addToImports(map.javaTypePath());
 					OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
 					field.setInitExp(expressPin(oper, block, pin));

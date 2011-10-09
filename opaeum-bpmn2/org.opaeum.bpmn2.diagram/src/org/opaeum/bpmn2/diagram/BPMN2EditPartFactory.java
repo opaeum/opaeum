@@ -11,11 +11,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.opaeum.bpmn2.diagram.edit.BPMN2DiagramEditPart;
 import org.opaeum.bpmn2.diagram.edit.BoundaryEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.ComplexGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.EndEventEditPart;
+import org.opaeum.bpmn2.diagram.edit.EventBasedGatewayEditPart;
+import org.opaeum.bpmn2.diagram.edit.ExclusiveGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.FlowNodeEditPart;
+import org.opaeum.bpmn2.diagram.edit.GatewayEditPart;
+import org.opaeum.bpmn2.diagram.edit.InclusiveGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.IntermediateCatchEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.IntermediateThrowEventEditPart;
 import org.opaeum.bpmn2.diagram.edit.MessageEventDefinitionEditPart;
+import org.opaeum.bpmn2.diagram.edit.ParallelGatewayEditPart;
 import org.opaeum.bpmn2.diagram.edit.SequenceFlowEditPart;
 import org.opaeum.bpmn2.diagram.edit.SignalEventDefinitionEditPart;
 import org.opaeum.bpmn2.diagram.edit.StartEventEditPart;
@@ -165,6 +171,48 @@ public class BPMN2EditPartFactory extends ModelerEditPartFactory{
 		 */
 		public Object caseSignalEventDefinition(org.eclipse.bpmn2.SignalEventDefinition object){
 			return new SignalEventDefinitionEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseGateway(org.eclipse.bpmn2.Gateway)
+		 * @generated
+		 */
+		public Object caseGateway(org.eclipse.bpmn2.Gateway object){
+			return new GatewayEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseInclusiveGateway(org.eclipse.bpmn2.InclusiveGateway)
+		 * @generated
+		 */
+		public Object caseInclusiveGateway(org.eclipse.bpmn2.InclusiveGateway object){
+			return new InclusiveGatewayEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseExclusiveGateway(org.eclipse.bpmn2.ExclusiveGateway)
+		 * @generated
+		 */
+		public Object caseExclusiveGateway(org.eclipse.bpmn2.ExclusiveGateway object){
+			return new ExclusiveGatewayEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseParallelGateway(org.eclipse.bpmn2.ParallelGateway)
+		 * @generated
+		 */
+		public Object caseParallelGateway(org.eclipse.bpmn2.ParallelGateway object){
+			return new ParallelGatewayEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseEventBasedGateway(org.eclipse.bpmn2.EventBasedGateway)
+		 * @generated
+		 */
+		public Object caseEventBasedGateway(org.eclipse.bpmn2.EventBasedGateway object){
+			return new EventBasedGatewayEditPart(node);
+		}
+		/**
+		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#caseComplexGateway(org.eclipse.bpmn2.ComplexGateway)
+		 * @generated
+		 */
+		public Object caseComplexGateway(org.eclipse.bpmn2.ComplexGateway object){
+			return new ComplexGatewayEditPart(node);
 		}
 		/**
 		 * @see org.eclipse.bpmn2.util.Bpmn2Switch#defaultCase(org.eclipse.emf.ecore.EObject)

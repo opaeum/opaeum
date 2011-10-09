@@ -85,7 +85,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		if(ae.getWeight()==null){
 			nae.setWeight(null);
 		}
-		if(nae.getSource()==null || nae.getTarget()==null){
+		if(!nae.isMarkedForDeletion() && (nae.getSource()==null || nae.getTarget()==null)){
 			throw new IllegalStateException(ae.getSource() + "<-"+ ae + "->" + ae.getTarget());
 		}
 	}

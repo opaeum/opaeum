@@ -7,7 +7,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 public abstract class JavaFeature implements JavaTransformationStep{
@@ -15,7 +15,7 @@ public abstract class JavaFeature implements JavaTransformationStep{
 	public void setTransformationContext(TransformationContext c){
 	}
 	@Override
-	public Collection<? extends TextFile> getTextFiles(){
+	public Collection<TextOutputNode> getTextFiles(){
 		return Collections.emptySet();
 	}
 	@Override

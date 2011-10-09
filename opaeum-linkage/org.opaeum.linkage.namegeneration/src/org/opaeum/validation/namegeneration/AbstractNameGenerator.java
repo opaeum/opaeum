@@ -10,6 +10,7 @@ import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
@@ -18,7 +19,7 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
+import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor implements ITransformationStep{
 	Set<INakedElement> affectedElements = new HashSet<INakedElement>();
@@ -44,6 +45,8 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 				visitRecursively(((INakedEmbeddedTask) o).getMessageStructure());
 			}else if(o instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedAction) o)){
 				visitRecursively(((INakedCallAction) o).getMessageStructure());
+			}else if(o instanceof INakedStructuredActivityNode){
+				visitRecursively(((INakedStructuredActivityNode) o).getMessageStructure());
 			}
 		}
 	}

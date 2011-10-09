@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
@@ -26,8 +24,10 @@ import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
@@ -38,6 +38,7 @@ import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
@@ -81,6 +82,22 @@ public class EmfElementFinder{
 						result.addAll(act.getOutputs());
 					}
 					return result;
+				}else if(a.getOwner() instanceof Operation){
+					Operation oper=(Operation) a.getOwner();
+					for(Parameter parameter:oper.getOwnedParameters()){
+						if(parameter.getDirection()==ParameterDirectionKind.IN_LITERAL || parameter.getDirection()==ParameterDirectionKind.INOUT_LITERAL ){
+							result.add(parameter);
+						}else if(oper.getPostconditions().contains(a)){
+							result.add(parameter);
+						}
+					}
+				}
+			}else if(a instanceof Operation){
+				Operation oper=(Operation) a;
+				for(Parameter parameter:oper.getOwnedParameters()){
+					if(parameter.getDirection()==ParameterDirectionKind.IN_LITERAL || parameter.getDirection()==ParameterDirectionKind.INOUT_LITERAL ){
+						result.add(parameter);
+					}
 				}
 			}
 			while(!(a == null || a instanceof Classifier)){

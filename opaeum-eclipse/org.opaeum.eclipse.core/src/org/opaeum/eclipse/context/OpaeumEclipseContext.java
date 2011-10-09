@@ -109,10 +109,11 @@ public class OpaeumEclipseContext{
 				isLoading = true;
 				monitor.beginTask("Loading Opaeum  Metadata", 1000);
 				try{
+					EcoreUtil.resolveAll(domain.getResourceSet());
 					final Package model = findRootObjectInFile(file, domain.getResourceSet());
-					if(model != null){
-						currentResourceSet = domain.getResourceSet();
+					if(model != null && model.eResource()!=null){
 						// Will be null if the editingDomain is inactive
+						currentResourceSet = domain.getResourceSet();
 						EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
 						newDomainLoaded(domain, file, model, emfWorkspace);
 					}

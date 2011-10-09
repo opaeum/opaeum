@@ -37,6 +37,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	private Set<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>();
 	private Set<INakedActivityPartition> partitions = new HashSet<INakedActivityPartition>();
 	private Set<INakedActivityVariable> variables = new HashSet<INakedActivityVariable>();
+	private Set<TypedElementPropertyBridge> emulatedAttributes = new HashSet<TypedElementPropertyBridge>();
 	public Set<INakedActivityPartition> getPartitions(){
 		return this.partitions;
 	}
@@ -65,8 +66,21 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public boolean isProcess(){
 		return getActivityKind() == ActivityKind.PROCESS;
 	}
+	public Collection<TypedElementPropertyBridge> getEmulatedAttributes(){
+		if(this.emulatedAttributes == null){
+			this.emulatedAttributes = new HashSet<TypedElementPropertyBridge>();
+			for(INakedActivityVariable v:this.variables){
+				emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
+			}
+			for(INakedParameter v:getOwnedParameters()){
+				emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
+			}
+		}
+		return emulatedAttributes;
+	}
 	@Override
 	public void addOwnedElement(INakedElement element){
+		this.emulatedAttributes = null;
 		super.addOwnedElement(element);
 		if(element instanceof INakedActivityPartition){
 			this.partitions.add((INakedActivityPartition) element);
@@ -104,10 +118,8 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	@Override
 	protected List<IAttribute> getAllAttributesForOcl(boolean classScope){
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
-		if(!classScope){
-			for(INakedParameter p:getArgumentParameters()){
-				results.add(new TypedElementPropertyBridge(this, p));
-			}
+		if(!classScope && !(getActivityKind()==ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)){
+			results.addAll(getEmulatedAttributes());
 		}
 		return results;
 	}
@@ -152,7 +164,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 					}
 				}
 			}
-			if(node instanceof INakedEmbeddedTask && messageEvents==false){
+			if(node instanceof INakedEmbeddedTask && messageEvents == false){
 				results.addAll((Collection) ((INakedEmbeddedTask) node).getTaskDefinition().getDeadlines());
 			}
 		}

@@ -15,8 +15,6 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.BehaviorUtil;
-import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -104,19 +102,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	}
 	@VisitBefore
 	public void visitAssociationClass(INakedAssociation ac){
-	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitCallAction(INakedCallAction node){
-		if(node.getActivity().isPersistent() && BehaviorUtil.mustBeStoredOnActivity(node)){
-			if(node.isLongRunning()){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getLibrary());
-				visitProperty(node.getActivity(), map);
-			}else if(BehaviorUtil.hasExecutionInstance(node.getCalledElement())){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node, getLibrary());
-				OJAnnotatedField field = (OJAnnotatedField) findJavaClass(node.getActivity()).findField(map.umlName());
-				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
-			}
-		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		if(isPersistent(umlOwner) && OJUtil.hasOJClass(umlOwner)){

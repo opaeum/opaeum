@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="Exclusive.svg"
+   inkscape:export-filename="/Users/antoine/w/git/bpmn2/org.eclipse.mdt.bpmn2.edit/icons/full/obj96/ExclusiveGateway.png"
+   inkscape:export-xdpi="60"
+   inkscape:export-ydpi="60">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="826"
+     inkscape:window-width="1600"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:zoom="15.625"
+     inkscape:cx="12"
+     inkscape:cy="15.102857"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:current-layer="svg2"
+     showgrid="false"
+     inkscape:window-maximized="1"
+     inkscape:snap-page="false" />
+  <defs
+     id="defs13">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 12 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="24 : 12 : 1"
+       inkscape:persp3d-origin="12 : 8 : 1"
+       id="perspective11" />
+  </defs>
+  <g
+     transform="matrix(0.75225064,0,0,0.66481436,-34.162372,-51.090536)"
+     id="g5363">
+    <g
+       id="g5352">
+      <path
+         d="m 51.998577,83.99989 2.923187,0 16.077586,21.49865 -2.92318,0 -16.077593,-21.49865 z"
+         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-linecap:square;stroke-miterlimit:10"
+         id="path5354"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 70.99935,83.99989 -2.92318,0 -16.077593,21.49865 2.923187,0 16.077586,-21.49865 z"
+         style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-linecap:square;stroke-miterlimit:10"
+         id="path5356"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+</svg>

@@ -83,7 +83,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	@VisitBefore(matchSubclasses = false,match = {
-			Property.class,ExtensionEnd.class
+			Property.class,ExtensionEnd.class,Port.class
 	})
 	public void visitProperty(Property p,NakedPropertyImpl np){
 		boolean navigable = p.isNavigable() || p.isComposite() || p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;

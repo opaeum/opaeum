@@ -1,4 +1,13 @@
 .metadata
-.settings
 .project
+.settings
 hibernate
+opaeum-tests-processmodel/.classpath
+opaeum-tests-processmodel/.project
+opaeum-tests-processmodel/.settings
+opaeum-tests-processmodel/pom.xml
+opaeum-tests-processmodel/src/main/generated-java
+opaeum-tests-processmodel/src/main/generated-resources
+opaeum-tests-processmodel/src/test/generated-java
+opaeum-tests-processmodel/target
+opaeum-tests-processmodel/test-output

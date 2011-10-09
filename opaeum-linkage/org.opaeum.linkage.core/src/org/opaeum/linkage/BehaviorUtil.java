@@ -16,10 +16,7 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
-import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
@@ -251,7 +248,7 @@ public class BehaviorUtil{
 			return false;
 		}else if(owner instanceof INakedOperation){
 			INakedOperation no = (INakedOperation) owner;
-			if(no.isLongRunning()){
+			if(no.isLongRunning() ||owner.hasMultipleConcurrentResults()){
 				return true;
 			}else{
 				Set<? extends INakedBehavior> methods = no.getMethods();
@@ -324,32 +321,7 @@ public class BehaviorUtil{
 		}
 		return false;
 	}
-	public static boolean mustBeStoredOnActivity(INakedExpansionNode node){
-		return hasExecutionInstance(node.getActivity()) && node.isOutputElement() && node.getExpansionRegion().getOwnerElement() instanceof INakedActivity;
-	}
-	public static boolean mustBeStoredOnActivity(INakedActivityVariable var){
-		return hasExecutionInstance(var.getActivity()) && var.getOwnerElement() instanceof INakedActivity;
-	}
-	public static boolean mustBeStoredOnActivity(INakedAction action){
-		return hasExecutionInstance(action.getActivity()) && hasMessageStructure(action) && action.getOwnerElement() instanceof INakedActivity;
-	}
-	public static boolean mustBeStoredOnActivity(INakedOutputPin node){
-		if(hasExecutionInstance(node.getActivity()) && node.getAction().getOwnerElement() instanceof INakedActivity){
-			if(node.getOwnerElement() instanceof INakedCallAction){
-				INakedCallAction callAction = (INakedCallAction) node.getOwnerElement();
-				if(BehaviorUtil.hasMessageStructure(callAction)){
-					// Results stored on the entity representing the message,
-					// don't implement this outputpin
-					return false;
-				}else{
-					return true;
-				}
-			}
-			return true;
-		}else{
-			return false;
-		}
-	}
+
 	public static boolean shouldSurrounWithTry(INakedCallAction node){
 		return !node.isLongRunning() && node.hasExceptions() && node.isSynchronous();
 	}

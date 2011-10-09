@@ -58,13 +58,18 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		return sureFire;
 	}
 	public boolean useWorkspaceName(){
-		return this.getExampleTargetDir().useWorkspaceName();
+		return this.getExampleTargetDir().isOneProjectPerWorkspace();
 	}
 	public final String getProjectName(){
-		if(useWorkspaceName()){
-			return this.workspace.getIdentifier() + getExampleTargetDir().getProjectSuffix();
-		}else{
+		switch(getExampleTargetDir().getProjectNameStrategy()){
+		case MODEL_NAME_AND_SUFFIX:
 			return this.model.getIdentifier() + getExampleTargetDir().getProjectSuffix();
+		case SUFFIX_ONLY:
+			return getExampleTargetDir().getProjectSuffix();
+		case WORKSPACE_NAME_AND_SUFFIX:
+			return this.workspace.getIdentifier() + getExampleTargetDir().getProjectSuffix();
+		default:
+			return "";
 		}
 	}
 	public boolean hasFinalName(){
@@ -246,7 +251,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	}
 	protected Collection<Dependency> getBasicDependencies(ISourceFolderIdentifier identifier){
 		Collection<Dependency> result = getTestDepedencies();
-		if(getExampleTargetDir().useWorkspaceName()){
+		if(getExampleTargetDir().isOneProjectPerWorkspace()){
 		}else{
 			Collection<IImportedElement> imports = this.model.getImports();
 			for(IImportedElement imp:imports){
@@ -260,7 +265,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,INakedRootObject rootObject,Collection<Dependency> result){
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 			SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
-			if(sourceFolderDefinition.useWorkspaceName()){
+			if(sourceFolderDefinition.isOneProjectPerWorkspace()){
 				Dependency d = POMFactory.eINSTANCE.createDependency();
 				d.setGroupId(config.getMavenGroupId());
 				d.setVersion(getVersionVariable());

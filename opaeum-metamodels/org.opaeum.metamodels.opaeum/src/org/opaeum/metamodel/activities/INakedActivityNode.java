@@ -2,6 +2,7 @@ package org.opaeum.metamodel.activities;
 import java.util.Set;
 
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 public interface INakedActivityNode extends INakedElement,INakedStep{
 	INakedActivity getActivity();
@@ -30,5 +31,5 @@ public interface INakedActivityNode extends INakedElement,INakedStep{
 	public abstract void removeOutgoing(INakedActivityEdge edge);
 	public abstract void removeIncoming(INakedActivityEdge edge);
 	Set<INakedActivityNode> getRedefinedNodes();	
-	
+	INakedClassifier getNearestStructuredElementAsClassifier();
 }

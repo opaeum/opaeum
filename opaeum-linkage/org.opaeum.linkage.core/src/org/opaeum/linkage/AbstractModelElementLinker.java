@@ -1,18 +1,22 @@
 package org.opaeum.linkage;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.validation.ErrorMap;
-import org.opaeum.metamodel.visitor.NakedElementOwnerVisitor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
+import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractModelElementLinker extends NakedElementOwnerVisitor implements ITransformationStep{
 	@InputModel
@@ -28,7 +32,6 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-
 	protected OpaeumLibrary getBuiltInTypes(){
 		return workspace.getOpaeumLibrary();
 	}
@@ -50,12 +53,26 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 			super.visitRecursively(o);
 		}
 	}
+	@Override
+	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
+		Collection<INakedElementOwner> children = new ArrayList<INakedElementOwner>(super.getChildren(root));
+		if(root instanceof INakedAssociation){
+			//TODO fix the containment relationship of ownedEnds
+			List<INakedProperty> ends = ((INakedAssociation) root).getEnds();
+			for(INakedProperty end:ends){
+				if(end!=null && end.getRootObject()!=((INakedAssociation) root).getRootObject()){
+					children.add(end);
+				}
+			}
+		}
+		return children;
+	}
 	protected boolean shouldBeLinked(INakedElementOwner o){
 		boolean shouldIgnoreBecauseItIsDeleted = o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion() && ignoreDeletedElements();
-		//Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
-		boolean isLinkedNonGeneratingObject =  false;
+		// Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
+		boolean isLinkedNonGeneratingObject = false;
 		if(o instanceof INakedRootObject){
-			isLinkedNonGeneratingObject =!workspace.getGeneratingModelsOrProfiles().contains(o) && ((INakedRootObject)o).getStatus().isLinked();
+			isLinkedNonGeneratingObject = !workspace.getGeneratingModelsOrProfiles().contains(o) && ((INakedRootObject) o).getStatus().isLinked();
 		}
 		return !(shouldIgnoreBecauseItIsDeleted || isLinkedNonGeneratingObject);
 	}

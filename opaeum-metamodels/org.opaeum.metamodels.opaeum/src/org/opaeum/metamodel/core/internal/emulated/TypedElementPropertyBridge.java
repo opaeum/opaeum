@@ -31,7 +31,7 @@ public class TypedElementPropertyBridge extends AbstractPropertyBridge implement
 		super(owner, parameter);
 		this.parameter = parameter;
 	}
-	public TypedElementPropertyBridge(INakedClassifier owner,INakedObjectNode pin,boolean ensureLocallyUniqueName){
+	public TypedElementPropertyBridge(INakedClassifier owner,INakedObjectNode pin,boolean ensureLocallyUniqueName,boolean isDerived){
 		super(owner, pin);
 		this.parameter = pin;
 		this.ensureLocallyUniqueName = ensureLocallyUniqueName;

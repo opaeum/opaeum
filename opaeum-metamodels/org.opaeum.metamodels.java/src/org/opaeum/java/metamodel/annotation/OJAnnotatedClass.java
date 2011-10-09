@@ -274,6 +274,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		Collection<OJConstructor> tempConstructors = new ArrayList<OJConstructor>();
 		for(OJConstructor ojConstructor:constructors){
 			OJConstructor e = ojConstructor.getDeepCopy();
+			e.z_internalAddToOwningClass(this);
 			e.setBody(new OJBlock());
 			final Iterator<OJParameter> iterator = e.getParameters().iterator();
 			StringBuilder sb  = new StringBuilder("super(");

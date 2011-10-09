@@ -205,7 +205,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		if(bc.hasComposite()){
 			INakedProperty ce = bc.getEndToComposite();
 			if(ce.getMappingInfo().getJavaName() == null){
-				System.out.println();
+				
 			}
 			getOwner.getBody().addToStatements("return get" + ce.getMappingInfo().getJavaName().getCapped() + "()");
 		}else{

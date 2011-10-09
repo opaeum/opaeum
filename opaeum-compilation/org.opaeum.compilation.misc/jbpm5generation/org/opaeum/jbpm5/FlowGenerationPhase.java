@@ -14,7 +14,7 @@ import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.TextFile;
+import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = JavaTransformationPhase.class,before = FileGenerationPhase.class)
@@ -27,7 +27,7 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	private List<AbstractFlowStep> flowSteps;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
-		Set<TextFile> result = new HashSet<TextFile>();
+		Set<TextOutputNode> result = new HashSet<TextOutputNode>();
 		for(INakedElement element:elements){
 			for(AbstractFlowStep step:flowSteps){
 				step.initialize(config, textWorkspace, workspace);

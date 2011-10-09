@@ -27,21 +27,24 @@ public abstract class NakedSimpleDataTypeImpl extends NakedClassifierImpl implem
 		}
 	}
 	private static final long serialVersionUID = 4359784104365005415L;
-	private AbstractStrategyFactory strategies = new NoStrategyFactory();
+	private AbstractStrategyFactory strategyFactory = new NoStrategyFactory();
+	public AbstractStrategyFactory getStrategyFactory(){
+		return strategyFactory;
+	}
 	public NakedSimpleDataTypeImpl(){
 	}
 	public boolean hasStrategy(Class<?> class1){
 		return getStrategy(class1) != null;
 	}
 	public <T>T getStrategy(Class<T> c){
-		if(!strategies.hasStrategy(c) && getSupertype() != null){
+		if(!strategyFactory.hasStrategy(c) && getSupertype() != null){
 			return ((NakedSimpleDataTypeImpl) getSupertype()).getStrategy(c);
 		}else{
-			return strategies.getStrategy(c);
+			return strategyFactory.getStrategy(c);
 		}
 	}
 	public void setStrategyFactory(AbstractStrategyFactory f){
-		this.strategies = f;
+		this.strategyFactory = f;
 	}
 	@Override
 	/*

@@ -220,7 +220,11 @@ public class OJUtil{
 		Map<INakedTypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes ? locallyUniqueFeatureMaps : structuralFeatureMaps;
 		NakedStructuralFeatureMap map = maps.get(pin);
 		if(map == null){
-			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniquenes));
+			boolean isDerivied = false;
+			if(ensureUniquenes==false && pin.getOwnerElement() instanceof INakedAction){
+				isDerivied = BehaviorUtil.hasMessageStructure((INakedAction) pin.getOwnerElement());
+			}
+			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniquenes, isDerivied));
 			maps.put(pin, map);
 		}
 		return map;
