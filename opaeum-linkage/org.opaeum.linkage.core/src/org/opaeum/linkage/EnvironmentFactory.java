@@ -46,7 +46,8 @@ public class EnvironmentFactory{
 		this.workspace = workspace;
 	}
 	public Environment createPreEnvironment(INakedOperation owningBehavior){
-		return createSimpleBehavioralContext(owningBehavior.getOwner(), owningBehavior);
+		Environment pre = createSimpleBehavioralContext(owningBehavior.getOwner(), owningBehavior);
+		return pre;
 	}
 	public Environment createClassifierEnvironment(INakedClassifier c){
 		Environment env = createSelflessEnvironment(c);
@@ -97,19 +98,25 @@ public class EnvironmentFactory{
 	Environment createActivityEnvironment(INakedElement startingElement,INakedActivity owningBehavior){
 		Environment env = createBehavioralEnvironment(owningBehavior, owningBehavior);
 		if(BehaviorUtil.hasExecutionInstance(owningBehavior)){
-			while((startingElement.getOwnerElement() instanceof ActivityNodeContainer)){
+			while(!(startingElement.getOwnerElement() instanceof ActivityNodeContainer)){
 				startingElement = (INakedElement) startingElement.getOwnerElement();
 			}
 			if(startingElement.getOwnerElement() instanceof INakedStructuredActivityNode){
-				env.replaceElement("self", ((INakedStructuredActivityNode) startingElement.getOwnerElement()).getMessageStructure(),true);
+				env.addElement("this", ((INakedStructuredActivityNode) startingElement.getOwnerElement()).getMessageStructure(), true);
 			}
+			env.addElement("containingActivity", new VariableDeclaration("containingActivity", owningBehavior), true);
 		}else{
 			addActivityStructureAsLocalContext(env, startingElement, true);
 		}
 		return env;
 	}
 	public Environment createOperationMessageEnvironment(INakedOperation op,INakedMessageStructure message){
-		return createBehavioralEnvironment(op, message);
+		// State Actions
+		Environment env = null;
+		env = createSelflessEnvironment(op.getNameSpace());
+		env.addElement("self", new VariableDeclaration("self", message), true);
+		env.addElement("contextObject", new VariableDeclaration("contextObject", op.getContext()), true);
+		return env;
 	}
 	public Environment createSelflessEnvironment(INakedNameSpace ns){
 		Environment parent = new Environment();

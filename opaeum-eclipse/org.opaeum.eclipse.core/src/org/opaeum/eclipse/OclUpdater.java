@@ -24,7 +24,7 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-public class OclUpdater implements NakedUmlSynchronizationListener{
+public class OclUpdater implements OpaeumContextSynchronizationListener{
 	private Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces;
 	public OclUpdater(Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces){
 		super();

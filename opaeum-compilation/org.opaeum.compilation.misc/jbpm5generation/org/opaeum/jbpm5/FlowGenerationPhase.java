@@ -31,7 +31,7 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 		for(INakedElement element:elements){
 			for(AbstractFlowStep step:flowSteps){
 				step.initialize(config, textWorkspace, workspace);
-				step.visitRecursively(element);
+				step.visitOnly(element);
 				result.addAll(step.getTextFiles());
 			}
 		}

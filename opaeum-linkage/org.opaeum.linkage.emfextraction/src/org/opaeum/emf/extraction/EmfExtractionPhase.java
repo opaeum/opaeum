@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Association;
@@ -79,8 +81,17 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		if(!context.getLog().isCanceled()){
 			for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
 				INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
+				if(nakedPackage == null){
+					System.out.println();
+				}
 				nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
 				modelWorkspace.addGeneratingRootObject(nakedPackage);
+			}
+			emfWorkspace.calculatePrimaryModels();
+			for(Package gp:emfWorkspace.getPrimaryModels()){
+				INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
+				nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
+				modelWorkspace.addPrimaryModel(nakedPackage);
 			}
 			for(INakedRootObject ro:modelWorkspace.getRootObjects()){
 				if(!ro.getStatus().isExtracted()){
@@ -119,11 +130,26 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		}else{
 			for(EObject eObject:elements){
 				EObject o = eObject;
-				while(!(canBeProcessedIndividually(o) || o == null)){
-					o = EmfElementFinder.getContainer(o);
-				}
+				o = getProcessibleElement(o);
 				if(o != null){
 					result.add((Element) o);
+					if(emfWorkspace.getCrossReferenceAdapter() != null){
+						Collection<Setting> non = emfWorkspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(o,true);
+						for(Setting setting:non){
+							Element processibleElement = getProcessibleElement(setting.getEObject());
+							if(processibleElement != null){
+								result.add(processibleElement);
+							}
+						}
+//						Collection<Setting> nav= emfWorkspace.getCrossReferenceAdapter().getInverseReferences(o,true);
+//						for(Setting setting:nav){
+//							EObject eObject2 = setting.getEObject();
+//							Element processibleElement = getProcessibleElement(eObject2);
+//							if(processibleElement != null){
+//								result.add(processibleElement);
+//							}
+//						}
+					}
 				}
 				if(eObject instanceof Association){
 					// TODO Opaeum Metamodel still follows UML2.0 where navigable ends are contained by the class
@@ -132,6 +158,12 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 			}
 		}
 		return result;
+	}
+	protected Element getProcessibleElement(EObject o){
+		while(!(canBeProcessedIndividually(o) || o == null)){
+			o = EmfElementFinder.getContainer(o);
+		}
+		return (Element) o;
 	}
 	private Set<Element> filterChildrenOut(Collection<Element> elements){
 		Set<Element> elementsToProcess = new HashSet<Element>();
@@ -160,7 +192,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 			}
 		}
 	}
-	private boolean canBeProcessedIndividually(EObject e){
+	public static boolean canBeProcessedIndividually(EObject e){
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
 				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation() == null) || e instanceof Classifier
 				|| e instanceof Transition || e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization

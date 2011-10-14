@@ -105,7 +105,7 @@ public class EmulatingElement implements INakedElement{
 	public PathName getPathName(){
 		return originalElement.getPathName();
 	}
-	public Collection<? extends INakedElement> getOwnedElements(){
+	public Collection<INakedElement> getOwnedElements(){
 		return originalElement.getOwnedElements();
 	}
 	public void addOwnedElement(INakedElement element){
@@ -128,6 +128,10 @@ public class EmulatingElement implements INakedElement{
 			return ((INakedElement)getOwnerElement()).getRootObject();
 		}
 		return null;
+	}
+	@Override
+	public Collection<INakedElement> getAllDescendants(){
+		return getOwnedElements();
 	}
 
 }

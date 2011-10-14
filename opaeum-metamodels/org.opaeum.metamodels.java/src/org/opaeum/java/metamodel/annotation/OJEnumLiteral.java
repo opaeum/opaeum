@@ -1,5 +1,6 @@
 package org.opaeum.java.metamodel.annotation;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -82,6 +83,17 @@ public class OJEnumLiteral extends OJElement  implements OJAnnotatedElement{
 
 	public OJAnnotationValue removeAnnotation(OJPathName type) {
 		return AnnotationHelper.removeAnnotation(this, type);
+	}
+
+	@Override
+	public void renameAll(Set<OJPathName> match,String suffix){
+		for(OJAnnotationValue a:getAnnotations()){
+			a.renameAll(match, suffix);
+		}
+		for(OJField ojField:attributeValues){
+			ojField.setInitExp(replaceAll(ojField.getInitExp(), match, suffix));
+		}
+		
 	}
 
 }

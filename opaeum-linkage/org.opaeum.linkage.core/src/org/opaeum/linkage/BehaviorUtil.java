@@ -260,6 +260,14 @@ public class BehaviorUtil{
 			}
 			return false;
 		}else{
+			if(owner instanceof INakedBehavioredClassifier){
+				INakedBehavioredClassifier bc = (INakedBehavioredClassifier) owner;
+				if(bc.getOwnedBehaviors().size()>0){
+					return true;
+				}else if(bc.getOperations().size()>0){
+					return true;
+				}
+			}
 			return owner instanceof INakedStateMachine || owner.hasMultipleConcurrentResults()
 					|| (owner instanceof INakedActivity && ((INakedActivity) owner).getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD);
 		}

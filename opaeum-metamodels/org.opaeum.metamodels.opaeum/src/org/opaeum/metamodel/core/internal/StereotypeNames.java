@@ -78,6 +78,13 @@ public class StereotypeNames {
 	public static final String OPIUM_BPM_LIBRARY = "OpaeumBPM.library.uml";
 	public static final String OPIUM_SIMPLE_TYPES = "OpaeumSimpleTypes.library.uml";
 	public static final String MODEL_LIBRARY ="ModelLibrary";
+	public static final String BUSINESS_GATEWAY ="BusinessGateway";
+	public static final String BUSINESS_CHANNEL ="BusinessChannel";
+	public static final String DIMENSION ="Dimension";
+	public static final String FACT ="Fact";
+	public static final String DELEGATION = "Delegation";
+	public static final String PARTICIPANT_REFERENCE = "ParticipantReference";
+	public static final String BUSINESS_ROLE_CONTAINMENT = "BusinessRoleContainment";
 	
 
 }

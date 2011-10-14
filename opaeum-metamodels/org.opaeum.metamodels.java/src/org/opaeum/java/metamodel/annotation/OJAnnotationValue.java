@@ -161,7 +161,7 @@ public class OJAnnotationValue extends OJMetaValue{
 			result.attributes.put(v.getName(), v.getDeepCopy());
 		}
 	}
-	public void renameAll(Map<String,OJPathName> renamePathNames,String newName){
+	public void renameAll(Set<OJPathName> renamePathNames,String newName){
 		super.renameAll(renamePathNames, newName);
 		for(OJAnnotationAttributeValue attr:this.attributes.values()){
 			attr.renameAll(renamePathNames, newName);

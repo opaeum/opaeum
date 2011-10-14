@@ -5,6 +5,9 @@ import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.ISelectionService;
@@ -12,7 +15,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.ExtensionContributionFactory;
 import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
+import org.opaeum.eclipse.javasync.RecompileElementAction;
+import org.opaeum.emf.extraction.EmfExtractionPhase;
 
 public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	public OpaeumContributionFactory(){
@@ -33,8 +39,17 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 						System.out.println("NO UML Models");
 					}else if(selection.getFirstElement() instanceof Model){
 						return EvaluationResult.TRUE;
+					}else if(selection.getFirstElement() instanceof Element){
+						if(EmfExtractionPhase.canBeProcessedIndividually((EObject) selection.getFirstElement())){
+							return EvaluationResult.TRUE;
+						}
+					}else if(selection.getFirstElement() instanceof AbstractGraphicalEditPart){
+						AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) selection.getFirstElement();
+						System.out.println(a.getModel());
+						if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
+							return EvaluationResult.TRUE;
+						}
 					}
-					System.out.println(selection);
 				}
 				return EvaluationResult.FALSE;
 			}
@@ -58,6 +73,6 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 		applyProfileMenu.add(new ApplyProfileMenu());
 		MenuManager importLibraryMenu = new MenuManager("Import Library");
 		additions.addContributionItem(importLibraryMenu, visibleWhen);
-		importLibraryMenu .add(new ImportLibraryMenu());
+		importLibraryMenu.add(new ImportLibraryMenu());
 	}
 }

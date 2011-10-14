@@ -311,7 +311,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		owner.addToOperations(adder);
 	}
 	OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		System.out.println();
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		if(map.isJavaPrimitive() || map.isCollection()){
 			field.setInitExp(map.javaDefaultValue());

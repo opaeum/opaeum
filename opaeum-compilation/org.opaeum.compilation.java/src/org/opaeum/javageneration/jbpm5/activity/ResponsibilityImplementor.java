@@ -72,13 +72,21 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 			}
 		}
 	}
-	@VisitBefore(matchSubclasses=true)
+	@VisitBefore(matchSubclasses = true)
 	public void visitClassifier(INakedClassifier nc){
 		for(IOperation o:nc.getOperations()){
 			if(o instanceof INakedResponsibility){
 				INakedResponsibility oa = (INakedResponsibility) o;
 				OJAnnotatedClass ojClass = findJavaClass(oa.getMessageStructure());
 				OJAnnotatedOperation exec = implementExecute(oa, ojClass);
+				/**
+				 * If contextObject instanceof BusinessRole then create task, assign to user,kick off events IF contextObject instanceof
+				 * BusinessGateway on a Business Component then see if there is an implementing process contained by the Business Component
+				 * If there is,create it and execute it.
+				 * Then check if there is a BusinessProcess with that oper as AcceptCall action and resolve it using correlations
+				 * Else if there is a delegation to a property of type BusinessRole, create assignees for each business role
+				 * if the port has other assignement expressions assign these too
+				 */
 				TaskUtil.implementAssignmentsAndDeadlines(exec, exec.getBody(), oa.getTaskDefinition(), "self");
 				NakedOperationMap map = new NakedOperationMap(oa);
 				implementTask(oa, ojClass, map.callbackOperName(), map.callbackListenerPath());
@@ -156,11 +164,10 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		}
 	}
 	private void implementDeadlineCallback(OJAnnotatedClass ojClass,INakedDeadline d,INakedDefinedResponsibility a,OJPathName processObject){
-		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventConsumerName(d),new OJPathName("boolean"));
+		OJAnnotatedOperation oper = new OJAnnotatedOperation(EventUtil.getEventConsumerName(d), new OJPathName("boolean"));
 		ojClass.addToOperations(oper);
 		oper.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 		oper.addParam("date", new OJPathName("java.util.Date"));
-		
 		addCallingProcessObjectField(oper, processObject, a);
 		OJIfStatement ifNotNullCallback = new OJIfStatement("callingProcessObject!=null");
 		oper.getBody().addToStatements(ifNotNullCallback);

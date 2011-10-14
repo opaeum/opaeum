@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.linkage.ActivityValidationRule;
 import org.opaeum.metamodel.actions.internal.NakedExceptionHandlerImpl;
 import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedAction;
@@ -45,6 +46,13 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 			}else{
 				return null;
 			}
+		}else if(e instanceof ActivityEdge){
+			if(((ActivityEdge) e).getSource() == null || ((ActivityEdge) e).getTarget() == null){
+				getErrorMap().putError(getId(e), ActivityValidationRule.ACTIVITY_EDGE_BROKEN);
+				return null;
+			}else{
+				return super.createElementFor(e, peerClass);
+			}
 		}else{
 			return super.createElementFor(e, peerClass);
 		}
@@ -56,7 +64,6 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		initializeEdge(f, nc, nakedObjectFlow);
 		nakedObjectFlow.setTransformation((INakedBehavior) getNakedPeer(f.getTransformation()));
 		nakedObjectFlow.setSelection((INakedBehavior) getNakedPeer(f.getSelection()));
-		
 	}
 	@VisitBefore
 	public void visitControlFlow(ControlFlow f,NakedActivityEdgeImpl nce){
@@ -78,15 +85,16 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
-		//Workaround: Remember that ActivityEdge.ownedElements does not include the guard or weight, so the default deletion logic does not work
-		if(ae.getGuard()==null){
+		// Workaround: Remember that ActivityEdge.ownedElements does not include the guard or weight, so the default deletion logic does not
+		// work
+		if(ae.getGuard() == null){
 			nae.setGuard(null);
 		}
-		if(ae.getWeight()==null){
+		if(ae.getWeight() == null){
 			nae.setWeight(null);
 		}
-		if(!nae.isMarkedForDeletion() && (nae.getSource()==null || nae.getTarget()==null)){
-			throw new IllegalStateException(ae.getSource() + "<-"+ ae + "->" + ae.getTarget());
+		if(!nae.isMarkedForDeletion() && (nae.getSource() == null || nae.getTarget() == null)){
+			throw new IllegalStateException(ae.getSource() + "<-" + ae + "->" + ae.getTarget());
 		}
 	}
 	/**
@@ -102,9 +110,8 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		}else{
 			INakedActivityNode node = (INakedActivityNode) getNakedPeer(emfNode);
 			if(node == null){
-				
 				if(emfNode instanceof Action){
-					//could be deleting the edge
+					// could be deleting the edge
 				}else{
 					NakedControlNodeImpl cnode = new NakedControlNodeImpl();
 					cnode.setControlNodeType(ControlNodeType.MERGE_NODE);

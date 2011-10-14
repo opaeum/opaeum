@@ -42,6 +42,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedChangeEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
@@ -62,6 +63,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	public void visitStateMachine(INakedStateMachine umlStateMachine){
 		setJavaStateMachine(findJavaClass(umlStateMachine));
 		addImports(getJavaStateMachine());
+		addParameterDelegation(getJavaStateMachine(), umlStateMachine);
 		implementProcessInterfaceOperations(getJavaStateMachine(), new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"), umlStateMachine);
 		OJOperation execute = implementExecute(getJavaStateMachine(), umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
@@ -204,7 +206,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		javaStateMachine.addToImports(IProcessStep.class.getName());
 	}
 	@Override
-	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior){
+	protected Collection<? extends INakedElement> getTopLevelFlows(INakedClassifier umlBehavior){
 		return ((INakedStateMachine) umlBehavior).getRegions();
 	}
 	private OJAnnotatedClass getJavaStateMachine(){

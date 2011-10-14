@@ -20,6 +20,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.linkage.NakedParsedOclStringResolver;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
@@ -39,12 +40,20 @@ import org.opaeum.metamodel.core.IParameterOwner;
 })
 public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior behavior){
+	public void visitBehavioredClassifier(INakedBehavioredClassifier bc){
+		for(INakedBehavior b:bc.getOwnedBehaviors()){
+			visitBehavior(b);
+			if(b instanceof INakedOpaqueBehavior){
+				visitOpaqueBehavior((INakedOpaqueBehavior) b);
+			}
+		}
+	}
+	private void visitBehavior(INakedBehavior behavior){
 		if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier){
 			// Ignore transition effects and state actions for now
 			if(BehaviorUtil.hasExecutionInstance(behavior)){
-				addEvaluationMethod(behavior.getPreConditions(), "evaluatePreConditions", behavior);
-				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior);
+				addEvaluationMethod(behavior.getPreConditions(), "evaluatePreConditions", behavior, "this");
+				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior, "this");
 			}else{
 				NakedOperationMap mapper = new NakedOperationMap(behavior);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPreConditions(), true);
@@ -52,8 +61,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 			}
 		}
 	}
-	@VisitBefore(matchSubclasses = true)
-	public void visitOpaqueBehavior(INakedOpaqueBehavior behavior){
+	private void visitOpaqueBehavior(INakedOpaqueBehavior behavior){
 		if(BehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass javaContext = findJavaClass(behavior);
 			OJAnnotatedOperation execute = (OJAnnotatedOperation) OJUtil.findOperation(javaContext, "execute");
@@ -81,6 +89,9 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				}
 			}
 		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression() != null){
+			if(behavior.getName().equals("transformationForObjectFlow1")){
+				System.out.println();
+			}
 			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
 			NakedOperationMap map = new NakedOperationMap(behavior);
 			OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
@@ -111,8 +122,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		//
 		if(BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
 			INakedMessageStructure messageClass = oper.getMessageStructure();
-			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass);
-			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass);
+			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass, "getContextObject()");
+			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass, "getContextObject()");
 		}else{
 			addLocalConditions(owner, mapper, oper.getPreConditions(), true);
 			if(!oper.isLongRunning()){
@@ -126,17 +137,17 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getParameterOwner());
 		if(conditions.size() > 0){
-			cg.addConstraintChecks(myOper1, conditions, pre);
+			cg.addConstraintChecks(myOper1, conditions, pre,"this");
 		}
 	}
-	public void addEvaluationMethod(Collection<INakedConstraint> conditions,String evaluationMethodName,INakedClassifier messageClass){
+	public void addEvaluationMethod(Collection<INakedConstraint> conditions,String evaluationMethodName,INakedClassifier messageClass,String selfExpression){
 		if(conditions.size() > 0){
 			OJClass myOwner = findJavaClass(messageClass);
 			OJOperation myOper1 = new OJAnnotatedOperation(evaluationMethodName);
 			myOwner.addToOperations(myOper1);
 			ConstraintGenerator cg = new ConstraintGenerator(myOwner, messageClass);
 			if(conditions.size() > 0){
-				cg.addConstraintChecks(myOper1, conditions, true);
+				cg.addConstraintChecks(myOper1, conditions, true, selfExpression);
 				// true because they can sit anywhere in the method
 			}
 		}

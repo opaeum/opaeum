@@ -8,11 +8,14 @@ import nl.klasse.octopus.model.IClassifier;
 import org.opaeum.metamodel.actions.INakedExceptionHandler;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.ObjectNodeType;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 
 public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INakedObjectNode{
 	private static final long serialVersionUID = 1789017383946876842L;
@@ -25,6 +28,22 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	private INakedExceptionHandler incomingExceptionHandler;
 	public INakedObjectNode getFeedingNode(){
 		return getObjectNodeSource(getIncoming());
+	}
+	@Override
+	public boolean canAcceptInputFrom(INakedMultiplicityElement from){
+		return from.fitsInTo(this);
+	}
+	@Override
+	public boolean canDeliverOutputTo(INakedMultiplicityElement to){
+		if(to instanceof INakedExpansionNode)
+			if(((INakedExpansionNode) to).isInputElement()){
+				return getNakedMultiplicity().getUpper() > 1;
+			}else{
+				return true;
+			}
+		else{
+			return fitsInTo(to);
+		}
 	}
 	public INakedExceptionHandler getIncomingExceptionHandler(){
 		return incomingExceptionHandler;
@@ -94,5 +113,9 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	}
 	public ObjectNodeType getObjectNodeType(){
 		return ObjectNodeType.CENTRAL_BUFFER;
+	}
+	@Override
+	public boolean fitsInTo(INakedMultiplicityElement other){
+		return NakedMultiplicityElement.fitsInto(this, other);
 	}
 }

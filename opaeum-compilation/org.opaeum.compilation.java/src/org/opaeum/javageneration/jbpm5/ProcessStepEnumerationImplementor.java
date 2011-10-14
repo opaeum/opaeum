@@ -25,22 +25,20 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opeum.runtime.domain.IProcessStep;
 import org.opeum.runtime.domain.TriggerMethod;
 
-
-public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator {
+public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator{
 	protected abstract INakedStep getEnclosingElement(INakedElement step);
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;
 	}
-
 	protected abstract Collection<INakedTrigger> getOperationTriggers(INakedElement step);
-	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateComposition) {
-		OJEnum e = new OJEnum(((INakedBehavior) c).getMappingInfo().getJavaName().getAsIs() + "State");
+	protected OJEnum buildOJEnum(INakedClassifier c, boolean hasStateposition) {
+		OJEnum e = new OJEnum(c.getMappingInfo().getJavaName().getAsIs() + "State");
 		OJPathName abstractProcessStep = ReflectionUtil.getUtilInterface(IProcessStep.class);
 		e.addToImplementedInterfaces(abstractProcessStep);
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
-		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(c.getMappingInfo().isVersioned() && workspace.isPrimaryModel(c.getRootObject()));
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
 		OJUtil.addField(e, constructor, "parentState", abstractProcessStep);
@@ -69,25 +67,22 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.addToOperations(resolve);
 		return e;
 	}
-
-
-	protected void buildLiteral(INakedStep step, OJEnum e) {
+	protected void buildLiteral(INakedStep step,OJEnum e,String parentLiteral){
 		OJEnumLiteral l = new OJEnumLiteral();
 		l.setName(Jbpm5Util.stepLiteralName(step));
 		e.addToLiterals(l);
-		if (getEnclosingElement(step) != null) {
-			OJUtil.addParameter(l, "parentState", Jbpm5Util.stepLiteralName(getEnclosingElement(step)));
+		if(getEnclosingElement(step) != null){
+			OJUtil.addParameter(l, "parentState", parentLiteral);
 		}else{
 			OJUtil.addParameter(l, "parentState", "null");
 		}
-		OJUtil.addParameter(l, "uuid", '"' + step.getMappingInfo().getIdInModel()+ '"');
+		OJUtil.addParameter(l, "uuid", '"' + step.getMappingInfo().getIdInModel() + '"');
 		OJUtil.addParameter(l, "id", step.getMappingInfo().getOpaeumId().toString() + 'l');
 		OJUtil.addParameter(l, "humanName", '"' + step.getMappingInfo().getJavaName().getCapped().getSeparateWords().getAsIs() + '"');
 		OJUtil.addParameter(l, "triggerMethods", buildTriggerMethodParameter(getOperationTriggers(step)));
 		applyStereotypesAsAnnotations(step, l);
 	}
-	
-	private String buildTriggerMethodParameter(Collection<INakedTrigger> methodTriggers) {
+	private String buildTriggerMethodParameter(Collection<INakedTrigger> methodTriggers){
 		StringBuilder sb = new StringBuilder("new TriggerMethod[]{");
 		Iterator<INakedTrigger> iter = methodTriggers.iterator();
 		while(iter.hasNext()){

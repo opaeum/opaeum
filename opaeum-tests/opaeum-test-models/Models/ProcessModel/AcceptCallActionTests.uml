@@ -23,9 +23,9 @@
         </ownedParameter>
       </ownedOperation>
       <ownedOperation xmi:id="_Arc-0IXFEeCO_cyjCSiuxA" name="Operation2">
-        <eAnnotations xmi:id="_T773lOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+        <eAnnotations xmi:id="_T773lOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org" references="_KWeSoIXFEeCO_cyjCSiuxA"/>
         <ownedParameter xmi:id="_BrjJ4IXFEeCO_cyjCSiuxA" name="Parameter1">
-          <eAnnotations xmi:id="_T773leBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+          <eAnnotations xmi:id="_T773leBHEeCzD6PmfoYTzg" source="http://www.opaeum.org" references="_LXdZEIXGEeCO_cyjCSiuxA"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
         <ownedParameter xmi:id="_EdwLwIXFEeCO_cyjCSiuxA" name="result" direction="return">
@@ -82,8 +82,9 @@
       </node>
       <node xmi:type="uml:AcceptCallAction" xmi:id="_KUwbYIXFEeCO_cyjCSiuxA" name="AcceptCallAction3" incoming="_NXa7IIXFEeCO_cyjCSiuxA">
         <eAnnotations xmi:id="_T78eouBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-        <result xmi:id="_LXdZEIXGEeCO_cyjCSiuxA" name="result">
+        <result xmi:id="_LXdZEIXGEeCO_cyjCSiuxA" name="Parameter1">
           <eAnnotations xmi:id="_T78eo-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </result>
         <trigger xmi:id="_KWeSoIXFEeCO_cyjCSiuxA" name="AcceptCallAction3Trigger">
           <eAnnotations xmi:id="_T78epOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>

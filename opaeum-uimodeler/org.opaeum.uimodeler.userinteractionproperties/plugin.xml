@@ -3,7 +3,7 @@
 <plugin>
 
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-		<propertyContributor contributorId = "org.topcased.modeler.editor.Modeler"
+		<propertyContributor contributorId = "org.opaeum.uim.modeleditor.editor.UimEditor"
 			labelProvider="org.opaeum.uim.userinteractionproperties.providers.SectionsLabelProvider">
 		<propertyCategory category = "Nakeduml"/>
 		</propertyContributor>

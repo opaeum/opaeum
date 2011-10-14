@@ -38,6 +38,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
+import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.strategies.DateTimeStrategyFactory;
@@ -133,12 +134,14 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());
 			myClass.setComment(c.getDocumentation());
+			INakedRootObject rootObject = c.getRootObject();
 			if(c.getCodeGenerationStrategy().isAbstractSupertypeOnly()){
 				createTextPath(JavaSourceKind.ABSTRACT_SUPERCLASS, myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 				TextFile impl = createTextPath(JavaSourceKind.CONCRETE_IMPLEMENTATION, myClass, JavaSourceFolderIdentifier.DOMAIN_SRC);
-				if(c.getRootObject() instanceof INakedModel && ((INakedModel) c.getRootObject()).isRegeneratingLibrary()){
-					INakedModel m = (INakedModel) c.getRootObject();
-					String artifactName = impl.getParent().getRelativePath().substring(impl.getParent().getSourceFolder().getRelativePath().length()+1) + "/" + impl.getName();
+				if(rootObject instanceof INakedModel && ((INakedModel) rootObject).isRegeneratingLibrary()){
+					INakedModel m = (INakedModel) rootObject;
+					String artifactName = impl.getParent().getRelativePath().substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1) + "/"
+							+ impl.getName();
 					final String implementationCodeFor = m.getImplementationCodeFor(artifactName);
 					if(implementationCodeFor != null){
 						impl.setTextSource(new TextSource(){
@@ -154,7 +157,8 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 					}
 				}
 			}else{
-				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(
+						c.getMappingInfo().isVersioned() && workspace.isPrimaryModel(c.getRootObject()));
 			}
 			if(c instanceof INakedEnumeration){
 				OJEnum oje = (OJEnum) myClass;
@@ -194,9 +198,6 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation no){
-		if(no.getName().equals("doWork")){
-			System.out.println();
-		}
 		if(BehaviorUtil.hasExecutionInstance(no)){
 			INakedMessageStructure message = no.getMessageStructure();
 			this.visitClass(message);

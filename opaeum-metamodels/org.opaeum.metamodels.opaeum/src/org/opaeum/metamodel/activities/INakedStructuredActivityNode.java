@@ -1,6 +1,5 @@
 package org.opaeum.metamodel.activities;
 
-import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 
 

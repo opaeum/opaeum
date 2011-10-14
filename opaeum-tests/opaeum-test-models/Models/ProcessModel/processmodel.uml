@@ -73,274 +73,18 @@
           <eAnnotations xmi:id="_T7WowOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedAttribute>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_AVe-kARPEeCuA4oh6NA2Cw" name="SimpleExpansionActivity">
-          <eAnnotations xmi:id="_T7XP0OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_gpZx4ARPEeCuA4oh6NA2Cw" name="transformString">
-            <eAnnotations xmi:id="_T7aTIOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <ownedParameter xmi:id="_jS6KwARPEeCuA4oh6NA2Cw" name="Parameter1">
-              <eAnnotations xmi:id="_T7aTIeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            </ownedParameter>
-            <ownedParameter xmi:id="_kLpJkARPEeCuA4oh6NA2Cw" name="Parameter2" direction="return">
-              <eAnnotations xmi:id="_T7aTIuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hLbN8ARcEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7aTI-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperValue>
-            </ownedParameter>
-            <body>Parameter1->asSet()</body>
-          </ownedBehavior>
-          <ownedParameter xmi:id="_JM32AARPEeCuA4oh6NA2Cw" name="param1">
-            <eAnnotations xmi:id="_T7aTJOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LQGSAARPEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T7aTJeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </upperValue>
-          </ownedParameter>
-          <node xmi:type="uml:InitialNode" xmi:id="_Dm5E8ARPEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_NzKrsARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7aTJuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-          </node>
-          <node xmi:type="uml:ExpansionRegion" xmi:id="_FDkeUARPEeCuA4oh6NA2Cw" name="forEachString" incoming="_NzKrsARPEeCuA4oh6NA2Cw" inputElement="_MCh0gARPEeCuA4oh6NA2Cw" outputElement="_PedI0ARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7X25uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <variable xmi:id="_YgdU0ARPEeCuA4oh6NA2Cw" name="substring">
-              <eAnnotations xmi:id="_T7Yd8uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kCtusARdEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7Yd8-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperValue>
-            </variable>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_dXeHEARPEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_MCh0gARPEeCuA4oh6NA2Cw" target="_buGVgARPEeCuA4oh6NA2Cw" transformation="_gpZx4ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7ZFBOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_dXeHEQRPEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7ZFBuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_dXeHEgRPEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7ZFBeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_9Vs-QARPEeCuA4oh6NA2Cw" name="ObjectFlow2" source="_5wkDkARPEeCuA4oh6NA2Cw" target="_PedI0ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd-OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_9Vs-QQRPEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7Yd-eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_9Vs-QgRPEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7Yd-uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ControlFlow" xmi:id="_9tbhwARPEeCuA4oh6NA2Cw" name="ControlFlow1" source="_aiXiMARPEeCuA4oh6NA2Cw" target="_5D_4gARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7X26eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_9tbhwQRPEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7Yd8eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_9tbhwgRPEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7Yd8OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_QbNPgARQEeCuA4oh6NA2Cw" name="ObjectFlow3" source="_PedI0ARPEeCuA4oh6NA2Cw" target="_OipLYARQEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7ZFAeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_QbNPgQRQEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T7ZFAuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_QbNPggRQEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T7ZFA-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </weight>
-            </edge>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_MCh0gARPEeCuA4oh6NA2Cw" name="inputElement" outgoing="_dXeHEARPEeCuA4oh6NA2Cw" incoming="_OV_E4ARPEeCuA4oh6NA2Cw" regionAsInput="_FDkeUARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd--BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MCh0gQRPEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7ZFAOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_PedI0ARPEeCuA4oh6NA2Cw" name="outputElementOnForEachString" outgoing="_QbNPgARQEeCuA4oh6NA2Cw" incoming="_9Vs-QARPEeCuA4oh6NA2Cw" regionAsOutput="_FDkeUARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7X25-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PedI0QRPEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T7X26OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:AddVariableValueAction" xmi:id="_aiXiMARPEeCuA4oh6NA2Cw" name="storeSubstring" outgoing="_9tbhwARPEeCuA4oh6NA2Cw" variable="_YgdU0ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd9OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <value xmi:id="_buGVgARPEeCuA4oh6NA2Cw" name="InputPin1" incoming="_dXeHEARPEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T7Yd9eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </value>
-            </node>
-            <node xmi:type="uml:ReadVariableAction" xmi:id="_5D_4gARPEeCuA4oh6NA2Cw" name="readSubstring" incoming="_9tbhwARPEeCuA4oh6NA2Cw" variable="_YgdU0ARPEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7Yd9uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <result xmi:id="_5wkDkARPEeCuA4oh6NA2Cw" name="OutputPin1" outgoing="_9Vs-QARPEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T7Yd9-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </result>
-            </node>
-          </node>
-          <node xmi:type="uml:ActivityParameterNode" xmi:id="_JNEqUARPEeCuA4oh6NA2Cw" name="param1" outgoing="_OV_E4ARPEeCuA4oh6NA2Cw" parameter="_JM32AARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7X25OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JNEqUQRPEeCuA4oh6NA2Cw" value="*">
-              <eAnnotations xmi:id="_T7X25eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </upperBound>
-          </node>
-          <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_HIDpIARQEeCuA4oh6NA2Cw" name="writeStrings" outgoing="_RuQy0ARQEeCuA4oh6NA2Cw" structuralFeature="_Dkc_gARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7XP0eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <object xmi:type="uml:ValuePin" xmi:id="_Xw4ckARQEeCuA4oh6NA2Cw" name="ValuePin1">
-              <eAnnotations xmi:id="_T7XP0uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZOJEwARQEeCuA4oh6NA2Cw" name="LiteralUnlimitedNatural1">
-                <eAnnotations xmi:id="_T7XP1OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_Z24fwARQEeCuA4oh6NA2Cw" name="OpaqueExpression1">
-                <eAnnotations xmi:id="_T7XP0-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-                <body>self</body>
-              </value>
-            </object>
-            <value xmi:id="_OipLYARQEeCuA4oh6NA2Cw" name="InputPin1" incoming="_QbNPgARQEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T7XP1eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </value>
-          </node>
-          <node xmi:type="uml:ActivityFinalNode" xmi:id="_Q_iroARQEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_RuQy0ARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7ZFB-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-          </node>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_NzKrsARPEeCuA4oh6NA2Cw" name="ControlFlow1" source="_Dm5E8ARPEeCuA4oh6NA2Cw" target="_FDkeUARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7XP1uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_NzKrsQRPEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7XP1-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_NzKrsgRPEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7X24OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_OV_E4ARPEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_JNEqUARPEeCuA4oh6NA2Cw" target="_MCh0gARPEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7aTJ-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_OV_E4QRPEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7aTKeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_OV_E4gRPEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7aTKOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_RuQy0ARQEeCuA4oh6NA2Cw" name="ControlFlow2" source="_HIDpIARQEeCuA4oh6NA2Cw" target="_Q_iroARQEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T7X24eBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_RuQy0QRQEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T7X24-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_RuQy0gRQEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T7X24uBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_gJgNAARTEeCuA4oh6NA2Cw" name="ProcessExpansionActivity">
-          <eAnnotations xmi:id="_T76CYOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-          <ownedOperation xmi:id="_l0L34ARTEeCuA4oh6NA2Cw" name="eventOperationOnProcessExpansionActivity">
-            <eAnnotations xmi:id="_T76pfuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org" references="_QotqcOjmEeC61rvWYjPZbA"/>
-            <ownedParameter xmi:id="__hZc8ARTEeCuA4oh6NA2Cw" name="strings">
-              <eAnnotations xmi:id="_T76pf-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org" references="_RWEfsOjmEeC61rvWYjPZbA"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BY-CkARUEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T76pgOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperValue>
-            </ownedParameter>
-          </ownedOperation>
-          <node xmi:type="uml:InitialNode" xmi:id="_j1dhYARTEeCuA4oh6NA2Cw" name="InitialNode1" outgoing="_6tqBIARTEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T77Qg-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-          </node>
-          <node xmi:type="uml:ExpansionRegion" xmi:id="_EgbiwARUEeCuA4oh6NA2Cw" name="forEachString" outgoing="_Em798ARVEeCuA4oh6NA2Cw" inputElement="_GUEDkARUEeCuA4oh6NA2Cw" outputElement="_HdnsoARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76CYuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_B8cGkARVEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_GUEDkARUEeCuA4oh6NA2Cw" target="_BBBAIARVEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76pe-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_B8cGkQRVEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T76pfOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_B8cGkgRVEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T76pfeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </weight>
-            </edge>
-            <edge xmi:type="uml:ObjectFlow" xmi:id="_CRuaEARVEeCuA4oh6NA2Cw" name="ObjectFlow2" source="_BBDcYARVEeCuA4oh6NA2Cw" target="_HdnsoARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76peOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <guard xmi:type="uml:LiteralBoolean" xmi:id="_CRuaEQRVEeCuA4oh6NA2Cw" value="true">
-                <eAnnotations xmi:id="_T76peuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </guard>
-              <weight xmi:type="uml:LiteralInteger" xmi:id="_CRuaEgRVEeCuA4oh6NA2Cw" value="1">
-                <eAnnotations xmi:id="_T76peeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </weight>
-            </edge>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_GUEDkARUEeCuA4oh6NA2Cw" name="inputElementInProcess" outgoing="_B8cGkARVEeCuA4oh6NA2Cw" incoming="_Jc5cwARUEeCuA4oh6NA2Cw" regionAsInput="_EgbiwARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76pceBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GUEDkQRUEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T76pcuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:ExpansionNode" xmi:id="_HdnsoARUEeCuA4oh6NA2Cw" name="outputElementInProcess" incoming="_CRuaEARVEeCuA4oh6NA2Cw" regionAsOutput="_EgbiwARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76CY-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_HdnsoQRUEeCuA4oh6NA2Cw" value="*">
-                <eAnnotations xmi:id="_T76pcOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              </upperBound>
-            </node>
-            <node xmi:type="uml:CallBehaviorAction" xmi:id="_BA8usARVEeCuA4oh6NA2Cw" name="a1" behavior="_VUgj8ARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_T76pc-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <argument xmi:id="_BBBAIARVEeCuA4oh6NA2Cw" name="input" incoming="_B8cGkARVEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T76pdOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
-                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BBBAIQRVEeCuA4oh6NA2Cw" value="*">
-                  <eAnnotations xmi:id="_T76pdeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-                </upperBound>
-              </argument>
-              <result xmi:id="_BBDcYARVEeCuA4oh6NA2Cw" name="output" outgoing="_CRuaEARVEeCuA4oh6NA2Cw">
-                <eAnnotations xmi:id="_T76pduBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-                <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_BBDcYQRVEeCuA4oh6NA2Cw" value="*">
-                  <eAnnotations xmi:id="_T76pd-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-                </upperBound>
-              </result>
-            </node>
-          </node>
-          <node xmi:type="uml:ActivityFinalNode" xmi:id="_EDddcARVEeCuA4oh6NA2Cw" name="ActivityFinalNode1" incoming="_Em798ARVEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76CYeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-          </node>
-          <node xmi:type="uml:AcceptEventAction" xmi:id="_N_haoOjmEeC61rvWYjPZbA" name="AcceptEventAction1" incoming="_6tqBIARTEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_OBdUUOjmEeC61rvWYjPZbA" source="http://www.opaeum.org"/>
-            <result xmi:id="_RWEfsOjmEeC61rvWYjPZbA" name="strings" outgoing="_Jc5cwARUEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_RYBngOjmEeC61rvWYjPZbA" source="http://www.opaeum.org"/>
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_RWEfsejmEeC61rvWYjPZbA" name="ub">
-                <eAnnotations xmi:id="_RYBngejmEeC61rvWYjPZbA" source="http://www.opaeum.org"/>
-              </upperBound>
-            </result>
-            <trigger xmi:id="_QotqcOjmEeC61rvWYjPZbA" name="AcceptEventAction1Trigger" event="_xHR8wARTEeCuA4oh6NA2Cw">
-              <eAnnotations xmi:id="_QqvDsOjmEeC61rvWYjPZbA" source="http://www.opaeum.org"/>
-            </trigger>
-          </node>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_6tqBIARTEeCuA4oh6NA2Cw" name="ControlFlow1" source="_j1dhYARTEeCuA4oh6NA2Cw" target="_N_haoOjmEeC61rvWYjPZbA">
-            <eAnnotations xmi:id="_T76phOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_6tqoMARTEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T76phuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_6tqoMQRTEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T76pheBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ObjectFlow" xmi:id="_Jc5cwARUEeCuA4oh6NA2Cw" name="ObjectFlow1" source="_RWEfsOjmEeC61rvWYjPZbA" target="_GUEDkARUEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76pgeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_Jc5cwQRUEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T76pg-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_Jc5cwgRUEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T76pguBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </weight>
-          </edge>
-          <edge xmi:type="uml:ControlFlow" xmi:id="_Em798ARVEeCuA4oh6NA2Cw" name="ControlFlow2" source="_EgbiwARUEeCuA4oh6NA2Cw" target="_EDddcARVEeCuA4oh6NA2Cw">
-            <eAnnotations xmi:id="_T76ph-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <guard xmi:type="uml:LiteralBoolean" xmi:id="_Em798QRVEeCuA4oh6NA2Cw" value="true">
-              <eAnnotations xmi:id="_T76piOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </guard>
-            <weight xmi:type="uml:LiteralInteger" xmi:id="_Em798gRVEeCuA4oh6NA2Cw" value="1">
-              <eAnnotations xmi:id="_T76pieBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            </weight>
-          </edge>
-        </ownedBehavior>
         <ownedBehavior xmi:type="uml:Activity" xmi:id="_VUgj8ARUEeCuA4oh6NA2Cw" name="ShortProcess">
           <eAnnotations xmi:id="_T7UMgOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_xQ_c8ARUEeCuA4oh6NA2Cw" name="input">
-            <eAnnotations xmi:id="_T7UMhOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7UMhOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:InputPin" href="Expansion.uml#_BBBAIARVEeCuA4oh6NA2Cw"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
           </ownedParameter>
           <ownedParameter xmi:id="_z-flAARUEeCuA4oh6NA2Cw" name="output" direction="out">
-            <eAnnotations xmi:id="_T7UMjeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7UMjeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:OutputPin" href="Expansion.uml#_ktwpkfTNEeCOCLZrH320yA"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </ownedParameter>
           <node xmi:type="uml:AcceptEventAction" xmi:id="_ZRwcoARUEeCuA4oh6NA2Cw" name="AcceptEventAction1" outgoing="_o-R_4ARUEeCuA4oh6NA2Cw" incoming="_oxYMUARUEeCuA4oh6NA2Cw">
@@ -403,23 +147,33 @@
         <ownedOperation xmi:id="_pLyJoNkdEduKbsilyv7DTA" name="subProcess" visibility="public">
           <eAnnotations xmi:id="_T7RwQOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_sgI2UNkdEduKbsilyv7DTA" name="paramIn">
-            <eAnnotations xmi:id="_T7S-YeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7S-YeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:Parameter" href="ExceptionTests.uml#_82sRMtkhEduKbsilyv7DTA"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </ownedParameter>
           <ownedParameter xmi:id="_t8YK0NkdEduKbsilyv7DTA" name="paramInOut" direction="inout">
-            <eAnnotations xmi:id="_T7S-YOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7S-YOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:Parameter" href="ExceptionTests.uml#_9pp_MtkhEduKbsilyv7DTA"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </ownedParameter>
           <ownedParameter xmi:id="_w4TJYNkdEduKbsilyv7DTA" name="paramOut" direction="out">
-            <eAnnotations xmi:id="_T7TlcOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7TlcOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:Parameter" href="ExceptionTests.uml#_-hPugtkhEduKbsilyv7DTA"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           </ownedParameter>
           <ownedParameter xmi:id="_zocVwNkdEduKbsilyv7DTA" name="returnParameter" direction="return">
-            <eAnnotations xmi:id="_T7SXUOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7SXUOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:Parameter" href="ExceptionTests.uml#__GfwotkhEduKbsilyv7DTA"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </ownedParameter>
           <ownedParameter xmi:id="_4wIoUNkdEduKbsilyv7DTA" name="exception" direction="return" isException="true">
-            <eAnnotations xmi:id="_T7TlceBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <eAnnotations xmi:id="_T7TlceBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+              <references xmi:type="uml:Parameter" href="ExceptionTests.uml#_A7VLUtkiEduKbsilyv7DTA"/>
+            </eAnnotations>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </ownedParameter>
           <method xmi:type="uml:Activity" href="ExceptionTests.uml#_yDPVsNkhEduKbsilyv7DTA"/>
@@ -539,7 +293,7 @@ endif</body>
           </node>
           <node xmi:type="uml:CallOperationAction" xmi:id="_kDZlsNOaEdubaLB0CR972w" name="Operation1" outgoing="_uSVe4NOaEdubaLB0CR972w" incoming="_t39QANOaEdubaLB0CR972w" operation="_jnPOINOaEdubaLB0CR972w">
             <eAnnotations xmi:id="_T6tvk-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-            <target xmi:type="uml:ValuePin" xmi:id="_cIsCkFDFEdysGOUZL2wBvw" name="" type="_30wb4NOQEdubaLB0CR972w">
+            <target xmi:type="uml:ValuePin" xmi:id="_cIsCkFDFEdysGOUZL2wBvw" name="target" type="_30wb4NOQEdubaLB0CR972w">
               <eAnnotations xmi:id="_T6tvlOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
               <upperBound xmi:type="uml:LiteralInteger" xmi:id="_cI1zkFDFEdysGOUZL2wBvw" value="1">
                 <eAnnotations xmi:id="_T6tvleBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
@@ -550,7 +304,7 @@ endif</body>
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_4fqF4FDKEdysGOUZL2wBvw">
                 <eAnnotations xmi:id="_T6tvl-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
               </lowerValue>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_kBZEMFDFEdysGOUZL2wBvw">
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_kBZEMFDFEdysGOUZL2wBvw" name="expression">
                 <eAnnotations xmi:id="_T6tvluBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
                 <language>OCL</language>
                 <body>target2</body>
@@ -1153,7 +907,11 @@ endif</body>
         <eAnnotations xmi:id="_T69nMuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Signal" xmi:id="_NIjfsN4QEduT2scQvswYUA" name="EmptySignal">
-        <eAnnotations xmi:id="_T7ADcOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+        <eAnnotations xmi:id="_T7ADcOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
+          <references xmi:type="uml:Trigger" href="ExceptionTests.uml#_wTeTMAWxEeC4vNsNDfa2Ww"/>
+          <references xmi:type="uml:Trigger" href="ExceptionTests.uml#_P8tpYN4QEduT2scQvswYUA"/>
+          <references xmi:type="uml:Trigger" href="ExceptionTests.uml#_WLiwEAa5EeC4vNsNDfa2Ww"/>
+        </eAnnotations>
       </packagedElement>
       <packagedElement xmi:type="uml:SignalEvent" xmi:id="_P8tpYd4QEduT2scQvswYUA" name="SignalEvent4" signal="_NIjfsN4QEduT2scQvswYUA">
         <eAnnotations xmi:id="_T79Fu-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
@@ -1175,8 +933,9 @@ endif</body>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_dPy44OK9Ed-q7JaJPXNrbQ" name="OnSuperEventOperation" operation="_APfLYOK9Ed-q7JaJPXNrbQ">
         <eAnnotations xmi:id="_T8Sc4OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:CallEvent" xmi:id="_xHR8wARTEeCuA4oh6NA2Cw" name="OnEventOperationOnExpansionActivity" operation="_l0L34ARTEeCuA4oh6NA2Cw">
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_xHR8wARTEeCuA4oh6NA2Cw" name="OnEventOperationOnExpansionActivity">
         <eAnnotations xmi:id="_T77QhOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+        <operation href="Expansion.uml#_l0L34ARTEeCuA4oh6NA2Cw"/>
       </packagedElement>
       <packagedElement xmi:type="uml:SignalEvent" xmi:id="_b3JxkARUEeCuA4oh6NA2Cw" name="OnEmptySignal" signal="_NIjfsN4QEduT2scQvswYUA">
         <eAnnotations xmi:id="_T7AqgOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
@@ -1564,6 +1323,21 @@ endif</body>
         <ownedAttribute xmi:id="_wg9wU1HjEdyTle4M6qyXzw" name="salesDepartment" visibility="private" type="_pCDHsFHjEdyTle4M6qyXzw" association="_wg0mYFHjEdyTle4M6qyXzw">
           <eAnnotations xmi:id="_T6RDseBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
         </ownedAttribute>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_g-nS0PQTEeCLZ78j-UpevA" name="transformationForObjectFlow41">
+          <eAnnotations xmi:id="_hA81IfQTEeCLZ78j-UpevA" source="http://www.opaeum.org"/>
+          <ownedParameter xmi:id="_g-n54PQTEeCLZ78j-UpevA" name="source" isUnique="false">
+            <eAnnotations xmi:id="_hA81IPQTEeCLZ78j-UpevA" source="http://www.opaeum.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_g-n54fQTEeCLZ78j-UpevA" value="1"/>
+          </ownedParameter>
+          <ownedParameter xmi:id="_g-n54vQTEeCLZ78j-UpevA" name="result" isUnique="false" direction="return">
+            <eAnnotations xmi:id="_hA8OEPQTEeCLZ78j-UpevA" source="http://www.opaeum.org"/>
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_g-n54_QTEeCLZ78j-UpevA" value="1"/>
+          </ownedParameter>
+          <language>OCL</language>
+          <body>source->forAll(b:Boolean|b=true) </body>
+        </ownedBehavior>
         <ownedParameter xmi:id="_nnCFwlHkEdyTle4M6qyXzw" name="date">
           <eAnnotations xmi:id="_T6SR0-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
@@ -1608,9 +1382,12 @@ endif</body>
           </result>
           <target xmi:type="uml:ValuePin" xmi:id="_XDvvMAOfEeCuA4oh6NA2Cw" name="target" type="_KAIkQFHiEdyTle4M6qyXzw">
             <eAnnotations xmi:id="_T6QcneBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GKnHsPMJEeC3P54pezWK-A" value="*"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GV38gPMJEeC3P54pezWK-A"/>
             <value xmi:type="uml:OpaqueExpression" xmi:id="_d1fIwAOfEeCuA4oh6NA2Cw" name="OpaqueExpression1">
               <eAnnotations xmi:id="_T6QcnuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-              <body>approvingUser</body>
+              <language>OCL</language>
+              <body>self.salesDepartment.user</body>
             </value>
           </target>
         </node>
@@ -1701,7 +1478,7 @@ endif</body>
             <specification xmi:type="uml:OpaqueExpression" xmi:id="_OcuwAOBfEeCADq1lLeuEaA" name="nullSpecification">
               <eAnnotations xmi:id="_OerQwOBfEeCADq1lLeuEaA" source="http://www.opaeum.org"/>
               <language>OCL</language>
-              <body>limitsValid implies upperLimit>1</body>
+              <body>limitsValid->forAll(true)   implies upperLimit>1</body>
             </specification>
           </localPostcondition>
           <inputValue xmi:type="uml:ValuePin" xmi:id="_BoaukFHmEdyTle4M6qyXzw" name="userForVerifyLimits" type="_KAIkQFHiEdyTle4M6qyXzw">
@@ -1760,13 +1537,13 @@ endif</body>
               <body>lowerLimitProperty</body>
             </value>
           </inputValue>
-          <outputValue xmi:id="_WESV0FHmEdyTle4M6qyXzw" name="limitsValid" outgoing="_YE19EOhGEd-fasQNLv8waw">
+          <outputValue xmi:id="_WESV0FHmEdyTle4M6qyXzw" name="limitsValid" outgoing="_YE19EOhGEd-fasQNLv8waw" isOrdered="true" isUnique="false">
             <eAnnotations xmi:id="_T6SRxuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
             <upperBound xmi:type="uml:LiteralInteger" xmi:id="_WESV0VHmEdyTle4M6qyXzw" value="1">
               <eAnnotations xmi:id="_T6SRyeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
             </upperBound>
-            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vcCsQcMTEd--CeJM_PJ63w" value="1">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vcCsQcMTEd--CeJM_PJ63w" value="*">
               <eAnnotations xmi:id="_T6SRyOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
             </upperValue>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vVexQMMTEd--CeJM_PJ63w" value="1">
@@ -1886,7 +1663,7 @@ endif</body>
             <eAnnotations xmi:id="_T6P1huBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           </weight>
         </edge>
-        <edge xmi:type="uml:ObjectFlow" xmi:id="_YE19EOhGEd-fasQNLv8waw" name="ObjectFlow41" source="_WESV0FHmEdyTle4M6qyXzw" target="_TsEmAOhGEd-fasQNLv8waw">
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_YE19EOhGEd-fasQNLv8waw" name="ObjectFlow4" source="_WESV0FHmEdyTle4M6qyXzw" target="_TsEmAOhGEd-fasQNLv8waw" transformation="_g-nS0PQTEeCLZ78j-UpevA">
           <eAnnotations xmi:id="_T6RDqeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <guard xmi:type="uml:LiteralBoolean" xmi:id="_YE19EehGEd-fasQNLv8waw" value="true">
             <eAnnotations xmi:id="_T6RDquBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
@@ -2001,7 +1778,7 @@ endif</body>
             <specification xmi:type="uml:OpaqueExpression" xmi:id="_rDWEAtgXEd-F6ZvxM_41tw" name="upperHigherThanLower_body">
               <eAnnotations xmi:id="_T6NZROBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
               <language>OCL</language>
-              <body>upperLimit>lowerLimit and not firstName.oclIsUndefined()</body>
+              <body>upperLimit>lowerLimit or not firstName.oclIsUndefined()</body>
             </specification>
           </ownedRule>
           <ownedParameter xmi:id="_MWOccFHjEdyTle4M6qyXzw" name="accountNumber">

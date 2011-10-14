@@ -17,11 +17,10 @@ import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.topcased.uml.editor.OpaeumItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
-public class InterfaceRealizationContractSection extends AbstractChooserPropertySection{
+public class InterfaceRealizationContractSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getInterfaceRealization_Contract();
 	}

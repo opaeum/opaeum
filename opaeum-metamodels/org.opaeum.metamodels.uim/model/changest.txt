@@ -1,8 +1,9 @@
 ECLIPSE
 General
-GEneratorGenerator - make this an eclipse plugin too
+GeneratorGenerator - make this an eclipse plugin too
 
 Opaeum Topcased
+Disable Opaeum functionality if all the resources could not be resolved
 Async actions in pallete for Screenflows, Responsibilities, 
 Action to Convert methods to business processes
 On Argument Pin table, provide add and remove buttons to add and remove params from the called element  
@@ -17,7 +18,11 @@ Custom ProblemView
 Relink an emf UML model
 Reception.Signal
 Display Operation.name at the top 
-
+Arrow for delegation and socket-ball for assembly
+Policy for delegation should match provided interfaces at least
+Policit for assembly
+Allow editing of provided and required interfaces of a port and automatically maintain a class for it, hide the class if possible, delete the class when the port is deleted, mabye
+keep it as a stereotype attribute
 
 Refactoring
 Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction, 
@@ -36,10 +41,11 @@ Add button bar for actions on multiple rows in the table
 Introduce entryScreen for components:
  allow formpanels to be used, 
  have an external and internal view
- by default, don't allow compositional browsing beyond the component external view, but allow this to be overridden for manager type users
+ by default, don't allow compositional browsing beyond the component external view, except for those contained by exposed interfaces but allow this to be overridden for manager type users
  show menu items for each operation on each outgoing gateway port that the current users has a required dependency for
 Introduce ocl expressions for things such as lookups and security constraints
 Generate UIM from INakedWorkspace
+
 
 Processes
 For all events implement correlation logic in the context;s event handler

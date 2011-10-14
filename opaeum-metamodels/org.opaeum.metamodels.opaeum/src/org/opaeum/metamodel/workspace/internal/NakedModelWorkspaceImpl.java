@@ -106,8 +106,11 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public MappingInfo getMappingInfo(){
 		return this.getWorkspaceMappingInfo().getMappingInfo("replace with name identifying the transformation", false);
 	}
-	public Collection<? extends INakedElement> getOwnedElements(){
-		return this.children;
+	@SuppressWarnings({
+			"rawtypes","unchecked"
+	})
+	public Collection<INakedElement> getOwnedElements(){
+		return (Collection)this.children;
 	}
 	public void setName(String string){
 		this.name = string;

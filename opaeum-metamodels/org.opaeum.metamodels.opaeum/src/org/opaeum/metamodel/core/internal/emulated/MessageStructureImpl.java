@@ -41,6 +41,7 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opaeum.metamodel.core.internal.NakedGeneralizationImpl;
 import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
+import org.opeum.name.NameConverter;
 
 public abstract class MessageStructureImpl extends EmulatingElement implements INakedMessageStructure,INakedBehavioredClassifier{
 	private static final long serialVersionUID = 1445741729804979053L;
@@ -92,8 +93,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 	}
 	@Override
 	public String getName(){
-		return element.getName();// Don't capp unless we override the
-									// qualifiedJavaName too
+		return NameConverter.capitalize(element.getName());
 	}
 	public void addOclDefAttribute(IAttribute attr){
 	}
@@ -114,7 +114,7 @@ public abstract class MessageStructureImpl extends EmulatingElement implements I
 				return a;
 			}
 		}
-		return owner.findAttribute(attName);
+		return null;
 	}
 	public IAttribute findClassAttribute(String attName){
 		return owner.findClassAttribute(attName);

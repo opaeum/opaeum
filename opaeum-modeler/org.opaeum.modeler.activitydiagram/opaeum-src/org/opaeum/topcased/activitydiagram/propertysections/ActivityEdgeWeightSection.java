@@ -25,4 +25,8 @@ public class ActivityEdgeWeightSection extends AbstractAutoCreatingOclExpression
 	protected NamedElement getValueSpecificationOwner(){
 		return getEdge();
 	}
+	public int getOclCompositeHeight(){
+		return 30;
+	}
+
 }

@@ -29,6 +29,8 @@ public abstract class TextFileGeneratingVisitor extends NakedElementOwnerVisitor
 			break;
 		case WORKSPACE_NAME_AND_SUFFIX:
 			projectPrefix=workspace.getIdentifier();
+		case WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
+			projectPrefix=workspace.getIdentifier();
 			break;
 		}
 		return projectPrefix + outputRoot.getProjectSuffix();
@@ -45,7 +47,12 @@ public abstract class TextFileGeneratingVisitor extends NakedElementOwnerVisitor
 	}
 	protected synchronized SourceFolder getSourceFolder(SourceFolderDefinition outputRoot){
 		TextProject textProject = textWorkspace.findOrCreateTextProject(getProjectName(outputRoot));
-		SourceFolder or = textProject.findOrCreateSourceFolder(outputRoot.getSourceFolder(), outputRoot.cleanDirectories());
+		String sourceFolder = outputRoot.getSourceFolder();
+		if(outputRoot.prefixModelIdentifierToSourceFolder()){
+			//force multiple source folders per model
+			sourceFolder=getCurrentRootObject().getIdentifier()+ "/" + outputRoot.getSourceFolder();
+		}
+		SourceFolder or = textProject.findOrCreateSourceFolder(sourceFolder, outputRoot.cleanDirectories());
 		return or;
 	}
 }

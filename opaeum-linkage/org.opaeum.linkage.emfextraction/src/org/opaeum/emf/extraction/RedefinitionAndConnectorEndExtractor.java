@@ -39,6 +39,11 @@ import org.opaeum.metamodel.statemachines.internal.NakedTransitionImpl;
 		FeatureExtractor.class,ActivityEdgeExtractor.class,TransitionExtractor.class
 })
 public class RedefinitionAndConnectorEndExtractor extends AbstractExtractorFromEmf{
+	
+	@Override
+	protected Object resolvePeer(Element o,Class<?> peerClass){
+		return getNakedPeer(o);
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitConnectorEnd(ConnectorEnd ce,NakedConnectorEndImpl nce){
 		nce.setPartWitPort((INakedProperty) getNakedPeer(ce.getPartWithPort()));

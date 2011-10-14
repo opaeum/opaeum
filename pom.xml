@@ -14,8 +14,8 @@
 	<description>Objects and Processes through Executable Unified Models</description>
 	<properties>
 		<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
-		<tycho-version>0.12.0</tycho-version>
-		<forceContextQualifier>2011100713</forceContextQualifier>
+		<tycho-version>0.13.0</tycho-version>
+		<forceContextQualifier>2011101109</forceContextQualifier>
 	</properties>
 	<licenses>
 		<license>

@@ -15,6 +15,7 @@ import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.jbpm5.Jbpm5JavaStep;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -43,7 +44,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
 		if(shouldProcessWorkspace()){
-			Collection<INakedRootObject> rootObjects = (Collection<INakedRootObject>) workspace.getOwnedElements();
+			Collection<INakedRootObject> rootObjects = (Collection) workspace.getOwnedElements();
 			generateConfigAndEnvironment(rootObjects, TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, workspace);
 		}
 	}
@@ -106,19 +107,23 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		for(String string:config.getAdditionalPersistentClasses()){
 			persistentClasses.add(new OJPathName(string));
 		}
-		for(INakedElement e:workspace.getAllElements()){
-			if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){
-				persistentClasses.add(OJUtil.classifierPathname((INakedClassifier) e));
-			}else if(e instanceof INakedOperation && ((INakedOperation) e).isLongRunning() && isGeneratingElement(e)){
-				persistentClasses.add(OJUtil.classifierPathname(((INakedOperation) e).getMessageStructure()));
-			}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
-				persistentClasses.add(OJUtil.classifierPathname(((INakedEmbeddedTask) e).getMessageStructure()));
-			}else if(e instanceof INakedStructuredActivityNode && isGeneratingElement(e)){
-				persistentClasses.add(OJUtil.classifierPathname(((INakedStructuredActivityNode) e).getMessageStructure()));
+		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
+			//CLasses across multiple jars need to be registered explicitly 
+			for(INakedElement e:workspace.getAllElements()){
+				if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname((INakedClassifier) e));
+				}else if(e instanceof INakedOperation && ((INakedOperation) e).isLongRunning() && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname(((INakedOperation) e).getMessageStructure()));
+				}else if(e instanceof INakedEmbeddedTask && isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname(((INakedEmbeddedTask) e).getMessageStructure()));
+				}else if(e instanceof INakedStructuredActivityNode && BehaviorUtil.hasExecutionInstance(((INakedStructuredActivityNode) e).getActivity())
+						&& isGeneratingElement(e)){
+					persistentClasses.add(OJUtil.classifierPathname(((INakedStructuredActivityNode) e).getMessageStructure()));
+				}
 			}
+			vars.put("persistentClasses", persistentClasses);
+			vars.put("pkg", OJUtil.utilPackagePath(owner));
 		}
-		vars.put("persistentClasses", persistentClasses);
-		vars.put("pkg", OJUtil.utilPackagePath(owner));
 		return vars;
 	}
 	private boolean isGeneratingElement(INakedElement e){

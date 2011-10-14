@@ -31,7 +31,9 @@ Require-Bundle: org.opaeum.eclipse.core,
  org.opaeum.linkage.emfextraction,
  org.opaeum.linkage.namegeneration,
  org.opaeum.linkage.validation,
- org.eclipse.emf.edit
+ org.eclipse.emf.edit,
+ org.eclipse.gef,
+ org.eclipse.core.filesystem
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.eclipse.starter

@@ -638,6 +638,7 @@ public class TryAnalyzer extends Analyzer {
 	  VariableExp result = null;
 	  IAttribute   att    = env.lookupImplicitAttribute(name.getLast());
 	  if( att != null ){
+		  System.out.println();
 		  VariableDeclaration source = env.lookupImplicitSourceForAttribute(name.getLast());
 		  result = new VariableExp( source );
 		  result.setImplicit(true);

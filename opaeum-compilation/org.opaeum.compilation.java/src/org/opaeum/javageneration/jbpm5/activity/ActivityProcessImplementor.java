@@ -12,6 +12,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
@@ -45,6 +46,7 @@ import org.opaeum.linkage.CompositionEmulator;
 import org.opaeum.linkage.NakedParsedOclStringResolver;
 import org.opaeum.linkage.PinLinker;
 import org.opaeum.linkage.ProcessIdentifier;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
 import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
 import org.opaeum.metamodel.actions.INakedCallOperationAction;
@@ -57,6 +59,7 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedExpansionRegion;
@@ -67,9 +70,11 @@ import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.INakedParameter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
@@ -78,9 +83,12 @@ import org.opaeum.metamodel.core.INakedElement;
 },before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void activityEdge(INakedActivityEdge edge){
+		OJAnnotatedClass c = findJavaClass(edge.getActivity());
+		if(edge instanceof INakedObjectFlow && ((INakedObjectFlow) edge).getTransformation() != null){
+			SimpleActivityMethodImplementor.generateTransformationMultiplier(c, ((INakedObjectFlow) edge));
+		}
 		if(edge.hasGuard() && BehaviorUtil.hasExecutionInstance(edge.getActivity())){
 			INakedActivityNode node = edge.getEffectiveSource();
-			OJAnnotatedClass c = findJavaClass(edge.getActivity());
 			OJAnnotatedOperation oper = new OJAnnotatedOperation(Jbpm5Util.getGuardMethod(edge));
 			c.addToOperations(oper);
 			oper.setReturnType(new OJPathName("boolean"));
@@ -117,20 +125,65 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	public void implementActivity(INakedActivity activity){
 		ensureEventHandlerImplementation(activity);
 		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
-			OJAnnotatedClass activityClass = findJavaClass(activity);
+			OJAnnotatedClass activityClasss = findJavaClass(activity);
+			addParameterDelegation(activityClasss, activity);
 			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
 			stateClass.addToNames(activity.getMappingInfo().getJavaName() + "State");
-			implementNodeMethods(activity);
-			doExecute(activity, activityClass);
-			if(activity.getActivityKind() == ActivityKind.PROCESS){
-				implementProcessInterfaceOperations(activityClass, stateClass, activity);
-				OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
-				EventUtil.requestEvents((OJAnnotatedOperation) init, activity.getActivityNodes(), getLibrary().getBusinessRole() != null);
-			}else{
-				Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
-				doIsStepActive(activityClass, activity);
-				super.addGetNodeInstancesRecursively(activityClass);
+			implementContainer(activity.getActivityKind() == ActivityKind.PROCESS, stateClass, activity, activity);
+		}
+	}
+	private void implementContainer(boolean isProcess,OJPathName stateClass,ActivityNodeContainer container,INakedClassifier msg){
+		OJAnnotatedClass activityClass = findJavaClass(msg);
+		implementNodeMethods(container);
+		doExecute(msg, activityClass, isProcess);
+		if(isProcess){
+			implementProcessInterfaceOperations(activityClass, stateClass, msg);
+			OJOperation init = activityClass.findOperation("init", Arrays.asList(Jbpm5Util.getProcessContext()));
+			EventUtil.requestEvents((OJAnnotatedOperation) init, container.getActivityNodes(), getLibrary().getBusinessRole() != null);
+		}else{
+			Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
+			doIsStepActive(activityClass, msg);
+			super.addGetNodeInstancesRecursively(activityClass);
+		}
+		for(INakedActivityNode n:container.getActivityNodes()){
+			if(n instanceof INakedStructuredActivityNode){
+				INakedStructuredActivityNode san = (INakedStructuredActivityNode) n;
+				INakedMessageStructure childMsg = san.getMessageStructure();
+				OJAnnotatedClass c = findJavaClass(childMsg);
+				OJAnnotatedOperation getter = new OJAnnotatedOperation("getContainingActivity", OJUtil.classifierPathname(container.getActivity()));
+				c.addToOperations(getter);
+				if(container instanceof INakedActivity){
+					getter.initializeResultVariable("getNodeContainer()");
+				}else{
+					getter.initializeResultVariable("getNodeContainer().getContainingActivity()");
+				}
+				if(container.getActivity().getContext() != null){
+					OJAnnotatedOperation contextGetter = new OJAnnotatedOperation("getContextObject",
+							OJUtil.classifierPathname(container.getActivity().getContext()));
+					contextGetter.initializeResultVariable("getContainingActivity().getContextObject()");
+					c.addToOperations(contextGetter);
+				}
+				implementVariableDelegation(container, msg, c);
+				implementContainer(isProcess, stateClass, san, childMsg);
 			}
+		}
+	}
+	public void implementVariableDelegation(ActivityNodeContainer container,INakedClassifier msg,OJAnnotatedClass c){
+		for(INakedActivityVariable var:container.getVariables()){
+			NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
+			OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
+			c.addToOperations(delegate);
+			delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
+		}
+		if(container instanceof INakedActivity){
+			for(INakedParameter var:((INakedActivity) container).getOwnedParameters()){
+				NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
+				OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
+				c.addToOperations(delegate);
+				delegate.initializeResultVariable("getNodeContainer()." + varMap.getter() + "()");
+			}
+		}else if(container.getOwnerElement() instanceof ActivityNodeContainer){
+			implementVariableDelegation((ActivityNodeContainer) container.getOwnerElement(), msg, c);
 		}
 	}
 	private void ensureEventHandlerImplementation(INakedActivity activity){
@@ -154,9 +207,9 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			}
 		}
 	}
-	private void doExecute(INakedActivity activity,OJAnnotatedClass activityClass){
+	private void doExecute(INakedClassifier activity,OJAnnotatedClass activityClass,boolean isProcess){
 		OJOperation execute = implementExecute(activityClass, activity);
-		if(activity.isProcess()){
+		if(isProcess){
 			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		}
 	}
@@ -175,9 +228,30 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				if(node instanceof ActivityNodeContainer){
 					visitEdges(((ActivityNodeContainer) node).getActivityEdges());
 				}
-			}else if(node instanceof INakedOutputPin){
-				if(BehaviorUtil.hasMessageStructure((INakedAction) node.getOwnerElement())){
-					implementDerivedGetter(activityClass, (INakedObjectNode) node);
+				if(node instanceof INakedAction && BehaviorUtil.hasMessageStructure((INakedAction) node)){
+					for(INakedOutputPin op:((INakedAction) node).getOutput()){
+						if(!(node instanceof INakedAcceptCallAction && ((INakedAcceptCallAction) node).getReturnInfo() == op)){
+							implementDerivedGetter(activityClass, op);
+						}
+					}
+				}
+				if(node instanceof INakedExpansionRegion){
+					INakedMessageStructure msg = ((INakedExpansionRegion) node).getMessageStructure();
+					OJAnnotatedClass msgClass = findJavaClass(msg);
+					OJConstructor element = new OJConstructor();
+					for(INakedExpansionNode ip:((INakedExpansionRegion) node).getInputElement()){
+						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip);
+						element.addParam(map.fieldname(), map.javaBaseTypePath());
+						element.getBody().addToStatements(map.setter() + "(" + map.fieldname() + ")");
+					}
+					for(INakedExpansionNode ip:((INakedExpansionRegion) node).getOutputElement()){
+						NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(msg, ip, true);
+						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip, false);
+						OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
+						msgClass.addToOperations(getter);
+						getter.initializeResultVariable("getNodeContainer()." + propertyMap.getter() + "()");
+					}
+					msgClass.addToConstructors(element);
 				}
 			}
 		}
@@ -186,26 +260,41 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void implementDerivedGetter(OJAnnotatedClass activityClass,INakedObjectNode node2){
 		NakedStructuralFeatureMap actionMap = OJUtil.buildStructuralFeatureMap((INakedAction) node2.getOwnerElement(), getLibrary());
 		NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2, true);
-		NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2,
-				false);
+		NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(node2.getNearestStructuredElementAsClassifier(), node2, false);
 		List<OJPathName> emptyList = Collections.emptyList();
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) activityClass.findOperation(pinMap.getter(), emptyList);
 		oper.setBody(new OJBlock());
 		if(actionMap.isMany()){
 			if(pinMap.isMany()){
-				oper.initializeResultVariable(actionMap.javaDefaultValue());
+				oper.initializeResultVariable(pinMap.javaDefaultValue());
 				OJForStatement forEach = new OJForStatement("tmp", actionMap.javaBaseTypePath(), actionMap.getter() + "()");
 				oper.getBody().addToStatements(forEach);
-				forEach.getBody().addToStatements("result.add(tmp." + propertyMap.getter() + "())");
+				if(propertyMap.isMany()){
+					forEach.getBody().addToStatements("result.addAll(tmp." + propertyMap.getter() + "())");
+				}else{
+					forEach.getBody().addToStatements("result.add(tmp." + propertyMap.getter() + "())");
+				}
 			}else{
-				// TODO validate against this
+				if(propertyMap.isMany()){
+					oper.initializeResultVariable(actionMap.getter() + "().iterator().next()." + propertyMap.getter() + "().iterator().next()");
+				}else{
+					oper.initializeResultVariable(actionMap.getter() + "().iterator().next()." + propertyMap.getter() + "()");
+				}
 			}
 		}else{
 			if(pinMap.isMany()){
-				oper.initializeResultVariable(actionMap.javaDefaultValue());
-				oper.getBody().addToStatements("result.add(tmp." + propertyMap.getter() + "())");
+				oper.initializeResultVariable(pinMap.javaDefaultValue());
+				if(propertyMap.isMany()){
+					oper.getBody().addToStatements("result.addAll(" + actionMap.getter() + "()." + propertyMap.getter() + "())");
+				}else{
+					oper.getBody().addToStatements("result.add(" + actionMap.getter() + "()." + propertyMap.getter() + "())");
+				}
 			}else{
-				oper.initializeResultVariable(actionMap.getter() + "()." + propertyMap.getter() + "()");
+				if(propertyMap.isMany()){
+					oper.initializeResultVariable(actionMap.getter() + "()." + propertyMap.getter() + "().iterator().next()");
+				}else{
+					oper.initializeResultVariable(actionMap.getter() + "()." + propertyMap.getter() + "()");
+				}
 			}
 		}
 	}
@@ -259,7 +348,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		}
 	}
 	@Override
-	protected Collection<? extends INakedElement> getTopLevelFlows(INakedBehavior umlBehavior){
+	protected Collection<? extends INakedElement> getTopLevelFlows(INakedClassifier umlBehavior){
 		return Arrays.asList(umlBehavior);
 	}
 }

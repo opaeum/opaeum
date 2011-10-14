@@ -13,7 +13,7 @@ import org.opaeum.visitor.NakedElementOwnerVisitor;
 public abstract class AbstractValidator extends NakedElementOwnerVisitor implements ITransformationStep{
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		if(o instanceof INakedElement && !((INakedElement) o).isMarkedForDeletion()){
+		if(!(o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion())){
 			super.visitRecursively(o);
 		}
 	}
@@ -22,8 +22,11 @@ public abstract class AbstractValidator extends NakedElementOwnerVisitor impleme
 	@Override
 	public Collection<? extends INakedElement> getChildren(INakedElementOwner root){
 		if(root instanceof INakedModelWorkspace){
-			return ((INakedModelWorkspace) root).getGeneratingModelsOrProfiles();
+			return ((INakedModelWorkspace) root).getPrimaryRootObjects();
 		}else{
+			if(root==null){
+				System.out.println();
+			}
 			return root.getOwnedElements();
 		}
 	}

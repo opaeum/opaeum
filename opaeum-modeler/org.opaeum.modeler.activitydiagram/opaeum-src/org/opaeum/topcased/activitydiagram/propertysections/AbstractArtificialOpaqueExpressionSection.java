@@ -1,8 +1,5 @@
 package org.opaeum.topcased.activitydiagram.propertysections;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.name.SingularNameWrapper;
-
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -21,6 +18,8 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.topcased.propertysections.AbstractOclBodyBodySection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 

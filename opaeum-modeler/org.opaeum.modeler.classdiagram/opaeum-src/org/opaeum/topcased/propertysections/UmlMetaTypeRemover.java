@@ -9,7 +9,7 @@ import org.eclipse.uml2.uml.AssociationClass;
 
 public class UmlMetaTypeRemover{
 
-	public static Collection<? extends Object> removeAll(Collection<EObject> types){
+	public static Collection<EObject> removeAll(Collection<EObject> types){
 		Collection<EObject> result =new ArrayList<EObject>();
 		for(EObject eObject:types){
 			boolean isAssociation = eObject instanceof Association && !(eObject instanceof AssociationClass);

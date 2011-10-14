@@ -17,7 +17,7 @@ public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionN
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		if(node.isOutputElement()){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node,true);
 			// expressor.maybeBuildResultVariable(operation, block, map);
 			if(node.getFeedingNode() instanceof INakedObjectNode){
 				if(((INakedObjectNode) node.getFeedingNode()).getNakedMultiplicity().isMany()){

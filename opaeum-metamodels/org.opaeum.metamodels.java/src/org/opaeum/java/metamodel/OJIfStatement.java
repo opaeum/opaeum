@@ -1,6 +1,6 @@
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJIfStatementGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
@@ -83,23 +83,13 @@ public class OJIfStatement extends OJIfStatementGEN {
 		}
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-		for (String key : renamePathNames.keySet()) {
-			OJPathName pathName = renamePathNames.get(key);
-			String className = pathName.getNames().get(pathName.getNames().size() - 1);
-			String condition = getCondition();
-			if (condition.contains(" " + className + ")") || condition.contains(" " + className + " ")
-					|| condition.contains(" " + className + "&&") || condition.contains("(" + className + ")")
-					|| condition.endsWith(" " + className)) {
-				condition = condition.replace(className, className + newName);
-			}
-			setCondition(condition);
-		}
+	public void renameAll(Set<OJPathName> renamePathNames, String suffix) {
+		setCondition(replaceAll(getCondition(), renamePathNames, suffix));
 		if (getThenPart() != null) {
-			getThenPart().renameAll(renamePathNames, newName);
+			getThenPart().renameAll(renamePathNames, suffix);
 		}
 		if (getElsePart() != null) {
-			getElsePart().renameAll(renamePathNames, newName);
+			getElsePart().renameAll(renamePathNames, suffix);
 		}
 	}
 }

@@ -21,6 +21,9 @@ public class SourceFolderDefinition{
 	public void dontCleanDirectories(){
 		cleanDirectories = false;
 	}
+	public boolean prefixModelIdentifierToSourceFolder(){
+		return projectNameStrategy==ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER;
+	}
 	public void dontCleanDirectoriesOrOverwriteFiles(){
 		dontCleanDirectories();
 		dontOverwriteFiles();

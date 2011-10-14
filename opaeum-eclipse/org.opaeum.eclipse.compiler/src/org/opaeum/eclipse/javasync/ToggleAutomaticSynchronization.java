@@ -11,12 +11,13 @@ public class ToggleAutomaticSynchronization extends AbstractOpaeumAction{
 	}
 	private static String calculateName(IStructuredSelection selection2){
 		OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor((IContainer) selection2.getFirstElement());
-		return ctx!=null &&  ctx.getAutoSync()?"Turn off Auto Synchronization":"Turn on Auto Synchronization";
+		return ctx!=null &&  ctx.getAutoSync()?"Don't compile automatically":"Compile automatically";
 	}
 	@Override
 	public void run(){
 		final IContainer folder = (IContainer) selection.getFirstElement();
 		final OpaeumEclipseContext currentContext = OpaeumEclipseContext.findOrCreateContextFor(folder);
-		currentContext.setAutoSync(!currentContext.getAutoSync());
+		currentContext.getConfig().setAutoSync(currentContext.getAutoSync());
+		currentContext.getConfig().store();
 	}
 }

@@ -6,6 +6,6 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 
-public interface NakedUmlSynchronizationListener{
+public interface OpaeumContextSynchronizationListener{
 	public void synchronizationComplete(INakedModelWorkspace workspace, Set<INakedElement> affectedElements);
 }

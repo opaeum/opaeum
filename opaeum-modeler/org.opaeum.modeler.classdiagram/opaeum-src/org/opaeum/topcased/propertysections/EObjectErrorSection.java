@@ -36,6 +36,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.validation.BrokenElement;
 import org.opaeum.metamodel.validation.BrokenRule;
@@ -117,9 +118,15 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				for(final Entry<EObject,IMarker> entry:markers.entrySet()){
 					ErrorMap errorMap = ctx.getNakedWorkspace().getErrorMap();
 					EObject key = entry.getKey();
-					BrokenElement error = errorMap.getErrors().get(ctx.getCurrentEmfWorkspace().getId(key));
+					BrokenElement error = null;
+					try{
+						error = errorMap.getErrors().get(entry.getValue().getAttribute("BROKEN_ELEMENT_ID"));
+					}catch(CoreException e){
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					if(error != null){
-						//may have been delete since extraction 
+						// may have been delete since extraction
 						for(Entry<IValidationRule,BrokenRule> brokenRule:error.getBrokenRules().entrySet()){
 							String[] split = brokenRule.getKey().getMessagePattern().split("[\\{\\}]");
 							Composite comp = getWidgetFactory().createComposite(group);
@@ -129,15 +136,18 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 							gl.marginWidth = 0;
 							gl.marginHeight = 0;
 							gl.verticalSpacing = 0;
+							EObject brokenElement = ctx.getCurrentEmfWorkspace().getElement(brokenRule.getValue().getElementId());
 							for(int i = 0;i < split.length;i++){
-								createMessageFragment(key, comp, split[i], brokenRule.getValue().getParameters());
+								createMessageFragment(brokenElement, comp, split[i], brokenRule.getValue().getParameters());
 							}
 							comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 							comp.layout();
+							
 							comp.pack();
 						}
 					}
 				}
+				
 				FormData fd = new FormData();
 				fd.left = new FormAttachment(0);
 				fd.right = new FormAttachment(100);
@@ -145,6 +155,7 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				this.group.setLayoutData(fd);
 				group.pack();
 				group.layout();
+				getMainComposite(group).layout();
 			}
 		}
 	}
@@ -152,16 +163,23 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 		Control txt = null;
 		if(current.length() >= 1 && current.length() <= 2 && Character.isDigit(current.charAt(0))){
 			int parseInt = Integer.parseInt(current);
-			Object o = parseInt == 0 ? key : parameters[parseInt - 1];
+			Object o = null;
+			if(parseInt == 0){
+				o = key;
+			}else if(parameters.length > parseInt-1){
+				o = parameters[parseInt - 1];
+			}
 			if(o instanceof INakedElement){
 				INakedElement o1 = (INakedElement) o;
 				txt = createHyperlink(comp, o1.getOwnerElement().getName() + "::" + o1.getName(), o1.getId());
 			}else if(o instanceof Element){
 				Element element = (Element) o;
-				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element), OpaeumEditor.getCurrentContext()
-						.getId(element));
-			}else{
+				txt = createHyperlink(comp, getName((Element) EmfElementFinder.getContainer(element)) + "::" + getName(element),
+						OpaeumEditor.getCurrentContext().getId(element));
+			}else if(o != null){
 				txt = getWidgetFactory().createLabel(comp, o.toString());
+			}else{
+				txt = getWidgetFactory().createLabel(comp, "null");
 			}
 		}else{
 			txt = getWidgetFactory().createLabel(comp, current);
@@ -174,11 +192,12 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 		if(getEObject().eResource() != null){
 			try{
 				for(IMarker m:file.findMarkers(EValidator.MARKER, true, 0)){
-					String attribute = (String) m.getAttribute(EValidator.URI_ATTRIBUTE);
-					if(attribute != null){
-						URI createURI = URI.createURI(attribute, false);
-						EObject problemElement = getEObject().eResource().getEObject(createURI.fragment());
-						EObject eo = problemElement;
+					String markedElementUri=(String) m.getAttribute(EValidator.URI_ATTRIBUTE);
+					String brokenElementId = (String) m.getAttribute("BROKEN_ELEMENT_ID");
+					EmfWorkspace emfWorkspace = OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace();
+					if(markedElementUri!=null && brokenElementId != null && emfWorkspace!=null){
+						EObject problemElement = emfWorkspace.getElement(brokenElementId);
+						EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);
 						while(eo != null){
 							if(eo == getEObject()){
 								markers.put(problemElement, m);

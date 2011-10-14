@@ -86,7 +86,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		for(INakedActivityNode n:container.getActivityNodes()){
 			if(n instanceof INakedAction){
 				visitOutputPins((INakedAction) n);
-			}else if(n instanceof INakedExpansionRegion){
+			}
+			if(n instanceof INakedExpansionRegion){
 				visitExpansionNodes((INakedExpansionRegion) n);
 			}
 			if(n instanceof INakedEmbeddedTask){
@@ -127,8 +128,12 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	}
 	private void visitExpansionNodes(INakedExpansionRegion region){
 		for(INakedExpansionNode node:region.getOutputElement()){
-			// NB expansion nodes sit on the parent container
-			visitProperty(region.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(region.getNearestStructuredElementAsClassifier(), node));
+			// NB output expansion nodes sit on the parent container
+			visitProperty(region.getNearestStructuredElementAsClassifier(), OJUtil.buildStructuralFeatureMap(region.getNearestStructuredElementAsClassifier(), node,true));
+		}
+		for(INakedExpansionNode node:region.getInputElement()){
+			// NB input expansion nodes sit on the expansion region class
+			visitProperty(region.getMessageStructure(), OJUtil.buildStructuralFeatureMap(region.getMessageStructure(), node,false));
 		}
 	}
 	private void visitOperation(INakedOperation o){

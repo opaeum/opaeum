@@ -171,7 +171,7 @@ public class TransformationProcess{
 					field.setAccessible(true);
 					Object existingModel = findModel(field.getType());
 					try{
-						if(existingModel == null){
+						if(existingModel == null && !field.getAnnotation(InputModel.class).optional()){
 							existingModel = createModel(phase, field);
 						}
 						field.set(phase, existingModel);

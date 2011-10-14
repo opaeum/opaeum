@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InputModel {
 	Class<?>[] implementationClass() default{};
+	boolean optional() default false;
 
 }

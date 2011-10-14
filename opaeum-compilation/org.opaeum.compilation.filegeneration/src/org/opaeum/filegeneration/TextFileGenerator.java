@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.feature.visit.VisitSpec;
 import org.opaeum.textmetamodel.TextDirectory;
 import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextOutputNode;
@@ -71,5 +72,17 @@ public class TextFileGenerator extends AbstractTextNodeVisitor implements ITrans
 				fw.close();
 			}
 		}
+	}
+	protected void visitParentsRecursively(TextOutputNode node){
+		if(node != null){
+			visitParentsRecursively(node.getParent());
+			for(VisitSpec v:methodInvokers. beforeMethods){
+				maybeVisit(node, v);
+			}
+		}
+	}
+	public void visitUpFirst(TextOutputNode element){
+		visitParentsRecursively(element.getParent());
+		visitOnly(element);
 	}
 }

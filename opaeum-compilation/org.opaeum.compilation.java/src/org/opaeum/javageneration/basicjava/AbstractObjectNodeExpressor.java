@@ -9,8 +9,10 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractObjectNodeExpressor{
@@ -19,6 +21,7 @@ public abstract class AbstractObjectNodeExpressor{
 		this.library = l;
 	}
 	abstract public boolean pinsAvailableAsVariables();
+	public abstract String clear(NakedStructuralFeatureMap map);
 	public abstract String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow);
 	abstract public String expressInputPinOrOutParamOrExpansionNode(OJBlock block,INakedObjectNode pin);
 	abstract public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap map);
@@ -77,4 +80,12 @@ public abstract class AbstractObjectNodeExpressor{
 	protected OpaeumLibrary getLibrary(){
 		return library;
 	}
+	protected boolean shouldEnsureUniquenes(INakedObjectNode feedingNode){
+		boolean ensureUniqueness = true;
+		if((feedingNode instanceof INakedExpansionNode && ((INakedExpansionNode) feedingNode).isInputElement()) || feedingNode instanceof INakedParameterNode){
+			ensureUniqueness = false;
+		}
+		return ensureUniqueness;
+	}
+
 }

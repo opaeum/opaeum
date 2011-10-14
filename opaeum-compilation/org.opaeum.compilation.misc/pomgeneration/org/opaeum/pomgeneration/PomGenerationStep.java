@@ -29,9 +29,13 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected OpaeumConfig config;
 	protected INakedModelWorkspace workspace;
 	protected INakedRootObject model;
+	private boolean shouldAppendVersionSuffix;
 	protected abstract SourceFolderDefinition getExampleTargetDir();
 	public boolean isIntegrationStep(){
 		return false;
+	}
+	public void appendVersionSuffix(boolean b){
+		this.shouldAppendVersionSuffix=b;
 	}
 	public void initialize(OpaeumConfig config,INakedModelWorkspace workspace){
 		this.config = config;
@@ -61,13 +65,19 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		return this.getExampleTargetDir().isOneProjectPerWorkspace();
 	}
 	public final String getProjectName(){
+		String suffix = getExampleTargetDir().getProjectSuffix();
+		if(shouldAppendVersionSuffix){
+			suffix=suffix+config.getMavenGroupVersionSuffix();
+		}
 		switch(getExampleTargetDir().getProjectNameStrategy()){
 		case MODEL_NAME_AND_SUFFIX:
-			return this.model.getIdentifier() + getExampleTargetDir().getProjectSuffix();
+			return this.model.getIdentifier() + suffix;
 		case SUFFIX_ONLY:
-			return getExampleTargetDir().getProjectSuffix();
+			return suffix;
 		case WORKSPACE_NAME_AND_SUFFIX:
-			return this.workspace.getIdentifier() + getExampleTargetDir().getProjectSuffix();
+			return this.workspace.getIdentifier() + suffix;
+		case WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
+			return this.workspace.getIdentifier() + suffix;
 		default:
 			return "";
 		}
@@ -265,13 +275,14 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected void addDependencyToRootObject(ISourceFolderIdentifier identifier,INakedRootObject rootObject,Collection<Dependency> result){
 		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 			SourceFolderDefinition sourceFolderDefinition = config.getSourceFolderDefinition(identifier);
+			String versionSuffix = shouldAppendVersionSuffix?config.getMavenGroupVersionSuffix():"";
 			if(sourceFolderDefinition.isOneProjectPerWorkspace()){
 				Dependency d = POMFactory.eINSTANCE.createDependency();
 				d.setGroupId(config.getMavenGroupId());
 				d.setVersion(getVersionVariable());
 				d.setScope("compile");
 				d.setType("jar");
-				d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
+				d.setArtifactId(workspace.getIdentifier() + sourceFolderDefinition.getProjectSuffix()+versionSuffix);
 				result.add(d);
 			}else{
 				if(workspace.isPrimaryModel(rootObject)){
@@ -280,7 +291,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 					d.setVersion(getVersionVariable());
 					d.setScope("compile");
 					d.setType("jar");
-					d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix());
+					d.setArtifactId(rootObject.getIdentifier() + sourceFolderDefinition.getProjectSuffix()+versionSuffix);
 					result.add(d);
 				}else{
 					// TODO Model level stereotype, or opaeumconfig.properties get group

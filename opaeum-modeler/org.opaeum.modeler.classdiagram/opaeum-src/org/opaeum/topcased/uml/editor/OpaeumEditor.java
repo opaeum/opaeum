@@ -9,16 +9,23 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gmf.runtime.common.ui.util.PartListenerAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.feature.OpaeumConfig;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.outline.ModelNavigator;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
@@ -35,13 +42,39 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 					"Cannot close the model while the Opaeum tooling is still initializing. Please try again shortly.");
 		}else{
 			super.close(save);
-			if(isDirty() && save == false && getCurrentContext() != null){
-				getCurrentContext().removeNakedModel(getResourceSet());
-			}
-			if(getCurrentContext() != null){
-				getCurrentContext().onClose(save, getEditingDomain().getResourceSet());
-			}
 		}
+	}
+	public void init(IEditorSite site,IEditorInput input) throws PartInitException{
+		super.init(site, input);
+		setIsReadOnly(OpaeumConfig.isValidVersionNumber(getFile(input).getParent().getName()));
+		final ResourceSet resourceSet = getEditingDomain().getResourceSet();
+		getSite().getPage().addPartListener(new PartListenerAdapter(){
+			
+			@Override
+			public void partClosed(IWorkbenchPart part){
+				try{
+					boolean dirty = false;
+					try{
+						dirty = isDirty();
+					}catch(Exception e){
+					}
+					if(dirty && getCurrentContext() != null){
+						getCurrentContext().removeNakedModel(getResourceSet());
+					}
+					if(getCurrentContext() != null){
+						getCurrentContext().onClose(!dirty, resourceSet);
+					}
+
+					if(getCurrentContext() != null){
+						getCurrentContext().onClose(true, resourceSet);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}finally{
+					OpaeumEclipseContext.setCurrentContext(null);
+				}
+			}
+		});
 	}
 	@Override
 	public void doSave(IProgressMonitor monitor){
@@ -62,19 +95,19 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 			protected ModelNavigator createNavigator(Composite parent,Modeler editor,IPageSite pageSite){
 				return new OpaeumNavigator(parent, editor, pageSite);
 			}
+			@Override
+			public Object getAdapter(Class adapter){
+				// Workaround for bug in Topcased
+				return OpaeumEditor.this.getAdapter(adapter);
+			}
+			public void dispose(){
+				super.dispose();
+				System.out.println("OpaeumEditor.createOutlinePage().new UMLOutlinePage() {...}.dispose()");
+			}
 		};
 	}
 	public void dispose(){
-		try{
-			if(getCurrentContext() != null){
-				getCurrentContext().onClose(true, getEditingDomain().getResourceSet());
-			}
-			super.dispose();
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			OpaeumEclipseContext.setCurrentContext(null);
-		}
+		super.dispose();
 	}
 	@Override
 	protected void setInput(IEditorInput input){
@@ -119,8 +152,11 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	protected List<AdapterFactory> getAdapterFactories(){
 		List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
 		factories.add(new OpaeumItemProviderAdapterFactory());
-		factories.add(new org.topcased.modeler.uml.providers.UMLModelerProviderAdapterFactory());
-		factories.addAll(super.getAdapterFactories());
+		for(AdapterFactory adapterFactory:super.getAdapterFactories()){
+			if(!(adapterFactory instanceof UMLItemProviderAdapterFactory)){
+				factories.add(adapterFactory);
+			}
+		}
 		return factories;
 	}
 	@Override

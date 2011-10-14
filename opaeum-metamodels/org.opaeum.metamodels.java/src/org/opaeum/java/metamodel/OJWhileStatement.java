@@ -1,6 +1,6 @@
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJWhileStatementGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
@@ -40,7 +40,7 @@ public class OJWhileStatement extends OJWhileStatementGEN {
 		}		
 	}	
 	
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		if ( getBody() != null ) {
 			getBody().renameAll(renamePathNames, newName);
 		}

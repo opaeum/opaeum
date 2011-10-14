@@ -76,9 +76,9 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 					myClass.addToOperations(oper);
 				}else{
 					hasConstraints = true;
-					OJOperation oper = new OJAnnotatedOperation(getter(rule));
+					OJAnnotatedOperation oper = new OJAnnotatedOperation(getter(rule));
 					oper.setReturnType(new OJPathName("boolean"));
-					oper.getBody().addToStatements("return " + ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>()));
+					oper.initializeResultVariable(ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>()));
 					myClass.addToOperations(oper);
 				}
 			}else{

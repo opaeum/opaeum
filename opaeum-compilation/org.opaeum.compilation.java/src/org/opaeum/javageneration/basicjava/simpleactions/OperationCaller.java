@@ -37,7 +37,10 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 				if(resultMap != null){
 					expressor.buildResultVariable(operation, block, resultMap);
 					boolean many = resultMap.isMany();
-					if(!(returnPin == null || returnPin.getLinkedTypedElement() == null || BehaviorUtil.hasMessageStructure(node))){
+					if(BehaviorUtil.hasMessageStructure(node)){
+						//Such operations allways return a single instanceof the message Structure
+						many = false;
+					}else if(!(returnPin == null || returnPin.getLinkedTypedElement() == null)){
 						many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();
 					}
 					call = expressor.storeResults(resultMap, call, many);

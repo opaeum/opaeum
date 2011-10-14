@@ -44,7 +44,7 @@ public class NavigationToEntityBindingSection extends AbstractBindingSection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
@@ -53,7 +53,7 @@ public class NavigationToEntityBindingSection extends AbstractBindingSection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
 	protected ILabelProvider getLabelProvider(){

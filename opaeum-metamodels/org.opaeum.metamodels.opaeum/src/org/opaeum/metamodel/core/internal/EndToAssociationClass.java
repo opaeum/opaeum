@@ -32,7 +32,7 @@ public class EndToAssociationClass extends AbstractPropertyBridge{
 		return property.isNavigable();
 	}
 	@Override
-	public Collection<? extends INakedElement> getOwnedElements(){
+	public Collection<INakedElement> getOwnedElements(){
 		return Collections.emptySet();
 	}
 	@Override

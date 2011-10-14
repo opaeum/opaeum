@@ -48,7 +48,7 @@ public class UimDataTableBindingSection extends AbstractBindingSection{
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
@@ -58,7 +58,7 @@ public class UimDataTableBindingSection extends AbstractBindingSection{
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
 	protected Object[] getComboFeatureValues(){
@@ -68,7 +68,7 @@ public class UimDataTableBindingSection extends AbstractBindingSection{
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
 	protected ILabelProvider getLabelProvider(){

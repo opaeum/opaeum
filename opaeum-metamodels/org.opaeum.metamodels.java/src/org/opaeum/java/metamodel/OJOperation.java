@@ -3,15 +3,14 @@ package org.opaeum.java.metamodel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.generated.OJOperationGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 
-
+@SuppressWarnings({"rawtypes"})
 public class OJOperation extends OJOperationGEN {
 	/******************************************************
 	 * The constructor for this classifier.
@@ -225,7 +224,6 @@ public class OJOperation extends OJOperationGEN {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<OJPathName> getParamTypes() {
 		List<OJPathName> result = new ArrayList<OJPathName>();		
 		Iterator it = this.getParameters().iterator();
@@ -236,7 +234,7 @@ public class OJOperation extends OJOperationGEN {
 		return result;
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		getReturnType().renameAll(renamePathNames, newName);
 		for(OJParameter parameter:getParameters()) {
 			parameter.renameAll(renamePathNames, newName);

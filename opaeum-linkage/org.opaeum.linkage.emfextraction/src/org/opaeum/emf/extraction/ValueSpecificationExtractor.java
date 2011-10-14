@@ -95,7 +95,7 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 				result.addOwnedElement(instance);
 			}
 		}
-		if(value.getOwner() instanceof ActivityEdge){
+		if(value.getOwner() instanceof ActivityEdge && result.getOwnerElement()!=null){
 			NakedActivityEdgeImpl nae = (NakedActivityEdgeImpl)result.getOwnerElement() ;
 			ActivityEdge ae = (ActivityEdge) value.getOwner();
 			if(value == ae.getGuard()){

@@ -9,7 +9,9 @@ import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.metamodel.actions.IActionWithTargetElement;
 import org.opaeum.metamodel.actions.IActionWithTargetPin;
+import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedProperty;
@@ -93,10 +95,12 @@ public abstract class AbstractNodeBuilder {
 		} else {
 			throw new IllegalStateException("Multiple flows are not supported into ObjectNodes");
 		}
+		if(pin.getOwnerElement() instanceof INakedAction && ((INakedAction) pin.getOwnerElement()).getOwnerElement() instanceof INakedStructuredActivityNode){
+			expression = ValueSpecificationUtil.replaceThisWith(expression, "getContainingActivity()");
+		}
 		return expression;
 	}
 
-	
 	protected final OpaeumLibrary getLibrary() {
 		return library;
 	}

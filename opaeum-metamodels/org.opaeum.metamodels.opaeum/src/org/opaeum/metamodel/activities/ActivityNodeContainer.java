@@ -12,4 +12,6 @@ public interface ActivityNodeContainer extends INakedElement{
 	Collection<INakedActivityNode> getActivityNodes();
 
 	Collection<INakedActivityNode> getStartNodes();
+
+	INakedActivity getActivity();
 }

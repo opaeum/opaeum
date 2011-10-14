@@ -1,26 +1,14 @@
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJStatementGEN;
 
-
-public class OJStatement extends OJStatementGEN {
-
-	public OJStatement() {
+public abstract class OJStatement extends OJStatementGEN{
+	public OJStatement(){
 		super();
 	}
-	
-	public OJStatement getDeepCopy() {
-		OJStatement copy = new OJStatement();
-		copy.copyDeepInfoInto(copy);
-		return copy;
+	public abstract OJStatement getDeepCopy();
+	public void copyDeepInfoInto(OJStatement copy){
 	}
-	
-	public void copyDeepInfoInto(OJStatement copy) {
-	}
-	
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-	}
-
 }

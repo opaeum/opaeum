@@ -1,5 +1,8 @@
 package org.opaeum.java.metamodel;
 
+import java.util.Set;
+
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.generated.OJTryStatementGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
@@ -44,4 +47,11 @@ public class OJTryStatement extends OJTryStatementGEN {
 			copy.setCatchParam(getCatchParam().getDeepCopy());
 		}		
 	}  	
+	@Override
+	public void renameAll(Set<OJPathName> match,String suffix){
+		getCatchParam().renameAll(match, suffix);
+		getCatchPart().renameAll(match, suffix);
+		
+	}
+
 }

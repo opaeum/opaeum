@@ -1,7 +1,6 @@
 package org.opaeum.java.metamodel.annotation;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJParameter;
@@ -73,7 +72,7 @@ public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElem
 		}
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		super.renameAll(renamePathNames, newName);
 		Set<OJAnnotationValue> annotations = getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {

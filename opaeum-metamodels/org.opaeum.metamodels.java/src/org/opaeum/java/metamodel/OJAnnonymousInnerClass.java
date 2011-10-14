@@ -1,6 +1,6 @@
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -17,12 +17,14 @@ public class OJAnnonymousInnerClass extends OJAnnotatedField {
 		classDeclaration.setSuperclass(ojPathName);
 		this.outer = outer;
 	}
-
+	public OJPathName getPathName(){
+		return outer.getCopy().append("Anonymous");
+	}
 	@Override
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-		// TODO Auto-generated method stub
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		super.renameAll(renamePathNames, newName);
 		outer.renameAll(renamePathNames, newName);
+		classDeclaration.setMyPackage(new OJPackage(""));
 		classDeclaration.renameAll(renamePathNames, newName);
 	}
 

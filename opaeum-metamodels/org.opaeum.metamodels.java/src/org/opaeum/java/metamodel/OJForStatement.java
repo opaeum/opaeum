@@ -3,13 +3,12 @@
  */
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJForStatementGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
-
-public class OJForStatement extends OJForStatementGEN {
+public class OJForStatement extends OJForStatementGEN{
 	/**
 	 * Constructor for OJForStatement
 	 * 
@@ -18,60 +17,50 @@ public class OJForStatement extends OJForStatementGEN {
 	 * @param elemName
 	 * @param collection
 	 */
-	public OJForStatement(String name, String comment, String elemName, String collection) {
+	public OJForStatement(String name,String comment,String elemName,String collection){
 		super(name, comment, elemName, collection);
 		setBody(new OJBlock());
 	}
-
 	/**
 	 * Constructor for OJForStatement
 	 */
-	public OJForStatement() {
+	public OJForStatement(){
 		super();
 		setBody(new OJBlock());
 	}
-
-	public OJForStatement(String elementName, OJPathName type, String collection) {
+	public OJForStatement(String elementName,OJPathName type,String collection){
 		this(null, null, elementName, collection);
 		setElemType(type);
 		setBody(new OJBlock());
 	}
-
-	public String toJavaString() {
+	public String toJavaString(){
 		String result = "for ( " + getElemType().getCollectionTypeName() + " " + getElemName() + " : " + getCollection() + " ) {\n";
 		result = result + JavaStringHelpers.indent(getBody().toJavaString(), 1) + "\n}";
 		return result;
 	}
-
-	public OJForStatement getDeepCopy() {
+	public OJForStatement getDeepCopy(){
 		OJForStatement copy = new OJForStatement();
 		copyDeepInfoInto(copy);
 		return copy;
 	}
-
-	public void copyDeepInfoInto(OJForStatement copy) {
+	public void copyDeepInfoInto(OJForStatement copy){
 		super.copyDeepInfoInto(copy);
 		copy.setElemName(getElemName());
 		copy.setCollection(getCollection());
-		if (getElemType() != null) {
+		if(getElemType() != null){
 			copy.setElemType(getElemType().getDeepCopy());
 		}
-		if (getBody() != null) {
+		if(getBody() != null){
 			copy.setBody(getBody().getDeepCopy());
 		}
 	}
-
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-		if (getElemType() != null) {
-			getElemType().renameAll(renamePathNames, newName);
-			for (OJPathName pathName : renamePathNames.values()) {
-				if (getCollection().contains("<" + pathName.getLast() + ">")) {
-					setCollection(getCollection().replace("<" + pathName.getLast() + ">", "<" + pathName.getLast() + newName + ">"));
-				}
-			}
+	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
+		if(getElemType() != null){
+			getElemType().renameAll(renamePathNames, suffix);
 		}
-		if (getBody() != null) {
-			getBody().renameAll(renamePathNames, newName);
+		setCollection(replaceAll(getCollection(), renamePathNames, suffix));
+		if(getBody() != null){
+			getBody().renameAll(renamePathNames, suffix);
 		}
 	}
 }

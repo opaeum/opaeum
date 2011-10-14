@@ -37,6 +37,7 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedInputPin;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.bpm.INakedDeadline;
 import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
@@ -430,8 +431,20 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
 		}
 	}
+	public static void main(String[] args){
+		System.out.println(replaceSelfWith("self self =self self. self)(self)self= self", "containgActivity"));
+	}
+	private static String replaceSelfWith(String from,String matchWord){
+		String string = " "+ from +" ";
+		String seperators="([\\s\\)=\\(\\.])";
+		String replaceAll = string.replaceAll(seperators+ "(self)"+seperators, "$1"+matchWord+"$3").replaceAll(seperators+ "(self)"+seperators, "$1"+matchWord+"$3");
+		return replaceAll;
+	}
 	private void resolvePinOcl(INakedValuePin pin){
 		ParsedOclString string = (ParsedOclString) pin.getValue().getValue();
+		if(pin.getAction().getOwnerElement() instanceof INakedStructuredActivityNode){
+//			string.setExpressionString(string.getExpressionString().replaceAll(regex, replacement))
+		}
 		string.setContext(pin.getActivity(), pin.getValue());
 		Environment env = environmentFactory.createActivityEnvironment(pin, pin.getActivity());
 		IClassifier type = pin.getType();
@@ -479,10 +492,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 						expectedType = ((StdlibCollectionType) expectedType).getElementType();
 						// be lenient with multiplicity - will likely be corrected automatically
 					}
-					if(expressionType instanceof StdlibCollectionType && !(expectedType instanceof StdlibCollectionType)){
-						expressionType = ((StdlibCollectionType) expressionType).getElementType();
-						// be lenient with multiplicity - will likely be corrected automatically
-					}
 					if(expressionType instanceof INakedPrimitiveType){
 						expectedType = ((INakedPrimitiveType) expressionType).getOclType();
 					}
@@ -496,6 +505,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				}
 				return newC;
 			}catch(AnalysisException e){
+				
 				putOclError(holder, e);
 				OclErrContextImpl errCtx = new OclErrContextImpl(holder.getName(), holder.getType(), holder.getContext());
 				errCtx.setExpressionString(holder.getExpressionString());
@@ -519,10 +529,14 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		String msg = e.getError().getErrorMessage();
 		Integer column = e.getError().getColumnNumber();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
+		System.out.println(ne.getMappingInfo().getQualifiedUmlName());
+		e.printStackTrace();
 	}
 	private void putError(ParsedOclString holder,Throwable e){
 		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, "OCL Not well-formed", 1);
+		System.out.println(ne.getMappingInfo().getQualifiedUmlName());
+		e.printStackTrace();
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();

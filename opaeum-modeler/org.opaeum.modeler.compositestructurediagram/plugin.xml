@@ -8,16 +8,16 @@
             editorId="org.topcased.modeler.uml.editor.UMLEditor"
             id="org.topcased.modeler.uml.compositestructuresdiagram.templates.compositeStructuresDiagram"
             model="templates/compositeStructuresDiagram/%name%.uml"
-            name="Composite Structures Diagram"/>
+            name="Business Structure Diagram"/>
    </extension>
    
    <extension point="org.topcased.modeler.diagrams">
       <diagram
-            configuration="org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresConfiguration"
+            configuration="org.opaeum.modeler.compositestructurediagram.BusinessStructureConfiguration"
             editorID="org.topcased.modeler.uml.editor.UMLEditor"
             id="org.topcased.modeler.uml.compositestructuresdiagram"
-            name="Composite Structures Diagram">
-         <enableFor class="org.eclipse.uml2.uml.Class"/>
+            name="Business Structure Diagram">
+         <enableFor class="org.eclipse.uml2.uml.Component"/>
       </diagram>
 	</extension>
 	

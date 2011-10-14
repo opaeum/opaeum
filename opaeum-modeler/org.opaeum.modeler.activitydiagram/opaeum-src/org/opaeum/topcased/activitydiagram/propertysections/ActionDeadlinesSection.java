@@ -1,8 +1,5 @@
 package org.opaeum.topcased.activitydiagram.propertysections;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelection;
@@ -31,6 +28,8 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.topcased.propertysections.AbsoluteTimeEventDetailsComposite;
 import org.opaeum.topcased.propertysections.RelativeTimeEventDetailsComposite;
 import org.topcased.modeler.editor.MixedEditDomain;

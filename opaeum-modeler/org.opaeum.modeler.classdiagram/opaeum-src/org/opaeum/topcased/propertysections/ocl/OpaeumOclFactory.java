@@ -1,6 +1,9 @@
 package org.opaeum.topcased.propertysections.ocl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -111,10 +114,17 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
+			for(Entry<String,Classifier> entry:variables.entrySet()){
+				Variable var = UMLFactory.eINSTANCE.createVariable();
+				var.setType(entry.getValue());
+				var.setName(entry.getKey());
+				result.addElement(var.getName(), var, true);
+			}
 			return result;
 		}
 	}
 	private Element context;
+	private Map<String,Classifier> variables=new HashMap<String,Classifier>();
 	@Override
 	public void setContext(EObject context){
 		this.context = (Element) context;
@@ -148,5 +158,9 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 	public OCL<?,?,?,?,?,?,?,?,?,?,?,?> createOCL(ModelingLevel level,Resource res){
 		// TODO Auto-generated method stub
 		return super.createOCL(level, res);
+	}
+	public void addVariable(String name,Classifier type){
+		variables.put(name,type);
+		
 	}
 }

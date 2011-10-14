@@ -6,6 +6,7 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.expressions.IOclExpression;
+import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.oclengine.IOclContext;
@@ -150,20 +151,27 @@ public class ValueSpecificationUtil{
 		return expression;
 	}
 	static String buildTypeCastIfNecessary(String java,IOclExpression expression,IClassifier expectedType){
-		if(expression.getExpressionType().isCollectionKind() && expectedType.isCollectionKind()){
-			StdlibCollectionType is = (StdlibCollectionType) expression.getExpressionType();
-			StdlibCollectionType shouldBe = (StdlibCollectionType) expectedType;
-			if(!is.getElementType().equals(shouldBe.getElementType())){
-				ClassifierMap classifierMap = new ClassifierMap(shouldBe);
-				String defaultValue = classifierMap.javaDefaultValue();
-				String typeCast = defaultValue.substring(0, defaultValue.length() - 1) + java + ")";
-				return typeCast;
+		if(expectedType.isCollectionKind()){
+			if(expression.getExpressionType().isCollectionKind()){
+				StdlibCollectionType is = (StdlibCollectionType) expression.getExpressionType();
+				StdlibCollectionType shouldBe = (StdlibCollectionType) expectedType;
+				if(!is.getElementType().equals(shouldBe.getElementType())){
+					ClassifierMap classifierMap = new ClassifierMap(shouldBe);
+					String defaultValue = classifierMap.javaDefaultValue();
+					String typeCast = defaultValue.substring(0, defaultValue.length() - 1) + java + ")";
+					return typeCast;
+				}else{
+					return java;
+				}
 			}else{
-				return java;
+				if(((StdlibCollectionType) expectedType).getMetaType() == CollectionMetaType.SEQUENCE){
+					return "java.util.Collections.singletonList(" + java + ")";
+				}else{
+					return "java.util.Collections.singleton(" + java + ")";
+				}
 			}
-		}else{
-			return java;
 		}
+		return java;
 	}
 	public static String expressDefaultOrImplicitObject(INakedClassifier owner,IClassifier expectedType){
 		String expression;
@@ -214,5 +222,10 @@ public class ValueSpecificationUtil{
 			init = sb.toString();
 		}
 		return init;
+	}
+	public static String replaceThisWith(String expr,String selfExpression){
+		String string = " "+ expr+" ";
+		String seperators="([\\s\\)=\\(\\.])";
+		return string.replaceAll(seperators+ "(this)"+seperators, "$1"+selfExpression +"$3").replaceAll(seperators+ "(this)"+seperators, "$1"+selfExpression+"$3");
 	}
 }

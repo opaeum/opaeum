@@ -18,7 +18,7 @@ public class ObjectCreator extends SimpleNodeBuilder<INakedCreateObjectAction>{
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		NakedClassifierMap map = new NakedClassifierMap(node.getClassifier());
-		NakedStructuralFeatureMap resultMap= OJUtil.buildStructuralFeatureMap(node.getResult().getActivity(), node.getResult());
+		NakedStructuralFeatureMap resultMap= OJUtil.buildStructuralFeatureMap(node.getResult().getActivity(), node.getResult(),true);
 		expressor.buildResultVariable(operation, block, resultMap);
 		// TODO create for loop to create enough until the minimum multiplicity has been satisfied
 		String call = "new " + map.javaType() + "()";

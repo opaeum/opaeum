@@ -81,7 +81,7 @@ public class UimEditor extends Modeler{
 	 * @generated NOT
 	 */
 	public String getId(){
-		return super.getContributorId();
+		return "org.opaeum.uim.modeleditor.editor.UimEditor";
 	}
 	/**
 	 * @see org.topcased.modeler.editor.Modeler#getAdapter(java.lang.Class)

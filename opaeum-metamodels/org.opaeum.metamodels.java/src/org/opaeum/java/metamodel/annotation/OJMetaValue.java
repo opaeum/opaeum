@@ -3,7 +3,6 @@ package org.opaeum.java.metamodel.annotation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJElement;
@@ -206,14 +205,12 @@ public abstract class OJMetaValue extends OJElement {
 		return getValuesOf(String.class);
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		// rename class literals only, enums and annotations don't have audit
 		// entries
 		for (Object object : this.values) {
-			if (object instanceof OJPathName) {
-				((OJPathName) object).renameAll(renamePathNames, newName);
-			}else if(object instanceof OJAnnotationValue){
-				((OJAnnotationValue) object).renameAll(renamePathNames, newName);
+			if (object instanceof OJElement) {
+				((OJElement) object).renameAll(renamePathNames, newName);
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.modeler.compositestructuresdiagram
-Bundle-SymbolicName: org.opaeum.modeler.compositestructuresdiagram;singleton:=true
+Bundle-Name: org.opaeum.modeler.compositestructurediagram
+Bundle-SymbolicName: org.opaeum.modeler.compositestructurediagram;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Opaeum
 Bundle-Localization: plugin

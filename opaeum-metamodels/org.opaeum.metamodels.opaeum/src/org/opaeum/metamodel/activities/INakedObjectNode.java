@@ -3,6 +3,7 @@ import org.opaeum.metamodel.actions.INakedExceptionHandler;
 import org.opaeum.metamodel.core.IModifiableTypedElement;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
 public interface INakedObjectNode extends IModifiableTypedElement, INakedActivityNode {
 	void setBaseType(INakedClassifier nakedPeer);
 	void setIsOrdered(boolean ordered);
@@ -15,6 +16,7 @@ public interface INakedObjectNode extends IModifiableTypedElement, INakedActivit
 	INakedObjectNode getFedNode();
 	INakedExceptionHandler getIncomingExceptionHandler();
 	void setIncomingExceptionHandler(INakedExceptionHandler incomingExceptionHandler);
-
+	boolean canAcceptInputFrom(INakedMultiplicityElement from);
+	boolean canDeliverOutputTo(INakedMultiplicityElement to);
 
 }

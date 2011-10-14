@@ -30,6 +30,10 @@ import org.opaeum.metamodel.core.internal.ArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity{
+	@Override
+	public INakedActivity getActivity(){
+		return this;
+	}
 	private static final long serialVersionUID = -8111895180462880035L;
 	public static final String META_CLASS = "activity";
 	private ActivityKind activityKind;
@@ -75,6 +79,11 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			for(INakedParameter v:getOwnedParameters()){
 				emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
 			}
+			if(getSpecification() != null){
+				for(INakedParameter v:getSpecification().getOwnedParameters()){
+					emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
+				}
+			}
 		}
 		return emulatedAttributes;
 	}
@@ -89,6 +98,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			this.activityNodes.add((INakedActivityNode) element);
 		}
 		if(element instanceof INakedActivityEdge){
+
 			this.activityEdges.add((INakedActivityEdge) element);
 		}
 		if(element instanceof INakedActivityVariable){
@@ -118,7 +128,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	@Override
 	protected List<IAttribute> getAllAttributesForOcl(boolean classScope){
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
-		if(!classScope && !(getActivityKind()==ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)){
+		if(!classScope && !(getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD)){
 			results.addAll(getEmulatedAttributes());
 		}
 		return results;

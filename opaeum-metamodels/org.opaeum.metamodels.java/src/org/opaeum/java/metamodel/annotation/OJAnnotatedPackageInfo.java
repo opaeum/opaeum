@@ -82,4 +82,11 @@ public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElem
 	public void setMyPackage(OJPackage myPackage){
 		this.myPackage = myPackage;
 	}
+	@Override
+	public void renameAll(Set<OJPathName> match,String suffix){
+		for(OJAnnotationValue a:getAnnotations()){
+			a.renameAll(match, suffix);
+		}
+		
+	}
 }

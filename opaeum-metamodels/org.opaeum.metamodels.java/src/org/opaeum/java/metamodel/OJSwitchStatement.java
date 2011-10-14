@@ -2,7 +2,7 @@ package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJSwitchStatementGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
@@ -55,7 +55,7 @@ public class OJSwitchStatement extends OJSwitchStatementGEN {
 		}		
 	}	
 	
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		Iterator casesIt = new ArrayList<OJSwitchCase>(getCases()).iterator();
 		while ( casesIt.hasNext() ) {
 			OJSwitchCase elem = (OJSwitchCase) casesIt.next();

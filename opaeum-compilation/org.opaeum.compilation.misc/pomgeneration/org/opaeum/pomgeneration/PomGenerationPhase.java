@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,12 +34,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.opaeum.bootstrap.BootstrapGenerationPhase;
+import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
+import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.jbpm5.FlowGenerationPhase;
@@ -391,5 +394,18 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		return parentPom;
 	}
 	public void initializeSteps(){
+	}
+	public void generateVersionedPoms(TransformationProgressLog log){
+		appendVersionSuffix(true);
+		Set<Class<? extends ITransformationStep>> emptySet = Collections.emptySet();
+		initialize(config, (List<PomGenerationStep>)features);
+		execute(new TransformationContext(emptySet,false,log));
+		execute(new TransformationContext(emptySet,true,log));
+		appendVersionSuffix(false);
+	}
+	private void appendVersionSuffix(boolean b){
+		for(PomGenerationStep f:features){
+			f.appendVersionSuffix(b);
+		}
 	}
 }

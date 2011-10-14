@@ -162,17 +162,6 @@ abstract public class OJVisibleElementGEN extends OJElement {
 		return allInstances;
 	}
 	
-	/** Returns a copy of this instance. True parts, i.e. associations marked
-			'aggregate' or 'composite', and attributes, are copied as well. References to
-			other objects, i.e. associations not marked 'aggregate' or 'composite', will not
-			be copied. The returned copy will refer to the same objects as the original (this)
-			instance.
-	 */
-	public OJElement getCopy() {
-		OJVisibleElement result = new OJVisibleElement();
-		this.copyInfoInto(result);
-		return result;
-	}
 	
 	/** Copies all attributes and associations of this instance into 'copy'.
 			True parts, i.e. associations marked 'aggregate' or 'composite', and attributes, 

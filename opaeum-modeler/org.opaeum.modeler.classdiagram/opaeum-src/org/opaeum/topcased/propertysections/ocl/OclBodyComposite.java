@@ -137,7 +137,7 @@ public abstract class OclBodyComposite extends Composite{
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		setLayout(layout);
-		viewer = new NakedOclViewer(this, new ColorManager(), SWT.MULTI | SWT.V_SCROLL | textControlStyle);
+		viewer = new NakedOclViewer(this, new ColorManager(), SWT.MULTI | textControlStyle);
 		viewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		document = new OCLDocument();
 		factory = new OpaeumOclFactory();
@@ -277,5 +277,8 @@ public abstract class OclBodyComposite extends Composite{
 	public abstract EStructuralFeature getLanguagesFeature();
 	public static boolean containsExpression(String text){
 		return text != null && text.trim().length() != 0 && !text.equals(DEFAULT_TEXT);
+	}
+	public void addVariable(String name, Classifier type){
+		factory.addVariable(name,type);
 	}
 }

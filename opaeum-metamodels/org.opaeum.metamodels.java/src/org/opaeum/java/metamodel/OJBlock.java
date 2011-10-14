@@ -2,7 +2,7 @@ package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJBlockGEN;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
@@ -72,7 +72,7 @@ public class OJBlock extends OJBlockGEN{
 			copy.addToLocals(ojField.getDeepCopy());
 		}
 	}
-	public void renameAll(Map<String,OJPathName> renamePathNames,String newName){
+	public void renameAll(Set<OJPathName> renamePathNames,String newName){
 		for(OJStatement statement:getStatements()){
 			statement.renameAll(renamePathNames, newName);
 		}

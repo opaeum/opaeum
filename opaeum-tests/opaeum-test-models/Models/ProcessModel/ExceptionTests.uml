@@ -32,11 +32,11 @@
           <eAnnotations xmi:id="_T7a6OuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="__GfwotkhEduKbsilyv7DTA" name="returnParam" direction="return">
+        <ownedParameter xmi:id="__GfwotkhEduKbsilyv7DTA" name="returnParameter" direction="return">
           <eAnnotations xmi:id="_T7cIU-BHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_A7VLUtkiEduKbsilyv7DTA" name="exception" visibility="private" direction="out" isException="true">
+        <ownedParameter xmi:id="_A7VLUtkiEduKbsilyv7DTA" name="exception" visibility="private" direction="return" isException="true">
           <eAnnotations xmi:id="_T7a6ReBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>

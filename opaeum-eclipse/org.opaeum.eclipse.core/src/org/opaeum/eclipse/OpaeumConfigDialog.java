@@ -28,6 +28,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private Text txtWorkspaceIdentifier;
 	private Text txtCompanyDomain;
 	private Button chkGeneratePoms;
+	private Button chkAutoSync;
 	private CCombo cboSourceFolderStrategy;
 	private List lstTransformationSteps;
 	private OpaeumConfig config;
@@ -62,6 +63,10 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		chkGeneratePoms = new Button(panel, SWT.CHECK);
 		chkGeneratePoms.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		chkGeneratePoms.setSelection(config.generateMavenPoms());
+		new Label(panel, 0).setText("Compile Automatically");
+		chkAutoSync = new Button(panel, SWT.CHECK);
+		chkAutoSync.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		chkAutoSync.setSelection(config.synchronizeAutomatically());
 		new Label(panel, 0).setText("Source Folder Strategy");
 		cboSourceFolderStrategy = new CCombo(panel, SWT.BORDER);
 		cboSourceFolderStrategy.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -119,6 +124,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
 		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());
+		config.setAutoSync(this.chkAutoSync.getSelection());
 		config.store();
 		super.okPressed();
 	}

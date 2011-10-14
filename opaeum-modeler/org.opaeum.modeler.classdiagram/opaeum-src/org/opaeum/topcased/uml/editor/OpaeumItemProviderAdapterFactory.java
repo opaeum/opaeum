@@ -19,21 +19,43 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Connector;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ExpansionNode;
+import org.eclipse.uml2.uml.ExpansionRegion;
+import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.OutputPin;
+import org.eclipse.uml2.uml.Pin;
+import org.eclipse.uml2.uml.Port;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.ValuePin;
 import org.eclipse.uml2.uml.edit.providers.ActivityItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ClassItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ComponentItemProvider;
+import org.eclipse.uml2.uml.edit.providers.ConnectorItemProvider;
+import org.eclipse.uml2.uml.edit.providers.ExpansionNodeItemProvider;
+import org.eclipse.uml2.uml.edit.providers.ExpansionRegionItemProvider;
+import org.eclipse.uml2.uml.edit.providers.InputPinItemProvider;
 import org.eclipse.uml2.uml.edit.providers.InterfaceItemProvider;
+import org.eclipse.uml2.uml.edit.providers.OpaqueActionItemProvider;
+import org.eclipse.uml2.uml.edit.providers.OperationItemProvider;
+import org.eclipse.uml2.uml.edit.providers.OutputPinItemProvider;
+import org.eclipse.uml2.uml.edit.providers.PortItemProvider;
+import org.eclipse.uml2.uml.edit.providers.PropertyItemProvider;
 import org.eclipse.uml2.uml.edit.providers.SignalItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateMachineItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StereotypeApplicationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.eclipse.uml2.uml.edit.providers.ValuePinItemProvider;
 import org.eclipse.uml2.uml.util.UMLUtil;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
@@ -43,9 +65,108 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 	public OpaeumItemProviderAdapterFactory(){
 	}
 	@Override
+	public Adapter createConnectorAdapter(){
+		if(connectorItemProvider == null){
+			connectorItemProvider = new ConnectorItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof Connector){
+						Connector a = (Connector) object;
+						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_CHANNEL)){
+							return "<Business Channel> " + a.getName();
+						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.DELEGATION)){
+							return "<Delegation> " + a.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return connectorItemProvider;
+	}
+	@Override
+	public Adapter createPropertyAdapter(){
+		if(propertyItemProvider == null){
+			propertyItemProvider = new PropertyItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof Property){
+						Property a = (Property) object;
+						if(StereotypesHelper.hasKeyword(a, StereotypeNames.PARTICIPANT_REFERENCE)){
+							return "<Participant Reference> " + a.getName();
+						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_ROLE_CONTAINMENT)){
+							return "<Business Role Containment> " + a.getName();
+						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.DIMENSION)){
+							return "<Dimension> " + a.getName();
+						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.FACT)){
+							return "<Fact> " + a.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return propertyItemProvider;
+	}
+	@Override
+	public Adapter createPortAdapter(){
+		if(portItemProvider == null){
+			portItemProvider = new PortItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof Port){
+						Port a = (Port) object;
+						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_GATEWAY)){
+							return "<Business Gateway> " + a.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return portItemProvider;
+	}
+	@Override
 	public Adapter createCallBehaviorActionAdapter(){
 		if(callBehaviorActionItemProvider == null){
-			callBehaviorActionItemProvider = new CustomCallBehaviorActionItemProvider(this);
+			callBehaviorActionItemProvider = new CustomCallBehaviorActionItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof CallBehaviorAction){
+						CallBehaviorAction a = (CallBehaviorAction) object;
+						if(StereotypesHelper.hasKeyword(a, StereotypeNames.CALL_BUSINES_PROCESS_ACTION)){
+							return "<Business Process Call> " + a.getName();
+						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
+							return "<Business Statemachine Call> " + a.getName();
+						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
+							return "<Screen Flow Call> " + a.getName();
+						}else{
+							return "<Method Call> " + a.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
 		}
 		return callBehaviorActionItemProvider;
 	}
@@ -69,9 +190,38 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					return super.getImage(object);
 					//					return overlayImage(object, OpaeumPlugin.getDefault().getImageRegistry().getDescriptor("Actor")); //$NON-NLS-1$
 				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
 			};
 		}
 		return activityItemProvider;
+	}
+	@Override
+	public Adapter createOpaqueActionAdapter(){
+		if(opaqueActionItemProvider == null){
+			opaqueActionItemProvider = new OpaqueActionItemProvider(this){
+				public String getText(Object object){
+					if(object instanceof OpaqueAction){
+						OpaqueAction a = (OpaqueAction) object;
+						if(StereotypesHelper.hasKeyword(a, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
+							return "<Single Screen Task> " + a.getName();
+						}else{
+							return "<Ocl Action> " + a.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return opaqueActionItemProvider;
 	}
 	@Override
 	public Adapter createClassAdapter(){
@@ -88,6 +238,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
 					Command result = super.factorRemoveCommand(domain, commandParameter);
 					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+				@Override
+				public Object getImage(Object object){
+					// TODO Auto-generated method stub
+					return super.getImage(object);
 				}
 				@Override
 				public String getText(Object object){
@@ -123,6 +278,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					}
 					return super.getText(object);
 				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
 			};
 		}
 		return interfaceItemProvider;
@@ -141,9 +301,157 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					}
 					return super.getText(object);
 				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
 			};
 		}
 		return componentItemProvider;
+	}
+	@Override
+	public Adapter createValuePinAdapter(){
+		if(valuePinItemProvider == null){
+			valuePinItemProvider = new ValuePinItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof ValuePin){
+						ValuePin c = (ValuePin) object;
+						if(StereotypesHelper.hasKeyword(c, StereotypeNames.NEW_OBJECT_INPUT)){
+							return "<New Object Input> " + c.getName();
+						}else{
+							return "<Ocl Input>" + c.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return valuePinItemProvider;
+	}
+	@Override
+	public Adapter createExpansionNodeAdapter(){
+		if (expansionNodeItemProvider == null) {
+			expansionNodeItemProvider = new ExpansionNodeItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof ExpansionNode){
+						ExpansionNode c = (ExpansionNode) object;
+						if(c.getRegionAsInput()!=null){
+							return "<Loop Input Collection>" + c.getName(); 
+						}else if(c.getRegionAsOutput()!=null){
+							return "<Loop Output Collection>" + c.getName(); 
+						}else{
+							return "<Unassigned Loop Collection>" + c.getName(); 
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		
+		return expansionNodeItemProvider;
+	}
+	@Override
+	public Adapter createExpansionRegionAdapter(){
+		if (expansionRegionItemProvider == null) {
+			expansionRegionItemProvider = new ExpansionRegionItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof ExpansionRegion){
+						ExpansionRegion c = (ExpansionRegion) object;
+						return "<ForEach Loop>" + c.getName(); 
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		
+		return expansionRegionItemProvider;
+	}
+	@Override
+	public Adapter createInputPinAdapter(){
+		if (inputPinItemProvider == null) {
+			inputPinItemProvider = new InputPinItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof InputPin){
+						Pin c = (Pin) object;
+						return "<Object Input>" + c.getName(); 
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		
+		return inputPinItemProvider;
+	}
+	@Override
+	public Adapter createOutputPinAdapter(){
+		if(outputPinItemProvider == null){
+			outputPinItemProvider = new OutputPinItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof OutputPin){
+						Pin c = (Pin) object;
+						return "<Object Output>" + c.getName(); 
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return outputPinItemProvider;
+	}
+	@Override
+	public Adapter createOperationAdapter(){
+		if(operationItemProvider == null){
+			operationItemProvider = new OperationItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof Operation){
+						Operation c = (Operation) object;
+						if(StereotypesHelper.hasKeyword(c, StereotypeNames.RESPONSIBILITY)){
+							return "<Responsibility> " + c.getName();
+						}else{
+							return "<Operation>" + c.getName();
+						}
+					}
+					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
+			};
+		}
+		return operationItemProvider;
 	}
 	@Override
 	public Adapter createStateMachineAdapter(){
@@ -160,6 +468,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 						}
 					}
 					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
 				}
 			};
 		}
@@ -181,6 +494,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					}
 					return super.getText(object);
 				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
 			};
 		}
 		return stateItemProvider;
@@ -200,6 +518,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 						}
 					}
 					return super.getText(object);
+				}
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
 				}
 			};
 		}
@@ -221,12 +544,15 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					return format(capName(eClass.getName()), ' ');
 				}
 				@Override
-				public void notifyChanged(Notification notification) {
-					boolean labelUpdate = notification.getFeature() instanceof EAttribute && ((EAttribute)notification.getFeature()).getName().equalsIgnoreCase("name");
-					fireNotifyChanged(new ViewerNotification(notification, UMLUtil
-						.getBaseElement((EObject) notification.getNotifier()), true, labelUpdate));
+				public void notifyChanged(Notification notification){
+					boolean labelUpdate = notification.getFeature() instanceof EAttribute && ((EAttribute) notification.getFeature()).getName().equalsIgnoreCase("name");
+					fireNotifyChanged(new ViewerNotification(notification, UMLUtil.getBaseElement((EObject) notification.getNotifier()), true, labelUpdate));
 				}
-
+				@Override
+				protected Command factorRemoveCommand(EditingDomain domain,CommandParameter commandParameter){
+					Command result = super.factorRemoveCommand(domain, commandParameter);
+					return factorRemovalFromAppliedStereotypes(domain, commandParameter, result);
+				}
 			};
 		}
 		return stereotypeApplicationItemProvider;
@@ -250,7 +576,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 					}
 				}
 			}
-			result=removeCommand;
+			result = removeCommand;
 		}
 		return result;
 	};

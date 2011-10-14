@@ -74,12 +74,16 @@ import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedExpansionRegion;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedScreenFlowTask;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
@@ -89,25 +93,31 @@ import org.opaeum.metamodel.workspace.OpaeumLibrary;
 	OperationAnnotator.class
 })
 public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisitor{
-	@VisitBefore
-	public void implementActivity(INakedActivity a){
-		if(a.getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD && OJUtil.hasOJClass(a.getContext()) && !a.isClassifierBehavior()
-				&& a.getOwnerElement() instanceof INakedClassifier){
-			// DO not do effects, state actions or classifier behavior - will be
-			// invoked elsewhere
-			// Does not support: implicit or explicit parallelism
-			// Does not have loopbacks
-			// Does not accept any events
-			// output pin names must be unique
-			// cannot call contractedProcesses, user responsibilities, or any process that
-			// does not return immediately
-			// Object flows: sourceAndTarget must be conformant and
-			// multilplicity must be compatible
-			// only one node should
-			OJAnnotatedClass owner = findJavaClass(a.getContext());
-			OperationMap am = new NakedOperationMap(a.getSpecification() == null ? a : a.getSpecification());
-			OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(am.javaOperName(), am.javaParamTypePaths());
-			implementActivityOn(a, oper);
+	@VisitBefore(matchSubclasses = true)
+	public void implementActivities(INakedBehavioredClassifier bc){
+		Collection<? extends INakedBehavior> ownedBehaviors = bc.getOwnedBehaviors();
+		for(INakedBehavior b:ownedBehaviors){
+			if(b instanceof INakedActivity){
+				INakedActivity a = (INakedActivity) b;
+				if(a.getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD && OJUtil.hasOJClass(a.getContext()) && !a.isClassifierBehavior()
+						&& a.getOwnerElement() instanceof INakedClassifier){
+					// DO not do effects, state actions or classifier behavior - will be
+					// invoked elsewhere
+					// Does not support: implicit or explicit parallelism
+					// Does not have loopbacks
+					// Does not accept any events
+					// output pin names must be unique
+					// cannot call contractedProcesses, user responsibilities, or any process that
+					// does not return immediately
+					// Object flows: sourceAndTarget must be conformant and
+					// multilplicity must be compatible
+					// only one node should
+					OJAnnotatedClass owner = findJavaClass(a.getContext());
+					OperationMap am = new NakedOperationMap(a.getSpecification() == null ? a : a.getSpecification());
+					OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(am.javaOperName(), am.javaParamTypePaths());
+					implementActivityOn(a, oper);
+				}
+			}
 		}
 	}
 	public void implementActivityOn(INakedActivity a,OJAnnotatedOperation oper){
@@ -125,7 +135,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			OJField field = new OJField();
 			field.setName(map.umlName());
 			field.setType(map.javaTypePath());
-			field.setInitExp(map.javaBaseDefaultValue());
+			field.setInitExp(map.javaDefaultValue());
 			body.addToLocals(field);
 			owner.addToImports(map.javaBaseTypePath());
 			owner.addToImports(map.javaDefaultTypePath());
@@ -167,10 +177,10 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 	}
 	private void implementExpansionRegion(OJAnnotatedOperation operation,OJBlock block,INakedExpansionRegion region){
 		INakedExpansionNode input = region.getInputElement().get(0);
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(region.getActivity(), input);
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(region.getActivity(), input, false);
 		List<INakedExpansionNode> output = region.getOutputElement();
 		for(INakedExpansionNode expansionNode:output){
-			NakedStructuralFeatureMap outMap = OJUtil.buildStructuralFeatureMap(region.getActivity().getContext(), expansionNode);
+			NakedStructuralFeatureMap outMap = OJUtil.buildStructuralFeatureMap(region.getActivity().getContext(), expansionNode, true);
 			OJAnnotatedField outField = new OJAnnotatedField(outMap.umlName(), outMap.javaTypePath());
 			outField.setInitExp(outMap.javaDefaultValue());
 			operation.getOwner().addToImports(outMap.javaBaseDefaultTypePath());
@@ -283,7 +293,48 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		if(pn.getDefaultOutgoing().size() == 1){
 			OJBlock nodeBlock = new OJBlock();
 			block.addToStatements(nodeBlock);
-			implementNode(operation, nodeBlock, pn.getDefaultOutgoing().iterator().next().getEffectiveTarget());
+			INakedActivityEdge out = pn.getDefaultOutgoing().iterator().next();
+			if(out instanceof INakedObjectFlow && ((INakedObjectFlow) out).getTransformation() != null){
+				generateTransformationMultiplier(operation.getOwner(), ((INakedObjectFlow) out));
+			}
+			implementNode(operation, nodeBlock, out.getEffectiveTarget());
+		}
+	}
+	public static void generateTransformationMultiplier(OJClassifier owner,INakedObjectFlow of){
+		if(of.getOriginatingObjectNode().getNakedMultiplicity().isMany() || of.getSelection() != null
+				&& of.getSelection().getReturnParameter().getNakedMultiplicity().isMany()){
+			INakedTypedElement arg = null;
+			if(of.getSelection() != null){
+				arg = of.getSelection().getReturnParameter();
+			}else{
+				arg = of.getOriginatingObjectNode();
+			}
+			if(arg.getNakedMultiplicity().isMany()){
+				NakedStructuralFeatureMap targetMap = OJUtil.buildStructuralFeatureMap(of.getActivity(), (INakedObjectNode) of.getTarget());
+				OJPathName resultTypePath = targetMap.javaTypePath();
+				if(of.getTarget() instanceof INakedExpansionNode){
+					resultTypePath = new OJPathName("java.util.Collection");
+					resultTypePath.addToElementTypes(targetMap.javaBaseTypePath());
+				}
+				OJAnnotatedOperation transformMany = new OJAnnotatedOperation(of.getTransformation().getMappingInfo().getJavaName().getAsIs(), resultTypePath);
+				owner.addToOperations(transformMany);
+				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(of.getActivity(), arg);
+				transformMany.addParam(argMap.fieldname(), argMap.javaTypePath());
+				if(of.getTarget() instanceof INakedExpansionNode){
+					transformMany.initializeResultVariable("new ArrayList<" + targetMap.javaType() + ">()");
+				}else{
+					transformMany.initializeResultVariable(targetMap.javaDefaultValue());
+				}
+				OJForStatement foreach = new OJForStatement("tmp", argMap.javaBaseTypePath(), argMap.fieldname());
+				transformMany.getBody().addToStatements(foreach);
+				if(targetMap.isOne() && !(of.getTarget() instanceof INakedExpansionNode)){
+					foreach.getBody().addToStatements("return " + of.getTransformation().getMappingInfo().getJavaName() + "(tmp)");
+				}else if(of.getTransformation().getReturnParameter().getNakedMultiplicity().isOne()){
+					foreach.getBody().addToStatements("result.add(" + of.getTransformation().getMappingInfo().getJavaName() + "(tmp))");
+				}else{
+					foreach.getBody().addToStatements("result.addAll(" + of.getTransformation().getMappingInfo().getJavaName() + "(tmp))");
+				}
+			}
 		}
 	}
 	private static INakedActivityNode getFirstNode(Collection<INakedActivityNode> startNodes){

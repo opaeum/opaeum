@@ -41,6 +41,7 @@ public class OpaeumConfig{
 	private static final String SOURCE_FOLDER_STRATEGY = "opaeum.source.folder.strategy";
 	private static final String WORKSPACE_NAME = "opaeum.workspace.name";
 	private static final String ADDITIONAL_PERSISTENT_CLASSES = "opaeum.additional.persistent.classes";
+	private static final String AUTO_SYNC = "opaeum.eclipse.autosync";
 	private static Map<String,Class<?>> classRegistry = new HashMap<String,Class<?>>();
 	private Properties props = new SortedProperties();
 	private File outputRoot;
@@ -312,6 +313,12 @@ public class OpaeumConfig{
 	public boolean shouldBeCm1Compatible(){
 		return true;
 	}
+	public void setAutoSync(Boolean b){
+		this.props.setProperty(AUTO_SYNC, b.toString());
+	}
+	public boolean synchronizeAutomatically(){
+		return "true".equals(props.getProperty(AUTO_SYNC));
+	}
 	public SqlDialect getDbDialect(){
 		if(this.sqlDialect == null){
 			this.sqlDialect = new SqlDialect(){
@@ -325,5 +332,18 @@ public class OpaeumConfig{
 	}
 	public Collection<String> getAdditionalPersistentClasses(){
 		return Arrays.asList(this.props.getProperty(ADDITIONAL_PERSISTENT_CLASSES, "com.rorotika.cm.audit.NetworkElementAuditEntry").split(";"));
+	}
+	public void setMavenGroupVersion(String version){
+		this.props.setProperty(MAVEN_GROUP_VERSION, version);
+		store();
+		
+	}
+	public String getMavenGroupVersionSuffix(){
+		return "_" + getMavenGroupVersion().replaceAll("\\.", "_").replaceAll("-SNAPSHOT", "");
+	}
+	public static boolean isValidVersionNumber(String name){
+		String REG_EXP = "[0-9]+(\\.[0-9]+){0,2}";
+		boolean matches = name.matches(REG_EXP);
+		return matches;
 	}
 }

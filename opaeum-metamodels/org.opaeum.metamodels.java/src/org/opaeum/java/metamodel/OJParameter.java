@@ -1,6 +1,6 @@
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJParameterGEN;
 
@@ -36,7 +36,7 @@ public class OJParameter extends OJParameterGEN {
 		return result.toString();
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		getType().renameAll(renamePathNames, newName);
 	}
 

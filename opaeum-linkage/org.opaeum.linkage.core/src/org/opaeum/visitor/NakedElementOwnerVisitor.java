@@ -65,14 +65,8 @@ public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElem
 	}
 	@Override
 	public void visitOnly(INakedElementOwner o){
-		INakedElementOwner parent = o;
-		while(parent instanceof INakedElement){
-			if(parent instanceof INakedRootObject){
-				setCurrentRootObject((INakedRootObject) parent);
-				break;
-			}else{
-				parent = ((INakedElement) parent).getOwnerElement();
-			}
+		if(o instanceof INakedElement){
+			setCurrentRootObject(((INakedElement) o).getRootObject());
 		}
 		super.visitOnly(o);
 	}

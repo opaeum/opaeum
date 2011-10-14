@@ -45,7 +45,7 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 				visitRecursively(((INakedEmbeddedTask) o).getMessageStructure());
 			}else if(o instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedAction) o)){
 				visitRecursively(((INakedCallAction) o).getMessageStructure());
-			}else if(o instanceof INakedStructuredActivityNode){
+			}else if(o instanceof INakedStructuredActivityNode && ((INakedStructuredActivityNode)o).getMessageStructure()!=null){
 				visitRecursively(((INakedStructuredActivityNode) o).getMessageStructure());
 			}
 		}

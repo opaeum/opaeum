@@ -22,7 +22,7 @@ public class TextDirectory extends TextOutputNode{
 	public SourceFolder getSourceFolder(){
 		return ((TextDirectory) getParent()).getSourceFolder();
 	}
-	public TextFile findOrCreateTextFile(List<String> path, boolean overwrite){
+	public TextFile findOrCreateTextFile(List<String> path,boolean overwrite){
 		TextOutputNode root = findNode(path.get(0));
 		if(path.size() == 1){
 			if(root == null){
@@ -106,5 +106,18 @@ public class TextDirectory extends TextOutputNode{
 			}
 		}
 		return false;
+	}
+	public void appendVersion(String suffix,Set<TextFile> affectedFiles){
+		for(TextOutputNode child:getChildren()){
+			if(child instanceof TextDirectory){
+				((TextDirectory) child).appendVersion(suffix, affectedFiles);
+			}else if(child instanceof TextFile){
+				TextFile tf = (TextFile) child;
+				if(tf.isVersionDependent()){
+					tf.appendVersion(suffix);
+					affectedFiles.add(tf);
+				}
+			}
+		}
 	}
 }

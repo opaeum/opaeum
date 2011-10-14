@@ -2,7 +2,6 @@ package org.opaeum.java.metamodel.annotation;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJPackage;
@@ -91,7 +90,7 @@ public class OJAnnotatedInterface extends OJAnnotatedClass {
 		}
 	}
 
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		super.renameAll(renamePathNames, newName);
 		Set<OJPathName> superInterfaces = getSuperInterfaces();
 		for (OJPathName ojPathName : superInterfaces) {

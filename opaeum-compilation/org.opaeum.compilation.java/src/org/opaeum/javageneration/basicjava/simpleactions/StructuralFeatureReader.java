@@ -18,7 +18,7 @@ public class StructuralFeatureReader extends SimpleNodeBuilder<INakedReadStructu
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		INakedOutputPin result = node.getResult();
-		NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(result.getActivity(), result);
+		NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(result.getActivity(), result,true);
 		expressor.buildResultVariable(operation, block, resultMap);
 		ActionMap actionMap = new ActionMap(node);
 		OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);

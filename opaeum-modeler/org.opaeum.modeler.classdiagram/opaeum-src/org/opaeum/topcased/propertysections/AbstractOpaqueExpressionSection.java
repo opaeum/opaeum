@@ -77,13 +77,15 @@ public abstract class AbstractOpaqueExpressionSection extends AbstractTabbedProp
 		FormData labelFd = new FormData();
 		labelFd.left = new FormAttachment(0, 0);
 		this.label.setLayoutData(labelFd);
-		FormData fd = new FormData(400, 400);
+		FormData fd = new FormData(400, getOclCompositeHeight());
 		fd.right = new FormAttachment(100, 0);
 		fd.left = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{
 			getLabelText()
 		}));
-		fd.height = 50;
 		this.oclComposite.setLayoutData(fd);
+	}
+	public int getOclCompositeHeight(){
+		return 30;
 	}
 	public void refresh(){
 		super.refresh();

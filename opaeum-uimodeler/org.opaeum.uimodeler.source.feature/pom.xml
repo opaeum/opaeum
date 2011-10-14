@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
-	<artifactId>org.opaeum.uim.source.feature</artifactId>
+	<artifactId>org.opaeum.uimodeler.source.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 	<name>Opaeum UIModeler Source Feature</name>
 	<version>1.0.0-SNAPSHOT</version>

@@ -4,8 +4,6 @@ import java.awt.Desktop.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelection;
@@ -31,6 +29,7 @@ import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.LibraryImporter;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropertySection{

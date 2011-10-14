@@ -4,8 +4,6 @@ import java.awt.Desktop.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -27,6 +25,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public class AcceptDeadlineDeadlineSection extends AbstractTabbedPropertySection{

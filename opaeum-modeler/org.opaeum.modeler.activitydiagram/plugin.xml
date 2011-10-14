@@ -226,6 +226,22 @@
 			</propertySection>
 			<propertySection
          			afterSection="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
+         			class="org.opaeum.topcased.activitydiagram.propertysections.ObjectFlowSelectionSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.ObjectFlowSelectionSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
+      			<input type="org.eclipse.uml2.uml.ObjectFlow">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.opaeum.topcased.activitydiagram.propertysections.ObjectFlowSelectionSection"
+         			class="org.opaeum.topcased.activitydiagram.propertysections.ObjectFlowTransformationSection"
+         			id="org.opaeum.topcased.activitydiagram.propertysections.ObjectFlowTransformationSection"
+         			tab="org.opaeum.eclipse.opaeumTab">
+      			<input type="org.eclipse.uml2.uml.ObjectFlow">
+      			</input>
+			</propertySection>
+			<propertySection
+         			afterSection="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeGuardSection"
          			class="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
          			id="org.opaeum.topcased.activitydiagram.propertysections.ActivityEdgeWeightSection"
          			tab="org.opaeum.eclipse.opaeumTab">

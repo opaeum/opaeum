@@ -10,15 +10,21 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Display;
@@ -55,8 +61,9 @@ import org.opaeum.validation.namegeneration.JavaNameRegenerator;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @SuppressWarnings("restriction")
-public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
+public final class EmfToNakedUmlSynchronizer{
 	private static ScheduledThreadPoolExecutor threadPool = new ScheduledThreadPoolExecutor(1);
+	private OpaeumContentAdaptor contentAdaptor = new OpaeumContentAdaptor();
 	protected TransformationProcess transformationProcess;
 	protected OpaeumConfig cfg;
 	protected Set<EObject> emfChanges = Collections.synchronizedSet(new HashSet<EObject>());
@@ -67,14 +74,20 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 	protected Set<UMLResource> resourcesBeingLoaded = new HashSet<UMLResource>();
 	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
 	boolean suspended = false;
-	private Set<NakedUmlSynchronizationListener> synchronizationListener = new HashSet<NakedUmlSynchronizationListener>();
-	NakedUmlElementLinker linker = new NakedUmlElementLinker();
+	private Set<OpaeumContextSynchronizationListener> synchronizationListener = new HashSet<OpaeumContextSynchronizationListener>();
+	OpaeumElementLinker linker = new OpaeumElementLinker();
 	public EmfToNakedUmlSynchronizer(OpaeumConfig cfg){
 		this.resourceHelper = new EclipseUriToFileConverter();
 		this.cfg = cfg;
 		reinitializeProcess();
 	}
-	public void addSynchronizationListener(NakedUmlSynchronizationListener l){
+	public void addEmfChange(URI uri){
+		EObject eObject = currentEmfWorkspace.getResourceSet().getEObject(uri, true);
+		synchronized(emfChanges){
+			emfChanges.add(eObject);
+		}
+	}
+	public void addSynchronizationListener(OpaeumContextSynchronizationListener l){
 		this.synchronizationListener.add(l);
 	}
 	public void suspend(){
@@ -149,10 +162,12 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		INakedModelWorkspace nws = getNakedWorkspace();
 		nws.clearGeneratingModelOrProfiles();
 		for(Package package1:e.getPrimaryModels()){
-			nws.addPrimaryModel((INakedRootObject) nws.getModelElement(e.getId(package1)));
+			INakedRootObject modelElement = (INakedRootObject) nws.getModelElement(e.getId(package1));
+			nws.addPrimaryModel(modelElement);
 		}
 		for(Package g:e.getGeneratingModelsOrProfiles()){
-			nws.addGeneratingRootObject((INakedRootObject) nws.getModelElement(e.getId(g)));
+			INakedRootObject modelElement = (INakedRootObject) nws.getModelElement(e.getId(g));
+			nws.addGeneratingRootObject(modelElement);
 		}
 		this.currentEmfWorkspace = e;
 	}
@@ -161,6 +176,12 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 	}
 	public UriToFileConverter getResourceHelper(){
 		return resourceHelper;
+	}
+	public void registerTo(ResourceSet rst){
+		rst.eAdapters().add(contentAdaptor);
+	}
+	public void deregister(ResourceSet rst){
+		rst.eAdapters().remove(contentAdaptor);
 	}
 	public void reinitializeProcess(){
 		this.transformationProcess = new TransformationProcess();
@@ -181,8 +202,7 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 	}
 	@SuppressWarnings("unchecked")
 	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
-		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(StereotypeApplicationExtractor.class,
-				JavaNameRegenerator.class, PersistentNameGenerator.class));
+		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(StereotypeApplicationExtractor.class));
 		Set<Class<? extends AbstractModelElementLinker>> allSteps = LinkagePhase.getAllSteps();
 		// TODO ignore linkage steps as they will be included from Javatransformations
 		allSteps.remove(SourcePopulationResolver.class);
@@ -203,65 +223,67 @@ public final class EmfToNakedUmlSynchronizer extends EContentAdapter{
 		}
 		return result;
 	}
-	@Override
-	public void notifyChanged(final Notification notification){
-		if(!suspended && resourcesBeingLoaded.isEmpty()){
-			linker.notifyChanged(notification);
-		}
-		if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY || notification.getEventType() == Notification.SET){
-			final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
-					&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
-			if(!annotationCreated){
-				if(notification.getNotifier() instanceof UMLResource){
-					manageResourceEvent(notification);
-				}else if(!resourcesBeingLoaded.isEmpty()){
-					if(notification.getNewValue() instanceof EObject){
-						EObject newValue = (EObject) notification.getNewValue();
-						if(newValue.eIsProxy()){
-							EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
-							// broken references
+	public class OpaeumContentAdaptor extends EContentAdapter{
+		@Override
+		public void notifyChanged(final Notification notification){
+			if(!suspended && resourcesBeingLoaded.isEmpty()){
+				linker.notifyChanged(notification);
+			}
+			if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY || notification.getEventType() == Notification.SET){
+				final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
+						&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
+				if(!annotationCreated){
+					if(notification.getNotifier() instanceof UMLResource){
+						manageResourceEvent(notification);
+					}else if(!resourcesBeingLoaded.isEmpty()){
+						if(notification.getNewValue() instanceof EObject){
+							EObject newValue = (EObject) notification.getNewValue();
+							if(newValue.eIsProxy()){
+								EcoreUtil.resolve(newValue, currentEmfWorkspace.getResourceSet());
+								// broken references
+							}
 						}
-					}
-				}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
-					DynamicEObjectImpl sa = (DynamicEObjectImpl) notification.getNotifier();
-					for(EReference eReference:sa.eClass().getEReferences()){
-						if(eReference.getEType().eContainer() instanceof UMLPackage){
-							// Reference to UML element - check if it is a stereotype for this one
-							Object e = sa.eGet(eReference);
-							if(e instanceof Element && ((Element) e).getStereotypeApplications().contains(sa)){
-								scheduleSynchronization((Element) e);
+					}else if(notification.getNotifier() instanceof DynamicEObjectImpl){
+						DynamicEObjectImpl sa = (DynamicEObjectImpl) notification.getNotifier();
+						for(EReference eReference:sa.eClass().getEReferences()){
+							if(eReference.getEType().eContainer() instanceof UMLPackage){
+								// Reference to UML element - check if it is a stereotype for this one
+								Object e = sa.eGet(eReference);
+								if(e instanceof Element && ((Element) e).getStereotypeApplications().contains(sa)){
+									scheduleSynchronization((Element) e);
+								}
+							}
+						}
+					}else{
+						if(notification.getNotifier() instanceof Element){
+							EObject o = null;
+							if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
+									&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
+								// new object
+								o = (EObject) notification.getNewValue();
+								scheduleSynchronization(o);
+							}
+							if(notification.getNotifier() instanceof EObject){
+								o = (EObject) notification.getNotifier();
+								scheduleSynchronization(o);
 							}
 						}
 					}
-				}else{
-					if(notification.getNotifier() instanceof Element){
-						EObject o = null;
-						if(notification.getEventType() == Notification.ADD && notification.getFeature() instanceof EReference
-								&& ((EReference) notification.getFeature()).isContainment() && notification.getNewValue() instanceof Element){
-							// new object
-							o = (EObject) notification.getNewValue();
-							scheduleSynchronization(o);
-						}
-						if(notification.getNotifier() instanceof EObject){
-							o = (EObject) notification.getNotifier();
-							scheduleSynchronization(o);
-						}
-					}
+				}
+			}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
+				if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
+						&& notification.getOldValue() instanceof Element){
+					// Deletion
+					final Element oldValue = (Element) notification.getOldValue();
+					final Resource eResource = ((EObject) notification.getNotifier()).eResource();
+					storeTempId(oldValue, eResource);
+					scheduleSynchronization(oldValue);
+				}else if(notification.getNotifier() instanceof EObject){
+					scheduleSynchronization((EObject) notification.getNotifier());
 				}
 			}
-		}else if(notification.getEventType() == Notification.REMOVE || notification.getEventType() == Notification.REMOVE_MANY){
-			if(notification.getFeature() instanceof EReference && ((EReference) notification.getFeature()).isContainment()
-					&& notification.getOldValue() instanceof Element){
-				// Deletion
-				final Element oldValue = (Element) notification.getOldValue();
-				final Resource eResource = ((EObject) notification.getNotifier()).eResource();
-				storeTempId(oldValue, eResource);
-				scheduleSynchronization(oldValue);
-			}else if(notification.getNotifier() instanceof EObject){
-				scheduleSynchronization((EObject) notification.getNotifier());
-			}
+			super.notifyChanged(notification);
 		}
-		super.notifyChanged(notification);
 	}
 	private void storeTempId(final Element ne,final Resource eResource){
 		final StringBuilder uriFragment = new StringBuilder();

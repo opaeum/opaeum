@@ -15,7 +15,6 @@ import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
@@ -50,7 +49,6 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 					if(!(monitor.isCanceled())){
 						p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					}
-					EmfWorkspace emfWorkspace = p.findModel(EmfWorkspace.class);
 					monitor.subTask("Generating text files");
 					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 400), p, currentContext, true);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

@@ -14,10 +14,8 @@ public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAct
 		super(oclEngine, action, expressor);
 	}
 	protected void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap){
-		if(node.getBehavior().isProcess() && !node.isSynchronous()){
+		if(node.getBehavior().isProcess()){
 			block.addToStatements(resultMap.umlName() + ".execute()");
-		}else{
-			//JBPM will start the process
 		}
 	}
 	protected NakedStructuralFeatureMap getResultMap(){

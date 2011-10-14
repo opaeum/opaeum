@@ -6,8 +6,11 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
+import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
@@ -40,7 +43,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 		}else{
 			INakedObjectFlow edge = (INakedObjectFlow) pin.getIncoming().iterator().next();
 			INakedObjectNode feedingNode = pin.getFeedingNode();
-			NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(feedingNode.getActivity(), feedingNode, true);
+			NakedStructuralFeatureMap feedingMap = OJUtil.buildStructuralFeatureMap(feedingNode.getActivity(), feedingNode, shouldEnsureUniquenes(feedingNode));
 			String call = feedingMap.getter() + "()";
 			return surroundWithSelectionAndTransformation(call, edge);
 		}
@@ -55,8 +58,12 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	@Override
 	public String expressFeedingNodeForObjectFlowGuard(OJBlock block,INakedObjectFlow flow){
 		INakedObjectNode feedingNode = (INakedObjectNode) flow.getOriginatingObjectNode();
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode);
-		String call = map.getter();// ParameterNode or top level output
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(flow.getActivity(), feedingNode,shouldEnsureUniquenes(feedingNode));
+		String call = map.getter() + "()";
 		return surroundWithSelectionAndTransformation(call, flow);
+	}
+	@Override
+	public String clear(NakedStructuralFeatureMap map){
+		return map.clearer() +"()";
 	}
 }

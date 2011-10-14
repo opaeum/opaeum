@@ -48,7 +48,12 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 })
 public class OperationAnnotator extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
-	public void visitBehavior(INakedBehavior o){
+	public void visitBehaviors(INakedBehavior o){
+		if(o.getContext() == null){
+			processBehavior(o);
+		}
+	}
+	private void processBehavior(INakedBehavior o){
 		if(OJUtil.hasOJClass(o.getContext()) && !o.isClassifierBehavior() && o.getOwnerElement() instanceof INakedClassifier){
 			// DO not do effects, state actions or classifier behavior - will be
 			// invoked elsewhere
@@ -103,6 +108,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					findOrCreateJavaReception(ojClass, map);
 					findOrCreateSignalEventConsumer(nbc, ojClass, map);
 					findOrCreateEventGenerator(nbc, ojClass, map);
+				}
+				for(INakedBehavior b:nbc.getOwnedBehaviors()){
+					processBehavior(b);
 				}
 			}
 		}
@@ -196,10 +204,12 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					if(withReturnInfo){
 						oper.getBody().addToStatements("result.setReturnInfo(context)");
 					}
-					OJSimpleStatement executeStatement = new OJSimpleStatement("result.execute()");
-					final String EXECUTE_STATEMENT = "executeStatement";
-					executeStatement.setName(EXECUTE_STATEMENT);
-					oper.getBody().addToStatements(executeStatement);
+					if(o.isLongRunning()){
+						OJSimpleStatement executeStatement = new OJSimpleStatement("result.execute()");
+						final String EXECUTE_STATEMENT = "executeStatement";
+						executeStatement.setName(EXECUTE_STATEMENT);
+						oper.getBody().addToStatements(executeStatement);
+					}
 					if(o instanceof INakedOperation && !((INakedOperation) o).isQuery()){
 						oper.getBody().addToStatements(map.eventGeratorMethodName() + "(" + delegateParameters(oper) + ")");
 					}

@@ -8,15 +8,17 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedAddVariableValueAction;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public class VariableValueAdder extends SimpleNodeBuilder<INakedAddVariableValueAction> {
-	public VariableValueAdder(OpaeumLibrary oclEngine, INakedAddVariableValueAction action, AbstractObjectNodeExpressor expressor) {
+public class VariableValueAdder extends SimpleNodeBuilder<INakedAddVariableValueAction>{
+	public VariableValueAdder(OpaeumLibrary oclEngine,INakedAddVariableValueAction action,AbstractObjectNodeExpressor expressor){
 		super(oclEngine, action, expressor);
 	}
-
 	@Override
-	public void implementActionOn(OJAnnotatedOperation oper, OJBlock block) {
+	public void implementActionOn(OJAnnotatedOperation oper,OJBlock block){
 		String valuePinField = readPin(oper, block, node.getValue());
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getContext(), node.getVariable());
-		block.addToStatements(expressor.storeResults(map, valuePinField, map.isMany()));
+		if(node.isReplaceAll() && map.isMany()){
+			block.addToStatements(expressor.clear(map));
+		}
+		block.addToStatements(expressor.storeResults(map, valuePinField, node.getValue().getNakedMultiplicity().isMany()));
 	}
 }

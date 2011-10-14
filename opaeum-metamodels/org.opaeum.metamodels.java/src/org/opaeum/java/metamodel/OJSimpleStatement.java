@@ -1,6 +1,6 @@
 package org.opaeum.java.metamodel;
 
-import java.util.Map;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJSimpleStatementGEN;
 
@@ -47,23 +47,8 @@ public class OJSimpleStatement extends OJSimpleStatementGEN {
 		copy.setExpression(this.getExpression());
 	}	
 	
-	public void renameAll(Map<String, OJPathName> renamePathNames, String newName) {
-		for(OJPathName pathName:renamePathNames.values()) {
-			if(getExpression().contains("<"+pathName.getLast()+">")) {
-				setExpression(getExpression().replace("<"+pathName.getLast()+">", "<"+pathName.getLast()+newName+">"));
-			}
-			//Admin newInstance= new Admin()
-			if(getExpression().startsWith(pathName.getLast()+" ")) {
-				setExpression(getExpression().replace(pathName.getLast()+" ", pathName.getLast()+newName+" "));
-			}
-			if(getExpression().contains(" "+pathName.getLast()+"()")) {
-				setExpression(getExpression().replace(" "+pathName.getLast()+"()", " "+pathName.getLast()+newName+"()"));
-			}
-			//copyState((Group)this,result);
-			if(getExpression().contains("("+pathName.getLast()+")")) {
-				setExpression(getExpression().replace("("+pathName.getLast()+")", "("+pathName.getLast()+newName+")"));
-			}
-		}
+	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
+		setExpression(replaceAll(getExpression(), renamePathNames, newName));
 	}	
 /*********************************************************************
  * The getters and setters

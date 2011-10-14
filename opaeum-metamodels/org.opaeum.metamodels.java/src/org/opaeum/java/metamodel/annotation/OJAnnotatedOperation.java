@@ -1,7 +1,6 @@
 package org.opaeum.java.metamodel.annotation;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJInterface;
@@ -102,10 +101,13 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		}
 		return result.toString();
 	}
-	public void renameAll(Map<String,OJPathName> renamePathNames,String newName){
-		super.renameAll(renamePathNames, newName);
+	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
+		super.renameAll(renamePathNames, suffix);
 		for(OJAnnotationValue annotation:getAnnotations()){
-			annotation.renameAll(renamePathNames, newName);
+			annotation.renameAll(renamePathNames, suffix);
+		}
+		if(resultVariable!=null){
+			resultVariable.renameAll(renamePathNames, suffix);
 		}
 	}
 	public OJOperation getDeepCopy(){

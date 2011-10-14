@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 

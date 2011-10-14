@@ -1,8 +1,5 @@
 package org.opaeum.topcased.activitydiagram;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.uml2.uml.Activity;
@@ -10,6 +7,8 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.extensions.ICreationDiagram;
 import org.topcased.modeler.uml.activitydiagram.commands.update.CreateActivityParametersCommand;
 

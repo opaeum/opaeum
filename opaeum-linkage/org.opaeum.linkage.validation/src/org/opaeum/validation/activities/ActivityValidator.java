@@ -20,6 +20,7 @@ import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.validation.AbstractValidator;
@@ -59,7 +60,7 @@ public class ActivityValidator extends AbstractValidator{
 		if(e instanceof INakedObjectFlow){
 			INakedObjectFlow of = (INakedObjectFlow) e;
 			INakedObjectNode target = null;
-			INakedObjectNode source=null;
+			INakedObjectNode source = null;
 			if(of.getTarget() instanceof INakedObjectNode){
 				target = (INakedObjectNode) of.getTarget();
 				source = target.getFeedingNode();
@@ -72,8 +73,72 @@ public class ActivityValidator extends AbstractValidator{
 					if(!target.getNakedBaseType().conformsTo(source.getNakedBaseType())){
 						getErrorMap().putError(e, ActivityValidationRule.OBJECT_NODE_TYPES_MUST_MATCH, source, target);
 					}
-				}else{
-					// TODO check for output/input match
+					if(of.getSelection() == null){
+						if(!source.canDeliverOutputTo(target)){
+							getErrorMap().putError(e, ActivityValidationRule.SOURCE_AND_TARGET_MULTIPLICTY_MUST_CORRESPOND, source, target);
+						}
+					}else{
+						INakedParameter returnParam = of.getSelection().getReturnParameter();
+						if(returnParam == null || of.getSelection().getArgumentParameters().size() != 1){
+							getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
+						}else{
+							if(!returnParam.getNakedBaseType().conformsTo(target.getNakedBaseType())){
+								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam, of.getSelection(), target);
+							}else{
+								INakedParameter arg1 = of.getSelection().getArgumentParameters().get(0);
+								if(!arg1.getNakedBaseType().conformsTo(source.getNakedBaseType())){
+									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE,
+											of.getSelection().getArgumentParameters().get(0), of.getSelection(), source);
+								}else if(!source.canDeliverOutputTo(arg1)){
+									getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_SOURCE_MULTIPLICITY,
+											of.getSelection().getArgumentParameters().get(0), of.getSelection(), source);
+								}else if(!target.canAcceptInputFrom(returnParam)){
+									getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY,
+											returnParam, of.getSelection(), target);
+								}else if(source.getNakedMultiplicity().getUpper() == 1 || source.getNakedMultiplicity().getUpper() == 0){
+									getErrorMap().putError(e, ActivityValidationRule.SELECTION_BEHAVIOR_ASSUMES_MULTIPLE_SOURCE_VALUES, source, of.getSelection());
+								}
+							}
+						}
+					}
+				}else if(of.getTransformation().getReturnParameter() == null || of.getTransformation().getArgumentParameters().size() != 1){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getTransformation());
+				}else if(!of.getTransformation().getReturnParameter().getNakedBaseType().conformsTo(target.getNakedBaseType())){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, of.getTransformation().getReturnParameter(),
+							of.getTransformation(), target);
+				}else if(!of.getTransformation().getArgumentParameters().get(0).getNakedBaseType().conformsTo(source.getNakedBaseType())){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
+				}else if(!target.canAcceptInputFrom(of.getTransformation().getReturnParameter())){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY,
+							of.getTransformation().getReturnParameter(), of.getTransformation(), target);
+				}else if(of.getTransformation().getArgumentParameters().get(0).getNakedMultiplicity().getUpper() != 1){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_ARGUMENT_MULTIPLICITY_MUST_BE_ONE,
+							of.getTransformation().getArgumentParameters().get(0), of.getTransformation());
+				}else if(!of.getTransformation().getArgumentParameters().get(0).getNakedBaseType().conformsTo(source.getNakedBaseType())){
+					getErrorMap().putError(e, ActivityValidationRule.TRANSFORMATION_INPUT_MUST_CONFORM_TO_SOURCE_TYPE, source, target);
+				}else if(of.getSelection() != null){
+					INakedParameter returnParam = of.getSelection().getReturnParameter();
+					if(returnParam == null || of.getSelection().getArgumentParameters().size() != 1){
+						getErrorMap().putError(e, ActivityValidationRule.SELECTION_REQUIRES_EXACTLY_ONE_IN_ONE_OUT, of.getSelection());
+					}else{
+						if(!returnParam.getNakedBaseType().conformsTo(of.getTransformation().getReturnParameter().getNakedBaseType())){
+							getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MUST_CONFORM_TO_TARGET_TYPE, returnParam, of.getSelection(), target);
+						}else{
+							INakedParameter input = of.getSelection().getArgumentParameters().get(0);
+							if(!input.getNakedBaseType().conformsTo(of.getTransformation().getReturnParameter().getNakedBaseType())){
+								getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MUST_CONFORM_TO_TRANSFORMATION_RESULT_TYPE,
+										of.getSelection().getArgumentParameters().get(0), of.getSelection(), of.getTransformation().getReturnParameter(),
+										of.getTransformation());
+							}else if(!of.getTransformation().getReturnParameter().fitsInTo(input)){
+								getErrorMap().putError(e, ActivityValidationRule.SELECTION_INPUT_MULTIPLICITY_MUST_CORRESPOND_WITH_TRANSFORMATION_RESULT_MULTIPLICITY,
+										of.getSelection().getArgumentParameters().get(0), of.getSelection(), of.getTransformation().getReturnParameter(),
+										of.getTransformation());
+							}else if(!target.canAcceptInputFrom(returnParam)){
+								getErrorMap().putError(e, ActivityValidationRule.SELECTION_RESULT_MULTIPLICITY_MUST_CORRESPOND_WITH_TO_TARGET_MULTIPLICITY, returnParam,
+										of.getSelection(), target);
+							}
+						}
+					}
 				}
 			}
 		}

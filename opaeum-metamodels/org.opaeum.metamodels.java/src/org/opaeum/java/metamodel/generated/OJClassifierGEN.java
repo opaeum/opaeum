@@ -95,7 +95,11 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 	/** Implements the user defined operation '+ getPathName() : OJPathName'
 	 */
 	public OJPathName getPathName() {
-		return this.getMyPackage().getPathName().append(this.getName());
+		OJPackage myPackage = this.getMyPackage();
+		if(myPackage==null){
+			System.out.println();
+		}
+		return myPackage.getPathName().append(this.getName());
 	}
 	
 	/** Implements the getter for feature '+ uniqueNumber : Integer'
@@ -453,18 +457,6 @@ abstract public class OJClassifierGEN extends OJVisibleElement {
 			throw new RuntimeException("allInstances is not implemented for ((OJClassifier)this) class. Set usesAllInstances to true, if you want allInstances() implemented.");
 		}
 		return allInstances;
-	}
-	
-	/** Returns a copy of this instance. True parts, i.e. associations marked
-			'aggregate' or 'composite', and attributes, are copied as well. References to
-			other objects, i.e. associations not marked 'aggregate' or 'composite', will not
-			be copied. The returned copy will refer to the same objects as the original (this)
-			instance.
-	 */
-	public OJElement getCopy() {
-		OJClassifier result = new OJClassifier();
-		this.copyInfoInto(result);
-		return result;
 	}
 	
 	/** Copies all attributes and associations of this instance into 'copy'.

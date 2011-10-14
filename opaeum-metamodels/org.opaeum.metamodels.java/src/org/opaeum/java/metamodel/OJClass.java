@@ -1,7 +1,9 @@
 package org.opaeum.java.metamodel;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJClassGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
@@ -168,5 +170,36 @@ public class OJClass extends OJClassGEN {
 	 */
 	public OJField findField(String name) {
 		return f_fields.get(name);
+	}
+
+	@Override
+	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
+		super.renameAll(renamePathNames,suffix);
+		Collection<OJConstructor> constructors = getConstructors();
+		for(OJConstructor ojConstructor:constructors){
+			ojConstructor.renameAll(renamePathNames, suffix);
+		}
+		// This is a jipo to make sure imports are correct.
+		// renaming OJForStatement does not seem to add the renamed paths to the
+		// imports
+		Collection<OJPathName> newImports = new HashSet<OJPathName>();
+		Collection<OJPathName> imports = getImports();
+		for(OJPathName ojPathName:imports){
+			OJPathName newImport = ojPathName.getDeepCopy();
+			newImport.renameAll(renamePathNames, suffix);
+			newImports.add(newImport);
+		}
+		addToImports(newImports);
+		if(getSuperclass() != null){
+			getSuperclass().renameAll(renamePathNames, suffix);
+		}
+		Collection<OJPathName> implementedInterfaces = getImplementedInterfaces();
+		for(OJPathName ojPathName:implementedInterfaces){
+			ojPathName.renameAll(renamePathNames, suffix);
+		}
+		Collection<OJField> fields = getFields();
+		for(OJField ojField:fields){
+			ojField.renameAll(renamePathNames, suffix);
+		}
 	}
 }

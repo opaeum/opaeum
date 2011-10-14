@@ -1,8 +1,5 @@
 package org.opaeum.topcased.activitydiagram.bpm;
 
-import org.opaeum.emf.extraction.StereotypesHelper;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.uml2.uml.Activity;
@@ -11,6 +8,8 @@ import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.opaeum.emf.extraction.StereotypesHelper;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.extensions.ICreationDiagram;
 
 public class CreateBusinessProcessDiagramAction extends Command implements ICreationDiagram{

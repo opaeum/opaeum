@@ -15,7 +15,6 @@ import org.opaeum.uim.form.ClassForm;
 import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
@@ -27,7 +26,7 @@ import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
  *
  * @generated
  */
-public class NavigationToEntityToFormSection extends AbstractChooserPropertySection{
+public class NavigationToEntityToFormSection extends OpaeumChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -49,7 +48,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
@@ -58,7 +57,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
 	protected Object[] getComboFeatureValues(){
@@ -81,7 +80,7 @@ public class NavigationToEntityToFormSection extends AbstractChooserPropertySect
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
 	protected ILabelProvider getLabelProvider(){

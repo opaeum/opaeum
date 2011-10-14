@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
+import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.components.INakedConnectorEnd;
@@ -30,11 +31,13 @@ public class TypedElementPropertyBridge extends AbstractPropertyBridge implement
 	public TypedElementPropertyBridge(INakedClassifier owner,INakedTypedElement parameter){
 		super(owner, parameter);
 		this.parameter = parameter;
+		ensureLocallyUniqueName=false;
 	}
 	public TypedElementPropertyBridge(INakedClassifier owner,INakedObjectNode pin,boolean ensureLocallyUniqueName,boolean isDerived){
 		super(owner, pin);
 		this.parameter = pin;
 		this.ensureLocallyUniqueName = ensureLocallyUniqueName;
+		
 	}
 	public boolean shouldEnsureLocallyUniqueName(){
 		return this.ensureLocallyUniqueName;
@@ -56,7 +59,7 @@ public class TypedElementPropertyBridge extends AbstractPropertyBridge implement
 	}
 	@Override
 	public String getName(){
-		if(parameter instanceof INakedPin && ensureLocallyUniqueName){
+		if((parameter instanceof INakedPin || parameter instanceof INakedExpansionNode) && ensureLocallyUniqueName){
 			return locallyUniqueName((INakedObjectNode) parameter);
 		}
 		return super.getName();

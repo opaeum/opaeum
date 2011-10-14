@@ -33,7 +33,7 @@ public class Jbpm5Util{
 	public static OJPathName getNodeInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.impl.NodeInstanceImpl");
 	}
-	public static String generateProcessName(IParameterOwner parameterOwner){
+	public static String generateProcessName(INakedElement parameterOwner){
 		return parameterOwner.getOwnerElement().getMappingInfo().getPersistentName() + "_" + parameterOwner.getMappingInfo().getPersistentName();
 	}
 	public static String getArtificialJoinName(INakedElement target){

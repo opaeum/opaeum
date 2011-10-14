@@ -5,6 +5,7 @@ import java.util.List;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.ActivityKind;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
@@ -71,7 +72,6 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		if(cp instanceof INakedAssociation){
 			// do nothing
 		}else{
-			
 			cp.removeObsoleteArtificialProperties();
 			INakedProperty endToComposite = cp.getEndToComposite();
 			if(endToComposite == null && !cp.getIsAbstract()){
@@ -158,10 +158,12 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitStructuredActivityNode(INakedStructuredActivityNode o){
-		if(o.getMessageStructure()==null){
-			o.initMessageStructure();
+		if(o.getActivity().getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+			if(o.getMessageStructure() == null){
+				o.initMessageStructure();
+			}
+			setEndToComposite(o.getMessageStructure());
 		}
-		setEndToComposite(o.getMessageStructure());
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEmbeddedTask(INakedEmbeddedTask o){

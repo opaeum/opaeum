@@ -2,6 +2,7 @@ package org.opaeum.validation.commonbehavior;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.linkage.BehaviorValidationRule;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import org.opaeum.validation.AbstractValidator;

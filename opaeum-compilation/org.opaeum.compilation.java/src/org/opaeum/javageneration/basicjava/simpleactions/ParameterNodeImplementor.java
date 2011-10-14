@@ -21,10 +21,18 @@ public class ParameterNodeImplementor extends SimpleNodeBuilder<INakedParameterN
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation, OJBlock block) {
 		if (!node.getParameter().getDirection().equals(ParameterDirectionKind.IN) && node.getIncoming().size() > 0) {
-			NakedStructuralFeatureMap resultMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), node);
+			if(node.getName().equals("returnParam")){
+				System.out.println();
+			}
 			// consume input token where necessary
 			String call = super.expressor.expressInputPinOrOutParamOrExpansionNode(block, node);
 			if (node.getParameter().isResult()) {
+				NakedStructuralFeatureMap resultMap;
+				if(node.getParameter().getLinkedParameter()==null){
+					resultMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), node.getParameter());
+				}else{
+					resultMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), node.getParameter().getLinkedParameter());
+				}
 				if (node.getParameter().isException()) {
 					// TODO JBPM exception handling
 					// oper.getBody().addToStatements("processInstance.getRootToken().end()");
@@ -38,7 +46,7 @@ public class ParameterNodeImplementor extends SimpleNodeBuilder<INakedParameterN
 							"throw new ExceptionHolder(this,\"" + node.getParameter().getName() + "\"," + call + ")");
 				} else {
 					if (node.getActivity().getActivityKind() == ActivityKind.SIMPLE_SYNCHRONOUS_METHOD) {
-						block.addToStatements("return " + call);
+						block.addToStatements("result= " + call);
 					} else {
 						block.addToStatements(resultMap.setter() + "(" + call + ")");
 					}

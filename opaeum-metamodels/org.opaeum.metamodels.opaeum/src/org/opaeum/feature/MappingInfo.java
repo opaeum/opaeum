@@ -16,6 +16,7 @@ public class MappingInfo{
 	// TODO simplify
 	private boolean isNewInVersion = false;
 	private boolean isNewInRevision = false;
+	private boolean isVersioned=true;
 	private boolean requiresSqlRename = false;
 	private boolean shouldStore;
 	private String qualifiedJavaName;
@@ -225,5 +226,11 @@ public class MappingInfo{
 	}
 	protected MappingInfo createCopy(){
 		return new MappingInfo(idInModel, toString());
+	}
+	public boolean isVersioned(){
+		return isVersioned;
+	}
+	public void setVersioned(boolean isVersioned){
+		this.isVersioned = isVersioned;
 	}
 }

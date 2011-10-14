@@ -16,6 +16,7 @@ import org.opaeum.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
@@ -29,6 +30,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 	static public final String META_CLASS = "stateMachine";
 	private StateMachineKind stateMachineKind;
 	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
+	private List<INakedProperty> emulatedAttributes;
 	public NakedStateMachineImpl(){
 		super();
 	}
@@ -36,11 +38,23 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 	protected List<IAttribute> getAllAttributesForOcl(boolean classScope){
 		List<IAttribute> results = super.getAllAttributesForOcl(classScope);
 		if(!classScope){
-			for(INakedParameter p:getArgumentParameters()){
-				results.add(new TypedElementPropertyBridge(this, p));
-			}
+			results.addAll(getEmulatedAttributes());
 		}
 		return results;
+	}
+	private Collection<? extends IAttribute> getEmulatedAttributes(){
+		if(emulatedAttributes == null){
+			emulatedAttributes = new ArrayList<INakedProperty>();
+			for(INakedParameter p:getArgumentParameters()){
+				emulatedAttributes.add(new TypedElementPropertyBridge(this, p));
+			}
+			if(getSpecification() != null){
+				for(INakedParameter v:getSpecification().getOwnedParameters()){
+					emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
+				}
+			}
+		}
+		return emulatedAttributes;
 	}
 	public boolean isProcess(){
 		return getStateMachineKind() == StateMachineKind.LONG_LIVED;
@@ -67,7 +81,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		return messageEvents;
 	}
 	@SuppressWarnings("unchecked")
-	protected <T> Set<T> getEvents(boolean messageEventsOnly){
+	protected <T>Set<T> getEvents(boolean messageEventsOnly){
 		Set<T> messageEvents = new HashSet<T>();
 		for(INakedTransition element:getTransitions()){
 			Collection<INakedTrigger> triggers = element.getTriggers();
@@ -92,6 +106,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		if(element instanceof INakedRegion){
 			this.regions.add((INakedRegion) element);
 		}
+		emulatedAttributes=null;
 	}
 	@Override
 	public INakedEntity getContext(){
@@ -124,7 +139,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		return this.regions;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedRegion){
 			this.regions.remove(element);

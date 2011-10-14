@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -62,6 +63,10 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		return name;
 	}
 	public void setName(String name){
+		if("ObjectFlow2kkkkll".equalsIgnoreCase(name)){
+			System.out.println();
+		}
+
 		this.name = name;
 	}
 	public Collection<INakedElement> getOwnedElements(){
@@ -77,7 +82,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		}
 		element.setOwnerElement(this);
 	}
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		ownedElements.remove(element);
 		if(element instanceof INakedComment){
 			comments.remove(element);
@@ -88,7 +93,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 			}
 		}
 		if(element != null && recursively){
-			for(INakedElement child:new ArrayList<INakedElement>( element.getOwnedElements())){
+			for(INakedElement child:new ArrayList<INakedElement>(element.getOwnedElements())){
 				element.removeOwnedElement(child, recursively);
 				child.markForDeletion();
 			}
@@ -206,8 +211,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	}
 	@Override
 	public int hashCode(){
-		if(id==null){
-			
+		if(id == null){
 		}
 		return id.hashCode();
 	}
@@ -235,5 +239,16 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		}
 		return null;
 	}
-
+	@Override
+	public Collection<INakedElement> getAllDescendants(){
+		Set<INakedElement> result = new HashSet<INakedElement>();
+		addAll(result, getOwnedElements());
+		return result;
+	}
+	private void addAll(Set<INakedElement> result,Collection<INakedElement> ownedElements2){
+		result.addAll(ownedElements2);
+		for(INakedElement e:ownedElements2){
+			addAll(result, e.getOwnedElements());
+		}
+	}
 }

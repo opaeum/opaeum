@@ -11,6 +11,7 @@ import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
@@ -26,6 +27,9 @@ public class NameUniquenessValidation extends AbstractValidator{
 		ensureUniqueness(nc, "ownedRules", nc.getOwnedRules());
 		if(!(nc instanceof INakedAssociation)){
 			ensureUniqueness(nc, "ownedAttributes", nc.getOwnedAttributes());
+		}
+		if(nc instanceof INakedBehavioredClassifier){
+			ensureUniqueness(nc, "ownedBehaviors", ((INakedBehavioredClassifier) nc).getOwnedBehaviors());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

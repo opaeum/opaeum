@@ -25,6 +25,9 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	private INakedValueSpecification weight;
 	private Set<INakedActivityEdge> redefinedEdges = new HashSet<INakedActivityEdge>();
 	private boolean isElse;
+	public NakedActivityEdgeImpl(){
+		super();
+	}
 	public INakedValueSpecification getGuard(){
 		return this.guardExpression;
 	}

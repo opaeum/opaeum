@@ -26,10 +26,9 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 		if(node.getCalledElement() == null){
 			block.addToStatements("no behavior to call!");
 		}else{
-			
 			if(node.getReturnPin() != null || BehaviorUtil.hasExecutionInstance(node.getBehavior())){
-				if(node.getBehavior() instanceof INakedActivity && ((INakedActivity)node.getBehavior()).getActivityKind()==ActivityKind.COMPLEX_SYNCHRONOUS_METHOD){
-					//TODO store the results in the output pins
+				if(node.getBehavior() instanceof INakedActivity && ((INakedActivity) node.getBehavior()).getActivityKind() == ActivityKind.COMPLEX_SYNCHRONOUS_METHOD){
+					// TODO store the results in the output pins
 				}
 				NakedStructuralFeatureMap resultMap = getResultMap();
 				OJAnnotatedField resultField = expressor.buildResultVariable(operation, block, resultMap);
@@ -70,8 +69,8 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 	protected abstract boolean shouldStoreMessageStructureOnProcess();
 	private boolean resultIsMany(NakedStructuralFeatureMap resultMap){
 		boolean many = resultMap.isMany();
-		if(BehaviorUtil.hasMessageStructure(node) && node.getTargetElement() != null){
-			many = node.getTargetElement().getNakedMultiplicity().isMany();
+		if(BehaviorUtil.hasMessageStructure(node)){
+			many = false;
 		}else if(!(node.getReturnPin() == null || node.getReturnPin().getLinkedTypedElement() == null)){
 			many = node.getReturnPin().getNakedMultiplicity().isMany();
 		}

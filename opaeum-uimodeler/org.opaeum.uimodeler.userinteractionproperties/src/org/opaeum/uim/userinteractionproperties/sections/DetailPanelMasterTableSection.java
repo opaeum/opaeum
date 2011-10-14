@@ -16,7 +16,6 @@ import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
@@ -29,7 +28,7 @@ import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
  * @generated
  */
 public class DetailPanelMasterTableSection extends
-		AbstractChooserPropertySection {
+		OpaeumChooserPropertySection {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -53,7 +52,7 @@ public class DetailPanelMasterTableSection extends
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
 	protected Object getFeatureValue() {
@@ -63,7 +62,7 @@ public class DetailPanelMasterTableSection extends
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
 	protected Object[] getComboFeatureValues() {
@@ -85,7 +84,7 @@ public class DetailPanelMasterTableSection extends
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
 	protected ILabelProvider getLabelProvider() {

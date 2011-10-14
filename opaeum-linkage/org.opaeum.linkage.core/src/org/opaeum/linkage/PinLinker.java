@@ -32,9 +32,9 @@ import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedTypedElement;
 
 @StepDependency(phase = LinkagePhase.class,after = {
-		ParameterLinker.class
+	ParameterLinker.class
 },before = {},requires = {
-		ParameterLinker.class
+	ParameterLinker.class
 })
 public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
@@ -76,13 +76,16 @@ public class PinLinker extends AbstractModelElementLinker{
 	private void linkTypedElement(INakedPin pin,INakedTypedElement typedElement){
 		if(pin != null && typedElement != null){
 			pin.setLinkedTypedElement(typedElement);
-			INakedMultiplicity nakedMultiplicity = pin.getNakedMultiplicity();
-			INakedMultiplicity nakedMultiplicity2 = typedElement.getNakedMultiplicity();
-			if(nakedMultiplicity.getUpper() < nakedMultiplicity2.getUpper()){
-				pin.setMultiplicity(nakedMultiplicity2);
+			if(pin instanceof INakedInputPin && typedElement.getNakedMultiplicity().getUpper() < pin.getNakedMultiplicity().getUpper()){
+				// TODO replace this with a validation
+				pin.setMultiplicity(typedElement.getNakedMultiplicity());
 				pin.setIsUnique(typedElement.isUnique());
 				pin.setIsOrdered(typedElement.isOrdered());
-			}
+			}else if(pin instanceof INakedOutputPin && typedElement.getNakedMultiplicity().getUpper() > pin.getNakedMultiplicity().getUpper())
+				// TODO replace this with a validation
+				pin.setMultiplicity(typedElement.getNakedMultiplicity());
+			pin.setIsUnique(typedElement.isUnique());
+			pin.setIsOrdered(typedElement.isOrdered());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -182,6 +185,9 @@ public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(INakedActivityEdge edge){
 		final INakedActivityNode effectiveSource = edge.getEffectiveSource();
+		if(effectiveSource == null){
+			System.out.println();
+		}
 		final INakedElementOwner ownerElement = effectiveSource.getOwnerElement();
 		if(edge.getOwnerElement() != ownerElement){
 			edge.getOwnerElement().removeOwnedElement(edge, false);

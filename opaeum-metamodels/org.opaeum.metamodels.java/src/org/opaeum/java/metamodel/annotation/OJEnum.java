@@ -2,8 +2,10 @@ package org.opaeum.java.metamodel.annotation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
@@ -19,6 +21,14 @@ public class OJEnum extends OJAnnotatedClass{
 	}
 	public List<OJEnumLiteral> getLiterals(){
 		return this.f_literals;
+	}
+	
+	@Override
+	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
+		super.renameAll(renamePathNames, suffix);
+		for(OJEnumLiteral l:getLiterals()){
+			l.renameAll(renamePathNames, suffix);
+		}
 	}
 	@Override
 	public String toJavaString(){

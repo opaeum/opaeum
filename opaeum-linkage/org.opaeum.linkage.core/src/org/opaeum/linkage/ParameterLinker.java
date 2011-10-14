@@ -10,8 +10,7 @@ import org.opaeum.metamodel.core.INakedParameter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 	MappedTypeLinker.class
-},before = {
-},requires = {})
+},before = {},requires = {})
 public class ParameterLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void linkParameters(INakedOperation o){
@@ -19,18 +18,21 @@ public class ParameterLinker extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkParameters(INakedBehavior b){
-		if(b.getSpecification() != null){
-			List<? extends INakedParameter> fromParams = b.getSpecification().getOwnedParameters();
-			List<? extends INakedParameter> toParams = b.getOwnedParameters();
-			for(int i = 0;i < fromParams.size() && i < toParams.size();i++){
-				INakedParameter to = toParams.get(i);
-				INakedParameter from = fromParams.get(i);
-				to.setLinkedParameter(from);
-				to.setName(from.getName());
-				to.getMappingInfo().setJavaName(from.getMappingInfo().getJavaName());
-			}
-			// TODO set types????
-		}
 		b.recalculateParameterPositions();
+		if(b.getSpecification() != null){
+			b.getSpecification().recalculateParameterPositions();
+			if(b.getSpecification().getOwnedParameters().size() == b.getOwnedParameters().size()){
+				List<? extends INakedParameter> fromParams = b.getSpecification().getOwnedParameters();
+				List<? extends INakedParameter> toParams = b.getOwnedParameters();
+				for(int i = 0;i < fromParams.size() && i < toParams.size();i++){
+					INakedParameter to = toParams.get(i);
+					INakedParameter from = fromParams.get(i);
+					to.setLinkedParameter(from);
+				}
+			}else{
+				getErrorMap().putError(b, BehaviorValidationRule.SPECIFICATION_PARAMETER_COUNT, b.getParameters().size(), b.getSpecification(),
+						b.getSpecification().getParameters().size());
+			}
+		}
 	}
 }

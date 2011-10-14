@@ -20,15 +20,24 @@ public class AssociationClassToEnd extends AbstractPropertyBridge{
 	private INakedProperty property;
 	private INakedMultiplicity multiplicity;
 	public AssociationClassToEnd(INakedProperty property){
-		super((INakedClassifier) property.getAssociation(), property.getOtherEnd().getNakedBaseType());
+		super((INakedClassifier) property.getAssociation(), checkBaseType(property));
 		this.property = property;
 		this.multiplicity = NakedMultiplicityImpl.ONE_ONE;
 		this.id = ((INakedElement) property.getAssociation()).getId() + property.getId();
-		this.mappingInfo = property.getOtherEnd().getNakedBaseType().getMappingInfo().getCopy();
+		this.mappingInfo = checkBaseType(property).getMappingInfo().getCopy();
 		this.mappingInfo.setIdInModel(id);
 	}
+	private static INakedClassifier checkBaseType(INakedProperty property){
+		if(property.getBaseType()==null){
+			System.out.println("BaseType null:" + property.getPathName());
+		}
+		if(property.getOtherEnd().getBaseType()==null){
+			System.out.println("Other BaseType null:" + property.getPathName());
+		}
+		return property.getOtherEnd().getNakedBaseType();
+	}
 	@Override
-	public Collection<? extends INakedElement> getOwnedElements(){
+	public Collection<INakedElement> getOwnedElements(){
 		return Collections.emptySet();
 	}
 	public INakedMultiplicity getMultiplicity(){

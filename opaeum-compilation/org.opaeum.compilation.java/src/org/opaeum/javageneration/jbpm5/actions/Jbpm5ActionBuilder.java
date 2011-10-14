@@ -22,6 +22,7 @@ import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.actions.INakedReplyAction;
 import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
@@ -101,7 +102,8 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
-			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre));
+			String selfExpr=node.getOwnerElement() instanceof INakedActivity? "this":"getContainingActivity()";
+			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre,selfExpr));
 		}
 	}
 	public void implementPostConditions(OJOperation oper){

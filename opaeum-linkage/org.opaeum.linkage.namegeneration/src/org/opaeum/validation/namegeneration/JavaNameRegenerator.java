@@ -16,7 +16,6 @@ public class JavaNameRegenerator extends AbstractJavaNameGenerator{
 	public void updateJavaName(INakedModelWorkspace nakedElement){
 		nakedElement.getMappingInfo().setJavaName(new SingularNameWrapper(nakedElement.getName(),null).getCapped());
 		nakedElement.getMappingInfo().setQualifiedJavaName(super.config.getMavenGroupId());
-
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void updateJavaName(INakedElement nakedElement){

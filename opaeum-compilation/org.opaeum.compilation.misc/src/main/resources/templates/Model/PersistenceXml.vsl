@@ -13,23 +13,25 @@
 #foreach($c in $persistentClasses)
 		<class>${c}</class>
 #end 
+#if($pkg)
 		<class>${pkg}</class>
+#end		
 #if($requiresJbpm)
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>
 #end
-		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
+		<class>org.opeum.hibernate.domain.EventOccurrence</class>
 #if($requiresAuditing)
-		<class>org.opaeum.audit.AuditEntry</class>
-		<class>org.opaeum.audit.AuditEntryPropertyChange</class>
-		<class>org.opaeum.audit.EntityPropertyChange</class>
-		<class>org.opaeum.audit.PropertyChange</class>
-		<class>org.opaeum.audit.StringPropertyChange</class>
-		<class>org.opaeum.audit.BooleanPropertyChange</class>
-		<class>org.opaeum.audit.DateTimePropertyChange</class>
-		<class>org.opaeum.audit.IntegerPropertyChange</class>
-		<class>org.opaeum.audit.FloatingPointPropertyChange</class>
-		<class>org.opaeum.audit.NullPropertyChange</class>
+		<class>org.opeum.audit.AuditEntry</class>
+		<class>org.opeum.audit.AuditEntryPropertyChange</class>
+		<class>org.opeum.audit.EntityPropertyChange</class>
+		<class>org.opeum.audit.PropertyChange</class>
+		<class>org.opeum.audit.StringPropertyChange</class>
+		<class>org.opeum.audit.BooleanPropertyChange</class>
+		<class>org.opeum.audit.DateTimePropertyChange</class>
+		<class>org.opeum.audit.IntegerPropertyChange</class>
+		<class>org.opeum.audit.FloatingPointPropertyChange</class>
+		<class>org.opeum.audit.NullPropertyChange</class>
 #end
 		<properties>
 			<property name="hibernate.dialect" value="com.rorotika.cm.ria.hql.CmPostgreSQLDialect" />
@@ -47,15 +49,16 @@
 			<property name="hibernate.jdbc.batch_size" value="20" />
 			<property name="hibernate.max_fetch_depth" value="1" />
 			<property name="jboss.entity.manager.factory.jndi.name" value="java:/${workspace.name}EntityManagerFactory"/>
+#if($persistentClasses)			
 			<property name="hibernate.archive.autodetection" value="false" />
-
+#end
 #if($requiresAuditing)
-			<property name="hibernate.ejb.event.post-load" value="org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.post-load" value="org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-insert"
-				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener" />
+				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-update"
-				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
+				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.flush" value="org.opeum.audit.AuditListener" />
 #end
 		</properties>
 	</persistence-unit>

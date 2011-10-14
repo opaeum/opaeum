@@ -18,7 +18,6 @@ import org.opaeum.uim.modeleditor.editor.UimEditor;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 /**
  * A section featuring a combo box with a seach button. This section<br>
@@ -28,7 +27,7 @@ import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
  *
  * @generated
  */
-public class OperationActionOperationSection extends AbstractChooserPropertySection{
+public class OperationActionOperationSection extends OpaeumChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
@@ -50,7 +49,7 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getFeatureValue()
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
@@ -59,7 +58,7 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
 	protected Object[] getComboFeatureValues(){
@@ -94,7 +93,7 @@ public class OperationActionOperationSection extends AbstractChooserPropertySect
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 *
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getLabelProvider()
 	 * @generated
 	 */
 	protected ILabelProvider getLabelProvider(){

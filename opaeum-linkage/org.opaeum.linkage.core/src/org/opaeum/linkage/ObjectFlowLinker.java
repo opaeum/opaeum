@@ -36,7 +36,7 @@ public class ObjectFlowLinker extends AbstractModelElementLinker{
 				if(baseType instanceof INakedPrimitiveType){
 					type=((INakedPrimitiveType) baseType).getOclType();
 				}
-				if(node.getNakedMultiplicity().isMany() || node instanceof INakedExpansionNode){
+				if(node.getNakedMultiplicity().isMany()){
 					TypeResolver.resolveCollection(node, type, getBuiltInTypes().getOclLibrary());
 				}else{
 					node.setType(type);

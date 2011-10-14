@@ -38,5 +38,6 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	boolean isStoreMappingInfo();
 	void markForDeletion();
 	boolean isMarkedForDeletion();
+	Collection<INakedElement> getAllDescendants();
 	
 }

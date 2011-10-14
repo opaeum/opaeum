@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.DirectedRelationship;
 import org.eclipse.uml2.uml.Element;
@@ -52,10 +53,14 @@ public class EmfWorkspace implements Element{
 	private Set<Model> libraries = new HashSet<Model>();
 	private UriToFileConverter uriToFileConverter = new DefaultUriToFileConverter();
 	private String name;
+	private ECrossReferenceAdapter crossReferenceAdaptor;
 	// Load single model
 	public EmfWorkspace(Package model,WorkspaceMappingInfo mappingInfo,String identifier){
 		this(model.eResource().getURI().trimFileExtension().trimSegments(1), model.eResource().getResourceSet(), mappingInfo, identifier);
 		addGeneratingModelOrProfile(model);
+	}
+	public ECrossReferenceAdapter getCrossReferenceAdapter(){
+		return this.crossReferenceAdaptor;
 	}
 	// Load entire resourceSet
 	public EmfWorkspace(URI directoryUri,ResourceSet rs,WorkspaceMappingInfo mappingInfo,String identifier){
@@ -69,6 +74,12 @@ public class EmfWorkspace implements Element{
 		for(Element pkg:getOwnedElements()){
 			if(isPrimaryModelOrProfile((Package) pkg, directoryUri)){
 				primaryModels.add((Package) pkg);
+			}
+		}
+		EList<Adapter> eAdapters = getResourceSet().eAdapters();
+		for(Adapter adapter:eAdapters){
+			if(adapter instanceof ECrossReferenceAdapter){
+				this.crossReferenceAdaptor = (ECrossReferenceAdapter) adapter;
 			}
 		}
 	}

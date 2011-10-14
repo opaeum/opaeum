@@ -8,7 +8,6 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.modeleditor.editor.UimEditor;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 
 /**
  * A section display a text field to edit/see String features
@@ -18,7 +17,7 @@ import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
  *
  * @generated NOT
  */
-public class UmlReferenceUmlElementUidSection extends AbstractChooserPropertySection{
+public class UmlReferenceUmlElementUidSection extends OpaeumChooserPropertySection{
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -42,7 +41,7 @@ public class UmlReferenceUmlElementUidSection extends AbstractChooserPropertySec
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getComboFeatureValues()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getComboFeatureValues()
 	 * @generated NOT
 	 */
 	protected Object[] getComboFeatureValues(){

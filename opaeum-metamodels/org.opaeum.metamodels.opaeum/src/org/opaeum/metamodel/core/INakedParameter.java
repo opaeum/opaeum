@@ -43,5 +43,6 @@ public interface INakedParameter extends IModifiableTypedElement, IParameter {
 	boolean isException();
 	void setException(boolean e);
 	boolean isArgument();
+	INakedParameter getLinkedParameter();
 
 }

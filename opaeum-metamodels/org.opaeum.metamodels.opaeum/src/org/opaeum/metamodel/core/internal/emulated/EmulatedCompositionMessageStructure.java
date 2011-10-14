@@ -54,7 +54,7 @@ public abstract class EmulatedCompositionMessageStructure extends MessageStructu
 		this.attributes=null;
 	}
 	@Override
-	public Collection<? extends INakedElement> getOwnedElements(){
+	public Collection<INakedElement> getOwnedElements(){
 		HashSet<INakedElement> hashSet = new HashSet<INakedElement>( super.getOwnedElements());
 		hashSet.addAll(getOwnedAttributes());
 		hashSet.addAll(getNakedGeneralizations());

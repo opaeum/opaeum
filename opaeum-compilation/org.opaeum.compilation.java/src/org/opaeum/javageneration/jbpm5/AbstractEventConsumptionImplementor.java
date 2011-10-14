@@ -34,6 +34,9 @@ import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
+import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedOperation;
 
 public abstract class AbstractEventConsumptionImplementor extends StereotypeAnnotator{
@@ -182,7 +185,12 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	protected OJIfStatement addIfTokenFound(OJAnnotatedOperation listener,OJIfStatement ifProcessActive,INakedStep waitingElement){
 		OJIfStatement ifTokenFound = new OJIfStatement();
 		ifProcessActive.getThenPart().addToStatements(ifTokenFound);
-		String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(waitingElement);
+		INakedElementOwner ownerElement = waitingElement.getOwnerElement();
+		while(!(ownerElement instanceof INakedClassifier)){
+			//State could be inherited
+			ownerElement=((INakedElement) ownerElement).getOwnerElement();
+		}
+		String literalExpression = OJUtil.classifierPathname((INakedClassifier) ownerElement) + "State." + Jbpm5Util.stepLiteralName(waitingElement);
 		ifTokenFound.setCondition("consumed==false && (waitingNode=(UmlNodeInstance)findWaitingNodeByNodeId(" + literalExpression + ".getId()))" + "!=null");
 		return ifTokenFound;
 	}

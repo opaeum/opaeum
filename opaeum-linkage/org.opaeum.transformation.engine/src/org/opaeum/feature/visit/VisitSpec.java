@@ -46,6 +46,9 @@ public class VisitSpec{
 			for(Class<?> c:match){
 				if(c.isInterface()){
 					// Only objects whose class directly implement the interaces
+					if(o==null){
+						System.out.println();
+					}
 					Class<?>[] itfs = o.getClass().getInterfaces();
 					for(Class<?> itf:itfs){
 						if(itf == c){

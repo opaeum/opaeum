@@ -14,9 +14,9 @@ import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.StructuralFeatureAction;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 
-public class StructuralFeatureActionFeatureSection extends AbstractChooserPropertySection{
+public class StructuralFeatureActionFeatureSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getStructuralFeatureAction_StructuralFeature();
 	}

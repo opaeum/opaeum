@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.opaeum.eclipse.NakedUmlSynchronizationListener;
+import org.opaeum.eclipse.OpaeumContextSynchronizationListener;
 import org.opaeum.eclipse.context.NakedUmlContextListener;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
@@ -14,7 +14,7 @@ import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-public class NamespaceRenameRequests implements NakedUmlSynchronizationListener, NakedUmlContextListener{
+public class NamespaceRenameRequests implements OpaeumContextSynchronizationListener, NakedUmlContextListener{
 	private Map<String,NamespaceRenameRequest> renamedRequestsByNewName = new HashMap<String,NamespaceRenameRequest>();
 	private void maybeAddRenameRequest(INakedNameSpace ne){
 		// NB!!! this has to be done here in case multiple renames occurred before synchronization with java source

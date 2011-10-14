@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
+import org.eclipse.uml2.uml.EncapsulatedClassifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
@@ -58,6 +59,7 @@ import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Pin;
+import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.ReadStructuralFeatureAction;
@@ -68,6 +70,7 @@ import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.StructuredClassifier;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
@@ -78,11 +81,32 @@ import org.eclipse.uml2.uml.util.UMLSwitch;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-public class NakedUmlElementLinker extends EContentAdapter{
+public class OpaeumElementLinker extends EContentAdapter{
 	public static final class EmfUmlElementLinker extends UMLSwitch<EObject>{
 		private Notification notification;
 		public EmfUmlElementLinker(Notification not){
 			notification = not;
+		}
+		@Override
+		public EObject caseEncapsulatedClassifier(EncapsulatedClassifier object){
+			if(this.notification.getEventType() == Notification.ADD){
+				if(this.notification.getNewValue() instanceof Port){
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_GATEWAY, StereotypeNames.OPIUM_BPM_PROFILE);
+				}
+			}
+			return super.caseEncapsulatedClassifier(object);
+		}
+		@Override
+		public EObject caseStructuredClassifier(StructuredClassifier object){
+			if(this.notification.getEventType() == Notification.ADD){
+				switch(this.notification.getFeatureID(StructuredClassifier.class)){
+				case UMLPackage.STRUCTURED_CLASSIFIER__OWNED_CONNECTOR:
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_CHANNEL, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DELEGATION, StereotypeNames.OPIUM_BPM_PROFILE);
+					break;
+				}
+			}
+			return super.caseStructuredClassifier(object);
 		}
 		@SuppressWarnings("unchecked")
 		@Override
@@ -163,7 +187,6 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			}
 			return null;
 		};
-		
 		@Override
 		public EObject caseNamespace(Namespace n){
 			switch(this.notification.getFeatureID(Namespace.class)){
@@ -484,10 +507,10 @@ public class NakedUmlElementLinker extends EContentAdapter{
 			return null;
 		}
 		@Override
-		public EObject caseInterfaceRealization(InterfaceRealization object) {
+		public EObject caseInterfaceRealization(InterfaceRealization object){
 			switch(notification.getFeatureID(InterfaceRealization.class)){
 			case UMLPackage.INTERFACE_REALIZATION__CONTRACT:
-				if(notification.getNewValue()==null){
+				if(notification.getNewValue() == null){
 					object.getImplementingClassifier().getInterfaceRealizations().remove(object);
 				}
 				break;
@@ -501,7 +524,7 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				if(notification.getNewValue() instanceof Signal){
 					synchronizeSignalPins((Signal) g.getSpecific());
 				}
-				if(notification.getNewValue()==null){
+				if(notification.getNewValue() == null){
 					g.getSpecific().getGeneralizations().remove(g);
 				}
 				break;
@@ -573,7 +596,15 @@ public class NakedUmlElementLinker extends EContentAdapter{
 		public EObject caseClass(Class object){
 			switch(notification.getFeatureID(Class.class)){
 			case UMLPackage.CLASSIFIER__GENERALIZATION:
+				synchronizeSlotsOnReferringInstances(object);
+				break;
 			case UMLPackage.CLASS__OWNED_ATTRIBUTE:
+				if(notification.getEventType() == Notification.ADD){
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.FACT, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DIMENSION, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.PARTICIPANT_REFERENCE, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT, StereotypeNames.OPIUM_BPM_PROFILE);
+				}
 				synchronizeSlotsOnReferringInstances(object);
 				break;
 			}
@@ -807,6 +838,10 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				Operation oper = (Operation) notification.getNewValue();
 				List<Parameter> emptyList = Collections.emptyList();
 				synchronizeParameters(oper == null ? emptyList : oper.getOwnedParameters(), a);
+				if(StereotypesHelper.hasKeyword(oper, StereotypeNames.RESPONSIBILITY)
+						&& !StereotypesHelper.hasKeyword(EmfElementFinder.getNearestClassifier(a), StereotypeNames.BUSINES_PROCESS)){
+					a.setIsSynchronous(false);
+				}
 				break;
 			}
 			return null;
@@ -848,6 +883,11 @@ public class NakedUmlElementLinker extends EContentAdapter{
 				Behavior oper = (Behavior) notification.getNewValue();
 				if(oper != null){
 					synchronizeParameters(oper.getOwnedParameters(), a);
+				}
+				if(StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_STATE_MACHINE) || StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_PROCESS)
+						|| StereotypesHelper.hasKeyword(oper, StereotypeNames.SCREEN_FLOW)
+						&& !StereotypesHelper.hasKeyword(EmfElementFinder.getNearestClassifier(a), StereotypeNames.BUSINES_PROCESS)){
+					a.setIsSynchronous(false);
 				}
 				break;
 			}

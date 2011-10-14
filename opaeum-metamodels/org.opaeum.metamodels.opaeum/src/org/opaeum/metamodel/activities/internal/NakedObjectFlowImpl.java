@@ -10,9 +10,13 @@ import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 
 public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INakedObjectFlow {
+
 	private static final long serialVersionUID = 6481759202136150887L;
 	private INakedBehavior transformation;
 	private INakedBehavior selection;
+	public NakedObjectFlowImpl(){
+		super();
+	}
 
 	@Override
 	public INakedActivityNode getEffectiveTarget() {

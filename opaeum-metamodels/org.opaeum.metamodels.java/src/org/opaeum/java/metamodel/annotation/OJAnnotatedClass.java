@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJBlock;
@@ -186,41 +185,11 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 			copy.addAnnotationIfNew(copyAnnotation);
 		}
 	}
-	public void renameAll(Map<String,OJPathName> renamePathNames,String newName){
-		setName(getName() + newName);
-		Collection<OJConstructor> constructors = getConstructors();
-		for(OJConstructor ojConstructor:constructors){
-			ojConstructor.renameAll(renamePathNames, newName);
-		}
-		// This is a jipo to make sure imports are correct.
-		// renaming OJForStatement does not seem to add the renamed paths to the
-		// imports
-		Collection<OJPathName> newImports = new HashSet<OJPathName>();
-		Collection<OJPathName> imports = getImports();
-		for(OJPathName ojPathName:imports){
-			OJPathName newImport = ojPathName.getDeepCopy();
-			newImport.renameAll(renamePathNames, newName);
-			newImports.add(newImport);
-		}
-		addToImports(newImports);
+	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
+		super.renameAll(renamePathNames,suffix);
 		Collection<OJAnnotationValue> annotations = getAnnotations();
 		for(OJAnnotationValue ojAnnotationValue:annotations){
-			ojAnnotationValue.renameAll(renamePathNames, newName);
-		}
-		if(getSuperclass() != null){
-			getSuperclass().renameAll(renamePathNames, newName);
-		}
-		Collection<OJPathName> implementedInterfaces = getImplementedInterfaces();
-		for(OJPathName ojPathName:implementedInterfaces){
-			ojPathName.renameAll(renamePathNames, newName);
-		}
-		Collection<OJField> fields = getFields();
-		for(OJField ojField:fields){
-			ojField.renameAll(renamePathNames, newName);
-		}
-		Collection<OJOperation> operations = getOperations();
-		for(OJOperation ojOperation:operations){
-			ojOperation.renameAll(renamePathNames, newName);
+			ojAnnotationValue.renameAll(renamePathNames, suffix);
 		}
 	}
 	public String toString(){
@@ -243,12 +212,12 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		String name = getName();
 		setName(name + "Generated");
 		String result = toJavaString();
-		result=result.replaceAll("(this)([\\,;\\s)])", "("+ name +")this$2");
+		result=result.replaceAll("[\\(]this[\\)]", "(("+ name +")this)");
 		setName(name);
 		return result;
 	}
 	public static void main(String[] args){
-		System.out.println("this,this;this this)this.".replaceAll("(this)([\\,;\\s)])", "bla$2"));
+		System.out.println("this,this;this this)this.".replaceAll("\\bthis\\b", "bla"));
 	}
 	public String toConcreteImplementationJavaString(){
 		this.calcImports();

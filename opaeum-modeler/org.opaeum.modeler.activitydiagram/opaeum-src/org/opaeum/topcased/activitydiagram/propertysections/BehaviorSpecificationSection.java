@@ -10,9 +10,9 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
 import org.opaeum.eclipse.EmfBehaviorUtil;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 
-public class BehaviorSpecificationSection extends AbstractChooserPropertySection{
+public class BehaviorSpecificationSection extends OpaeumChooserPropertySection{
 	@Override
 	protected Object[] getComboFeatureValues(){
 		List<Object> choices = new ArrayList<Object>();

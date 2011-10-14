@@ -10,6 +10,7 @@ import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.ProcessStepEnumerationImplementor;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
@@ -34,6 +35,7 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedStateMachine c){
+
 		boolean hasStateComposition = hasStateComposition(c);
 		buildOJEnum(c, hasStateComposition);
 		List<INakedRegion> regions = c.getRegions();
@@ -60,7 +62,8 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 		INakedStateMachine sm = state.getStateMachine();
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(sm.getParent()));
 		OJEnum e = (OJEnum) p.findClass(new OJPathName(sm.getMappingInfo().getJavaName().getAsIs() + "State"));
-		buildLiteral(state, e);
+		INakedStep enclosingElement = getEnclosingElement(state);
+		buildLiteral(state, e, enclosingElement==null?"null":Jbpm5Util.stepLiteralName(enclosingElement));
 	}
 	@Override
 	protected Collection<INakedTrigger> getOperationTriggers(INakedElement step){

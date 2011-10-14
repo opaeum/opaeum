@@ -9,12 +9,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 import org.opaeum.topcased.propertysections.UmlMetaTypeRemover;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 
-public class CallOperationActionOperationSection extends AbstractChooserPropertySection{
+public class CallOperationActionOperationSection extends OpaeumChooserPropertySection{
 	@Override
 	protected void handleComboModified(){
 		super.handleComboModified();

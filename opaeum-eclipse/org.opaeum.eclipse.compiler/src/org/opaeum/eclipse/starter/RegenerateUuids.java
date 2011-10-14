@@ -23,8 +23,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
-import org.opaeum.eclipse.NakedUmlElementLinker;
-import org.opaeum.eclipse.NakedUmlElementLinker.EmfUmlElementLinker;
+import org.opaeum.eclipse.OpaeumElementLinker;
+import org.opaeum.eclipse.OpaeumElementLinker.EmfUmlElementLinker;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
@@ -137,7 +137,7 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 					ProgressMonitorTransformationLog log = new ProgressMonitorTransformationLog(monitor, 3);
 					final EmfWorkspace workspace = EmfWorkspaceLoader.loadDirectory(new ResourceSetImpl(), dir, cfg, log);
 					// No cache listening - just linking
-					NakedUmlElementLinker linker = new NakedUmlElementLinker();
+					OpaeumElementLinker linker = new OpaeumElementLinker();
 					workspace.getResourceSet().eAdapters().add(linker);
 					UuidRemover v1 = new UuidRemover(workspace);
 					for(Element element:workspace.getOwnedElements()){

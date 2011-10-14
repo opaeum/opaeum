@@ -6,6 +6,7 @@ import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
 import nl.klasse.octopus.model.IModelElement;
+import nl.klasse.octopus.oclengine.IOclContext;
 
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
@@ -29,8 +30,8 @@ public class ConstraintGenerator {
 		expressionCreator = new ExpressionCreator(context);
 	}
 
-	public void addConstraintChecks(OJOperation operation, Collection<INakedConstraint> constraints, boolean pre) {
-		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre);
+	public void addConstraintChecks(OJOperation operation, Collection<INakedConstraint> constraints, boolean pre,String selfExpression) {
+		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre,selfExpression);
 		if (pre) {
 			operation.getBody().getStatements().add(0, block);
 		} else if (operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))) {
@@ -40,7 +41,7 @@ public class ConstraintGenerator {
 		}
 	}
 
-	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<INakedConstraint> constraints, boolean pre) {
+	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<INakedConstraint> constraints, boolean pre, String selfExpression) {
 		OJBlock result = new OJBlock();
 		// Assume that there could be a last statement to return a value
 		// use all the local fields
@@ -72,7 +73,13 @@ public class ConstraintGenerator {
 		for (INakedConstraint post : constraints) {
 			OJIfStatement ifBroken = new OJIfStatement();
 			if (post.getSpecification().isValidOclValue()) {
-				ifBroken.setCondition("!" + expressionCreator.makeExpression(post.getSpecification().getOclValue().getExpression(), operation.isStatic(), parameters));
+				IOclContext oclValue = post.getSpecification().getOclValue();
+				String expr = expressionCreator.makeExpression(oclValue.getExpression(), operation.isStatic(), parameters);
+				if(oclValue.getExpressionString().matches("self")){
+					expr=ValueSpecificationUtil.replaceThisWith(expr, selfExpression);
+				}
+					
+				ifBroken.setCondition("!" + expr);
 				String qname = element.getPathName() + "::" + post.getName();
 				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");
 				result.addToStatements(ifBroken);

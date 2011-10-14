@@ -33,17 +33,17 @@ public class TestSourceFolderStrategy implements ISourceFolderStrategy{
 		webAppRoot.dontCleanDirectoriesOrOverwriteFiles();
 	}
 	private static void mapDomainProjects(OpaeumConfig cfg){
-		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ProjectNameStrategy.SUFFIX_ONLY, cfg.getWorkspaceIdentifier(), "src/main/generated-java");
-		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, ProjectNameStrategy.SUFFIX_ONLY, cfg.getWorkspaceIdentifier(), "src/test/generated-java");
+		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/main/generated-java");
+		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/test/generated-java");
 		SourceFolderDefinition domainSrc = cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_SRC, ProjectNameStrategy.SUFFIX_ONLY, cfg.getWorkspaceIdentifier(),
 				"src/main/java");
 		domainSrc.dontCleanDirectoriesOrOverwriteFiles();
 		SourceFolderDefinition domainTestSrc = cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_TEST_SRC, ProjectNameStrategy.SUFFIX_ONLY,
 				cfg.getWorkspaceIdentifier(), "src/test/java");
 		domainTestSrc.dontCleanDirectoriesOrOverwriteFiles();
-		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE, ProjectNameStrategy.SUFFIX_ONLY, cfg.getWorkspaceIdentifier(),
+		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "",
 				"src/test/generated-resources");
-		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, ProjectNameStrategy.SUFFIX_ONLY, cfg.getWorkspaceIdentifier(),
+		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "",
 				"src/main/generated-resources");
 	}
 	private static void mapAdaptorProjects(OpaeumConfig cfg){

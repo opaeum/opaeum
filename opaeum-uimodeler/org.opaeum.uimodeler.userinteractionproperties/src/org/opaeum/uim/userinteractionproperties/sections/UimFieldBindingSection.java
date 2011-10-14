@@ -49,7 +49,7 @@ public class UimFieldBindingSection extends AbstractBindingSection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getFeatureValue()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getFeatureValue()
 	 * @generated NOT
 	 */
 	protected Object getFeatureValue(){
@@ -58,7 +58,7 @@ public class UimFieldBindingSection extends AbstractBindingSection{
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @see org.topcased.tabbedproperties.sections.AbstractChooserPropertySection#getLabelProvider()
+	 * @see org.topcased.tabbedproperties.sections.OpaeumChooserPropertySection#getLabelProvider()
 	 * @generated NOT
 	 */
 	protected ILabelProvider getLabelProvider(){

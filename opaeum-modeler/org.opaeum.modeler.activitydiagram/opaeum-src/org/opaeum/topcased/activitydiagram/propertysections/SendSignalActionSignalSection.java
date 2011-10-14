@@ -7,9 +7,9 @@ import org.eclipse.uml2.common.edit.provider.IItemQualifiedTextProvider;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.topcased.tabbedproperties.sections.AbstractChooserPropertySection;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 
-public class SendSignalActionSignalSection extends AbstractChooserPropertySection{
+public class SendSignalActionSignalSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getSendSignalAction_Signal();
 	}

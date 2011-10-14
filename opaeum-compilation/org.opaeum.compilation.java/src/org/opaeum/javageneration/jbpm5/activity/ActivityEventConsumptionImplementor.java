@@ -206,7 +206,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		// TODO implement validation
 		for(INakedActivityEdge edge:node.getDefaultOutgoing()){
 			if(edge.getSource() instanceof INakedOutputPin){
-				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), (INakedOutputPin) edge.getSource());
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), (INakedOutputPin) edge.getSource(),true);
 				if(edge.getWeight() != null){
 					if(map.isCollection()){
 						IClassifier integerType = getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName);
@@ -240,7 +240,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		ifTokenFound.getThenPart().addToStatements("((org.drools.spi.ProcessContext)context).setNodeInstance(waitingNode)");
 		for(int i = 0;i < result.size();i++){
 			INakedOutputPin argument = result.get(i);
-			NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(argument.getActivity(), argument);
+			NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(argument.getActivity(), argument,true);
 			INakedTypedElement parm = argument.getLinkedTypedElement();
 			if(parm == null){
 				String param = "unknown";

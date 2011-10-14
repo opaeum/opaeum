@@ -3,6 +3,7 @@ package org.opaeum.java.metamodel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opaeum.java.metamodel.generated.OJPackageGEN;
@@ -177,6 +178,19 @@ public class OJPackage extends OJPackageGEN {
 			OJPackage elem = (OJPackage) subpackagesIt.next();
 			copy.addToSubpackages(elem.getDeepCopy(owner));
 		}		
+	}
+	@Override
+	public void renameAll(Set<OJPathName> match,String suffix){
+		for(OJClass ojClass:getClasses()){
+			ojClass.renameAll(match, suffix);
+		}
+		for(OJAnnotatedPackageInfo pi:packageInfos){
+			pi.renameAll(match, suffix);
+		}
+		Set<OJPackage> subpackages = getSubpackages();
+		for(OJPackage p:subpackages){
+			p.renameAll(match, suffix);
+		}
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.internal.StructureActivityNodeClassifier;
 import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
@@ -178,7 +177,7 @@ public class ArtificialProperty extends AbstractPropertyBridge{
 		return otherEnd;
 	}
 	@Override
-	public Collection<? extends INakedElement> getOwnedElements(){
+	public Collection<INakedElement> getOwnedElements(){
 		return Collections.emptySet();
 	}
 	@Override

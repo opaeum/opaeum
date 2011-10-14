@@ -10,16 +10,15 @@ import nl.klasse.octopus.model.IMultiplicityKind;
 import nl.klasse.octopus.model.VisibilityKind;
 
 import org.opaeum.feature.MappingInfo;
-import org.opaeum.metamodel.actions.INakedCallAction;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedMultiplicity;
+import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedValueSpecification;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 
 public abstract class AbstractPropertyBridge extends EmulatingElement implements INakedProperty{
 	/**
@@ -59,6 +58,10 @@ public abstract class AbstractPropertyBridge extends EmulatingElement implements
 	@Override
 	public final MappingInfo getMappingInfo(){
 		return mappingInfo;
+	}
+	@Override
+	public boolean fitsInTo(INakedMultiplicityElement other){
+		return NakedMultiplicityElement.fitsInto(this, other);
 	}
 
 	@Override
