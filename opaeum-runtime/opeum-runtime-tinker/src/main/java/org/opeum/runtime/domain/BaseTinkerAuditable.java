@@ -1,4 +1,4 @@
-package org.opeum.runtime.domain;
+package org.opaeum.runtime.domain;
 
 import java.io.Serializable;
 import java.util.Date;

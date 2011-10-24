@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-test-tinker</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-test-tinker</artifactId>
 	<version>1.0.0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>opeum-test-tinker</name>
+	<name>opaeum-test-tinker</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -15,8 +15,8 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.opeum</groupId>
-			<artifactId>opeum-runtime-tinker-domain</artifactId>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-runtime-tinker-domain</artifactId>
 			<version>1.0.0.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>

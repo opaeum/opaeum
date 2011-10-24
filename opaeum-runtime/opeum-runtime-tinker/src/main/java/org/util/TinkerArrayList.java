@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.opeum.runtime.domain.TinkerNode;
+import org.opaeum.runtime.domain.TinkerNode;
 
 public class TinkerArrayList<E> extends ArrayList<E> implements TinkerList<E>, TinkerCollection<E> {
 

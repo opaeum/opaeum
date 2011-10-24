@@ -1,4 +1,4 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.io.Serializable;
 

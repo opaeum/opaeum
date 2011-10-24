@@ -1,4 +1,4 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,9 +10,9 @@ import org.drools.marshalling.ObjectMarshallingStrategy;
 import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
 import org.drools.runtime.Environment;
 import org.jbpm.persistence.ProcessPersistenceContextManager;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
 
 public class StandaloneJpaJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession {
 	private EntityManager entityManager;

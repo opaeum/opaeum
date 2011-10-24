@@ -1,4 +1,4 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import java.util.Map;
 

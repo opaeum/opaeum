@@ -1,12 +1,12 @@
-package org.opeum.environment;
+package org.opaeum.environment;
 
 import java.lang.annotation.Annotation;
 
-import org.opeum.runtime.domain.IActiveObject;
-import org.opeum.runtime.domain.ISignal;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.runtime.persistence.UmtPersistence;
-import org.opeum.tinker.runtime.NakedOrientGraph;
+import org.opaeum.runtime.domain.IActiveObject;
+import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.UmtPersistence;
+import org.opaeum.tinker.runtime.NakedOrientGraph;
 import org.util.NakedGraph;
 import org.util.TinkerSchemaHelper;
 

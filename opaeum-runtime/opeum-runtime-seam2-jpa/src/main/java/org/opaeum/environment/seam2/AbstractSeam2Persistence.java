@@ -1,9 +1,9 @@
-package org.opeum.environment.seam2;
+package org.opaeum.environment.seam2;
 
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.In;
-import org.opeum.runtime.jpa.AbstractJpaPersistence;
+import org.opaeum.runtime.jpa.AbstractJpaPersistence;
 
 public class AbstractSeam2Persistence extends AbstractJpaPersistence{
 	@In

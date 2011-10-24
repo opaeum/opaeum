@@ -9,13 +9,13 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Assert;
 import org.junit.Test;
-import org.opeum.runtime.bpm.BusinessRole;
-import org.opeum.runtime.bpm.Participant;
-import org.opeum.runtime.bpm.ParticipationInTask;
-import org.opeum.runtime.bpm.TaskParticipationKind;
-import org.opeum.runtime.bpm.TaskRequest;
-import org.opeum.runtime.domain.OutgoingEvent;
-import org.opeum.runtime.environment.MockEnvironment;
+import org.opaeum.runtime.bpm.BusinessRole;
+import org.opaeum.runtime.bpm.Participant;
+import org.opaeum.runtime.bpm.ParticipationInTask;
+import org.opaeum.runtime.bpm.TaskParticipationKind;
+import org.opaeum.runtime.bpm.TaskRequest;
+import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.MockEnvironment;
 
 public class TaskRequestFlowTest{
 	@Test

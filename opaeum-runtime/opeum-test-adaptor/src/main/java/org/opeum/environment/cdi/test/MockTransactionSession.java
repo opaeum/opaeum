@@ -1,4 +1,4 @@
-package org.opeum.environment.cdi.test;
+package org.opaeum.environment.cdi.test;
 
 import java.io.Serializable;
 import java.sql.Connection;

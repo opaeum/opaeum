@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.opeum.test.adaptor;
+package org.opaeum.test.adaptor;
 
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
@@ -48,7 +48,7 @@ public class ArquillianUtils {
 		WebArchive war = ShrinkWrap.createDomain().getArchiveFactory().create(WebArchive.class, "test.war");
 		includeSeam(war);
 		includeJbpm(war);
-		includeOpeum(war);
+		includeOpaeum(war);
 		
 		if (includeEmptyBeansXml) {
 			war.addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
@@ -56,7 +56,7 @@ public class ArquillianUtils {
 		return war;
 	}
 
-	private static void includeOpeum(WebArchive war) {
+	private static void includeOpaeum(WebArchive war) {
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.NAKED_UML_ADAPTOR_RUNTIME));
 		war.addLibraries(MavenArtifactResolver.resolve(ArtifactNames.NAKED_UML_DOMAIN_RUNTIME));
 	}

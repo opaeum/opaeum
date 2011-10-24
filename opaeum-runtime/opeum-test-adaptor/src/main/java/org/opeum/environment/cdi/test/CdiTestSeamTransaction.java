@@ -1,4 +1,4 @@
-package org.opeum.environment.cdi.test;
+package org.opaeum.environment.cdi.test;
 
 import java.util.Stack;
 
@@ -14,7 +14,7 @@ import javax.transaction.UserTransaction;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.opeum.cdi.CdiHibernateKnowledgeSession;
+import org.opaeum.cdi.CdiHibernateKnowledgeSession;
 
 @RequestScoped
 public class CdiTestSeamTransaction implements UserTransaction {

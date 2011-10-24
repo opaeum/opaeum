@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.sql.Timestamp;
 import java.util.Date;

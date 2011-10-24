@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.util.Date;
 import java.util.SortedSet;
@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class AuditTest extends TestCase {
 	private EntityManagerFactory emf;

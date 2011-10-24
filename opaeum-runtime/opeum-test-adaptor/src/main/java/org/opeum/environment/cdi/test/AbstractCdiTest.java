@@ -1,4 +1,4 @@
-package org.opeum.environment.cdi.test;
+package org.opaeum.environment.cdi.test;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jboss.weld.mock.MockServletLifecycle;
 import org.junit.Before;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 @Deprecated
 
 public abstract class AbstractCdiTest{

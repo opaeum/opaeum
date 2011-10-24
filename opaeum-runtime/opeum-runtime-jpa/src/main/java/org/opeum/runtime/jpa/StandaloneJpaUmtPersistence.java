@@ -1,4 +1,4 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import javax.persistence.EntityManager;
 

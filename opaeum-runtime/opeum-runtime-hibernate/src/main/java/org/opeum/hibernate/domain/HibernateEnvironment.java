@@ -1,4 +1,4 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Proxy;
@@ -21,15 +21,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.connection.ConnectionProviderFactory;
-import org.opeum.runtime.domain.IActiveObject;
-import org.opeum.runtime.domain.ISignal;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.runtime.event.IEventHandler;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
-import org.opeum.runtime.persistence.CmtPersistence;
-import org.opeum.runtime.persistence.ConversationalPersistence;
-import org.opeum.runtime.persistence.UmtPersistence;
+import org.opaeum.runtime.domain.IActiveObject;
+import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
+import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class HibernateEnvironment extends Environment {
 	private StatefulKnowledgeSession knowledgeSession;
@@ -143,7 +143,7 @@ public class HibernateEnvironment extends Environment {
 		if (originalClass == Object.class || originalClass == Proxy.class) {
 			// Interface
 			for (Class<?> class1 : o.getClass().getInterfaces()) {
-				if (!(class1.getName().startsWith("java") || class1.getName().startsWith("org.jboss") || class1.getName().startsWith("org.opeum"))) {
+				if (!(class1.getName().startsWith("java") || class1.getName().startsWith("org.jboss") || class1.getName().startsWith("org.opaeum"))) {
 					return (Class<T>) class1;// return most significant
 												// interface
 				}

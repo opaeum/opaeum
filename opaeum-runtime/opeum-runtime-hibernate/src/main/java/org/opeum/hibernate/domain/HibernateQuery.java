@@ -1,10 +1,10 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.util.Collection;
 import java.util.Date;
 
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.persistence.Query;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.persistence.Query;
 
 public class HibernateQuery implements Query{
 	org.hibernate.Query delegate;

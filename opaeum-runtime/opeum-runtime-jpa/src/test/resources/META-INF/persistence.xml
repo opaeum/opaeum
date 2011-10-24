@@ -8,20 +8,20 @@
 	<persistence-unit name="AuditPU">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<class>org.opeum.audit.AuditEntry</class>
-		<class>org.opeum.audit.AuditEntryPropertyChange</class>
-		<class>org.opeum.audit.EntityPropertyChange</class>
-		<class>org.opeum.audit.PropertyChange</class>
-		<class>org.opeum.audit.StringPropertyChange</class>
-		<class>org.opeum.audit.BooleanPropertyChange</class>
-		<class>org.opeum.audit.DateTimePropertyChange</class>
-		<class>org.opeum.audit.IntegerPropertyChange</class>
-		<class>org.opeum.audit.FloatingPointPropertyChange</class>
-		<class>org.opeum.audit.NullPropertyChange</class>
-		<class>org.opeum.audit.ParentAuditedObject</class>
-		<class>org.opeum.audit.ChildAuditedObject</class>
-		<class>org.opeum.audit.UnauditedObject</class>
-		<class>org.opeum.audit.CustomAuditEntry</class>
+		<class>org.opaeum.audit.AuditEntry</class>
+		<class>org.opaeum.audit.AuditEntryPropertyChange</class>
+		<class>org.opaeum.audit.EntityPropertyChange</class>
+		<class>org.opaeum.audit.PropertyChange</class>
+		<class>org.opaeum.audit.StringPropertyChange</class>
+		<class>org.opaeum.audit.BooleanPropertyChange</class>
+		<class>org.opaeum.audit.DateTimePropertyChange</class>
+		<class>org.opaeum.audit.IntegerPropertyChange</class>
+		<class>org.opaeum.audit.FloatingPointPropertyChange</class>
+		<class>org.opaeum.audit.NullPropertyChange</class>
+		<class>org.opaeum.audit.ParentAuditedObject</class>
+		<class>org.opaeum.audit.ChildAuditedObject</class>
+		<class>org.opaeum.audit.UnauditedObject</class>
+		<class>org.opaeum.audit.CustomAuditEntry</class>
 
 		<properties>
 			<!--property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
@@ -45,10 +45,10 @@
 			<property name="hibernate.max_fetch_depth" value="1" />
 
 			<property name="hibernate.ejb.event.post-insert"
-				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opeum.audit.AuditListener" />
+				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-update"
-				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.flush" value="org.opeum.audit.AuditListener" />
+				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
 		</properties>
 	</persistence-unit>
 </persistence>

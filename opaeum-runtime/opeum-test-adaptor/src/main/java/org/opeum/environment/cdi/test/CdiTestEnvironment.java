@@ -1,4 +1,4 @@
-package org.opeum.environment.cdi.test;
+package org.opaeum.environment.cdi.test;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -36,14 +36,14 @@ import org.jboss.weld.mock.MockBeanDeploymentArchive;
 import org.jboss.weld.mock.MockDeployment;
 import org.jboss.weld.mock.MockServletLifecycle;
 import org.jboss.weld.test.BeanManagerLocator;
-import org.opeum.runtime.domain.IActiveObject;
-import org.opeum.runtime.domain.ISignal;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
-import org.opeum.runtime.persistence.UmtPersistence;
-import org.opeum.seam3.persistence.ManagedHibernateSessionFactoryProvider;
-import org.opeum.test.adaptor.CditTestLogger;
+import org.opaeum.runtime.domain.IActiveObject;
+import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opaeum.runtime.persistence.UmtPersistence;
+import org.opaeum.seam3.persistence.ManagedHibernateSessionFactoryProvider;
+import org.opaeum.test.adaptor.CditTestLogger;
 
 public class CdiTestEnvironment extends Environment{
 	private StatefulKnowledgeSession knowledgeSession;

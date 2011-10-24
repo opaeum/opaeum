@@ -1,8 +1,8 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import javax.persistence.EntityManager;
 
-import org.opeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.persistence.CmtPersistence;
 
 public class StandaloneJpaCmtPersistence extends AbstractJpaPersistence implements CmtPersistence{
 	EntityManager entityManager;

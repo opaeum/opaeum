@@ -1,4 +1,4 @@
-package org.opeum.environment.cdi.test;
+package org.opaeum.environment.cdi.test;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,8 +10,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.jbpm.persistence.ProcessPersistenceContextManager;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.opeum.environment.adaptor.HibernateProcessPersistenceContextManager;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
+import org.opaeum.environment.adaptor.HibernateProcessPersistenceContextManager;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
 
 
 public class CdiTestJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession {

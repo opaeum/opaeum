@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-import org.opeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 @Entity
 @AuditMe(factory=CustomAuditEntryFactory.class)

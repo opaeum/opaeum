@@ -7,9 +7,9 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar;
-import org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
-import org.opeum.runtime.bpm.businesscalendar.OnceOffHoliday;
-import org.opeum.runtime.bpm.businesscalendar.WorkDay;
+import org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
+import org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday;
+import org.opaeum.runtime.bpm.businesscalendar.WorkDay;
 
 public class WorkingHoursTest extends TestCase{
 	BusinessCalendar wh = new BusinessCalendar();

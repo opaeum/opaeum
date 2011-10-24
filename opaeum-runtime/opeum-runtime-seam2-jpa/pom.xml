@@ -1,18 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>opeum-runtime</artifactId>
-		<groupId>org.opeum</groupId>
+		<artifactId>opaeum-runtime</artifactId>
+		<groupId>org.opaeum</groupId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-runtime-seam2-jpa</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-runtime-seam2-jpa</artifactId>
 	<packaging>jar</packaging>
-	<name>Opeum Seam2/JPA/Hibernate runtime</name>
+	<name>Opaeum Seam2/JPA/Hibernate runtime</name>
 	<version>1.0.0-SNAPSHOT</version>
-	<url>http://github.com/opeum</url>
+	<url>http://github.com/opaeum</url>
 
 	<properties>
 	</properties>
@@ -31,9 +31,9 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.opeum</groupId>
-			<artifactId>opeum-runtime-jpa</artifactId>
-			<version>${opeum.version}</version>
+			<groupId>org.opaeum</groupId>
+			<artifactId>opaeum-runtime-jpa</artifactId>
+			<version>${opaeum.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

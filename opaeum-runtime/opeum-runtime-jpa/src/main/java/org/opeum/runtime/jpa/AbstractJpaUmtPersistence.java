@@ -1,10 +1,10 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import java.util.Collection;
 
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.persistence.Query;
-import org.opeum.runtime.persistence.UmtPersistence;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.persistence.Query;
+import org.opaeum.runtime.persistence.UmtPersistence;
 
 public abstract class AbstractJpaUmtPersistence extends AbstractJpaPersistence implements UmtPersistence{
 	@Override

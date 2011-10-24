@@ -1,4 +1,4 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -8,8 +8,8 @@ import java.sql.Types;
 
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
-import org.opeum.runtime.domain.EnumResolver;
-import org.opeum.runtime.domain.IEnum;
+import org.opaeum.runtime.domain.EnumResolver;
+import org.opaeum.runtime.domain.IEnum;
 
 public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 	@Override
@@ -24,7 +24,7 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 		if(rs.wasNull()){
 			return null;
 		}else{
-			return fromOpeumId(object);
+			return fromOpaeumId(object);
 		}
 	}
 	@Override
@@ -32,7 +32,7 @@ public abstract class AbstractEnumResolver  implements EnumResolver,UserType{
 		if(value == null){
 			st.setNull(index, Types.INTEGER);
 		}else{
-			st.setInt(index, toOpeumId((IEnum) value));
+			st.setInt(index, toOpaeumId((IEnum) value));
 		}
 	}
 	@Override

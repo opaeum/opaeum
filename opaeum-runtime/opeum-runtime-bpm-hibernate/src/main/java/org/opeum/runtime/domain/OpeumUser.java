@@ -2,7 +2,7 @@ package org.opaeum.runtime.domain;
 
 import java.util.Collection;
 
-public class OpeumUser{
+public class OpaeumUser{
 	private String username;
 	private Collection<? extends IUserInRole> roles;
 

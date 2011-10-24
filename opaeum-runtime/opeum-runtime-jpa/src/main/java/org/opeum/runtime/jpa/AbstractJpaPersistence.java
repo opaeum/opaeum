@@ -1,13 +1,13 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.persistence.AbstractPersistence;
-import org.opeum.runtime.persistence.Query;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.runtime.persistence.Query;
 
 public abstract class AbstractJpaPersistence implements AbstractPersistence{
 	@Override

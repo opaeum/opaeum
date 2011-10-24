@@ -1,4 +1,4 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import java.lang.annotation.Annotation;
 import java.sql.Connection;
@@ -18,15 +18,15 @@ import javax.persistence.Table;
 
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
-import org.opeum.hibernate.domain.EventOccurrence;
-import org.opeum.runtime.domain.IActiveObject;
-import org.opeum.runtime.domain.ISignal;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.runtime.event.IEventHandler;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
-import org.opeum.runtime.persistence.CmtPersistence;
-import org.opeum.runtime.persistence.ConversationalPersistence;
-import org.opeum.runtime.persistence.UmtPersistence;
+import org.opaeum.hibernate.domain.EventOccurrence;
+import org.opaeum.runtime.domain.IActiveObject;
+import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opaeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
+import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class StandaloneJpaEnvironment extends Environment{
 	Map<Class<?>,Object> components = new HashMap<Class<?>,Object>();

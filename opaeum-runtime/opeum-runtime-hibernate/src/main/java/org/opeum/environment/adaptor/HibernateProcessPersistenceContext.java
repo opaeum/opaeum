@@ -1,4 +1,4 @@
-package org.opeum.environment.adaptor;
+package org.opaeum.environment.adaptor;
 
 import java.util.List;
 

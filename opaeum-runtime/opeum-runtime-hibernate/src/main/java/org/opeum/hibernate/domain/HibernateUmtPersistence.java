@@ -1,8 +1,8 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.opeum.runtime.persistence.UmtPersistence;
+import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class HibernateUmtPersistence extends AbstractHibernatePersistence implements UmtPersistence{
 	private Transaction tx;

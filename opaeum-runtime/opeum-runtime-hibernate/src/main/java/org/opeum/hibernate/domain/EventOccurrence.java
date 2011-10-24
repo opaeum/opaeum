@@ -1,4 +1,4 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,17 +20,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.runtime.environment.marshall.PropertyValue;
-import org.opeum.runtime.environment.marshall.Value;
-import org.opeum.runtime.event.AbstractEventOccurrence;
-import org.opeum.runtime.event.EventOccurrenceStatus;
-import org.opeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.marshall.PropertyValue;
+import org.opaeum.runtime.environment.marshall.Value;
+import org.opaeum.runtime.event.AbstractEventOccurrence;
+import org.opaeum.runtime.event.EventOccurrenceStatus;
+import org.opaeum.runtime.event.IEventHandler;
 
 @Entity()
-@Table(name = "opeum_abstract_event")
+@Table(name = "opaeum_abstract_event")
 public class EventOccurrence extends AbstractEventOccurrence{
 	private static final long serialVersionUID = 8920092390485701533L;
 	@Enumerated(EnumType.STRING)

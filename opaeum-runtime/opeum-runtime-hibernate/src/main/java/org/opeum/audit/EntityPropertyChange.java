@@ -1,11 +1,11 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.hibernate.event.EventSource;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 @Entity
 @DiscriminatorValue("E")

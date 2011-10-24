@@ -1,6 +1,6 @@
 package org.opaeum.runtime.domain;
 
-import org.opeum.runtime.domain.IProcessObject;
+import org.opaeum.runtime.domain.IProcessObject;
 
 
 public interface IOperationProcessObject extends IProcessObject{

@@ -1,9 +1,9 @@
-package org.opeum.test.adaptor;
+package org.opaeum.test.adaptor;
 
 public class ArtifactNames {
-	public static final String NAKED_UML_UTIL = "org.opeum:util";
-	public static final String NAKED_UML_ADAPTOR_RUNTIME = "org.opeum:opeum-runtime-adaptor";
-	public static final String NAKED_UML_DOMAIN_RUNTIME = "org.opeum:opeum-runtime-domain";
+	public static final String NAKED_UML_UTIL = "org.opaeum:util";
+	public static final String NAKED_UML_ADAPTOR_RUNTIME = "org.opaeum:opaeum-runtime-adaptor";
+	public static final String NAKED_UML_DOMAIN_RUNTIME = "org.opaeum:opaeum-runtime-domain";
 	
 	public static final String JBPM_FLOW = "org.jbpm:jbpm-flow";
 	public static final String JBPM_FLOW_BUILDER = "org.jbpm:jbpm-flow-builder";

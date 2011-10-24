@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.opeum.runtime.domain.TinkerNode;
+import org.opaeum.runtime.domain.TinkerNode;
 
 public class TinkerEmbeddedHashSet<E> extends HashSet<E> implements TinkerSet<E>, TinkerCollection<E> {
 

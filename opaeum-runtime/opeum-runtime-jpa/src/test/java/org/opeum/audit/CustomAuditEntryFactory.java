@@ -1,6 +1,6 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
-import org.opeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 public class CustomAuditEntryFactory implements AuditEntryFactory<CustomAuditEntry> {
 	private static final String INSERT_CLAUSE = "insert into custom_audit_entry(id, custom_value) values ";

@@ -1,4 +1,4 @@
-package org.opeum.environment.adaptor;
+package org.opaeum.environment.adaptor;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,8 +9,8 @@ import org.drools.persistence.jpa.marshaller.JPAPlaceholderResolverStrategy;
 import org.drools.runtime.Environment;
 import org.hibernate.Session;
 import org.jbpm.persistence.ProcessPersistenceContextManager;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
 
 public class HibernateJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession{
 	protected JPAPlaceholderResolverStrategy getPlaceholderResolverStrategy(final org.drools.runtime.Environment environment){
@@ -33,7 +33,7 @@ public class HibernateJbpmKnowledgeSession extends AbstractJbpmKnowledgeSession{
 		return new HibernateProcessPersistenceContextManager(getHibernateSession());
 	}
 	public Session getHibernateSession(){
-		final Session session = org.opeum.runtime.environment.Environment.getInstance().getComponent(Session.class);
+		final Session session = org.opaeum.runtime.environment.Environment.getInstance().getComponent(Session.class);
 		return session;
 	}
 }

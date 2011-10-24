@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

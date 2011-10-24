@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,8 +25,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Index;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "AuditEntry")

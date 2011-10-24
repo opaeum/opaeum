@@ -22,8 +22,8 @@ public class Renamer{
 					rename(child);
 				}
 			}
-			child = replace(child, "opaeum", "opeum");
-			child = replace(child, "Opaeum", "Opeum");
+			child = replace(child, "opeum", "opaeum");
+			child = replace(child, "Opeum", "Opaeum");
 		}
 	}
 	public static File replace(File child,String s,String replacement) throws InterruptedException,IOException{

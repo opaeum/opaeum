@@ -3,8 +3,8 @@ package com.rorotika.cm.ericsson.gsm.load.loadprocess;
 import javax.enterprise.inject.Produces;
 
 import org.hibernate.Session;
-import org.opeum.environment.cdi.test.CdiTestEnvironment;
-import org.opeum.seam3.persistence.UserManagedSession;
+import org.opaeum.environment.cdi.test.CdiTestEnvironment;
+import org.opaeum.seam3.persistence.UserManagedSession;
 
 public class CdiTestHibernateSessionProducer{
 	@Produces

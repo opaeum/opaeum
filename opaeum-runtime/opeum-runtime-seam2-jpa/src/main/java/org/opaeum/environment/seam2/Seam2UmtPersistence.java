@@ -1,4 +1,4 @@
-package org.opeum.environment.seam2;
+package org.opaeum.environment.seam2;
 
 import javax.persistence.EntityManager;
 
@@ -6,8 +6,8 @@ import org.drools.RuntimeDroolsException;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.transaction.UserTransaction;
-import org.opeum.runtime.jpa.AbstractJpaUmtPersistence;
-import org.opeum.runtime.persistence.UmtPersistence;
+import org.opaeum.runtime.jpa.AbstractJpaUmtPersistence;
+import org.opaeum.runtime.persistence.UmtPersistence;
 @Name("umtsPersistence")
 public class Seam2UmtPersistence extends AbstractJpaUmtPersistence implements UmtPersistence {
 	@In

@@ -1,4 +1,4 @@
-package org.opeum.tinker.runtime;
+package org.opaeum.tinker.runtime;
 
 import com.orientechnologies.orient.core.id.ORecordId;
 import com.tinkerpop.blueprints.pgm.Vertex;

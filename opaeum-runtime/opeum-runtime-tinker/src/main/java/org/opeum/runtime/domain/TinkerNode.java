@@ -1,4 +1,6 @@
-package org.opeum.runtime.domain;
+package org.opaeum.runtime.domain;
+
+import org.opaeum.runtime.domain.IPersistentObject;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 

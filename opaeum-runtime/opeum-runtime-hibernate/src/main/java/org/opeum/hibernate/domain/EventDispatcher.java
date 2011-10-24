@@ -1,4 +1,4 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,11 +17,11 @@ import org.hibernate.event.PostLoadEvent;
 import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.opeum.runtime.domain.CancelledEvent;
-import org.opeum.runtime.domain.IEventGenerator;
-import org.opeum.runtime.domain.IProcessObject;
-import org.opeum.runtime.domain.OutgoingEvent;
-import org.opeum.runtime.environment.Environment;
+import org.opaeum.runtime.domain.CancelledEvent;
+import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.IProcessObject;
+import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.environment.Environment;
 
 public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener, FlushEventListener, PostInsertEventListener {
 	private static final long serialVersionUID = -8583155822068850343L;

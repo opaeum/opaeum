@@ -1,7 +1,7 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import org.hibernate.Session;
-import org.opeum.runtime.persistence.CmtPersistence;
+import org.opaeum.runtime.persistence.CmtPersistence;
 
 public class HibernateCmtPersistence extends AbstractHibernatePersistence implements CmtPersistence{
 

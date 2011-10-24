@@ -1,6 +1,6 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
-import org.opeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 public class DefaultAuditEntryFactory implements AuditEntryFactory<AuditEntry> {
 

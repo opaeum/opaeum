@@ -1,11 +1,11 @@
-package org.opeum.test.tinker;
+package org.opaeum.test.tinker;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
 import org.junit.Before;
-import org.opeum.environment.Environment;
+import org.opaeum.environment.Environment;
 import org.util.GraphDb;
 import org.util.NakedGraph;
 import org.util.TinkerSchemaHelper;

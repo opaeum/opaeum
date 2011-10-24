@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.io.Serializable;
 
@@ -7,8 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 @Embeddable
 public final class AuditEntryId implements Serializable {

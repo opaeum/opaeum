@@ -1,6 +1,6 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
-import org.opeum.runtime.persistence.ConversationalPersistence;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 
 public abstract class AbstractJpaConversationalPersistence extends AbstractJpaPersistence implements ConversationalPersistence{
 

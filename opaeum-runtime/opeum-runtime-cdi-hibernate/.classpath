@@ -66,8 +66,8 @@
       <attribute value="jar:file:/home/ampie/.m2/repository/org/mvel/mvel2/2.1.0.drools2/mvel2-2.1.0.drools2-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
-  <classpathentry kind="src" path="/opeum-runtime-domain"/>
-  <classpathentry kind="src" path="/opeum-runtime-hibernate"/>
+  <classpathentry kind="src" path="/opaeum-runtime-domain"/>
+  <classpathentry kind="src" path="/opaeum-runtime-hibernate"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-api/3.0.0.Final/seam-solder-api-3.0.0.Final.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/jboss/seam/solder/seam-solder-impl/3.0.0.Final/seam-solder-impl-3.0.0.Final.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar" sourcepath="M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1-sources.jar"/>

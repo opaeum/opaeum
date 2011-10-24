@@ -1,4 +1,4 @@
-package org.opeum.environment.cdi.test;
+package org.opaeum.environment.cdi.test;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -42,7 +42,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.opeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 @RequestScoped
 public class CdiTestHibernateSession implements Session{

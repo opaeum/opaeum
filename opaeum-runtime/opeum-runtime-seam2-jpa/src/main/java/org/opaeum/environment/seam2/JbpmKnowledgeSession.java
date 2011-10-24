@@ -1,4 +1,4 @@
-package org.opeum.environment.seam2;
+package org.opaeum.environment.seam2;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,10 +20,10 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.transaction.UserTransaction;
 import org.jbpm.persistence.ProcessPersistenceContextManager;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
-import org.opeum.runtime.jpa.LightWeightJpaProcessPersistenceContextManager;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeSession;
+import org.opaeum.runtime.jpa.LightWeightJpaProcessPersistenceContextManager;
 
 @Name("jbpmKnowledgeSession")
 @Scope(ScopeType.EVENT)

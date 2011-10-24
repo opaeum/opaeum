@@ -1,4 +1,4 @@
-package org.opeum.test.adaptor;
+package org.opaeum.test.adaptor;
 
 import java.io.File;
 import java.util.ArrayList;

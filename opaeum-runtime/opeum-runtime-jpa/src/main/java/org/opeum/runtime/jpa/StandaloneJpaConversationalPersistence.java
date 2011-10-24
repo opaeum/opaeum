@@ -1,8 +1,8 @@
-package org.opeum.runtime.jpa;
+package org.opaeum.runtime.jpa;
 
 import javax.persistence.EntityManager;
 
-import org.opeum.runtime.persistence.ConversationalPersistence;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 
 public class StandaloneJpaConversationalPersistence extends AbstractJpaConversationalPersistence implements ConversationalPersistence{
 	EntityManager entityManager;

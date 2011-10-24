@@ -1,10 +1,10 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.opeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 @Entity
 public class UnauditedObject implements IPersistentObject{

@@ -21,18 +21,18 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 		this.outputRoot = new File(".").getAbsoluteFile().getParentFile().getParentFile();
 	}
 	protected void generateCodeForSingleModel() throws Exception,IOException,FileNotFoundException{
-		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/opeum/opeum-core/org.opeum.metamodels/models/libraries/OpeumBPM.library.uml");
-		OpeumConfig cfg = buildConfig();
+		modelFile = new File("/home/ampie/Workspaces/workspace_sandbox/opaeum/opaeum-core/org.opaeum.metamodels/models/libraries/OpaeumBPM.library.uml");
+		OpaeumConfig cfg = buildConfig();
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
-		workspace.markLibraries("OpeumSimpleTypes.library.uml");
+		workspace.markLibraries("OpaeumSimpleTypes.library.uml");
 		process.execute(cfg, workspace, getSteps(), new DefaultTransformationLog());
 		workspace.getMappingInfo().store();
 	}
-	protected OpeumConfig buildConfig() throws IOException{
-		OpeumConfig cfg = new OpeumConfig(new File(modelFile.getParentFile(), "bpm-opeum.properties"));
+	protected OpaeumConfig buildConfig() throws IOException{
+		OpaeumConfig cfg = new OpaeumConfig(new File(modelFile.getParentFile(), "bpm-opaeum.properties"));
 		cfg.setGenerateMavenPoms(false);
 		cfg.setSourceFolderStrategy(getClass().getName());
-		cfg.loadDefaults("opeum-runtime");
+		cfg.loadDefaults("opaeum-runtime");
 		cfg.setOutputRoot(outputRoot);
 		cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 		return cfg;
@@ -49,7 +49,7 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 		steps.add(TextFileGenerator.class);
 		return steps;
 	}
-	private void mapDomainProjects(OpeumConfig cfg){
+	private void mapDomainProjects(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, false, "", "src/main/generated-java");
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_TEST_SRC, false, "", "src/test/generated-java");
 		SourceFolderDefinition domainSrc = cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_SRC, false, "", "src/main/java");
@@ -59,7 +59,7 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_TEST_RESOURCE, false, "", "src/test/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, false, "", "src/main/generated-resources");
 	}
-	private void mapAdaptorProjects(OpeumConfig cfg){
+	private void mapAdaptorProjects(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, false, "", "src/main/generated-java");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, false, "", "src/main/generated-resources");
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, false, "", "src/test/generated-java");
@@ -81,7 +81,7 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 		return toSet();
 	}
 	@Override
-	public void defineSourceFolders(OpeumConfig config){
+	public void defineSourceFolders(OpaeumConfig config){
 		new SingleProjectMavenSourceFolderStrategy().defineSourceFolders(config);
 		mapDomainProjects(config);
 		mapAdaptorProjects(config);

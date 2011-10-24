@@ -1,4 +1,4 @@
-package org.opeum.environment.adaptor;
+package org.opaeum.environment.adaptor;
 
 import org.drools.persistence.PersistenceContext;
 import org.hibernate.Session;

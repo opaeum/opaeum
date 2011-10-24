@@ -1,10 +1,10 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.opeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 @Entity
 @Table(name="custom_audit_entry")

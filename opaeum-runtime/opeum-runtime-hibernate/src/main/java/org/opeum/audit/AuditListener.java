@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,8 +20,8 @@ import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.hibernate.event.def.AbstractFlushingEventListener;
 import org.hibernate.persister.entity.EntityPersister;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

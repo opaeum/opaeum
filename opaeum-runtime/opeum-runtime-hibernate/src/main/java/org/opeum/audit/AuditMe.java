@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,8 +13,8 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.event.EventSource;
 import org.hibernate.jdbc.Work;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

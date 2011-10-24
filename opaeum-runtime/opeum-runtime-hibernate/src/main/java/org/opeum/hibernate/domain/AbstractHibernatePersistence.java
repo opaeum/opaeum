@@ -1,11 +1,11 @@
-package org.opeum.hibernate.domain;
+package org.opaeum.hibernate.domain;
 
 import java.util.Collection;
 
 import org.hibernate.Session;
-import org.opeum.runtime.domain.IPersistentObject;
-import org.opeum.runtime.persistence.AbstractPersistence;
-import org.opeum.runtime.persistence.Query;
+import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.persistence.AbstractPersistence;
+import org.opaeum.runtime.persistence.Query;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernatePersistence implements AbstractPersistence{

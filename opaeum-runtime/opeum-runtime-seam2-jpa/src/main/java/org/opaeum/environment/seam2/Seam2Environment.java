@@ -1,4 +1,4 @@
-package org.opeum.environment.seam2;
+package org.opaeum.environment.seam2;
 
 import java.lang.annotation.Annotation;
 
@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import org.hibernate.Session;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Lifecycle;
-import org.opeum.hibernate.domain.HibernateEnvironment;
+import org.opaeum.hibernate.domain.HibernateEnvironment;
 
 @SuppressWarnings("unchecked")
 public class Seam2Environment extends HibernateEnvironment{

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.opeum.runtime.domain.TinkerCompositionNode;
-import org.opeum.runtime.domain.TinkerNode;
+import org.opaeum.runtime.domain.TinkerCompositionNode;
+import org.opaeum.runtime.domain.TinkerNode;
 
 
 public class TransactionThreadEntityVar {

@@ -1,4 +1,4 @@
-package org.opeum.tinker.runtime;
+package org.opaeum.tinker.runtime;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jVertex;

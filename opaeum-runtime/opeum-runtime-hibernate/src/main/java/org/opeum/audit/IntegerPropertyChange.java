@@ -1,4 +1,4 @@
-package org.opeum.audit;
+package org.opaeum.audit;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

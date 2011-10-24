@@ -91,14 +91,14 @@
 		</pluginManagement>
 	</build>
 	<modules>
-		<module>opeum-runtime-domain</module>
+		<module>opaeum-runtime-domain</module>
 		<module>opaeum-test-adaptor</module>
 		<module>opaeum-test-tinker</module>
 		<module>opaeum-runtime-bpm-hibernate</module>
-		<module>opeum-runtime-hibernate</module>
-		<module>opeum-runtime-jpa</module>
+		<module>opaeum-runtime-hibernate</module>
+		<module>opaeum-runtime-jpa</module>
 		<module>opaeum-runtime-cdi-hibernate</module>
-		<module>opeum-runtime-seam2-jpa</module>
+		<module>opaeum-runtime-seam2-jpa</module>
 		<module>opaeum-runtime-tinker</module>
 		<module>opaeum-runtime-orient</module>
 		<module>opaeum-runtime-neo4j</module>
@@ -189,7 +189,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.opaeum</groupId>
-				<artifactId>opeum-runtime-domain</artifactId>
+				<artifactId>opaeum-runtime-domain</artifactId>
 				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
@@ -215,7 +215,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.opaeum</groupId>
-				<artifactId>opeum-runtime-hibernate</artifactId>
+				<artifactId>opaeum-runtime-hibernate</artifactId>
 				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
@@ -265,7 +265,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.opaeum</groupId>
-				<artifactId>opeum-runtime-jpa</artifactId>
+				<artifactId>opaeum-runtime-jpa</artifactId>
 				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

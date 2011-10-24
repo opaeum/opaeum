@@ -2,11 +2,11 @@ package org.opaeum.runtime.domain;
 
 
 public class CurrentUser {
-	private static ThreadLocal<OpeumUser> instance = new ThreadLocal<OpeumUser>();
-	public static void associateUserWithThread(OpeumUser user) {
+	private static ThreadLocal<OpaeumUser> instance = new ThreadLocal<OpaeumUser>();
+	public static void associateUserWithThread(OpaeumUser user) {
 		instance.set(user);
 	}
-	public static OpeumUser getCurrentUser() {
+	public static OpaeumUser getCurrentUser() {
 		return instance.get();
 	}
 }
