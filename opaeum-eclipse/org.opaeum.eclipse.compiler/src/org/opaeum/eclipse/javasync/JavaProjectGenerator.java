@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -72,7 +73,7 @@ public final class JavaProjectGenerator extends Job{
 					pgp.getParentPom().getProject().getModules().getModule().clear();
 					pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
 					pgp.outputToFile(pgp.getParentPom());
-					runMaven(cfg);
+					runMaven(cfg.getOutputRoot());
 					monitor.worked(20);
 				}
 				for(IProject iProject:eclipseProjects){
@@ -91,9 +92,9 @@ public final class JavaProjectGenerator extends Job{
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");
 	}
-	public static void runMaven(OpaeumConfig cfg) throws JavaModelException,IOException,InterruptedException{
+	public static void runMaven(File outputRoot) throws JavaModelException,IOException,InterruptedException{
 		JavaCore.setClasspathVariable("M2_REPO", new Path(System.getProperty("user.home") + "/.m2/repository"), null);
-		Process p = Runtime.getRuntime().exec("mvn eclipse:eclipse -o", new String[0], cfg.getOutputRoot());
+		Process p = Runtime.getRuntime().exec("mvn eclipse:eclipse -o", new String[0], outputRoot);
 		p.waitFor();
 		BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String line = null;
@@ -120,7 +121,7 @@ public final class JavaProjectGenerator extends Job{
 	public static void writeTextFilesAndRefresh(final IProgressMonitor monitor,TransformationProcess p,OpaeumEclipseContext currentContext,boolean cleanDirectories)
 			throws CoreException{
 		try{
-			monitor.beginTask("Updating resources", 6);
+			monitor.beginTask("Updating resources", 1000);
 			TextWorkspace textWorkspace = p.findModel(TextWorkspace.class);
 			if(!monitor.isCanceled()){
 				monitor.setTaskName("Writing Text Files");
@@ -132,12 +133,11 @@ public final class JavaProjectGenerator extends Job{
 				TextFileGenerator textFileGenerator = new TextFileGenerator();
 				textFileGenerator.initialize(currentContext.getConfig());
 				textFileGenerator.startVisiting(textWorkspace);
-				monitor.worked(3);
+				monitor.worked(500);
 			}
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			monitor.setTaskName("Refreshing Projects");
-			new JavaProjectGenerator(currentContext.getConfig(), p, root).schedule();
-			monitor.worked(3);
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			new JavaProjectGenerator(currentContext.getConfig(), p, root). run(new SubProgressMonitor(monitor, 500));
 		}finally{
 			monitor.done();
 		}

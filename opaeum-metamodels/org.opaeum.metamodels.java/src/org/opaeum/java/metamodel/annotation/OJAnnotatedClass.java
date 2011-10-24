@@ -186,7 +186,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		}
 	}
 	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
-		super.renameAll(renamePathNames,suffix);
+		super.renameAll(renamePathNames, suffix);
 		Collection<OJAnnotationValue> annotations = getAnnotations();
 		for(OJAnnotationValue ojAnnotationValue:annotations){
 			ojAnnotationValue.renameAll(renamePathNames, suffix);
@@ -209,11 +209,12 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		super.f_fields.remove(name);
 	}
 	public String toAbstractSuperclassJavaString(){
-		String name = getName();
-		setName(name + "Generated");
+		String concreteName=getName();
+		String oldName = f_name;
+		setName(oldName + "Generated");
 		String result = toJavaString();
-		result=result.replaceAll("[\\(]this[\\)]", "(("+ name +")this)");
-		setName(name);
+		result = result.replaceAll("[\\(]this[\\)]", "((" + concreteName + ")this)");
+		setName(oldName);
 		return result;
 	}
 	public static void main(String[] args){
@@ -237,7 +238,11 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		classInfo.append(this.visToJava(this) + " ");
 		classInfo.append("class ");
 		classInfo.append(this.getName());
-		classInfo.append(" extends " + this.getName() + "Generated");
+		if(suffix == null){
+			classInfo.append(" extends " + this.getName() + "Generated");
+		}else{
+			classInfo.append(" extends " + f_name + "Generated" + suffix);
+		}
 		classInfo.append(" {\n");
 		final Set<OJConstructor> constructors = getConstructors();
 		Collection<OJConstructor> tempConstructors = new ArrayList<OJConstructor>();
@@ -246,7 +251,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 			e.z_internalAddToOwningClass(this);
 			e.setBody(new OJBlock());
 			final Iterator<OJParameter> iterator = e.getParameters().iterator();
-			StringBuilder sb  = new StringBuilder("super(");
+			StringBuilder sb = new StringBuilder("super(");
 			while(iterator.hasNext()){
 				OJParameter ojParameter = (OJParameter) iterator.next();
 				sb.append(ojParameter.getName());
@@ -257,7 +262,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 			sb.append(")");
 			tempConstructors.add(e);
 		}
-		classInfo.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(tempConstructors,"\n"), 1));
+		classInfo.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(tempConstructors, "\n"), 1));
 		classInfo.append("\n}");
 		return classInfo.toString();
 	}

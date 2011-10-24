@@ -5,6 +5,7 @@ import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.DecisionNode;
+import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.FinalNode;
 import org.eclipse.uml2.uml.ForkNode;
 import org.eclipse.uml2.uml.InitialNode;
@@ -12,6 +13,7 @@ import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.MergeNode;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.ObjectNode;
+import org.opaeum.eclipse.EmfActivityUtil;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.uml.activitydiagram.policies.ObjectFlowEdgeCreationEditPolicy;
@@ -19,7 +21,7 @@ import org.topcased.modeler.utils.Utils;
 
 public class OpaeumObjectFlowEdgeCreationEditPolicy extends ObjectFlowEdgeCreationEditPolicy{
 	protected boolean checkSource(GraphElement source,GraphEdge edge){
-		if(super.checkSource(source, edge)==false){
+		if(super.checkSource(source, edge) == false){
 			return false;
 		}else{
 			return checkSource(source);
@@ -71,9 +73,20 @@ public class OpaeumObjectFlowEdgeCreationEditPolicy extends ObjectFlowEdgeCreati
 		if(super.checkTargetForSource(source, target) == false){
 			return false;
 		}else{
+			EObject sourceNode = Utils.getElement(source);
 			EObject object = Utils.getElement(target);
 			if((object instanceof ObjectNode || object instanceof DecisionNode || object instanceof ForkNode) && ((ActivityNode) object).getIncomings().size() > 0){
 				return false;
+			}
+			if(sourceNode instanceof ExpansionNode){
+				ExpansionNode sourceEn = (ExpansionNode) sourceNode;
+				if(sourceEn.getRegionAsInput() != null){
+					return object.eContainer()==sourceEn.getRegionAsInput() || object.eContainer().eContainer()==sourceEn.getRegionAsInput();
+				}else if(sourceEn.getRegionAsOutput() != null){
+					return !(object.eContainer()==sourceEn.getRegionAsOutput() || object.eContainer().eContainer()==sourceEn.getRegionAsOutput());
+				}else{
+					return false;
+				}
 			}
 			if(object instanceof FinalNode){
 				return false;

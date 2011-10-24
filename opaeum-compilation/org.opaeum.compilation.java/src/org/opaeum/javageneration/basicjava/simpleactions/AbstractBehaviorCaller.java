@@ -52,7 +52,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 					fs.addToStatements(featureMap.adder() + "(" + resultField.getName() + ")");
 				}
 				maybeStartBehavior(operation, fs, resultMap);
-				fs.addToStatements(expressor.storeResults(resultMap, resultMap.umlName(), resultIsMany(resultMap)));
+				fs.addToStatements(expressor.storeResults(resultMap, resultMap.fieldname(), resultIsMany(resultMap)));
 			}else{
 				callBehavior(operation, block);
 			}

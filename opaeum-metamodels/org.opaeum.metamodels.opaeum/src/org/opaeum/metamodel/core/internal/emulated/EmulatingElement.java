@@ -2,7 +2,9 @@ package org.opaeum.metamodel.core.internal.emulated;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IPackage;
@@ -15,11 +17,18 @@ import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedRootObject;
 
-public class EmulatingElement implements INakedElement{
+public abstract class EmulatingElement implements INakedElement{
 	private static final long serialVersionUID = -1375831977226433661L;
-	String documentation;
+	private String documentation;
+	private Map<String,INakedElement> ownedElements = new HashMap<String,INakedElement>();
 	public String getDocumentation(){
 		return documentation;
+	}
+	public INakedElement getOwnedElement(String id){
+		return getOwnedElementMap().get(id);
+	}
+	protected Map<String,INakedElement> getOwnedElementMap(){
+		return this.ownedElements;
 	}
 	public void setDocumentation(String documentation){
 		this.documentation = documentation;
@@ -106,11 +115,17 @@ public class EmulatingElement implements INakedElement{
 		return originalElement.getPathName();
 	}
 	public Collection<INakedElement> getOwnedElements(){
-		return originalElement.getOwnedElements();
+		return getOwnedElementMap().values();
 	}
 	public void addOwnedElement(INakedElement element){
+		if(element != null){
+			getOwnedElementMap().put(element.getId(), element);
+		}
 	}
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void removeOwnedElement(INakedElement element,boolean recursively){
+		if(element != null){
+			getOwnedElementMap().remove(element.getId());
+		}
 	}
 	@Override
 	public boolean isStoreMappingInfo(){
@@ -125,7 +140,7 @@ public class EmulatingElement implements INakedElement{
 	}
 	public INakedRootObject getRootObject(){
 		if(getOwnerElement() instanceof INakedElement){
-			return ((INakedElement)getOwnerElement()).getRootObject();
+			return ((INakedElement) getOwnerElement()).getRootObject();
 		}
 		return null;
 	}
@@ -133,5 +148,4 @@ public class EmulatingElement implements INakedElement{
 	public Collection<INakedElement> getAllDescendants(){
 		return getOwnedElements();
 	}
-
 }

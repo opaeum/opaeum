@@ -15,7 +15,7 @@ public class BehaviorCaller extends AbstractBehaviorCaller<INakedCallBehaviorAct
 	}
 	protected void maybeStartBehavior(OJAnnotatedOperation oper,OJBlock block,NakedStructuralFeatureMap resultMap){
 		if(node.getBehavior().isProcess()){
-			block.addToStatements(resultMap.umlName() + ".execute()");
+			block.addToStatements(resultMap.fieldname() + ".execute()");
 		}
 	}
 	protected NakedStructuralFeatureMap getResultMap(){

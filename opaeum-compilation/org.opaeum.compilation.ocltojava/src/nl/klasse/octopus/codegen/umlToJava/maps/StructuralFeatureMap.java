@@ -46,6 +46,10 @@ public class StructuralFeatureMap extends PackageableElementMap {
 	public StructuralFeatureMap(IStructuralFeature feature) {
 		super(feature);
 		this.feature = feature;
+		if(feature.getType()==null){
+			System.out.println("Type is null:" + feature.getPathName());
+			
+		}
 		featureTypeMap = new ClassifierMap(feature.getType());
 		if (feature instanceof IAssociationEnd) {
 			IClassifier baseType = ((IAssociationEnd)feature).getBaseType();

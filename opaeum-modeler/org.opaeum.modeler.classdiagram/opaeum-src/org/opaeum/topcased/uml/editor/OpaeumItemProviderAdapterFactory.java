@@ -72,9 +72,9 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Connector){
 						Connector a = (Connector) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_CHANNEL)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_CHANNEL)){
 							return "<Business Channel> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.DELEGATION)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.DELEGATION)){
 							return "<Delegation> " + a.getName();
 						}
 					}
@@ -97,13 +97,13 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Property){
 						Property a = (Property) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.PARTICIPANT_REFERENCE)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.PARTICIPANT_REFERENCE)){
 							return "<Participant Reference> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_ROLE_CONTAINMENT)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_ROLE_CONTAINMENT)){
 							return "<Business Role Containment> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.DIMENSION)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.DIMENSION)){
 							return "<Dimension> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.FACT)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.FACT)){
 							return "<Fact> " + a.getName();
 						}
 					}
@@ -126,7 +126,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Port){
 						Port a = (Port) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_GATEWAY)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_GATEWAY)){
 							return "<Business Gateway> " + a.getName();
 						}
 					}
@@ -149,11 +149,11 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof CallBehaviorAction){
 						CallBehaviorAction a = (CallBehaviorAction) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.CALL_BUSINES_PROCESS_ACTION)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.CALL_BUSINES_PROCESS_ACTION)){
 							return "<Business Process Call> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.CALL_BUSINESS_STATE_MACHINE_ACTION)){
 							return "<Business Statemachine Call> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK)){
 							return "<Screen Flow Call> " + a.getName();
 						}else{
 							return "<Method Call> " + a.getName();
@@ -177,7 +177,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Activity){
 						Activity a = (Activity) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINES_PROCESS)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINES_PROCESS)){
 							return "<Business Process> " + a.getName();
 						}else{
 							return "<Method> " + a.getName();
@@ -206,7 +206,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof OpaqueAction){
 						OpaqueAction a = (OpaqueAction) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK)){
 							return "<Single Screen Task> " + a.getName();
 						}else{
 							return "<Ocl Action> " + a.getName();
@@ -248,7 +248,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof org.eclipse.uml2.uml.Class){
 						org.eclipse.uml2.uml.Class a = (org.eclipse.uml2.uml.Class) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_ROLE)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_ROLE)){
 							return "<Business Role> " + a.getName();
 						}else{
 							return "<Entity> " + a.getName();
@@ -268,9 +268,9 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Interface){
 						Interface a = (Interface) object;
-						if(StereotypesHelper.hasKeyword(a, StereotypeNames.BUSINESS_SERVICE)){
+						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_SERVICE)){
 							return "<Business Service> " + a.getName();
-						}else if(StereotypesHelper.hasKeyword(a, StereotypeNames.HELPER)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.HELPER)){
 							return "<Helper> " + a.getName();
 						}else{
 							return "<Interface> " + a.getName();
@@ -295,7 +295,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Component){
 						Component c = (Component) object;
-						if(StereotypesHelper.hasKeyword(c, StereotypeNames.BUSINESS_COMPONENT)){
+						if(StereotypesHelper.hasStereotype(c, StereotypeNames.BUSINESS_COMPONENT)){
 							return "<Business Component> " + c.getName();
 						}
 					}
@@ -318,7 +318,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof ValuePin){
 						ValuePin c = (ValuePin) object;
-						if(StereotypesHelper.hasKeyword(c, StereotypeNames.NEW_OBJECT_INPUT)){
+						if(StereotypesHelper.hasStereotype(c, StereotypeNames.NEW_OBJECT_INPUT)){
 							return "<New Object Input> " + c.getName();
 						}else{
 							return "<Ocl Input>" + c.getName();
@@ -436,7 +436,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Operation){
 						Operation c = (Operation) object;
-						if(StereotypesHelper.hasKeyword(c, StereotypeNames.RESPONSIBILITY)){
+						if(StereotypesHelper.hasStereotype(c, StereotypeNames.RESPONSIBILITY)){
 							return "<Responsibility> " + c.getName();
 						}else{
 							return "<Operation>" + c.getName();
@@ -461,7 +461,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof StateMachine){
 						StateMachine c = (StateMachine) object;
-						if(StereotypesHelper.hasKeyword(c, StereotypeNames.SCREEN_FLOW)){
+						if(StereotypesHelper.hasStereotype(c, StereotypeNames.SCREEN_FLOW)){
 							return "<Screen Flow> " + c.getName();
 						}else{
 							return "<Business Statemachine>" + c.getName();
@@ -486,7 +486,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof State){
 						State c = (State) object;
-						if(StereotypesHelper.hasKeyword(c, StereotypeNames.SCREEN)){
+						if(StereotypesHelper.hasStereotype(c, StereotypeNames.SCREEN)){
 							return "<Screen> " + c.getName();
 						}else{
 							return super.getText(object);
@@ -511,7 +511,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof Signal){
 						Signal c = (Signal) object;
-						if(StereotypesHelper.hasKeyword(c, StereotypeNames.NOTIFICATION)){
+						if(StereotypesHelper.hasStereotype(c, StereotypeNames.NOTIFICATION)){
 							return "<Notification> " + c.getName();
 						}else{
 							return super.getText(object);

@@ -41,7 +41,7 @@ public class ConstraintGenerator {
 		}
 	}
 
-	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<INakedConstraint> constraints, boolean pre, String selfExpression) {
+	public OJBlock buildConstraintsBlock(OJOperation operation, OJBlock sourceBlock, Collection<INakedConstraint> constraints, boolean pre, String deleteThisParam) {
 		OJBlock result = new OJBlock();
 		// Assume that there could be a last statement to return a value
 		// use all the local fields
@@ -75,10 +75,6 @@ public class ConstraintGenerator {
 			if (post.getSpecification().isValidOclValue()) {
 				IOclContext oclValue = post.getSpecification().getOclValue();
 				String expr = expressionCreator.makeExpression(oclValue.getExpression(), operation.isStatic(), parameters);
-				if(oclValue.getExpressionString().matches("self")){
-					expr=ValueSpecificationUtil.replaceThisWith(expr, selfExpression);
-				}
-					
 				ifBroken.setCondition("!" + expr);
 				String qname = element.getPathName() + "::" + post.getName();
 				ifBroken.getThenPart().addToStatements("failedConstraints.add(\"" + qname + "\")");

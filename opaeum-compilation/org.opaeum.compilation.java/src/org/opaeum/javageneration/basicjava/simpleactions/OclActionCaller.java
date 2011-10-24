@@ -30,7 +30,7 @@ public class OclActionCaller extends SimpleNodeBuilder<INakedOclAction> {
 				//Make args available as vars to OCL
 				//Will lead to duplicate variables in simple synchronous methods
 				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), arg, false);
-				OJAnnotatedField argField = new OJAnnotatedField(argMap.umlName(), argMap.javaTypePath());
+				OJAnnotatedField argField = new OJAnnotatedField(argMap.fieldname(), argMap.javaTypePath());
 				argField.setInitExp(super.readPin(operation, block, arg));
 				block.addToLocals(argField);
 			}

@@ -3,10 +3,10 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.opeum</groupId>
-	<artifactId>opeum-runtime</artifactId>
+	<groupId>org.opaeum</groupId>
+	<artifactId>opaeum-runtime</artifactId>
 	<packaging>pom</packaging>
-	<name>Opeum Runtime</name>
+	<name>Opaeum Runtime</name>
 	<version>1.0.0-SNAPSHOT</version>
 	<repositories>
 		<repository>
@@ -92,15 +92,16 @@
 	</build>
 	<modules>
 		<module>opeum-runtime-domain</module>
-		<module>opeum-test-adaptor</module>
-		<module>opeum-runtime-bpm-hibernate</module>
+		<module>opaeum-test-adaptor</module>
+		<module>opaeum-test-tinker</module>
+		<module>opaeum-runtime-bpm-hibernate</module>
 		<module>opeum-runtime-hibernate</module>
 		<module>opeum-runtime-jpa</module>
-		<module>opeum-runtime-cdi-hibernate</module>
+		<module>opaeum-runtime-cdi-hibernate</module>
 		<module>opeum-runtime-seam2-jpa</module>
-		<module>opeum-runtime-tinker</module>
-		<module>opeum-runtime-orient</module>
-		<module>opeum-runtime-neo4j</module>
+		<module>opaeum-runtime-tinker</module>
+		<module>opaeum-runtime-orient</module>
+		<module>opaeum-runtime-neo4j</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
@@ -187,9 +188,9 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.opeum</groupId>
+				<groupId>org.opaeum</groupId>
 				<artifactId>opeum-runtime-domain</artifactId>
-				<version>${opeum.version}</version>
+				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 				<exclusions>
@@ -206,16 +207,16 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.opeum</groupId>
-				<artifactId>opeum-runtime-bpm-hibernate</artifactId>
-				<version>${opeum-runtime.version}</version>
+				<groupId>org.opaeum</groupId>
+				<artifactId>opaeum-runtime-bpm-hibernate</artifactId>
+				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.opeum</groupId>
+				<groupId>org.opaeum</groupId>
 				<artifactId>opeum-runtime-hibernate</artifactId>
-				<version>${opeum.version}</version>
+				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 				<exclusions>
@@ -263,9 +264,9 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.opeum</groupId>
+				<groupId>org.opaeum</groupId>
 				<artifactId>opeum-runtime-jpa</artifactId>
-				<version>${opeum.version}</version>
+				<version>${opaeum.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 				<exclusions>
@@ -278,6 +279,6 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-	<opeum.version>1.0.0-SNAPSHOT</opeum.version>
+	<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
 	</properties>
 </project>

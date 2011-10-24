@@ -119,9 +119,9 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 		for(INakedParameter p:sm.getOwnedParameters()){
 			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(a.getActivity(), p);
 			OJAnnotatedOperation setter = new OJAnnotatedOperation(pMap.setter());
-			setter.addParam(pMap.umlName(), pMap.javaTypePath());
+			setter.addParam(pMap.fieldname(), pMap.javaTypePath());
 			ojClass.addToOperations(setter);
-			setter.getBody().addToStatements("get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.setter() + "(" + pMap.umlName() + ")");
+			setter.getBody().addToStatements("get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.setter() + "(" + pMap.fieldname() + ")");
 			OJAnnotatedOperation getter = new OJAnnotatedOperation(pMap.getter(), map.javaTypePath());
 			getter.getBody().addToStatements("return get" + sm.getMappingInfo().getJavaName().getCapped() + "()." + pMap.getter() + "()");
 			ojClass.addToOperations(getter);
@@ -220,7 +220,7 @@ public class ResponsibilityImplementor extends AbstractBehaviorVisitor{
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(ca, getLibrary());
 			if(map.isMany()){
 				OJAnnotatedClass ojOwner = findJavaClass(ca.getActivity());
-				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
+				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 				field.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.OrderBy"), "executedOn"));
 			}
 		}

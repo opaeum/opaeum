@@ -123,7 +123,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				mapXToOne(owner, map);
 			}else{
 				OJAnnotatedClass ojOwner = findJavaClass(owner);
-				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
+				OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 				OJEnumValue TRUE = new OJEnumValue(new OJPathName("org.hibernate.annotations.LazyCollectionOption"), "TRUE");
 				OJAnnotationValue lazyCollection = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.LazyCollection"), TRUE);
 				field.addAnnotationIfNew(lazyCollection);
@@ -169,7 +169,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 	}
 	private void mapXToOne(INakedClassifier owner,NakedStructuralFeatureMap map){
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
-		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.umlName());
+		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 		INakedProperty f = map.getProperty();
 		if(f.getNakedBaseType() instanceof INakedEnumeration){
 			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){

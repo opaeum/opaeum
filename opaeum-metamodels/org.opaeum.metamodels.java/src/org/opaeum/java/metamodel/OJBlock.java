@@ -73,6 +73,7 @@ public class OJBlock extends OJBlockGEN{
 		}
 	}
 	public void renameAll(Set<OJPathName> renamePathNames,String newName){
+
 		for(OJStatement statement:getStatements()){
 			statement.renameAll(renamePathNames, newName);
 		}

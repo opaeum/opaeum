@@ -136,7 +136,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 		OJEnum oje = (OJEnum) myClass;
 		for(IEnumLiteral l:c.getLiterals()){
 			OJEnumLiteral ojl = oje.findLiteral(l.getName().toUpperCase());
-			OJField f = ojl.findAttributeValue(mapper.umlName());
+			OJField f = ojl.findAttributeValue(mapper.fieldname());
 			INakedEnumerationLiteral nakedLiteral = (INakedEnumerationLiteral) l;
 			final INakedSlot slot = nakedLiteral.getSlotForFeature(feat.getName());
 			if(slot != null){

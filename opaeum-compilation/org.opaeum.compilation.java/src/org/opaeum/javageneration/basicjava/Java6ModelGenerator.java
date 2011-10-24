@@ -48,7 +48,6 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
-import org.opaeum.textmetamodel.TextSource;
 import org.opeum.runtime.domain.IEnum;
 import org.opeum.runtime.domain.ISignal;
 
@@ -134,38 +133,30 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			myClass.setVisibility(classifierMap.javaVisibility());
 			myClass.setAbstract(c.getIsAbstract());
 			myClass.setComment(c.getDocumentation());
-			INakedRootObject rootObject = c.getRootObject();
+			INakedRootObject ro = c.getRootObject();
+			INakedRootObject rootObject = ro;
 			if(c.getCodeGenerationStrategy().isAbstractSupertypeOnly()){
-				createTextPath(JavaSourceKind.ABSTRACT_SUPERCLASS, myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+				createTextPath(JavaSourceKind.ABSTRACT_SUPERCLASS, myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 				TextFile impl = createTextPath(JavaSourceKind.CONCRETE_IMPLEMENTATION, myClass, JavaSourceFolderIdentifier.DOMAIN_SRC);
 				if(rootObject instanceof INakedModel && ((INakedModel) rootObject).isRegeneratingLibrary()){
 					INakedModel m = (INakedModel) rootObject;
 					String artifactName = impl.getParent().getRelativePath().substring(impl.getParent().getSourceFolder().getRelativePath().length() + 1) + "/"
 							+ impl.getName();
 					final String implementationCodeFor = m.getImplementationCodeFor(artifactName);
+					impl.setDependsOnVersion(true);
 					if(implementationCodeFor != null){
-						impl.setTextSource(new TextSource(){
-							@Override
-							public char[] toCharArray(){
-								return implementationCodeFor.toCharArray();
-							}
-							@Override
-							public boolean hasContent(){
-								return true;
-							}
-						});
+						impl.setTextSource(new JavaStringTextSource(implementationCodeFor));
 					}
 				}
 			}else{
-				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(
-						c.getMappingInfo().isVersioned() && workspace.isPrimaryModel(c.getRootObject()));
+				super.createTextPath(myClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 			}
 			if(c instanceof INakedEnumeration){
 				OJEnum oje = (OJEnum) myClass;
 				INakedEnumeration e = (INakedEnumeration) c;
 				List<INakedEnumerationLiteral> literals = (List) e.getLiterals();
 				for(INakedEnumerationLiteral l:literals){
-					OJEnumLiteral ojLiteral = new OJEnumLiteral(l.getName().toUpperCase());
+					OJEnumLiteral ojLiteral = new OJEnumLiteral( OJUtil.toJavaLiteral(l));
 					ojLiteral.setComment(l.getDocumentation());
 					applyStereotypesAsAnnotations((l), ojLiteral);
 					oje.addToLiterals(ojLiteral);

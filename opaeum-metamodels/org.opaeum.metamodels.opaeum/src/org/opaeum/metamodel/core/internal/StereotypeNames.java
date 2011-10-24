@@ -33,6 +33,9 @@ public class StereotypeNames {
 	public static String STRUCTURED_DATA_TYPE = "StructuredDataType";
 	public static String VALUE_TYPE = "ValueType";
 	public static String TIME_EVENT = "TimeEvent";	
+	public static String LOOP_INPUT_COLLECTION = "LoopInputCollection";	
+	public static String LOOP_OUTPUT_COLLECTION = "LoopOutputCollection";	
+	public static String PORT_TYPE = "PortType";	
 		//Security
 	public static String SECURITY_ON_AUDIT_TRAIL = "SecurityOnAuditTrail";
 	public static String SECURITY_ON_CREATE = "SecurityOnCreate";

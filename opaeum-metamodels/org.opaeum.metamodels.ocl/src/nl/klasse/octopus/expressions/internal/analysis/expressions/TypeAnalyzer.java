@@ -17,7 +17,6 @@ import nl.klasse.octopus.expressions.internal.parser.parsetree.ParsedSimpleType;
 import nl.klasse.octopus.expressions.internal.parser.parsetree.ParsedTupleType;
 import nl.klasse.octopus.expressions.internal.parser.parsetree.ParsedType;
 import nl.klasse.octopus.expressions.internal.parser.parsetree.ParsedVariableDeclaration;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.ITupleType;
@@ -91,7 +90,7 @@ public class TypeAnalyzer extends Analyzer {
 			ParsedVariableDeclaration pvar  = (ParsedVariableDeclaration)it.next();
 //			ParsedType                ptype = pvar.getType();
 			IClassifier defaultType = OclEngine.getCurrentOclLibrary().lookupStandardType(IOclLibrary.OclAnyTypeName);
-			VariableDeclaration var = null;
+			IVariableDeclaration var = null;
 			ExpressionAnalyzer expanalyzer = new ExpressionAnalyzer(currentFile, errors);
 			var = expanalyzer.analyzeVariableDeclaration(pvar, env, defaultType);
 

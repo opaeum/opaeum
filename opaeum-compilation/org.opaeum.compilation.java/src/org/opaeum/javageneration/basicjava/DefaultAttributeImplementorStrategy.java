@@ -49,24 +49,24 @@ public class DefaultAttributeImplementorStrategy implements AttributeImplementor
 
 	@Override
 	public void buildManyAdder(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
-		adder.getBody().addToStatements(map.umlName() + "." + otherMap.getter() + "().add(this)");
-		adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
+		adder.getBody().addToStatements(map.fieldname() + "." + otherMap.getter() + "().add(this)");
+		adder.getBody().addToStatements(map.getter() + "().add(" + map.fieldname() + ")");
 	}
 
 	@Override
 	public void buildManyRemover(NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJOperation adder) {
-		adder.getBody().addToStatements(map.umlName() + "." + otherMap.getter() + "().remove(this)");
-		adder.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
+		adder.getBody().addToStatements(map.fieldname() + "." + otherMap.getter() + "().remove(this)");
+		adder.getBody().addToStatements(map.getter() + "().remove(" + map.fieldname() + ")");
 	}
 
 	@Override
 	public void addSimpleAdder(NakedStructuralFeatureMap map, OJOperation adder) {
-		adder.getBody().addToStatements(map.getter() + "().add(" + map.umlName() + ")");
+		adder.getBody().addToStatements(map.getter() + "().add(" + map.fieldname() + ")");
 	}
 
 	@Override
 	public void buildSimpleRemover(NakedStructuralFeatureMap map, OJOperation remover) {
-		remover.getBody().addToStatements(map.getter() + "().remove(" + map.umlName() + ")");
+		remover.getBody().addToStatements(map.getter() + "().remove(" + map.fieldname() + ")");
 	}
 
 }

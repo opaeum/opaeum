@@ -29,8 +29,8 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 		return "trigger";
 	}
 	public void setEvent(INakedEvent event){
-		if(!(event instanceof INakedDeadline || this.event==event)){
-			//Deadlines could be reused
+		if(!(event instanceof INakedDeadline || this.event == event)){
+			// Deadlines could be reused
 			removeOwnedElement(this.event, true);
 			addOwnedElement(event);
 			event.setOwnerElement(this);
@@ -58,47 +58,50 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 	public boolean isHumanTrigger(){
 		return isHumanTrigger;
 	}
-	public static List<? extends INakedTypedElement> getParameters(Collection<INakedTrigger> triggers){
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
+	public static List<INakedTypedElement> getParameters(Collection<INakedTrigger> triggers){
 		INakedSignal signal = getMostGeneralSignal(triggers);
-		if(signal!=null){
-			return signal.getEffectiveAttributes();
+		if(signal != null){
+			return (List) signal.getEffectiveAttributes();
 		}
 		List<INakedParameter> mostGeneralParameterList = getMostGeneralParameterList(triggers);
-		if(mostGeneralParameterList!=null){
-			return mostGeneralParameterList;
+		if(mostGeneralParameterList != null){
+			return (List) mostGeneralParameterList;
 		}
 		return Collections.emptyList();
 	}
 	private static List<INakedParameter> getMostGeneralParameterList(Collection<INakedTrigger> triggers){
-		List<INakedParameter> params=null;
+		List<INakedParameter> params = null;
 		for(INakedTrigger t:triggers){
 			if(t.getEvent() instanceof INakedCallEvent){
-				INakedOperation event = (INakedOperation) ((INakedCallEvent)t.getEvent()).getOperation();
+				INakedOperation event = (INakedOperation) ((INakedCallEvent) t.getEvent()).getOperation();
 				List<? extends INakedParameter> argumentParameters = event.getArgumentParameters();
-				if(params==null){
-					params=new ArrayList<INakedParameter>(argumentParameters);
-				}else if(!generalize(params,argumentParameters)){
-					params=null;
+				if(params == null){
+					params = new ArrayList<INakedParameter>(argumentParameters);
+				}else if(!generalize(params, argumentParameters)){
+					params = null;
 					break;
 				}
 			}else{
-				params=null;
+				params = null;
 				break;
 			}
 		}
 		return params;
 	}
 	private static boolean generalize(List<INakedParameter> params,List<? extends INakedParameter> argumentParameters){
-		if(params.size()!=argumentParameters.size()){
+		if(params.size() != argumentParameters.size()){
 			return false;
 		}
-		for(int i = 0; i < params.size(); i++){
+		for(int i = 0;i < params.size();i++){
 			INakedParameter from = params.get(i);
 			INakedParameter toParm = argumentParameters.get(i);
-			if( from.getType() !=null && toParm.getType()!=null){
-				if( Conformance.conformsTo(from.getType(),toParm.getType())){
+			if(from.getType() != null && toParm.getType() != null){
+				if(Conformance.conformsTo(from.getType(), toParm.getType())){
 					params.set(i, toParm);
-				}else if(!Conformance.conformsTo(toParm.getType(),from.getType())){
+				}else if(!Conformance.conformsTo(toParm.getType(), from.getType())){
 					return false;
 				}
 			}
@@ -106,23 +109,22 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 		return true;
 	}
 	private static INakedSignal getMostGeneralSignal(Collection<INakedTrigger> triggers){
-		INakedSignal signal=null;
+		INakedSignal signal = null;
 		for(INakedTrigger t:triggers){
 			if(t.getEvent() instanceof INakedSignalEvent){
 				INakedSignalEvent signalEvent = (INakedSignalEvent) t.getEvent();
-				if(signal==null||Conformance.conformsTo(signal,signalEvent.getSignal())){
-					signal=signalEvent.getSignal();
-				}else if(!Conformance.conformsTo(signalEvent.getSignal(),signal)){
-					//Strictly speaking an invalid configuration, just ignore input from the signal
-					signal=null;
+				if(signal == null || Conformance.conformsTo(signal, signalEvent.getSignal())){
+					signal = signalEvent.getSignal();
+				}else if(!Conformance.conformsTo(signalEvent.getSignal(), signal)){
+					// Strictly speaking an invalid configuration, just ignore input from the signal
+					signal = null;
 					break;
 				}
 			}else{
-				signal=null;
+				signal = null;
 				break;
 			}
 		}
 		return signal;
 	}
-
 }

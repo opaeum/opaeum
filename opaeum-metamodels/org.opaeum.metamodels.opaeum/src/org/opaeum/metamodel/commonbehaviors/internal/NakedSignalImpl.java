@@ -1,9 +1,6 @@
 package org.opaeum.metamodel.commonbehaviors.internal;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 import nl.klasse.octopus.model.IDataType;
@@ -11,7 +8,6 @@ import nl.klasse.octopus.model.IState;
 
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 
 public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal,IDataType{
@@ -35,34 +31,6 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 	@Override
 	public String getMetaClass(){
 		return META_CLASS;
-	}
-	public List<INakedProperty> getArgumentParameters(){
-		List<INakedProperty> results = new ArrayList<INakedProperty>();
-		if(hasSupertype()){
-			results.addAll(((NakedSignalImpl) getSupertype()).getArgumentParameters());
-		}
-		results.addAll(getOwnedArgumentParamaters());
-		return results;
-	}
-	private List<INakedProperty> getOwnedArgumentParamaters(){
-		List<INakedProperty> list = new ArrayList<INakedProperty>(getOwnedAttributes());
-		Collections.<INakedProperty>sort(list, new Comparator<INakedProperty>(){
-			public int compare(INakedProperty o1,INakedProperty o2){
-				int diff = o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
-				if(diff==0){
-					return o1.getName().compareTo(o2.getName());
-				}
-				return diff;
-			}
-		});
-		Iterator<INakedProperty> iter = list.iterator();
-		while(iter.hasNext()){
-			INakedProperty prop = iter.next();
-			if(prop.isDerived() || prop.isReadOnly()){
-				iter.remove();
-			}
-		}
-		return list;
 	}
 	@Override
 	public List<IState> getStates(){

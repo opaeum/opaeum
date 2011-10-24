@@ -1,7 +1,10 @@
 package org.opaeum.javageneration;
 
+import java.util.Set;
+
 import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opaeum.textmetamodel.TextSource;

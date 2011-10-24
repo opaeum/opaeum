@@ -18,6 +18,9 @@ public class MultiProjectMavenSourceFolderStrategy implements ISourceFolderStrat
 		mapAdaptorProjects(cfg);
 		mapIntegratedAdaptorProject(cfg);
 		mapWebProject(cfg);
+		cfg.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_GEN_SRC, true, "-migrator", "src/main/generated-java");
+		cfg.defineSourceFolder(JavaSourceFolderIdentifier.MIGRATION_SRC, true, "-migrator", "src/main/java").dontCleanDirectoriesOrOverwriteFiles();
+
 	}
 	private static void mapWebProject(OpaeumConfig cfg){
 		SourceFolderDefinition webTestResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.WEB_TEST_RESOURCE, true, "-web", "src/test/resources");

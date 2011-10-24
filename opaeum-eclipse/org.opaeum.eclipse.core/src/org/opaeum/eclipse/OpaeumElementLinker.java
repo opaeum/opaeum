@@ -38,6 +38,8 @@ import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.EncapsulatedClassifier;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.ExpansionNode;
+import org.eclipse.uml2.uml.ExpansionRegion;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InstanceSpecification;
@@ -86,6 +88,21 @@ public class OpaeumElementLinker extends EContentAdapter{
 		private Notification notification;
 		public EmfUmlElementLinker(Notification not){
 			notification = not;
+		}
+		@Override
+		public EObject caseExpansionRegion(ExpansionRegion object){
+			if(this.notification.getEventType() == Notification.ADD){
+				if(notification.getNewValue() instanceof ExpansionNode){
+					ExpansionNode en = (ExpansionNode)notification.getNewValue();
+					if(StereotypesHelper.hasKeyword(en, StereotypeNames.LOOP_INPUT_COLLECTION)){
+						object.getInputElements().add(en);
+					}else{
+						object.getOutputElements().add(en);
+					}
+				}
+				
+			}
+			return super.caseExpansionRegion(object);
 		}
 		@Override
 		public EObject caseEncapsulatedClassifier(EncapsulatedClassifier object){

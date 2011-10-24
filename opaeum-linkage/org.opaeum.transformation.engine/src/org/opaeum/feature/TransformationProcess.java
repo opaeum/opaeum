@@ -11,7 +11,6 @@ import java.util.Set;
 
 /**
  * This class will become the entry point for the entire transformation process
- * 
  */
 @SuppressWarnings({
 		"unchecked","rawtypes"
@@ -83,8 +82,9 @@ public class TransformationProcess{
 		}
 		log.endLastTask();
 	}
-	public void executeFrom(Class<? extends TransformationPhase<?,?>> c,TransformationProgressLog log){
+	public void executeFrom(Class<? extends TransformationPhase<?,?>> c,TransformationProgressLog log,boolean isRelease){
 		TransformationContext context = new TransformationContext(actualClasses, false,log);
+		context.setRelease(isRelease);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		List<TransformationPhase< ?,?>> phases = new ArrayList<TransformationPhase<?,?>>();
 		boolean start = false;

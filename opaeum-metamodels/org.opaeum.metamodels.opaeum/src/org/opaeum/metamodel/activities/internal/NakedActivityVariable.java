@@ -1,5 +1,7 @@
 package org.opaeum.metamodel.activities.internal;
 
+import nl.klasse.octopus.expressions.internal.types.OclExpression;
+
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.core.INakedElement;
@@ -20,5 +22,15 @@ public class NakedActivityVariable extends NakedTypedElementImpl implements INak
 			element=((INakedElement)element).getOwnerElement();
 		}
 		return (INakedActivity) element;
+	}
+
+	@Override
+	public OclExpression getInitExpression(){
+		return null;
+	}
+
+	@Override
+	public boolean isIteratorVar(){
+		return false;
 	}
 }

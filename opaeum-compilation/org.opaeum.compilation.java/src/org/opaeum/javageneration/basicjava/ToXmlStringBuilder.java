@@ -79,14 +79,14 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						toString.getBody().addToStatements(ifNotNull);
 						if(f.getNakedBaseType() instanceof INakedSimpleType){
 							ifNotNull.getThenPart().addToStatements(
-									"sb.append(\"" + map.umlName() + "=\\\"\"+ " + rootObjectName + "Formatter.getInstance().format" + f.getNakedBaseType().getName()
+									"sb.append(\"" + map.fieldname() + "=\\\"\"+ " + rootObjectName + "Formatter.getInstance().format" + f.getNakedBaseType().getName()
 											+ "(" + map.getter() + "())+\"\\\" \")");
 						}else{
 							// ENumeration
-							ifNotNull.getThenPart().addToStatements("sb.append(\"" + map.umlName() + "=\\\"\"+ " + map.getter() + "().name() + \"\\\" \")");
+							ifNotNull.getThenPart().addToStatements("sb.append(\"" + map.fieldname() + "=\\\"\"+ " + map.getter() + "().name() + \"\\\" \")");
 						}
 					}else{
-						toString.getBody().addToStatements("sb.append(\"" + map.umlName() + "=\\\"\")");
+						toString.getBody().addToStatements("sb.append(\"" + map.fieldname() + "=\\\"\")");
 						OJForStatement forEach = new OJForStatement("val", map.javaBaseTypePath(), map.getter() + "()");
 						toString.getBody().addToStatements(forEach);
 						toString.getBody().addToStatements("sb.append(\"\\\" \")");
@@ -105,10 +105,10 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 				if(XmlUtil.isXmlReference(f) || XmlUtil.isXmlSubElement(f)){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 					owner.addToImports(map.javaBaseTypePath());
-					String openProperty = "sb.append(\"\\n<" + map.umlName() + " propertyId=\\\""+ map.getProperty().getMappingInfo().getOpaeumId() + "\\\">\")";
-					String closeProperty = "sb.append(\"\\n</" + map.umlName() + ">\")";
+					String openProperty = "sb.append(\"\\n<" + map.fieldname() + " propertyId=\\\""+ map.getProperty().getMappingInfo().getOpaeumId() + "\\\">\")";
+					String closeProperty = "sb.append(\"\\n</" + map.fieldname() + ">\")";
 					if(map.isOne()){
-						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"\\n<" + map.umlName() + "/>\")");
+						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"\\n<" + map.fieldname() + "/>\")");
 						toString.getBody().addToStatements(ifNull);
 						ifNull.setElsePart(new OJBlock());
 						ifNull.getElsePart().addToStatements(openProperty);
@@ -123,13 +123,13 @@ public class ToXmlStringBuilder extends AbstractStructureVisitor{
 						OJForStatement forEach = new OJForStatement();
 						toString.getBody().addToStatements(forEach);
 						forEach.setElemType(map.javaBaseTypePath());
-						forEach.setElemName(map.umlName());
+						forEach.setElemName(map.fieldname());
 						forEach.setCollection(map.getter() + "()");
 						forEach.setBody(new OJBlock());
 						if(XmlUtil.isXmlSubElement(f)){
-							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.umlName() + ".toXmlString())");
+							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.fieldname() + ".toXmlString())");
 						}else{
-							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.umlName() + ".toXmlReferenceString())");
+							forEach.getBody().addToStatements("sb.append(\"\\n\" + " + map.fieldname() + ".toXmlReferenceString())");
 						}
 						toString.getBody().addToStatements(closeProperty);
 					}

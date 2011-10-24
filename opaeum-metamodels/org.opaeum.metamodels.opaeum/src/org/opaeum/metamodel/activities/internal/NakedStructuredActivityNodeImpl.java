@@ -24,7 +24,7 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	Collection<INakedActivityVariable> variables = new ArrayList<INakedActivityVariable>();
 	private Collection<INakedOutputPin> output = new ArrayList<INakedOutputPin>();
 	private Collection<INakedInputPin> input = new ArrayList<INakedInputPin>();
-	StructureActivityNodeClassifier messageStructure;
+	StructuredActivityNodeClassifier messageStructure;
 	public Collection<INakedActivityEdge> getActivityEdges(){
 		return activityEdges;
 	}
@@ -114,6 +114,6 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	}
 	@Override
 	public void initMessageStructure(){
-		this.messageStructure = new StructureActivityNodeClassifier(this);
+		this.messageStructure = new StructuredActivityNodeClassifier(this);
 	}
 }

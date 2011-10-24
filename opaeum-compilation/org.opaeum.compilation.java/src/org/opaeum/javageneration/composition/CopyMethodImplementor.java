@@ -159,9 +159,9 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 							}else{
 								localCopyMethodName = "copyState";
 							}
-							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.umlName()) + "(from." + map.getter()
+							body.addToStatements("to." + map.allAdder() + "(" + localCopyMethodName + NameConverter.capitalize(map.fieldname()) + "(from." + map.getter()
 									+ "()))");
-							String operName = localCopyMethodName + NameConverter.capitalize(map.umlName());
+							String operName = localCopyMethodName + NameConverter.capitalize(map.fieldname());
 							List<OJPathName> params = new ArrayList<OJPathName>();
 							params.add(map.javaTypePath());
 							OJOperation oper = owner.findOperation(operName, params);

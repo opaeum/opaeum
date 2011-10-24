@@ -3,6 +3,7 @@ package org.opaeum.metamodel.core;
 import java.util.Collection;
 import java.util.List;
 
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 
@@ -14,7 +15,7 @@ import org.opaeum.metamodel.components.INakedConnectorEnd;
  * 
  */
 // TODO refactore all this out to the OpaeumStructuralFeatureMap
-public interface INakedProperty extends INakedPackageableElement,IModifiableTypedElement,IAttribute,IAssociationEnd{
+public interface INakedProperty extends INakedPackageableElement,IModifiableTypedElement,IAttribute,IAssociationEnd,IVariableDeclaration{
 	INakedProperty getOtherEnd();
 	/**
 	 * Returns true if this property has one or more qualifiers

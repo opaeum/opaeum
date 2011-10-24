@@ -100,7 +100,7 @@ public class NakedTransitionImpl extends NakedElementImpl implements INakedEleme
 		}
 		this.target = target;
 	}
-	public List<? extends INakedTypedElement> getParameters(){
+	public List<INakedTypedElement> getParameters(){
 		return NakedTriggerImpl.getParameters(getTriggers());
 	}
 	public TransitionKind getKind(){

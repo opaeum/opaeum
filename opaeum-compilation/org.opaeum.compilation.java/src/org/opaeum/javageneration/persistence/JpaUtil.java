@@ -185,6 +185,10 @@ public class JpaUtil{
 			tableName = ((INakedAssociation) p.getAssociation()).getMappingInfo().getPersistentName().toString();
 		}else{
 			INakedClassifier nakedOwner = umlOwner;
+			if(f.getMappingInfo().getPersistentName()==null){
+				System.out.println();
+			}
+
 			tableName = nakedOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
 		}
 		return tableName;
@@ -193,14 +197,14 @@ public class JpaUtil{
 		for(INakedProperty p:entity.getUniquenessConstraints()){
 			if(!p.getOtherEnd().getQualifiers().isEmpty()){
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
-				String queryString = "from " + entity.getMappingInfo().getJavaName() + " a where a." + map.umlName() + " = :" + map.umlName();
+				String queryString = "from " + entity.getMappingInfo().getJavaName() + " a where a." + map.fieldname() + " = :" + map.fieldname();
 				String queryName = "Query" + entity.getMappingInfo().getJavaName() + "With";
 				for(INakedProperty q:p.getOtherEnd().getQualifiers()){
 					NakedStructuralFeatureMap qualifiedMap = new NakedStructuralFeatureMap(q);
-					queryString += " and a." + qualifiedMap.umlName() + " = :" + qualifiedMap.umlName();
-					queryName += NameConverter.capitalize(qualifiedMap.umlName());
+					queryString += " and a." + qualifiedMap.fieldname() + " = :" + qualifiedMap.fieldname();
+					queryName += NameConverter.capitalize(qualifiedMap.fieldname());
 				}
-				queryName += "For" + NameConverter.capitalize(map.umlName());
+				queryName += "For" + NameConverter.capitalize(map.fieldname());
 				addNamedQueries(ojClass, queryName, queryString);
 			}
 		}

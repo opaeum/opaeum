@@ -23,6 +23,9 @@ public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElem
 	protected TransformationContext transformationContext;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
+		if(root==null){
+			System.out.println();
+		}
 		return root.getOwnedElements();
 	}
 	// TODO find a better place for this method

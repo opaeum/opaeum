@@ -10,6 +10,7 @@ import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.topcased.activitydiagram.OpaeumActivityPaletteManager;
 import org.opaeum.topcased.classdiagram.NakedElementCreationFactory;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
@@ -20,8 +21,7 @@ import org.topcased.modeler.utils.CustomPaletteArrayList;
 public class BusinessProcessPaletteManager extends OpaeumActivityPaletteManager{
 	protected PaletteDrawer bpmDrawer;
 	public BusinessProcessPaletteManager(ICreationUtils utils){
-		super();
-		this.creationUtils = utils;
+		super(utils);
 	}
 
 	protected void createCategories(){

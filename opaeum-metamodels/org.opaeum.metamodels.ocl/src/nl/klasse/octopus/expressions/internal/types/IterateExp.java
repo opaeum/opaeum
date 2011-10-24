@@ -3,6 +3,7 @@
 package nl.klasse.octopus.expressions.internal.types;
 
 import nl.klasse.octopus.expressions.IIterateExp;
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.tools.common.Util;
 
 
@@ -12,7 +13,7 @@ import nl.klasse.tools.common.Util;
  */
 public class IterateExp extends LoopExp implements IIterateExp {
 
-    private VariableDeclaration result = null;
+    private IVariableDeclaration result = null;
     
     /** Creates a new instance of IterateExp */
     public IterateExp() {
@@ -21,14 +22,14 @@ public class IterateExp extends LoopExp implements IIterateExp {
     /** Getter for property result.
      * @return Value of property result.
      */
-    public VariableDeclaration getResult() {
+    public IVariableDeclaration getResult() {
         return result;
     }
     
     /** Setter for property result.
      * @param result New value of property result.
      */
-    public void setResult(VariableDeclaration result) {
+    public void setResult(IVariableDeclaration result) {
         this.result = result;
     }
     

@@ -102,6 +102,9 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){
+		if(element==null){
+			System.out.println();
+		}
 		super.addOwnedElement(element);
 		if(element instanceof INakedRegion){
 			this.regions.add((INakedRegion) element);

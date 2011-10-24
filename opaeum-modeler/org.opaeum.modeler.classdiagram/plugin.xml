@@ -987,6 +987,16 @@
             label="UML"
             indented="false"/>
          <propertyTab
+            id="org.opaeum.eclipse.interfacesTab"
+            category="model"
+            label="Interfaces"
+            indented="true"/>
+         <propertyTab
+            id="org.opaeum.eclipse.redefinitionsTab"
+            category="model"
+            label="Redefinitions and Unions"
+            indented="true"/>
+         <propertyTab
                id="org.topcased.modeler.modelTab.parametersTab"
                category="model"
                indented="true"
@@ -1115,7 +1125,7 @@
          			afterSection="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
          			class="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
          			id="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			tab="org.opaeum.eclipse.opaeumTab">
+         			tab="org.opaeum.eclipse.redefinitionsTab">
       			<input type="org.eclipse.uml2.uml.Property">
       			</input>
 			</propertySection>
@@ -1123,7 +1133,7 @@
          			afterSection="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
          			class="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
          			id="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
-         			tab="org.opaeum.eclipse.opaeumTab">
+         			tab="org.opaeum.eclipse.redefinitionsTab">
       			<input type="org.eclipse.uml2.uml.Property">
       			</input>
 			</propertySection>

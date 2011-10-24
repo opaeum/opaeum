@@ -42,7 +42,7 @@ public class ExpGeneratorHelper {
 		Iterator<?> it = params.iterator();
 		while (it.hasNext()){
 			OJParameter par = (OJParameter) it.next();
-			if ( elem.getName().equals(par.getName())) {
+			if ( javaFieldName(elem).equals(par.getName())) {
 				result.remove(par);
 			}
 		}
@@ -56,9 +56,13 @@ public class ExpGeneratorHelper {
 	 */
 	static public OJParameter varDeclToOJPar(IVariableDeclaration elem) {
 		OJParameter result = new OJParameter();
-		result.setName(elem.getName());
+		result.setName(javaFieldName(elem));
 		result.setType(new ClassifierMap(elem.getType()).javaTypePath());
 		return result;
+	}
+
+	public static String javaFieldName(IVariableDeclaration elem){
+		return "_"+elem.getName();
 	}	
 
 	static public OJPathName makeListType(IClassifier elementType) {

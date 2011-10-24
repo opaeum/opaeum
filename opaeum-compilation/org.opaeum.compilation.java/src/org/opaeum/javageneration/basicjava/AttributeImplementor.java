@@ -101,7 +101,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
-		if(map.umlName().equals("stringsOnAcceptEventAction1")){
+		if(map.fieldname().equals("stringsOnAcceptEventAction1")){
 			System.out.println();
 		}
 		INakedProperty p = map.getProperty();

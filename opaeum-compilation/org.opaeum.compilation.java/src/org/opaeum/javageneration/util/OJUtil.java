@@ -37,12 +37,13 @@ import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.IParameterOwner;
-import org.opaeum.metamodel.core.internal.ArtificialProperty;
-import org.opaeum.metamodel.core.internal.emulated.MessageStructureImpl;
+import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.metamodel.profiles.INakedStereotype;
 import org.opaeum.metamodel.usecases.INakedActor;
@@ -210,7 +211,7 @@ public class OJUtil{
 			return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
 		}else if(c instanceof INakedAssociation){
 			return ((INakedAssociation) c).isClass();
-		}else if(c instanceof MessageStructureImpl){
+		}else if(c instanceof EmulatedCompositionMessageStructure){
 			return true;
 		}else{
 			return true;
@@ -220,11 +221,7 @@ public class OJUtil{
 		Map<INakedTypedElement,NakedStructuralFeatureMap> maps = ensureUniquenes ? locallyUniqueFeatureMaps : structuralFeatureMaps;
 		NakedStructuralFeatureMap map = maps.get(pin);
 		if(map == null){
-			boolean isDerivied = false;
-			if(ensureUniquenes==false && pin.getOwnerElement() instanceof INakedAction){
-				isDerivied = BehaviorUtil.hasMessageStructure((INakedAction) pin.getOwnerElement());
-			}
-			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniquenes, isDerivied));
+			map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(umlOwner, pin, ensureUniquenes));
 			maps.put(pin, map);
 		}
 		return map;
@@ -240,7 +237,7 @@ public class OJUtil{
 		return packagePathname(origin.getActivity()).append(origin.getMappingInfo().getJavaName().getCapped().getAsIs());
 	}
 	public static void addMetaInfo(OJAnnotatedElement element,INakedElement property){
-		if(!(property instanceof ArtificialProperty)){
+		if(!(property instanceof InverseArtificialProperty)){
 			OJAnnotationValue metaInfo = new OJAnnotationValue(new OJPathName(NumlMetaInfo.class.getName()));
 			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
 			element.putAnnotation(metaInfo);
@@ -260,5 +257,8 @@ public class OJUtil{
 		persistentName.setName(name);
 		persistentName.setInitExp(value);
 		l.addToAttributeValues(persistentName);
+	}
+	public static String toJavaLiteral(INakedEnumerationLiteral l){
+		return l.getName().toUpperCase();
 	}
 }

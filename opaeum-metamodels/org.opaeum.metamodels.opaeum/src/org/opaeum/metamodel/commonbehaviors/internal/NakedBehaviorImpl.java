@@ -243,4 +243,8 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 			}
 		}
 	}
+	@Override
+	public void reinitialize(){
+		
+	}
 }

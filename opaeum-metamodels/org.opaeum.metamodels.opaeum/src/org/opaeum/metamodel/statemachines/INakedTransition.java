@@ -34,7 +34,7 @@ public interface INakedTransition extends INakedElementOwner,GuardedFlow{
 	 * TypedElement, but in fact they could be either Parameters in the case of an Operation trigger, or Attributes in the case of a Signal
 	 * trigger
 	 */
-	List<? extends INakedTypedElement> getParameters();
+	List<INakedTypedElement> getParameters();
 	TransitionKind getKind();
 	INakedStateMachine getStateMachine();
 	PreAndPostConstrained getEffect();

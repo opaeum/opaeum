@@ -16,9 +16,9 @@ public class VariableClearer extends SimpleNodeBuilder<INakedClearVariableAction
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getContext(), node.getVariable());
 		if(map.isOne()){
-			block.addToStatements(map.umlName() + "=null");
+			block.addToStatements(map.fieldname() + "=null");
 		}else{
-			block.addToStatements(map.umlName() + ".clear()");
+			block.addToStatements(map.fieldname() + ".clear()");
 		}
 	}
 }

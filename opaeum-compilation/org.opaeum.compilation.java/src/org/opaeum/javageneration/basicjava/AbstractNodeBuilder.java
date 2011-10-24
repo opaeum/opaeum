@@ -7,15 +7,13 @@ import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.IActionWithTargetElement;
 import org.opaeum.metamodel.actions.IActionWithTargetPin;
-import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractNodeBuilder {
@@ -75,7 +73,7 @@ public abstract class AbstractNodeBuilder {
 	}
 	protected final String readPin(OJOperation operationContext, OJBlock block, INakedObjectNode pin) {
 		if(expressor.pinsAvailableAsVariables()){
-			return pin.getName();
+			return  OJUtil.buildStructuralFeatureMap(pin.getActivity(),pin).fieldname();
 		}else{
 			return expressPin(operationContext, block, pin);
 		}
@@ -94,9 +92,6 @@ public abstract class AbstractNodeBuilder {
 			expression = this.expressor.expressInputPinOrOutParamOrExpansionNode(block, pin);
 		} else {
 			throw new IllegalStateException("Multiple flows are not supported into ObjectNodes");
-		}
-		if(pin.getOwnerElement() instanceof INakedAction && ((INakedAction) pin.getOwnerElement()).getOwnerElement() instanceof INakedStructuredActivityNode){
-			expression = ValueSpecificationUtil.replaceThisWith(expression, "getContainingActivity()");
 		}
 		return expression;
 	}

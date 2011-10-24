@@ -1,5 +1,6 @@
 package org.opaeum.java.metamodel;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.generated.OJElementGEN;
@@ -38,29 +39,18 @@ public abstract class OJElement extends OJElementGEN{
 		return false;
 	}
 	public static void main(String[] args){
-		replace("asdf", "asdf");
-		replace("asdf.", "asdf");
-		replace(".asdf", "asdf");
-		replace("<asdf>", "asdf");
-		replace(" asdf", "asdf");
-		replace("asdf)", "asdf");
-		replace("(asdf", "asdf");
-		replace("(asdf)", "asdf");
-		replace("asdf}", "asdf");
-		replace("{asdf;", "asdf");
+		System.out.println(replaceAll("new ArrayList<StructuredActivityNode1>()", Collections.singleton(new OJPathName("StructuredActivityNode1")), "afd"));
 	}
 	protected static void replace(String asdf,String suffix){
 		System.out.println(asdf.replaceAll("\\b" + suffix + "\\b", "qwer"));
 	}
 	public abstract void renameAll(Set<OJPathName> match,String suffix);
-	protected static String replaceAll(String from,Set<OJPathName> match,String suffix){
+	public static String replaceAll(String from,Set<OJPathName> match,String suffix){
 		if(from != null && from.length() > 0){
 			for(OJPathName ojPathName:match){
-//				if(Character.isLowerCase(ojPathName.getLast().charAt(0))){
-//					from = from.replaceAll("([\\(<])(" + ojPathName.getLast() + ")([>\\)])", "$1"+ojPathName.getLast() + suffix+"$3");
-//				}else{
-					from = from.replaceAll("\\b" + ojPathName.getLast() + "\\b", ojPathName.getLast() + suffix);
-//				}
+				from = from.replaceAll("\\b" + ojPathName.getLast() + "\\b", ojPathName.getLast() + suffix);
+				from = from.replaceAll("([\\.])(" + ojPathName.getLast() + suffix + ")([\\(])", "$1" + ojPathName.getLast() + "$3"); // undo
+				// invocations
 			}
 		}
 		return from;

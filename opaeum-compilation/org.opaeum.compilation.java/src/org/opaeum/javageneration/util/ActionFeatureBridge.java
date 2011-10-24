@@ -15,11 +15,11 @@ import org.opaeum.metamodel.components.INakedConnectorEnd;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
-import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
+import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 import org.opeum.name.NameConverter;
 
-public class ActionFeatureBridge extends AbstractPropertyBridge{
+public class ActionFeatureBridge extends AbstractEmulatedProperty{
 	private static final long serialVersionUID = 620463438474285488L;
 	IClassifier type;
 	private INakedAction action;

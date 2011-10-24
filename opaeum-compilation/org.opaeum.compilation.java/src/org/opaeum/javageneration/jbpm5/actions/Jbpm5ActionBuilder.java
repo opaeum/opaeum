@@ -60,7 +60,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 					OJBlock block = oper.getBody();
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
 					oper.getOwner().addToImports(map.javaTypePath());
-					OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+					OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 					field.setInitExp(expressPin(oper, block, pin));
 					block.addToLocals(field);
 				}
@@ -95,7 +95,7 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 					for(INakedPin pin:pins){
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, false);
 						oper.getOwner().addToImports(map.javaTypePath());
-						OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+						OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 						field.setInitExp("completedWorkObject." + map.getter() + "()");
 						block.addToLocals(field);
 					}

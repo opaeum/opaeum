@@ -80,7 +80,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	}
 	private String buildExpression(NakedStructuralFeatureMap mapOfSubsettingProperty,INakedProperty derivedUnionProperty){
 		String expression = "this." + mapOfSubsettingProperty.getter() + "()";
-		if(derivedUnionProperty.getName().equals(mapOfSubsettingProperty.umlName())){
+		if(derivedUnionProperty.getName().equals(mapOfSubsettingProperty.fieldname())){
 			// we need to avoid recursion now
 			if(mapOfSubsettingProperty.getFeature().isDerived()){
 				// do nothing the derivation rule will apply to the init

@@ -17,7 +17,7 @@ import org.opaeum.metamodel.name.PluralNameWrapper;
 import org.opeum.runtime.domain.TaskDelegation;
 
 public class TaskUtil{
-	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opeum.runtime.bpm.BusinessRole");
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
 	public static void implementAssignmentsAndDeadlines(OJAnnotatedOperation operation,OJBlock block,INakedResponsibilityDefinition td,String taskName){
 		operation.getOwner().addToImports(new OJPathName("org.opeum.runtime.bpm.TaskParticipationKind"));
 		operation.getOwner().addToImports(new OJPathName("org.opeum.runtime.bpm.RequestParticipationKind"));

@@ -15,7 +15,7 @@ public class EmbeddedScreenFlowTaskCaller extends AbstractBehaviorCaller<INakedE
 	}
 	@Override
 	protected void maybeStartBehavior(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap resultMap){
-		String taskName = resultMap.umlName();
+		String taskName = resultMap.fieldname();
 		TaskUtil.implementAssignmentsAndDeadlines(operation, block, node.getTaskDefinition(), taskName);
 		block.addToStatements(taskName + ".setReturnInfo(context)");
 		block.addToStatements(taskName + ".execute()");

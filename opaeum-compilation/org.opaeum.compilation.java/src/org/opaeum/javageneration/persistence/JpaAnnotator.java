@@ -117,7 +117,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	private void mapXToMany(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
-		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.umlName());
+		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
 		if(p.getNakedBaseType() instanceof INakedEnumeration){
 			implementManyForValueTypes(p, map, field);
@@ -141,7 +141,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				}else{
 					String otherEndName = null;
 					if(p.getOtherEnd() != null){
-						otherEndName = new NakedStructuralFeatureMap(((INakedProperty) p).getOtherEnd()).umlName();
+						otherEndName = new NakedStructuralFeatureMap(((INakedProperty) p).getOtherEnd()).fieldname();
 					}
 					toMany.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherEndName));
 				}

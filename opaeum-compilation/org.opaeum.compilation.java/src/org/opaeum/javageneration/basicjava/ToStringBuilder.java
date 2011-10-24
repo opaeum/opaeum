@@ -59,10 +59,10 @@ public class ToStringBuilder extends StereotypeAnnotator{
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 				if(map.isOne() && !f.isInverse()){
 					if(map.getProperty().getNakedBaseType() instanceof INakedEntity || map.getProperty().getNakedBaseType() instanceof INakedInterface){
-						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.umlName() + "=null;\")");
+						OJIfStatement ifNull = new OJIfStatement(map.getter() + "()==null", "sb.append(\"" + map.fieldname() + "=null;\")");
 						ifNull.setElsePart(new OJBlock());
 						OJSimpleStatement b = null;
-						ifNull.getElsePart().addToStatements("sb.append(\"" + map.umlName() + "=\"+" + map.getter() + "().getClass().getSimpleName()+\"[\")");
+						ifNull.getElsePart().addToStatements("sb.append(\"" + map.fieldname() + "=\"+" + map.getter() + "().getClass().getSimpleName()+\"[\")");
 						if(f.getNakedBaseType().findEffectiveAttribute("name") != null){
 							b = new OJSimpleStatement("sb.append(" + map.getter() + "().getName())");
 						}else{
@@ -73,7 +73,7 @@ public class ToStringBuilder extends StereotypeAnnotator{
 						ifNull.getElsePart().addToStatements("sb.append(\"];\")");
 						toString.getBody().addToStatements(ifNull);
 					}else{
-						toString.getBody().addToStatements("sb.append(\"" + map.umlName() + "=\")");
+						toString.getBody().addToStatements("sb.append(\"" + map.fieldname() + "=\")");
 						toString.getBody().addToStatements("sb.append(" + map.getter() + "())");
 						toString.getBody().addToStatements("sb.append(\";\")");
 					}

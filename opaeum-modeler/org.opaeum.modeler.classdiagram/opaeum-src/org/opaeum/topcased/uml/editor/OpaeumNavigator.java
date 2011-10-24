@@ -12,6 +12,8 @@ import org.eclipse.ui.part.IPageSite;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.editor.Modeler;
@@ -76,17 +78,17 @@ public class OpaeumNavigator extends UMLNavigator{
 				MenuManager mm = (MenuManager) item;
 				for(IContributionItem addAction:mm.getItems()){
 					if(selection instanceof Behavior){
-						if(StereotypesHelper.hasKeyword((Element) selection, StereotypeNames.BUSINES_PROCESS)){
+						if(StereotypesHelper.hasStereotype((Element) selection, StereotypeNames.BUSINES_PROCESS)){
 							ActionContributionItem aci = (ActionContributionItem) addAction;
 							if(!aci.getAction().getText().equals("Business Process Diagram")){
 								mm.remove(addAction);
 							}
-						}else if(StereotypesHelper.hasKeyword((Element) selection, StereotypeNames.BUSINES_STATE_MACHINE)){
+						}else if(StereotypesHelper.hasStereotype((Element) selection, StereotypeNames.BUSINES_STATE_MACHINE)){
 							ActionContributionItem aci = (ActionContributionItem) addAction;
 							if(!aci.getAction().getText().equals("Business State Machine Diagram")){
 								mm.remove(addAction);
 							}
-						}else if(StereotypesHelper.hasKeyword((Element) selection, StereotypeNames.SCREEN_FLOW)){
+						}else if(StereotypesHelper.hasStereotype((Element) selection, StereotypeNames.SCREEN_FLOW)){
 							ActionContributionItem aci = (ActionContributionItem) addAction;
 							if(!aci.getAction().getText().equals("Screen Flow Diagram")){
 								mm.remove(addAction);
@@ -94,6 +96,19 @@ public class OpaeumNavigator extends UMLNavigator{
 						}else if(selection instanceof Activity){
 							ActionContributionItem aci = (ActionContributionItem) addAction;
 							if(!aci.getAction().getText().equals("Method Diagram")){
+								mm.remove(addAction);
+							}
+						}
+					}else if(selection instanceof StructuredActivityNode){
+						Activity a  = (Activity) EmfElementFinder.getNearestClassifier((Element) selection);
+						if(StereotypesHelper.hasStereotype( a, StereotypeNames.BUSINES_PROCESS)){
+							ActionContributionItem aci = (ActionContributionItem) addAction;
+							if(!aci.getAction().getText().equals("Structured Business Process Node Diagram")){
+								mm.remove(addAction);
+							}
+						}else if(a instanceof Activity){
+							ActionContributionItem aci = (ActionContributionItem) addAction;
+							if(!aci.getAction().getText().equals("Structured Method Node Diagram")){
 								mm.remove(addAction);
 							}
 						}

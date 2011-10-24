@@ -6,11 +6,8 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
-import org.opaeum.metamodel.activities.INakedOutputPin;
-import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
@@ -25,7 +22,7 @@ public final class Jbpm5ObjectNodeExpressor extends AbstractObjectNodeExpressor{
 	}
 	@Override
 	public OJAnnotatedField buildResultVariable(OJAnnotatedOperation operation,OJBlock block,NakedStructuralFeatureMap resultMap){
-		OJAnnotatedField outPinVar = new OJAnnotatedField(resultMap.umlName(), resultMap.javaTypePath());
+		OJAnnotatedField outPinVar = new OJAnnotatedField(resultMap.fieldname(), resultMap.javaTypePath());
 		block.addToLocals(outPinVar);
 		return outPinVar;
 	}

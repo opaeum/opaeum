@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nl.klasse.octopus.expressionVisitors.AstWalker;
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.analysis.Analyzer;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.analysis.Environment;
@@ -21,7 +22,6 @@ import nl.klasse.octopus.expressions.internal.parser.parsetree.context.ParsedOcl
 import nl.klasse.octopus.expressions.internal.parser.parsetree.context.ParsedOclUsage;
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 import nl.klasse.octopus.expressions.internal.types.PathName;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IAssociationEnd;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IClassifier;
@@ -650,7 +650,7 @@ public class ContextAnalyzer extends Analyzer {
 			Object temp = it.next();
 			if (Check.ENABLED) 
 				Check.isTrue("ContextAnalyzer.getTypesFrom: 'pars' should contain VariableDeclarations only", 
-							 !(temp instanceof VariableDeclaration));
+							 !(temp instanceof IVariableDeclaration));
 			ParsedVariableDeclaration elem = (ParsedVariableDeclaration) temp;	
 	        Environment env  = Environment.createEnvironment(model, owner);
 	        TypeAnalyzer analyzer = new TypeAnalyzer(currentFile, new ArrayList<IOclError>());

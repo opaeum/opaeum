@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,18 +15,17 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
+import org.opeum.runtime.environment.VersionNumber;
 import org.opeum.util.SortedProperties;
 
 
 public class WorkspaceMappingInfo {
-	private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#0.000000");
 	private Properties properties;
 	private Map<String,MappingInfo> mappingInfoMap = new HashMap<String,MappingInfo>();
 	private File file;
-	private int currentRevision;
-	private float currentVersion;
 	private int nakedUmlIdMaxValue;
 	Random random = new Random();
+	private VersionNumber versionNumber;
 	private WorkspaceMappingInfo(){
 		this.properties = new SortedProperties();
 	}
@@ -51,16 +49,10 @@ public class WorkspaceMappingInfo {
 	private void load(Reader reader){
 		try{
 			if(reader != null){
-				final String CURRENT_VERSION = getClass().getName() + ".currentVersion";
-				final String CURRENT_REVISION = getClass().getName() + ".currentRevision";
 				final String NAKED_UML_MAX_VALUE = getClass().getName() + ".nakedUmlIdMaxValue";
 				Set<String> knownProperties = new HashSet<String>();
-				knownProperties.add(CURRENT_VERSION);
-				knownProperties.add(CURRENT_REVISION);
 				knownProperties.add(NAKED_UML_MAX_VALUE);
 				properties.load(reader);
-				currentVersion = DECIMAL_FORMAT.parse(properties.getProperty(CURRENT_VERSION)).floatValue();
-				currentRevision = Integer.parseInt(properties.getProperty(CURRENT_REVISION));
 				nakedUmlIdMaxValue = Integer.parseInt(properties.getProperty(NAKED_UML_MAX_VALUE));
 				Set<Entry<Object,Object>> entrySet = properties.entrySet();
 				for(Entry<Object,Object> entry:entrySet){
@@ -88,8 +80,6 @@ public class WorkspaceMappingInfo {
 			}
 			mappingInfo.setStore(store);
 			mappingInfo.setIdInModel(modelId);
-			mappingInfo.setSinceRevision(currentRevision);
-			mappingInfo.setSinceVersion(currentVersion);
 			this.mappingInfoMap.put(mappingInfo.getIdInModel(), mappingInfo);
 		}
 		return mappingInfo;
@@ -105,9 +95,7 @@ public class WorkspaceMappingInfo {
 	}
 	public void store(Writer writer){
 		try{
-			properties.put(getClass().getName() + ".currentVersion", DECIMAL_FORMAT.format(currentVersion));
 			properties.put(getClass().getName() + ".nakedUmlIdMaxValue", "" + nakedUmlIdMaxValue);
-			properties.put(getClass().getName() + ".currentRevision", "" + currentRevision);
 			Set<Entry<String,MappingInfo>> entrySet = mappingInfoMap.entrySet();
 			for(Entry<String,MappingInfo> entry:entrySet){
 				String id = (String) entry.getKey();
@@ -122,25 +110,16 @@ public class WorkspaceMappingInfo {
 			throw new RuntimeException(e);
 		}
 	}
-	public void incrementRevision(){
-		currentRevision++;
-	}
-	public int getCurrentRevision(){
-		return currentRevision;
-	}
-	public void setCurrentRevision(int currentRevision){
-		this.currentRevision = currentRevision;
-	}
-	public float getCurrentVersion(){
-		return currentVersion;
-	}
-	public void setCurrentVersion(float currentVersion){
-		this.currentVersion = currentVersion;
-	}
 	public int getOpaeumIdMaxValue(){
 		return this.nakedUmlIdMaxValue;
 	}
 	public void removeMappingInfo(String id){
 		properties.remove(id);
+	}
+	public void setVersion(VersionNumber a){
+		this.versionNumber=a;
+	}
+	public VersionNumber getVersion(){
+		return this.versionNumber;
 	}
 }

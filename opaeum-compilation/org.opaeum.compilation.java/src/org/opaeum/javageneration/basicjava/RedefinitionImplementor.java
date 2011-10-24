@@ -42,7 +42,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 	}
 	public void implementRedefinition(NakedStructuralFeatureMap redefiningMap,OJClass c,INakedProperty redefinedProperty){
 		NakedStructuralFeatureMap redefinedMap = new NakedStructuralFeatureMap(redefinedProperty);
-		OJField f = c.findField(redefinedMap.umlName());
+		OJField f = c.findField(redefinedMap.fieldname());
 		if(f != null){
 			c.removeFromFields(f);
 		}

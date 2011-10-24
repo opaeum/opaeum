@@ -83,57 +83,22 @@ public class BusinessProcessEditPartFactory extends OpaeumActivityEditPartFactor
 		}
 		return super.createEditPart(context, model);
 	}
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @generated
-	 */
+
 	private class EdgeUMLSwitch extends UMLSwitch<Object>{
-		/** The graphical edge */
 		private GraphEdge edge;
-		/**
-		 * Constructor <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @param edge
-		 *            the graphical edge
-		 * @generated
-		 */
+
 		public EdgeUMLSwitch(GraphEdge edge){
 			this.edge = edge;
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseExceptionHandler(org.eclipse.uml2.uml.ExceptionHandler)
-		 * @generated
-		 */
 		public Object caseExceptionHandler(org.eclipse.uml2.uml.ExceptionHandler object){
 			return new ExceptionHandlerEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseControlFlow(org.eclipse.uml2.uml.ControlFlow)
-		 * @generated
-		 */
 		public Object caseControlFlow(org.eclipse.uml2.uml.ControlFlow object){
 			return new ControlFlowEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#caseObjectFlow(org.eclipse.uml2.uml.ObjectFlow)
-		 * @generated
-		 */
 		public Object caseObjectFlow(org.eclipse.uml2.uml.ObjectFlow object){
 			return new ObjectFlowEditPart(edge);
 		}
-		/**
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see org.eclipse.uml2.uml.util.UMLSwitch#defaultCase(org.eclipse.emf.ecore.EObject)
-		 * @generated
-		 */
 		public Object defaultCase(EObject object){
 			return new EMFGraphEdgeEditPart(edge);
 		}

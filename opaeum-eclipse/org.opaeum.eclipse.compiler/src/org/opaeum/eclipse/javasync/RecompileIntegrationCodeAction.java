@@ -12,7 +12,6 @@ import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.Activator;
-import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.TransformationProcess;
 
 public class RecompileIntegrationCodeAction extends RecompileModelDirectoryAction{
@@ -32,7 +31,6 @@ public class RecompileIntegrationCodeAction extends RecompileModelDirectoryActio
 					TransformationProcess p = prepareDirectoryForTransformation(folder, monitor);
 					monitor.subTask("Generating Java Code");
 					p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
-					EmfWorkspace emfWorkspace = p.findModel(EmfWorkspace.class);
 					monitor.subTask("Generating text files");
 					JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 100), p, currentContext,false);
 					currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);

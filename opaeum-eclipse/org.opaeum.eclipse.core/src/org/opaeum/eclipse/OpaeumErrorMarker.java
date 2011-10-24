@@ -24,7 +24,7 @@ import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.metamodel.validation.IValidationRule;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-public class OpaeumErrorMarker implements OpaeumContextSynchronizationListener{
+public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 	public static final String VALIDATION_MARKER_TYPE = "org.eclipse.emf.validation.problem"; //$NON-NLS-1$
 	public static final String RULE_ATTRIBUTE = "rule"; //$NON-NLS-1$
 	// TODO eliminate dependency on context

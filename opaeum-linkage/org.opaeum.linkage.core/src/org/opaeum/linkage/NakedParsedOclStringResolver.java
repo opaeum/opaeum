@@ -84,8 +84,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 	// TODO optimize to take constraints individually
 	EnvironmentFactory environmentFactory;
 	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
-		Collection<? extends INakedElementOwner> children = super.getChildren(root);
+	public Collection<INakedElementOwner> getChildren(INakedElementOwner root){
+		Collection<INakedElementOwner> children = super.getChildren(root);
 		return children;
 	}
 	@Override
@@ -247,6 +247,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		INakedClassifier owner = op.getOwner();
 		Environment env = null;
 		if(BehaviorUtil.hasExecutionInstance(op)){
+			
 			env = environmentFactory.createOperationMessageEnvironment(op, op.getMessageStructure());
 			replacePreAndBodyConditions(op, owner, env);
 			replaceParsedOclConstraints(owner, op.getPostConditions(), env);

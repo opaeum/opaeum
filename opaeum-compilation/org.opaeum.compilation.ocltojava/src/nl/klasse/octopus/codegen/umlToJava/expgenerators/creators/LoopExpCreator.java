@@ -117,7 +117,7 @@ public class LoopExpCreator {
 		ExpressionCreator maker = new ExpressionCreator(myClass);
 		String varDeclStr = maker.makeVarDecl(exp.getResult(), isStatic, params);
 		List<OJParameter> bodyParams = ExpGeneratorHelper.addVarToParams(exp.getResult(), params);
-		String resultName = exp.getResult().getName();
+		String resultName = ExpGeneratorHelper.javaFieldName(exp.getResult());
 		// get info
 		setVariables(exp, isStatic, bodyParams);	
 
@@ -1928,7 +1928,7 @@ body25.addToStatements( exp51 );
 			Iterator<?> innerIt = params.iterator();
 			while (innerIt.hasNext()){
 				OJParameter par = (OJParameter) innerIt.next();
-				if ( elem.getName().equals(par.getName())) {
+				if ( ExpGeneratorHelper.javaFieldName(elem) .equals(par.getName())) {
 					result.remove(par);
 				}
 			}
@@ -1943,7 +1943,7 @@ body25.addToStatements( exp51 );
 		int i=0;
 		while (it.hasNext()) {
 			IVariableDeclaration iterVar = (IVariableDeclaration) it.next();
-			iterVarNames[i] = iterVar.getName();
+			iterVarNames[i] = ExpGeneratorHelper.javaFieldName(iterVar);
 			i++;
 		}
 		return iterVarNames;

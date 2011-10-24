@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IAssociationClass;
@@ -263,7 +264,7 @@ public class Environment implements INameSpace {
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				result = ((VariableDeclaration) (ne.getElement())).getType().findAttribute(name);
+				result = ((IVariableDeclaration) (ne.getElement())).getType().findAttribute(name);
 				if (result != null) {
 					return result;
 				}
@@ -279,15 +280,15 @@ public class Environment implements INameSpace {
 	 * Find the variable that has <i>name</i> as an implicit attribute in this
 	 * environment.
 	 */
-	public VariableDeclaration lookupImplicitSourceForAttribute(String name) {
+	public IVariableDeclaration lookupImplicitSourceForAttribute(String name) {
 		IAttribute found = null;
 		Iterator elems = namedElements.iterator();
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				found = ((VariableDeclaration) (ne.getElement())).getType().findAttribute(name);
+				found = ((IVariableDeclaration) (ne.getElement())).getType().findAttribute(name);
 				if (found != null) {
-					return (VariableDeclaration) (ne.getElement());
+					return (IVariableDeclaration) (ne.getElement());
 				}
 			}
 		}
@@ -303,7 +304,7 @@ public class Environment implements INameSpace {
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				result = ((VariableDeclaration) (ne.getElement())).getType().findAssociationEnd(name);
+				result = ((IVariableDeclaration) (ne.getElement())).getType().findAssociationEnd(name);
 				if (result != null) {
 					return result;
 				}
@@ -315,15 +316,15 @@ public class Environment implements INameSpace {
 		return null;
 	}
 
-	public VariableDeclaration lookupImplicitSourceForAssociationEnd(String name) {
+	public IVariableDeclaration lookupImplicitSourceForAssociationEnd(String name) {
 		IAssociationEnd found = null;
 		Iterator elems = namedElements.iterator();
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				found = ((VariableDeclaration) (ne.getElement())).getType().findAssociationEnd(name);
+				found = ((IVariableDeclaration) (ne.getElement())).getType().findAssociationEnd(name);
 				if (found != null) {
-					return (VariableDeclaration) ne.getElement();
+					return (IVariableDeclaration) ne.getElement();
 				}
 			}
 		}
@@ -339,7 +340,7 @@ public class Environment implements INameSpace {
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				result = ((VariableDeclaration) (ne.getElement())).getType().findAssociationClass(name);
+				result = ((IVariableDeclaration) (ne.getElement())).getType().findAssociationClass(name);
 				if (result != null) {
 					return result;
 				}
@@ -351,15 +352,15 @@ public class Environment implements INameSpace {
 		return null;
 	}
 
-	public VariableDeclaration lookupImplicitSourceForAssociationClass(String name) {
+	public IVariableDeclaration lookupImplicitSourceForAssociationClass(String name) {
 		IAssociationClass found = null;
 		Iterator elems = namedElements.iterator();
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				found = ((VariableDeclaration) (ne.getElement())).getType().findAssociationClass(name);
+				found = ((IVariableDeclaration) (ne.getElement())).getType().findAssociationClass(name);
 				if (found != null) {
-					return (VariableDeclaration) ne.getElement();
+					return (IVariableDeclaration) ne.getElement();
 				}
 			}
 		}
@@ -375,7 +376,7 @@ public class Environment implements INameSpace {
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				result = ((VariableDeclaration) (ne.getElement())).getType().findOperation(name, argumentTypes);
+				result = ((IVariableDeclaration) (ne.getElement())).getType().findOperation(name, argumentTypes);
 				if (result != null) {
 					return result;
 				}
@@ -393,7 +394,7 @@ public class Environment implements INameSpace {
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				result = ((VariableDeclaration) (ne.getElement())).getType().findState(name);
+				result = ((IVariableDeclaration) (ne.getElement())).getType().findState(name);
 				if (result != null) {
 					return result;
 				}
@@ -405,15 +406,15 @@ public class Environment implements INameSpace {
 		return null;
 	}
 
-	public VariableDeclaration lookupImplicitSourceForOperation(String name, List<IClassifier> argumentTypes) {
+	public IVariableDeclaration lookupImplicitSourceForOperation(String name, List<IClassifier> argumentTypes) {
 		IOperation found = null;
 		Iterator elems = namedElements.iterator();
 		while (elems.hasNext()) {
 			NamedElement ne = (NamedElement) elems.next();
 			if (ne.mayBeImplicit()) {
-				found = ((VariableDeclaration) (ne.getElement())).getType().findOperation(name, argumentTypes);
+				found = ((IVariableDeclaration) (ne.getElement())).getType().findOperation(name, argumentTypes);
 				if (found != null) {
-					return (VariableDeclaration) (ne.getElement());
+					return (IVariableDeclaration) (ne.getElement());
 				}
 			}
 		}

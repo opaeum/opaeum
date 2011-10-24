@@ -17,7 +17,6 @@ import org.topcased.modeler.uml.alldiagram.edit.CommentEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.ConstraintEditPart;
 import org.topcased.modeler.uml.alldiagram.edit.ElementEditPart;
 import org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresCreationUtils;
-import org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresEditPartFactory;
 import org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresPlugin;
 import org.topcased.modeler.uml.compositestructuresdiagram.EditPart2ModelAdapterFactory;
 import org.topcased.modeler.uml.compositestructuresdiagram.edit.CollaborationUseEditPart;

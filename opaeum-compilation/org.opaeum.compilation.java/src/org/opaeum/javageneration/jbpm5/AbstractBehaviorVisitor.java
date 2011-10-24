@@ -1,17 +1,11 @@
 package org.opaeum.javageneration.jbpm5;
 
-import java.util.List;
-
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
-import org.opaeum.metamodel.core.INakedParameter;
 
 /**
  * Provides the behavior related logic common to statemachines and activities:

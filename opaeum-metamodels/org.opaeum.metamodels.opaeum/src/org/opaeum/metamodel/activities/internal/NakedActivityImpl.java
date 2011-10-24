@@ -26,7 +26,7 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.internal.ArtificialProperty;
+import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity{
@@ -192,7 +192,7 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	@Override
 	public INakedProperty findEmulatedAttribute(INakedAction node){
 		for(INakedProperty p:this.ownedAttributes){
-			if(p instanceof ArtificialProperty && p.getName().equalsIgnoreCase(node.getName())){
+			if(p instanceof InverseArtificialProperty && p.getName().equalsIgnoreCase(node.getName())){
 				return p;
 			}
 		}

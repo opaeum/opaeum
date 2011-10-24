@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ExtensionEnd;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
@@ -53,14 +54,16 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		if(selectedObject instanceof Element){
 			for(Stereotype stereotype:((Element) selectedObject).getAppliedStereotypes()){
 				for(EReference ref:stereotype.getDefinition().getEAllContainments()){
-					Collection<IAction> creates = new ArrayList<IAction>();
-					createChildSubmenuActions.put(NameConverter.separateWords(NameConverter.capitalize(ref.getName())), creates);
-					EObject childObject = EcoreUtil.create(ref.getEReferenceType());
-					CommandParameter desc = new CommandParameter(((Element) selectedObject).getStereotypeApplication(stereotype), ref, childObject);
-					CreateChildAction action = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
-							desc);
-					action.setText(NameConverter.separateWords(NameConverter.capitalize(ref.getEReferenceType().getName())));
-					creates.add(action);
+					if(!ref.getEReferenceType().isAbstract()){
+						Collection<IAction> creates = new ArrayList<IAction>();
+						createChildSubmenuActions.put(NameConverter.separateWords(NameConverter.capitalize(ref.getName())), creates);
+						EObject childObject = EcoreUtil.create(ref.getEReferenceType());
+						CommandParameter desc = new CommandParameter(((Element) selectedObject).getStereotypeApplication(stereotype), ref, childObject);
+						CreateChildAction action = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
+								selection, desc);
+						action.setText(NameConverter.separateWords(NameConverter.capitalize(ref.getEReferenceType().getName())));
+						creates.add(action);
+					}
 				}
 			}
 		}
@@ -79,7 +82,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 	protected Collection<IAction> generateCreateChildActionsGen(Collection<?> theDescriptors,ISelection selection){
 		Collection<IAction> actions = new ArrayList<IAction>();
 		if(theDescriptors != null){
-			if(selectedObject instanceof Activity && !StereotypesHelper.hasKeyword((Element) selectedObject, StereotypeNames.BUSINES_PROCESS)){
+			if(selectedObject instanceof Activity && !StereotypesHelper.hasStereotype((Element) selectedObject, StereotypeNames.BUSINES_PROCESS)){
 				for(CommandParameter descriptor:(Collection<CommandParameter>) theDescriptors){
 					if(!(descriptor.getValue() instanceof Property || descriptor.getValue() instanceof Operation || descriptor.getValue() instanceof Behavior)){
 						CreateChildAction actio = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(), selection,
@@ -111,42 +114,49 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 							actio.setText(name + "|Object Flow Input");
 							actions.add(actio);
 						}else if(descriptor.getValue() instanceof Property){
-							if((selectedObject instanceof Activity && StereotypesHelper.hasKeyword((Element) selectedObject, StereotypeNames.BUSINES_PROCESS))
-									|| (selectedObject instanceof StateMachine && StereotypesHelper.hasKeyword((Element) selectedObject,
-											StereotypeNames.BUSINES_STATE_MACHINE))){
-								actions.add(actio);
-								Property fact = UMLFactory.eINSTANCE.createProperty();
-								CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
-										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), fact));
-								actio1.setText("Owned Attribute|Fact");
-								StereotypesHelper.getNumlAnnotation(fact).getDetails().put(StereotypeNames.FACT, "");
-								actions.add(actio1);
-								Property dimension = UMLFactory.eINSTANCE.createProperty();
-								CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
-										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), dimension));
-								actio2.setText("Owned Attribute|Dimension");
-								StereotypesHelper.getNumlAnnotation(dimension).getDetails().put(StereotypeNames.DIMENSION, "");
-								actions.add(actio2);
-							}else if(selectedObject instanceof Component && StereotypesHelper.hasKeyword((Element) selectedObject, StereotypeNames.BUSINESS_COMPONENT)){
-								if(descriptor.getValue() instanceof Port){
-									Port port = (Port) descriptor.getValue();
-									StereotypesHelper.getNumlAnnotation(port).getDetails().put(StereotypeNames.BUSINESS_GATEWAY,"");
-								}else{
+							if(!(descriptor.getValue() instanceof ExtensionEnd)){
+								if((selectedObject instanceof Activity && StereotypesHelper.hasStereotype((Element) selectedObject, StereotypeNames.BUSINES_PROCESS))
+										|| (selectedObject instanceof StateMachine && StereotypesHelper.hasStereotype((Element) selectedObject,
+												StereotypeNames.BUSINES_STATE_MACHINE))){
 									actions.add(actio);
+									Property fact = UMLFactory.eINSTANCE.createProperty();
+									CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), fact));
+									actio1.setText("Owned Attribute|Fact");
+									StereotypesHelper.getNumlAnnotation(fact).getDetails().put(StereotypeNames.FACT, "");
+									actions.add(actio1);
+									Property dimension = UMLFactory.eINSTANCE.createProperty();
+									CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), dimension));
+									actio2.setText("Owned Attribute|Dimension");
+									StereotypesHelper.getNumlAnnotation(dimension).getDetails().put(StereotypeNames.DIMENSION, "");
+									actions.add(actio2);
+								}else if(selectedObject instanceof Component
+										&& StereotypesHelper.hasStereotype((Element) selectedObject, StereotypeNames.BUSINESS_COMPONENT)){
+									if(descriptor.getValue() instanceof Port){
+										if(descriptor.getFeature().equals(UMLPackage.eINSTANCE.getEncapsulatedClassifier_OwnedPort())){
+											Port port = (Port) descriptor.getValue();
+											StereotypesHelper.getNumlAnnotation(port).getDetails().put(StereotypeNames.BUSINESS_GATEWAY, "");
+											actio.setText("Owned Attribute|Business Gateway");
+											actions.add(actio);
+										}
+									}else{
+										actions.add(actio);
+										Property participantReference = UMLFactory.eINSTANCE.createProperty();
+										CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+												.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), participantReference));
+										actio1.setText("Owned Attribute|Participant Reference");
+										participantReference.setAggregation(AggregationKind.NONE_LITERAL);
+										StereotypesHelper.getNumlAnnotation(participantReference).getDetails().put(StereotypeNames.PARTICIPANT_REFERENCE, "");
+										actions.add(actio1);
+										Property businessRoleContaiment = UMLFactory.eINSTANCE.createProperty();
+										CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+												.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessRoleContaiment));
+										actio2.setText("Owned Attribute|Business Role Containment");
+										StereotypesHelper.getNumlAnnotation(businessRoleContaiment).getDetails().put(StereotypeNames.BUSINESS_ROLE_CONTAINMENT, "");
+										actions.add(actio2);
+									}
 								}
-								Property participantReference = UMLFactory.eINSTANCE.createProperty();
-								CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
-										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), participantReference));
-								actio1.setText("Owned Attribute|Participant Reference");
-								participantReference.setAggregation(AggregationKind.NONE_LITERAL);
-								StereotypesHelper.getNumlAnnotation(participantReference).getDetails().put(StereotypeNames.PARTICIPANT_REFERENCE, "");
-								actions.add(actio1);
-								Property businessRoleContaiment = UMLFactory.eINSTANCE.createProperty();
-								CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().getActivePart(),
-										selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessRoleContaiment));
-								actio2.setText("Owned Attribute|Business Role Containment");
-								StereotypesHelper.getNumlAnnotation(businessRoleContaiment).getDetails().put(StereotypeNames.BUSINESS_ROLE_CONTAINMENT, "");
-								actions.add(actio2);
 							}
 						}else{
 							actions.add(actio);

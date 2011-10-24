@@ -134,18 +134,18 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 	protected void populateAttributes(OJAnnotatedClass owner,String rootObjectName,OJOperation toString,INakedProperty f){
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(f);
 		owner.addToImports(map.javaBaseTypePath());
-		OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + map.umlName() + "\").length()>0");
+		OJIfStatement ifNotNull = new OJIfStatement("xml.getAttribute(\"" + map.fieldname() + "\").length()>0");
 		toString.getBody().addToStatements(ifNotNull);
 		if(map.isOne()){
 			if(f.getNakedBaseType() instanceof INakedSimpleType){
 				ifNotNull.getThenPart().addToStatements(
-						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + f.getNakedBaseType().getName() + "(xml.getAttribute(\"" + map.umlName()
+						map.setter() + "(" + rootObjectName + "Formatter.getInstance().parse" + f.getNakedBaseType().getName() + "(xml.getAttribute(\"" + map.fieldname()
 								+ "\")))");
 			}else{
-				ifNotNull.getThenPart().addToStatements(map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.umlName() + "\")))");
+				ifNotNull.getThenPart().addToStatements(map.setter() + "(" + map.javaType() + ".valueOf(" + "xml.getAttribute(\"" + map.fieldname() + "\")))");
 			}
 		}else{
-			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.umlName() + "\").split(\";\")");
+			OJForStatement forEach = new OJForStatement("val", new OJPathName("String"), "xml.getAttribute(\"" + map.fieldname() + "\").split(\";\")");
 			ifNotNull.getThenPart().addToStatements(forEach);
 			if(f.getNakedBaseType() instanceof INakedSimpleType){
 				forEach.getBody().addToStatements(map.adder() + "(" + rootObjectName + "Formatter.getInstance().parse" + f.getNakedBaseType().getName() + "(val))");
@@ -170,7 +170,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		thenPart.addToStatements("map.put(curVal.getUid(), curVal)");
 	}
 	protected OJBlock iterateThroughPropertyValues(NakedStructuralFeatureMap map,OJWhileStatement w){
-		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\"" + map.umlName()
+		OJIfStatement ifInstance = new OJIfStatement("currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals(\"" + map.fieldname()
 				+ "\") || ((Element)currentPropertyNode).getAttribute(\"propertyId\").equals(\"" + map.getProperty().getMappingInfo().getOpaeumId() + "\"))");
 		OJAnnotatedField propertyValueNodes = new OJAnnotatedField("propertyValueNodes", new OJPathName(NodeList.class.getName()));
 		ifInstance.getThenPart().addToLocals(propertyValueNodes);

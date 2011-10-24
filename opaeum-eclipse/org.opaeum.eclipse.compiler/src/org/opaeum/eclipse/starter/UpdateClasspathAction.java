@@ -25,7 +25,7 @@ public class UpdateClasspathAction extends AbstractOpaeumAction{
 			protected IStatus run(final IProgressMonitor monitor){
 				try{
 					monitor.beginTask("Updating Workspace Classpaths", 1);
-					JavaProjectGenerator.runMaven(currentContext.getConfig());
+					JavaProjectGenerator.runMaven(currentContext.getConfig().getOutputRoot());
 					ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 				}catch(Exception e){
 					OpaeumEclipsePlugin.getDefault().getLog().log(new Status(Status.INFO, OpaeumEclipsePlugin.getPluginId(), Status.OK, e.getMessage(), e));

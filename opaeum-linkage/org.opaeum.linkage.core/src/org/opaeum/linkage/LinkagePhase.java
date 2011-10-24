@@ -109,6 +109,6 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class, ProcessIdentifier.class,
 				MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class,
 				ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class, EnumerationValuesAttributeAdder.class, TypeResolver.class,
-				SourcePopulationResolver.class));
+				SourcePopulationResolver.class,RootClassifierIdentifier.class));
 	}
 }

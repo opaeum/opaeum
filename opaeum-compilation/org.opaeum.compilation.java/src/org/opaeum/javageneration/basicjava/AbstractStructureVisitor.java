@@ -60,6 +60,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 					}
 					if(umlOwner instanceof INakedActivity){
 						INakedActivity a = (INakedActivity) umlOwner;
+						visitVariables(umlOwner, a.getVariables());
 						if(BehaviorUtil.hasExecutionInstance(a)){
 							visitActivityNodesRecursively(a, (ActivityNodeContainer) a);
 						}
@@ -82,7 +83,6 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 		}
 	}
 	protected void visitActivityNodesRecursively(INakedClassifier owner,ActivityNodeContainer container){
-		visitVariables(owner, container.getVariables());
 		for(INakedActivityNode n:container.getActivityNodes()){
 			if(n instanceof INakedAction){
 				visitOutputPins((INakedAction) n);

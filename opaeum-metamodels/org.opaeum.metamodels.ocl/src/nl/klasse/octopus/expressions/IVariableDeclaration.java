@@ -29,5 +29,6 @@ public interface IVariableDeclaration extends IModelElement {
 	public abstract OclExpression getInitExpression();
 	
 	public boolean isIteratorVar();
+	public abstract void setType(IClassifier expressionType);
 
 }

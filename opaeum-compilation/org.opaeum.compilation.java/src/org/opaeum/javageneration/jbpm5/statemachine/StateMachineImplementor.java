@@ -50,7 +50,6 @@ import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
 import org.opeum.runtime.domain.IProcessObject;
 import org.opeum.runtime.domain.IProcessStep;
-import org.opeum.runtime.domain.UmlNodeInstance;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class

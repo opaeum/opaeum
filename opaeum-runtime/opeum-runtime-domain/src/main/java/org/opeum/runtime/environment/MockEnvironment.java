@@ -11,6 +11,7 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.opeum.runtime.domain.IActiveObject;
 import org.opeum.runtime.domain.ISignal;
 import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opeum.runtime.persistence.UmtPersistence;
 
 public class MockEnvironment extends Environment{
 	private Map<String, Object> components = new HashMap<String, Object>();
@@ -65,6 +66,10 @@ public class MockEnvironment extends Environment{
 			this.knowledgeSession = abstractJbpmKnowledgeBase.getKnowledgeBase().newStatefulKnowledgeSession(cfg, env);
 		}
 		return knowledgeSession;
+	}
+	@Override
+	public UmtPersistence newUmtPersistence(){
+		return null;
 	}
 
 }

@@ -46,7 +46,7 @@ public class LoopExp extends PropertyCallExp implements ILoopExp {
     /** Setter for property iterators.
      * @param iterators New value of property iterators.
      */
-    public void addIterator(VariableDeclaration varDecl) {
+    public void addIterator(IVariableDeclaration varDecl) {
         this.iterators.add(varDecl);
     }
 

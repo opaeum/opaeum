@@ -3,6 +3,7 @@
 package nl.klasse.octopus.expressions.internal.types;
 
 import nl.klasse.octopus.expressions.ILetExp;
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.model.IClassifier;
 
 
@@ -11,7 +12,7 @@ import nl.klasse.octopus.model.IClassifier;
  */
 public class LetExp extends OclExpression implements ILetExp {
 
-    private VariableDeclaration variable = null;
+    private IVariableDeclaration variable = null;
     private OclExpression       in       = null;
     
     /** Creates a new instance of LetExp */
@@ -25,14 +26,14 @@ public class LetExp extends OclExpression implements ILetExp {
     /** Getter for property variable.
      * @return Value of property variable.
      */
-    public VariableDeclaration getVariable() {
+    public IVariableDeclaration getVariable() {
         return variable;
     }
     
     /** Setter for property variable.
      * @param variable New value of property variable.
      */
-    public void setVariable(VariableDeclaration variable) {
+    public void setVariable(IVariableDeclaration variable) {
         this.variable = variable;
     }
     

@@ -1,6 +1,5 @@
 package org.opaeum.textmetamodel;
 
-
 public enum JavaSourceFolderIdentifier implements ISourceFolderIdentifier{
 	DOMAIN_TEST_SRC,
 	DOMAIN_SRC,
@@ -13,5 +12,7 @@ public enum JavaSourceFolderIdentifier implements ISourceFolderIdentifier{
 	ADAPTOR_GEN_SRC,
 	INTEGRATED_ADAPTOR_GEN_SRC,
 	ADAPTOR_GEN_TEST_SRC,
-	INTEGRATED_ADAPTOR_GEN_TEST_SRC;
+	INTEGRATED_ADAPTOR_GEN_TEST_SRC,
+	MIGRATION_GEN_SRC,
+	MIGRATION_SRC;
 }

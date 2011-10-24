@@ -8,6 +8,7 @@ import java.util.List;
 
 import nl.klasse.octopus.expressions.IOclExpression;
 import nl.klasse.octopus.expressions.IPropertyCallExp;
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.analysis.Analyzer;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.analysis.Environment;
@@ -289,7 +290,7 @@ public class ExpressionAnalyzer extends Analyzer {
         Iterator vars = tree.getVariables();
         while( vars.hasNext() ){
             ParsedVariableDeclaration pvar = (ParsedVariableDeclaration) vars.next();
-			VariableDeclaration       var  = analyzeVariableDeclaration(pvar, env, null);
+			IVariableDeclaration       var  = analyzeVariableDeclaration(pvar, env, null);
 			env.addElement(var.getName(), var, false);
             // Check for mandatory initExpression
             if( var.getInitExpression() == null ) {

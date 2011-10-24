@@ -14,10 +14,7 @@ public class MappingInfo{
 		System.out.println(new MappingInfo("", m1.toString()).toString().equals(m1.toString()));
 	}
 	// TODO simplify
-	private boolean isNewInVersion = false;
-	private boolean isNewInRevision = false;
 	private boolean isVersioned=true;
-	private boolean requiresSqlRename = false;
 	private boolean shouldStore;
 	private String qualifiedJavaName;
 	private String oldQualifiedJavaName;
@@ -57,33 +54,6 @@ public class MappingInfo{
 		return shouldStore;
 	}
 	/**
-	 * Calculates whether this originalElement should be added to the database 1. For this revision given the currently deployed revision in
-	 * the database 2. For this version, given the currently deployed version in the database
-	 * 
-	 * @param deployedVersion
-	 * @param deployedRevision
-	 */
-	public void calculateMigrationRequirements(float deployedVersion,int deployedRevision){
-		if(getSinceVersion() == null || getSinceVersion().floatValue() > deployedVersion || deployedVersion == 0){
-			this.isNewInVersion = true;
-		}
-		if(getSinceRevision() == null || getSinceRevision().intValue() > deployedRevision || deployedRevision == 0){
-			this.isNewInRevision = true;
-		}
-	}
-	public boolean isNewInRevision(){
-		return this.isNewInRevision;
-	}
-	public boolean isNewInVersion(){
-		return this.isNewInVersion;
-	}
-	public boolean isRequiresSqlRename(){
-		return this.requiresSqlRename;
-	}
-	public void setRequiresSqlRename(boolean requiresSqlRename){
-		this.requiresSqlRename = requiresSqlRename;
-	}
-	/**
 	 * Returns a '/'- delimited path using the java names of the consituents of the path
 	 * 
 	 * @return
@@ -91,36 +61,12 @@ public class MappingInfo{
 	public String getJavaPath(){
 		return getQualifiedJavaName().replace('.', '/');
 	}
-	/**
-	 * 
-	 * If the getSinceVersion() and/or sinceRevision have not been set yet, then this will set them presumably for the first time
-	 * Additionally, it updates the supporting tagged values
-	 * 
-	 * @param version
-	 * @param revision
-	 */
-	public void updateVersionInfo(float version,int revision){
-		if(!hasSinceVersion()){
-			setSinceVersion(new Float(version));
-		}
-		if(!hasSinceRevision()){
-			setSinceRevision(new Integer(revision));
-		}
-	}
-	protected boolean hasSinceRevision(){
-		return getSinceVersion() != null;
-	}
-	protected boolean hasSinceVersion(){
-		return getSinceVersion() != null;
-	}
+
 	public boolean requiresJavaRename(){
 		return oldQualifiedJavaName != null && !oldQualifiedJavaName.equals(qualifiedJavaName);
 	}
 	public boolean requiresPersistentRename(){
 		return oldPersistentName != null && !oldPersistentName.equals(oldPersistentName);
-	}
-	public boolean hasMappingInfo(){
-		return hasSinceVersion();
 	}
 	public boolean hasPersistentName(){
 		return getPersistentName() != null && getPersistentName().getAsIs() != null && getPersistentName().getAsIs().trim().length() > 0;
@@ -158,9 +104,6 @@ public class MappingInfo{
 		result.setPersistentName(getPersistentName());
 		result.setQualifiedJavaName(getQualifiedJavaName());
 		result.setQualifiedUmlName(getQualifiedUmlName());
-		result.setRequiresSqlRename(isRequiresSqlRename());
-		result.setSinceRevision(getSinceRevision());
-		result.setSinceVersion(getSinceVersion());
 		return result;
 	}
 	public String getQualifiedJavaName(){
@@ -203,18 +146,6 @@ public class MappingInfo{
 	public void setIdInModel(String idInModel){
 		this.idInModel = idInModel;
 	}
-	public Integer getSinceRevision(){
-		return sinceRevision;
-	}
-	public void setSinceRevision(Integer sinceRevision){
-		this.sinceRevision = sinceRevision;
-	}
-	public Float getSinceVersion(){
-		return sinceVersion;
-	}
-	public void setSinceVersion(Float sinceVersion){
-		this.sinceVersion = sinceVersion;
-	}
 	public Integer getOpaeumId(){
 		return nakedUmlId;
 	}
@@ -222,7 +153,7 @@ public class MappingInfo{
 		this.nakedUmlId = nakedUmlId;
 	}
 	public String toString(){
-		return "" + sinceRevision + DEL + new DecimalFormat("#0.0000000").format(sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL;
+		return "" + (sinceRevision==null?0:sinceRevision) + DEL + new DecimalFormat("#0.0000000").format(sinceVersion==null?0:sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL;
 	}
 	protected MappingInfo createCopy(){
 		return new MappingInfo(idInModel, toString());

@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.commands.SetOclBodyCommand;
-import org.opaeum.eclipse.context.NakedUmlEditingContext;
+import org.opaeum.eclipse.context.OpaeumEditingContext;
 import org.opaeum.metamodel.actions.INakedOclAction;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
@@ -24,9 +24,9 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-public class OclUpdater implements OpaeumContextSynchronizationListener{
-	private Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces;
-	public OclUpdater(Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces){
+public class OclUpdater implements OpaeumSynchronizationListener{
+	private Map<ResourceSet,OpaeumEditingContext> emfWorkspaces;
+	public OclUpdater(Map<ResourceSet,OpaeumEditingContext> emfWorkspaces){
 		super();
 		this.emfWorkspaces = emfWorkspaces;
 	}
@@ -61,7 +61,7 @@ public class OclUpdater implements OpaeumContextSynchronizationListener{
 		}
 	}
 	private void updateOclBody(INakedElement de,final IOclContext oclValue,final EAttribute body,final EAttribute language){
-		for(final NakedUmlEditingContext ew:emfWorkspaces.values()){
+		for(final OpaeumEditingContext ew:emfWorkspaces.values()){
 			final NamedElement oe = (NamedElement) ew.getEmfWorkspace().getElement(de.getId());
 			// Could be artificially generated OCL
 			if(oe != null && !ew.getEditingDomain().isReadOnly(oe.eResource())){

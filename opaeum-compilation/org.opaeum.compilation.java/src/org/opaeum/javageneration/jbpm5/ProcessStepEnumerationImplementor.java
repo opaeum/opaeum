@@ -16,7 +16,6 @@ import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -38,7 +37,7 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		e.addToImplementedInterfaces(abstractProcessStep);
 		OJPackage p = findOrCreatePackage(OJUtil.packagePathname(c.getNameSpace()));
 		p.addToClasses(e);
-		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(c.getMappingInfo().isVersioned() && workspace.isPrimaryModel(c.getRootObject()));
+		super.createTextPath(e, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC).setDependsOnVersion(true);
 		OJConstructor constructor = new OJConstructor();
 		e.addToConstructors(constructor);
 		OJUtil.addField(e, constructor, "parentState", abstractProcessStep);

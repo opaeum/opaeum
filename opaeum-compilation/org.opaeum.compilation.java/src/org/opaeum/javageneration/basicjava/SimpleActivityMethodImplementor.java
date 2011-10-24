@@ -133,7 +133,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		for(INakedActivityVariable var:vars){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(a, var);
 			OJField field = new OJField();
-			field.setName(map.umlName());
+			field.setName(map.fieldname());
 			field.setType(map.javaTypePath());
 			field.setInitExp(map.javaDefaultValue());
 			body.addToLocals(field);
@@ -181,14 +181,14 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 		List<INakedExpansionNode> output = region.getOutputElement();
 		for(INakedExpansionNode expansionNode:output){
 			NakedStructuralFeatureMap outMap = OJUtil.buildStructuralFeatureMap(region.getActivity().getContext(), expansionNode, true);
-			OJAnnotatedField outField = new OJAnnotatedField(outMap.umlName(), outMap.javaTypePath());
+			OJAnnotatedField outField = new OJAnnotatedField(outMap.fieldname(), outMap.javaTypePath());
 			outField.setInitExp(outMap.javaDefaultValue());
 			operation.getOwner().addToImports(outMap.javaBaseDefaultTypePath());
 			operation.getOwner().addToImports(outMap.javaTypePath());
 			block.addToLocals(outField);
 		}
 		ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
-		OJForStatement forEach = new OJForStatement(input.getName(), map.javaBaseTypePath(), expressor.expressInputPinOrOutParamOrExpansionNode(block, input));
+		OJForStatement forEach = new OJForStatement(map.fieldname(), map.javaBaseTypePath(), expressor.expressInputPinOrOutParamOrExpansionNode(block, input));
 		block.addToStatements(forEach);
 		addVariables(region.getActivity(), region.getVariables(), forEach.getBody(), operation.getOwner());
 		// TODO get first node, likely an inputElement to implement
@@ -219,7 +219,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			if(incomingEdge instanceof INakedObjectFlow){
 				// TODO the originatingOBjectNode my not have the correct type after transformations and selections
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(cn.getActivity(), ((INakedObjectFlow) incomingEdge).getOriginatingObjectNode(), false);
-				OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+				OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 				ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
 				decisionNodeVar.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(block, (INakedObjectFlow) incomingEdge));
 				elseBlock.addToLocals(decisionNodeVar);
@@ -360,7 +360,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				OJIfStatement statement = new OJIfStatement();
 				statement.setCondition("e.isParameter(\"" + e.getLinkedTypedElement().getName() + "\")");
 				OJField parm = new OJField();
-				parm.setName(pinMap.umlName());
+				parm.setName(pinMap.fieldname());
 				parm.setType(pinMap.javaTypePath());
 				parm.setInitExp("(" + pinMap.javaType() + ")e.getValue()");
 				statement.getThenPart().addToLocals(parm);

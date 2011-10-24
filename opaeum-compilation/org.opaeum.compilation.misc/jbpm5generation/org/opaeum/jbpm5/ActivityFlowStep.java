@@ -359,18 +359,18 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		flowState.getVariables().add(variablesType);
 		for(INakedActivityVariable var:variables){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), var);
-			createVariable(variablesType, map.umlName(), map.javaTypePath().toString());
+			createVariable(variablesType, map.fieldname(), map.javaTypePath().toString());
 		}
 		for(INakedActivityNode child:node.getActivityNodes()){
 			if(child instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedCallAction) child)){
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedCallAction) child, super.workspace.getOpaeumLibrary());
-				createVariable(variablesType, map.umlName(), map.javaTypePath().toString());
+				createVariable(variablesType, map.fieldname(), map.javaTypePath().toString());
 			}else if(child instanceof INakedAction){
 				INakedAction action = (INakedAction) child;
 				Collection<INakedOutputPin> output = action.getOutput();
 				for(INakedOutputPin outPin:output){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), outPin);
-					createVariable(variablesType, map.umlName(), map.javaTypePath().toString());
+					createVariable(variablesType, map.fieldname(), map.javaTypePath().toString());
 				}
 			}
 		}

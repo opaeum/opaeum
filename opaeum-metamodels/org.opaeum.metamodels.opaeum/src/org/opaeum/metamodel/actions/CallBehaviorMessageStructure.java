@@ -7,15 +7,14 @@ import nl.klasse.octopus.model.IClassifier;
 
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 
 public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStructure{
-	private static final long serialVersionUID = -3057414460280596858L;
+	private static final long serialVersionUID = 1L;
 	private INakedCallBehaviorAction action;
 	public CallBehaviorMessageStructure(INakedCallBehaviorAction b){
 		super(b.getActivity(), b.getBehavior());
-		this.action=b;
+		this.action = b;
 	}
 	@Override
 	public boolean isPersistent(){
@@ -26,12 +25,17 @@ public class CallBehaviorMessageStructure extends EmulatedCompositionMessageStru
 		return Collections.emptyList();
 	}
 	@Override
-	public List<INakedProperty> getOwnedAttributes(){
-		return Collections.singletonList(getEndToComposite());
+	public void reinitialize(){
+		super.reinitialize();
+		super.owner = action.getNearestStructuredElementAsClassifier();
+		if(action.getBehavior().getContext() == null){
+			addSuperclass(action.getBehavior());
+		}else{
+		}
 	}
 	@Override
 	public List<IClassifier> getGeneralizations(){
-		return Collections.singletonList((IClassifier)getSupertype());
+		return Collections.singletonList((IClassifier) getSupertype());
 	}
 	@Override
 	public INakedClassifier getSupertype(){

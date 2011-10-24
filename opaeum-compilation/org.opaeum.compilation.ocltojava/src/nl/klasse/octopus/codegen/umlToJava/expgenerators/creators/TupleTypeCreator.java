@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import nl.klasse.octopus.codegen.helpers.CommonNames;
+import nl.klasse.octopus.codegen.umlToJava.common.ExpGeneratorHelper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.maps.TupleTypeMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.creators.DataTypeCreator;
 import nl.klasse.octopus.expressions.IVariableDeclaration;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IDataType;
 import nl.klasse.octopus.model.ITupleType;
@@ -108,15 +108,15 @@ public class TupleTypeCreator extends DataTypeCreator {
 		//
 		Iterator<?> it = TUPLE.sort_parts().iterator();
 		while (it.hasNext()){
-			VariableDeclaration decl = (VariableDeclaration) it.next();
+			IVariableDeclaration decl = (IVariableDeclaration) it.next();
 			ClassifierMap mapper = new ClassifierMap(decl.getType());
 			created.addToFields(make_attribute(decl, mapper));
-			constr.getBody().addToStatements("this." + getFieldName(decl) + " = " + decl.getName());
+			constr.getBody().addToStatements("this." + getFieldName(decl) + " = " + ExpGeneratorHelper.javaFieldName(decl));
 			if (mapper.hasFacade()) {
-				constr.addParam(decl.getName(), mapper.javaFacadeTypePath());
+				constr.addParam(ExpGeneratorHelper.javaFieldName(decl), mapper.javaFacadeTypePath());
 				created.addToImports(mapper.javaFacadeTypePath());
 			} else {
-				constr.addParam(decl.getName(), mapper.javaTypePath());
+				constr.addParam(ExpGeneratorHelper.javaFieldName(decl), mapper.javaTypePath());
 			}
 			created.addToOperations(createGetter(decl, mapper));
 			created.addToImports(mapper.javaTypePath());
@@ -128,7 +128,7 @@ public class TupleTypeCreator extends DataTypeCreator {
 	 * @param decl
 	 * @return
 	 */
-	private OJOperation createGetter(VariableDeclaration decl, ClassifierMap mapper) {
+	private OJOperation createGetter(IVariableDeclaration decl, ClassifierMap mapper) {
 		OJOperation oper = new OJOperation();
 		oper.setName(getGetterName(decl));
 		if (mapper.hasFacade()) {
@@ -141,7 +141,7 @@ public class TupleTypeCreator extends DataTypeCreator {
 		return oper;
 	}
 
-	private OJField make_attribute(VariableDeclaration decl, ClassifierMap mapper) {
+	private OJField make_attribute(IVariableDeclaration decl, ClassifierMap mapper) {
 		OJField field = new OJField();
 		field.setName(getFieldName(decl));
 		field.setVisibility(OJVisibilityKind.PRIVATE);
@@ -157,8 +157,8 @@ public class TupleTypeCreator extends DataTypeCreator {
 	 * @param decl
 	 * @return
 	 */
-	private String getFieldName(VariableDeclaration decl) {
-		return decl.getName();
+	private String getFieldName(IVariableDeclaration decl) {
+		return ExpGeneratorHelper.javaFieldName(decl);
 	}
 	
 	private String getGetterName(IVariableDeclaration decl) {

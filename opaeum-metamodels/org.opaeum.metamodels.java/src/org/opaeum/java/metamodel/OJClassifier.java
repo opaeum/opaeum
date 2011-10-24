@@ -17,6 +17,7 @@ import org.opaeum.java.metamodel.utilities.OJPathNameComparator;
 
 public class OJClassifier extends OJClassifierGEN{
 	protected OJPackage f_myPackage;
+	protected String suffix;
 	/******************************************************
 	 * The constructor for this classifier.
 	 *******************************************************/
@@ -28,6 +29,34 @@ public class OJClassifier extends OJClassifierGEN{
 		for(OJOperation oper:getOperations()){
 			addAll(oper.getParamTypes());
 			this.addToImports(oper.getReturnType());
+			addImportsRecursively(oper.getBody());
+		}
+	}
+	protected void addImportsRecursively(OJBlock body){
+		if(body != null){
+			for(OJField ojField:body.getLocals()){
+				this.addToImports(ojField.getType());
+			}
+			for(OJStatement s:body.getStatements()){
+				if(s instanceof OJIfStatement){
+					addImportsRecursively(((OJIfStatement) s).getThenPart());
+					addImportsRecursively(((OJIfStatement) s).getElsePart());
+				}else if(s instanceof OJBlock){
+					addImportsRecursively(((OJBlock) s));
+				}else if(s instanceof OJTryStatement){
+					addImportsRecursively(((OJTryStatement) s).getTryPart());
+					addImportsRecursively(((OJTryStatement) s).getCatchPart());
+				}else if(s instanceof OJWhileStatement){
+					addImportsRecursively(((OJWhileStatement) s).getBody());
+				}else if(s instanceof OJForStatement){
+					addImportsRecursively(((OJForStatement) s).getBody());
+					addToImports(((OJForStatement) s).getElemType());
+				}else if(s instanceof OJSwitchStatement){
+					for(OJSwitchCase ojSwitchCase:((OJSwitchStatement) s).getCases()){
+						addImportsRecursively(ojSwitchCase.getBody());
+					}
+				}
+			}
 		}
 	}
 	private void addAll(List<OJPathName> types){
@@ -188,11 +217,18 @@ public class OJClassifier extends OJClassifierGEN{
 		}
 	}
 	@Override
+	public String getName(){
+		if(suffix != null){
+			return super.getName() + suffix;
+		}else{
+			return super.getName();
+		}
+	}
+	@Override
 	public void renameAll(Set<OJPathName> renamePathNames,String suffix){
 		if(renamePathNames.contains(getPathName())){
-			super.setName(getName() + suffix);
+			this.suffix = suffix;
 		}
-
 		Set<OJPathName> newImports = new HashSet<OJPathName>();
 		Collection<OJPathName> imports = getImports();
 		for(OJPathName ojPathName:imports){

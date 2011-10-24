@@ -28,7 +28,6 @@ import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 	public RecompileModelDirectoryAction(IStructuredSelection selection2){
 		super(selection2, "Recompile Model Directory");
-		// TODO Auto-generated constructor stub
 	}
 	protected RecompileModelDirectoryAction(IStructuredSelection selection2,String string){
 		super(selection2, string);
@@ -43,9 +42,8 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 				try{
 					monitor.beginTask("Loading All Models", 1000);
 					TransformationProcess p = prepareDirectoryForTransformation(folder, monitor);
-					// TODO this is for UimSynchronizationPhase which should perhaps now take a NakedModelWorkspace as input
 					monitor.subTask("Generating Java Code");
-					p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
+					p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400),false);
 					if(!(monitor.isCanceled())){
 						p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					}
@@ -69,20 +67,6 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		monitor.subTask("Loading Opaeum Metadata");
 		ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
 		INakedModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
-		nakedWorkspace.clearGeneratingModelOrProfiles();
-		for(INakedRootObject ro:nakedWorkspace.getRootObjects()){
-			if(ro instanceof INakedModel && ((INakedModel) ro).isRegeneratingLibrary()){
-				// TODO check if code should be regenerated;
-				nakedWorkspace.addGeneratingRootObject(ro);
-			}else{
-				for(IResource r:ctx.getUmlDirectory().members()){
-					if(r.getLocation().lastSegment().equals(ro.getFileName())){
-						nakedWorkspace.addGeneratingRootObject(ro);
-						break;
-					}
-				}
-			}
-		}
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);
 		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);

@@ -31,7 +31,7 @@ import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.INakedValueSpecification;
-import org.opaeum.metamodel.core.internal.ArtificialProperty;
+import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.statemachines.INakedRegion;
@@ -51,16 +51,16 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 		MappingInfo mappingInfo = nakedElement.getMappingInfo();
 		nakedElement.setName(generateUmlName(nakedElement).toString());
 		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
-		if(nakedElement instanceof ArtificialProperty){
-			ArtificialProperty ap=(ArtificialProperty) nakedElement;
+		if(nakedElement instanceof InverseArtificialProperty){
+			InverseArtificialProperty ap=(InverseArtificialProperty) nakedElement;
 			if(ap.getMultiplicity().isMany()){
 				ap.setName(NameConverter.decapitalize(ap.getNakedBaseType().getName()));
 			}
 		}
-		if(nakedElement instanceof ICompositionParticipant && ((ICompositionParticipant) nakedElement).getEndToComposite() instanceof ArtificialProperty){
-			ArtificialProperty ap=(ArtificialProperty) ((ICompositionParticipant) nakedElement).getEndToComposite();
+		if(nakedElement instanceof ICompositionParticipant && ((ICompositionParticipant) nakedElement).getEndToComposite() instanceof InverseArtificialProperty){
+			InverseArtificialProperty ap=(InverseArtificialProperty) ((ICompositionParticipant) nakedElement).getEndToComposite();
 			INakedProperty oe = ap.getOtherEnd();
-			if(oe instanceof ArtificialProperty && oe.getNakedMultiplicity().isMany()){
+			if(oe instanceof InverseArtificialProperty && oe.getNakedMultiplicity().isMany()){
 				oe.setName(NameConverter.decapitalize(oe.getNakedBaseType().getName()));
 				getAffectedElements().add(ap);
 			}

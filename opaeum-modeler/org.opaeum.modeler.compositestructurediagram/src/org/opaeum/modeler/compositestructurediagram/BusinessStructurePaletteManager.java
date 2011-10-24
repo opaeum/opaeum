@@ -5,7 +5,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteEntry;
-import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Connector;

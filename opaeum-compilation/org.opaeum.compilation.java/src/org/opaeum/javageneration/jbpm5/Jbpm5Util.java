@@ -16,7 +16,6 @@ import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
-import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opeum.runtime.domain.ExceptionHolder;
 import org.opeum.runtime.environment.Environment;

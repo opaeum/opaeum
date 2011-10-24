@@ -27,19 +27,21 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 		Classifier child = r.getImplementingClassifier();
 		INakedInterface nakedParent = (INakedInterface) getNakedPeer(parent);
 		INakedBehavioredClassifier nakedChild = (INakedBehavioredClassifier) getNakedPeer(child);
-		if(nakedParent == null){
-			System.out.println("Contract is not in model:" + parent.getName());
-			return;
+		if(!impl.isMarkedForDeletion()){
+			if(nakedParent == null){
+				System.out.println("Contract is not in model:" + parent.getName());
+				return;
+			}
+			if(nakedChild == null){
+				System.out.println("Implementation is not in model:" + child.getName());
+				return;
+			}
+			impl.setContract(nakedParent);
 		}
-		if(nakedChild == null){
-			System.out.println("Implementation is not in model:" + child.getName());
-			return;
-		}
-		impl.setContract(nakedParent);
 	}
 	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
-		//ignore generalizations/realizations to proxies
+		// ignore generalizations/realizations to proxies
 		if(e instanceof InterfaceRealization && !((InterfaceRealization) e).getContract().eIsProxy()){
 			return super.createElementFor(e, peerClass);
 		}else if(e instanceof Generalization && !((Generalization) e).getGeneral().eIsProxy()){

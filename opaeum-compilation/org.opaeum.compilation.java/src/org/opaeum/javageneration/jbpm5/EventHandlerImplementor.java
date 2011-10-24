@@ -168,9 +168,9 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=timeUnit.addTimeTo(new Date(),delay)");
 			}else{
-				constr.addParam("timeUnit", new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
-				ojClass.addToImports(new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessCalendar"));
-				ojClass.addToImports(new OJPathName("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				constr.addParam("timeUnit", new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
+				ojClass.addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar"));
+				ojClass.addToImports(new OJPathName("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit"));
 				// TODO resolve the correct businessCalednar to use
 				constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=BusinessCalendar.getInstance().addTimeTo(new Date(), timeUnit,delay)");
 			}
@@ -263,7 +263,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			argConstr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
 			for(INakedTypedElement p:(List<? extends INakedTypedElement>) args){
 				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(o.getOwner(), p);
-				argConstr.addParam(m.fieldname(), m.javaType());
+				argConstr.addParam(m.fieldname(), m.javaTypePath());
 				argConstr.getBody().addToStatements(m.setter() + "(" + m.fieldname() + ")");
 			}
 			createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);

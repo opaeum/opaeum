@@ -20,8 +20,24 @@
          <enableFor class="org.eclipse.uml2.uml.Component"/>
       </diagram>
 	</extension>
-	
-
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
+			<propertySection
+				id="org.opaeum.modeler.compositestructures.propertysections.PortRequiredInterfaces"
+				class="org.opaeum.modeler.compositestructures.propertysections.PortRequiredInterfaces"
+				tab="org.opaeum.eclipse.interfacesTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Property"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.modeler.compositestructures.propertysections.PortProvidedInterfaces"
+				class="org.opaeum.modeler.compositestructures.propertysections.PortProvidedInterfaces"
+				tab="org.opaeum.eclipse.interfacesTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Property"/>
+			</propertySection>
+		</propertySections>
+	</extension>
 
 
 	<extension point="org.eclipse.ui.preferencePages">

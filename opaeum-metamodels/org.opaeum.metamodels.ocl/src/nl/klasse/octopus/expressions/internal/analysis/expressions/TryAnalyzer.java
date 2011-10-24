@@ -11,6 +11,8 @@ import java.util.List;
 
 import nl.klasse.octopus.expressions.IOclExpression;
 import nl.klasse.octopus.expressions.IUnspecifiedValueExp;
+import nl.klasse.octopus.expressions.IVariableDeclaration;
+import nl.klasse.octopus.expressions.IVariableExp;
 import nl.klasse.octopus.expressions.internal.analysis.Analyzer;
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.analysis.Environment;
@@ -101,7 +103,7 @@ public class TryAnalyzer extends Analyzer {
 				Environment collectEnv = new Environment();
 				collectEnv.setParent(env);
 				String varName = "i_" + elem.getName();
-				VariableDeclaration iter = new VariableDeclaration(varName, elem);
+				IVariableDeclaration iter = new VariableDeclaration(varName, elem);
 				collectEnv.addElement(varName, iter, true);
 		        
 				((IteratorExp) result).addIterator(iter);
@@ -428,7 +430,7 @@ public class TryAnalyzer extends Analyzer {
 				"iterator [" + loopExp.getName() + "] cannot have a result variable\n");
 			}
 			ExpressionAnalyzer analyzer = new ExpressionAnalyzer(currentFile, errors);
-			VariableDeclaration var = analyzer.analyzeVariableDeclaration(resultVar, env, null);
+			IVariableDeclaration var = analyzer.analyzeVariableDeclaration(resultVar, env, null);
 			iteratorEnv.addElement(var.getName(), var, false);
 			((IterateExp)loopExp).setResult(var);
 		} else {
@@ -602,8 +604,8 @@ public class TryAnalyzer extends Analyzer {
 		// Find the name in the environment
 		IModelElement  hit  = env.lookup(name);
 		if( hit != null ){
-			if( hit instanceof VariableDeclaration ){
-				result = new VariableExp((VariableDeclaration)hit);
+			if( hit instanceof IVariableDeclaration ){
+				result = new VariableExp((IVariableDeclaration)hit);
 			}
 		}
         
@@ -638,8 +640,7 @@ public class TryAnalyzer extends Analyzer {
 	  VariableExp result = null;
 	  IAttribute   att    = env.lookupImplicitAttribute(name.getLast());
 	  if( att != null ){
-		  System.out.println();
-		  VariableDeclaration source = env.lookupImplicitSourceForAttribute(name.getLast());
+		  IVariableDeclaration source = env.lookupImplicitSourceForAttribute(name.getLast());
 		  result = new VariableExp( source );
 		  result.setImplicit(true);
 		  AttributeCallExp attExp = new AttributeCallExp(att);
@@ -660,7 +661,7 @@ public class TryAnalyzer extends Analyzer {
 		OclExpression result = null;
 		IAssociationEnd ae = env.lookupImplicitAssociationEnd(name.getLast());
 		if( ae != null ){
-			VariableDeclaration source = env.lookupImplicitSourceForAssociationEnd(name.getLast());
+			IVariableDeclaration source = env.lookupImplicitSourceForAssociationEnd(name.getLast());
 			result = new VariableExp( source );
 			result.setImplicit(true);
 			AssociationEndCallExp assExp = new AssociationEndCallExp(ae);
@@ -681,7 +682,7 @@ public class TryAnalyzer extends Analyzer {
 		OclExpression result = null;
 		IAssociationClass ae = env.lookupImplicitAssociationClass(name.getLast());
 		if( ae != null ){
-			VariableDeclaration source = env.lookupImplicitSourceForAssociationClass(name.getLast());
+			IVariableDeclaration source = env.lookupImplicitSourceForAssociationClass(name.getLast());
 			result = new VariableExp( source );
 			result.setImplicit(true);
 			AssociationClassCallExp assExp = new AssociationClassCallExp(ae);
@@ -711,7 +712,7 @@ public class TryAnalyzer extends Analyzer {
 		List<IClassifier> argTypes = getTypeList(args);
 		IOperation op = env.lookupImplicitOperation(name.getLast(), argTypes);
 		if( op != null ){
-			VariableDeclaration source = env.lookupImplicitSourceForOperation(name.getLast(), argTypes);
+			IVariableDeclaration source = env.lookupImplicitSourceForOperation(name.getLast(), argTypes);
 			if (checkAsTypeArguments(tree, source.getType(), op, args)) {
 				result = new VariableExp( source );
 				result.setImplicit(true);

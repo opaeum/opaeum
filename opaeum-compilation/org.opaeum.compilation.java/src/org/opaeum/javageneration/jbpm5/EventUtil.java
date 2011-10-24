@@ -116,7 +116,7 @@ public class EventUtil{
 				INakedEnumerationLiteral timeUnit = event.getTimeUnit();
 				if(businessTime){
 					String timeUnitConstant= timeUnit==null? "BUSINESSDAY":timeUnit.getName().toUpperCase();
-					owner.addToImports("org.opeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
+					owner.addToImports("org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit");
 					block.addToStatements("getOutgoingEvents().add(new OutgoingEvent(" + targetExpression + ",new " + eventHandler.getLast() + "(" + whenExpr + ",BusinessTimeUnit."
 							+ timeUnitConstant + ",((NodeInstanceImpl)context.getNodeInstance()).getUniqueId())))");
 				}else{

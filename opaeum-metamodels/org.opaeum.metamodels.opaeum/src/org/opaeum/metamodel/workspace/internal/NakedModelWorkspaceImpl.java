@@ -13,6 +13,7 @@ import nl.klasse.octopus.oclengine.internal.OclEngine;
 
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedRootObject;
@@ -26,8 +27,8 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
 	private INakedInterface businessRole;
 	private WorkspaceMappingInfo modelMappingInfo;
-	
 	private Set<INakedRootObject> children = new HashSet<INakedRootObject>();
+	private Set<INakedClassifier> rootClassifiers = new HashSet<INakedClassifier>();
 	private String name;
 	private IOclEngine oclEngine = new OclEngine();
 	private ErrorMap validator = new ErrorMap();
@@ -41,7 +42,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		Set<INakedElement> set = getDependentElements(to);
 		set.add(from);
 	}
-	public synchronized  Set<INakedElement> getDependentElements(INakedElement to){
+	public synchronized Set<INakedElement> getDependentElements(INakedElement to){
 		Set<INakedElement> set = this.dependencies.get(to);
 		if(set == null){
 			set = new HashSet<INakedElement>();
@@ -61,8 +62,8 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	public synchronized void putModelElement(INakedElement mw){
 		if(this.allElementsByModelId.containsKey(mw.getId())){
 			System.out.println("Element " + mw.toString() + " already in workspace");
-			//TODO investigate why this happens
-//			throw new IllegalStateException("Element " + mw.getName() + " is already in the workspace");
+			// TODO investigate why this happens
+			// throw new IllegalStateException("Element " + mw.getName() + " is already in the workspace");
 		}
 		this.allElementsByModelId.put(mw.getId(), mw);
 		MappingInfo vi = this.modelMappingInfo.getMappingInfo(mw.getId(), mw.isStoreMappingInfo());
@@ -76,7 +77,6 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		this.allElementsByModelId.remove(mw.getId());
 		for(INakedElement child:mw.getOwnedElements()){
 			removeModelElement(child);
-			
 		}
 		this.modelMappingInfo.removeMappingInfo(mw.getId());
 	}
@@ -110,7 +110,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 			"rawtypes","unchecked"
 	})
 	public Collection<INakedElement> getOwnedElements(){
-		return (Collection)this.children;
+		return (Collection) this.children;
 	}
 	public void setName(String string){
 		this.name = string;
@@ -143,7 +143,7 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		return children;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		this.children.remove(element);
 		this.generatingRootObjects.remove(element);
 		this.primaryRootObjects.remove(element);
@@ -181,5 +181,19 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	@Override
 	public Collection<INakedRootObject> getPrimaryRootObjects(){
 		return primaryRootObjects;
+	}
+	public Set<INakedClassifier> getRootClassifiers(){
+		return rootClassifiers;
+	}
+	public void setRootClassifiers(Set<INakedClassifier> rootClassifiers){
+		this.rootClassifiers = rootClassifiers;
+	}
+	@Override
+	public void clearRootClassifiers(){
+		rootClassifiers.clear();
+	}
+	@Override
+	public void addRootClassifier(INakedClassifier cp){
+		rootClassifiers.add(cp);
 	}
 }

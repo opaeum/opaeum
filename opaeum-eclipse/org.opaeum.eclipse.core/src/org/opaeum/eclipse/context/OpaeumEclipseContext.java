@@ -29,6 +29,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
@@ -46,16 +48,17 @@ import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.emf.workspace.UriToFileConverter;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public class OpaeumEclipseContext{
 	private static Map<IContainer,OpaeumEclipseContext> contexts = new WeakHashMap<IContainer,OpaeumEclipseContext>();
 	private static OpaeumEclipseContext currentContext;
 	private Set<ResourceSet> resourceSetsStartedButNotLoaded = new HashSet<ResourceSet>();
-	private Map<ResourceSet,NakedUmlEditingContext> emfWorkspaces = new HashMap<ResourceSet,NakedUmlEditingContext>();
+	private Map<ResourceSet,OpaeumEditingContext> emfWorkspaces = new HashMap<ResourceSet,OpaeumEditingContext>();
 	private EmfToNakedUmlSynchronizer umlElementCache;
 	private boolean isOpen = false;
-	private List<NakedUmlContextListener> listeners = new ArrayList<NakedUmlContextListener>();
+	private List<OpaeumEclipseContextListener> listeners = new ArrayList<OpaeumEclipseContextListener>();
 	private IContainer umlDirectory;
 	private ResourceSet currentResourceSet;
 	protected UriToFileConverter resourceHelper = new EclipseUriToFileConverter();
@@ -77,12 +80,12 @@ public class OpaeumEclipseContext{
 	}
 	public void reinitialize(){
 		umlElementCache.reinitializeProcess();
-		ArrayList<NakedUmlEditingContext> arrayList = new ArrayList<NakedUmlEditingContext>(emfWorkspaces.values());
+		ArrayList<OpaeumEditingContext> arrayList = new ArrayList<OpaeumEditingContext>(emfWorkspaces.values());
 		this.emfWorkspaces.clear();
-		for(NakedUmlEditingContext editingContext:arrayList){
+		for(OpaeumEditingContext editingContext:arrayList){
 			getEmfToOpaeumSynchronizer().deregister(editingContext.getEditingDomain().getResourceSet());
 		}
-		for(NakedUmlEditingContext editingContext:arrayList){
+		for(OpaeumEditingContext editingContext:arrayList){
 			startSynch(editingContext.getEditingDomain(), editingContext.getFile());
 		}
 		errorMarker.maybeSchedule();
@@ -92,7 +95,7 @@ public class OpaeumEclipseContext{
 	}
 	public Collection<EmfWorkspace> getEmfWorkspaces(){
 		Collection<EmfWorkspace> result = new HashSet<EmfWorkspace>();
-		for(NakedUmlEditingContext editingContext:this.emfWorkspaces.values()){
+		for(OpaeumEditingContext editingContext:this.emfWorkspaces.values()){
 			result.add(editingContext.getEmfWorkspace());
 		}
 		return result;
@@ -111,7 +114,7 @@ public class OpaeumEclipseContext{
 				try{
 					EcoreUtil.resolveAll(domain.getResourceSet());
 					final Package model = findRootObjectInFile(file, domain.getResourceSet());
-					if(model != null && model.eResource()!=null){
+					if(model != null && model.eResource()!=null && model.eResource().getURI()!=null){
 						// Will be null if the editingDomain is inactive
 						currentResourceSet = domain.getResourceSet();
 						EmfWorkspace emfWorkspace = umlElementCache.buildWorkspaces(model, new ProgressMonitorTransformationLog(monitor, 1000));
@@ -129,7 +132,7 @@ public class OpaeumEclipseContext{
 		return true;
 	}
 	private void newDomainLoaded(final EditingDomain domain,final IFile file,final Package model,EmfWorkspace emfWorkspace){
-		emfWorkspaces.put(domain.getResourceSet(), new NakedUmlEditingContext(emfWorkspace, domain, model, file));
+		emfWorkspaces.put(domain.getResourceSet(), new OpaeumEditingContext(emfWorkspace, domain, model, file));
 		resourceSetsStartedButNotLoaded.remove(domain.getResourceSet());
 		umlElementCache.registerTo(domain.getResourceSet());
 		errorMarker.maybeSchedule();
@@ -139,7 +142,7 @@ public class OpaeumEclipseContext{
 	}
 	public void setCurrentEditContext(EditingDomain rs,IFile file){
 		this.currentResourceSet = rs.getResourceSet();
-		NakedUmlEditingContext editingContext = emfWorkspaces.get(rs.getResourceSet());
+		OpaeumEditingContext editingContext = emfWorkspaces.get(rs.getResourceSet());
 		if(editingContext != null){
 			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(editingContext.getEmfWorkspace());
 			// could still be loading
@@ -149,7 +152,7 @@ public class OpaeumEclipseContext{
 		try{
 			monitor.beginTask("Saving UML Models", listeners.size() * 100);
 			getEmfToOpaeumSynchronizer().getConfig().getWorkspaceMappingInfo().store();
-			for(NakedUmlContextListener l:listeners){
+			for(OpaeumEclipseContextListener l:listeners){
 				l.onSave(new SubProgressMonitor(monitor, 100));
 			}
 			getUmlDirectory().refreshLocal(1, null);
@@ -160,7 +163,7 @@ public class OpaeumEclipseContext{
 		}
 	}
 	public void onClose(boolean save,ResourceSet rs){
-		for(NakedUmlContextListener l:listeners){
+		for(OpaeumEclipseContextListener l:listeners){
 			l.onClose(save);
 		}
 		if(umlElementCache != null && this.emfWorkspaces.containsKey(rs)){
@@ -169,7 +172,7 @@ public class OpaeumEclipseContext{
 			currentResourceSet = null;
 		}
 	}
-	public void addContextListener(NakedUmlContextListener l){
+	public void addContextListener(OpaeumEclipseContextListener l){
 		this.listeners.add(l);
 		umlElementCache.addSynchronizationListener(l);
 	}
@@ -200,7 +203,7 @@ public class OpaeumEclipseContext{
 			if(dew == null){
 				if(emfWorkspaces.size() > 0){
 					// Poach a workspace from one of the open editors
-					NakedUmlEditingContext next = emfWorkspaces.values().iterator().next();
+					OpaeumEditingContext next = emfWorkspaces.values().iterator().next();
 					dew = next.getEmfWorkspace();
 				}else{
 					// No open editors - create a temp EmfWorkspace
@@ -222,10 +225,27 @@ public class OpaeumEclipseContext{
 				}
 				monitor.worked(100 / umlDirectory.members().length);
 			}
+			dew.guessGeneratingModelsAndProfiles(URI.createPlatformResourceURI(umlDirectory.getFullPath().toString(), true));
 			// Will only process elements as per their RootObjectStatus
 			getEmfToOpaeumSynchronizer().getTransformationProcess().replaceModel(dew);
 			getEmfToOpaeumSynchronizer().getTransformationProcess().execute(new ProgressMonitorTransformationLog(monitor, 200));
 			getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(dew);
+			INakedModelWorkspace nakedWorkspace=getEmfToOpaeumSynchronizer().getNakedWorkspace();
+			nakedWorkspace.clearGeneratingModelOrProfiles();
+			for(INakedRootObject ro:nakedWorkspace.getRootObjects()){
+				if(ro instanceof INakedModel && ((INakedModel) ro).isRegeneratingLibrary()){
+					// TODO check if code should be regenerated;
+					nakedWorkspace.addGeneratingRootObject(ro);
+				}else{
+					for(IResource r:getUmlDirectory().members()){
+						if(r.getLocation().lastSegment().equals(ro.getFileName())){
+							nakedWorkspace.addGeneratingRootObject(ro);
+							break;
+						}
+					}
+				}
+			}
+
 			getEmfToOpaeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
 		}catch(CoreException e){
@@ -236,7 +256,7 @@ public class OpaeumEclipseContext{
 		}
 	}
 	public boolean isOpen(IFile f){
-		for(Entry<ResourceSet,NakedUmlEditingContext> entry:emfWorkspaces.entrySet()){
+		for(Entry<ResourceSet,OpaeumEditingContext> entry:emfWorkspaces.entrySet()){
 			for(Resource resource:entry.getKey().getResources()){
 				if(resource.getURI()!=null && resource.getURI().lastSegment().equals(f.getLocation().lastSegment())){
 					return true;
@@ -274,7 +294,7 @@ public class OpaeumEclipseContext{
 	}
 	public EditingDomain getEditingDomain(){
 		if(currentResourceSet != null && emfWorkspaces.get(currentResourceSet) != null){
-			NakedUmlEditingContext editingContext = emfWorkspaces.get(currentResourceSet);
+			OpaeumEditingContext editingContext = emfWorkspaces.get(currentResourceSet);
 			return editingContext.editingDomain;
 		}else{
 			return null;

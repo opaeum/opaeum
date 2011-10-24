@@ -25,14 +25,19 @@ import org.eclipse.jdt.ui.refactoring.RenameSupport;
 import org.eclipse.swt.widgets.Shell;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
-import org.opaeum.eclipse.context.NakedUmlContextListener;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpaeumEclipseContextListener;
 import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.EclipseProjectGenerationStep;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.SourceFolder;
@@ -41,7 +46,7 @@ import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
-public final class JavaSourceSynchronizer implements NakedUmlContextListener{
+public final class JavaSourceSynchronizer implements OpaeumEclipseContextListener{
 	private final IWorkspaceRoot workspace;
 	//TODO remove this dependency on the context
 	OpaeumEclipseContext context;
@@ -154,7 +159,10 @@ public final class JavaSourceSynchronizer implements NakedUmlContextListener{
 				process.replaceModel(new TextWorkspace());
 				PersistentNameGenerator png = new PersistentNameGenerator();
 				for(INakedElement ne:clss){
-					png.visitOnly(ne);
+					while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null || ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
+						ne = (INakedElement) ne.getOwnerElement();
+					}
+					png.visitRecursively(ne);
 				}
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
 				TextWorkspace tws = process.findModel(TextWorkspace.class);

@@ -23,6 +23,7 @@ import org.opaeum.eclipse.javasync.RecompileModelAction;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
+import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
 import org.opaeum.feature.OpaeumConfig;
@@ -39,6 +40,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 			IContainer firstElement = (IContainer) selection.getFirstElement();
 			if(OpaeumConfig.isValidVersionNumber(firstElement.getName())){
 				actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
+				actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
 			}else{
 				if(hasUmlModels(selection)){
 					EditOpaeumConfigAction action = new EditOpaeumConfigAction(selection);
@@ -52,6 +54,8 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 						actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
 						actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
 						actions.add(new ActionContributionItem(new VersionAction(selection)));
+						actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
+						actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
 					}else{
 						action.setText("Convert to  Opaeum Model Directory");
 					}

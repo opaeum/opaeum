@@ -54,7 +54,7 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		}
 	}
 	@Override
-	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
+	public Collection<INakedElementOwner> getChildren(INakedElementOwner root){
 		Collection<INakedElementOwner> children = new ArrayList<INakedElementOwner>(super.getChildren(root));
 		if(root instanceof INakedAssociation){
 			//TODO fix the containment relationship of ownedEnds

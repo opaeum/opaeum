@@ -20,6 +20,7 @@ import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 
@@ -30,6 +31,7 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	protected INakedModelWorkspace workspace;
 	protected INakedRootObject model;
 	private boolean shouldAppendVersionSuffix;
+	protected MigrationWorkspace migrationWorkspace;
 	protected abstract SourceFolderDefinition getExampleTargetDir();
 	public boolean isIntegrationStep(){
 		return false;
@@ -37,9 +39,10 @@ public abstract class PomGenerationStep implements ITransformationStep{
 	public void appendVersionSuffix(boolean b){
 		this.shouldAppendVersionSuffix=b;
 	}
-	public void initialize(OpaeumConfig config,INakedModelWorkspace workspace){
+	public void initialize(OpaeumConfig config,INakedModelWorkspace workspace, MigrationWorkspace migrationWorkspace){
 		this.config = config;
 		this.workspace = workspace;
+		this.migrationWorkspace=migrationWorkspace;
 	}
 	public String getVersionVariable(){
 		return "${" + workspace.getIdentifier() + ".version}";

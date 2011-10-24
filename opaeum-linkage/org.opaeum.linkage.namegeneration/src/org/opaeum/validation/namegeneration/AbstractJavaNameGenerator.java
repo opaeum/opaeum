@@ -85,6 +85,15 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 				}
 			}
 		}
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0;i < name.length();i++){
+			char charAt = name.charAt(i);
+			if(Character.isJavaIdentifierPart(charAt)){
+				sb.append(charAt);
+			}else{
+				sb.append('_');
+			}
+		}
 		return new SingularNameWrapper(name, null);
 	}
 	protected final String generateQualifiedJavaName(IModelElement me){
@@ -146,7 +155,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	public static String packagePathname(INakedNameSpace p){
 		if(p instanceof INakedPackage){
 			INakedPackage np = (INakedPackage) p;
-			if(np.getMappedImplementationPackage() != null && np.getMappedImplementationPackage().trim().length()>1){
+			if(np.getMappedImplementationPackage() != null && np.getMappedImplementationPackage().trim().length() > 1){
 				return np.getMappedImplementationPackage();
 			}else if(np.isRootPackage() || p instanceof INakedModel || p instanceof INakedProfile || p.getParent() == null){
 				return np.getName().toLowerCase();
@@ -175,7 +184,8 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	private static void addParentsToPath(INakedNameSpace c,StringBuilder path){
 		INakedNameSpace parent = c.getParent();
 		if(parent != null){
-			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null && !((INakedPackage) parent).getMappedImplementationPackage().trim().isEmpty()){
+			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null
+					&& !((INakedPackage) parent).getMappedImplementationPackage().trim().isEmpty()){
 				path.append(((INakedPackage) parent).getMappedImplementationPackage());
 			}else{
 				addParentsToPath(parent, path);

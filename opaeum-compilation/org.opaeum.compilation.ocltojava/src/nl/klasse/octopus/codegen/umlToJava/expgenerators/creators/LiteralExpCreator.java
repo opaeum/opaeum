@@ -39,13 +39,13 @@ import nl.klasse.octopus.expressions.IOclUndefinedLiteralExp;
 import nl.klasse.octopus.expressions.IRealLiteralExp;
 import nl.klasse.octopus.expressions.IStringLiteralExp;
 import nl.klasse.octopus.expressions.ITupleLiteralExp;
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.types.BooleanLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.CollectionLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.IntegerLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 import nl.klasse.octopus.expressions.internal.types.RealLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.StringLiteralExp;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IEnumLiteral;
 import nl.klasse.octopus.model.ITupleType;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
@@ -123,7 +123,7 @@ public class LiteralExpCreator {
 		Collection<?> sortedParts = TUPLE.sort_literal_parts((ITupleLiteralExp)in);
 		Iterator<?> it = sortedParts.iterator();
 		while (it.hasNext()){
-			VariableDeclaration decl = (VariableDeclaration) it.next();
+			IVariableDeclaration decl = (IVariableDeclaration) it.next();
 			if (!first ) {
 				localPars.append(", ");
 			} else {

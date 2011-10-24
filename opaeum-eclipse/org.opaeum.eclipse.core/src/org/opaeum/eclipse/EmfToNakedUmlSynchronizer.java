@@ -74,7 +74,7 @@ public final class EmfToNakedUmlSynchronizer{
 	protected Set<UMLResource> resourcesBeingLoaded = new HashSet<UMLResource>();
 	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
 	boolean suspended = false;
-	private Set<OpaeumContextSynchronizationListener> synchronizationListener = new HashSet<OpaeumContextSynchronizationListener>();
+	private Set<OpaeumSynchronizationListener> synchronizationListener = new HashSet<OpaeumSynchronizationListener>();
 	OpaeumElementLinker linker = new OpaeumElementLinker();
 	public EmfToNakedUmlSynchronizer(OpaeumConfig cfg){
 		this.resourceHelper = new EclipseUriToFileConverter();
@@ -87,7 +87,7 @@ public final class EmfToNakedUmlSynchronizer{
 			emfChanges.add(eObject);
 		}
 	}
-	public void addSynchronizationListener(OpaeumContextSynchronizationListener l){
+	public void addSynchronizationListener(OpaeumSynchronizationListener l){
 		this.synchronizationListener.add(l);
 	}
 	public void suspend(){

@@ -88,7 +88,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			for(INakedOperation o:directlyImplementedOperations){
 				if(o.getOwner() == c){
 					if(BehaviorUtil.hasExecutionInstance(o)){
-						visitClass(o.getMessageStructure());
+						OJAnnotatedOperation getter= (OJAnnotatedOperation) OJUtil.findOperation(findJavaClass(o.getMessageStructure()),"getSelf");
+						getter.initializeResultVariable("getContextObject()");
+						visitClass(o.getMessageStructure());//why???
 					}
 					createCallbackListener(o, o.getMessageStructure());
 				}
@@ -199,7 +201,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 					List<? extends INakedParameter> args = o.getArgumentParameters();
 					for(INakedParameter arg:args){
 						NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap((INakedClassifier) o.getContext(), arg);
-						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.umlName() + ")");
+						oper.getBody().addToStatements("result." + argMap.setter() + "(" + argMap.fieldname() + ")");
 					}
 					if(withReturnInfo){
 						oper.getBody().addToStatements("result.setReturnInfo(context)");
@@ -232,7 +234,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		for(INakedParameter elem:argumentParameters){
 			OJParameter param = new OJParameter();
 			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(context, elem);
-			param.setName(pMap.umlName());
+			param.setName(pMap.fieldname());
 			param.setType(pMap.javaTypePath());
 			oper.addToParameters(param);
 			// applyStereotypesAsAnnotations(((INakedElement) elem), param);

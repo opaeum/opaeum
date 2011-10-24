@@ -44,16 +44,18 @@ import org.opaeum.feature.TransformationPhase;
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 import org.opaeum.filegeneration.FileGenerationPhase;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.migration.MigrationGenerationPhase;
 import org.opaeum.jbpm5.FlowGenerationPhase;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.metamodel.workspace.MigrationWorkspace;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 
 @PhaseDependency(after = {
-		JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class
+		JavaTransformationPhase.class,FlowGenerationPhase.class,BootstrapGenerationPhase.class,MigrationGenerationPhase.class
 },before = {
 	FileGenerationPhase.class
 })
@@ -62,6 +64,8 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private INakedModelWorkspace workspace;
 	@InputModel
 	private TextWorkspace textWorkspace;
+	@InputModel(optional=true)
+	private MigrationWorkspace migrationWorkspace;
 	private OpaeumConfig config;
 	private Map<String,DocumentRoot> rootMap = new HashMap<String,DocumentRoot>();
 	private DocumentRoot parentPom;
@@ -125,7 +129,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		if(config.generateMavenPoms()){
 			for(PomGenerationStep step:features){
 				if(step.isIntegrationStep() == context.isIntegrationPhase() && !context.getLog().isCanceled()){
-					step.initialize(config, workspace);
+					step.initialize(config, workspace,migrationWorkspace);
 					if(step.getExampleTargetDir().isOneProjectPerWorkspace()){
 						String prefix = workspace.getIdentifier();
 						DocumentRoot root = getRoot(step, prefix);
@@ -194,6 +198,10 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			}
 		}
 		if(r == null){
+			//Remember the poms are generated before the files /directories are generated
+			if(!projectRoot.exists()){
+				projectRoot.mkdirs();
+			}
 			r = resourceSet.createResource(URI.createFileURI(projectRoot.getAbsolutePath() + "/pom.xml"));
 			root = POMFactory.eINSTANCE.createDocumentRoot();
 			r.getContents().add(root);
@@ -202,7 +210,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			model.setModelVersion("4.0.0");
 			model.setGroupId(config.getMavenGroupId());
 			model.setArtifactId(projectName);
-			model.setVersion(config.getMavenGroupVersion());
+			model.setVersion(getMavenVersion());
 			model.setPackaging(packaging);
 			model.setName(projectName);
 			model.setDependencies(POMFactory.eINSTANCE.createDependenciesType());
@@ -227,7 +235,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			PomUtil.populatePropertiesFrom(root.getProject(), step.getProperties());
 			PomUtil.createModuleIfNew(parentPom, step.getProjectName());
 			Properties props = new Properties();
-			props.put(workspace.getIdentifier() + ".version", config.getMavenGroupVersion());
+			props.put(workspace.getIdentifier() + ".version", getMavenVersion());
 			PomUtil.populatePropertiesFrom(parentPom.getProject(), props);
 			createParent(step, root);
 			createDependencies(step, root);
@@ -290,8 +298,15 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 			root.getProject().getParent().setGroupId(config.getMavenGroupId());
 			root.getProject().getParent().setArtifactId(config.getWorkspaceIdentifier());
-			root.getProject().getParent().setVersion(config.getMavenGroupVersion());
+			
+			root.getProject().getParent().setVersion(getMavenVersion());
 		}
+	}
+	private String getMavenVersion(){
+		return config.getVersion().toVersionString() + (isGeneratingRelease()?"":"-SNAPSHOT");
+	}
+	protected boolean isGeneratingRelease(){
+		return false;
 	}
 	public void outputToFile(DocumentRoot root){
 		try{

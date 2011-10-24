@@ -11,15 +11,16 @@ import org.opeum.runtime.domain.IntrospectionUtil;
 import org.opeum.runtime.event.EventService;
 import org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opeum.runtime.persistence.DatabaseManagementSystem;
+import org.opeum.runtime.persistence.UmtPersistence;
 
-public abstract class Environment {
-
+public abstract class Environment{
 	public static final String HIBERNATE_CONFIG_NAME = "opeum.hibernate.config.name";
 	public static final String JBPM_KNOWLEDGE_BASE_IMPLEMENTATION = "opeum.jbpm.knowledgebase.implementation";
 	public static final String ENVIRONMENT_IMPLEMENTATION = "opeum.environment.implementation";
 	public static final String PROPERTIES_FILE_NAME = "opeum.env.properties";
 	public static final String PERSISTENT_NAME_CLASS_MAP = "opeum.persistentname.classmap.implementation";
 	public static final String DB_USER = "opeum.database.user";
+	public static final String DB_PASSWORD = "opeum.database.pwd";
 	public static final String JDBC_CONNECTION_URL = "opeum.jdbc.connection.url";
 	public static final String DBMS = "opeum.database.management.system";
 	private static final EventService EVENT_SERVICE = new EventService();
@@ -28,12 +29,21 @@ public abstract class Environment {
 	protected Properties properties;
 	protected static Class<? extends Environment> defaultImplementation;
 	private DatabaseManagementSystem dbms;
-
-	public static Environment getInstance() {
-		if (instance.get() == null) {
-			if (defaultImplementation == null) {
+	public static Environment buildInstanceForRelease(VersionNumber n){
+		Environment env = (Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION, loadProperties(propertiesFileName(n)));
+		return env;
+	}
+	public void putProperty(String name,String value){
+		properties.put(name, value);
+	}
+	private static String propertiesFileName(VersionNumber n){
+		return "opaeum.env" + n.getSuffix() + ".properties";
+	}
+	public static Environment getInstance(){
+		if(instance.get() == null){
+			if(defaultImplementation == null){
 				instance.set((Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION));
-			} else {
+			}else{
 				Environment newInstance = IntrospectionUtil.newInstance(defaultImplementation);
 				newInstance.properties = loadProperties();
 				instance.set(newInstance);
@@ -41,71 +51,67 @@ public abstract class Environment {
 		}
 		return instance.get();
 	}
-
-	public static JavaMetaInfoMap getMetaInfoMap() {
-		if (persistentNameClassMap == null) {
+	public static JavaMetaInfoMap getMetaInfoMap(){
+		if(persistentNameClassMap == null){
 			persistentNameClassMap = (JavaMetaInfoMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
 		}
 		return persistentNameClassMap;
 	}
-
-	public abstract <T> Class<T> getImplementationClass(T o);
-
-	public static Object instantiateImplementation(String environmentImplementation) {
+	public abstract <T>Class<T> getImplementationClass(T o);
+	public static Object instantiateImplementation(String environmentImplementation){
+		return instantiateImplementation(environmentImplementation, loadProperties());
+	}
+	private static Object instantiateImplementation(String environmentImplementation,Properties properties){
 		Object newInstance;
-		Properties properties = loadProperties();
 		Class<?> cls = IntrospectionUtil.classForName(properties.getProperty(environmentImplementation));
 		newInstance = IntrospectionUtil.newInstance(cls);
-		if (newInstance instanceof Environment) {
+		if(newInstance instanceof Environment){
 			((Environment) newInstance).properties = properties;
 		}
 		return newInstance;
 	}
-
-	public DatabaseManagementSystem getDatabaseManagementSystem() {
-		if (this.dbms == null) {
+	public DatabaseManagementSystem getDatabaseManagementSystem(){
+		if(this.dbms == null){
 			this.dbms = DatabaseManagementSystem.valueOf(getProperty(DBMS));
 		}
 		return dbms;
 	}
-
-	public String getProperty(String name) {
-		return properties.getProperty(name);
+	public String getProperty(String...name){
+		if(name.length > 1){
+			return properties.getProperty(name[0]);
+		}else{
+			return properties.getProperty(name[0], name[1]);
+		}
 	}
-
-	public static Properties loadProperties() {
+	public static Properties loadProperties(){
+		String propertiesFileName = PROPERTIES_FILE_NAME;
+		return loadProperties(propertiesFileName);
+	}
+	private static Properties loadProperties(String propertiesFileName){
 		Properties properties;
-		try {
+		try{
 			properties = new Properties();
-			URL resource = Thread.currentThread().getContextClassLoader().getResource("/" + PROPERTIES_FILE_NAME);
-			if (resource == null) {
-				resource = Thread.currentThread().getContextClassLoader().getResource(PROPERTIES_FILE_NAME);
+			URL resource = Thread.currentThread().getContextClassLoader().getResource("/" + propertiesFileName);
+			if(resource == null){
+				resource = Thread.currentThread().getContextClassLoader().getResource(propertiesFileName);
 			}
 			properties.load(resource.openStream());
-		} catch (IOException e) {
+		}catch(IOException e){
 			throw new RuntimeException(e);
 		}
 		return properties;
 	}
-
-	protected AbstractJbpmKnowledgeBase createJbpmKnowledgeBase() {
+	protected AbstractJbpmKnowledgeBase createJbpmKnowledgeBase(){
 		return (AbstractJbpmKnowledgeBase) instantiateImplementation(JBPM_KNOWLEDGE_BASE_IMPLEMENTATION);
 	}
-
-	public abstract <T> T getComponent(Class<T> clazz);
-
-	public abstract <T> T getComponent(Class<T> clazz, Annotation qualifiers);
-
+	public abstract <T>T getComponent(Class<T> clazz);
+	public abstract <T>T getComponent(Class<T> clazz,Annotation qualifiers);
 	public abstract void reset();
-
 	public abstract void endRequestContext();
-
 	public abstract void startRequestContext();
-
-	public EventService getEventService() {
+	public EventService getEventService(){
 		return EVENT_SERVICE;
 	}
-
-	public abstract void sendSignal(IActiveObject target, ISignal s);
-
+	public abstract void sendSignal(IActiveObject target,ISignal s);
+	public abstract UmtPersistence newUmtPersistence();
 }

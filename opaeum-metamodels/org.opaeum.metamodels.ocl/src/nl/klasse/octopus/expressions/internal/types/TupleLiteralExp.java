@@ -39,7 +39,7 @@ public class TupleLiteralExp extends LiteralExp implements ITupleLiteralExp {
         this.tupleParts = tupleParts;
     }
     
-    public void addTuplePart(VariableDeclaration tuplePart) {
+    public void addTuplePart(IVariableDeclaration tuplePart) {
         this.tupleParts.add(tuplePart);
     }
     

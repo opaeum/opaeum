@@ -39,5 +39,6 @@ public interface INakedElement extends IModelElement,INakedElementOwner, Seriali
 	void markForDeletion();
 	boolean isMarkedForDeletion();
 	Collection<INakedElement> getAllDescendants();
+	INakedElement getOwnedElement(String id);
 	
 }

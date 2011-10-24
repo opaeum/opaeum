@@ -63,7 +63,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 		if (f.isInverse() && !(f.getAssociation()!=null && f.getAssociation().isClass())) {
 			// Implies navigable other end and INakedProperty
 			NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((f).getOtherEnd());
-			toOne.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherMap.umlName()));
+			toOne.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherMap.fieldname()));
 		} else {
 			// Remember that oneToOne uniqueness will be added as a
 			// uniqueConstraint
@@ -80,7 +80,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor {
 	protected final void mapXToOne(INakedClassifier umlOwner, NakedStructuralFeatureMap map) {
 		INakedProperty f=map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
-		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.umlName());
+		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if (f.getNakedBaseType() instanceof INakedEnumeration) {
 			mapXToOneEnumeration(f, owner, field);
 		} else if (f.getNakedBaseType() instanceof INakedSimpleType) {

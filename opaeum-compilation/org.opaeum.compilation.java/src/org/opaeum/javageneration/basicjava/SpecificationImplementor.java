@@ -175,7 +175,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	private void populateBehavior(INakedBehavior parameterOwner,OJOperation javaMethod){
 		for(INakedParameter p:parameterOwner.getArgumentParameters()){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parameterOwner, p);
-			javaMethod.getBody().addToStatements("_behavior." + map.setter() + "(" + map.umlName() + ")");
+			javaMethod.getBody().addToStatements("_behavior." + map.setter() + "(" + map.fieldname() + ")");
 		}
 		if(parameterOwner.getPreConditions().size() > 0){
 			OJUtil.addFailedConstraints(javaMethod);

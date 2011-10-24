@@ -39,7 +39,7 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	protected MappingInfo mappingInfo;
 	private Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
 	private INakedElementOwner ownerElement;
-	private Collection<INakedElement> ownedElements = new HashSet<INakedElement>();
+	private Map<String,INakedElement> ownedElements = new HashMap<String,INakedElement>();
 	private List<INakedComment> comments = new ArrayList<INakedComment>();
 	private String name;
 	private String documentation;
@@ -66,21 +66,19 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		if("ObjectFlow2kkkkll".equalsIgnoreCase(name)){
 			System.out.println();
 		}
-
 		this.name = name;
 	}
 	public Collection<INakedElement> getOwnedElements(){
-		return ownedElements;
+		return new HashSet<INakedElement>( ownedElements.values());
 	}
 	public void addOwnedElement(INakedElement element){
-		if(ownedElements.contains(element)){
-			ownedElements.remove(element);
-		}
-		ownedElements.add(element);
+		ownedElements.put(element.getId(),element);
 		if(element instanceof INakedComment){
 			comments.add((INakedComment) element);
 		}
-		element.setOwnerElement(this);
+		if(element != null){
+			element.setOwnerElement(this);
+		}
 	}
 	public void removeOwnedElement(INakedElement element,boolean recursively){
 		ownedElements.remove(element);
@@ -181,8 +179,8 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		return this.stereotypes.containsKey(name);
 	}
 	public void addStereotype(INakedInstanceSpecification stereotype){
-		this.ownedElements.remove(stereotypes.get(stereotype.getName()));
-		this.ownedElements.add(stereotype);
+		this.ownedElements.remove(stereotype.getId());
+		this.ownedElements.put(stereotype.getId(),stereotype);
 		stereotype.setOwnerElement(this);
 		this.stereotypes.put(stereotype.getName(), stereotype);
 	}
@@ -250,5 +248,9 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 		for(INakedElement e:ownedElements2){
 			addAll(result, e.getOwnedElements());
 		}
+	}
+	@Override
+	public INakedElement getOwnedElement(String id){
+		return ownedElements.get(id);
 	}
 }

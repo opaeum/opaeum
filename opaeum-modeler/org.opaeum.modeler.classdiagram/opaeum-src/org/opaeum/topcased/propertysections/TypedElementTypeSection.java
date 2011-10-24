@@ -43,15 +43,15 @@ public class TypedElementTypeSection extends OpaeumChooserPropertySection{
 		while(iterator.hasNext()){
 			EObject eObject = (EObject) iterator.next();
 			boolean accept = true;
-			if(StereotypesHelper.hasKeyword((Element) getEObject(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT)){
-				accept = eObject instanceof org.eclipse.uml2.uml.Class && StereotypesHelper.hasKeyword((Element) eObject, StereotypeNames.BUSINESS_ROLE);
-			}else if(StereotypesHelper.hasKeyword((Element) getEObject(), StereotypeNames.PARTICIPANT_REFERENCE)){
+			if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT)){
+				accept = eObject instanceof org.eclipse.uml2.uml.Class && StereotypesHelper.hasStereotype((Element) eObject, StereotypeNames.BUSINESS_ROLE);
+			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.PARTICIPANT_REFERENCE)){
 				accept = eObject instanceof org.eclipse.uml2.uml.Class
-						&& (StereotypesHelper.hasKeyword((Element) eObject, StereotypeNames.BUSINESS_ROLE) || StereotypesHelper.hasKeyword((Element) eObject,
+						&& (StereotypesHelper.hasStereotype((Element) eObject, StereotypeNames.BUSINESS_ROLE) || StereotypesHelper.hasStereotype((Element) eObject,
 								StereotypeNames.BUSINESS_COMPONENT));
-			}else if(StereotypesHelper.hasKeyword((Element) getEObject(), StereotypeNames.DIMENSION)){
+			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.DIMENSION)){
 				accept = eObject instanceof org.eclipse.uml2.uml.Class || eObject instanceof Enumeration;
-			}else if(StereotypesHelper.hasKeyword((Element) getEObject(), StereotypeNames.FACT)){
+			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.FACT)){
 				if(eObject instanceof org.eclipse.uml2.uml.PrimitiveType){
 					accept = true;
 				}else if(eObject instanceof DataType && !(eObject instanceof Enumeration)){
@@ -68,9 +68,9 @@ public class TypedElementTypeSection extends OpaeumChooserPropertySection{
 				}else{
 					accept = false;
 				}
-			}else if(StereotypesHelper.hasKeyword((Element) getEObject(), StereotypeNames.BUSINESS_GATEWAY)){
-				accept = (eObject instanceof org.eclipse.uml2.uml.Interface && StereotypesHelper.hasKeyword((Element) eObject, StereotypeNames.BUSINESS_SERVICE))
-						|| (eObject instanceof Class && StereotypesHelper.hasKeyword((Element) eObject, StereotypeNames.BUSINESS_ROLE));
+			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.BUSINESS_GATEWAY)){
+				accept = (eObject instanceof org.eclipse.uml2.uml.Interface && StereotypesHelper.hasStereotype((Element) eObject, StereotypeNames.BUSINESS_SERVICE))
+						|| (eObject instanceof Class && StereotypesHelper.hasStereotype((Element) eObject, StereotypeNames.BUSINESS_ROLE));
 			}
 			if(!accept){
 				iterator.remove();

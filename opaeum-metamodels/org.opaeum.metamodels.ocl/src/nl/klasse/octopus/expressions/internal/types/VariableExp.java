@@ -12,10 +12,10 @@ import nl.klasse.octopus.model.IClassifier;
  */
 public class VariableExp extends OclExpression implements IVariableExp {
 
-    private VariableDeclaration referredVariable = null;
+    private IVariableDeclaration referredVariable = null;
     
     /** Creates a new instance of VariableExp */
-    public VariableExp(VariableDeclaration referredVariable ) {
+    public VariableExp(IVariableDeclaration referredVariable ) {
         this.referredVariable = referredVariable;
     }
 
@@ -37,7 +37,7 @@ public class VariableExp extends OclExpression implements IVariableExp {
     /** Setter for property referredVariable.
      * @param referredVariable New value of property referredVariable.
      */
-    public void setReferredVariable(VariableDeclaration referredVariable) {
+    public void setReferredVariable(IVariableDeclaration referredVariable) {
         this.referredVariable = referredVariable;
     }
     

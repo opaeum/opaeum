@@ -6,13 +6,20 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
+import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.internal.NakedPrimitiveTypeImpl;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
@@ -25,6 +32,19 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 })
 public class TypeResolver extends AbstractModelElementLinker{
 	public static INakedSimpleType DEFAULT_TYPE = null;
+	@Override
+	public void visitRecursively(INakedElementOwner o){
+		super.visitRecursively(o);
+		if(o instanceof INakedOperation && BehaviorUtil.hasExecutionInstance((IParameterOwner) o)){
+			visitRecursively(((INakedOperation) o).getMessageStructure());
+		}else if(o instanceof INakedEmbeddedTask){
+			visitRecursively(((INakedEmbeddedTask) o).getMessageStructure());
+		}else if(o instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedAction) o)){
+			visitRecursively(((INakedCallAction) o).getMessageStructure());
+		}else if(o instanceof INakedStructuredActivityNode && ((INakedStructuredActivityNode) o).getMessageStructure() != null){
+			visitRecursively(((INakedStructuredActivityNode) o).getMessageStructure());
+		}
+	}
 	@VisitBefore
 	public void resolveClassifier(INakedInstanceSpecification is){
 		if(is.getClassifier() == null){

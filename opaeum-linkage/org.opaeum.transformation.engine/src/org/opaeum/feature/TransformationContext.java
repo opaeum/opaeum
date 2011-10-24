@@ -8,6 +8,7 @@ import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
 
 public class TransformationContext {
 	boolean isIntegrationPhase;
+	private boolean isGeneratingRelease=false;
 	Set<Class<? extends ITransformationStep>> selectedFeatures = new HashSet<Class<? extends ITransformationStep>>();
 	Set<Class<? extends ITransformationStep>> appliedFeatures = new HashSet<Class<? extends ITransformationStep>>();
 	public TransformationProgressLog getLog(){
@@ -29,7 +30,6 @@ public class TransformationContext {
 	public boolean isIntegrationPhase(){
 		return isIntegrationPhase;
 	}
-
 
 	public boolean hasFeatureBeenApplied(Class<? extends ITransformationStep> feature) {
 		return this.appliedFeatures.contains(feature);
@@ -56,5 +56,13 @@ public class TransformationContext {
 		for (ITransformationStep step : featuresFor) {
 			featureApplied(step.getClass());
 		}
+	}
+
+	boolean isRelease(){
+		return isGeneratingRelease;
+	}
+
+	void setRelease(boolean isGeneratingRelease){
+		this.isGeneratingRelease = isGeneratingRelease;
 	}
 }

@@ -1,35 +1,18 @@
 package org.opaeum.javageneration.maps;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.metamodel.core.INakedProperty;
 
-
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{
-	private static Set<String> reservedWords=new HashSet<String>(Arrays.asList("return","class","interface", "void", "int", "short","boolean","long","double", "float", "synchronized") );
-
-	
-	@Override
-	public String umlName(){
-		return super.umlName();
-	}
-	@Override
 	public String fieldname(){
-		if(reservedWords.contains(feature.getName())){
-			return "_" + umlName();
-		}else{
-			return umlName();
-		}
+		return "_" + umlName();
 	}
 	public NakedStructuralFeatureMap(INakedProperty feature){
 		super(feature);
-		baseTypeMap = new NakedClassifierMap( feature.getNakedBaseType());
+		baseTypeMap = new NakedClassifierMap(feature.getNakedBaseType());
 		featureTypeMap = new NakedClassifierMap(feature.getType());
 	}
 	@Override
@@ -44,7 +27,6 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaTypePath();
 		}
 	}
-	
 	@Override
 	public OJPathName javaDefaultTypePath(){
 		if(isMany()){
@@ -56,8 +38,6 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 			return super.javaDefaultTypePath();
 		}
 	}
-	
-	
 	@Override
 	public OJPathName javaBaseTypePath(){
 		if(baseTypeMap.isJavaPrimitive()){

@@ -6,6 +6,7 @@ import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.ActivityKind;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
@@ -17,7 +18,7 @@ public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionN
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		if(node.isOutputElement()){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node,true);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node, node.getActivity().getActivityKind()==ActivityKind.SIMPLE_SYNCHRONOUS_METHOD);
 			// expressor.maybeBuildResultVariable(operation, block, map);
 			if(node.getFeedingNode() instanceof INakedObjectNode){
 				if(((INakedObjectNode) node.getFeedingNode()).getNakedMultiplicity().isMany()){

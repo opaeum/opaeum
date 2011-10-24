@@ -57,7 +57,7 @@ public class AttributeExpressionGenerator extends AbstractStructureVisitor{
 	private void addInitToStaticField(OJClass myClass,NakedStructuralFeatureMap mapper,INakedValueSpecification vs){
 		String initStr = ValueSpecificationUtil.expressValue(myClass, vs, mapper.getProperty().getType(), true);
 		if(initStr.length() > 0){
-			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.umlName());
+			OJAnnotatedField myField = (OJAnnotatedField) myClass.findField(mapper.fieldname());
 			if(myField != null){
 				myField.setInitExp(initStr);
 			}

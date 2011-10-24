@@ -40,7 +40,9 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 	public void initialize(OJPackage pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		this.initialize(config, textWorkspace, workspace);
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({
+			"unchecked","rawtypes"
+	})
 	@VisitBefore
 	public void visitWorkspace(INakedModelWorkspace workspace){
 		if(shouldProcessWorkspace()){

@@ -21,6 +21,7 @@ import java.util.List;
 import nl.klasse.octopus.codegen.helpers.GenerationHelpers;
 import nl.klasse.octopus.codegen.umlToJava.common.ExpGeneratorHelper;
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
+import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.expressions.IIfExp;
 import nl.klasse.octopus.expressions.ILetExp;
 import nl.klasse.octopus.expressions.ILiteralExp;
@@ -32,6 +33,8 @@ import nl.klasse.octopus.expressions.IVariableExp;
 import nl.klasse.octopus.expressions.internal.types.LetExp;
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.IParameter;
+import nl.klasse.octopus.model.IStructuralFeature;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.tools.common.StringHelpers;
 
@@ -93,7 +96,10 @@ public class ExpressionCreator {
 	
 	private String makeVariableExp(IVariableExp in) {
 		String result = "";
-		if (in.getName().equals("self")) {
+		if(in.getReferredVariable() instanceof IStructuralFeature){
+			//implicit attributes
+			return new StructuralFeatureMap((IStructuralFeature) in.getReferredVariable()).getter() + "()";
+		}else if(in.getName().equals("self") || in.getName().equals("this")) {
 			result = "this";				
 		} else {
 			IVariableDeclaration varDecl = in.getReferredVariable();
@@ -111,6 +117,7 @@ public class ExpressionCreator {
 			} else {
 				result = in.getName();						
 			}
+			result="_"+result;
 		}
 		return result;
 	}
@@ -130,7 +137,7 @@ public class ExpressionCreator {
 			myInitExp = "(" + myType.getTypeName() + ")" + myInitExp;
 		}
 		//
-		return (myType == null ? "void" : myType.getTypeName()) + " " + exp.getName() + 
+		return (myType == null ? "void" : myType.getTypeName()) + " " + ExpGeneratorHelper.javaFieldName(exp) + 
 				" = " + myInitExp;
 	}
 	

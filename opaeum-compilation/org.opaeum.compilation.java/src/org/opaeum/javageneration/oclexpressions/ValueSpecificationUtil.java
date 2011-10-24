@@ -89,12 +89,12 @@ public class ValueSpecificationUtil{
 	}
 	public static void addExtendedKeywords(OJOperation operationContext,IOclContext value){
 		if(value.getExpressionString().contains("now") && !hasLocal(operationContext, "now")){
-			OJAnnotatedField now = new OJAnnotatedField("now", new OJPathName("java.util.Date"));
+			OJAnnotatedField now = new OJAnnotatedField("_now", new OJPathName("java.util.Date"));
 			now.setInitExp("new Date()");
 			operationContext.getBody().addToLocals(now);
 		}
 		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opeum.runtime.bpm.BusinessRole"));
+			OJAnnotatedField now = new OJAnnotatedField("_currentUser", new OJPathName("org.opaeum.runtime.bpm.BusinessRole"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}
@@ -222,10 +222,5 @@ public class ValueSpecificationUtil{
 			init = sb.toString();
 		}
 		return init;
-	}
-	public static String replaceThisWith(String expr,String selfExpression){
-		String string = " "+ expr+" ";
-		String seperators="([\\s\\)=\\(\\.])";
-		return string.replaceAll(seperators+ "(this)"+seperators, "$1"+selfExpression +"$3").replaceAll(seperators+ "(this)"+seperators, "$1"+selfExpression+"$3");
 	}
 }

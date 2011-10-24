@@ -1,5 +1,8 @@
 package org.opaeum.metamodel.core.internal;
 
+import nl.klasse.octopus.expressions.IVariableDeclaration;
+import nl.klasse.octopus.expressions.internal.types.OclExpression;
+import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IOperation;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
@@ -7,7 +10,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedTypedElement;
 
-public class NakedParameterImpl extends NakedTypedElementImpl implements INakedTypedElement, INakedParameter {
+public class NakedParameterImpl extends NakedTypedElementImpl implements INakedTypedElement, INakedParameter, IVariableDeclaration {
 	private static final long serialVersionUID = -1300669933351165122L;
 	private int argumentIndex;
 	private int resultIndex;
@@ -26,6 +29,11 @@ public class NakedParameterImpl extends NakedTypedElementImpl implements INakedT
 	private ParameterDirectionKind direction = ParameterDirectionKind.IN;
 
 	public NakedParameterImpl() {
+	}
+
+	public NakedParameterImpl(String name,IClassifier type){
+		setName(name);
+		setType(type);
 	}
 
 	public boolean isRequired() {
@@ -124,6 +132,16 @@ public class NakedParameterImpl extends NakedTypedElementImpl implements INakedT
 	public boolean isArgument() {
 		// TODO Auto-generated method stub
 		return ParameterDirectionKind.IN.equals(getDirection()) || ParameterDirectionKind.INOUT.equals(getDirection());
+	}
+
+	@Override
+	public OclExpression getInitExpression(){
+		return null;
+	}
+
+	@Override
+	public boolean isIteratorVar(){
+		return false;
 	}
 
 }

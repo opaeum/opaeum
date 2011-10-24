@@ -5,9 +5,13 @@ import java.util.Collections;
 
 import nl.klasse.octopus.model.IClassifier;
 
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectNode;
+import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.components.INakedConnectorEnd;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMultiplicity;
@@ -21,7 +25,7 @@ import org.opaeum.metamodel.core.INakedTypedElement;
  * @author abarnard
  * 
  */
-public class TypedElementPropertyBridge extends AbstractPropertyBridge implements INakedProperty{
+public class TypedElementPropertyBridge extends AbstractEmulatedProperty implements INakedProperty{
 	/**
 	 * 
 	 */
@@ -33,7 +37,19 @@ public class TypedElementPropertyBridge extends AbstractPropertyBridge implement
 		this.parameter = parameter;
 		ensureLocallyUniqueName=false;
 	}
-	public TypedElementPropertyBridge(INakedClassifier owner,INakedObjectNode pin,boolean ensureLocallyUniqueName,boolean isDerived){
+	@Override
+	public boolean isDerived(){
+		if(ensureLocallyUniqueName && parameter instanceof INakedOutputPin){
+			INakedAction action = ((INakedOutputPin) parameter).getAction();
+			if(action instanceof INakedCallAction && ((INakedCallAction) action).getCalledElement().isLongRunning()){
+				return true;
+			}else {
+				return action instanceof INakedEmbeddedTask;
+			}
+		}
+		return super.isDerived();
+	}
+	public TypedElementPropertyBridge(INakedClassifier owner,INakedObjectNode pin,boolean ensureLocallyUniqueName){
 		super(owner, pin);
 		this.parameter = pin;
 		this.ensureLocallyUniqueName = ensureLocallyUniqueName;

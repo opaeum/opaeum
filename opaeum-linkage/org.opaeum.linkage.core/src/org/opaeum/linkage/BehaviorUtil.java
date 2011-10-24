@@ -31,7 +31,7 @@ import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.core.internal.emulated.MessageStructureImpl;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
@@ -300,7 +300,7 @@ public class BehaviorUtil{
 				return BehaviorUtil.hasExecutionInstance((IParameterOwner) c);
 			}else if(c instanceof INakedAssociation){
 				return ((INakedAssociation) c).isClass();
-			}else if(c instanceof MessageStructureImpl){
+			}else if(c instanceof EmulatedCompositionMessageStructure){
 				return true;
 			}else{
 				return true;

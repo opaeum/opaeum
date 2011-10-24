@@ -8,6 +8,7 @@ import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IPackage;
+import nl.klasse.octopus.model.IParameter;
 
 import org.opaeum.metamodel.activities.ActivityNodeContainer;
 import org.opaeum.metamodel.activities.INakedAction;
@@ -22,6 +23,7 @@ import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.activities.internal.StructuredActivityNodeClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedOpaqueBehavior;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -34,6 +36,7 @@ import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
@@ -52,9 +55,6 @@ public class EnvironmentFactory{
 	public Environment createClassifierEnvironment(INakedClassifier c){
 		Environment env = createSelflessEnvironment(c);
 		env.addElement("self", new VariableDeclaration("self", c), true);
-		if(!(c.getNestingClassifier() == null || c instanceof INakedBehavior)){
-			env.addElement("owningObject", new VariableDeclaration("owningObject", c.getNestingClassifier()), true);
-		}
 		env.addStates(c);
 		return env;
 	}
@@ -87,35 +87,60 @@ public class EnvironmentFactory{
 		return env;
 	}
 	public Environment createStateMachineEnvironment(INakedStateMachine owningBehavior){
-		return createBehavioralEnvironment(owningBehavior, owningBehavior);
+		return createBehavioralEnvironment(owningBehavior);
 	}
 	public Environment createOpaqueBehaviorEnvironment(INakedOpaqueBehavior owningBehavior){
-		return createBehavioralEnvironment(owningBehavior, owningBehavior);
+		return createBehavioralEnvironment(owningBehavior);
 	}
 	public Environment createBehaviorEnvironment(INakedBehavior owningBehavior){
-		return createBehavioralEnvironment(owningBehavior, owningBehavior);
+		return createBehavioralEnvironment(owningBehavior);
 	}
 	Environment createActivityEnvironment(INakedElement startingElement,INakedActivity owningBehavior){
-		Environment env = createBehavioralEnvironment(owningBehavior, owningBehavior);
+		Environment env = null;
 		if(BehaviorUtil.hasExecutionInstance(owningBehavior)){
 			while(!(startingElement.getOwnerElement() instanceof ActivityNodeContainer)){
 				startingElement = (INakedElement) startingElement.getOwnerElement();
 			}
-			if(startingElement.getOwnerElement() instanceof INakedStructuredActivityNode){
-				env.addElement("this", ((INakedStructuredActivityNode) startingElement.getOwnerElement()).getMessageStructure(), true);
+			if(startingElement instanceof INakedStructuredActivityNode){
+				INakedStructuredActivityNode node = (INakedStructuredActivityNode) startingElement;
+				StructuredActivityNodeClassifier msg = (StructuredActivityNodeClassifier) node.getMessageStructure();
+				env = createSelflessEnvironment(msg);
+				env.addElement("self", msg.getEndToSelf(), true);
+				if(owningBehavior.getContext() != null){
+					env.addElement("contextObject", msg.getEndToContext(), true);
+				}
+				env.addElement("this", new VariableDeclaration("this", msg) , true);
+
+			}else{
+				env = createBehavioralEnvironment(owningBehavior);
+				if(owningBehavior.getContext() != null){
+					env.addElement("contextObject", owningBehavior.getEndToComposite(), true);
+				}
 			}
-			env.addElement("containingActivity", new VariableDeclaration("containingActivity", owningBehavior), true);
+			if(owningBehavior.getEndToComposite() != null){
+				// Not entirely correct - might but Octop
+			}
+		}else if(isContextObjectApplicable(owningBehavior)){
+			env = createBehavioralEnvironment(owningBehavior);
+			addActivityStructureAsLocalContext(env, startingElement, true);
+			INakedElementOwner owner = owningBehavior.getOwnerElement();
+			while(!(owner ==null || owner instanceof INakedStateMachine)){
+				owner=((INakedElement) owner).getOwnerElement();
+			}
+			if(owner instanceof INakedStateMachine && ((INakedStateMachine) owner).getEndToComposite()!=null){
+				env.addElement("contextObject", ((INakedStateMachine) owner).getEndToComposite(), true);
+			}
 		}else{
+			env = createBehavioralEnvironment(owningBehavior);
 			addActivityStructureAsLocalContext(env, startingElement, true);
 		}
 		return env;
 	}
 	public Environment createOperationMessageEnvironment(INakedOperation op,INakedMessageStructure message){
-		// State Actions
 		Environment env = null;
 		env = createSelflessEnvironment(op.getNameSpace());
-		env.addElement("self", new VariableDeclaration("self", message), true);
-		env.addElement("contextObject", new VariableDeclaration("contextObject", op.getContext()), true);
+		env.addElement("self", ((OperationMessageStructureImpl) message).getEndToSelf(), true);
+		env.addElement("this", new VariableDeclaration("this", message) , true);
 		return env;
 	}
 	public Environment createSelflessEnvironment(INakedNameSpace ns){
@@ -157,19 +182,16 @@ public class EnvironmentFactory{
 			env.addElement(sub.getName(), sub, false);
 		}
 	}
-	private Environment createBehavioralEnvironment(IParameterOwner owningBehavior,INakedClassifier behaviorAsClassifier){
+	private Environment createBehavioralEnvironment(INakedBehavior owningBehavior){
 		if(isContextObjectApplicable(owningBehavior)){
 			// Complex Activities, StateMachines, Transition Actions and
 			// State Actions
 			Environment env = null;
 			if(BehaviorUtil.hasExecutionInstance(owningBehavior)){
-				env = createClassifierEnvironment(behaviorAsClassifier);
+				env = createClassifierEnvironment(owningBehavior);
 			}else{
 				// Probably transition effects and state actions
 				env = createSimpleBehavioralContext(owningBehavior);
-			}
-			if(owningBehavior.getContext() != null){
-				env.addElement("contextObject", new VariableDeclaration("contextObject", owningBehavior.getContext()), true);
 			}
 			addTransitionParametersIfBehaviourContainedByTransition(env, owningBehavior);
 			return env;
@@ -178,7 +200,6 @@ public class EnvironmentFactory{
 		}
 	}
 	private Environment createSimpleBehavioralContext(IParameterOwner owningBehavior){
-		// TODO Auto-generated method stub
 		INakedElementOwner owner = owningBehavior.getOwnerElement();
 		while(!(owner instanceof INakedClassifier || owner == null)){
 			owner = ((INakedElement) owner).getOwnerElement();
@@ -189,7 +210,7 @@ public class EnvironmentFactory{
 				owner = ((INakedElement) owner).getOwnerElement();
 			}
 			Environment env = createSelflessEnvironment((INakedNameSpace) owner);
-			addTypedElementsAsVariables(env, owningBehavior.getArgumentParameters());
+			addTypedElementsAsParameters(env, owningBehavior.getArgumentParameters());
 			return env;
 		}else{
 			return createSimpleBehavioralContext((INakedClassifier) owner, owningBehavior);
@@ -197,7 +218,7 @@ public class EnvironmentFactory{
 	}
 	private Environment createSimpleBehavioralContext(INakedClassifier context,IParameterOwner owningBehavior){
 		Environment env = createClassifierEnvironment(context);
-		addTypedElementsAsVariables(env, owningBehavior.getArgumentParameters());
+		addTypedElementsAsParameters(env, owningBehavior.getArgumentParameters());
 		return env;
 	}
 	public void addFlowParameters(Environment env,INakedActivityEdge edge){
@@ -219,7 +240,7 @@ public class EnvironmentFactory{
 		}
 	}
 	public void addFlowParameters(Environment env,INakedTransition t){
-		addTypedElementsAsVariables(env, t.getParameters());
+		addTypedElementsAsParameters(env, t.getParameters());
 	}
 	public void addPostEnvironment(Environment env,INakedAction owner){
 		for(INakedOutputPin p:owner.getOutput()){
@@ -241,12 +262,16 @@ public class EnvironmentFactory{
 	private void addTransitionParametersIfBehaviourContainedByTransition(Environment env,IParameterOwner paramOwner){
 		if(paramOwner.getOwnerElement() instanceof INakedTransition){
 			INakedTransition t = (INakedTransition) paramOwner.getOwnerElement();
-			addTypedElementsAsVariables(env, t.getParameters());
+			addTypedElementsAsParameters(env, t.getParameters());
 		}
 	}
-	private void addTypedElementsAsVariables(Environment env,Collection<? extends INakedTypedElement> parameters){
-		for(INakedTypedElement p:parameters){
-			env.addElement(p.getName(), new VariableDeclaration(p.getName(), p.getType()), false);
+	private void addTypedElementsAsParameters(Environment env,Collection<? extends INakedTypedElement> parameters){
+		for(final INakedTypedElement p:parameters){
+			if(p instanceof IParameter){
+				env.addElement(p.getName(), (IParameter) p, false);
+			}else{
+				env.addElement(p.getName(), new SignalParameter(p), false);
+			}
 		}
 	}
 	private static boolean isContextObjectApplicable(IParameterOwner owningBehavior){
@@ -258,7 +283,7 @@ public class EnvironmentFactory{
 			addVariables(env, ((INakedStructuredActivityNode) element).getVariables());
 		}else if(element instanceof INakedActivity && includeActivity){
 			addVariables(env, ((INakedActivity) element).getVariables());
-			addTypedElementsAsVariables(env, ((INakedActivity) element).getArgumentParameters());
+			addTypedElementsAsParameters(env, ((INakedActivity) element).getArgumentParameters());
 		}
 		if(element instanceof INakedExpansionRegion){
 			INakedExpansionRegion node = (INakedExpansionRegion) element;

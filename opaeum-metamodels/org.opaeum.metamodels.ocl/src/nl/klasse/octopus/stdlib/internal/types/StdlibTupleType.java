@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import nl.klasse.octopus.expressions.IVariableDeclaration;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.ITupleType;
 import nl.klasse.octopus.model.internal.types.AttributeImpl;
@@ -34,7 +33,7 @@ public class StdlibTupleType extends StdlibDataType implements ITupleType {
 		super(n);
 	}
 	
-	public void addPart(VariableDeclaration var) {
+	public void addPart(IVariableDeclaration var) {
 		parts.add(var);
 	}
 	

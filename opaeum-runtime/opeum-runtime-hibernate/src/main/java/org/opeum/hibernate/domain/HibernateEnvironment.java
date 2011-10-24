@@ -189,4 +189,9 @@ public class HibernateEnvironment extends Environment {
 		getEventService().scheduleEvent(occurrence);
 
 	}
+
+	@Override
+	public UmtPersistence newUmtPersistence(){
+		return new HibernateUmtPersistence(openHibernateSession());
+	}
 }

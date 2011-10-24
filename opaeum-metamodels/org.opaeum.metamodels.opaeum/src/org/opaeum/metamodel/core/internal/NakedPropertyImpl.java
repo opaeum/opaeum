@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import nl.klasse.octopus.expressions.internal.types.OclExpression;
+
 import org.opaeum.metamodel.components.INakedConnectorEnd;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedElement;
@@ -173,5 +175,15 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	public void setStatic(boolean static1){
 		this.setHasClassScope(static1);
 		
+	}
+	@Override
+	public OclExpression getInitExpression(){
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public boolean isIteratorVar(){
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

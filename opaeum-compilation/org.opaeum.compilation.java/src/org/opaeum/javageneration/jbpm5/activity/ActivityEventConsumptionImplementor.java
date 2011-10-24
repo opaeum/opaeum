@@ -90,7 +90,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 						for(INakedOutputPin pin:acc.getResult()){
 							NakedStructuralFeatureMap pinMap = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
 							NakedStructuralFeatureMap parameterMap = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin.getLinkedTypedElement());
-							ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "(" + parameterMap.umlName() + ")");
+							ifTokenFound.getThenPart().addToStatements(pinMap.setter() + "(" + parameterMap.fieldname() + ")");
 						}
 					}
 					checkWaitAndFlowToNextNodes(oper, ifTokenFound.getThenPart(), acc);
@@ -234,7 +234,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 	private void storeArguments(OJIfStatement ifTokenFound,INakedAcceptEventAction aea){
 		List<INakedOutputPin> result = aea.getResult();
 		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
-		OJAnnotatedField context = new OJAnnotatedField("context", new OJPathName("org.drools.spi.ProcessContext"));
+		OJAnnotatedField context = new OJAnnotatedField("context", Jbpm5Util.getProcessContext());
 		context.setInitExp("new org.drools.spi.ProcessContext(org.opeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
 		ifTokenFound.getThenPart().addToLocals(context);
 		ifTokenFound.getThenPart().addToStatements("((org.drools.spi.ProcessContext)context).setNodeInstance(waitingNode)");

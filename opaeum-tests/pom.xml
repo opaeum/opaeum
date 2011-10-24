@@ -189,7 +189,7 @@
   </dependencyManagement>
   <properties>
     <opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
-    <opaeum-tests-processmodel.version>0.0.10</opaeum-tests-processmodel.version>
+    <opaeum-tests-processmodel.version>0.0.11-SNAPSHOT</opaeum-tests-processmodel.version>
     <hibernate.version>3.4.0.GA</hibernate.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
     <drools.version>5.2.0.M1</drools.version>

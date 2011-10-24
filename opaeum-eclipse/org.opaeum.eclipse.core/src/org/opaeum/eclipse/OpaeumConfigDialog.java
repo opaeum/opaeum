@@ -32,6 +32,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 	private CCombo cboSourceFolderStrategy;
 	private List lstTransformationSteps;
 	private OpaeumConfig config;
+	private VersionText txtNewVersionNumber;
 	public OpaeumConfigDialog(Shell shell,OpaeumConfig config){
 		super(shell);
 		this.config = config;
@@ -59,6 +60,10 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		txtCompanyDomain = new Text(panel, SWT.SINGLE | SWT.BORDER);
 		txtCompanyDomain.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
 		txtCompanyDomain.setText(getDomainName());
+		new Label(panel, 0).setText("New Version Number");
+		txtNewVersionNumber = new VersionText(panel, SWT.SINGLE | SWT.BORDER);
+		txtNewVersionNumber.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
+		txtNewVersionNumber.setVersion(config.getVersion());
 		new Label(panel, 0).setText("Generate Maven POMS");
 		chkGeneratePoms = new Button(panel, SWT.CHECK);
 		chkGeneratePoms.setLayoutData(new GridData(SWT.FILL, GridData.BEGINNING, true, false));
@@ -121,6 +126,7 @@ public class OpaeumConfigDialog extends TitleAreaDialog{
 		config.setWorkspaceName(NameConverter.separateWordsToCamelCase(txtWorkspaceName.getText()));
 		config.setAdditionalTransformationSteps(new HashSet<String>(Arrays.asList(lstTransformationSteps.getSelection())));
 		config.setMavenGroupId(mavenGroup.toString());
+		config.setVersion(txtNewVersionNumber.getVersion());
 		config.setSourceFolderStrategy(cboSourceFolderStrategy.getText());
 		config.setWorkspaceIdentifier(txtWorkspaceIdentifier.getText());
 		config.setGenerateMavenPoms(this.chkGeneratePoms.getSelection());

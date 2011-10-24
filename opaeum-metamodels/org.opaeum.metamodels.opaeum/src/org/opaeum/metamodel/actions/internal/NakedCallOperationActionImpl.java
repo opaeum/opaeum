@@ -21,15 +21,12 @@ public class NakedCallOperationActionImpl extends NakedCallActionImpl implements
 	}
 	@Override
 	public INakedMessageStructure getMessageStructure(){
-		return messageStructure;
+		if(getOperation().getMessageStructure()!=null){
+			return getOperation().getMessageStructure();
+		}
+		return null;
 	}
 	public void initMessageStructure(){
-		if(messageStructure == null && getOperation() != null){
-			if(getOperation().getMessageStructure()==null){
-				getOperation().initMessageStructure();
-			}
-			messageStructure = getOperation().getMessageStructure();
-		}
 	}
 	@Override
 	public INakedClassifier getExpectedTargetType(){

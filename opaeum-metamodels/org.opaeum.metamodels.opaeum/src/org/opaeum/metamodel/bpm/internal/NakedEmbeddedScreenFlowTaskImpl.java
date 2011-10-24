@@ -11,7 +11,7 @@ import org.opaeum.metamodel.statemachines.INakedStateMachine;
 public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl implements INakedEmbeddedScreenFlowTask{
 	private static final long serialVersionUID = 2669838847662466125L;
 	private INakedResponsibilityDefinition taskDefinition;
-	private EmbeddedScreenFlowTaskMessageStructureImpl messageStructure;
+	private EmbeddedScreenFlowTaskMessageStructure messageStructure;
 	@Override
 	public INakedResponsibilityDefinition getTaskDefinition(){
 		return this.taskDefinition;
@@ -38,6 +38,6 @@ public class NakedEmbeddedScreenFlowTaskImpl extends NakedCallBehaviorActionImpl
 	}
 	@Override
 	public void initMessageStructure(){
-		this.messageStructure=new EmbeddedScreenFlowTaskMessageStructureImpl(this);
+		this.messageStructure=new EmbeddedScreenFlowTaskMessageStructure(this);
 	}
 }

@@ -15,9 +15,9 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public final class SynchronizationProcessRunner extends Job{
 	private Set<EObject> emfChanges;
-	private Set<OpaeumContextSynchronizationListener> synchronizationListener;
+	private Set<OpaeumSynchronizationListener> synchronizationListener;
 	private TransformationProcess transformationProcess;
-	public SynchronizationProcessRunner(TransformationProcess transformationProcess,Set<OpaeumContextSynchronizationListener> synchronizationListener2,Set<? extends EObject> emfChanges){
+	public SynchronizationProcessRunner(TransformationProcess transformationProcess,Set<OpaeumSynchronizationListener> synchronizationListener2,Set<? extends EObject> emfChanges){
 		super("Synchronizing Opaeum Metadata with UML");
 		this.transformationProcess = transformationProcess;
 		synchronized(emfChanges){
@@ -38,7 +38,7 @@ public final class SynchronizationProcessRunner extends Job{
 					}
 				}
 				final INakedModelWorkspace findModel = transformationProcess.findModel(INakedModelWorkspace.class);
-				for(OpaeumContextSynchronizationListener listener:synchronizationListener){
+				for(OpaeumSynchronizationListener listener:synchronizationListener){
 					listener.synchronizationComplete(findModel, changedNakedElements);
 				}
 				System.out.println("Synchronization took " + (System.currentTimeMillis() - start));

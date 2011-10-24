@@ -16,6 +16,7 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.ProjectNameStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
+import org.opeum.runtime.environment.VersionNumber;
 import org.opeum.util.SortedProperties;
 
 public class OpaeumConfig{
@@ -33,7 +34,6 @@ public class OpaeumConfig{
 	private static final String ID_GENERATOR_STRATEGY = "opaeum.id.generator.strategy";
 	private static final String TEST_DATA_SIZE = "opaeum.test.data.size";
 	private static final String MAVEN_GROUPID = "opaeum.maven.groupid";
-	private static final String MAVEN_GROUP_VERSION = "opaeum.maven.group.version";
 	private static final String GENERATE_MAVEN_POMS = "opaeum.generate.poms";
 	private static final String SCM_TOOL = "opaeum.scm.tool";
 	private static final String WORKSPACE_IDENTIFIER = "opaeum.workspace.identifier";
@@ -49,6 +49,7 @@ public class OpaeumConfig{
 	private File file;
 	private WorkspaceMappingInfo workspaceMappingInfo;
 	private SqlDialect sqlDialect;
+	private VersionNumber version;
 	public OpaeumConfig(File file){
 		this.file = file;
 		if(file.exists()){
@@ -134,9 +135,6 @@ public class OpaeumConfig{
 		if(!this.props.containsKey(DB_USER)){
 			this.props.setProperty(DB_USER, projectName);
 		}
-		if(!this.props.containsKey(MAVEN_GROUP_VERSION)){
-			this.props.setProperty(MAVEN_GROUP_VERSION, "0.0.1");
-		}
 		if(!this.props.containsKey(SCM_TOOL)){
 			this.props.setProperty(SCM_TOOL, "git");
 		}
@@ -207,6 +205,7 @@ public class OpaeumConfig{
 	}
 	public void store(){
 		try{
+			getVersion().writeTo(props);
 			props.store(new FileWriter(file), "Opaeum");
 			getSourceFolderStrategy().defineSourceFolders(this);
 		}catch(IOException e){
@@ -220,7 +219,8 @@ public class OpaeumConfig{
 		return sourceFolderDefinitions.get(id);
 	}
 	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,boolean useWorkspaceName,String projectSuffix,String relativeSourceFolder){
-		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName?ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX:ProjectNameStrategy.MODEL_NAME_AND_SUFFIX, projectSuffix, relativeSourceFolder);
+		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName ? ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX
+				: ProjectNameStrategy.MODEL_NAME_AND_SUFFIX, projectSuffix, relativeSourceFolder);
 		sourceFolderDefinitions.put(id, value);
 		return value;
 	}
@@ -228,9 +228,6 @@ public class OpaeumConfig{
 		SourceFolderDefinition value = new SourceFolderDefinition(pns, projectSuffix, relativeSourceFolder);
 		sourceFolderDefinitions.put(id, value);
 		return value;
-	}
-	public String getMavenGroupVersion(){
-		return this.props.getProperty(MAVEN_GROUP_VERSION, "0.0.1-SNAPSHOT");
 	}
 	public String getScmTool(){
 		return this.props.getProperty(SCM_TOOL);
@@ -287,7 +284,7 @@ public class OpaeumConfig{
 		}
 		return result;
 	}
-		public void setAdditionalTransformationSteps(Set<String> s){
+	public void setAdditionalTransformationSteps(Set<String> s){
 		StringBuilder sb = new StringBuilder();
 		for(String string:s){
 			sb.append(string);
@@ -298,6 +295,7 @@ public class OpaeumConfig{
 	public WorkspaceMappingInfo getWorkspaceMappingInfo(){
 		if(this.workspaceMappingInfo == null){
 			this.workspaceMappingInfo = new WorkspaceMappingInfo(new File(file.getParent(), getWorkspaceIdentifier() + ".mappinginfo"));
+			this.workspaceMappingInfo.setVersion(getVersion());
 		}
 		return this.workspaceMappingInfo;
 	}
@@ -333,17 +331,31 @@ public class OpaeumConfig{
 	public Collection<String> getAdditionalPersistentClasses(){
 		return Arrays.asList(this.props.getProperty(ADDITIONAL_PERSISTENT_CLASSES, "com.rorotika.cm.audit.NetworkElementAuditEntry").split(";"));
 	}
-	public void setMavenGroupVersion(String version){
-		this.props.setProperty(MAVEN_GROUP_VERSION, version);
+	public void setVersion(String version){
+		getVersion().parse(version);
 		store();
-		
 	}
 	public String getMavenGroupVersionSuffix(){
-		return "_" + getMavenGroupVersion().replaceAll("\\.", "_").replaceAll("-SNAPSHOT", "");
+		return getVersion().getSuffix();
+	}
+	public VersionNumber getVersion(){
+		if(this.version == null){
+			this.version = new VersionNumber();
+			this.version.readFrom(props);
+		}
+		return this.version;
 	}
 	public static boolean isValidVersionNumber(String name){
-		String REG_EXP = "[0-9]+(\\.[0-9]+){0,2}";
+		String REG_EXP = "[0-9]+(\\.[0-9]+){0,3}";
 		boolean matches = name.matches(REG_EXP);
 		return matches;
+	}
+	public void setVersion(VersionNumber version2){
+		this.version = version2;
+		store();
+	}
+	public OpaeumConfig getCopy(){
+		OpaeumConfig result = new OpaeumConfig(getConfigFile());
+		return result;
 	}
 }

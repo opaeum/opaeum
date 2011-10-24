@@ -24,7 +24,7 @@ import org.opeum.runtime.domain.CompositionNode;
 	CompositionNodeImplementor.class
 })
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
-	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opeum.runtime.bpm.BusinessRole");
+	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
 	private static final OJPathName NUML_USER = new OJPathName("org.opeum.runtime.bpm.OpaeumUser");
 	public static OJPathName SECURE_OBJECT = new OJPathName("org.opeum.runtime.bpm.ISecureObject");
 	@VisitAfter(matchSubclasses = true)

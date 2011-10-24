@@ -116,7 +116,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		// TODO the originatingObjectNode may not have the correct type after
 		// transformations and selections
 		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(edge.getActivity(), origin, false);
-		OJAnnotatedField sourceField = new OJAnnotatedField(map.umlName(), map.javaTypePath());
+		OJAnnotatedField sourceField = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		oper.getBody().addToLocals(sourceField);
 		AbstractObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		sourceField.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(oper.getBody(), objectFlow));
@@ -150,18 +150,16 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 				INakedStructuredActivityNode san = (INakedStructuredActivityNode) n;
 				INakedMessageStructure childMsg = san.getMessageStructure();
 				OJAnnotatedClass c = findJavaClass(childMsg);
-				OJAnnotatedOperation getter = new OJAnnotatedOperation("getContainingActivity", OJUtil.classifierPathname(container.getActivity()));
-				c.addToOperations(getter);
+				OJAnnotatedOperation getter = (OJAnnotatedOperation) OJUtil.findOperation(c, "getSelf");
+				
 				if(container instanceof INakedActivity){
 					getter.initializeResultVariable("getNodeContainer()");
 				}else{
-					getter.initializeResultVariable("getNodeContainer().getContainingActivity()");
+					getter.initializeResultVariable("getNodeContainer().getSelf()");
 				}
 				if(container.getActivity().getContext() != null){
-					OJAnnotatedOperation contextGetter = new OJAnnotatedOperation("getContextObject",
-							OJUtil.classifierPathname(container.getActivity().getContext()));
-					contextGetter.initializeResultVariable("getContainingActivity().getContextObject()");
-					c.addToOperations(contextGetter);
+					OJAnnotatedOperation contextGetter = (OJAnnotatedOperation) OJUtil.findOperation(c, "getContextObject");
+					contextGetter.initializeResultVariable("getSelf().getContextObject()");
 				}
 				implementVariableDelegation(container, msg, c);
 				implementContainer(isProcess, stateClass, san, childMsg);

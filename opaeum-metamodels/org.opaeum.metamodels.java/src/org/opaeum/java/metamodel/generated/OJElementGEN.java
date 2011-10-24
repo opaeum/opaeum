@@ -13,7 +13,7 @@ import org.opaeum.java.metamodel.utilities.InvariantError;
  * Class ...
  */
 abstract public class OJElementGEN{
-	private String f_name = "";
+	protected String f_name = "";
 	private String f_comment = "";
 	static protected boolean usesAllInstances = false;
 	static protected List<OJElement> allInstances = new ArrayList<OJElement>();
@@ -51,7 +51,6 @@ abstract public class OJElementGEN{
 	 * @param element
 	 */
 	public void setName(String element){
-
 		if(f_name != element){
 			f_name = element;
 		}

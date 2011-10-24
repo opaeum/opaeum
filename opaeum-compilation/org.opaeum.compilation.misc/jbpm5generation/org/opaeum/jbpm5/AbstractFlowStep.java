@@ -84,7 +84,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		root.getProcess().setId(Jbpm5Util.generateProcessName(behavior));
 		root.getProcess().setName(Jbpm5Util.generateProcessName(behavior));
 		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
-		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getCurrentVersion());
+		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getVersion().toVersionString());
 		root.getProcess().setType("RuleFlow");
 		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getNames();
 		names.add(behavior.getMappingInfo().getJavaName() + ".rf");

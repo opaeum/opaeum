@@ -1,70 +1,30 @@
 package org.opaeum.metamodel.bpm.internal;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import nl.klasse.octopus.model.IPackage;
-import nl.klasse.octopus.oclengine.IOclContext;
-
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
-import org.opaeum.metamodel.core.INakedConstraint;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
-public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompositionMessageStructure {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1536992747207231274L;
+public class EmbeddedSingleScreenTaskMessageStructureImpl extends EmulatedCompositionMessageStructure{
+	private static final long serialVersionUID = 11223480298L;
 	INakedEmbeddedSingleScreenTask action;
-
+	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action){
+		super(action.getNearestStructuredElementAsClassifier(), action);
+		this.action = action;
+		reinitialize();
+	}
 	public INakedEmbeddedSingleScreenTask getAction(){
 		return action;
 	}
-
-	public EmbeddedSingleScreenTaskMessageStructureImpl(INakedEmbeddedSingleScreenTask action) {
-		super(action.getActivity(), action);
-		this.action = action;
-		
-	}
-
 	@Override
-	public List<INakedProperty> getOwnedAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<INakedProperty>();
-			for (INakedObjectNode p : action.getPins()) {
-				attributes.add(new TypedElementPropertyBridge(this, p,false,false));
-			}
-			attributes.add(getEndToComposite());
+	public void reinitialize(){
+		super.reinitialize();
+		for(INakedObjectNode p:action.getPins()){
+			attributes.add(new TypedElementPropertyBridge(this, p, false));
 		}
-		return attributes;
+		super.owner = action.getNearestStructuredElementAsClassifier();
 	}
-
-	public List<IOclContext> getDefinitions() {
-		return Collections.emptyList();
-	}
-
-	public List<INakedConstraint> getOwnedRules() {
-		return Collections.emptyList();
-	}
-
-
-	public boolean isPersistent() {
-		return true;
-	}
-
-	public INakedEmbeddedSingleScreenTask getOpaqueAction() {
+	public INakedEmbeddedSingleScreenTask getOpaqueAction(){
 		return action;
 	}
-
-	@Override
-	public IPackage getRoot() {
-		return getOpaqueAction().getActivity().getNakedRoot();
-	}
-
-
-
 }

@@ -53,6 +53,24 @@
 		           class="org.eclipse.uml2.uml.StructuredActivityNode">
 		     </enableFor>
 		</diagram>
+  		<diagram
+        	configuration="org.opaeum.topcased.activitydiagram.method.MethodStructuredActivityNodeConfiguration"
+	        editorID="org.topcased.modeler.uml.editor.UMLEditor"
+	        id="org.opaeum.topcased.activitydiagram.method.MethodStructuredActivityNodeConfiguration"
+	        name="Structured Method Node Diagram">
+		     <enableFor
+		           class="org.eclipse.uml2.uml.StructuredActivityNode">
+		     </enableFor>
+		</diagram>
+  		<diagram
+        	configuration="org.opaeum.topcased.activitydiagram.bpm.BusinessProcessStructuredActivityNodeConfiguration"
+	        editorID="org.topcased.modeler.uml.editor.UMLEditor"
+	        id="org.opaeum.topcased.activitydiagram.bpm.BusinessProcessStructuredActivityNodeConfiguration"
+	        name="Structured Business Process Node Diagram">
+		     <enableFor
+		           class="org.eclipse.uml2.uml.StructuredActivityNode">
+		     </enableFor>
+		</diagram>
 		<diagram
 	        configuration="org.topcased.modeler.uml.activitydiagram.ActivityConfiguration"
 	        editorID="org.topcased.modeler.uml.editor.UMLEditor"

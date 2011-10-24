@@ -7,7 +7,7 @@ import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.PaletteStack;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.topcased.activitydiagram.bpm.OpaeumActivityPaletteManager;
+import org.opaeum.topcased.activitydiagram.OpaeumActivityPaletteManager;
 import org.topcased.modeler.editor.GraphElementCreationFactory;
 import org.topcased.modeler.editor.ICreationUtils;
 import org.topcased.modeler.editor.palette.ModelerCreationToolEntry;
@@ -15,14 +15,8 @@ import org.topcased.modeler.uml.activitydiagram.ActivityImageRegistry;
 import org.topcased.modeler.utils.CustomPaletteArrayList;
 
 public class MethodPaletteManager extends OpaeumActivityPaletteManager{
-	private PaletteDrawer controlDrawer;
-	private PaletteDrawer actionsDrawer;
-	private PaletteDrawer objectDrawer;
-	private PaletteDrawer connectionsDrawer;
-	private ICreationUtils creationUtils;
 	public MethodPaletteManager(ICreationUtils utils){
-		super();
-		this.creationUtils = utils;
+		super(utils);
 	}
 	protected void createCategories(){
 		createControlDrawer();

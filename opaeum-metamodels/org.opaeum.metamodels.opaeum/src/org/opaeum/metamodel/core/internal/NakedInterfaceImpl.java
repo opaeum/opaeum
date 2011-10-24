@@ -32,4 +32,9 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 	public void removeImplementingClassifier(INakedBehavioredClassifier implementingClassifier){
 		this.implementingClassifiers.remove(implementingClassifier);
 	}
+	@Override
+	public boolean isPersistent(){
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

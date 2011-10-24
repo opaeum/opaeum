@@ -10,9 +10,9 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedMultiplicity;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opaeum.metamodel.core.internal.emulated.AbstractPropertyBridge;
+import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 
-public class AssociationClassToEnd extends AbstractPropertyBridge{
+public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	/**
 	 * 
 	 */

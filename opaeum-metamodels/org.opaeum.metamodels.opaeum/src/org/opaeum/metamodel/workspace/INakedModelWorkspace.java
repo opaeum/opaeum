@@ -7,6 +7,7 @@ import java.util.Set;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
 import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
@@ -34,4 +35,7 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	Collection<INakedRootObject> getPrimaryRootObjects();
 	Set<INakedElement> getDependentElements(INakedElement e);
 	void removeModelElement(INakedElement mw);
+	void clearRootClassifiers();
+	void addRootClassifier(INakedClassifier cp);
+	Collection<INakedClassifier> getRootClassifiers();
 }

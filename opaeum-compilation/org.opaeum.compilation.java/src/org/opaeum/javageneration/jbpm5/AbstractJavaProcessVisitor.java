@@ -29,7 +29,6 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.PreAndPostConstrained;
-import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opeum.runtime.domain.IActiveEntity;
 import org.opeum.runtime.domain.IProcessObject;
 import org.opeum.runtime.domain.IProcessStep;

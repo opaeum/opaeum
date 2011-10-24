@@ -8,6 +8,7 @@ package nl.klasse.octopus.expressions.internal.analysis.expressions;
 import java.util.Iterator;
 import java.util.List;
 
+import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.analysis.Analyzer;
 import nl.klasse.octopus.expressions.internal.analysis.Environment;
 import nl.klasse.octopus.expressions.internal.parser.parsetree.ParsedBooleanLiteral;
@@ -30,7 +31,6 @@ import nl.klasse.octopus.expressions.internal.types.OclUndefinedLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.RealLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.StringLiteralExp;
 import nl.klasse.octopus.expressions.internal.types.TupleLiteralExp;
-import nl.klasse.octopus.expressions.internal.types.VariableDeclaration;
 import nl.klasse.octopus.model.CollectionMetaType;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.INameSpace;
@@ -140,7 +140,7 @@ public class LiteralExpAnalyzer extends Analyzer {
 						  "A variable defined in a Tuple literal must have a defined type"));
 			}
 			ExpressionAnalyzer expanalyzer = new ExpressionAnalyzer(currentFile, errors);
-			VariableDeclaration       var  = expanalyzer.analyzeVariableDeclaration(pvar, env, defaultType);
+			IVariableDeclaration       var  = expanalyzer.analyzeVariableDeclaration(pvar, env, defaultType);
 			ast.addTuplePart(var);
 			if( var.getType() == OclEngine.getCurrentOclLibrary().lookupStandardType(IOclLibrary.OclAnyTypeName) ){ 
 				// deduce type from init expression

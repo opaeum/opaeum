@@ -22,8 +22,8 @@ public class ActivityUtil {
 			Collection<INakedActivityVariable> variables = ((INakedStructuredActivityNode) node).getVariables();
 			for (INakedActivityVariable var : variables) {
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), var);
-				OJAnnotatedField field = new OJAnnotatedField(map.umlName(), map.javaTypePath());
-				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.umlName() + "\")");
+				OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
+				field.setInitExp("(" + map.javaType() + ")context.getVariable(\"" + map.fieldname() + "\")");
 				oper.getOwner().addToImports(map.javaTypePath());
 				oper.getBody().addToLocals(field);
 			}

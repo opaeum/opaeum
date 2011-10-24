@@ -34,8 +34,6 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 		}
 	}
 	private void nodes(OJEnum e,ActivityNodeContainer c,INakedClassifier msg){
-
-		
 		Collection<INakedActivityNode> activityNodes = c.getActivityNodes();
 		for(INakedActivityNode n:activityNodes){
 			String parentLiteral;
@@ -44,8 +42,9 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 					parentLiteral = "null";
 				}else{
 					OJPathName parentState = OJUtil.classifierPathname(msg.getNestingClassifier());
+					parentState.replaceTail(parentState.getLast() + "State");
 					e.addToImports(parentState);
-					parentLiteral = parentState.getLast() + "State." + Jbpm5Util.stepLiteralName(getEnclosingElement(n));
+					parentLiteral = parentState.getLast() + "." + Jbpm5Util.stepLiteralName(getEnclosingElement(n));
 				}
 				buildLiteral(n, e, parentLiteral);
 			}
