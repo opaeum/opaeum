@@ -17,20 +17,25 @@ public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorksp
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
 		Collection<Element> elements = EmfElementFinder.getCorrectOwnedElements(root);
-		if(!(root instanceof EmfWorkspace) && root.getEAnnotation(StereotypeNames.NUML_ANNOTATION)!=null){
+		if(!(root instanceof EmfWorkspace) && root.getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
 			@SuppressWarnings("rawtypes")
 			List contents = StereotypesHelper.getNumlAnnotation(root).getContents();
 			elements.addAll((Collection<? extends Element>) contents);
 		}
-		if(root instanceof Classifier){
-			Classifier c = (Classifier) root;
-			for(Association association:c.getAssociations()){
-				for(Property property:association.getNavigableOwnedEnds()){
-					if(c.equals(property.getOtherEnd().getType())){
-						elements.add(property);
+		try{
+			if(root instanceof Classifier){
+				Classifier c = (Classifier) root;
+				for(Association association:c.getAssociations()){
+					for(Property property:association.getNavigableOwnedEnds()){
+						if(c.equals(property.getOtherEnd().getType())){
+							elements.add(property);
+						}
 					}
 				}
 			}
+		}catch(ArrayIndexOutOfBoundsException e){
+			// HACK weird bug in:
+			// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
 		}
 		return elements;
 	}

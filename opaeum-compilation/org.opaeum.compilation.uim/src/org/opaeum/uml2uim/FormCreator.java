@@ -28,7 +28,7 @@ import org.opaeum.uim.layout.UimFullLayout;
 import org.opaeum.uim.layout.UimGridLayout;
 import org.opaeum.uim.layout.UimLayout;
 import org.opaeum.uim.util.ControlUtil;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 public class FormCreator{
 	private UimGridLayout mainTabLayout;

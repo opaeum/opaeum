@@ -16,14 +16,17 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Model;
+import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
+import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
@@ -45,8 +48,11 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
 						try{
-							TransformationProcess p = JavaTransformationProcessManager.getCurrentTransformationProcess();
-							if(p == null){
+							OpaeumEclipseContext.selectContext(model);
+							OpaeumEclipseContext currentContext =OpaeumEclipseContext.getCurrentContext();
+
+							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getUmlDirectory());
+							if(p == null||currentContext.isLoading()){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
@@ -55,26 +61,28 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 								});
 							}else{
 								monitor.beginTask("Generating Java Model", 90);
-								OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
-								currentContext. getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
-								p.replaceModel(new OJPackage());
-								p.replaceModel(new TextWorkspace());
+								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
+								EmfToOpaeumSynchronizer eos = currentContext.getEmfToOpaeumSynchronizer();
+								p.removeModel(OJWorkspace.class);
+								p.removeModel(TextWorkspace.class);
 								OpaeumConfig cfg = currentContext.getConfig();
 								PersistentNameGenerator png = new PersistentNameGenerator();
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								p.executeFrom(JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 60),false);
-								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,!cfg.getSourceFolderStrategy().isSingleProjectStrategy());
+								//TODO add features to SourceFolderStrategy to determine if this should be true, ie shouldCleanDirectoriesWhenGeneratingSingleModel
+								boolean shouldCleanDirectories=!cfg.getSourceFolderStrategy().isSingleProjectStrategy()||true; 
+								JavaProjectGenerator.writeTextFilesAndRefresh(new SubProgressMonitor(monitor, 30), p, currentContext,shouldCleanDirectories);
 								cfg.getSourceFolderStrategy().defineSourceFolders(cfg);
 								currentContext.getUmlDirectory().refreshLocal(IProject.DEPTH_INFINITE, null);
-								currentContext. getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
-
+								eos.setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
 							}
 						}catch(Exception e){
-							OpaeumEclipsePlugin.logError("Recompilation Failed", e);
-							// TODO Auto-generated catch block
 							e.printStackTrace();
+							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Recompilation Failed",e);
 						}finally{
 							monitor.done();
+									MemoryUtil.printMemoryUsage();
+
 						}
 						return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 					}

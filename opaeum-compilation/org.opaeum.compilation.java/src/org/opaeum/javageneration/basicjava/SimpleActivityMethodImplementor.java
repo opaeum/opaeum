@@ -42,7 +42,6 @@ import org.opaeum.javageneration.basicjava.simpleactions.VariableClearer;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableReader;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableValueAdder;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableValueRemover;
-import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
@@ -84,6 +83,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedTypedElement;
+import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
@@ -113,7 +113,7 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 					// multilplicity must be compatible
 					// only one node should
 					OJAnnotatedClass owner = findJavaClass(a.getContext());
-					OperationMap am = new NakedOperationMap(a.getSpecification() == null ? a : a.getSpecification());
+					OperationMap am = OJUtil.buildOperationMap(a.getSpecification() == null ? a : a.getSpecification());
 					OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.findOperation(am.javaOperName(), am.javaParamTypePaths());
 					implementActivityOn(a, oper);
 				}
@@ -219,10 +219,13 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 			if(incomingEdge instanceof INakedObjectFlow){
 				// TODO the originatingOBjectNode my not have the correct type after transformations and selections
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(cn.getActivity(), ((INakedObjectFlow) incomingEdge).getOriginatingObjectNode(), false);
-				OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
-				ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
-				decisionNodeVar.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(block, (INakedObjectFlow) incomingEdge));
-				elseBlock.addToLocals(decisionNodeVar);
+				if(block.findLocal(map.fieldname()) == null && operation.findParameter(map.fieldname()) == null){
+					// TODO check for more scopes
+					OJAnnotatedField decisionNodeVar = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
+					ObjectNodeExpressor expressor = new ObjectNodeExpressor(getLibrary());
+					decisionNodeVar.setInitExp(expressor.expressFeedingNodeForObjectFlowGuard(block, (INakedObjectFlow) incomingEdge));
+					elseBlock.addToLocals(decisionNodeVar);
+				}
 			}
 			OJIfStatement ifStatement = null;
 			for(INakedActivityEdge edge:cn.getConditionalOutgoing()){
@@ -316,7 +319,8 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 					resultTypePath = new OJPathName("java.util.Collection");
 					resultTypePath.addToElementTypes(targetMap.javaBaseTypePath());
 				}
-				OJAnnotatedOperation transformMany = new OJAnnotatedOperation(of.getTransformation().getMappingInfo().getJavaName().getAsIs(), resultTypePath);
+				String transformOperName = OJUtil.buildOperationMap(of.getTransformation()).javaOperName();
+				OJAnnotatedOperation transformMany = new OJAnnotatedOperation(transformOperName, resultTypePath);
 				owner.addToOperations(transformMany);
 				NakedStructuralFeatureMap argMap = OJUtil.buildStructuralFeatureMap(of.getActivity(), arg);
 				transformMany.addParam(argMap.fieldname(), argMap.javaTypePath());
@@ -328,11 +332,11 @@ public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisito
 				OJForStatement foreach = new OJForStatement("tmp", argMap.javaBaseTypePath(), argMap.fieldname());
 				transformMany.getBody().addToStatements(foreach);
 				if(targetMap.isOne() && !(of.getTarget() instanceof INakedExpansionNode)){
-					foreach.getBody().addToStatements("return " + of.getTransformation().getMappingInfo().getJavaName() + "(tmp)");
+					foreach.getBody().addToStatements("return " + transformOperName + "(tmp)");
 				}else if(of.getTransformation().getReturnParameter().getNakedMultiplicity().isOne()){
-					foreach.getBody().addToStatements("result.add(" + of.getTransformation().getMappingInfo().getJavaName() + "(tmp))");
+					foreach.getBody().addToStatements("result.add(" + transformOperName + "(tmp))");
 				}else{
-					foreach.getBody().addToStatements("result.addAll(" + of.getTransformation().getMappingInfo().getJavaName() + "(tmp))");
+					foreach.getBody().addToStatements("result.addAll(" + transformOperName + "(tmp))");
 				}
 			}
 		}

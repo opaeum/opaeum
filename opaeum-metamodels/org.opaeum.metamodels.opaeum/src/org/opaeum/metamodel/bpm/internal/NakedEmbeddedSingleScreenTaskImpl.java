@@ -35,7 +35,7 @@ public class NakedEmbeddedSingleScreenTaskImpl extends NakedOpaqueActionImpl imp
 		return outputValues;
 	}
 	public void setOutputValues(List<INakedOutputPin> outputValues){
-		removePins(this.outputValues);
+		replacePins(this.outputValues,outputValues);
 		this.outputValues = outputValues;
 	}
 	public INakedResponsibilityDefinition getTaskDefinition(){

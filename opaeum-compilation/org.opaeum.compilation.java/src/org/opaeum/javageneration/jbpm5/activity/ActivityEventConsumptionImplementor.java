@@ -71,7 +71,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 				if(n instanceof INakedAcceptCallAction){
 					INakedAcceptCallAction acc = (INakedAcceptCallAction) n;
 					INakedOperation no = acc.getOperation();
-					NakedOperationMap map = new NakedOperationMap(no);
+					NakedOperationMap map = OJUtil.buildOperationMap(no);
 					OJAnnotatedOperation oper = OperationAnnotator.findOrCreateOperation(activity, activityClass, map, true);
 					if(oper.getBody().findLocal("consumed") == null){
 						OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
@@ -143,7 +143,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 				String literalExpression = listener.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(node.getWaitingElement());
 				ifTaskTokenFound.getThenPart().addToStatements(
 						nodeInstanceContainer.getName() + ".getNodeInstance(" + nodeContainer.getName() + ".getNode(" + literalExpression
-								+ ".getId())).trigger(null, Node.CONNECTION_DEFAULT_TYPE)");
+								+ ".getId())).trigger(null, NodeImpl.CONNECTION_DEFAULT_TYPE)");
 				consumeEvent(listener, node, ifTaskTokenFound);
 			}
 		}else{
@@ -235,7 +235,7 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 		List<INakedOutputPin> result = aea.getResult();
 		Jbpm5ObjectNodeExpressor expressor = new Jbpm5ObjectNodeExpressor(getLibrary());
 		OJAnnotatedField context = new OJAnnotatedField("context", Jbpm5Util.getProcessContext());
-		context.setInitExp("new org.drools.spi.ProcessContext(org.opeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
+		context.setInitExp("new org.drools.spi.ProcessContext(org.opaeum.runtime.environment.Environment.getInstance().getComponent(StatefulKnowledgeSession.class))");
 		ifTokenFound.getThenPart().addToLocals(context);
 		ifTokenFound.getThenPart().addToStatements("((org.drools.spi.ProcessContext)context).setNodeInstance(waitingNode)");
 		for(int i = 0;i < result.size();i++){
@@ -281,6 +281,11 @@ public class ActivityEventConsumptionImplementor extends AbstractEventConsumptio
 			}
 		}
 		return results.values();
+	}
+	@Override
+	public void release(){
+		super.release();
+		actionBuilder=null;
 	}
 	private Jbpm5ActionBuilder<INakedActivityNode> getActionBuilder(){
 		if(actionBuilder == null){

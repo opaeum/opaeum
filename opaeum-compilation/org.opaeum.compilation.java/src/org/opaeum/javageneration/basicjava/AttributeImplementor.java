@@ -1,8 +1,9 @@
 package org.opaeum.javageneration.basicjava;
 
+import java.util.List;
+
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 
-import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -10,7 +11,6 @@ import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
-import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -33,9 +33,6 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.textmetamodel.TextWorkspace;
-import org.opeum.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	Java6ModelGenerator.class
@@ -45,10 +42,6 @@ import org.opeum.runtime.environment.Environment;
 public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
-	@Override
-	public void initialize(OJPackage javaModel,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
-		super.initialize(javaModel, config, textWorkspace, workspace);
-	}
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;
@@ -101,9 +94,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
-		if(map.fieldname().equals("stringsOnAcceptEventAction1")){
-			System.out.println();
-		}
 		INakedProperty p = map.getProperty();
 		if(!OJUtil.isBuiltIn(p)){
 			if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
@@ -112,8 +102,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				buildField(owner, map).setTransient(true);
 				OJOperation getter = buildGetter(owner, map, false);
 				getter.setBody(new OJBlock());
-				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null",OJAnnotatedOperation.RESULT+ "=" +  map.fieldname() + "=(" + map.javaBaseType() + ")" + Environment.class.getName()
-						+ ".getInstance().getComponent(" + map.javaTypePath() + ".class)");
+				OJIfStatement ifNull = new OJIfStatement(OJAnnotatedOperation.RESULT + "==null", OJAnnotatedOperation.RESULT + "=" + map.fieldname() + "=("
+						+ map.javaBaseType() + ")" + org.opaeum.runtime.environment.Environment.class.getName() + ".getInstance().getComponent(" + map.javaTypePath()
+						+ ".class)");
 				getter.getBody().addToStatements(ifNull);
 				owner.addToImports(map.javaBaseTypePath());
 			}else if(p.isDerived()){
@@ -132,6 +123,13 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			if(derived){
 				getter.initializeResultVariable(map.javaDefaultValue());
+			}else if(map.isMany() && isMap(map.getProperty())){
+				getter.initializeResultVariable(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 1) + "this." + map.fieldname() + ".values())");
+				OJAnnotatedOperation getterFor = new OJAnnotatedOperation(map.getter(), map.javaBaseTypePath());
+				addQualifierParams(getterFor, map.getProperty().getQualifiers());
+				getterFor.initializeResultVariable("null");
+				getterFor.getBody().addToStatements("result=" + getReferencePrefix(owner, map) + map.fieldname() + ".get(key.toString())");
+				owner.addToOperations(getterFor);
 			}else{
 				getter.initializeResultVariable("this." + map.fieldname());
 			}
@@ -151,9 +149,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			if(map.isMany()){
 				// These are all the same as for normal attributes
 				buildAdder(owner, map);
-				buildAddAll(owner, map);
+				if(!isMap(map.getProperty())){
+					buildAddAll(owner, map);
+					buildRemoveAll(owner, map);
+				}
 				buildRemover(owner, map);
-				buildRemoveAll(owner, map);
 				buildClear(owner, map);
 			}
 			buildSetter(c, owner, map);
@@ -229,12 +229,12 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	}
 	protected void buildGetter(OJAnnotatedClass owner,AssociationClassEndMap aMap){
 		NakedStructuralFeatureMap map = aMap.getMap();
-		OJOperation internalRemover = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
+		OJOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
-			internalRemover.setStatic(map.isStatic());
+			getter.setStatic(map.isStatic());
 			result.setInitExp(map.javaDefaultValue());
-			internalRemover.getBody().addToLocals(result);
+			getter.getBody().addToLocals(result);
 			StructuralFeatureMap mapToAssClass = aMap.getEndToAssocationClassMap();
 			INakedAssociation assc = (INakedAssociation) map.getProperty().getAssociation();
 			INakedProperty otherEnd = map.getProperty().getOtherEnd();
@@ -242,14 +242,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			NakedStructuralFeatureMap mapFromAssClassToOtherEnd = new NakedStructuralFeatureMap(fromAssToOtherEnd);
 			if(map.isMany()){
 				OJForStatement foreach = new OJForStatement("cur", mapToAssClass.javaBaseTypePath(), getReferencePrefix(owner, map) + mapToAssClass.getter() + "()");
-				internalRemover.getBody().addToStatements(foreach);
+				getter.getBody().addToStatements(foreach);
 				foreach.getBody().addToStatements("result.add(cur." + mapFromAssClassToOtherEnd.getter() + "())");
 			}else{
 				result.setInitExp(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "." + aMap.getAssocationClassToOtherEndMap().getter() + "()");
 			}
-			internalRemover.getBody().addToStatements("return result");
+			getter.getBody().addToStatements("return result");
 		}
-		owner.addToOperations(internalRemover);
+		owner.addToOperations(getter);
 	}
 	protected void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
@@ -265,12 +265,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				buildInitExpression(owner, map, field);
 			}
 			buildAdder(owner, map);
-			buildAddAll(owner, map);
+			if(!isMap(map.getProperty())){
+				buildSetter(umlOwner, owner, map);
+				buildAddAll(owner, map);
+				buildRemoveAll(owner, map);
+			}
 			buildRemover(owner, map);
-			buildRemoveAll(owner, map);
 			buildClear(owner, map);
+		}else{
+			buildSetter(umlOwner, owner, map);
 		}
-		buildSetter(umlOwner, owner, map);
 		buildGetter(owner, map, false);
 		if(field != null){
 			applyStereotypesAsAnnotations((p), field);
@@ -282,11 +286,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	}
 	protected void buildInternalRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJAnnotatedOperation remover = new OJAnnotatedOperation(map.internalRemover());
-		remover.addParam("val", map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			remover.setStatic(map.isStatic());
 			if(map.isMany()){
-				remover.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".remove(val)");
+				if(isMap(map.getProperty())){
+					List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
+					addQualifierParams(remover, qualifiers);
+					remover.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".remove(key.toString())");
+				}else{
+					remover.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".remove(val)");
+				}
 			}else{
 				String remove = getReferencePrefix(owner, map) + map.fieldname() + "=null";
 				String condition = map.getter() + "()!=null && val!=null && val.equals(" + map.getter() + "())";
@@ -294,24 +303,61 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				remover.getBody().addToStatements(ifEquals);
 			}
 		}
+		remover.addParam("val", map.javaBaseTypePath());
 		owner.addToOperations(remover);
 	}
 	protected void buildInternalAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-		adder.addParam("val", map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 			if(map.isMany()){
-				adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
+				if(isMap(map.getProperty())){
+					List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
+					addQualifierParams(adder, qualifiers);
+					for(INakedProperty q:qualifiers){
+						// if we get here, all qualifiers are backed by properties on the baseType
+						NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
+						adder.getBody().addToStatements("val." + qMap.setter() + "(" + qMap.fieldname() + ")");
+					}
+					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".put(key.toString(),val)");
+				}else{
+					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
+				}
 			}else{
 				adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + "=val");
 			}
 		}
+		adder.addParam("val", map.javaBaseTypePath());
 		owner.addToOperations(adder);
 	}
-	OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
+	private void addQualifierParams(OJAnnotatedOperation adder,List<INakedProperty> qualifiers){
+		OJAnnotatedField key = new OJAnnotatedField("key", new OJPathName("StringBuilder"));
+		adder.getBody().addToLocals(key);
+		key.setInitExp("new StringBuilder()");
+		for(INakedProperty q:qualifiers){
+			NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
+			adder.addParam(qMap.fieldname(), qMap.javaBaseTypePath());
+			if(qMap.getProperty().getNakedBaseType() instanceof INakedSimpleType){
+				adder.getBody().addToStatements("key.append(" + qMap.fieldname() + ".toString())");
+			}else{
+				adder.getBody().addToStatements("key.append(" + qMap.fieldname() + ".getUid())");
+			}
+		}
+	}
+	protected boolean isMap(INakedProperty property){
+		return property.getQualifiers().size() > 0 && property.getName().equals("updateChangeLog");
+	}
+	protected OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+		OJPathName javaTypePath;
+		if(map.isMany() && isMap(map.getProperty())){
+			javaTypePath = new OJPathName("java.util.Map");
+			javaTypePath.addToElementTypes(new OJPathName("String"));
+			javaTypePath.addToElementTypes(map.javaBaseTypePath());
+		}else{
+			javaTypePath = map.javaTypePath();
+		}
+		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), javaTypePath);
 		if(map.isJavaPrimitive() || map.isCollection()){
 			field.setInitExp(map.javaDefaultValue());
 		}
@@ -328,60 +374,105 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	protected void buildInitExpression(OJAnnotatedClass owner,NakedStructuralFeatureMap map,OJAnnotatedField field){
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		owner.addToImports(defaultValue);
-		field.setInitExp("new " + defaultValue.getCollectionTypeName() + "()");
+		if(map.isMany() && isMap(map.getProperty())){
+			owner.addToImports(new OJPathName("java.util.HashMap"));
+			field.setInitExp("new HashMap<String," + map.javaBaseType() + ">()");
+		}else{
+			field.setInitExp("new " + defaultValue.getCollectionTypeName() + "()");
+		}
 	}
 	protected OJOperation buildAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.adder());
-		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		if(!(owner instanceof OJAnnotatedInterface)){
 			INakedProperty p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
+			String internalAddStatement = map.internalAdder() + "(" + map.fieldname() + ")";
+			if(isMap(map.getProperty())){
+				StringBuilder sb = addQualifierArguments(map, adder);
+				internalAddStatement = map.internalAdder() + "(" + sb.toString() + map.fieldname() + ")";
+			}
 			if(!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 				if(otherMap.isMany()){
 					if(!OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
-						adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
+						if(isMap(p.getOtherEnd())){
+							adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(" + addQualifierArguments(otherMap, "this") + "this)");
+						}else{
+							adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
+						}
 					}
-					adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
+					adder.getBody().addToStatements(internalAddStatement);
 				}else{
 					OJIfStatement ifNotNul2 = new OJIfStatement(map.fieldname() + "!=null");
 					adder.getBody().addToStatements(ifNotNul2);
 					ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() + "." + otherMap.getter() + "())");
-					ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
-					ifNotNul2.getThenPart().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
+					if(isMap(p.getOtherEnd())){
+						ifNotNul2.getThenPart().addToStatements(
+								map.fieldname() + "." + otherMap.internalAdder() + "(" + addQualifierArguments(otherMap, "this") + "this)");
+					}else{
+						ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
+					}
+					ifNotNul2.getThenPart().addToStatements(internalAddStatement);
 					// if(p.getBaseType() instanceof INakedInterface){
 					// adder.getBody().addToStatements(map.fieldname() + "." +
 					// otherMap.getter() + "().add(this)");
 					// }
 				}
 			}else{
-				adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
+				adder.getBody().addToStatements(internalAddStatement);
 			}
 		}
+		adder.addParam(map.fieldname(), map.javaBaseTypePath());
 		owner.addToOperations(adder);
 		return adder;
 	}
+	private StringBuilder addQualifierArguments(NakedStructuralFeatureMap map,String target){
+		StringBuilder result = new StringBuilder();
+		for(INakedProperty p:map.getProperty().getQualifiers()){
+			NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(p);
+			result.append(target);
+			result.append(".");
+			result.append(qMap.getter());
+			result.append("(),");
+		}
+		return result;
+	}
+	private StringBuilder addQualifierArguments(NakedStructuralFeatureMap map,OJOperation adder){
+		StringBuilder sb = new StringBuilder();
+		for(INakedProperty q:map.getProperty().getQualifiers()){
+			NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
+			sb.append(qMap.fieldname());
+			sb.append(',');
+			adder.addParam(qMap.fieldname(), qMap.javaTypePath());
+		}
+		return sb;
+	}
 	protected OJOperation buildRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation remover = new OJAnnotatedOperation(map.remover());
-		remover.addParam(map.fieldname(), map.javaBaseTypePath());
 		INakedProperty p = map.getProperty();
 		if(!(owner instanceof OJAnnotatedInterface)){
 			remover.setStatic(map.isStatic());
 			remover.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
+			String removeStatement = map.internalRemover() + "(" + map.fieldname() + ")";
+			if(isMap(map.getProperty())){
+				StringBuilder sb = addQualifierArguments(map, remover);
+				removeStatement = map.internalAdder() + "(" + sb.toString() + map.fieldname() + ")";
+			}
 			if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
 				remover.getBody().addToStatements(ifNotNull);
 				if(!OJUtil.hasOJClass((INakedClassifier) map.getProperty().getAssociation())){
 					ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(this)");
 				}
-				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
+				ifNotNull.getThenPart().addToStatements(removeStatement);
 			}else{
-				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
+				ifNotNull.getThenPart().addToStatements(removeStatement);
 			}
 			owner.addToOperations(remover);
 		}
+		remover.addParam(map.fieldname(), map.javaBaseTypePath());
 		return remover;
 	}
 	protected OJOperation buildRemoveAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
@@ -390,29 +481,41 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			OJAnnotatedField tmpList = new OJAnnotatedField("tmp", map.javaTypePath());
-			tmpList.setInitExp(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 1) + map.fieldname() + ")");
-			adder.getBody().addToLocals(tmpList);
-			OJForStatement forAll = new OJForStatement();
-			forAll.setCollection("tmp");
-			forAll.setElemName("o");
-			forAll.setElemType(map.javaBaseTypePath());
-			forAll.setBody(new OJBlock());
-			forAll.getBody().addToStatements(map.remover() + "(o)");
-			adder.getBody().addToStatements(forAll);
+			iterateAndRemove(map, adder);
 			owner.addToOperations(adder);
 		}
 		return adder;
 	}
-	protected OJOperation buildClear(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
-		OJOperation adder = new OJAnnotatedOperation(map.clearer());
-		if(!(owner instanceof OJAnnotatedInterface)){
-			adder.setStatic(map.isStatic());
-			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			adder.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+	private void iterateAndRemove(NakedStructuralFeatureMap map,OJOperation adder){
+		OJAnnotatedField tmpList = new OJAnnotatedField("tmp", map.javaTypePath());
+		tmpList.setInitExp(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 1) + map.getter() + "())");
+		adder.getBody().addToLocals(tmpList);
+		OJForStatement forAll = new OJForStatement();
+		forAll.setCollection("tmp");
+		forAll.setElemName("o");
+		forAll.setElemType(map.javaBaseTypePath());
+		forAll.setBody(new OJBlock());
+		if(isMap(map.getProperty())){
+			forAll.getBody().addToStatements(map.remover() + "(" + OJUtil.addQualifierArguments(map.getProperty().getQualifiers(), "o") + "o)");
+		}else{
+			forAll.getBody().addToStatements(map.remover() + "(o)");
 		}
-		owner.addToOperations(adder);
-		return adder;
+		adder.getBody().addToStatements(forAll);
+	}
+	protected OJOperation buildClear(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+		OJOperation clear = new OJAnnotatedOperation(map.clearer());
+		if(!(owner instanceof OJAnnotatedInterface)){
+			clear.setStatic(map.isStatic());
+			clear.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
+			if(isMap(map.getProperty())){
+				iterateAndRemove(map, clear);
+				clear.getBody().addToStatements(map.fieldname() + ".clear()");
+			}else{
+				clear.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+			}
+		}
+		owner.addToOperations(clear);
+		return clear;
 	}
 	protected OJOperation buildAddAll(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJOperation adder = new OJAnnotatedOperation(map.allAdder());
@@ -443,18 +546,21 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());
 			}else if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				String args = "(this)";
 				if(map.isManyToOne()){
+					if(isMap(prop.getOtherEnd())){
+						args = "(" + OJUtil.addQualifierArguments(prop.getOtherEnd().getQualifiers(), "this") + "this)";
+					}
 					// remove "this" from existing reference
 					OJIfStatement ifNotNull = new OJIfStatement();
 					ifNotNull.setCondition(getReferencePrefix(owner, map) + map.getter() + "()!=null");
-					ifNotNull.getThenPart().addToStatements(
-							getReferencePrefix(owner, map) + map.getter() + "()." + otherMap.internalRemover() + "((" + owner.getName() + ")this)");
+					ifNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.getter() + "()." + otherMap.internalRemover() + args);
 					setter.getBody().addToStatements(ifNotNull);
 					// add "this" to new reference
 					OJIfStatement ifParamNotNull = new OJIfStatement();
 					ifParamNotNull.setName(AttributeImplementor.IF_PARAM_NOT_NULL);
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");
-					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
+					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + args);
 					ifParamNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
 					setter.getBody().addToStatements(ifParamNotNull);
 				}else if(map.isMany()){
@@ -475,7 +581,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					ifNull.addToElsePart(ifNotSame);
 					ifNotSame.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
 					// remove "this" from existing reference
-					ifNotSame.getThenPart().addToStatements("oldValue." + otherMap.internalRemover() + "(this)");
+					ifNotSame.getThenPart().addToStatements("oldValue." + otherMap.internalRemover() + args);
 					// add "this" to new reference\
 					OJIfStatement ifParamNotNull = new OJIfStatement();
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");

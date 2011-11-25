@@ -32,7 +32,7 @@ public abstract class NakedWriteStructuralFeatureActionImpl extends NakedStructu
 	}
 	public void setValue(INakedInputPin value){
 		if(this.value != value){
-			this.removeOwnedElement(this.value, true);
+			this.replacePin(this.value, value);
 			this.value = value;
 			linkFeature();
 		}

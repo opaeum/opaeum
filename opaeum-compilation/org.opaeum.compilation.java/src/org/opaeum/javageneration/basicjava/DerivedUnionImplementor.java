@@ -6,7 +6,6 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
 import org.opaeum.metamodel.core.INakedInterface;
@@ -32,7 +31,7 @@ public class DerivedUnionImplementor extends AbstractStructureVisitor{
 	private OJAnnotatedOperation findOrCreateDerivedUnionGetter(INakedClassifier owner,NakedStructuralFeatureMap derivedUnionMap,OJClass c){
 		// just a default implementation so that all subclasses are not required
 		// to implement it. Remember this getter may have been implemented in the superclass only.
-		OJAnnotatedOperation getter = (OJAnnotatedOperation) OJUtil.findOperation(c, derivedUnionMap.getter());
+		OJAnnotatedOperation getter = (OJAnnotatedOperation) c.getUniqueOperation(derivedUnionMap.getter());
 		if(getter == null){
 			getter = new OJAnnotatedOperation(derivedUnionMap.getter());
 			getter.setReturnType(derivedUnionMap.javaTypePath());

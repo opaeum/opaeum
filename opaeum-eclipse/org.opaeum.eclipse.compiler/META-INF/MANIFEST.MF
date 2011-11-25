@@ -36,4 +36,6 @@ Require-Bundle: org.opaeum.eclipse.core,
  org.eclipse.core.filesystem
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.opaeum.eclipse.starter
+Export-Package: org.opaeum.eclipse.javasync,
+ org.opaeum.eclipse.starter,
+ org.opaeum.eclipse.versioning

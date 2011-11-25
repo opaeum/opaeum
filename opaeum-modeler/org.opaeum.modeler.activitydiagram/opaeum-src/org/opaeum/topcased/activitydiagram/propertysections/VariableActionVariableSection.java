@@ -14,16 +14,27 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.Variable;
 import org.eclipse.uml2.uml.VariableAction;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
-import org.opaeum.topcased.propertysections.AbstractComboPropertySection;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 
-public class VariableActionVariableSection extends AbstractComboPropertySection{
+public class VariableActionVariableSection extends OpaeumChooserPropertySection{
 	protected EStructuralFeature getFeature(){
 		return UMLPackage.eINSTANCE.getVariableAction_Variable();
 	}
 	protected String getLabelText(){
 		return "Variable :";
 	}
-	protected List<? extends EObject> getComboValues(){
+	protected ILabelProvider getLabelProvider(){
+		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
+	}
+	private VariableAction getAction(){
+		return((VariableAction) getEObject());
+	}
+	@Override
+	protected Object getFeatureValue(){
+		return getAction().getVariable();
+	}
+	@Override
+	protected Object[] getComboFeatureValues(){
 		List<Variable> result = new ArrayList<Variable>();
 		Element e = getAction();
 		while(!(e instanceof Activity)){
@@ -35,20 +46,6 @@ public class VariableActionVariableSection extends AbstractComboPropertySection{
 			}
 			e = e.getOwner();
 		}
-		return result;
-	}
-	protected ILabelProvider getLabelProvider(){
-		return new AdapterFactoryLabelProvider(new UMLItemProviderAdapterFactory());
-	}
-	private VariableAction getAction(){
-		return((VariableAction) getEObject());
-	}
-	@Override
-	protected String getFeatureAsText(){
-		return "";
-	}
-	@Override
-	protected Object getOldFeatureValue(){
-		return getAction().getVariable();
+		return result.toArray();
 	}
 }

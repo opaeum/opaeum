@@ -78,7 +78,7 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectOffset" xmi:id="_1JSzksbwEd-qWtMD5IZMIA" id="stereotypeEdgeObject"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_UjcoMMkJEeCqJJ6VBTMkzg" position="77,226" size="171,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_UjcoMMkJEeCqJJ6VBTMkzg" position="63,174" size="171,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UjcoMckJEeCqJJ6VBTMkzg" presentation="default">
         <element href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
       </semanticModel>
@@ -92,6 +92,23 @@
         <property xmi:id="_UjcoNskJEeCqJJ6VBTMkzg" key="eStructuralFeatureID" value="38"/>
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UjcoN8kJEeCqJJ6VBTMkzg" presentation="default">
           <element href="OpaeumSimpleTypes.library.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_mKmi4BW6EeGS9eDihWY8Xw" position="71,271" size="160,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mKmi4RW6EeGS9eDihWY8Xw" presentation="default">
+        <element href="OpaeumSimpleTypes.library.uml#_mKrbYBW6EeGS9eDihWY8Xw"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_mKmi4hW6EeGS9eDihWY8Xw">
+        <property xmi:id="_mKmi4xW6EeGS9eDihWY8Xw" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mKmi5BW6EeGS9eDihWY8Xw" presentation="default">
+          <element href="OpaeumSimpleTypes.library.uml#_mKrbYBW6EeGS9eDihWY8Xw"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_mKmi5RW6EeGS9eDihWY8Xw">
+        <property xmi:id="_mKmi5hW6EeGS9eDihWY8Xw" key="eStructuralFeatureID" value="38"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_mKmi5xW6EeGS9eDihWY8Xw" presentation="default">
+          <element href="OpaeumSimpleTypes.library.uml#_mKrbYBW6EeGS9eDihWY8Xw"/>
         </semanticModel>
       </contained>
     </contained>

@@ -72,6 +72,8 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 		getTable().setInput(getFeatureOwner(), getFeature());
 		getTable().setEditingDomain(getEditingDomain());
 		getTable().refresh();
+		getTable().pack();
+		getTable().getParent().getParent().getParent().layout();
 	}
 	protected void createWidgets(Composite composite){
 		setTable(new ReferenceViewerComposite(composite, new String[]{

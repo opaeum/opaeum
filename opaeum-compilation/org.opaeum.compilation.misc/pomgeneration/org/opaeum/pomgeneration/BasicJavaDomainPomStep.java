@@ -22,8 +22,8 @@ public class BasicJavaDomainPomStep extends PomGenerationStep{
 	}
 	private void addNakedumlDomain(Collection<Dependency> result){
 		Dependency nakedUmlUtil = POMFactory.eINSTANCE.createDependency();
-		nakedUmlUtil.setGroupId("org.opeum");
-		nakedUmlUtil.setArtifactId("opeum-runtime-domain");
+		nakedUmlUtil.setGroupId("org.opaeum");
+		nakedUmlUtil.setArtifactId("opaeum-runtime-domain");
 		nakedUmlUtil.setVersion("${opaeum.version}");
 		nakedUmlUtil.setScope("compile");
 		nakedUmlUtil.setType("jar");

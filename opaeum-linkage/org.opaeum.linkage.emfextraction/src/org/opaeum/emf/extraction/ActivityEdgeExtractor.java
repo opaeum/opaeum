@@ -59,6 +59,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 	}
 	@VisitBefore
 	public void visitObjectFlow(ObjectFlow f,NakedObjectFlowImpl nakedObjectFlow){
+
 		Activity activity = getActivity(f);
 		INakedClassifier nc = getNearestContext(activity);
 		initializeEdge(f, nc, nakedObjectFlow);
@@ -82,7 +83,7 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		}
 		nakedHandler.setExceptionTypes(nakedTypes);
 	}
-	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,INakedActivityEdge nae){
+	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,NakedActivityEdgeImpl nae){
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
 		// Workaround: Remember that ActivityEdge.ownedElements does not include the guard or weight, so the default deletion logic does not
@@ -93,8 +94,12 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		if(ae.getWeight() == null){
 			nae.setWeight(null);
 		}
-		if(!nae.isMarkedForDeletion() && (nae.getSource() == null || nae.getTarget() == null)){
-			throw new IllegalStateException(ae.getSource() + "<-" + ae + "->" + ae.getTarget());
+		if(!nae.isMarkedForDeletion()){
+			if((nae.getSource() == null || nae.getTarget() == null)){
+				throw new IllegalStateException(ae.getSource() + "<-" + ae + "->" + ae.getTarget());
+			}else{
+				nae.setIndexInOutgoing(ae.getSource().getOutgoings().indexOf(ae));
+			}
 		}
 	}
 	/**

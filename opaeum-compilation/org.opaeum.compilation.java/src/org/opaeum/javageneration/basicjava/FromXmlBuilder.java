@@ -1,5 +1,6 @@
 package org.opaeum.javageneration.basicjava;
 
+import java.util.List;
 import java.util.Map;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -29,9 +30,9 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.name.NameConverter;
-import org.opeum.runtime.domain.IntrospectionUtil;
-import org.opeum.runtime.environment.Environment;
+import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -154,6 +155,9 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			}
 		}
 	}
+	private boolean isMap(NakedStructuralFeatureMap map){
+		return map.umlName().equals("updateChangeLog");
+	}
 	private void populatePropertyValues(NakedStructuralFeatureMap map,OJWhileStatement w){
 		OJBlock thenPart = iterateThroughPropertyValues(map, w);
 		OJAnnotatedField curVal = new OJAnnotatedField("curVal", map.javaBaseTypePath());
@@ -162,11 +166,17 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		thenPart.addToStatements(tryNewInstance);
 		tryNewInstance.getTryPart().addToStatements("curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
 		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
-		tryNewInstance.getCatchPart().addToStatements(
-				"curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
+		tryNewInstance.getCatchPart().addToStatements("curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
 		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
-		String writer = map.isMany() ? map.adder() : map.setter();
-		thenPart.addToStatements("this." + writer + "(curVal)");
+		if(isMap(map)){
+			List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
+			String varName = "curVal";
+			String string = OJUtil.addQualifierArguments(qualifiers, varName);
+			thenPart.addToStatements("this." + map.adder() + "(" + string + "curVal)");
+		}else{
+			String writer = map.isMany() ? map.adder() : map.setter();
+			thenPart.addToStatements("this." + writer + "(curVal)");
+		}
 		thenPart.addToStatements("map.put(curVal.getUid(), curVal)");
 	}
 	protected OJBlock iterateThroughPropertyValues(NakedStructuralFeatureMap map,OJWhileStatement w){

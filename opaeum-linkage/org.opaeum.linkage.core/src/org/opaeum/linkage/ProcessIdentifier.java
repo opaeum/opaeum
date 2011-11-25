@@ -10,7 +10,9 @@ import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.StateMachineKind;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-@StepDependency(phase = LinkagePhase.class,after = {DependencyCalculator.class},requires = {
+@StepDependency(phase = LinkagePhase.class,after = {
+	DependencyCalculator.class
+},requires = {
 	DependencyCalculator.class
 })
 public class ProcessIdentifier extends AbstractModelElementLinker{
@@ -38,7 +40,8 @@ public class ProcessIdentifier extends AbstractModelElementLinker{
 		}
 		if(getBehaviorUtil().requiresExternalInput(a)){
 			a.setActivityKind(ActivityKind.PROCESS);
-		}else if(a.getOwnedBehaviors().size()>0 || a.getOperations().size()>0 || a.hasMultipleConcurrentResults() || BehaviorUtil.hasParallelFlows(a) || BehaviorUtil.getNearestActualClass(a) == null || BehaviorUtil.hasLoopBack(a)){
+		}else if(a.getOwnedBehaviors().size() > 0 || a.getOperations().size() > 0 || a.hasMultipleConcurrentResults() || BehaviorUtil.hasParallelFlows(a)
+				|| BehaviorUtil.getNearestActualClass(a) == null || BehaviorUtil.hasLoopBack(a)){
 			a.setActivityKind(ActivityKind.COMPLEX_SYNCHRONOUS_METHOD);
 		}else{
 			a.setActivityKind(ActivityKind.SIMPLE_SYNCHRONOUS_METHOD);
@@ -52,5 +55,10 @@ public class ProcessIdentifier extends AbstractModelElementLinker{
 	}
 	private void setBehaviorUtil(BehaviorUtil behaviorUtil){
 		this.behaviorUtil = behaviorUtil;
+	}
+	@Override
+	public void release(){
+		super.release();
+		behaviorUtil=null;
 	}
 }

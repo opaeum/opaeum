@@ -24,7 +24,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		Java6ModelGenerator.class,HashcodeBuilder.class,FormatterBuilder.class

@@ -42,7 +42,7 @@ public class EnumerationLiteralImplementor extends AbstractJavaProducingVisitor{
 			OJEnum myClass = (OJEnum) findJavaClass(c);
 			IAttribute valuesAttr = c.findClassAttribute("values");
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedProperty) valuesAttr);
-			OJOperation values = OJUtil.findOperation(myClass, "getValues");
+			OJOperation values = myClass.getUniqueOperation("getValues");
 			// TODO find out why the getter is not generated
 			if(values == null){
 				values = new OJAnnotatedOperation("getValues", map.javaTypePath());

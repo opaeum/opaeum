@@ -57,18 +57,18 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			return new NakedPortImpl();
 		}else if(e instanceof Property){
 			Property p = (Property) e;
-			if(p.getAssociation() != null){
-				for(Property property:p.getAssociation().getMemberEnds()){
-					if(property.getType() == null){
-						getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
-						// broken association a'la topcased
-						return null;
-					}
-				}
-			}
-			if(p.getOwner() instanceof Property || p.getAssociation() instanceof Extension){
+			if(p instanceof ExtensionEnd || p.getOtherEnd() instanceof ExtensionEnd || p.getOwner() instanceof Property || p.getAssociation() instanceof Extension){
 				return null;
 			}else{
+				if(p.getAssociation() != null){
+					for(Property property:p.getAssociation().getMemberEnds()){
+						if(property.getType() == null){
+							getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
+							// broken association a'la topcased
+							return null;
+						}
+					}
+				}
 				return new NakedPropertyImpl();
 			}
 		}else if(e instanceof Operation){
@@ -97,7 +97,10 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			// navigable = false;
 			// }
 			INakedClassifier owner = null;
-			np.getOwnerElement().removeOwnedElement(np, false);
+			if(np.getOwnerElement() != null){
+				// Hack!! this null check is necessary due to an intermittent bug where the owning association cannot be found
+				np.getOwnerElement().removeOwnedElement(np, false);
+			}
 			if(navigable){
 				// The classifier should be the owner of navigable ends
 				owner = (INakedClassifier) getNakedPeer(opposite.getType());
@@ -176,7 +179,6 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			if(nakedPeer != null){
 				nakedOper.addMethod((INakedBehavior) nakedPeer);
 			}else{
-
 				System.out.println("MEthod not found" + b.getQualifiedName());
 			}
 		}

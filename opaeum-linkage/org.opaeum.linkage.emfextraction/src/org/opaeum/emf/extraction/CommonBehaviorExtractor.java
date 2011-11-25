@@ -28,6 +28,7 @@ public abstract class CommonBehaviorExtractor extends AbstractExtractorFromEmf{
 		}
 		return (Activity) e;
 	}
+	
 	protected INakedClassifier getNearestContext(Behavior b){
 		if(b != null && b.getContext() != null){
 			return (INakedClassifier) getNakedPeer(b.getContext());

@@ -57,16 +57,26 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	public Classifier lookupClassifier(List<String> names){
 		Classifier cls = getContextClassifier();
 		if(cls.getOwner() instanceof Namespace){
-			// Try the nestedClassifier/ownedBehavior containment hierarchy first
-			Namespace ns=(Namespace) cls.getOwner();
+			// Try the owner's nestedClassifier/ownedBehavior containment hierarchy first
+			Namespace ns = (Namespace) cls.getOwner();
 			for(String string:names){
-				if(ns!= null){
+				if(ns != null){
 					ns = (Namespace) ns.getMember(string, false, UMLPackage.eINSTANCE.getClassifier());
 				}
 			}
 			if(ns instanceof Classifier){
 				return (Classifier) ns;
 			}
+		}
+		// Try the nestedClassifier/ownedBehavior containment hierarchy first
+		Namespace ns = cls;
+		for(String string:names){
+			if(ns != null){
+				ns = (Namespace) ns.getMember(string, false, UMLPackage.eINSTANCE.getClassifier());
+			}
+		}
+		if(ns instanceof Classifier){
+			return (Classifier) ns;
 		}
 		Classifier result = super.lookupClassifier(names);
 		if(result == null){
@@ -83,7 +93,7 @@ public final class OpaeumEnvironment extends UMLEnvironment{
 	@Override
 	public List<State> getStates(Classifier owner,List<String> pathPrefix){
 		if(owner instanceof TypeTypeImpl){
-			owner=((TypeTypeImpl) owner).getReferredType();
+			owner = ((TypeTypeImpl) owner).getReferredType();
 		}
 		EList<State> result = new BasicEList.FastCompare<State>();
 		collectStates(owner, pathPrefix, result);

@@ -22,6 +22,7 @@ public class NakedReplyActionImpl extends NakedActionImpl implements INakedReply
 		return replyValues;
 	}
 	public void setReplyValues(List<INakedInputPin> replyValues){
+		replacePins(this.replyValues, replyValues);
 		this.replyValues = replyValues;
 	}
 	public void setReturnInfo(INakedInputPin returnInfo){

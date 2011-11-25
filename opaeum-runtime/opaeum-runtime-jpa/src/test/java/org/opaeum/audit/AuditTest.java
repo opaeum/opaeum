@@ -32,6 +32,7 @@ public class AuditTest extends TestCase {
 		AuditHistory ph = new AuditHistory(em, pao, "updatedOn");
 		SortedSet<PropertyChange<?>> history = ph.getPropertyHistory(propertyName, updatedDate, new Date());
 		Assert.assertEquals(1, history.size());
+		Assert.assertEquals(AuditedAction.CREATE, history.first().auditEntry.getAction());
 		NullPropertyChange npc = (NullPropertyChange) history.first();
 		IntrospectionUtil.getProperty(propertyName, ParentAuditedObject.class).getWriteMethod().invoke(pao, expectedValue);
 		em.getTransaction().begin();
@@ -39,6 +40,13 @@ public class AuditTest extends TestCase {
 		history = ph.getPropertyHistory(propertyName, updatedDate, new Date());
 		Assert.assertEquals(2, history.size());
 		assertEquals(expectedValue, history);
+		Assert.assertEquals(AuditedAction.UPDATE, history.last().auditEntry.getAction());
+		pao.setDeletedOn(new Date());
+		em.getTransaction().begin();
+		em.getTransaction().commit();
+		history = ph.getPropertyHistory("deletedOn", updatedDate, new Date());
+		Assert.assertEquals(2, history.size());//Initial Null insert and now update
+		Assert.assertEquals(AuditedAction.DELETE, history.last().auditEntry.getAction());
 		em.close();
 	}
 

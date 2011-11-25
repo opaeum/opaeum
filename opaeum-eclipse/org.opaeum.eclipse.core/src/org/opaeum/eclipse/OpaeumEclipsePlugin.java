@@ -20,6 +20,7 @@ import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
+import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
 
@@ -47,6 +48,7 @@ public class OpaeumEclipsePlugin extends Plugin implements IRegistryChangeListen
 		}
 		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
 		OpaeumConfig.registerClass(TextStrategyFactory.class);
+		OpaeumConfig.registerClass(BlobStrategyFactory.class);
 		IExtensionRegistry r = Platform.getExtensionRegistry();
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", TRANSFORMATION_STEP_EXTENSION_POINT_ID), transformationSteps);
 		registerExtensions(r.getConfigurationElementsFor("org.opaeum.eclipse", SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID), sourceFolderStrategies);

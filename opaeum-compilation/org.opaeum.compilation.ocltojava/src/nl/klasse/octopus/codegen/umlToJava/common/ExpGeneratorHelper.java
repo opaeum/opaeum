@@ -62,7 +62,7 @@ public class ExpGeneratorHelper {
 	}
 
 	public static String javaFieldName(IVariableDeclaration elem){
-		return "_"+elem.getName();
+		return StringHelpers.firstCharToLower(elem.getName());
 	}	
 
 	static public OJPathName makeListType(IClassifier elementType) {

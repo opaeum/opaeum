@@ -17,11 +17,11 @@ import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.name.SingularNameWrapper;
-import org.opeum.runtime.domain.ExceptionHolder;
-import org.opeum.runtime.environment.Environment;
+import org.opaeum.runtime.domain.ExceptionHolder;
+import org.opaeum.runtime.environment.Environment;
 
 public class Jbpm5Util{
-	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opeum.runtime.domain.UmlNodeInstance");
+	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
 	public static OJPathName jbpmKnowledgeBase(INakedElementOwner m){
 		OJPathName result = new OJPathName(m.getMappingInfo().getQualifiedJavaName());
 		return result.append("util").append(m.getMappingInfo().getJavaName().getCapped() + "KnowledgeBase");
@@ -49,7 +49,7 @@ public class Jbpm5Util{
 		return new OJPathName(ExceptionHolder.class.getName());
 	}
 	public static String endNodeFieldNameFor(INakedElement flow){
-		return "endNodeIn" + flow.getMappingInfo().getJavaName();
+		return "endNodeIn" + flow.getMappingInfo().getJavaName().getCapped();
 	}
 	public static OJPathName getWorkflowProcesInstance(){
 		return new OJPathName("org.jbpm.workflow.instance.WorkflowProcessInstance");
@@ -64,16 +64,16 @@ public class Jbpm5Util{
 		return node.getMappingInfo().getPersistentName().getAsIs() + "_choice";
 	}
 	public static void implementRelationshipWithProcess(OJAnnotatedClass ojBehavior,boolean persistent,String propertyPrefix){
-		OJAnnotatedField processInstanceField = OJUtil.addProperty(ojBehavior, propertyPrefix+"Instance", new OJPathName("WorkflowProcessInstance"), true);
+		OJAnnotatedField processInstanceField = OJUtil.addPersistentProperty(ojBehavior, propertyPrefix+"Instance", new OJPathName("WorkflowProcessInstance"), true);
 		processInstanceField.setTransient(true);
 		SingularNameWrapper name = new SingularNameWrapper(propertyPrefix, null);
 		if(persistent){
-			OJAnnotatedField processInstanceIdField = OJUtil.addProperty(ojBehavior, propertyPrefix + "InstanceId", new OJPathName("Long"), true);
+			OJAnnotatedField processInstanceIdField = OJUtil.addPersistentProperty(ojBehavior, propertyPrefix + "InstanceId", new OJPathName("Long"), true);
 			OJAnnotationValue column = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
 			column.putAttribute(new OJAnnotationAttributeValue("name", name.getUnderscored() + "_instance_id"));
 			processInstanceIdField.putAnnotation(column);
 			processInstanceField.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
-			OJOperation getter = OJUtil.findOperation(ojBehavior, "get" + name.getCapped() + "Instance");
+			OJOperation getter = ojBehavior.getUniqueOperation("get" + name.getCapped() + "Instance");
 			ojBehavior.addToImports(getWorkflowProcesInstance());
 			ojBehavior.addToImports(getWorkflowProcessImpl());
 			getter.setBody(new OJBlock());
@@ -94,6 +94,7 @@ public class Jbpm5Util{
 		getProcessDefinition.setReturnType(processDefinition);
 		ojBehavior.addToOperations(getProcessDefinition);
 		getProcessDefinition.getBody().addToStatements("return (WorkflowProcess) get" + name.getCapped() + "Instance().getProcess()");
+
 	}
 	public static OJPathName getProcessContext(){
 		return new OJPathName("org.drools.runtime.process.ProcessContext");

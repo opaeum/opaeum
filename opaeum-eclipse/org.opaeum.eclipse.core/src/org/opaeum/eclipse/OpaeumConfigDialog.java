@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Text;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 public class OpaeumConfigDialog extends TitleAreaDialog{
 	private Text txtWorkspaceName;

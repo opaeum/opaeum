@@ -75,4 +75,12 @@ public class ValidationPhase implements TransformationPhase<AbstractValidator,IN
 				NameUniquenessValidation.class, PropertyValidation.class, GeneralizationValidator.class, PrimitiveValidator.class, BehaviorValidator.class,
 				ActivityValidator.class));
 	}
+	@Override
+	public void release(){
+		this.modelWorkspace=null;
+		for(AbstractValidator v:this.validators){
+			v.release();
+		}
+		
+	}
 }

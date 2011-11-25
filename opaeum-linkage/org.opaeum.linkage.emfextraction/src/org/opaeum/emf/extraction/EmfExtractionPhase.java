@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Association;
@@ -36,6 +36,7 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 
@@ -69,6 +70,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 	}
 	@Override
 	public void execute(TransformationContext context){
+		context.getLog().registerInstanceCountMap(NakedElementOwnerImpl.counts);
 		context.getLog().startTask("Extracting Uml Elements from EMF", extractors.size());
 		modelWorkspace.clearGeneratingModelOrProfiles();
 		for(AbstractExtractorFromEmf v:extractors){
@@ -80,15 +82,23 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		}
 		if(!context.getLog().isCanceled()){
 			for(Package gp:emfWorkspace.getGeneratingModelsOrProfiles()){
-				INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
-				nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
-				modelWorkspace.addGeneratingRootObject(nakedPackage);
+				if(!gp.eIsProxy()){
+					INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
+					if(nakedPackage.getStatus() == null || !nakedPackage.getStatus().isExtracted()){
+						nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
+					}
+					modelWorkspace.addGeneratingRootObject(nakedPackage);
+				}
 			}
 			emfWorkspace.calculatePrimaryModels();
-			for(Package gp:emfWorkspace.getPrimaryModels()){
-				INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
-				nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
-				modelWorkspace.addPrimaryModel(nakedPackage);
+			for(Package gp:emfWorkspace.getPotentialGeneratingModels()){
+				if(!gp.eIsProxy()){
+					INakedRootObject nakedPackage = (INakedRootObject) getNakedPackage(gp);
+					if(nakedPackage.getStatus() == null || !nakedPackage.getStatus().isExtracted()){
+						nakedPackage.setStatus(RootObjectStatus.EXTRACTED);
+					}
+					modelWorkspace.addPrimaryModel(nakedPackage);
+				}
 			}
 			for(INakedRootObject ro:modelWorkspace.getRootObjects()){
 				if(!ro.getStatus().isExtracted()){
@@ -131,21 +141,21 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 				if(o != null){
 					result.add((Element) o);
 					if(emfWorkspace.getCrossReferenceAdapter() != null){
-						Collection<Setting> non = emfWorkspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(o,true);
+						Collection<Setting> non = emfWorkspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(o, true);
 						for(Setting setting:non){
 							Element processibleElement = getProcessibleElement(setting.getEObject());
 							if(processibleElement != null){
 								result.add(processibleElement);
 							}
 						}
-//						Collection<Setting> nav= emfWorkspace.getCrossReferenceAdapter().getInverseReferences(o,true);
-//						for(Setting setting:nav){
-//							EObject eObject2 = setting.getEObject();
-//							Element processibleElement = getProcessibleElement(eObject2);
-//							if(processibleElement != null){
-//								result.add(processibleElement);
-//							}
-//						}
+						// Collection<Setting> nav= emfWorkspace.getCrossReferenceAdapter().getInverseReferences(o,true);
+						// for(Setting setting:nav){
+						// EObject eObject2 = setting.getEObject();
+						// Element processibleElement = getProcessibleElement(eObject2);
+						// if(processibleElement != null){
+						// result.add(processibleElement);
+						// }
+						// }
 					}
 				}
 				if(eObject instanceof Association){
@@ -194,5 +204,14 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation() == null) || e instanceof Classifier
 				|| e instanceof Transition || e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization
 				|| e instanceof InterfaceRealization;
+	}
+	@Override
+	public void release(){
+		this.emfWorkspace = null;
+		this.modelWorkspace = null;
+		for(AbstractExtractorFromEmf e:this.extractors){
+			e.release();
+		}
+		// TODO Auto-generated method stub
 	}
 }

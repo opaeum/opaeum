@@ -57,7 +57,6 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private CodeGenerationStrategy codeGenerationStrategy;
 	private String mappedImplementationType;
 	private Collection<INakedClassifier> subClasses = new HashSet<INakedClassifier>();
-	private List<INakedComment> comments = new ArrayList<INakedComment>();
 	private List<INakedConstraint> ownedRules = new ArrayList<INakedConstraint>();
 	private List<IOclContext> definitions = new ArrayList<IOclContext>();
 	private List<IAttribute> oclDefAttributes = new ArrayList<IAttribute>();
@@ -176,6 +175,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 				for(INakedProperty newProperty:attributes){
 					if(presentProperty.getName().equals(newProperty.getName())){
 						iter.remove();
+						break;
 					}
 				}
 			}

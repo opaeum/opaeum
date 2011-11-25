@@ -45,9 +45,9 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.HibernateEntity;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
-import org.opeum.runtime.domain.HibernateEntity;
-import org.opeum.runtime.environment.Environment;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
@@ -86,7 +86,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			owner.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.annotations.AccessType"), "field"));
 			List<IClassifier> g = complexType.getGeneralizations();
 			if(!isInSingleTableInheritance(complexType)){
-				OJAnnotatedField deletedOn = OJUtil.addProperty(owner, "deletedOn", new OJPathName(Date.class.getName()), true);
+				OJAnnotatedField deletedOn = OJUtil.addPersistentProperty(owner, "deletedOn", new OJPathName(Date.class.getName()), true);
 				deletedOn.setComment("Initialise to 1000 from 1970");
 				deletedOn.setInitExp("Stdlib.FUTURE");
 				owner.addToImports(UtilityCreator.getUtilPathName().append("Stdlib"));
@@ -97,10 +97,10 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 						"javax.persistence.TemporalType"), "TIMESTAMP"));
 				deletedOn.addAnnotationIfNew(temporal);
 				if(g != null && g.size() > 0){
-					OJOperation o = OJUtil.findOperation(owner, "setDeletedOn");
+					OJOperation o = owner.getUniqueOperation("setDeletedOn");
 					o.getBody().addToStatements("super.setDeletedOn(deletedOn)");
 				}
-				OJOperation markDeleted = OJUtil.findOperation(owner, "markDeleted");
+				OJOperation markDeleted = owner.getUniqueOperation("markDeleted");
 				if(markDeleted != null){
 					markDeleted.getBody().addToStatements("setDeletedOn(new Date())");
 				}
@@ -131,10 +131,12 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
 					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName() + "_type="
-							+ (config.shouldBeCm1Compatible() ?  "'" + ojOwner.getPathName().toString() +"'" : owner.getMappingInfo().getOpaeumId().toString()));
+							+ (config.shouldBeCm1Compatible() ? "'" + ojOwner.getPathName().toString() + "'" : owner.getMappingInfo().getOpaeumId().toString()));
 					field.addAnnotationIfNew(where);
 				}
-				if(f.isOrdered()){
+				if(isMap(map)){
+					implementMap(map, field);
+				}else if(f.isOrdered()){
 					implementListSemantics(f, map, field);
 				}else if(map.isManyToMany()){
 					implementCollectionId(field);
@@ -167,48 +169,58 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 	}
+	private void implementMap(NakedStructuralFeatureMap map,OJAnnotatedField field){
+		OJAnnotationValue mapKey = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MapKey"));
+		field.putAnnotation(mapKey);
+		OJAnnotationValue mapColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
+		mapKey.putAttribute("columns", mapColumn);
+		mapColumn.putAttribute("name", "parameter_name");
+	}
 	private void mapXToOne(INakedClassifier owner,NakedStructuralFeatureMap map){
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
-		INakedProperty f = map.getProperty();
-		if(f.getNakedBaseType() instanceof INakedEnumeration){
-			if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
-				HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+		if(field != null){
+			// may have been removed by custom transformation
+			INakedProperty f = map.getProperty();
+			if(f.getNakedBaseType() instanceof INakedEnumeration){
+				if(transformationContext.isFeatureSelected(EnumResolverImplementor.class)){
+					HibernateUtil.addEnumResolverAsCustomType(field, new OJPathName(f.getNakedBaseType().getMappingInfo().getQualifiedJavaName()));
+				}
+			}else if(f.getNakedBaseType() instanceof INakedSimpleType){
+				// TODO use strategies
+			}else if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
+				HibernateUtil.addAny(field, map);
+				if(f.isComposite()){
+					HibernateUtil.addCascade(field, CascadeType.ALL);
+					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
+				}
+			}else if(isPersistent(f.getNakedBaseType())){
 			}
-		}else if(f.getNakedBaseType() instanceof INakedSimpleType){
-			// TODO use strategies
-		}else if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
-			HibernateUtil.addAny(field, map);
-			if(f.isComposite()){
-				HibernateUtil.addCascade(field, CascadeType.ALL);
-				field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
+			// TODO parameterize development mode
+			if(f.isRequired() && !f.isInverse() && !JpaAnnotator.DEVELOPMENT_MODE){
+				if(f.getNakedBaseType().conformsTo(workspace.getOpaeumLibrary().getStringType())){
+					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotEmpty")));
+				}else{
+					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));
+				}
 			}
-		}else if(isPersistent(f.getNakedBaseType())){
-		}
-		// TODO parameterize development mode
-		if(f.isRequired() && !f.isInverse() && !JpaAnnotator.DEVELOPMENT_MODE){
-			if(f.getNakedBaseType().conformsTo(workspace.getOpaeumLibrary().getStringType())){
-				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotEmpty")));
-			}else{
-				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));
+			if(map.isOneToOne() && f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
+				// NB! for CM both sides need to be non-inverse
+				JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
+				OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
+				if(oneToOne == null){
+					field.findAnnotation(new OJPathName("javax.persistence.ManyToOne")).removeAttribute("mappedBy");
+				}else{
+					oneToOne.removeAttribute("mappedBy");
+				}
 			}
-		}
-		if(map.isOneToOne() && f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
-			// NB! for CM both sides need to be non-inverse
-			JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
-			OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
-			if(oneToOne == null){
-				field.findAnnotation(new OJPathName("javax.persistence.ManyToOne")).removeAttribute("mappedBy");
-			}else{
-				oneToOne.removeAttribute("mappedBy");
+			OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
+			if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse() && field.findAnnotation(indexPathName) == null){
+				OJAnnotationValue index = new OJAnnotationValue(indexPathName);
+				index.putAttribute("name", "idx_" + owner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName());
+				index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());
+				field.putAnnotation(index);
 			}
-		}
-		OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
-		if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse() && field.findAnnotation(indexPathName) == null){
-			OJAnnotationValue index = new OJAnnotationValue(indexPathName);
-			index.putAttribute("name", "idx_" + owner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName());
-			index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());
-			field.putAnnotation(index);
 		}
 	}
 	private void implementListSemantics(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
@@ -287,13 +299,13 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		if(map.getFeature() instanceof INakedProperty){
 			INakedProperty p = (INakedProperty) map.getFeature();
 			if(!p.isDerived() && p.getOtherEnd() != null && p.getOtherEnd().isComposite()){
-				OJOperation setter = OJUtil.findOperation(ojOwner, map.setter());
+				OJOperation setter = ojOwner.getUniqueOperation(map.setter());
 				for(OJStatement s:setter.getBody().getStatements()){
 					if(s instanceof OJIfStatement && AttributeImplementor.IF_PARAM_NOT_NULL.equals(s.getName())){
 						OJIfStatement ifParamNotNull = (OJIfStatement) s;
 						ifParamNotNull.getThenPart().addToStatements("setDeletedOn(Stdlib.FUTURE)");
 						ifParamNotNull.setElsePart(new OJBlock());
-						OJOperation markDeleted = OJUtil.findOperation(ojOwner, "markDeleted");
+						OJOperation markDeleted = ojOwner.getUniqueOperation("markDeleted");
 						if(markDeleted != null){
 							ifParamNotNull.getElsePart().addToStatements("markDeleted()");
 						}else{
@@ -332,5 +344,8 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		ojClass.addToImports(set.getDeepCopy());
 		setExtends.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
 		allInstances.setReturnType(setExtends);
+	}
+	private boolean isMap(NakedStructuralFeatureMap map){
+		return map.umlName().equals("updateChangeLog");
 	}
 }

@@ -101,7 +101,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		instance.setInitExp("new " + pn.getLast() + "()");
 		knowledgeBase.addToFields(instance);
 		//TODO introduce constant
-		knowledgeBase.setSuperclass(new OJPathName("org.opeum.runtime.jbpm.AbstractJbpmKnowledgeBase"));
+		knowledgeBase.setSuperclass(new OJPathName("org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase"));
 	}
 	@Override
 	protected int getThreadPoolSize(){

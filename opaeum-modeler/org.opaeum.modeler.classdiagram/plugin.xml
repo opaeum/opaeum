@@ -1,1639 +1,923 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-   <extension-point id="operationBodyLanguage" name="Language for operation body" schema="schema/operationBodyLanguage.exsd"/>
-   <extension-point id="umlValidationExtension" name="umlValidationExtension" schema="schema/umlValidationExtension.exsd"/>
-   <extension-point id="extendedValidator" name="extendedValidator" schema="schema/extendedValidator.exsd"/>
-
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            class="org.opaeum.topcased.uml.editor.OpaeumEditor"
-            icon="icons/UML.gif"
-            default="true"
-            name="Opaeum Editor"
-            id="org.topcased.modeler.uml.editor.UMLEditor"
-            contributorClass="org.topcased.modeler.uml.actions.UMLEditorActionBarContributor"
-            extensions="umldi,uml">
-      </editor>
-   </extension>
-   
+	<extension-point id="operationBodyLanguage" name="Language for operation body" schema="schema/operationBodyLanguage.exsd" />
+	<extension-point id="umlValidationExtension" name="umlValidationExtension" schema="schema/umlValidationExtension.exsd" />
+	<extension-point id="extendedValidator" name="extendedValidator" schema="schema/extendedValidator.exsd" />
+	<extension point="org.eclipse.ui.editors">
+		<editor class="org.opaeum.topcased.uml.editor.OpaeumEditor" icon="icons/UML.gif" default="true" name="Opaeum Editor" id="org.topcased.modeler.uml.editor.UMLEditor"
+			contributorClass="org.topcased.modeler.uml.actions.UMLEditorActionBarContributor" extensions="umldi,uml">
+		</editor>
+	</extension>
 	<extension point="org.eclipse.ui.newWizards">
-		<category id="org.opaeum.eclipse.newWizards" name="Opaeum"/>
-   </extension>
-		
+		<category id="org.opaeum.eclipse.newWizards" name="Opaeum" />
+	</extension>
 	<extension point="org.eclipse.ui.newWizards">
-		<wizard
-			icon="icons/UML.gif"
-			class="org.topcased.modeler.uml.wizards.NewUMLDiagrams"
-			category="org.opaeum.eclipse.newWizards"
-			name="Executable Model with Opaeum"
+		<wizard icon="icons/UML.gif" class="org.topcased.modeler.uml.wizards.NewUMLDiagrams" category="org.opaeum.eclipse.newWizards" name="Executable Model with Opaeum"
 			id="org.topcased.modeler.uml.wizards.NewUMLDiagrams">
 			<description>Create a new Executable Model with Opaeum</description>
-			<selection class="org.eclipse.core.resources.IResource"/>
+			<selection class="org.eclipse.core.resources.IResource" />
 		</wizard>
 	</extension>
-
 	<extension point="org.eclipse.emf.ecore.extension_parser">
-		<parser
-			type="umldi"
-			class="org.topcased.modeler.diagrams.model.util.DiagramsResourceFactoryImpl" />
+		<parser type="umldi" class="org.topcased.modeler.diagrams.model.util.DiagramsResourceFactoryImpl" />
 	</extension>
-
-   <extension point="org.topcased.modeler.templates">
-      <template
-            di="templates/businessmodel/%name%.umldi"
-            editorId="org.topcased.modeler.uml.editor.UMLEditor"
-            id="org.topcased.modeler.uml.templates.common"
-            isDiagram="false"
-            model="templates/businessmodel/%name%.uml"
-            name="Business Modeling"/>
-      <template
-            di="templates/profilediagram/%name%.umldi"
-            editorId="org.topcased.modeler.uml.editor.UMLEditor"
-            id="org.topcased.modeler.uml.templates.profilediagram"
-            isDiagram="false"
-            model="templates/profilediagram/%name%.uml"
-            name="Profile Template"/>
-   </extension>
-   
-   <extension point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension targetID="org.topcased.modeler.perspective">
-         <newWizardShortcut id="org.topcased.modeler.uml.wizards.NewUMLDiagrams"/>
-      </perspectiveExtension>
-   </extension>
-
-
+	<extension point="org.topcased.modeler.templates">
+		<template di="templates/businessmodel/%name%.umldi" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.topcased.modeler.uml.templates.common"
+			isDiagram="false" model="templates/businessmodel/%name%.uml" name="Business Modeling" />
+		<template di="templates/profilediagram/%name%.umldi" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.topcased.modeler.uml.templates.profilediagram"
+			isDiagram="false" model="templates/profilediagram/%name%.uml" name="Profile Template" />
+	</extension>
+	<extension point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="org.topcased.modeler.perspective">
+			<newWizardShortcut id="org.topcased.modeler.uml.wizards.NewUMLDiagrams" />
+		</perspectiveExtension>
+	</extension>
 	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferenceInitializer"/>
+		<initializer class="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferenceInitializer" />
 	</extension>
-	
 	<extension point="org.topcased.modeler.topcasedPreferenceInitializer">
-	         <preferenceInitializer
-               class="org.opaeum.topcased.uml.ClassDiagramTopcasedPreferenceInitializer"
-               editorId="org.topcased.modeler.uml.editor.UMLEditor"
-               id="org.topcased.modeler.uml.classdiagram.preferenceInitializer">
-         </preferenceInitializer>
-         <preferenceInitializer
-               class="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramTopcasedPreferenceInitializer"
-               editorId="org.topcased.modeler.uml.editor.UMLEditor"
-               id="org.topcased.modeler.uml.usecasediagram.preferenceInitializer">
-         </preferenceInitializer>
-         <preferenceInitializer
-               class="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramTopcasedPreferenceInitializer"
-               editorId="org.topcased.modeler.uml.editor.UMLEditor"
-               id="org.topcased.modeler.uml.profilediagram.preferenceInitializer">
-         </preferenceInitializer>
+		<preferenceInitializer class="org.opaeum.topcased.uml.ClassDiagramTopcasedPreferenceInitializer" editorId="org.topcased.modeler.uml.editor.UMLEditor"
+			id="org.topcased.modeler.uml.classdiagram.preferenceInitializer">
+		</preferenceInitializer>
+		<preferenceInitializer class="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramTopcasedPreferenceInitializer" editorId="org.topcased.modeler.uml.editor.UMLEditor"
+			id="org.topcased.modeler.uml.usecasediagram.preferenceInitializer">
+		</preferenceInitializer>
+		<preferenceInitializer class="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramTopcasedPreferenceInitializer" editorId="org.topcased.modeler.uml.editor.UMLEditor"
+			id="org.topcased.modeler.uml.profilediagram.preferenceInitializer">
+		</preferenceInitializer>
 	</extension>
-
 	<extension point="org.eclipse.ui.propertyPages">
-
-		<page
-			id="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
-			class="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			category="org.topcased.modeler.preferences.property.ModelerPreferencePage"
+		<page id="org.topcased.modeler.uml.preferences.property.UMLPreferencePage" class="org.topcased.modeler.uml.preferences.UMLPreferencePage" category="org.topcased.modeler.preferences.property.ModelerPreferencePage"
 			name="UML/SysML">
-				<enabledWhen>
-					<adapt type="org.eclipse.core.resources.IProject"/>
-				</enabledWhen>
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
 		</page>
-
 		<!-- Property pages common to all UML diagrams -->
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
-			name="All Diagram">          
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
+			category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage" name="All Diagram">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-            id="org.topcased.modeler.uml.alldiagram.preferences.property.CommentPreferencePage"
-            class="org.topcased.modeler.uml.alldiagram.preferences.CommentPreferencePage"
-            category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-            name="Comment">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.property.CommentPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.CommentPreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" name="Comment">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
 		</page>
-		<page
-            category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-            class="org.topcased.modeler.uml.alldiagram.preferences.PackagePreferencePage"
-            id="org.topcased.modeler.uml.alldiagram.preferences.property.PackagePreferencePage"
-            name="Package">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-     	 </page>
-		<page
-            id="org.topcased.modeler.uml.alldiagram.preferences.property.CommentLinkPreferencePage"
-            class="org.topcased.modeler.uml.alldiagram.preferences.CommentLinkPreferencePage"
-            category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-            name="Comment Link">
-             <enabledWhen>
-       			  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.PackagePreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.property.PackagePreferencePage" name="Package">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.property.DependencyPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.DependencyPreferencePage"
-			category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-			name="Dependency">
-				<enabledWhen>
-					<adapt type="org.eclipse.core.resources.IProject"/>
-				</enabledWhen>
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.property.CommentLinkPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.CommentLinkPreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" name="Comment Link">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.property.UsagePreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.UsagePreferencePage"
-			category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-			name="Usage">
-				<enabledWhen>
-					<adapt type="org.eclipse.core.resources.IProject"/>
-				</enabledWhen>
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.property.DependencyPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.DependencyPreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" name="Dependency">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
 		</page>
-					<page
-            category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-            class="org.topcased.modeler.uml.alldiagram.preferences.PackageImportPreferencePage"
-            id="org.topcased.modeler.uml.alldiagram.preferences.property.PackageImportPreferencePage"
-            name="Package Import">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-            class="org.topcased.modeler.uml.alldiagram.preferences.PackageMergePreferencePage"
-            id="org.topcased.modeler.uml.alldiagram.preferences.property.PackageMergePreferencePage"
-            name="Package Merge">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.property.UsagePreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.UsagePreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" name="Usage">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.PackageImportPreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.property.PackageImportPreferencePage" name="Package Import">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.PackageMergePreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.property.PackageMergePreferencePage" name="Package Merge">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
 		<!-- Property pages of the Class diagram -->
-		<page
-			category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-			name="Class Diagram">          
+		<page category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" name="Class Diagram">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-	  <page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.ClassPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.ClassPreferencePage"
-            name="Class">
-              <enabledWhen>
-              <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.InterfacePreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.InterfacePreferencePage"
-            name="Interface">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.DataTypePreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.DataTypePreferencePage"
-            name="Data Type">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.OperationPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.OperationPreferencePage"
-            name="Operation">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.PropertyPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.PropertyPreferencePage"
-            name="Property">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.InstanceSpecificationPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.InstanceSpecificationPreferencePage"
-            name="Instance Specification">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.AssociationPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.AssociationPreferencePage"
-            name="Association">
-    		 <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.GeneralizationPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.GeneralizationPreferencePage"
-            name="Generalization">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.InterfaceRealizationPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.InterfaceRealizationPreferencePage"
-            name="Interface Realization">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ClassPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ClassPreferencePage" name="Class">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
 		</page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage"
-            name="Slot">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.EnumerationPreferencePage"
-            name="Enumeration">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationLiteralPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.EnumerationLiteralPreferencePage"
-            name="Enumeration Literal">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.PrimitiveTypePreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.PrimitiveTypePreferencePage"
-            name="Primitive Type">
-             <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-			<page
-            category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-            class="org.topcased.modeler.uml.classdiagram.preferences.AssociationClassPreferencePage"
-            id="org.topcased.modeler.uml.classdiagram.preferences.property.AssociationClassPreferencePage"
-            name="Association Class">
-              <enabledWhen>
-            	  <adapt type="org.eclipse.core.resources.IProject"/>
-            </enabledWhen>
-      </page>
-
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.InterfacePreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.InterfacePreferencePage" name="Interface">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.DataTypePreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.DataTypePreferencePage" name="Data Type">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.OperationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.OperationPreferencePage" name="Operation">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.PropertyPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.PropertyPreferencePage" name="Property">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.InstanceSpecificationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.InstanceSpecificationPreferencePage" name="Instance Specification">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.AssociationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.AssociationPreferencePage" name="Association">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.GeneralizationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.GeneralizationPreferencePage" name="Generalization">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.InterfaceRealizationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.InterfaceRealizationPreferencePage" name="Interface Realization">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage" name="Slot">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.EnumerationPreferencePage" name="Enumeration">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationLiteralPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.EnumerationLiteralPreferencePage" name="Enumeration Literal">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.PrimitiveTypePreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.PrimitiveTypePreferencePage" name="Primitive Type">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.AssociationClassPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.AssociationClassPreferencePage" name="Association Class">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject" />
+			</enabledWhen>
+		</page>
 		<!-- Property pages of the Use Case diagram -->
-     	<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			name="Use Case Diagram">       
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage" category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage" name="Use Case Diagram">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.ActorPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.ActorPreferencePage"
-			name="Actor">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.ActorPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.ActorPreferencePage" name="Actor">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCasePreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCasePreferencePage"
-			name="Use Case">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCasePreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCasePreferencePage" name="Use Case">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.ExtendPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.ExtendPreferencePage"
-			name="Extend">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.ExtendPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.ExtendPreferencePage" name="Extend">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.IncludePreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.IncludePreferencePage"
-			name="Include">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.IncludePreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.IncludePreferencePage" name="Include">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.AssociationPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.AssociationPreferencePage"
-			name="Association">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.AssociationPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.AssociationPreferencePage" name="Association">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.GeneralizationPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.GeneralizationPreferencePage"
-			name="Generalization">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.GeneralizationPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.GeneralizationPreferencePage" name="Generalization">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.property.BoundaryBoxPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.BoundaryBoxPreferencePage"
-			name="Boundary Box">
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.property.BoundaryBoxPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.property.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.BoundaryBoxPreferencePage" name="Boundary Box">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		
 		<!-- Property pages of the Profile diagram -->
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
-			category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			name="Profile Diagram">       
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage" category="org.topcased.modeler.uml.preferences.property.UMLPreferencePage"
+			class="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" name="Profile Diagram">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.property.StereotypePreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.StereotypePreferencePage"
-			name="Stereotype">
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.property.StereotypePreferencePage" category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
+			class="org.topcased.modeler.uml.profilediagram.preferences.StereotypePreferencePage" name="Stereotype">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.property.PropertyPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.PropertyPreferencePage"
-			name="Property">
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.property.PropertyPreferencePage" category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
+			class="org.topcased.modeler.uml.profilediagram.preferences.PropertyPreferencePage" name="Property">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.property.GeneralizationPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.GeneralizationPreferencePage"
-			name="Generalization">
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.property.GeneralizationPreferencePage" category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
+			class="org.topcased.modeler.uml.profilediagram.preferences.GeneralizationPreferencePage" name="Generalization">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.property.ElementImportPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.ElementImportPreferencePage"
-			name="Element Import">
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.property.ElementImportPreferencePage" category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
+			class="org.topcased.modeler.uml.profilediagram.preferences.ElementImportPreferencePage" name="Element Import">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.property.ExtensionPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.ExtensionPreferencePage"
-			name="Extension">
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.property.ExtensionPreferencePage" category="org.topcased.modeler.uml.profilediagram.preferences.property.ProfileDiagramPreferencePage"
+			class="org.topcased.modeler.uml.profilediagram.preferences.ExtensionPreferencePage" name="Extension">
 			<enabledWhen>
-				<adapt type="org.eclipse.core.resources.IProject"/>
+				<adapt type="org.eclipse.core.resources.IProject" />
 			</enabledWhen>
 		</page>
-  <page
-        category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-        class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintPreferencePage"
-        id="org.topcased.modeler.uml.alldiagram.preferences.property.ConstraintPreferencePage"
-        name="Constraint">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-        class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintLinkPreferencePage"
-        id="org.topcased.modeler.uml.alldiagram.preferences.property.ConstraintLinkPreferencePage"
-        name="Constraint Link">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage"
-        class="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage"
-        id="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage"
-        name="Stereotype">
-     <enabledWhen>
-        <adapt 
-        	type ="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SignalPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.SignalPreferencePage"
-        name="Signal">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ReceptionPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.ReceptionPreferencePage"
-        name="Reception">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        name="Events">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.AnyReceiveEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.AnyReceiveEventPreferencePage"
-        name="Any Receive Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.CallEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.CallEventPreferencePage"
-        name="Call Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ChangeEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.ChangeEventPreferencePage"
-        name="Change Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.CreationEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.CreationEventPreferencePage"
-        name="Creation Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.DestructionEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.DestructionEventPreferencePage"
-        name="Destruction Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ExecutionEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.ExecutionEventPreferencePage"
-        name="Execution Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveOperationEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.ReceiveOperationEventPreferencePage"
-        name="Receive Operation Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveSignalEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.ReceiveSignalEventPreferencePage"
-        name="Receive Signal Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SendOperationEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.SendOperationEventPreferencePage"
-        name="Send Operation Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SendSignalEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.SendSignalEventPreferencePage"
-        name="SendSignalEvent">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SignalEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.SignalEventPreferencePage"
-        name="Signal Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.TimeEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.property.TimeEventPreferencePage"
-        name="Time Event">
-     <enabledWhen>
-        <adapt
-              type="org.eclipse.core.resources.IProject">
-        </adapt>
-     </enabledWhen>
-  </page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintPreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.property.ConstraintPreferencePage" name="Constraint">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintLinkPreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.property.ConstraintLinkPreferencePage" name="Constraint Link">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.property.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage" name="Stereotype">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SignalPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.SignalPreferencePage" name="Signal">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ReceptionPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ReceptionPreferencePage" name="Reception">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" name="Events">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.AnyReceiveEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.AnyReceiveEventPreferencePage" name="Any Receive Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.CallEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.CallEventPreferencePage" name="Call Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ChangeEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ChangeEventPreferencePage" name="Change Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.CreationEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.CreationEventPreferencePage" name="Creation Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.DestructionEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.DestructionEventPreferencePage" name="Destruction Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ExecutionEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ExecutionEventPreferencePage" name="Execution Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveOperationEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ReceiveOperationEventPreferencePage" name="Receive Operation Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveSignalEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.ReceiveSignalEventPreferencePage" name="Receive Signal Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SendOperationEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.SendOperationEventPreferencePage" name="Send Operation Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SendSignalEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.SendSignalEventPreferencePage" name="SendSignalEvent">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SignalEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.SignalEventPreferencePage" name="Signal Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.property.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.TimeEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.property.TimeEventPreferencePage" name="Time Event">
+			<enabledWhen>
+				<adapt type="org.eclipse.core.resources.IProject">
+				</adapt>
+			</enabledWhen>
+		</page>
 	</extension>
-
-
 	<extension point="org.eclipse.ui.preferencePages">
-
-		<page
-			id="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			class="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			category="org.topcased.modeler.preferences.ModelerPreferencePage"
-			name="UML/SysML"/>
-	
+		<page id="org.topcased.modeler.uml.preferences.UMLPreferencePage" class="org.topcased.modeler.uml.preferences.UMLPreferencePage" category="org.topcased.modeler.preferences.ModelerPreferencePage"
+			name="UML/SysML" />
 		<!-- Preference pages common to all UML diagrams -->
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			name="All Diagram"/>
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.CommentPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.CommentPreferencePage"
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			name="Comment"/>
-		<page
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.PackagePreferencePage"
-			id="org.topcased.modeler.uml.alldiagram.preferences.PackagePreferencePage"
-			name="Package"/>
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.CommentLinkPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.CommentLinkPreferencePage"
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			name="Comment Link"/>
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.DependencyPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.DependencyPreferencePage"
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			name="Dependency"/>
-		<page
-			id="org.topcased.modeler.uml.alldiagram.preferences.UsagePreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.UsagePreferencePage"
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			name="Usage"/>
-
-		<page
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.PackageImportPreferencePage"
-			id="org.topcased.modeler.uml.alldiagram.preferences.PackageImportPreferencePage"
-			name="Package Import"/>
-		<page
-			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-			class="org.topcased.modeler.uml.alldiagram.preferences.PackageMergePreferencePage"
-			id="org.topcased.modeler.uml.alldiagram.preferences.PackageMergePreferencePage"
-			name="Package Merge"/>
-			
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
+			category="org.topcased.modeler.uml.preferences.UMLPreferencePage" name="All Diagram" />
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.CommentPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.CommentPreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" name="Comment" />
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.PackagePreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.PackagePreferencePage" name="Package" />
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.CommentLinkPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.CommentLinkPreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" name="Comment Link" />
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.DependencyPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.DependencyPreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" name="Dependency" />
+		<page id="org.topcased.modeler.uml.alldiagram.preferences.UsagePreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.UsagePreferencePage"
+			category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" name="Usage" />
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.PackageImportPreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.PackageImportPreferencePage" name="Package Import" />
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.PackageMergePreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.PackageMergePreferencePage" name="Package Merge" />
 		<!-- Preference pages of the Class diagram -->
-		<page
-			category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			name="Class Diagram"/>
-
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.ClassPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.ClassPreferencePage"
-			name="Class"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.InterfacePreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.InterfacePreferencePage"
-			name="Interface"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.DataTypePreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.DataTypePreferencePage"
-			name="DataType"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.OperationPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.OperationPreferencePage"
-			name="Operation"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.PropertyPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.PropertyPreferencePage"
-			name="Property"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.InstanceSpecificationPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.InstanceSpecificationPreferencePage"
-			name="Instance Specification"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.AssociationPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.AssociationPreferencePage"
-			name="Association"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.GeneralizationPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.GeneralizationPreferencePage"
-			name="Generalization"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.InterfaceRealizationPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.InterfaceRealizationPreferencePage"
-			name="Interface Realization"/>            
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage"
-			name="Slot"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.EnumerationPreferencePage"
-			name="Enumeration"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationLiteralPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.EnumerationLiteralPreferencePage"
-			name="Enumeration Literal"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.PrimitiveTypePreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.PrimitiveTypePreferencePage"
-			name="Primitive Type"/>
-		<page
-			category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-			class="org.topcased.modeler.uml.classdiagram.preferences.AssociationClassPreferencePage"
-			id="org.topcased.modeler.uml.classdiagram.preferences.AssociationClassPreferencePage"
-			name="Association Class"/>
-
+		<page category="org.topcased.modeler.uml.preferences.UMLPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" name="Class Diagram" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ClassPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.ClassPreferencePage" name="Class" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.InterfacePreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.InterfacePreferencePage" name="Interface" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.DataTypePreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.DataTypePreferencePage" name="DataType" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.OperationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.OperationPreferencePage" name="Operation" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.PropertyPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.PropertyPreferencePage" name="Property" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.InstanceSpecificationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.InstanceSpecificationPreferencePage" name="Instance Specification" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.AssociationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.AssociationPreferencePage" name="Association" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.GeneralizationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.GeneralizationPreferencePage" name="Generalization" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.InterfaceRealizationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.InterfaceRealizationPreferencePage" name="Interface Realization" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.SlotPreferencePage" name="Slot" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.EnumerationPreferencePage" name="Enumeration" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.EnumerationLiteralPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.EnumerationLiteralPreferencePage" name="Enumeration Literal" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.PrimitiveTypePreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.PrimitiveTypePreferencePage" name="Primitive Type" />
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.AssociationClassPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.AssociationClassPreferencePage" name="Association Class" />
 		<!-- Preference pages of the UseCase diagram -->
-            <page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			name="Use Case Diagram"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.ActorPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.ActorPreferencePage"
-			name="Actor"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.UseCasePreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCasePreferencePage"
-			name="Use Case"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.ExtendPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.ExtendPreferencePage"
-			name="Extend"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.IncludePreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.IncludePreferencePage"
-			name="Include"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.AssociationPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.AssociationPreferencePage"
-			name="Association"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.GeneralizationPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.GeneralizationPreferencePage"
-			name="Generalization"/>
-		<page
-			id="org.topcased.modeler.uml.usecasediagram.preferences.BoundaryBoxPreferencePage"
-			category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
-			class="org.topcased.modeler.uml.usecasediagram.preferences.BoundaryBoxPreferencePage"
-			name="Boundary Box"/>
-
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage" category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage" name="Use Case Diagram" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.ActorPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.ActorPreferencePage" name="Actor" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.UseCasePreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.UseCasePreferencePage" name="Use Case" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.ExtendPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.ExtendPreferencePage" name="Extend" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.IncludePreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.IncludePreferencePage" name="Include" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.AssociationPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.AssociationPreferencePage" name="Association" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.GeneralizationPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.GeneralizationPreferencePage" name="Generalization" />
+		<page id="org.topcased.modeler.uml.usecasediagram.preferences.BoundaryBoxPreferencePage" category="org.topcased.modeler.uml.usecasediagram.preferences.UseCaseDiagramPreferencePage"
+			class="org.topcased.modeler.uml.usecasediagram.preferences.BoundaryBoxPreferencePage" name="Boundary Box" />
 		<!-- Preference pages of the Profile diagram -->
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			category="org.topcased.modeler.uml.preferences.UMLPreferencePage"
-			name="Profile Diagram"/>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.StereotypePreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.StereotypePreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			name="Stereotype"/>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.PropertyPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.PropertyPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			name="Property"/>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.GeneralizationPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.GeneralizationPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			name="Generalization"/>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.ElementImportPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.ElementImportPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			name="Element Import"/>
-		<page
-			id="org.topcased.modeler.uml.profilediagram.preferences.ExtensionPreferencePage"
-			class="org.topcased.modeler.uml.profilediagram.preferences.ExtensionPreferencePage"
-			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
-			name="Extension"/>
-  <page
-        category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-        class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintPreferencePage"
-        id="org.topcased.modeler.uml.alldiagram.preferences.ConstraintPreferencePage"
-        name="Constraint">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-        class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintLinkPreferencePage"
-        id="org.topcased.modeler.uml.alldiagram.preferences.ConstraintLinkPreferencePage"
-        name="Constraint Link">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage"
-        class="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage"
-        id="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage"
-        name="Stereotype">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SignalPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.SignalPreferencePage"
-        name="Signal">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ReceptionPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.ReceptionPreferencePage"
-        name="Reception">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        name="Events">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.CallEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.CallEventPreferencePage"
-        name="Call Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.AnyReceiveEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.AnyReceiveEventPreferencePage"
-        name="Any Receive Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ChangeEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.ChangeEventPreferencePage"
-        name="Change Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.CreationEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.CreationEventPreferencePage"
-        name="Creation Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.DestructionEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.DestructionEventPreferencePage"
-        name="Destruction Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ExecutionEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.ExecutionEventPreferencePage"
-        name="Execution Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveOperationEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.ReceiveOperationEventPreferencePage"
-        name="Receive Operation Event 2">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveSignalEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferencesReceiveSignalEventPreferencePage"
-        name="Receive Signal Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SendOperationEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.SendOperationEventPreferencePage"
-        name="Send Operation Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SendSignalEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.SendSignalEventPreferencePage"
-        name="Send Signal Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.TimeEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.TimeEventPreferencePage"
-        name="Time Event">
-  </page>
-  <page
-        category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
-        class="org.topcased.modeler.uml.classdiagram.preferences.SignalEventPreferencePage"
-        id="org.topcased.modeler.uml.classdiagram.preferences.SignalEventPreferencePage"
-        name="Signal Event">
-  </page>
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" class="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage"
+			category="org.topcased.modeler.uml.preferences.UMLPreferencePage" name="Profile Diagram" />
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.StereotypePreferencePage" class="org.topcased.modeler.uml.profilediagram.preferences.StereotypePreferencePage"
+			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" name="Stereotype" />
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.PropertyPreferencePage" class="org.topcased.modeler.uml.profilediagram.preferences.PropertyPreferencePage"
+			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" name="Property" />
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.GeneralizationPreferencePage" class="org.topcased.modeler.uml.profilediagram.preferences.GeneralizationPreferencePage"
+			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" name="Generalization" />
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.ElementImportPreferencePage" class="org.topcased.modeler.uml.profilediagram.preferences.ElementImportPreferencePage"
+			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" name="Element Import" />
+		<page id="org.topcased.modeler.uml.profilediagram.preferences.ExtensionPreferencePage" class="org.topcased.modeler.uml.profilediagram.preferences.ExtensionPreferencePage"
+			category="org.topcased.modeler.uml.profilediagram.preferences.ProfileDiagramPreferencePage" name="Extension" />
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintPreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.ConstraintPreferencePage" name="Constraint">
+		</page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.ConstraintLinkPreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.ConstraintLinkPreferencePage" name="Constraint Link">
+		</page>
+		<page category="org.topcased.modeler.uml.alldiagram.preferences.AllDiagramPreferencePage" class="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage"
+			id="org.topcased.modeler.uml.alldiagram.preferences.StereotypePreferencePage" name="Stereotype">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SignalPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.SignalPreferencePage" name="Signal">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ReceptionPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.ReceptionPreferencePage" name="Reception">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.ClassDiagramPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" name="Events">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.CallEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.CallEventPreferencePage" name="Call Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.AnyReceiveEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.AnyReceiveEventPreferencePage" name="Any Receive Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ChangeEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.ChangeEventPreferencePage" name="Change Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.CreationEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.CreationEventPreferencePage" name="Creation Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.DestructionEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.DestructionEventPreferencePage" name="Destruction Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ExecutionEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.ExecutionEventPreferencePage" name="Execution Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveOperationEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.ReceiveOperationEventPreferencePage" name="Receive Operation Event 2">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.ReceiveSignalEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferencesReceiveSignalEventPreferencePage" name="Receive Signal Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SendOperationEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.SendOperationEventPreferencePage" name="Send Operation Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SendSignalEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.SendSignalEventPreferencePage" name="Send Signal Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.TimeEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.TimeEventPreferencePage" name="Time Event">
+		</page>
+		<page category="org.topcased.modeler.uml.classdiagram.preferences.EventsPreferencePage" class="org.topcased.modeler.uml.classdiagram.preferences.SignalEventPreferencePage"
+			id="org.topcased.modeler.uml.classdiagram.preferences.SignalEventPreferencePage" name="Signal Event">
+		</page>
 	</extension>
-
-   
-   <extension point="org.topcased.modeler.diagrams">    
-      <diagram
-            configuration="org.opaeum.topcased.classdiagram.ClassConfiguration"
-            editorID="org.topcased.modeler.uml.editor.UMLEditor"
-            icon="icons/diagram/ClassDiagram.gif"
-            id="org.topcased.modeler.uml.classdiagram"
-            name="Class Diagram">
-         <enableFor class="org.eclipse.uml2.uml.Package"/>
-         <enableFor class="org.eclipse.uml2.uml.Component"/>
-      </diagram>    
-      <diagram
-            configuration="org.topcased.modeler.uml.usecasediagram.UseCaseConfiguration"
-            editorID="org.topcased.modeler.uml.editor.UMLEditor"
-            icon="icons/diagram/UseCaseDiagram.gif"
-            id="org.topcased.modeler.uml.usecasediagram"
-            name="Use Case Diagram">
-         <enableFor class="org.eclipse.uml2.uml.Package"/>
-      </diagram>
-      <diagram
-            configuration="org.topcased.modeler.uml.profilediagram.ProfileConfiguration"
-            editorID="org.topcased.modeler.uml.editor.UMLEditor"
-            id="org.topcased.modeler.uml.profilediagram"
-            name="Profile Diagram">
-         <enableFor class="org.eclipse.uml2.uml.Profile"/>
-      </diagram>
+	<extension point="org.topcased.modeler.diagrams">
+		<diagram configuration="org.opaeum.topcased.classdiagram.ClassConfiguration" editorID="org.topcased.modeler.uml.editor.UMLEditor" icon="icons/diagram/ClassDiagram.gif"
+			id="org.topcased.modeler.uml.classdiagram" name="Class Diagram">
+			<enableFor class="org.eclipse.uml2.uml.Package" />
+			<enableFor class="org.eclipse.uml2.uml.Component" />
+		</diagram>
+		<diagram configuration="org.topcased.modeler.uml.usecasediagram.UseCaseConfiguration" editorID="org.topcased.modeler.uml.editor.UMLEditor" icon="icons/diagram/UseCaseDiagram.gif"
+			id="org.topcased.modeler.uml.usecasediagram" name="Use Case Diagram">
+			<enableFor class="org.eclipse.uml2.uml.Package" />
+		</diagram>
+		<diagram configuration="org.topcased.modeler.uml.profilediagram.ProfileConfiguration" editorID="org.topcased.modeler.uml.editor.UMLEditor" id="org.topcased.modeler.uml.profilediagram"
+			name="Profile Diagram">
+			<enableFor class="org.eclipse.uml2.uml.Profile" />
+		</diagram>
 	</extension>
-   
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
-         <propertyTab
-            id="org.opaeum.eclipse.opaeumTab"
-            category="model"
-            label="UML"
-            indented="false"/>
-         <propertyTab
-            id="org.opaeum.eclipse.interfacesTab"
-            category="model"
-            label="Interfaces"
-            indented="true"/>
-         <propertyTab
-            id="org.opaeum.eclipse.redefinitionsTab"
-            category="model"
-            label="Redefinitions and Unions"
-            indented="true"/>
-         <propertyTab
-               id="org.topcased.modeler.modelTab.parametersTab"
-               category="model"
-               indented="true"
-               label="Parameters"
-         	   afterTab="org.opaeum.eclipse.opaeumTab"/>
-         <propertyTab
-               id="org.opaeum.eclipse.preconditionsTab"
-               category="model"
-               indented="true"
-               label="Preconditions"
-         	   afterTab="org.topcased.modeler.modelTab.parametersTab"/>
-         <propertyTab
-               id="org.opaeum.eclipse.postconditionsTab"
-               category="model"
-               indented="true"
-               label="Postconditions"
-         	   afterTab="org.opaeum.eclipse.preconditionsTab"/>
-         <propertyTab
-               id="org.opaeum.eclipse.invariantsTab"
-               category="model"
-               indented="true"
-               label="Invariants"
-         	   afterTab="org.opaeum.eclipse.opaeumTab"/>
-         <propertyTab
-               id="org.topcased.modeler.modelTab.firstEndTab"
-               category="model"
-               indented="true"
-               label="First End"
-         	   afterTab="org.opaeum.eclipse.opaeumTab"/>
-         <propertyTab
-               id="org.topcased.modeler.modelTab.secondEndTab"
-               category="model"
-               indented="true"
-               label="Second End"
-               afterTab="org.topcased.modeler.modelTab.firstEndTab"/>
-         <propertyTab
-            id="org.topcased.modeler.profilesTab"
-            category="modelDetails"
-            label="Profiles"
-            afterTab="org.opaeum.eclipse.opaeumTab"/>
-         <propertyTab
-            id="org.topcased.modeler.stereotypesTab"
-            category="modelDetails"
-            label="Stereotypes"
-            afterTab="org.opaeum.eclipse.opaeumTab"/>
-         <propertyTab
-            id="org.opaeum.eclipse.redefinitionTab"
-            category="modelDetails"
-            label="Redefinition"
-            afterTab="org.opaeum.eclipse.opaeumTab"/>
-         <propertyTab
-            id="org.topcased.modeler.stereotypeAttributesTab"
-            category="modelDetails"
-            label="Stereotype Attributes"
-            afterTab="org.topcased.modeler.stereotypesTab"
-            indented="true"/>
-         <propertyTab
-            id="org.topcased.modeler.advancedTab.behaviorTab"
-            category="advanced"
-            label="Behavior"
-            afterTab="org.topcased.modeler.advancedTab"
-            indented="true"/>
-         <propertyTab
-            id="org.opaeum.eclipse.templateTab"
-            category="model"
-            label="Notification Text"
-            afterTab="org.opaeum.eclipse.opaeumTab"
-            indented="true"/>
-      </propertyTabs>
-   </extension>
-   
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
+			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="model" label="UML" indented="false" />
+			<propertyTab id="org.opaeum.eclipse.interfacesTab" category="model" label="Interfaces" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.opaeum.eclipse.redefinitionsTab" category="model" label="Redefinitions and Unions" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.opaeum.eclipse.qualifiersTab" category="model" label="Qualifiers" indented="true" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.topcased.modeler.modelTab.parametersTab" category="model" indented="true" label="Parameters" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.opaeum.eclipse.preconditionsTab" category="model" indented="true" label="Preconditions" afterTab="org.topcased.modeler.modelTab.parametersTab" />
+			<propertyTab id="org.opaeum.eclipse.postconditionsTab" category="model" indented="true" label="Postconditions" afterTab="org.opaeum.eclipse.preconditionsTab" />
+			<propertyTab id="org.opaeum.eclipse.invariantsTab" category="model" indented="true" label="Invariants" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.topcased.modeler.modelTab.firstEndTab" category="model" indented="true" label="First End" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.topcased.modeler.modelTab.secondEndTab" category="model" indented="true" label="Second End" afterTab="org.topcased.modeler.modelTab.firstEndTab" />
+			<propertyTab id="org.topcased.modeler.profilesTab" category="modelDetails" label="Profiles" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.topcased.modeler.stereotypesTab" category="modelDetails" label="Stereotypes" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.opaeum.eclipse.redefinitionTab" category="modelDetails" label="Redefinition" afterTab="org.opaeum.eclipse.opaeumTab" />
+			<propertyTab id="org.topcased.modeler.stereotypeAttributesTab" category="modelDetails" label="Stereotype Attributes" afterTab="org.topcased.modeler.stereotypesTab"
+				indented="true" />
+			<propertyTab id="org.topcased.modeler.advancedTab.behaviorTab" category="advanced" label="Behavior" afterTab="org.topcased.modeler.advancedTab"
+				indented="true" />
+			<propertyTab id="org.opaeum.eclipse.templateTab" category="model" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab" indented="true" />
+		</propertyTabs>
+	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
-		<propertySections
-        		contributorId="org.topcased.modeler.editor.Modeler">
-   			<propertySection
-		         class="org.opaeum.topcased.propertysections.NamedStereotypeNameSection"
-		         id="org.opaeum.topcased.propertysections.NamedStereotypeNameSection"
-		         filter="org.opaeum.topcased.propertysections.NamedStereotypeNameFilter"
-		         tab="org.opaeum.eclipse.opaeumTab">
-		      <input
-		            type="org.eclipse.emf.ecore.impl.DynamicEObjectImpl">
-		            
-		      </input>
-		   </propertySection>
-   			<propertySection
-		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-		         class="org.opaeum.topcased.propertysections.TypedElementTypeSection"
-		         id="org.opaeum.topcased.propertysections.TypedElementTypeSection"
-		         tab="org.opaeum.eclipse.opaeumTab">
-		      <input
-		            type="org.eclipse.uml2.uml.TypedElement">
-		      </input>
-		   </propertySection>
-   			
-			<propertySection
-				id="org.opaeum.topcased.propertysections.EObjectErrorSection"
-				class="org.opaeum.topcased.propertysections.EObjectErrorSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				>
-         		<input type="org.eclipse.uml2.uml.Element"/>
+		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
+			<propertySection class="org.opaeum.topcased.propertysections.NamedStereotypeNameSection" id="org.opaeum.topcased.propertysections.NamedStereotypeNameSection"
+				filter="org.opaeum.topcased.propertysections.NamedStereotypeNameFilter" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.emf.ecore.impl.DynamicEObjectImpl">
+				</input>
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
-				class="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-         		<input type="org.eclipse.uml2.uml.MultiplicityElement"/>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.TypedElementTypeSection"
+				id="org.opaeum.topcased.propertysections.TypedElementTypeSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.TypedElement">
+				</input>
 			</propertySection>
-			<!--Property PropertySections --> 
-			<propertySection
-				id="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
-				class="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection">
-         		<input type="org.eclipse.uml2.uml.StructuralFeature"/>
+			<propertySection afterSection="org.topcased.modeler.uml.NamedElementSection" class="org.opaeum.topcased.propertysections.PropertyQualifiersSection"
+				filter="org.opaeum.topcased.propertysections.filters.AssociationEndFilter" id="org.opaeum.topcased.propertysections.PropertyQualifiersSection" tab="org.opaeum.eclipse.qualifiersTab">
+				<input type="org.eclipse.uml2.uml.Property" />
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
-         			class="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
-         			id="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
-         			tab="org.opaeum.eclipse.opaeumTab">
-      			<input type="org.eclipse.uml2.uml.Property">
-      			</input>
+			<propertySection afterSection="org.topcased.modeler.uml.NamedElementSection" class="org.opaeum.topcased.propertysections.PropertyIsNavigableSection"
+				filter="org.opaeum.topcased.propertysections.filters.AssociationEndFilter" id="org.opaeum.topcased.propertysections.PropertyIsNavigableSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Property" />
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
-         			class="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			id="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			tab="org.opaeum.eclipse.redefinitionsTab">
-      			<input type="org.eclipse.uml2.uml.Property">
-      			</input>
+			<propertySection id="org.opaeum.topcased.propertysections.EObjectErrorSection" class="org.opaeum.topcased.propertysections.EObjectErrorSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Element" />
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
-         			class="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
-         			id="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
-         			tab="org.opaeum.eclipse.redefinitionsTab">
-      			<input type="org.eclipse.uml2.uml.Property">
-      			</input>
+			<propertySection id="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection" class="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
+				<input type="org.eclipse.uml2.uml.MultiplicityElement" />
 			</propertySection>
-			<!-- The Association First and Second End Property Sections  -->
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
+			<!--Property PropertySections -->
+			<propertySection id="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection" class="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection">
+				<input type="org.eclipse.uml2.uml.StructuralFeature" />
+			</propertySection>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection" class="org.opaeum.topcased.propertysections.PropertyDefaultValueSection"
+				id="org.opaeum.topcased.propertysections.PropertyDefaultValueSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Property">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.PropertyDefaultValueSection" class="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection"
+				id="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection" tab="org.opaeum.eclipse.redefinitionsTab">
+				<input type="org.eclipse.uml2.uml.Property">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.PropertyRedefinedPropertySection" class="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection"
+				id="org.opaeum.topcased.propertysections.PropertySubsettedPropertySection" tab="org.opaeum.eclipse.redefinitionsTab">
+				<input type="org.eclipse.uml2.uml.Property">
+				</input>
+			</propertySection>
+			<!-- The Association First and Second End Property Sections -->
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection" class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection"
 				tab="org.topcased.modeler.modelTab.firstEndTab">
-				<input type="org.eclipse.uml2.uml.Association"/>
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection" class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection"
 				tab="org.topcased.modeler.modelTab.secondEndTab">
-				<input type="org.eclipse.uml2.uml.Association"/>
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection" class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection">
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection" class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection">
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
-				class="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
+			<propertySection id="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection" class="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndRoleSection">
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
-				class="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
+			<propertySection id="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection" class="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndRoleSection">
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
-				class="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
+			<propertySection id="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection" class="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
-				class="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
-				<input type="org.eclipse.uml2.uml.Association"/>
+			<propertySection id="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection" class="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection">
+				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
-         			class="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
-         			id="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
-         			tab="org.topcased.modeler.modelTab.firstEndTab">
-      			<input type="org.eclipse.uml2.uml.Association">
-      			</input>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection" class="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
+				id="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection" tab="org.topcased.modeler.modelTab.firstEndTab">
+				<input type="org.eclipse.uml2.uml.Association">
+				</input>
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
-         			class="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
-         			id="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
-         			tab="org.topcased.modeler.modelTab.secondEndTab">
-      			<input type="org.eclipse.uml2.uml.Association">
-      			</input>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection" class="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
+				id="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection" tab="org.topcased.modeler.modelTab.secondEndTab">
+				<input type="org.eclipse.uml2.uml.Association">
+				</input>
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
-         			class="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-         			id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-         			tab="org.topcased.modeler.modelTab.firstEndTab">
-      			<input type="org.eclipse.uml2.uml.Association">
-      			</input>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection" class="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
+				id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection" tab="org.topcased.modeler.modelTab.firstEndTab">
+				<input type="org.eclipse.uml2.uml.Association">
+				</input>
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
-         			class="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection"
-         			id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-         			tab="org.topcased.modeler.modelTab.secondEndTab">
-      			<input type="org.eclipse.uml2.uml.Association">
-      			</input>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection" class="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection"
+				id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection" tab="org.topcased.modeler.modelTab.secondEndTab">
+				<input type="org.eclipse.uml2.uml.Association">
+				</input>
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-         			class="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
-         			id="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
-         			tab="org.topcased.modeler.modelTab.firstEndTab">
-      			<input type="org.eclipse.uml2.uml.Association">
-      			</input>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection" class="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
+				id="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection" tab="org.topcased.modeler.modelTab.firstEndTab">
+				<input type="org.eclipse.uml2.uml.Association">
+				</input>
 			</propertySection>
-			<propertySection
-         			afterSection="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection"
-         			class="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
-         			id="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
-         			tab="org.topcased.modeler.modelTab.secondEndTab">
-      			<input type="org.eclipse.uml2.uml.Association">
-      			</input>
+			<propertySection afterSection="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection" class="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
+				id="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection" tab="org.topcased.modeler.modelTab.secondEndTab">
+				<input type="org.eclipse.uml2.uml.Association">
+				</input>
 			</propertySection>
-			
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opaeum.topcased.propertysections.ConstraintValueSpecificationSection"
-         			id="org.opaeum.topcased.propertysections.ConstraintValueSpecificationSection"
-         			tab="org.opaeum.eclipse.opaeumTab">
-      			<input type="org.eclipse.uml2.uml.Constraint">
-      			</input>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.ConstraintValueSpecificationSection"
+				id="org.opaeum.topcased.propertysections.ConstraintValueSpecificationSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Constraint">
+				</input>
 			</propertySection>
-			<propertySection
-         			afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-         			class="org.opaeum.topcased.propertysections.InstanceSpecificationSlotsSection"
-         			id="org.opaeum.topcased.propertysections.InstanceSpecificationSlotsSection"
-         			tab="org.opaeum.eclipse.opaeumTab">
-      			<input type="org.eclipse.uml2.uml.InstanceSpecification">
-      			</input>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection" class="org.opaeum.topcased.propertysections.InstanceSpecificationSlotsSection"
+				id="org.opaeum.topcased.propertysections.InstanceSpecificationSlotsSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.InstanceSpecification">
+				</input>
 			</propertySection>
-			
-			<propertySection
-				id="org.opaeum.topcased.propertysections.BehaviorParametersSection"
-				class="org.opaeum.topcased.propertysections.BehaviorParametersSection"
+			<propertySection id="org.opaeum.topcased.propertysections.BehaviorParametersSection" class="org.opaeum.topcased.propertysections.BehaviorParametersSection"
 				tab="org.topcased.modeler.modelTab.parametersTab">
-         		<input type="org.eclipse.uml2.uml.Behavior"/>
+				<input type="org.eclipse.uml2.uml.Behavior" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.SignalTemplateSection"
-				class="org.opaeum.topcased.propertysections.NotificationTemplateSection"
-				filter="org.opaeum.topcased.propertysections.filters.NotificationFilter"
-				tab="org.opaeum.eclipse.templateTab">
-         		<input type="org.eclipse.uml2.uml.Signal"/>
+			<propertySection id="org.opaeum.topcased.propertysections.SignalTemplateSection" class="org.opaeum.topcased.propertysections.NotificationTemplateSection"
+				filter="org.opaeum.topcased.propertysections.filters.NotificationFilter" tab="org.opaeum.eclipse.templateTab">
+				<input type="org.eclipse.uml2.uml.Signal" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.OperationIsQuerySection"
-		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opaeum.topcased.propertysections.OperationBooleanFeaturesSection"
-				tab="org.opaeum.eclipse.opaeumTab">
-         		<input type="org.eclipse.uml2.uml.Operation"/>
+			<propertySection id="org.opaeum.topcased.propertysections.OperationIsQuerySection" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				class="org.opaeum.topcased.propertysections.OperationBooleanFeaturesSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Operation" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.OperationBodyConditionSection"
-				afterSection="org.opaeum.topcased.propertysections.OperationIsQuerySection"
-				class="org.opaeum.topcased.propertysections.OperationBodyConditionSection"
-				tab="org.opaeum.eclipse.opaeumTab">
-         		<input type="org.eclipse.uml2.uml.Operation"/>
+			<propertySection id="org.opaeum.topcased.propertysections.OperationBodyConditionSection" afterSection="org.opaeum.topcased.propertysections.OperationIsQuerySection"
+				class="org.opaeum.topcased.propertysections.OperationBodyConditionSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Operation" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.constraints.OperationPostconditionsSection"
-				class="org.opaeum.topcased.propertysections.constraints.OperationPostconditionsSection"
+			<propertySection id="org.opaeum.topcased.propertysections.constraints.OperationPostconditionsSection" class="org.opaeum.topcased.propertysections.constraints.OperationPostconditionsSection"
 				tab="org.opaeum.eclipse.postconditionsTab">
-         		<input type="org.eclipse.uml2.uml.Operation"/>
+				<input type="org.eclipse.uml2.uml.Operation" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.GeneralizationGeneralSection"
-		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opaeum.topcased.propertysections.GeneralizationGeneralSection"
-				tab="org.opaeum.eclipse.opaeumTab">
-         		<input type="org.eclipse.uml2.uml.Generalization"/>
+			<propertySection id="org.opaeum.topcased.propertysections.GeneralizationGeneralSection" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				class="org.opaeum.topcased.propertysections.GeneralizationGeneralSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Generalization" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.InterfaceRealizationContractSection"
-		         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-				class="org.opaeum.topcased.propertysections.InterfaceRealizationContractSection"
-				tab="org.opaeum.eclipse.opaeumTab">
-         		<input type="org.eclipse.uml2.uml.InterfaceRealization"/>
+			<propertySection id="org.opaeum.topcased.propertysections.InterfaceRealizationContractSection" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+				class="org.opaeum.topcased.propertysections.InterfaceRealizationContractSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.InterfaceRealization" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.constraints.OperationPreconditionsSection"
-				class="org.opaeum.topcased.propertysections.constraints.OperationPreconditionsSection"
+			<propertySection id="org.opaeum.topcased.propertysections.constraints.OperationPreconditionsSection" class="org.opaeum.topcased.propertysections.constraints.OperationPreconditionsSection"
 				tab="org.opaeum.eclipse.preconditionsTab">
-         		<input type="org.eclipse.uml2.uml.Operation"/>
+				<input type="org.eclipse.uml2.uml.Operation" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
-				class="org.opaeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
+			<propertySection id="org.opaeum.topcased.propertysections.constraints.BehaviorPostconditionsSection" class="org.opaeum.topcased.propertysections.constraints.BehaviorPostconditionsSection"
 				tab="org.opaeum.eclipse.postconditionsTab">
-         		<input type="org.eclipse.uml2.uml.Behavior"/>
+				<input type="org.eclipse.uml2.uml.Behavior" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
-				class="org.opaeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
+			<propertySection id="org.opaeum.topcased.propertysections.constraints.BehaviorPreconditionsSection" class="org.opaeum.topcased.propertysections.constraints.BehaviorPreconditionsSection"
 				tab="org.opaeum.eclipse.preconditionsTab">
-         		<input type="org.eclipse.uml2.uml.Behavior"/>
+				<input type="org.eclipse.uml2.uml.Behavior" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.constraints.ClassInvariantsSection"
-				class="org.opaeum.topcased.propertysections.constraints.ClassInvariantsSection"
+			<propertySection id="org.opaeum.topcased.propertysections.constraints.ClassInvariantsSection" class="org.opaeum.topcased.propertysections.constraints.ClassInvariantsSection"
 				tab="org.opaeum.eclipse.invariantsTab">
-         		<input type="org.eclipse.uml2.uml.Class"/>
+				<input type="org.eclipse.uml2.uml.Class" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection"
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection" class="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection"
 				tab="org.topcased.modeler.profilesTab">
-         		<input type="org.eclipse.uml2.uml.Package"/>
+				<input type="org.eclipse.uml2.uml.Package" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.StereotypesSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.StereotypesSection"
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.StereotypesSection" class="org.topcased.modeler.uml.internal.properties.sections.StereotypesSection"
 				tab="org.topcased.modeler.stereotypesTab">
-         		<input type="org.eclipse.uml2.uml.Element"/>
+				<input type="org.eclipse.uml2.uml.Element" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.StereotypeAttributesSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.StereotypeAttributesSection"
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.StereotypeAttributesSection" class="org.topcased.modeler.uml.internal.properties.sections.StereotypeAttributesSection"
 				tab="org.topcased.modeler.stereotypeAttributesTab">
-         		<input type="org.eclipse.uml2.uml.Element"/>
+				<input type="org.eclipse.uml2.uml.Element" />
 			</propertySection>
-			<propertySection
-				afterSection="org.opaeum.topcased.propertysections.EObjectErrorSection"
-		         class="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-		         filter="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSectionFilter"
-		         id="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
-		         tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.NamedElement"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
-				<input type="org.eclipse.uml2.uml.InstanceSpecification"/>
-			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
+			<propertySection afterSection="org.opaeum.topcased.propertysections.EObjectErrorSection" class="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				filter="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSectionFilter" id="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
 				tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.Slot"/>
+				<input type="org.eclipse.uml2.uml.NamedElement" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
-				<input type="org.eclipse.uml2.uml.Slot"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection" class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.InstanceSpecification" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
-				<input type="org.eclipse.uml2.uml.Classifier"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection" class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Slot" />
 			</propertySection>
-			
-			<propertySection
-		         afterSection="org.topcased.modeler.BackgroundColorSection"
-		         class="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
-		         filter="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilitySectionFilter"
-		         id="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
-		         tab="org.topcased.modeler.graphicsTab">
-				<input type="org.eclipse.uml2.uml.Classifier"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection" class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotValueSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection">
+				<input type="org.eclipse.uml2.uml.Slot" />
 			</propertySection>
-			
-			<propertySection
-				id="org.opaeum.topcased.propertysections.OpaqueExpressionBodySection"
-				class="org.opaeum.topcased.propertysections.OpaqueExpressionBodySection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-				<input type="org.eclipse.uml2.uml.OpaqueExpression"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection" class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
+				<input type="org.eclipse.uml2.uml.Classifier" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.OpaqueBehaviorBodySection"
-				class="org.opaeum.topcased.propertysections.OpaqueBehaviorBodySection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-				<input type="org.eclipse.uml2.uml.OpaqueBehavior"/>
+			<propertySection afterSection="org.topcased.modeler.BackgroundColorSection" class="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
+				filter="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilitySectionFilter" id="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
+				tab="org.topcased.modeler.graphicsTab">
+				<input type="org.eclipse.uml2.uml.Classifier" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection"
-				filter="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSectionFilter">
+			<propertySection id="org.opaeum.topcased.propertysections.OpaqueExpressionBodySection" class="org.opaeum.topcased.propertysections.OpaqueExpressionBodySection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
+				<input type="org.eclipse.uml2.uml.OpaqueExpression" />
 			</propertySection>
-			<propertySection
-				id="org.opaeum.topcased.propertysections.OperationParametersSection"
-				class="org.opaeum.topcased.propertysections.OperationParametersSection"
+			<propertySection id="org.opaeum.topcased.propertysections.OpaqueBehaviorBodySection" class="org.opaeum.topcased.propertysections.OpaqueBehaviorBodySection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
+				<input type="org.eclipse.uml2.uml.OpaqueBehavior" />
+			</propertySection>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection" class="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection" filter="org.topcased.modeler.uml.internal.properties.sections.OperationReturnTypeSectionFilter">
+			</propertySection>
+			<propertySection id="org.opaeum.topcased.propertysections.OperationParametersSection" class="org.opaeum.topcased.propertysections.OperationParametersSection"
 				tab="org.topcased.modeler.modelTab.parametersTab">
-				<input type="org.eclipse.uml2.uml.Operation"/>
+				<input type="org.eclipse.uml2.uml.Operation" />
 			</propertySection>
-
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
-				<input type="org.eclipse.uml2.uml.Parameter"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection">
+				<input type="org.eclipse.uml2.uml.Parameter" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection">
-				<input type="org.eclipse.uml2.uml.Parameter"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsExceptionSection">
+				<input type="org.eclipse.uml2.uml.Parameter" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection">
-				<input type="org.eclipse.uml2.uml.Parameter"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterIsStreamSection">
+				<input type="org.eclipse.uml2.uml.Parameter" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
-				tab="org.opaeum.eclipse.opaeumTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection">
-				<input type="org.eclipse.uml2.uml.Parameter"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection" class="org.topcased.modeler.uml.internal.properties.sections.ParameterEffectSection"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.ParameterDirectionSection">
+				<input type="org.eclipse.uml2.uml.Parameter" />
 			</propertySection>
-
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection" class="org.topcased.modeler.uml.internal.properties.sections.CommentBodySection"
 				tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.Comment"/>
+				<input type="org.eclipse.uml2.uml.Comment" />
 			</propertySection>
-
-
-			
-			<!-- The connector First end Property-->
-		
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndCardinalitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndCardinalitySection"
+			<!-- The connector First end Property -->
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndCardinalitySection" class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndCardinalitySection"
 				tab="org.topcased.modeler.modelTab.firstEndTab">
-				<input type="org.eclipse.uml2.uml.Connector"/>
+				<input type="org.eclipse.uml2.uml.Connector" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection">
-         		<input type="org.eclipse.uml2.uml.Connector"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection" class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection">
+				<input type="org.eclipse.uml2.uml.Connector" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab" 
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection">				
-				<input type="org.eclipse.uml2.uml.Connector"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection" class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection"
+				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection">
+				<input type="org.eclipse.uml2.uml.Connector" />
 			</propertySection>
-
 			<!-- The connector Second end Property -->
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndCardinalitySection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndCardinalitySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab" >
-				<input type="org.eclipse.uml2.uml.Connector"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndCardinalitySection" class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndCardinalitySection"
+				tab="org.topcased.modeler.modelTab.secondEndTab">
+				<input type="org.eclipse.uml2.uml.Connector" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection">
-         		<input type="org.eclipse.uml2.uml.Connector"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection" class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection">
+				<input type="org.eclipse.uml2.uml.Connector" />
 			</propertySection>
-			<propertySection
-				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection"
-				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab" 
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection">				
-				<input type="org.eclipse.uml2.uml.Connector"/>
+			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection" class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection"
+				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection">
+				<input type="org.eclipse.uml2.uml.Connector" />
 			</propertySection>
-			
-
-		<propertySection
-	         class="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection"
-	         filter="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSectionFilter"
-	         id="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection"
-	         tab="org.opaeum.eclipse.opaeumTab">
-				<input type="org.eclipse.uml2.uml.ElementImport"/>
+			<propertySection class="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection" filter="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSectionFilter"
+				id="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.ElementImport" />
 			</propertySection>
-		<propertySection
-		     afterSection="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection"
-		     class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeMetaclassSection"
-		     id="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection"
-		     tab="org.opaeum.eclipse.opaeumTab">
-		     <input
-		            type="org.eclipse.uml2.uml.Stereotype">
-		     </input>
-		</propertySection>
-	   <propertySection
-	         afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection"
-	         class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeImageSection"
-	         id="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection"
-	         tab="org.opaeum.eclipse.opaeumTab">
-	      <input
-	            type="org.eclipse.uml2.uml.Stereotype">
-	      </input>
-	   </propertySection>
-   <propertySection
-         afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection"
-         class="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
-         id="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
-         tab="org.opaeum.eclipse.opaeumTab">
-      <input
-            type="org.eclipse.uml2.uml.Stereotype">
-      </input>
-   </propertySection>
-   <propertySection
-         afterSection="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
-         class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
-         id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
-         tab="org.opaeum.eclipse.opaeumTab">
-      <input
-            type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
-      </input>
-   </propertySection>
-   <propertySection
-         afterSection="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
-         class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
-         id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
-         tab="org.opaeum.eclipse.opaeumTab">
-      <input
-            type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
-      </input>
-   </propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection" class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeMetaclassSection"
+				id="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Stereotype">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeMetaclassSection" class="org.topcased.modeler.uml.internal.properties.sections.stereotype.StereotypeImageSection"
+				id="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Stereotype">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.StereotypeImageSection" class="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection"
+				id="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Stereotype">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.stereotype.InheritMetaclassSection" class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection"
+				id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
+				</input>
+			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionFormalSection" class="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection"
+				id="org.topcased.modeler.uml.internal.properties.sections.TemplateParameterSubstitutionActualSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.TemplateParameterSubstitution">
+				</input>
+			</propertySection>
 		</propertySections>
 	</extension>
-   
-   
 	<extension point="org.topcased.validation.core.validators">
-		<validator
-			class="org.topcased.modeler.uml.UMLValidator"
-			id="org.topcased.modeler.uml.UMLValidator"
-			name="UML Validator"
-			uri="http://www.eclipse.org/uml2/3.0.0/UML"/>
-  <validator
-        class="org.topcased.modeler.uml.validation.core.CheckPackageAccessValidator"
-        id="org.topcased.modeler.uml.validation.core.CheckPackageAccessValidator"
-        name="Package Access Validator">
-  </validator>
+		<validator class="org.topcased.modeler.uml.UMLValidator" id="org.topcased.modeler.uml.UMLValidator" name="UML Validator" uri="http://www.eclipse.org/uml2/3.0.0/UML" />
+		<validator class="org.topcased.modeler.uml.validation.core.CheckPackageAccessValidator" id="org.topcased.modeler.uml.validation.core.CheckPackageAccessValidator"
+			name="Package Access Validator">
+		</validator>
 	</extension>
-
 	<extension point="org.topcased.modeler.outline">
-		<createChildMenu
-        	class="org.opaeum.topcased.uml.editor.OpaeumEditorMenu"
-        	editorId="org.topcased.modeler.uml.editor.UMLEditor"
-        	id="org.opaeum.topcased.uml.editor.OpaeumEditorMenu"
-        	name="Opaeum Editor Menu"/>
-		<createChildMenu
-        	class="org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu"
-        	editorId="org.topcased.modeler.uml.editor.UMLEditor"
-        	id="org.topcased.modeler.uml.menu.umlEditorMenu"
-        	name="UML Editor Menu"/>
-		<metamodelFilter
-		        class="org.topcased.modeler.uml.editor.outline.UMLMetamodelFilter"
-		        editorId="org.topcased.modeler.uml.editor.UMLEditor"
-		        id="UMLMetamodelFilter">
+		<createChildMenu class="org.opaeum.topcased.uml.editor.OpaeumEditorMenu" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.opaeum.topcased.uml.editor.OpaeumEditorMenu"
+			name="Opaeum Editor Menu" />
+		<createChildMenu class="org.topcased.modeler.uml.internal.customchildmenu.UMLEditorMenu" editorId="org.topcased.modeler.uml.editor.UMLEditor"
+			id="org.topcased.modeler.uml.menu.umlEditorMenu" name="UML Editor Menu" />
+		<metamodelFilter class="org.topcased.modeler.uml.editor.outline.UMLMetamodelFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="UMLMetamodelFilter">
 		</metamodelFilter>
-		<filter
-		        class="org.opaeum.topcased.uml.editor.OpaeumFilter"
-		        editorId="org.topcased.modeler.uml.editor.UMLEditor"
-		        id="org.opaeum.topcased.uml.editor.OpaeumFilter"
-		        name="Show Opaeum elements">
+		<filter class="org.opaeum.topcased.uml.editor.OpaeumFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.opaeum.topcased.uml.editor.OpaeumFilter"
+			name="Show Opaeum elements">
 		</filter>
-		<filter
-		        class="org.topcased.modeler.uml.editor.outline.HideEdgeFilter"
-		        editorId="org.topcased.modeler.uml.editor.UMLEditor"
-		        id="org.topcased.modeler.uml.hideEdgeFilter"
-		        name="Hide Edge">
+		<filter class="org.topcased.modeler.uml.editor.outline.HideEdgeFilter" editorId="org.topcased.modeler.uml.editor.UMLEditor" id="org.topcased.modeler.uml.hideEdgeFilter"
+			name="Hide Edge">
 		</filter>
 	</extension>
-
-
 	<!-- Extend the TOPCASED Navigator -->
 	<extension point="org.eclipse.ui.navigator.viewer">
 		<viewerContentBinding viewerId="org.topcased.ui.navigator.view">
 			<includes>
-				<contentExtension pattern="org.topcased.ui.navigator.uml.modelContent"/>
+				<contentExtension pattern="org.topcased.ui.navigator.uml.modelContent" />
 			</includes>
 		</viewerContentBinding>
 	</extension>
-	
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
-		<navigatorContent
-			id="org.topcased.ui.navigator.uml.modelContent"
-			name="UML Model File Contents"
-			contentProvider="org.topcased.modeler.uml.internal.ui.navigator.UMLModelAdapterFactoryContentProvider"
-			labelProvider="org.topcased.modeler.uml.internal.ui.navigator.UMLModelAdapterFactoryLabelProvider"
-			activeByDefault="true"
-			icon="icons/UML.gif"
-			priority="normal">
+		<navigatorContent id="org.topcased.ui.navigator.uml.modelContent" name="UML Model File Contents"
+			contentProvider="org.topcased.modeler.uml.internal.ui.navigator.UMLModelAdapterFactoryContentProvider" labelProvider="org.topcased.modeler.uml.internal.ui.navigator.UMLModelAdapterFactoryLabelProvider"
+			activeByDefault="true" icon="icons/UML.gif" priority="normal">
 			<triggerPoints>
 				<and>
-					<instanceof value="org.eclipse.core.resources.IResource"/>
-					<test forcePluginActivation="true" property="org.eclipse.core.resources.extension" value="uml"/>
+					<instanceof value="org.eclipse.core.resources.IResource" />
+					<test forcePluginActivation="true" property="org.eclipse.core.resources.extension" value="uml" />
 				</and>
 			</triggerPoints>
 			<possibleChildren>
-				<instanceof value="org.eclipse.emf.ecore.resource.Resource"/>
+				<instanceof value="org.eclipse.emf.ecore.resource.Resource" />
 			</possibleChildren>
 		</navigatorContent>
 	</extension>
-	
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
 		<commonWizard type="new" wizardId="org.topcased.modeler.uml.wizards.NewUMLDiagrams">
 			<enablement>
@@ -1641,294 +925,181 @@
 			</enablement>
 		</commonWizard>
 	</extension>
- <extension
-       point="org.topcased.modeler.semanticDependencies">
-    <detector
-          class="org.topcased.modeler.uml.UMLSemanticDependenciesDetector"
-          metamodel="http://www.eclipse.org/uml2/3.0.0/UML">
-    </detector>
- </extension>
- <extension
-       point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
-    <decoratorProvider
-          class="org.topcased.modeler.uml.internal.decorators.StereotypeDecoratorProvider">
-       <Priority
-             name="Lowest">
-       </Priority>
-		<object
-               class="org.eclipse.emf.ecore.EObject"
-               id="EObject">
-         </object>
-         <context
-               decoratorTargets="EObject">
-         </context>       
-    </decoratorProvider>
- </extension>
- <extension
-       point="org.topcased.modeler.synchronizedModelDiagramRule">
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.alldiagram.edit.ElementEditPart"
-          modelInterface="org.eclipse.uml2.uml.NamedElement"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.NamedElementSynchronizedModelDiagramRule">
-       <description>
-          This rule provides a better way of getting the name for NamedElement objects represented by an ElementEditPart.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.classdiagram.edit.ClassEditPart"
-          modelInterface="org.eclipse.uml2.uml.Class"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a &quot;From package&quot; information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.classdiagram.edit.DataTypeEditPart"
-          modelInterface="org.eclipse.uml2.uml.DataType"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.classdiagram.edit.EnumerationEditPart"
-          modelInterface="org.eclipse.uml2.uml.Enumeration"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.classdiagram.edit.InterfaceEditPart"
-          modelInterface="org.eclipse.uml2.uml.Interface"
-          synchronizationRule="org.topcased.modeler.uml.classdiagram.parentrule.InterfaceClassDiagramParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.alldiagram.edit.PackageEditPart"
-          modelInterface="org.eclipse.uml2.uml.Package"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.classdiagram.edit.PrimitiveTypeEditPart"
-          modelInterface="org.eclipse.uml2.uml.PrimitiveType"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.profilediagram.edit.StereotypeEditPart"
-          modelInterface="org.eclipse.uml2.uml.Stereotype"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.usecasediagram.edit.ActorEditPart"
-          modelInterface="org.eclipse.uml2.uml.Actor"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.usecasediagram.edit.PackageEditPart"
-          modelInterface="org.eclipse.uml2.uml.Package"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a "From package" information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>
-    <synchronizedModelDiagramRule
-          graphicType="org.topcased.modeler.uml.usecasediagram.edit.UseCaseEditPart"
-          modelInterface="org.eclipse.uml2.uml.UseCase"
-          synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
-       <description>
-          Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that no redundant decorator appears if a &quot;From package&quot; information is already provided.
-       </description>
-    </synchronizedModelDiagramRule>    
- </extension>
-   
-	     <extension
-	         id="org.topcased.modeler.uml.internal.decorators.UMLModelerDiagramDecoratorProvider"
-	         name="UML Diagram Decorators"
-	         point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
-	      <decoratorProvider
-	            class="org.topcased.modeler.uml.internal.decorators.UMLModelerDiagramDecoratorProvider">
-	         <Priority
-	               name="Lowest">
-	         </Priority>
-	         <object
-	               class="org.eclipse.uml2.uml.UseCase"
-	               id="UseCase">
-	         </object>
-	         <context
-	               decoratorTargets="UseCase">
-	         </context>
-          <context
-                decoratorTargets="Class">
-          </context>
-          <object
-                class="org.eclipse.uml2.uml.Class"
-                id="Class">
-          </object>
-	      </decoratorProvider>
-	   </extension>
-      <extension
-            point="org.topcased.modeler.duplicationAdapter">
-         <adapter
-               class="org.topcased.modeler.uml.UMLDuplicationAdapter"
-               metamodel="http://www.eclipse.org/uml2/3.0.0/UML">
-         </adapter>
-      </extension>
-      <extension
-            point="org.topcased.modeler.templates">
-      </extension>
-      <extension
-            point="org.topcased.modeler.openingResolve">
-         <openingResolve
-               editorType="org.topcased.modeler.uml.editor.UMLEditor"
-               openingBehavior="org.topcased.modeler.uml.editor.outline.UMLBehaviorOutlinePage">
-         </openingResolve>
-      </extension>
-      <extension
-            point="org.topcased.tabbedproperties.advancespropertiesqualifiedname">
-         <Editor
-               editorClass="org.topcased.modeler.uml.editor.UMLEditor"
-               labelProvider="org.topcased.modeler.uml.providers.QualifiedNameLabelProvider">
-         </Editor>
-      </extension>
-      <extension
-            point="org.eclipse.ui.popupMenus">
-         <objectContribution
-               adaptable="false"
-               id="org.topcased.modeler.uml.objectContribution3"
-               nameFilter="*.umldi"
-               objectClass="org.eclipse.core.resources.IFile">
-            <action
-                  class="org.topcased.modeler.uml.actions.CheckDiagramNameAction"
-                  enablesFor="1"
-                  icon="icons/topcased-icon16.gif"
-                  id="CheckDiagramAction"
-                  label="Check Diagram Names">
-            </action>
-            <action
-                  class="org.topcased.modeler.uml.actions.RenameDiagramAction"
-                  enablesFor="1"
-                  icon="icons/topcased-icon16.gif"
-                  id="RenameDiagramAction"
-                  label="Rename Diagrams"
-                  tooltip="Rename all the unamed diagrams and the diagrams with duplicate names">
-            </action>
-         </objectContribution>
-      </extension>
-      <extension
-            point="org.topcased.validation.ocl.metamodels">
-         <rules
-               file="ocl/uml.ocl"
-               id="uml_proxy_check"
-               level="ERROR"
-               uri="http://www.eclipse.org/uml2/3.0.0/UML">
-         </rules>
-      </extension>
-      <extension
-            point="org.topcased.facilities.chooseDialogFilter">
-         <ChooseDialogFilter
-               filter="org.topcased.modeler.uml.dialogs.UMLAdditionalResourcesChooseDialogFilter">
-         </ChooseDialogFilter>
-      </extension>
-      <extension
-            point="org.topcased.modeler.defaultName">
-         <Attribute
-               URI="http://www.eclipse.org/uml2/3.0.0/UML"
-               label="name">
-         </Attribute>
-      </extension>
-      <extension
-            point="org.topcased.modeler.OutlineVirtualContainer">
-         <VirtualContainer
-               virtualContainer="org.topcased.modeler.uml.editor.outline.InheritedMemberVirtualContainer">
-         </VirtualContainer>
-      </extension>
-      <extension
-            point="org.topcased.modeler.customEditPart">
-         <specificCaseEditPart
-               instance="org.topcased.modeler.uml.alldiagram.edit.StereotypeApplicationSpecificCase"
-               isANode="true"
-               recognizedType="org.eclipse.emf.ecore.impl.DynamicEObjectImpl">
-         </specificCaseEditPart>
-      </extension>
-      <extension
-            point="org.topcased.modeler.moveElementFilter">
-         <DiagramKeeper
-               configuration="org.topcased.modeler.uml.classdiagram"
-               keeper="org.topcased.modeler.uml.alldiagram.DiagramKeeperPackage">
-         </DiagramKeeper>
-      </extension>
-      <extension
-            point="org.topcased.modeler.moveElementFilter">
-         <DiagramKeeper
-               configuration="org.topcased.modeler.uml.usecasediagram"
-               keeper="org.topcased.modeler.uml.alldiagram.DiagramKeeperPackage">
-         </DiagramKeeper>
-      </extension>
-      <extension
-            point="org.topcased.modeler.moveElementFilter">
-         <DiagramKeeper
-               configuration="org.topcased.modeler.uml.profilediagram"
-               keeper="org.topcased.modeler.uml.alldiagram.DiagramKeeperPackage">
-         </DiagramKeeper>
-      </extension>
-      <extension
-            point="org.topcased.modeler.orderSerialization">
-         <OrderAlgorithm
-               algorithm="org.topcased.modeler.uml.editor.outline.NamedElementSorter"
-               name="Order by name (UML2 NamedElement)"
-               priority="LOW">
-         </OrderAlgorithm>
-      </extension>
-      <extension
-            point="org.topcased.modeler.orderSerialization">
-         <OrderAlgorithm
-               algorithm="org.topcased.modeler.uml.classdiagram.util.ClassOrderingAlgorithm"
-               name="Order Class contents"
-               priority="MIDDLE">
-         </OrderAlgorithm>
-      </extension>
-      <extension
-            point="org.topcased.modeler.orderSerialization">
-         <OrderAlgorithm
-               algorithm="org.topcased.modeler.uml.usecasediagram.UseCaseOrderingAlgorithm"
-               name="Order UseCase contents"
-               priority="MIDDLE">
-         </OrderAlgorithm>
-      </extension>
-      <extension
-            point="org.topcased.modeler.diagrams.validation.missingAnchors">
-         <modelAnchors
-               class="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
-               modelanchor="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
-               type="ActivityEdge">
-         </modelAnchors>
-      </extension>
-      <extension
-            point="org.topcased.modeler.todoNoteExtension">
-         <todo
-               instance="org.topcased.modeler.uml.builder.UMLCommentTodoNote">
-         </todo>
-      </extension>
-      <extension
-            point="org.topcased.modeler.OutlineVirtualContainer">
-         <VirtualContainer
-               virtualContainer="org.opaeum.topcased.uml.editor.StereotypeVirtualContainer">
-         </VirtualContainer>
-      </extension>
-
+	<extension point="org.topcased.modeler.semanticDependencies">
+		<detector class="org.topcased.modeler.uml.UMLSemanticDependenciesDetector" metamodel="http://www.eclipse.org/uml2/3.0.0/UML">
+		</detector>
+	</extension>
+	<extension point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+		<decoratorProvider class="org.topcased.modeler.uml.internal.decorators.StereotypeDecoratorProvider">
+			<Priority name="Lowest">
+			</Priority>
+			<object class="org.eclipse.emf.ecore.EObject" id="EObject">
+			</object>
+			<context decoratorTargets="EObject">
+			</context>
+		</decoratorProvider>
+	</extension>
+	<extension point="org.topcased.modeler.synchronizedModelDiagramRule">
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.alldiagram.edit.ElementEditPart" modelInterface="org.eclipse.uml2.uml.NamedElement"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.NamedElementSynchronizedModelDiagramRule">
+			<description> This rule provides a better way of getting the name for NamedElement objects represented by an ElementEditPart.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.classdiagram.edit.ClassEditPart" modelInterface="org.eclipse.uml2.uml.Class"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a &quot;From package&quot; information is already provided. 
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.classdiagram.edit.DataTypeEditPart" modelInterface="org.eclipse.uml2.uml.DataType"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.classdiagram.edit.EnumerationEditPart" modelInterface="org.eclipse.uml2.uml.Enumeration"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.classdiagram.edit.InterfaceEditPart" modelInterface="org.eclipse.uml2.uml.Interface"
+			synchronizationRule="org.topcased.modeler.uml.classdiagram.parentrule.InterfaceClassDiagramParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.alldiagram.edit.PackageEditPart" modelInterface="org.eclipse.uml2.uml.Package"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.classdiagram.edit.PrimitiveTypeEditPart" modelInterface="org.eclipse.uml2.uml.PrimitiveType"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.profilediagram.edit.StereotypeEditPart" modelInterface="org.eclipse.uml2.uml.Stereotype"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.usecasediagram.edit.ActorEditPart" modelInterface="org.eclipse.uml2.uml.Actor"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.usecasediagram.edit.PackageEditPart" modelInterface="org.eclipse.uml2.uml.Package"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a "From package" information is already provided.
+			</description>
+		</synchronizedModelDiagramRule>
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.usecasediagram.edit.UseCaseEditPart" modelInterface="org.eclipse.uml2.uml.UseCase"
+			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
+			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
+				no redundant decorator appears if a &quot;From package&quot; information is already provided. 
+			</description>
+		</synchronizedModelDiagramRule>
+	</extension>
+	<extension id="org.topcased.modeler.uml.internal.decorators.UMLModelerDiagramDecoratorProvider" name="UML Diagram Decorators"
+		point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+		<decoratorProvider class="org.topcased.modeler.uml.internal.decorators.UMLModelerDiagramDecoratorProvider">
+			<Priority name="Lowest">
+			</Priority>
+			<object class="org.eclipse.uml2.uml.UseCase" id="UseCase">
+			</object>
+			<context decoratorTargets="UseCase">
+			</context>
+			<context decoratorTargets="Class">
+			</context>
+			<object class="org.eclipse.uml2.uml.Class" id="Class">
+			</object>
+		</decoratorProvider>
+	</extension>
+	<extension point="org.topcased.modeler.duplicationAdapter">
+		<adapter class="org.topcased.modeler.uml.UMLDuplicationAdapter" metamodel="http://www.eclipse.org/uml2/3.0.0/UML">
+		</adapter>
+	</extension>
+	<extension point="org.topcased.modeler.templates">
+	</extension>
+	<extension point="org.topcased.modeler.openingResolve">
+		<openingResolve editorType="org.topcased.modeler.uml.editor.UMLEditor" openingBehavior="org.topcased.modeler.uml.editor.outline.UMLBehaviorOutlinePage">
+		</openingResolve>
+	</extension>
+	<extension point="org.topcased.tabbedproperties.advancespropertiesqualifiedname">
+		<Editor editorClass="org.topcased.modeler.uml.editor.UMLEditor" labelProvider="org.topcased.modeler.uml.providers.QualifiedNameLabelProvider">
+		</Editor>
+	</extension>
+	<extension point="org.eclipse.ui.popupMenus">
+		<objectContribution adaptable="false" id="org.topcased.modeler.uml.objectContribution3" nameFilter="*.umldi" objectClass="org.eclipse.core.resources.IFile">
+			<action class="org.topcased.modeler.uml.actions.CheckDiagramNameAction" enablesFor="1" icon="icons/topcased-icon16.gif" id="CheckDiagramAction" label="Check Diagram Names">
+			</action>
+			<action class="org.topcased.modeler.uml.actions.RenameDiagramAction" enablesFor="1" icon="icons/topcased-icon16.gif" id="RenameDiagramAction" label="Rename Diagrams"
+				tooltip="Rename all the unamed diagrams and the diagrams with duplicate names">
+			</action>
+		</objectContribution>
+	</extension>
+	<extension point="org.topcased.validation.ocl.metamodels">
+		<rules file="ocl/uml.ocl" id="uml_proxy_check" level="ERROR" uri="http://www.eclipse.org/uml2/3.0.0/UML">
+		</rules>
+	</extension>
+	<extension point="org.topcased.facilities.chooseDialogFilter">
+		<ChooseDialogFilter filter="org.topcased.modeler.uml.dialogs.UMLAdditionalResourcesChooseDialogFilter">
+		</ChooseDialogFilter>
+	</extension>
+	<extension point="org.topcased.modeler.defaultName">
+		<Attribute URI="http://www.eclipse.org/uml2/3.0.0/UML" label="name">
+		</Attribute>
+	</extension>
+	<extension point="org.topcased.modeler.OutlineVirtualContainer">
+		<VirtualContainer virtualContainer="org.topcased.modeler.uml.editor.outline.InheritedMemberVirtualContainer">
+		</VirtualContainer>
+	</extension>
+	<extension point="org.topcased.modeler.customEditPart">
+		<specificCaseEditPart instance="org.topcased.modeler.uml.alldiagram.edit.StereotypeApplicationSpecificCase" isANode="true"
+			recognizedType="org.eclipse.emf.ecore.impl.DynamicEObjectImpl">
+		</specificCaseEditPart>
+	</extension>
+	<extension point="org.topcased.modeler.moveElementFilter">
+		<DiagramKeeper configuration="org.topcased.modeler.uml.classdiagram" keeper="org.topcased.modeler.uml.alldiagram.DiagramKeeperPackage">
+		</DiagramKeeper>
+	</extension>
+	<extension point="org.topcased.modeler.moveElementFilter">
+		<DiagramKeeper configuration="org.topcased.modeler.uml.usecasediagram" keeper="org.topcased.modeler.uml.alldiagram.DiagramKeeperPackage">
+		</DiagramKeeper>
+	</extension>
+	<extension point="org.topcased.modeler.moveElementFilter">
+		<DiagramKeeper configuration="org.topcased.modeler.uml.profilediagram" keeper="org.topcased.modeler.uml.alldiagram.DiagramKeeperPackage">
+		</DiagramKeeper>
+	</extension>
+	<extension point="org.topcased.modeler.orderSerialization">
+		<OrderAlgorithm algorithm="org.topcased.modeler.uml.editor.outline.NamedElementSorter" name="Order by name (UML2 NamedElement)" priority="LOW">
+		</OrderAlgorithm>
+	</extension>
+	<extension point="org.topcased.modeler.orderSerialization">
+		<OrderAlgorithm algorithm="org.topcased.modeler.uml.classdiagram.util.ClassOrderingAlgorithm" name="Order Class contents" priority="MIDDLE">
+		</OrderAlgorithm>
+	</extension>
+	<extension point="org.topcased.modeler.orderSerialization">
+		<OrderAlgorithm algorithm="org.topcased.modeler.uml.usecasediagram.UseCaseOrderingAlgorithm" name="Order UseCase contents" priority="MIDDLE">
+		</OrderAlgorithm>
+	</extension>
+	<extension point="org.topcased.modeler.diagrams.validation.missingAnchors">
+		<modelAnchors class="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors" modelanchor="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
+			type="ActivityEdge">
+		</modelAnchors>
+	</extension>
+	<extension point="org.topcased.modeler.todoNoteExtension">
+		<todo instance="org.topcased.modeler.uml.builder.UMLCommentTodoNote">
+		</todo>
+	</extension>
+	<extension point="org.topcased.modeler.OutlineVirtualContainer">
+		<VirtualContainer virtualContainer="org.opaeum.topcased.uml.editor.StereotypeVirtualContainer">
+		</VirtualContainer>
+	</extension>
 </plugin>

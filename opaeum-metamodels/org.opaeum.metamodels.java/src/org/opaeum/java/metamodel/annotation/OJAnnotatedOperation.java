@@ -129,4 +129,12 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 	public OJAnnotatedField getResultVariable(){
 		return this.resultVariable;
 	}
+	public OJParameter findParameter(String fieldname){
+		for(OJParameter p:getParameters()){
+			if(p.getName().equals(fieldname)){
+				return p;
+			}
+		}
+		return null;
+	}
 }

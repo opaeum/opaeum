@@ -42,6 +42,7 @@ import org.topcased.modeler.uml.oclinterpreter.NakedOclViewer;
 import org.topcased.modeler.uml.oclinterpreter.OCLDocument;
 
 public abstract class OclBodyComposite extends Composite{
+	protected boolean updating = false;
 	private final class ErrorHighlighter implements Runnable{
 		private boolean stopped;
 		private long nextRun = 0;
@@ -113,7 +114,9 @@ public abstract class OclBodyComposite extends Composite{
 				String text = viewer.getTextWidget().getText();
 				if(text != null && !text.trim().equals(lastVal.trim())){
 					lastVal = text;
+					updating=true;
 					fireOclChanged(text);
+					updating=false;
 				}
 			}
 		}
@@ -122,13 +125,13 @@ public abstract class OclBodyComposite extends Composite{
 	private OpaeumOclFactory factory;
 	protected NamedElement oclBodyOwner;
 	public static final String DEFAULT_TEXT = EmfValidationUtil.TYPE_EXPRESSION_HERE;
-	public static final String REQUIRED_TEXT = EmfValidationUtil.OCL_EXPRESSION_REQUIRED; 
+	public static final String REQUIRED_TEXT = EmfValidationUtil.OCL_EXPRESSION_REQUIRED;
 	private OCLDocument document;
 	private Control tabTo;
 	private KeyListener keyListener;
 	private ErrorHighlighter highlighter;
 	public OclBodyComposite(Composite parent,FormToolkit toolkit){
-		this(parent, toolkit,SWT.BORDER);
+		this(parent, toolkit, SWT.BORDER);
 	}
 	public OclBodyComposite(Composite parent,FormToolkit toolkit,int textControlStyle){
 		super(parent, SWT.NONE);
@@ -188,7 +191,9 @@ public abstract class OclBodyComposite extends Composite{
 		this.oclBodyOwner = oclBodyowner;
 		if(viewer != null){
 			if(oclBodyowner != null){
-				viewer.getTextWidget().setText(getOclText(getBodies(), getLanguages()));
+				if(!updating){
+					viewer.getTextWidget().setText(getOclText(getBodies(), getLanguages()));
+				}
 			}else{
 				viewer.getTextWidget().setText(DEFAULT_TEXT);
 			}
@@ -278,7 +283,7 @@ public abstract class OclBodyComposite extends Composite{
 	public static boolean containsExpression(String text){
 		return text != null && text.trim().length() != 0 && !text.equals(DEFAULT_TEXT);
 	}
-	public void addVariable(String name, Classifier type){
-		factory.addVariable(name,type);
+	public void addVariable(String name,Classifier type){
+		factory.addVariable(name, type);
 	}
 }

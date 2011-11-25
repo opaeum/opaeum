@@ -78,5 +78,10 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	protected int getThreadPoolSize(){
 		return 12;
 	}
+	public void release(){
+		this.uimRst=null;
+		this.workspace=null;
+		
+	}
 	
 }

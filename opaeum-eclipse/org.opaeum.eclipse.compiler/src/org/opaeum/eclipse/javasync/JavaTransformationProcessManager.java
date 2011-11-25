@@ -10,7 +10,7 @@ import java.util.WeakHashMap;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
-import org.opaeum.eclipse.EmfToNakedUmlSynchronizer;
+import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.GeneratorSourceFolderIdentifier;
@@ -21,7 +21,7 @@ import org.opaeum.feature.TransformationProcess;
 import org.opaeum.generation.features.BpmUsingJbpm5;
 import org.opaeum.generation.features.ExtendedCompositionSemantics;
 import org.opaeum.generation.features.OclExpressionExecution;
-import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
 import org.opaeum.javageneration.hibernate.HibernatePackageAnnotator;
 import org.opaeum.javageneration.jbpm5.Jbpm5EnvironmentBuilder;
@@ -76,7 +76,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 		Set<Class<? extends ITransformationStep>> steps = getAllSteps(ne.getConfig());
 		ne.getConfig().calculateOutputRoot(ne.getUmlDirectory().getProject().getLocation().toFile());
 		mapAdditionalOutputRoots(ne.getConfig());
-		process.removeModel(OJPackage.class);
+		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
 		process.removeModel(EmfWorkspace.class);
 		process.removeModel(INakedModelWorkspace.class);
@@ -116,7 +116,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 	}
 	@Override
 	public void earlyStartup(){
-		EmfToNakedUmlSynchronizer.schedule(new Runnable(){
+		EmfToOpaeumSynchronizer.schedule(new Runnable(){
 			@Override
 			public void run(){
 				Display.getDefault().syncExec(JavaTransformationProcessManager.this);

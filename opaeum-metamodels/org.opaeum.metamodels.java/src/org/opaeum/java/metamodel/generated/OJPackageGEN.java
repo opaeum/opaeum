@@ -6,6 +6,7 @@ package org.opaeum.java.metamodel.generated;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -27,8 +28,10 @@ abstract public class OJPackageGEN extends OJElement {
 	private Set<OJInterface> f_interfaces = new HashSet<OJInterface>();
 	private OJPackage f_parent = null;
 	private Set<OJPackage> f_subpackages = new HashSet<OJPackage>();
+	private OJPathName pn;
 	static protected boolean usesAllInstances = false;
 	static protected List<OJPackage> allInstances = new ArrayList<OJPackage>();
+	public static HashMap<OJPathName,Object> pkgs=new HashMap<OJPathName,Object>();
 
 	/**
 	 * Constructor for OJPackageGEN
@@ -387,9 +390,16 @@ abstract public class OJPackageGEN extends OJElement {
 			this.f_parent = element;
 			if (element != null) {
 				element.z_internalAddToSubpackages((OJPackage) ((OJPackage) this));
+				pkgs.put(this.pn=getPathName(), Object.class);
 			}
 		}
 	}
+	@Override
+	public void finalize(){
+		super.finalize();
+		pkgs.remove(pn);
+	}
+	
 
 	/**
 	 * Implements the getter for parent
@@ -406,6 +416,8 @@ abstract public class OJPackageGEN extends OJElement {
 	 */
 	public void z_internalAddToParent(OJPackage element) {
 		this.f_parent = element;
+		pkgs.put(this.pn=getPathName(), Object.class);
+
 	}
 
 	/**

@@ -19,13 +19,14 @@ import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.MappedType;
-import org.opeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 /**
  * Identifies the SimpleTypes that may be required by an application, such as EMailAddresses, CellPhoneNumbers and Dates Also identifies the
@@ -41,8 +42,14 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		}
 	}
 	@VisitBefore
+	public void visitDataType(INakedStructuredDataType m){
+		if(m.getName().equals("Duration")){
+			getBuiltInTypes().setDurationType(m);
+		}
+	}
+	@VisitBefore
 	public void visitInterface(INakedInterface m){
-		if( m.getName().equals("BusinessRole")){
+		if(m.getName().equals("BusinessRole")){
 			getBuiltInTypes().setBusinessRole(m);
 		}else if(m.getName().equals("TaskObject")){
 			getBuiltInTypes().setTaskObject(m);
@@ -106,10 +113,15 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 			}else if(primitiveType.getName().equalsIgnoreCase("boolean")){
 				updateDefaultType(primitiveType, "java.lang.Boolean");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("float")){
+				updateDefaultType(primitiveType, "java.lang.Double");
 			}else if(primitiveType.getName().equalsIgnoreCase("double")){
 				updateDefaultType(primitiveType, "java.lang.Double");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
 			}else if(primitiveType.getName().equalsIgnoreCase("long")){
+				updateDefaultType(primitiveType, "java.lang.Integer");
+				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
+			}else if(primitiveType.getName().equalsIgnoreCase("int")){
 				updateDefaultType(primitiveType, "java.lang.Integer");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
 			}else if(primitiveType.getName().equalsIgnoreCase("short")){
@@ -151,7 +163,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	@VisitAfter(matchSubclasses = true)
 	public void setCodeGenerationStrategy(INakedClassifier classifier){
 		MappedType mappedType = getBuiltInTypes().getTypeMap().get(getPathNameInModel(classifier).toString());
-		if(mappedType!=null){
+		if(mappedType != null){
 			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());
 		}else{

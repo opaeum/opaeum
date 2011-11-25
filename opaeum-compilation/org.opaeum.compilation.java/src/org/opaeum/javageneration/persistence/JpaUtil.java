@@ -22,7 +22,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedProperty;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 public class JpaUtil{
 	public static final String BACKTICK = "";
@@ -118,7 +118,7 @@ public class JpaUtil{
 		a.putAttribute(new OJAnnotationAttributeValue("cascade", new OJEnumValue(new OJPathName("javax.persistence.CascadeType"), "ALL")));
 	}
 	public static void addAndAnnotatedIdAndVersion(JpaIdStrategy jpaIdStrategy,OJAnnotatedClass ojClass,INakedComplexStructure complexType){
-		OJUtil.addProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
+		OJUtil.addPersistentProperty(ojClass, "id", new OJPathName(Long.class.getName()), true);
 		JpaUtil.annotateId(jpaIdStrategy, complexType, ojClass);
 		JpaUtil.annotateVersion(ojClass);
 	}
@@ -128,7 +128,7 @@ public class JpaUtil{
 		jpaIdStrategy.annotate(javaRoot, complexType);
 	}
 	private static void annotateVersion(OJAnnotatedClass javaRoot){
-		OJUtil.addProperty(javaRoot, "objectVersion", new OJPathName("int"), true);
+		OJUtil.addPersistentProperty(javaRoot, "objectVersion", new OJPathName("int"), true);
 		OJAnnotatedField versionField = (OJAnnotatedField) javaRoot.findField("objectVersion");
 		OJAnnotationValue version = new OJAnnotationValue(new OJPathName("javax.persistence.Version"));
 		versionField.putAnnotation(version);

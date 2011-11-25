@@ -20,9 +20,9 @@ import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.runtime.domain.IProcessStep;
+import org.opaeum.runtime.domain.TriggerMethod;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
-import org.opeum.runtime.domain.IProcessStep;
-import org.opeum.runtime.domain.TriggerMethod;
 
 public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnotator{
 	protected abstract INakedStep getEnclosingElement(INakedElement step);

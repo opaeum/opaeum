@@ -28,7 +28,7 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.filegeneration.TextFileDeleter;
 import org.opaeum.filegeneration.TextFileGenerator;
-import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.pomgeneration.PomGenerationPhase;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.TextProject;
@@ -68,7 +68,7 @@ public final class JavaProjectGenerator extends Job{
 					eclipseGen.visitSourceFolder(sourceFolder);
 					monitor.worked(20 / sourceFolders.size());
 				}
-				if(hasNewJavaSourceFolders){
+				if(hasNewJavaSourceFolders && cfg.generateMavenPoms()){
 					PomGenerationPhase pgp = process.getPhase(PomGenerationPhase.class);
 					pgp.getParentPom().getProject().getModules().getModule().clear();
 					pgp.getParentPom().getProject().getModules().getModule().addAll(determineMavenModules());
@@ -79,8 +79,6 @@ public final class JavaProjectGenerator extends Job{
 				for(IProject iProject:eclipseProjects){
 					iProject.refreshLocal(IProject.DEPTH_INFINITE, monitor);
 				}
-				process.removeModel(OJPackage.class);
-				process.removeModel(TextWorkspace.class);
 				monitor.worked(20);
 			}
 		}catch(Exception e){
@@ -88,6 +86,9 @@ public final class JavaProjectGenerator extends Job{
 			Activator.getDefault().getLog().log(error);
 			return error;
 		}finally{
+			process.findModel(OJWorkspace.class).release();
+			process.removeModel(OJWorkspace.class);
+			process.removeModel(TextWorkspace.class);
 			monitor.done();
 		}
 		return new Status(IStatus.OK, Activator.PLUGIN_ID, "Java projects generated Successfully");

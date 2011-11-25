@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
@@ -19,11 +20,13 @@ import org.eclipse.ocl.uml.UMLFactory;
 import org.eclipse.ocl.uml.Variable;
 import org.eclipse.ocl.uml.options.EvaluationMode;
 import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallOperationAction;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.DurationObservation;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Model;
@@ -34,12 +37,17 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SendSignalAction;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Stereotype;
+import org.eclipse.uml2.uml.StructuredActivityNode;
+import org.eclipse.uml2.uml.TimeObservation;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfBehaviorUtil;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.eclipse.LibraryImporter;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.uml.oclinterpreter.DelegatingPackageRegistry;
 import org.topcased.modeler.uml.oclinterpreter.ModelingLevel;
@@ -65,6 +73,44 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 			OpaeumEnvironment result = new OpaeumEnvironment(getResourceSet().getPackageRegistry(), getResourceSet());
 			result.setFactory(this);
 			Classifier nearestClassifier = EmfElementFinder.getNearestClassifier(context);
+			Model simpleTypes = LibraryImporter.findLibrary(context.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES);
+			Model bpmLib = LibraryImporter.findLibrary(context.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+			if(simpleTypes != null){
+				Type dateTime = simpleTypes.getOwnedType("DateTime");
+				if(dateTime != null){
+					if(nearestClassifier instanceof StateMachine){
+						addTimeObservations(result, nearestClassifier, dateTime, StereotypeNames.BUSINES_STATE_MACHINE);
+					}else if(nearestClassifier instanceof Activity){
+						addTimeObservations(result, nearestClassifier, dateTime, StereotypeNames.BUSINES_PROCESS);
+					}else{
+						Element element = context;
+						while(!(element instanceof Activity || element == null)){
+							if(element instanceof StructuredActivityNode){
+								addTimeObservations(result, element, dateTime, StereotypeNames.STRUCTURED_BUSINESS_PROCESS_NODE);
+							}
+							element = (Element) EmfElementFinder.getContainer(element);
+						}
+					}
+				}
+			}
+			if(bpmLib != null){
+				Type duration = bpmLib.getNestedPackage("businesscalendar").getOwnedType("Duration");
+				if(duration != null){
+					if(nearestClassifier instanceof StateMachine){
+						addDurationObservations(result, nearestClassifier, duration, StereotypeNames.BUSINES_STATE_MACHINE);
+					}else if(nearestClassifier instanceof Activity){
+						addDurationObservations(result, nearestClassifier, duration, StereotypeNames.BUSINES_PROCESS);
+					}else{
+						Element element = context;
+						while(!(element instanceof Activity || element == null)){
+							if(element instanceof StructuredActivityNode){
+								addDurationObservations(result, element, duration, StereotypeNames.STRUCTURED_BUSINESS_PROCESS_NODE);
+							}
+							element = (Element) EmfElementFinder.getContainer(element);
+						}
+					}
+				}
+			}
 			if(nearestClassifier instanceof Behavior){
 				Classifier contextObject = EmfBehaviorUtil.getContext(context);
 				if(contextObject != null){
@@ -94,7 +140,6 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
-			Model bpmLib = LibraryImporter.findLibrary(context.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
 			if(bpmLib != null){
 				Type br = bpmLib.getOwnedType("BusinessRole");
 				if(br != null){
@@ -104,7 +149,6 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 					result.addElement(var.getName(), var, true);
 				}
 			}
-			Model simpleTypes = LibraryImporter.findLibrary(context.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES);
 			if(simpleTypes != null){
 				Type br = simpleTypes.getOwnedType("DateTime");
 				if(br != null){
@@ -122,9 +166,33 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 			}
 			return result;
 		}
+		private void addDurationObservations(OpaeumEnvironment result,Element element,Type duration,String businesStateMachine){
+			Stereotype s = StereotypesHelper.getStereotype(element, businesStateMachine);
+			if(s != null){
+				EList<DurationObservation> obs = (EList<DurationObservation>) element.getValue(s, "durationObservations");
+				for(DurationObservation timeObservation:obs){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType(duration);
+					var.setName(timeObservation.getName());
+					result.addElement(var.getName(), var, true);
+				}
+			}
+		}
+		protected void addTimeObservations(OpaeumEnvironment result,Element element,Type br,String businesStateMachine){
+			Stereotype s = StereotypesHelper.getStereotype(element, businesStateMachine);
+			if(s != null){
+				EList<TimeObservation> obs = (EList<TimeObservation>) element.getValue(s, "timeObservations");
+				for(TimeObservation timeObservation:obs){
+					Variable var = UMLFactory.eINSTANCE.createVariable();
+					var.setType(br);
+					var.setName(timeObservation.getName());
+					result.addElement(var.getName(), var, true);
+				}
+			}
+		}
 	}
 	private Element context;
-	private Map<String,Classifier> variables=new HashMap<String,Classifier>();
+	private Map<String,Classifier> variables = new HashMap<String,Classifier>();
 	@Override
 	public void setContext(EObject context){
 		this.context = (Element) context;
@@ -160,7 +228,6 @@ public final class OpaeumOclFactory extends UMLOCLFactory{
 		return super.createOCL(level, res);
 	}
 	public void addVariable(String name,Classifier type){
-		variables.put(name,type);
-		
+		variables.put(name, type);
 	}
 }

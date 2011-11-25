@@ -12,8 +12,8 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEnumeration;
@@ -47,7 +47,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		putAnnotation(javaElement, an);
 	}
 	private static OJAnnotationValue buildAnnotation(INakedInstanceSpecification stereotypeApplication){
-		ClassifierMap map = new NakedClassifierMap(stereotypeApplication.getClassifier());
+		ClassifierMap map = OJUtil.buildClassifierMap(stereotypeApplication.getClassifier());
 		OJAnnotationValue an = new OJAnnotationValue(map.javaTypePath());
 		for(INakedSlot slot:stereotypeApplication.getSlots()){
 			NakedStructuralFeatureMap sfm = new NakedStructuralFeatureMap(slot.getDefiningFeature());
@@ -95,7 +95,7 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 				// String
 				aa.addStringValue(l.getName());
 			}else{
-				ClassifierMap ecm = new NakedClassifierMap(en);
+				ClassifierMap ecm = OJUtil.buildClassifierMap(en);
 				OJEnumValue ev = new OJEnumValue(ecm.javaTypePath(), l.getName().toUpperCase());
 				aa.addEnumValue(ev);
 			}

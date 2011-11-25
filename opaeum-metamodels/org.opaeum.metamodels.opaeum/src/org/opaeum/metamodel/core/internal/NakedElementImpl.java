@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -27,7 +25,28 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 /**
  * @author Ampie Barnard
  */
-public abstract class NakedElementImpl implements Serializable,INakedElement{
+public abstract class NakedElementImpl extends NakedElementOwnerImpl implements Serializable,INakedElement{
+	protected List<INakedComment> comments = new ArrayList<INakedComment>();
+
+	@Override
+	public void addOwnedElement(INakedElement element){
+		if(element instanceof INakedComment){
+			comments.add((INakedComment) element);
+		}
+		super.addOwnedElement(element);
+	}
+	@Override
+	public void removeOwnedElement(INakedElement element,boolean recursively){
+		if(element instanceof INakedComment){
+			comments.remove(element);
+		}else if(element instanceof INakedInstanceSpecification){
+			INakedInstanceSpecification sa = (INakedInstanceSpecification) element;
+			if(stereotypes.containsKey(sa.getName())){
+				stereotypes.remove(sa.getName());
+			}
+		}
+		super.removeOwnedElement(element, recursively);
+	}
 	private boolean markedForDeletion;
 	String uuid;
 	private static final long serialVersionUID = -825314743586339864L;
@@ -36,14 +55,13 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	 * links itself. This should make it easier to populate the Modelelement from various sources
 	 */
 	protected String id;
-	protected MappingInfo mappingInfo;
-	private Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
+	Map<String,INakedInstanceSpecification> stereotypes = new HashMap<String,INakedInstanceSpecification>();
 	private INakedElementOwner ownerElement;
-	private Map<String,INakedElement> ownedElements = new HashMap<String,INakedElement>();
-	private List<INakedComment> comments = new ArrayList<INakedComment>();
-	private String name;
 	private String documentation;
 	private boolean storeMappingInfo;
+	public NakedElementImpl(){
+		counts.put(getClass(), getCount() + 1);
+	}
 	public String getDocumentation(){
 		return documentation;
 	}
@@ -59,58 +77,12 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 	public void setDocumentation(String documentation){
 		this.documentation = documentation;
 	}
-	public String getName(){
-		return name;
-	}
-	public void setName(String name){
-		if("ObjectFlow2kkkkll".equalsIgnoreCase(name)){
-			System.out.println();
-		}
-		this.name = name;
-	}
-	public Collection<INakedElement> getOwnedElements(){
-		return new HashSet<INakedElement>( ownedElements.values());
-	}
-	public void addOwnedElement(INakedElement element){
-		ownedElements.put(element.getId(),element);
-		if(element instanceof INakedComment){
-			comments.add((INakedComment) element);
-		}
-		if(element != null){
-			element.setOwnerElement(this);
-		}
-	}
-	public void removeOwnedElement(INakedElement element,boolean recursively){
-		ownedElements.remove(element);
-		if(element instanceof INakedComment){
-			comments.remove(element);
-		}else if(element instanceof INakedInstanceSpecification){
-			INakedInstanceSpecification sa = (INakedInstanceSpecification) element;
-			if(stereotypes.containsKey(sa.getName())){
-				stereotypes.remove(sa.getName());
-			}
-		}
-		if(element != null && recursively){
-			for(INakedElement child:new ArrayList<INakedElement>(element.getOwnedElements())){
-				element.removeOwnedElement(child, recursively);
-				child.markForDeletion();
-			}
-		}
-	}
-	public NakedElementImpl(){
-	}
 	public List<INakedComment> getComments(){
 		return comments;
 	}
 	public Collection<INakedInstanceSpecification> getStereotypes(){
 		return this.stereotypes.values();
 	}
-	/**
-	 * Returns a the UML meta class being wrapped,
-	 * 
-	 * @return
-	 */
-	public abstract String getMetaClass();
 	/**
 	 * This method is used only by Octopus ocl generation. Uses the qualifiedJavaName
 	 */
@@ -236,21 +208,5 @@ public abstract class NakedElementImpl implements Serializable,INakedElement{
 			return ((INakedElement) getOwnerElement()).getRootObject();
 		}
 		return null;
-	}
-	@Override
-	public Collection<INakedElement> getAllDescendants(){
-		Set<INakedElement> result = new HashSet<INakedElement>();
-		addAll(result, getOwnedElements());
-		return result;
-	}
-	private void addAll(Set<INakedElement> result,Collection<INakedElement> ownedElements2){
-		result.addAll(ownedElements2);
-		for(INakedElement e:ownedElements2){
-			addAll(result, e.getOwnedElements());
-		}
-	}
-	@Override
-	public INakedElement getOwnedElement(String id){
-		return ownedElements.get(id);
 	}
 }

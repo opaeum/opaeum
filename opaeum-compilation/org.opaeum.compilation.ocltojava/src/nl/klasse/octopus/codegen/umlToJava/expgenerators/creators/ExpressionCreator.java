@@ -117,9 +117,8 @@ public class ExpressionCreator {
 			} else {
 				result = in.getName();						
 			}
-			result="_"+result;
 		}
-		return result;
+		return StringHelpers.firstCharToLower(result);
 	}
 
 	public String makeVarDecl(IVariableDeclaration exp, boolean isStatic, List<OJParameter> params) {

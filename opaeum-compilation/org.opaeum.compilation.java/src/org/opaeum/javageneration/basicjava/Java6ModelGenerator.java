@@ -41,6 +41,9 @@ import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.IEnum;
+import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
@@ -48,21 +51,20 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 import org.opaeum.textmetamodel.SourceFolder;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
 import org.opaeum.textmetamodel.TextFile;
-import org.opeum.runtime.domain.IEnum;
-import org.opeum.runtime.domain.ISignal;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {UmlToJavaMapInitialiser.class},after = {UmlToJavaMapInitialiser.class})
 public class Java6ModelGenerator extends AbstractStructureVisitor{
 	static{
 		// Because of eclipse classloading issues
 		OpaeumConfig.registerClass(DateTimeStrategyFactory.class);
 		OpaeumConfig.registerClass(TextStrategyFactory.class);
+		OpaeumConfig.registerClass(BlobStrategyFactory.class);
 		StdlibMap.javaRealType.replaceTail("double");
 		StdlibMap.javaRealObjectType.replaceTail("Double");
 	}
 	@Override
 	protected int getThreadPoolSize(){
-		return 1;// adds too many entries to shared non-synchronized collections;
+		return 5;// adds too many entries to shared non-synchronized collections;
 	}
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
@@ -85,23 +87,23 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName()));
 				deletePackage(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, new OJPathName(c.getMappingInfo().getOldQualifiedJavaName().toLowerCase()));
 			}
-			OJPathName path = OJUtil.packagePathname(c.getNameSpace());
-			OJPackage pack = findOrCreatePackage(path);
-			ClassifierMap classifierMap = new NakedClassifierMap(c);
+			OJPathName path = OJUtil.classifierPathname(c);
+			OJPackage pack = findOrCreatePackage(path.getHead());
+			ClassifierMap classifierMap = OJUtil.buildClassifierMap(c);
 			OJAnnotatedClass myClass;
 			if(c instanceof INakedEnumeration){
-				myClass = new OJEnum(c.getName());
+				myClass = new OJEnum(path.getLast());
 				// In case it needs to be sent by jms or serialized as session state
 				myClass.addToImplementedInterfaces(new OJPathName(Serializable.class.getName()));
 				myClass.addToImplementedInterfaces(new OJPathName(IEnum.class.getName()));
 				OJUtil.addMetaInfo(myClass, c);
 			}else if(c instanceof INakedInterface){
-				myClass = new OJAnnotatedInterface(c.getName());
+				myClass = new OJAnnotatedInterface(path.getLast());
 				// In case it needs to be sent by jms or serialized as session state
 				((OJAnnotatedInterface) myClass).addToSuperInterfaces(new OJPathName(Serializable.class.getName()));
 				OJUtil.addMetaInfo(myClass, c);
 			}else{
-				myClass = new OJAnnotatedClass(c.getName());
+				myClass = new OJAnnotatedClass(path.getLast());
 				// Create default constructor for inits
 				myClass.getDefaultConstructor();
 				// In case it needs to be sent by jms or serialized as session state
@@ -116,7 +118,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}
 			// TODO find another place
 			if(c instanceof INakedSignal){
-				SignalMap signalMap = new SignalMap((INakedSignal) c);
+				SignalMap signalMap = OJUtil.buildSignalMap((INakedSignal) c);
 				OJAnnotatedInterface receiver = new OJAnnotatedInterface(signalMap.receiverContractTypePath().getLast());
 				pack.addToClasses(receiver);
 				OJAnnotatedOperation consumeMethod = new OJAnnotatedOperation(signalMap.eventConsumerMethodName(), new OJPathName("boolean"));
@@ -169,7 +171,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 			}else if(c instanceof INakedBehavior){
 				INakedOperation specification = ((INakedBehavior) c).getSpecification();
 				if(specification != null){
-					NakedClassifierMap map = new NakedClassifierMap(specification.getMessageStructure());
+					NakedClassifierMap map = OJUtil.buildClassifierMap(specification.getMessageStructure());
 					myClass.setSuperclass(map.javaTypePath());
 				}
 			}

@@ -57,7 +57,7 @@ public class BehaviorUtil{
 		}
 		return false;
 	}
-	public boolean requiresExternalInput(INakedActivity origin,INakedActivityNode node){
+	private boolean requiresExternalInput(INakedActivity origin,INakedActivityNode node){
 		if((node instanceof INakedAcceptEventAction)){
 			return true;
 		}else if(node instanceof INakedStartClassifierBehaviorAction){
@@ -153,6 +153,7 @@ public class BehaviorUtil{
 	}
 	public boolean isLongRunning(INakedOperation o){
 		if(o.isLongRunning()){
+			System.out.println();
 			return true;
 		}else{
 			for(INakedBehavior method:o.getMethods()){

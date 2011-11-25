@@ -15,7 +15,11 @@ import org.opaeum.velocity.AbstractTextProducingVisitor;
 public abstract class AbstractBootstrapStep extends AbstractTextProducingVisitor implements ITransformationStep {
 	protected INakedModel currentModel;
 
-
+	@Override
+	public void release(){
+		super.release();
+		currentModel=null;
+	}
 	protected void createConfig(String name, TextSourceFolderIdentifier outputRootId) {
 		CharArrayWriter outputBuilder = copyResource(name);
 		findOrCreateTextFile(outputBuilder, outputRootId, name);

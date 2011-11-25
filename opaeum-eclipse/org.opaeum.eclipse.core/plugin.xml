@@ -6,4 +6,25 @@
    <extension-point id="org.opaeum.eclipse.modelLibrary" name="modelLibrary" schema="schema/modelLibrary.exsd"/>
    <extension-point id="org.opaeum.eclipse.profile" name="Profile" schema="schema/profile.exsd"/>
    <extension-point id="org.opaeum.eclipse.strategyFactory" name="StrategyFactory" schema="schema/strategyFactory.exsd"/>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.opaeum.eclipse.core.objectContribution1"
+            objectClass="org.eclipse.gef.editparts.AbstractGraphicalEditPart">
+         <menu
+               id="org.opaeum.graphic.menu"
+               label="Opaeum">
+         </menu>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.opaeum.eclipse.core.objectContribution2"
+            objectClass="org.eclipse.uml2.uml.Element">
+         <menu
+               id="org.opaeum.outline.menu"
+               label="Opaeum">
+         </menu>
+      </objectContribution>
+   </extension>
 </plugin>

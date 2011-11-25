@@ -38,4 +38,5 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	void clearRootClassifiers();
 	void addRootClassifier(INakedClassifier cp);
 	Collection<INakedClassifier> getRootClassifiers();
+	void release();
 }

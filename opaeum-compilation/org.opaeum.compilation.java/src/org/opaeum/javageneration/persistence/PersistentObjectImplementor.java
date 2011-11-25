@@ -24,8 +24,8 @@ import org.opaeum.metamodel.core.INakedPowerType;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.models.INakedModel;
+import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
-import org.opeum.runtime.domain.IPersistentObject;
 
 /**
  * This class builds all the operations specified by the AbstractEntity interface. It also provides an implementation for the equals method

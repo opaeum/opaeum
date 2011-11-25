@@ -25,6 +25,8 @@ import org.opaeum.java.metamodel.utilities.InvariantError;
  * Class ...
  */
 abstract public class OJClassGEN extends OJClassifier{
+	public static Set<OJPathName> pns=new HashSet<OJPathName>();
+	protected OJPathName pn;
 	private boolean f_needsSuppress = false;
 	protected Map<String,OJField> f_fields = new HashMap<String,OJField>();
 	private OJPackage f_myPackage = null;
@@ -42,6 +44,12 @@ abstract public class OJClassGEN extends OJClassifier{
 			allInstances.add(((OJClass) this));
 		}
 	}
+	@Override
+	public void finalize(){
+		super.finalize();
+		pns.remove(pn);
+	}
+	
 	/**
 	 * Constructor for OJClassGEN
 	 * 
@@ -209,6 +217,8 @@ abstract public class OJClassGEN extends OJClassifier{
 			this.f_myPackage = element;
 			if(element != null){
 				element.z_internalAddToClasses(((OJClass) this));
+				pns.add(this.pn=getPathName());
+
 			}
 		}
 	}
@@ -226,6 +236,8 @@ abstract public class OJClassGEN extends OJClassifier{
 	 */
 	public void z_internalAddToMyPackage(OJPackage element){
 		this.f_myPackage = element;
+		pns.add(this.pn=getPathName());
+
 	}
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link for association end '+ myPackage : OJPackage' when a single

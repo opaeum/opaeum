@@ -89,12 +89,12 @@ public class ValueSpecificationUtil{
 	}
 	public static void addExtendedKeywords(OJOperation operationContext,IOclContext value){
 		if(value.getExpressionString().contains("now") && !hasLocal(operationContext, "now")){
-			OJAnnotatedField now = new OJAnnotatedField("_now", new OJPathName("java.util.Date"));
+			OJAnnotatedField now = new OJAnnotatedField("now", new OJPathName("java.util.Date"));
 			now.setInitExp("new Date()");
 			operationContext.getBody().addToLocals(now);
 		}
 		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("_currentUser", new OJPathName("org.opaeum.runtime.bpm.BusinessRole"));
+			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opaeum.runtime.bpm.BusinessRole"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}
@@ -115,7 +115,7 @@ public class ValueSpecificationUtil{
 			expression = "\"" + valueSpec.getValue().toString() + "\"";
 		}else if(valueSpec.getValue() instanceof INakedEnumerationLiteral){
 			INakedEnumerationLiteral l = (INakedEnumerationLiteral) valueSpec.getValue();
-			NakedClassifierMap map = new NakedClassifierMap(l.getEnumeration());
+			NakedClassifierMap map = OJUtil.buildClassifierMap(l.getEnumeration());
 			expression = map.javaType() + "." + l.getName().toUpperCase();
 		}else if(valueSpec.getValue() instanceof Number){
 			expression = valueSpec.getValue().toString();
@@ -124,7 +124,7 @@ public class ValueSpecificationUtil{
 			// TODO instancespecifications
 		}else if(valueSpec.getValue() instanceof INakedInstanceSpecification){
 			INakedInstanceSpecification spec = (INakedInstanceSpecification) valueSpec.getValue();
-			NakedClassifierMap map = new NakedClassifierMap(spec.getClassifier());
+			NakedClassifierMap map = OJUtil.buildClassifierMap(spec.getClassifier());
 			final OJAnnotatedOperation getInstance = new OJAnnotatedOperation("get" + spec.getName() + spec.getMappingInfo().getOpaeumId(), map.javaTypePath());
 			ojOwner.addToOperations(getInstance);
 			final OJAnnotatedField result = new OJAnnotatedField("result", map.javaTypePath());
@@ -170,24 +170,29 @@ public class ValueSpecificationUtil{
 					return "java.util.Collections.singleton(" + java + ")";
 				}
 			}
+		}else{
+			if(expression.getExpressionType().isCollectionKind()){
+				ClassifierMap classifierMap = new ClassifierMap(expectedType);
+				return "("+classifierMap.javaType()+")Stdlib.collectionAsSingleObject("+java+")";
+			}
 		}
 		return java;
 	}
 	public static String expressDefaultOrImplicitObject(INakedClassifier owner,IClassifier expectedType){
 		String expression;
-		ClassifierMap map = new NakedClassifierMap(expectedType);
+		ClassifierMap map = OJUtil.buildClassifierMap(expectedType);
 		if(expectedType.isCollectionKind()){
 			throw new IllegalStateException("Implicit objects cannot be collections");
 		}
 		if(owner.conformsTo(expectedType)){
-			expression = "this";
+			expression = "getSelf()";
 		}else if(owner instanceof INakedBehavior){
 			INakedBehavior b = (INakedBehavior) owner;
 			if(b.getContext() != null && b.getContext().conformsTo(expectedType)){
 				if(BehaviorUtil.hasExecutionInstance(b)){
 					expression = "getContextObject()";
 				}else{
-					expression = "this";
+					expression = "getSelf()";
 				}
 			}else{
 				expression = map.javaDefaultValue();

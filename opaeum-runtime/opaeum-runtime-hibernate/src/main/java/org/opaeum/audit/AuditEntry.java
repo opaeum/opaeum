@@ -15,6 +15,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -62,7 +64,8 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 	private Class<? extends IPersistentObject> originalClass;
 	@Transient
 	private IPersistentObject original;
-
+	@Enumerated(EnumType.STRING)
+	private AuditedAction action;
 	public AuditEntry() {
 		super();
 	}
@@ -225,6 +228,14 @@ public class AuditEntry implements Serializable, Comparable<AuditEntry> {
 
 	public IPersistentObject getOriginal() {
 		return original;
+	}
+
+	public AuditedAction getAction() {
+		return action;
+	}
+
+	public void setAction(AuditedAction action) {
+		this.action = action;
 	}
 
 }

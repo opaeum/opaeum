@@ -18,7 +18,7 @@ public class NakedStartClassifierBehaviorActionImpl extends NakedActionImpl impl
 	}
 	public void setObject(INakedInputPin object){
 		if(this.object != object){
-			this.removeOwnedElement(this.object, true);
+			this.replacePin(this.object, object);
 			this.object = object;
 		}
 	}

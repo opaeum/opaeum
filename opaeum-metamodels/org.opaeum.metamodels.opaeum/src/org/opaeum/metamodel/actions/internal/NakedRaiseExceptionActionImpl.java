@@ -26,7 +26,7 @@ public class NakedRaiseExceptionActionImpl extends NakedActionImpl implements IN
 	@Override
 	public void setException(INakedInputPin p){
 		if(this.exception != p){
-			removeOwnedElement(this.exception, true);
+			replacePin(this.exception,p);
 			this.exception = p;
 		}
 	}

@@ -52,4 +52,12 @@ public class FileGenerationPhase implements TransformationPhase<AbstractTextNode
 	public Collection<AbstractTextNodeVisitor> getSteps(){
 		return features;
 	}
+	@Override
+	public void release(){
+		this.textWorkspace=null;
+		for(AbstractTextNodeVisitor g:this.features){
+			g.release();
+		}
+		
+	}
 }

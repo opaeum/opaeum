@@ -103,7 +103,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 							return "<Business Role Containment> " + a.getName();
 						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.DIMENSION)){
 							return "<Dimension> " + a.getName();
-						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.FACT)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.MEASURE)){
 							return "<Fact> " + a.getName();
 						}
 					}

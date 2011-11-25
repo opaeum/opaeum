@@ -42,6 +42,7 @@
   </build>
   <modules>
     <module>opaeum-tests-processmodel</module>
+    <module>opaeum-tests-structuretests</module>
   </modules>
   <repositories>
     <repository>
@@ -185,13 +186,63 @@
           </exclusion>
         </exclusions>
       </dependency>
+      <dependency>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-bpm-hibernate</artifactId>
+        <version>${opaeum.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-jpa</artifactId>
+        <version>${opaeum.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-domain</artifactId>
+        <version>${opaeum.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.opaeum</groupId>
+        <artifactId>opaeum-runtime-hibernate</artifactId>
+        <version>${opaeum.version}</version>
+        <type>jar</type>
+        <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <properties>
     <opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
-    <opaeum-tests-processmodel.version>0.0.11-SNAPSHOT</opaeum-tests-processmodel.version>
+    <opaeum-tests-processmodel.version>0.0.12-SNAPSHOT</opaeum-tests-processmodel.version>
     <hibernate.version>3.4.0.GA</hibernate.version>
     <jbpm.version>5.0-SNAPSHOT</jbpm.version>
     <drools.version>5.2.0.M1</drools.version>
+    <structuretests.version>0.0.1-SNAPSHOT</structuretests.version>
+    <jboss.domain>default</jboss.domain>
+    <jboss.home>${env.JBOSS_HOME}</jboss.home>
+    <opaeum-tests-structuretests.version>0.0.1-SNAPSHOT</opaeum-tests-structuretests.version>
   </properties>
 </project>

@@ -132,12 +132,6 @@
 			<artifactId>opaeum-runtime-domain</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.opaeum</groupId>
-			<artifactId>opaeum-generators</artifactId>
-			<version>${opaeum.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>

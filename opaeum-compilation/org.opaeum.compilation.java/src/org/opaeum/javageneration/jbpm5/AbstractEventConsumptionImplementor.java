@@ -16,7 +16,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.IMessageMap;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
@@ -43,7 +42,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 	protected static final OJPathName NODE_INSTANCE_CONTAINER = new OJPathName("org.jbpm.workflow.instance.NodeInstanceContainer");
 	protected static final OJPathName NODE_CONTAINER = new OJPathName("org.jbpm.workflow.core.NodeContainer");
 	protected static final OJPathName NODE = new OJPathName("org.jbpm.workflow.core.Node");
-	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opeum.runtime.domain.UmlNodeInstance");
+	public static final OJPathName UML_NODE_INSTANCE = new OJPathName("org.opaeum.runtime.domain.UmlNodeInstance");
 	protected abstract void consumeEvent(OJOperation operationContext,FromNode node,OJIfStatement ifTokenFound);
 	abstract protected void implementEventConsumerBody(ElementsWaitingForEvent eventActions,OJAnnotatedOperation listener,OJIfStatement ifProcessActive);
 	protected void implementEventConsumption(OJAnnotatedClass ojBehavior,INakedTriggerContainer behavior,Collection<ElementsWaitingForEvent> ea){
@@ -63,7 +62,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
 			if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
 				INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
-				SignalMap map = new SignalMap(signalEvent.getSignal());
+				SignalMap map = OJUtil.buildSignalMap(signalEvent.getSignal());
 				if(behavior.hasReceptionFor(signalEvent.getSignal())){
 					activiateSignalEventGeneration(behavior, ojBehavior, map);
 				}
@@ -82,7 +81,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		for(ElementsWaitingForEvent elementsWaitingForEvent:ea){
 			if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
 				INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
-				SignalMap map = new SignalMap(signalEvent.getSignal());
+				SignalMap map = OJUtil.buildSignalMap(signalEvent.getSignal());
 				if(context.hasReceptionFor(signalEvent.getSignal())){
 					// Could originate from the context
 					// delegate to this owned behavior
@@ -93,7 +92,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 				INakedCallEvent ce = (INakedCallEvent) elementsWaitingForEvent.getEvent();
 				INakedOperation operation = ce.getOperation();
 				if(context.conformsTo(operation.getOwner())){
-					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, new NakedOperationMap(operation));
+					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, OJUtil.buildOperationMap(operation));
 					activateCallEventGeneration(context, ojContext, operation);
 				}
 			}
@@ -107,7 +106,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		}
 	}
 	private void activateCallEventGeneration(INakedBehavioredClassifier context,OJAnnotatedClass ojContext,INakedOperation operation){
-		NakedOperationMap map = new NakedOperationMap(operation);
+		NakedOperationMap map = OJUtil.buildOperationMap(operation);
 		OJAnnotatedOperation eventGenerator = OperationAnnotator.findOrCreateEventGenerator(context, ojContext, map);
 		if(eventGenerator.getBody().getStatements().isEmpty()){
 			ojContext.addToImports(map.eventHandlerPath());
@@ -206,9 +205,9 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		if(event instanceof INakedMessageEvent){
 			IMessageMap map1;
 			if(event instanceof INakedCallEvent){
-				map1 = new NakedOperationMap(((INakedCallEvent) event).getOperation());
+				map1 = OJUtil.buildOperationMap(((INakedCallEvent) event).getOperation());
 			}else{
-				map1 = new SignalMap(((INakedSignalEvent) event).getSignal());
+				map1 = OJUtil.buildSignalMap(((INakedSignalEvent) event).getSignal());
 			}
 			OJAnnotatedOperation listener = OperationAnnotator.findOrCreateEventConsumer(behavior, activityClass, map1);
 			OJUtil.removeReturnStatement(listener);
@@ -216,7 +215,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 		}else{
 			// TODO if the behavior's superBehavior reacts to this event to, initialise consumed:boolean to super.consumeEventxyz
 			String methodName = EventUtil.getEventConsumerName(event);
-			OJAnnotatedOperation listener = (OJAnnotatedOperation) OJUtil.findOperation(activityClass, methodName);
+			OJAnnotatedOperation listener = (OJAnnotatedOperation) activityClass.getUniqueOperation(methodName);
 			if(listener == null){
 				listener = new OJAnnotatedOperation(methodName);
 				listener.setReturnType(new OJPathName("boolean"));
@@ -234,13 +233,13 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 					}else{
 						pn = OJUtil.classifierPathname((INakedEmbeddedScreenFlowTask) origin);
 					}
-					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getOpaeumLibrary().getDateType()).javaTypePath());
+					listener.addParam("triggerDate", OJUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType()).javaTypePath());
 					listener.addParam("source", pn);
 				}else if(event instanceof INakedChangeEvent){
 					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
 				}else if(event instanceof INakedTimeEvent){
 					listener.addParam("nodeInstanceUniqueId", new OJPathName("String"));
-					listener.addParam("triggerDate", new NakedClassifierMap(workspace.getOpaeumLibrary().getDateType()).javaTypePath());
+					listener.addParam("triggerDate", OJUtil.buildClassifierMap(workspace.getOpaeumLibrary().getDateType()).javaTypePath());
 				}
 			}
 			return listener;

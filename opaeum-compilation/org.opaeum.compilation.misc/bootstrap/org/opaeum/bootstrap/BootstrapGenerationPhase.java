@@ -55,4 +55,12 @@ public class BootstrapGenerationPhase implements TransformationPhase<AbstractBoo
 	public Collection<AbstractBootstrapStep> getSteps(){
 		return features;
 	}
+	@Override
+	public void release(){
+		this.textWorkspace = null;
+		this.workspace = null;
+		for(AbstractBootstrapStep b:this.features){
+			b.release();
+		}
+	}
 }

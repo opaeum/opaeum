@@ -33,7 +33,6 @@ public class ApplyProfileAction extends AbstractOpaeumAction{
 				}
 				@Override
 				public void execute(){
-					System.out.println("sdfg");
 					redo();
 				}
 				@Override

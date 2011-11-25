@@ -37,8 +37,9 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	private List<AbstractModelElementLinker> linkers;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+		ErrorRemover er = new ErrorRemover();
 		for(INakedElement element:elements){
-			new ErrorRemover().visitRecursively(element);
+			er.visitRecursively(element);
 		}
 		Collection<INakedElement> affectedElements = new HashSet<INakedElement>(elements);
 		for(AbstractModelElementLinker d:linkers){
@@ -110,5 +111,13 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 				MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class,
 				ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class, EnumerationValuesAttributeAdder.class, TypeResolver.class,
 				SourcePopulationResolver.class,RootClassifierIdentifier.class));
+	}
+	@Override
+	public void release(){
+		this.modelWorkspace=null;
+		for(AbstractModelElementLinker l:this.linkers){
+			l.release();
+		}
+		
 	}
 }

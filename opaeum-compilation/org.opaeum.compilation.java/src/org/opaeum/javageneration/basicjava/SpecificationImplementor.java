@@ -11,6 +11,7 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -30,7 +31,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.IParameterOwner;
-import org.opeum.runtime.domain.IActiveEntity;
+import org.opaeum.runtime.domain.IActiveEntity;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	OperationAnnotator.class
@@ -51,7 +52,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 				implementStartClassifierBehavior(ob);
 			}else{
 				if(ob.isProcess() && ob.getSpecification() == null){
-					implementCallbacksOnCompletionOrFailure(new NakedOperationMap(ob));
+					implementCallbacksOnCompletionOrFailure(OJUtil.buildOperationMap(ob));
 				}
 				if(requiresOperationForInvocation(ob)){
 					implementSpecification(ob);
@@ -66,7 +67,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		setReturnInfo.getBody().addToStatements("this.callingProcessInstanceId=context.getProcessInstance().getId()");
 		setReturnInfo.getBody().addToStatements(
 				"this.callingNodeInstanceUniqueId=((" + Jbpm5Util.getNodeInstance().getLast() + ")context.getNodeInstance()).getUniqueId()");
-		OJUtil.addProperty(ojClass, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
+		OJUtil.addPersistentProperty(ojClass, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
 		ojClass.addToImports(Jbpm5Util.getNodeInstance());
 	}
 	@VisitAfter(matchSubclasses = true)
@@ -74,33 +75,39 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		List<IOperation> operations = c.getOperations();
 		for(IOperation o:operations){
 			if(o.getOwner() == c || o.getOwner() instanceof INakedInterface){
-				implementCallbacksOnCompletionOrFailure(new NakedOperationMap((IParameterOwner) o));
+				implementCallbacksOnCompletionOrFailure(OJUtil.buildOperationMap((IParameterOwner) o));
 			}
 		}
 	}
 	private void implementCallbacksOnCompletionOrFailure(NakedOperationMap map){
-		if(map.getParameterOwner().isLongRunning()){
+		if(BehaviorUtil.hasExecutionInstance(map.getParameterOwner())){
 			OJAnnotatedClass ojOperationClass = (OJAnnotatedClass) javaModel.findClass(map.messageStructurePath());
-			Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
-			addSetReturnInfo(ojOperationClass);
 			OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
 			ojOperationClass.addToOperations(complete);
 			if(map.getParameterOwner().getPostConditions().size() > 0){
 				complete.getBody().addToStatements("evaluatePostConditions()");
 				OJUtil.addFailedConstraints(complete);
 			}
-			OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
-			complete.getBody().addToLocals(callBackListener);
-			callBackListener.setInitExp("getCallingProcessObject()");
-			OJIfStatement ifNotNull = new OJIfStatement("callbackListener!=null", "callbackListener." + map.callbackOperName()
-					+ "(getCallingNodeInstanceUniqueId(),this)");
-			complete.getBody().addToStatements(ifNotNull);
-			addGetCallingProcessObject(ojOperationClass, map.callbackListenerPath());
-			propagateExceptions(map, ojOperationClass);
+			if(map.getParameterOwner() instanceof INakedBehavior){
+				complete.getBody().addToStatements("getProcessInstance().setState(WorkflowProcessInstance.STATE_COMPLETED)");
+			}
+			OJAnnotatedField currentException = OJUtil.addTransientProperty(ojOperationClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"),true);
+			currentException.setVisibility(OJVisibilityKind.PROTECTED);
+			if(map.getParameterOwner().isLongRunning()){
+				Jbpm5Util.implementRelationshipWithProcess(ojOperationClass, true, "callingProcess");
+				addSetReturnInfo(ojOperationClass);
+				OJAnnotatedField callBackListener = new OJAnnotatedField("callbackListener", map.callbackListenerPath());
+				complete.getBody().addToLocals(callBackListener);
+				callBackListener.setInitExp("getCallingProcessObject()");
+				OJIfStatement ifNotNull = new OJIfStatement("callbackListener!=null", "callbackListener." + map.callbackOperName()
+						+ "(getCallingNodeInstanceUniqueId(),this)");
+				complete.getBody().addToStatements(ifNotNull);
+				addGetCallingProcessObject(ojOperationClass, map.callbackListenerPath());
+				propagateExceptions(map, ojOperationClass);
+			}
 		}
 	}
 	private void propagateExceptions(NakedOperationMap map,OJAnnotatedClass ojOperationClass){
-		ojOperationClass.addToFields(new OJAnnotatedField(Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object")));
 		OJAnnotatedOperation propagateException = new OJAnnotatedOperation("propagateException");
 		ojOperationClass.addToOperations(propagateException);
 		propagateException.addParam("exception", new OJPathName("Object"));
@@ -110,7 +117,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		OJIfStatement ifNull = new OJIfStatement("callbackListener==null");
 		propagateException.getBody().addToStatements(ifNull);
 		OJIfStatement previousIf = ifNull;
-		previousIf .setElsePart(new OJBlock());
+		previousIf.setElsePart(new OJBlock());
 		if(map.getParameterOwner() instanceof INakedOperation){
 			INakedOperation oper = (INakedOperation) map.getParameterOwner();
 			for(INakedClassifier ex:oper.getRaisedExceptions()){
@@ -118,7 +125,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 				previousIf.getElsePart().addToStatements(ifInstance);
 				ifInstance.getThenPart().addToStatements("callbackListener." + map.exceptionOperName(ex) + "(getCallingNodeInstanceUniqueId(),exception,this)");
 				previousIf = ifInstance;
-				previousIf .setElsePart(new OJBlock());
+				previousIf.setElsePart(new OJBlock());
 			}
 		}
 		previousIf.getElsePart().addToStatements("callbackListener." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
@@ -129,11 +136,11 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 	private void invokeSimpleBehavior(INakedBehavior behavior,OJOperation javaMethod){
 	}
 	private void implementSpecification(INakedBehavior o){
-		NakedOperationMap map = new NakedOperationMap(o.getSpecification() == null ? o : o.getSpecification());
+		NakedOperationMap map = OJUtil.buildOperationMap(o.getSpecification() == null ? o : o.getSpecification());
 		OJAnnotatedClass ojContext = findJavaClass(o.getContext());
 		// Behaviours without
 		// specifications are given an emulated specification
-		List<OJPathName> parmTypes = o.isLongRunning()? map.javaParamTypePathsWithReturnInfo():map.javaParamTypePaths();
+		List<OJPathName> parmTypes = o.isLongRunning() ? map.javaParamTypePathsWithReturnInfo() : map.javaParamTypePaths();
 		OJOperation javaMethod = ojContext.findOperation(map.javaOperName(), parmTypes);
 		if(o.isProcess()){
 			implementProcessCreation(o, ojContext, javaMethod);
@@ -167,7 +174,7 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		start.getBody().addToStatements("_behavior.execute()");
 		NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
 		start.getBody().addToStatements(otherMap.setter() + "(_behavior)");
-		OJOperation addToOwner = OJUtil.findOperation(ojContext, "addToOwningObject");
+		OJOperation addToOwner = ojContext.getUniqueOperation("addToOwningObject");
 		if(addToOwner != null){
 			addToOwner.getBody().addToStatements("startClassifierBehavior()");
 		}

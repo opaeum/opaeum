@@ -5,13 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
+
 import org.opaeum.feature.InputModel;
 import org.opaeum.feature.IntegrationPhase;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
-import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
+import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.LinkagePhase;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
@@ -40,7 +43,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@InputModel
 	private INakedModelWorkspace modelWorkspace;
 	@InputModel
-	OJPackage javaModel;
+	OJWorkspace javaModel;
 	private OpaeumConfig config;
 	private List<JavaTransformationStep> features;
 	public static final boolean IS_RUNTIME_AVAILABLE = false;
@@ -98,6 +101,8 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@Override
 	public void execute(TransformationContext context){
 		OJUtil.clearCache();
+		context.getLog().registerInstanceCountMap(OJElementGEN.counts);
+		context.getLog().registerInstanceCountMap(TextOutputNode.counts);
 		context.getLog().startTask("Generating Java Model", features.size());
 		for(JavaTransformationStep f:features){
 			context.getLog().startStep("Executing " + f.getClass().getSimpleName());
@@ -115,6 +120,7 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 			context.getLog().endLastStep();
 		}
 		context.getLog().endLastTask();
+		OJUtil.clearCache();
 	}
 	@Override
 	public void initialize(OpaeumConfig config,List<JavaTransformationStep> features){
@@ -130,5 +136,15 @@ public class JavaTransformationPhase implements TransformationPhase<JavaTransfor
 	@Override
 	public Collection<JavaTransformationStep> getSteps(){
 		return this.features;
+	}
+	@Override
+	public void release(){
+		this.textWorkspace=null;
+		this.javaModel=null;
+		this.modelWorkspace=null;
+		for(JavaTransformationStep j:this.features){
+			j.release();
+		}
+		UtilityCreator.setUtilPackage(null);
 	}
 }

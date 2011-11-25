@@ -43,6 +43,8 @@ public class ParentAuditedObject implements IPersistentObject {
 	Date dateTimeProperty;
 	@Basic
 	Boolean booleanProperty;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date deletedOn;
 
 	@PreUpdate
 	@PrePersist
@@ -131,6 +133,10 @@ public class ParentAuditedObject implements IPersistentObject {
 	public String getUid(){
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setDeletedOn(Date date) {
+		this.deletedOn=date;
 	}
 
 }

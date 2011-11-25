@@ -13,6 +13,7 @@ import org.eclipse.uml2.uml.AcceptEventAction;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
@@ -32,12 +33,15 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.State;
+import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValuePin;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
@@ -55,7 +59,7 @@ public class EmfElementFinder{
 	public static Classifier getNearestClassifier(Element e){
 		if(e instanceof Classifier){
 			return (Classifier) e;
-		}else if(e ==null){
+		}else if(e == null){
 			return null;
 		}else{
 			return getNearestClassifier((Element) getContainer(e));
@@ -64,7 +68,7 @@ public class EmfElementFinder{
 	public static org.eclipse.uml2.uml.Package getRootObject(Element e){
 		if(e instanceof Model || e instanceof Profile){
 			return (org.eclipse.uml2.uml.Package) e;
-		}else if(e ==null){
+		}else if(e == null){
 			return null;
 		}else{
 			return (Package) getRootObject((Element) getContainer(e));
@@ -83,9 +87,9 @@ public class EmfElementFinder{
 					}
 					return result;
 				}else if(a.getOwner() instanceof Operation){
-					Operation oper=(Operation) a.getOwner();
+					Operation oper = (Operation) a.getOwner();
 					for(Parameter parameter:oper.getOwnedParameters()){
-						if(parameter.getDirection()==ParameterDirectionKind.IN_LITERAL || parameter.getDirection()==ParameterDirectionKind.INOUT_LITERAL ){
+						if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 							result.add(parameter);
 						}else if(oper.getPostconditions().contains(a)){
 							result.add(parameter);
@@ -93,9 +97,9 @@ public class EmfElementFinder{
 					}
 				}
 			}else if(a instanceof Operation){
-				Operation oper=(Operation) a;
+				Operation oper = (Operation) a;
 				for(Parameter parameter:oper.getOwnedParameters()){
-					if(parameter.getDirection()==ParameterDirectionKind.IN_LITERAL || parameter.getDirection()==ParameterDirectionKind.INOUT_LITERAL ){
+					if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 						result.add(parameter);
 					}
 				}
@@ -170,9 +174,9 @@ public class EmfElementFinder{
 		if(s == null){
 			return null;
 		}else if(s.eContainer() instanceof DynamicEObjectImpl){
-			while(!(s.eContainer() ==null)){
-				//find top level stereotype
-				s=s.eContainer();
+			while(!(s.eContainer() == null)){
+				// find top level stereotype
+				s = s.eContainer();
 			}
 			for(EObject eObject:s.eCrossReferences()){
 				if(eObject instanceof Element){
@@ -244,6 +248,32 @@ public class EmfElementFinder{
 				elements.add(e.getWeight());
 			}
 		}
+		for(Stereotype stereotype:root.getAppliedStereotypes()){
+			for(Property property:stereotype.getOwnedAttributes()){
+				if(property.getAggregation() == AggregationKind.COMPOSITE_LITERAL){
+					Object v = root.getValue(stereotype, property.getName());
+					if(v instanceof Element){
+						elements.add((Element) v);
+					}else if(v instanceof EList){
+						EList<?> c = (EList<?>) v;
+						for(Object element:c){
+							if(element instanceof Element){
+								elements.add((Element) element);
+							}
+						}
+					}
+				}
+			}
+		}
 		return elements;
+	}
+	public static Classifier getNearestClassContext(Element element){
+		Classifier clss = EmfElementFinder.getNearestClassifier(element);
+		if(clss instanceof StateMachine){
+			return clss;
+		}else if(clss instanceof Behavior && ((Behavior) clss).getContext() != null && !StereotypesHelper.hasKeyword(clss, StereotypeNames.BUSINES_PROCESS)){
+			clss = ((Behavior) clss).getContext();
+		}
+		return clss;
 	}
 }

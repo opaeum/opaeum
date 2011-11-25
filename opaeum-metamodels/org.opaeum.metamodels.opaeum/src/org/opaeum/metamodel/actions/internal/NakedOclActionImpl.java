@@ -37,7 +37,7 @@ public class NakedOclActionImpl extends NakedOpaqueActionImpl implements INakedO
 	}
 	public void setReturnPin(INakedOutputPin returnPin){
 		if(this.returnPin != returnPin){
-			removeOwnedElement(this.returnPin, true);
+			replacePin(this.returnPin, returnPin);
 			this.returnPin = returnPin;
 		}
 	}

@@ -18,8 +18,10 @@ import org.opaeum.metamodel.activities.INakedActivityPartition;
 import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
 import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
 import org.opaeum.metamodel.core.INakedElement;
@@ -30,6 +32,14 @@ import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivity{
+	Collection<INakedTimeObservation> timeObservations = new HashSet<INakedTimeObservation>();
+	Collection<INakedDurationObservation> durationObservations = new HashSet<INakedDurationObservation>();
+	public Collection<INakedTimeObservation> getTimeObservations(){
+		return timeObservations;
+	}
+	public Collection<INakedDurationObservation> getDurationObservations(){
+		return durationObservations;
+	}
 	@Override
 	public INakedActivity getActivity(){
 		return this;
@@ -79,6 +89,12 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			for(INakedParameter v:getOwnedParameters()){
 				emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
 			}
+			for(INakedTimeObservation o:this.timeObservations){
+				emulatedAttributes.add(new TypedElementPropertyBridge(this, o));
+			}
+			for(INakedDurationObservation o:this.durationObservations){
+				emulatedAttributes.add(new TypedElementPropertyBridge(this, o));
+			}
 			if(getSpecification() != null){
 				for(INakedParameter v:getSpecification().getOwnedParameters()){
 					emulatedAttributes.add(new TypedElementPropertyBridge(this, v));
@@ -98,11 +114,16 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 			this.activityNodes.add((INakedActivityNode) element);
 		}
 		if(element instanceof INakedActivityEdge){
-
 			this.activityEdges.add((INakedActivityEdge) element);
 		}
 		if(element instanceof INakedActivityVariable){
 			this.variables.add((INakedActivityVariable) element);
+		}
+		if(element instanceof INakedTimeObservation){
+			this.timeObservations.add((INakedTimeObservation) element);
+		}
+		if(element instanceof INakedDurationObservation){
+			this.durationObservations.add((INakedDurationObservation) element);
 		}
 	}
 	public void removeOwnedElement(INakedElement element,boolean recursively){
@@ -120,6 +141,12 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 				e.setTarget(null);
 			}
 			this.activityEdges.remove((INakedActivityEdge) element);
+		}
+		if(element instanceof INakedDurationObservation){
+			this.durationObservations.remove(element);
+		}
+		if(element instanceof INakedTimeObservation){
+			this.timeObservations.remove(element);
 		}
 		if(element instanceof INakedActivityVariable){
 			this.variables.remove((INakedActivityVariable) element);
@@ -201,5 +228,35 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	@Override
 	public Set<INakedEvent> getAllEvents(){
 		return getEvents(false);
+	}
+	@Override
+	public Collection<INakedDurationObservation> findDurationObservationFrom(INakedElement e){
+		Collection<INakedDurationObservation> result = new HashSet<INakedDurationObservation>();
+		for(INakedDurationObservation d:this.durationObservations){
+			if(d.getFromObservedElement() == e){
+				result.add(d);
+			}
+		}
+		return result;
+	}
+	@Override
+	public Collection<INakedDurationObservation> findDurationObservationTo(INakedElement e){
+		Collection<INakedDurationObservation> result = new HashSet<INakedDurationObservation>();
+		for(INakedDurationObservation d:this.durationObservations){
+			if(d.getToObservedElement() == e){
+				result.add(d);
+			}
+		}
+		return result;
+	}
+	@Override
+	public Collection<INakedTimeObservation> findTimeObservation(INakedElement e){
+		Collection<INakedTimeObservation> result = new HashSet<INakedTimeObservation>();
+		for(INakedTimeObservation d:this.timeObservations){
+			if(d.getObservedElement() == e){
+				result.add(d);
+			}
+		}
+		return result;
 	}
 }

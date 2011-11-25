@@ -51,17 +51,19 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 			INakedInterface intf = (INakedInterface) element;
 			this.ownedInterfaces.add(intf);
 		}else if(element instanceof IImportedElement){
-			this.imports.add((IImportedElement) element);
+			synchronized(imports){// Weird concurrency issue
+				this.imports.add((IImportedElement) element);
+			}
 		}
 		if(element instanceof INakedClassifier){
 			this.nestedClassifiers.add((INakedClassifier) element);
 			if(getRootObject() != null){
-				//may be deleting
+				// may be deleting
 				getRootObject().addDirectlyAccessibleElement(element);
 			}
 		}
 	}
-	public void removeOwnedElement(INakedElement element, boolean recursively){
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedAssociation){
 			INakedAssociation b = (INakedAssociation) element;
@@ -172,5 +174,17 @@ public class NakedNameSpaceImpl extends NakedPackageableElementImpl implements I
 			return false;
 		}
 		return e instanceof IClassifier || e instanceof INakedPackage || e instanceof IImportedElement || e instanceof IAssociation || e instanceof IPackageableElement;
+	}
+	@Override
+	public synchronized boolean isImported(IClassifier cls){
+		// We get weird concurrency issues here
+		synchronized(imports){
+			for(IImportedElement i:getImports()){
+				if(i.getElement() == cls){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -7,6 +7,7 @@ import nl.klasse.octopus.model.IClassifier;
 
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
+import org.opaeum.linkage.TypeResolver.DefaultPrimitiveType;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
@@ -28,7 +29,7 @@ public class ObjectFlowLinker extends AbstractModelElementLinker{
 			INakedExpansionNode.class,INakedInputPin.class
 	})
 	public void visitExpansionNode(INakedObjectNode node){
-		if(node.getNakedBaseType() == TypeResolver.DEFAULT_TYPE){
+		if(node.getNakedBaseType() instanceof DefaultPrimitiveType){
 			INakedClassifier baseType = calculateIncomingBaseType(node.getIncoming());
 			if(baseType != null){
 				node.setBaseType(baseType);

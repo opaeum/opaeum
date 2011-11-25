@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -56,6 +58,8 @@ import org.opaeum.metamodel.components.internal.NakedComponentImpl;
 import org.opaeum.metamodel.compositestructures.internal.NakedCollaborationImpl;
 import org.opaeum.metamodel.core.CodeGenerationStrategy;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedAssociationImpl;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedEntityImpl;
@@ -95,9 +99,10 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		populateRootObject(p, np);
 	}
 	private void populateRootObject(Package p,NakedRootObjectImpl nakedPeer){
-		if(emfWorkspace.getPrimaryModels().contains(p)){
+		if(emfWorkspace.getPotentialGeneratingModels().contains(p)){
 			nakedWorkspace.addPrimaryModel(nakedPeer);
 		}
+		nakedWorkspace.addOwnedElement(nakedPeer);// NB!!!!
 		nakedPeer.setFileName(p.eResource().getURI().lastSegment());
 		URI mappedTypesUri = p.eResource().getURI().trimFileExtension().appendFileExtension(MAPPINGS_EXTENSION);
 		try{
@@ -333,6 +338,15 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 				if(!isDerived && property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
 					na.setClass(true);
 					break;
+				}
+			}
+		}
+		if(na.isMarkedForDeletion()){
+			for(INakedProperty e:na.getEnds()){
+				e.markForDeletion();
+				nakedWorkspace.removeModelElement(e);
+				if(e.getOwnerElement() != null){
+					e.getOwnerElement().removeOwnedElement(e, true);
 				}
 			}
 		}

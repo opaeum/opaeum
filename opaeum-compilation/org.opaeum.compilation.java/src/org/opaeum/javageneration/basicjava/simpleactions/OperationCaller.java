@@ -27,23 +27,23 @@ public class OperationCaller extends AbstractCaller<INakedCallOperationAction>{
 				NakedStructuralFeatureMap resultMap = null;
 				INakedPin returnPin = node.getReturnPin();
 				ActionMap actionMap = new ActionMap(node);
-				String call = actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "(" + args + ")";
+				String call = actionMap.targetName() + "." + operationMap.javaOperName() + "(" + args + ")";
 				if(BehaviorUtil.hasMessageStructure(node)){
 					resultMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 				}else if(returnPin != null){
-					resultMap = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin);
+					resultMap = OJUtil.buildStructuralFeatureMap(returnPin.getActivity(), returnPin, true);
 				}
 				OJBlock fs = buildLoopThroughTarget(operation, block, actionMap);
 				if(resultMap != null){
 					expressor.buildResultVariable(operation, block, resultMap);
-					boolean many = resultMap.isMany();
 					if(BehaviorUtil.hasMessageStructure(node)){
-						//Such operations allways return a single instanceof the message Structure
-						many = false;
+						// Such operations allways return a single instanceof the message Structure
+						call = expressor.storeResults(resultMap, call, false);
 					}else if(!(returnPin == null || returnPin.getLinkedTypedElement() == null)){
-						many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();
+						boolean many = returnPin.getLinkedTypedElement().getNakedMultiplicity().isMany();
+						call = expressor.storeResults(resultMap, resultMap.fieldname() + "=" + call, many);
+						// We want the call to populate the pin variable for postconditions
 					}
-					call = expressor.storeResults(resultMap, call, many);
 				}
 				fs.addToStatements(call);
 			}else{

@@ -19,13 +19,10 @@ import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElementOwner,INakedModelWorkspace>{
-	private ThreadLocal<INakedRootObject> currentRootObject=new ThreadLocal<INakedRootObject>();
+	private final ThreadLocal<INakedRootObject> currentRootObject = new ThreadLocal<INakedRootObject>();
 	protected TransformationContext transformationContext;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
-		if(root==null){
-			System.out.println();
-		}
 		return root.getOwnedElements();
 	}
 	// TODO find a better place for this method
@@ -57,13 +54,15 @@ public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElem
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		setCurrent(o);
-		super.visitRecursively(o);
-	}
-	protected void setCurrent(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
 			this.setCurrentRootObject(pkg);
+		}
+		visitBeforeMethods(o);
+		visitChildren(o);
+		visitAfterMethods(o);
+		if(o instanceof INakedRootObject){
+			setCurrentRootObject(null);//NB!! needs to be cleared from every thread
 		}
 	}
 	@Override
@@ -72,6 +71,7 @@ public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElem
 			setCurrentRootObject(((INakedElement) o).getRootObject());
 		}
 		super.visitOnly(o);
+		setCurrentRootObject(null);
 	}
 	protected Collection<INakedRootObject> getModelInScope(){
 		Set<INakedRootObject> result = new HashSet<INakedRootObject>(getCurrentRootObject().getAllDependencies());
@@ -87,5 +87,7 @@ public abstract class NakedElementOwnerVisitor extends VisitorAdapter<INakedElem
 	protected void setCurrentRootObject(INakedRootObject currentRootObject){
 		this.currentRootObject.set(currentRootObject);
 	}
-
+	public void release(){
+		this.currentRootObject.set(null);// NB! Not enough. Needs to be done from every thread
+	}
 }

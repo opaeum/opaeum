@@ -51,4 +51,13 @@ public class ModelCopyPhase implements TransformationPhase<ModelCopyStep,EmfWork
 	public Collection<ModelCopyStep> getSteps(){
 		return features;
 	}
+	@Override
+	public void release(){
+		this.emfWorkspace=null;
+		this.textWorkspace=null;
+		for(ModelCopyStep modelCopyStep:this.features){
+			modelCopyStep.release();
+		}
+		
+	}
 }

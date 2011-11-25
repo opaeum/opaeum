@@ -33,8 +33,8 @@ public abstract class AutoCreateOpaqueExpressionComposite extends OpaqueExpressi
 			}else if(getValueSpecificationFeature().getUpperBound() == 1){
 				OpaqueExpression oe = org.eclipse.uml2.uml.UMLFactory.eINSTANCE.createOpaqueExpression();
 				oe.setName("oclExpression");
+				super.oclBodyOwner = oe;//NB!! BEFORE command otherwise the OclComposite reverts to DEFAULT_TEXT
 				getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), valueSpecificationOwner, getValueSpecificationFeature(), oe));
-				super.oclBodyOwner = oe;
 			}else{
 				throw new IllegalStateException(
 						"Please override 'fireOclChanged(String text)' to populate the appropriate valueSpecificationOwner before the ocl is changed on the opaqueExpression");

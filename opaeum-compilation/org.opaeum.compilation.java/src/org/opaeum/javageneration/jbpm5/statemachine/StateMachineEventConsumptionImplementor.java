@@ -25,7 +25,6 @@ import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.FromNode;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.bpm.INakedDeadline;
@@ -41,14 +40,13 @@ import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opeum.runtime.domain.TransitionListener;
+import org.opaeum.runtime.domain.TransitionListener;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = StateMachineImplementor.class,after = StateMachineImplementor.class)
 public class StateMachineEventConsumptionImplementor extends AbstractEventConsumptionImplementor{
-	private OJAnnotatedClass javaStateMachine;
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(INakedStateMachine umlStateMachine){
-		javaStateMachine = findJavaClass(umlStateMachine);
+		OJAnnotatedClass	javaStateMachine = findJavaClass(umlStateMachine);
 		Collection<ElementsWaitingForEvent> waitForEventElements = getWaitForEventElements(umlStateMachine);
 		// TODO fire default transition after doActivity if it is a simple state
 		for(ElementsWaitingForEvent wfe:waitForEventElements){
@@ -57,18 +55,18 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 			}else if(wfe.getEvent() instanceof INakedTimeEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
-					OJOperation fire = OJUtil.findOperation(javaStateMachine, map.getOnEntryMethod());
+					OJOperation fire = javaStateMachine.getUniqueOperation(map.getOnEntryMethod());
 					EventUtil.implementTimeEventRequest(fire, fire.getBody(), (INakedTimeEvent) wfe.getEvent(),getLibrary().getBusinessRole()!=null);
-					OJOperation cancel = OJUtil.findOperation(javaStateMachine, map.getOnExitMethod());
+					OJOperation cancel = javaStateMachine.getUniqueOperation(map.getOnExitMethod());
 					cancel.addParam("context", Jbpm5Util.getProcessContext());
 					EventUtil.cancelTimer(cancel.getBody(), (INakedTimeEvent) wfe.getEvent(), "this");
 				}
 			}else if(wfe.getEvent() instanceof INakedChangeEvent){
 				for(FromNode fromNode:wfe.getWaitingNodes()){
 					NakedStateMap map = new NakedStateMap((INakedState) fromNode.getWaitingElement());
-					OJOperation fire = OJUtil.findOperation(javaStateMachine, map.getOnEntryMethod());
+					OJOperation fire = javaStateMachine.getUniqueOperation(map.getOnEntryMethod());
 					EventUtil.implementChangeEventRequest(fire, (INakedChangeEvent) wfe.getEvent());
-					OJOperation cancel = OJUtil.findOperation(javaStateMachine, map.getOnExitMethod());
+					OJOperation cancel = javaStateMachine.getUniqueOperation(map.getOnExitMethod());
 					cancel.addParam("context", Jbpm5Util.getProcessContext());
 					EventUtil.cancelChangeEvent(cancel.getBody(), (INakedChangeEvent) wfe.getEvent());
 				}
@@ -159,7 +157,7 @@ public class StateMachineEventConsumptionImplementor extends AbstractEventConsum
 				onTransition.getBody().addToStatements(expression);
 			}
 		}
-		block.addToStatements("waitingNode.transitionToNode(" + javaStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(transition.getTarget())
+		block.addToStatements("waitingNode.transitionToNode(" + operationContext.getOwner().getName() + "State." + Jbpm5Util.stepLiteralName(transition.getTarget())
 				+ ".getId(), listener)");
 	}
 	@Override

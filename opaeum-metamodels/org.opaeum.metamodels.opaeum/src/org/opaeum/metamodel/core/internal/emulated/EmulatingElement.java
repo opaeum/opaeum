@@ -1,7 +1,7 @@
 package org.opaeum.metamodel.core.internal.emulated;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,6 @@ public abstract class EmulatingElement implements INakedElement{
 	public INakedElement getOriginalElement(){
 		return originalElement;
 	}
-	private List<INakedComment> comments = new ArrayList<INakedComment>();
 	public EmulatingElement(INakedElement element){
 		super();
 		this.originalElement = element;
@@ -57,7 +56,7 @@ public abstract class EmulatingElement implements INakedElement{
 		}
 	}
 	public List<INakedComment> getComments(){
-		return comments;
+		return Collections.emptyList();
 	}
 	public void addStereotype(INakedInstanceSpecification stereotype){
 	}

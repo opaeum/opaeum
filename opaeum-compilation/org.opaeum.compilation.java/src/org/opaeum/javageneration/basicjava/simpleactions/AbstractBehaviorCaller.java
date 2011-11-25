@@ -13,6 +13,7 @@ import org.opaeum.metamodel.activities.ActivityKind;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.core.INakedMessageStructure;
+import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction> extends AbstractCaller<T>{
@@ -23,7 +24,8 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 	protected abstract NakedStructuralFeatureMap getResultMap();
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		if(node.getCalledElement() == null){
+		IParameterOwner calledElement = node.getCalledElement();
+		if(calledElement == null){
 			block.addToStatements("no behavior to call!");
 		}else{
 			if(node.getReturnPin() != null || BehaviorUtil.hasExecutionInstance(node.getBehavior())){
@@ -42,8 +44,8 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 				}else{
 					ActionMap actionMap = new ActionMap(node);
 					fs = buildLoopThroughTarget(operation, block, actionMap);
-					resultField.setInitExp(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
-							+ populateArgumentPinsAndBuildArgumentString(operation, node.getCalledElement().isLongRunning(), node.getArguments()) + ")");
+					resultField.setInitExp(actionMap.targetName() + "." + operationMap.javaOperName() + "("
+							+ populateArgumentPinsAndBuildArgumentString(operation, calledElement.isLongRunning(), node.getArguments()) + ")");
 				}
 				fs.addToLocals(resultField);
 				if(shouldStoreMessageStructureOnProcess()){
@@ -62,7 +64,7 @@ public abstract class AbstractBehaviorCaller<T extends INakedCallBehaviorAction>
 		OJBlock fs;
 		ActionMap actionMap = new ActionMap(node);
 		fs = buildLoopThroughTarget(operation, block, actionMap);
-		fs.addToStatements(actionMap.targetName() + "." + node.getCalledElement().getMappingInfo().getJavaName() + "("
+		fs.addToStatements(actionMap.targetName() + "." + operationMap.javaOperName() + "("
 				+ populateArgumentPinsAndBuildArgumentString(operation, node.getCalledElement().isLongRunning(), node.getArguments()) + ")");
 		return fs;
 	}

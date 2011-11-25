@@ -16,6 +16,7 @@ import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.metamodel.core.INakedConstraint;
 
 public class ConstraintGenerator {
@@ -34,7 +35,7 @@ public class ConstraintGenerator {
 		OJBlock block = buildConstraintsBlock(operation, new OJBlock(), constraints, pre,selfExpression);
 		if (pre) {
 			operation.getBody().getStatements().add(0, block);
-		} else if (operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))) {
+		} else if (operation.getReturnType() == null || operation.getReturnType().equals(new OJPathName("void"))||((OJAnnotatedOperation)operation).getResultVariable()!=null) {
 			operation.getBody().getStatements().add(block);
 		} else {
 			operation.getBody().getStatements().add(operation.getBody().getStatements().size() - 1, block);
@@ -60,7 +61,7 @@ public class ConstraintGenerator {
 				parameters.add(parameter);
 			}
 		}
-		OJPathName failedConstraintsException = new OJPathName("org.opeum.runtime.domain.FailedConstraintsException");
+		OJPathName failedConstraintsException = new OJPathName("org.opaeum.runtime.domain.FailedConstraintsException");
 		if(!operation.getThrows().contains(failedConstraintsException)){
 			context.addToImports(failedConstraintsException);
 			operation.addToThrows(failedConstraintsException);

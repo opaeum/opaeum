@@ -47,4 +47,11 @@ public class EclipseProjectGenerationPhase implements TransformationPhase<Eclips
 	public Collection<EclipseProjectGenerationStep> getSteps(){
 		return features;
 	}
+	@Override
+	public void release(){
+		this.textWorkspace=null;
+		for(EclipseProjectGenerationStep e:this.features){
+			e.release();
+		}
+	}
 }

@@ -7,15 +7,15 @@ public enum RootObjectStatus{
 	VALIDATED,
 	NAMED;
 	public boolean isExtracted(){
-		return this == EXTRACTED || this == LINKED || this == VALIDATED||this==NAMED;
+		return this == EXTRACTED || isLinked();
 	}
 	public boolean isLinked(){
-		return this == LINKED || this == VALIDATED||this==NAMED;
+		return this == LINKED ||isValidated();
 	}
 	public boolean isValidated(){
-		return this == VALIDATED||this==NAMED;
+		return this == VALIDATED;
 	}
 	public boolean isNamed(){
-		return this == NAMED;
+		return this == NAMED || isValidated();
 	}
 }

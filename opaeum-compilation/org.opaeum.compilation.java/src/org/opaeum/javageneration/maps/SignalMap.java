@@ -6,6 +6,8 @@ import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 
 public class SignalMap extends NakedClassifierMap implements IMessageMap{
 	INakedSignal signal;
+	private OJPathName handlerTypePath;
+	private OJPathName receiverTypePath;
 	public INakedSignal getSignal(){
 		return signal;
 	}
@@ -14,10 +16,16 @@ public class SignalMap extends NakedClassifierMap implements IMessageMap{
 		this.signal = signal;
 	}
 	public OJPathName handlerTypePath(){
-		return OJUtil.packagePathname(signal.getNameSpace()).append(signal.getMappingInfo().getJavaName() + "Handler");
+		if(this.handlerTypePath==null){
+			this.handlerTypePath = OJUtil.packagePathname(signal.getNameSpace()).getCopy().append(signal.getMappingInfo().getJavaName() + "Handler");
+		}
+		return handlerTypePath;
 	}
 	public OJPathName receiverContractTypePath(){
-		return OJUtil.packagePathname(signal.getNameSpace()).append(signal.getMappingInfo().getJavaName() + "Receiver");
+		if(receiverTypePath==null){
+			receiverTypePath=OJUtil.packagePathname(signal.getNameSpace()).getCopy().append(signal.getMappingInfo().getJavaName() + "Receiver");
+		}
+		return receiverTypePath;
 	}
 	public String receiveMethodName(){
 		return "receive" + signal.getMappingInfo().getJavaName().getCapped();
@@ -26,9 +34,9 @@ public class SignalMap extends NakedClassifierMap implements IMessageMap{
 		return new OJPathName(signal.getMappingInfo().getQualifiedJavaName() + "Handler");
 	}
 	public String eventGeratorMethodName(){
-		return "generate"+signal.getName()+"Event";
+		return "generate" + signal.getName() + "Event";
 	}
 	public String eventConsumerMethodName(){
-		return "consume" + signal.getMappingInfo().getJavaName().getCapped() +"Event";
+		return "consume" + signal.getMappingInfo().getJavaName().getCapped() + "Event";
 	}
 }

@@ -25,7 +25,7 @@ public class SuperTypeGenerator extends AbstractStructureVisitor{
 			OJAnnotatedClass myClass = findJavaClass(c);
 			if(myClass != null){
 				for(INakedGeneralization g:c.getNakedGeneralizations()){
-					NakedClassifierMap map = new NakedClassifierMap(g.getGeneral());
+					NakedClassifierMap map = OJUtil.buildClassifierMap(g.getGeneral());
 					myClass.setSuperclass(map.javaTypePath());
 					myClass.addToImports(map.javaTypePath());
 					OJConstructor constructor = myClass.getDefaultConstructor();

@@ -121,10 +121,23 @@ public abstract class NakedActionImpl extends NakedExecutableNodeImpl implements
 			return getActivity();
 		}
 	}
-	protected void removePins(List<? extends INakedPin> inputValues2){
-		if(inputValues2 != null){
-			for(INakedPin iNakedInputPin:inputValues2){
-				removeOwnedElement(iNakedInputPin, true);
+	protected void replacePin(INakedPin oldPin,INakedPin newPin){
+		if(oldPin != null){
+			removeOwnedElement(oldPin, false);// FAlse: may be reused
+		}
+		if(newPin != null){
+			addOwnedElement(newPin);
+		}
+	}
+	protected void replacePins(Collection<? extends INakedPin> oldValues,Collection<? extends INakedPin> newValues){
+		if(oldValues != null){
+			for(INakedPin pin:oldValues){
+				removeOwnedElement(pin, false);// FAlse: may be reused
+			}
+		}
+		if(newValues != null){
+			for(INakedPin pin:newValues){
+				addOwnedElement(pin);
 			}
 		}
 	}

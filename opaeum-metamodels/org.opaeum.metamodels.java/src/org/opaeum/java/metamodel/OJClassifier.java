@@ -32,6 +32,14 @@ public class OJClassifier extends OJClassifierGEN{
 			addImportsRecursively(oper.getBody());
 		}
 	}
+	public OJOperation getUniqueOperation(String name){
+		Set<OJOperation> set = super.f_operations.get(name);
+		if(set!=null && set.size() == 1){
+			return set.iterator().next();
+		}else{
+			return null;
+		}
+	}
 	protected void addImportsRecursively(OJBlock body){
 		if(body != null){
 			for(OJField ojField:body.getLocals()){

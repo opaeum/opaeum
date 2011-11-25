@@ -1,5 +1,8 @@
 package org.opaeum.feature;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.opaeum.feature.TransformationProcess.TransformationProgressLog;
@@ -9,6 +12,13 @@ public class DefaultTransformationLog implements TransformationProgressLog{
 	protected final Stack<Long> stepStartTimes = new Stack<Long>();
 	protected final Stack<String> taskNames = new Stack<String>();
 	protected final Stack<String> stepNames = new Stack<String>();
+	protected static Set<Map<Class<?>,Long>> instanceCounts = new HashSet<Map<Class<?>,Long>>();
+	public static void printMemoryUsage(){
+	}
+	@Override
+	public void registerInstanceCountMap(Map<Class<?>,Long> instanceCount){
+		instanceCounts.add(instanceCount);
+	}
 	@Override
 	public void startTask(String name,int size){
 		taskNames.push(name);
@@ -30,8 +40,8 @@ public class DefaultTransformationLog implements TransformationProgressLog{
 	}
 	@Override
 	public void endLastStep(){
+//		printMemoryUsage();
 		System.out.println(stepNames.pop() + " took " + (System.currentTimeMillis() - stepStartTimes.pop()) + " ms");
-		
 	}
 	@Override
 	public void error(String string,Throwable t){
@@ -41,6 +51,5 @@ public class DefaultTransformationLog implements TransformationProgressLog{
 	@Override
 	public void info(String string){
 		System.out.println(string);
-		
 	}
 }

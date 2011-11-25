@@ -16,7 +16,6 @@ import org.opaeum.javageneration.hibernate.HibernateAnnotator;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
 import org.opaeum.metamodel.core.INakedProperty;
@@ -53,7 +52,7 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 			redefineOperation(c, redefinedMap.internalAdder(), redefiningMap.internalAdder(), redefinedMap.javaBaseTypePath());
 			redefineOperation(c, redefinedMap.internalRemover(), redefiningMap.internalRemover(), redefinedMap.javaBaseTypePath());
 		}
-		OJAnnotatedOperation o = (OJAnnotatedOperation) OJUtil.findOperation(c, redefinedMap.getter());
+		OJAnnotatedOperation o = (OJAnnotatedOperation) c.getUniqueOperation(redefinedMap.getter());
 		// might exist if the modeler defined an
 		// attribute with the same name
 		if(o == null){
@@ -78,8 +77,8 @@ public class RedefinitionImplementor extends AbstractStructureVisitor{
 		}
 	}
 	private void redefineOperation(OJClass c,String redefinedOperationName,String redefiningOperationName,OJPathName paramType){
-		OJAnnotatedOperation redefinedOperation = (OJAnnotatedOperation) OJUtil.findOperation(c, redefinedOperationName);
-		OJAnnotatedOperation redefiningOperation = (OJAnnotatedOperation) OJUtil.findOperation(c, redefiningOperationName);
+		OJAnnotatedOperation redefinedOperation = (OJAnnotatedOperation) c.getUniqueOperation(redefinedOperationName);
+		OJAnnotatedOperation redefiningOperation = (OJAnnotatedOperation) c.getUniqueOperation(redefiningOperationName);
 		if(redefiningOperation != null){
 			if(redefinedOperation == null){
 				redefinedOperation = new OJAnnotatedOperation(redefinedOperationName);

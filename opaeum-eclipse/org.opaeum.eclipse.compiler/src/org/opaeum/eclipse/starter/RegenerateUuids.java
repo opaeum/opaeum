@@ -94,7 +94,7 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 			if(!(e instanceof Model || e instanceof Profile)){
 				e.getEAnnotations().clear();
 				for(EAnnotation a:new ArrayList<EAnnotation>(e.getEAnnotations())){
-					if(a.getSource().contains("opaeum") || a.getSource().contains("opeum") || a.getSource().contains("nakeduml")){
+					if(a.getSource().contains("opaeum") || a.getSource().contains("opaeum") || a.getSource().contains("nakeduml")){
 						for(Entry<String,String> entry:a.getDetails().entrySet()){
 							if(entry.getValue() == null || entry.getValue().trim().length() == 0){
 								keywords.add(entry.getKey());

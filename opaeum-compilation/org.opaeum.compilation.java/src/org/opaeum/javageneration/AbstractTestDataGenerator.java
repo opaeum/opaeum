@@ -13,6 +13,7 @@ import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.javageneration.composition.ConfigurableDataStrategy;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.GeneralizationUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -38,11 +39,11 @@ public abstract class AbstractTestDataGenerator extends AbstractJavaProducingVis
 		if (child instanceof INakedInterface) {
 			Collection<INakedBehavioredClassifier> implementors =getConcreteImplementations((INakedInterface) child);
 			INakedClassifier next = implementors.iterator().next();
-			NakedClassifierMap map = new NakedClassifierMap(next);
+			NakedClassifierMap map = OJUtil.buildClassifierMap(next);
 			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(next));
 		} else {
-			NakedClassifierMap map = new NakedClassifierMap(child);
+			NakedClassifierMap map = OJUtil.buildClassifierMap(child);
 			testPath = map.javaTypePath().getCopy();
 			testPath.replaceTail(getTestDataName(child));
 		}

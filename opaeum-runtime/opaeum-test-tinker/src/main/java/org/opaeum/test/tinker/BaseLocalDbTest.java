@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.Properties;
 
 import org.junit.Before;
-import org.opaeum.environment.Environment;
+import org.opaeum.runtime.environment.Environment;
 import org.util.GraphDb;
 import org.util.NakedGraph;
 import org.util.TinkerSchemaHelper;

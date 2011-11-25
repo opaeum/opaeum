@@ -16,7 +16,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.opaeum.emf.extraction.NameSpaceExtractor;
 import org.opaeum.emf.load.EmfWorkspaceLoader;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 public class LibraryGenerator extends AbstractUmlGenerator{
 	public static void main(String[] args) throws Exception{

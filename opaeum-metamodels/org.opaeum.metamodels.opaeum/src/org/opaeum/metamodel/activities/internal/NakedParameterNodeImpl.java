@@ -7,64 +7,82 @@ import org.opaeum.metamodel.activities.ObjectNodeType;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMultiplicity;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
-public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode {
+public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode{
 	private static final long serialVersionUID = 9125417030702683972L;
 	INakedParameter parameter;
-
 	@Override
-	public String getMetaClass() {
+	public String getMetaClass(){
 		return "parameterNode";
 	}
-
-	public INakedParameter getParameter() {
+	public INakedParameter getParameter(){
 		return this.parameter;
 	}
-
-	public void setParameter(INakedParameter parameter) {
+	public void setParameter(INakedParameter parameter){
 		this.parameter = parameter;
 	}
-
 	@Override
-	public String getName() {
-		if (parameter == null) {
+	public String getName(){
+		if(parameter == null){
 			return super.getName();
-		} else {
+		}else{
 			return parameter.getName();
 		}
 	}
-
 	@Override
-	public ObjectNodeType getObjectNodeType() {
+	public ObjectNodeType getObjectNodeType(){
 		return ObjectNodeType.PARAMETER_NODE;
 	}
-
 	@Override
-	public INakedClassifier getNakedBaseType() {
-		return this.parameter.getNakedBaseType();
+	public INakedClassifier getNakedBaseType(){
+		if(this.parameter == null){
+			return super.getNakedBaseType();
+		}else{
+			return this.parameter.getNakedBaseType();
+		}
 	}
-
 	@Override
-	public INakedMultiplicity getNakedMultiplicity() {
-		return this.parameter.getNakedMultiplicity();
+	public INakedMultiplicity getNakedMultiplicity(){
+		if(this.parameter == null){
+			INakedMultiplicity m = super.getNakedMultiplicity();
+			if(m==null){
+				m=NakedMultiplicityImpl.ONE_ONE;
+			}
+			return m;
+		}else{
+			return this.parameter.getNakedMultiplicity();
+		}
 	}
-
 	@Override
-	public IClassifier getType() {
-		return this.parameter.getType();
+	public IClassifier getType(){
+		if(this.parameter == null){
+			return super.getType();
+		}else{
+			return this.parameter.getType();
+		}
 	}
-
 	@Override
-	public boolean isOrdered() {
-		return this.parameter.isOrdered();
+	public boolean isOrdered(){
+		if(this.parameter == null){
+			return super.isOrdered();
+		}else{
+			return this.parameter.isOrdered();
+		}
 	}
-
 	@Override
-	public boolean isUnique() {
-		return this.parameter.isUnique();
+	public boolean isUnique(){
+		if(this.parameter == null){
+			return super.isUnique();
+		}else{
+			return this.parameter.isUnique();
+		}
 	}
-
-	public boolean isException() {
-		return this.parameter.isException();
+	public boolean isException(){
+		if(this.parameter == null){
+			return false;
+		}else{
+			return this.parameter.isException();
+		}
 	}
 }

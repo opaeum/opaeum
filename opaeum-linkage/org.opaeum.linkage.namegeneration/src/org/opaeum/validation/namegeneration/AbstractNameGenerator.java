@@ -1,7 +1,9 @@
 package org.opaeum.validation.namegeneration;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.opaeum.feature.ITransformationStep;
@@ -12,17 +14,20 @@ import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.core.INakedAssociation;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedOperation;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.visitor.NakedElementOwnerVisitor;
 
 public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor implements ITransformationStep{
-	Set<INakedElement> affectedElements = new HashSet<INakedElement>();
+	Set<INakedElement> affectedElements;
 	protected OpaeumConfig config;
 	@Override
 	protected int getThreadPoolSize(){
@@ -33,7 +38,7 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 	}
 	public void initialize(OpaeumConfig c){
 		this.config = c;
-		affectedElements.clear();
+		affectedElements = new HashSet<INakedElement>();
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
@@ -45,13 +50,46 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 				visitRecursively(((INakedEmbeddedTask) o).getMessageStructure());
 			}else if(o instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedAction) o)){
 				visitRecursively(((INakedCallAction) o).getMessageStructure());
-			}else if(o instanceof INakedStructuredActivityNode && ((INakedStructuredActivityNode)o).getMessageStructure()!=null){
+			}else if(o instanceof INakedStructuredActivityNode && ((INakedStructuredActivityNode) o).getMessageStructure() != null){
 				visitRecursively(((INakedStructuredActivityNode) o).getMessageStructure());
 			}
+			// Some extra work required to ensure that a class and all its required elements have persistent names 
+			//Primarily for derived elements
+			if(o instanceof INakedProperty){
+				INakedProperty p = (INakedProperty) o;
+	
+				if(p.getOtherEnd() != null && !hasName(p.getOtherEnd())){
+					super.visitRecursively(p.getOtherEnd());
+				}
+				if(p.getAssociation() != null && !hasName( (INakedAssociation) p.getAssociation())){
+					super.visitRecursively((INakedElement) p.getAssociation());
+				}
+			}else if(o instanceof INakedClassifier){
+				INakedClassifier c = (INakedClassifier) o;
+				for(INakedProperty p:c.getEffectiveAttributes()){
+					if(!hasName(p) && p.getOwner()!=o && p.getRootObject()!=c.getRootObject()){
+						visitRecursively(p);
+					}
+				}
+				for(INakedOperation op:c.getEffectiveOperations()){
+					if(!hasName(op) && op.getOwner()!=o && op.getRootObject()!=c.getRootObject()){
+						visitRecursively(op);
+					}
+				}
+				//TODO inherited states and actions?
+				
+			}
+
 		}
 	}
+	//To prevent recursion
+	protected abstract boolean hasName(INakedElement p);
 	protected boolean shouldVisitRecursively(INakedElementOwner o){
-		return !(o instanceof INakedRootObject && ((INakedRootObject) o).getStatus().isNamed());
+		if(o instanceof INakedRootObject){
+			return !(((INakedRootObject) o).getStatus().isNamed());
+		}else{
+			return true;
+		}
 	}
 	protected static INakedValueSpecification getTaggedValue(INakedElement element,String...tags){
 		try{
@@ -74,5 +112,9 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 		if(!(o instanceof INakedElement && ((INakedElement) o).isMarkedForDeletion())){
 			super.maybeVisit(o, v);
 		}
+	}
+	public void release(){
+		super.release();
+		this.affectedElements = null;
 	}
 }

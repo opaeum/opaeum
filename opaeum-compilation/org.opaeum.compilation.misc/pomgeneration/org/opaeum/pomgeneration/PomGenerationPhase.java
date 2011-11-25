@@ -64,13 +64,14 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	private INakedModelWorkspace workspace;
 	@InputModel
 	private TextWorkspace textWorkspace;
-	@InputModel(optional=true)
+	@InputModel(optional = true)
 	private MigrationWorkspace migrationWorkspace;
 	private OpaeumConfig config;
 	private Map<String,DocumentRoot> rootMap = new HashMap<String,DocumentRoot>();
 	private DocumentRoot parentPom;
 	private SortedSet<String> ignores = new TreeSet<String>();
 	private Collection<PomGenerationStep> features;
+	private boolean isGeneratingRelease;
 	public static final String NUML_VERSION = "1.0.0-SNAPSHOT";
 	@Override
 	public void initialize(OpaeumConfig config,List<PomGenerationStep> features){
@@ -129,7 +130,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 		if(config.generateMavenPoms()){
 			for(PomGenerationStep step:features){
 				if(step.isIntegrationStep() == context.isIntegrationPhase() && !context.getLog().isCanceled()){
-					step.initialize(config, workspace,migrationWorkspace);
+					step.initialize(config, workspace, migrationWorkspace);
 					if(step.getExampleTargetDir().isOneProjectPerWorkspace()){
 						String prefix = workspace.getIdentifier();
 						DocumentRoot root = getRoot(step, prefix);
@@ -198,7 +199,7 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			}
 		}
 		if(r == null){
-			//Remember the poms are generated before the files /directories are generated
+			// Remember the poms are generated before the files /directories are generated
 			if(!projectRoot.exists()){
 				projectRoot.mkdirs();
 			}
@@ -298,15 +299,14 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 			root.getProject().setParent(POMFactory.eINSTANCE.createParent());
 			root.getProject().getParent().setGroupId(config.getMavenGroupId());
 			root.getProject().getParent().setArtifactId(config.getWorkspaceIdentifier());
-			
 			root.getProject().getParent().setVersion(getMavenVersion());
 		}
 	}
 	private String getMavenVersion(){
-		return config.getVersion().toVersionString() + (isGeneratingRelease()?"":"-SNAPSHOT");
+		return config.getVersion().toVersionString() + (isGeneratingRelease() ? "" : "-SNAPSHOT");
 	}
 	protected boolean isGeneratingRelease(){
-		return false;
+		return this.isGeneratingRelease;
 	}
 	public void outputToFile(DocumentRoot root){
 		try{
@@ -411,16 +411,27 @@ public class PomGenerationPhase implements TransformationPhase<PomGenerationStep
 	public void initializeSteps(){
 	}
 	public void generateVersionedPoms(TransformationProgressLog log){
+		this.isGeneratingRelease = true;
 		appendVersionSuffix(true);
 		Set<Class<? extends ITransformationStep>> emptySet = Collections.emptySet();
-		initialize(config, (List<PomGenerationStep>)features);
-		execute(new TransformationContext(emptySet,false,log));
-		execute(new TransformationContext(emptySet,true,log));
+		initialize(config, (List<PomGenerationStep>) features);
+		execute(new TransformationContext(emptySet, false, log));
+		execute(new TransformationContext(emptySet, true, log));
 		appendVersionSuffix(false);
+		this.isGeneratingRelease = false;
 	}
 	private void appendVersionSuffix(boolean b){
 		for(PomGenerationStep f:features){
 			f.appendVersionSuffix(b);
+		}
+	}
+	@Override
+	public void release(){
+		this.migrationWorkspace = null;
+		this.textWorkspace = null;
+		this.workspace = null;
+		for(PomGenerationStep p:this.features){
+			p.release();
 		}
 	}
 }

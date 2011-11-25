@@ -13,6 +13,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.runtime.bpm.BusinessComponent;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendarGenerated;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
 import org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday;
@@ -21,9 +22,6 @@ import org.opaeum.runtime.bpm.businesscalendar.TimeOfDay;
 import org.opaeum.runtime.bpm.businesscalendar.WorkDay;
 import org.opaeum.runtime.bpm.businesscalendar.WorkDayKind;
 
-//This class is timezone agnostic. It assumes that all the Calendar objects
-// that it is being passed
-// are correctly timezoned.
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Filter(name = "noDeletedObjects")
 @Entity(name = "BusinessCalendar")
@@ -46,6 +44,12 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 			whc.getWeekDay().setEndTime(new TimeOfDay());
 		}
 		return (BusinessCalendar) instance.get();
+	}
+	public BusinessCalendar(BusinessComponent reloadToObject){
+		init(reloadToObject);
+		addToOwningObject();
+	}
+	public BusinessCalendar(){
 	}
 	public Date addTimeTo(Date fromDate,BusinessTimeUnit timeUnit,double numberOfUnits){
 		Calendar cal = Calendar.getInstance();
@@ -292,7 +296,19 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 	public WorkDay getSunday(){
 		return getWorkDay(WorkDayKind.SUNDAY);
 	}
-	public double calculateDifference(Date from,Date to,BusinessTimeUnit timeUnit){
+	@Override
+	public Duration convertDuration(Duration from,BusinessTimeUnit toTimeUnit){
+		Date d=addTimeTo(from.getFromDate(), from.getTimeUnit(), from.getQuantity());
+		return calculateTimeBetween(from.getFromDate(), d, toTimeUnit);
+	}
+	@Override
+	public Duration calculateTimeBetween(Date from,Date to,BusinessTimeUnit timeUnit){
+		Duration result = new Duration();
+		result.setTimeUnit(timeUnit);
+		result.setQuantity(calculateTimeBetweenImpl(from, to, timeUnit));
+		return result;
+	}
+	private double calculateTimeBetweenImpl(Date from,Date to,BusinessTimeUnit timeUnit){
 		Calendar fromCal = Calendar.getInstance();
 		fromCal.setTime(from);
 		Calendar toCal = Calendar.getInstance();
@@ -356,5 +372,4 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 		}
 		return super.getBusinessHoursPerWeek();
 	}
-
 }

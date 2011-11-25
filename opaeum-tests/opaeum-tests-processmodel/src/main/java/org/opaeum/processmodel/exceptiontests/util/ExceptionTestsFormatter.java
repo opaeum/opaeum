@@ -1,6 +1,6 @@
 package org.opaeum.processmodel.exceptiontests.util;
 
-import org.opeum.runtime.domain.AbstractFormatter;
+import org.opaeum.runtime.domain.AbstractFormatter;
 
 public class ExceptionTestsFormatter extends AbstractFormatter implements IExceptionTestsFormatter {
 	static final private ThreadLocal<ExceptionTestsFormatter> INSTANCE = new ThreadLocal<ExceptionTestsFormatter>();

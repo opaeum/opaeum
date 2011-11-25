@@ -12,6 +12,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJStatement;
 import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
+import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
@@ -19,15 +20,20 @@ import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
-import org.opeum.runtime.domain.ExceptionHolder;
+import org.opaeum.runtime.domain.ExceptionHolder;
 
 public abstract class AbstractCaller<T extends INakedCallAction> extends SimpleNodeBuilder<T>{
 	protected NakedStructuralFeatureMap callMap;
+	protected NakedOperationMap operationMap;
 	public AbstractCaller(OpaeumLibrary oclEngine,T action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 		if(BehaviorUtil.hasMessageStructure(node)){
 			callMap = OJUtil.buildStructuralFeatureMap(node, getLibrary());
 		}
+		if(node.getCalledElement()!=null){
+			operationMap=OJUtil.buildOperationMap(node.getCalledElement());
+		}
+
 	}
 	protected <E extends INakedInputPin>StringBuilder populateArgumentPinsAndBuildArgumentString(OJOperation operation,boolean includeReturnInfo,Collection<E> input){
 		StringBuilder arguments = new StringBuilder();

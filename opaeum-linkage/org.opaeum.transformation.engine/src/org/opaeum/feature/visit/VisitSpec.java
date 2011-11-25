@@ -36,7 +36,10 @@ public class VisitSpec{
 		return getParameterTypes().length == 2;
 	}
 	public boolean matches(Object o){
-		if(matchSubclasses){
+		if(o == null){
+			//HACK, usually if this is null it means there is an inconsistency in the underlying model
+			return false;
+		}else if(matchSubclasses){
 			for(Class<?> c:match){
 				if(c.isInstance(o)){
 					return true;
@@ -46,9 +49,6 @@ public class VisitSpec{
 			for(Class<?> c:match){
 				if(c.isInterface()){
 					// Only objects whose class directly implement the interaces
-					if(o==null){
-						System.out.println();
-					}
 					Class<?>[] itfs = o.getClass().getInterfaces();
 					for(Class<?> itf:itfs){
 						if(itf == c){

@@ -61,17 +61,8 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 		return getObjectNodeTarget(getOutgoing());
 	}
 	private INakedObjectNode getObjectNodeTarget(Collection<INakedActivityEdge> outgoing){
-		Iterator<INakedActivityEdge> iter = outgoing.iterator();
-		while(iter.hasNext()){
-			INakedActivityEdge next = iter.next();
-			if(next instanceof INakedObjectFlow){
-				INakedObjectFlow flow = (INakedObjectFlow) next;
-				if(flow.getTarget() instanceof INakedObjectNode){
-					return (INakedObjectNode) flow.getTarget();
-				}else if(flow.getTarget() instanceof INakedControlNode){
-					return getObjectNodeTarget(flow.getTarget().getOutgoing());
-				}
-			}
+		for(INakedActivityEdge edge:outgoing){
+			return ((INakedObjectFlow) edge).getFedObjectNode();
 		}
 		return null;
 	}

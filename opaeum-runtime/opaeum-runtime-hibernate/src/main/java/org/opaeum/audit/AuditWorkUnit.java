@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,7 +149,7 @@ public class AuditWorkUnit {
 
 	private void initializeAuditEntryInsert() {
 		this.auditEntryInsert = new StringBuffer(
-				"insert into audit_entry (id,object_version,original_id,original_type,previous_version_id, audit_date_time) values ");
+				"insert into audit_entry (id,object_version,original_id,original_type,previous_version_id, audit_date_time,action) values ");
 	}
 
 	private void appendAuditEntryValues(AuditEntry auditEntry, boolean previousIsAbsent) {
@@ -170,8 +171,9 @@ public class AuditWorkUnit {
 		}
 		auditEntryInsert.append(",'");
 		auditEntryInsert.append(new Timestamp(auditEntry.getAuditDateTime().getTime()).toString());
-		auditEntryInsert.append("'");
-		auditEntryInsert.append(")");
+		auditEntryInsert.append("','");
+		auditEntryInsert.append(auditEntry.getAction().name());
+		auditEntryInsert.append("')");
 	}
 
 	private void appendPropertyChangeValues(PropertyChange<?> change) {
@@ -231,13 +233,20 @@ public class AuditWorkUnit {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes"})
 	public void logPropertyChanges(Object[] oldState, Object[] newState, int[] dirtyProperties, IPersistentObject entity, String[] propertyNames, int version) {
 		EntityId ei = toEntityId(entity);
 		AuditEntry entry = entriesByEntityId.get(ei);
 		if (entry == null) {
 			AuditEntryFactory factory = getFactory(entity);
 			entry = factory.createAuditEntry(entity, version);
+			entry.setAction(AuditedAction.UPDATE);
+			for (int i = 0; i < newState.length; i++) {
+				Object object = newState[i];
+				if(object instanceof Date && propertyNames[i].endsWith("deletedOn") && !((Date) object).after(new Date())){
+					entry.setAction(AuditedAction.DELETE);
+				}
+			}
 			entriesByEntityId.put(ei, entry);
 		} else {
 			// Ensure one entry per flush
@@ -281,8 +290,9 @@ public class AuditWorkUnit {
 	}
 
 	public void logInsertedProperties(Object[] newState, String[] propertyNames, IPersistentObject entity, int version) {
-		AuditEntryFactory factory = getFactory(entity);
+		AuditEntryFactory<?> factory = getFactory(entity);
 		AuditEntry entry = factory.createAuditEntry(entity, version);
+		entry.setAction(AuditedAction.CREATE);
 		entriesByEntityId.put(toEntityId(entity), entry);
 		for (int i = 0; i < newState.length; i++) {
 			entry.putPropertyChange(propertyNames[i], null, newState[i]);

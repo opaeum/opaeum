@@ -4,11 +4,9 @@
 
 	<groupId>org.opaeum</groupId>
 	<artifactId>opaeum-test-tinker</artifactId>
-	<version>1.0.0.5-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
 	<name>opaeum-test-tinker</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,8 +14,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.opaeum</groupId>
-			<artifactId>opaeum-runtime-tinker-domain</artifactId>
-			<version>1.0.0.5-SNAPSHOT</version>
+			<artifactId>opaeum-runtime-tinker</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

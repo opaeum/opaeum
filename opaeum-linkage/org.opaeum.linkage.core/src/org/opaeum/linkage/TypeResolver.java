@@ -11,6 +11,8 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
@@ -31,7 +33,9 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 	PinLinker.class
 })
 public class TypeResolver extends AbstractModelElementLinker{
-	public static INakedSimpleType DEFAULT_TYPE = null;
+	public static class DefaultPrimitiveType extends NakedPrimitiveTypeImpl{
+	}
+	private static INakedSimpleType DEFAULT_TYPE = null;
 	@Override
 	public void visitRecursively(INakedElementOwner o){
 		super.visitRecursively(o);
@@ -55,6 +59,11 @@ public class TypeResolver extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void resolveType(INakedTypedElement aw){
 		if(!(aw instanceof INakedValuePin && aw.getNakedBaseType() == null)){
+			if(aw instanceof INakedTimeObservation){
+				aw.setBaseType(this.workspace.getOpaeumLibrary().getDateType());
+			}else if(aw instanceof INakedDurationObservation){
+				aw.setBaseType(this.workspace.getOpaeumLibrary().getDurationType());
+			}
 			// VAlue pins will have their basetype calculated from the ocl
 			INakedClassifier baseType = aw.getNakedBaseType();
 			if(baseType == null){
@@ -84,7 +93,7 @@ public class TypeResolver extends AbstractModelElementLinker{
 	protected INakedSimpleType getDefaultType(){
 		INakedSimpleType dt = this.workspace.getOpaeumLibrary().getDefaultType();
 		if(DEFAULT_TYPE == null && dt instanceof INakedPrimitiveType){
-			DEFAULT_TYPE = new NakedPrimitiveTypeImpl();
+			DEFAULT_TYPE = new DefaultPrimitiveType();
 			DEFAULT_TYPE.initialize(dt.getId(), dt.getName(), false);
 			DEFAULT_TYPE.setCodeGenerationStrategy(dt.getCodeGenerationStrategy());
 			DEFAULT_TYPE.setMappedImplementationType(dt.getMappedImplementationType());
@@ -98,9 +107,12 @@ public class TypeResolver extends AbstractModelElementLinker{
 	}
 	@Override
 	public void startVisiting(INakedModelWorkspace root){
-		DEFAULT_TYPE = null;
 		getDefaultType();
 		super.startVisiting(root);
+	}
+	public void release(){
+		super.release();
+		DEFAULT_TYPE = null;
 	}
 	// TODO move to utility class
 	public static void resolveCollection(INakedTypedElement aw,IClassifier type,IOclLibrary lib){

@@ -4,7 +4,8 @@ import java.util.Set;
 import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedValueSpecification;
-public interface INakedActivityEdge extends GuardedFlow,INakedElementOwner{
+public interface INakedActivityEdge extends GuardedFlow,INakedElementOwner,Comparable<INakedActivityEdge>{
+	int getIndexInOutgoing();
 	INakedActivityNode getSource();	
 	void setSource(INakedActivityNode source);
 	INakedActivityNode getTarget();

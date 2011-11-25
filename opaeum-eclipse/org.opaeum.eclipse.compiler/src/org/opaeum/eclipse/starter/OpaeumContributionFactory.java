@@ -34,7 +34,6 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 						if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
 							return EvaluationResult.TRUE;
 						}
-						System.out.println("NO UML Models");
 					}else if(selection.getFirstElement() instanceof Model){
 						return EvaluationResult.TRUE;
 					}else if(selection.getFirstElement() instanceof Element){
@@ -43,7 +42,6 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 						}
 					}else if(selection.getFirstElement() instanceof AbstractGraphicalEditPart){
 						AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) selection.getFirstElement();
-						System.out.println(a.getModel());
 						if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
 							return EvaluationResult.TRUE;
 						}

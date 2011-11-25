@@ -63,6 +63,9 @@
         <details xmi:id="_CVdo0s5vEeCLs7vQmm8tBQ" key="uuid" value="dd2c1365_9c27_4e55_83ee_688d0006dbfe"/>
       </eAnnotations>
     </packagedElement>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_mKrbYBW6EeGS9eDihWY8Xw" name="BinaryLargeObject">
+      <eAnnotations xmi:id="_mMvQ4BW6EeGS9eDihWY8Xw" source="http://www.opaeum.org"/>
+    </packagedElement>
     <profileApplication xmi:id="_e8qRkM5VEeC1yrA33E3a4g">
       <eAnnotations xmi:id="_e8qRkc5VEeC1yrA33E3a4g" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
@@ -72,19 +75,11 @@
       </eAnnotations>
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
-    <profileApplication xmi:id="_8b1_ENY6EeCzsIYqLQKrXg">
-      <eAnnotations xmi:id="_8b7eoNY6EeCzsIYqLQKrXg" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
-      </eAnnotations>
-      <eAnnotations xmi:id="_A_w2MNY7EeCzsIYqLQKrXg" source="http://www.opaeum.org">
-        <details xmi:id="_A_yEUNY7EeCzsIYqLQKrXg" key="uuid" value="a415fc6c_1b71_4b4e_91e7_b3796c068f60"/>
-      </eAnnotations>
-      <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
-    </profileApplication>
   </uml:Model>
   <OpaeumStandardProfile:Model xmi:id="_8D9EgNYvEeCbpsr9qtLjVA" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
   <OpaeumStandardProfile:ValueType xmi:id="_8iT0cNYvEeCbpsr9qtLjVA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="org.opaeum.strategies.DateTimeStrategyFactory"/>
   <OpaeumStandardProfile:PrimitiveType xmi:id="_BuhaoNYwEeCbpsr9qtLjVA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="org.opaeum.strategies.TextStrategyFactory"/>
   <Standard:ModelLibrary xmi:id="_-aUd8NY6EeCzsIYqLQKrXg" base_Package="_qb8akM37EdqwVrslYOdUDA"/>
   <OpaeumStandardProfile:ModelLibrary xmi:id="_cwpYoOnCEeCaZdEDdx_4Qg" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_mOnqwBW7EeGS9eDihWY8Xw" base_DataType="_mKrbYBW6EeGS9eDihWY8Xw" mappedImplementationType="byte[]" strategyFactory="org.opaeum.strategies.BlobStrategyFactory"/>
 </xmi:XMI>

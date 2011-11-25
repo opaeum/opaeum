@@ -14,8 +14,12 @@ import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.statemachines.INakedState;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 public abstract class AbstractPersistentNameGenerator extends AbstractNameGenerator {
+	@Override
+	protected boolean hasName(INakedElement p){
+		return p.getMappingInfo().hasPersistentName();
+	}
 	protected final String generateQualifiedPersistentName(INakedElement nme) {
 		if (nme instanceof INakedState) {
 			INakedState state = (INakedState) nme;

@@ -8,12 +8,14 @@ import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
 import org.opaeum.feature.TransformationProcess;
+import org.opaeum.javageneration.util.OJUtil;
 
 public class ClearOpaeumCacheACtion extends AbstractOpaeumAction{
 	public ClearOpaeumCacheACtion(IStructuredSelection selection){
 		super(selection, "Clear Opaeum Cache");
 	}
 	public void run(){
+		OJUtil.clearCache();
 		// Load classes
 		OpaeumEclipsePlugin.getDefault();
 		IContainer umlDir = (IContainer) selection.getFirstElement();
@@ -21,15 +23,14 @@ public class ClearOpaeumCacheACtion extends AbstractOpaeumAction{
 		ne.reinitialize();
 		
 		TransformationProcess process = JavaTransformationProcessManager.getTransformationProcessFor(umlDir);
-		System.gc();
 		if(process != null){
 			JavaTransformationProcessManager.reinitializeProcess(process,  ne);
 		}
 		try{
 			umlDir.refreshLocal(IResource.DEPTH_INFINITE, null);
 		}catch(CoreException e){
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		MemoryUtil.printMemoryUsage();
 	}
 }

@@ -1,8 +1,38 @@
+Vision:
+Object and Process Oriented Application Development and Execution environment for SME's
+
+Rapid Modelling in unified modeling tool for:
+UML Class Diagrams
+UML Processes
+UML Composite Structure Diagrams
+UML State Machines
+BPMN Processes
+User Interface models directly tied into model
+Exactly as simple or complex as the user wants it to be
+Hide away unnecessary complexity of UML/BPMN
+
+Cloud ready
+Use existing accounts (LinkedIn, Facebook, Gmail) to log in
+Manage Groups and Users through these tools
+Schedules Calendar entries for significant events
+
+Business Activity Monitoring
+Built into the core engine and  available from modeling environment
+Hides complexity - no queries or complex structures to worry about
+ 
+
+
 ECLIPSE
 General
 GeneratorGenerator - make this an eclipse plugin too
 
+BAM
+Introduce Dashboard formPanel for Charts based on standard queries - generate MDX
+Trickle feed process data, as well as data marked as facts to the warehouse 
+Integrate Saiku  Jquery components with JSF
+
 Opaeum Topcased
+Add Observations to Stereotypes for Activities to be used in time and interval expression
 Disable Opaeum functionality if all the resources could not be resolved
 Async actions in pallete for Screenflows, Responsibilities, 
 Action to Convert methods to business processes
@@ -76,19 +106,25 @@ unmarshall the pins to allow OCL compilation for postconditions
 Statemachines
 Implement effects, entry and do-action subprocess calls
 Implement state invariants
+Implement states as Inner classes that act on the outer class - get rid of JBPM
+
+Composite Structures
+With delegation to multiple parts/ports ensure that collectively all the interfaces are implemented - remember to modify logic in Topcased
 
 Classes
+Facts
 Generalizationsets
 PowerTypes
 link powerTypeInstances with generalization
+Implement constraints on SimpleTypes on the cla 
 
 Activities
-URGENT:
-Implement structured nodes as individual processes with their own flows
+Asynchronously fire newly created nodeInstances for Parallel Expansion Regions and Forks 
 Implement link actions, specifically for qualifiers
-Implement structuredactivitynodes as classes
 Merge object tokens on objectflows targeting a join 
-Implement getters for outputnodes that aggregate the results over possibly multiple invocations
+Refactor Jbpm out:
+1. Class per action, possibly even pin and flow
+2. Implement tokens as a single separate class and associate with appropriate activityNodeActiviation
 
 Maven
 put MavenArtefatId in profile
@@ -101,6 +137,8 @@ Asynchronous actions cannot have outputs
 
 Runtime
 For BusinessComponent instances, add a property called LDAP Identifier which associates that instance with an ldap entry
+OR
+Define Facebook/linked in/Google Group to use
 On BusinessRole, have a boolean field that states if a user can automatically create such a role instance
 On login, check ldap query for logged in user and take the user through a wizard adding a businessrole instance for every potential role 
 where the user also belongs to the ldap group that represents the businesscomponentinstance

@@ -128,7 +128,7 @@ public abstract class AbstractHibernatePackageAnnotator extends AbstractJavaProd
 		metaDef.putAttribute(metaValues);
 		for(INakedClassifier bc:impls){
 			OJAnnotationValue metaValue = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MetaValue"));
-			NakedClassifierMap map = new NakedClassifierMap(bc);
+			NakedClassifierMap map = OJUtil.buildClassifierMap(bc);
 			OJPathName javaTypePath = map.javaTypePath();
 			metaValue.putAttribute("value", config.shouldBeCm1Compatible()?OJUtil.classifierPathname(bc).toJavaString(): bc.getMappingInfo().getOpaeumId().toString());
 			metaValue.putAttribute("targetEntity", javaTypePath);

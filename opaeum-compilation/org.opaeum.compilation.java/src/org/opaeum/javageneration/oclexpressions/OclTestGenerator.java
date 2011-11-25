@@ -72,7 +72,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 	private void addTestMEthod(INakedEntity entity,OJPathName pn,OJAnnotatedClass test,OJAnnotatedInterface testInterface,String name){
 		String newName=name;
 		int i=0;
-		while(OJUtil.findOperation(test, newName)!=null){
+		while(test.getUniqueOperation(newName)!=null){
 			newName=name+i;
 		}
 		OJAnnotatedOperation testInitialValue = new OJAnnotatedOperation(newName);

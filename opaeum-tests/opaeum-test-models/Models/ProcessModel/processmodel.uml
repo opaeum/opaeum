@@ -219,7 +219,7 @@ endif</body>
             <eAnnotations xmi:id="_T6wL0OBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
           </lowerValue>
         </ownedAttribute>
-        <ownedAttribute xmi:type="uml:Port" xmi:id="_wmERwIaXEeCgEsOAkwdG4A" name="Port1" type="_VUgj8ARUEeCuA4oh6NA2Cw" aggregation="composite">
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_wmERwIaXEeCgEsOAkwdG4A" name="Port1" type="_VUgj8ARUEeCuA4oh6NA2Cw">
           <eAnnotations xmi:id="_T6o3EuBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
         </ownedAttribute>
         <ownedBehavior xmi:type="uml:Activity" xmi:id="_XJ5IMNOQEdubaLB0CR972w" name="executeProcessProcess" specification="_Va4BoNOQEdubaLB0CR972w">
@@ -910,7 +910,6 @@ endif</body>
         <eAnnotations xmi:id="_T7ADcOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org">
           <references xmi:type="uml:Trigger" href="ExceptionTests.uml#_wTeTMAWxEeC4vNsNDfa2Ww"/>
           <references xmi:type="uml:Trigger" href="ExceptionTests.uml#_P8tpYN4QEduT2scQvswYUA"/>
-          <references xmi:type="uml:Trigger" href="ExceptionTests.uml#_WLiwEAa5EeC4vNsNDfa2Ww"/>
         </eAnnotations>
       </packagedElement>
       <packagedElement xmi:type="uml:SignalEvent" xmi:id="_P8tpYd4QEduT2scQvswYUA" name="SignalEvent4" signal="_NIjfsN4QEduT2scQvswYUA">
@@ -1820,13 +1819,6 @@ endif</body>
         <eAnnotations xmi:id="_T6MyMOBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
       </packagedElement>
     </packagedElement>
-    <profileApplication xmi:id="_DYvR5dOQEdubaLB0CR972w">
-      <eAnnotations xmi:id="_DYvR5tOQEdubaLB0CR972w" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
-      </eAnnotations>
-      <eAnnotations xmi:id="_T6OAVeBHEeCzD6PmfoYTzg" source="http://www.opaeum.org"/>
-      <appliedProfile href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
-    </profileApplication>
     <profileApplication xmi:id="_T5MsoOBHEeCzD6PmfoYTzg">
       <eAnnotations xmi:id="_T5NTsOBHEeCzD6PmfoYTzg" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
@@ -1847,4 +1839,5 @@ endif</body>
   <OpaeumBPMProfile:BusinessRole xmi:id="_vIo5cOBHEeCzD6PmfoYTzg" base_Class="_KAIkQFHiEdyTle4M6qyXzw"/>
   <OpaeumBPMProfile:BusinessComponent xmi:id="_vqZisOBHEeCzD6PmfoYTzg" base_Component="_yYoGcIaVEeCgEsOAkwdG4A"/>
   <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_XChrsOBgEeCiM8gc3Yvw_g" base_OpaqueAction="_7_9RQFHlEdyTle4M6qyXzw"/>
+  <OpaeumBPMProfile:Responsibility xmi:id="_PaGs4P4cEeCBUvOlrVIyqw" base_Operation="_Hxa0gFHjEdyTle4M6qyXzw"/>
 </xmi:XMI>

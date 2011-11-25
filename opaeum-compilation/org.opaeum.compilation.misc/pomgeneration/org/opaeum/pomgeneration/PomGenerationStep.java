@@ -385,4 +385,8 @@ public abstract class PomGenerationStep implements ITransformationStep{
 		plugin.setConfiguration(POMFactory.eINSTANCE.createConfigurationType2());
 		return plugin;
 	}
+	public void release(){
+		this.migrationWorkspace=null;
+		this.workspace=null;
+	}
 }

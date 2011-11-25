@@ -71,9 +71,20 @@ public class NavigationDecorator{
 		}
 		return this.mouseListener;
 	}
-	public static void goToEObject(EObject featureValue,IWorkbenchPage activePage){
+	public static void goToPreviousEObject(IWorkbenchPage activePage){
 		OpaeumEditor nakedUmlEditor = (OpaeumEditor) activePage.getActiveEditor();
-		nakedUmlEditor.gotoEObject(featureValue);
+		EObject featureValue = nakedUmlEditor.popSelection();
+		goToEObject(featureValue, activePage, nakedUmlEditor);
+	}
+	public static void goToEObject(EObject featureValue,IWorkbenchPage activePage){
+		if(featureValue != null){
+			OpaeumEditor nakedUmlEditor = (OpaeumEditor) activePage.getActiveEditor();
+			nakedUmlEditor.pushSelection(featureValue);
+			nakedUmlEditor.gotoEObject(featureValue);
+			goToEObject(featureValue, activePage, nakedUmlEditor);
+		}
+	}
+	private static void goToEObject(EObject featureValue,IWorkbenchPage activePage,OpaeumEditor nakedUmlEditor){
 		IViewReference[] viewReferences = activePage.getViewReferences();
 		for(IViewReference iViewReference:viewReferences){
 			IViewPart view = iViewReference.getView(true);

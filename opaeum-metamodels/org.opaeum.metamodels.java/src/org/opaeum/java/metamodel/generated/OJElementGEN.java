@@ -4,7 +4,9 @@
 package org.opaeum.java.metamodel.generated;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.utilities.InvariantError;
@@ -17,10 +19,24 @@ abstract public class OJElementGEN{
 	private String f_comment = "";
 	static protected boolean usesAllInstances = false;
 	static protected List<OJElement> allInstances = new ArrayList<OJElement>();
+	public static Map<Class<?>,Long> counts = new HashMap<Class<?>,Long>();
+	public void finalize(){
+		counts.put(getClass(), getCount() - 1);
+	}
+	protected Long getCount(){
+		Long long1 = counts.get(getClass());
+		if(long1 == null){
+			return 0l;
+		}else if(long1 % 100 == 0){
+//			System.out.println(getClass().getName() + " count :" + long1);
+		}
+		return long1;
+	}
 	/**
 	 * Default constructor for OJElement
 	 */
 	protected OJElementGEN(){
+		counts.put(getClass(), getCount() + 1);
 		if(usesAllInstances){
 			allInstances.add(((OJElement) this));
 		}

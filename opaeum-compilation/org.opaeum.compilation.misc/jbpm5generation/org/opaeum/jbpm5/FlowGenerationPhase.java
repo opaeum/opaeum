@@ -60,4 +60,13 @@ public class FlowGenerationPhase implements TransformationPhase<AbstractFlowStep
 	public Collection<AbstractFlowStep> getSteps(){
 		return flowSteps;
 	}
+	@Override
+	public void release(){
+		this.textWorkspace=null;
+		this.workspace=null;
+		for(AbstractFlowStep f:this.flowSteps){
+			f.release();
+		}
+		
+	}
 }

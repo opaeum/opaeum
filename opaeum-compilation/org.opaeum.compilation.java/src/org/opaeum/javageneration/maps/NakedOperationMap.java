@@ -10,6 +10,7 @@ import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IParameter;
 import nl.klasse.octopus.model.internal.types.OperationImpl;
 
+import org.opaeum.feature.MappingInfo;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
@@ -20,7 +21,7 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.IParameterOwner;
 
-public class NakedOperationMap extends OperationMap implements IMessageMap{
+public class NakedOperationMap extends OperationMap implements IMessageMap,ExceptionRaisingMap{
 	private IParameterOwner parameterOwner;
 	public List<OJPathName> javaParamTypePathsWithReturnInfo(){
 		List<OJPathName> javaParamTypePaths = new ArrayList<OJPathName>();
@@ -45,7 +46,7 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 		if(super.operation.getReturnType() == null){
 			// this.operationTypeMap=new ClassifierMap();
 		}else{
-			this.operationTypeMap = new NakedClassifierMap(super.operation.getReturnType());
+			this.operationTypeMap = OJUtil.buildClassifierMap(super.operation.getReturnType());
 		}
 	}
 	@Override
@@ -54,6 +55,7 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 	}
 	@Override
 	public String javaOperName(){
+
 		if(parameterOwner instanceof INakedBehavior){
 			INakedBehavior behaviour = (INakedBehavior) parameterOwner;
 			if(behaviour.getSpecification() != null){
@@ -66,11 +68,13 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 		}
 	}
 	Map<IParameter,NakedClassifierMap> params = null;
+	private OJPathName callbackListenerPath;
+	private OJPathName handlerPath;
 	private Map<IParameter,NakedClassifierMap> getParamMap(){
 		if(params == null){
 			params = new HashMap<IParameter,NakedClassifierMap>();
 			for(IParameter p:getContractDefiningElement().getParameters()){
-				params.put(p, new NakedClassifierMap(p.getType()));
+				params.put(p, OJUtil.buildClassifierMap(p.getType()));
 			}
 		}
 		return params;
@@ -100,9 +104,19 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 		return getParamMap().get(elem).javaTypePath();
 	}
 	public OJPathName callbackListenerPath(){
-		OJPathName path = OJUtil.packagePathname(getContractDefiningElement().getNameSpace());
-		path.addToNames(callbackListener());
-		return path;
+		if(callbackListenerPath == null){
+			this.callbackListenerPath = OJUtil.packagePathname(getContractDefiningElement().getNameSpace()).getCopy();
+			callbackListenerPath.addToNames(callbackListener());
+		}
+		return callbackListenerPath;
+	}
+	public OJPathName handlerPath(){
+		if(handlerPath == null){
+			this.handlerPath = OJUtil.packagePathname(getContractDefiningElement().getNameSpace()).getCopy();
+			MappingInfo mi = this.parameterOwner.getMappingInfo();
+			handlerPath.addToNames(mi.getJavaName().getCapped() + "Handler" + mi.getOpaeumId());
+		}
+		return handlerPath;
 	}
 	public String callbackListener(){
 		return getContractDefiningElement().getMappingInfo().getJavaName().getCapped() + "Listener";
@@ -119,9 +133,7 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 	}
 	@Override
 	public OJPathName eventHandlerPath(){
-		OJPathName path = OJUtil.packagePathname(getParameterOwner().getNameSpace());
-		path.addToNames(getParameterOwner().getMappingInfo().getJavaName().getCapped() + "Handler" + getParameterOwner().getMappingInfo().getOpaeumId());
-		return path;
+		return handlerPath();
 	}
 	public boolean hasMessageStructure(){
 		return BehaviorUtil.hasExecutionInstance(getParameterOwner());
@@ -133,9 +145,21 @@ public class NakedOperationMap extends OperationMap implements IMessageMap{
 			return OJUtil.classifierPathname((INakedClassifier) getParameterOwner());
 		}
 	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.opaeum.javageneration.maps.ExceptionRaisingMap#exceptionOperName(org.opaeum.metamodel.core.INakedElement)
+	 */
+	@Override
 	public String exceptionOperName(INakedElement e){
 		return baseMethodName() + e.getMappingInfo().getJavaName().getCapped();
 	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.opaeum.javageneration.maps.ExceptionRaisingMap#unhandledExceptionOperName()
+	 */
+	@Override
 	public String unhandledExceptionOperName(){
 		return baseMethodName() + "UnhandledException";
 	}

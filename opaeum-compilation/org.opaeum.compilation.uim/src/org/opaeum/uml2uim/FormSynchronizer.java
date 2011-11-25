@@ -33,7 +33,7 @@ import org.opaeum.uim.form.OperationInvocationForm;
 import org.opaeum.uim.form.OperationTaskForm;
 import org.opaeum.uim.form.StateForm;
 import org.opaeum.uim.form.UimForm;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = UimSynchronizationPhase.class,requires = FormFolderSynchronizer.class,after = FormFolderSynchronizer.class)
 public class FormSynchronizer extends AbstractUimSynchronizer{

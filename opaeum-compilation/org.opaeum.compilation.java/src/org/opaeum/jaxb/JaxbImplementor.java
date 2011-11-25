@@ -33,11 +33,11 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 		if(OJUtil.hasOJClass(c) && !(c instanceof INakedInterface)){
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
-			OJOperation outgoingEvents = OJUtil.findOperation(owner, "getOutgoingEvents");
+			OJOperation outgoingEvents = owner.getUniqueOperation("getOutgoingEvents");
 			if(outgoingEvents!=null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) outgoingEvents);
 			}
-			OJOperation cancelledEvents = OJUtil.findOperation(owner, "getCancelledEvents");
+			OJOperation cancelledEvents = owner.getUniqueOperation("getCancelledEvents");
 			if(cancelledEvents!=null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
@@ -60,12 +60,12 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 		if(behavior.getContext() != null && BehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass ojContext = findJavaClass(behavior.getContext());
 			if(behavior.isClassifierBehavior()){
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getClassifierBehavior");
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation("getClassifierBehavior");
 				JaxbAnnotator.addXmlTransient(oper);
 				// OJAnnotatedOperation getCurrentState= (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "getCurrentState");
 				// getCurrentState.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlTransient")));
 			}else{
-				OJAnnotatedOperation oper = (OJAnnotatedOperation) OJUtil.findOperation(ojContext, "get" + behavior.getMappingInfo().getJavaName().getCapped());
+				OJAnnotatedOperation oper = (OJAnnotatedOperation) ojContext.getUniqueOperation("get" + behavior.getMappingInfo().getJavaName().getCapped());
 				JaxbAnnotator.addXmlTransient(oper);
 			}
 		}

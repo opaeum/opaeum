@@ -91,7 +91,7 @@ public class EmfWorkspace implements Element{
 		}
 		return result;
 	}
-	public Set<Package> getPrimaryModels(){
+	public Set<Package> getPotentialGeneratingModels(){
 		return primaryModels;
 	}
 	public WorkspaceMappingInfo getMappingInfo(){

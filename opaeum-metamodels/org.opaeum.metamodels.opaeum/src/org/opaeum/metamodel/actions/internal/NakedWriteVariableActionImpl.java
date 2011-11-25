@@ -25,7 +25,7 @@ public abstract class NakedWriteVariableActionImpl extends NakedVariableActionIm
 	}
 	public void setValue(INakedInputPin value){
 		if(this.value != value){
-			removeOwnedElement(this.value, true);
+			replacePin(this.value,value);
 			this.value = value;
 		}
 	}

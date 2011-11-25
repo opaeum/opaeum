@@ -16,8 +16,8 @@ import org.opaeum.metamodel.workspace.AbstractStrategyFactory;
 import org.opaeum.textmetamodel.ISourceFolderIdentifier;
 import org.opaeum.textmetamodel.ProjectNameStrategy;
 import org.opaeum.textmetamodel.SourceFolderDefinition;
-import org.opeum.runtime.environment.VersionNumber;
-import org.opeum.util.SortedProperties;
+import org.opaeum.runtime.environment.VersionNumber;
+import org.opaeum.util.SortedProperties;
 
 public class OpaeumConfig{
 	private static final String DB_USER = "opaeum.database.user";

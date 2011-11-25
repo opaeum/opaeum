@@ -3,6 +3,7 @@ package org.opaeum.topcased.activitydiagram;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.ControlNode;
 import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.ExpansionNode;
@@ -13,6 +14,8 @@ import org.eclipse.uml2.uml.JoinNode;
 import org.eclipse.uml2.uml.MergeNode;
 import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.ObjectNode;
+import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.opaeum.eclipse.EmfActivityUtil;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphElement;
@@ -57,6 +60,9 @@ public class OpaeumObjectFlowEdgeCreationEditPolicy extends ObjectFlowEdgeCreati
 						return false;
 					}
 				}
+			}else if(object instanceof ActivityParameterNode){
+				Parameter p = ((ActivityParameterNode) object).getParameter();
+				return p!=null && (p.getDirection()==ParameterDirectionKind.IN_LITERAL || p.getDirection()==ParameterDirectionKind.INOUT_LITERAL);
 			}
 			return object instanceof ObjectNode || object instanceof ControlNode;
 		}
@@ -101,6 +107,9 @@ public class OpaeumObjectFlowEdgeCreationEditPolicy extends ObjectFlowEdgeCreati
 						return false;
 					}
 				}
+			}else if(object instanceof ActivityParameterNode){
+				ActivityParameterNode node=(ActivityParameterNode) object;
+				return node.getParameter()!=null && node.getParameter().getDirection()!=ParameterDirectionKind.IN_LITERAL;
 			}
 			return object instanceof ObjectNode || object instanceof ControlNode;
 		}

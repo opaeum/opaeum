@@ -1,9 +1,11 @@
 package org.opaeum.metamodel.activities;
+
 import java.util.Set;
 
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+
 public interface INakedActivityNode extends INakedElement,INakedStep{
 	INakedActivity getActivity();
 	INakedActivityPartition getInPartition();
@@ -12,11 +14,13 @@ public interface INakedActivityNode extends INakedElement,INakedStep{
 	Set<INakedActivityEdge> getIncoming();
 	/**
 	 * Returns all the outgoing edges for this node and all its contained pins
+	 * 
 	 * @return
 	 */
 	Set<INakedActivityEdge> getAllEffectiveOutgoing();
 	/**
 	 * Returns all the incoming edges for this node and all its contained pins
+	 * 
 	 * @return
 	 */
 	Set<INakedActivityEdge> getAllEffectiveIncoming();
@@ -30,6 +34,7 @@ public interface INakedActivityNode extends INakedElement,INakedStep{
 	INakedStructuredActivityNode getInStructuredNode();
 	public abstract void removeOutgoing(INakedActivityEdge edge);
 	public abstract void removeIncoming(INakedActivityEdge edge);
-	Set<INakedActivityNode> getRedefinedNodes();	
+	Set<INakedActivityNode> getRedefinedNodes();
 	INakedClassifier getNearestStructuredElementAsClassifier();
+	ActivityNodeContainer getNearestNodeContainer();
 }

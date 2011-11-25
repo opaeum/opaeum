@@ -19,6 +19,6 @@ public class VariableValueAdder extends SimpleNodeBuilder<INakedAddVariableValue
 		if(node.isReplaceAll() && map.isMany()){
 			block.addToStatements(expressor.clear(map));
 		}
-		block.addToStatements(expressor.storeResults(map, valuePinField, node.getValue().getNakedMultiplicity().isMany()));
+		block.addToStatements(expressor.pathToVariableContext(node) +  expressor.storeResults(map, valuePinField, node.getValue().getNakedMultiplicity().isMany()));
 	}
 }

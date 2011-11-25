@@ -15,7 +15,7 @@ public class NakedClassifierMap extends ClassifierMap{
 	}
 	@Override
 	protected ClassifierMap newClassifierMap(IClassifier elementType){
-		return new NakedClassifierMap(elementType);
+		return OJUtil.buildClassifierMap(elementType);
 	}
 	@Override
 	public boolean isJavaPrimitive(){

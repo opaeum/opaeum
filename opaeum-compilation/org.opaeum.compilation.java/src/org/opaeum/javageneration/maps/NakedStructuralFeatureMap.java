@@ -4,16 +4,22 @@ import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.name.NameConverter;
 
 public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 	public String fieldname(){
-		return "_" + umlName();
+		String asIs= NameConverter.decapitalize(getProperty().getName());
+		if(OJUtil.isJavaKeyword(asIs)){
+			asIs = "_" + asIs;
+		}
+		return asIs;
 	}
 	public NakedStructuralFeatureMap(INakedProperty feature){
 		super(feature);
-		baseTypeMap = new NakedClassifierMap(feature.getNakedBaseType());
-		featureTypeMap = new NakedClassifierMap(feature.getType());
+		baseTypeMap = OJUtil.buildClassifierMap(feature.getNakedBaseType());
+		featureTypeMap = OJUtil.buildClassifierMap(feature.getType());
 	}
 	@Override
 	public OJPathName javaTypePath(){

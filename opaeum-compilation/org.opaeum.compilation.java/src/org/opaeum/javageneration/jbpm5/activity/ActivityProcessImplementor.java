@@ -14,8 +14,10 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJForStatement;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -38,6 +40,7 @@ import org.opaeum.javageneration.jbpm5.actions.ReplyActionBuilder;
 import org.opaeum.javageneration.jbpm5.actions.SimpleActionBridge;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.maps.StructuredActivityNodeMap;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
@@ -75,6 +78,7 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.runtime.domain.ExceptionHolder;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
@@ -127,8 +131,10 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
 			OJAnnotatedClass activityClasss = findJavaClass(activity);
 			addParameterDelegation(activityClasss, activity);
-			OJPathName stateClass = OJUtil.packagePathname(activity.getNameSpace());
-			stateClass.addToNames(activity.getMappingInfo().getJavaName() + "State");
+			OJPathName stateClass = OJUtil.statePathname(activity);
+			OJAnnotatedOperation getSelf = new OJAnnotatedOperation("getSelf", activityClasss.getPathName());
+			getSelf.initializeResultVariable("this");
+			activityClasss.addToOperations(getSelf);
 			implementContainer(activity.getActivityKind() == ActivityKind.PROCESS, stateClass, activity, activity);
 		}
 	}
@@ -144,29 +150,59 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			Jbpm5Util.implementRelationshipWithProcess(activityClass, false, "process");
 			doIsStepActive(activityClass, msg);
 			super.addGetNodeInstancesRecursively(activityClass);
+			doIsComplete(activityClass, msg);
+			doFindNodeInstanceByUniqueId(activityClass);
+			addDirtyLogic(activityClass);
+		}
+		OJUtil.addTransientProperty(activityClass, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(OJVisibilityKind.PROTECTED);
+		OJAnnotatedOperation complete = new OJAnnotatedOperation("completed");
+		activityClass.addToOperations(complete);
+		if(container.getPostConditions().size() > 0){
+			complete.getBody().addToStatements("evaluatePostConditions()");
+			OJUtil.addFailedConstraints(complete);
 		}
 		for(INakedActivityNode n:container.getActivityNodes()){
 			if(n instanceof INakedStructuredActivityNode){
 				INakedStructuredActivityNode san = (INakedStructuredActivityNode) n;
 				INakedMessageStructure childMsg = san.getMessageStructure();
 				OJAnnotatedClass c = findJavaClass(childMsg);
-				OJAnnotatedOperation getter = (OJAnnotatedOperation) OJUtil.findOperation(c, "getSelf");
-				
+				OJAnnotatedOperation getter = (OJAnnotatedOperation) c.getUniqueOperation("getSelf");
 				if(container instanceof INakedActivity){
 					getter.initializeResultVariable("getNodeContainer()");
 				}else{
 					getter.initializeResultVariable("getNodeContainer().getSelf()");
 				}
+				OJAnnotatedOperation getActivity = new OJAnnotatedOperation("getContainingActivity", OJUtil.classifierPathname(container.getActivity()));
+				c.addToOperations(getActivity);
+				if(container instanceof INakedActivity){
+					getActivity.initializeResultVariable("getNodeContainer()");
+				}else{
+					getActivity.initializeResultVariable("getNodeContainer().getContainingActivity()");
+				}
 				if(container.getActivity().getContext() != null){
-					OJAnnotatedOperation contextGetter = (OJAnnotatedOperation) OJUtil.findOperation(c, "getContextObject");
+					OJAnnotatedOperation contextGetter = (OJAnnotatedOperation) c.getUniqueOperation("getContextObject");
 					contextGetter.initializeResultVariable("getSelf().getContextObject()");
 				}
 				implementVariableDelegation(container, msg, c);
+				StructuredActivityNodeMap map = new StructuredActivityNodeMap(san);
+				OJUtil.addPersistentProperty(c, "callingNodeInstanceUniqueId", new OJPathName("String"), true);
 				implementContainer(isProcess, stateClass, san, childMsg);
+				if(isProcess){
+					propagateExceptions(map, c);
+					OJOperation completed = c.getUniqueOperation("completed");
+					completed.getBody().addToStatements("getNodeContainer()." + map.completeMethodName() + "(getCallingNodeInstanceUniqueId(),this)");
+				}
 			}
 		}
 	}
+	private void propagateExceptions(StructuredActivityNodeMap map,OJAnnotatedClass ojOperationClass){
+		OJAnnotatedOperation propagateException = new OJAnnotatedOperation("propagateException");
+		ojOperationClass.addToOperations(propagateException);
+		propagateException.addParam("exception", new OJPathName("Object"));
+		propagateException.getBody().addToStatements("getNodeContainer()." + map.unhandledExceptionOperName() + "(getCallingNodeInstanceUniqueId(),exception, this)");
+	}
 	public void implementVariableDelegation(ActivityNodeContainer container,INakedClassifier msg,OJAnnotatedClass c){
+		// NB!!! remember this is only for OCL, not for actions. We only implement getters
 		for(INakedActivityVariable var:container.getVariables()){
 			NakedStructuralFeatureMap varMap = OJUtil.buildStructuralFeatureMap(msg, var);
 			OJAnnotatedOperation delegate = new OJAnnotatedOperation(varMap.getter(), varMap.javaTypePath());
@@ -190,7 +226,7 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(node instanceof INakedSendSignalAction){
 				// TODO this deviates from the UML spec. implement validation to ensure the reception is defined on the target
 				INakedSendSignalAction ssa = (INakedSendSignalAction) node;
-				SignalMap map = new SignalMap(ssa.getSignal());
+				SignalMap map = OJUtil.buildSignalMap(ssa.getSignal());
 				if(ssa.getTargetElement() != null && ssa.getTargetElement().getNakedBaseType() != null){
 					OJAnnotatedClass ojTarget = findJavaClass(ssa.getTargetElement().getNakedBaseType());
 					if(ojTarget != null){
@@ -209,6 +245,19 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 		OJOperation execute = implementExecute(activityClass, activity);
 		if(isProcess){
 			execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
+		}else if(activity instanceof INakedActivity){
+			activityClass.addToImports(new OJPathName(ExceptionHolder.class.getName()));
+			INakedActivity a = (INakedActivity) activity;
+			for(INakedParameter p:a.getOwnedParameters()){
+				if(p.isException()){
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(activity, p);
+					execute.getBody().addToStatements(
+							new OJIfStatement("this." + map.getter() + "()!=null", "throw new ExceptionHolder(this,\"" + p.getName() + "\"," + map.getter() + "())"));
+				}
+			}
+			execute.getBody().addToStatements(
+					new OJIfStatement("this." + Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + "!=null", "throw new ExceptionHolder(this,\"_raised\","
+							+ Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD + ")"));
 		}
 	}
 	private void implementNodeMethods(ActivityNodeContainer activity){
@@ -234,15 +283,16 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					}
 				}
 				if(node instanceof INakedExpansionRegion){
-					INakedMessageStructure msg = ((INakedExpansionRegion) node).getMessageStructure();
+					INakedExpansionRegion region = (INakedExpansionRegion) node;
+					INakedMessageStructure msg = region.getMessageStructure();
 					OJAnnotatedClass msgClass = findJavaClass(msg);
 					OJConstructor element = new OJConstructor();
-					for(INakedExpansionNode ip:((INakedExpansionRegion) node).getInputElement()){
+					for(INakedExpansionNode ip:region.getInputElement()){
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip);
 						element.addParam(map.fieldname(), map.javaBaseTypePath());
 						element.getBody().addToStatements(map.setter() + "(" + map.fieldname() + ")");
 					}
-					for(INakedExpansionNode ip:((INakedExpansionRegion) node).getOutputElement()){
+					for(INakedExpansionNode ip:region.getOutputElement()){
 						NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(msg, ip, true);
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip, false);
 						OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter(), map.javaTypePath());
@@ -333,8 +383,10 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			if(implementor.isEffectiveFinalNode()){
 				implementor.implementFinalStep(operation.getBody());
 			}
-			implementor.setupVariablesAndArgumentPins(operation);
+			
+			implementor.setupArgumentPins(operation);
 			implementor.implementPreConditions(operation);
+			implementor.implementObersvations(operation);
 			implementor.implementActionOn(operation);
 			if(implementor.isLongRunning()){
 				implementor.implementCallbackMethods(activityClass);

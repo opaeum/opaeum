@@ -92,4 +92,8 @@ public class ModelCopyStep extends EmfElementVisitor implements ITransformationS
 	protected int getThreadPoolSize(){
 		return 12;
 	}
+	public void release(){
+		this.textWorkspace=null;
+		this.workspace=null;
+	}
 }

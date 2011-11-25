@@ -15,6 +15,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJWorkspace;
 
 /**
  * ModelTransformer : 
@@ -29,7 +30,7 @@ public class OclUtilityCreator {
 	/**
 	 * 
 	 */
-	public OclUtilityCreator(OJPackage javamodel) {
+	public OclUtilityCreator(OJWorkspace javamodel) {
 		super();
 		OJPathName path = UtilityCreator.getUtilPathName();
 		utilPack = javamodel.findPackage(path);

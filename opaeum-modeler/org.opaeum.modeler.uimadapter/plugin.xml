@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
- <extension
+ <!--extension
           point="org.eclipse.ui.popupMenus">
        <objectContribution
              id="org.opaeum.uml2uim.actions.outline.package"
@@ -257,7 +257,7 @@
                 path="opaeumActionsGroup">
           </menu>
        </objectContribution>
-    </extension>
+    </extension-->
  <extension
        id="sfads.asf.asf..dfs.adf."
        point="org.opaeum.eclipse.transformationStep">

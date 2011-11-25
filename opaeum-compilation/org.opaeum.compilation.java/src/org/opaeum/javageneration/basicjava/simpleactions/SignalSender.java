@@ -9,9 +9,9 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedSendSignalAction;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedPin;
@@ -24,10 +24,10 @@ public class SignalSender extends SimpleNodeBuilder<INakedSendSignalAction>{
 	}
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
-		SignalMap signalMap = new SignalMap(node.getSignal());
+		SignalMap signalMap = OJUtil.buildSignalMap(node.getSignal());
 		Iterator<INakedInputPin> args = node.getArguments().iterator();
 		String signalName = "_signal" + node.getMappingInfo().getJavaName();
-		ClassifierMap cm = new NakedClassifierMap(node.getSignal());
+		ClassifierMap cm = OJUtil.buildClassifierMap(node.getSignal());
 		operation.getOwner().addToImports(cm.javaTypePath());
 		while(args.hasNext()){
 			INakedPin pin = args.next();

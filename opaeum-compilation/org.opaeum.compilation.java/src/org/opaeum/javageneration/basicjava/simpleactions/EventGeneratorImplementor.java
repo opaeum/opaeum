@@ -9,6 +9,9 @@ import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.activity.ActivityEventConsumptionImplementor;
 import org.opaeum.javageneration.jbpm5.statemachine.StateMachineEventConsumptionImplementor;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedActivity;
+import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -22,6 +25,15 @@ public class EventGeneratorImplementor extends AbstractJavaProducingVisitor{
 		if(OJUtil.hasOJClass(s)){
 			OJAnnotatedClass ojClass = findJavaClass(s);
 			EventUtil.addOutgoingEventManagement(ojClass);
+			if(s instanceof INakedActivity){
+				for(INakedActivityNode n:((INakedActivity) s).getActivityNodesRecursively()){
+					if(n instanceof INakedStructuredActivityNode){
+						ojClass = findJavaClass(((INakedStructuredActivityNode) n).getMessageStructure());
+						EventUtil.addOutgoingEventManagement(ojClass);
+					}
+					
+				}
+			}
 		}
 	}
 }

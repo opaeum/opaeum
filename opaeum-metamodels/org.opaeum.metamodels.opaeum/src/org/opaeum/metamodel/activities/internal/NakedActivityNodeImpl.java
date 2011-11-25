@@ -3,9 +3,11 @@ package org.opaeum.metamodel.activities.internal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
+import org.opaeum.metamodel.activities.ActivityNodeContainer;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
@@ -14,12 +16,13 @@ import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode{
 	private static final long serialVersionUID = 1142310904812L;
-	private Set<INakedActivityEdge> incoming = new HashSet<INakedActivityEdge>();
-	private Set<INakedActivityEdge> outgoing = new HashSet<INakedActivityEdge>();
+	private Set<INakedActivityEdge> incoming = new TreeSet<INakedActivityEdge>();
+	private Set<INakedActivityEdge> outgoing = new TreeSet<INakedActivityEdge>();
 	private INakedActivityPartition inPartition;
 	private Set<INakedActivityNode> redefinedNodes = new HashSet<INakedActivityNode>();
 	@Override
@@ -109,7 +112,7 @@ public class NakedActivityNodeImpl extends NakedElementImpl implements INakedAct
 		return getOutgoing(true);
 	}
 	private Set<INakedActivityEdge> getOutgoing(boolean hasGuard){
-		Set<INakedActivityEdge> results = new HashSet<INakedActivityEdge>();
+		Set<INakedActivityEdge> results = new TreeSet<INakedActivityEdge>();
 		for(INakedActivityEdge e:getAllEffectiveOutgoing()){
 			if(e.hasGuard() == hasGuard){
 				results.add(e);
@@ -133,14 +136,13 @@ public class NakedActivityNodeImpl extends NakedElementImpl implements INakedAct
 	}
 	@Override
 	public PathName getStatePath(){
-		// TODO Auto-generated method stub
-		if(getInStructuredNode() == null){
+//		if(getInStructuredNode() == null){
 			return new PathName(getName());
-		}else{
-			PathName statePath = getInStructuredNode().getStatePath();
-			statePath.addString(getName());
-			return statePath;
-		}
+//		}else{
+//			PathName statePath = getInStructuredNode().getStatePath();
+//			statePath.addString(getName());
+//			return statePath;
+//		}
 	}
 	@Override
 	public INakedClassifier getNearestStructuredElementAsClassifier(){
@@ -152,5 +154,13 @@ public class NakedActivityNodeImpl extends NakedElementImpl implements INakedAct
 			return ((INakedActivityNode)getOwnerElement()).getNearestStructuredElementAsClassifier();
 		}
 		return null;
+	}
+	@Override
+	public ActivityNodeContainer getNearestNodeContainer(){
+		INakedElementOwner ownerElement = getOwnerElement();
+		while(!(ownerElement instanceof ActivityNodeContainer)){
+			ownerElement=((INakedElement) ownerElement).getOwnerElement();
+		}
+		return (ActivityNodeContainer) ownerElement;
 	}
 }

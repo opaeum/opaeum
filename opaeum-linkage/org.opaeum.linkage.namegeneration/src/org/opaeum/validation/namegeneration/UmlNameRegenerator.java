@@ -37,28 +37,27 @@ import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedTransition;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 /**
- * Regenerates and sets the (UML) name of an originalElement. Also sets the name and
- * qualifiedUmlName on the elements mapping info
+ * Regenerates and sets the (UML) name of an originalElement. Also sets the name and qualifiedUmlName on the elements mapping info
  * 
  */
 @StepDependency(phase = NameGenerationPhase.class)
-public class UmlNameRegenerator extends AbstractNameGenerator {
+public class UmlNameRegenerator extends AbstractNameGenerator{
 	@VisitBefore(matchSubclasses = true)
-	public void updateUmlName(INakedElement nakedElement) {
+	public void updateUmlName(INakedElement nakedElement){
 		MappingInfo mappingInfo = nakedElement.getMappingInfo();
 		nakedElement.setName(generateUmlName(nakedElement).toString());
 		mappingInfo.setQualifiedUmlName(generateQualifiedUmlName(nakedElement));
 		if(nakedElement instanceof InverseArtificialProperty){
-			InverseArtificialProperty ap=(InverseArtificialProperty) nakedElement;
+			InverseArtificialProperty ap = (InverseArtificialProperty) nakedElement;
 			if(ap.getMultiplicity().isMany()){
 				ap.setName(NameConverter.decapitalize(ap.getNakedBaseType().getName()));
 			}
 		}
 		if(nakedElement instanceof ICompositionParticipant && ((ICompositionParticipant) nakedElement).getEndToComposite() instanceof InverseArtificialProperty){
-			InverseArtificialProperty ap=(InverseArtificialProperty) ((ICompositionParticipant) nakedElement).getEndToComposite();
+			InverseArtificialProperty ap = (InverseArtificialProperty) ((ICompositionParticipant) nakedElement).getEndToComposite();
 			INakedProperty oe = ap.getOtherEnd();
 			if(oe instanceof InverseArtificialProperty && oe.getNakedMultiplicity().isMany()){
 				oe.setName(NameConverter.decapitalize(oe.getNakedBaseType().getName()));
@@ -66,187 +65,184 @@ public class UmlNameRegenerator extends AbstractNameGenerator {
 			}
 		}
 	}
-
-	protected NameWrapper generateUmlName(INakedElement mew) {
+	protected NameWrapper generateUmlName(INakedElement mew){
 		// Be null safe for algorithms that required non-containing elements for
 		// name generation, i.e. actions
 		String name = mew == null ? "null" : mew.getName();
-		if (name != null && name.trim().length() == 0) {
+		if(name != null && name.trim().length() == 0){
 			name = null;
 		}
-		if (mew instanceof INakedPackage) {
-			if (mew.getName() == null) {
+		if(mew instanceof INakedPackage){
+			if(mew.getName() == null){
 				name = "AnonymousPackage";
-			} else {
+			}else{
 				name = mew.getName();
 			}
-		} else if (mew instanceof INakedAssociation) {
-			if (name == null) {
+		}else if(mew instanceof INakedAssociation){
+			if(name == null){
 				INakedAssociation a = (INakedAssociation) mew;
 				IAssociationEnd end1 = a.getEnd1();
 				IAssociationEnd end2 = a.getEnd2();
-				if (end1 == null || end2 == null) {
+				if(end1 == null || end2 == null){
 					name = "AnonymousAssociation";
-				} else {
-					if (end1.isComposite() || !end2.isNavigable()) {
+				}else{
+					if(end1.isComposite() || !end2.isNavigable()){
 						end1 = end2;
 						end2 = a.getEnd1();
 					}
 					name = generateUmlName((INakedElement) end1).getCapped().getAsIs() + generateUmlName((INakedElement) end2).getCapped();
 				}
 			}
-		} else if (mew instanceof INakedMultiplicityElement) {
+		}else if(mew instanceof INakedMultiplicityElement){
 			name = generateTypedElementName(name, (INakedTypedElement) mew);
-		} else if (mew instanceof INakedValueSpecification) {
+		}else if(mew instanceof INakedValueSpecification){
 			name = generateNameForValueSpecification(name, (INakedValueSpecification) mew);
-		} else if (mew instanceof INakedTransition) {
-			if (name == null) {
+		}else if(mew instanceof INakedTransition){
+			if(name == null){
 				INakedTransition t = (INakedTransition) mew;
 				name = "to" + generateUmlName(t.getTarget()).getAsIs();
 			}
-		} else if (mew instanceof INakedActivityEdge) {
-			if (name == null) {
+		}else if(mew instanceof INakedActivityEdge){
+			if(name == null){
 				INakedActivityEdge t = (INakedActivityEdge) mew;
 				name = "to" + generateUmlName(t.getEffectiveTarget()).getAsIs();
 			}
-		} else if (mew instanceof INakedState) {
-			if (name == null) {
+		}else if(mew instanceof INakedState){
+			if(name == null){
 				INakedState state = (INakedState) mew;
 				name = state.getKind().getName() + state.getMappingInfo().getOpaeumId() + "In" + state.getContainer().getName();
 			}
-		} else if (mew instanceof INakedRegion) {
-			if (name == null) {
+		}else if(mew instanceof INakedRegion){
+			if(name == null){
 				INakedRegion region = (INakedRegion) mew;
-				if (region.getPeerRegions().size() == 0) {
+				if(region.getPeerRegions().size() == 0){
 					name = region.getNameSpace().getName() + "Region";
-				} else {
+				}else{
 					name = region.getNameSpace().getName() + "Region" + region.getMappingInfo().getOpaeumId();
 				}
 			}
-		} else if (mew instanceof INakedAction) {
+		}else if(mew instanceof INakedAction){
 			name = generateNameForAction(name, (INakedAction) mew);
-		} else if (mew instanceof INakedGeneralization) {
-			if (name == null) {
+		}else if(mew instanceof INakedGeneralization){
+			if(name == null){
 				name = "isA" + ((INakedGeneralization) mew).getGeneral().getName();
 			}
-		} else if (mew instanceof INakedComment) {
-			if (name == null) {
+		}else if(mew instanceof INakedComment){
+			if(name == null){
 				name = "Comment" + mew.hashCode();
 			}
 		}
-		if (name == null) {
+		if(name == null){
 			name = mew.getMetaClass() + mew.getMappingInfo().getOpaeumId();
 		}
-		name = name.replaceAll("[\\p{Punct}\\p{Space}]", "_");
 		return new SingularNameWrapper(name, null);
 	}
-
-	public static void main(String[] args) {
-		System.out.println("?_;'123  13f".replaceAll("[\\p{Punct}\\p{Space}]", "_"));
+	public static void main(String[] args){
+		System.out.println("?_;':123  13f-".replaceAll("[\\p{Punct}\\p{Space}]", "_"));
 	}
-
-	private String generateNameForValueSpecification(String in, INakedValueSpecification vs) {
+	private String generateNameForValueSpecification(String in,INakedValueSpecification vs){
 		String name = in;
-		if (name == null) {
+		if(name == null){
 			INakedElementOwner ownerElement = vs.getOwnerElement();
-			if (ownerElement instanceof INakedTimeEvent) {
+			if(ownerElement instanceof INakedTimeEvent){
 				name = "when";
-			} else if (ownerElement instanceof INakedTransition) {
+			}else if(ownerElement instanceof INakedTransition){
 				name = "guardFor";
-			} else if (ownerElement instanceof INakedActivityEdge) {
+			}else if(ownerElement instanceof INakedActivityEdge){
 				INakedActivityEdge ae = (INakedActivityEdge) ownerElement;
-				if (vs.equals(ae.getGuard())) {
+				if(vs.equals(ae.getGuard())){
 					name = "guardFor";
-				} else {
+				}else{
 					name = "weightFor";
 				}
-			} else {
+			}else{
 				name = "valueFor";
 			}
 			name = name + NameConverter.capitalize(((INakedElement) ownerElement).getName());
 		}
 		return name;
 	}
-
-	private String generateNameForAction(String in, INakedAction nakedAction) {
+	private String generateNameForAction(String in,INakedAction nakedAction){
 		String name = in;
-		if (name == null) {
-			if (nakedAction instanceof INakedCallAction) {
+		if(name == null){
+			if(nakedAction instanceof INakedCallAction){
 				INakedCallAction action = (INakedCallAction) nakedAction;
 				name = "call" + generateUmlName(action.getCalledElement()).getCapped() + action.getMappingInfo().getOpaeumId();
-			} else if (nakedAction instanceof INakedStartClassifierBehaviorAction) {
+			}else if(nakedAction instanceof INakedStartClassifierBehaviorAction){
 				INakedStartClassifierBehaviorAction action = (INakedStartClassifierBehaviorAction) nakedAction;
 				name = "start" + generateUmlName(action.getTarget()).getCapped() + action.getMappingInfo().getOpaeumId();
-			} else if (nakedAction instanceof INakedCreateObjectAction) {
+			}else if(nakedAction instanceof INakedCreateObjectAction){
 				INakedCreateObjectAction action = (INakedCreateObjectAction) nakedAction;
 				name = "create" + generateUmlName(action.getClassifier()).getCapped() + action.getMappingInfo().getOpaeumId();
-			} else if (nakedAction instanceof INakedSendSignalAction) {
+			}else if(nakedAction instanceof INakedSendSignalAction){
 				INakedSendSignalAction action = (INakedSendSignalAction) nakedAction;
 				name = "send" + generateUmlName(action.getSignal()).getCapped() + action.getMappingInfo().getOpaeumId();
-			} else if (nakedAction instanceof INakedWriteStructuralFeatureAction) {
+			}else if(nakedAction instanceof INakedWriteStructuralFeatureAction){
 				INakedWriteStructuralFeatureAction action = (INakedWriteStructuralFeatureAction) nakedAction;
 				name = "write" + generateUmlName(action.getFeature()).getCapped() + action.getMappingInfo().getOpaeumId();
-			} else if (nakedAction instanceof INakedAcceptEventAction) {
+			}else if(nakedAction instanceof INakedAcceptEventAction){
 				INakedAcceptEventAction action = (INakedAcceptEventAction) nakedAction;
-				if (action.getTriggers().isEmpty()) {
+				if(action.getTriggers().isEmpty()){
 					name = "anonymousAcceptEventAction" + action.getMappingInfo().getOpaeumId();
-				} else {
+				}else{
 					INakedTrigger trigger = action.getTriggers().iterator().next();
-					if (trigger.getEvent() instanceof NakedTimeEventImpl) {
+					if(trigger.getEvent() instanceof NakedTimeEventImpl){
 						name = "waitFor" + generateUmlName(trigger.getEvent()) + action.getMappingInfo().getOpaeumId();
-					} else if (trigger.getEvent() instanceof INakedOperation) {
-						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
-								+ action.getMappingInfo().getOpaeumId();
-					} else if (trigger.getEvent() instanceof INakedSignal) {
-						name = "accept" + generateUmlName(trigger.getEvent()).getCapped()
-								+ action.getMappingInfo().getOpaeumId();
+					}else if(trigger.getEvent() instanceof INakedOperation){
+						name = "accept" + generateUmlName(trigger.getEvent()).getCapped() + action.getMappingInfo().getOpaeumId();
+					}else if(trigger.getEvent() instanceof INakedSignal){
+						name = "accept" + generateUmlName(trigger.getEvent()).getCapped() + action.getMappingInfo().getOpaeumId();
 					}
 				}
-			} else {
+			}else{
 				name = "action" + nakedAction.getMappingInfo().getOpaeumId();
 			}
 		}
 		return name;
 	}
-
-	private String generateTypedElementName(String in, INakedTypedElement te) {
+	private String generateTypedElementName(String in,INakedTypedElement te){
 		String name = in;
-		if (te instanceof INakedParameterNode) {
+		if(te instanceof INakedParameterNode){
 			// Ensure that paramterNodes and their parameters have the same name
 			INakedParameterNode node = (INakedParameterNode) te;
-			if (node.getParameter().isReturn()) {
-				name = "result";// For OCL postconditions
-			} else {
-				name = node.getParameter().getName();
+			if(node.getParameter() != null){
+				if(node.getParameter().isReturn()){
+					name = "result";// For OCL postconditions
+				}else{
+					name = node.getParameter().getName();
+				}
 			}
-		} else if (te instanceof INakedPin) {
+		}else if(te instanceof INakedPin){
 			INakedPin node = (INakedPin) te;
-			if (name == null) {
-				if (node.getNakedBaseType() == null) {
+			if(name == null){
+				if(node.getNakedBaseType() == null){
 					// Value pins can have null baseTypes
 					name = "anonymousPin";
-				} else {
+				}else{
 					// Generate a unique name
 					name = NameConverter.decapitalize(node.getNakedBaseType().getName() + node.getMappingInfo().getOpaeumId());
 				}
 			}
-		} else {
-			if (name == null || (te.getNakedBaseType() != null && te.getName().equals(te.getNakedBaseType().getName()))) {
+		}else{
+			if(name == null || (te.getNakedBaseType() != null && te.getName().equals(te.getNakedBaseType().getName()))){
 				// USe the type's name
 				name = NameConverter.decapitalize(te.getNakedBaseType().getName());
 			}
 		}
 		return name;
 	}
-
-	protected String generateQualifiedUmlName(INakedElement elem) {
+	protected String generateQualifiedUmlName(INakedElement elem){
 		String generatedName;
 		// Use nameSpace rather than elementOwner to ensure most unique name
-		if (elem.getNameSpace() == null || (elem instanceof INakedPackage && ((INakedPackage) elem).isRootPackage())) {
+		if(elem.getNameSpace() == null || (elem instanceof INakedPackage && ((INakedPackage) elem).isRootPackage())){
 			generatedName = elem.getName();
-		} else {
+		}else{
 			generatedName = generateQualifiedUmlName(elem.getNameSpace()) + "::" + elem.getName();
 		}
 		return generatedName;
+	}
+	@Override
+	protected boolean hasName(INakedElement p){
+		return p.getName()!=null && p.getName().trim().length()>0;
 	}
 }

@@ -55,7 +55,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				addEvaluationMethod(behavior.getPreConditions(), "evaluatePreConditions", behavior, "this");
 				addEvaluationMethod(behavior.getPostConditions(), "evaluatePostConditions", behavior, "this");
 			}else{
-				NakedOperationMap mapper = new NakedOperationMap(behavior);
+				NakedOperationMap mapper = OJUtil.buildOperationMap(behavior);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPreConditions(), true);
 				addLocalConditions(behavior.getContext(), mapper, behavior.getPostConditions(), false);
 			}
@@ -64,13 +64,13 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	private void visitOpaqueBehavior(INakedOpaqueBehavior behavior){
 		if(BehaviorUtil.hasExecutionInstance(behavior)){
 			OJAnnotatedClass javaContext = findJavaClass(behavior);
-			OJAnnotatedOperation execute = (OJAnnotatedOperation) OJUtil.findOperation(javaContext, "execute");
+			OJAnnotatedOperation execute = (OJAnnotatedOperation) javaContext.getUniqueOperation("execute");
 			if(execute == null){
 				execute = new OJAnnotatedOperation("execute");
 				javaContext.addToOperations(execute);
 			}
 			if(behavior.getBodyExpression() != null){
-				NakedOperationMap map = new NakedOperationMap(behavior);
+				NakedOperationMap map = OJUtil.buildOperationMap(behavior);
 				INakedClassifier owner = behavior.getContext();
 				INakedValueSpecification specification = behavior.getBody();
 				if(map.getParameterOwner().getReturnParameter() == null){
@@ -89,11 +89,8 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 				}
 			}
 		}else if(OJUtil.hasOJClass(behavior.getContext()) && behavior.getOwnerElement() instanceof INakedClassifier && behavior.getBodyExpression() != null){
-			if(behavior.getName().equals("transformationForObjectFlow1")){
-				System.out.println();
-			}
 			OJAnnotatedClass javaContext = findJavaClass(behavior.getContext());
-			NakedOperationMap map = new NakedOperationMap(behavior);
+			NakedOperationMap map = OJUtil.buildOperationMap(behavior);
 			OJAnnotatedOperation oper = (OJAnnotatedOperation) javaContext.findOperation(map.javaOperName(), map.javaParamTypePaths());
 			this.addBody(oper, behavior.getContext(), map, behavior.getBody());
 		}
@@ -109,7 +106,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void processOperation(INakedOperation oper,INakedClassifier owner){
-		NakedOperationMap mapper = new NakedOperationMap(oper);
+		NakedOperationMap mapper = OJUtil.buildOperationMap(oper);
 		if(oper.getBodyCondition() != null && oper.getBodyCondition().getSpecification() != null){
 			OJPathName path = OJUtil.classifierPathname(owner);
 			OJClass myOwner = javaModel.findClass(path);
@@ -123,9 +120,6 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		if(BehaviorUtil.hasExecutionInstance(oper) && oper.getMethods().isEmpty()){
 			INakedMessageStructure messageClass = oper.getMessageStructure();
 			addEvaluationMethod(oper.getPreConditions(), "evaluatePreConditions", messageClass, "getContextObject()");
-			if(oper.getName().equals("doWork")){
-				System.out.println();
-			}
 			addEvaluationMethod(oper.getPostConditions(), "evaluatePostConditions", messageClass, "getContextObject()");
 		}else{
 			addLocalConditions(owner, mapper, oper.getPreConditions(), true);

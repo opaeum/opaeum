@@ -15,7 +15,7 @@ public abstract class NakedOpaqueActionImpl extends NakedActionImpl implements I
 		return inputValues;
 	}
 	public void setInputValues(List<INakedInputPin> inputValues){
-		removePins(this.inputValues);
+		replacePins(this.inputValues, inputValues);
 		this.inputValues = inputValues;
 	}
 	@Override

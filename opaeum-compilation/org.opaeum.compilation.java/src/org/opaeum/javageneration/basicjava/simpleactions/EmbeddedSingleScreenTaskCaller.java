@@ -37,7 +37,7 @@ public class EmbeddedSingleScreenTaskCaller extends SimpleNodeBuilder<INakedEmbe
 		INakedProperty attr = activity.findEmulatedAttribute(node);
 		block.addToStatements(OJUtil.buildStructuralFeatureMap(attr).adder()+"("+ taskVar.getName() + ")");
 		//Store invocation in process
-		block.addToStatements(expressor.setterForSingleResult(map, taskVar.getName()));
+		block.addToStatements(expressor.storeResults(map, taskVar.getName(),false));
 		block.addToStatements(taskVar.getName()+".execute()");
 	}
 }

@@ -14,7 +14,7 @@ import org.opaeum.feature.DefaultTransformationLog;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 
@@ -46,7 +46,7 @@ public abstract class MavenProjectCodeGenerator{
 	protected void generateCodeForSingleModel(String modelFileName) throws Exception,IOException,FileNotFoundException{
 		System.out.println("Generating code for single model: " + modelFileName);
 		process.removeModel(TextWorkspace.class);
-		process.removeModel(OJPackage.class);
+		process.removeModel(OJWorkspace.class);
 		long start = System.currentTimeMillis();
 		File modelFile = new File(modelDirectory, modelFileName);
 		EmfWorkspace workspace = loadSingleModel(modelFile);
@@ -87,7 +87,7 @@ public abstract class MavenProjectCodeGenerator{
 	}
 	public void generateIntegrationCode() throws Exception{
 		EmfWorkspace workspace = loadDirectory();
-		process.removeModel(OJPackage.class);
+		process.removeModel(OJWorkspace.class);
 		process.removeModel(TextWorkspace.class);
 		INakedModelWorkspace nmw = process.findModel(INakedModelWorkspace.class);
 		workspace.setMappingInfo(nmw.getWorkspaceMappingInfo());

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -118,5 +119,8 @@ public class MigrationContext{
 	public void pop(){
 		toPersistenceStack.pop();
 		fromPersistenceStack.pop();
+	}
+	public <T> Collection<T> readFromRootObjects(Class<T> class1) {
+		return fromPersistenceStack.peek().readAll(class1);
 	}
 }

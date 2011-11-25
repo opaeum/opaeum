@@ -51,7 +51,7 @@ public class TypedElementTypeSection extends OpaeumChooserPropertySection{
 								StereotypeNames.BUSINESS_COMPONENT));
 			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.DIMENSION)){
 				accept = eObject instanceof org.eclipse.uml2.uml.Class || eObject instanceof Enumeration;
-			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.FACT)){
+			}else if(StereotypesHelper.hasStereotype((Element) getEObject(), StereotypeNames.MEASURE)){
 				if(eObject instanceof org.eclipse.uml2.uml.PrimitiveType){
 					accept = true;
 				}else if(eObject instanceof DataType && !(eObject instanceof Enumeration)){

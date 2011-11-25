@@ -33,6 +33,7 @@ import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.CreateObjectAction;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.DurationConstraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.EncapsulatedClassifier;
@@ -44,8 +45,10 @@ import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.InteractionConstraint;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
+import org.eclipse.uml2.uml.IntervalConstraint;
 import org.eclipse.uml2.uml.InvocationAction;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.Model;
@@ -73,6 +76,7 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.StructuredClassifier;
+import org.eclipse.uml2.uml.TimeConstraint;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.TypedElement;
@@ -93,14 +97,13 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseExpansionRegion(ExpansionRegion object){
 			if(this.notification.getEventType() == Notification.ADD){
 				if(notification.getNewValue() instanceof ExpansionNode){
-					ExpansionNode en = (ExpansionNode)notification.getNewValue();
+					ExpansionNode en = (ExpansionNode) notification.getNewValue();
 					if(StereotypesHelper.hasKeyword(en, StereotypeNames.LOOP_INPUT_COLLECTION)){
 						object.getInputElements().add(en);
 					}else{
 						object.getOutputElements().add(en);
 					}
 				}
-				
 			}
 			return super.caseExpansionRegion(object);
 		}
@@ -177,8 +180,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(this.notification.getFeatureID(Namespace.class)){
 			case UMLPackage.CONSTRAINT__SPECIFICATION:
 				if(notification.getNewValue() == null){
-					// No cigar!
-					c.setSpecification(createOclExpression(c.getName()));
+					//No cigar
+					forceConstraintSpecification(c);
 				}
 				break;
 			}
@@ -346,13 +349,33 @@ public class OpaeumElementLinker extends EContentAdapter{
 						}
 					}
 				}else if(notification.getNewValue() instanceof Constraint){
-					Constraint p = (Constraint) notification.getNewValue();
-					if(p.getSpecification() == null){
-						p.setSpecification(createOclExpression(p.getName()));
-					}
+					forceConstraintSpecification((Constraint) notification.getNewValue());
 				}
 			}
 			return null;
+		}
+		protected void forceConstraintSpecification(Constraint cc){
+			if(cc instanceof TimeConstraint){
+				if(cc.getSpecification() == null){
+					cc.setSpecification(UMLFactory.eINSTANCE.createTimeInterval());
+				}
+			}else if(cc instanceof InteractionConstraint){
+				if(cc.getSpecification() == null){
+					// p.setSpecification(UMLFactory.eINSTANCE.createDurationInterval());
+				}
+			}else if(cc instanceof DurationConstraint){
+				if(cc.getSpecification() == null){
+					cc.setSpecification(UMLFactory.eINSTANCE.createDurationInterval());
+				}
+			}else if(cc instanceof IntervalConstraint){
+				if(cc.getSpecification() == null){
+					cc.setSpecification(UMLFactory.eINSTANCE.createInterval());
+				}
+			}else if(cc instanceof Constraint){
+				if(cc.getSpecification() == null){
+					cc.setSpecification(createOclExpression(cc.getName()));
+				}
+			}
 		}
 		private void ensureActivityNodeStereotypes(Element a){
 			switch(notification.getEventType()){
@@ -617,7 +640,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				break;
 			case UMLPackage.CLASS__OWNED_ATTRIBUTE:
 				if(notification.getEventType() == Notification.ADD){
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.FACT, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.MEASURE, StereotypeNames.OPIUM_BPM_PROFILE);
 					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DIMENSION, StereotypeNames.OPIUM_BPM_PROFILE);
 					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.PARTICIPANT_REFERENCE, StereotypeNames.OPIUM_BPM_PROFILE);
 					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT, StereotypeNames.OPIUM_BPM_PROFILE);
@@ -1100,7 +1123,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 		}
 	}
 	public static void setOutputpin(TypedElement newValue,EList<OutputPin> results,boolean insertAtIndex){
-		int idx = EmfParameterUtil.calculateIndex(newValue, EmfParameterUtil.ARGUMENT);
+		int idx = EmfParameterUtil.calculateIndex(newValue, EmfParameterUtil.RESULT);
 		EList<EObject> references = StereotypesHelper.getNumlAnnotation(newValue).getReferences();
 		if(results.size() <= idx || insertAtIndex){
 			OutputPin pin = UMLFactory.eINSTANCE.createOutputPin();
@@ -1148,10 +1171,13 @@ public class OpaeumElementLinker extends EContentAdapter{
 		int lastNumber = 0;
 		List<NamedElement> members = new ArrayList<NamedElement>();
 		if(ne.getNamespace() == null){
+			if(ne.getOwner()!=null)
 			for(Element element:ne.getOwner().getOwnedElements()){
 				if(element instanceof NamedElement){
 					members.add((NamedElement) element);
 				}
+			}else{
+				
 			}
 		}else{
 			members.addAll(ne.getNamespace().getMembers());

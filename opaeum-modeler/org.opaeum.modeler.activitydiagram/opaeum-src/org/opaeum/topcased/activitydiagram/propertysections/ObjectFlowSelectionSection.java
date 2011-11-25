@@ -8,6 +8,8 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.ObjectFlow;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
@@ -18,6 +20,7 @@ import org.opaeum.eclipse.EmfActivityUtil.TypeAndMultiplicity;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.topcased.propertysections.AttachedOpaqueBehaviorSection;
 import org.opaeum.topcased.propertysections.EObjectNavigationSource;
 
 public class ObjectFlowSelectionSection extends AttachedOpaqueBehaviorSection implements EObjectNavigationSource{
@@ -25,23 +28,22 @@ public class ObjectFlowSelectionSection extends AttachedOpaqueBehaviorSection im
 	protected String getLabelText(){
 		return "Selector";
 	}
-
 	@Override
 	public EObject getEObjectToGoTo(){
 		return getObjectFlow().getSelection();
 	}
+	protected ObjectFlow getObjectFlow(){
+		ObjectFlow objectFlow = (ObjectFlow) getEObject();
+		return objectFlow;
+	}
 	protected void removeBehavior(Behavior tf){
-		getEditingDomain().getCommandStack().execute(
-				SetCommand.create(getEditingDomain(), getObjectFlow(), UMLPackage.eINSTANCE.getObjectFlow_Selection(), null));
+		getEditingDomain().getCommandStack().execute(SetCommand.create(getEditingDomain(), getObjectFlow(), UMLPackage.eINSTANCE.getObjectFlow_Selection(), null));
 		getEditingDomain().getCommandStack().execute(
 				RemoveCommand.create(getEditingDomain(), tf.getOwner(), UMLPackage.eINSTANCE.getBehavioredClassifier_OwnedBehavior(), tf));
 	}
 	protected Behavior createBehavior(){
 		Behavior tf;
-		Classifier clss = EmfElementFinder.getNearestClassifier(getObjectFlow());
-		if(clss instanceof Activity && ((Activity) clss).getContext()!=null && !StereotypesHelper.hasKeyword(clss, StereotypeNames.BUSINES_PROCESS)) {
-			clss=((Behavior) clss).getContext();
-		}
+		Classifier clss = EmfElementFinder.getNearestClassContext(getObjectFlow());
 		OpaqueBehavior behavior = UMLFactory.eINSTANCE.createOpaqueBehavior();
 		behavior.setName("selectionFor" + getObjectFlow().getName());
 		TypeAndMultiplicity sourceType = EmfActivityUtil.findSourceType(getObjectFlow());
@@ -55,13 +57,26 @@ public class ObjectFlowSelectionSection extends AttachedOpaqueBehaviorSection im
 		getEditingDomain().getCommandStack().execute(add);
 		Command setCommand = SetCommand.create(getEditingDomain(), getObjectFlow(), UMLPackage.eINSTANCE.getObjectFlow_Selection(), behavior);
 		getEditingDomain().getCommandStack().execute(setCommand);
-		tf=behavior;
+		tf = behavior;
 		return tf;
 	}
 	protected Behavior getBehavior(){
 		return getObjectFlow().getSelection();
 	}
 	protected void addVariables(){
-		oclComposite.addVariable("source", EmfActivityUtil.findSourceType(getObjectFlow()).getType());
+		TypeAndMultiplicity findSourceType = EmfActivityUtil.findSourceType(getObjectFlow());
+		if(findSourceType != null){
+			oclComposite.addVariable("source", findSourceType.getType());
+		}
+	}
+	@Override
+	public boolean isRelationshipComplete(){
+		TypeAndMultiplicity sourceType = EmfActivityUtil.findSourceType(getObjectFlow());
+		TypeAndMultiplicity targetType = EmfActivityUtil.findSourceType(getObjectFlow());
+		return sourceType != null && targetType != null;
+	}
+	@Override
+	protected NamedElement getOclContext(){
+		return EmfElementFinder.getNearestClassContext(getObjectFlow());
 	}
 }

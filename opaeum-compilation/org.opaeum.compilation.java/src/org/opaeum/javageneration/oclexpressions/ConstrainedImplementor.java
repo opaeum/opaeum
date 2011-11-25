@@ -17,8 +17,8 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.models.INakedModel;
-import org.opeum.runtime.domain.IConstrained;
-import org.opeum.runtime.domain.IInvariantError;
+import org.opaeum.runtime.domain.IConstrained;
+import org.opaeum.runtime.domain.IInvariantError;
 
 /**
  * This class implements the Constrained interface on classes that have invariants.
@@ -40,7 +40,7 @@ public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
 		OJPathName path = OJUtil.classifierPathname(c);
-		OJClassifier ojClassifier = this.javaModel.findIntfOrCls(path);
+		OJClassifier ojClassifier = this.javaModel.findClass(path);
 		if(ojClassifier instanceof OJClass && c instanceof INakedClassifier){
 			INakedClassifier nc = c;
 			if(hasInvariants(nc)){

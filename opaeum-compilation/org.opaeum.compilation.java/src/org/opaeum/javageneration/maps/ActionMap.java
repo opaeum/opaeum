@@ -7,6 +7,7 @@ import org.opaeum.metamodel.actions.IActionWithTargetElement;
 import org.opaeum.metamodel.actions.IActionWithTargetPin;
 import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
 import org.opaeum.metamodel.activities.INakedAction;
+import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedProperty;
 
@@ -72,6 +73,8 @@ public class ActionMap extends ActivityNodeMap{
 			if(BehaviorUtil.hasExecutionInstance(action.getActivity())){
 				if(action.getActivity().getContext() != null && action.getActivity().getContext().conformsTo(getExpectedTargetType())){
 					return "getContextObject()";
+				}else if(action.getOwnerElement() instanceof INakedStructuredActivityNode){
+					return "getContainingActivity()";
 				}
 			}
 		}

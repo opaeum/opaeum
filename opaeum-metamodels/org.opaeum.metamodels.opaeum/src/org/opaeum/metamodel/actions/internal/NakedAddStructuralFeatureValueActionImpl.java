@@ -11,6 +11,7 @@ public class NakedAddStructuralFeatureValueActionImpl extends NakedWriteStructur
 		return insertAt;
 	}
 	public void setInsertAt(INakedInputPin insertAt){
+		replacePin(this.insertAt, insertAt);
 		this.insertAt = insertAt;
 	}
 	public boolean isReplaceAll(){

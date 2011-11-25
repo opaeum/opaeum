@@ -4,7 +4,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -12,6 +11,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -74,7 +74,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 			}
 		};
 		absoluteComposite = new AbsoluteTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
-			CCombo deadlineKindsCombo;
+			Combo deadlineKindsCombo;
 			@Override
 			public void setContext(NamedElement context,TimeEvent te){
 				super.setContext(context, te);
@@ -86,8 +86,9 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 				super.addChildrenAfterName(toolkit, parent, standardLabelWidth);
 			}
 		};
-		relativeComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener){
-			CCombo deadlineKindsCombo;
+		relativeComposite = new RelativeTimeEventDetailsComposite(getWidgetFactory(), details, 200, listener,"Deadline"){
+			Combo deadlineKindsCombo;
+			
 			@Override
 			public void setContext(NamedElement context,TimeEvent te){
 				super.setContext(context, te);
@@ -100,7 +101,7 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 			}
 		};
 	}
-	private void updateCombo(TimeEvent te,CCombo deadlineKindsCombo2){
+	private void updateCombo(TimeEvent te,Combo deadlineKindsCombo2){
 		if(deadlineKindsCombo2.getItems().length != deadlineKinds.size()){
 			deadlineKindsCombo2.removeAll();
 			for(EnumerationLiteral l:deadlineKinds){
@@ -122,13 +123,13 @@ public class ActionDeadlinesSection extends AbstractTabbedPropertySection{
 			return "";
 		}
 	}
-	private CCombo addDeadlineKind(TabbedPropertySheetWidgetFactory toolkit,int standardLabelWidth,final AbsoluteTimeEventDetailsComposite composite){
+	private Combo addDeadlineKind(TabbedPropertySheetWidgetFactory toolkit,int standardLabelWidth,final AbsoluteTimeEventDetailsComposite composite){
 		Control[] children = composite.getChildren();
 		Label l = toolkit.createLabel(composite, "Deadline Type");
 		FormData labelData = new FormData();
 		labelData.top = new FormAttachment(children[children.length - 1]);
 		l.setLayoutData(labelData);
-		final CCombo deadlineKindsCombo = toolkit.createCCombo(composite, SWT.BORDER | SWT.READ_ONLY);
+		final Combo deadlineKindsCombo = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
 		FormData comboData = new FormData();
 		comboData.height = 18;
 		comboData.top = new FormAttachment(children[children.length - 1]);

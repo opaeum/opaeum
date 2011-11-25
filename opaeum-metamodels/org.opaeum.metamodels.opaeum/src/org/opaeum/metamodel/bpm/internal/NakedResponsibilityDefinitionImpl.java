@@ -14,7 +14,7 @@ import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedSlot;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
-import org.opeum.runtime.domain.TaskDelegation;
+import org.opaeum.runtime.domain.TaskDelegation;
 
 public class NakedResponsibilityDefinitionImpl extends NakedElementImpl implements INakedResponsibilityDefinition{
 	/**

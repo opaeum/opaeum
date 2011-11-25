@@ -1,11 +1,15 @@
 package org.opaeum.javageneration.jbpm5.actions;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.EmbeddedSingleScreenTaskCaller;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
@@ -36,6 +40,10 @@ public class EmbeddedSingleScreenTaskBuilder extends PotentialTaskActionBuilder<
 		INakedMessageStructure message = null;
 		message = ((INakedEmbeddedTask) node).getMessageStructure();
 		completeMethodName = "on" + node.getMappingInfo().getJavaName().getCapped() + "Completed";
-		implementCompleteMethod(activityClass, completeMethodName, message);
+		implementCallbackOnComplete(activityClass, completeMethodName, message);
+	}
+	@Override
+	protected Collection<INakedClassifier> getRaisedExceptions(){
+		return Collections.emptySet();
 	}
 }

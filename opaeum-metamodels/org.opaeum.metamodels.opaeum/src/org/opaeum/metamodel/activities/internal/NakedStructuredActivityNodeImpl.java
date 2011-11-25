@@ -2,6 +2,7 @@ package org.opaeum.metamodel.activities.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
@@ -11,13 +12,12 @@ import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 
 public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements INakedStructuredActivityNode{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5226193508709902688L;
 	Collection<INakedActivityNode> children = new ArrayList<INakedActivityNode>();
 	Collection<INakedActivityEdge> activityEdges = new ArrayList<INakedActivityEdge>();
@@ -25,6 +25,14 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	private Collection<INakedOutputPin> output = new ArrayList<INakedOutputPin>();
 	private Collection<INakedInputPin> input = new ArrayList<INakedInputPin>();
 	StructuredActivityNodeClassifier messageStructure;
+	Collection<INakedTimeObservation> timeObservations = new HashSet<INakedTimeObservation>();
+	Collection<INakedDurationObservation> durationObservations = new HashSet<INakedDurationObservation>();
+	public Collection<INakedTimeObservation> getTimeObservations(){
+		return timeObservations;
+	}
+	public Collection<INakedDurationObservation> getDurationObservations(){
+		return durationObservations;
+	}
 	public Collection<INakedActivityEdge> getActivityEdges(){
 		return activityEdges;
 	}
@@ -56,6 +64,12 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 			}
 			this.activityEdges.remove(e);
 		}
+		if(element instanceof INakedDurationObservation){
+			this.durationObservations.remove(element);
+		}
+		if(element instanceof INakedTimeObservation){
+			this.timeObservations.remove(element);
+		}
 		if(element instanceof INakedInputPin){
 			input.remove((INakedInputPin) element);
 		}
@@ -80,6 +94,12 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 		}
 		if(element instanceof INakedOutputPin){
 			output.add((INakedOutputPin) element);
+		}
+		if(element instanceof INakedTimeObservation){
+			this.timeObservations.add((INakedTimeObservation) element);
+		}
+		if(element instanceof INakedDurationObservation){
+			this.durationObservations.add((INakedDurationObservation) element);
 		}
 	}
 	@Override
@@ -115,5 +135,35 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	@Override
 	public void initMessageStructure(){
 		this.messageStructure = new StructuredActivityNodeClassifier(this);
+	}
+	@Override
+	public Collection<INakedDurationObservation> findDurationObservationFrom(INakedElement e){
+		Collection<INakedDurationObservation> result = new HashSet<INakedDurationObservation>();
+		for(INakedDurationObservation d:this.durationObservations){
+			if(d.getFromObservedElement() == e){
+				result.add(d);
+			}
+		}
+		return result;
+	}
+	@Override
+	public Collection<INakedDurationObservation> findDurationObservationTo(INakedElement e){
+		Collection<INakedDurationObservation> result = new HashSet<INakedDurationObservation>();
+		for(INakedDurationObservation d:this.durationObservations){
+			if(d.getToObservedElement() == e){
+				result.add(d);
+			}
+		}
+		return result;
+	}
+	@Override
+	public Collection<INakedTimeObservation> findTimeObservation(INakedElement e){
+		Collection<INakedTimeObservation> result = new HashSet<INakedTimeObservation>();
+		for(INakedTimeObservation d:this.timeObservations){
+			if(d.getObservedElement() == e){
+				result.add(d);
+			}
+		}
+		return result;
 	}
 }

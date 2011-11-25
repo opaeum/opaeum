@@ -21,8 +21,13 @@ import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
 import org.opaeum.metamodel.profiles.INakedProfile;
 import org.opaeum.metamodel.statemachines.INakedState;
+import org.opaeum.name.NameConverter;
 
 public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
+	@Override
+	protected boolean hasName(INakedElement p){
+		return p.getMappingInfo().getJavaName()!=null;
+	}
 	protected final NameWrapper generateJavaName(INakedElement element){
 		String name = element.getName();
 		if(element instanceof INakedClassifier){
@@ -33,7 +38,10 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 				if(name.indexOf(".") > -1){
 					name = name.substring(name.lastIndexOf(".") + 1);
 				}
+			}else{
+				name=NameConverter.capitalize(name);
 			}
+			
 		}else if(element instanceof INakedPackage){
 			name = element.getName();
 			INakedPackage np = (INakedPackage) element;
@@ -178,7 +186,7 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 			return classifier.getMappedImplementationType();
 		}else{
 			String path = packagePathname(classifier.getNameSpace());
-			return path + "." + classifier.getName();
+			return path + "." + NameConverter.capitalize(classifier.getName());
 		}
 	}
 	private static void addParentsToPath(INakedNameSpace c,StringBuilder path){

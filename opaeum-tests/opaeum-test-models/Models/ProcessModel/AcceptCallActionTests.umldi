@@ -17,7 +17,7 @@
   </diagrams>
   <subdiagrams xmi:id="_TVDswIVNEeCO_cyjCSiuxA">
     <model href="AcceptCallActionTests.uml#_EcO3UIVNEeCO_cyjCSiuxA"/>
-    <diagrams xmi:id="_TVET0IVNEeCO_cyjCSiuxA" position="0,0" size="100,100" name="ActivityWithInvokeReply" viewport="0,165">
+    <diagrams xmi:id="_TVET0IVNEeCO_cyjCSiuxA" position="0,0" size="100,100" name="ActivityWithInvokeReply" viewport="0,0">
       <property xmi:id="_TWFngIVNEeCO_cyjCSiuxA" key="pageFormatName" value="A4"/>
       <property xmi:id="_TWblwIVNEeCO_cyjCSiuxA" key="diagramWidth" value="840"/>
       <property xmi:id="_TWw88IVNEeCO_cyjCSiuxA" key="diagramHeight" value="1188"/>

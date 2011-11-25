@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.drools.drools._5._0.process.ActionType;
 import org.drools.drools._5._0.process.CompositeType;
@@ -39,7 +40,6 @@ import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
-import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
@@ -51,8 +51,8 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";
-	protected Map<INakedElement, Integer> targetIdMap;
-	protected Map<INakedElement, Integer> sourceIdMap;
+	protected Stack<Map<INakedElement, Integer>> targetIdMap=new Stack<Map<INakedElement,Integer>>();
+	protected Stack<Map<INakedElement, Integer>> sourceIdMap=new Stack<Map<INakedElement,Integer>>();
 	protected OpaeumConfig config;
 
 
@@ -63,7 +63,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		super.textFiles=new HashSet<TextOutputNode>();
 	}
 
-	protected DocumentRoot createRoot(INakedBehavior behavior) {
+	protected DocumentRoot createRoot(INakedElement behavior) {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(JBPM_PROCESS_EXTENSION, new ProcessResourceFactoryImpl());
 		resourceSet.getPackageRegistry().put(ProcessPackage.eNS_URI, ProcessPackage.eINSTANCE);
@@ -86,7 +86,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		root.getProcess().setPackageName(behavior.getNameSpace().getMappingInfo().getQualifiedJavaName());
 		root.getProcess().setVersion("" + workspace.getWorkspaceMappingInfo().getVersion().toVersionString());
 		root.getProcess().setType("RuleFlow");
-		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getNames();
+		List<String> names = OJUtil.packagePathname(behavior.getNameSpace()).getCopy().getNames();
 		names.add(behavior.getMappingInfo().getJavaName() + ".rf");
 		TextFile textFile = createTextPath(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE,names);
 		textFile.setTextSource(new EmfTextSource(r, "process"));
@@ -245,7 +245,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		for (GuardedFlow t : outgoing) {
 			ConstraintType constraint = ProcessFactory.eINSTANCE.createConstraintType();
 			constraint.setDialect("mvel");
-			Integer toNodeId = this.targetIdMap.get(t.getEffectiveTarget());
+			Integer toNodeId = this.targetIdMap.peek().get(t.getEffectiveTarget());
 			constraint.setToNodeId(toNodeId + "");
 			if (!t.hasGuard()) {
 				constraint.setValue("return true;");

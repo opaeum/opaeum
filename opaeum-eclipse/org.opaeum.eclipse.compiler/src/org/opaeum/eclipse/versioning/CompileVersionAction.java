@@ -21,8 +21,9 @@ import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
 import org.opaeum.java.metamodel.OJClassifier;
-import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJWorkspace;
+import org.opaeum.javageneration.JavaSourceKind;
 import org.opaeum.javageneration.JavaTextSource;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.JavaStringTextSource;
@@ -76,14 +77,17 @@ public class CompileVersionAction extends RecompileModelDirectoryAction{
 						p.integrate(new ProgressMonitorTransformationLog(monitor, 100));
 					}
 					monitor.subTask("Generating text files");
-					TextWorkspace tw = p.findModel(TextWorkspace.class);
 					Set<OJPathName> affectedClasses = new HashSet<OJPathName>();
 					Set<JavaStringTextSource> javaTextSources = new HashSet<JavaStringTextSource>();
-					for(TextFile textFile:tw.prepareForVersioning(suffix)){
+					for(TextFile textFile:p.findModel(TextWorkspace.class).prepareForVersioning(suffix)){
 						if(textFile.getTextSource() instanceof JavaTextSource){
 							JavaTextSource jts = (JavaTextSource) textFile.getTextSource();
 							if(jts.getJavaSource() instanceof OJClassifier){
-								affectedClasses.add(((OJClassifier) jts.getJavaSource()).getPathName());
+								OJClassifier cls = (OJClassifier) jts.getJavaSource();
+								affectedClasses.add(cls.getPathName());
+								if(jts.getKind()==JavaSourceKind.ABSTRACT_SUPERCLASS){
+									affectedClasses.add(new OJPathName(cls.getPathName()+"Generated"));
+								}
 							}
 						}else if(textFile.getTextSource() instanceof JavaStringTextSource){
 							javaTextSources.add((JavaStringTextSource) textFile.getTextSource());
@@ -93,7 +97,7 @@ public class CompileVersionAction extends RecompileModelDirectoryAction{
 						sfd.overwriteFiles();
 						sfd.cleanDirectories();
 					}
-					p.findModel(OJPackage.class).renameAll(affectedClasses, suffix);
+					p.findModel(OJWorkspace.class).renameAll(affectedClasses, suffix);
 					for(JavaStringTextSource javaTextSource:javaTextSources){
 						javaTextSource.renameAll(affectedClasses,suffix);
 					}

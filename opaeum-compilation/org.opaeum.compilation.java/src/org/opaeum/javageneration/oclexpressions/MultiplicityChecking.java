@@ -25,7 +25,7 @@ public class MultiplicityChecking extends AbstractJavaProducingVisitor{
 	public void visitClass(INakedClassifier in){
 		if(!(in instanceof IEnumerationType)){
 			OJPathName path = new ClassifierMap(in).javaTypePath();
-			OJClassifier myOwner = javaModel.findIntfOrCls(path);
+			OJClassifier myOwner = javaModel.findClass(path);
 			if(myOwner != null){
 				MultCheckCreator maker = new MultCheckCreator();
 				maker.createCheckOper(myOwner);

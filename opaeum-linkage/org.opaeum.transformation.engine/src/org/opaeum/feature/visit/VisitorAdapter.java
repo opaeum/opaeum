@@ -22,7 +22,7 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 
-import org.opeum.runtime.domain.ExceptionAnalyser;
+import org.opaeum.runtime.domain.ExceptionAnalyser;
 
 /**
  * VisitorAdapter is an abstract adapter class that traverses a tree starting with the root. Subclasses have to annotate methods that serve
@@ -183,12 +183,19 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 		}
 	}
 	public void visitRecursively(NODE o){
-		depth++;
-		for(VisitSpec v:methodInvokers.beforeMethods){
+		visitBeforeMethods(o);
+		visitChildren(o);
+		visitAfterMethods(o);
+	}
+	protected void visitAfterMethods(NODE o){
+		for(VisitSpec v:methodInvokers.afterMethods){
 			maybeVisit(o, v);
 		}
+		depth--;
+	}
+	protected void visitChildren(NODE o){
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
-		if(shouldMultiThread(children)&&false){
+		if(shouldMultiThread(children)){
 			depth = 1000000;
 			throwable = null;
 			Set<ScheduledFuture<?>> jobs = new HashSet<ScheduledFuture<?>>();
@@ -220,10 +227,12 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 				visitRecursively(child);
 			}
 		}
-		for(VisitSpec v:methodInvokers.afterMethods){
+	}
+	protected void visitBeforeMethods(NODE o){
+		depth++;
+		for(VisitSpec v:methodInvokers.beforeMethods){
 			maybeVisit(o, v);
 		}
-		depth--;
 	}
 	protected boolean shouldMultiThread(ArrayList<NODE> children){
 		return depth == 1 && getThreadPoolSize() > 1 && children.size() > 4;
@@ -244,7 +253,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 			}
 		}
 	}
-	protected boolean visitChildren(NODE o){
+	protected boolean shouldVisitChildren(NODE o){
 		return true;
 	}
 	protected abstract int getThreadPoolSize();

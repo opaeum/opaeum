@@ -42,8 +42,13 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opaeum.metamodel.core.internal.NakedGeneralizationImpl;
 import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
+import org.opaeum.name.NameConverter;
 
 public abstract class EmulatedCompositionMessageStructure extends EmulatingElement implements INakedMessageStructure,INakedBehavioredClassifier{
+	@Override
+	public boolean isImported(IClassifier cls){
+		return owner.isImported(cls);
+	}
 	private static final long serialVersionUID = -3198245957575601442L;
 	protected INakedElement element;
 	protected INakedClassifier owner;
@@ -54,8 +59,10 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	private String implementationCode;
 	private INakedProperty endToComposite;
 	protected String id;
+	protected String name;
 	protected EmulatedCompositionMessageStructure(INakedClassifier owner,INakedElement element){
 		super(element);
+		this.name=NameConverter.toJavaVariableName(element.getName());
 		this.element = element;
 		this.owner = owner;
 		this.mappingInfo = element.getMappingInfo().getCopy();
@@ -110,7 +117,7 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	}
 	@Override
 	public String getName(){
-		return element.getName();
+		return this.name;
 	}
 	public void addOclDefAttribute(IAttribute attr){
 	}
@@ -248,7 +255,7 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 		return result;
 	}
 	public Collection<IImportedElement> getImports(){
-		return Collections.emptySet();
+		return owner.getImports();
 	}
 	public String getMappedImplementationType(){
 		return null;

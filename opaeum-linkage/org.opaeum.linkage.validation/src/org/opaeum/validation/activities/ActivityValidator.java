@@ -53,6 +53,8 @@ public class ActivityValidator extends AbstractValidator{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(INakedActivityEdge e){
+		// TODO validate edges,transformations and selections recursively until an object node is found. Remember to start from one side,
+		// say the start, and not to evaluate the same flow multiple times
 		INakedActivityNode es = e.getEffectiveTarget();
 		if((es.isImplicitJoin() || (es instanceof INakedControlNode && ((INakedControlNode) es).getControlNodeType().isJoinNode())) && e.hasGuard()){
 			getErrorMap().putError(e, ActivityValidationRule.NO_CONDITIONAL_FLOW_TO_JOIN, es.isImplicitJoin() ? "implicit" : "explicit", e.getEffectiveTarget());

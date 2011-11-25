@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -19,9 +18,9 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
-import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
@@ -45,7 +44,7 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor implements JavaTransformationStep{
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
-	protected OJPackage javaModel;
+	protected OJWorkspace javaModel;
 	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
 		Set<T> result = new HashSet<T>();
 		for(INakedRootObject r:roots){
@@ -61,7 +60,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		return result;
 	}
 	@Override
-	public void initialize(OJPackage pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		textFiles = new HashSet<TextOutputNode>();
 		this.javaModel = pac;
 		this.config = config;
@@ -73,32 +72,48 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	}
 	@Override
 	public void visitRecursively(INakedElementOwner o){
-		recalculateUtilityPackage(o);
-		super.visitRecursively(o);
-	}
-	private void recalculateUtilityPackage(INakedElementOwner o){
-		if(o instanceof INakedRootObject){
+		if(o instanceof INakedModelWorkspace){
+			OJPackage util = setWorkspaceUtilPackage();
+			visitBeforeMethods(o);
+			visitChildren(o);
+			//UtilPackage Would have been overridden by contained root objects
+			UtilityCreator.setUtilPackage(util);
+			visitAfterMethods(o);
+			//Free memory
+			UtilityCreator.setUtilPackage(null);
+		}else if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
-			this.setCurrentRootObject(pkg);
-			if(javaModel != null){
-				OJPathName utilPath = calculateUtilPath(pkg);
-				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
-			}
-		}else if(o instanceof INakedModelWorkspace){
-			if(javaModel != null){
-				OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
-				UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
-			}
+			setRootObjectUtilPackage(pkg);
+			super.visitRecursively(o);
+			UtilityCreator.setUtilPackage(null);
+		}else{
+			super.visitRecursively(o);
 		}
+	}
+	protected void setRootObjectUtilPackage(INakedRootObject pkg){
+		if(javaModel != null){
+			OJPathName utilPath = calculateUtilPath(pkg);
+			UtilityCreator.setUtilPackage(findOrCreatePackage(utilPath));
+		}
+	}
+	protected OJPackage setWorkspaceUtilPackage(){
+		OJPackage util=null;
+		if(javaModel != null){
+			OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
+			util = findOrCreatePackage(utilPath);
+			UtilityCreator.setUtilPackage(util);
+		}
+		return util;
 	}
 	@Override
 	public void visitOnly(INakedElementOwner o){
 		if(o instanceof INakedModelWorkspace){
-			recalculateUtilityPackage(o);
+			setWorkspaceUtilPackage();
 		}else{
-			recalculateUtilityPackage(((INakedElement) o).getRootObject());
+			setRootObjectUtilPackage(((INakedElement) o).getRootObject());
 		}
 		super.visitOnly(o);
+		UtilityCreator.setUtilPackage(null);
 	}
 	protected OJPathName calculateUtilPath(INakedRootObject pkg){
 		String qualifiedJavaName = OJUtil.packagePathname(pkg).toJavaString();
@@ -119,25 +134,13 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		return (OJAnnotatedPackageInfo) ((JavaTextSource) txtFile.getTextSource()).getJavaSource();
 	}
 	protected final OJPackage findOrCreatePackage(OJPathName packageName){
-		OJPackage parent = this.javaModel;
-		OJPackage child = null;
-		Iterator<String> iter = packageName.getNames().iterator();
-		while(iter.hasNext()){
-			String name = iter.next();
-			child = (OJPackage) parent.findPackage(new OJPathName(name));
-			if(child == null){
-				child = new OJPackage(name);
-				parent.addToSubpackages(child);
-			}
-			parent = child;
-		}
-		return child;
+		return this.javaModel.findOrCreatePackage(packageName);
 	}
 	protected OJAnnotatedClass findJavaClass(INakedClassifier classifier){
 		OJPathName path = OJUtil.classifierPathname(classifier);
-		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+		OJAnnotatedClass owner = (OJAnnotatedClass) this.javaModel.findClass(path);
 		if(owner == null){
-			owner = (OJAnnotatedClass) this.javaModel.findIntfOrCls(path);
+			owner = (OJAnnotatedClass) this.javaModel.findClass(path);
 		}
 		return owner;
 	}
@@ -182,31 +185,15 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			Object o = iter.next();
 			ClassifierMap map = null;
 			if(o instanceof INakedMultiplicityElement){
-				map = new NakedClassifierMap(((INakedTypedElement) o).getType());
+				map = OJUtil.buildClassifierMap(((INakedTypedElement) o).getType());
 			}else if(o instanceof INakedClassifier){
-				map = new NakedClassifierMap((INakedClassifier) o);
+				map = OJUtil.buildClassifierMap((INakedClassifier) o);
 			}else{
 				map = new ClassifierMap((IClassifier) o);
 			}
 			result.add(map.javaTypePath());
 		}
 		return result;
-	}
-	protected OJPackage findOrCreatePackageForClass(String qualifiedJavaClassName){
-		StringTokenizer st = new StringTokenizer(qualifiedJavaClassName, ".");
-		OJPackage p = this.javaModel;
-		int countTokens = st.countTokens();
-		for(int i = 0;i < countTokens - 1;i++){
-			String name = st.nextToken();
-			OJPackage prev = p;
-			p = prev.findPackage(new OJPathName(name));
-			if(p == null){
-				p = new OJPackage();
-				p.setName(name);
-				prev.addToSubpackages(p);
-			}
-		}
-		return p;
 	}
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
@@ -233,7 +220,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	}
 
 	@Override
-	protected boolean visitChildren(INakedElementOwner o){
+	protected boolean shouldVisitChildren(INakedElementOwner o){
 		return o instanceof INakedNameSpace;
 	}
 	@Override
@@ -247,6 +234,11 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		JavaTextSource jts = new JavaTextSource(c);
 		file.setTextSource(jts);
 		return file;
+	}
+	@Override
+	public void release(){
+		super.release();
+		this.javaModel=null;
 	}
 
 }

@@ -39,7 +39,7 @@ public class ComponentInitializer extends AbstractJavaProducingVisitor{
 	public void visitClassifier(INakedEntity entity){
 		if(OJUtil.hasOJClass(entity)){
 			OJAnnotatedClass ojClass = findJavaClass(entity);
-			OJOperation init = OJUtil.findOperation(ojClass, "init");
+			OJOperation init = ojClass.getUniqueOperation("init");
 			List<? extends INakedProperty> aws = entity.getOwnedAttributes();
 			init.getBody().addToStatements("createComponents()");
 			OJOperation createComponents = new OJAnnotatedOperation("createComponents");

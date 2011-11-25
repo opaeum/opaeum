@@ -33,7 +33,7 @@ import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		CompositionEmulator.class,OperationAnnotator.class
@@ -44,7 +44,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
 		OJPathName path = OJUtil.classifierPathname(c);
-		OJClassifier myOwner = this.javaModel.findIntfOrCls(path);
+		OJClassifier myOwner = this.javaModel.findClass(path);
 		// NakedModelElement mew = (NakedModelElement)
 		// nakedModel.lookup(c.getPathName());
 		if(myOwner instanceof OJClass && (c instanceof INakedEntity || c instanceof INakedStructuredDataType)){
@@ -76,7 +76,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void implementCopyMethod(OJClass owner,INakedClassifier classifier){
-		OJOperation oper = OJUtil.findOperation(owner, "makeCopy");
+		OJOperation oper = owner.getUniqueOperation("makeCopy");
 		if(oper == null){
 			oper = new OJAnnotatedOperation("makeCopy");
 			oper.setReturnType(OJUtil.classifierPathname(classifier));
@@ -141,7 +141,20 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 								OJBlock whileBody = forBlock;
 								ws.setBody(whileBody);
 								ws.setElemType(map.javaBaseTypePath());
-								whileBody.addToStatements("to." + map.adder() + "(child." + copyMethodName + "())");
+								if(isMap(map)){
+									StringBuilder sb = new StringBuilder();
+									List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
+									//Assume qualifiers are back by attributes as we are doing composition here
+									for(INakedProperty q:qualifiers){
+										NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
+										sb.append("child.");
+										sb.append(qMap.getter());
+										sb.append("(),");
+									}
+									whileBody.addToStatements("to." + map.adder() + "("+sb.toString()+"child." + copyMethodName + "())");
+								}else{
+									whileBody.addToStatements("to." + map.adder() + "(child." + copyMethodName + "())");
+								}
 								body.addToStatements(ws);
 							}else{
 								OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "()!=null", "to." + map.setter() + "(from." + map.getter() + "()."
@@ -187,5 +200,8 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 				}
 			}
 		}
+	}
+	private boolean isMap(NakedStructuralFeatureMap map){
+		return map.umlName().equals("updateChangeLog");
 	}
 }

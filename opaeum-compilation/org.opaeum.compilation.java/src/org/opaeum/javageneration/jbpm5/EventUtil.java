@@ -13,8 +13,6 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
-import org.opaeum.javageneration.maps.NakedOperationMap;
-import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedAcceptEventAction;
@@ -32,18 +30,18 @@ import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.statemachines.INakedCompletionEvent;
-import org.opeum.runtime.domain.CancelledEvent;
-import org.opeum.runtime.domain.IEventGenerator;
-import org.opeum.runtime.domain.OutgoingEvent;
-import org.opeum.runtime.domain.TimeUnit;
+import org.opaeum.runtime.domain.CancelledEvent;
+import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.domain.TimeUnit;
 
 //TODO refactor into an EventMap
 public class EventUtil{
 	public static String getEventConsumerName(INakedElement e){
 		if(e instanceof INakedSignalEvent){
-			return new SignalMap(((INakedSignalEvent) e).getSignal()).eventConsumerMethodName();
+			return OJUtil.buildSignalMap(((INakedSignalEvent) e).getSignal()).eventConsumerMethodName();
 		}else if(e instanceof INakedCallEvent){
-			return new NakedOperationMap(((INakedCallEvent) e).getOperation()).eventConsumerMethodName();
+			return OJUtil.buildOperationMap(((INakedCallEvent) e).getOperation()).eventConsumerMethodName();
 		}else if(e instanceof INakedCompletionEvent){
 			return "on" + e.getMappingInfo().getJavaName().getCapped() + "Completed";
 		}else if(e instanceof INakedEvent){
@@ -53,10 +51,10 @@ public class EventUtil{
 		}
 	}
 	public static OJPathName handlerPathName(INakedOperation s){
-		return OJUtil.packagePathname(s.getOwner()).append(s.getMappingInfo().getJavaName().getCapped() + "Handler" + s.getMappingInfo().getOpaeumId());
+		return OJUtil.buildOperationMap(s).handlerPath();
 	}
 	public static OJPathName handlerPathName(INakedEvent e){
-		return OJUtil.packagePathname(e.getContext()).append(e.getMappingInfo().getJavaName().getCapped() + "Handler");
+		return OJUtil.packagePathname(e.getContext()).getCopy().append(e.getMappingInfo().getJavaName().getCapped() + "Handler");
 	}
 	public static void implementChangeEventRequest(OJOperation operation,INakedChangeEvent event){
 		OJAnnotatedClass owner = (OJAnnotatedClass) operation.getOwner();
@@ -87,13 +85,13 @@ public class EventUtil{
 			ojClass.addToImports(CancelledEvent.class.getName());
 			OJPathName eventCancellationPath = new OJPathName(Set.class.getName());
 			eventCancellationPath.addToElementTypes(new OJPathName(CancelledEvent.class.getName()));
-			OJAnnotatedField field1 = OJUtil.addProperty(ojClass, "cancelledEvents", eventCancellationPath, true);
+			OJAnnotatedField field1 = OJUtil.addTransientProperty(ojClass, "cancelledEvents", eventCancellationPath, true);
 			field1.setInitExp("new HashSet<CancelledEvent>()");
 			ojClass.addToImports(HashMap.class.getName());
 			field1.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 			OJPathName eventSetPath = new OJPathName(Set.class.getName());
 			eventSetPath.addToElementTypes(new OJPathName(OutgoingEvent.class.getName()));
-			OJAnnotatedField field2 = OJUtil.addProperty(ojClass, "outgoingEvents", eventSetPath, true);
+			OJAnnotatedField field2 = OJUtil.addTransientProperty(ojClass, "outgoingEvents", eventSetPath, true);
 			field2.setInitExp("new HashSet<OutgoingEvent>()");
 			field2.putAnnotation(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}

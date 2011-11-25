@@ -7,8 +7,8 @@ import java.util.HashSet;
 
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.IntegrationCodeGenerator;
 import org.opaeum.javageneration.JavaTransformationStep;
 import org.opaeum.javageneration.basicjava.JavaMetaInfoMapGenerator;
@@ -26,19 +26,15 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.util.SortedProperties;
 import org.opaeum.velocity.AbstractTextProducingVisitor;
-import org.opeum.runtime.environment.Environment;
-import org.opeum.util.SortedProperties;
 
 public abstract class AbstractPersistenceConfigGenerator extends AbstractTextProducingVisitor implements JavaTransformationStep,IntegrationCodeGenerator{
 	public AbstractPersistenceConfigGenerator(){
 		super();
-	}
-	@Override
-	public void initialize(OJPackage pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
-		this.initialize(config, textWorkspace, workspace);
 	}
 	@SuppressWarnings({
 			"unchecked","rawtypes"
@@ -127,6 +123,12 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 			vars.put("pkg", OJUtil.utilPackagePath(owner));
 		}
 		return vars;
+	}
+	@Override
+	public void initialize(OJWorkspace pac,OpaeumConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
+		super.initialize(config, textWorkspace, workspace);
+		// TODO Auto-generated method stub
+		
 	}
 	private boolean isGeneratingElement(INakedElement e){
 		return workspace.getGeneratingModelsOrProfiles().contains(e.getRootObject());

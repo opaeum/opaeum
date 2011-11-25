@@ -18,6 +18,7 @@ public class NakedSendObjectActionImpl extends NakedInvocationActionImpl impleme
 		return this.object;
 	}
 	public void setRequest(INakedInputPin object){
+		replacePin(this.object, object);
 		this.object = object;
 	}
 }

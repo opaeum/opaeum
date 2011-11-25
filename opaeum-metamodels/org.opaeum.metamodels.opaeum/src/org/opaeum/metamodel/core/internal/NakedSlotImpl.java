@@ -26,7 +26,9 @@ public class NakedSlotImpl extends NakedElementImpl implements INakedSlot,Serial
 	}
 	public void setDefiningFeature(INakedProperty definingFeature){
 		this.definingFeature = definingFeature;
-		super.setName(this.definingFeature.getName());
+		if(definingFeature != null){
+			super.setName(this.definingFeature.getName());
+		}
 	}
 	public INakedValueSpecification getFirstValue(){
 		if(this.values.size() == 1){
@@ -41,6 +43,8 @@ public class NakedSlotImpl extends NakedElementImpl implements INakedSlot,Serial
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
-		this.values.add((INakedValueSpecification) element);
+		if(element instanceof INakedValueSpecification){
+			this.values.add((INakedValueSpecification) element);
+		}
 	}
 }

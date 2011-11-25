@@ -160,7 +160,7 @@ public class StdlibCollections  {
 	 * @param elemType
 	 * @return ICollectionType
 	 */
-	public ICollectionType lookupType(CollectionMetaType type, IClassifier elemType) {
+	public synchronized ICollectionType lookupType(CollectionMetaType type, IClassifier elemType) {
         if( type == CollectionMetaType.COLLECTION ){
             return createCollectionType(elemType);
         } else if ( type == CollectionMetaType.SET) {

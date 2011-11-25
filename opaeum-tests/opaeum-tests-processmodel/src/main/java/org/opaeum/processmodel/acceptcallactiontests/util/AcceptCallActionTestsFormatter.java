@@ -1,6 +1,6 @@
 package org.opaeum.processmodel.acceptcallactiontests.util;
 
-import org.opeum.runtime.domain.AbstractFormatter;
+import org.opaeum.runtime.domain.AbstractFormatter;
 
 public class AcceptCallActionTestsFormatter extends AbstractFormatter implements IAcceptCallActionTestsFormatter {
 	static final private ThreadLocal<AcceptCallActionTestsFormatter> INSTANCE = new ThreadLocal<AcceptCallActionTestsFormatter>();

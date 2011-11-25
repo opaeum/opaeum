@@ -23,8 +23,8 @@ public class OpaeumFilter extends ViewerFilter{
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getFunctionBehavior());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getProtocolStateMachine());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getFunctionBehavior());
-		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeConstraint());
-		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDurationConstraint());
+		DISALLOWED_CLASSES.remove(UMLPackage.eINSTANCE.getTimeConstraint());
+		DISALLOWED_CLASSES.remove(UMLPackage.eINSTANCE.getDurationConstraint());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDevice());
 		DISALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getNode());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getGeneralization());
@@ -69,6 +69,10 @@ public class OpaeumFilter extends ViewerFilter{
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getLiteralBoolean());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getSlot());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterval());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDuration());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeExpression());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getObservation());
 	}
 	public boolean select(Viewer viewer,Object parentElement,Object element){
 		if(element instanceof AdditionalResources || element instanceof Resource){

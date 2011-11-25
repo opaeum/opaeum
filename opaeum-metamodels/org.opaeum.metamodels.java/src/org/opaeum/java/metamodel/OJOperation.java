@@ -231,16 +231,25 @@ public class OJOperation extends OJOperationGEN{
 		if(other instanceof OJOperation){
 			OJOperation o = (OJOperation) other;
 			List<OJPathName> oParamTypes = o.getParamTypes();
-			List<OJPathName> paramTypes = getParamTypes();
-			if(o.getOwner().equals(getOwner()) && o.getName().equals(getName()) && oParamTypes.size() == paramTypes.size()){
-				for(int i = 0;i < paramTypes.size();i++){
-					if(!paramTypes.get(i).equals(oParamTypes.get(i))){
-						return false;
-					}
-				}
-				return true;
+			if(o.getOwner().equals(getOwner()) && o.getName().equals(getName())){
+				return paramsEquals(oParamTypes);
 			}
 		}
 		return false;
+	}
+	public boolean paramsEquals(List<OJPathName> oParamTypes){
+		List<OJPathName> paramTypes = getParamTypes();
+		boolean b=true;
+		if(oParamTypes.size() == paramTypes.size()){
+			for(int i = 0;i < paramTypes.size();i++){
+				if(!paramTypes.get(i).equals(oParamTypes.get(i))){
+					b=false;
+					break;
+				}
+			}
+		}else{
+			b=false;
+		}
+		return b;
 	}
 }

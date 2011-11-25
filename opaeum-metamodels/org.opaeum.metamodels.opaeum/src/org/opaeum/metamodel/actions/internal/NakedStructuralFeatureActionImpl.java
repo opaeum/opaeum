@@ -52,7 +52,7 @@ public abstract class NakedStructuralFeatureActionImpl extends NakedActionImpl i
 	}
 	public void setObject(INakedInputPin object){
 		if(this.object != object){
-			removeOwnedElement(this.object, true);
+			replacePin(this.object,object);
 			this.object = object;
 		}
 	}

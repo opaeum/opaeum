@@ -15,21 +15,23 @@ public class ExpansionNodeImplementor extends SimpleNodeBuilder<INakedExpansionN
 	public ExpansionNodeImplementor(OpaeumLibrary oclEngine,INakedExpansionNode action,AbstractObjectNodeExpressor objectNodeExpressor){
 		super(oclEngine, action, objectNodeExpressor);
 	}
+	
 	@Override
 	public void implementActionOn(OJAnnotatedOperation operation,OJBlock block){
 		if(node.isOutputElement()){
-			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node, node.getActivity().getActivityKind()==ActivityKind.SIMPLE_SYNCHRONOUS_METHOD);
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getActivity(), node,true);
 			// expressor.maybeBuildResultVariable(operation, block, map);
 			if(node.getFeedingNode() instanceof INakedObjectNode){
-				if(((INakedObjectNode) node.getFeedingNode()).getNakedMultiplicity().isMany()){
-					block.addToStatements(expressor.getterForStructuredResults(map) + ".addAll(" + expressor.expressInputPinOrOutParamOrExpansionNode(block, node) + ")");
-				}else{
-					block.addToStatements(expressor.getterForStructuredResults(map) + ".add(" + expressor.expressInputPinOrOutParamOrExpansionNode(block, node) + ")");
+				String call = expressor.expressInputPinOrOutParamOrExpansionNode(block, node);
+				String pref="";
+				if(node.getActivity().getActivityKind()!=ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
+					pref="getNodeContainer().";
 				}
+				block.addToStatements(pref+expressor.storeResults(map, call, node.getFeedingNode().getNakedMultiplicity().isMany()));
 			}
 			EventUtil.cancelEvents(block, this.node.getExpansionRegion().getActivityNodes());
 		}else{
-			EventUtil.requestEvents(operation, this.node.getExpansionRegion().getActivityNodes(),getLibrary().getBusinessRole()!=null);
+			EventUtil.requestEvents(operation, this.node.getExpansionRegion().getActivityNodes(), getLibrary().getBusinessRole() != null);
 		}
 	}
 }

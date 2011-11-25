@@ -43,7 +43,9 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 			context.getLog().endLastStep();
 		}
 		for(INakedRootObject ro:modelWorkspace.getRootObjects()){
-			ro.setStatus(RootObjectStatus.NAMED);
+			if(!ro.getStatus().isNamed()){
+				ro.setStatus(RootObjectStatus.NAMED);
+			}
 		}
 		context.getLog().endLastTask();
 	}
@@ -61,5 +63,13 @@ public class NameGenerationPhase implements TransformationPhase<AbstractNameGene
 		for(AbstractNameGenerator ng:nameGenerators){
 			ng.initialize(config);
 		}
+	}
+	@Override
+	public void release(){
+		this.modelWorkspace = null;
+		for(AbstractNameGenerator n:this.nameGenerators){
+			n.release();
+		}
+		// TODO Auto-generated method stub
 	}
 }

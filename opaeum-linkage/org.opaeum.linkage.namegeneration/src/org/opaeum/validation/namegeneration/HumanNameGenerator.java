@@ -113,4 +113,9 @@ public class HumanNameGenerator extends AbstractNameGenerator {
 		}
 		return generatedName;
 	}
+
+	@Override
+	protected boolean hasName(INakedElement p){
+		return p.getMappingInfo().getHumanName()!=null;
+	}
 }

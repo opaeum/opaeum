@@ -23,4 +23,5 @@ public interface TransformationPhase<FEATURE extends ITransformationStep,ELEMENT
 	void initialize(OpaeumConfig config,List<FEATURE> features);
 	Collection<FEATURE> getSteps();
 	public void initializeSteps();
+	public void release();
 }

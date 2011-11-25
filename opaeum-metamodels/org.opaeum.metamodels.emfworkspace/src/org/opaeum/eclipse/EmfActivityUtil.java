@@ -130,8 +130,8 @@ public class EmfActivityUtil{
 							ObjectNode findFeedingNode = findFeedingNode((ObjectFlow) activityEdge);
 							TypeAndMultiplicity result = calculateSourceType(findFeedingNode);
 							result.isMany = true;
-							result.isUnique=false;
-							result.isOrdered=false;
+							result.isUnique = false;
+							result.isOrdered = false;
 							return result;
 						}
 					}
@@ -187,15 +187,15 @@ public class EmfActivityUtil{
 		return null;
 	}
 	private static TypeAndMultiplicity calculateTargetType(ObjectNode target){
-		if(target.getType() == null){
+		if(target instanceof ActivityParameterNode && ((ActivityParameterNode) target).getParameter() != null){
+			ActivityParameterNode p = (ActivityParameterNode) target;
+			Parameter pr = p.getParameter();
+			return new TypeAndMultiplicity(pr, pr);
+		}else if(target.getType() == null){
 			if(target instanceof InputPin){
 				InputPin pinSource = (InputPin) target;
 				Action action = (Action) pinSource.getOwner();
 				return calculateType(action, pinSource);
-			}else if(target instanceof ActivityParameterNode){
-				ActivityParameterNode p = (ActivityParameterNode) target;
-				Parameter pr = p.getParameter();
-				return new TypeAndMultiplicity(pr, pr);
 			}else if(target instanceof ExpansionNode){
 				ExpansionNode e = (ExpansionNode) target;
 				if(e.getRegionAsInput() != null){
@@ -204,8 +204,8 @@ public class EmfActivityUtil{
 							ObjectNode findFeedingNode = findFeedingNode((ObjectFlow) activityEdge);
 							TypeAndMultiplicity result = calculateSourceType(findFeedingNode);
 							result.isMany = true;
-							result.isOrdered=false;
-							result.isUnique=false;
+							result.isOrdered = false;
+							result.isUnique = false;
 							return result;
 						}
 					}
@@ -246,7 +246,7 @@ public class EmfActivityUtil{
 	}
 	public static Activity getContainingActivity(Element action){
 		while(!(action instanceof Activity || action == null)){
-			action=action.getOwner();
+			action = action.getOwner();
 		}
 		return (Activity) action;
 	}

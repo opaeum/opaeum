@@ -62,4 +62,18 @@
           uri="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml">
     </profile>
  </extension>
+ <extension
+       point="org.eclipse.ui.popupMenus">
+    <objectContribution
+          adaptable="false"
+          id="org.opaeum.eclipse.compiler.objectContribution2"
+          objectClass="org.eclipse.gef.editparts.AbstractGraphicalEditPart">
+       <action
+             class="org.opaeum.eclipse.javasync.RecompileElementAction"
+             id="org.opaeum.eclipse.compiler.action2"
+             label="Recompile Element"
+             menubarPath="org.opaeum.graphic.menu/recompileElement">
+       </action>
+    </objectContribution>
+ </extension>
 </plugin>

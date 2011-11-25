@@ -129,4 +129,7 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 		visitParentsRecursively(element.getParent());
 		visitOnly(element);
 	}
+	public void release(){
+		this.root=null;
+	}
 }

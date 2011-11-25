@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<process xmlns="http://drools.org/drools-5.0/process" id="opaeum_bpm_process_request" name="opaeum_bpm_process_request" package-name="org.opaeum.runtime.bpm" type="RuleFlow" version="0">
+  <header>
+    <variables>
+      <variable name="processObject">
+        <type className="org.opaeum.runtime.bpm.ProcessRequest" name="org.drools.process.core.datatype.impl.type.ObjectDataType"/>
+      </variable>
+    </variables>
+  </header>
+  <nodes>
+    <start height="50" id="300036" name="artificial_start" width="100" x="50" y="50"/>
+    <actionNode height="50" id="800036" name="init" width="100" x="50" y="50">
+      <action dialect="mvel" type="expression">processObject.init(context)</action>
+    </actionNode>
+    <dynamic height="500" id="493" name="ProcessRequestRegion" width="500" x="100" y="100">
+      <nodes/>
+      <connections/>
+    </dynamic>
+    <end height="50" id="500036" name="artificial_end" terminate="false" width="100" x="150" y="150"/>
+  </nodes>
+  <connections>
+    <connection from="300036" fromType="DROOLS_DEFAULT" to="800036"/>
+    <connection from="800036" fromType="DROOLS_DEFAULT" to="493"/>
+    <connection from="493" fromType="DROOLS_DEFAULT" to="500036"/>
+  </connections>
+</process>

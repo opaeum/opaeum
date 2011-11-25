@@ -17,7 +17,9 @@ import org.opaeum.feature.PhaseDependency;
 import org.opaeum.feature.TransformationContext;
 import org.opaeum.feature.TransformationPhase;
 
-@PhaseDependency(before={ModelCopyPhase.class})
+@PhaseDependency(before = {
+	ModelCopyPhase.class
+})
 public class UimSynchronizationPhase implements TransformationPhase<AbstractUimSynchronizer,Element>{
 	@InputModel
 	EmfWorkspace workspace;
@@ -85,5 +87,13 @@ public class UimSynchronizationPhase implements TransformationPhase<AbstractUimS
 	@Override
 	public Collection<AbstractUimSynchronizer> getSteps(){
 		return features;
+	}
+	@Override
+	public void release(){
+		this.workspace = null;
+		this.uimResourceSet = null;
+		for(AbstractUimSynchronizer u:this.features){
+			u.release();
+		}
 	}
 }

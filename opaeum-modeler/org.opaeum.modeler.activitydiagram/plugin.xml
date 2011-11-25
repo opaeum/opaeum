@@ -125,6 +125,34 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
 			<propertySection
+				id="org.opaeum.topcased.activitydiagram.propertysections.TimeObservationEventSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.TimeObservationEventSection"
+				tab="org.opaeum.eclipse.opaeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.TimeObservation"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.activitydiagram.propertysections.DurationObservationFromEventSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.DurationObservationFromEventSection"
+				tab="org.opaeum.eclipse.opaeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.DurationObservation"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.activitydiagram.propertysections.DurationObservationToEventSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.DurationObservationToEventSection"
+				tab="org.opaeum.eclipse.opaeumTab"
+				afterSection="org.opaeum.topcased.activitydiagram.propertysections.DurationObservationFromEventSection">
+				<input type="org.eclipse.uml2.uml.DurationObservation"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.activitydiagram.propertysections.ExceptionHandlerExceptionTypesSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ExceptionHandlerExceptionTypesSection"
+				tab="org.opaeum.eclipse.opaeumTab"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.ExceptionHandler"/>
+			</propertySection>
+			<propertySection
 				id="org.opaeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
 				class="org.opaeum.topcased.activitydiagram.propertysections.OpaqueActionBodySection"
 				tab="org.opaeum.eclipse.opaeumTab"
@@ -356,10 +384,17 @@
 			</propertySection>
 
 			<propertySection
-				id="org.topcased.modeler.uml.ActivityParameterNodeParameterSection"
-				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ActivityParameterNodeParameterSection"
-				tab="org.topcased.modeler.modelTab"
+				id="org.opaeum.topcased.activitydiagram.propertysections.ActivityParameterNodeParameterSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActivityParameterNodeParameterSection"
+				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.VisibilitySection">
+				<input type="org.eclipse.uml2.uml.ActivityParameterNode"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.activitydiagram.propertysections.ActivityParameterNodeDirectionSection"
+				class="org.opaeum.topcased.activitydiagram.propertysections.ActivityParameterNodeDirectionSection"
+				tab="org.opaeum.eclipse.opaeumTab"
+				afterSection="org.opaeum.topcased.activitydiagram.propertysections.ActivityParameterNodeParameterSection">
 				<input type="org.eclipse.uml2.uml.ActivityParameterNode"/>
 			</propertySection>
 						
@@ -373,14 +408,14 @@
 			<propertySection
 				id="org.topcased.modeler.uml.ExpansionRegionInputElementSection"
 				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ExpansionRegionInputElementSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.topcased.modeler.modelTab.parametersTab"
 				afterSection="org.topcased.modeler.uml.VisibilitySection">
 				<input type="org.eclipse.uml2.uml.ExpansionRegion"/>
 			</propertySection>
 			<propertySection
 				id="org.topcased.modeler.uml.ExpansionRegionOutputElementSection"
 				class="org.topcased.modeler.uml.activitydiagram.internal.properties.sections.ExpansionRegionOutputElementSection"
-				tab="org.topcased.modeler.modelTab"
+				tab="org.topcased.modeler.modelTab.parametersTab"
 				afterSection="org.topcased.modeler.uml.ExpansionRegionInputElementSection">
 				<input type="org.eclipse.uml2.uml.ExpansionRegion"/>
 			</propertySection>

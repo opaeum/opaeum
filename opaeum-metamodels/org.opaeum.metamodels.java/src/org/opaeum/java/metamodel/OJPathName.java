@@ -151,9 +151,6 @@ public class OJPathName extends OJPathNameGEN{
 	}
 	// TODO This is done dum, redo
 	public void renameAll(Set<OJPathName> renamePathNames,String newName){
-		if(getLast().equals("ForEachStringState")){
-			System.out.println();
-		}
 		if(getLast().charAt(0) == '?'){
 			replaceTail(replaceAll(getLast(), renamePathNames, newName));
 		}else if(renamePathNames.contains(this)){

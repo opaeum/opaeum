@@ -41,9 +41,9 @@ import org.opaeum.metamodel.profiles.INakedStereotype;
  * 
  */
 @StepDependency(phase = EmfExtractionPhase.class,requires = {
-		ValueSpecificationExtractor.class,ConnectorExtractor.class,ImportExtractor.class
+		ValueSpecificationExtractor.class,ConnectorExtractor.class,ImportExtractor.class,ObservationExtractor.class
 },after = {
-		ConnectorExtractor.class,ValueSpecificationExtractor.class,ImportExtractor.class
+		ConnectorExtractor.class,ValueSpecificationExtractor.class,ImportExtractor.class,ObservationExtractor.class
 })
 public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	@VisitAfter
@@ -73,7 +73,6 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 		}
 		if(nakedPeer != null){
 			if(nakedPeer instanceof INakedHelper){
-				
 			}
 			// Some element may not be supported by Opaeum
 			addStereotypes(nakedPeer, element);
@@ -144,7 +143,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			if(structuralFeature != null){
 				// might be an "artificial" feature introduced by Opaeum
 				Object value = application.eGet(structuralFeature);
-				String id = attribute.getId() + "#" + stereotypeApplicationId;
+				String id = stereotypeApplicationId + "#" + attribute.getName();
 				INakedSlot slot = (INakedSlot) nakedWorkspace.getModelElement(id);
 				if(slot == null){
 					slot = new NakedSlotImpl();

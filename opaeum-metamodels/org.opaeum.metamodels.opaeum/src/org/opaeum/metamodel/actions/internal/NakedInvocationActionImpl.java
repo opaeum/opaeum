@@ -33,7 +33,7 @@ public abstract class NakedInvocationActionImpl extends NakedActionImpl implemen
 		return this.arguments;
 	}
 	public void setArguments(List<INakedInputPin> arguments){
-		removePins(this.arguments);
+		replacePins(this.arguments,arguments);
 		this.arguments = arguments;
 	}
 	public INakedInputPin getTarget(){
@@ -41,7 +41,7 @@ public abstract class NakedInvocationActionImpl extends NakedActionImpl implemen
 	}
 	public void setTarget(INakedInputPin target){
 		if(this.target != target){
-			removeOwnedElement(this.target, true);
+			replacePin(this.target,target);
 			this.target = target;
 		}
 	}

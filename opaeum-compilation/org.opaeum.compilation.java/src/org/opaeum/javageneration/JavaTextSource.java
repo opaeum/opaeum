@@ -1,10 +1,7 @@
 package org.opaeum.javageneration;
 
-import java.util.Set;
-
 import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJElement;
-import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedPackageInfo;
 import org.opaeum.textmetamodel.TextSource;
@@ -12,6 +9,9 @@ import org.opaeum.textmetamodel.TextSource;
 public class JavaTextSource implements TextSource{
 	private OJElement javaSource;
 	private JavaSourceKind kind=JavaSourceKind.NORMAL;
+	public JavaSourceKind getKind(){
+		return kind;
+	}
 	public JavaTextSource(OJClassifier javaSource){
 		super();
 		this.setJavaSource(javaSource);

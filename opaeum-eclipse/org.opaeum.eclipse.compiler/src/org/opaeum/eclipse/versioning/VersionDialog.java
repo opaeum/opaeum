@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.opaeum.eclipse.VersionText;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.feature.OpaeumConfig;
-import org.opeum.runtime.environment.VersionNumber;
 
 public class VersionDialog extends TitleAreaDialog{
 	private VersionText txtOldVersionNumber;

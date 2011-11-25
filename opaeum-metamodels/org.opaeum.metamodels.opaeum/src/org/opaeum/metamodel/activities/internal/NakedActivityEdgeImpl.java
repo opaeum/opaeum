@@ -19,6 +19,7 @@ import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedActivityEdge{
 	private static final long serialVersionUID = 6408889822146373878L;
+	private int indexInOutgoing;
 	private INakedActivityNode source;
 	private INakedActivityNode target;
 	private INakedValueSpecification guardExpression;
@@ -140,5 +141,15 @@ public class NakedActivityEdgeImpl extends NakedElementImpl implements INakedAct
 	}
 	public void setRedefinedEdges(Set<INakedActivityEdge> redefinedEdges){
 		this.redefinedEdges = redefinedEdges;
+	}
+	public int getIndexInOutgoing(){
+		return indexInOutgoing;
+	}
+	public void setIndexInOutgoing(int indexInOutgoing){
+		this.indexInOutgoing = indexInOutgoing;
+	}
+	@Override
+	public int compareTo(INakedActivityEdge o){
+		return getIndexInOutgoing()-o.getIndexInOutgoing();
 	}
 }

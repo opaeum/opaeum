@@ -15,8 +15,10 @@ import org.opaeum.linkage.BehaviorUtil;
 import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 import org.opaeum.metamodel.activities.ActivityKind;
 import org.opaeum.metamodel.activities.ActivityNodeContainer;
+import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
@@ -37,11 +39,11 @@ public class ActivityNodeEnumerationImplementor extends ProcessStepEnumerationIm
 		Collection<INakedActivityNode> activityNodes = c.getActivityNodes();
 		for(INakedActivityNode n:activityNodes){
 			String parentLiteral;
-			if(BehaviorUtil.isRestingNode(n)){
+			if(BehaviorUtil.isRestingNode(n) || n instanceof INakedAction || (n instanceof INakedExpansionNode && ((INakedExpansionNode) n).isOutputElement())){
 				if(getEnclosingElement(n) == null){
 					parentLiteral = "null";
 				}else{
-					OJPathName parentState = OJUtil.classifierPathname(msg.getNestingClassifier());
+					OJPathName parentState = OJUtil.classifierPathname(((INakedStructuredActivityNode)c).getNearestStructuredElementAsClassifier()).getCopy();
 					parentState.replaceTail(parentState.getLast() + "State");
 					e.addToImports(parentState);
 					parentLiteral = parentState.getLast() + "." + Jbpm5Util.stepLiteralName(getEnclosingElement(n));

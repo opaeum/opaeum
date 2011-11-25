@@ -2,7 +2,6 @@ package org.opaeum.eclipse.javasync;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -15,12 +14,11 @@ import org.opaeum.eclipse.ProgressMonitorTransformationLog;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.eclipse.starter.AbstractOpaeumAction;
 import org.opaeum.eclipse.starter.Activator;
+import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.feature.TransformationProcess;
-import org.opaeum.java.metamodel.OJPackage;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.javageneration.JavaTransformationPhase;
-import org.opaeum.metamodel.core.INakedRootObject;
-import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
@@ -55,6 +53,8 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);
 				}finally{
 					monitor.done();
+					MemoryUtil.printMemoryUsage();
+
 				}
 				return new Status(IStatus.OK, Activator.PLUGIN_ID, "Model compiled successfully");
 			}
@@ -70,7 +70,7 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);
 		TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(folder);
-		p.removeModel(OJPackage.class);
+		p.removeModel(OJWorkspace.class);
 		p.removeModel(TextWorkspace.class);
 		OpaeumConfig config = ctx.getConfig();
 		config.getSourceFolderStrategy().defineSourceFolders(config);

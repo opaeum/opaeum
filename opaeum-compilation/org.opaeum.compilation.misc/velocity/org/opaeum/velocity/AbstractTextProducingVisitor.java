@@ -30,13 +30,17 @@ import org.opaeum.textmetamodel.TextFile;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
+import org.opaeum.util.SortedProperties;
 import org.opaeum.visitor.TextFileGeneratingVisitor;
-import org.opeum.util.SortedProperties;
 
 public class AbstractTextProducingVisitor extends TextFileGeneratingVisitor{
 	protected VelocityEngine ve;
-	protected Set<TextFile> textFiles=new HashSet<TextFile>();
+	protected Set<TextFile> textFiles;
 	@Override
+	public void release(){
+		super.release();
+		textFiles=null;
+	}	@Override
 	public void visitRecursively(INakedElementOwner o){
 		if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;

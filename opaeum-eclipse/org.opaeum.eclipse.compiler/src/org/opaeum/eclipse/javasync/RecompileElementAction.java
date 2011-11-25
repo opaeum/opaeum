@@ -14,9 +14,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
+import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IObjectActionDelegate;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
@@ -31,12 +36,17 @@ import org.opaeum.filegeneration.TextFileGenerator;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.textmetamodel.TextOutputNode;
 import org.opaeum.textmetamodel.TextProject;
 import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
-public class RecompileElementAction extends AbstractOpaeumAction{
+public class RecompileElementAction extends AbstractOpaeumAction implements IObjectActionDelegate{
+	
+	public RecompileElementAction(){
+		super(null, "Recompile Element");
+	}	
 	public RecompileElementAction(IStructuredSelection selection){
 		super(selection, "Recompile Element");
 		this.selection = selection;
@@ -48,8 +58,10 @@ public class RecompileElementAction extends AbstractOpaeumAction{
 			Object selectedElement = it.next();
 			if(selectedElement instanceof AbstractGraphicalEditPart){
 				AbstractGraphicalEditPart ep = (AbstractGraphicalEditPart) selectedElement;
-				if(ep.getModel() instanceof Element){
-					selectedElement = ep.getModel();
+				//TODO make pluggable to support Papyrus
+				if(ep.getModel().getClass().getName().startsWith("org.topcased.modeler.di.model")){
+					Object bridge = IntrospectionUtil.get(IntrospectionUtil.getProperty("semanticModel", ep.getModel().getClass()), ep.getModel());
+					selectedElement=IntrospectionUtil.get(IntrospectionUtil.getProperty("element", bridge.getClass()),bridge);
 				}
 			}
 			if(selectedElement instanceof Element){
@@ -57,9 +69,11 @@ public class RecompileElementAction extends AbstractOpaeumAction{
 				new Job("Recompiling elements"){
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
+						OpaeumEclipseContext.selectContext(element);
+						OpaeumEclipseContext currentContext =OpaeumEclipseContext.getCurrentContext();
 						try{
-							TransformationProcess p = JavaTransformationProcessManager.getCurrentTransformationProcess();
-							if(p == null){
+							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getUmlDirectory());
+							if(p == null||currentContext.isLoading()){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
@@ -68,9 +82,8 @@ public class RecompileElementAction extends AbstractOpaeumAction{
 								});
 							}else{
 								monitor.beginTask("Generating Java Code", 90);
-								OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
-								INakedElement ne = currentContext.getNakedWorkspace().getModelElement(currentContext.getId(element));
 								currentContext.getEmfToOpaeumSynchronizer().setCurrentEmfWorkspace(currentContext.getCurrentEmfWorkspace());
+								INakedElement ne = currentContext.getNakedWorkspace().getModelElement(currentContext.getId(element));
 								p.replaceModel(new OJPackage());
 								p.replaceModel(new TextWorkspace());
 								OpaeumConfig cfg = currentContext.getConfig();
@@ -96,8 +109,7 @@ public class RecompileElementAction extends AbstractOpaeumAction{
 										}
 									}
 								}
-								TextWorkspace txtws = p.findModel(TextWorkspace.class);
-								for(TextProject textProject:txtws.getTextProjects()){
+								for(TextProject textProject:p.findModel(TextWorkspace.class).getTextProjects()){
 									IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(textProject.getName());
 									if(project.exists()){
 										project.refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -126,5 +138,20 @@ public class RecompileElementAction extends AbstractOpaeumAction{
 		IFile modelIFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(uriPAth));
 		File modelFile = modelIFile.getLocation().toFile();
 		return modelFile;
+	}
+	@Override
+	public void run(IAction action){
+		run();
+		
+	}
+	@Override
+	public void selectionChanged(IAction action,ISelection selection){
+		if(selection instanceof IStructuredSelection){
+			this.selection=(IStructuredSelection) selection;
+		}
+	}
+	@Override
+	public void setActivePart(IAction action,IWorkbenchPart targetPart){
+		
 	}
 }

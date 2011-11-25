@@ -6,11 +6,12 @@ import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.basicjava.simpleactions.ParameterNodeImplementor;
+import org.opaeum.javageneration.basicjava.simpleactions.SimpleNodeBuilder;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
 public class ParameterNodeBuilder extends Jbpm5ActionBuilder<INakedParameterNode>{
-	private ParameterNodeImplementor delegate;
+	private SimpleNodeBuilder<INakedParameterNode> delegate;
 	public ParameterNodeBuilder(OpaeumLibrary oclEngine,INakedParameterNode node){
 		super(oclEngine, node);
 		this.delegate = new ParameterNodeImplementor(oclEngine, node, new Jbpm5ObjectNodeExpressor(oclEngine));

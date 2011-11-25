@@ -50,7 +50,7 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 				owner.addToFields(new OJAnnotatedField("uid", new OJPathName("String")));
 				// TODO build validation that a derived or read only uuid
 				// property is not allowed
-				OJOperation setUid = OJUtil.findOperation(owner, "setUid");
+				OJOperation setUid = owner.getUniqueOperation("setUid");
 				if(setUid == null){
 					setUid = new OJAnnotatedOperation("setUid");
 					setUid.addParam("newUid", new OJPathName("java.lang.String"));
@@ -58,7 +58,7 @@ public class HashcodeBuilder extends AbstractStructureVisitor{
 				}
 				setUid.setBody(new OJBlock());
 				setUid.getBody().addToStatements("this.uid=newUid");
-				OJOperation getUid = OJUtil.findOperation(owner, "getUid");
+				OJOperation getUid = owner.getUniqueOperation("getUid");
 				if(getUid == null){
 					getUid = new OJAnnotatedOperation("getUid", new OJPathName("java.lang.String"));
 					owner.addToOperations(getUid);

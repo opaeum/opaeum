@@ -22,7 +22,10 @@ import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
+import org.opaeum.metamodel.commonbehaviors.INakedObservantElement;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.components.INakedComponent;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -34,6 +37,7 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.metamodel.statemachines.INakedStateMachine;
 
 public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	public AbstractStructureVisitor(){
@@ -58,8 +62,14 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 							}
 						}
 					}
+					if(umlOwner instanceof INakedStateMachine){
+						visitObservations(umlOwner, (INakedObservantElement) umlOwner);
+					}
 					if(umlOwner instanceof INakedActivity){
+						
 						INakedActivity a = (INakedActivity) umlOwner;
+						
+						visitObservations(umlOwner, a);
 						visitVariables(umlOwner, a.getVariables());
 						if(BehaviorUtil.hasExecutionInstance(a)){
 							visitActivityNodesRecursively(a, (ActivityNodeContainer) a);
@@ -82,6 +92,16 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 	}
+	protected void visitObservations(INakedClassifier umlOwner,INakedObservantElement a){
+		Collection<INakedTimeObservation> timeObservations = a.getTimeObservations();
+		Collection<INakedDurationObservation> durationObservations = a.getDurationObservations();
+		for(INakedTimeObservation o:timeObservations){
+			visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, o));
+		}
+		for(INakedDurationObservation o:durationObservations){
+			visitProperty(umlOwner, OJUtil.buildStructuralFeatureMap(umlOwner, o));
+		}
+	}
 	protected void visitActivityNodesRecursively(INakedClassifier owner,ActivityNodeContainer container){
 		for(INakedActivityNode n:container.getActivityNodes()){
 			if(n instanceof INakedAction){
@@ -101,6 +121,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 				INakedMessageStructure msg = ((INakedStructuredActivityNode) n).getMessageStructure();
 				visitFeaturesOf(msg);
 				visitActivityNodesRecursively(msg, (ActivityNodeContainer) n);
+				visitObservations(msg, (INakedObservantElement) n);
 			}
 		}
 	}

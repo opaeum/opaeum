@@ -1,7 +1,11 @@
 package org.opaeum.metamodel.activities.internal;
 
+import java.util.Set;
+
+import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
+import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
@@ -9,77 +13,101 @@ import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 
-public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INakedObjectFlow {
-
+public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INakedObjectFlow{
 	private static final long serialVersionUID = 6481759202136150887L;
 	private INakedBehavior transformation;
 	private INakedBehavior selection;
 	public NakedObjectFlowImpl(){
 		super();
 	}
-
 	@Override
-	public INakedActivityNode getEffectiveTarget() {
-		if (getTarget() instanceof INakedExpansionNode) {
+	public INakedActivityNode getEffectiveTarget(){
+		if(getTarget() instanceof INakedExpansionNode){
 			INakedExpansionNode target = (INakedExpansionNode) getTarget();
-			if (target.isInputElement()) {
+			if(target.isInputElement()){
 				return target.getExpansionRegion();
-			} else {
+			}else{
 				return target;
 			}
 		}
-		if (getTarget() instanceof INakedInputPin) {
+		if(getTarget() instanceof INakedInputPin){
 			return (INakedActivityNode) getTarget().getOwnerElement();
-		} else {
+		}else{
 			return getTarget();
 		}
 	}
-
-	public INakedBehavior getTransformation() {
+	public INakedBehavior getTransformation(){
 		return this.transformation;
 	}
-
-	public void setTransformation(INakedBehavior transformation) {
+	public void setTransformation(INakedBehavior transformation){
 		this.transformation = transformation;
 	}
-
-	public INakedBehavior getSelection() {
+	public INakedBehavior getSelection(){
 		return selection;
 	}
-
-	public void setSelection(INakedBehavior selection) {
+	public void setSelection(INakedBehavior selection){
 		this.selection = selection;
 	}
-
 	@Override
-	public INakedActivityNode getEffectiveSource() {
-		if (getSource() instanceof INakedExpansionNode) {
+	public INakedActivityNode getEffectiveSource(){
+		if(getSource() instanceof INakedExpansionNode){
 			INakedExpansionNode source = (INakedExpansionNode) getSource();
-			if (source.isOutputElement()) {
+			if(source.isOutputElement()){
 				return source.getExpansionRegion();
-			} else {
+			}else{
 				return source;
 			}
-		} else if (getSource() instanceof INakedOutputPin) {
+		}else if(getSource() instanceof INakedOutputPin){
 			return (INakedActivityNode) getSource().getOwnerElement();
-		} else {
+		}else{
 			return getSource();
 		}
 	}
-
 	@Override
-	public INakedObjectNode getOriginatingObjectNode() {
+	public INakedObjectNode getOriginatingObjectNode(){
 		if(getSource() instanceof INakedObjectNode){
 			return (INakedObjectNode) getSource();
-		}else{
-			for (INakedActivityEdge edge : getSource().getAllEffectiveIncoming()) {
+		}else if(getSource() instanceof INakedControlNode){
+			INakedControlNode c= (INakedControlNode) getSource();
+			Set<INakedActivityEdge> allEffectiveIncoming = getSource().getAllEffectiveIncoming();
+			if((c.getControlNodeType()==ControlNodeType.JOIN_NODE ||c.getControlNodeType()==ControlNodeType.MERGE_NODE) && multipleObjectFlows(allEffectiveIncoming)){
+				//Eliminate guess work. Under these conditions it would be misleading to return anything
+				return null;
+			}
+			for(INakedActivityEdge edge:allEffectiveIncoming){
 				if(edge instanceof INakedObjectFlow){
-					//TODO add validation for cases where multilple flows of different types are present 
-					//TODO add validation for cases no incoming object flows are present 
 					return ((INakedObjectFlow) edge).getOriginatingObjectNode();
 				}
 			}
 		}
 		return null;
+	}
+	@Override
+	public INakedObjectNode getFedObjectNode(){
+		if(getTarget() instanceof INakedObjectNode){
+			return (INakedObjectNode) getTarget();
+		}else if(getTarget() instanceof INakedControlNode){
+			INakedControlNode c= (INakedControlNode) getTarget();
+			Set<INakedActivityEdge> allEffectiveOutgoing= getTarget().getAllEffectiveOutgoing();
+			if((c.getControlNodeType()==ControlNodeType.FORK_NODE ||c.getControlNodeType()==ControlNodeType.DECISION_NODE) && multipleObjectFlows(allEffectiveOutgoing)){
+				//Eliminate guess work. Under these conditions it would be misleading to return anything
+				return null;
+			}
+			for(INakedActivityEdge edge:allEffectiveOutgoing){
+				if(edge instanceof INakedObjectFlow){
+					return ((INakedObjectFlow) edge).getFedObjectNode();
+				}
+			}
+		}
+		return null;
+	}
+	private boolean multipleObjectFlows(Set<INakedActivityEdge> allEffectiveIncoming){
+		int count=0;
+		for(INakedActivityEdge edge:allEffectiveIncoming){
+			if(edge instanceof INakedObjectFlow){
+				count++;
+			}
+		}
+		return count>1;
 	}
 }

@@ -202,4 +202,12 @@ public class OJClass extends OJClassGEN {
 			ojField.renameAll(renamePathNames, suffix);
 		}
 	}
+
+	public void release(){
+		setMyPackage(null);
+		f_fields.clear();
+		f_operations.clear();
+		super.removeAllFromConstructors();
+		super.removeAllFromImports();
+	}
 }

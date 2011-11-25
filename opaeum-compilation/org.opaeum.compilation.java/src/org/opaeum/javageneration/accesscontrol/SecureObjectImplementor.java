@@ -13,10 +13,9 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
-import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.metamodel.core.INakedEntity;
-import org.opeum.runtime.domain.CompositionNode;
+import org.opaeum.runtime.domain.CompositionNode;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	CompositionNodeImplementor.class
@@ -25,8 +24,8 @@ import org.opeum.runtime.domain.CompositionNode;
 })
 public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 	private static final OJPathName BUSINESS_ROLE = new OJPathName("org.opaeum.runtime.bpm.BusinessRole");
-	private static final OJPathName NUML_USER = new OJPathName("org.opeum.runtime.bpm.OpaeumUser");
-	public static OJPathName SECURE_OBJECT = new OJPathName("org.opeum.runtime.bpm.ISecureObject");
+	private static final OJPathName NUML_USER = new OJPathName("org.opaeum.runtime.bpm.OpaeumUser");
+	public static OJPathName SECURE_OBJECT = new OJPathName("org.opaeum.runtime.bpm.ISecureObject");
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity entity){
 		OJAnnotatedClass ojClass = findJavaClass(entity);
@@ -50,7 +49,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		isUserOwnershipValid.setComment("User Ownership is bypassed if the current user does not share the role required for ownership");
 	}
 	private void addCanBeOwnedByUser(OJClass owner,INakedEntity entity){
-		OJOperation canBeOwnedByUser = OJUtil.findOperation(owner, "canBeOwnedByUser");
+		OJOperation canBeOwnedByUser = owner.getUniqueOperation("canBeOwnedByUser");
 		if(canBeOwnedByUser == null || canBeOwnedByUser.getParameters().size() > 1){
 			canBeOwnedByUser = new OJAnnotatedOperation("canBeOwnedByUser");
 			canBeOwnedByUser.addParam("user", NUML_USER);
@@ -71,7 +70,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		canBeOwnedByUser.setReturnType(new OJPathName("boolean"));
 	}
 	private void addIsOwnedByUser(OJClass owner,INakedEntity entity){
-		OJOperation isOwnedByUser = OJUtil.findOperation(owner, "isOwnedByUser");
+		OJOperation isOwnedByUser = owner.getUniqueOperation("isOwnedByUser");
 		if(isOwnedByUser == null || isOwnedByUser.getParameters().size() > 1){
 			isOwnedByUser = new OJAnnotatedOperation("isOwnedByUser");
 			isOwnedByUser.addParam("user", NUML_USER);
@@ -92,7 +91,7 @@ public class SecureObjectImplementor extends AbstractJavaProducingVisitor{
 		isOwnedByUser.setReturnType(new OJPathName("boolean"));
 	}
 	private void addIsGroupOwnershipValid(OJClass owner,INakedEntity entity){
-		OJOperation isGroupOwnershipValid = OJUtil.findOperation(owner, "isGroupOwnershipValid");
+		OJOperation isGroupOwnershipValid = owner.getUniqueOperation("isGroupOwnershipValid");
 		if(isGroupOwnershipValid == null || isGroupOwnershipValid.getParameters().size() > 0){
 			isGroupOwnershipValid = new OJAnnotatedOperation("isGroupOwnershipValid");
 			isGroupOwnershipValid.addParam("user", NUML_USER);

@@ -1,6 +1,6 @@
 package org.opaeum.processmodel.inheritance.util;
 
-import org.opeum.runtime.domain.AbstractFormatter;
+import org.opaeum.runtime.domain.AbstractFormatter;
 
 public class InheritanceFormatter extends AbstractFormatter implements IInheritanceFormatter {
 	static final private ThreadLocal<InheritanceFormatter> INSTANCE = new ThreadLocal<InheritanceFormatter>();

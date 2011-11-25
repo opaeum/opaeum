@@ -25,7 +25,7 @@ import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.internal.CompositionSiblingsFinder;
 import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opeum.name.NameConverter;
+import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = LinkagePhase.class,after = {
 		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class
@@ -33,6 +33,7 @@ import org.opeum.name.NameConverter;
 		MappedTypeLinker.class,PinLinker.class,ReferenceResolver.class,TypeResolver.class,CompositionEmulator.class
 },before = NakedParsedOclStringResolver.class)
 public class SourcePopulationResolver extends AbstractModelElementLinker{
+	@Deprecated
 	private Map<INakedClassifier,Collection<INakedClassifier>> hierarchicalSubClasses = new HashMap<INakedClassifier,Collection<INakedClassifier>>();
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedEntity c){

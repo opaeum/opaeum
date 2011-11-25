@@ -1,23 +1,21 @@
 package org.opaeum.metamodel.core.internal;
 
-
-
-public class StereotypeNames {
-	public static final String MODELS_PATHMAP="pathmap://NAKEDUML_MODELS/";
-	public static final String NAVIGATION_TOO_MANY="TooMany";
+public class StereotypeNames{
+	public static final String MODELS_PATHMAP = "pathmap://NAKEDUML_MODELS/";
+	public static final String NAVIGATION_TOO_MANY = "TooMany";
 	public static final String HIERARCHY = "Hierarchy";
 	public static final String USER_GROUP = "UserGroup";
 	public static final String PRIMITIVE_TYPE = "PrimitiveType";
 	public static final String HELPER = "Helper";
 	public static final String NUML_ANNOTATION = "http://www.opaeum.org";
-	//RUP
+	// RUP
 	public static String BUSINESS_ACTOR = "BusinessActor";
 	public static String BUSINESS_WORKER = "BusinessWorker";
 	public static String CASE_WORKER = "CaseWorker";
 	public static String BUSINESS_ENTITY = "BusinessEntity";
 	public static String BusinessEvent = "BusinessEvent";
 	public static String BUSINESS_GOAL = "BusinessGoal";
-	//CORE
+	// CORE
 	public static String ASSOCATION = "Association";
 	public static String ENTITY = "Entity";
 	public static String FACES_TYPE = "FacesType";
@@ -32,11 +30,11 @@ public class StereotypeNames {
 	public static String SIGNAL = "Signal";
 	public static String STRUCTURED_DATA_TYPE = "StructuredDataType";
 	public static String VALUE_TYPE = "ValueType";
-	public static String TIME_EVENT = "TimeEvent";	
-	public static String LOOP_INPUT_COLLECTION = "LoopInputCollection";	
-	public static String LOOP_OUTPUT_COLLECTION = "LoopOutputCollection";	
-	public static String PORT_TYPE = "PortType";	
-		//Security
+	public static String TIME_EVENT = "TimeEvent";
+	public static String LOOP_INPUT_COLLECTION = "LoopInputCollection";
+	public static String LOOP_OUTPUT_COLLECTION = "LoopOutputCollection";
+	public static String PORT_TYPE = "PortType";
+	// Security
 	public static String SECURITY_ON_AUDIT_TRAIL = "SecurityOnAuditTrail";
 	public static String SECURITY_ON_CREATE = "SecurityOnCreate";
 	public static String SECURITY_ON_DELETE = "SecurityOnDelete";
@@ -44,21 +42,22 @@ public class StereotypeNames {
 	public static String SECURITY_ON_EDIT_IN_STATE = "SecurityOnEditInState";
 	public static String SECURITY_ON_INVOKE = "SecurityOnInvoke";
 	public static String SECURITY_ON_VIEW = "SecurityOnView";
-	public static String SECURITY_ON_VIEW_IN_STATE = "SecurityOnViewInState";	
-	//User Interaction
-	public static String DEFAULT_PARTICIPATION_FOR_DATA_TYPE = "DefaultParticipationForDataType";	
-	public static String OPERATION_PARTICIPATION = "OperationParticipation";	
-	public static String PARAMETER_PARTICIPATION = "ParameterParticipation";	
-	public static String PARTICIPATION_SPECIFICATION = "ParticipationSpecification";	
-	public static String PROPERTY_PARTICIPATION = "PropertyParticipation";	
-	public static String STATE_PARTICIPATION = "StateParticipation";	
-	public static String USER_INTERACTION_SPECIFICATION = "UserInteractionSpecification";	
-	//BPM
-	public static final String BUSINES_PROCESS= "BusinessProcess";
-	public static final String BUSINES_STATE_MACHINE= "BusinessStateMachine";
-	public static final String CALL_BUSINES_PROCESS_ACTION= "CallBusinessProcessAction";
-	public static final String CALL_METHOD_ACTION= "CallMethodAction";
-	public static final String METHOD= "Method";
+	public static String SECURITY_ON_VIEW_IN_STATE = "SecurityOnViewInState";
+	// User Interaction
+	public static String DEFAULT_PARTICIPATION_FOR_DATA_TYPE = "DefaultParticipationForDataType";
+	public static String OPERATION_PARTICIPATION = "OperationParticipation";
+	public static String PARAMETER_PARTICIPATION = "ParameterParticipation";
+	public static String PARTICIPATION_SPECIFICATION = "ParticipationSpecification";
+	public static String PROPERTY_PARTICIPATION = "PropertyParticipation";
+	public static String STATE_PARTICIPATION = "StateParticipation";
+	public static String USER_INTERACTION_SPECIFICATION = "UserInteractionSpecification";
+	public static String STRUCTURED_BUSINESS_PROCESS_NODE = "StructuredBusinessNode";
+	// BPM
+	public static final String BUSINES_PROCESS = "BusinessProcess";
+	public static final String BUSINES_STATE_MACHINE = "BusinessStateMachine";
+	public static final String CALL_BUSINES_PROCESS_ACTION = "CallBusinessProcessAction";
+	public static final String CALL_METHOD_ACTION = "CallMethodAction";
+	public static final String METHOD = "Method";
 	public static final String BUSINESS_ROLE = "BusinessRole";
 	public static final String DEADLINE = "Deadline";
 	public static final String EMBEDDED_SINGLE_SCREEN_TASK = "EmbeddedSingleScreenTask";
@@ -68,7 +67,7 @@ public class StereotypeNames {
 	public static final String RESPONSIBILITY = "Responsibility";
 	public static final String ACCEPT_DEADLINE_ACTION = "AcceptDeadlineAction";
 	public static final String SEND_NOTIFICATION_ACTION = "SendNotificationAction";
-	public static final String NOTIFICATION= "Notification";
+	public static final String NOTIFICATION = "Notification";
 	public static final String OPIUM_STANDARD_PROFILE = "OpaeumStandardProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
@@ -80,14 +79,13 @@ public class StereotypeNames {
 	public static final String OPIUM_BPM_PROFILE = "OpaeumBPMProfile.uml";
 	public static final String OPIUM_BPM_LIBRARY = "OpaeumBPM.library.uml";
 	public static final String OPIUM_SIMPLE_TYPES = "OpaeumSimpleTypes.library.uml";
-	public static final String MODEL_LIBRARY ="ModelLibrary";
-	public static final String BUSINESS_GATEWAY ="BusinessGateway";
-	public static final String BUSINESS_CHANNEL ="BusinessChannel";
-	public static final String DIMENSION ="Dimension";
-	public static final String FACT ="Fact";
+	public static final String MODEL_LIBRARY = "ModelLibrary";
+	public static final String BUSINESS_GATEWAY = "BusinessGateway";
+	public static final String BUSINESS_CHANNEL = "BusinessChannel";
+	public static final String DIMENSION = "Dimension";
+	public static final String MEASURE = "Measure";
+	public static final String FACT = "Fact";
 	public static final String DELEGATION = "Delegation";
 	public static final String PARTICIPANT_REFERENCE = "ParticipantReference";
 	public static final String BUSINESS_ROLE_CONTAINMENT = "BusinessRoleContainment";
-	
-
 }

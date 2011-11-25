@@ -26,15 +26,25 @@
 				id="org.opaeum.modeler.compositestructures.propertysections.PortRequiredInterfaces"
 				class="org.opaeum.modeler.compositestructures.propertysections.PortRequiredInterfaces"
 				tab="org.opaeum.eclipse.interfacesTab"
+				filter="org.opaeum.modeler.compositestructures.filters.InterfacesFilter"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.Property"/>
 			</propertySection>
 			<propertySection
-				id="org.opaeum.modeler.compositestructures.propertysections.PortProvidedInterfaces"
-				class="org.opaeum.modeler.compositestructures.propertysections.PortProvidedInterfaces"
-				tab="org.opaeum.eclipse.interfacesTab"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+         afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection"
+         class="org.opaeum.modeler.compositestructures.propertysections.PortProvidedInterfaces"
+         filter="org.opaeum.modeler.compositestructures.filters.InterfacesFilter"
+         id="org.opaeum.modeler.compositestructures.propertysections.PortProvidedInterfaces"
+         tab="org.opaeum.eclipse.interfacesTab">
 				<input type="org.eclipse.uml2.uml.Property"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.modeler.compositestructures.propertysections.ConnectionSelectionSection"
+				class="org.opaeum.modeler.compositestructures.propertysections.ConnectorSelectionSection"
+				tab="org.opaeum.eclipse.interfacesTab"
+				filter="org.opaeum.modeler.compositestructures.filters.DelegationFilter"
+				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Connector"/>
 			</propertySection>
 		</propertySections>
 	</extension>

@@ -15,6 +15,7 @@ import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
@@ -63,7 +64,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 				// we need to create a matching OJOperation
 				OJAnnotatedOperation oper = createOperation(o.getContext(), o, findJavaClass(o.getContext()));
 				if(BehaviorUtil.hasExecutionInstance(o)){
-					NakedClassifierMap cmap = new NakedClassifierMap(o);
+					NakedClassifierMap cmap = OJUtil.buildClassifierMap(o);
 					oper.setReturnType(cmap.javaTypePath());
 				}
 			}
@@ -88,13 +89,14 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			for(INakedOperation o:directlyImplementedOperations){
 				if(o.getOwner() == c){
 					if(BehaviorUtil.hasExecutionInstance(o)){
-						OJAnnotatedOperation getter= (OJAnnotatedOperation) OJUtil.findOperation(findJavaClass(o.getMessageStructure()),"getSelf");
+						OJAnnotatedOperation getter= (OJAnnotatedOperation) findJavaClass(o.getMessageStructure()).getUniqueOperation("getSelf");
+						getter.setVisibility(OJVisibilityKind.PRIVATE);
 						getter.initializeResultVariable("getContextObject()");
 						visitClass(o.getMessageStructure());//why???
 					}
 					createCallbackListener(o, o.getMessageStructure());
 				}
-				NakedOperationMap operationMap = new NakedOperationMap(o);
+				NakedOperationMap operationMap = OJUtil.buildOperationMap(o);
 				OJAnnotatedOperation oper1 = findOrCreateOperation(c, ojClass, operationMap, o.isLongRunning());
 				applyStereotypesAsAnnotations((o), oper1);
 				if(!o.isQuery()){
@@ -105,7 +107,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			if(c instanceof INakedBehavioredClassifier){
 				INakedBehavioredClassifier nbc = (INakedBehavioredClassifier) c;
 				for(INakedReception o:nbc.getDirectlyImplementedReceptions()){
-					SignalMap map = new SignalMap(o.getSignal());
+					SignalMap map = OJUtil.buildSignalMap(o.getSignal());
 					ojClass.addToImplementedInterfaces(map.receiverContractTypePath());
 					findOrCreateJavaReception(ojClass, map);
 					findOrCreateSignalEventConsumer(nbc, ojClass, map);
@@ -172,7 +174,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		return oper;
 	}
 	private OJAnnotatedOperation createOperation(INakedClassifier context,IParameterOwner o,OJAnnotatedClass owner){
-		NakedOperationMap operationMap = new NakedOperationMap(o);
+		NakedOperationMap operationMap = OJUtil.buildOperationMap(o);
 		OJAnnotatedOperation oper = findOrCreateOperation(context, owner, operationMap, o.isLongRunning());
 		applyStereotypesAsAnnotations((o), oper);
 		return oper;
@@ -234,7 +236,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		for(INakedParameter elem:argumentParameters){
 			OJParameter param = new OJParameter();
 			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(context, elem);
-			param.setName(pMap.fieldname());
+			param.setName(pMap.fieldname()); 
 			param.setType(pMap.javaTypePath());
 			oper.addToParameters(param);
 			// applyStereotypesAsAnnotations(((INakedElement) elem), param);
@@ -273,7 +275,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	}
 	private void createCallbackListener(IParameterOwner no,IClassifier message){
 		if(no.isLongRunning()){
-			NakedOperationMap map = new NakedOperationMap(no);
+			NakedOperationMap map = OJUtil.buildOperationMap(no);
 			if(!map.hasContract()){
 				OJAnnotatedInterface listener = new OJAnnotatedInterface(map.callbackListener());
 				OJPackage pack = findOrCreatePackage(map.callbackListenerPath().getHead());

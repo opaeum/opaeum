@@ -36,6 +36,12 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	public Set<OJAnnotationValue> getAnnotations(){
 		return f_annotations;
 	}
+	@Override
+	public void release(){
+		super.release();
+		f_annotations.clear();
+		genericTypeParams.clear();
+	}
 	public OJAnnotationValue putAnnotation(OJAnnotationValue value){
 		return AnnotationHelper.putAnnotation(value, this);
 	}
@@ -196,12 +202,15 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		return getPathName().toString();
 	}
 	public void removeFromOperations(String internalRemover,List<OJPathName> singletonList){
-		Iterator<OJOperation> iterator = f_operations.iterator();
-		while(iterator.hasNext()){
-			OJOperation ojOperation = (OJOperation) iterator.next();
-			if(ojOperation.getName().equals(internalRemover)){
-				iterator.remove();
-				break;
+		Set<OJOperation> methodSet = f_operations.get(internalRemover);
+		if(methodSet != null){
+			Iterator<OJOperation> iterator = methodSet.iterator();
+			while(iterator.hasNext()){
+				OJOperation ojOperation = (OJOperation) iterator.next();
+				if(ojOperation.getName().equals(internalRemover) && ojOperation.paramsEquals(singletonList)){
+					iterator.remove();
+					break;
+				}
 			}
 		}
 	}
@@ -209,7 +218,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		super.f_fields.remove(name);
 	}
 	public String toAbstractSuperclassJavaString(){
-		String concreteName=getName();
+		String concreteName = getName();
 		String oldName = f_name;
 		setName(oldName + "Generated");
 		String result = toJavaString();

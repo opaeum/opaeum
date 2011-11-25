@@ -40,8 +40,8 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 	public void createRoot(INakedStateMachine sm){
 		DocumentRoot root = super.createRoot(sm);
 		ProcessType process = root.getProcess();
-		sourceIdMap = new HashMap<INakedElement,Integer>();
-		targetIdMap = new HashMap<INakedElement,Integer>();
+		sourceIdMap.push(new HashMap<INakedElement,Integer>());
+		targetIdMap.push(new HashMap<INakedElement,Integer>());
 		addRegions(sm, process.getNodes().get(0), process.getConnections().get(0));
 	}
 	public void addRegions(IRegionOwner owner,NodesType nodes,ConnectionsType connections){

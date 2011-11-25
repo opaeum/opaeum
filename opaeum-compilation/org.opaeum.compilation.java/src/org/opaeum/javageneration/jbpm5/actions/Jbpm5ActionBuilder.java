@@ -13,24 +13,27 @@ import org.opaeum.javageneration.basicjava.AbstractNodeBuilder;
 import org.opaeum.javageneration.basicjava.AbstractObjectNodeExpressor;
 import org.opaeum.javageneration.basicjava.simpleactions.ActivityNodeMap;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
-import org.opaeum.javageneration.jbpm5.activity.ActivityUtil;
 import org.opaeum.javageneration.maps.ActionMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.ConstraintGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
+import org.opaeum.metamodel.actions.INakedRaiseExceptionAction;
 import org.opaeum.metamodel.actions.INakedReplyAction;
-import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedExpansionRegion;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.commonbehaviors.GuardedFlow;
+import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
+import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.PreAndPostConstrained;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
@@ -51,8 +54,8 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		}
 		this.expressor = (AbstractObjectNodeExpressor) super.expressor;
 	}
-	public void setupVariablesAndArgumentPins(OJAnnotatedOperation oper){
-		ActivityUtil.setupVariables(oper, node);
+	public void setupArgumentPins(OJAnnotatedOperation oper){
+		// ActivityUtil.setupVariables(oper, node);
 		if(node instanceof INakedAction){
 			for(INakedPin pin:((INakedAction) node).getInput()){
 				boolean ignore = node instanceof INakedReplyAction && pin.equals(((INakedReplyAction) node).getReturnInfo());
@@ -68,17 +71,33 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 		}
 	}
 	public void implementFinalStep(OJBlock block){
-		if(node.getActivity().isLongRunning() && node instanceof INakedControlNode
-				&& ((INakedControlNode) node).getControlNodeType() == ControlNodeType.ACTIVITY_FINAL_NODE){
-			block.addToStatements(new OJIfStatement("getProcessInstance().getNodeInstances().size()==1", "completed()"));
-		}
-		block.addToStatements(Jbpm5Util.endNodeFieldNameFor(node.getActivity()) + "=" + node.getActivity().getMappingInfo().getJavaName() + "State."
-				+ Jbpm5Util.stepLiteralName(node));
+		OJIfStatement ifLast = new OJIfStatement("getProcessInstance().getNodeInstances().size()==1");
+		block.addToStatements(ifLast);
+		ifLast.addToThenPart(Jbpm5Util.endNodeFieldNameFor((INakedElement) node.getOwnerElement()) + "="
+				+ node.getNearestStructuredElementAsClassifier().getMappingInfo().getJavaName() + "State." + Jbpm5Util.stepLiteralName(node));
+		ifLast.addToThenPart("completed()");
 	}
 	public abstract void implementActionOn(OJAnnotatedOperation oper);
 	public void implementPreConditions(OJOperation oper){
 		if(node instanceof PreAndPostConstrained){
 			implementConditions(oper, oper.getBody(), (PreAndPostConstrained) node, true);
+		}
+	}
+	public void implementObersvations(OJOperation oper){
+		for(INakedTimeObservation o:node.getNearestNodeContainer().findTimeObservation(node)){
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getNearestStructuredElementAsClassifier(), o);
+			oper.getBody().addToStatements(map.setter() + "(new Date())");
+		}
+		for(INakedDurationObservation o:node.getNearestNodeContainer().findDurationObservationFrom(node)){
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getNearestStructuredElementAsClassifier(), o);
+			oper.getBody().addToStatements(map.setter() + "(new Duration())");
+			oper.getBody().addToStatements(map.getter() + ".setFromDate(new Date())");
+			// TODO set TimeUnit
+		}
+		for(INakedDurationObservation o:node.getNearestNodeContainer().findDurationObservationTo(node)){
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(node.getNearestStructuredElementAsClassifier(), o);
+			oper.getBody().addToStatements(map.getter() + ".setFromDate(new Date())");
+			// TODO set quantity and calculate from BusinessCalendar specified somewhere
 		}
 	}
 	public void implementConditions(OJOperation oper,OJBlock block,PreAndPostConstrained constrained,boolean pre){
@@ -102,8 +121,8 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 				}
 			}
 			ConstraintGenerator cg = new ConstraintGenerator((OJClass) oper.getOwner(), constrained);
-			String selfExpr=node.getOwnerElement() instanceof INakedActivity? "this":"getContainingActivity()";
-			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre,selfExpr));
+			String selfExpr = node.getOwnerElement() instanceof INakedActivity ? "this" : "getContainingActivity()";
+			block.addToStatements(cg.buildConstraintsBlock(oper, block, conditions, pre, selfExpr));
 		}
 	}
 	public void implementPostConditions(OJOperation oper){
@@ -138,19 +157,13 @@ public abstract class Jbpm5ActionBuilder<A extends INakedActivityNode> extends A
 	public boolean waitsForEvent(){
 		return false;
 	}
-	protected final void buildPinField(OJOperation operationContext,OJBlock block,INakedObjectNode pin){
-		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(pin.getActivity(), pin, true);
-		operationContext.getOwner().addToImports(map.javaTypePath());
-		OJAnnotatedField field = new OJAnnotatedField(pin.getMappingInfo().getJavaName().getAsIs(), map.javaTypePath());
-		field.setInitExp(expressPin(operationContext, block, pin));
-		block.addToLocals(field);
-	}
 	public boolean hasNodeMethod(){
 		// TODO refine this
 		return node instanceof INakedAction || node instanceof INakedObjectNode || node instanceof INakedExpansionRegion
 				|| (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isFinalNode());
 	}
 	public boolean isEffectiveFinalNode(){
-		return BehaviorUtil.isEffectiveFinalNode(node);
+		return BehaviorUtil.isEffectiveFinalNode(node) || (node instanceof INakedExpansionNode && ((INakedExpansionNode) node).isOutputElement())
+				|| node instanceof INakedRaiseExceptionAction;
 	}
 }

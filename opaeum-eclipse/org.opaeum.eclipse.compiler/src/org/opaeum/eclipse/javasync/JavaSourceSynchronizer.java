@@ -165,8 +165,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 					png.visitRecursively(ne);
 				}
 				Collection<?> processElements = process.processElements(clss, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(monitor, 400));
-				TextWorkspace tws = process.findModel(TextWorkspace.class);
-				if(hasNewJavaSourceFolders(workspace, tws)){
+				if(hasNewJavaSourceFolders(workspace, process.findModel(TextWorkspace.class))){
 					process.executePhase(PomGenerationPhase.class, false, new ProgressMonitorTransformationLog(monitor, 100));
 					new JavaProjectGenerator(process.getConfig(), process, workspace).schedule();
 				}

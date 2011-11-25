@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,9 +25,9 @@ public class TransformationProcess{
 		void endLastStep();
 		void error(String string, Throwable t);
 		void info(String string);
+		void registerInstanceCountMap(Map<Class<?>,Long> instanceCount);
 	}
 	Set<Object> models = new HashSet<Object>();
-	Set<Object> changedElements = new HashSet<Object>();
 	Set<Class<? extends ITransformationStep>> actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 	private Phases phases;
 	private OpaeumConfig config;
@@ -53,6 +54,7 @@ public class TransformationProcess{
 		setInputModelsFor(phase);
 		phase.initializeSteps();
 		phase.execute(context);
+		phase.release();
 		context.featuresApplied(phase.getSteps());
 	}
 	public void execute(OpaeumConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses,TransformationProgressLog log){
@@ -116,10 +118,10 @@ public class TransformationProcess{
 		}
 	}
 	public Collection<?> processElements(Collection changes,Class<?> fromPhase,TransformationProgressLog log){
-		this.changedElements.clear();
+		Set<Object> changedElements = new HashSet<Object>();
 		if(changes.size() > 0){
 			log.startTask("Processing Individual Elements", getPhases().size());
-			this.changedElements.addAll(changes);
+			changedElements.addAll(changes);
 			TransformationContext context = new TransformationContext(actualClasses, false,log);
 			List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 			boolean start = false;
@@ -127,14 +129,15 @@ public class TransformationProcess{
 				if(!log.isCanceled() && (start || (start = fromPhase.isInstance(phase)))){
 					setInputModelsFor(phase);
 					phase.initializeSteps();
-					this.changedElements.addAll(phase.processElements(context, findElementsFor(phase)));
+					changedElements.addAll(phase.processElements(context, findElementsFor(phase,changedElements)));
+					phase.release();
 				}
 			}
 			log.endLastTask();
 		}
-		return this.changedElements;
+		return changedElements;
 	}
-	private Collection findElementsFor(TransformationPhase phase){
+	private Collection findElementsFor(TransformationPhase phase, Collection<?> changedElements){
 		Collection result = new ArrayList();
 		ParameterizedType typeVariable = (ParameterizedType) phase.getClass().getGenericInterfaces()[0];
 		Class<?> arg1 = (Class<?>) typeVariable.getActualTypeArguments()[1];

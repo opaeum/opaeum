@@ -34,4 +34,6 @@ public class AbstractTextNodeVisitor extends VisitorAdapter<TextOutputNode,TextW
 	protected int getThreadPoolSize(){
 		return 1;
 	}
+	public void release(){
+	}
 }

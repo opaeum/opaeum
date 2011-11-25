@@ -17,11 +17,12 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
 
-public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
+public class NakedModelWorkspaceImpl extends NakedElementOwnerImpl implements INakedModelWorkspace{
 	public static final String META_CLASS = "nakedWorkspace";
 	private OpaeumLibrary builtInTypes;
 	private Map<String,INakedElement> allElementsByModelId = new HashMap<String,INakedElement>();
@@ -147,6 +148,8 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 		this.children.remove(element);
 		this.generatingRootObjects.remove(element);
 		this.primaryRootObjects.remove(element);
+		super.removeOwnedElement(element, recursively);
+		removeModelElement(element);
 	}
 	@Override
 	public List<INakedRootObject> getGeneratingModelsOrProfiles(){
@@ -170,6 +173,9 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	}
 	@Override
 	public void addPrimaryModel(INakedRootObject rootObject){
+		if(rootObject==null){
+			throw new IllegalArgumentException();
+		}
 		primaryRootObjects.add(rootObject);
 	}
 	public void setIdentifier(String directoryName){
@@ -195,5 +201,22 @@ public class NakedModelWorkspaceImpl implements INakedModelWorkspace{
 	@Override
 	public void addRootClassifier(INakedClassifier cp){
 		rootClassifiers.add(cp);
+	}
+	public void release(){
+		for(INakedElement e:new HashSet<INakedElement>(getOwnedElements())){
+			this.removeOwnedElement(e, true);
+		}
+		this.allElementsByModelId.clear();
+		this.builtInTypes=null;
+		this.businessRole=null;
+		this.children.clear();
+		this.dependencies.clear();
+		this.generatingRootObjects.clear();
+		this.ownedElements.clear();
+		this.rootClassifiers.clear();
+		this.validator.clear();
+		this.primaryRootObjects.clear();
+		
+
 	}
 }

@@ -16,6 +16,11 @@ public class OJEnum extends OJAnnotatedClass{
 	public OJEnum(String string){
 		super(string);
 	}
+	@Override
+	public void release(){
+		super.release();
+		f_literals.clear();
+	}
 	public void addToLiterals(OJEnumLiteral literal){
 		this.f_literals.add(literal);
 	}

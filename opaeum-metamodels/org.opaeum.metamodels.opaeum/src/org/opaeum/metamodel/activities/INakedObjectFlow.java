@@ -6,4 +6,5 @@ public interface INakedObjectFlow extends INakedActivityEdge {
 	void setTransformation(INakedBehavior b);
 	void setSelection(INakedBehavior b);
 	INakedBehavior getSelection();
+	INakedObjectNode getFedObjectNode();
 }

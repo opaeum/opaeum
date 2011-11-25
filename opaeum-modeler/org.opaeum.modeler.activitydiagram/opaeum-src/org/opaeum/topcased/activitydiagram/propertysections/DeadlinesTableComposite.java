@@ -144,13 +144,7 @@ public class DeadlinesTableComposite extends Composite{
 		isRefreshing = false;
 	}
 	private List<TimeEvent> getDeadlines(){
-		List<TimeEvent> result = new ArrayList<TimeEvent>();
-		for(EObject eObject:StereotypesHelper.getNumlAnnotation(action).getContents()){
-			if(eObject instanceof TimeEvent){
-				result.add((TimeEvent) eObject);
-			}
-		}
-		return result;
+		return (List<TimeEvent>) action.getValue(taskStereotype, "deadlines");
 	}
 	protected TimeEvent getNewChild(boolean b){
 		TimeEvent newDeadline = UMLFactory.eINSTANCE.createTimeEvent();

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.topcased.modeler.commands.CreateGraphNodeCommand;
 import org.topcased.modeler.di.model.Diagram;
@@ -24,7 +25,7 @@ public class MethodDiagramEditPart extends org.topcased.modeler.uml.activitydiag
 			protected Command getCreateCommand(EditDomain domain,GraphNode newObject,GraphNode newParent,EObject newContainerParent,Point location,Dimension dimension,
 					int attach,List featuresList,boolean needModelUpdate){
 				EObject elt = Utils.getElement(newObject);
-				if(elt instanceof CallBehaviorAction){
+				if(elt instanceof CallBehaviorAction || elt instanceof ActivityParameterNode){
 					return new CreateGraphNodeCommand(domain, newObject, newParent, newContainerParent, location, dimension, attach, featuresList, needModelUpdate);
 				}else{
 					return super.getCreateCommand(domain, newObject, newParent, newContainerParent, location, dimension, attach, featuresList, needModelUpdate);

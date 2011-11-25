@@ -1,6 +1,7 @@
 package org.opaeum.java.metamodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,11 @@ public class OJPackage extends OJPackageGEN {
 	public OJPackage() {
 		super();
 	}
+	
+	@Override
+	public void finalize(){
+		super.finalize();
+	}
 	public OJPackage(String name){
 		this.setName(name);
 	}
@@ -32,12 +38,10 @@ public class OJPackage extends OJPackageGEN {
 		}
 		return packInfo.toString();
 	}
-	//
 	public String toString() {
 		return getPathName().toString();
 	}
 	
-	// TODO this operation should be generated
 	public OJPathName getPathName() {
 		OJPathName result = null;
 		if (getParent() != null) {
@@ -191,6 +195,17 @@ public class OJPackage extends OJPackageGEN {
 		for(OJPackage p:subpackages){
 			p.renameAll(match, suffix);
 		}
+	}
+	public void release(){
+		setParent(null);
+		this.packageInfos.clear();
+		for(OJClass ojClass:new ArrayList<OJClass>( getClasses())){
+			ojClass.release();
+		}
+		for(OJPackage p:new ArrayList<OJPackage>(getSubpackages())){
+			p.release();
+		}
+		
 	}
 
 }

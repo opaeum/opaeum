@@ -37,31 +37,35 @@ import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl
 public class CompositionEmulator extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void visitAssociation(INakedAssociation ass){
-		if(ass.getPropertyToEnd1() == null){
-			ass.setPropertyToEnd1(new AssociationClassToEnd(ass.getEnd1()));
-		}
-		if(ass.getPropertyToEnd2() == null){
-			ass.setPropertyToEnd2(new AssociationClassToEnd(ass.getEnd2()));
-		}
-		// TODO qualifiers
-		if(ass.isClass()){
-			if(ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() == null){
-				// add the implied property
-				ass.getPropertyToEnd1().setOtherEnd(new EndToAssociationClass(ass.getEnd1()));
-				ass.getPropertyToEnd1().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd1().getOtherEnd());
-			}else if(!ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() != null){
-				// must have changed - remove the implied property
-				ass.getPropertyToEnd1().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd1().getOtherEnd(), true);
-				ass.getPropertyToEnd1().setOtherEnd(null);
+		// For some reason, Topcased sometimes creates broken associations. THere also seems to be a bug in EMF that sometimes causes broken
+		// associations. THese cannot be processes at all.
+		if(ass.getEnd1() != null && ass.getEnd2() != null && ass.getEnd1().getNakedBaseType() != null && ass.getEnd2().getNakedBaseType() != null){
+			if(ass.getPropertyToEnd1() == null){
+				ass.setPropertyToEnd1(new AssociationClassToEnd(ass.getEnd1()));
 			}
-			if(ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() == null){
-				// add the implied property
-				ass.getPropertyToEnd2().setOtherEnd(new EndToAssociationClass(ass.getEnd2()));
-				ass.getPropertyToEnd2().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd2().getOtherEnd());
-			}else if(!ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() != null){
-				// must have changed - remove the implied property
-				ass.getPropertyToEnd2().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd2().getOtherEnd(), true);
-				ass.getPropertyToEnd2().setOtherEnd(null);
+			if(ass.getPropertyToEnd2() == null){
+				ass.setPropertyToEnd2(new AssociationClassToEnd(ass.getEnd2()));
+			}
+			// TODO qualifiers
+			if(ass.isClass()){
+				if(ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() == null){
+					// add the implied property
+					ass.getPropertyToEnd1().setOtherEnd(new EndToAssociationClass(ass.getEnd1()));
+					ass.getPropertyToEnd1().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd1().getOtherEnd());
+				}else if(!ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() != null){
+					// must have changed - remove the implied property
+					ass.getPropertyToEnd1().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd1().getOtherEnd(), true);
+					ass.getPropertyToEnd1().setOtherEnd(null);
+				}
+				if(ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() == null){
+					// add the implied property
+					ass.getPropertyToEnd2().setOtherEnd(new EndToAssociationClass(ass.getEnd2()));
+					ass.getPropertyToEnd2().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd2().getOtherEnd());
+				}else if(!ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() != null){
+					// must have changed - remove the implied property
+					ass.getPropertyToEnd2().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd2().getOtherEnd(), true);
+					ass.getPropertyToEnd2().setOtherEnd(null);
+				}
 			}
 		}
 	}
@@ -121,28 +125,34 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 					}
 				}
 				if(cp.getEndToComposite() != null){
-					addAffectedElement(cp.getEndToComposite().getNakedBaseType());
 					addAffectedElement(cp);
+					if(cp.getEndToComposite().getNakedBaseType() != null){
+						// Is null when being deleted
+						addAffectedElement(cp.getEndToComposite().getNakedBaseType());
+					}
 				}
 			}else if(cp.getEndToComposite() != null){
 				cp.removeObsoleteArtificialProperties();
-				cp.getEndToComposite().getNakedBaseType().removeObsoleteArtificialProperties();
+				if(cp.getEndToComposite().getNakedBaseType() != null){
+					// Is null when being deleted
+					cp.getEndToComposite().getNakedBaseType().removeObsoleteArtificialProperties();
+				}
 			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitOperation(INakedOperation o){
 		if(BehaviorUtil.hasExecutionInstance(o)){
-			INakedMessageStructure b =  o.getMessageStructure();
+			INakedMessageStructure b = o.getMessageStructure();
 			if(b == null){
 				o.initMessageStructure();
 				workspace.putModelElement(o.getMessageStructure());
 				b = (OperationMessageStructureImpl) o.getMessageStructure();
 				if(o instanceof INakedResponsibility){
 					// TODO define Responsibility interface
-					// if(workspace.getOpaeumLibrary().getTaskObject() != null){
-					// ((EmulatedCompositionMessageStructure) b).addInterface(workspace.getOpaeumLibrary().getTaskObject());
-					// }
+					if(workspace.getOpaeumLibrary().getTaskObject() != null){
+						((OperationMessageStructureImpl) b).addInterface(workspace.getOpaeumLibrary().getTaskObject());
+					}
 				}
 				addAffectedElement(b);
 			}

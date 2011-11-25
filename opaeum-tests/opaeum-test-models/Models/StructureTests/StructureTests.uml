@@ -160,6 +160,12 @@
           </eAnnotations>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_UI60MASlEeGPFNG1DmF_RQ" name="Measure1">
+          <eAnnotations xmi:id="_UI7bQASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org">
+            <details xmi:id="_UI7bQQSlEeGPFNG1DmF_RQ" key="Measure" value=""/>
+          </eAnnotations>
+          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+        </ownedAttribute>
         <ownedParameter xmi:id="_cLIp0MguEeCgL63yMpDzBQ" name="Parameter2">
           <eAnnotations xmi:id="_Nw4TIM42EeCd6PY8fuVk-w" source="http://www.opaeum.org">
             <details xmi:id="_Nw4TIc42EeCd6PY8fuVk-w" key="uuid" value="bafaaa26_f265_4afd_a521_98bf71c54615"/>
@@ -613,49 +619,13 @@
             </eAnnotations>
           </trigger>
         </node>
-        <node xmi:type="uml:OpaqueAction" xmi:id="_ps9NcNJdEeCmwMFM19SqTw" name="EmbeddedSingleScreenTask2" outgoing="_zrr_ENJrEeC6YNwDdLi-bg">
+        <node xmi:type="uml:OpaqueAction" xmi:id="_ps9NcNJdEeCmwMFM19SqTw" name="EmbeddedSingleScreenTaskf" outgoing="_zrr_ENJrEeC6YNwDdLi-bg">
           <eAnnotations xmi:id="_ps9NcdJdEeCmwMFM19SqTw" source="http://www.opaeum.org">
             <details xmi:id="_ps9NctJdEeCmwMFM19SqTw" key="EmbeddedSingleScreenTask" value=""/>
             <details xmi:id="_ps_CodJdEeCmwMFM19SqTw" key="uuid" value="9901b03d_1d9c_409f_ae61_7aba3503ef6e"/>
-            <contents xmi:type="uml:TimeEvent" xmi:id="_1G28kNJrEeC6YNwDdLi-bg" name="TimeEvent1" isRelative="true">
-              <eAnnotations xmi:id="_1G28kdJrEeC6YNwDdLi-bg" source="http://www.opaeum.org">
-                <details xmi:id="_1G28ktJrEeC6YNwDdLi-bg" key="Deadline" value=""/>
-                <details xmi:id="_1G4KsNJrEeC6YNwDdLi-bg" key="uuid" value="401732f2_5bef_4b32_9e18_a61002b0edfb"/>
-              </eAnnotations>
-              <when xmi:id="_1G28k9JrEeC6YNwDdLi-bg" name="when">
-                <eAnnotations xmi:id="_1IzdUNJrEeC6YNwDdLi-bg" source="http://www.opaeum.org">
-                  <details xmi:id="_1IzdUdJrEeC6YNwDdLi-bg" key="uuid" value="5a666fb0_e14b_4f1b_b6be_7b6507a32b52"/>
-                </eAnnotations>
-                <expr xmi:type="uml:OpaqueExpression" xmi:id="_1G28lNJrEeC6YNwDdLi-bg" name="expr">
-                  <eAnnotations xmi:id="_1I0EYNJrEeC6YNwDdLi-bg" source="http://www.opaeum.org">
-                    <details xmi:id="_1I0EYdJrEeC6YNwDdLi-bg" key="uuid" value="aec1853d_a84f_431f_92e7_3505b2c5f7a7"/>
-                  </eAnnotations>
-                  <language>ocl</language>
-                  <body>3</body>
-                </expr>
-              </when>
-            </contents>
-            <contents xmi:type="uml:TimeEvent" xmi:id="_zXtdsNJsEeCxavS5bFQdwg" name="Deadline2" isRelative="true">
-              <eAnnotations xmi:id="_zXtdsdJsEeCxavS5bFQdwg" source="http://www.opaeum.org">
-                <details xmi:id="_zXtdstJsEeCxavS5bFQdwg" key="Deadline" value=""/>
-                <details xmi:id="_zXwhANJsEeCxavS5bFQdwg" key="uuid" value="b37ebdc0_5359_4a1e_9ad7_d6c248bba4c9"/>
-              </eAnnotations>
-              <when xmi:id="_zXtds9JsEeCxavS5bFQdwg" name="when">
-                <eAnnotations xmi:id="_zZsasNJsEeCxavS5bFQdwg" source="http://www.opaeum.org">
-                  <details xmi:id="_zZtBwNJsEeCxavS5bFQdwg" key="uuid" value="a37c596a_3f7c_4222_8487_a804cfcd2569"/>
-                </eAnnotations>
-                <expr xmi:type="uml:OpaqueExpression" xmi:id="_zXtdtNJsEeCxavS5bFQdwg" name="expr">
-                  <eAnnotations xmi:id="_zZwFENJsEeCxavS5bFQdwg" source="http://www.opaeum.org">
-                    <details xmi:id="_zZwsINJsEeCxavS5bFQdwg" key="uuid" value="a3a967a4_c89d_4144_9c56_d8d751661d13"/>
-                  </eAnnotations>
-                  <language>ocl</language>
-                  <body>5</body>
-                </expr>
-              </when>
-            </contents>
           </eAnnotations>
         </node>
-        <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_w8HbcNJgEeC43_bjq0Zpkg" name="ReadStructuralFeatureAction1" incoming="_9JSuQNL1EeC69OkWzmPisg" structuralFeature="_NpWh0NiJEeC35peIyYkp6g">
+        <node xmi:type="uml:ReadStructuralFeatureAction" xmi:id="_w8HbcNJgEeC43_bjq0Zpkg" name="ReadStructuralFeatureAction1" outgoing="_b90T4ASlEeGPFNG1DmF_RQ" incoming="_9JSuQNL1EeC69OkWzmPisg" structuralFeature="_NpWh0NiJEeC35peIyYkp6g">
           <eAnnotations xmi:id="_w8ICgNJgEeC43_bjq0Zpkg" source="http://www.opaeum.org">
             <details xmi:id="_w8IpkNJgEeC43_bjq0Zpkg" key="uuid" value="13914753_e52d_4ea5_a87a_9375201ff382"/>
           </eAnnotations>
@@ -764,6 +734,31 @@
               </eAnnotations>
               <language>OCL</language>
               <body>12341</body>
+            </value>
+          </value>
+        </node>
+        <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_Ydb9YASlEeGPFNG1DmF_RQ" name="AddStructuralFeatureValueAction2" incoming="_b90T4ASlEeGPFNG1DmF_RQ" structuralFeature="_UI60MASlEeGPFNG1DmF_RQ">
+          <eAnnotations xmi:id="_YfucYASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org"/>
+          <object xmi:type="uml:ValuePin" xmi:id="_cwK94ASlEeGPFNG1DmF_RQ" name="object">
+            <eAnnotations xmi:id="_cwK94QSlEeGPFNG1DmF_RQ" source="http://www.opaeum.org">
+              <details xmi:id="_cwK94gSlEeGPFNG1DmF_RQ" key="OclInput" value=""/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cwK94wSlEeGPFNG1DmF_RQ" value="*"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_cwMzEASlEeGPFNG1DmF_RQ" name="nullSpecification">
+              <eAnnotations xmi:id="_cyIswASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org"/>
+              <language>OCL</language>
+              <body>self</body>
+            </value>
+          </object>
+          <value xmi:type="uml:ValuePin" xmi:id="_jYG7MASlEeGPFNG1DmF_RQ" name="value">
+            <eAnnotations xmi:id="_jYG7MQSlEeGPFNG1DmF_RQ" source="http://www.opaeum.org">
+              <details xmi:id="_jYG7MgSlEeGPFNG1DmF_RQ" key="OclInput" value=""/>
+            </eAnnotations>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jYJ-gASlEeGPFNG1DmF_RQ" value="*"/>
+            <value xmi:type="uml:OpaqueExpression" xmi:id="_jYKlkASlEeGPFNG1DmF_RQ" name="nullSpecification">
+              <eAnnotations xmi:id="_jaHtYASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org"/>
+              <language>OCL</language>
+              <body>start</body>
             </value>
           </value>
         </node>
@@ -945,6 +940,15 @@
             <eAnnotations xmi:id="_9vAqcNL1EeC69OkWzmPisg" source="http://www.opaeum.org">
               <details xmi:id="_9vBRgNL1EeC69OkWzmPisg" key="uuid" value="1fd4a906_3c90_40bb_b0b7_adc66d36dc0b"/>
             </eAnnotations>
+          </weight>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_b90T4ASlEeGPFNG1DmF_RQ" name="ControlFlow12" source="_w8HbcNJgEeC43_bjq0Zpkg" target="_Ydb9YASlEeGPFNG1DmF_RQ">
+          <eAnnotations xmi:id="_b9_TAASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org"/>
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_b90T4QSlEeGPFNG1DmF_RQ" value="true">
+            <eAnnotations xmi:id="_cAcxIASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org"/>
+          </guard>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_b90T4gSlEeGPFNG1DmF_RQ" value="1">
+            <eAnnotations xmi:id="_cAa78ASlEeGPFNG1DmF_RQ" source="http://www.opaeum.org"/>
           </weight>
         </edge>
       </ownedBehavior>
@@ -1483,6 +1487,9 @@
           </lowerValue>
         </ownedEnd>
       </packagedElement>
+      <packagedElement xmi:type="uml:DurationObservation" xmi:id="_CdfqMAR3EeG-d8bYDrd3Tg" name="DurationObservation1">
+        <eAnnotations xmi:id="_CeskEAR3EeG-d8bYDrd3Tg" source="http://www.opaeum.org"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Signal" xmi:id="_nJBiENGiEeCHG-dhmp-krw" name="TestSignal">
       <eAnnotations xmi:id="_nJCwMNGiEeCHG-dhmp-krw" source="http://www.opaeum.org" references="_r3jtwNGiEeCHG-dhmp-krw _YXd80NGjEeCHG-dhmp-krw">
@@ -1708,12 +1715,74 @@
   <OpaeumStandardProfile:RelativeTimeEvent xmi:id="_WWeIQNINEeCy-ZqdUqaTCg" base_TimeEvent="_GoqdgNILEeClk9YZNT6d5g"/>
   <OpaeumStandardProfile:RelativeTimeEvent xmi:id="_1iBSkNI_EeCFA9wDIDCv_w" base_TimeEvent="_1htJgNI_EeCFA9wDIDCv_w"/>
   <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_cXeaENJdEeCmwMFM19SqTw"/>
-  <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_fbe9oNJdEeCmwMFM19SqTw" base_OpaqueAction="_X7AxEMgxEeClwtChKyHx4g"/>
-  <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_ps_CoNJdEeCmwMFM19SqTw" deadlines="_1G28kNJrEeC6YNwDdLi-bg _zXtdsNJsEeCxavS5bFQdwg" base_OpaqueAction="_ps9NcNJdEeCmwMFM19SqTw"/>
+  <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_fbe9oNJdEeCmwMFM19SqTw" base_OpaqueAction="_X7AxEMgxEeClwtChKyHx4g">
+    <deadlines xmi:id="_r2eaAAR2EeG-d8bYDrd3Tg" name="Deadline1" isRelative="true">
+      <eAnnotations xmi:id="_r2fBEAR2EeG-d8bYDrd3Tg" source="http://www.opaeum.org">
+        <details xmi:id="_r2fBEQR2EeG-d8bYDrd3Tg" key="Deadline" value=""/>
+        <details xmi:id="_r2nj8AR2EeG-d8bYDrd3Tg" key="opaeumId" value="0d868eef_5f51_4ed3_802b_5172cafe6bc4@null"/>
+      </eAnnotations>
+      <when xmi:id="_r2fBEgR2EeG-d8bYDrd3Tg" name="when">
+        <eAnnotations xmi:id="_r2oLAAR2EeG-d8bYDrd3Tg" source="http://www.opaeum.org">
+          <details xmi:id="_r2oyEAR2EeG-d8bYDrd3Tg" key="opaeumId" value="0d868eef_5f51_4ed3_802b_5172cafe6bc4@null"/>
+        </eAnnotations>
+        <expr xmi:type="uml:OpaqueExpression" xmi:id="_r2fBEwR2EeG-d8bYDrd3Tg" name="expr">
+          <language>ocl</language>
+          <body>4</body>
+        </expr>
+      </when>
+    </deadlines>
+  </OpaeumBPMProfile:EmbeddedSingleScreenTask>
+  <OpaeumBPMProfile:EmbeddedSingleScreenTask xmi:id="_ps_CoNJdEeCmwMFM19SqTw" base_OpaqueAction="_ps9NcNJdEeCmwMFM19SqTw">
+    <deadlines xmi:id="_1G28kNJrEeC6YNwDdLi-bg" name="TimeEvent1" isRelative="true">
+      <eAnnotations xmi:id="_1G28kdJrEeC6YNwDdLi-bg" source="http://www.opaeum.org">
+        <details xmi:id="_1G28ktJrEeC6YNwDdLi-bg" key="Deadline" value=""/>
+        <details xmi:id="_1G4KsNJrEeC6YNwDdLi-bg" key="uuid" value="401732f2_5bef_4b32_9e18_a61002b0edfb"/>
+      </eAnnotations>
+      <when xmi:id="_1G28k9JrEeC6YNwDdLi-bg" name="when">
+        <eAnnotations xmi:id="_1IzdUNJrEeC6YNwDdLi-bg" source="http://www.opaeum.org">
+          <details xmi:id="_1IzdUdJrEeC6YNwDdLi-bg" key="uuid" value="5a666fb0_e14b_4f1b_b6be_7b6507a32b52"/>
+        </eAnnotations>
+        <expr xmi:type="uml:OpaqueExpression" xmi:id="_1G28lNJrEeC6YNwDdLi-bg" name="expr">
+          <eAnnotations xmi:id="_1I0EYNJrEeC6YNwDdLi-bg" source="http://www.opaeum.org">
+            <details xmi:id="_1I0EYdJrEeC6YNwDdLi-bg" key="uuid" value="aec1853d_a84f_431f_92e7_3505b2c5f7a7"/>
+          </eAnnotations>
+          <language>ocl</language>
+          <body>3</body>
+        </expr>
+      </when>
+    </deadlines>
+    <deadlines xmi:id="_zXtdsNJsEeCxavS5bFQdwg" name="Deadline2" isRelative="true">
+      <eAnnotations xmi:id="_zXtdsdJsEeCxavS5bFQdwg" source="http://www.opaeum.org">
+        <details xmi:id="_zXtdstJsEeCxavS5bFQdwg" key="Deadline" value=""/>
+        <details xmi:id="_zXwhANJsEeCxavS5bFQdwg" key="uuid" value="b37ebdc0_5359_4a1e_9ad7_d6c248bba4c9"/>
+      </eAnnotations>
+      <when xmi:id="_zXtds9JsEeCxavS5bFQdwg" name="when">
+        <eAnnotations xmi:id="_zZsasNJsEeCxavS5bFQdwg" source="http://www.opaeum.org">
+          <details xmi:id="_zZtBwNJsEeCxavS5bFQdwg" key="uuid" value="a37c596a_3f7c_4222_8487_a804cfcd2569"/>
+        </eAnnotations>
+        <expr xmi:type="uml:OpaqueExpression" xmi:id="_zXtdtNJsEeCxavS5bFQdwg" name="expr">
+          <eAnnotations xmi:id="_zZwFENJsEeCxavS5bFQdwg" source="http://www.opaeum.org">
+            <details xmi:id="_zZwsINJsEeCxavS5bFQdwg" key="uuid" value="a3a967a4_c89d_4144_9c56_d8d751661d13"/>
+          </eAnnotations>
+          <language>ocl</language>
+          <body>5</body>
+        </expr>
+      </when>
+    </deadlines>
+  </OpaeumBPMProfile:EmbeddedSingleScreenTask>
   <OpaeumBPMProfile:Deadline xmi:id="_tG0FMNJdEeCmwMFM19SqTw"/>
   <OpaeumBPMProfile:AcceptDeadlineAction xmi:id="_ysGxYNJrEeC6YNwDdLi-bg" base_AcceptEventAction="_ysAqwNJrEeC6YNwDdLi-bg"/>
   <OpaeumStandardProfile:RelativeTimeEvent xmi:id="_1G3jodJrEeC6YNwDdLi-bg" base_TimeEvent="_1G28kNJrEeC6YNwDdLi-bg"/>
   <OpaeumStandardProfile:RelativeTimeEvent xmi:id="_zXvS4dJsEeCxavS5bFQdwg" base_TimeEvent="_zXtdsNJsEeCxavS5bFQdwg"/>
   <OpaeumStandardProfile:Model xmi:id="__AK90Nh7EeCkKPIk8r-p8A" mappedImplementationPackage="org.opaeum.structuretests.test2" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
   <OpaeumBPMProfile:BusinessRole xmi:id="_psaTINlpEeCOp5HGxiLYAQ" base_Class="_psLCkNlpEeCOp5HGxiLYAQ"/>
+  <OpaeumBPMProfile:Deadline xmi:id="_Rpa3QAR2EeG-d8bYDrd3Tg" base_TimeEvent="_zXtdsNJsEeCxavS5bFQdwg"/>
+  <OpaeumBPMProfile:Deadline xmi:id="_SXrrcAR2EeG-d8bYDrd3Tg" base_TimeEvent="_1G28kNJrEeC6YNwDdLi-bg"/>
+  <OpaeumBPMProfile:Deadline xmi:id="_r2gPMAR2EeG-d8bYDrd3Tg" base_TimeEvent="_r2eaAAR2EeG-d8bYDrd3Tg"/>
+  <OpaeumStandardProfile:RelativeTimeEvent xmi:id="_r2g2QAR2EeG-d8bYDrd3Tg" base_TimeEvent="_r2eaAAR2EeG-d8bYDrd3Tg"/>
+  <OpaeumBPMProfile:BusinessProcess xmi:id="_XTG_oASiEeGcSNY_ZVOd0Q" base_Activity="_xkDhcMgpEeCgGqdEt9UH0Q">
+    <timeObservations xmi:id="_Yjtr4ASiEeGcSNY_ZVOd0Q" name="start" event="_yW1wANI_EeCFA9wDIDCv_w">
+      <eAnnotations xmi:id="_Yj2OwASiEeGcSNY_ZVOd0Q" source="http://www.opaeum.org"/>
+    </timeObservations>
+  </OpaeumBPMProfile:BusinessProcess>
 </xmi:XMI>

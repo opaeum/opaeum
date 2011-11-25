@@ -81,11 +81,12 @@ public class PinLinker extends AbstractModelElementLinker{
 				pin.setMultiplicity(typedElement.getNakedMultiplicity());
 				pin.setIsUnique(typedElement.isUnique());
 				pin.setIsOrdered(typedElement.isOrdered());
-			}else if(pin instanceof INakedOutputPin && typedElement.getNakedMultiplicity().getUpper() > pin.getNakedMultiplicity().getUpper())
+			}else if(pin instanceof INakedOutputPin && typedElement.getNakedMultiplicity().getUpper() > pin.getNakedMultiplicity().getUpper()){
 				// TODO replace this with a validation
 				pin.setMultiplicity(typedElement.getNakedMultiplicity());
-			pin.setIsUnique(typedElement.isUnique());
-			pin.setIsOrdered(typedElement.isOrdered());
+				pin.setIsUnique(typedElement.isUnique());
+				pin.setIsOrdered(typedElement.isOrdered());
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -185,9 +186,6 @@ public class PinLinker extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void visitEdge(INakedActivityEdge edge){
 		final INakedActivityNode effectiveSource = edge.getEffectiveSource();
-		if(effectiveSource == null){
-			System.out.println();
-		}
 		final INakedElementOwner ownerElement = effectiveSource.getOwnerElement();
 		if(edge.getOwnerElement() != ownerElement){
 			edge.getOwnerElement().removeOwnedElement(edge, false);
