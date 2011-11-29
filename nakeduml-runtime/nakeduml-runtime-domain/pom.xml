@@ -7,11 +7,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.nakeduml</groupId>
 	<artifactId>nakeduml-runtime-domain</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Runtime for Domain Projects</name>
-	<version>1.0.0.6-SNAPSHOT</version>
 	<url>http://github.com/nakeduml</url>
 
 

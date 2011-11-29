@@ -37,7 +37,6 @@ public class TransactionThreadVar {
 	
 	public static void clear() {
 		transactionVar.get().clear();
-		org.util.GraphDb.incrementTransactionCount();
 	}
 
 	public static void putAuditVertexFalse(String clazzAndId, Vertex auditVertex) {

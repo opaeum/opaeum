@@ -136,7 +136,7 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 		np.setComposite(p.isComposite());
 		populateProperty(np, p);
 	}
-	private void populateProperty(NakedPropertyImpl np,Property p){
+	protected void populateProperty(NakedPropertyImpl np,Property p){
 		np.setReadOnly(p.isReadOnly());
 		np.setStatic(p.isStatic());
 		np.setDerived(p.isDerived());

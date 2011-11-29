@@ -3,10 +3,6 @@ package org.nakeduml.test.adaptor;
 import org.jboss.logging.Logger;
 
 public class CditTestLogger extends Logger{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -505370145816095221L;
 	public static boolean DUMP_STACK_ON_ERROR = false;
 	protected CditTestLogger(){
 		super("test");
@@ -26,6 +22,7 @@ public class CditTestLogger extends Logger{
 			string = String.format(string, parameters);
 		}
 		System.out.print(string);
+		System.out.println();
 		if(DUMP_STACK_ON_ERROR){
 			if(thrown != null){
 				thrown.printStackTrace();

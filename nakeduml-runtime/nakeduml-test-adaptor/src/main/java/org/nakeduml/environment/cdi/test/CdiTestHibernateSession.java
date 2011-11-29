@@ -42,19 +42,11 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.jdbc.Work;
 import org.hibernate.stat.SessionStatistics;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
-import org.nakeduml.runtime.domain.IPersistentObject;
+import org.nakeduml.runtime.domain.AbstractEntity;
 
 @RequestScoped
 public class CdiTestHibernateSession implements Session{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6837615283053694623L;
 	private final class SexyList<T> extends ArrayList<T>{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 8109362708769613655L;
 		private SexyList(Collection<T> c){
 			super();
 			for(T t:c){
@@ -70,10 +62,6 @@ public class CdiTestHibernateSession implements Session{
 		}
 	}
 	private final class SexySet<T> extends HashSet<T>{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 7859622605125380065L;
 		private SexySet(Collection<T> c){
 			for(T t:c){
 				add(t);
@@ -165,8 +153,8 @@ public class CdiTestHibernateSession implements Session{
 		map.put(getId(e), e);
 	}
 	private void setId(Object e,long id){
-		if(e instanceof IPersistentObject){
-			((IPersistentObject) e).setId(id);
+		if(e instanceof AbstractEntity){
+			((AbstractEntity) e).setId(id);
 		}else if(e instanceof ProcessInstanceInfo){
 			((ProcessInstanceInfo) e).setId(id);
 		}
@@ -217,7 +205,7 @@ public class CdiTestHibernateSession implements Session{
 		}
 	}
 	private boolean isSupportedEntity(Class<?> child){
-		return IPersistentObject.class.isAssignableFrom(child) || ProcessInstanceInfo.class.isAssignableFrom(child);
+		return AbstractEntity.class.isAssignableFrom(child) || ProcessInstanceInfo.class.isAssignableFrom(child);
 	}
 	public String getEntityName(Class<?> class1){
 		Entity entity = class1.getAnnotation(Entity.class);
@@ -264,8 +252,8 @@ public class CdiTestHibernateSession implements Session{
 	}
 	private Number getId(Object abstractEntity){
 		Number id = null;
-		if(abstractEntity instanceof IPersistentObject){
-			id = ((IPersistentObject) abstractEntity).getId();
+		if(abstractEntity instanceof AbstractEntity){
+			id = ((AbstractEntity) abstractEntity).getId();
 		}else if(abstractEntity instanceof ProcessInstanceInfo){
 			id = ((ProcessInstanceInfo) abstractEntity).getId();
 		}

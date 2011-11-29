@@ -12,6 +12,7 @@ public abstract class BaseTinker implements TinkerNode, Serializable{
 
 	private static final long serialVersionUID = 3751023772087546585L;
 	protected Vertex vertex;
+	protected boolean hasInitBeenCalled = false;
 	
 	public BaseTinker() {
 		super();
@@ -51,4 +52,8 @@ public abstract class BaseTinker implements TinkerNode, Serializable{
 		return getClass().getName() + "["+getId()+"]";
 	}
 
+	public boolean hasInitBeenCalled() {
+		return hasInitBeenCalled;
+	}
+	
 }

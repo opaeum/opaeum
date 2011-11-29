@@ -4,7 +4,7 @@
 
 	<groupId>org.nakeduml</groupId>
 	<artifactId>nakeduml-runtime-neo4j</artifactId>
-	<version>1.0.0.5-SNAPSHOT</version>
+	<version>1.0.0.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>nakeduml-runtime-neo4j</name>
@@ -13,18 +13,57 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>orientechnologies-repository</id>
+			<name>Orient Technologies Maven2 Repository</name>
+			<url>http://www.orientechnologies.com/listing/m2</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>tinkerpop-repository</id>
+			<name>TinkerPop Maven2 Repository</name>
+			<url>http://tinkerpop.com/maven2</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>true</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>nakeduml-runtime-tinker-domain</artifactId>
-			<version>1.0.0.5-SNAPSHOT</version>
+			<version>1.0.0.6-SNAPSHOT</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.nakeduml</groupId>
+			<artifactId>nakeduml-runtime-tinker-adaptor</artifactId>
+			<version>1.0.0.6-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-neo4j-graph</artifactId>
-			<version>0.8-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

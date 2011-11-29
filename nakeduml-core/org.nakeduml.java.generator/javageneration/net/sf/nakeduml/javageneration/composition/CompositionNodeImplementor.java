@@ -54,8 +54,9 @@ import org.nakeduml.runtime.domain.CompositionNode;
 		OperationAnnotator.class,AttributeExpressionGenerator.class
 })
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
-	private static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
+	public static final String ADD_TO_OWNING_OBJECT = "addToOwningObject";
 	@Override
 	public void initialize(OJPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		super.initialize(javaModel, config, textWorkspace, workspace);
@@ -94,7 +95,9 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 				}else{
 				}
 				testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
-				testConstructor.getBody().addToStatements("addToOwningObject()");
+				OJSimpleStatement addToOwningObject = new OJSimpleStatement("addToOwningObject()");
+				addToOwningObject.setName(ADD_TO_OWNING_OBJECT);
+				testConstructor.getBody().addToStatements(addToOwningObject);
 			}
 		}
 	}
@@ -138,6 +141,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		markChildrenForDeletion(sc, ojClass, markDeleted);
 		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
 	}
+	
 	private void markChildrenForDeletion(INakedClassifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(INakedProperty np:sc.getEffectiveAttributes()){
 			if(np.getOtherEnd() != null && !np.isDerived() && !np.getOtherEnd().isDerived()

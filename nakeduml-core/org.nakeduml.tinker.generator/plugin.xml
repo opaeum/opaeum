@@ -4,7 +4,7 @@
    <extension
          point="org.nakeduml.eclipse.transformationStep">
       <transformationStep
-            className="org.nakeduml.tinker.generator.TinkerTransformationStep">
+            className="org.nakeduml.tinker.generator.TinkerImplementNodeStep">
       </transformationStep>
    </extension>
 

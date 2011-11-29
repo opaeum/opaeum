@@ -22,8 +22,7 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 
-import net.sf.nakeduml.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-
+import org.eclipse.uml2.uml.NamedElement;
 import org.nakeduml.runtime.domain.ExceptionAnalyser;
 
 /**

@@ -1,13 +1,24 @@
 package org.nakeduml.nakeduml.tinker.runtime;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import org.util.NakedGraph;
+import javax.transaction.Transaction;
+import javax.transaction.TransactionManager;
 
+import org.nakeduml.runtime.domain.AbstractEntity;
+import org.nakeduml.tinker.runtime.NakedGraph;
+import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
+
+import com.orientechnologies.orient.core.id.ORecordId;
+import com.orientechnologies.orient.core.metadata.schema.OClass;
 import com.orientechnologies.orient.core.metadata.schema.OSchema;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.core.storage.OStorage;
 import com.tinkerpop.blueprints.pgm.AutomaticIndex;
 import com.tinkerpop.blueprints.pgm.Edge;
@@ -22,6 +33,8 @@ public class NakedOrientGraph implements NakedGraph {
 
 	private OrientGraph orientGraph;
 	private boolean withschema;
+	private Map<Class<?>, OClass> oClasses = new HashMap<Class<?>, OClass>();
+	private TinkerSchemaHelper schemaHelper;
 
 	public NakedOrientGraph(OrientGraph orientGraph, boolean withSchema) {
 		super();
@@ -39,15 +52,15 @@ public class NakedOrientGraph implements NakedGraph {
 		orientGraph.stopTransaction(conclusion);
 	}
 
-	@Override
-	public void setTransactionMode(Mode mode) {
-		orientGraph.setTransactionMode(mode);
-	}
-
-	@Override
-	public Mode getTransactionMode() {
-		return orientGraph.getTransactionMode();
-	}
+//	@Override
+//	public void setTransactionMode(Mode mode) {
+//		orientGraph.setTransactionMode(mode);
+//	}
+//
+//	@Override
+//	public Mode getTransactionMode() {
+//		return orientGraph.getTransactionMode();
+//	}
 
 	@Override
 	public Vertex addVertex(Object id) {
@@ -166,10 +179,12 @@ public class NakedOrientGraph implements NakedGraph {
 
 	@Override
 	public void addRoot() {
-		Vertex root = orientGraph.addVertex(null);
-		root.setProperty("transactionCount", 0);
-		orientGraph.getRawGraph().setRoot("root", ((OrientVertex) root).getRawElement());
-		((OrientVertex) root).getRawElement().save();
+		if (orientGraph.getRawGraph().getRoot("root") == null) {
+			Vertex root = orientGraph.addVertex(null);
+			root.setProperty("transactionCount", 0);
+			orientGraph.getRawGraph().setRoot("root", ((OrientVertex) root).getRawElement());
+			((OrientVertex) root).getRawElement().save();
+		}
 	}
 
 	@Override
@@ -189,13 +204,101 @@ public class NakedOrientGraph implements NakedGraph {
 	}
 
 	@Override
-	public void createSchema(List<String> classNames) {
-		for (String className : classNames) {
+	public void createSchema(Map<String, Class<?>> classNames) {
+		for (String className : classNames.keySet()) {
 			OSchema schema = orientGraph.getRawGraph().getMetadata().getSchema();
 			if (!schema.existsClass(className)) {
 				schema.createClass(className, schema.getClass("OGraphVertex"),
 						orientGraph.getRawGraph().getStorage().addCluster(className, OStorage.CLUSTER_TYPE.PHYSICAL));
 			}
+			oClasses.put(classNames.get(className), schema.getClass(className));
 		}
+	}
+
+	@Override
+	public void clearAutoIndices() {
+		// orientGraph.clearAutoIndices();
+	}
+
+	@Override
+	public List<AbstractEntity> getCompositeRoots() {
+		List<AbstractEntity> result = new ArrayList<AbstractEntity>();
+		Iterable<Edge> iter = getRoot().getOutEdges("root");
+		for (Edge edge : iter) {
+			try {
+				Class<?> c = Class.forName((String) edge.getProperty("inClass"));
+				result.add((AbstractEntity) c.getConstructor(Vertex.class).newInstance(edge.getInVertex()));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
+	}
+
+	public <T> List<T> query(Class<?> clazz, int first, int pageSize) {
+		List<T> result = new ArrayList<T>();
+		OClass oClass = oClasses.get(clazz);
+		ORecordId recordId = new ORecordId(oClass.getDefaultClusterId(), first);
+		List<ODocument> resultset = orientGraph.getRawGraph().query(
+				new OSQLSynchQuery<ODocument>("select from " + oClass.getName() + " WHERE outEdges TRAVERSE(0,7,'out,outEdges') ( @class = 'OGraphEdge' and label = 'A__universe___blackHole_' )"));
+		for (ODocument oDocument : resultset) {
+			OrientVertex ov = new OrientVertex(orientGraph, oDocument);
+			try {
+				result.add((T)clazz.getConstructor(Vertex.class).newInstance(ov));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public <T> T instantiateClassifier(Long id) {
+		try {
+			Vertex v = orientGraph.getVertex(id);
+			Class<?> c =schemaHelper.getClassNames().get((String) v.getProperty("className"));
+			return (T) c.getConstructor(Vertex.class).newInstance(v);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}		
+	}
+
+	@Override
+	public TransactionManager getTransactionManager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void resume(Transaction tobj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Transaction suspend() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Transaction getTransaction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setMaxBufferSize(int bufferSize) {
+		this.orientGraph.setMaxBufferSize(bufferSize);
+	}
+
+	@Override
+	public int getMaxBufferSize() {
+		return this.orientGraph.getMaxBufferSize();
+	}
+
+	@Override
+	public int getCurrentBufferSize() {
+		return this.orientGraph.getCurrentBufferSize();
 	}
 }

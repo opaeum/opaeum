@@ -11,6 +11,13 @@ Require-Bundle: org.eclipse.ui,
  org.nakeduml.java.generator,
  org.nakeduml.java.metamodel,
  org.nakeduml.ocl.metamodel,
- org.nakeduml.ocl.java.generator
+ org.nakeduml.ocl.java.generator,
+ org.nakeduml.generators;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.nakeduml.tinker.emf.extraction,
+ org.nakeduml.tinker.generator,
+ org.nakeduml.tinker.javageneration.composition,
+ org.nakeduml.tinker.linkage
+Bundle-ClassPath: lib/lang-2.1.0.jar,
+ .

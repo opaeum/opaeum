@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tinker-test-suite-generator
+Bundle-SymbolicName: tinker-test-suite-generator
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: tinker_test_suite_generator.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.nakeduml.metamodels;bundle-version="1.0.0",
+ org.nakeduml.java.generator;bundle-version="1.0.0",
+ org.nakeduml.java.metamodel;bundle-version="1.0.0",
+ org.nakeduml.generators;bundle-version="1.0.0",
+ org.nakeduml.ocl.metamodel;bundle-version="1.0.0",
+ org.nakeduml.tinker.generator;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -3,17 +3,17 @@
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>nakeduml-runtime</artifactId>
+		<artifactId>numl-core</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.6-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>1.0.0.5-SNAPSHOT</version>
+		<relativePath>../../nakeduml-core/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nakeduml</groupId>
 	<artifactId>nakeduml-test-adaptor</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Test Infrastructure for Adaptor Projects </name>
-	<version>1.0.0.6-SNAPSHOT</version>
+	<version>1.0.0.5-SNAPSHOT</version>
 	<properties>
 		<arquillian.version>1.0.0.Alpha4</arquillian.version>
 	</properties>
@@ -147,7 +147,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nakeduml</groupId>
-			<artifactId>nakeduml-runtime-cdi-hibernate</artifactId>
+			<artifactId>nakeduml-runtime-adaptor</artifactId>
 			<version>${numl.version}</version>
 		</dependency>
 	</dependencies>

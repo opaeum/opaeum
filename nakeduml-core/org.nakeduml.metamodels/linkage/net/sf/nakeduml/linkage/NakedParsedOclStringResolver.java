@@ -83,7 +83,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		return 1;// FOr some reason this is required TODO investigate why because it takes a while to execute
 	}
 	// TODO optimize to take constraints individually
-	EnvironmentFactory environmentFactory;
+	protected EnvironmentFactory environmentFactory;
 	@Override
 	public Collection<? extends INakedElementOwner> getChildren(INakedElementOwner root){
 		Collection<? extends INakedElementOwner> children = super.getChildren(root);
@@ -411,7 +411,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			overridePinType(pin, type);
 		}
 	}
-	private void overridePinType(IModifiableTypedElement pin,IClassifier type){
+	protected void overridePinType(IModifiableTypedElement pin,IClassifier type){
 		pin.setType(type);
 		if(type instanceof INakedClassifier){
 			pin.setBaseType((INakedClassifier) type);
@@ -452,7 +452,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			}
 		}
 	}
-	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
+	protected IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
 		if(holder.getExpressionString() == null){
 			this.getErrorMap().putError((INakedElement) holder.getOwningModelElement().getModelElement(), CoreValidationRule.OCL,
 					EmfValidationUtil.OCL_EXPRESSION_REQUIRED);

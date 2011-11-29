@@ -1,25 +1,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>numl-runtime</artifactId>
+		<artifactId>nakeduml-runtime</artifactId>
 		<groupId>org.nakeduml</groupId>
-		<version>1.0.0.5-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+		<version>1.0.0.6-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.nakeduml</groupId>
 	<artifactId>nakeduml-runtime-tinker-domain</artifactId>
 	<packaging>jar</packaging>
 	<name>NakedUML Runtime for Tinker Domain Projects</name>
-	<version>${numl.version}</version>
 	<url>http://github.com/nakeduml</url>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jsf-myfaces.version>2.0.5</jsf-myfaces.version>
+	</properties>
+	
 	<repositories>
-
 		<repository>
 			<id>tinkerpop-repository</id>
 			<name>TinkerPop Maven2 Repository</name>
 			<url>http://tinkerpop.com/maven2</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>true</updatePolicy>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Technology Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 
@@ -28,7 +41,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -73,12 +85,58 @@
 		<dependency>
 			<groupId>org.nakeduml</groupId>
 			<artifactId>nakeduml-runtime-domain</artifactId>
-			<version>1.0.0.5-SNAPSHOT</version>
+			<version>1.0.0.6-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-core</artifactId>
-			<version>0.8-SNAPSHOT</version>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>10.0.1</version>
+		</dependency>
+
+		<!-- MYFACES -->
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-api</artifactId>
+			<version>${jsf-myfaces.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+			<version>${jsf-myfaces.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>el-impl</artifactId>
+			<version>2.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-jta_1.1_spec</artifactId>
+			<version>1.1.1</version>
+			<scope>compile</scope>
+		</dependency>		
+
+		<!-- Primefaces -->
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>3.0.M2</version>
 		</dependency>
 
 	</dependencies>

@@ -173,7 +173,8 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 								OJField result = new OJField();
 								result.setName("result");
 								result.setType(map.javaTypePath());
-								result.setInitExp("new HashSet<" + map.javaBaseType() + ">()");
+								owner.addToImports(new OJPathName("java.util.HashSet"));
+								result.setInitExp("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
 								copyMany.getBody().addToLocals(result);
 								OJForStatement forS = new OJForStatement("", "", "entity", "from");
 								forS.setElemType(map.javaBaseTypePath());

@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Profile;
@@ -202,6 +203,13 @@ public class EmfElementFinder{
 		return s.eContainer();
 	}
 	public static Collection<Element> getCorrectOwnedElements(Element root){
+		if (root instanceof NamedElement) {
+			NamedElement nee = (NamedElement)root;
+			if (nee.getName()!=null && nee.getName().startsWith("qualifier")) {
+				System.out.println("");
+			}
+		}		
+		
 		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
 		// Unimplemented containment features, oy
 		if(root instanceof StructuredActivityNode){

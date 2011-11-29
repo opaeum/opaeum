@@ -1,0 +1,8 @@
+tinker-test/.classpath
+tinker-test/.project
+tinker-test/.settings
+tinker-test/src/main/generated-java
+tinker-test/src/test/generated-resources
+tinker-test/src/test/generated-java
+tinker-test/target
+tinker-test/test-output

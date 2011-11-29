@@ -30,6 +30,7 @@ import org.nakeduml.java.metamodel.OJIfStatement;
 import org.nakeduml.java.metamodel.OJOperation;
 import org.nakeduml.java.metamodel.OJPackage;
 import org.nakeduml.java.metamodel.OJPathName;
+import org.nakeduml.java.metamodel.OJSimpleStatement;
 import org.nakeduml.java.metamodel.OJVisibilityKind;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedClass;
 import org.nakeduml.java.metamodel.annotation.OJAnnotatedField;
@@ -45,6 +46,8 @@ import org.nakeduml.runtime.environment.Environment;
 public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
+	public static final String MANY_INTERNAL_ADD_TO_COLLECTION = "manyInternalAddToCollection";
+	public static final String MANY_INTERNAL_REMOVE_FROM_COLLECTION = "manyInternalRemoveToCollection";
 	@Override
 	public void initialize(OJPackage javaModel,NakedUmlConfig config,TextWorkspace textWorkspace,INakedModelWorkspace workspace){
 		super.initialize(javaModel, config, textWorkspace, workspace);
@@ -100,6 +103,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			}
 		}
 	}
+	@Override
 	protected void visitProperty(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 
 		INakedProperty p = map.getProperty();
@@ -284,7 +288,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			remover.setStatic(map.isStatic());
 			if(map.isMany()){
-				remover.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".remove(val)");
+				OJSimpleStatement s = new OJSimpleStatement(getReferencePrefix(owner, map) + map.fieldname() + ".remove(val)");
+				s.setName(MANY_INTERNAL_REMOVE_FROM_COLLECTION);
+				remover.getBody().addToStatements(s);
 			}else{
 				String remove = getReferencePrefix(owner, map) + map.fieldname() + "=null";
 				String condition = map.getter() + "()!=null && val!=null && val.equals(" + map.getter() + "())";
@@ -301,14 +307,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 			if(map.isMany()){
-				adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
+				OJSimpleStatement s = new OJSimpleStatement(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
+				s.setName(MANY_INTERNAL_ADD_TO_COLLECTION);
+				adder.getBody().addToStatements(s);
 			}else{
 				adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + "=val");
 			}
 		}
 		owner.addToOperations(adder);
 	}
-	OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), map.javaTypePath());
 		if(map.isJavaPrimitive() || map.isCollection()){
 			field.setInitExp(map.javaDefaultValue());
@@ -368,9 +376,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			remover.setStatic(map.isStatic());
 			remover.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
+			remover.getBody().addToStatements(ifNotNull);
 			if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
-				remover.getBody().addToStatements(ifNotNull);
 				if(!OJUtil.hasOJClass((INakedClassifier) map.getProperty().getAssociation())){
 					ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(this)");
 				}
