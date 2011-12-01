@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.maps;
 
+import java.security.acl.Owner;
+
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.tools.common.StringHelpers;
 
@@ -21,6 +23,13 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 		baseTypeMap = OJUtil.buildClassifierMap(feature.getNakedBaseType());
 		featureTypeMap = OJUtil.buildClassifierMap(feature.getType());
 	}
+	public String qualifierProperty(){
+		return "z_keyOf" + NameConverter.capitalize(getProperty().getName()) + "On" +getProperty().getOwner().getName();
+	}
+	public String qualifierPropertySetter(){
+		return "setZ_keyOf" + NameConverter.capitalize(getProperty().getName()) + "On" +getProperty().getOwner().getName();
+	}
+
 	@Override
 	public OJPathName javaTypePath(){
 		if(isMany()){

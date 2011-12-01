@@ -2,6 +2,7 @@ package org.opaeum.javageneration.persistence;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.hibernate.annotations.Filter;
 import org.opaeum.feature.OpaeumConfig;
@@ -236,4 +237,41 @@ public class JpaUtil{
 		filter.putAttribute("name", "noDeletedObjects");
 		return filter;
 	}
+	public static String generateIndexColumnName(NakedStructuralFeatureMap map,String prefix){
+		String columnName;
+		if(map.isManyToMany()){
+			// simple column name - no requirement for uniqueness
+			columnName = prefix + "_in_" + map.getProperty().getMappingInfo().getPersistentName().getWithoutId();
+		}else{
+			columnName = prefix + "_in_";
+			String withoutId = map.getProperty().getMappingInfo().getPersistentName().getWithoutId().getAsIs();
+			// complex column name - has to be unique across all usages of the
+			// entity
+			columnName += shortenName(withoutId, 8);
+			columnName += "_on_";
+			columnName += shortenName(map.getProperty().getOwner().getMappingInfo().getPersistentName().getAsIs(), 8);
+		}
+		return columnName;
+	}
+	protected static final String shortenName(String withoutId,int i){
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(withoutId, "_");
+		// Name gets way too long.
+		// TODO specify and use max columnNameSize
+		int maxLength = (i / st.countTokens()) - 1;// one for the u nderscore
+		while(st.hasMoreTokens()){
+			String token = st.nextToken();
+			if(token.length() >= maxLength){
+				sb.append(token.substring(0, maxLength));
+			}else{
+				sb.append(token);
+			}
+			if(st.hasMoreTokens()){
+				sb.append("_");
+			}
+		}
+		return sb.toString();
+	}
+
+
 }

@@ -17,6 +17,7 @@ import org.opaeum.metamodel.components.INakedConnectorEnd;
 // TODO refactore all this out to the OpaeumStructuralFeatureMap
 public interface INakedProperty extends INakedPackageableElement,IModifiableTypedElement,IAttribute,IAssociationEnd,IVariableDeclaration{
 	INakedProperty getOtherEnd();
+	Collection<INakedProperty> getPropertiesQualified();
 	/**
 	 * Returns true if this property has one or more qualifiers
 	 */

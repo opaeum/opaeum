@@ -15,7 +15,7 @@
 	<properties>
 		<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
 		<tycho-version>0.13.0</tycho-version>
-		<forceContextQualifier>20111124156</forceContextQualifier>
+		<forceContextQualifier>201112011459</forceContextQualifier>
 	</properties>
 	<licenses>
 		<license>

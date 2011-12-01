@@ -134,10 +134,8 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 							+ (config.shouldBeCm1Compatible() ? "'" + ojOwner.getPathName().toString() + "'" : owner.getMappingInfo().getOpaeumId().toString()));
 					field.addAnnotationIfNew(where);
 				}
-				if(isMap(map)){
-					implementMap(map, field);
-				}else if(f.isOrdered()){
-					implementListSemantics(f, map, field);
+				if(f.isOrdered()){
+					implementListSemantics(map, field);
 				}else if(map.isManyToMany()){
 					implementCollectionId(field);
 				}
@@ -168,13 +166,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 			}
 		}
-	}
-	private void implementMap(NakedStructuralFeatureMap map,OJAnnotatedField field){
-		OJAnnotationValue mapKey = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.MapKey"));
-		field.putAnnotation(mapKey);
-		OJAnnotationValue mapColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
-		mapKey.putAttribute("columns", mapColumn);
-		mapColumn.putAttribute("name", "parameter_name");
 	}
 	private void mapXToOne(INakedClassifier owner,NakedStructuralFeatureMap map){
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
@@ -223,23 +214,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private void implementListSemantics(INakedProperty f,NakedStructuralFeatureMap map,OJAnnotatedField field){
+	private void implementListSemantics(NakedStructuralFeatureMap map,OJAnnotatedField field){
 		OJAnnotationValue index = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.IndexColumn"));
-		INakedClassifier umlOwner = f.getOwner();
-		String columnName = null;
-		if(map.isManyToMany()){
-			// simple column name - no requirement for uniqueness
-			columnName = "idx_in_" + f.getMappingInfo().getPersistentName().getWithoutId();
-		}else{
-			columnName = "idx_in_";
-			String withoutId = f.getMappingInfo().getPersistentName().getWithoutId().getAsIs();
-			// complex column name - has to be unique across all usages of the
-			// entity
-			columnName += shortenName(withoutId, 8);
-			columnName += "_on_";
-			columnName += shortenName(umlOwner.getMappingInfo().getPersistentName().getAsIs(), 8);
-		}
-		index.putAttribute(new OJAnnotationAttributeValue("name", columnName));
+		index.putAttribute(new OJAnnotationAttributeValue("name", JpaUtil.generateIndexColumnName(map, "idx")));
 		field.addAnnotationIfNew(index);
 		// TODO add index in base_table ??? maybe not necessary
 		// OJAnnotatedClass ojType=findJavaClass(f.getBaseType());
@@ -275,25 +252,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			collectionId.putAttribute(new OJAnnotationAttributeValue("generator", "sequence"));
 			field.addAnnotationIfNew(collectionId);
 		}
-	}
-	protected final String shortenName(String withoutId,int i){
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(withoutId, "_");
-		// Name gets way too long.
-		// TODO specify and use max columnNameSize
-		int maxLength = (i / st.countTokens()) - 1;// one for the u nderscore
-		while(st.hasMoreTokens()){
-			String token = st.nextToken();
-			if(token.length() >= maxLength){
-				sb.append(token.substring(0, maxLength));
-			}else{
-				sb.append(token);
-			}
-			if(st.hasMoreTokens()){
-				sb.append("_");
-			}
-		}
-		return sb.toString();
 	}
 	private void setDeletedOn(NakedStructuralFeatureMap map,OJAnnotatedClass ojOwner){
 		if(map.getFeature() instanceof INakedProperty){
@@ -344,8 +302,5 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		ojClass.addToImports(set.getDeepCopy());
 		setExtends.addToElementTypes(new OJPathName("? extends " + ojClass.getPathName().getLast()));
 		allInstances.setReturnType(setExtends);
-	}
-	private boolean isMap(NakedStructuralFeatureMap map){
-		return map.umlName().equals("updateChangeLog");
 	}
 }

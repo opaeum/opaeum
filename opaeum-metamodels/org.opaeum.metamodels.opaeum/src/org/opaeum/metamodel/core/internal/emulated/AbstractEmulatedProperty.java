@@ -41,6 +41,10 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 		this.mappingInfo.setIdInModel(id);
 	}
 	@Override
+	public Collection<INakedProperty> getPropertiesQualified(){
+		return Collections.emptySet();
+	}
+	@Override
 	public INakedElementOwner getOwnerElement(){
 		return owner;
 	}

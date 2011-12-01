@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.persistence;
 
+import java.util.Collection;
+
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
@@ -8,6 +10,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedEnumeration;
@@ -80,7 +83,7 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = (OJAnnotatedField) owner.findField(map.fieldname());
 		if(field != null){
-			//Field might have been replaced by a name-value type map
+			// Field might have been replaced by a name-value type map
 			if(f.getNakedBaseType() instanceof INakedEnumeration){
 				mapXToOneEnumeration(f, owner, field);
 			}else if(f.getNakedBaseType() instanceof INakedSimpleType){
@@ -89,6 +92,15 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 				mapXToOnePersistentType(f, owner, field);
 			}else if(f.getBaseType() instanceof INakedBehavior || f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 				field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
+			}
+			for(INakedProperty p:map.getProperty().getPropertiesQualified()){
+				NakedStructuralFeatureMap qualifiedMap = OJUtil.buildStructuralFeatureMap(p);
+				OJAnnotatedField qf = (OJAnnotatedField) owner.findField(qualifiedMap.qualifierProperty());
+				if(qf != null){
+					OJAnnotationValue qColumn = new OJAnnotationValue(new OJPathName("javax.persistence.Column"));
+					qf.putAnnotation(qColumn);
+					qColumn.putAttribute("name", JpaUtil.generateIndexColumnName(qualifiedMap, "key"));
+				}
 			}
 		}
 	}

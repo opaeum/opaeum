@@ -72,6 +72,7 @@ public class StandaloneJpaEnvironment extends Environment{
 						//TODO make this db-independent
 						connection.commit();
 					}catch(Exception e){
+						e.printStackTrace();
 					}
 				}
 			}catch(SQLException e1){

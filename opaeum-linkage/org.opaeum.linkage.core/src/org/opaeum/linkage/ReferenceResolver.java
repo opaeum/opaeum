@@ -61,6 +61,7 @@ public class ReferenceResolver extends AbstractModelElementLinker{
 				INakedProperty peer = (INakedProperty) peers.get(i);
 				if(peer.getOtherEnd() != null && peer.getOtherEnd().hasQualifier(property.getName())){
 					isQualifier = Boolean.TRUE;
+					property.getPropertiesQualified().add(peer.getOtherEnd());
 					if(peer.getOtherEnd().isComposite()){
 						isQualifierForComposite = Boolean.TRUE;
 					}

@@ -64,7 +64,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 	}
 	@Override
 	protected int getThreadPoolSize(){
-		return 5;// adds too many entries to shared non-synchronized collections;
+		return 1;// adds too many entries to shared non-synchronized collections;
 	}
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){

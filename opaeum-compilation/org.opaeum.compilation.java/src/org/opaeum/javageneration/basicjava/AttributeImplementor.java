@@ -1,5 +1,6 @@
 package org.opaeum.javageneration.basicjava;
 
+import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -8,6 +9,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJConstructor;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
@@ -260,6 +262,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!p.isReadOnly()){
 			buildInternalRemover(owner, map);
 		}
+		if(p.getOtherEnd()!=null && isMap(p.getOtherEnd())){
+			NakedStructuralFeatureMap otherMAp = OJUtil.buildStructuralFeatureMap(p.getOtherEnd());
+			OJUtil.addPersistentProperty(owner, otherMAp.qualifierProperty(), new OJPathName("String"), true);
+		}
 		if(map.isMany()){
 			if(field != null){
 				buildInitExpression(owner, map, field);
@@ -318,9 +324,10 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					for(INakedProperty q:qualifiers){
 						// if we get here, all qualifiers are backed by properties on the baseType
 						NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(q);
-						adder.getBody().addToStatements("val." + qMap.setter() + "(" + qMap.fieldname() + ")");
+						adder.getBody().addToStatements("val." + qMap.internalAdder() + "(" + qMap.fieldname() + ")");
 					}
 					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".put(key.toString(),val)");
+					adder.getBody().addToStatements("val." +map.qualifierPropertySetter() +"(key.toString())" );
 				}else{
 					adder.getBody().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + ".add(val)");
 				}
@@ -458,7 +465,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			String removeStatement = map.internalRemover() + "(" + map.fieldname() + ")";
 			if(isMap(map.getProperty())){
 				StringBuilder sb = addQualifierArguments(map, remover);
-				removeStatement = map.internalAdder() + "(" + sb.toString() + map.fieldname() + ")";
+				removeStatement = map.internalRemover() + "(" + sb.toString() + map.fieldname() + ")";
 			}
 			if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable()){
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
@@ -542,6 +549,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			setter.setStatic(map.isStatic());
 			setter.setVisibility(prop.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
+			for(INakedProperty p:map.getProperty().getPropertiesQualified()){
+				if(isMap(p)){
+					NakedStructuralFeatureMap peerMap = OJUtil.buildStructuralFeatureMap(p.getOtherEnd());
+					NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(p);
+					OJIfStatement ifNotNull = new OJIfStatement(peerMap.getter() + "()!=null && " + map.getter() + "()!=null");
+					setter.getBody().addToStatements(ifNotNull);
+					ifNotNull.getThenPart().addToStatements(
+							peerMap.getter() + "()." + qMap.internalRemover() + "(" + OJUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
+				}
+			}
 			if(map.getProperty().getNakedBaseType() instanceof INakedHelper){
 				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());
 			}else if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
@@ -595,6 +612,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.allAdder() + "(" + map.fieldname() + ")");
 				}else{
 					setter.getBody().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
+				}
+			}
+			for(INakedProperty p:map.getProperty().getPropertiesQualified()){
+				if(isMap(p)){
+					NakedStructuralFeatureMap peerMap = OJUtil.buildStructuralFeatureMap(p.getOtherEnd());
+					NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(p);
+					OJIfStatement ifNotNull = new OJIfStatement(peerMap.getter() + "()!=null && " + map.getter() + "()!=null");
+					setter.getBody().addToStatements(ifNotNull);
+					ifNotNull.getThenPart().addToStatements(
+							peerMap.getter() + "()." + qMap.internalAdder() + "(" + OJUtil.addQualifierArguments(p.getQualifiers(), "this") + "this)");
 				}
 			}
 		}

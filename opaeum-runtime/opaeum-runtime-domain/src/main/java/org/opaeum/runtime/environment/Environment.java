@@ -77,7 +77,7 @@ public abstract class Environment{
 		return dbms;
 	}
 	public String getProperty(String...name){
-		if(name.length > 1){
+		if(name.length == 1){
 			return properties.getProperty(name[0]);
 		}else{
 			return properties.getProperty(name[0], name[1]);

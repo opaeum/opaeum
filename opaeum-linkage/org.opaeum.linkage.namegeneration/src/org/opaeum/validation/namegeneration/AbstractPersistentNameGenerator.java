@@ -70,7 +70,7 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 			//TODO check if this was necessary
 			boolean isCmCompatible=true;
 			boolean isPersistentInterface = tew.getNakedBaseType() instanceof INakedInterface && !(tew.getNakedBaseType() instanceof INakedHelper);
-			if (tew.getNakedBaseType() instanceof INakedComplexStructure || (!isCmCompatible && isPersistentInterface)) {
+			if (tew.getNakedBaseType() instanceof INakedComplexStructure && !(isCmCompatible && isPersistentInterface)) {
 				// foreign key
 				// TODO re-evaluate the _id thing
 				generatedName = NameConverter.toUnderscoreStyle(name) + "_id";

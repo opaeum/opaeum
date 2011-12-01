@@ -155,6 +155,9 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				JpaUtil.cascadeAll(toMany);
 			}
 			field.addAnnotationIfNew(toMany);
+			if(isMap(map)){
+				implementMap(map, field);
+			}
 		}else{
 			field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.persistence.Transient")));
 		}
@@ -178,6 +181,12 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		joinColumn.putAttribute(new OJAnnotationAttributeValue("nullable", false));
 		joinTable.putAttribute(new OJAnnotationAttributeValue("joinColumns", joinColumn));
 		field.addAnnotationIfNew(joinTable);
+	}
+	private void implementMap(NakedStructuralFeatureMap map,OJAnnotatedField field){
+		NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(map.getProperty());
+		OJAnnotationValue mapKey = new OJAnnotationValue(new OJPathName("javax.persistence.MapKey"));
+		field.putAnnotation(mapKey);
+		mapKey.putAttribute("name", otherMap.qualifierProperty());
 	}
 	private void buildToString(OJAnnotatedClass owner,INakedClassifier umlClass){
 //		OJOperation toString = owner.findToString();
@@ -239,5 +248,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 //		ifNotInstance.addToElsePart(ifIdNull);
 //		ifIdNull.addToElsePart("return getId().equals(other.getId())");
 //		equals.getBody().addToStatements(ifThis);
+	}
+	private boolean isMap(NakedStructuralFeatureMap map){
+		return map.umlName().equals("updateChangeLog");
 	}
 }

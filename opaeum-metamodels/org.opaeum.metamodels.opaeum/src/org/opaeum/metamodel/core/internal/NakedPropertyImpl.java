@@ -25,6 +25,7 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	private int argumentIndex = -1;
 	private boolean isDerivedUnion;
 	private Collection<INakedProperty> subsettedProperties = new ArrayList<INakedProperty>();
+	private Collection<INakedProperty> propertiesQualified;
 	private Collection<INakedProperty> redefinedProperties = new ArrayList<INakedProperty>();
 	private Collection<INakedConnectorEnd> connectorEnds= new ArrayList<INakedConnectorEnd>();
 	private INakedValueSpecification initialValue;
@@ -185,5 +186,11 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	public boolean isIteratorVar(){
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public Collection<INakedProperty> getPropertiesQualified(){
+		if(propertiesQualified==null){
+			propertiesQualified=new HashSet<INakedProperty>();
+		}
+		return propertiesQualified;
 	}
 }
