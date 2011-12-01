@@ -14,6 +14,7 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class BaseCollection<E> {
 
+	protected boolean composite;
 	protected boolean inverse;
 	protected boolean manyToMany;
 	protected boolean loaded = false;
@@ -77,7 +78,7 @@ public abstract class BaseCollection<E> {
 	}
 	
 	protected void maybeCallInit(E e) {
-		if (e instanceof TinkerCompositionNode && !((TinkerCompositionNode) e).hasInitBeenCalled()) {
+		if (this.composite && e instanceof TinkerCompositionNode && !((TinkerCompositionNode) e).hasInitBeenCalled()) {
 			((CompositionNode) e).init(this.owner);
 		}
 	}

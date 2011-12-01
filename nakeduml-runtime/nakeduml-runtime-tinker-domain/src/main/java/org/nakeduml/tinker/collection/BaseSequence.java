@@ -68,7 +68,7 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 		}
 		float tinkerIndex = (min + max) / 2; 
 		this.index.put("index", tinkerIndex, edge);
-		edge.getInVertex().setProperty("tinkerIndex", tinkerIndex);
+		getVertexForDirection(edge).setProperty("tinkerIndex", tinkerIndex);
 		return edge;
 	}
 	
@@ -84,8 +84,8 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 				v = node.getVertex();
 				Set<Edge> edges = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
 				for (Edge edge : edges) {
-					GraphDb.getDb().removeEdge(edge);
 					removeEdgefromIndex(v, edge, indexOf);
+					GraphDb.getDb().removeEdge(edge);
 					break;
 				}
 			} else if (o.getClass().isEnum()) {

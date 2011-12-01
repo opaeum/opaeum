@@ -11,7 +11,6 @@ import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.nakeduml.tinker.runtime.NakedTinkerIndex;
-import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 
 import com.tinkerpop.blueprints.pgm.CloseableSequence;
 import com.tinkerpop.blueprints.pgm.Edge;
@@ -22,7 +21,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 	protected ListOrderedSet internalListOrderedSet = new ListOrderedSet();
 	protected NakedTinkerIndex<Edge> index;
 	
-	public TinkerQualifiedOrderedSetImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany) {
+	public TinkerQualifiedOrderedSetImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
@@ -34,6 +33,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 		}
 		this.inverse = isInverse;
 		this.manyToMany = isManyToMany;
+		this.composite = composite;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 		if (result) {
 			Edge edge = addInternal(e);
 			this.index.put("index", new Float(this.internalListOrderedSet.size() - 1), edge);
-			edge.getInVertex().setProperty("tinkerIndex", new Float(this.internalListOrderedSet.size() - 1));
+			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.internalListOrderedSet.size() - 1));
 			addQualifierToIndex(edge, qualifiers);
 		}
 		return result;
@@ -90,7 +90,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 		}
 		float tinkerIndex = (min + max) / 2; 
 		this.index.put("index", tinkerIndex, edge);
-		edge.getInVertex().setProperty("tinkerIndex", tinkerIndex);
+		getVertexForDirection(edge).setProperty("tinkerIndex", tinkerIndex);
 		return edge;
 	}
 	
@@ -169,8 +169,8 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 				v = node.getVertex();
 				Set<Edge> edges = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
 				for (Edge edge : edges) {
-					GraphDb.getDb().removeEdge(edge);
 					removeEdgefromIndex(v, edge, indexOf);
+					GraphDb.getDb().removeEdge(edge);
 				}
 			} else if (o.getClass().isEnum()) {
 				v = this.internalVertexMap.get(((Enum<?>) o).name());

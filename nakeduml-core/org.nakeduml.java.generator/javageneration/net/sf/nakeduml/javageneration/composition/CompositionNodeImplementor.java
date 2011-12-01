@@ -142,7 +142,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		invokeOperationRecursively(sc, markDeleted, "markDeleted()");
 	}
 	
-	private void markChildrenForDeletion(INakedClassifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
+	protected void markChildrenForDeletion(INakedClassifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(INakedProperty np:sc.getEffectiveAttributes()){
 			if(np.getOtherEnd() != null && !np.isDerived() && !np.getOtherEnd().isDerived()
 					&& (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){

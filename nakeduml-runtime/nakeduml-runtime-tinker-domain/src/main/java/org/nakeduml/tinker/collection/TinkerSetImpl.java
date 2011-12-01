@@ -4,14 +4,13 @@ import java.util.Set;
 
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.tinker.runtime.GraphDb;
-import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public class TinkerSetImpl<E> extends BaseSet<E> implements TinkerSet<E> {
 
-	public TinkerSetImpl(TinkerCompositionNode owner, String label, boolean isInverse, boolean isManyToMany) {
+	public TinkerSetImpl(TinkerCompositionNode owner, String label, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
@@ -19,6 +18,7 @@ public class TinkerSetImpl<E> extends BaseSet<E> implements TinkerSet<E> {
 		this.parentClass = owner.getClass();
 		this.inverse = isInverse;
 		this.manyToMany = isManyToMany;
+		this.composite = composite;
 	}
 
 	@Override

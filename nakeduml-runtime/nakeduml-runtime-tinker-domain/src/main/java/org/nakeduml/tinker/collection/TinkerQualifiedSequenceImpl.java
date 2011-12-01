@@ -11,7 +11,7 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public class TinkerQualifiedSequenceImpl<E> extends BaseSequence<E> implements TinkerQualifiedSequence<E> {
 
-	public TinkerQualifiedSequenceImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany) {
+	public TinkerQualifiedSequenceImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
@@ -23,6 +23,7 @@ public class TinkerQualifiedSequenceImpl<E> extends BaseSequence<E> implements T
 		}
 		this.inverse = isInverse;
 		this.manyToMany = isManyToMany;
+		this.composite = composite;
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class TinkerQualifiedSequenceImpl<E> extends BaseSequence<E> implements T
 		if (result) {
 			Edge edge = addInternal(e);
 			this.index.put("index", new Float(this.internalList.size() - 1), edge);
-			edge.getInVertex().setProperty("tinkerIndex", new Float(this.internalList.size() - 1));
+			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.internalList.size() - 1));
 			addQualifierToIndex(edge, qualifiers);
 		}
 		return result;

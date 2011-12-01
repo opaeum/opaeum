@@ -15,7 +15,7 @@ public class TinkerQualifiedBagImpl<E> extends BaseBag<E> implements TinkerQuali
 
 	private Index<Edge> index;
 
-	public TinkerQualifiedBagImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany) {
+	public TinkerQualifiedBagImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
@@ -27,6 +27,7 @@ public class TinkerQualifiedBagImpl<E> extends BaseBag<E> implements TinkerQuali
 		}
 		this.inverse = isInverse;
 		this.manyToMany = isManyToMany;
+		this.composite = composite;
 	}
 
 	@Override	
@@ -82,8 +83,8 @@ public class TinkerQualifiedBagImpl<E> extends BaseBag<E> implements TinkerQuali
 				v = node.getVertex();
 				Set<Edge> edges = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
 				for (Edge edge : edges) {
-					GraphDb.getDb().removeEdge(edge);
 					removeEdgefromIndex(edge);
+					GraphDb.getDb().removeEdge(edge);
 				}
 			} else if (o.getClass().isEnum()) {
 				v = this.internalVertexMap.get(((Enum<?>) o).name());

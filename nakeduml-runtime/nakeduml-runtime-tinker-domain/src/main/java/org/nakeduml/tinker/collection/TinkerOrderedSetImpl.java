@@ -22,7 +22,7 @@ public class TinkerOrderedSetImpl<E> extends BaseCollection<E> implements Tinker
 	protected ListOrderedSet internalListOrderedSet = new ListOrderedSet();
 	protected NakedTinkerIndex<Edge> index;
 	
-	public TinkerOrderedSetImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany) {
+	public TinkerOrderedSetImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
@@ -34,6 +34,7 @@ public class TinkerOrderedSetImpl<E> extends BaseCollection<E> implements Tinker
 		}
 		this.inverse = isInverse;
 		this.manyToMany = isManyToMany;
+		this.composite = composite;
 	}
 	
 	@Override
@@ -44,7 +45,7 @@ public class TinkerOrderedSetImpl<E> extends BaseCollection<E> implements Tinker
 		if (result) {
 			Edge edge = addInternal(e);
 			this.index.put("index", new Float(this.internalListOrderedSet.size() - 1), edge);
-			edge.getInVertex().setProperty("tinkerIndex", new Float(this.internalListOrderedSet.size() - 1));
+			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.internalListOrderedSet.size() - 1));
 		}
 		return result;
 	}
@@ -77,7 +78,7 @@ public class TinkerOrderedSetImpl<E> extends BaseCollection<E> implements Tinker
 		}
 		float tinkerIndex = (min + max) / 2; 
 		this.index.put("index", tinkerIndex, edge);
-		edge.getInVertex().setProperty("tinkerIndex", tinkerIndex);
+		getVertexForDirection(edge).setProperty("tinkerIndex", tinkerIndex);
 		return edge;
 	}
 	
@@ -156,8 +157,8 @@ public class TinkerOrderedSetImpl<E> extends BaseCollection<E> implements Tinker
 				v = node.getVertex();
 				Set<Edge> edges = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
 				for (Edge edge : edges) {
-					GraphDb.getDb().removeEdge(edge);
 					removeEdgefromIndex(v, edge, indexOf);
+					GraphDb.getDb().removeEdge(edge);
 				}
 			} else if (o.getClass().isEnum()) {
 				v = this.internalVertexMap.get(((Enum<?>) o).name());

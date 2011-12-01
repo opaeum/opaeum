@@ -97,6 +97,8 @@ public class TinkerCollectionStep extends StereotypeAnnotator {
 				} else {
 					ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", true");
 				}
+				//Specify composite boolean
+				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ", " + map.getProperty().isComposite());
 				ojSimpleStatement.setExpression(ojSimpleStatement.getExpression() + ")");
 				constructor.getBody().addToStatements(initCollection);
 			}

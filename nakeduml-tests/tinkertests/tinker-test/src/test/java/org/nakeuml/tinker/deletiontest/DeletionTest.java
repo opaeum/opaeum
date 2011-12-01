@@ -79,12 +79,16 @@ public class DeletionTest extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(13, countVertices());
 		Assert.assertEquals(29, countEdges());
+		ManyB manyBTest = new ManyB(manyB1.getVertex());
+		Assert.assertEquals(4, manyBTest.getIManyA().size());
 		db.startTransaction();
 		ManyA testDeletion = new ManyA(manyA1.getVertex());
 		testDeletion.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(12, countVertices());
 		Assert.assertEquals(24, countEdges());
+		manyBTest = new ManyB(manyB1.getVertex());
+		Assert.assertEquals(3, manyBTest.getIManyA().size());
 
 		db.startTransaction();
 		testDeletion = new ManyA(manyA2.getVertex());
@@ -92,6 +96,8 @@ public class DeletionTest extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(11, countVertices());
 		Assert.assertEquals(19, countEdges());
+		manyBTest = new ManyB(manyB1.getVertex());
+		Assert.assertEquals(2, manyBTest.getIManyA().size());
 
 		db.startTransaction();
 		testDeletion = new ManyA(manyA3.getVertex());
@@ -99,6 +105,8 @@ public class DeletionTest extends BaseLocalDbTest {
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(10, countVertices());
 		Assert.assertEquals(14, countEdges());
+		manyBTest = new ManyB(manyB1.getVertex());
+		Assert.assertEquals(1, manyBTest.getIManyA().size());
 
 		db.startTransaction();
 		testDeletion = new ManyA(manyA4.getVertex());

@@ -10,7 +10,7 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public class TinkerSequenceImpl<E> extends BaseSequence<E> implements TinkerSequence<E> {
 
-	public TinkerSequenceImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany) {
+	public TinkerSequenceImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
@@ -22,6 +22,7 @@ public class TinkerSequenceImpl<E> extends BaseSequence<E> implements TinkerSequ
 		}
 		this.inverse = isInverse;
 		this.manyToMany = isManyToMany;
+		this.composite = composite;
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class TinkerSequenceImpl<E> extends BaseSequence<E> implements TinkerSequ
 		if (result) {
 			Edge edge = addInternal(e);
 			this.index.put("index", new Float(this.internalList.size() - 1), edge);
-			edge.getInVertex().setProperty("tinkerIndex", new Float(this.internalList.size() - 1));
+			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.internalList.size() - 1));
 		}
 		return result;
 	}

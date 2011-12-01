@@ -377,7 +377,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	public void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
-		if (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null) {
+		//Manies gets removed in the collection
+		if (map.isOneToOne() && (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
 			// Remove the edge
 			removePolymorphicToOneRelationship(map, owner, remover);
 		}
