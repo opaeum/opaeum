@@ -20,5 +20,9 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
-Export-Package: org.opaeum.compilation.tinker
+Export-Package: org.nakeduml.tinker.emf.extraction,
+ org.nakeduml.tinker.generator,
+ org.nakeduml.tinker.javageneration.composition,
+ org.nakeduml.tinker.linkage,
+ org.opaeum.compilation.tinker
 Bundle-Vendor: Opaeum

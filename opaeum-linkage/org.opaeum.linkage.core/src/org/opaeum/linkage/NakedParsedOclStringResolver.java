@@ -38,7 +38,6 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedInputPin;
-import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.bpm.INakedDeadline;
 import org.opaeum.metamodel.bpm.INakedDefinedResponsibility;
@@ -84,7 +83,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		return 1;// FOr some reason this is required TODO investigate why because it takes a while to execute
 	}
 	// TODO optimize to take constraints individually
-	EnvironmentFactory environmentFactory;
+	protected EnvironmentFactory environmentFactory;
 	@Override
 	public Collection<INakedElementOwner> getChildren(INakedElementOwner root){
 		Collection<INakedElementOwner> children = super.getChildren(root);
@@ -412,7 +411,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			overridePinType(pin, type);
 		}
 	}
-	private void overridePinType(IModifiableTypedElement pin,IClassifier type){
+	protected void overridePinType(IModifiableTypedElement pin,IClassifier type){
 		pin.setType(type);
 		if(type instanceof INakedClassifier){
 			pin.setBaseType((INakedClassifier) type);
@@ -469,7 +468,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			}
 		}
 	}
-	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
+	protected IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env){
 		return replaceSingleParsedOclString(holder, c, expectedType, env, false);
 	}
 	private IOclContext replaceSingleParsedOclString(ParsedOclString holder,INakedClassifier c,IClassifier expectedType,Environment env,boolean ignoreMultiplicity){
