@@ -1,9 +1,24 @@
 Vision:
 Object and Process Oriented Application Development and Execution environment for SME's
 
+Obliterates the gap between business processes and business data
+Unifies data and process modelling in one tool
+Keeps the modelling initiative business oriented
+Allows business and it to work on models together
+
+Target applications
+Small to very small business with little IT infrastructure and basically no development capabilities
+Needs for ERP but not enough money
+
+Business model
+
+Free 4 hour demoes with workable solution afterwards
+Value added libraries and services
+
 Rapid Modelling in unified modeling tool for:
 UML Class Diagrams
-UML Processes
+UML Processes (Activities)
+UML Methods (activities)
 UML Composite Structure Diagrams
 UML State Machines
 BPMN Processes
@@ -20,7 +35,12 @@ Business Activity Monitoring
 Built into the core engine and  available from modeling environment
 Hides complexity - no queries or complex structures to worry about
  
+Ad hoc task management and case management
+seamless integration between ad hoc tasks and processes
+Task can wait for sub-process completion, and process wait for task completion
+ 
 
+TODOS
 
 ECLIPSE
 General

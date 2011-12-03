@@ -62,7 +62,7 @@
 #end
 		</properties>
 	</persistence-unit>
-	<persistence-unit name="${persistenceConfigName}-standalone">
+	<!--persistence-unit name="${persistenceConfigName}-standalone" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 #foreach($c in $persistentClasses)
 		<class>${c}</class>
@@ -105,5 +105,5 @@
 			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
 #end
 		</properties>
-	</persistence-unit>
+	</persistence-unit-->
 </persistence>
