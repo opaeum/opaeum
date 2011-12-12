@@ -291,7 +291,7 @@ public class ClassifierFactory{
 		}
 		return childPackage;
 	}
-	private void importPrimitiveTypes(Package model){
+	protected void importPrimitiveTypes(Package model){
 		Package umlLibrary = getImportedPackage(model, UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI);
 		PrimitiveType booleanPrimitiveType = (PrimitiveType) umlLibrary.getOwnedType("Boolean");
 		this.classMap.put(Boolean.class.getName(), booleanPrimitiveType);

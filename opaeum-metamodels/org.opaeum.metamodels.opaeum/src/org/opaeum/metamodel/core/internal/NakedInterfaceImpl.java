@@ -34,7 +34,10 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 	}
 	@Override
 	public boolean isPersistent(){
-		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isFact(){
 		return false;
 	}
 }

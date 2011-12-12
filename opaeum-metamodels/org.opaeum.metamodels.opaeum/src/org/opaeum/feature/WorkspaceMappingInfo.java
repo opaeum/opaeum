@@ -85,13 +85,13 @@ public class WorkspaceMappingInfo {
 		return mappingInfo;
 	}
 	public void store(){
-		Writer writer;
-		try{
-			writer = new FileWriter(file);
-		}catch(IOException e){
-			throw new RuntimeException(e);
-		}
-		store(writer);
+//		Writer writer;
+//		try{
+//			writer = new FileWriter(file);
+//		}catch(IOException e){
+//			throw new RuntimeException(e);
+//		}
+//		store(writer);
 	}
 	public void store(Writer writer){
 		try{

@@ -18,6 +18,7 @@ import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.javasync.GenerateBusinessIntelligenceSchemaAction;
 import org.opaeum.eclipse.javasync.JavaTransformationProcessManager;
 import org.opaeum.eclipse.javasync.RecompileElementAction;
 import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
@@ -59,6 +60,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 							actions.add(new ActionContributionItem(new VersionAction(selection)));
 							actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
 							actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
+							actions.add(new ActionContributionItem(new GenerateBusinessIntelligenceSchemaAction(selection)));
 						}
 					}else{
 						action.setText("Convert to  Opaeum Model Directory");

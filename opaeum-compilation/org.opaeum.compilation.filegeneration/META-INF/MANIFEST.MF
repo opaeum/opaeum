@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.opaeum.compilation.filegeneration;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.uml2.uml,
  org.opaeum.transformation.engine,
  org.opaeum.metamodels.text
 Bundle-ActivationPolicy: lazy

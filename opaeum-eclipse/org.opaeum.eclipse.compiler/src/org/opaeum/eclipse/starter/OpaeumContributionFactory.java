@@ -61,6 +61,7 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 					if(selection.getFirstElement() instanceof Model){
 						return EvaluationResult.TRUE;
 					}
+					System.out.println(selection.getFirstElement());
 				}
 				return EvaluationResult.FALSE;
 			}

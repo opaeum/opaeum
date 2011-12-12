@@ -49,12 +49,15 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	public boolean isImported(IClassifier cls){
 		return owner.isImported(cls);
 	}
+	public INakedProperty getNameProperty(){
+		return null;
+	}
 	private static final long serialVersionUID = -3198245957575601442L;
 	protected INakedElement element;
 	protected INakedClassifier owner;
 	private Collection<INakedInterfaceRealization> interfaceRealizations = new HashSet<INakedInterfaceRealization>();
 	private List<INakedGeneralization> generalizations = new ArrayList<INakedGeneralization>();
-	protected List<INakedProperty> attributes=new ArrayList<INakedProperty>();
+	protected List<INakedProperty> attributes = new ArrayList<INakedProperty>();
 	protected MappingInfo mappingInfo;
 	private String implementationCode;
 	private INakedProperty endToComposite;
@@ -62,7 +65,7 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	protected String name;
 	protected EmulatedCompositionMessageStructure(INakedClassifier owner,INakedElement element){
 		super(element);
-		this.name=NameConverter.toJavaVariableName(element.getName());
+		this.name = NameConverter.toJavaVariableName(element.getName());
 		this.element = element;
 		this.owner = owner;
 		this.mappingInfo = element.getMappingInfo().getCopy();
@@ -73,7 +76,6 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	public boolean isPersistent(){
 		return true;
 	}
-
 	public final List<INakedProperty> getOwnedAttributes(){
 		return attributes;
 	}
@@ -394,7 +396,7 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	}
 	public void reinitialize(){
 		for(INakedProperty a:this.attributes){
-			getOwnedElementMap().remove(a.getId());//Leave other owned elements there
+			getOwnedElementMap().remove(a.getId());// Leave other owned elements there
 		}
 		this.attributes.clear();
 		if(endToComposite != null){
@@ -421,5 +423,18 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	}
 	public void setImplementationCode(String implementationCode){
 		this.implementationCode = implementationCode;
+	}
+	@Override
+	public boolean isFact(){
+		for(INakedProperty p:getEffectiveAttributes()){
+			if(p.isMeasure()){
+				for(INakedProperty d:getOwnedAttributes()){
+					if(d.isDimension()){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

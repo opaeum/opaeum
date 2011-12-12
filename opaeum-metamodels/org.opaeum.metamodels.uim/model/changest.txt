@@ -1,7 +1,7 @@
 Vision:
 Object and Process Oriented Application Development and Execution environment for SME's
 
-Obliterates the gap between business processes and business data
+Removes the gap between business processes and business data
 Unifies data and process modelling in one tool
 Keeps the modelling initiative business oriented
 Allows business and it to work on models together
@@ -12,7 +12,7 @@ Needs for ERP but not enough money
 
 Business model
 
-Free 4 hour demoes with workable solution afterwards
+Free 4 hour demo's with workable solution afterwards
 Value added libraries and services
 
 Rapid Modelling in unified modeling tool for:

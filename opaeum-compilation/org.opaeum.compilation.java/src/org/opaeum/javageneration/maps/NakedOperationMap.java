@@ -20,6 +20,7 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.name.NameWrapper;
 
 public class NakedOperationMap extends OperationMap implements IMessageMap,ExceptionRaisingMap{
 	private IParameterOwner parameterOwner;
@@ -129,7 +130,8 @@ public class NakedOperationMap extends OperationMap implements IMessageMap,Excep
 	}
 	@Override
 	public String eventGeratorMethodName(){
-		return "generate" + getParameterOwner().getMappingInfo().getJavaName().getCapped() + "Event";
+		NameWrapper javaName = getParameterOwner().getMappingInfo().getJavaName();
+		return "generate" + javaName.getCapped() + "Event";
 	}
 	@Override
 	public OJPathName eventHandlerPath(){

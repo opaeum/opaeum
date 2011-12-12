@@ -69,5 +69,14 @@ public class NakedActivityPartitionImpl extends NakedMultiplicityElement impleme
 	}
 	public void setBaseType(INakedClassifier nakedPeer){
 	}
+	@Override
+	public boolean isMeasure(){
+		return false;
+	}
+	@Override
+	public boolean isDimension(){
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

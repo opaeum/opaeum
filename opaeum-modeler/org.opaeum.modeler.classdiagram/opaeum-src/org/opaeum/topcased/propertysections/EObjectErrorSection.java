@@ -194,7 +194,8 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 				for(IMarker m:file.findMarkers(EValidator.MARKER, true, 0)){
 					String markedElementUri=(String) m.getAttribute(EValidator.URI_ATTRIBUTE);
 					String brokenElementId = (String) m.getAttribute("BROKEN_ELEMENT_ID");
-					EmfWorkspace emfWorkspace = OpaeumEclipseContext.getCurrentContext().getCurrentEmfWorkspace();
+					OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
+					EmfWorkspace emfWorkspace = currentContext.getCurrentEmfWorkspace();
 					if(markedElementUri!=null && brokenElementId != null && emfWorkspace!=null){
 						EObject problemElement = emfWorkspace.getElement(brokenElementId);
 						EObject eo = emfWorkspace.getResourceSet().getEObject(URI.createURI(markedElementUri), true);

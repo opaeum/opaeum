@@ -64,6 +64,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private VisibilityKind visibility;
 	private INakedProperty endToComposite;
 	private String implementationCode;
+	private INakedProperty nameProperty;
 	public List<INakedGeneralization> getNakedGeneralizations(){
 		return generalisations;
 	}
@@ -297,11 +298,10 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			}
 		}
 		for(IInterface i:this.getInterfaces()){
-			
 			for(Entry<String,INakedOperation> entry:((NakedClassifierImpl) i).getEffectiveOperationMap().entrySet()){
 				INakedOperation otherOp = results.get(entry.getKey());
-				if(otherOp==null || otherOp.getOwner() instanceof INakedInterface){
-					//Only add an operation if it is not possibly implemented by a superclass
+				if(otherOp == null || otherOp.getOwner() instanceof INakedInterface){
+					// Only add an operation if it is not possibly implemented by a superclass
 					results.put(entry.getKey(), entry.getValue());
 				}
 			}
@@ -391,6 +391,16 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			String s = stereotype.getFirstValueFor(TagNames.CODE_GENERATION_STRATEGY).stringValue();
 			this.codeGenerationStrategy = Enum.valueOf(CodeGenerationStrategy.class, s);
 		}
+		if(stereotype.hasValueForFeature(TagNames.NAME_PROPERTY)){
+			this.nameProperty  = (INakedProperty) stereotype.getFirstValueFor(TagNames.NAME_PROPERTY).getValue();
+		}
+	}
+	@Override
+	public INakedProperty getNameProperty(){
+		if(this.nameProperty==null){
+			this.nameProperty=findEffectiveAttribute("name");
+		}
+		return this.nameProperty;
 	}
 	public boolean hasPowerType(){
 		return getPowerType() != null;
@@ -440,7 +450,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			if(this.ownedAttributes.contains(p)){
 				System.out.println("Property " + element.getName() + " has already been added to " + getName());
 				// TODO investigate why this happens
-//				throw new IllegalStateException("Property " + element.getName() + " has already been added to " + getName());
+				// throw new IllegalStateException("Property " + element.getName() + " has already been added to " + getName());
 			}
 			this.ownedAttributes.add(p);
 		}else if(element instanceof INakedOperation){
@@ -606,7 +616,7 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	@Override
 	public Set<INakedProperty> getDirectlyImplementedAttributes(){
-		//NB remember that there might be properties specified by this class' interfaces that have already been implemented by a superclass 
+		// NB remember that there might be properties specified by this class' interfaces that have already been implemented by a superclass
 		Set<String> inheritedConcretePropertyNames = new HashSet<String>();
 		for(INakedGeneralization g:getNakedGeneralizations()){
 			for(INakedProperty p:g.getGeneral().getEffectiveAttributes()){
@@ -628,5 +638,17 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			}
 		}
 		return results;
+	}
+	public boolean isFact(){
+		for(INakedProperty p:getEffectiveAttributes()){
+			if(p.isMeasure()){
+				for(INakedProperty d:getOwnedAttributes()){
+					if(d.isDimension()){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

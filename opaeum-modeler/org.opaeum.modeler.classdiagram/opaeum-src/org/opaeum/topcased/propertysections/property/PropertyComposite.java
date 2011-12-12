@@ -1,4 +1,4 @@
-package org.opaeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections.property;
 
 import java.util.ArrayList;
 import java.util.Collection;

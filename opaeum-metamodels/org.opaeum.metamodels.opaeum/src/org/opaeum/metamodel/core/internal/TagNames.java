@@ -8,4 +8,10 @@ public class TagNames{
 	public static final String MAPPED_IMPLEMENTATION_PACKAGE = "mappedImplementationPackage";
 	public static final String IS_ROOT_PACKAGE = "isRootPackage";
 	public static final String IS_SCHEMA = "isSchema";
+	public static final String NAME_PROPERTY = "nameProperty";
+	public static final String ROLE_IN_CUBE = "roleInCube";
+	public static final String AGGREGATION_FORMULAS="aggregationFormulas";
+	public static final String DERIVATION_FORMULA = "derivationFormula";
+	public static final String IS_PRIMARY_KEY = "isPrimaryKey";
+			
 }

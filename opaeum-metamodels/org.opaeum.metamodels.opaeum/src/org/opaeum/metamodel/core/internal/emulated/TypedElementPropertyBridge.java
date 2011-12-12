@@ -99,4 +99,12 @@ public class TypedElementPropertyBridge extends AbstractEmulatedProperty impleme
 	public static String locallyUniqueName(INakedObjectNode pin){
 		return pin.getName() + "On" + pin.getOwnerElement().getMappingInfo().getJavaName().getCapped();
 	}
+	@Override
+	public boolean isMeasure(){
+		return this.parameter.isMeasure();
+	}
+	@Override
+	public boolean isDimension(){
+		return this.parameter.isDimension();
+	}
 }

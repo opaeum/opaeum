@@ -159,6 +159,9 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 				process.replaceModel(new TextWorkspace());
 				PersistentNameGenerator png = new PersistentNameGenerator();
 				for(INakedElement ne:clss){
+					if(ne.getRootObject().getMappingInfo().getPersistentName()==null){
+						png.visitRecursively(ne.getRootObject());
+					}
 					while(!(ne instanceof INakedClassifier || ne instanceof INakedPackage || ne instanceof INakedEvent || ne == null || ne instanceof INakedOperation || ne instanceof INakedEmbeddedTask)){
 						ne = (INakedElement) ne.getOwnerElement();
 					}

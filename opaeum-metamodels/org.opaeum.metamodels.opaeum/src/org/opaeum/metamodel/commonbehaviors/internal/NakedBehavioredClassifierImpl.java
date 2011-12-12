@@ -34,6 +34,7 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 			return this.classifierBehavior;
 		}
 	}
+
 	public void setClassifierBehavior(INakedBehavior classifierBehavior){
 		this.classifierBehavior = classifierBehavior;
 	}

@@ -5,4 +5,5 @@ public interface ICompositionParticipant extends INakedClassifier,INakedComplexS
 	boolean hasComposite();
 	INakedProperty getEndToComposite();
 	void setEndToComposite(INakedProperty artificialProperty);
+	boolean isFact();
 }

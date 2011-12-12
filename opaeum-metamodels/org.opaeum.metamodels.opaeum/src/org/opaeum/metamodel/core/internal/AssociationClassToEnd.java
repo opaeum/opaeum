@@ -71,4 +71,12 @@ public class AssociationClassToEnd extends AbstractEmulatedProperty{
 	public INakedClassifier getNakedBaseType(){
 		return property.getOtherEnd().getNakedBaseType();
 	}
+	@Override
+	public boolean isMeasure(){
+		return false;
+	}
+	@Override
+	public boolean isDimension(){
+		return true;
+	}
 }

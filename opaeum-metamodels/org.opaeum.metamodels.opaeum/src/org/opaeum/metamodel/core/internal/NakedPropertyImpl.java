@@ -10,6 +10,7 @@ import nl.klasse.octopus.expressions.internal.types.OclExpression;
 import org.opaeum.metamodel.components.INakedConnectorEnd;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedPowerType;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedValueSpecification;
@@ -17,7 +18,7 @@ import org.opaeum.metamodel.core.INakedValueSpecification;
 public class NakedPropertyImpl extends NakedStructuralFeature implements INakedProperty{
 	private static final long serialVersionUID = -6082767755715076655L;
 	public static final String INVERSE = "inverse";
-	private List<INakedProperty> qualifiers=new ArrayList<INakedProperty>();
+	private List<INakedProperty> qualifiers = new ArrayList<INakedProperty>();
 	private INakedProperty otherEnd;
 	private String[] qualifierNames;
 	private boolean isQualifierForComposite;
@@ -27,12 +28,16 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	private Collection<INakedProperty> subsettedProperties = new ArrayList<INakedProperty>();
 	private Collection<INakedProperty> propertiesQualified;
 	private Collection<INakedProperty> redefinedProperties = new ArrayList<INakedProperty>();
-	private Collection<INakedConnectorEnd> connectorEnds= new ArrayList<INakedConnectorEnd>();
+	private Collection<INakedConnectorEnd> connectorEnds = new ArrayList<INakedConnectorEnd>();
 	private INakedValueSpecification initialValue;
 	private boolean navigable;
 	private INakedAssociation association;
 	public NakedPropertyImpl(){
 		super();
+	}
+	@Override
+	public boolean isDimension(){
+		return super.isDimension() || (getOtherEnd() != null && getOtherEnd().isComposite());
 	}
 	public boolean isStatic(){
 		return hasClassScope();
@@ -112,7 +117,7 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		return this.qualifierNames != null && this.qualifierNames.length > 0;
 	}
 	public List<INakedProperty> getQualifiers(){
-		if(this.qualifiers==null){
+		if(this.qualifiers == null){
 			throw new RuntimeException("Qualifiers null!");
 		}
 		return this.qualifiers;
@@ -124,7 +129,6 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		this.initialValue = initialValue;
 		super.addOwnedElement(initialValue);
 	}
-
 	public INakedProperty getOtherEnd(){
 		return this.otherEnd;
 	}
@@ -140,13 +144,17 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		return super.isDerived() || (getAssociation() != null && getAssociation().isDerived() || isDerivedUnion);
 	}
 	@Override
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+	}
+	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
 		if(element instanceof INakedConnectorEnd){
 			connectorEnds.add((INakedConnectorEnd) element);
 		}
 		if(element instanceof INakedValueSpecification){
-			this.initialValue=(INakedValueSpecification) element;
+			this.initialValue = (INakedValueSpecification) element;
 		}
 	}
 	@Override
@@ -154,7 +162,7 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		return this.connectorEnds;
 	}
 	public void setQualifiers(List<INakedProperty> qualifiers){
-		if(qualifiers==null){
+		if(qualifiers == null){
 			throw new NullPointerException();
 		}
 		this.qualifiers = qualifiers;
@@ -175,7 +183,6 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 	}
 	public void setStatic(boolean static1){
 		this.setHasClassScope(static1);
-		
 	}
 	@Override
 	public OclExpression getInitExpression(){
@@ -188,8 +195,8 @@ public class NakedPropertyImpl extends NakedStructuralFeature implements INakedP
 		return false;
 	}
 	public Collection<INakedProperty> getPropertiesQualified(){
-		if(propertiesQualified==null){
-			propertiesQualified=new HashSet<INakedProperty>();
+		if(propertiesQualified == null){
+			propertiesQualified = new HashSet<INakedProperty>();
 		}
 		return propertiesQualified;
 	}

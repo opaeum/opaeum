@@ -376,6 +376,14 @@ public class OpaeumEclipseContext{
 		setCurrentContext(result);
 		return result;
 	}
+	public OpaeumEditingContext getEditingContextFor(IFile f){
+		for(Entry<ResourceSet,OpaeumEditingContext> entry:this.emfWorkspaces.entrySet()){
+			if(entry.getValue().getFile().equals(f)){
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
 	public static OpaeumEclipseContext getContextFor(IContainer umlDir){
 		OpaeumEclipseContext result = contexts.get(umlDir);
 		return result;

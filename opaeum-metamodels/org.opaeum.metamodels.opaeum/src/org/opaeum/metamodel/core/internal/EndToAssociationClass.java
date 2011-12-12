@@ -78,4 +78,12 @@ public class EndToAssociationClass extends AbstractEmulatedProperty{
 		boolean b = property.getAssociation().getEnd1() == property;
 		return b ? 0 : 1;
 	}
+	@Override
+	public boolean isMeasure(){
+		return false;
+	}
+	@Override
+	public boolean isDimension(){
+		return false;
+	}
 }

@@ -15,6 +15,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.components.INakedComponent;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
@@ -23,6 +24,7 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 
 public class JpaUtil{
@@ -40,17 +42,21 @@ public class JpaUtil{
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config){
 		return buildTableAnnotation(owner, tableName, config, null);
 	}
-	public static INakedPackage getNearestSchema(INakedNameSpace ns){
+	public static String getNearestSchema(INakedNameSpace ns){
 		while(!(isSchema(ns) || ns == null)){
 			ns = ns.getNameSpace();
 		}
 		if(isSchema(ns)){
-			return (INakedPackage) ns;
+			if(ns instanceof INakedPackage){
+				return ns.getMappingInfo().getPersistentName().getAsIs();
+			}else{
+				return ns.getTaggedValue(StereotypeNames.COMPONENT, "schemaName");
+			}
 		}
 		return null;
 	}
 	private static boolean isSchema(INakedNameSpace ns){
-		return(ns instanceof INakedPackage && ((INakedPackage) ns).isSchema());
+		return(ns instanceof INakedPackage && ((INakedPackage) ns).isSchema()) || (ns instanceof INakedComponent && ((INakedComponent) ns).isSchema());
 	}
 	public static OJAnnotationValue buildTableAnnotation(OJAnnotatedClass owner,String tableName,OpaeumConfig config,INakedNameSpace ns){
 		OJAnnotationValue table = new OJAnnotationValue(new OJPathName("javax.persistence.Table"));
@@ -60,10 +66,10 @@ public class JpaUtil{
 	}
 	private static void buildTableAndSchema(String tableName,OpaeumConfig config,INakedNameSpace ns,OJAnnotationValue table){
 		if(config.needsSchema()){
-			INakedPackage schema = getNearestSchema(ns);
+			String schema = getNearestSchema(ns);
 			table.putAttribute(new OJAnnotationAttributeValue("name", getValidSqlName(tableName)));
 			if(schema != null){
-				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema.getMappingInfo().getPersistentName() + BACKTICK));
+				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + schema + BACKTICK));
 			}else if(config.getDefaultSchema()!=null){
 				table.putAttribute(new OJAnnotationAttributeValue("schema", BACKTICK + config.getDefaultSchema() + BACKTICK));
 			}

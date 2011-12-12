@@ -84,6 +84,9 @@ public abstract class AbstractPersistentNameGenerator extends AbstractNameGenera
 			// TODO actions within StructuredACtivityNodes
 			generatedName = NameConverter.toUnderscoreStyle(nme.getName());
 		}
+		if(generatedName==null){
+			generatedName=nme.getClass().getSimpleName() + nme.getMappingInfo().getOpaeumId();
+		}
 		return new SingularNameWrapper(generatedName.toLowerCase(), null);
 	}
 }

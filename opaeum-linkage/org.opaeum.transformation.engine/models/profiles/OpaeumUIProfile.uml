@@ -7108,64 +7108,52 @@
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-F8wARx2Ed6j06olwP6D_g">
         <eAnnotations xmi:id="_h0wzQtxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-          <details xmi:id="_h0wzQ9xPEeCo2u_sV3elog" key="uuid" value="8ea3ee1f_0289_4e23_8517_a7ccd3d64c08"/>
         </eAnnotations>
       </lowerValue>
     </ownedAttribute>
     <ownedAttribute xmi:id="_54kUJhx3Ed6j06olwP6D_g" name="base_Operation" association="_54kUJBx3Ed6j06olwP6D_g">
       <eAnnotations xmi:id="_h0xaUtxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-        <details xmi:id="_h0xaU9xPEeCo2u_sV3elog" key="uuid" value="d3a16ade_69a3_4a85_8389_8a5a6dc3cb41"/>
       </eAnnotations>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Operation"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_5cht1Bx2Ed6j06olwP6D_g" name="Operation_QuerySpecification" memberEnd="_5cht1Rx2Ed6j06olwP6D_g">
     <eAnnotations xmi:id="_h0vlJ9xPEeCo2u_sV3elog" source="http://www.opaeum.org">
-      <details xmi:id="_h0wMMNxPEeCo2u_sV3elog" key="uuid" value="fe3d814d_e051_40df_9dc3_cf4f0afd9f80"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_5cht1Rx2Ed6j06olwP6D_g" name="extension_QuerySpecification" type="_3xFftRx2Ed6j06olwP6D_g" aggregation="composite" association="_5cht1Bx2Ed6j06olwP6D_g">
       <eAnnotations xmi:id="_h0wMMdxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-        <details xmi:id="_h0wMMtxPEeCo2u_sV3elog" key="uuid" value="f47904ff_e56c_4bf2_ad27_6a6fb678ac1a"/>
       </eAnnotations>
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_VBthJBx3Ed6j06olwP6D_g" name="Operation_ParticipationInEdit" memberEnd="_VBthJRx3Ed6j06olwP6D_g _VBthJhx3Ed6j06olwP6D_g">
     <eAnnotations xmi:id="_h1QihNxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-      <details xmi:id="_h1RJkNxPEeCo2u_sV3elog" key="uuid" value="653b0a16_9754_49b7_8f94_144e46d025ff"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_VBthJRx3Ed6j06olwP6D_g" name="extension_ParticipationInEdit" type="_wXnCpRx0Ed6j06olwP6D_g" aggregation="composite" association="_VBthJBx3Ed6j06olwP6D_g">
       <eAnnotations xmi:id="_h1RJkdxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-        <details xmi:id="_h1RJktxPEeCo2u_sV3elog" key="uuid" value="83a45cec_b1d7_4a2f_b014_697545574a45"/>
       </eAnnotations>
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_54kUJBx3Ed6j06olwP6D_g" name="Operation_InboxSpecification" memberEnd="_54kUJRx3Ed6j06olwP6D_g _54kUJhx3Ed6j06olwP6D_g">
     <eAnnotations xmi:id="_h1CgE9xPEeCo2u_sV3elog" source="http://www.opaeum.org">
-      <details xmi:id="_h1CgFNxPEeCo2u_sV3elog" key="uuid" value="cb6af9bb_c44a_4f25_ae0f_343481277270"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_54kUJRx3Ed6j06olwP6D_g" name="extension_InboxSpecification" type="_3xFftRx2Ed6j06olwP6D_g" aggregation="composite" association="_54kUJBx3Ed6j06olwP6D_g">
       <eAnnotations xmi:id="_h1DHINxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-        <details xmi:id="_h1DHIdxPEeCo2u_sV3elog" key="uuid" value="66fcf1c1_9639_4b94_89ee_e62dcc01a4bd"/>
       </eAnnotations>
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_Tugnk2oNEd6TYaKRzGgS4w" name="Slot_ParticipationInList" memberEnd="_TugnlGoNEd6TYaKRzGgS4w _TugnlWoNEd6TYaKRzGgS4w">
     <eAnnotations xmi:id="_h1EVQtxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-      <details xmi:id="_h1EVQ9xPEeCo2u_sV3elog" key="uuid" value="a84244fa_ea5b_44a7_8f6b_67cd31e98e74"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_TugnlGoNEd6TYaKRzGgS4w" name="extension_ParticipationInList" type="_LJXqZRx0Ed6j06olwP6D_g" aggregation="composite" association="_Tugnk2oNEd6TYaKRzGgS4w">
       <eAnnotations xmi:id="_h1E8UNxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-        <details xmi:id="_h1E8UdxPEeCo2u_sV3elog" key="uuid" value="b811d2f6_0b7d_42b0_91d8_cf43df9656e7"/>
       </eAnnotations>
     </ownedEnd>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_Vm5Fg2oNEd6TYaKRzGgS4w" name="Property_ParticipationInList" memberEnd="_Vm5FhGoNEd6TYaKRzGgS4w _Vm5FhWoNEd6TYaKRzGgS4w">
     <eAnnotations xmi:id="_h1ImsNxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-      <details xmi:id="_h1ImsdxPEeCo2u_sV3elog" key="uuid" value="0c90621c_f943_4dd7_b02b_35bc8c31b085"/>
     </eAnnotations>
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_Vm5FhGoNEd6TYaKRzGgS4w" name="extension_ParticipationInList" type="_LJXqZRx0Ed6j06olwP6D_g" aggregation="composite" association="_Vm5Fg2oNEd6TYaKRzGgS4w">
       <eAnnotations xmi:id="_h1ImstxPEeCo2u_sV3elog" source="http://www.opaeum.org">
-        <details xmi:id="_h1Ims9xPEeCo2u_sV3elog" key="uuid" value="c6a8307b_5f9f_4b5b_8487_f4076d3f87e4"/>
       </eAnnotations>
     </ownedEnd>
   </packagedElement>

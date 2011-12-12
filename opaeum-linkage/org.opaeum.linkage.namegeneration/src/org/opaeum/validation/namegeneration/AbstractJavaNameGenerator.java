@@ -1,5 +1,8 @@
 package org.opaeum.validation.namegeneration;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IModelElement;
 
@@ -26,7 +29,7 @@ import org.opaeum.name.NameConverter;
 public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	@Override
 	protected boolean hasName(INakedElement p){
-		return p.getMappingInfo().getJavaName()!=null;
+		return p.getMappingInfo().getJavaName() != null;
 	}
 	protected final NameWrapper generateJavaName(INakedElement element){
 		String name = element.getName();
@@ -39,9 +42,8 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 					name = name.substring(name.lastIndexOf(".") + 1);
 				}
 			}else{
-				name=NameConverter.capitalize(name);
+				name = NameConverter.capitalize(name);
 			}
-			
 		}else if(element instanceof INakedPackage){
 			name = element.getName();
 			INakedPackage np = (INakedPackage) element;
@@ -161,6 +163,13 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 	 * @return
 	 */
 	public static String packagePathname(INakedNameSpace p){
+		Set<String> keywords = new HashSet<String>();
+		keywords.add("public");
+		keywords.add("static");
+		keywords.add("final");
+		keywords.add("class");
+		keywords.add("void");
+		keywords.add("return");
 		if(p instanceof INakedPackage){
 			INakedPackage np = (INakedPackage) p;
 			if(np.getMappedImplementationPackage() != null && np.getMappedImplementationPackage().trim().length() > 1){
@@ -171,7 +180,12 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 		}
 		StringBuilder path = new StringBuilder();
 		addParentsToPath(p, path);
-		path.append(p.getName().toLowerCase());
+		String lowerCase = p.getName().toLowerCase();
+		if(keywords.contains(lowerCase)){
+			path.append(lowerCase + "_");
+		}else{
+			path.append(lowerCase);
+		}
 		return path.toString();
 	}
 	/**

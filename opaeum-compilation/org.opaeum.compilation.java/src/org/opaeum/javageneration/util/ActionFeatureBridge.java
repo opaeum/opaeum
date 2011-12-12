@@ -92,4 +92,12 @@ public class ActionFeatureBridge extends AbstractEmulatedProperty{
 	public Collection<INakedConnectorEnd> getConnectorEnd(){
 		return Collections.emptySet();
 	}
+	@Override
+	public boolean isMeasure(){
+		return false;
+	}
+	@Override
+	public boolean isDimension(){
+		return false;
+	}
 }

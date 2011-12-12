@@ -40,10 +40,10 @@ public class InverseCalculator extends AbstractModelElementLinker {
 						inverse = true;
 					} else if (p.getOtherEnd().hasStereotype("inverse")) {
 						inverse = false;
-					} else if (p.hasTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE)) {
-						inverse = p.getTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE);
-					} else if (p.getOtherEnd().hasTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE)) {
-						inverse = p.getTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE);
+					} else if (p.hasTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE)) {
+						inverse = p.getTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE);
+					} else if (p.getOtherEnd().hasTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE)) {
+						inverse = p.getTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE);
 						inverse=!inverse;
 					} else {
 						getErrorMap().putError(p, CoreValidationRule.INVERSE, "Could not determine if " + p.getPathName() + "::" + " is inverse");
@@ -66,10 +66,10 @@ public class InverseCalculator extends AbstractModelElementLinker {
 						inverse = true;
 					} else if (p.getOtherEnd().hasStereotype("inverse")) {
 						inverse = false;
-					} else if (p.hasTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE)) {
-						inverse = p.getTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE);
-					} else if (p.getOtherEnd().hasTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE)) {
-						inverse = p.getTaggedValue(StereotypeNames.PROPERTY, NakedPropertyImpl.INVERSE);
+					} else if (p.hasTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE)) {
+						inverse = p.getTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE);
+					} else if (p.getOtherEnd().hasTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE)) {
+						inverse = p.getTaggedValue(StereotypeNames.ASSOCIATION_END, NakedPropertyImpl.INVERSE);
 						inverse=!inverse;
 					} else {
 //						getErrorMap().putError(p, CoreValidationRule.INVERSE, "Could not determine if " + p.getPathName() + "::" + " is inverse");

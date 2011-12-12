@@ -1,18 +1,18 @@
 package org.opaeum.metamodel.activities.internal;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import nl.klasse.octopus.model.IClassifier;
 
 import org.opaeum.metamodel.actions.INakedExceptionHandler;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
-import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedObjectFlow;
 import org.opaeum.metamodel.activities.INakedObjectNode;
 import org.opaeum.metamodel.activities.ObjectNodeType;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedMultiplicity;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
@@ -28,6 +28,26 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	private INakedExceptionHandler incomingExceptionHandler;
 	public INakedObjectNode getFeedingNode(){
 		return getObjectNodeSource(getIncoming());
+	}
+	private boolean isMeasure;
+	private boolean isDimension;
+	public boolean isMeasure(){
+		return isMeasure;
+	}
+	public boolean isDimension(){
+		return isDimension;
+	}
+	@Override
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("roleInCube")){
+			INakedEnumerationLiteral l = (INakedEnumerationLiteral) stereotype.getFirstValueFor("roleInCube").getValue();
+			if(l.getName().equalsIgnoreCase("measure")){
+				isMeasure = true;
+			}else if(l.getName().equalsIgnoreCase("dimension")){
+				isDimension = true;
+			}
+		}
 	}
 	@Override
 	public boolean canAcceptInputFrom(INakedMultiplicityElement from){

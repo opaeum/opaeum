@@ -1,6 +1,8 @@
 package org.opaeum.reverse.popup.actions;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -8,7 +10,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -20,18 +22,22 @@ import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IObjectActionDelegate;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.model.BaseWorkbenchContentProvider;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.eclipse.ui.part.FileEditorInput;
+import org.opaeum.eclipse.context.OpaeumEclipseContext;
+import org.opaeum.eclipse.context.OpaeumEditingContext;
 
 public class ReverseEngineerClassesAction extends AbstractHandler implements IObjectActionDelegate{
 	/**
@@ -69,29 +75,60 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 	}
 	protected void execute(IStructuredSelection selection,Shell shell) throws JavaModelException{
 		List<ITypeBinding> types = selectTypeDeclarations(selection);
-		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(shell, new WorkbenchLabelProvider(), new BaseWorkbenchContentProvider());
-		dialog.setTitle("Tree Selection");
-		dialog.setMessage("Select the elements from the tree:");
-		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		dialog.addFilter(new ViewerFilter(){
-			@Override
-			public boolean select(Viewer viewer,Object parentElement,Object element){
-				if(element instanceof IFile){
-					return ((IFile) element).getFileExtension().equals("uml");
+		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
+		Collection<IFile> files = new HashSet<IFile>();
+		for(IWorkbenchWindow w:PlatformUI.getWorkbench().getWorkbenchWindows()){
+			for(IWorkbenchPage p:w.getPages()){
+				for(IEditorReference e:p.getEditorReferences()){
+					try{
+						if(e.getEditorInput() instanceof FileEditorInput){
+							FileEditorInput editorInput = (FileEditorInput) e.getEditorInput();
+							if(editorInput.getFile().getParent().findMember("opaeum.properties") != null){
+								OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(editorInput.getFile().getParent());
+								for(IResource r:editorInput.getFile().getParent().members()){
+									if(r.getName().endsWith(".uml")){
+										if(ctx.getEditingContextFor((IFile) r) != null){
+											files.add((IFile) r);
+										}
+									}
+								}
+							}
+						}
+					}catch(PartInitException e1){
+						e1.printStackTrace();
+					}catch(CoreException e2){
+						e2.printStackTrace();
+					}
 				}
-				return true;
+			}
+		}
+		ElementListSelectionDialog dialog = new ElementListSelectionDialog(shell, new LabelProvider(){
+			@Override
+			public String getText(Object element){
+				IFile file = (IFile) element;
+				return file.getProject().getName() + "/" + file.getProjectRelativePath();
 			}
 		});
+		dialog.setElements(files.toArray());
+		dialog.setTitle("Models in Workspace");
+		dialog.setMessage("Select the targetmodel:");
 		dialog.open();
 		if(dialog.getFirstResult() != null){
 			IFile file = (IFile) dialog.getFirstResult();
+			OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(file.getParent());
 			try{
-				new UmlGenerator().generateUml(types, file.getLocation().toFile());
+				if(ctx != null){
+					OpaeumEditingContext eCtx = ctx.getEditingContextFor(file);
+					if(eCtx != null){
+						ctx.getEmfToOpaeumSynchronizer().suspend();
+						new UmlGenerator().generateUml(types, eCtx.getModel());
+						ctx.getEmfToOpaeumSynchronizer().resumeAndCatchUp();
+					}
+				}
 				file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			MessageDialog.openInformation(shell, "org.opaeum.reverse.Reverse", "Successes!");
 		}
 	}
 	private List<ITypeBinding> selectTypeDeclarations(IStructuredSelection selection) throws JavaModelException{
@@ -103,7 +140,7 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 		return types;
 	}
 	protected void addTypesIn(List<ITypeBinding> types,Object object) throws JavaModelException{
-		CompilationUnit cu=null;
+		CompilationUnit cu = null;
 		if(object instanceof ICompilationUnit){
 			cu = parse(((ICompilationUnit) object));
 		}else if(object instanceof IClassFile){

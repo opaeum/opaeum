@@ -114,7 +114,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 							actio.setText("Dependencies|" + descriptor.getEValue().eClass().getName());
 						}
 						if(descriptor.getValue() instanceof Association){
-							//ignore
+							// ignore
 						}else if(descriptor.getValue() instanceof ValuePin){
 							if(selectedObject instanceof Action && !(selectedObject instanceof StructuredActivityNode)){
 								ValuePin oclPin = UMLFactory.eINSTANCE.createValuePin();
@@ -178,22 +178,22 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 											actio.setText("Owned Attribute|Business Gateway");
 											actions.add(actio);
 										}
-									}else{
-										actions.add(actio);
-										Property participantReference = UMLFactory.eINSTANCE.createProperty();
-										CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
-												.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), participantReference));
-										actio1.setText("Owned Attribute|Participant Reference");
-										participantReference.setAggregation(AggregationKind.NONE_LITERAL);
-										StereotypesHelper.getNumlAnnotation(participantReference).getDetails().put(StereotypeNames.PARTICIPANT_REFERENCE, "");
-										actions.add(actio1);
-										Property businessRoleContaiment = UMLFactory.eINSTANCE.createProperty();
-										CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
-												.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessRoleContaiment));
-										actio2.setText("Owned Attribute|Business Role Containment");
-										StereotypesHelper.getNumlAnnotation(businessRoleContaiment).getDetails().put(StereotypeNames.BUSINESS_ROLE_CONTAINMENT, "");
-										actions.add(actio2);
 									}
+								}else{
+									actions.add(actio);
+									Property participantReference = UMLFactory.eINSTANCE.createProperty();
+									CreateChildAction actio1 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), participantReference));
+									actio1.setText("Owned Attribute|Participant Reference");
+									participantReference.setAggregation(AggregationKind.NONE_LITERAL);
+									StereotypesHelper.getNumlAnnotation(participantReference).getDetails().put(StereotypeNames.PARTICIPANT_REFERENCE, "");
+									actions.add(actio1);
+									Property businessRoleContaiment = UMLFactory.eINSTANCE.createProperty();
+									CreateChildAction actio2 = new CreateChildAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+											.getActivePart(), selection, new CommandParameter(descriptor.getOwner(), descriptor.getFeature(), businessRoleContaiment));
+									actio2.setText("Owned Attribute|Business Role Containment");
+									StereotypesHelper.getNumlAnnotation(businessRoleContaiment).getDetails().put(StereotypeNames.BUSINESS_ROLE_CONTAINMENT, "");
+									actions.add(actio2);
 								}
 							}
 						}else{

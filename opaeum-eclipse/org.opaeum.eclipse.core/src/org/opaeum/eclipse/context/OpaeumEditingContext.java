@@ -29,7 +29,7 @@ public class OpaeumEditingContext{
 	void setEditingDomain(EditingDomain editingDomain){
 		this.editingDomain = editingDomain;
 	}
-	Package getModel(){
+	public Package getModel(){
 		return model;
 	}
 	void setModel(Package model){

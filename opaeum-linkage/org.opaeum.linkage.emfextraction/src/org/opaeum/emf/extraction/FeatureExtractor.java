@@ -61,11 +61,17 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 				return null;
 			}else{
 				if(p.getAssociation() != null){
-					for(Property property:p.getAssociation().getMemberEnds()){
-						if(property.getType() == null){
-							getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
-							// broken association a'la topcased
-							return null;
+					if(p.getAssociation().getMemberEnds().size() < 2){
+						getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
+						// broken association a'la topcased
+						return null;
+					}else{
+						for(Property property:p.getAssociation().getMemberEnds()){
+							if(property.getType() == null){
+								getErrorMap().putError(getId(e), EmfValidationRule.BROKEN_ASSOCIATION);
+								// broken association a'la topcased
+								return null;
+							}
 						}
 					}
 				}

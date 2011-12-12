@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.uml2.uml.resources,
  org.opaeum.eclipse.core,
  org.opaeum.metamodels.emfworkspace,
- org.opaeum.linkage.emfextraction
+ org.opaeum.linkage.emfextraction,
+ org.eclipse.ui.ide;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

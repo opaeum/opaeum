@@ -9,6 +9,7 @@ import org.opaeum.metamodel.core.INakedNameSpace;
 
 public interface INakedComponent extends INakedNameSpace,INakedClassifier,ICompositionParticipant,INakedComplexStructure{
 	boolean isOrganizationUnit();
+	boolean isSchema();
 	Collection<INakedPort> getOwnedPorts();
 	Collection<INakedPort> getEffectivePorts();
 	Collection<INakedConnector> getOwnedConnectors();

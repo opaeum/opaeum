@@ -1,4 +1,4 @@
-package org.opaeum.topcased.propertysections;
+package org.opaeum.topcased.propertysections.property;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.swt.SWT;

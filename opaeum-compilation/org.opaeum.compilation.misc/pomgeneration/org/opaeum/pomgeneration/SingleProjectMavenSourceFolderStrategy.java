@@ -43,17 +43,17 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.DOMAIN_GEN_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/main/generated-resources");
 	}
 	private static void mapAdaptorProjects(OpaeumConfig cfg){
-		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/main/generated-java");
-		cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/main/generated-resources");
-		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/test/generated-java");
-		SourceFolderDefinition testSource = cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_TEST_SRC, true, "", "src/test/java");
+		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/main/generated-java");
+		cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_GEN_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/main/generated-resources");
+		cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_GEN_TEST_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/test/generated-java");
+		SourceFolderDefinition testSource = cfg.defineSourceFolder(JavaSourceFolderIdentifier.ADAPTOR_TEST_SRC, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/test/java");
 		testSource.dontCleanDirectories();
-		SourceFolderDefinition jbossResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_TEST_RESOURCE_JBOSSAS, true, "", "src/test/jboss-resources");
+		SourceFolderDefinition jbossResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_TEST_RESOURCE_JBOSSAS, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/test/jboss-resources");
 		jbossResources.dontCleanDirectoriesOrOverwriteFiles();
-		SourceFolderDefinition testResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_TEST_RESOURCE, true, "", "src/test/resources");
+		SourceFolderDefinition testResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_TEST_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/test/resources");
 		testResources.dontCleanDirectoriesOrOverwriteFiles();
-		cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_GEN_TEST_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER, "", "src/test/generated-resources");
-		SourceFolderDefinition mainResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_RESOURCE, true, "", "src/main/resources");
+		cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_GEN_TEST_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/test/generated-resources");
+		SourceFolderDefinition mainResources = cfg.defineSourceFolder(TextSourceFolderIdentifier.ADAPTOR_RESOURCE, ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX, "", "src/main/resources");
 		mainResources.dontCleanDirectoriesOrOverwriteFiles();
 	}
 	private static void mapIntegratedAdaptorProject(OpaeumConfig cfg){

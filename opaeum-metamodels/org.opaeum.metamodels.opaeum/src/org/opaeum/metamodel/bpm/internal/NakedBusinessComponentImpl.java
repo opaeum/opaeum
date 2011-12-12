@@ -9,10 +9,8 @@ import org.opaeum.metamodel.bpm.INakedBusinessService;
 import org.opaeum.metamodel.components.INakedPort;
 import org.opaeum.metamodel.components.internal.NakedComponentImpl;
 
-public class NakedOrganizationUnitImpl extends NakedComponentImpl implements INakedBusinessComponent{
-	/**
-	 * 
-	 */
+public class NakedBusinessComponentImpl extends NakedComponentImpl implements INakedBusinessComponent{
+
 	private static final long serialVersionUID = -2850233045345520573L;
 
 	@Override

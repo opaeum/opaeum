@@ -10,6 +10,7 @@ import org.opaeum.metamodel.components.INakedComponent;
 import org.opaeum.metamodel.components.INakedConnector;
 import org.opaeum.metamodel.components.INakedPort;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedEntityImpl;
@@ -17,14 +18,26 @@ import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 public class NakedComponentImpl extends NakedEntityImpl implements INakedComponent{
 	protected Collection<INakedPackage> subPackages = new ArrayList<INakedPackage>();
 	protected Collection<INakedConnector> ownedConnectors = new ArrayList<INakedConnector>();
+	private boolean isSchema;
 	private static final long serialVersionUID = -5658739232216672479L;
 	public static final String META_CLASS = "component";
 	@Override
 	public String getMetaClass(){
 		return META_CLASS;
 	}
+	@Override
+	public boolean isSchema(){
+		return this.isSchema;
+	}
 	public Collection<IPackage> getSubpackages(){
 		return new ArrayList<IPackage>(subPackages);
+	}
+	@Override
+	public void addStereotype(INakedInstanceSpecification stereotype){
+		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("isSchema")){
+			this.isSchema=stereotype.getFirstValueFor("isSchema").booleanValue();
+		}
 	}
 	@Override
 	public void addOwnedElement(INakedElement element){

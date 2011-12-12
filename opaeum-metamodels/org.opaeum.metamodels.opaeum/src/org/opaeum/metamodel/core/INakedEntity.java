@@ -16,6 +16,6 @@ public interface INakedEntity extends IClass, INakedBehavioredClassifier, INaked
 	 * 
 	 */
 	List<INakedProperty> getUniquenessConstraints();
-
+	INakedProperty getPrimaryKeyProperty();
 
 }

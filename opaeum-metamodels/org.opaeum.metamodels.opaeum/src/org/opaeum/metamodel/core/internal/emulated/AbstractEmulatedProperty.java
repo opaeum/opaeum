@@ -223,5 +223,12 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 	protected Map<String,INakedElement> getOwnedElementMap(){
 		return Collections.emptyMap();
 	}
+	@Override
+	public boolean isDimension(){
+		return getOtherEnd()!=null && getOtherEnd().isComposite();
+	}
+	public boolean isMeasure(){
+		return false;
+	}
 
 }

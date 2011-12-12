@@ -56,6 +56,9 @@ public class EmfParameterUtil{
 		List<Property> ownedAttributes = new ArrayList<Property>();
 		Element owner = assEnd.getOwner();
 		if(owner == assEnd.getAssociation()  && assEnd.isNavigable()){
+			if(assEnd.getOtherEnd()==null){
+				System.out.println();
+			}
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
 		}else if(owner instanceof Classifier){
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) owner);

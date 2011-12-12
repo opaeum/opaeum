@@ -27,7 +27,8 @@ public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorksp
 				Classifier c = (Classifier) root;
 				for(Association association:c.getAssociations()){
 					for(Property property:association.getNavigableOwnedEnds()){
-						if(c.equals(property.getOtherEnd().getType())){
+						if(property.getOtherEnd() != null && c.equals(property.getOtherEnd().getType())){
+							//property.getOtherEnd() could be null during deletion
 							elements.add(property);
 						}
 					}

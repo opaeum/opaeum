@@ -25,6 +25,7 @@ import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.name.NameWrapper;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
@@ -39,7 +40,8 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 		OJAnnotatedClass ojClass = findJavaClass(complexType);
 		if(isPersistent(complexType) && OJUtil.hasOJClass(complexType)){
 			buildToString(ojClass, complexType);
-			OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, complexType.getMappingInfo().getPersistentName().getAsIs(), this.config,
+			NameWrapper persistentName = complexType.getMappingInfo().getPersistentName();
+			OJAnnotationValue table = JpaUtil.buildTableAnnotation(ojClass, persistentName.getAsIs(), this.config,
 					complexType.getNameSpace());
 			if(complexType instanceof INakedEntity){
 				OJAnnotationAttributeValue uniqueConstraints = buildUniqueConstraintAnnotations((INakedEntity) complexType);
@@ -61,8 +63,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 				JpaIdStrategy jpaIdStrategy = JpaIdStrategyFactory.getStrategy(GenerationType.valueOf(config.getIdGeneratorStrategy()));
 				JpaUtil.addAndAnnotatedIdAndVersion(jpaIdStrategy, ojClass, complexType);
 			}else{
-				OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"), complexType.getMappingInfo()
-						.getPersistentName().getAsIs());
+				OJAnnotationValue discriminatorValue = new OJAnnotationValue(new OJPathName("javax.persistence.DiscriminatorValue"), persistentName.getAsIs());
 				ojClass.addAnnotationIfNew(discriminatorValue);
 			}
 			ojClass.putAnnotation(JpaUtil.buildFilterAnnotation("noDeletedObjects"));
