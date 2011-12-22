@@ -133,33 +133,6 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().getStatements().add(0, new OJSimpleStatement("super( "+TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME+" )"));
 	}
-	private void addInitVertex(OJAnnotatedClass ojClass, INakedEntity c) {
-		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
-		OJAnnotatedOperation initVertex = new OJAnnotatedOperation(TinkerGenerationUtil.INIT_VERTEX);
-		initVertex.addParam("owningObject", compositeEndMap.javaBaseTypePath());
-		initVertex.setVisibility(OJVisibilityKind.PRIVATE);
-		if (compositeEndMap.isOneToOne()) {
-			initVertex.getBody().addToStatements(
-					"Iterable<Edge> iter = owningObject.getVertex().getOutEdges" + "(\"" + c.getEndToComposite().getAssociation().getName() + "\")");
-			OJIfStatement ifAllReadyHasOne = new OJIfStatement("iter.iterator().hasNext()");
-			ifAllReadyHasOne.addToThenPart(TinkerGenerationUtil.graphDbAccess + ".removeVertex(this.vertex)");
-			ifAllReadyHasOne.addToThenPart("throw new IllegalStateException(\""
-					+ c.getEndToComposite().getOtherEnd().getOwner().getMappingInfo().getQualifiedJavaName() + " already has an association with "
-					+ c.getMappingInfo().getQualifiedJavaName() + ", the relationship is one to one!\")");
-			initVertex.getBody().addToStatements(ifAllReadyHasOne);
-		}
-
-		// Add association meta information, i.e. classname of other end
-		String associationName = c.getEndToComposite().getAssociation().getName();
-		initVertex.getBody().addToStatements(
-				"Edge edge = " + TinkerGenerationUtil.graphDbAccess + ".addEdge(null, owningObject.getVertex(), this.vertex, \"" + associationName + "\")");
-		initVertex.getBody().addToStatements("edge.setProperty(\"outClass\", owningObject.getClass().getName())");
-		initVertex.getBody().addToStatements("edge.setProperty(\"inClass\", "+TinkerGenerationUtil.TINKER_GET_CLASSNAME+")");
-
-		OJPathName edgePathName = new OJPathName("com.tinkerpop.blueprints.pgm.Edge");
-		ojClass.addToImports(edgePathName);
-		ojClass.addToOperations(initVertex);
-	}
 	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass, INakedEntity c) {
 		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());

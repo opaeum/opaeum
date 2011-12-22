@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.nakeduml.tinker.audit.TinkerAuditOrignalClassTransformation;
 import org.nakeduml.tinker.emf.extraction.TinkerFeatureExtractor;
 import org.nakeduml.tinker.emf.extraction.TinkerNameSpaceExtractor;
 import org.nakeduml.tinker.generator.TinkerCollectionStep;
@@ -35,38 +36,35 @@ import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.textmetamodel.TextWorkspace;
 
-public class GenerateTinkerTest {
+public class GenerateTinkerAuditTest {
 
-	public static void main(String[] args) throws Exception {
-		GenerateTinkerTest generateTest = new GenerateTinkerTest();
+	public static void main(String[] args) throws Exception  {
+		GenerateTinkerAuditTest generateTest = new GenerateTinkerAuditTest();
 		generateTest.generate("tinker-test");
 		generateTest.generateIntegrationCode();
 	}
-
+	
 	TransformationProcess process = new TransformationProcess();
 	WorkspaceMappingInfo mappingInfo;
 	private String workspaceRoot;
 	private ResourceSet resourceSet;
 	private OpaeumConfig cfg;
-
-	public GenerateTinkerTest() {
+	public GenerateTinkerAuditTest(){
 		String workspaceRoot = "/home/pieter/workspace-apaeum";
 		this.resourceSet = EmfWorkspaceLoader.setupStandAloneAppForUML2();
 		this.workspaceRoot = workspaceRoot;
-		this.cfg = new OpaeumConfig(new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/tinker-test-nakeduml.properties"));
-		this.cfg.setOutputRoot(new File(workspaceRoot + "/nakeduml/opaeum-tests/tinker"));
+		this.cfg = new OpaeumConfig(new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/nakeduml.properties"));
+		this.cfg.setOutputRoot(new File(workspaceRoot +"/nakeduml/opaeum-tests/tinker") );
 		process.initialize(cfg, getSteps());
 	}
-
-	public void generate(String modelName) throws Exception {
+	public void generate(String modelName) throws Exception{
 		long start = System.currentTimeMillis();
 		File modelFile = new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/" + modelName + ".uml");
 		process.replaceModel(EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg));
 		process.execute(new DefaultTransformationLog());
 		System.out.println(modelName + " took " + (System.currentTimeMillis() - start) + "ms");
 	}
-
-	private Set<Class<? extends ITransformationStep>> getSteps() {
+	private Set<Class<? extends ITransformationStep>> getSteps(){
 		Set<Class<? extends ITransformationStep>> steps = new HashSet<Class<? extends ITransformationStep>>();
 		steps.add(OclExpressionExecution.class);
 		steps.add(StereotypeApplicationExtractor.class);
@@ -82,17 +80,16 @@ public class GenerateTinkerTest {
 		steps.add(TinkerQualifierGenerator.class);
 		steps.add(TinkerCompositionNodeImplementor.class);
 		steps.add(TinkerComponentInitializer.class);
-		// steps.add(TinkerAuditOrignalClassTransformation.class);
+		steps.add(TinkerAuditOrignalClassTransformation.class);
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}
-
-	public void generateIntegrationCode() throws FileNotFoundException, IOException {
+	public void generateIntegrationCode() throws FileNotFoundException,IOException{
 		INakedModelWorkspace workspace = process.findModel(INakedModelWorkspace.class);
 		process.replaceModel(EmfWorkspaceLoader.loadDirectory(resourceSet, new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/"), cfg));
 		workspace.clearGeneratingModelOrProfiles();
-		for (INakedRootObject ro : workspace.getPrimaryRootObjects()) {
-			if (ro instanceof INakedModel) {
+		for(INakedRootObject ro:workspace.getPrimaryRootObjects()){
+			if(ro instanceof INakedModel){
 				workspace.addGeneratingRootObject(ro);
 			}
 		}

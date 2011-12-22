@@ -11,8 +11,7 @@ Export-Package: nl.klasse.octopus.codegen.helpers,
  nl.klasse.octopus.codegen.umlToJava.maps,
  nl.klasse.octopus.codegen.umlToJava.modelgenerators.creators,
  nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors,
- nl.klasse.octopus.codegen.umlToJava.othergenerators.creators,
- nl.klasse.octopus.codegen.umlToJava.othergenerators.visitors
+ nl.klasse.octopus.codegen.umlToJava.othergenerators.creators
 Bundle-ClassPath: .
 Require-Bundle: org.opaeum.metamodels.java,
  org.opaeum.metamodels.ocl

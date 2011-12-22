@@ -503,7 +503,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		getter.getBody().addToStatements(ifResultNull);
 	}
 
-	private static void buildGetterForToOneEnumeration(NakedStructuralFeatureMap map, OJOperation getter, INakedProperty prop) {
+	public static void buildGetterForToOneEnumeration(NakedStructuralFeatureMap map, OJOperation getter, INakedProperty prop) {
 		getter.getBody().addToStatements(
 				"String enumValue = (String)this.vertex.getProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement("enumValue !=null");
