@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.*;
 import org.opaeum.uim.MasterComponent;
 import org.opaeum.uim.ObjectSelectorTree;
 import org.opaeum.uim.UimComponent;

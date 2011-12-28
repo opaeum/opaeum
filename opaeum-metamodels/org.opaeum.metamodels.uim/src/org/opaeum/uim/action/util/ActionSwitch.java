@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
 import org.opaeum.uim.action.NavigationToEntity;

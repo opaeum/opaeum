@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.security.*;
 import org.opaeum.uim.security.EditableSecureObject;
 import org.opaeum.uim.security.RequiredRole;
 import org.opaeum.uim.security.SecureObject;

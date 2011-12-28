@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.security.*;
 import org.opaeum.uim.security.EditableSecureObject;
 import org.opaeum.uim.security.RequiredRole;
 import org.opaeum.uim.security.SecureObject;

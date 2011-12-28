@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.form.*;
 import org.opaeum.uim.form.ActionTaskForm;
 import org.opaeum.uim.form.ClassForm;
 import org.opaeum.uim.form.DetailPanel;

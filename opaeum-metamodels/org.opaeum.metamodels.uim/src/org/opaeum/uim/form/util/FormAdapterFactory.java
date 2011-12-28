@@ -14,6 +14,7 @@ import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.form.*;
 import org.opaeum.uim.form.ActionTaskForm;
 import org.opaeum.uim.form.ClassForm;
 import org.opaeum.uim.form.DetailPanel;

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.folder.*;
 import org.opaeum.uim.folder.ActivityFolder;
 import org.opaeum.uim.folder.EntityFolder;
 import org.opaeum.uim.folder.FolderFactory;

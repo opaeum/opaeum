@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.control.*;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimCheckBox;
 import org.opaeum.uim.control.UimControl;

@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.layout.*;
 import org.opaeum.uim.layout.LayoutContainer;
 import org.opaeum.uim.layout.LayoutPackage;
 import org.opaeum.uim.layout.OutlayableComponent;

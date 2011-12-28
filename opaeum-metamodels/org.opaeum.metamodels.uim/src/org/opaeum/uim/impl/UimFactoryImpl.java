@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.*;
 import org.opaeum.uim.ObjectSelectorTree;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimDataTable;

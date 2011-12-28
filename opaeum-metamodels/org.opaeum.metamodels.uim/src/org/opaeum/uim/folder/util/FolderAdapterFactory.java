@@ -12,6 +12,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.folder.*;
 import org.opaeum.uim.folder.AbstractFolder;
 import org.opaeum.uim.folder.AbstractFormFolder;
 import org.opaeum.uim.folder.ActivityFolder;
