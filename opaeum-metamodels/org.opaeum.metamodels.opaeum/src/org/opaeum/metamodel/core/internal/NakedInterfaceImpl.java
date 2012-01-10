@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedReception;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedInterface;
 
@@ -38,6 +40,15 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 	}
 	@Override
 	public boolean isFact(){
+		return false;
+	}
+	@Override
+	public boolean hasReceptionFor(INakedSignal signal){
+		for(INakedReception r:getEffectiveReceptions()){
+			if(signal.equals(r.getSignal())){
+				return true;
+			}
+		}
 		return false;
 	}
 }

@@ -65,7 +65,9 @@ public class ValueSpecificationUtil{
 			List<OJParameter> parameters = buildContext(operationContext);
 			addExtendedKeywords(operationContext, value);
 			expression = ec.makeExpression(value.getExpression(), operationContext.isStatic(), parameters);
-			expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
+			if(expectedType != null){
+				expression = buildTypeCastIfNecessary(expression, value.getExpression(), expectedType);
+			}
 			return expression;
 		}else{
 			return "ERROR IN OCL:" + valueSpec.getOclValue().getExpressionString();
@@ -165,15 +167,15 @@ public class ValueSpecificationUtil{
 				}
 			}else{
 				if(((StdlibCollectionType) expectedType).getMetaType() == CollectionMetaType.SEQUENCE){
-					return "java.util.Collections.singletonList(" + java + ")";
+					return "StdLib.objectAsSequence(" + java + ")";
 				}else{
-					return "java.util.Collections.singleton(" + java + ")";
+					return "StdLib.objectAsSet(" + java + ")";
 				}
 			}
 		}else{
 			if(expression.getExpressionType().isCollectionKind()){
 				ClassifierMap classifierMap = new ClassifierMap(expectedType);
-				return "("+classifierMap.javaType()+")Stdlib.collectionAsSingleObject("+java+")";
+				return "(" + classifierMap.javaType() + ")Stdlib.collectionAsSingleObject(" + java + ")";
 			}
 		}
 		return java;

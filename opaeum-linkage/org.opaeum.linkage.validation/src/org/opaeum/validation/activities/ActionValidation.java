@@ -18,6 +18,7 @@ import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedExpansionRegion;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.validation.AbstractValidator;
 import org.opaeum.validation.ValidationPhase;
 
@@ -34,7 +35,6 @@ public class ActionValidation extends AbstractValidator{
 					getErrorMap().putError(a, ActionValidationRule.REQUIRED_PIN, "Output Pin", "Result");
 				}else if(!rsfa.getResult().canAcceptInputFrom(rsfa.getFeature())){
 					getErrorMap().putError(rsfa.getResult(), ActionValidationRule.REQUIRED_MULTIPLICITY, "Property", rsfa.getFeature());
-
 				}
 			}
 			if(a instanceof INakedWriteStructuralFeatureAction){
@@ -73,6 +73,23 @@ public class ActionValidation extends AbstractValidator{
 	public void visitSendSignalAction(INakedSendSignalAction a){
 		if(a.getSignal() == null){
 			getErrorMap().putError(a, ActionValidationRule.SEND_SIGNAL_ACTION_REQUIRES_SIGNAL);
+		}
+		if(a.getTargetElement() != null){
+			if(a.getTargetElement().getNakedBaseType() instanceof INakedBehavioredClassifier){
+				INakedBehavioredClassifier bc = (INakedBehavioredClassifier) a.getTargetElement().getNakedBaseType();
+				if(a.getSignal() != null && !bc.hasReceptionOrTriggerFor(a.getSignal())){
+					getErrorMap().putError(a.getTargetElement(), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, a.getTargetElement().getNakedBaseType(),
+							a.getSignal());
+				}
+			}else if(a.getTargetElement().getNakedBaseType() instanceof INakedInterface){
+				INakedInterface i = (INakedInterface) a.getTargetElement().getNakedBaseType();
+				if(a.getSignal() != null && !i.hasReceptionFor(a.getSignal())){
+					getErrorMap().putError(a.getTargetElement(), ActionValidationRule.SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL, a, a.getTargetElement().getNakedBaseType(),
+							a.getSignal());
+				}
+			}else{
+				getErrorMap().putError(a.getTargetElement(), ActionValidationRule.SEND_SIGNAL_REQUIRES_BEHAVIORED_CLASSIFIER_TARGET, a);
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

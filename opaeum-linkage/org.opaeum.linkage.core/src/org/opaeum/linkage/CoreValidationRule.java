@@ -20,10 +20,13 @@ public enum CoreValidationRule implements IValidationRule{
 	PRIMITIVE_MUST_SPECIALIZE_PRIMITIVES("Primitive types have to extend other primitive types","{0} does not specialize (extend) a primitive"),
 	NAME_UNIQUENESS("Certain named elements must have unique names within a specified context","{0} does not have a unique name within the {1} of {2}"),
 	NAME_REQIURED("Certain named elements must have a name in order for the resulting code to function properly","{0}: {1} does not have a name"),
-	VARIABLE_NAME_CLASH("Variables and pins need to have unique names within its local context","The name of {0} clashes with the name of in scope variable {1}"), 
-	GENERALIZATION_CONTEXTS_CONFORMANCE("","{0} specializes {1}, but its context {2} does not conform to {3}, the context of the specialized behavior"), 
-	GENERALIZATION_COMPOSITION_CONFORMANCE("","{0} specializes {1}, but its compositional parent {2} does not conform to {3}, the compositional parent of the specialized class"), 
-	GENERALIZATION_ONLY_OF_SAME_METATYPE("Generalizations are only allowed between classifiers of the same meta type", "{0}, a {1}, specializes {2} which is a {3} and not a {1} ");
+	VARIABLE_NAME_CLASH("Variables and pins need to have unique names within its local context","The name of {0} clashes with the name of in scope variable {1}"),
+	GENERALIZATION_CONTEXTS_CONFORMANCE("","{0} specializes {1}, but its context {2} does not conform to {3}, the context of the specialized behavior"),
+	GENERALIZATION_COMPOSITION_CONFORMANCE("",
+			"{0} specializes {1}, but its compositional parent {2} does not conform to {3}, the compositional parent of the specialized class"),
+	GENERALIZATION_ONLY_OF_SAME_METATYPE("Generalizations are only allowed between classifiers of the same meta type",
+			"{0}, a {1}, specializes {2} which is a {3} and not a {1} "),
+	RECEPTION_REQUIRES_SIGNAL("Receptions should specify the signal they receive","Reception {0} does not specify a signal");
 	private String description;
 	private String messagePattern;
 	private CoreValidationRule(String description,String messagePattern){

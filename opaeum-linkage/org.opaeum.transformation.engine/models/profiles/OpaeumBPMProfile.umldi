@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_l7yWkI59EeCrtavWRHwoHg" activeDiagram="_l7yWkY59EeCrtavWRHwoHg">
   <model href="OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-  <diagrams xmi:id="_l7yWkY59EeCrtavWRHwoHg" position="0,0" size="100,100" name="OpaeumProfileForBPM" zoom="0.75" viewport="0,390">
+  <diagrams xmi:id="_l7yWkY59EeCrtavWRHwoHg" position="0,0" size="100,100" name="OpaeumProfileForBPM" zoom="0.75" viewport="0,681">
     <property xmi:id="_mBWMAI59EeCrtavWRHwoHg" key="pageFormatName" value="A3"/>
     <property xmi:id="_mBWMAY59EeCrtavWRHwoHg" key="diagramWidth" value="1188"/>
     <property xmi:id="_mBWMAo59EeCrtavWRHwoHg" key="diagramHeight" value="1680"/>
@@ -413,7 +413,7 @@
       </semanticModel>
       <contained xsi:type="di:EdgeObjectUV" xmi:id="_2y7vopRsEeChgI0v02SJHQ" id="requiredFieldEdgeObject"/>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_x8DS4JSxEeChgI0v02SJHQ" position="276,1133" size="120,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_x8DS4JSxEeChgI0v02SJHQ" position="276,1133" size="177,-1">
       <anchorage xmi:id="_4SU4cJSxEeChgI0v02SJHQ" graphEdge="_4SXUsJSxEeChgI0v02SJHQ"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_x8DS4ZSxEeChgI0v02SJHQ" presentation="default">
         <element href="OpaeumBPMProfile.uml#_x8GWMJSxEeChgI0v02SJHQ"/>
@@ -423,6 +423,11 @@
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_x8DS5JSxEeChgI0v02SJHQ" presentation="default">
           <element href="OpaeumBPMProfile.uml#_x8GWMJSxEeChgI0v02SJHQ"/>
         </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_4xtlQDuIEeGP_Yx34wRufA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4xtlQTuIEeGP_Yx34wRufA" presentation="default">
+            <element href="OpaeumBPMProfile.uml#_4xxPoDuIEeGP_Yx34wRufA"/>
+          </semanticModel>
+        </contained>
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_07QO8JSxEeChgI0v02SJHQ" position="719,1140" size="120,-1">

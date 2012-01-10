@@ -13,5 +13,7 @@ public class TagNames{
 	public static final String AGGREGATION_FORMULAS="aggregationFormulas";
 	public static final String DERIVATION_FORMULA = "derivationFormula";
 	public static final String IS_PRIMARY_KEY = "isPrimaryKey";
-			
+	public static final String FROM_EXPRESSION = "fromExpression";
+	public static final String CC_EXPRESSION = "ccExpression";
+	public static final String BCC_EXPRESSION = "bccExpression";			
 }

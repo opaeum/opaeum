@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.CallBehaviorAction;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Connector;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
 import org.eclipse.uml2.uml.InputPin;
@@ -34,6 +35,7 @@ import org.eclipse.uml2.uml.OutputPin;
 import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
@@ -42,6 +44,7 @@ import org.eclipse.uml2.uml.edit.providers.ActivityItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ClassItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ComponentItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ConnectorItemProvider;
+import org.eclipse.uml2.uml.edit.providers.ElementImportItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ExpansionNodeItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ExpansionRegionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.InputPinItemProvider;
@@ -52,6 +55,7 @@ import org.eclipse.uml2.uml.edit.providers.OperationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OutputPinItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PortItemProvider;
 import org.eclipse.uml2.uml.edit.providers.PropertyItemProvider;
+import org.eclipse.uml2.uml.edit.providers.ReceptionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.SignalItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateItemProvider;
 import org.eclipse.uml2.uml.edit.providers.StateMachineItemProvider;
@@ -65,6 +69,40 @@ import org.topcased.modeler.uml.editor.outline.CustomCallBehaviorActionItemProvi
 
 public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
 	public OpaeumItemProviderAdapterFactory(){
+	}
+	@Override
+	public Adapter createReceptionAdapter(){
+		if(receptionItemProvider == null){
+			receptionItemProvider = new ReceptionItemProvider(this){
+				@Override
+				public String getText(Object object){
+					Reception reception = (Reception) object;
+					if(reception.getSignal() == null){
+						return "<Receives> nothing";
+					}else{
+						return "<Receives> " + reception.getSignal().getName();
+					}
+				}
+			};
+		}
+		return receptionItemProvider;
+	}
+	@Override
+	public Adapter createElementImportAdapter(){
+		if(elementImportItemProvider == null){
+			elementImportItemProvider = new ElementImportItemProvider(this){
+				@Override
+				public String getText(Object object){
+					ElementImport e = (ElementImport) object;
+					if(e.getImportedElement() == null){
+						return "<Imports> nothing";
+					}else{
+						return "<Imports> " + e.getImportedElement().getName();
+					}
+				}
+			};
+		}
+		return elementImportItemProvider;
 	}
 	@Override
 	public Adapter createInterfaceRealizationAdapter(){

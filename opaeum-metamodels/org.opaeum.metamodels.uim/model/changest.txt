@@ -1,4 +1,3 @@
-Vision:
 Object and Process Oriented Application Development and Execution environment for SME's
 
 Removes the gap between business processes and business data
@@ -145,6 +144,8 @@ Merge object tokens on objectflows targeting a join
 Refactor Jbpm out:
 1. Class per action, possibly even pin and flow
 2. Implement tokens as a single separate class and associate with appropriate activityNodeActiviation
+For notifications implement default recipient, bcc and cc expressions on the Notification class
+For notifications implement optional recipient, bcc and cc expressions on the Send Notification Action
 
 Maven
 put MavenArtefatId in profile

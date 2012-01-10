@@ -24,6 +24,7 @@ import nl.klasse.octopus.oclengine.IOclContext;
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.CodeGenerationStrategy;
@@ -48,6 +49,10 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	@Override
 	public boolean isImported(IClassifier cls){
 		return owner.isImported(cls);
+	}
+	@Override
+	public Collection<? extends INakedEvent> getEventsInScopeForClassAsContext(){
+		return Collections.emptySet();
 	}
 	@Override
 	public void reorderSequences(){

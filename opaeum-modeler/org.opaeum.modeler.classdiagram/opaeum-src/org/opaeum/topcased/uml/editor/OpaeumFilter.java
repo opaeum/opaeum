@@ -71,6 +71,7 @@ public class OpaeumFilter extends ViewerFilter{
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterruptibleActivityRegion());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getInterval());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getDuration());
+		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getReception());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getTimeExpression());
 		ALLOWED_CLASSES.add(UMLPackage.eINSTANCE.getObservation());
 	}

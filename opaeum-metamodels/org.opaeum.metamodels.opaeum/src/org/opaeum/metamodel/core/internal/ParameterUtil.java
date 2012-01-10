@@ -44,7 +44,6 @@ public class ParameterUtil{
 		}
 	}
 	public static String toIdentifyingString(INakedReception o){
-		// TODO Auto-generated method stub
-		return o.getName() + "(" + o.getSignal().toString() + ")";
+		return o.getName() + "(" + (o.getSignal() == null ? "nosignal" : o.getSignal().toString()) + ")";
 	}
 }

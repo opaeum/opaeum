@@ -128,7 +128,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void implementActivity(INakedActivity activity){
-		ensureEventHandlerImplementation(activity);
 		if(activity.getActivityKind() != ActivityKind.SIMPLE_SYNCHRONOUS_METHOD){
 			OJAnnotatedClass activityClasss = findJavaClass(activity);
 			addParameterDelegation(activityClasss, activity);
@@ -219,27 +218,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 			}
 		}else if(container.getOwnerElement() instanceof ActivityNodeContainer){
 			implementVariableDelegation((ActivityNodeContainer) container.getOwnerElement(), msg, c);
-		}
-	}
-	private void ensureEventHandlerImplementation(INakedActivity activity){
-		List<INakedActivityNode> activityNodesRecursively = activity.getActivityNodesRecursively();
-		for(INakedActivityNode node:activityNodesRecursively){
-			if(node instanceof INakedSendSignalAction){
-				// TODO this deviates from the UML spec. implement validation to ensure the reception is defined on the target
-				INakedSendSignalAction ssa = (INakedSendSignalAction) node;
-				SignalMap map = OJUtil.buildSignalMap(ssa.getSignal());
-				if(ssa.getTargetElement() != null && ssa.getTargetElement().getNakedBaseType() != null){
-					OJAnnotatedClass ojTarget = findJavaClass(ssa.getTargetElement().getNakedBaseType());
-					if(ojTarget != null){
-						if(!ojTarget.getImplementedInterfaces().contains(map.receiverContractTypePath())){
-							ojTarget.addToImplementedInterfaces(map.receiverContractTypePath());
-							OperationAnnotator.findOrCreateJavaReception(ojTarget, map);
-							OperationAnnotator.findOrCreateEventGenerator((INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(), ojTarget, map);
-							OperationAnnotator.findOrCreateEventConsumer((INakedBehavioredClassifier) ssa.getTargetElement().getNakedBaseType(), ojTarget, map);
-						}
-					}
-				}
-			}
 		}
 	}
 	private void doExecute(INakedClassifier activity,OJAnnotatedClass activityClass,boolean isProcess){

@@ -19,6 +19,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
 import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
@@ -122,11 +123,19 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	@Override
 	public boolean hasReceptionOrTriggerFor(INakedSignal signal){
 		for(INakedReception r:getEffectiveReceptions()){
-			if(r.getSignal().equals(signal)){
+			if(r.getSignal()!=null && r.getSignal().equals(signal)){
 				return true;
 			}
 		}
-		Collection<? extends INakedEvent> eventsInScopeForClassAsContext = getEventsInScopeForClassAsContext();
+		for(INakedEvent e:getEventsInScopeForClassAsContext()){
+			if(e instanceof INakedSignalEvent){
+				INakedSignalEvent se=(INakedSignalEvent) e;
+				if(se.getSignal()!=null && se.getSignal().equals(signal)){
+					return true;
+				}
+				
+			}
+		}
 		return false;
 	}
 	@Override

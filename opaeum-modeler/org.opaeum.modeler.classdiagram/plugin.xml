@@ -592,6 +592,10 @@
 				<input type="org.eclipse.uml2.uml.TypedElement">
 				</input>
 			</propertySection>
+			<propertySection afterSection="org.topcased.modeler.uml.NamedElementSection" class="org.opaeum.topcased.propertysections.ReceptionSignalSection"
+				id="org.opaeum.topcased.propertysections.ReceptionSignalSection" tab="org.opaeum.eclipse.opaeumTab">
+				<input type="org.eclipse.uml2.uml.Reception" />
+			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.uml.NamedElementSection" class="org.opaeum.topcased.propertysections.property.PropertyQualifiersSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationEndFilter" id="org.opaeum.topcased.propertysections.PropertyQualifiersSection" tab="org.opaeum.eclipse.qualifiersTab">
 				<input type="org.eclipse.uml2.uml.Property" />

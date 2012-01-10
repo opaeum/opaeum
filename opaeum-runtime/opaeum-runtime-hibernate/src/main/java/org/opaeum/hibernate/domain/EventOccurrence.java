@@ -49,8 +49,6 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	private String triggerUuid;
 	@Lob
 	private byte[] propertyValues;
-	@Basic
-	private boolean targetIsEntity;
 	@Lob
 	private byte[] targetValue;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -60,10 +58,21 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	}
 	public EventOccurrence(Object target,IEventHandler handler){
 		super(target, handler);
-		this.eventTargetClassId = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
-		if(target instanceof IPersistentObject){
-			this.targetIsEntity=true;
-			this.eventTargetId = ((IPersistentObject) target).getId();
+		if(target instanceof Collection){
+			Collection<?> targets = (Collection<?>) target;
+			for(Object object:targets){
+				if(object instanceof IPersistentObject){
+					this.eventTargetId += ((IPersistentObject) object).getId();//Just used to generate a uuid
+				}
+				if(eventTargetClassId == null){
+					this.eventTargetClassId = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
+				}
+			}
+		}else{
+			this.eventTargetClassId = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(target.getClass()));
+			if(target instanceof IPersistentObject){
+				this.eventTargetId = ((IPersistentObject) target).getId();
+			}
 		}
 		this.triggerUuid = handler.getHandlerUuid();
 		this.firstOccurrenceScheduledFor = handler.getFirstOccurrenceScheduledFor();
@@ -89,9 +98,6 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	public void incrementRetryCount(){
 		retryCount++;
 	}
-	public boolean targetIsEntity(){
-		return this.targetIsEntity;
-	}
 	@Override
 	public void setId(Long id){
 		this.id = id;
@@ -102,7 +108,7 @@ public class EventOccurrence extends AbstractEventOccurrence{
 		return read(value);
 	}
 	@SuppressWarnings("unchecked")
-	protected <T> T read(byte[] value){
+	protected <T>T read(byte[] value){
 		try{
 			ObjectInputStream is = new ObjectInputStream(new ByteArrayInputStream(value));
 			return (T) is.readObject();
@@ -127,12 +133,12 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	@Override
 	protected void setTargetValue(Value value){
 		ByteArrayOutputStream out = write(value);
-		this.targetValue= out.toByteArray();
+		this.targetValue = out.toByteArray();
 	}
 	protected ByteArrayOutputStream write(Object value){
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try{
-			ObjectOutputStream objectOutputStream= new ObjectOutputStream(out);
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(out);
 			objectOutputStream.writeObject(value);
 		}catch(IOException e){
 			throw new RuntimeException(e);
@@ -141,6 +147,6 @@ public class EventOccurrence extends AbstractEventOccurrence{
 	}
 	@Override
 	protected void setPropertyValues(Collection<PropertyValue> collection){
-		propertyValues= write(collection).toByteArray();
+		propertyValues = write(collection).toByteArray();
 	}
 }

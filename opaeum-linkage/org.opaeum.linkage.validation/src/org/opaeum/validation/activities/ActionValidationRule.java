@@ -21,7 +21,12 @@ public enum ActionValidationRule implements IValidationRule{
 	REPLY_ACTION_RETURN_INFO_MUST_LINK("Reply actions must have a returnInfo InputPin that links up to the returnInfo OutputPin of a preceding AcceptCallAction",
 			"{0} does not have a returnInfo InputPin that links up with the returnInfo OutputPin of an preceding AcceptCallAction"),
 	ACCEPT_CALL_REQUIRES_SINGLE_CALL_EVENT("","{0} must have a single Trigger defined with a CallEvent specified as event "),
-	REQUIRED_MULTIPLICITY("asdf","{0} must have a multiplicity compatible with that of {1} {2}");
+	REQUIRED_MULTIPLICITY("asdf","{0} must have a multiplicity compatible with that of {1} {2}"),
+	SEND_SIGNAL_REQUIRES_BEHAVIORED_CLASSIFIER_TARGET(
+			"Signals can only be sent to classes or interfaces",
+			"Target elemet {0} of {1} evaluates to a type that is not a class or interface"),
+	SEND_SIGNAL_TARGET_MUST_RECEIVE_SIGNAL("Signals cannot be sent to objects that do not declare receptions or triggers for he signal",
+			"The type {2} of target element {0} of {1} does not declare a reception or trigger for signal {3}");
 	private String description;
 	private String messagePattern;
 	private ActionValidationRule(String description,String messagePattern){

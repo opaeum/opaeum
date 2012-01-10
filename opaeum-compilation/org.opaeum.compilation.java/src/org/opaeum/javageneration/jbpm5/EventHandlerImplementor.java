@@ -69,7 +69,24 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJPathName c = OJUtil.classifierPathname(s);
 		OJAnnotatedOperation marshall = buildMarshall(s, "signal", effectiveAttributes, false);
 		handler.addToOperations(marshall);
+		if(s.isNotification()){
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, from))");
+			OJUtil.addTransientProperty(handler, "from", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-21l, cc))");
+			OJUtil.addTransientProperty(handler, "cc", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-22l, bcc))");
+			OJUtil.addTransientProperty(handler, "bcc", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-23l, to))");
+			OJUtil.addTransientProperty(handler, "to", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
+		}
 		OJAnnotatedOperation unmarshall = buildUnmarshall(s, "signal", effectiveAttributes, false);
+		if(s.isNotification()){
+			unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
+			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-20l", "this.from=(String)Value.valueOf(p.getValue(),persistence)"));
+			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-21l", "this.cc=(String)Value.valueOf(p.getValue(),persistence)"));
+			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-22l", "this.bcc=(String)Value.valueOf(p.getValue(),persistence)"));
+			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-23l", "this.t=(String)Value.valueOf(p.getValue(),persistence)"));
+		}
 		addIsEvent(handler, constr, marshall, unmarshall);
 		OJAnnotatedField result = new OJAnnotatedField("signal", c);
 		handler.addToFields(result);
@@ -79,16 +96,31 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		Integer listenerPoolSize = s.getListenerPoolSize();
 		addGetConsumerPoolSize(handler, listenerPoolSize);
 		OJAnnotatedOperation handleOn = new OJAnnotatedOperation("handleOn", new OJPathName("boolean"));
-		handleOn.addParam("target", new OJPathName("Object"));
+		handleOn.addParam("targets", new OJPathName("Object"));
 		handler.addToOperations(handleOn);
 		handler.addToImports(new OJPathName(IActiveObject.class.getName()));
 		handler.addToImports(map.receiverContractTypePath());
-		OJIfStatement ifIsEvent = new OJIfStatement("isEvent", "return ((" + map.receiverContractTypePath().getLast() + ")target)." + map.eventConsumerMethodName()
+		OJAnnotatedField consumed = new OJAnnotatedField("consumed", new OJPathName("boolean"));
+		handleOn.getBody().addToLocals(consumed);
+		consumed.setInitExp("false");
+		// NB!!! signals are always sent to a collection of targets
+		OJForStatement forEachTarget = new OJForStatement("target", new OJPathName("Object"), "(Collection<?>)targets");
+		handleOn.getBody().addToStatements(forEachTarget);
+		OJIfStatement hasReceptionsOrTrigger = new OJIfStatement("target instanceof " + map.receiverContractTypePath().getLast());
+		forEachTarget.getBody().addToStatements(hasReceptionsOrTrigger);
+		OJIfStatement ifIsEvent = new OJIfStatement("isEvent", "consumed |=((" + map.receiverContractTypePath().getLast() + ")target)." + map.eventConsumerMethodName()
 				+ "(signal)");
-		handleOn.getBody().addToStatements(ifIsEvent);
+		hasReceptionsOrTrigger.getThenPart().addToStatements(ifIsEvent);
 		ifIsEvent.setElsePart(new OJBlock());
 		ifIsEvent.getElsePart().addToStatements("((" + map.receiverContractTypePath().getLast() + ")target)." + map.receiveMethodName() + "(signal)");
-		ifIsEvent.getElsePart().addToStatements("return true");
+		ifIsEvent.getElsePart().addToStatements("consumed = true");
+		if(s.isNotification()){
+			handleOn.getBody()
+					.addToStatements(
+							new OJIfStatement("isEvent",
+									"Environment.getInstance().getNotificationService().sendNotification(signal, from,(Collection<? extends INotificationReceiver>)targets,cc,bcc)"));
+		}
+		handleOn.getBody().addToStatements("return consumed");
 		OJAnnotatedOperation scheduleNextOccurrence = new OJAnnotatedOperation("scheduleNextOccurrence", new OJPathName(Date.class.getName()));
 		handler.addToOperations(scheduleNextOccurrence);
 		handler.addToImports(new OJPathName(Date.class.getName()));
@@ -388,10 +420,10 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 			OJIfStatement sst = new OJIfStatement("p.getId()==" + p.getMappingInfo().getOpaeumId() + "l", setValue);
 			elseBlock.addToStatements(sst);
 			sst.setElsePart(new OJBlock());
-			elseBlock=sst.getElsePart();
+			elseBlock = sst.getElsePart();
 		}
 		if(includeNodeId){
-			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5","this.nodeId=(String)Value.valueOf(p.getValue(),persistence)");
+			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5", "this.nodeId=(String)Value.valueOf(p.getValue(),persistence)");
 			elseBlock.addToStatements(sc5);
 		}
 		return unmarshall;

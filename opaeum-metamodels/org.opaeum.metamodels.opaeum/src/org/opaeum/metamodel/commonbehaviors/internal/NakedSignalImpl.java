@@ -9,11 +9,13 @@ import nl.klasse.octopus.model.IState;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal,IDataType{
 	private static final long serialVersionUID = 5492485182705048910L;
 	public static final String META_CLASS = "signal";
 	private Integer listenerPoolSize;
+	private boolean isNotification;
 	@Override
 	public Integer getListenerPoolSize(){
 		return listenerPoolSize;
@@ -22,6 +24,9 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		// TODO Auto-generated method stub
 		super.addStereotype(stereotype);
+		if(stereotype.getName().equalsIgnoreCase(StereotypeNames.NOTIFICATION)){
+			this.setNotification(true);
+		}
 		if(stereotype.hasValueForFeature("listenerPoolSize")){
 			setListenerPoolSize(stereotype.getFirstValueFor("listenerPoolSize").intValue());
 		}
@@ -41,5 +46,11 @@ public class NakedSignalImpl extends NakedClassifierImpl implements INakedSignal
 	}
 	public void setListenerPoolSize(Integer listenerPoolSize){
 		this.listenerPoolSize = listenerPoolSize;
+	}
+	public boolean isNotification(){
+		return isNotification;
+	}
+	public void setNotification(boolean isNotification){
+		this.isNotification = isNotification;
 	}
 }

@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.Association;
@@ -20,10 +19,13 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Pseudostate;
+import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Region;
+import org.eclipse.uml2.uml.SignalEvent;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StructuredActivityNode;
 import org.eclipse.uml2.uml.Transition;
+import org.eclipse.uml2.uml.Trigger;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.feature.InputModel;
@@ -141,30 +143,41 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 				if(o != null){
 					result.add((Element) o);
 					if(emfWorkspace.getCrossReferenceAdapter() != null){
-						Collection<Setting> non = emfWorkspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(o, true);
-						for(Setting setting:non){
-							Element processibleElement = getProcessibleElement(setting.getEObject());
-							if(processibleElement != null){
-								result.add(processibleElement);
-							}
-						}
-						// Collection<Setting> nav= emfWorkspace.getCrossReferenceAdapter().getInverseReferences(o,true);
-						// for(Setting setting:nav){
-						// EObject eObject2 = setting.getEObject();
-						// Element processibleElement = getProcessibleElement(eObject2);
-						// if(processibleElement != null){
-						// result.add(processibleElement);
-						// }
-						// }
+						addCrossReferences(result, o);
 					}
 				}
 				if(eObject instanceof Association){
 					// TODO Opaeum Metamodel still follows UML2.0 where navigable ends are contained by the class
 					result.addAll(((Association) eObject).getMemberEnds());
+				}else if(eObject instanceof Trigger){
+					//TODO establish a better design to do this
+					//Influences validity of senSignalActions
+					Trigger t = (Trigger) eObject;
+					if(t.getEvent() instanceof SignalEvent){
+						SignalEvent se = (SignalEvent) t.getEvent();
+						if(se.getSignal() != null){
+							addCrossReferences(result, se.getSignal());
+						}
+					}
+				}else if(eObject instanceof Reception){
+					//Influences validity of senSignalActions
+					Reception r = (Reception) eObject;
+					if(r.getSignal() != null){
+						addCrossReferences(result, r.getSignal());
+					}
 				}
 			}
 		}
 		return result;
+	}
+	protected void addCrossReferences(Set<Element> result,EObject o){
+		Collection<Setting> non = emfWorkspace.getCrossReferenceAdapter().getNonNavigableInverseReferences(o, true);
+		for(Setting setting:non){
+			Element processibleElement = getProcessibleElement(setting.getEObject());
+			if(processibleElement != null){
+				result.add(processibleElement);
+			}
+		}
 	}
 	protected Element getProcessibleElement(EObject o){
 		while(!(canBeProcessedIndividually(o) || o == null)){
@@ -203,7 +216,7 @@ public class EmfExtractionPhase implements TransformationPhase<AbstractExtractor
 		return e instanceof Action || e instanceof ControlNode || e instanceof State || e instanceof Pseudostate || e instanceof StructuredActivityNode
 				|| e instanceof Region || e instanceof Operation || (e instanceof Property && ((Property) e).getAssociation() == null) || e instanceof Classifier
 				|| e instanceof Transition || e instanceof ActivityEdge || e instanceof Package || e instanceof Association || e instanceof Generalization
-				|| e instanceof InterfaceRealization;
+				|| e instanceof InterfaceRealization || e instanceof Reception;
 	}
 	@Override
 	public void release(){

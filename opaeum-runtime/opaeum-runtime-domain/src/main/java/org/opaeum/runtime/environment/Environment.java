@@ -5,6 +5,8 @@ import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Properties;
 
+import javax.mail.internet.InternetAddress;
+
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;

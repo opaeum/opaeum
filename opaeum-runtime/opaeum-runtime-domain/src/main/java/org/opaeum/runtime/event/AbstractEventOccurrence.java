@@ -32,7 +32,6 @@ public abstract class AbstractEventOccurrence implements IPersistentObject,Seria
 	protected abstract Value getTargetValue();
 	protected abstract Collection<PropertyValue> getPropertyValues();
 	public abstract String getHandlerUuid();
-	public abstract boolean targetIsEntity();
 	public abstract void setId(Long id);
 	protected abstract void setTargetValue(Value valueOf);
 	protected abstract void setPropertyValues(Collection<PropertyValue> collection);
