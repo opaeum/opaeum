@@ -30,6 +30,7 @@ public interface INakedBehavioredClassifier extends INakedClassifier{
 	 * 
 	 */
 	public abstract Set<INakedOperation> getDirectlyImplementedOperations();
-	boolean hasReceptionFor(INakedSignal signal);
+	boolean hasReceptionOrTriggerFor(INakedSignal signal);
 	Collection<? extends INakedReception> getDirectlyImplementedReceptions();
+	Collection<? extends INakedEvent> getEventsInScopeForClassAsContext();
 }

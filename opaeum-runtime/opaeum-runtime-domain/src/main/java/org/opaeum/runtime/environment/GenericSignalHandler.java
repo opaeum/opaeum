@@ -38,16 +38,16 @@ public class GenericSignalHandler implements IEventHandler{
 		PropertyDescriptor[] pds = IntrospectionUtil.getProperties(signal.getClass());
 		for(int i = 1; i < l.size();i++){
 			PropertyValue pv = l.get(i);
-			IntrospectionUtil.set(pds[pv.getId()], signal, Value.valueOf(pv.getValue(), session));
+			IntrospectionUtil.set(pds[pv.getId().intValue()], signal, Value.valueOf(pv.getValue(), session));
 		}
 	}
 	@Override
 	public Collection<PropertyValue> marshall(){
 		Collection<PropertyValue> result=new ArrayList<PropertyValue>();
-		result.add(new PropertyValue(10101, new SerializableValue("1234", signal.getClass())));
+		result.add(new PropertyValue(10101l, new SerializableValue("1234", signal.getClass())));
 		int i=0;
 		for(PropertyDescriptor p:IntrospectionUtil.getProperties(signal.getClass())){
-			result.add(new PropertyValue(i++,Value.valueOf(IntrospectionUtil.get(p,signal))));
+			result.add(new PropertyValue((long)i++,Value.valueOf(IntrospectionUtil.get(p,signal))));
 		}
 		return null;
 	}

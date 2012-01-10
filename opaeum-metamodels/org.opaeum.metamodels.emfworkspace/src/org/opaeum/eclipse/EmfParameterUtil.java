@@ -56,14 +56,13 @@ public class EmfParameterUtil{
 		List<Property> ownedAttributes = new ArrayList<Property>();
 		Element owner = assEnd.getOwner();
 		if(owner == assEnd.getAssociation()  && assEnd.isNavigable()){
-			if(assEnd.getOtherEnd()==null){
-				System.out.println();
-			}
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
 		}else if(owner instanceof Classifier){
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) owner);
 		}
-		return ownedAttributes.indexOf(assEnd);
+		int indexOf = ownedAttributes.indexOf(assEnd);
+
+		return indexOf;
 	}
 	private static void addNonInhertiedAttributes(List<Property> ownedAttributes,Classifier owner){
 		if(owner instanceof Signal){
@@ -72,10 +71,12 @@ public class EmfParameterUtil{
 			ownedAttributes.addAll(((DataType) owner).getOwnedAttributes());
 		}else if(owner instanceof org.eclipse.uml2.uml.Class){
 			ownedAttributes.addAll(((org.eclipse.uml2.uml.Class) owner).getOwnedAttributes());
+		}else if(owner instanceof org.eclipse.uml2.uml.Interface){
+			ownedAttributes.addAll(((org.eclipse.uml2.uml.Interface) owner).getOwnedAttributes());
 		}
-		for(Association a:((Classifier) owner).getAssociations()){
+		for(Association a:owner.getAssociations()){
 			for(Property p:a.getMemberEnds()){
-				if(p.isNavigable() && p.getOtherEnd().getType() == owner){
+				if(p.isNavigable() && p.getOtherEnd().getType() == owner && !ownedAttributes.contains(p)){
 					ownedAttributes.add(p);
 				}
 			}

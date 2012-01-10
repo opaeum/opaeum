@@ -21,6 +21,16 @@ public class OJOperation extends OJOperationGEN{
 		this.setVisibility(OJVisibilityKind.PUBLIC);
 		this.setReturnType(new OJPathName("void"));
 	}
+	public String getSignature(){
+		StringBuilder sb = new StringBuilder(getName());
+		sb.append("(");
+		for(OJParameter p:getParameters()){
+			sb.append(p.getType().getLast());
+			sb.append(",");
+		}
+		sb.setCharAt(sb.length() - 1, ')');
+		return sb.toString();
+	}
 	/******************************************************
 	 * The following operations are the implementations of the operations defined for this classifier.
 	 *******************************************************/
@@ -239,16 +249,16 @@ public class OJOperation extends OJOperationGEN{
 	}
 	public boolean paramsEquals(List<OJPathName> oParamTypes){
 		List<OJPathName> paramTypes = getParamTypes();
-		boolean b=true;
+		boolean b = true;
 		if(oParamTypes.size() == paramTypes.size()){
 			for(int i = 0;i < paramTypes.size();i++){
 				if(!paramTypes.get(i).equals(oParamTypes.get(i))){
-					b=false;
+					b = false;
 					break;
 				}
 			}
 		}else{
-			b=false;
+			b = false;
 		}
 		return b;
 	}

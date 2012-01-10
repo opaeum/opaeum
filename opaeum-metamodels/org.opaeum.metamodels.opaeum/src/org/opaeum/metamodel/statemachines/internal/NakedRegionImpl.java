@@ -1,11 +1,14 @@
 package org.opaeum.metamodel.statemachines.internal;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.internal.NakedNameSpaceImpl;
 import org.opaeum.metamodel.statemachines.INakedRegion;
@@ -17,14 +20,13 @@ import org.opaeum.metamodel.statemachines.IRegionOwner;
 public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 	private static final long serialVersionUID = 7711042727363444332L;
 	private static final String META_CLASS = "region";
-	private List<INakedState> states = new ArrayList<INakedState>();
-	private List<INakedTransition> transitions= new ArrayList<INakedTransition>();
+	private SortedSet<INakedState> states = new TreeSet<INakedState>(new DefaultOpaeumComparator());
+	private SortedSet<INakedTransition> transitions = new TreeSet<INakedTransition>(new DefaultOpaeumComparator());
 	private INakedState initial;
 	public NakedRegionImpl(){
 		super();
 	}
-
-	public List<INakedState> getStates(){
+	public Collection<INakedState> getStates(){
 		return this.states;
 	}
 	public Set<INakedRegion> getPeerRegions(){
@@ -62,15 +64,6 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 	@Override
 	public String getMetaClass(){
 		return META_CLASS;
-	}
-	public boolean hasFinalStates(){
-		for(int i = 0;i < this.states.size();i++){
-			INakedState state = this.states.get(i);
-			if(state.getKind().isFinal()){
-				return true;
-			}
-		}
-		return false;
 	}
 	public INakedState getInitialState(){
 		if(initial == null){
@@ -120,7 +113,7 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 		return false;
 	}
 	@Override
-	public void removeOwnedElement(INakedElement element, boolean recursively) {
+	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
 		if(element instanceof INakedState){
 			this.states.remove((INakedState) element);
@@ -129,12 +122,10 @@ public class NakedRegionImpl extends NakedNameSpaceImpl implements INakedRegion{
 			t.setSource(null);
 			t.setTarget(null);
 			this.transitions.remove(t);
-			
 		}
 	};
 	@Override
-	public List<INakedTransition> getTransitions() {
+	public Collection<INakedTransition> getTransitions(){
 		return transitions;
 	}
-	
 }

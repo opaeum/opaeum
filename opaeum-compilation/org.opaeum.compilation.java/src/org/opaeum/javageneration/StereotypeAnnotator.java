@@ -6,6 +6,7 @@ import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.expressions.internal.types.PathName;
 
 import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;

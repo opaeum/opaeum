@@ -1,10 +1,10 @@
 package org.opaeum.java.metamodel.annotation;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.opaeum.java.metamodel.OJPathName;
 
@@ -19,7 +19,7 @@ import org.opaeum.java.metamodel.OJPathName;
  */
 public class OJAnnotationValue extends OJMetaValue{
 	private OJPathName type;
-	private Map<String,OJAnnotationAttributeValue> attributes = new HashMap<String,OJAnnotationAttributeValue>();
+	private SortedMap<String,OJAnnotationAttributeValue> attributes = new TreeMap<String,OJAnnotationAttributeValue>();
 	public OJAnnotationValue(){
 		super();
 	}
@@ -143,7 +143,7 @@ public class OJAnnotationValue extends OJMetaValue{
 	protected void copyInfoInto(OJAnnotationValue result){
 		super.copyInfoInto(result);
 		result.type = type.getCopy();
-		result.attributes = new HashMap<String,OJAnnotationAttributeValue>();
+		result.attributes = new TreeMap<String,OJAnnotationAttributeValue>();
 		for(OJAnnotationAttributeValue v:this.attributes.values()){
 			result.attributes.put(v.getName(), v.getCopy());
 		}
@@ -156,7 +156,7 @@ public class OJAnnotationValue extends OJMetaValue{
 	protected void copyDeepInfoInto(OJAnnotationValue result){
 		super.copyDeepInfoInto(result);
 		result.type = type.getDeepCopy();
-		result.attributes = new HashMap<String,OJAnnotationAttributeValue>();
+		result.attributes = new TreeMap<String,OJAnnotationAttributeValue>();
 		for(OJAnnotationAttributeValue v:this.attributes.values()){
 			result.attributes.put(v.getName(), v.getDeepCopy());
 		}

@@ -7,6 +7,8 @@ import org.opaeum.metamodel.core.INakedInterfaceRealization;
 public class NakedInterfaceRealizationImpl extends NakedElementImpl implements INakedInterfaceRealization{
 	private static final long serialVersionUID = 7528018002930390436L;
 	INakedInterface contract;
+	private int index;
+	
 	@Override
 	public String getMetaClass(){
 		return "interfaceRealization";
@@ -25,5 +27,16 @@ public class NakedInterfaceRealizationImpl extends NakedElementImpl implements I
 	}
 	public INakedBehavioredClassifier getImplementingClassifier(){
 		return (INakedBehavioredClassifier) getOwnerElement();
+	}
+	@Override
+	public int getIndex(){
+		return index;
+	}
+	@Override
+	public void setIndex(int index){
+		if(index==-1){
+			System.out.println();
+		}
+		this.index = index;
 	}
 }

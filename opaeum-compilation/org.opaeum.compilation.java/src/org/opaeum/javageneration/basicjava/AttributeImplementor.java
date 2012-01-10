@@ -562,7 +562,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			if(map.getProperty().getNakedBaseType() instanceof INakedHelper){
 				setter.getBody().addToStatements("this." + map.fieldname() + "=" + map.fieldname());
 			}else if(prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable()){
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(prop.getOtherEnd());
 				String args = "(this)";
 				if(map.isManyToOne()){
 					if(isMap(prop.getOtherEnd())){

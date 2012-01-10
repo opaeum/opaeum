@@ -1,5 +1,6 @@
 package org.opaeum.emf.extraction;
 
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
@@ -24,7 +25,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitInterfaceRealization(InterfaceRealization r,NakedInterfaceRealizationImpl impl){
 		Classifier parent = r.getContract();
-		Classifier child = r.getImplementingClassifier();
+		BehavioredClassifier child = r.getImplementingClassifier();
 		INakedInterface nakedParent = (INakedInterface) getNakedPeer(parent);
 		INakedBehavioredClassifier nakedChild = (INakedBehavioredClassifier) getNakedPeer(child);
 		if(!impl.isMarkedForDeletion()){
@@ -37,6 +38,7 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 				return;
 			}
 			impl.setContract(nakedParent);
+			impl.setIndex(child.getInterfaceRealizations().indexOf(r));
 		}
 	}
 	@Override

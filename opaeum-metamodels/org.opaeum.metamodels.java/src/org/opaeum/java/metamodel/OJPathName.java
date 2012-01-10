@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import org.opaeum.java.metamodel.generated.OJPathNameGEN;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
 
-public class OJPathName extends OJPathNameGEN{
+public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 	// static public OJPathName VOID = new OJPathName("java.lang.void");
 	/******************************************************
 	 * The constructor for this classifier.
@@ -159,5 +159,24 @@ public class OJPathName extends OJPathNameGEN{
 		for(OJPathName elementType:getElementTypes()){
 			elementType.renameAll(renamePathNames, newName);
 		}
+	}
+	@Override
+	public int compareTo(OJPathName o){
+		List<String> myNames = getNames();
+		List<String> otherNames = o.getNames();
+		for(int i = 0;i < myNames.size();i++){
+			if(otherNames.size() > i){
+				int compareTo = otherNames.get(i).compareTo(myNames.get(i));
+				if(compareTo != 0){
+					return compareTo;
+				}
+			}else{
+				return 1;// Longest is greater
+			}
+		}
+		if(myNames.size()<otherNames.size()){
+			return -1;//Shortest is less
+		}
+		return 0;
 	}
 }

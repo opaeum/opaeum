@@ -42,7 +42,6 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty implemen
 	private void initialiseNestedClasifier(INakedClassifier type){
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.name = NameConverter.decapitalize(type.getName());
-		this.mappingInfo = (MappingInfo) type.getMappingInfo().getCopy();
 		this.mappingInfo.setPersistentName(null);
 		this.isOrdered = false;
 		this.baseType = type;
@@ -57,7 +56,6 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty implemen
 			this.multiplicity = new NakedMultiplicityImpl(1, 1);
 			this.type = baseType=behavior;
 			this.name = "classifierBehavior";
-			this.mappingInfo = (MappingInfo) behavior.getMappingInfo().getCopy();
 			this.mappingInfo.setPersistentName(null);
 		}else{
 			initSequence(behavior);
@@ -67,32 +65,29 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty implemen
 	public InverseArtificialProperty(INakedClassifier owner,OperationMessageStructureImpl msg){
 		super(owner, msg);
 		initializeMessageStructure(msg);
-		super.isComposite = true;
 	}
 	public InverseArtificialProperty(INakedClassifier owner,StructuredActivityNodeClassifier msg){
 		super(owner, msg);
 		initializeMessageStructure(msg);
-		super.isComposite = true;
 	}
 	public InverseArtificialProperty(INakedClassifier owner,EmbeddedSingleScreenTaskMessageStructureImpl msg){
 		super(owner, msg);
 		initializeMessageStructure(msg);
-		super.isComposite = true;
 	}
 	public InverseArtificialProperty(INakedClassifier owner,CallBehaviorMessageStructure msg){
 		super(owner, msg);
 		initializeMessageStructure(msg);
-		super.isComposite = true;
 	}
 	private void initializeMessageStructure(INakedMessageStructure msg){
 		initSequence(msg);
+		super.isComposite = true;
+		
 	}
 	private void initSequence(INakedClassifier behavior){
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.baseType = behavior;
 		this.name = behavior.getName();
 		this.isOrdered = true;
-		this.mappingInfo = (MappingInfo) behavior.getMappingInfo().getCopy();
 		this.mappingInfo.setPersistentName(null);
 	}
 	@Override

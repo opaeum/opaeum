@@ -27,6 +27,7 @@ import org.eclipse.uml2.uml.ExpansionNode;
 import org.eclipse.uml2.uml.ExpansionRegion;
 import org.eclipse.uml2.uml.InputPin;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.OutputPin;
@@ -45,6 +46,7 @@ import org.eclipse.uml2.uml.edit.providers.ExpansionNodeItemProvider;
 import org.eclipse.uml2.uml.edit.providers.ExpansionRegionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.InputPinItemProvider;
 import org.eclipse.uml2.uml.edit.providers.InterfaceItemProvider;
+import org.eclipse.uml2.uml.edit.providers.InterfaceRealizationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OpaqueActionItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OperationItemProvider;
 import org.eclipse.uml2.uml.edit.providers.OutputPinItemProvider;
@@ -63,6 +65,26 @@ import org.topcased.modeler.uml.editor.outline.CustomCallBehaviorActionItemProvi
 
 public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFactory{
 	public OpaeumItemProviderAdapterFactory(){
+	}
+	@Override
+	public Adapter createInterfaceRealizationAdapter(){
+		if(interfaceRealizationItemProvider == null){
+			interfaceRealizationItemProvider = new InterfaceRealizationItemProvider(this){
+				@Override
+				public String getText(Object object){
+					if(object instanceof InterfaceRealization){
+						InterfaceRealization a = (InterfaceRealization) object;
+						if(a.getContract() != null){
+							return "<Implements>" + a.getContract().getName();
+						}else{
+							return "<Implements> unassigned";
+						}
+					}
+					return super.getText(object);
+				}
+			};
+		}
+		return interfaceRealizationItemProvider;
 	}
 	@Override
 	public Adapter createConnectorAdapter(){
@@ -337,18 +359,18 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 	}
 	@Override
 	public Adapter createExpansionNodeAdapter(){
-		if (expansionNodeItemProvider == null) {
+		if(expansionNodeItemProvider == null){
 			expansionNodeItemProvider = new ExpansionNodeItemProvider(this){
 				@Override
 				public String getText(Object object){
 					if(object instanceof ExpansionNode){
 						ExpansionNode c = (ExpansionNode) object;
-						if(c.getRegionAsInput()!=null){
-							return "<Loop Input Collection>" + c.getName(); 
-						}else if(c.getRegionAsOutput()!=null){
-							return "<Loop Output Collection>" + c.getName(); 
+						if(c.getRegionAsInput() != null){
+							return "<Loop Input Collection>" + c.getName();
+						}else if(c.getRegionAsOutput() != null){
+							return "<Loop Output Collection>" + c.getName();
 						}else{
-							return "<Unassigned Loop Collection>" + c.getName(); 
+							return "<Unassigned Loop Collection>" + c.getName();
 						}
 					}
 					return super.getText(object);
@@ -360,18 +382,17 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				}
 			};
 		}
-		
 		return expansionNodeItemProvider;
 	}
 	@Override
 	public Adapter createExpansionRegionAdapter(){
-		if (expansionRegionItemProvider == null) {
+		if(expansionRegionItemProvider == null){
 			expansionRegionItemProvider = new ExpansionRegionItemProvider(this){
 				@Override
 				public String getText(Object object){
 					if(object instanceof ExpansionRegion){
 						ExpansionRegion c = (ExpansionRegion) object;
-						return "<ForEach Loop>" + c.getName(); 
+						return "<ForEach Loop>" + c.getName();
 					}
 					return super.getText(object);
 				}
@@ -382,18 +403,17 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				}
 			};
 		}
-		
 		return expansionRegionItemProvider;
 	}
 	@Override
 	public Adapter createInputPinAdapter(){
-		if (inputPinItemProvider == null) {
+		if(inputPinItemProvider == null){
 			inputPinItemProvider = new InputPinItemProvider(this){
 				@Override
 				public String getText(Object object){
 					if(object instanceof InputPin){
 						Pin c = (Pin) object;
-						return "<Object Input>" + c.getName(); 
+						return "<Object Input>" + c.getName();
 					}
 					return super.getText(object);
 				}
@@ -404,7 +424,6 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				}
 			};
 		}
-		
 		return inputPinItemProvider;
 	}
 	@Override
@@ -415,7 +434,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 				public String getText(Object object){
 					if(object instanceof OutputPin){
 						Pin c = (Pin) object;
-						return "<Object Output>" + c.getName(); 
+						return "<Object Output>" + c.getName();
 					}
 					return super.getText(object);
 				}

@@ -3,10 +3,13 @@ package org.opaeum.javageneration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.ClassifierMap;
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
@@ -46,7 +49,12 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected static final String SINGLE_TABLE_INHERITANCE = "SingleTableInheritance";
 	protected OJWorkspace javaModel;
 	public <T extends INakedElement>Set<T> getElementsOfType(Class<T> type,Collection<? extends INakedRootObject> roots){
-		Set<T> result = new HashSet<T>();
+		SortedSet<T> result = new TreeSet<T>(new Comparator<T>(){
+			@Override
+			public int compare(T o1,T o2){
+				return o1.getMappingInfo().getQualifiedUmlName().compareTo(o2.getMappingInfo().getQualifiedUmlName());
+			}
+		});
 		for(INakedRootObject r:roots){
 			result.addAll(r.getDirectlyAccessibleElementOfType(type));
 		}
@@ -76,10 +84,10 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 			OJPackage util = setWorkspaceUtilPackage();
 			visitBeforeMethods(o);
 			visitChildren(o);
-			//UtilPackage Would have been overridden by contained root objects
+			// UtilPackage Would have been overridden by contained root objects
 			UtilityCreator.setUtilPackage(util);
 			visitAfterMethods(o);
-			//Free memory
+			// Free memory
 			UtilityCreator.setUtilPackage(null);
 		}else if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
@@ -97,7 +105,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		}
 	}
 	protected OJPackage setWorkspaceUtilPackage(){
-		OJPackage util=null;
+		OJPackage util = null;
 		if(javaModel != null){
 			OJPathName utilPath = new OJPathName(config.getMavenGroupId() + ".util");
 			util = findOrCreatePackage(utilPath);
@@ -125,7 +133,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		SourceFolder or = getSourceFolder(sourceFolderDefinition);
 		List<String> names = packageName.getNames();
 		TextDirectory txtDir = or.findOrCreateTextDirectory(names);
-		TextFile txtFile = txtDir.findOrCreateTextFile(Arrays.asList("package-info.java"),  sourceFolderDefinition.overwriteFiles());
+		TextFile txtFile = txtDir.findOrCreateTextFile(Arrays.asList("package-info.java"), sourceFolderDefinition.overwriteFiles());
 		if(txtFile.getTextSource() == null){
 			OJAnnotatedPackageInfo pkgInfo = new OJAnnotatedPackageInfo();
 			findOrCreatePackage(packageName).addToPackageInfo(pkgInfo);
@@ -218,7 +226,6 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	protected final IOclEngine getOclEngine(){
 		return workspace.getOclEngine();
 	}
-
 	@Override
 	protected boolean shouldVisitChildren(INakedElementOwner o){
 		return o instanceof INakedNameSpace;
@@ -230,7 +237,7 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	public synchronized TextFile createTextPath(OJClassifier c,ISourceFolderIdentifier id){
 		List<String> names = c.getPathName().getHead().getNames();
 		names.add(c.getName() + ".java");
-		TextFile file = createTextPath( id, names);
+		TextFile file = createTextPath(id, names);
 		JavaTextSource jts = new JavaTextSource(c);
 		file.setTextSource(jts);
 		return file;
@@ -238,7 +245,6 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 	@Override
 	public void release(){
 		super.release();
-		this.javaModel=null;
+		this.javaModel = null;
 	}
-
 }

@@ -1,10 +1,11 @@
 package org.opaeum.java.metamodel.annotation;
+import java.util.Collection;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJPathName;
 
 public interface OJAnnotatedElement {
-	Set<OJAnnotationValue> getAnnotations();
+	Collection<OJAnnotationValue> getAnnotations();
 	String toJavaString();
 	OJAnnotationValue putAnnotation(OJAnnotationValue an);
 	OJAnnotationValue removeAnnotation(OJPathName type);

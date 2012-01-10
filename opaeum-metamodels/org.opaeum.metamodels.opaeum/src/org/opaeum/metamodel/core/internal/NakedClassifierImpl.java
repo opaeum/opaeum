@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.expressions.internal.analysis.Conformance;
 import nl.klasse.octopus.expressions.internal.types.PathName;
@@ -30,6 +32,7 @@ import nl.klasse.octopus.stdlib.internal.library.StdlibBasic;
 
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.core.CodeGenerationStrategy;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComment;
 import org.opaeum.metamodel.core.INakedConstraint;
@@ -42,6 +45,7 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedPackage;
 import org.opaeum.metamodel.core.INakedPowerType;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.emulated.AbstractEmulatedProperty;
 
 /**
  * Common superclass for all types that have ownedAttributes and generalizations. THis class deviates from UML2 in that it also supports
@@ -50,8 +54,8 @@ import org.opaeum.metamodel.core.INakedProperty;
 public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements INakedClassifier{
 	private static final long serialVersionUID = -9194358342840031394L;
 	protected List<INakedProperty> ownedAttributes = new ArrayList<INakedProperty>();
-	private List<INakedOperation> ownedOperations = new ArrayList<INakedOperation>();
-	private Set<INakedReception> ownedReceptions = new HashSet<INakedReception>();
+	private SortedSet<INakedOperation> ownedOperations = new TreeSet<INakedOperation>(new DefaultOpaeumComparator());
+	private SortedSet<INakedReception> ownedReceptions = new TreeSet<INakedReception>(new DefaultOpaeumComparator());
 	protected List<INakedGeneralization> generalisations = new ArrayList<INakedGeneralization>();
 	private INakedPowerType powerType;
 	private CodeGenerationStrategy codeGenerationStrategy;
@@ -67,6 +71,16 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	private INakedProperty nameProperty;
 	public List<INakedGeneralization> getNakedGeneralizations(){
 		return generalisations;
+	}
+	@Override
+	public void reorderSequences(){
+		Collections.sort(ownedAttributes, new Comparator<INakedProperty>(){
+			@Override
+			public int compare(INakedProperty o1,INakedProperty o2){
+				int i = o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
+				return i;
+			}
+		});
 	}
 	@Override
 	public INakedClassifier getNestingClassifier(){
@@ -151,13 +165,18 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 			List<? extends INakedProperty> interfaceAttributes = ((INakedClassifier) i).getEffectiveAttributes();
 			addEffectiveAttributes(results, interfaceAttributes);
 		}
-		Collections.sort(ownedAttributes, new Comparator<INakedProperty>(){
-			@Override
-			public int compare(INakedProperty o1,INakedProperty o2){
-				return o1.getOwnedAttributeIndex() - o2.getOwnedAttributeIndex();
-			}
-		});
 		addEffectiveAttributes(results, ownedAttributes);
+		//Put artificial properties last
+		List<INakedProperty> artificialProperties = new ArrayList<INakedProperty>();
+		Iterator<INakedProperty> iterator = results.iterator();
+		while(iterator.hasNext()){
+			INakedProperty a = (INakedProperty) iterator.next();
+			if(a instanceof AbstractEmulatedProperty){
+				iterator.remove();
+				artificialProperties.add(a);
+			}
+		}
+		results.addAll(artificialProperties);
 		return results;
 	}
 	/**

@@ -3,6 +3,9 @@ package org.opaeum.metamodel.activities.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
@@ -14,16 +17,17 @@ import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.commonbehaviors.INakedDurationObservation;
 import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 
 public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements INakedStructuredActivityNode{
 	private static final long serialVersionUID = 5226193508709902688L;
-	Collection<INakedActivityNode> children = new ArrayList<INakedActivityNode>();
-	Collection<INakedActivityEdge> activityEdges = new ArrayList<INakedActivityEdge>();
-	Collection<INakedActivityVariable> variables = new ArrayList<INakedActivityVariable>();
-	private Collection<INakedOutputPin> output = new ArrayList<INakedOutputPin>();
-	private Collection<INakedInputPin> input = new ArrayList<INakedInputPin>();
+	SortedSet<INakedActivityNode> children = new TreeSet<INakedActivityNode>(new DefaultOpaeumComparator());
+	SortedSet<INakedActivityEdge> activityEdges = new TreeSet<INakedActivityEdge>(new DefaultOpaeumComparator());
+	SortedSet<INakedActivityVariable> variables = new TreeSet<INakedActivityVariable>(new DefaultOpaeumComparator());
+	private List<INakedOutputPin> output = new ArrayList<INakedOutputPin>();
+	private List<INakedInputPin> input = new ArrayList<INakedInputPin>();
 	StructuredActivityNodeClassifier messageStructure;
 	Collection<INakedTimeObservation> timeObservations = new HashSet<INakedTimeObservation>();
 	Collection<INakedDurationObservation> durationObservations = new HashSet<INakedDurationObservation>();
@@ -39,14 +43,8 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	public Collection<INakedActivityVariable> getVariables(){
 		return variables;
 	}
-	public void setVariables(Collection<INakedActivityVariable> variables){
-		this.variables = variables;
-	}
 	public Collection<INakedActivityNode> getActivityNodes(){
 		return children;
-	}
-	public void setChildren(Collection<INakedActivityNode> children){
-		this.children = children;
 	}
 	public void removeOwnedElement(INakedElement element,boolean recursively){
 		super.removeOwnedElement(element, recursively);
@@ -122,10 +120,10 @@ public class NakedStructuredActivityNodeImpl extends NakedActionImpl implements 
 	public Collection<INakedOutputPin> getOutput(){
 		return this.output;
 	}
-	public void setOutput(Collection<INakedOutputPin> output){
+	public void setOutput(List<INakedOutputPin> output){
 		this.output = output;
 	}
-	public void setInput(Collection<INakedInputPin> input){
+	public void setInput(List<INakedInputPin> input){
 		this.input = input;
 	}
 	@Override

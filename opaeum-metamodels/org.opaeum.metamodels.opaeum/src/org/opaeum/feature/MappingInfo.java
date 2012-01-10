@@ -14,7 +14,7 @@ public class MappingInfo{
 		System.out.println(new MappingInfo("", m1.toString()).toString().equals(m1.toString()));
 	}
 	// TODO simplify
-	private boolean isVersioned=true;
+	private boolean isVersioned = true;
 	private boolean shouldStore;
 	private String qualifiedJavaName;
 	private String oldQualifiedJavaName;
@@ -61,7 +61,6 @@ public class MappingInfo{
 	public String getJavaPath(){
 		return getQualifiedJavaName().replace('.', '/');
 	}
-
 	public boolean requiresJavaRename(){
 		return oldQualifiedJavaName != null && !oldQualifiedJavaName.equals(qualifiedJavaName);
 	}
@@ -146,14 +145,42 @@ public class MappingInfo{
 	public void setIdInModel(String idInModel){
 		this.idInModel = idInModel;
 	}
-	public Integer getOpaeumId(){
-		return nakedUmlId;
+	@Deprecated
+	public Long getOpaeumId(){
+		if(getIdInModel() == null){
+			return 0l;
+		}else{
+			// TODO currently could lead to duplication in approximately 0.01% of cases
+			// Tested with a model directory containing 300 000 elements. Chances of collisions on the same type are minimal
+			char[] charArray = getIdInModel().toCharArray();
+			long result = 1;
+			int atSignIndex = 0;
+			for(int i = 0;i < charArray.length;i++){
+				if(charArray[i] == '@'){
+					atSignIndex = i;
+				}
+				result = (result * 31) + charArray[i] - i;
+			}
+			if(charArray.length > atSignIndex + 10){
+				// THis is where the most variation takes place in the emf id
+				// Introduce some variation in the calculation
+				for(int i = atSignIndex + 2;i < atSignIndex + 10;i++){
+					if(Character.isLowerCase(charArray[i])){
+						result = (result * 31) + Character.toUpperCase(charArray[i]) - i;
+					}else{
+						result = (result * 31) + Character.toLowerCase(charArray[i]) - i;
+					}
+				}
+			}
+			return Math.abs(result);
+		}
 	}
 	public void setOpaeumId(Integer nakedUmlId){
 		this.nakedUmlId = nakedUmlId;
 	}
 	public String toString(){
-		return "" + (sinceRevision==null?0:sinceRevision) + DEL + new DecimalFormat("#0.0000000").format(sinceVersion==null?0:sinceVersion) + DEL + nakedUmlId + DEL + getPersistentName() + DEL;
+		return "" + (sinceRevision == null ? 0 : sinceRevision) + DEL + new DecimalFormat("#0.0000000").format(sinceVersion == null ? 0 : sinceVersion) + DEL
+				+ nakedUmlId + DEL + getPersistentName() + DEL;
 	}
 	protected MappingInfo createCopy(){
 		return new MappingInfo(idInModel, toString());

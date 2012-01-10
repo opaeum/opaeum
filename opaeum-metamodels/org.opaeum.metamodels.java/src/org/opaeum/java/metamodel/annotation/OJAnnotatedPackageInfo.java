@@ -1,7 +1,9 @@
 package org.opaeum.java.metamodel.annotation;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.OJPackage;
@@ -11,7 +13,7 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElement {
 	private OJPackage myPackage;
-	Set<OJAnnotationValue> annotations = new HashSet<OJAnnotationValue>();
+	Map<OJPathName, OJAnnotationValue> f_annotations = new TreeMap<OJPathName, OJAnnotationValue>();
 	public OJAnnotatedPackageInfo(String string) {
 		setName(string);
 	}
@@ -20,16 +22,21 @@ public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElem
 	}
 
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
-		return AnnotationHelper.maybeAddAnnotation(value, this);
+		if(f_annotations.containsKey(value.getType())){
+			return false;
+		}else{
+			putAnnotation(value);
+			return true;
+		}
 	}
-	public Set<OJAnnotationValue> getAnnotations() {
-		return annotations;
+	public Collection<OJAnnotationValue> getAnnotations() {
+		return f_annotations.values();
 	}
 	public OJAnnotationValue putAnnotation(OJAnnotationValue value) {
-		return AnnotationHelper.putAnnotation(value, this);
+		return f_annotations.put(value.getType(),value);
 	}
 	public OJAnnotationValue removeAnnotation(OJPathName type){
-		return AnnotationHelper.removeAnnotation(this,type);
+		return f_annotations.remove(type);
 	}
 	public String toJavaString() {
 		StringBuilder sb = new StringBuilder();
@@ -38,7 +45,7 @@ public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElem
 			sb.append(super.getComment());
 			sb.append("*/\n");
 		}
-		sb.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(annotations, "\n"), 0));
+		sb.append(JavaStringHelpers.indent(JavaUtil.collectionToJavaString(getAnnotations(), "\n"), 0));
 		sb.append("\n");
 		sb.append(getMyPackage().toJavaString());
 		sb.append("\n");
@@ -58,7 +65,7 @@ public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElem
 	}
 	private Collection<OJPathName> getImports() {
 		Collection<OJPathName> results = new HashSet<OJPathName>();
-		for (OJAnnotationValue an : annotations) {
+		for (OJAnnotationValue an : getAnnotations()) {
 			results.addAll(an.getAllTypesUsed());
 		}
 		return results;
@@ -69,7 +76,7 @@ public class OJAnnotatedPackageInfo extends OJElement implements OJAnnotatedElem
 		return copy;
 	}
 	protected void copyDeepInfoInto(OJAnnotatedPackageInfo owner, OJAnnotatedPackageInfo copy) {
-		for (OJAnnotationValue annotation : this.annotations) {
+		for (OJAnnotationValue annotation : this.getAnnotations()) {
 			copy.addAnnotationIfNew(annotation.getDeepCopy());
 		}
 	}

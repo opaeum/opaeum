@@ -19,6 +19,7 @@ GsmRelation should implement IGsmRelation 11:27
 
  */
 public interface INakedClassifier extends INakedNameSpace,IClassifier{
+	void reorderSequences();
 	INakedProperty getNameProperty();
 	/**
 	 * Use Carefully, could return null in the case of INakedBehaviours that are not owned by Classes due to IOperation.getOwner()

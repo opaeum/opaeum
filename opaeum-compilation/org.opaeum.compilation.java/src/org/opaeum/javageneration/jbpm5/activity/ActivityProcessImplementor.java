@@ -42,6 +42,7 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.maps.SignalMap;
 import org.opaeum.javageneration.maps.StructuredActivityNodeMap;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
+import org.opaeum.javageneration.oclexpressions.PreAndPostConditionGenerator;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
@@ -83,7 +84,7 @@ import org.opaeum.runtime.domain.ExceptionHolder;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,PinLinker.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
 },after = {
-	OperationAnnotator.class
+	OperationAnnotator.class,SimpleActivityMethodImplementor.class /*Needs repeatable sequence in the ocl generating steps*/
 },before = CodeCleanup.class)
 public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 	private void activityEdge(INakedActivityEdge edge){
@@ -286,12 +287,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 					INakedExpansionRegion region = (INakedExpansionRegion) node;
 					INakedMessageStructure msg = region.getMessageStructure();
 					OJAnnotatedClass msgClass = findJavaClass(msg);
-					OJConstructor element = new OJConstructor();
-					for(INakedExpansionNode ip:region.getInputElement()){
-						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip);
-						element.addParam(map.fieldname(), map.javaBaseTypePath());
-						element.getBody().addToStatements(map.setter() + "(" + map.fieldname() + ")");
-					}
 					for(INakedExpansionNode ip:region.getOutputElement()){
 						NakedStructuralFeatureMap propertyMap = OJUtil.buildStructuralFeatureMap(msg, ip, true);
 						NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(msg, ip, false);
@@ -299,7 +294,6 @@ public class ActivityProcessImplementor extends AbstractJavaProcessVisitor{
 						msgClass.addToOperations(getter);
 						getter.initializeResultVariable("getNodeContainer()." + propertyMap.getter() + "()");
 					}
-					msgClass.addToConstructors(element);
 				}
 			}
 		}

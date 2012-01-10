@@ -16,6 +16,9 @@ public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorksp
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<? extends Element> getChildren(Element root){
+		return getChildrenAndRetryIfFailed(root, 0);
+	}
+	protected Collection<? extends Element> getChildrenAndRetryIfFailed(Element root,int count){
 		Collection<Element> elements = EmfElementFinder.getCorrectOwnedElements(root);
 		if(!(root instanceof EmfWorkspace) && root.getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
 			@SuppressWarnings("rawtypes")
@@ -28,13 +31,20 @@ public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorksp
 				for(Association association:c.getAssociations()){
 					for(Property property:association.getNavigableOwnedEnds()){
 						if(property.getOtherEnd() != null && c.equals(property.getOtherEnd().getType())){
-							//property.getOtherEnd() could be null during deletion
+							// property.getOtherEnd() could be null during deletion
 							elements.add(property);
 						}
 					}
 				}
 			}
 		}catch(ArrayIndexOutOfBoundsException e){
+			if(count < 5){
+				try{
+					Thread.sleep(2000);
+				}catch(InterruptedException e1){
+				}
+				return getChildrenAndRetryIfFailed(root, ++count);
+			}
 			// HACK weird bug in:
 			// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
 		}

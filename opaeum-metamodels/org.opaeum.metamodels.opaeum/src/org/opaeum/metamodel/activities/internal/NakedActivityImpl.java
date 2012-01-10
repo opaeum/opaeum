@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IAttribute;
 
@@ -24,6 +26,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedParameter;
@@ -47,11 +50,11 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	private static final long serialVersionUID = -8111895180462880035L;
 	public static final String META_CLASS = "activity";
 	private ActivityKind activityKind;
-	private Set<INakedActivityEdge> activityEdges = new HashSet<INakedActivityEdge>();
-	private Set<INakedActivityNode> activityNodes = new HashSet<INakedActivityNode>();
-	private Set<INakedActivityPartition> partitions = new HashSet<INakedActivityPartition>();
-	private Set<INakedActivityVariable> variables = new HashSet<INakedActivityVariable>();
-	private Set<TypedElementPropertyBridge> emulatedAttributes = new HashSet<TypedElementPropertyBridge>();
+	private Set<INakedActivityEdge> activityEdges = new TreeSet<INakedActivityEdge>(new DefaultOpaeumComparator());
+	private Set<INakedActivityNode> activityNodes = new TreeSet<INakedActivityNode>(new DefaultOpaeumComparator());
+	private Set<INakedActivityPartition> partitions = new TreeSet<INakedActivityPartition>(new DefaultOpaeumComparator());
+	private Set<INakedActivityVariable> variables = new TreeSet<INakedActivityVariable>(new DefaultOpaeumComparator());
+	private Set<TypedElementPropertyBridge> emulatedAttributes = new TreeSet<TypedElementPropertyBridge>(new DefaultOpaeumComparator());
 	public Set<INakedActivityPartition> getPartitions(){
 		return this.partitions;
 	}
@@ -182,11 +185,6 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 	public Set<INakedActivityNode> getActivityNodes(){
 		return this.activityNodes;
 	}
-	public Set<INakedMessageEvent> getAllMessageEvents(){
-		boolean messageEvents = true;
-		Set<INakedMessageEvent> results = getEvents(messageEvents);
-		return results;
-	}
 	@SuppressWarnings({
 			"unchecked","rawtypes"
 	})
@@ -226,7 +224,13 @@ public class NakedActivityImpl extends NakedBehaviorImpl implements INakedActivi
 		return null;
 	}
 	@Override
-	public Set<INakedEvent> getAllEvents(){
+	public Collection<INakedEvent> getEventsInScopeForClassAsContext(){
+		Collection<INakedEvent> result = super.getEventsInScopeForClassAsContext();
+		result.addAll(getEventsInScopeForClassAsBehavior());
+		return result;
+	}
+	@Override
+	public Set<INakedEvent> getEventsInScopeForClassAsBehavior(){
 		return getEvents(false);
 	}
 	@Override

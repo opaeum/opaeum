@@ -49,6 +49,9 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 	public boolean isImported(IClassifier cls){
 		return owner.isImported(cls);
 	}
+	@Override
+	public void reorderSequences(){
+	}
 	public INakedProperty getNameProperty(){
 		return null;
 	}
@@ -80,7 +83,7 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 		return attributes;
 	}
 	public void addInterface(INakedInterface in){
-		NakedInterfaceRealizationImpl t = new NakedInterfaceRealizationImpl();
+		INakedInterfaceRealization t = new NakedInterfaceRealizationImpl();
 		t.setOwnerElement(this);
 		t.setContract(in);
 		t.setMappingInfo(in.getMappingInfo().getCopy());
@@ -340,7 +343,7 @@ public abstract class EmulatedCompositionMessageStructure extends EmulatingEleme
 		return Collections.emptySet();
 	}
 	@Override
-	public boolean hasReceptionFor(INakedSignal signal){
+	public boolean hasReceptionOrTriggerFor(INakedSignal signal){
 		return false;
 	}
 	@Override

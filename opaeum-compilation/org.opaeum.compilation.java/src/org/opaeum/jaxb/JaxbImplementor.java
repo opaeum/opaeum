@@ -25,7 +25,9 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
-@StepDependency(phase = JavaTransformationPhase.class, after={EventGeneratorImplementor.class})
+@StepDependency(phase = JavaTransformationPhase.class,after = {
+	EventGeneratorImplementor.class
+})
 public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(INakedEntity c){
@@ -34,21 +36,22 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 			OJAnnotatedClass owner = findJavaClass(c);
 			addXmlRootElement(owner);
 			OJOperation outgoingEvents = owner.getUniqueOperation("getOutgoingEvents");
-			if(outgoingEvents!=null){
+			if(outgoingEvents != null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) outgoingEvents);
 			}
 			OJOperation cancelledEvents = owner.getUniqueOperation("getCancelledEvents");
-			if(cancelledEvents!=null){
+			if(cancelledEvents != null){
 				JaxbAnnotator.addXmlTransient((OJAnnotatedOperation) cancelledEvents);
 			}
-
-			for(INakedProperty p:c.getEffectiveAttributes()){
+			for(INakedProperty p:c.getDirectlyImplementedAttributes()){
 				if(p.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
 					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 					OJAnnotatedOperation getter = (OJAnnotatedOperation) owner.findOperation(map.getter(), new ArrayList<IClassifier>());
-					if(getter != null){
-						JaxbAnnotator.addXmlTransient(getter);
-					}
+					JaxbAnnotator.addXmlTransient(getter);
+				}else if(p.getNakedBaseType() instanceof INakedEntity && !p.isInverse()){
+					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+					OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
+					JaxbAnnotator.addXmlTransient(o);
 				}else if(p.getNakedBaseType() instanceof INakedInterface){
 					addXmlAnyElement(owner, c, p);
 				}
@@ -77,14 +80,5 @@ public class JaxbImplementor extends AbstractJavaProducingVisitor{
 	}
 	private void addXmlRootElement(OJAnnotatedClass owner){
 		owner.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("javax.xml.bind.annotation.XmlRootElement")));
-	}
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedProperty np){
-		if(np.getNakedBaseType() instanceof INakedEntity && !np.isInverse() && OJUtil.hasOJClass(np.getOwner())){
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-			OJAnnotatedClass owner = findJavaClass(np.getOwner());
-			OJAnnotatedOperation o = (OJAnnotatedOperation) owner.findOperation(map.getter(), Collections.EMPTY_LIST);
-			JaxbAnnotator.addXmlTransient(o);
-		}
 	}
 }

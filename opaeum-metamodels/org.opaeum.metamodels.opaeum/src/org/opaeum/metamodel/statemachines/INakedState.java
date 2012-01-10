@@ -26,7 +26,7 @@ public interface INakedState extends IRegionOwner,IState,INakedStep{
 	void setEntry(INakedBehavior entry);
 	INakedBehavior getExit();
 	void setExit(INakedBehavior exit);
-	List<INakedRegion> getRegions();
+	Collection<INakedRegion> getRegions();
 	Collection<INakedTransition> getCompletionTransitions();
 	void removeFromOutgoing(INakedTransition nakedTransitionImpl);
 	void addToOutgoing(INakedTransition nakedTransitionImpl);

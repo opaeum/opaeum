@@ -59,7 +59,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		}
 	}
 	private int insertArtificialJoin(NodesType nodes,ConnectionsType connections,int i,INakedActivityNode state){
-		int joinId = state.getMappingInfo().getOpaeumId() + ARTIFICIAL_JOIN_ID;
+		Long joinId = state.getMappingInfo().getOpaeumId() + ARTIFICIAL_JOIN_ID;
 		addJoin(nodes, i, Jbpm5Util.getArtificialJoinName(state), joinId);
 		createConnection(connections, joinId, state.getMappingInfo().getOpaeumId());
 		i++;
@@ -68,14 +68,14 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	}
 	private final int addFinalNode(NodesType nodes,ConnectionsType connections,int i,INakedControlNode state){
 		String name = state.getMappingInfo().getPersistentName().getAsIs();
-		Integer nakedUmlId = state.getMappingInfo().getOpaeumId();
+		Long nakedUmlId = state.getMappingInfo().getOpaeumId();
 		EndType addFinalNode = null;
 		if((state.getOwnerElement() instanceof INakedStructuredActivityNode)){
 			addFinalNode = addFinalNode(nodes, i, name, nakedUmlId);
 		}else{
 			addActionNode(nodes, i, state);
 			i++;
-			int finalNodeId = nakedUmlId + ARTIFICIAL_FINAL_NODE_ID;
+			Long finalNodeId = nakedUmlId + ARTIFICIAL_FINAL_NODE_ID;
 			addFinalNode = addFinalNode(nodes, i, state.getMappingInfo().getPersistentName() + "_end", finalNodeId);
 			this.createConnection(connections, nakedUmlId, finalNodeId);
 		}
@@ -87,8 +87,8 @@ public class ActivityFlowStep extends AbstractFlowStep{
 	private void populateContainer(ActivityNodeContainer container){
 		DocumentRoot root = super.createRoot(container);
 		ProcessType process = root.getProcess();
-		sourceIdMap.push(new HashMap<INakedElement,Integer>());
-		targetIdMap.push(new HashMap<INakedElement,Integer>());
+		sourceIdMap.push(new HashMap<INakedElement,Long>());
+		targetIdMap.push(new HashMap<INakedElement,Long>());
 		NodesType nodesType = process.getNodes().get(0);
 		ConnectionsType connections = process.getConnections().get(0);
 		int i = 1;
@@ -99,12 +99,12 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		activityNodes.removeAll(container.getStartNodes());
 		// Effective Startnodes will be treated separately
 		activityNodes.removeAll(effectiveStartNodes);
-		int startNodeId = container.getMappingInfo().getOpaeumId() + ARTIFICIAL_START_NODE_ID;
+		Long startNodeId = container.getMappingInfo().getOpaeumId() + ARTIFICIAL_START_NODE_ID;
 		addInitialNode(nodesType, i, "artificial_start_for_" + container.getMappingInfo().getPersistentName().getAsIs(), startNodeId);
 		i++;
 		if(container instanceof INakedActivity && ((INakedActivity) container).isProcess()){
 			ActionNodeType actionNode = ProcessFactory.eINSTANCE.createActionNodeType();
-			int initNodeId = container.getMappingInfo().getOpaeumId() + INIT_NODE_ID;
+			Long initNodeId = container.getMappingInfo().getOpaeumId() + INIT_NODE_ID;
 			setBounds(i, actionNode, initNodeId);
 			createAction("init", actionNode.getAction(), true);
 			actionNode.setName("init");
@@ -115,7 +115,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		}
 		if(effectiveStartNodes.size() > 1){
 			// INsert artificial Fork;
-			int forkId = container.getMappingInfo().getOpaeumId() + ARTIFICIAL_FORK_ID;
+			Long forkId = container.getMappingInfo().getOpaeumId() + ARTIFICIAL_FORK_ID;
 			addFork(nodesType, i, Jbpm5Util.getArtificialForkName(container), forkId);
 			createConnection(connections, startNodeId, forkId);
 			i++;
@@ -124,7 +124,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		// Add connections from fork/startNode
 		for(INakedActivityNode effectiveStartNode:effectiveStartNodes){
 			i = addNode(nodesType, connections, i, choiceNodes, effectiveStartNode);
-			Integer targetId = targetIdMap.peek().get(effectiveStartNode);
+			Long targetId = targetIdMap.peek().get(effectiveStartNode);
 			createConnection(connections, startNodeId, targetId);
 		}
 		// Add Nodes
@@ -133,8 +133,8 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		}
 		// Add connections
 		for(INakedActivityEdge t:container.getActivityEdges()){
-			Integer sourceId = sourceIdMap.peek().get(t.getEffectiveSource());
-			Integer targetId = targetIdMap.peek().get(t.getEffectiveTarget());
+			Long sourceId = sourceIdMap.peek().get(t.getEffectiveSource());
+			Long targetId = targetIdMap.peek().get(t.getEffectiveTarget());
 			if(sourceId != null && targetId != null){
 				// Not all nodes manifest in jbpm nodes, e.g. initialNodes and
 				// some ParameterNodes
@@ -289,7 +289,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		state.getOnEntry().add(onEntry);
 	}
 	private int insertArtificialFork(NodesType nodesType,ConnectionsType connections,int i,INakedActivityNode node){
-		int forkId = node.getMappingInfo().getOpaeumId() + ARTIFICIAL_FORK_ID;
+		Long forkId = node.getMappingInfo().getOpaeumId() + ARTIFICIAL_FORK_ID;
 		addFork(nodesType, i, Jbpm5Util.getArtificialForkName(node), forkId);
 		createConnection(connections, node.getMappingInfo().getOpaeumId(), forkId);
 		i++;
@@ -297,7 +297,7 @@ public class ActivityFlowStep extends AbstractFlowStep{
 		return i;
 	}
 	private int insertArtificialChoice(NodesType nodesType,HashMap<SplitType,INakedActivityNode> choiceNodes,ConnectionsType connections,int i,INakedActivityNode node){
-		int forkId = node.getMappingInfo().getOpaeumId() + ARTIFICIAL_CHOICE_ID;
+		Long forkId = node.getMappingInfo().getOpaeumId() + ARTIFICIAL_CHOICE_ID;
 		SplitType split = addChoice(nodesType, i, Jbpm5Util.getArtificialChoiceName(node), forkId);
 		createConnection(connections, node.getMappingInfo().getOpaeumId(), forkId);
 		choiceNodes.put(split, node);

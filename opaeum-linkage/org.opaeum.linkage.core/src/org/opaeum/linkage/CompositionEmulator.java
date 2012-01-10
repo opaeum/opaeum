@@ -77,8 +77,17 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			}
 		}
 	}
+	//TODO maybe find a better place for this
+	@VisitBefore(matchSubclasses = true)
+	public void visitClassifier(INakedClassifier c){
+		if(!(c instanceof ICompositionParticipant)){
+			c.reorderSequences();
+		}
+	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParticipant(ICompositionParticipant cp){
+		//TODO maybe find a better place for this
+		cp.reorderSequences();
 		if(cp instanceof INakedAssociation){
 			// do nothing
 		}else{

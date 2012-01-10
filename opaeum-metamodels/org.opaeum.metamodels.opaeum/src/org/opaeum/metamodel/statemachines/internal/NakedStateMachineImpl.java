@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IAttribute;
 import nl.klasse.octopus.model.IState;
@@ -15,6 +17,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTimeObservation;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedBehaviorImpl;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedParameter;
@@ -31,7 +34,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 	private static final long serialVersionUID = -3976968471783003485L;
 	static public final String META_CLASS = "stateMachine";
 	private StateMachineKind stateMachineKind;
-	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
+	private SortedSet<INakedRegion> regions = new TreeSet<INakedRegion>(new DefaultOpaeumComparator());
 	private List<INakedProperty> emulatedAttributes;
 	Collection<INakedTimeObservation> timeObservations = new HashSet<INakedTimeObservation>();
 	Collection<INakedDurationObservation> durationObservations = new HashSet<INakedDurationObservation>();
@@ -87,14 +90,6 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 			}
 		}
 		return results;
-	}
-	/**
-	 * Returns an array containing all the operations and signals that could possibly trigger a transition in this statemachine
-	 */
-	public Set<INakedMessageEvent> getAllMessageEvents(){
-		boolean messageEventsOnly = true;
-		Set<INakedMessageEvent> messageEvents = getEvents(messageEventsOnly);
-		return messageEvents;
 	}
 	@SuppressWarnings("unchecked")
 	protected <T>Set<T> getEvents(boolean messageEventsOnly){
@@ -157,7 +152,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 	public Set<INakedState> getAllStates(){
 		return RegionOwnerUtil.getAllStatesRecursively(this);
 	}
-	public List<INakedRegion> getRegions(){
+	public Collection<INakedRegion> getRegions(){
 		return this.regions;
 	}
 	@Override
@@ -190,7 +185,7 @@ public class NakedStateMachineImpl extends NakedBehaviorImpl implements INakedSt
 		return super.isNamedMember(e) || e instanceof INakedState;
 	}
 	@Override
-	public Set<INakedEvent> getAllEvents(){
+	public Set<INakedEvent> getEventsInScopeForClassAsBehavior(){
 		return getEvents(false);
 	}
 	@Override

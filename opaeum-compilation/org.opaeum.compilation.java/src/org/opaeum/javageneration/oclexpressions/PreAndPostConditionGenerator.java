@@ -36,7 +36,8 @@ import org.opaeum.metamodel.core.IParameterOwner;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,SpecificationImplementor.class,NakedParsedOclStringResolver.class
 },after = {
-		OperationAnnotator.class,SpecificationImplementor.class
+		OperationAnnotator.class,SpecificationImplementor.class,AttributeExpressionGenerator.class
+/* Need the sequence of the ocl generating steps to be repeatable to ensure minimal deviations from previous generation */
 })
 public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
@@ -134,7 +135,7 @@ public class PreAndPostConditionGenerator extends AbstractJavaProducingVisitor{
 		OJOperation myOper1 = myOwner.findOperation(mapper.javaOperName(), mapper.javaParamTypePaths());
 		ConstraintGenerator cg = new ConstraintGenerator(myOwner, mapper.getParameterOwner());
 		if(conditions.size() > 0){
-			cg.addConstraintChecks(myOper1, conditions, pre,"this");
+			cg.addConstraintChecks(myOper1, conditions, pre, "this");
 		}
 	}
 	public void addEvaluationMethod(Collection<INakedConstraint> conditions,String evaluationMethodName,INakedClassifier messageClass,String selfExpression){

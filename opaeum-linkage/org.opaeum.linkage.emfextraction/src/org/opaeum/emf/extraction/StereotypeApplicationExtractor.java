@@ -67,14 +67,14 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
+		
 		NakedElementImpl nakedPeer = (NakedElementImpl) getNakedPeer(element);
+		
 		if(element instanceof Comment){
 			visitComment((Comment) element);
 		}
 		if(nakedPeer != null){
-			if(nakedPeer instanceof INakedHelper){
-			}
-			// Some element may not be supported by Opaeum
+			// Some elementS may not be supported by Opaeum
 			addStereotypes(nakedPeer, element);
 			addKeywords(nakedPeer, element);
 		}

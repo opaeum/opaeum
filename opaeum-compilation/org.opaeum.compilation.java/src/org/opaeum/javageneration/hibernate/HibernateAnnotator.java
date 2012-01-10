@@ -29,6 +29,7 @@ import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
+import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.UtilCreator;
 import org.opaeum.javageneration.persistence.JpaAnnotator;
@@ -52,7 +53,7 @@ import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
 },after = {
-		JpaAnnotator.class,UtilCreator.class
+		JpaAnnotator.class,UtilCreator.class,CompositionNodeImplementor.class/*Dependendent on the markDelete method being created*/
 },before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true)
@@ -171,6 +172,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 		if(field != null){
+			if(map.getProperty().getNakedBaseType().getName().equals("IUserWorkspaceHelper") && !map.getProperty().getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
+				System.out.println();
+			}
 			// may have been removed by custom transformation
 			INakedProperty f = map.getProperty();
 			if(f.getNakedBaseType() instanceof INakedEnumeration){

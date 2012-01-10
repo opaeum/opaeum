@@ -1,5 +1,5 @@
 package org.opaeum.metamodel.statemachines;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 
 import org.opaeum.metamodel.core.INakedNameSpace;
@@ -13,11 +13,11 @@ public interface IRegionOwner extends INakedNameSpace {
 	 * this RegionOwner. Results are order from outer most regions to inner most
 	 * regions
 	 */
-	List<INakedRegion> getAllRegions();
+	Collection<INakedRegion> getAllRegions();
 	/**
 	 * Returns a list of the regions contained directly by this RegionOwner.
 	 */
-	List<INakedRegion> getRegions();
+	Collection<INakedRegion> getRegions();
 	/**
 	 * Returns true if this regionOwner is an ancestor of the specified
 	 * regionOwner, i.e. it directly or indirectly contains the specified

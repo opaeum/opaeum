@@ -43,7 +43,7 @@ public class TooManyNavigationSupport extends AbstractJavaProducingVisitor{
 
 		OJAnnotationValue namedQueries = null;
 		OJAnnotationAttributeValue namedQueryValue = null;
-		Set<OJAnnotationValue> annotations = ojClass.getAnnotations();
+		Collection<OJAnnotationValue> annotations = ojClass.getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {
 			if (ojAnnotationValue.getType().equals(new OJPathName("javax.persistence.NamedQueries"))) {
 				namedQueries = ojAnnotationValue;

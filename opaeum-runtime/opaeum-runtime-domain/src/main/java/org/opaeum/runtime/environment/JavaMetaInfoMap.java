@@ -36,7 +36,7 @@ public abstract class JavaMetaInfoMap{
 	public <T> T newInstance(String uuid){
 		return (T)IntrospectionUtil.newInstance(getClass(uuid));
 	}
-	protected void putMethod(Class<? extends Object> c,String uuid,int nakedUmlId){
+	protected void putMethod(Class<? extends Object> c,String uuid,long nakedUmlId){
 		// Will only be called from the declaring model, so this nakedUmlId
 		// won't be unique, but does serve to identifiy the handler
 		Method[] declaredMethods = c.getDeclaredMethods();

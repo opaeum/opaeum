@@ -2,6 +2,8 @@ package org.opaeum.javageneration.persistence;
 
 import java.util.Collection;
 
+import org.opaeum.java.metamodel.OJBlock;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSwitchCase;
 import org.opaeum.java.metamodel.OJSwitchStatement;
@@ -59,14 +61,12 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName(IEnum.class.getName()));
 		result.setInitExp("null");
 		toOpaeumId.getBody().addToLocals(result);
-		OJSwitchStatement sst = new OJSwitchStatement();
-		toOpaeumId.getBody().addToStatements(sst);
-		sst.setCondition("i");
+		OJBlock elsePart =toOpaeumId.getBody();
 		for(INakedElement l:els){
-			OJSwitchCase sc = new OJSwitchCase();
-			sc.setLabel(l.getMappingInfo().getOpaeumId() + "");
-			sc.getBody().addToStatements("result = " + oje.getName() + "." + getLiteralName(l));
-			sst.addToCases(sc);
+			OJIfStatement sc = new OJIfStatement("i=="+l.getMappingInfo().getOpaeumId() + "","result = " + oje.getName() + "." + getLiteralName(l));
+			elsePart.addToStatements(sc);
+			sc.setElsePart(new OJBlock());
+			elsePart=sc.getElsePart();
 		}
 		toOpaeumId.getBody().addToStatements("return result");
 		return toOpaeumId;

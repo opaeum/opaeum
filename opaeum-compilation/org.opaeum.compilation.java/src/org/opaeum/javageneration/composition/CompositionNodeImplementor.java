@@ -28,6 +28,7 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -52,6 +53,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	private static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 	private void visitClass(ICompositionParticipant c){
+
 		if(OJUtil.hasOJClass(c)){
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findClass(path);
@@ -121,6 +123,11 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 					}
 				}
 			}
+			
+		}
+		if(c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior()!=null){
+			addToOwningObject.getBody().addToStatements("startClassifierBehavior()");
+
 		}
 		ojClass.addToOperations(addToOwningObject);
 	}

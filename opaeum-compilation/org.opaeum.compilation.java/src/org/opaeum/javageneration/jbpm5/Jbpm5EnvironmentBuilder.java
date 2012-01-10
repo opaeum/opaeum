@@ -1,9 +1,10 @@
 package org.opaeum.javageneration.jbpm5;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IImportedElement;
 import nl.klasse.octopus.model.IModelElement;
@@ -24,6 +25,7 @@ import org.opaeum.javageneration.persistence.JpaUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.ProcessIdentifier;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
@@ -39,7 +41,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		protected int getThreadPoolSize(){
 			return 1;
 		}
-		private Collection<INakedBehavior> processes = new ArrayList<INakedBehavior>();
+		private SortedSet<INakedBehavior> processes = new TreeSet<INakedBehavior>(new DefaultOpaeumComparator());
 		@VisitBefore(matchSubclasses = true)
 		public void visitBehavior(INakedBehavior b){
 			if(b.isProcess()){
@@ -59,16 +61,17 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 	@VisitBefore(matchSubclasses = true)
 	public void visitWorkspace(INakedModelWorkspace workspace){
 		if(transformationContext.isIntegrationPhase()){
-			Collection<INakedRootObject> primaryRootObjects2 = workspace.getPrimaryRootObjects();
-			Collection<INakedBehavior> processes = new HashSet<INakedBehavior>();
+			SortedSet<INakedRootObject> primaryRootObjects2 = new TreeSet<INakedRootObject>(new DefaultOpaeumComparator());
+			primaryRootObjects2.addAll(workspace.getPrimaryRootObjects());
 			OJPathName pn = Jbpm5Util.jbpmKnowledgeBase(workspace);
-			createKnowledgeBase(primaryRootObjects2, processes, pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
-			OJAnnotatedPackageInfo pkgInfo = findOrCreatePackageInfo(pn.getHead(),JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
+			SortedSet<INakedBehavior> emptySet = new TreeSet<INakedBehavior>();
+			createKnowledgeBase(primaryRootObjects2, emptySet, pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
+			OJAnnotatedPackageInfo pkgInfo = findOrCreatePackageInfo(pn.getHead(), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			JpaUtil.addNamedQueries(pkgInfo, "ProcessInstancesWaitingForEvent",
 					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}
-	protected void createKnowledgeBase(Collection<INakedRootObject> bpmModels,Collection<INakedBehavior> processes,OJPathName pn,JavaSourceFolderIdentifier i){
+	protected void createKnowledgeBase(SortedSet<INakedRootObject> bpmModels,SortedSet<INakedBehavior> processes,OJPathName pn,JavaSourceFolderIdentifier i){
 		OJAnnotatedClass knowledgeBase = new OJAnnotatedClass(pn.getLast());
 		findOrCreatePackage(pn.getHead()).addToClasses(knowledgeBase);
 		knowledgeBase.addToImports(new OJPathName("java.util.Set"));
@@ -100,20 +103,19 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		instance.setFinal(true);
 		instance.setInitExp("new " + pn.getLast() + "()");
 		knowledgeBase.addToFields(instance);
-		//TODO introduce constant
+		// TODO introduce constant
 		knowledgeBase.setSuperclass(new OJPathName("org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase"));
 	}
 	@Override
 	protected int getThreadPoolSize(){
 		return 1;
 	}
-
 	@VisitBefore(matchSubclasses = true)
 	public void visitModel(INakedModel model){
 		if(!transformationContext.isIntegrationPhase()){
 			ProcessCollector processCollector = new ProcessCollector();
 			processCollector.visitRecursively(model);
-			Collection<INakedRootObject> dependencies = new HashSet<INakedRootObject>();
+			SortedSet<INakedRootObject> dependencies = new TreeSet<INakedRootObject>(new DefaultOpaeumComparator());
 			for(IImportedElement ie:model.getImports()){
 				IModelElement element = ie.getElement();
 				if(element instanceof INakedModel && isBpmModel((INakedModel) element)){
@@ -124,7 +126,8 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 			if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
 				// Could lead to duplicate declarations of this query in the same integrated jar so we have to make sure we don't
 				// accidentally install this package in JPA
-				JpaUtil.addNamedQueries(findOrCreatePackageInfo(OJUtil.utilPackagePath(model),JavaSourceFolderIdentifier.DOMAIN_GEN_SRC), "ProcessInstancesWaitingForEvent",
+				JpaUtil.addNamedQueries(findOrCreatePackageInfo(OJUtil.utilPackagePath(model), JavaSourceFolderIdentifier.DOMAIN_GEN_SRC),
+						"ProcessInstancesWaitingForEvent",
 						"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 			}
 		}

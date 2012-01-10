@@ -134,7 +134,7 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 		return otherEnd;
 	}
 	public int getOwnedAttributeIndex(){
-		return 0;
+		return Math.abs(id.hashCode());//High but consistent
 	}
 	public String[] getQualifierNames(){
 		return new String[0];

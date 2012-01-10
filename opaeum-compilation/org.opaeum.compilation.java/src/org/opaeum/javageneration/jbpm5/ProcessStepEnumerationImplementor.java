@@ -2,6 +2,8 @@ package org.opaeum.javageneration.jbpm5;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJConstructor;
@@ -18,6 +20,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedStep;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.runtime.domain.IProcessStep;
@@ -82,8 +85,10 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		applyStereotypesAsAnnotations(step, l);
 	}
 	private String buildTriggerMethodParameter(Collection<INakedTrigger> methodTriggers){
+		SortedSet<INakedTrigger> sortedSet = new TreeSet<INakedTrigger>(new DefaultOpaeumComparator());
+		sortedSet.addAll(methodTriggers);
 		StringBuilder sb = new StringBuilder("new TriggerMethod[]{");
-		Iterator<INakedTrigger> iter = methodTriggers.iterator();
+		Iterator<INakedTrigger> iter = sortedSet.iterator();
 		while(iter.hasNext()){
 			INakedTrigger t = iter.next();
 			sb.append("new TriggerMethod(");

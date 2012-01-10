@@ -13,8 +13,6 @@ import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJSwitchCase;
-import org.opaeum.java.metamodel.OJSwitchStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
@@ -110,7 +108,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitTriggerContainer(INakedTriggerContainer c){
-		for(INakedEvent event:c.getAllEvents()){
+		for(INakedEvent event:c.getEventsInScopeForClassAsBehavior()){
 			if(event instanceof INakedChangeEvent){
 				visitChangeEvent((INakedChangeEvent) event);
 			}else if(event instanceof INakedTimer){
@@ -311,14 +309,12 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		argConstr.getBody().addToStatements("this.isEvent=isEvent");
 	}
 	private void addIsEventMarshal(OJAnnotatedOperation marshall){
-		marshall.getBody().addToStatements(marshall.getBody().getStatements().size() - 1, "result.add(new PropertyValue(-6, Value.valueOf(isEvent)))");
+		marshall.getBody().addToStatements(marshall.getBody().getStatements().size() - 1, "result.add(new PropertyValue(-6l, Value.valueOf(isEvent)))");
 	}
 	private void addIsEventUnmarshall(OJAnnotatedOperation unmarshall){
-		OJSwitchStatement sst = (OJSwitchStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
-		OJSwitchCase sc = new OJSwitchCase();
-		sst.addToCases(sc);
-		sc.setLabel("-6");
-		sc.getBody().addToStatements("this.isEvent=(Boolean)Value.valueOf(p.getValue(),persistence)");
+		OJForStatement sst = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
+		OJIfStatement sc = new OJIfStatement("p.getId()==-6l", "this.isEvent=(Boolean)Value.valueOf(p.getValue(),persistence)");
+		sst.getBody().addToStatements(sc);
 	}
 	private void manageInvocation(INakedOperation o,OJAnnotatedOperation invoke,OJBlock b,String call){
 		if(BehaviorUtil.hasExecutionInstance(o)){
@@ -363,10 +359,10 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		result.setInitExp("new ArrayList<PropertyValue>()");
 		for(INakedTypedElement p:e){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
-			blo.addToStatements("result.add(new PropertyValue(" + p.getMappingInfo().getOpaeumId() + ", Value.valueOf(" + target + "." + map.getter() + "())))");
+			blo.addToStatements("result.add(new PropertyValue(" + p.getMappingInfo().getOpaeumId() + "l, Value.valueOf(" + target + "." + map.getter() + "())))");
 		}
 		if(includeNodeId){
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-5, Value.valueOf(nodeId)))");
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(nodeId)))");
 		}
 		blo.addToStatements("return result");
 		return marshall;
@@ -384,22 +380,19 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		unmarshall.addParam("persistence", new OJPathName(AbstractPersistence.class.getName()));
 		OJForStatement foreachProperty = new OJForStatement("p", new OJPathName("PropertyValue"), "ps");
 		unmarshall.getBody().addToStatements(foreachProperty);
-		OJSwitchStatement sst = new OJSwitchStatement();
-		sst.setName(PROPERTY_ID_SWITCH);
-		sst.setCondition("p.getId()");
-		foreachProperty.getBody().addToStatements(sst);
+		foreachProperty.setName(PROPERTY_ID_SWITCH);
+		OJBlock elseBlock = foreachProperty.getBody();
 		for(INakedTypedElement p:e){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
-			OJSwitchCase sc = new OJSwitchCase();
-			sst.addToCases(sc);
-			sc.setLabel("" + p.getMappingInfo().getOpaeumId());
-			sc.getBody().addToStatements(target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),persistence))");
+			String setValue = target + "." + map.setter() + "((" + map.javaType() + ")Value.valueOf(p.getValue(),persistence))";
+			OJIfStatement sst = new OJIfStatement("p.getId()==" + p.getMappingInfo().getOpaeumId() + "l", setValue);
+			elseBlock.addToStatements(sst);
+			sst.setElsePart(new OJBlock());
+			elseBlock=sst.getElsePart();
 		}
 		if(includeNodeId){
-			OJSwitchCase sc5 = new OJSwitchCase();
-			sc5.setLabel("-5");
-			sc5.getBody().addToStatements("this.nodeId=(String)Value.valueOf(p.getValue(),persistence)");
-			sst.addToCases(sc5);
+			OJIfStatement sc5 = new OJIfStatement("p.getId()==-5","this.nodeId=(String)Value.valueOf(p.getValue(),persistence)");
+			elseBlock.addToStatements(sc5);
 		}
 		return unmarshall;
 	}

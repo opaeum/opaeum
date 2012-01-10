@@ -1,6 +1,7 @@
 package org.opaeum.jbpm5;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,25 +41,25 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 	public void createRoot(INakedStateMachine sm){
 		DocumentRoot root = super.createRoot(sm);
 		ProcessType process = root.getProcess();
-		sourceIdMap.push(new HashMap<INakedElement,Integer>());
-		targetIdMap.push(new HashMap<INakedElement,Integer>());
+		sourceIdMap.push(new HashMap<INakedElement,Long>());
+		targetIdMap.push(new HashMap<INakedElement,Long>());
 		addRegions(sm, process.getNodes().get(0), process.getConnections().get(0));
 	}
 	public void addRegions(IRegionOwner owner,NodesType nodes,ConnectionsType connections){
-		List<INakedRegion> regions = owner.getRegions();
+		Collection<INakedRegion> regions = owner.getRegions();
 		int i = 1;
 		// Create composite node per region.
 		StartType start = ProcessFactory.eINSTANCE.createStartType();
-		int startNodeId = owner.getMappingInfo().getOpaeumId() + ARTIFICIAL_START_NODE_ID;
+		Long startNodeId = owner.getMappingInfo().getOpaeumId() + ARTIFICIAL_START_NODE_ID;
 		start.setName("artificial_start");
 		nodes.getStart().add(start);
-		int from = startNodeId;
+		Long from = startNodeId;
 		setBounds(i, start, startNodeId);
 		if(owner instanceof INakedStateMachine){
-			addInitNode(nodes, i,(INakedStateMachine) owner );
+			addInitNode(nodes, i, (INakedStateMachine) owner);
 			createConnection(connections, startNodeId, owner.getMappingInfo().getOpaeumId() + INIT_NODE_ID);
-			startNodeId=owner.getMappingInfo().getOpaeumId() + INIT_NODE_ID;
-			from=startNodeId;
+			startNodeId = owner.getMappingInfo().getOpaeumId() + INIT_NODE_ID;
+			from = startNodeId;
 		}
 		if(regions.size() > 1){
 			i++;
@@ -67,33 +68,33 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 			createConnection(connections, startNodeId, from);
 		}
 		i++;
-		List<Integer> regionIds = new ArrayList<Integer>();
+		List<Long> regionIds = new ArrayList<Long>();
 		for(INakedRegion region:regions){
 			DynamicType node = createDynamicState(nodes, i, region.getName(), region.getMappingInfo().getOpaeumId());
 			i++;
 			populateRegion(node.getNodes().get(0), node.getConnections().get(0), region);
 			regionIds.add(region.getMappingInfo().getOpaeumId());
 		}
-		int endNodeId = owner.getMappingInfo().getOpaeumId() + ARTIFICIAL_END_NODE_ID;
+		Long endNodeId = owner.getMappingInfo().getOpaeumId() + ARTIFICIAL_END_NODE_ID;
 		addFinalNode(nodes, i, "artificial_end", endNodeId);
 		i++;
 		if(owner instanceof INakedState && ((INakedState) owner).getCompletionTransitions().size() > 0){
-			int id = owner.getMappingInfo().getOpaeumId() + ON_COMPLETION_NODE_ID;
+			long id = owner.getMappingInfo().getOpaeumId() + ON_COMPLETION_NODE_ID;
 			StateType state = super.addState(nodes, i, "on_completion_of_" + owner.getName(), id);
 			state.getOnEntry().add(ProcessFactory.eINSTANCE.createOnEntryType());
-			createAction(EventUtil.getEventConsumerName(((INakedState) owner).getCompletionEvent()), state.getOnEntry().get(0).getAction(),false);
+			createAction(EventUtil.getEventConsumerName(((INakedState) owner).getCompletionEvent()), state.getOnEntry().get(0).getAction(), false);
 			createConnection(connections, id, endNodeId);
 			endNodeId = id;
 			i++;
 		}
-		int to = endNodeId;
+		Long to = endNodeId;
 		if(regions.size() > 1){
 			to = owner.getMappingInfo().getOpaeumId() + ARTIFICIAL_JOIN_ID;
 			super.addJoin(nodes, i, "artificial_join", to);
 			createConnection(connections, to, endNodeId);
 			i++;
 		}
-		for(Integer regionId:regionIds){
+		for(Long regionId:regionIds){
 			createConnection(connections, from, regionId);
 			createConnection(connections, regionId, to);
 		}
@@ -117,7 +118,7 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 		}
 	}
 	private void addCompoisteState(NodesType nodes,ConnectionsType connections,int i,INakedState state){
-		Integer id = state.getMappingInfo().getOpaeumId();
+		Long id = state.getMappingInfo().getOpaeumId();
 		CompositeType cs = createCompositeState(nodes, i, state.getName(), id);
 		nodes.getComposite().add(cs);
 		NakedStateMap map = new NakedStateMap(state);
@@ -137,12 +138,12 @@ public class StateMachineFlowStep extends AbstractFlowStep{
 	private void addActions(INakedState state,NakedStateMap map,EList<OnEntryType> onEntries,EList<OnExitType> onExits){
 		if(StateMachineUtil.doesWorkOnEntry(state)){
 			OnEntryType onEntry = ProcessFactory.eINSTANCE.createOnEntryType();
-			createAction(map.getOnEntryMethod(), onEntry.getAction(),true);
+			createAction(map.getOnEntryMethod(), onEntry.getAction(), true);
 			onEntries.add(onEntry);
 		}
 		if(StateMachineUtil.doesWorkOnExit(state)){
 			OnExitType onExit = ProcessFactory.eINSTANCE.createOnExitType();
-			createAction(map.getOnExitMethod(), onExit.getAction(),true);
+			createAction(map.getOnExitMethod(), onExit.getAction(), true);
 			onExits.add(onExit);
 		}
 	}

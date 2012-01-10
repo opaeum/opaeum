@@ -8,6 +8,7 @@ import java.util.List;
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
+import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.core.INakedClassifier;
@@ -111,7 +112,9 @@ public class ReferenceResolver extends AbstractModelElementLinker{
 					NakedImportedElementImpl importedElement = new NakedImportedElementImpl();
 					importedElement.initialize(p.getId() + c.getId(), c.getName(), false);
 					importedElement.setOwnerElement(ie.getNameSpace());
-					importedElement.setMappingInfo(ie.getMappingInfo());
+					MappingInfo copy = ie.getMappingInfo().getCopy();
+					copy.setIdInModel(importedElement.getId());
+					importedElement.setMappingInfo(copy);
 					importedElement.setElement(cls);
 					importingPackage.addOwnedElement(importedElement);
 				}

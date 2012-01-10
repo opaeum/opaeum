@@ -5,12 +5,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.expressions.internal.types.PathName;
 import nl.klasse.octopus.model.IState;
 import nl.klasse.octopus.model.VisibilityKind;
 
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedNameSpace;
@@ -30,7 +33,7 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	private INakedBehavior entry;
 	private INakedBehavior doActivity;
 	private INakedBehavior exit;
-	private List<INakedRegion> regions = new ArrayList<INakedRegion>();
+	private SortedSet<INakedRegion> regions = new TreeSet<INakedRegion>(new DefaultOpaeumComparator());
 	private List<INakedTransition> outgoing = new ArrayList<INakedTransition>();
 	private List<INakedTransition> incoming = new ArrayList<INakedTransition>();
 	private INakedState redefinedState; 
@@ -50,7 +53,7 @@ public class NakedStateImpl extends NakedNameSpaceImpl implements INakedState{
 	public Set<INakedState> getAllStates(){
 		return RegionOwnerUtil.getAllStatesRecursively(this);
 	}
-	public List<INakedRegion> getRegions(){
+	public Collection<INakedRegion> getRegions(){
 		return this.regions;
 	}
 	@Override

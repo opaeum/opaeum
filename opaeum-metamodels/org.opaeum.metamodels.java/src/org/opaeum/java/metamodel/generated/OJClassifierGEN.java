@@ -6,12 +6,15 @@ package org.opaeum.java.metamodel.generated;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -29,7 +32,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement{
 	private int f_uniqueNumber = 0;
 	private boolean f_isDerived = false;
 	private boolean f_isAbstract = false;
-	protected Map<String,Set<OJOperation>> f_operations = new HashMap<String,Set<OJOperation>>();
+	protected Map<String,Set<OJOperation>> f_operations = new TreeMap<String,Set<OJOperation>>();
 	private Set<OJPathName> f_imports = new HashSet<OJPathName>();
 	private OJPackage f_myPackage = null;
 	static protected boolean usesAllInstances = false;
@@ -175,7 +178,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement{
 			return;
 		}
 		Set<OJOperation> set = this.f_operations.get(element.getName());
-		if(set!=null && set.contains(element)){
+		if(set != null && set.contains(element)){
 			set.remove(element);
 		}
 		if(element.getOwner() != null){
@@ -193,7 +196,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement{
 		if(element == null){
 			return;
 		}
-		this.f_operations.remove(element);
+		z_internalAddToOperations(element);
 		element.z_internalRemoveFromOwner((OJClassifier) ((OJClassifier) this));
 	}
 	/**
@@ -217,8 +220,8 @@ abstract public class OJClassifierGEN extends OJVisibleElement{
 	 */
 	public void z_internalAddToOperations(OJOperation element){
 		Set<OJOperation> set = this.f_operations.get(element.getName());
-		if(set==null){
-			set=new HashSet<OJOperation>();
+		if(set == null){
+			set = new HashSet<OJOperation>();
 			this.f_operations.put(element.getName(), set);
 		}
 		set.add(element);
@@ -229,7 +232,10 @@ abstract public class OJClassifierGEN extends OJVisibleElement{
 	 * @param element
 	 */
 	public void z_internalRemoveFromOperations(OJOperation element){
-		this.f_operations.remove(element);
+		Set<OJOperation> set = this.f_operations.get(element.getName());
+		if(set != null && set.contains(element)){
+			set.remove(element);
+		}
 	}
 	/**
 	 * Implements the addition of a number of elements to operations

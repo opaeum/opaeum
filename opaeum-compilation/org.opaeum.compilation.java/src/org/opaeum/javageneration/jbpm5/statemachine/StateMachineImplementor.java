@@ -31,7 +31,9 @@ import org.opaeum.javageneration.jbpm5.AbstractJavaProcessVisitor;
 import org.opaeum.javageneration.jbpm5.EventUtil;
 import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
+import org.opaeum.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
+import org.opaeum.javageneration.oclexpressions.PreAndPostConditionGenerator;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
@@ -56,7 +58,8 @@ import org.opaeum.runtime.domain.IProcessStep;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 		OperationAnnotator.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
 },after = {
-	OperationAnnotator.class
+		OperationAnnotator.class,ActivityProcessImplementor.class
+/* Needs repeatable sequence in the ocl generating steps */
 },before = CodeCleanup.class)
 public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	@VisitBefore(matchSubclasses = true)
@@ -68,7 +71,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 		implementProcessInterfaceOperations(ojStateMachine, new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"), umlStateMachine);
 		OJOperation execute = implementExecute(ojStateMachine, umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
-		visitRegions(ojStateMachine,umlStateMachine.getRegions());
+		visitRegions(ojStateMachine, umlStateMachine.getRegions());
 	}
 	private void state(INakedState state){
 		NakedStateMap map = new NakedStateMap(state);
@@ -96,7 +99,7 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			historyField.putAnnotation(enumeratd);
 		}
 	}
-	private void implementOnExitIfRequired(OJAnnotatedClass ojStateMachine, INakedState state,NakedStateMap map){
+	private void implementOnExitIfRequired(OJAnnotatedClass ojStateMachine,INakedState state,NakedStateMap map){
 		if(StateMachineUtil.doesWorkOnExit(state)){
 			OJAnnotatedOperation onExit = new OJAnnotatedOperation(map.getOnExitMethod());
 			ojStateMachine.addToOperations(onExit);
@@ -187,14 +190,14 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			getter.getBody().addToStatements("return " + expression);
 		}
 	};
-	private void visitRegions(OJAnnotatedClass ojStateMachine,List<INakedRegion> regions){
+	private void visitRegions(OJAnnotatedClass ojStateMachine,Collection<INakedRegion> regions){
 		for(INakedRegion r:regions){
 			for(INakedState s:r.getStates()){
 				this.state(s);
 				visitRegions(ojStateMachine, s.getRegions());
 			}
 			for(INakedTransition t:r.getTransitions()){
-				this.transition(ojStateMachine,t);
+				this.transition(ojStateMachine, t);
 			}
 		}
 	}

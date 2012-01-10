@@ -15,28 +15,6 @@ import org.opaeum.java.metamodel.OJPathName;
  * 
  */
 public class AnnotationHelper {
-	/**
-	 * Adds an annotation value to the source element. if an annotation value of this type already exists, it removes
-	 * the existing one and returns it.
-	 * 
-	 * @param value
-	 * @param source
-	 * @return
-	 */
-	public static OJAnnotationValue putAnnotation(OJAnnotationValue value, OJAnnotatedElement source) {
-		Set<OJAnnotationValue> sourceSet = source.getAnnotations();
-		OJAnnotationValue result = null;
-		for (Iterator<OJAnnotationValue> iter = sourceSet.iterator(); iter.hasNext();) {
-			OJAnnotationValue ov = iter.next();
-			if (ov.getType().equals(value.getType())) {
-				iter.remove();
-				result = ov;
-				break;
-			}
-		}
-		sourceSet.add(value);
-		return result;
-	}
 	public static Set<OJPathName> getImportsFrom(Collection<? extends OJElement> sources) {
 		Set<OJPathName> result = new HashSet<OJPathName>();
 		for (OJElement v : sources) {
@@ -66,7 +44,7 @@ public class AnnotationHelper {
 	 * @return
 	 */
 	public static boolean maybeAddAnnotation(OJAnnotationValue value, OJAnnotatedElement target) {
-		Set<OJAnnotationValue> sourceSet = target.getAnnotations();
+		Collection<OJAnnotationValue> sourceSet = target.getAnnotations();
 		for (Iterator<OJAnnotationValue> iter = sourceSet.iterator(); iter.hasNext();) {
 			if (value.getType().equals(iter.next().getType())) {
 				return false;
@@ -83,16 +61,4 @@ public class AnnotationHelper {
 		}
 		return null;
 	}
-	public static OJAnnotationValue removeAnnotation(OJAnnotatedElement target, OJPathName type) {
-		Iterator<OJAnnotationValue> iter= target.getAnnotations().iterator();
-		while(iter.hasNext()){
-			OJAnnotationValue v=iter.next();
-			if (v.getType().equals(type)) {
-				iter.remove();
-				return v;
-			}
-		}
-		return null;
-	}
-	
 }

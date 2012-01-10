@@ -3,10 +3,13 @@ package org.opaeum.linkage;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IClassifier;
 
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedRootObject;
@@ -17,7 +20,7 @@ public class GeneralizationUtil{
 			"unchecked","rawtypes"
 	})
 	public static Collection<INakedBehavioredClassifier> getConcreteEntityImplementationsOf(INakedInterface baseType,Collection<INakedRootObject> models){
-		Set<INakedClassifier> results = new HashSet<INakedClassifier>();
+		SortedSet<INakedClassifier> results = new TreeSet<INakedClassifier>(new DefaultOpaeumComparator());
 		addConcreteSubclasses(results, baseType, models, true);
 		results.remove(baseType);
 		return (Collection) results;

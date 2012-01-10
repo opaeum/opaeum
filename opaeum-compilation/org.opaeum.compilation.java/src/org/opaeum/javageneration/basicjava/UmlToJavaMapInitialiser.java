@@ -98,7 +98,10 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 		OJUtil.packagePathname(p);
 	}
 	@Override
-	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
+		if(map.getProperty().getOtherEnd()!=null){
+			OJUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
+		}
 		// NB!! This will initialise NakedStructuralFeatureMaps
 	}
 }

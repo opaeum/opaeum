@@ -43,6 +43,7 @@ import org.opaeum.javageneration.basicjava.simpleactions.VariableReader;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableValueAdder;
 import org.opaeum.javageneration.basicjava.simpleactions.VariableValueRemover;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
+import org.opaeum.javageneration.oclexpressions.PreAndPostConditionGenerator;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.BehaviorUtil;
@@ -90,7 +91,8 @@ import org.opaeum.metamodel.workspace.OpaeumLibrary;
 @StepDependency(phase = JavaTransformationPhase.class,requires = {
 	OperationAnnotator.class
 },after = {
-	OperationAnnotator.class
+		OperationAnnotator.class,PreAndPostConditionGenerator.class
+/* Needs repeatable sequence in the ocl generating steps */
 })
 public class SimpleActivityMethodImplementor extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)

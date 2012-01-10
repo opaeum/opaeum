@@ -51,8 +51,8 @@ import org.opaeum.visitor.TextFileGeneratingVisitor;
 
 public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITransformationStep {
 	public static final String JBPM_PROCESS_EXTENSION = "rf";
-	protected Stack<Map<INakedElement, Integer>> targetIdMap=new Stack<Map<INakedElement,Integer>>();
-	protected Stack<Map<INakedElement, Integer>> sourceIdMap=new Stack<Map<INakedElement,Integer>>();
+	protected Stack<Map<INakedElement, Long>> targetIdMap=new Stack<Map<INakedElement,Long>>();
+	protected Stack<Map<INakedElement, Long>> sourceIdMap=new Stack<Map<INakedElement,Long>>();
 	protected OpaeumConfig config;
 
 
@@ -119,7 +119,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		nodes.getStart().add(node);
 	}
 
-	protected final void setBounds(int i, Object flowState, int nakedUmlId) {
+	protected final void setBounds(int i, Object flowState, Long nakedUmlId) {
 		try {
 			PropertyDescriptor[] pds = Introspector.getBeanInfo(flowState.getClass()).getPropertyDescriptors();
 			for (PropertyDescriptor pd : pds) {
@@ -143,19 +143,19 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 	}
 
 
-	protected JoinType addJoin(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected JoinType addJoin(NodesType nodes, int i, String name, Long nakedUmlId) {
 		JoinType join = addJoinType(nodes, i, name, nakedUmlId);
 		join.setType("1");
 		return join;
 	}
 
-	protected JoinType addMerge(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected JoinType addMerge(NodesType nodes, int i, String name, Long nakedUmlId) {
 		JoinType join = addJoinType(nodes, i, name, nakedUmlId);
 		join.setType("2");
 		return join;
 	}
 
-	private JoinType addJoinType(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	private JoinType addJoinType(NodesType nodes, int i, String name, Long nakedUmlId) {
 		JoinType join = ProcessFactory.eINSTANCE.createJoinType();
 		join.setName(name);
 		setBounds(i, join, nakedUmlId);
@@ -163,7 +163,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		return join;
 	}
 
-	protected CompositeType createCompositeState(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected CompositeType createCompositeState(NodesType nodes, int i, String name, Long nakedUmlId) {
 		CompositeType flowState = ProcessFactory.eINSTANCE.createCompositeType();
 		nodes.getComposite().add(flowState);
 		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
@@ -174,7 +174,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		flowState.setWidth("500");
 		return flowState;
 	}
-	protected DynamicType createDynamicState(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected DynamicType createDynamicState(NodesType nodes, int i, String name, Long nakedUmlId) {
 		DynamicType flowState = ProcessFactory.eINSTANCE.createDynamicType();
 		nodes.getDynamic().add(flowState);
 		flowState.getNodes().add(ProcessFactory.eINSTANCE.createNodesType());
@@ -186,7 +186,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		return flowState;
 	}
 
-	protected EndType addFinalNode(NodesType nodes, int i, String name, int nakedUmlId) {
+	protected EndType addFinalNode(NodesType nodes, int i, String name, Long nakedUmlId) {
 		EndType endNode = ProcessFactory.eINSTANCE.createEndType();
 		endNode.setName(name);
 		endNode.setTerminate("false");
@@ -195,7 +195,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		return endNode;
 	}
 
-	protected StateType addState(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected StateType addState(NodesType nodes, int i, String name, Long nakedUmlId) {
 		StateType node = ProcessFactory.eINSTANCE.createStateType();
 		node.setName(name);
 		nodes.getState().add(node);
@@ -203,19 +203,19 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		return node;
 	}
 
-	protected SplitType addFork(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected SplitType addFork(NodesType nodes, int i, String name, Long nakedUmlId) {
 		SplitType split = addSplitType(nodes, i, name, nakedUmlId);
 		split.setType("1");
 		return split;
 	}
 
-	protected SplitType addChoice(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	protected SplitType addChoice(NodesType nodes, int i, String name, Long nakedUmlId) {
 		SplitType split = addSplitType(nodes, i, name, nakedUmlId);
 		split.setType("2");
 		return split;
 	}
 
-	private SplitType addSplitType(NodesType nodes, int i, String name, Integer nakedUmlId) {
+	private SplitType addSplitType(NodesType nodes, int i, String name, Long nakedUmlId) {
 		SplitType split = ProcessFactory.eINSTANCE.createSplitType();
 		nodes.getSplit().add(split);
 		split.setName(name);
@@ -223,7 +223,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		return split;
 	}
 
-	protected final void createConnection(ConnectionsType connections, int node1, int node2) {
+	protected final void createConnection(ConnectionsType connections, Long node1, Long node2) {
 		ConnectionType startConn = ProcessFactory.eINSTANCE.createConnectionType();
 		startConn.setFromType("DROOLS_DEFAULT");
 		startConn.setFrom("" + node1);
@@ -231,7 +231,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		connections.getConnection().add(startConn);
 	}
 
-	protected StartType addInitialNode(NodesType nodesType, int i, String name, int nakedUmlId) {
+	protected StartType addInitialNode(NodesType nodesType, int i, String name, Long nakedUmlId) {
 		StartType node1 = ProcessFactory.eINSTANCE.createStartType();
 		node1.setName(name);
 		setBounds(i, node1, nakedUmlId);
@@ -245,7 +245,7 @@ public class AbstractFlowStep extends TextFileGeneratingVisitor  implements ITra
 		for (GuardedFlow t : outgoing) {
 			ConstraintType constraint = ProcessFactory.eINSTANCE.createConstraintType();
 			constraint.setDialect("mvel");
-			Integer toNodeId = this.targetIdMap.peek().get(t.getEffectiveTarget());
+			Long toNodeId = this.targetIdMap.peek().get(t.getEffectiveTarget());
 			constraint.setToNodeId(toNodeId + "");
 			if (!t.hasGuard()) {
 				constraint.setValue("return true;");

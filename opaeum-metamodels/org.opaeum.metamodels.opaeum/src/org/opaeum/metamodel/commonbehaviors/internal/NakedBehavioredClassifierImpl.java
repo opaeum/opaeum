@@ -2,9 +2,13 @@ package org.opaeum.metamodel.commonbehaviors.internal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IInterface;
@@ -12,12 +16,14 @@ import nl.klasse.octopus.model.IState;
 
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedTriggerContainer;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedGeneralization;
 import org.opaeum.metamodel.core.INakedInterfaceRealization;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedClassifierImpl;
 import org.opaeum.metamodel.core.internal.ParameterUtil;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
@@ -27,6 +33,16 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 	protected List<INakedBehavior> ownedBehaviors = new ArrayList<INakedBehavior>();
 	private INakedBehavior classifierBehavior;
 	protected List<INakedInterfaceRealization> realizations = new ArrayList<INakedInterfaceRealization>();
+	public void reorderSequences(){
+		super.reorderSequences();
+		Collections.sort(realizations, new Comparator<INakedInterfaceRealization>(){
+			@Override
+			public int compare(INakedInterfaceRealization o1,INakedInterfaceRealization o2){
+				int i = o1.getIndex() - o2.getIndex();
+				return i;
+			}
+		});
+	};
 	public INakedBehavior getClassifierBehavior(){
 		if(this.classifierBehavior == null && hasSupertype()){
 			return ((INakedBehavioredClassifier) getSupertype()).getClassifierBehavior();
@@ -34,28 +50,11 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 			return this.classifierBehavior;
 		}
 	}
-
 	public void setClassifierBehavior(INakedBehavior classifierBehavior){
 		this.classifierBehavior = classifierBehavior;
 	}
 	public List<INakedInterfaceRealization> getInterfaceRealizations(){
 		return this.realizations;
-	}
-	@Override
-	public List<INakedProperty> getEffectiveAttributes(){
-		//NB!!! copied the getEffectiveAttributes from NakedClassifierImpl because the sequence of the attributes is important
-		List<INakedProperty> results = new ArrayList<INakedProperty>();
-		for(INakedGeneralization s:getNakedGeneralizations()){
-			List<? extends INakedProperty> superAttributes = s.getGeneral().getEffectiveAttributes();
-			addEffectiveAttributes(results, superAttributes);
-		}
-		for(INakedInterfaceRealization r:this.realizations){
-			List<? extends INakedProperty> interfaceAttributes = r.getContract().getEffectiveAttributes();
-			addEffectiveAttributes(results, interfaceAttributes);
-		}
-		List<INakedProperty> ownAttributes = this.ownedAttributes;
-		addEffectiveAttributes(results, ownAttributes);
-		return results;
 	}
 	@Override
 	public Collection<INakedReception> getEffectiveReceptions(){
@@ -121,12 +120,13 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 		return results;
 	}
 	@Override
-	public boolean hasReceptionFor(INakedSignal signal){
+	public boolean hasReceptionOrTriggerFor(INakedSignal signal){
 		for(INakedReception r:getEffectiveReceptions()){
 			if(r.getSignal().equals(signal)){
 				return true;
 			}
 		}
+		Collection<? extends INakedEvent> eventsInScopeForClassAsContext = getEventsInScopeForClassAsContext();
 		return false;
 	}
 	@Override
@@ -146,5 +146,15 @@ public class NakedBehavioredClassifierImpl extends NakedClassifierImpl implement
 			}
 		}
 		return results;
+	}
+	@Override
+	public Collection<INakedEvent> getEventsInScopeForClassAsContext(){
+		SortedSet<INakedEvent> result = new TreeSet<INakedEvent>(new DefaultOpaeumComparator());
+		for(INakedBehavior b:getOwnedBehaviors()){
+			if(b instanceof INakedTriggerContainer){
+				result.addAll(((INakedTriggerContainer) b).getEventsInScopeForClassAsBehavior());
+			}
+		}
+		return result;
 	}
 }

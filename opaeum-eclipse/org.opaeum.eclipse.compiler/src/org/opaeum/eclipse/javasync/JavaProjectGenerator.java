@@ -138,6 +138,7 @@ public final class JavaProjectGenerator extends Job{
 			}
 			monitor.setTaskName("Refreshing Projects");
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			//clients expect synchronous execution
 			new JavaProjectGenerator(currentContext.getConfig(), p, root). run(new SubProgressMonitor(monitor, 500));
 		}finally{
 			monitor.done();

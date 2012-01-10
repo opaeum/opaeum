@@ -6,12 +6,14 @@ package org.opaeum.java.metamodel.generated;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -25,13 +27,13 @@ import org.opaeum.java.metamodel.utilities.InvariantError;
  * Class ...
  */
 abstract public class OJClassGEN extends OJClassifier{
-	public static Set<OJPathName> pns=new HashSet<OJPathName>();
+	public static Set<OJPathName> pns = new HashSet<OJPathName>();
 	protected OJPathName pn;
 	private boolean f_needsSuppress = false;
-	protected Map<String,OJField> f_fields = new HashMap<String,OJField>();
+	protected Map<String,OJField> f_fields = new TreeMap<String,OJField>();
 	private OJPackage f_myPackage = null;
 	private Set<OJConstructor> f_constructors = new HashSet<OJConstructor>();
-	private Set<OJPathName> f_implementedInterfaces = new HashSet<OJPathName>();
+	private SortedSet<OJPathName> f_implementedInterfaces = new TreeSet<OJPathName>();
 	private OJPathName f_superclass = null;
 	static protected boolean usesAllInstances = false;
 	static protected List<OJClass> allInstances = new ArrayList<OJClass>();
@@ -49,7 +51,6 @@ abstract public class OJClassGEN extends OJClassifier{
 		super.finalize();
 		pns.remove(pn);
 	}
-	
 	/**
 	 * Constructor for OJClassGEN
 	 * 
@@ -165,7 +166,7 @@ abstract public class OJClassGEN extends OJClassifier{
 	 * @param element
 	 */
 	public void z_internalAddToFields(OJField element){
-		this.f_fields.put(element.getName(),element);
+		this.f_fields.put(element.getName(), element);
 	}
 	/**
 	 * This operation should NOT be used by clients. It implements the correct removal of an element in an association.
@@ -217,8 +218,7 @@ abstract public class OJClassGEN extends OJClassifier{
 			this.f_myPackage = element;
 			if(element != null){
 				element.z_internalAddToClasses(((OJClass) this));
-				pns.add(this.pn=getPathName());
-
+				pns.add(this.pn = getPathName());
 			}
 		}
 	}
@@ -236,8 +236,7 @@ abstract public class OJClassGEN extends OJClassifier{
 	 */
 	public void z_internalAddToMyPackage(OJPackage element){
 		this.f_myPackage = element;
-		pns.add(this.pn=getPathName());
-
+		pns.add(this.pn = getPathName());
 	}
 	/**
 	 * Should NOT be used by clients! Implements the correct setting of the link for association end '+ myPackage : OJPackage' when a single
@@ -362,7 +361,7 @@ abstract public class OJClassGEN extends OJClassifier{
 	 * 
 	 * @param element
 	 */
-	public void setImplementedInterfaces(Set<OJPathName> element){
+	public void setImplementedInterfaces(SortedSet<OJPathName> element){
 		if(f_implementedInterfaces != element){
 			f_implementedInterfaces = element;
 		}

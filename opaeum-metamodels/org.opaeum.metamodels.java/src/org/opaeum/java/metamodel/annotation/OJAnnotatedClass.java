@@ -3,16 +3,18 @@ package org.opaeum.java.metamodel.annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJElement;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJParameter;
@@ -22,7 +24,7 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 import org.opaeum.java.metamodel.utilities.OJOperationComparator;
 
 public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
-	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
+	Map<OJPathName,OJAnnotationValue> f_annotations = new TreeMap<OJPathName,OJAnnotationValue>();
 	private List<String> genericTypeParams = new ArrayList<String>();
 	public OJAnnotatedClass(String string){
 		setName(string);
@@ -31,10 +33,15 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		return AnnotationHelper.getAnnotation(this, path);
 	}
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
-		return AnnotationHelper.maybeAddAnnotation(value, this);
+		if(f_annotations.containsKey(value.getType())){
+			return false;
+		}else{
+			putAnnotation(value);
+			return true;
+		}
 	}
-	public Set<OJAnnotationValue> getAnnotations(){
-		return f_annotations;
+	public Collection<OJAnnotationValue> getAnnotations(){
+		return f_annotations.values();
 	}
 	@Override
 	public void release(){
@@ -43,10 +50,10 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		genericTypeParams.clear();
 	}
 	public OJAnnotationValue putAnnotation(OJAnnotationValue value){
-		return AnnotationHelper.putAnnotation(value, this);
+		return f_annotations.put(value.getType(), value);
 	}
 	public OJAnnotationValue removeAnnotation(OJPathName type){
-		return AnnotationHelper.removeAnnotation(this, type);
+		return f_annotations.remove(type);
 	}
 	public OJConstructor findConstructor(OJPathName parameter1){
 		List<OJPathName> pathnames = Collections.singletonList(parameter1);
@@ -132,7 +139,9 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	}
 	protected StringBuilder constructors(){
 		StringBuilder result = new StringBuilder();
-		result.append(JavaUtil.collectionToJavaString(new HashSet<OJElement>(this.getConstructors()), "\n"));
+		TreeSet<OJConstructor> treeSet = new TreeSet<OJConstructor>(new OJOperationComparator());
+		treeSet.addAll(this.getConstructors());
+		result.append(JavaUtil.collectionToJavaString(treeSet, "\n"));
 		return result;
 	}
 	public StringBuilder fields(){
@@ -165,12 +174,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 		}
 	}
 	public boolean hasAnnotation(OJPathName pathName){
-		for(OJAnnotationValue v:this.f_annotations){
-			if(v.getType().equals(pathName)){
-				return true;
-			}
-		}
-		return false;
+		return this.f_annotations.containsKey(pathName);
 	}
 	public OJAnnotatedClass getDeepCopy(OJPackage owner){
 		OJAnnotatedClass copy = new OJAnnotatedClass(getName());
@@ -185,7 +189,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 			OJPathName copyInterface = ojInterface.getCopy();
 			copy.addToImplementedInterfaces(copyInterface);
 		}
-		Set<OJAnnotationValue> annotations = getAnnotations();
+		Collection<OJAnnotationValue> annotations = getAnnotations();
 		for(OJAnnotationValue ojAnnotationValue:annotations){
 			OJAnnotationValue copyAnnotation = ojAnnotationValue.getDeepCopy();
 			copy.addAnnotationIfNew(copyAnnotation);

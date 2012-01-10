@@ -113,7 +113,7 @@ public class Java6ModelGenerator extends AbstractStructureVisitor{
 				seri.setStatic(true);
 				seri.setFinal(true);
 				seri.setVisibility(OJVisibilityKind.PRIVATE);
-				seri.setInitExp(c.getMappingInfo().getOpaeumId() + "");
+				seri.setInitExp(c.getMappingInfo().getOpaeumId() + "l");
 				myClass.addToFields(seri);
 			}
 			// TODO find another place

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.opaeum.java.metamodel.OJElement;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.utilities.JavaStringHelpers;
 
 
 /**
@@ -147,7 +148,7 @@ public abstract class OJMetaValue extends OJElement {
 			sb.append("}");
 			expression = sb.toString();
 		}
-		return expression;
+		return  JavaStringHelpers.indent(expression, 1);
 	}
 
 	public void copyInfoInto(OJMetaValue copy) {
@@ -190,7 +191,7 @@ public abstract class OJMetaValue extends OJElement {
 		} else if (o instanceof OJEnumValue) {
 			return ((OJEnumValue) o).toJavaString();
 		} else if (o instanceof OJAnnotationValue) {
-			return ((OJAnnotationValue) o).toJavaString();
+			return "\n"+ ((OJAnnotationValue) o).toJavaString();
 		} else {
 			return "?";
 			// throw new IllegalStateException();

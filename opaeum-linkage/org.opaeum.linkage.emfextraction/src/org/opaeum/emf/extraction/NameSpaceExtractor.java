@@ -149,6 +149,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitBefore
 	public void visitPrimitiveType(PrimitiveType p,NakedPrimitiveTypeImpl npt){
+
 		initializeClassifier(npt, p);
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
@@ -186,6 +187,10 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			}else if(StereotypesHelper.hasStereotype(i, "Helper")){
 				return new NakedHelperImpl();
 			}else{
+				if(i.getName().equals("IUserWorkspaceHelper")){
+					System.out.println();
+				}
+
 				return new NakedInterfaceImpl();
 			}
 		}else if(e instanceof Enumeration){

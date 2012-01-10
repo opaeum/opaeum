@@ -1,9 +1,15 @@
 package org.opaeum.eclipse;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -222,7 +228,45 @@ public class EmfElementFinder{
 		}
 		return s.eContainer();
 	}
+	public static void main(String[] args) throws Exception{
+		System.out.println(toId("862713@_6M9kh9EyEd-XueQF87eovw"));
+		System.out.println(toId("862713@_6KxMI9EyEd-XueQF87eovw"));
+		int c = 100000;
+		Set<Integer> hashcodes = new HashSet<Integer>(c);
+		Set<String> strings = new HashSet<String>(c);
+		int duplicates = 0;
+		for(int i = 0;i < c;i++){
+			String string = UUID.randomUUID().toString().substring(0, 30);
+			if(!strings.contains(string)){
+				strings.add(string);
+				int hashCode = toId(string);
+				if(hashcodes.contains(hashCode)){
+					duplicates++;
+				}else{
+					hashcodes.add(hashCode);
+				}
+			}else{
+				i--;
+			}
+		}
+		System.out.println(duplicates);
+		// for(int i = 0 ; i < 10; i ++){
+		// System.out.println(UUID.randomUUID().toString().length());
+		// }
+	}
+	protected static int toId(String string){
+		char[] charArray = string.toCharArray();
+		int result = 0;
+		for(int i = 0;i < charArray.length;i++){
+			result = (result << 1) + charArray[i];
+		}
+		 return (int) result;
+//		return string.hashCode();
+	}
 	public static Collection<Element> getCorrectOwnedElements(Element root){
+		return getCorrectOwnedElementsAndRetryIfFailed(root, 0);
+	}
+	protected static Collection<Element> getCorrectOwnedElementsAndRetryIfFailed(Element root,int count){
 		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
 		// Unimplemented containment features, oy
 		if(root instanceof StructuredActivityNode){
@@ -248,21 +292,33 @@ public class EmfElementFinder{
 				elements.add(e.getWeight());
 			}
 		}
-		for(Stereotype stereotype:root.getAppliedStereotypes()){
-			for(Property property:stereotype.getOwnedAttributes()){
-				if(property.getAggregation() == AggregationKind.COMPOSITE_LITERAL){
-					Object v = root.getValue(stereotype, property.getName());
-					if(v instanceof Element){
-						elements.add((Element) v);
-					}else if(v instanceof EList){
-						EList<?> c = (EList<?>) v;
-						for(Object element:c){
-							if(element instanceof Element){
-								elements.add((Element) element);
+		try{
+			for(Stereotype stereotype:root.getAppliedStereotypes()){
+				for(Property property:stereotype.getOwnedAttributes()){
+					if(property.getAggregation() == AggregationKind.COMPOSITE_LITERAL){
+						Object v = root.getValue(stereotype, property.getName());
+						if(v instanceof Element){
+							elements.add((Element) v);
+						}else if(v instanceof EList){
+							EList<?> c = (EList<?>) v;
+							for(Object element:c){
+								if(element instanceof Element){
+									elements.add((Element) element);
+								}
 							}
 						}
 					}
 				}
+			}
+		}catch(ArrayIndexOutOfBoundsException e){
+			// HACK weird bug in:
+			// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
+			if(count<5){
+				try{
+					Thread.sleep(2000);
+				}catch(InterruptedException e1){
+				}
+				return getCorrectOwnedElementsAndRetryIfFailed(root,++count);
 			}
 		}
 		return elements;

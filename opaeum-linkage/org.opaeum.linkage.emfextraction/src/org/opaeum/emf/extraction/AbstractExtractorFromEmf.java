@@ -4,13 +4,17 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.VisibilityKind;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceValue;
@@ -220,7 +224,20 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	protected void populateMultiplicityAndBaseType(MultiplicityElement emfNode,Type type,NakedTypedElementImpl ae){
 		populateMultiplicity(emfNode, ae);
-		ae.setBaseType((INakedClassifier) getNakedPeer(type));
+		INakedClassifier baseType = (INakedClassifier) getNakedPeer(type);
+		if(type != null && baseType == null){
+			if(type.getOwner() instanceof Model && ((Model) type.getOwner()).getName().equals("uml")){
+					String path = "pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#" + type.getName();
+					EObject eObject = emfWorkspace.getResourceSet().getEObject(URI.createURI(path), true);
+					if(eObject ==null){
+						System.out.println(type.getQualifiedName() + " not found");
+					}
+					baseType = (INakedClassifier) getNakedPeer((Element) eObject);
+			}else{
+				System.out.println();
+			}
+		}
+		ae.setBaseType(baseType);
 	}
 	protected void populateMultiplicity(MultiplicityElement emfNode,INakedMultiplicityElement ae){
 		ae.setMultiplicity(toNakedMultiplicity(emfNode));

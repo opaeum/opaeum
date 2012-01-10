@@ -38,13 +38,12 @@ public class StateEnumerationImplementor extends ProcessStepEnumerationImplement
 
 		boolean hasStateComposition = hasStateComposition(c);
 		buildOJEnum(c, hasStateComposition);
-		List<INakedRegion> regions = c.getRegions();
+		Collection<INakedRegion> regions = c.getRegions();
 		regions(regions);
 	}
-	private void regions(List<INakedRegion> regions){
+	private void regions(Collection<INakedRegion> regions){
 		for(INakedRegion r:regions){
-			List<INakedState> states = r.getStates();
-			for(INakedState s:states){
+			for(INakedState s:r.getStates()){
 				state(s);
 				regions(s.getRegions());
 			}

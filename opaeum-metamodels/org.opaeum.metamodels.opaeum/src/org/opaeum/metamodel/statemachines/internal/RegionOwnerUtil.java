@@ -1,6 +1,7 @@
 package org.opaeum.metamodel.statemachines.internal;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +40,7 @@ public class RegionOwnerUtil{
 	/**
 	 * Recursively adds all subRegions to results, from outer most to inner most
 	 */
-	private static void addSubRegionsTo(List<INakedRegion> results,List<INakedRegion> regions){
+	private static void addSubRegionsTo(Collection<INakedRegion> results,Collection<INakedRegion> regions){
 		Iterator<INakedRegion> iter = regions.iterator();
 		while(iter.hasNext()){
 			INakedRegion region = iter.next();
@@ -47,7 +48,7 @@ public class RegionOwnerUtil{
 			addAllRegionsTo(results, region.getStates());
 		}
 	}
-	private static void addAllRegionsTo(List<INakedRegion> results,List<INakedState> states){
+	private static void addAllRegionsTo(Collection<INakedRegion> results,Collection<INakedState> states){
 		for(INakedState state:states){
 			addSubRegionsTo(results, state.getRegions());
 		}

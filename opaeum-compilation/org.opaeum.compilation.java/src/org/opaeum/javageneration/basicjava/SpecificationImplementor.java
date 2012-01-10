@@ -174,10 +174,6 @@ public class SpecificationImplementor extends AbstractBehaviorVisitor{
 		start.getBody().addToStatements("_behavior.execute()");
 		NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(behavior.getEndToComposite().getOtherEnd());
 		start.getBody().addToStatements(otherMap.setter() + "(_behavior)");
-		OJOperation addToOwner = ojContext.getUniqueOperation("addToOwningObject");
-		if(addToOwner != null){
-			addToOwner.getBody().addToStatements("startClassifierBehavior()");
-		}
 	}
 	private void populateBehavior(INakedBehavior parameterOwner,OJOperation javaMethod){
 		for(INakedParameter p:parameterOwner.getArgumentParameters()){

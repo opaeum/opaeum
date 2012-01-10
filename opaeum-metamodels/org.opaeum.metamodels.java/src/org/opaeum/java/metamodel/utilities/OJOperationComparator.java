@@ -12,7 +12,10 @@ public class OJOperationComparator implements Comparator<OJOperation> {
 
 	public int compare(OJOperation first, OJOperation second) {
 		if (first.getVisibility().equals(second.getVisibility())) {
-			return first.getName().compareTo(second.getName());
+			String firstSignature = first.getSignature();
+			String secondSignature = second.getSignature();
+			int compareTo = firstSignature.compareTo(secondSignature);
+			return compareTo;
 		} else if (first.getVisibility().equals(OJVisibilityKind.PRIVATE) && second.getVisibility().equals(OJVisibilityKind.PUBLIC)) {
 			return 1;
 		} else if (first.getVisibility().equals(OJVisibilityKind.PUBLIC) && second.getVisibility().equals(OJVisibilityKind.PRIVATE)) {

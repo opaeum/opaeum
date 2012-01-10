@@ -1,7 +1,9 @@
 package org.opaeum.java.metamodel.annotation;
 
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
@@ -10,7 +12,7 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 
 public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElement {
-	Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
+	Map<OJPathName, OJAnnotationValue> f_annotations = new TreeMap<OJPathName, OJAnnotationValue>();
 	public OJAnnotatedParameter(String string, OJPathName ojPathName) {
 		this.setName(string);
 		this.setType(ojPathName);
@@ -18,20 +20,25 @@ public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElem
 	public OJAnnotatedParameter() {
 	}
 
-	public Set<OJAnnotationValue> getAnnotations() {
-		return f_annotations;
+	public Collection<OJAnnotationValue> getAnnotations() {
+		return f_annotations.values();
 	}
 
-	public boolean addAnnotationIfNew(OJAnnotationValue value) {
-		return AnnotationHelper.maybeAddAnnotation(value, this);
+	public boolean addAnnotationIfNew(OJAnnotationValue value){
+		if(f_annotations.containsKey(value.getType())){
+			return false;
+		}else{
+			putAnnotation(value);
+			return true;
+		}
 	}
 
 	public OJAnnotationValue putAnnotation(OJAnnotationValue value) {
-		return AnnotationHelper.putAnnotation(value, this);
+		return f_annotations.put(value.getType(), value);
 	}
 
 	public OJAnnotationValue removeAnnotation(OJPathName type) {
-		return AnnotationHelper.removeAnnotation(this, type);
+		return f_annotations.remove(type);
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElem
 
 	public void copyDeepInfoInto(OJAnnotatedParameter copy) {
 		super.copyDeepInfoInto(copy);
-		Set<OJAnnotationValue> annotations = getAnnotations();
+		Collection<OJAnnotationValue> annotations = getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {
 			OJAnnotationValue copyAnnotation = ojAnnotationValue.getDeepCopy();
 			copy.addAnnotationIfNew(copyAnnotation);
@@ -74,7 +81,7 @@ public class OJAnnotatedParameter extends OJParameter implements OJAnnotatedElem
 
 	public void renameAll(Set<OJPathName> renamePathNames, String newName) {
 		super.renameAll(renamePathNames, newName);
-		Set<OJAnnotationValue> annotations = getAnnotations();
+		Collection<OJAnnotationValue> annotations = getAnnotations();
 		for (OJAnnotationValue ojAnnotationValue : annotations) {
 			Set<OJPathName> usedTypes = ojAnnotationValue.getAllTypesUsed();
 			for (OJPathName usedType : usedTypes) {

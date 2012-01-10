@@ -1,6 +1,7 @@
 package org.opaeum.emf.extraction;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -53,9 +54,9 @@ public class ActivityStructureExtractor extends AbstractActionExtractor {
 			
 		}
 		super.initAction(emfNode, nakedNode);
-		Collection<INakedInputPin> input = populatePins(emfNode.getActivity(), getInputs(emfNode));
+		List<INakedInputPin> input = populatePins(emfNode.getActivity(), getInputs(emfNode));
 		nakedNode.setInput(input);
-		Collection<INakedOutputPin> output = populatePins(emfNode.getActivity(),getOutputs(emfNode));
+		List<INakedOutputPin> output = populatePins(emfNode.getActivity(),getOutputs(emfNode));
 		nakedNode.setOutput(output);
 	}
 

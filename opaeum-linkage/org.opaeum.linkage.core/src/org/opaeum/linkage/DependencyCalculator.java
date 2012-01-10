@@ -7,6 +7,7 @@ import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.actions.INakedSendSignalAction;
 import org.opaeum.metamodel.actions.INakedStructuralFeatureAction;
 import org.opaeum.metamodel.actions.INakedVariableAction;
+import org.opaeum.metamodel.actions.ITargetElement;
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
@@ -44,6 +45,10 @@ public class DependencyCalculator extends AbstractModelElementLinker{
 			workspace.markDependency(a, ((INakedStructuralFeatureAction) a).getFeature());
 		}else if(a instanceof INakedSendSignalAction){
 			workspace.markDependency(a, ((INakedSendSignalAction) a).getSignal());
+			ITargetElement target = ((INakedSendSignalAction) a).getTargetElement();
+			if(target!=null && target.getNakedBaseType() !=null){
+				workspace.markDependency(target.getNakedBaseType(), ((INakedSendSignalAction) a).getSignal());
+			}
 		}else if(a instanceof INakedAcceptEventAction){
 			for(INakedTrigger t:((INakedAcceptEventAction) a).getTriggers()){
 				if(t.getEvent() instanceof INakedCallEvent){

@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.model.IClassifier;
 
@@ -35,7 +37,11 @@ import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.bpm.INakedEmbeddedTask;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
@@ -89,10 +95,10 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			for(INakedOperation o:directlyImplementedOperations){
 				if(o.getOwner() == c){
 					if(BehaviorUtil.hasExecutionInstance(o)){
-						OJAnnotatedOperation getter= (OJAnnotatedOperation) findJavaClass(o.getMessageStructure()).getUniqueOperation("getSelf");
+						OJAnnotatedOperation getter = (OJAnnotatedOperation) findJavaClass(o.getMessageStructure()).getUniqueOperation("getSelf");
 						getter.setVisibility(OJVisibilityKind.PRIVATE);
 						getter.initializeResultVariable("getContextObject()");
-						visitClass(o.getMessageStructure());//why???
+						visitClass(o.getMessageStructure());// why???
 					}
 					createCallbackListener(o, o.getMessageStructure());
 				}
@@ -106,8 +112,17 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			}
 			if(c instanceof INakedBehavioredClassifier){
 				INakedBehavioredClassifier nbc = (INakedBehavioredClassifier) c;
+				SortedSet<INakedSignal> signals = new TreeSet<INakedSignal>(new DefaultOpaeumComparator());
 				for(INakedReception o:nbc.getDirectlyImplementedReceptions()){
-					SignalMap map = OJUtil.buildSignalMap(o.getSignal());
+					signals.add(o.getSignal());
+				}
+				for(INakedEvent e:nbc.getEventsInScopeForClassAsContext()){
+					if(e instanceof INakedSignalEvent){
+						signals.add(((INakedSignalEvent) e).getSignal());
+					}
+				}
+				for(INakedSignal s:signals){
+					SignalMap map = OJUtil.buildSignalMap(s);
 					ojClass.addToImplementedInterfaces(map.receiverContractTypePath());
 					findOrCreateJavaReception(ojClass, map);
 					findOrCreateSignalEventConsumer(nbc, ojClass, map);
@@ -156,7 +171,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			oper.getBody().addToLocals(consumed);
 			consumed.setInitExp("false");
 			oper.addParam("signal", map.javaTypePath());
-			if(c != null && c.getSupertype() instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c.getSupertype()).hasReceptionFor(map.getSignal())){
+			if(c != null && c.getSupertype() instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c.getSupertype()).hasReceptionOrTriggerFor(map.getSignal())){
 				oper.getBody().addToStatements("consumed=super." + oper.getName() + "(" + delegateParameters(oper) + ")");
 			}
 			oper.getBody().addToStatements("return consumed");
@@ -236,7 +251,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		for(INakedParameter elem:argumentParameters){
 			OJParameter param = new OJParameter();
 			NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(context, elem);
-			param.setName(pMap.fieldname()); 
+			param.setName(pMap.fieldname());
 			param.setType(pMap.javaTypePath());
 			oper.addToParameters(param);
 			// applyStereotypesAsAnnotations(((INakedElement) elem), param);

@@ -1,7 +1,9 @@
 package org.opaeum.java.metamodel.annotation;
 
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.opaeum.java.metamodel.OJInterface;
 import org.opaeum.java.metamodel.OJOperation;
@@ -12,7 +14,7 @@ import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElement{
 	public static final String RESULT = "result";
-	private Set<OJAnnotationValue> f_annotations = new HashSet<OJAnnotationValue>();
+	Map<OJPathName, OJAnnotationValue> f_annotations = new TreeMap<OJPathName, OJAnnotationValue>();
 	private OJAnnotatedField resultVariable;
 	public OJAnnotatedOperation(String string,OJPathName ojPathName){
 		this(string);
@@ -37,16 +39,21 @@ public class OJAnnotatedOperation extends OJOperation implements OJAnnotatedElem
 		return oper;
 	}
 	public boolean addAnnotationIfNew(OJAnnotationValue value){
-		return AnnotationHelper.maybeAddAnnotation(value, this);
+		if(f_annotations.containsKey(value.getType())){
+			return false;
+		}else{
+			putAnnotation(value);
+			return true;
+		}
 	}
 	public OJAnnotationValue removeAnnotation(OJPathName type){
-		return AnnotationHelper.removeAnnotation(this, type);
+		return f_annotations.remove(type);
 	}
-	public Set<OJAnnotationValue> getAnnotations(){
-		return f_annotations;
+	public Collection<OJAnnotationValue> getAnnotations(){
+		return f_annotations.values();
 	}
 	public OJAnnotationValue putAnnotation(OJAnnotationValue value){
-		return AnnotationHelper.putAnnotation(value, this);
+		return f_annotations.put(value.getType(), value);
 	}
 	@Override
 	public String toJavaString(){

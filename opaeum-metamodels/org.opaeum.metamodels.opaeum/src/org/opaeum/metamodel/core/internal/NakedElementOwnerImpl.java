@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.opaeum.feature.MappingInfo;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 
@@ -32,7 +35,9 @@ public abstract class NakedElementOwnerImpl implements INakedElementOwner{
 		return long1;
 	}
 	public Collection<INakedElement> getOwnedElements(){
-		return new HashSet<INakedElement>(ownedElements.values());
+		TreeSet<INakedElement> result = new TreeSet<INakedElement>(new DefaultOpaeumComparator());
+		result.addAll(ownedElements.values());
+		return result;
 	}
 	public void addOwnedElement(INakedElement element){
 		ownedElements.put(element.getId(), element);

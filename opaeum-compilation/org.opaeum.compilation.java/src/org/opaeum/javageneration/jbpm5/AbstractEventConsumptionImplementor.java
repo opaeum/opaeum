@@ -63,7 +63,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 			if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
 				INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
 				SignalMap map = OJUtil.buildSignalMap(signalEvent.getSignal());
-				if(behavior.hasReceptionFor(signalEvent.getSignal())){
+				if(behavior.hasReceptionOrTriggerFor(signalEvent.getSignal())){
 					activiateSignalEventGeneration(behavior, ojBehavior, map);
 				}
 			}else if(elementsWaitingForEvent.getEvent() instanceof INakedCallEvent){
@@ -82,7 +82,7 @@ public abstract class AbstractEventConsumptionImplementor extends StereotypeAnno
 			if(elementsWaitingForEvent.getEvent() instanceof INakedSignalEvent){
 				INakedSignalEvent signalEvent = (INakedSignalEvent) elementsWaitingForEvent.getEvent();
 				SignalMap map = OJUtil.buildSignalMap(signalEvent.getSignal());
-				if(context.hasReceptionFor(signalEvent.getSignal())){
+				if(context.hasReceptionOrTriggerFor(signalEvent.getSignal())){
 					// Could originate from the context
 					// delegate to this owned behavior
 					delegateMessageEventConsumtionFromContextToOwnedBehavior(behavior, context, ojContext, map);

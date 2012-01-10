@@ -23,7 +23,6 @@ public class EnumerationValuesAttributeAdder extends AbstractModelElementLinker{
 			MappingInfo mi = (MappingInfo) e.getMappingInfo().getCopy();
 			mi.setJavaName(new SingularNameWrapper("values", "values"));
 			mi.setPersistentName(new SingularNameWrapper("values", "values"));
-			mi.setOpaeumId(e.getMappingInfo().getOpaeumId());
 			values.initialize("asf", "values", false);
 			values.setIsOrdered(false);
 			values.setIsUnique(true);
