@@ -43,7 +43,6 @@ public class NakedTypedElementImpl extends NakedMultiplicityElement implements I
 
 	public void setBaseType(INakedClassifier baseType) {
 		if(baseType==null){
-			
 		}
 		this.baseType = baseType;
 	}

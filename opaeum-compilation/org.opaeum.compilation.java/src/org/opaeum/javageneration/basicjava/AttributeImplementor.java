@@ -602,6 +602,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					// add "this" to new reference\
 					OJIfStatement ifParamNotNull = new OJIfStatement();
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");
+					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() +"." + otherMap.getter() + "())");
 					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
 					ifNotSame.getThenPart().addToStatements(ifParamNotNull);
 					ifNull.getThenPart().addToStatements(ifParamNotNull);

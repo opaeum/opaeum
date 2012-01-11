@@ -170,7 +170,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 						ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");
 					}
 					markDeleted.getBody().addToStatements(ifNotNull);
-				}else if(map.isOneToOne() && !np.isInverse()){
+				}else if(map.isOneToOne()){
 					// TODO this may have unwanted results such as removing the
 					// owner from "this" too
 					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");

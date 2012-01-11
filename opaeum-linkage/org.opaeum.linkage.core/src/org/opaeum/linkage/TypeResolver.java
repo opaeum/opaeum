@@ -67,7 +67,7 @@ public class TypeResolver extends AbstractModelElementLinker{
 			// VAlue pins will have their basetype calculated from the ocl
 			INakedClassifier baseType = aw.getNakedBaseType();
 			if(baseType == null){
-				(aw).setBaseType(getDefaultType());
+				aw.setBaseType(getDefaultType());
 				baseType = getDefaultType();
 			}
 			IClassifier type = baseType;

@@ -1,5 +1,7 @@
 package org.opaeum.topcased.propertysections;
 
+import java.lang.reflect.Field;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -10,6 +12,7 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -30,19 +33,24 @@ public class NavigationDecorator{
 		this.source = source;
 	}
 	public void refresh(){
+		Font font = source.getLabelCombo().getFont();
 		if(source.getEObjectToGoTo() != null){
-			source.getLabelCombo().getFont().getFontData()[0].style = SWT.UNDERLINE_SINGLE;
+			setFontStyle(font, SWT.UNDERLINE_SINGLE);
 			source.getLabelCombo().addPaintListener(getPaintListener());
 			source.getLabelCombo().setForeground(ColorConstants.blue);
 			source.getLabelCombo().addMouseListener(getMouseListener());
 			source.getLabelCombo().setCursor(new Cursor(Display.getCurrent(), SWT.CURSOR_HAND));
 		}else{
-			source.getLabelCombo().getFont().getFontData()[0].style = SWT.NORMAL;
+			setFontStyle(font, SWT.NORMAL);
 			source.getLabelCombo().setForeground(ColorConstants.black);
 			source.getLabelCombo().removeMouseListener(getMouseListener());
 			source.getLabelCombo().removePaintListener(getPaintListener());
 		}
 		source.getLabelCombo().redraw();
+	}
+	protected void setFontStyle(Font font,int normal){
+		FontData fontData = font.getFontData()[0];
+		font.getFontData()[0]=new FontData(fontData.getName(), fontData.getHeight(), normal);
 	}
 	protected PaintListener getPaintListener(){
 		if(this.paintListener == null){

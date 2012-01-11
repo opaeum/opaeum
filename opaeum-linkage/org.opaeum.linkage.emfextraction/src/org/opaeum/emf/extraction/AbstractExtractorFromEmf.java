@@ -234,7 +234,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 					}
 					baseType = (INakedClassifier) getNakedPeer((Element) eObject);
 			}else{
-				System.out.println();
+				System.out.println("Type not found: " + type.getQualifiedName());
 			}
 		}
 		ae.setBaseType(baseType);
