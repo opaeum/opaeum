@@ -23,7 +23,9 @@ public class DeletionTest extends BaseLocalDbTest {
 		Assert.assertEquals(5, countVertices());
 		Assert.assertEquals(5, countEdges());
 		db.startTransaction();
-		Universe testDeletion = new Universe(universe1.getVertex());
+		God godTest = new God(god.getVertex());
+		Universe testDeletion = godTest.getUniverse().iterator().next();
+//		Universe testDeletion = new Universe(universe1.getVertex());
 		testDeletion.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(1, countVertices());

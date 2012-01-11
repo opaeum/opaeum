@@ -7,6 +7,7 @@ import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 
+import com.google.common.collect.HashMultiset;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Index;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -17,6 +18,7 @@ public class TinkerQualifiedBagImpl<E> extends BaseBag<E> implements TinkerQuali
 
 	public TinkerQualifiedBagImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
+		this.internalCollection = HashMultiset.create();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
 		this.label = label;
@@ -37,7 +39,7 @@ public class TinkerQualifiedBagImpl<E> extends BaseBag<E> implements TinkerQuali
 		
 		validateQualifiedMultiplicity(qualifiers);
 		
-		boolean result = this.internalBag.add(e);
+		boolean result = this.getInternalBag().add(e);
 		Edge edge = null;
 		if (result) {
 			edge = addInternal(e);
@@ -75,7 +77,7 @@ public class TinkerQualifiedBagImpl<E> extends BaseBag<E> implements TinkerQuali
 			this.loaded = true;
 			loadFromVertex();
 		}
-		boolean result = this.internalBag.remove(o);
+		boolean result = this.getInternalBag().remove(o);
 		if (result) {
 			Vertex v;
 			if (o instanceof TinkerCompositionNode) {

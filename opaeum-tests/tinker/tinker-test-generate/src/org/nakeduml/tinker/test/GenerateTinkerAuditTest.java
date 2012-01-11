@@ -53,7 +53,7 @@ public class GenerateTinkerAuditTest {
 		String workspaceRoot = "/home/pieter/workspace-apaeum";
 		this.resourceSet = EmfWorkspaceLoader.setupStandAloneAppForUML2();
 		this.workspaceRoot = workspaceRoot;
-		this.cfg = new OpaeumConfig(new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/nakeduml.properties"));
+		this.cfg = new OpaeumConfig(new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/tinker-test-audit.properties"));
 		this.cfg.setOutputRoot(new File(workspaceRoot +"/nakeduml/opaeum-tests/tinker") );
 		process.initialize(cfg, getSteps());
 	}
@@ -101,6 +101,6 @@ public class GenerateTinkerAuditTest {
 		TextFileGenerator tff = new TextFileGenerator();
 		tff.initialize(cfg);
 		tff.startVisiting(process.findModel(TextWorkspace.class));
-		this.cfg.getWorkspaceMappingInfo().store();
+//		this.cfg.getWorkspaceMappingInfo().store();
 	}
 }

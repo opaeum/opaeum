@@ -1,7 +1,6 @@
 package org.nakeduml.tinker.collection;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -18,11 +17,13 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implements TinkerQualifiedOrderedSet<E> {
 
-	protected ListOrderedSet internalListOrderedSet = new ListOrderedSet();
+//	protected ListOrderedSet internalListOrderedSet = new ListOrderedSet();
 	protected NakedTinkerIndex<Edge> index;
 	
+	@SuppressWarnings("unchecked")
 	public TinkerQualifiedOrderedSetImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
+		this.internalCollection = new ListOrderedSet();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
 		this.label = label;
@@ -36,16 +37,20 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 		this.composite = composite;
 	}
 
+	public ListOrderedSet getInternalListOrderedSet() {
+		return (ListOrderedSet) this.internalCollection;
+	}
+	
 	@Override
 	public boolean add(E e, List<Qualifier> qualifiers) {
 		maybeCallInit(e);
 		maybeLoad();
 		validateQualifiedMultiplicity(qualifiers);
-		boolean result = this.internalListOrderedSet.add(e);
+		boolean result = this.getInternalListOrderedSet().add(e);
 		if (result) {
 			Edge edge = addInternal(e);
-			this.index.put("index", new Float(this.internalListOrderedSet.size() - 1), edge);
-			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.internalListOrderedSet.size() - 1));
+			this.index.put("index", new Float(this.getInternalListOrderedSet().size() - 1), edge);
+			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.getInternalListOrderedSet().size() - 1));
 			addQualifierToIndex(edge, qualifiers);
 		}
 		return result;
@@ -71,9 +76,9 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 
 	@SuppressWarnings("unchecked")
 	protected Edge addToListAndListIndex(int indexOf, E e) {
-		E previous = (E)this.internalListOrderedSet.get(indexOf - 1);
-		E current = (E)this.internalListOrderedSet.get(indexOf);
-		this.internalListOrderedSet.add(indexOf, e);
+		E previous = (E)this.getInternalListOrderedSet().get(indexOf - 1);
+		E current = (E)this.getInternalListOrderedSet().get(indexOf);
+		this.getInternalListOrderedSet().add(indexOf, e);
 		Edge edge = addInternal(e);
 
 		float min;
@@ -111,7 +116,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 					node = (E) value;
 					this.internalVertexMap.put(value, this.getVertexForDirection(edge));
 				}
-				this.internalListOrderedSet.add(node);
+				this.getInternalListOrderedSet().add(node);
 			} catch (Exception ex) {
 				throw new RuntimeException(ex);
 			}
@@ -120,48 +125,10 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 	}
 
 	@Override
-	public int size() {
-		maybeLoad();
-		return this.internalListOrderedSet.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		maybeLoad();
-		return this.internalListOrderedSet.isEmpty();
-	}
-
-	@Override
-	public boolean contains(Object o) {
-		maybeLoad();
-		return this.internalListOrderedSet.contains(o);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Iterator<E> iterator() {
-		maybeLoad();
-		return this.internalListOrderedSet.iterator();
-	}
-
-	@Override
-	public Object[] toArray() {
-		maybeLoad();
-		return this.internalListOrderedSet.toArray();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T[] toArray(T[] a) {
-		maybeLoad();
-		return (T[]) this.internalListOrderedSet.toArray(a);
-	}
-
-	@Override
 	public boolean remove(Object o) {
 		maybeLoad();
-		int indexOf = this.internalListOrderedSet.indexOf(o);
-		boolean result = this.internalListOrderedSet.remove(o);
+		int indexOf = this.getInternalListOrderedSet().indexOf(o);
+		boolean result = this.getInternalListOrderedSet().remove(o);
 		if (result) {
 			Vertex v;
 			if (o instanceof TinkerCompositionNode) {
@@ -188,48 +155,14 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> c) {
-		maybeLoad();
-		return this.internalListOrderedSet.containsAll(c);
-	}
-
-	@Override
 	public boolean addAll(Collection<? extends E> c) {
 		throw new IllegalStateException("This method can not be called on a qualified association. Call add(E, List<Qualifier>) instead");
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> c) {
-		if (!this.loaded) {
-			loadFromVertex();
-		}
-		boolean result = true;
-		for (Object e : this.internalListOrderedSet) {
-			if (!c.contains(e)) {
-				if (!this.remove(e)) {
-					result = false;
-				}
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		maybeLoad();
-		boolean result = true;
-		for (Object object : c) {
-			if (!this.remove(object)) {
-				result = false;
-			}
-		}
-		return result;
-	}
-
-	@Override
 	public void clear() {
 		maybeLoad();
-		for (Object e : this.internalListOrderedSet) {
+		for (Object e : this.getInternalListOrderedSet()) {
 			this.remove(e);
 		}
 	}
@@ -245,7 +178,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 		if (!this.loaded) {
 			loadFromVertex();
 		}
-		return (E) this.internalListOrderedSet.get(index);
+		return (E) this.getInternalListOrderedSet().get(index);
 	}
 
 	@Override
@@ -263,7 +196,7 @@ public class TinkerQualifiedOrderedSetImpl<E> extends BaseCollection<E> implemen
 	@Override
 	public int indexOf(Object o) {
 		maybeLoad();
-		return this.internalListOrderedSet.indexOf(o);
+		return this.getInternalListOrderedSet().indexOf(o);
 	}
 
 	@Override

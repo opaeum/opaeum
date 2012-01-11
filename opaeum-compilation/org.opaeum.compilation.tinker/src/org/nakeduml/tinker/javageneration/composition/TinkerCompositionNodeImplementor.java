@@ -6,6 +6,7 @@ import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
@@ -16,9 +17,11 @@ import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { CompositionEmulator.class, OperationAnnotator.class }, after = { OperationAnnotator.class,
@@ -30,7 +33,7 @@ public class TinkerCompositionNodeImplementor extends CompositionNodeImplementor
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation("markDeleted");
 		ojClass.addToOperations(markDeleted);
 		if (sc.hasSupertype()) {
-			markDeleted.getBody().addToStatements("super.markDeleted()");
+//			markDeleted.getBody().addToStatements("super.markDeleted()");
 		} else if (AbstractJavaProducingVisitor.isPersistent(sc)) {
 		}
 		markChildrenForDeletion(sc, ojClass, markDeleted);
@@ -39,6 +42,35 @@ public class TinkerCompositionNodeImplementor extends CompositionNodeImplementor
 		markDeleted.getBody().addToStatements(TinkerGenerationUtil.graphDbAccess + ".removeVertex(this.vertex)");
 	}
 
+	//This is same as super only one to one does not check for inverse
+	protected void markChildrenForDeletion(INakedClassifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
+		for(INakedProperty np:sc.getEffectiveAttributes()){
+			if(np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.getOtherEnd().isDerived()
+					&& (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){
+				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
+				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
+				if(map.isManyToMany()){
+					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
+				}else if(map.isManyToOne()){
+					OJIfStatement ifNotNull;
+					if(isMap(np.getOtherEnd())){
+						ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "("
+								+ OJUtil.addQualifierArguments(np.getOtherEnd().getQualifiers(), "this") + "this)");
+					}else{
+						ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");
+					}
+					markDeleted.getBody().addToStatements(ifNotNull);
+				}else if(map.isOneToOne()){
+					// TODO this may have unwanted results such as removing the
+					// owner from "this" too
+					OJIfStatement ifNotNull = new OJIfStatement(map.getter() + "()!=null", map.getter() + "()." + otherMap.internalRemover() + "(this)");
+					markDeleted.getBody().addToStatements(ifNotNull);
+				}
+			}
+		}
+	}
+
+	
 	private void deleteEmbeddedManies(INakedClassifier sc, OJAnnotatedOperation markDeleted) {
 		for(INakedProperty np:sc.getEffectiveAttributes()){
 			if(np.getOtherEnd() == null && !np.isDerived() && !np.getMultiplicity().isSingleObject()){

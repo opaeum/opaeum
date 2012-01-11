@@ -42,6 +42,7 @@ public abstract class BaseTinker implements TinkerNode, Serializable{
 	public void defaultCreate() {
 		setCreatedOn(new Timestamp(System.currentTimeMillis()));
 		setUpdatedOn(new Timestamp(System.currentTimeMillis()));
+		getUid();
 	}
 
 	public void defaultUpdate() {

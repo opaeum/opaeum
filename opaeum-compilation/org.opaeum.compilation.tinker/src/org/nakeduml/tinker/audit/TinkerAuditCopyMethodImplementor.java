@@ -4,6 +4,7 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IModelElement;
 
+import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -47,7 +48,12 @@ public class TinkerAuditCopyMethodImplementor extends AbstractAuditJavaProducing
 		oper.addParam("from", owner.getPathName());
 		oper.addParam("to", owner.getPathName());
 		addCopyStatements(classifier, owner, oper.getBody(), false, true);
+		addGetOriginalUid(oper);
 		owner.addToOperations(oper);
+	}
+
+	private void addGetOriginalUid(OJOperation oper) {
+		oper.getBody().addToStatements("to.auditVertex.setProperty(\"" + TinkerGenerationUtil.ORIGINAL_UID + "\" , getUid())");
 	}
 
 	private void addCopyStatements(INakedClassifier classifier, OJClass owner, OJBlock body, boolean deep, boolean shallowCopy) {
@@ -68,6 +74,7 @@ public class TinkerAuditCopyMethodImplementor extends AbstractAuditJavaProducing
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				if (!(np.isDerived() || np.isReadOnly() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))) {
 					if (np.getNakedBaseType() instanceof INakedSimpleType || np.getNakedBaseType() instanceof INakedEnumeration) {
+						//TODO check for manies that is empty before add change
 						OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "() != null");
 						ifNotNull.addToThenPart("to." + map.setter() + "(from." + map.getter() + "())");
 						ifNotNull.addToThenPart("change.add(\""+map.getProperty().getMappingInfo().getPersistentName()+"\")");

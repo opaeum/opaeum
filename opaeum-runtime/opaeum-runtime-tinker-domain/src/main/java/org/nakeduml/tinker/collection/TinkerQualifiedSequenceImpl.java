@@ -1,5 +1,6 @@
 package org.nakeduml.tinker.collection;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class TinkerQualifiedSequenceImpl<E> extends BaseSequence<E> implements T
 
 	public TinkerQualifiedSequenceImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
+		this.internalCollection = new ArrayList<E>();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
 		this.label = label;
@@ -31,11 +33,11 @@ public class TinkerQualifiedSequenceImpl<E> extends BaseSequence<E> implements T
 		maybeCallInit(e);
 		maybeLoad();
 		validateQualifiedMultiplicity(qualifiers);
-		boolean result = this.internalList.add(e);
+		boolean result = this.getInternalList().add(e);
 		if (result) {
 			Edge edge = addInternal(e);
-			this.index.put("index", new Float(this.internalList.size() - 1), edge);
-			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.internalList.size() - 1));
+			this.index.put("index", new Float(this.getInternalList().size() - 1), edge);
+			getVertexForDirection(edge).setProperty("tinkerIndex", new Float(this.getInternalList().size() - 1));
 			addQualifierToIndex(edge, qualifiers);
 		}
 		return result;

@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.collectiontest.Hand;
 import org.tinker.concretetest.God;
+import org.tinker.qualifiertest.Many1;
+import org.tinker.qualifiertest.Many2;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -232,6 +234,89 @@ public class SequenceTest extends BaseLocalDbTest {
 		Assert.assertEquals("hand2", godTest2.getHand().get(3).getName());
 		Assert.assertEquals(3, countVertices());
 		Assert.assertEquals(5, countEdges());
+	}
+	
+	@Test
+	public void testManyToManySequenceWithDuplicates() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("THEGOD");
+		
+		Many1 many1_1 = new Many1(true);
+		many1_1.setName("many1_1");
+		many1_1.init(god);
+		many1_1.addToOwningObject();
+		
+		Many1 many1_2 = new Many1(true);
+		many1_2.setName("many1_1");
+		many1_2.init(god);
+		many1_2.addToOwningObject();
+
+		Many1 many1_3 = new Many1(true);
+		many1_3.setName("many1_1");
+		many1_3.init(god);
+		many1_3.addToOwningObject();
+
+		Many1 many1_4 = new Many1(true);
+		many1_4.setName("many1_4");
+		many1_4.init(god);
+		many1_4.addToOwningObject();
+
+		Many2 many2_1 = new Many2(true);
+		many2_1.setName("many2_1");
+		many2_1.init(god);
+		many2_1.addToOwningObject();
+		
+		Many2 many2_2 = new Many2(true);
+		many2_2.setName("many2_2");
+		many2_2.init(god);
+		many2_2.addToOwningObject();
+
+		Many2 many2_3 = new Many2(true);
+		many2_3.setName("many2_3");
+		many2_3.init(god);
+		many2_3.addToOwningObject();
+
+		Many2 many2_4 = new Many2(true);
+		many2_4.setName("many2_4");
+		many2_4.init(god);
+		many2_4.addToOwningObject();
+
+		many1_1.addToMany2UnqualifiedList(many2_1);
+		many1_1.addToMany2UnqualifiedList(many2_2);
+		many1_1.addToMany2UnqualifiedList(many2_3);
+		many1_1.addToMany2UnqualifiedList(many2_4);
+
+		many1_2.addToMany2UnqualifiedList(many2_1);
+		many1_2.addToMany2UnqualifiedList(many2_2);
+		many1_2.addToMany2UnqualifiedList(many2_3);
+		many1_2.addToMany2UnqualifiedList(many2_4);
+
+		many1_3.addToMany2UnqualifiedList(many2_1);
+		many1_3.addToMany2UnqualifiedList(many2_2);
+		many1_3.addToMany2UnqualifiedList(many2_3);
+		many1_3.addToMany2UnqualifiedList(many2_4);
+
+		many1_4.addToMany2UnqualifiedList(many2_1);
+		many1_4.addToMany2UnqualifiedList(many2_2);
+		many1_4.addToMany2UnqualifiedList(many2_3);
+		many1_4.addToMany2UnqualifiedList(many2_4);
+		
+		//Some duplicates
+		many1_1.addToMany2UnqualifiedList(many2_1);
+		many1_1.addToMany2UnqualifiedList(many2_2);
+		many1_1.addToMany2UnqualifiedList(many2_3);
+		many1_1.addToMany2UnqualifiedList(many2_4);
+
+		//Some duplicates
+		many2_1.addToMany1UnqualifiedList(many1_1);
+		many2_1.addToMany1UnqualifiedList(many1_2);
+		many2_1.addToMany1UnqualifiedList(many1_3);
+		many2_1.addToMany1UnqualifiedList(many1_4);
+
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(9, countVertices());
+		Assert.assertEquals(33, countEdges());
 	}
 
 	

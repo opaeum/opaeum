@@ -255,13 +255,13 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 			ifNotDeleted.addToThenPart(constructClass);
 		}
 
-		OJIfStatement ifRemovedAuditContains = new OJIfStatement("!removedAudits.containsKey(instance.getOriginal().getUid())");
+		OJIfStatement ifRemovedAuditContains = new OJIfStatement("!removedAudits.containsKey(instance.getOriginalUid())");
 		ifRemovedAuditContains.addToThenPart("return (" + auditMap.javaAuditBaseTypePath().getLast() + ")iterateToLatest(transactionNo, instance)");
 		ifNotDeleted.addToThenPart(ifRemovedAuditContains);
 
 		ifNotDeleted.addToElsePart(forClass);
 		ifNotDeleted.addToElsePart(constructClass);
-		ifNotDeleted.addToElsePart("removedAudits.put(instance.getOriginal().getUid(), instance)");
+		ifNotDeleted.addToElsePart("removedAudits.put(instance.getOriginalUid(), instance)");
 
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
@@ -361,17 +361,17 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 			ifNotDeleted.addToThenPart(constructMany);
 		}
 		OJIfStatement ifStatement = new OJIfStatement(
-				"!removedAudits.containsKey(instance.getOriginal().getUid()) && !audits.containsKey(instance.getOriginal().getUid())");
+				"!removedAudits.containsKey(instance.getOriginalUid()) && !audits.containsKey(instance.getOriginalUid())");
 		ifNotDeleted.addToThenPart(ifStatement);
 		ifStatement.addToThenPart(auditMap.javaAuditBaseTypePath().getLast() + " previous = (" + auditMap.javaAuditBaseTypePath().getLast()
 				+ ")iterateToLatest(transactionNo, instance)");
-		ifStatement.addToThenPart("result.put(previous.getOriginal().getUid(), previous)");
+		ifStatement.addToThenPart("result.put(previous.getOriginalUid(), previous)");
 
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 		ifNotDeleted.addToElsePart(classForName);
 		ifNotDeleted.addToElsePart(constructMany);
-		ifNotDeleted.addToElsePart("removedAudits.put(instance.getOriginal().getUid(), instance)");
+		ifNotDeleted.addToElsePart("removedAudits.put(instance.getOriginalUid(), instance)");
 		getAuditsForThisMany.getBody().addToStatements(forStatement);
 		getAuditsForThisMany.getBody().addToStatements("return result");
 	}

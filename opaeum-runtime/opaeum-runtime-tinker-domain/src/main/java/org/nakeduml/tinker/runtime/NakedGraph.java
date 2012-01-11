@@ -37,5 +37,5 @@ public interface NakedGraph extends TransactionalGraph, IndexableGraph, Serializ
     Transaction getTransaction();
     public <T extends Element> NakedTinkerIndex<T> getIndex(String indexName, Class<T> indexClass);
     public <T extends Element> NakedTinkerIndex<T> createManualIndex(String indexName, Class<T> indexClass);
-
+    public boolean isTransactionActive();
 }

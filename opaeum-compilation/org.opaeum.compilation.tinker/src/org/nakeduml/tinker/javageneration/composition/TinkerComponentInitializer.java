@@ -5,7 +5,6 @@ import java.util.List;
 
 import nl.klasse.octopus.model.IModelElement;
 
-import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;

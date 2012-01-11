@@ -15,6 +15,7 @@ import javax.validation.ValidatorFactory;
 import org.nakeduml.tinker.runtime.NakedGraph;
 import org.nakeduml.tinker.runtime.NakedTinkerIndex;
 import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
+import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 import org.neo4j.graphdb.DynamicRelationshipType;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.NotFoundException;
@@ -40,6 +41,12 @@ public class NakedNeo4jGraph implements NakedGraph {
 	private TransactionEventHandler<IPersistentObject> transactionEventHandler;
 	private TinkerSchemaHelper schemaHelper;
 
+	private final ThreadLocal<Integer> txCount = new ThreadLocal<Integer>() {
+		protected Integer initialValue() {
+			return null;
+		}
+	};
+
 	public NakedNeo4jGraph(Neo4jGraph orientGraph, TinkerSchemaHelper schemaHelper) {
 		super();
 		this.neo4jGraph = orientGraph;
@@ -53,11 +60,13 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public void startTransaction() {
 		neo4jGraph.startTransaction();
+		txCount.set(1);
 	}
 
 	@Override
 	public void stopTransaction(Conclusion conclusion) {
 		neo4jGraph.stopTransaction(conclusion);
+		txCount.remove();
 	}
 
 	@Override
@@ -72,6 +81,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 
 	@Override
 	public void removeVertex(Vertex vertex) {
+		TransactionThreadEntityVar.remove(vertex.getId().toString());
 		neo4jGraph.removeVertex(vertex);
 	}
 
@@ -114,12 +124,12 @@ public class NakedNeo4jGraph implements NakedGraph {
 	public <T extends Element> NakedTinkerIndex<T> createManualIndex(String indexName, Class<T> indexClass) {
 		return new NakedNeo4jIndex(neo4jGraph.createManualIndex(indexName, indexClass));
 	}
-	
+
 	@Override
 	public <T extends Element> NakedTinkerIndex<T> getIndex(String indexName, Class<T> indexClass) {
 		Index<T> index = this.neo4jGraph.getIndex(indexName, indexClass);
-		if (index!=null) {
-		return new NakedNeo4jIndex(index);
+		if (index != null) {
+			return new NakedNeo4jIndex(index);
 		} else {
 			return null;
 		}
@@ -305,6 +315,11 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public int getCurrentBufferSize() {
 		return this.neo4jGraph.getCurrentBufferSize();
+	}
+
+	@Override
+	public boolean isTransactionActive() {
+		return txCount.get() != null;
 	}
 
 }

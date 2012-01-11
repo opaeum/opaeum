@@ -1,5 +1,7 @@
 package org.nakeduml.tinker.collection;
 
+import java.util.HashSet;
+
 import com.tinkerpop.blueprints.pgm.CloseableSequence;
 import com.tinkerpop.blueprints.pgm.Edge;
 
@@ -9,6 +11,7 @@ public class TinkerSetClosableSequenceImpl<E> extends BaseSet<E> implements Tink
 
 	public TinkerSetClosableSequenceImpl(CloseableSequence<Edge> closeableSequence, boolean isInverse) {
 		super();
+		this.internalCollection = new HashSet<E>();
 		this.closeableSequence = closeableSequence;
 		this.inverse = isInverse;
 	}

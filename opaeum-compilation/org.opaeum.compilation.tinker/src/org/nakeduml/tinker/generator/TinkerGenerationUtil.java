@@ -14,6 +14,7 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedProperty;
 
 public class TinkerGenerationUtil {
@@ -24,6 +25,8 @@ public class TinkerGenerationUtil {
 
 	public static final String INIT_VERTEX = "initVertex";
 
+	public static final String TINKER_DB_NULL = "__NULL__";
+	public static final OJPathName tinkerConclusionPathName = new OJPathName("com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion");
 	public static final OJPathName tinkerSetClosableSequenceImplPathName = new OJPathName("org.nakeduml.tinker.collection.TinkerSetClosableSequenceImpl");
 	public static final OJPathName tinkerIndexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.Index");
 	public static final OJPathName tinkerCloseableSequencePathName = new OJPathName("com.tinkerpop.blueprints.pgm.CloseableSequence");
@@ -35,6 +38,8 @@ public class TinkerGenerationUtil {
 	public static final String BASE_AUDIT_TINKER = "org.nakeduml.runtime.domain.BaseTinkerAuditable";
 	public static final String PERSISTENT_CONSTRUCTOR_NAME = "persistentConstructor";
 	public static final String PERSISTENT_CONSTRUCTOR_PARAM_NAME = "persistent";
+
+	public static final String ORIGINAL_UID = "originalUid";
 	public static OJPathName oGraphDatabase = new OJPathName("com.orientechnologies.orient.core.db.graph.OGraphDatabase");
 	public static OJPathName schemaPathName = new OJPathName("com.orientechnologies.orient.core.metadata.schema.OSchema");
 	public static OJPathName vertexPathName = new OJPathName("com.tinkerpop.blueprints.pgm.Vertex");
@@ -170,7 +175,7 @@ public class TinkerGenerationUtil {
 	}
 
 	public static String getQualifierValueGetterName(INakedProperty qualifier) {
-		NakedStructuralFeatureMap qualifierOwnerMap = OJUtil.buildStructuralFeatureMap((INakedProperty)qualifier.getOwnerElement());
+		NakedStructuralFeatureMap qualifierOwnerMap = OJUtil.buildStructuralFeatureMap((INakedProperty) qualifier.getOwnerElement());
 		NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(qualifier);
 		return "get" + StringUtils.capitalize(qualifierOwnerMap.fieldname()) + StringUtils.capitalize(map.fieldname()) + "QualifierValue";
 	}
@@ -186,6 +191,20 @@ public class TinkerGenerationUtil {
 			return "Multiplicity.ONE_TO_ONE";
 		} else {
 			throw new IllegalStateException("wtf");
+		}
+	}
+
+	public static String addSetterForSimpleType(NakedStructuralFeatureMap map) {
+		return addSetterForSimpleType(map, false);
+	}
+	
+	public static String addSetterForSimpleType(NakedStructuralFeatureMap map, boolean audit) {
+		if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
+			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
+					+ "\", val!=null?val.name():null)";
+		} else {
+			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val==null?\""
+					+ TINKER_DB_NULL + "\":val)";
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package org.nakeduml.tinker.collection;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class TinkerQualifiedSetImpl<E> extends BaseSet<E> implements TinkerQuali
 
 	public TinkerQualifiedSetImpl(TinkerCompositionNode owner, String label, String uid, boolean isInverse, boolean isManyToMany, boolean composite) {
 		super();
+		this.internalCollection = new HashSet<E>();
 		this.owner = owner;
 		this.vertex = owner.getVertex();
 		this.label = label;
@@ -29,13 +31,17 @@ public class TinkerQualifiedSetImpl<E> extends BaseSet<E> implements TinkerQuali
 		this.manyToMany = isManyToMany;
 		this.composite = composite;
 	}
+	
+	public Set<E> getInternalSet() {
+		return (Set<E>) this.internalCollection;
+	}	
 
 	@Override	
 	public boolean add(E e, List<Qualifier> qualifiers) {
 		maybeCallInit(e);
 		maybeLoad();
 		validateQualifiedMultiplicity(qualifiers);
-		boolean result = this.internalSet.add(e);
+		boolean result = this.getInternalSet().add(e);
 		Edge edge = null;
 		if (result) {
 			edge = addInternal(e);
@@ -72,7 +78,7 @@ public class TinkerQualifiedSetImpl<E> extends BaseSet<E> implements TinkerQuali
 			this.loaded = true;
 			loadFromVertex();
 		}
-		boolean result = this.internalSet.remove(o);
+		boolean result = this.getInternalSet().remove(o);
 		if (result) {
 			Vertex v;
 			if (o instanceof TinkerCompositionNode) {

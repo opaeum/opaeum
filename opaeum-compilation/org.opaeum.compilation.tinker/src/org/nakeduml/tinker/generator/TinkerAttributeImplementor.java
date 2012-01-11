@@ -52,27 +52,27 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	public static final String EMBEDDED_MANY_RESULT = "embeddedManyResult";
 	public static final String EMBEDDED_MANY_RESULT_IFNOTNULL = "embeddedManyResultifNotNull";
 	public static final String EMBEDDED_MANY_PROPERTY_RESULT = "embeddedManyPropertyResult";
-	public static final String TINKER_DB_NULL = "__NULL__";
+	public static final String ITER_HAS_NEXT = "ITER_HAS_NEXT";
 
 	@Override
-	protected OJOperation buildAdder(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		OJOperation adder = new OJAnnotatedOperation(map.adder());
 		adder.addParam(map.fieldname(), map.javaBaseTypePath());
-		if(!(owner instanceof OJAnnotatedInterface)){
+		if (!(owner instanceof OJAnnotatedInterface)) {
 			INakedProperty p = map.getProperty();
 			adder.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			adder.setStatic(map.isStatic());
-			if(!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()){
+			if (!(p.getOtherEnd() == null || p.getOtherEnd().isDerived()) && p.getOtherEnd().isNavigable()) {
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
-				if(otherMap.isMany()){
-					if(!OJUtil.hasOJClass((INakedClassifier) p.getAssociation())){
+				if (otherMap.isMany()) {
+					if (!OJUtil.hasOJClass((INakedClassifier) p.getAssociation())) {
 						adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 					}
 					adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
-				}else{
+				} else {
 					OJIfStatement ifNotNul2 = new OJIfStatement(map.fieldname() + "!=null");
 					adder.getBody().addToStatements(ifNotNul2);
-					//Only remote the elements if it needs to be unique
+					// Only remote the elements if it needs to be unique
 					if (map.getProperty().isUnique()) {
 						ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() + "." + otherMap.getter() + "())");
 					}
@@ -83,7 +83,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 					// otherMap.getter() + "().add(this)");
 					// }
 				}
-			}else{
+			} else {
 				adder.getBody().addToStatements(map.internalAdder() + "(" + map.fieldname() + ")");
 			}
 		}
@@ -91,7 +91,6 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		return adder;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -170,7 +169,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 						OJIfStatement ifResultNull = new OJIfStatement("result == null");
 						ifResultNull.addToThenPart("result = (" + map.javaTypePath().getLast() + ") this.vertex.getProperty(\""
 								+ TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
-						ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TINKER_DB_NULL + "\"))?null:result");
+						ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TinkerGenerationUtil.TINKER_DB_NULL + "\"))?null:result");
 						getter.getBody().addToStatements(ifResultNull);
 					}
 				}
@@ -246,32 +245,43 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	@Override
-	protected OJOperation buildRemover(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
+	protected OJOperation buildRemover(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		OJOperation remover = new OJAnnotatedOperation(map.remover());
 		remover.addParam(map.fieldname(), map.javaBaseTypePath());
 		INakedProperty p = map.getProperty();
-		if(!(owner instanceof OJAnnotatedInterface)){
+		if (!(owner instanceof OJAnnotatedInterface)) {
 			remover.setStatic(map.isStatic());
 			remover.setVisibility(p.isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			OJIfStatement ifNotNull = new OJIfStatement(map.fieldname() + "!=null");
 			remover.getBody().addToStatements(ifNotNull);
-			if(p.getOtherEnd() != null && p.getOtherEnd().isNavigable()){
+			if (p.getOtherEnd() != null && p.getOtherEnd().isNavigable()) {
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap((p).getOtherEnd());
-				if(!OJUtil.hasOJClass((INakedClassifier) map.getProperty().getAssociation())){
+				if (!OJUtil.hasOJClass((INakedClassifier) map.getProperty().getAssociation())) {
 					ifNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(this)");
 				}
 				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
-			}else{
+			} else {
 				ifNotNull.getThenPart().addToStatements(map.internalRemover() + "(" + map.fieldname() + ")");
 			}
 			owner.addToOperations(remover);
 		}
 		return remover;
 	}
-	
+
 	@Override
 	protected void buildInternalRemover(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
-		buildTinkerInternalRemover(owner, map);
+		INakedProperty prop = map.getProperty();
+		INakedClassifier umlOwner = (INakedClassifier) map.getFeature().getOwner();
+		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
+			if (map.isOne()) {
+				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
+			} else {
+				builTinkerManyRemover(owner, map);
+			}
+		} else {
+			addSimpleInternalRemoverBody(umlOwner, map, owner, buildBasicRemover(owner, map));
+		}
 	}
 
 	@Override
@@ -299,23 +309,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		}
 	}
 
-	private void buildTinkerInternalRemover(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
-		INakedProperty prop = map.getProperty();
-		INakedClassifier umlOwner = (INakedClassifier) map.getFeature().getOwner();
-		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
-			if (map.isOne()) {
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
-				buildTinkerToOneRemover(umlOwner, map, otherMap, owner, buildBasicRemover(owner, map));
-			} else {
-				builTinkerManyRemover(owner, map);
-			}
-		} else {
-			addSimpleInternalRemoverBody(umlOwner, map, owner, buildBasicRemover(owner, map));
-		}
-	}
-
 	private void builTinkerManyAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
-//		super.buildInternalAdder(owner, map);
+		// super.buildInternalAdder(owner, map);
 		OJAnnotatedOperation adder = new OJAnnotatedOperation(map.internalAdder());
 		adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 		adder.addParam("val", map.javaBaseTypePath());
@@ -370,15 +365,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 				buildTinkerToOneAdder(umlOwner, map, null, owner, adder);
 			}
 		} else {
-			if (map.getProperty().getBaseType() instanceof INakedEnumeration) {
-				adder.getBody().addToStatements(
-						"this.vertex.setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName())
-								+ "\", val!=null?val.name():null)");
-			} else {
-				adder.getBody().addToStatements(
-						"this.vertex.setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val==null?\""
-								+ TINKER_DB_NULL + "\":val)");
-			}
+			adder.getBody().addToStatements(TinkerGenerationUtil.addSetterForSimpleType(map));
 			adder.getBody().addToStatements("this." + map.umlName() + " = val");
 			addEntityToTransactionThreadEntityVar(adder);
 		}
@@ -399,14 +386,27 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		addEntityToTransactionThreadEntityVar(setter);
 		if (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null) {
 			// Create an edge
+			if (map.getProperty().getOtherEnd() != null) {
+				OJField oldValue = new OJField();
+				oldValue.setName("oldValue");
+				oldValue.setType(map.javaBaseTypePath());
+				oldValue.setInitExp(map.getter() + "()");
+				setter.getBody().addToLocals(oldValue);
+				setter.getBody().addToStatements(map.internalRemover() + "(oldValue)");
+
+				OJIfStatement ifOldValueNotNull = new OJIfStatement("oldValue != null");
+				ifOldValueNotNull.addToThenPart("oldValue." + otherMap.internalRemover() + "(this)");
+				setter.getBody().addToStatements(ifOldValueNotNull);
+			}
 			createPolymorphicToOneRelationship(umlOwner, map, setter);
 		}
 		setter.getBody().addToStatements(map.umlName() + " = val");
 	}
 
 	public void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
-		//Manies gets removed in the collection
-		if (map.isOneToOne() && (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
+		addEntityToTransactionThreadEntityVar(remover);
+		// Manies gets removed in the collection
+		if (map.isOneToOne()) {
 			// Remove the edge
 			removePolymorphicToOneRelationship(map, owner, remover);
 		}
@@ -422,6 +422,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		String relationshipName = TinkerGenerationUtil.getEdgeName(map);
 		remover.getBody().addToStatements("Iterable<Edge> iter = this.vertex." + (isComposite ? "getOutEdges" : "getInEdges") + "(\"" + relationshipName + "\")");
 		OJIfStatement ifNotNull = new OJIfStatement();
+		ifNotNull.setName(ITER_HAS_NEXT);
 		ifNotNull.setCondition("iter.iterator().hasNext()");
 		ifNotNull.getThenPart().addToStatements(TinkerGenerationUtil.graphDbAccess + ".removeEdge(iter.iterator().next())");
 		remover.getBody().addToStatements(ifNotNull);

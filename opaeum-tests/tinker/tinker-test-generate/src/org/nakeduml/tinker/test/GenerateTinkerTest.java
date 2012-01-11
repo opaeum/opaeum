@@ -104,6 +104,6 @@ public class GenerateTinkerTest {
 		TextFileGenerator tff = new TextFileGenerator();
 		tff.initialize(cfg);
 		tff.startVisiting(process.findModel(TextWorkspace.class));
-		this.cfg.getWorkspaceMappingInfo().store();
+//		this.cfg.getWorkspaceMappingInfo().store();
 	}
 }

@@ -7,6 +7,8 @@ import org.opaeum.test.tinker.BaseLocalDbTest;
 import org.tinker.concretetest.Angel;
 import org.tinker.concretetest.God;
 import org.tinker.concretetest.Universe;
+import org.tinker.onetoone.OneOne;
+import org.tinker.onetoone.OneTwo;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -49,5 +51,124 @@ public class TestNonCompositeOneToOne extends BaseLocalDbTest {
 		Assert.assertNull(universeTest2.getAngel());
 		Assert.assertEquals(6, countEdges());
 	}
+	
+	@Test
+	public void testOneToOneOne() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("GODDER");
+		OneOne oneOne1 = new OneOne(god);
+		oneOne1.setName("oneone1");
+		OneOne oneOne2 = new OneOne(god);
+		oneOne2.setName("oneone2");
+		OneTwo oneTwo1 = new OneTwo(god);
+		oneTwo1.setName("onetwo1");
+		OneTwo oneTwo2 = new OneTwo(god);
+		oneTwo2.setName("onetwo2");
+		
+		oneOne1.setOneTwo(oneTwo1);
+		oneOne2.setOneTwo(oneTwo2);
+		
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(7, countEdges());
+		
+		db.startTransaction();
+		oneOne1.setOneTwo(oneTwo2);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(6, countEdges());
+		
+		oneOne2 = new OneOne(oneOne2.getVertex());
+		Assert.assertNull(oneOne2.getOneTwo());
+		oneTwo1 = new OneTwo(oneTwo1.getVertex());
+		Assert.assertNull(oneTwo1.getOneOne());
+		oneOne1 = new OneOne(oneOne1.getVertex());
+		Assert.assertNotNull(oneOne1.getOneTwo());
+		
+		db.startTransaction();
+		oneOne2.setOneTwo(oneTwo1);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(7, countEdges());
+		
+	}
+
+	@Test
+	public void testOneToOneTwo() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("GODDER");
+		OneOne oneOne1 = new OneOne(god);
+		oneOne1.setName("oneone1");
+		OneOne oneOne2 = new OneOne(god);
+		oneOne2.setName("oneone2");
+		OneTwo oneTwo1 = new OneTwo(god);
+		oneTwo1.setName("onetwo1");
+		OneTwo oneTwo2 = new OneTwo(god);
+		oneTwo2.setName("onetwo2");
+		
+		oneOne1.setOneTwo(oneTwo1);
+		oneOne2.setOneTwo(oneTwo2);
+		
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(7, countEdges());
+		
+		db.startTransaction();
+		oneOne1.setOneTwo(oneTwo2);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(6, countEdges());
+		
+		Assert.assertNull(oneOne2.getOneTwo());
+		Assert.assertNull(oneTwo1.getOneOne());
+		Assert.assertNotNull(oneOne1.getOneTwo());
+		
+		db.startTransaction();
+		oneOne2.setOneTwo(oneTwo1);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(7, countEdges());
+		
+	}
+
+	@Test
+	public void testOneToOneSetNull() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("GODDER");
+		OneOne oneOne1 = new OneOne(god);
+		oneOne1.setName("oneone1");
+		OneOne oneOne2 = new OneOne(god);
+		oneOne2.setName("oneone2");
+		OneTwo oneTwo1 = new OneTwo(god);
+		oneTwo1.setName("onetwo1");
+		OneTwo oneTwo2 = new OneTwo(god);
+		oneTwo2.setName("onetwo2");
+		
+		oneOne1.setOneTwo(oneTwo1);
+		oneOne2.setOneTwo(oneTwo2);
+		
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(7, countEdges());
+		
+		db.startTransaction();
+		oneOne1.setOneTwo(null);	
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(6, countEdges());
+		Assert.assertNull(oneOne1.getOneTwo());
+		Assert.assertNull(oneTwo1.getOneOne());
+		
+		db.startTransaction();
+		oneOne1.setOneTwo(oneTwo2);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(5, countVertices());
+		Assert.assertEquals(6, countEdges());
+		Assert.assertNull(oneOne2.getOneTwo());
+		
+	}	
 
 }

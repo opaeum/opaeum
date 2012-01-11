@@ -49,6 +49,11 @@ public class TransactionThreadEntityVar {
 	
 	public static List<TinkerCompositionNode> get() {
 		return new ArrayList<TinkerCompositionNode>(transactionEntityVar.get().values());
+	}
+	
+	public static TinkerCompositionNode remove(String key) {
+		return transactionEntityVar.get().remove(key);
 	}	
+	
 
 }
