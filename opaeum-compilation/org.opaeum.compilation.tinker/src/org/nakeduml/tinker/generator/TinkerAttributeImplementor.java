@@ -406,7 +406,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	public void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
 		addEntityToTransactionThreadEntityVar(remover);
 		// Manies gets removed in the collection
-		if (map.isOneToOne()) {
+		if (map.isOneToOne() && (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
 			// Remove the edge
 			removePolymorphicToOneRelationship(map, owner, remover);
 		}
@@ -487,13 +487,11 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		ojTryStatement.getTryPart().addToStatements(
 				"Class<?> c = org.util.OrgJavaMetaInfoMap.INSTANCE.getClass(\"" + TinkerGenerationUtil.getClassMetaId(findJavaClass(otherClassifier)) + "\")");
 		if (isComposite) {
-			// ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
-			ojTryStatement.getTryPart().addToStatements("result = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+			ojTryStatement.getTryPart().addToStatements("this." + map.fieldname() + " = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 		} else {
-			// ojTryStatement.getTryPart().addToStatements("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
-			ojTryStatement.getTryPart().addToStatements("result = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
-
+			ojTryStatement.getTryPart().addToStatements("this." + map.fieldname() + " = (" + otherClassName + ") c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 		}
+		ojTryStatement.getTryPart().addToStatements("result = this." + map.fieldname());
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
 		ifStatement.addToThenPart(ojTryStatement);

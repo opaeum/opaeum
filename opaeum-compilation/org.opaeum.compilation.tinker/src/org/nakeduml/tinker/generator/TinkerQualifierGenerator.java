@@ -133,6 +133,9 @@ public class TinkerQualifierGenerator extends AbstractStructureVisitor {
 		} else if (expression.startsWith("java.util.Collections.singleton(")) {
 			expression = expression.replace("java.util.Collections.singleton(", "");
 			expression = expression.substring(0, expression.length()-1);
+		} else if (expression.startsWith("StdLib.objectAsSet(")) {
+			expression = expression.replace("StdLib.objectAsSet(", "");
+			expression = expression.substring(0, expression.length()-1);
 		}
 		return expression;
 	}

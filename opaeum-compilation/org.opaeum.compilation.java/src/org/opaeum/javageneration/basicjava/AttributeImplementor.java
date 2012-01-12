@@ -598,10 +598,13 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					ifNull.addToElsePart(ifNotSame);
 					// remove "this" from existing reference
 					ifNotSame.getThenPart().addToStatements("oldValue." + otherMap.internalRemover() + args);
+					ifNotSame.getThenPart().addToStatements(map.internalRemover() + "(oldValue)");
 					// add "this" to new reference\
 					OJIfStatement ifParamNotNull = new OJIfStatement();
 					ifParamNotNull.setCondition(map.fieldname() + "!=null");
-					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(" + map.fieldname() +"." + otherMap.getter() + "())");
+					ifParamNotNull.getThenPart().addToStatements(owner.getName() + " oldOther = " + map.fieldname() + "." + otherMap.getter() + "()");
+					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalRemover() + "(oldOther)");
+					ifParamNotNull.getThenPart().addToStatements(new OJIfStatement("oldOther != null", "oldOther" + "." + map.internalRemover() + "(" + map.fieldname() + ")"));
 					ifParamNotNull.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "((" + owner.getName() + ")this)");
 					ifNotSame.getThenPart().addToStatements(ifParamNotNull);
 					ifNotSame.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.internalAdder() + "(" + map.fieldname() + ")");
