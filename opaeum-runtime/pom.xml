@@ -99,9 +99,9 @@
 		<module>opaeum-runtime-jpa</module>
 		<module>opaeum-runtime-cdi-hibernate</module>
 		<module>opaeum-runtime-seam2-jpa</module>
-		<module>opaeum-runtime-tinker</module>
-		<module>opaeum-runtime-orient</module>
-		<module>opaeum-runtime-neo4j</module>
+		<module>opaeum-runtime-tinker-adaptor</module>
+		<module>opaeum-runtime-tinker-domain</module>
+		<module>opaeum-runtime-tinker-neo4j</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>

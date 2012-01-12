@@ -3,13 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.linkage.core
 Bundle-SymbolicName: org.opaeum.linkage.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
- org.eclipse.uml2.uml.resources;visibility:=reexport,
- org.junit4,
+Require-Bundle: org.junit4,
  org.opaeum.metamodels.opaeum,
  org.opaeum.metamodels.ocl,
  org.opaeum.metamodels.emfworkspace,
- org.opaeum.transformation.engine
+ org.opaeum.transformation.engine,
+ org.eclipse.uml2.uml;bundle-version="3.2.100",
+ org.eclipse.uml2.uml.resources;bundle-version="3.1.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.linkage,
  org.opaeum.visitor

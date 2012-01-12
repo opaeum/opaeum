@@ -1,7 +1,11 @@
 <projectDescription>
   <name>opaeum-runtime-bpm-hibernate</name>
   <comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects/>
+  <projects>
+    <project>opaeum-runtime-domain</project>
+    <project>opaeum-runtime-hibernate</project>
+    <project>opaeum-runtime-jpa</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

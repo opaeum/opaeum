@@ -44,6 +44,7 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
+	public static final String MANY_INTERNAL_REMOVE_FROM_COLLECTION = "manyInternalRemoveToCollection";
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;

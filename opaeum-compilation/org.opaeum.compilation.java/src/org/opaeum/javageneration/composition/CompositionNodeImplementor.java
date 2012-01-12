@@ -50,7 +50,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 		OperationAnnotator.class,AttributeExpressionGenerator.class
 })
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
-	private static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
+	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
 	private void visitClass(ICompositionParticipant c){
 
@@ -131,7 +131,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		}
 		ojClass.addToOperations(addToOwningObject);
 	}
-	private boolean isMap(INakedProperty p){
+	protected boolean isMap(INakedProperty p){
 		return p.getName().equals("updateChangeLog");
 	}
 	public boolean isInterfaceOrAssociationClass(ICompositionParticipant c){

@@ -3,11 +3,13 @@
       id="org.opaeum.compilation.feature"
       label="Opaeum Model Compilation Feature"
       version="1.0.0.qualifier"
+      provider-name="opaeum.org"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
-  <description url="%license">
-      Opaeum Model Compilation Feature
+   <description url="%license">
+      Opaeum Compilation Feature provides transformation algorithms
+from the Opaeum Metamodel to the various implementation platforms.
    </description>
 
    <copyright url="%copyrightURL">
@@ -17,6 +19,7 @@
    <license url="%licenseURL">
       %license
    </license>
+
    <requires>
       <import plugin="org.eclipse.uml2.uml"/>
       <import plugin="org.eclipse.ui"/>

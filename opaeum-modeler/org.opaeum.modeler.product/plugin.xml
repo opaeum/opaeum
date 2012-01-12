@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="org.opaeum.modeler.product"
-            name="Opaeum Modeler">
-      </product>
-   </extension>
-   <extension
+    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="org.opaeum.modeler.product.OpaeumPerspectiveFactory"
@@ -16,6 +9,18 @@
             id="org.opaeum.modeler.product.perspective"
             name="Opaeum Modelling">
       </perspective>
+   </extension>
+   <extension
+         id="opaeum"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="Opaeum Modeler">
+         <property
+               name="appName"
+               value="Opaeum Modeler">
+         </property>
+      </product>
    </extension>
 
 </plugin>
