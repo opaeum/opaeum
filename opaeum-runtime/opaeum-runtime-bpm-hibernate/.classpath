@@ -75,9 +75,9 @@
     </attributes>
   </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/1.0/objenesis-1.0.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/opaeum/opaeum-runtime-domain/1.0.0-SNAPSHOT/opaeum-runtime-domain-1.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/opaeum/opaeum-runtime-domain/1.0.0-SNAPSHOT/opaeum-runtime-domain-1.0.0-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/opaeum/opaeum-runtime-hibernate/1.0.0-SNAPSHOT/opaeum-runtime-hibernate-1.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/opaeum/opaeum-runtime-hibernate/1.0.0-SNAPSHOT/opaeum-runtime-hibernate-1.0.0-SNAPSHOT-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/opaeum/opaeum-runtime-jpa/1.0.0-SNAPSHOT/opaeum-runtime-jpa-1.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/opaeum/opaeum-runtime-jpa/1.0.0-SNAPSHOT/opaeum-runtime-jpa-1.0.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="src" path="/opaeum-runtime-domain"/>
+  <classpathentry kind="src" path="/opaeum-runtime-hibernate"/>
+  <classpathentry kind="src" path="/opaeum-runtime-jpa"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.10/slf4j-api-1.5.10-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.10/slf4j-log4j12-1.5.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar" sourcepath="M2_REPO/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1-sources.jar"/>

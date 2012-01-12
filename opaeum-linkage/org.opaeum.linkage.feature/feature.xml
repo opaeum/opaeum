@@ -3,10 +3,11 @@
       id="org.opaeum.linkage.feature"
       label="Opaeum Linkage Feature"
       version="1.0.0.qualifier"
+      provider-name="opaeum.org"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
-   <description url="%license">
+   <description>
       Opaeum Linkage Feature
    </description>
 

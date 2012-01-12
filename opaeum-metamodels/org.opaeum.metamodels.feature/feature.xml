@@ -16,6 +16,9 @@
       %license
    </license>
 
+   <url>
+      <update label="Opaeum Update Site" url="http://opaeum.eclipselabs.org.codespot.com/git/releases/1.0.0.ALPHA/"/>
+   </url>
 
    <requires>
       <import plugin="org.eclipse.uml2.uml"/>

@@ -3,11 +3,12 @@
       id="org.opaeum.eclipse.feature"
       label="Opaeum Core Eclipse Feature"
       version="1.0.0.qualifier"
+      provider-name="opaeum.org"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
 
-  <description url="%license">
-      Opaeum Core Eclipse Feature
+   <description url="%license">
+      Opaeum Core Eclipse Feature provides the basic infrastructure for the rest of the Opaeum Eclipse Product
    </description>
 
    <copyright url="%copyrightURL">
@@ -16,7 +17,7 @@
 
    <license url="%licenseURL">
       %license
-   </license>   
+   </license>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
