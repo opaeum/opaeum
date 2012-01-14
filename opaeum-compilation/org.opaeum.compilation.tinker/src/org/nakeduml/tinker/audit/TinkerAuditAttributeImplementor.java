@@ -32,7 +32,8 @@ import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.name.NameConverter;
 
-@StepDependency(phase = TinkerAuditPhase.class, requires={TinkerAuditSuperTypeGenerator.class, TinkerAuditClassTransformation.class}, after={TinkerAuditSuperTypeGenerator.class, TinkerAuditClassTransformation.class})
+@StepDependency(phase = TinkerAuditPhase.class, requires = { TinkerAuditSuperTypeGenerator.class, TinkerAuditClassTransformation.class }, after = {
+		TinkerAuditSuperTypeGenerator.class, TinkerAuditClassTransformation.class })
 public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingVisitor {
 
 	public static final String POLYMORPHIC_GETTER_FOR_TO_ONE_IF = "buildPolymorphicGetterForToOneIf";
@@ -48,13 +49,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 	public void visitFeature(INakedClassifier entity) {
 		for (INakedProperty p : entity.getEffectiveAttributes()) {
 			if (p.getOwner() instanceof INakedInterface && OJUtil.hasOJClass(entity)) {
-//				if (p.getAssociation() instanceof INakedAssociation) {
-//					// TODO test this may create duplicates
-//					// buildAssociationClassLogic(entity,
-//					// (INakedAssociationClass) p.getAssociation());
-//				} else {
-					visitProperty(entity, OJUtil.buildStructuralFeatureMap(p));
-//				}
+				visitProperty(entity, OJUtil.buildStructuralFeatureMap(p));
 			}
 		}
 	}
@@ -62,12 +57,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 	@VisitAfter(matchSubclasses = true)
 	public void visitFeature(INakedProperty p) {
 		if (OJUtil.hasOJClass(p.getOwner()) && !(p.getOwner() instanceof INakedEnumeration)) {
-//			if (p.getAssociation() instanceof INakedAssociation) {
-//				// visitProperty(p.getOwner(),
-//				// OJUtil.buildAssociationClassMap(p,getOclEngine().getOclLibrary()));
-//			} else {
-				visitProperty(p.getOwner(), OJUtil.buildStructuralFeatureMap(p));
-//			}
+			visitProperty(p.getOwner(), OJUtil.buildStructuralFeatureMap(p));
 		}
 	}
 
@@ -103,7 +93,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setName(map.getter());
-		getter.setReturnType(auditMap.javaAuditTypePath());
+		getter.setReturnType(auditMap.javaTypePath());
 		owner.addToOperations(getter);
 
 		if (owner instanceof OJAnnotatedInterface) {
@@ -145,6 +135,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 						} else {
 						}
 					} else if (prop.getBaseType() instanceof INakedEnumeration) {
+						getter.setReturnType(map.javaTypePath());
 						if (map.isOne()) {
 							TinkerAttributeImplementor.buildGetterForToOneEnumeration(map, getter, prop);
 							addResultToGetter(getter);
@@ -152,14 +143,19 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 							TinkerAttributeImplementor.buildGetterForManyEnumeration(owner, map, getter, prop);
 						}
 					} else {
+						getter.setReturnType(map.javaTypePath());
 						if (map.isOne()) {
 							getter.getBody().addToStatements(
 									"return (" + map.javaTypePath() + ") this.vertex.getProperty(\""
 											+ TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
 						} else {
-							TinkerAttributeImplementor.buildGetterForToManyEmbbedded(owner, map, getter, prop);
+							// TinkerAttributeImplementor.buildGetterForToManyEmbbedded(owner,
+							// map, getter, prop);
+							buildGetAllAuditsForMany(map, owner, true);
+							buildGetAuditsForThisMany(map, owner, true);
+							buildPolymorphicGetterForMany(map, getter, true);
 						}
-					}						
+					}
 				}
 			}
 		}
@@ -174,7 +170,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 
 	private void buildGetAuditForOne(NakedStructuralFeatureMap map, OJAnnotatedClass owner) {
 		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
-		
+
 		OJOperation getAllAuditsForOne = new OJOperation();
 		getAllAuditsForOne.setVisibility(OJVisibilityKind.PRIVATE);
 		getAllAuditsForOne.setName("getAuditFor" + NameConverter.capitalize(map.umlName()));
@@ -182,17 +178,16 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 
 		OJPathName param = new OJPathName("java.util.Map");
 		param.addToElementTypes(new OJPathName("String"));
-		param.addToElementTypes(auditMap.javaAuditBaseTypePath());
+		param.addToElementTypes(auditMap.javaBaseTypePath());
 		getAllAuditsForOne.addParam("removedAudits", param);
 
 		getAllAuditsForOne.addParam("transactionNo", new OJPathName("java.lang.Long"));
-		getAllAuditsForOne.setReturnType(auditMap.javaAuditBaseTypePath());
+		getAllAuditsForOne.setReturnType(auditMap.javaBaseTypePath());
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
-		ifStatement.addToThenPart(auditMap.javaAuditBaseTypePath().getLast() + " result = previous.getAuditFor" + NameConverter.capitalize(map.umlName())
+		ifStatement.addToThenPart(auditMap.javaBaseTypePath().getLast() + " result = previous.getAuditFor" + NameConverter.capitalize(map.umlName())
 				+ "(transactionNo, removedAudits)");
 		OJIfStatement ifStatement2 = new OJIfStatement("result != null", "return result");
-		ifStatement2.addToElsePart("return getAuditFor" + NameConverter.capitalize(map.umlName())
-				+ "(previous.getPreviousAuditEntry(), removedAudits, transactionNo)");
+		ifStatement2.addToElsePart("return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(previous.getPreviousAuditEntry(), removedAudits, transactionNo)");
 		ifStatement.addToThenPart(ifStatement2);
 		getAllAuditsForOne.getBody().addToStatements(ifStatement);
 		getAllAuditsForOne.getBody().addToStatements("return null");
@@ -201,7 +196,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 
 	private void buildGetAuditForThisOne(NakedStructuralFeatureMap map, OJAnnotatedClass owner) {
 		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
-		
+
 		owner.addToImports(TinkerGenerationUtil.tinkerFormatter);
 		owner.addToImports(new OJPathName("java.util.Date"));
 		owner.addToImports(new OJPathName("java.util.HashSet"));
@@ -213,15 +208,16 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 
 		OJPathName param = new OJPathName("java.util.Map");
 		param.addToElementTypes(new OJPathName("String"));
-		param.addToElementTypes(auditMap.javaAuditBaseTypePath());
+		param.addToElementTypes(auditMap.javaBaseTypePath());
 		getAuditsForThisOne.addParam("removedAudits", param);
 
-		getAuditsForThisOne.setReturnType(auditMap.javaAuditBaseTypePath());
+		getAuditsForThisOne.setReturnType(auditMap.javaBaseTypePath());
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		owner.addToImports(defaultValue);
 
-//		boolean isComposite = map.getProperty().isComposite();
-//		isComposite = TinkerGenerationUtil.calculateDirection(map, isComposite);
+		// boolean isComposite = map.getProperty().isComposite();
+		// isComposite = TinkerGenerationUtil.calculateDirection(map,
+		// isComposite);
 		boolean isComposite = map.getProperty().isInverse();
 
 		String associationName = TinkerGenerationUtil.getEdgeName(map);
@@ -243,20 +239,20 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 		OJSimpleStatement constructClass = new OJSimpleStatement();
 		if (isComposite) {
 			forClass.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
-			constructClass.setExpression(auditMap.javaAuditBaseTypePath().getLast() + " instance = (" + auditMap.javaAuditBaseTypePath().getLast()
+			constructClass.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast()
 					+ ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
 			ifNotDeleted.addToThenPart(forClass);
 			ifNotDeleted.addToThenPart(constructClass);
 		} else {
 			forClass.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
-			constructClass.setExpression(auditMap.javaAuditBaseTypePath().getLast() + " instance = (" + auditMap.javaAuditBaseTypePath().getLast()
+			constructClass.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast()
 					+ ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
 			ifNotDeleted.addToThenPart(forClass);
 			ifNotDeleted.addToThenPart(constructClass);
 		}
 
 		OJIfStatement ifRemovedAuditContains = new OJIfStatement("!removedAudits.containsKey(instance.getOriginalUid())");
-		ifRemovedAuditContains.addToThenPart("return (" + auditMap.javaAuditBaseTypePath().getLast() + ")iterateToLatest(transactionNo, instance)");
+		ifRemovedAuditContains.addToThenPart("return (" + auditMap.javaBaseTypePath().getLast() + ")iterateToLatest(transactionNo, instance)");
 		ifNotDeleted.addToThenPart(ifRemovedAuditContains);
 
 		ifNotDeleted.addToElsePart(forClass);
@@ -272,8 +268,17 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 	}
 
 	private void buildGetAllAuditsForMany(NakedStructuralFeatureMap map, OJAnnotatedClass owner) {
-		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
-		
+		buildGetAllAuditsForMany(map, owner, false);
+	}
+
+	private void buildGetAllAuditsForMany(NakedStructuralFeatureMap map, OJAnnotatedClass owner, boolean embedded) {
+		NakedStructuralFeatureMap auditMap;
+		if (!embedded) {
+			auditMap = new AuditStructuralFeatureMapWrapper(map);
+		} else {
+			auditMap = map;
+		}
+
 		OJOperation getAllAuditsForMany = new OJOperation();
 		getAllAuditsForMany.setVisibility(OJVisibilityKind.PRIVATE);
 		getAllAuditsForMany.setName("getAllAuditsFor" + NameConverter.capitalize(map.umlName()));
@@ -281,7 +286,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 
 		OJPathName param = new OJPathName("java.util.Map");
 		param.addToElementTypes(new OJPathName("String"));
-		param.addToElementTypes(auditMap.javaAuditBaseTypePath());
+		param.addToElementTypes(auditMap.javaBaseTypePath());
 
 		getAllAuditsForMany.addParam("audits", param);
 		getAllAuditsForMany.addParam("removedAudits", param);
@@ -289,15 +294,22 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 		getAllAuditsForMany.addParam("transactionNo", new OJPathName("java.lang.Long"));
 		OJIfStatement ifStatement = new OJIfStatement("previous != null");
 		ifStatement.addToThenPart("audits.putAll(previous.getAuditsFor" + NameConverter.capitalize(map.umlName()) + "(audits, removedAudits, transactionNo))");
-		ifStatement.addToThenPart("getAllAuditsFor" + NameConverter.capitalize(map.umlName())
-				+ "(previous.getPreviousAuditEntry(), audits, removedAudits, transactionNo)");
+		ifStatement.addToThenPart("getAllAuditsFor" + NameConverter.capitalize(map.umlName()) + "(previous.getPreviousAuditEntry(), audits, removedAudits, transactionNo)");
 		getAllAuditsForMany.getBody().addToStatements(ifStatement);
 		owner.addToOperations(getAllAuditsForMany);
 	}
 
 	private void buildGetAuditsForThisMany(NakedStructuralFeatureMap map, OJClass owner) {
-		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
-		
+		buildGetAuditsForThisMany(map, owner, false);
+	}
+
+	private void buildGetAuditsForThisMany(NakedStructuralFeatureMap map, OJClass owner, boolean embedded) {
+		NakedStructuralFeatureMap auditMap;
+		if (!embedded) {
+			auditMap = new AuditStructuralFeatureMapWrapper(map);
+		} else {
+			auditMap = map;
+		}
 		owner.addToImports(TinkerGenerationUtil.tinkerFormatter);
 		owner.addToImports(new OJPathName("java.util.Date"));
 		OJOperation getAuditsForThisMany = new OJOperation();
@@ -306,7 +318,7 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 		getAuditsForThisMany.setName("getAuditsFor" + NameConverter.capitalize(map.umlName()));
 		OJPathName param = new OJPathName("java.util.Map");
 		param.addToElementTypes(new OJPathName("String"));
-		param.addToElementTypes(auditMap.javaAuditBaseTypePath());
+		param.addToElementTypes(auditMap.javaBaseTypePath());
 		getAuditsForThisMany.addParam("audits", param);
 		getAuditsForThisMany.addParam("removedAudits", param);
 		getAuditsForThisMany.addParam("transactionNo", new OJPathName("java.lang.Long"));
@@ -314,24 +326,21 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 		OJField result = new OJField();
 		result.setType(param);
 		result.setName("result");
-		result.setInitExp("new HashMap<String, " + auditMap.javaAuditBaseTypePath().getLast() + ">()");
+		result.setInitExp("new HashMap<String, " + auditMap.javaBaseTypePath().getLast() + ">()");
 		OJPathName defaultValue = map.javaDefaultTypePath();
 		owner.addToImports(defaultValue);
 		getAuditsForThisMany.getBody().addToLocals(result);
-		
+
 		INakedClassifier manyClassifier;
 		boolean isComposite;
 		if (map.getProperty().getOtherEnd() != null) {
 			manyClassifier = map.getProperty().getOtherEnd().getOwner();
-//			isComposite = map.getProperty().isComposite();
-//			isComposite = TinkerGenerationUtil.calculateDirection(map, isComposite);
 			isComposite = map.getProperty().isInverse();
-
 		} else {
 			manyClassifier = (INakedClassifier) map.getProperty().getBaseType();
 			isComposite = true;
-		}		
-		
+		}
+
 		String asociationName = TinkerGenerationUtil.getEdgeName(map);
 		if (isComposite) {
 			getAuditsForThisMany.getBody().addToStatements("Iterable<Edge> iter = this.vertex.getOutEdges(\"" + asociationName + "\")");
@@ -348,60 +357,90 @@ public class TinkerAuditAttributeImplementor extends AbstractAuditJavaProducingV
 		OJSimpleStatement classForName = new OJSimpleStatement();
 		OJSimpleStatement constructMany = new OJSimpleStatement();
 		if (isComposite) {
-			classForName.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
-			ifNotDeleted.addToThenPart(classForName);
-			constructMany.setExpression(auditMap.javaAuditBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
-					+ TinkerAuditGenerationUtil.AUDIT + ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+			if (!embedded) {
+				classForName.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"inClass\"))");
+				ifNotDeleted.addToThenPart(classForName);
+				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
+						+ TinkerAuditGenerationUtil.AUDIT + ")c.getConstructor(Vertex.class).newInstance(edge.getInVertex())");
+			} else {
+				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast()
+						+ ")edge.getInVertex().getProperty(\"value\")");
+			}
 			ifNotDeleted.addToThenPart(constructMany);
 		} else {
-			classForName.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
-			ifNotDeleted.addToThenPart(classForName);
-			constructMany.setExpression(auditMap.javaAuditBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
-					+ TinkerAuditGenerationUtil.AUDIT + ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
+			if (!embedded) {
+				classForName.setExpression("Class<?> c = Class.forName((String) edge.getProperty(\"outClass\"))");
+				ifNotDeleted.addToThenPart(classForName);
+				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + manyClassifier.getMappingInfo().getJavaName().getAsIs()
+						+ TinkerAuditGenerationUtil.AUDIT + ")c.getConstructor(Vertex.class).newInstance(edge.getOutVertex())");
+			} else {
+				constructMany.setExpression(auditMap.javaBaseTypePath().getLast() + " instance = (" + auditMap.javaBaseTypePath().getLast()
+						+ ")edge.getOutVertex().getProperty(\"value\")");
+			}
 			ifNotDeleted.addToThenPart(constructMany);
 		}
-		OJIfStatement ifStatement = new OJIfStatement(
-				"!removedAudits.containsKey(instance.getOriginalUid()) && !audits.containsKey(instance.getOriginalUid())");
+		OJIfStatement ifStatement;
+		if (!embedded) {
+			ifStatement = new OJIfStatement("!removedAudits.containsKey(instance.getOriginalUid()) && !audits.containsKey(instance.getOriginalUid())");
+			ifStatement.addToThenPart(auditMap.javaBaseTypePath().getLast() + " previous = (" + auditMap.javaBaseTypePath().getLast() + ")iterateToLatest(transactionNo, instance)");
+		} else {
+			ifStatement = new OJIfStatement("!removedAudits.containsKey(instance.toString()) && !audits.containsKey(instance.toString())");
+		}
 		ifNotDeleted.addToThenPart(ifStatement);
-		ifStatement.addToThenPart(auditMap.javaAuditBaseTypePath().getLast() + " previous = (" + auditMap.javaAuditBaseTypePath().getLast()
-				+ ")iterateToLatest(transactionNo, instance)");
-		ifStatement.addToThenPart("result.put(previous.getOriginalUid(), previous)");
+		if (!embedded) {
+			ifStatement.addToThenPart("result.put(previous.getOriginalUid(), previous)");
+		} else {
+			ifStatement.addToThenPart("result.put(instance.toString(), instance)");
+		}
+		ifNotDeleted.addToElsePart(classForName);
+		ifNotDeleted.addToElsePart(constructMany);
+		if (!embedded) {
+			ifNotDeleted.addToElsePart("removedAudits.put(instance.getOriginalUid(), instance)");
+		} else {
+			ifNotDeleted.addToElsePart("removedAudits.put(instance.toString(), instance)");
+		}
 
 		ojTryStatement.setCatchParam(new OJParameter("e", new OJPathName("java.lang.Exception")));
 		ojTryStatement.getCatchPart().addToStatements("throw new RuntimeException(e)");
-		ifNotDeleted.addToElsePart(classForName);
-		ifNotDeleted.addToElsePart(constructMany);
-		ifNotDeleted.addToElsePart("removedAudits.put(instance.getOriginalUid(), instance)");
 		getAuditsForThisMany.getBody().addToStatements(forStatement);
 		getAuditsForThisMany.getBody().addToStatements("return result");
 	}
 
 	private void buildPolymorphicGetterForToOne(NakedStructuralFeatureMap map, OJOperation getter) {
 		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
-		
+
 		getter.getBody().addToStatements(
-				"return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(this, new HashMap<String, " + auditMap.javaAuditBaseTypePath().getLast()
+				"return getAuditFor" + NameConverter.capitalize(map.umlName()) + "(this, new HashMap<String, " + auditMap.javaBaseTypePath().getLast()
 						+ ">(), (getNextAuditEntry()!=null?getNextAuditEntry().getTransactionNo():-1))");
 		getter.getOwner().addToImports(new OJPathName("java.util.HashMap"));
 	}
 
 	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter) {
-		AuditStructuralFeatureMapWrapper auditMap = new AuditStructuralFeatureMapWrapper(map);
+		buildPolymorphicGetterForMany(map, getter, false);
+	}
+
+	private void buildPolymorphicGetterForMany(NakedStructuralFeatureMap map, OJOperation getter, boolean embedded) {
+		NakedStructuralFeatureMap auditMap;
+		if (!embedded) {
+			auditMap = new AuditStructuralFeatureMapWrapper(map);
+		} else {
+			auditMap = map;
+		}
 
 		getter.getOwner().addToImports(new OJPathName("java.util.Map"));
 		getter.getOwner().addToImports(new OJPathName("java.util.HashMap"));
 		OJField audits = new OJField();
 		OJPathName var = new OJPathName("java.util.Map");
 		var.addToElementTypes(new OJPathName("String"));
-		var.addToElementTypes(auditMap.javaAuditBaseTypePath());
-		audits.setInitExp("new HashMap<String, " + auditMap.javaAuditBaseTypePath() + ">()");
+		var.addToElementTypes(auditMap.javaBaseTypePath());
+		audits.setInitExp("new HashMap<String, " + auditMap.javaBaseTypePath() + ">()");
 		audits.setName("allAudits");
 		audits.setType(var);
 		getter.getBody().addToLocals(audits);
 		getter.getBody().addToStatements(
-				"getAllAuditsFor" + NameConverter.capitalize(map.umlName()) + "(this, allAudits, new HashMap<String, " + auditMap.javaAuditBaseTypePath().getLast()
+				"getAllAuditsFor" + NameConverter.capitalize(map.umlName()) + "(this, allAudits, new HashMap<String, " + auditMap.javaBaseTypePath().getLast()
 						+ ">(), (getNextAuditEntry()!=null?getNextAuditEntry().getTransactionNo():-1))");
-		getter.getBody().addToStatements("return new " + auditMap.javaAuditDefaultTypePath().getLast() + "(allAudits.values())");
+		getter.getBody().addToStatements("return new " + auditMap.javaDefaultTypePath().getLast() + "(allAudits.values())");
 		getter.getOwner().addToImports(new OJPathName("java.util.HashMap"));
 	}
 

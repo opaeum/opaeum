@@ -10,17 +10,17 @@ public class AuditStructuralFeatureMapWrapper extends NakedStructuralFeatureMap 
 		super(map.getProperty());
 	}
 	
-	public OJPathName javaAuditTypePath(){
+	public OJPathName javaTypePath(){
 		if (getProperty().getBaseType() instanceof INakedEnumeration) {
-			return javaTypePath();
+			return super.javaTypePath();
 		} else {
 			if(isMany()){
 				if(!isJavaPrimitive() && !javaBaseType().equals("String") && !javaBaseType().equals("Integer")) {
 					OJPathName copy = super.javaTypePath().getCopy();
-					copy.addToElementTypes(new OJPathName(javaBaseTypePath().toJavaString()+TinkerAuditGenerationUtil.AUDIT));
+					copy.addToElementTypes(new OJPathName(super.javaBaseTypePath().toJavaString()+TinkerAuditGenerationUtil.AUDIT));
 					return copy;
 				} else {
-					return javaTypePath();
+					return super.javaTypePath();
 				}
 				//TODO this string jol must be wrong
 			}else if(isJavaPrimitive() || isUmlPrimitive()){
@@ -32,8 +32,8 @@ public class AuditStructuralFeatureMapWrapper extends NakedStructuralFeatureMap 
 	}	
 	
 	//TODO this string jol must be wrong
-	public OJPathName javaAuditBaseTypePath(){
-		if (javaBaseType().equals("String")) {
+	public OJPathName javaBaseTypePath(){
+		if (super.javaBaseTypePath().getCollectionTypeName().equals("String")) {
 			return new OJPathName("String");
 		} else if(baseTypeMap.isJavaPrimitive() || baseTypeMap.isUmlPrimitive()){
 			return baseTypeMap.javaObjectTypePath();
@@ -42,7 +42,7 @@ public class AuditStructuralFeatureMapWrapper extends NakedStructuralFeatureMap 
 		}
 	}	
 	
-	public OJPathName javaAuditDefaultTypePath(){
+	public OJPathName javaDefaultTypePath(){
 		if(isMany()){
 			OJPathName baseType = super.javaBaseDefaultTypePath();
 			OJPathName auditBaseType = new OJPathName(baseType.toJavaString()+TinkerAuditGenerationUtil.AUDIT);

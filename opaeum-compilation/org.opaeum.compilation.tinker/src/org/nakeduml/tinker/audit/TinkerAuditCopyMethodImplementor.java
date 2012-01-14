@@ -72,7 +72,7 @@ public class TinkerAuditCopyMethodImplementor extends AbstractAuditJavaProducing
 			if (a instanceof INakedProperty) {
 				INakedProperty np = (INakedProperty) a;
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-				if (!(np.isDerived() || np.isReadOnly() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()))) {
+				if (!(np.isDerived() || np.isReadOnly() || (np.getOtherEnd() != null && np.getOtherEnd().isComposite()) || (np.getBaseType() instanceof INakedEnumeration) || (map.isMany() && map.elementTypeIsUmlPrimitive()))) {
 					if (np.getNakedBaseType() instanceof INakedSimpleType || np.getNakedBaseType() instanceof INakedEnumeration) {
 						//TODO check for manies that is empty before add change
 						OJIfStatement ifNotNull = new OJIfStatement("from." + map.getter() + "() != null");

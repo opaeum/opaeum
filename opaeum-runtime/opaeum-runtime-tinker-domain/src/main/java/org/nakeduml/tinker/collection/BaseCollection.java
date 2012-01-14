@@ -91,13 +91,17 @@ public abstract class BaseCollection<E> implements Collection<E> {
 		maybeLoad();
 		boolean result = this.internalCollection.remove(o);
 		if (result) {
+			@SuppressWarnings("unchecked")
+			E e = (E)o;
 			Vertex v;
 			if (o instanceof TinkerCompositionNode) {
 				TinkerCompositionNode node = (TinkerCompositionNode) o;
 				v = node.getVertex();
 				Set<Edge> edges = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
 				for (Edge edge : edges) {
-					doWithRemovedEdge(o, edge);
+					if (o instanceof TinkerAuditableNode) {
+						createAudit(e, v, true);
+					}
 					GraphDb.getDb().removeEdge(edge);
 					break;
 				}
@@ -106,31 +110,13 @@ public abstract class BaseCollection<E> implements Collection<E> {
 				GraphDb.getDb().removeVertex(v);
 			} else {
 				v = this.internalVertexMap.get(o);
+				if (o instanceof TinkerAuditableNode) {
+					createAudit(e, v, true);
+				}
 				GraphDb.getDb().removeVertex(v);
 			}
 		}
 		return result;
-	}
-
-	protected void doWithRemovedEdge(Object o, Edge removedEdge) {
-		if (o instanceof TinkerAuditableNode) {
-			TinkerAuditableNode auditableNode = (TinkerAuditableNode) o;
-			if (!(owner instanceof TinkerAuditableNode)) {
-				throw new IllegalStateException("if the collection member is an TinkerAuditableNode, then the owner must be one!");
-			}
-			TinkerAuditableNode auditOwner = (TinkerAuditableNode) owner;
-
-			if (TransactionThreadVar.hasNoAuditEntry(auditableNode.getClass().getName() + auditableNode.getUid())) {
-				auditableNode.createAuditVertex(false);
-			}
-			if (TransactionThreadVar.hasNoAuditEntry(owner.getClass().getName() + owner.getUid())) {
-				auditOwner.createAuditVertex(false);
-			}
-			Edge auditEdge = GraphDb.getDb().addEdge(null, auditOwner.getAuditVertex(), auditableNode.getAuditVertex(), this.label);
-			auditEdge.setProperty("outClass", auditOwner.getClass().getName() + "Audit");
-			auditEdge.setProperty("inClass", IntrospectionUtil.getOriginalClass(auditableNode.getClass()).getName() + "Audit");
-			auditEdge.setProperty("deletedOn", TinkerFormatter.format(new Date()));
-		}
 	}
 
 	protected Edge addInternal(E e) {
@@ -151,82 +137,115 @@ public abstract class BaseCollection<E> implements Collection<E> {
 		Edge edge = null;
 		// See if edge already added, this can only happen with a manyToMany
 		if (this.manyToMany) {
-			Set<Edge> edgesBetween = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
-			// Only a sequence can have duplicates
-			if (this instanceof TinkerSequence || this instanceof TinkerBag) {
-				for (Edge edgeBetween : edgesBetween) {
-
-					if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") != null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") != null) {
-						// A new edge must be created as this is a duplicate
-					} else if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") == null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") == null) {
-						throw new IllegalStateException();
-					} else if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") == null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") != null) {
-						edge = edgeBetween;
-						if (!this.inverse) {
-							throw new IllegalStateException();
-						}
-						edge.setProperty("manyToManyCorrelationInverseTRUE", "SETTED");
-						break;
-					} else if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") != null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") == null) {
-						edge = edgeBetween;
-						if (this.inverse) {
-							throw new IllegalStateException();
-						}
-						edge.setProperty("manyToManyCorrelationInverseFALSE", "SETTED");
-						break;
-					}
-
-				}
-			} else {
-				if (!edgesBetween.isEmpty()) {
-					if (edgesBetween.size() != 1) {
-						throw new IllegalStateException("A set can only have one edge between the two ends");
-					}
-					edge = edgesBetween.iterator().next();
-				}
-			}
+			edge = addCorrelationForManyToMany(v, edge);
 		}
 		boolean createdEdge = false;
 		if (edge == null) {
 			createdEdge = true;
-			if (this.inverse) {
-				edge = GraphDb.getDb().addEdge(null, this.vertex, v, this.label);
-				edge.setProperty("outClass", this.parentClass.getName());
-				edge.setProperty("inClass", e.getClass().getName());
-				if (this.manyToMany) {
+			edge = createEdge(e, v);
+		}
+		if (createdEdge && e instanceof TinkerAuditableNode) {
+			createAudit(e, v, false);
+		}
+		return edge;
+	}
+
+	private Edge addCorrelationForManyToMany(Vertex v, Edge edge) {
+		Set<Edge> edgesBetween = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
+		// Only a sequence can have duplicates
+		if (this instanceof TinkerSequence || this instanceof TinkerBag) {
+			for (Edge edgeBetween : edgesBetween) {
+
+				if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") != null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") != null) {
+					// A new edge must be created as this is a duplicate
+				} else if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") == null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") == null) {
+					throw new IllegalStateException();
+				} else if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") == null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") != null) {
+					edge = edgeBetween;
+					if (!this.inverse) {
+						throw new IllegalStateException();
+					}
 					edge.setProperty("manyToManyCorrelationInverseTRUE", "SETTED");
+					break;
+				} else if (edgeBetween.getProperty("manyToManyCorrelationInverseTRUE") != null && edgeBetween.getProperty("manyToManyCorrelationInverseFALSE") == null) {
+					edge = edgeBetween;
+					if (this.inverse) {
+						throw new IllegalStateException();
+					}
+					edge.setProperty("manyToManyCorrelationInverseFALSE", "SETTED");
+					break;
 				}
-			} else {
-				// Inverse is only false on many to manies
-				if (!this.manyToMany) {
-					throw new IllegalStateException("Inverse can not be false if the inverse is false");
+
+			}
+		} else {
+			if (!edgesBetween.isEmpty()) {
+				if (edgesBetween.size() != 1) {
+					throw new IllegalStateException("A set can only have one edge between the two ends");
 				}
-				edge = GraphDb.getDb().addEdge(null, v, this.vertex, this.label);
-				edge.setProperty("outClass", e.getClass().getName());
-				edge.setProperty("inClass", this.parentClass.getName());
-				edge.setProperty("manyToManyCorrelationInverseFALSE", "SETTED");
+				edge = edgesBetween.iterator().next();
 			}
 		}
+		return edge;
+	}
 
-		if (createdEdge && e instanceof TinkerAuditableNode) {
-			TinkerAuditableNode node = (TinkerAuditableNode) e;
-			if (!(owner instanceof TinkerAuditableNode)) {
-				throw new IllegalStateException("if the collection member is an TinkerAuditableNode, then the owner must be one!");
+	private Edge createEdge(E e, Vertex v) {
+		Edge edge;
+		if (this.inverse) {
+			edge = GraphDb.getDb().addEdge(null, this.vertex, v, this.label);
+			edge.setProperty("outClass", this.parentClass.getName());
+			edge.setProperty("inClass", e.getClass().getName());
+			if (this.manyToMany) {
+				edge.setProperty("manyToManyCorrelationInverseTRUE", "SETTED");
 			}
-			TinkerAuditableNode auditOwner = (TinkerAuditableNode) owner;
+		} else {
+			// Inverse is only false on many to manies
+			if (!this.manyToMany) {
+				throw new IllegalStateException("Inverse can not be false if the inverse is false");
+			}
+			edge = GraphDb.getDb().addEdge(null, v, this.vertex, this.label);
+			edge.setProperty("outClass", e.getClass().getName());
+			edge.setProperty("inClass", this.parentClass.getName());
+			edge.setProperty("manyToManyCorrelationInverseFALSE", "SETTED");
+		}
+		return edge;
+	}
 
+	protected void createAudit(E e, Vertex v, boolean deletion) {
+		if (!(owner instanceof TinkerAuditableNode)) {
+			throw new IllegalStateException("if the collection member is an TinkerAuditableNode, then the owner must be a TinkerAuditableNode!");
+		}
+		TinkerAuditableNode auditOwner = (TinkerAuditableNode) owner;
+		if (TransactionThreadVar.hasNoAuditEntry(owner.getClass().getName() + owner.getUid())) {
+			auditOwner.createAuditVertex(false);
+		}
+		if (e instanceof TinkerAuditableNode) {
+			TinkerAuditableNode node = (TinkerAuditableNode) e;
 			if (TransactionThreadVar.hasNoAuditEntry(node.getClass().getName() + node.getUid())) {
 				node.createAuditVertex(false);
-			}
-			if (TransactionThreadVar.hasNoAuditEntry(owner.getClass().getName() + owner.getUid())) {
-				auditOwner.createAuditVertex(false);
 			}
 			Edge auditEdge = GraphDb.getDb().addEdge(null, auditOwner.getAuditVertex(), node.getAuditVertex(), this.label);
 			auditEdge.setProperty("outClass", auditOwner.getClass().getName() + "Audit");
 			auditEdge.setProperty("inClass", IntrospectionUtil.getOriginalClass(node.getClass()).getName() + "Audit");
-		}
+			if (deletion) {
+				auditEdge.setProperty("deletedOn", TinkerFormatter.format(new Date()));
+			}
+		} else if (e.getClass().isEnum()) {
 
-		return edge;
+		} else {
+			if (TransactionThreadVar.hasNoAuditEntry(owner.getClass().getName() + e.getClass().getName() + e.toString())) {
+				Vertex auditVertex = GraphDb.getDb().addVertex(null);
+				auditVertex.setProperty("value", e);
+				TransactionThreadVar.putAuditVertexFalse(owner.getClass().getName() + e.getClass().getName() + e.toString(), auditVertex);
+				auditVertex.setProperty("transactionNo", GraphDb.getDb().getTransactionCount());
+				Edge auditEdge = GraphDb.getDb().addEdge(null, auditOwner.getAuditVertex(), auditVertex, this.label);
+				auditEdge.setProperty("transactionNo", GraphDb.getDb().getTransactionCount());
+				auditEdge.setProperty("outClass", this.parentClass.getName());
+				auditEdge.setProperty("inClass", e.getClass().getName() + "Audit");
+				if (deletion) {
+					auditEdge.setProperty("deletedOn", TinkerFormatter.format(new Date()));
+				}
+			}
+		}
 	}
 
 	protected void maybeCallInit(E e) {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import org.nakeduml.runtime.domain.TinkerAuditableNode;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
 import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.tinker.runtime.GraphDb;
@@ -16,13 +17,13 @@ import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class BaseSequence<E> extends BaseCollection<E> implements TinkerSequence<E> {
 
-//	protected List<E> internalList = new ArrayList<E>();
+	// protected List<E> internalList = new ArrayList<E>();
 	protected NakedTinkerIndex<Edge> index;
 
 	protected List<E> getInternalList() {
 		return (List<E>) this.internalCollection;
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void loadFromVertex() {
@@ -58,8 +59,8 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 		float min;
 		float max;
 		if (e instanceof TinkerCompositionNode) {
-			min = (Float) ((TinkerCompositionNode)previous).getVertex().getProperty("tinkerIndex");
-			max = (Float) ((TinkerCompositionNode)current).getVertex().getProperty("tinkerIndex");
+			min = (Float) ((TinkerCompositionNode) previous).getVertex().getProperty("tinkerIndex");
+			max = (Float) ((TinkerCompositionNode) current).getVertex().getProperty("tinkerIndex");
 		} else if (e.getClass().isEnum()) {
 			min = (Float) this.internalVertexMap.get(((Enum<?>) previous).name()).getProperty("tinkerIndex");
 			max = (Float) this.internalVertexMap.get(((Enum<?>) current).name()).getProperty("tinkerIndex");
@@ -67,18 +68,20 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 			min = (Float) this.internalVertexMap.get(previous).getProperty("tinkerIndex");
 			max = (Float) this.internalVertexMap.get(current).getProperty("tinkerIndex");
 		}
-		float tinkerIndex = (min + max) / 2; 
+		float tinkerIndex = (min + max) / 2;
 		this.index.put("index", tinkerIndex, edge);
 		getVertexForDirection(edge).setProperty("tinkerIndex", tinkerIndex);
 		return edge;
 	}
-	
+
 	@Override
 	public boolean remove(Object o) {
 		maybeLoad();
 		int indexOf = this.getInternalList().indexOf(o);
 		boolean result = this.getInternalList().remove(o);
 		if (result) {
+			@SuppressWarnings("unchecked")
+			E e = (E)o;
 			Vertex v;
 			if (o instanceof TinkerCompositionNode) {
 				TinkerCompositionNode node = (TinkerCompositionNode) o;
@@ -87,7 +90,9 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 				for (Edge edge : edges) {
 					removeEdgefromIndex(v, edge, indexOf);
 					GraphDb.getDb().removeEdge(edge);
-					doWithRemovedEdge(o, edge);
+					if (o instanceof TinkerAuditableNode) {
+						createAudit(e, v, true);
+					}
 					break;
 				}
 			} else if (o.getClass().isEnum()) {
@@ -99,12 +104,14 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 				v = this.internalVertexMap.get(o);
 				Edge edge = v.getInEdges(this.label).iterator().next();
 				removeEdgefromIndex(v, edge, indexOf);
+				if (o instanceof TinkerAuditableNode) {
+					createAudit(e, v, true);
+				}
 				GraphDb.getDb().removeVertex(v);
 			}
 		}
 		return result;
 	}
-
 
 	@Override
 	public E get(int index) {
@@ -120,14 +127,14 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 		this.remove(e);
 		return e;
 	}
-	
+
 	@Override
 	public void clear() {
 		maybeLoad();
 		for (E e : new ArrayList<E>(this.getInternalList())) {
 			this.remove(e);
 		}
-	}	
+	}
 
 	@Override
 	public int indexOf(Object o) {

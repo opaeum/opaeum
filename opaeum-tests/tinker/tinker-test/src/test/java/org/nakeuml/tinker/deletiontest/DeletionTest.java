@@ -7,6 +7,8 @@ import org.tinker.concretetest.God;
 import org.tinker.concretetest.Universe;
 import org.tinker.interfacetest.ManyA;
 import org.tinker.interfacetest.ManyB;
+import org.tinker.onetoone.OneOne;
+import org.tinker.onetoone.OneTwo;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -25,7 +27,6 @@ public class DeletionTest extends BaseLocalDbTest {
 		db.startTransaction();
 		God godTest = new God(god.getVertex());
 		Universe testDeletion = godTest.getUniverse().iterator().next();
-//		Universe testDeletion = new Universe(universe1.getVertex());
 		testDeletion.markDeleted();
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals(1, countVertices());
@@ -134,6 +135,48 @@ public class DeletionTest extends BaseLocalDbTest {
 		Assert.assertEquals(5, countVertices());
 		Assert.assertEquals(5, countEdges());
 
+	}
+	
+	@Test
+	public void deleteOneToOneInverse() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("GODDER");
+		OneOne oneOne1 = new OneOne(god);
+		oneOne1.setName("oneone1");
+		OneTwo oneTwo1 = new OneTwo(god);
+		oneTwo1.setName("onetwo1");
+		oneOne1.setOneTwo(oneTwo1);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(3, countVertices());
+		Assert.assertEquals(4, countEdges());
+		db.startTransaction();
+		oneOne1.markDeleted();
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(2, countVertices());
+		Assert.assertEquals(2, countEdges());
+		Assert.assertNull(oneTwo1.getOneOne());
+	}
+
+	@Test
+	public void deleteOneToOneNonInverse() {
+		db.startTransaction();
+		God god = new God(true);
+		god.setName("GODDER");
+		OneOne oneOne1 = new OneOne(god);
+		oneOne1.setName("oneone1");
+		OneTwo oneTwo1 = new OneTwo(god);
+		oneTwo1.setName("onetwo1");
+		oneOne1.setOneTwo(oneTwo1);
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(3, countVertices());
+		Assert.assertEquals(4, countEdges());
+		db.startTransaction();
+		oneTwo1.markDeleted();
+		db.stopTransaction(Conclusion.SUCCESS);
+		Assert.assertEquals(2, countVertices());
+		Assert.assertEquals(2, countEdges());
+		Assert.assertNull(oneOne1.getOneTwo());
 	}
 
 }
