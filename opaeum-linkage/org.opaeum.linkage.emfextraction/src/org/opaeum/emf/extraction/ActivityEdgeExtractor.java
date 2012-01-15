@@ -84,6 +84,8 @@ public class ActivityEdgeExtractor extends CommonBehaviorExtractor{
 		nakedHandler.setExceptionTypes(nakedTypes);
 	}
 	private void initializeEdge(ActivityEdge ae,INakedClassifier nc,NakedActivityEdgeImpl nae){
+		//The index needs to be set before setting the source as the outgoing's treeset needs it for the comparator
+		nae.setIndexInOutgoing(ae.getSource().getOutgoings().indexOf(ae));
 		nae.setSource(getNode(ae.getSource()));
 		nae.setTarget(getNode(ae.getTarget()));
 		// Workaround: Remember that ActivityEdge.ownedElements does not include the guard or weight, so the default deletion logic does not

@@ -9,7 +9,6 @@ import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
-import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
@@ -21,16 +20,47 @@ import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerAttributeImplementor.class, PersistentNameGenerator.class, HashcodeBuilder.class }, after = {HashcodeBuilder.class, ToXmlStringBuilder.class, ExtendedCompositionSemantics.class, PersistentNameGenerator.class, CompositionNodeImplementor.class})
 public class TinkerImplementNodeStep extends StereotypeAnnotator {
 
-
+//	@VisitAfter(matchSubclasses = true)
+//	public void visitActivity(INakedActivity c) {
+//		if (OJUtil.hasOJClass(c)) {
+//			OJAnnotatedClass ojClass = findJavaClass(c);
+//			ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
+//			ojClass.addToImports(TinkerGenerationUtil.edgePathName);
+//			ojClass.addToImports(TinkerGenerationUtil.introspectionUtilPathName);
+//			implementTinkerCompositionNode(ojClass);
+//			implementIsRoot(ojClass, c.getEndToComposite() == null);
+//			addPersistentConstructor(ojClass);
+//			if (c.getGeneralizations().isEmpty()) {
+//				persistUid(ojClass);
+//				extendsBaseSoftDelete(ojClass);
+//				addGetObjectVersion(ojClass);
+//				addGetSetId(ojClass);
+//				initialiseVertexInPersistentConstructor(ojClass);
+//				addCreateComponentsToDefaultConstructor(ojClass);
+//			} else {
+//				addSuperWithPersistenceToDefaultConstructor(ojClass);
+//			}
+//			
+//			if (c.getEndToComposite() != null) {
+//				addInitVertexToConstructorWithOwningObject(ojClass, c);
+//			} else {
+//				if (!c.getIsAbstract() && !hasSuperwithCompositeParent(c)) {
+//					attachCompositeRootToDbRoot(ojClass);
+//				}
+//			}	
+//			addContructorWithVertex(ojClass);
+//		}
+//		
+//	}
+	
 	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedEntity c) {
+	public void visitClass(ICompositionParticipant c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
@@ -44,7 +74,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 				extendsBaseSoftDelete(ojClass);
 				addGetObjectVersion(ojClass);
 				addGetSetId(ojClass);
-				initialiseVertexInPersistentConstructor(c, ojClass);
+				initialiseVertexInPersistentConstructor(ojClass);
 				addCreateComponentsToDefaultConstructor(ojClass);
 			} else {
 				addSuperWithPersistenceToDefaultConstructor(ojClass);
@@ -54,7 +84,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 				addInitVertexToConstructorWithOwningObject(ojClass, c);
 			} else {
 				if (!c.getIsAbstract() && !hasSuperwithCompositeParent(c)) {
-					attachCompositeRootToDbRoot(ojClass, c);
+					attachCompositeRootToDbRoot(ojClass);
 				}
 			}	
 			addContructorWithVertex(ojClass, c);
@@ -122,7 +152,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToConstructors(persistentConstructor);
 	}
 	
-	private void initialiseVertexInPersistentConstructor(INakedEntity c, OJAnnotatedClass ojClass) {
+	private void initialiseVertexInPersistentConstructor(OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "\")");
 		constructor.getBody().addToStatements("TransactionThreadEntityVar.setNewEntity(this)");
@@ -133,7 +163,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().getStatements().add(0, new OJSimpleStatement("super( "+TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME+" )"));
 	}
-	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass, INakedEntity c) {
+	private void addInitVertexToConstructorWithOwningObject(OJAnnotatedClass ojClass, ICompositionParticipant c) {
 		NakedStructuralFeatureMap compositeEndMap = new NakedStructuralFeatureMap(c.getEndToComposite());
 		OJConstructor constructor = ojClass.findConstructor(compositeEndMap.javaBaseTypePath());
 		if (c.getGeneralizations().isEmpty()) {
@@ -159,7 +189,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		}
 	}
 	
-	private void attachCompositeRootToDbRoot(OJAnnotatedClass ojClass, INakedEntity c) {
+	private void attachCompositeRootToDbRoot(OJAnnotatedClass ojClass) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements(
 				"Edge edge = " + TinkerGenerationUtil.graphDbAccess + ".addEdge(null, " + TinkerGenerationUtil.graphDbAccess + ".getRoot(), this.vertex, \"root\")");
@@ -171,7 +201,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		constructor.getBody().addToStatements("createComponents()");
 	}
 
-	private void addContructorWithVertex(OJAnnotatedClass ojClass, INakedEntity c) {
+	private void addContructorWithVertex(OJAnnotatedClass ojClass, ICompositionParticipant c) {
 		OJConstructor constructor = new OJConstructor();
 		constructor.addParam("vertex", new OJPathName("com.tinkerpop.blueprints.pgm.Vertex"));
 		if (c.getGeneralizations().isEmpty()) {
