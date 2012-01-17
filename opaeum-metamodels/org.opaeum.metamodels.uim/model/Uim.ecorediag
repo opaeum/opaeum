@@ -135,7 +135,7 @@
       </children>
       <styles xmi:type="notation:ShapeStyle" xmi:id="_mEu_wZEFEeCRrPMyAkG-kg" fontColor="4210752" fontName="Sans" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
       <element xmi:type="ecore:EClass" href="Uim.ecore#//UimField"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mEu_wpEFEeCRrPMyAkG-kg" x="1075" y="155"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_mEu_wpEFEeCRrPMyAkG-kg" x="975" y="210"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_mEzRMJEFEeCRrPMyAkG-kg" type="1001">
       <children xmi:type="notation:Node" xmi:id="_mFFlEJEFEeCRrPMyAkG-kg" type="4001"/>

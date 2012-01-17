@@ -2,12 +2,22 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
 	<artifactId>opaeum-runtime</artifactId>
 	<packaging>pom</packaging>
 	<name>Opaeum Runtime</name>
 	<version>1.0.0-SNAPSHOT</version>
+  <scm>
+    <connection>scm:git:git://github.com/opaeum/opaeum.git</connection>
+    <developerConnection>scm:git:git://github.com/opaeum/opaeum.git</developerConnection>
+    <url>git://github.com/opaeum/opaeum.git</url>
+  </scm>
 	<repositories>
 		<repository>
 			<id>repository.jboss.org</id>
@@ -25,6 +35,35 @@
 		</repository>
 
 	</repositories>
+<profiles>
+  <profile>
+    <id>sign</id>
+    <activation>
+      <property>
+        <name>performRelease</name>
+        <value>true</value>
+      </property>
+    </activation>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.1</version>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
+</profiles>
 
 	<build>
 		<pluginManagement>
@@ -281,4 +320,5 @@
 	<properties>
 	<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
 	</properties>
+
 </project>

@@ -155,7 +155,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	protected void markChildrenForDeletion(INakedClassifier sc,OJClass ojClass,OJAnnotatedOperation markDeleted){
 		for(INakedProperty np:sc.getEffectiveAttributes()){
-			if(np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.getOtherEnd().isDerived()
+			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.getOtherEnd().isDerived()
 					&& (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){
 				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
