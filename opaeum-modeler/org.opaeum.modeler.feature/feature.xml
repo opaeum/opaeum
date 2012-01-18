@@ -3,9 +3,7 @@
       id="org.opaeum.modeler.feature"
       label="Opaeum Modeler Feature"
       version="1.0.0.qualifier"
-      provider-name="opaeum.org"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      provider-name="opaeum.org">
 
    <description url="%license">
       Opaeum Modeler Feature provides graphical editors for UML2
