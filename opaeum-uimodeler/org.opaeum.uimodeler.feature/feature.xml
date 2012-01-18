@@ -3,9 +3,7 @@
       id="org.opaeum.uimodeler.feature"
       label="Opaeum User Interface Modeler Feature"
       version="1.0.0.qualifier"
-      provider-name="Opaeum"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      provider-name="Opaeum">
 
    <description url="%license">
       Opaeum User Interface Modeler provides graphical editors for User Interfaces that ties in directly with the for UML2 models.
