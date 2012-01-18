@@ -2,9 +2,7 @@
 <feature
       id="org.opaeum.eclipse.source.feature"
       label="Opaeum Core Eclipse Source Feature"
-      version="1.0.0.qualifier"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      version="1.0.0.qualifier">
 
   <description url="%license">
       Opaeum Core Eclipse Source Feature

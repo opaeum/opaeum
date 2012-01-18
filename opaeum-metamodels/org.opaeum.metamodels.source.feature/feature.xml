@@ -2,12 +2,18 @@
 <feature
       id="org.opaeum.metamodels.source.feature"
       label="Opaeum Metamodels Source"
-      version="1.0.0.qualifier"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      version="1.0.0.qualifier">
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <description url="%license">
+      Opaeum Metamodels Source
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
    </license>
 
    <requires>

@@ -2,9 +2,7 @@
 <feature
       id="org.opaeum.compilation.source.feature"
       label="Opaeum Model Compilation Source Feature"
-      version="1.0.0.qualifier"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      version="1.0.0.qualifier">
 
   <description url="%license">
       Opaeum Model Compilation Source Feature

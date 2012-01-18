@@ -5,7 +5,7 @@
       version="1.0.0.qualifier">
 
    <description url="%license">
-      %description
+      Opaeum Metamodels Feature provides all the metamodels required as targets or sources of transformations in Opaeum.
    </description>
 
    <copyright url="%copyrightURL">
