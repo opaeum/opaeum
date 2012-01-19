@@ -45,13 +45,25 @@
       <import plugin="org.opaeum.compilation.tinker"/>
       <import plugin="org.opaeum.compilation.uim"/>
       <import plugin="org.opaeum.metamodels.drools" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opaeum.metamodels.java" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opaeum.metamodels.maven" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opaeum.metamodels.text" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.opaeum.metamodels.uim" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.opaeum.metamodels.java"/>
+      <import plugin="org.opaeum.metamodels.maven"/>
+      <import plugin="org.opaeum.metamodels.text"/>
+      <import plugin="org.opaeum.metamodels.uim"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.filesystem"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda"/>
+      <import plugin="org.eclipse.datatools.connectivity.oda.profile"/>
+      <import plugin="org.eclipse.datatools.connectivity.sqm.core"/>
+      <import plugin="org.eclipse.datatools.modelbase.sql"/>
+      <import plugin="org.eclipse.platform"/>
+      <import plugin="org.eclipse.emf.ecore.edit"/>
+      <import plugin="org.eclipse.datatools.connectivity.ui.dse"/>
+      <import plugin="org.eclipse.ui.browser"/>
+      <import plugin="org.eclipse.ui.ide.application"/>
       <import feature="org.opaeum.compilation.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.eclipse.ui.ide" version="3.7.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -70,6 +82,13 @@
 
    <plugin
          id="org.opaeum.eclipse.compiler"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.eclipse.reverse.db"
          download-size="0"
          install-size="0"
          version="0.0.0"

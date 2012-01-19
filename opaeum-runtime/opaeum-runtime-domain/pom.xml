@@ -13,11 +13,10 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<build>
 		<plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-      </plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -115,5 +114,4 @@
 		<jbpm.version>5.1.0.Final</jbpm.version>
 		<drools.version>5.2.0.Final</drools.version>
 	</properties>
-
 </project>

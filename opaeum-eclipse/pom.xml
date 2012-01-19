@@ -16,6 +16,7 @@
 		<module>org.opaeum.eclipse.compiler</module>
 		<module>org.opaeum.eclipse.core</module>
 		<module>org.opaeum.eclipse.reverse</module>
+		<module>org.opaeum.eclipse.reverse.db</module>
 		<module>org.opaeum.eclipse.feature</module>
 		<module>org.opaeum.eclipse.source.feature</module>
 	</modules>
