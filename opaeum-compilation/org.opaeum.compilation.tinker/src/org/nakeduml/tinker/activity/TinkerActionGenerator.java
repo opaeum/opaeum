@@ -1,5 +1,7 @@
 package org.nakeduml.tinker.activity;
 
+import java.util.Collection;
+
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
@@ -19,11 +21,16 @@ import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 import org.opaeum.metamodel.actions.INakedOpaqueAction;
+import org.opaeum.metamodel.actions.INakedSendSignalAction;
+import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.name.NameConverter;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
@@ -31,12 +38,44 @@ import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 public class TinkerActionGenerator extends StereotypeAnnotator {
 
 	@VisitBefore(matchSubclasses = true, match = { INakedOpaqueAction.class })
-	public void visitAction(INakedOpaqueAction oa) {
+	public void visitOpaqueAction(INakedOpaqueAction oa) {
 		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
 		OJPackage pack = findOrCreatePackage(path);
 		OJAnnotatedClass actionClass = new OJAnnotatedClass(oa.getName());
 		actionClass.setMyPackage(pack);
 		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerAbstractActionPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedAcceptEventAction.class })
+	public void visitAcceptEventAction(INakedAcceptEventAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(oa.getName());
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerAbstractAcceptEventAction);
+		addActionOperations(actionClass, oa);
+		OJConstructor constructor = actionClass.findConstructor(TinkerGenerationUtil.vertexPathName, OJUtil.classifierPathname(oa.getActivity().getContext()));
+		addTriggersInConstructor(constructor, actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		OJConstructor constructor1 = actionClass.findConstructor(OJUtil.classifierPathname(oa.getActivity().getContext()));
+		addTriggersInConstructor(constructor1, actionClass, oa);
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedSendSignalAction.class })
+	public void visitSendSignalAction(INakedSendSignalAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(oa.getName());
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerAbstractSendSignalAction);
 		addActionOperations(actionClass, oa);
 		addInitVertexToDefaultConstructor(actionClass, oa);
 		addContextObjectField(actionClass, oa.getActivity().getContext());
@@ -72,7 +111,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 			controlNodeClass = createFinalNodeClass(controlNode);
 			break;
 		case DECISION_NODE:
-			//Same as fork, one in multipl out
+			// Same as fork, one in multipl out
 			controlNodeClass = createForkNodeClass(controlNode, TinkerBehaviorUtil.tinkerAbstractDecisionNodePathName);
 			break;
 		default:
@@ -80,7 +119,18 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		}
 		addContextObjectField(controlNodeClass, controlNode.getActivity().getContext());
 		addContextObjectToDefaultConstructor(controlNodeClass, controlNode.getActivity().getContext());
-		
+
+	}
+
+	private void addTriggersInConstructor(OJConstructor constructor, OJClass actionClass, INakedAcceptEventAction oa) {
+		Collection<INakedTrigger> triggers = oa.getTriggers();
+		for (INakedTrigger trigger : triggers) {
+			if(trigger.getEvent() instanceof INakedSignalEvent){
+				INakedSignalEvent signalEvent = (INakedSignalEvent) trigger.getEvent();
+				constructor.getBody().addToStatements("addToTriggers(\"" + trigger.getName() +"\", "+OJUtil.classifierPathname(signalEvent.getSignal()).getLast()+".class)");
+				actionClass.addToImports(OJUtil.classifierPathname(signalEvent.getSignal()));
+			}
+		}
 	}
 
 	private OJAnnotatedClass createInitialNodeClass(INakedControlNode controlNode) {
@@ -111,7 +161,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		addGetInControlFlows(mergeControlNode, controlNode);
 		addInControlFlowGetters(mergeControlNode, controlNode);
 		addGetOutControlFlow(mergeControlNode, controlNode);
-		if (controlNode.getOutgoing().size()>1) {
+		if (controlNode.getOutgoing().size() > 1) {
 			throw new IllegalStateException("Join node can only have one outgoing edge");
 		}
 		addOutControlFlowGetters(mergeControlNode, controlNode);
@@ -131,7 +181,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		addGetInControlFlows(joinControlNode, controlNode);
 		addInControlFlowGetters(joinControlNode, controlNode);
 		addGetOutControlFlow(joinControlNode, controlNode);
-		if (controlNode.getOutgoing().size()>1) {
+		if (controlNode.getOutgoing().size() > 1) {
 			throw new IllegalStateException("Join node can only have one outgoing edge");
 		}
 		addOutControlFlowGetters(joinControlNode, controlNode);
@@ -151,7 +201,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		addGetOutControlFlows(forkControlNode, controlNode);
 		addOutControlFlowGetters(forkControlNode, controlNode);
 		addGetInControlFlow(forkControlNode, controlNode);
-		if (controlNode.getIncoming().size()>1) {
+		if (controlNode.getIncoming().size() > 1) {
 			throw new IllegalStateException("Fok node can only have one incoming edge");
 		}
 		addInControlFlowGetters(forkControlNode, controlNode);
@@ -164,9 +214,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 	}
 
 	private void initVertexInConstructor(OJAnnotatedClass controlNodeClass, INakedActivityNode controlNode, OJConstructor defaultConstructor) {
-//		defaultConstructor.getBody().addToStatements("this.vertex = GraphDb.getDb().addVertex(\"" + NameConverter.capitalize(controlNode.getName()) + "\")");
-//		controlNodeClass.addToImports(TinkerGenerationUtil.graphDbPathName);
-		defaultConstructor.getBody().addToStatements("super(true)");
+		defaultConstructor.getBody().addToStatements("super(true, \"" + controlNodeClass.getName() + "\")");
 		defaultConstructor.getBody().addToStatements("setNodeStatus(NodeStatus.INACTIVE)");
 		controlNodeClass.addToImports(TinkerBehaviorUtil.tinkerNodeStatusPathName);
 		controlNodeClass.addToConstructors(defaultConstructor);
@@ -176,7 +224,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		OJConstructor defaultConstructor = actionClass.getDefaultConstructor();
 		initVertexInConstructor(actionClass, controlNode, defaultConstructor);
 	}
-	
+
 	private void addContextObjectField(OJAnnotatedClass actionClass, INakedBehavioredClassifier context) {
 		OJField contextObjectField = new OJField();
 		contextObjectField.setType(OJUtil.classifierPathname(context));
@@ -216,7 +264,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		edgeConstructor.getBody().addToStatements("super(edge)");
 		edgeConstructor.addParam("contextObject", OJUtil.classifierPathname(edge.getActivity().getContext()));
 		edgeConstructor.getBody().addToStatements("this.contextObject = contextObject");
-		
+
 		controlFlowEdge.addToConstructors(edgeConstructor);
 		controlFlowEdge.setSuperclass(TinkerBehaviorUtil.tinkerAbstractControlFlowEdgePathName);
 		super.createTextPath(controlFlowEdge, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
@@ -226,12 +274,12 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		addTarget(controlFlowEdge, edge);
 		addSource(controlFlowEdge, edge);
 		addName(controlFlowEdge, edge);
-		
+
 		OJAnnotatedOperation getContextObject = new OJAnnotatedOperation("getContextObject");
 		getContextObject.setReturnType(OJUtil.classifierPathname(edge.getActivity().getContext()));
 		getContextObject.getBody().addToStatements("return this.contextObject");
 		controlFlowEdge.addToOperations(getContextObject);
-		
+
 	}
 
 	private void addSource(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
@@ -291,7 +339,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		controlFlowEdge.addToOperations(getWeight);
 	}
 
-	private void addActionOperations(OJClass actionClass, INakedOpaqueAction oa) {
+	private void addActionOperations(OJClass actionClass, INakedAction oa) {
 		addHasPostConditionPassed(actionClass);
 		addHasPreConditionPassed(actionClass);
 		addGetOutControlFlows(actionClass, oa);
@@ -349,13 +397,14 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		actionClass.addToOperations(flowGetter);
 	}
 
-	private void addConstructorWithVertex(OJClass actionClass, INakedBehavioredClassifier contextObject) {
+	private OJConstructor addConstructorWithVertex(OJClass actionClass, INakedBehavioredClassifier contextObject) {
 		OJConstructor constructorWithEdge = new OJConstructor();
 		constructorWithEdge.addParam("vertex", TinkerGenerationUtil.vertexPathName);
 		constructorWithEdge.addParam("contextObject", OJUtil.classifierPathname(contextObject));
 		constructorWithEdge.getBody().addToStatements("super(vertex)");
 		constructorWithEdge.getBody().addToStatements("this.contextObject = contextObject");
 		actionClass.addToConstructors(constructorWithEdge);
+		return constructorWithEdge;
 	}
 
 	private void addOutControlFlowGetters(OJClass actionClass, INakedActivityNode oa) {

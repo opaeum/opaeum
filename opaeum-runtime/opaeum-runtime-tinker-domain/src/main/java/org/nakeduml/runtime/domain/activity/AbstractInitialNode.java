@@ -17,8 +17,8 @@ public abstract class AbstractInitialNode extends AbstractAction {
 		super(vertex);
 	}	
 
-	public AbstractInitialNode(boolean persist) {
-		super(persist);
+	public AbstractInitialNode(boolean persist, String name) {
+		super(persist, name);
 	}
 
 	protected boolean doAllIncomingFlowsHaveTokens() {

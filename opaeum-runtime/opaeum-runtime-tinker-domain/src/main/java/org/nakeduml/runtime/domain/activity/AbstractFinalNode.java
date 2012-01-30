@@ -16,8 +16,8 @@ public abstract class AbstractFinalNode extends AbstractAction {
 		super(vertex);
 	}	
 
-	public AbstractFinalNode(boolean persist) {
-		super(persist);
+	public AbstractFinalNode(boolean persist, String name) {
+		super(persist, name);
 	}
 
 	@Override
@@ -33,6 +33,11 @@ public abstract class AbstractFinalNode extends AbstractAction {
 	@Override
 	protected List<? extends AbstractControlFlowEdge> getOutControlFlows() {
 		return Collections.<AbstractControlFlowEdge>emptyList();
+	}
+	
+	//This is irrelevant for a flowfinal
+	protected boolean doAllIncomingFlowsHaveTokens() {
+		return true;
 	}
 	
 }

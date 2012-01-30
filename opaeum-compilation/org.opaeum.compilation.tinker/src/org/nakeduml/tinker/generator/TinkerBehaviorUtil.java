@@ -19,6 +19,13 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerSingleIteratorPathName = new OJPathName("com.tinkerpop.pipes.util.SingleIterator");
 	public static final OJPathName tinkerControlTokenPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ControlToken");
 	public static final OJPathName tinkerNodeStatusPathName = new OJPathName("org.nakeduml.runtime.domain.activity.NodeStatus");
+	public static OJPathName signalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
+	public static OJPathName tinkerClassifierSignalEvent = new OJPathName("org.nakeduml.runtime.domain.IClassifierSignalEvent");
+	public static OJPathName tinkerBaseTinkerBehavioredClassifier = new OJPathName("org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier");
+	public static OJPathName tinkerClassifierBehaviorExecutorService = new OJPathName("org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService");
+	public static OJPathName tinkerAbstractAcceptEventAction = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractAcceptEventAction");
+	public static OJPathName tinkerAbstractSendSignalAction = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractSendSignalAction");
+	
 	
 	public static String edgeGetter(INakedActivityEdge edge) {
 		return "get" + NameConverter.capitalize(edge.getName());

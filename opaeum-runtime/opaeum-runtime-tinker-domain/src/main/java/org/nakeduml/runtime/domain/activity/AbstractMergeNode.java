@@ -15,8 +15,8 @@ public abstract class AbstractMergeNode extends AbstractAction {
 		super(vertex);
 	}		
 
-	public AbstractMergeNode(boolean persist) {
-		super(persist);
+	public AbstractMergeNode(boolean persist, String name) {
+		super(persist, name);
 	}
 	
 	@Override

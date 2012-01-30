@@ -4,6 +4,8 @@ package org.nakeduml.tinker.runtime;
 
 public class GraphDb {
 
+	private static NakedGraph staticdb;
+	
 	private GraphDb() {
 	}
 
@@ -19,10 +21,17 @@ public class GraphDb {
 	};
 
 	public static NakedGraph getDb() {
-		return dbVar.get();
+		NakedGraph nakedGraph = dbVar.get();
+		if (nakedGraph==null) {
+			nakedGraph = staticdb;
+			nakedGraph.setMaxBufferSize(0);
+			setDb(nakedGraph);
+		}
+		return nakedGraph;
 	}
 	
 	public static void setDb(NakedGraph db) {
+		staticdb = db;
 		dbVar.set(db);
 		if (db==null) {
 			dbVar.remove();	

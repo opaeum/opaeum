@@ -18,8 +18,8 @@ public abstract class AbstractDecisionNode extends AbstractAction {
 		super(vertex);
 	}	
 
-	public AbstractDecisionNode(boolean persist) {
-		super(persist);
+	public AbstractDecisionNode(boolean persist, String name) {
+		super(persist, name);
 	}
 
 	@Override

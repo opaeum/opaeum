@@ -20,6 +20,7 @@ import org.opaeum.javageneration.composition.CompositionNodeImplementor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
+import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedEntity;
@@ -46,6 +47,10 @@ public class TinkerComponentInitializer extends ComponentInitializer {
 			initChildren(init, aws, createComponents);
 		}
 	}
+	
+	@VisitAfter(matchSubclasses = true)
+	public void visitClassifier(INakedEntity entity) {
+	}
 
 	protected void initChildren(OJOperation init, List<? extends INakedProperty> aws, OJOperation createComponents) {
 		for (int i = 0; i < aws.size(); i++) {
@@ -53,7 +58,7 @@ public class TinkerComponentInitializer extends ComponentInitializer {
 			if (a instanceof INakedProperty) {
 				INakedProperty np = (INakedProperty) a;
 				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-				if (!np.isDerived() && (np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType)) {
+				if (!np.isDerived() && (np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType || np.getNakedBaseType() instanceof INakedActivity)) {
 					INakedClassifier type = np.getNakedBaseType();
 					if (np.hasQualifiers() && np.getNakedMultiplicity().getLower() == 1 && np.getQualifiers().size() == 1
 							&& (np.getQualifiers().get(0)).getNakedBaseType() instanceof INakedEnumeration) {

@@ -1,6 +1,7 @@
 package org.nakeduml.tinker.activity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
@@ -19,15 +19,12 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.AbstractJavaProducingVisitor;
-import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
-import org.opaeum.metamodel.core.ICompositionParticipant;
-import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerImplementNodeStep.class, TinkerActionGenerator.class }, after = { TinkerImplementNodeStep.class })
@@ -39,25 +36,42 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			OJAnnotatedClass activityClass = findJavaClass(a);
 			activityClass.setSuperclass(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
 			addExecute(activityClass);
-		}
-	}
 
-	@VisitBefore(matchSubclasses = true, match = { INakedControlNode.class })
-	public void visitActivity(INakedControlNode node) {
-		if (node.getControlNodeType().isInitialNode()) {
-			INakedActivity activity = node.getActivity();
-			if (OJUtil.hasOJClass(activity)) {
-				OJAnnotatedClass activityClass = findJavaClass(activity);
-				addInitNode(activityClass, node);
-				OJConstructor constructor = activityClass.findConstructor(OJUtil.classifierPathname((INakedClassifier) activity.getOwnerElement()));
-				createActivityGraph(activityClass, constructor.getBody(), node);
-				startProcessInExecute(activityClass, node);
-				implementGetInitialNode(activityClass, node);
+			List<INakedActivityNode> initNodes = getInitNodes(a);
+			for (INakedActivityNode initNode : initNodes) {
+				visitInitNodes(initNode);
 			}
+
 		}
 	}
 
-	private void implementGetInitialNode(OJAnnotatedClass activityClass, INakedControlNode node) {
+	private List<INakedActivityNode> getInitNodes(INakedActivity a) {
+		List<INakedActivityNode> result = new ArrayList<INakedActivityNode>();
+		Collection<INakedActivityNode> nodes = a.getActivityNodes();
+		for (INakedActivityNode node : nodes) {
+			if (node.getIncoming().isEmpty()) {
+				result.add(node);
+			}
+
+		}
+		return result;
+	}
+
+	//TODO init nodes imlemented as one at the moment, change to many
+	public void visitInitNodes(INakedActivityNode node) {
+		INakedActivity activity = node.getActivity();
+		if (OJUtil.hasOJClass(activity)) {
+			OJAnnotatedClass activityClass = findJavaClass(activity);
+			addInitNode(activityClass, node);
+//			OJConstructor constructor = activityClass.findConstructor(OJUtil.classifierPathname((INakedClassifier) activity.getOwnerElement()));
+			OJOperation createComponents = activityClass.findOperation("createComponents", Collections.EMPTY_LIST);
+			createActivityGraph(activityClass, createComponents.getBody(), node);
+			startProcessInExecute(activityClass, node);
+			implementGetInitialNode(activityClass, node);
+		}
+	}
+
+	private void implementGetInitialNode(OJAnnotatedClass activityClass, INakedActivityNode node) {
 		OJAnnotatedOperation getInitialNode = new OJAnnotatedOperation("getInitialNode");
 		getInitialNode.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getInitialNode.getBody().addToStatements("return this." + NameConverter.decapitalize(node.getName()));
@@ -65,7 +79,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		activityClass.addToOperations(getInitialNode);
 	}
 
-	private void startProcessInExecute(OJAnnotatedClass activityClass, INakedControlNode node) {
+	private void startProcessInExecute(OJAnnotatedClass activityClass, INakedActivityNode node) {
 		OJOperation execute = activityClass.findOperation("execute", Collections.EMPTY_LIST);
 		OJSimpleStatement statement1 = new OJSimpleStatement();
 		statement1.setExpression(NameConverter.decapitalize(node.getName()) + ".setStarts(new SingleIterator<ControlToken>(new ControlToken(\"" + node.getName() + "\")))");
@@ -76,7 +90,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		activityClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
 	}
 
-	private void createActivityGraph(OJAnnotatedClass activityClass, OJBlock block, INakedControlNode initNode) {
+	private void createActivityGraph(OJAnnotatedClass activityClass, OJBlock block, INakedActivityNode initNode) {
 		walkActivityForNodes(new ArrayList<String>(), activityClass, block, initNode);
 		walkActivityForEdges(new ArrayList<String>(), block, initNode);
 	}
@@ -119,21 +133,25 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 	private void instantiateNode(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivityNode node, OJBlock block) {
 		if (!instantiatedClasses.contains(NameConverter.capitalize(node.getName()))) {
 			instantiatedClasses.add(NameConverter.capitalize(node.getName()));
-			OJSimpleStatement instantiateNode = new OJSimpleStatement();
-			INakedProperty endToComposite = ((ICompositionParticipant) node.getActivity().getContext()).getEndToComposite().getOtherEnd();
-			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(endToComposite);
-			if (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isInitialNode()) {
-				instantiateNode.setExpression(NameConverter.decapitalize(node.getName()) + " = new " + NameConverter.capitalize(node.getName()) + "(this.contextObject)");
+			if (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isInitialNode() || (node instanceof INakedAcceptEventAction && node.getIncoming().isEmpty())) {
+				OJSimpleStatement instantiateNode = new OJSimpleStatement();
+				instantiateNode.setExpression("this." + NameConverter.decapitalize(node.getName()) + " = new " + NameConverter.capitalize(node.getName()) + "(this.contextObject)");
+				block.addToStatements(instantiateNode);
+				instantiateNode = new OJSimpleStatement();
+				instantiateNode.setExpression("this." + NameConverter.decapitalize(node.getName()) + ".setNodeStatus(NodeStatus.ENABLED)");
+				activityClass.addToImports(TinkerBehaviorUtil.tinkerNodeStatusPathName);
+				block.addToStatements(instantiateNode);
 			} else {
+				OJSimpleStatement instantiateNode = new OJSimpleStatement();
 				instantiateNode.setExpression(NameConverter.capitalize(node.getName()) + " " + NameConverter.decapitalize(node.getName()) + " = new "
 						+ NameConverter.capitalize(node.getName()) + "(this.contextObject)");
+				block.addToStatements(instantiateNode);
 			}
 			activityClass.addToImports(findJavaPath(node));
-			block.addToStatements(instantiateNode);
 		}
 	}
 
-	private void addInitNode(OJClass activityClass, INakedControlNode node) {
+	private void addInitNode(OJClass activityClass, INakedActivityNode node) {
 		OJField initNode = new OJField();
 		initNode.setName(NameConverter.decapitalize(node.getName()));
 		findJavaPath(node);

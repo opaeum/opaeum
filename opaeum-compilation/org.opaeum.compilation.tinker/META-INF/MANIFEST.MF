@@ -22,9 +22,11 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
 Export-Package: org.nakeduml.tinker.activity,
+ org.nakeduml.tinker.activity.nullify,
  org.nakeduml.tinker.audit,
  org.nakeduml.tinker.emf.extraction,
  org.nakeduml.tinker.generator,
+ org.nakeduml.tinker.javageneration.basicjava,
  org.nakeduml.tinker.javageneration.composition,
  org.nakeduml.tinker.linkage
 Bundle-Vendor: Opaeum

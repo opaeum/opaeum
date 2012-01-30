@@ -16,8 +16,8 @@ public abstract class AbstractForkNode extends AbstractAction {
 		super(vertex);
 	}	
 
-	public AbstractForkNode(boolean persist) {
-		super(persist);
+	public AbstractForkNode(boolean persist, String name) {
+		super(persist, name);
 	}
 	
 	@Override

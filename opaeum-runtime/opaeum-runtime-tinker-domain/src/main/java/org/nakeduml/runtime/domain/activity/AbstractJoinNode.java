@@ -15,8 +15,8 @@ public abstract class AbstractJoinNode extends AbstractAction {
 		super(vertex);
 	}	
 
-	public AbstractJoinNode(boolean persist) {
-		super(persist);
+	public AbstractJoinNode(boolean persist, String name) {
+		super(persist, name);
 	}
 	
 	@Override

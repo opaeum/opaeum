@@ -11,6 +11,7 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
+import org.opaeum.java.metamodel.OJVisibilityKind;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.javageneration.JavaTransformationPhase;
@@ -20,10 +21,10 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.oclexpressions.AttributeExpressionGenerator;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedProperty;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { CompositionEmulator.class, OperationAnnotator.class }, after = { OperationAnnotator.class,
@@ -31,27 +32,33 @@ import org.opaeum.metamodel.core.INakedProperty;
 public class TinkerCompositionNodeImplementor extends CompositionNodeImplementor {
 
 	@Override
-	protected void visitClass(ICompositionParticipant c){
-		if(OJUtil.hasOJClass(c)){
+	protected void visitClass(ICompositionParticipant c) {
+		if (OJUtil.hasOJClass(c)) {
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findClass(path);
-			if(ojClassifier instanceof OJAnnotatedClass){
+			if (ojClassifier instanceof OJAnnotatedClass) {
 				OJAnnotatedClass ojClass = (OJAnnotatedClass) ojClassifier;
-//				boolean isTransientMessageStructure = c instanceof INakedMessageStructure && !(((INakedMessageStructure) c).isPersistent());
-//				if(!isTransientMessageStructure){
-					ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
-					addGetOwningObject(c, ojClass);
-					addRemoveFromOwner(ojClass);
-					addMarkDeleted(ojClass, c);
-//				}
+				ojClass.addToImplementedInterfaces(COMPOSITION_NODE);
+				addGetOwningObject(c, ojClass);
+				addRemoveFromOwner(ojClass);
+				addMarkDeleted(ojClass, c);
 				addAddToOwningObject(ojClass, c);
+				addStartClassifierBehavior(ojClass, c);
 				addInit(c, ojClass);
 				addConstructorForTests(c, ojClass);
 			}
 		}
 	}
-	
-	
+
+	private void addStartClassifierBehavior(OJAnnotatedClass ojClass, ICompositionParticipant c) {
+		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior() != null) {
+			OJAnnotatedOperation startClassifierBehavior = new OJAnnotatedOperation("startClassifierBehavior");
+			startClassifierBehavior.setVisibility(OJVisibilityKind.PRIVATE);
+			startClassifierBehavior.getBody().addToStatements("getClassifierBehavior().execute()");
+			ojClass.addToOperations(startClassifierBehavior);
+		}
+	}
+
 	@Override
 	public void addMarkDeleted(OJAnnotatedClass ojClass, INakedClassifier sc) {
 		OJAnnotatedOperation markDeleted = new OJAnnotatedOperation("markDeleted");

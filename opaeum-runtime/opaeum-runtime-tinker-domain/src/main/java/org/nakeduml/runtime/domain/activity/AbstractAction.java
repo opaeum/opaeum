@@ -19,8 +19,8 @@ public abstract class AbstractAction extends AbstractNode {
 		super(vertex);
 	}
 
-	public AbstractAction(boolean persist) {
-		super(persist);
+	public AbstractAction(boolean persist, String name) {
+		super(persist, name);
 	}
 
 	protected abstract boolean hasPostConditionPassed();
@@ -36,12 +36,14 @@ public abstract class AbstractAction extends AbstractNode {
 			addIncomingControlToken(incomingControlToken);
 		}
 		List<Boolean> flowResult = new ArrayList<Boolean>();
-		if (doAllIncomingFlowsHaveTokens() && hasPreConditionPassed() && hasPostConditionPassed()) {
+		if (doAllIncomingFlowsHaveTokens() && hasPreConditionPassed() && hasPostConditionPassed() && isTriggered()) {
 			
 			removeIncomingControlTokens();
 			
 			setNodeStatus(NodeStatus.ENABLED);
 			setNodeStatus(NodeStatus.ACTIVE);
+			
+			execute();
 
 			//Execute whatever
 			nodeStat.increment();
@@ -73,6 +75,14 @@ public abstract class AbstractAction extends AbstractNode {
 		}
 	}
 
+	protected void execute() {
+		//Empty
+	}
+
+	protected boolean isTriggered() {
+		return true;
+	}
+
 	protected void removeIncomingControlTokens() {
 		for (ControlToken incomingControlToken : getInControlTokens()) {
 			GraphDb.getDb().removeVertex(incomingControlToken.getVertex());
@@ -87,9 +97,6 @@ public abstract class AbstractAction extends AbstractNode {
 			} else {
 				return false;
 			}
-//			if (getInControlTokens(flow.getName()).isEmpty()) {
-//				return false;
-//			}
 		}
 		return true;
 	}

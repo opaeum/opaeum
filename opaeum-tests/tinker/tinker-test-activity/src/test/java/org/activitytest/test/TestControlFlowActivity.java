@@ -78,7 +78,7 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertTrue(nodeNames.contains("OpaqueAction3"));
 		Assert.assertTrue(nodeNames.contains("OpaqueAction4"));
 		Assert.assertTrue(nodeNames.contains("OpaqueAction6"));
-		Assert.assertTrue(nodeNames.contains("FlowFinalNode1"));
+//		Assert.assertTrue(nodeNames.contains("FlowFinalNode1"));
 		Assert.assertTrue(nodeNames.contains("DecisionNode1"));
 		Assert.assertTrue(nodeNames.contains("MergeNode1"));
 		Assert.assertTrue(nodeNames.contains("ForkNode2"));

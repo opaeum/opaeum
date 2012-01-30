@@ -27,10 +27,11 @@ public abstract class AbstractNode extends AbstractPipe<ControlToken, Boolean> {
 		this.nodeStat = new NodeStat(vertex);
 	}
 	
-	public AbstractNode(boolean persist) {
+	public AbstractNode(boolean persist, String name) {
 		super();
 		this.vertex = GraphDb.getDb().addVertex(null);
 		nodeStat = new NodeStat(vertex, true);
+		this.vertex.setProperty("name", name);
 	}
 
 	public Vertex getVertex() {
@@ -122,6 +123,26 @@ public abstract class AbstractNode extends AbstractPipe<ControlToken, Boolean> {
 
 	public NodeStat getNodeStat() {
 		return nodeStat;
+	}
+
+	public String getName() {
+		return (String) this.vertex.getProperty("name");
+	}
+	
+	public boolean isEnabled() {
+		return getNodeStatus()==NodeStatus.ENABLED;
+	}
+
+	public boolean isActive() {
+		return getNodeStatus()==NodeStatus.ACTIVE;
+	}
+
+	public boolean isComplete() {
+		return getNodeStatus()==NodeStatus.COMPLETE;
+	}
+
+	public boolean isInActive() {
+		return getNodeStatus()==NodeStatus.INACTIVE;
 	}
 
 }

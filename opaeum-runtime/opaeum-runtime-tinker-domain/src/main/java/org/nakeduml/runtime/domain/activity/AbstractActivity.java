@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
+import org.opaeum.runtime.domain.ISignal;
 
 public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 
@@ -13,6 +14,13 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 	 */
 	private static final long serialVersionUID = 7647066355373095288L;
 
+	public Set<AbstractNode> getEnabledNodesWithMatchingTrigger(ISignal signal) {
+		Set<AbstractNode> result = new HashSet<AbstractNode>();
+		Set<AbstractNode> visited = new HashSet<AbstractNode>();
+		walkActivity(result, visited, getInitialNode(), signal);
+		return result;
+	}
+	
 	public Set<AbstractNode> getNodesForStatus(NodeStatus... nodeStatuses) {
 		Set<AbstractNode> result = new HashSet<AbstractNode>();
 		Set<AbstractNode> visited = new HashSet<AbstractNode>();
@@ -49,6 +57,21 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 
 	protected abstract AbstractNode getInitialNode();
 
+	private void walkActivity(Set<AbstractNode> result, Set<AbstractNode> visited, AbstractNode currentNode, ISignal signal) {
+		if (currentNode.isEnabled() && currentNode instanceof AbstractAcceptEventAction && ((AbstractAcceptEventAction) currentNode).containsTriggerWithSignalType(signal.getClass())) {
+			result.add(currentNode);
+		}
+		List<? extends AbstractControlFlowEdge> outgoing = currentNode.getOutControlFlows();
+		for (AbstractControlFlowEdge outFlow : outgoing) {
+			AbstractNode target = outFlow.getTarget();
+			if (!visited.contains(target)) {
+				walkActivity(result, visited, target, signal);
+			} else {
+				continue;
+			}
+		}
+	}
+
 	private void walkActivity(Set<AbstractNode> result, Set<AbstractNode> visited, AbstractNode currentNode, NodeStatus... nodeStatuses) {
 		for (NodeStatus nodeStatus : nodeStatuses) {
 			if (currentNode.getNodeStatus() == nodeStatus) {
@@ -68,7 +91,7 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 	}
 
 	private void walkActivity(Set<AbstractNode> result, Set<AbstractNode> visited, AbstractNode currentNode, String name) {
-		if (currentNode.getClass().getSimpleName().equals(name)) {
+		if (currentNode.getName().equals(name)) {
 			result.add(currentNode);
 			return;
 		}

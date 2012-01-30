@@ -34,6 +34,7 @@ public class TinkerGenerationUtil {
 	public static final OJPathName compositionNodePathName = new OJPathName("org.opaeum.runtime.domain.CompositionNode");
 	public static final OJPathName tinkerIdUtilPathName = new OJPathName("org.nakeduml.nakeduml.tinker.runtime.TinkerIdUtil");
 	public static final OJPathName BASE_AUDIT_SOFT_DELETE_TINKER = new OJPathName("org.nakeduml.runtime.domain.BaseTinkerSoftDelete");
+	public static final OJPathName BASE_BEHAVIORED_CLASSIFIER = new OJPathName("org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier");
 	public static final OJPathName BASE_TINKER = new OJPathName("org.nakeduml.runtime.domain.BaseTinker");
 	public static final String BASE_AUDIT_TINKER = "org.nakeduml.runtime.domain.BaseTinkerAuditable";
 	public static final String PERSISTENT_CONSTRUCTOR_NAME = "persistentConstructor";

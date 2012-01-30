@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.nakeduml.runtime.domain.TinkerAuditableNode;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
+import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -124,6 +125,9 @@ public abstract class BaseCollection<E> implements Collection<E> {
 		if (e instanceof TinkerCompositionNode) {
 			TinkerCompositionNode node = (TinkerCompositionNode) e;
 			TransactionThreadEntityVar.setNewEntity((TinkerCompositionNode) node);
+			v = node.getVertex();
+		} else if (e instanceof TinkerNode) {
+			TinkerNode node = (TinkerNode) e;
 			v = node.getVertex();
 		} else if (e.getClass().isEnum()) {
 			v = GraphDb.getDb().addVertex(null);
