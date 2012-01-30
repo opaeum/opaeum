@@ -69,7 +69,7 @@
           <node xmi:type="uml:SendSignalAction" xmi:id="_wlKq4EqMEeG_n-cjArWfMQ" name="TemperatureIncrementSendSignalAction" outgoing="_E9n8UEqOEeG_n-cjArWfMQ" incoming="_ExngoEqOEeG_n-cjArWfMQ" signal="_IxkkkETnEeGhsfN-6S6hRw">
             <target xmi:type="uml:ValuePin" xmi:id="_0PKSkEqbEeGFBaKcLwvpMQ" name="target" type="_xRZToELJEeGxMcroWGkAng">
               <value xmi:type="uml:OpaqueExpression" xmi:id="_gHlq4EqcEeGFBaKcLwvpMQ" name="OpaqueExpression1">
-                <body>contextObject.application.window->first()</body>
+                <body>contextObject.application.window->any(true)</body>
               </value>
             </target>
           </node>

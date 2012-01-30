@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
@@ -144,5 +145,7 @@ public abstract class AbstractNode extends AbstractPipe<ControlToken, Boolean> {
 	public boolean isInActive() {
 		return getNodeStatus()==NodeStatus.INACTIVE;
 	}
+	
+	protected abstract BaseTinkerBehavioredClassifier getContextObject();
 
 }

@@ -1,11 +1,13 @@
 package org.nakeduml.tinker.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
+import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -63,9 +65,8 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		if (OJUtil.hasOJClass(activity)) {
 			OJAnnotatedClass activityClass = findJavaClass(activity);
 			addInitNode(activityClass, node);
-//			OJConstructor constructor = activityClass.findConstructor(OJUtil.classifierPathname((INakedClassifier) activity.getOwnerElement()));
-			OJOperation createComponents = activityClass.findOperation("createComponents", Collections.EMPTY_LIST);
-			createActivityGraph(activityClass, createComponents.getBody(), node);
+			OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
+			createActivityGraph(activityClass, init.getBody(), node);
 			startProcessInExecute(activityClass, node);
 			implementGetInitialNode(activityClass, node);
 		}

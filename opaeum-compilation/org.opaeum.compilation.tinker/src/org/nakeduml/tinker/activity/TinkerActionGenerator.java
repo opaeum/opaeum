@@ -28,6 +28,7 @@ import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
@@ -80,7 +81,28 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		addInitVertexToDefaultConstructor(actionClass, oa);
 		addContextObjectField(actionClass, oa.getActivity().getContext());
 		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+		addConstructSignal(actionClass, oa);
+		addResolveTarget(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	private void addResolveTarget(OJAnnotatedClass actionClass, INakedSendSignalAction oa) {
+		OJAnnotatedOperation resolveTarget = new OJAnnotatedOperation("resolveTarget");
+		resolveTarget.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		resolveTarget.setReturnType(TinkerBehaviorUtil.tinkerBaseTinkerBehavioredClassifier);
+		actionClass.addToOperations(resolveTarget);
+		INakedValuePin targetValuePin = (INakedValuePin) oa.getTarget();
+		resolveTarget.getBody().addToStatements("return " + ValueSpecificationUtil.expressValue(resolveTarget, targetValuePin.getValue(), oa.getContext(), targetValuePin.getType()));
+	}
+
+	private void addConstructSignal(OJAnnotatedClass actionClass, INakedSendSignalAction oa) {
+		OJAnnotatedOperation constructSignal = new OJAnnotatedOperation("constructSignal");
+		constructSignal.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		constructSignal.setReturnType(TinkerBehaviorUtil.tinkerSignalPathName);
+		OJPathName signalPathname = OJUtil.classifierPathname(oa.getSignal());
+		constructSignal.getBody().addToStatements("return new " + signalPathname.getLast() + "(true)");
+		actionClass.addToImports(signalPathname);
+		actionClass.addToOperations(constructSignal);
 	}
 
 	@VisitBefore(matchSubclasses = true, match = { INakedActivityEdge.class })
@@ -119,7 +141,7 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		}
 		addContextObjectField(controlNodeClass, controlNode.getActivity().getContext());
 		addContextObjectToDefaultConstructor(controlNodeClass, controlNode.getActivity().getContext());
-
+		addGetContextObject(controlNodeClass, controlNode.getActivity().getContext());
 	}
 
 	private void addTriggersInConstructor(OJConstructor constructor, OJClass actionClass, INakedAcceptEventAction oa) {
@@ -347,6 +369,15 @@ public class TinkerActionGenerator extends StereotypeAnnotator {
 		addOutControlFlowGetters(actionClass, oa);
 		addInControlFlowGetters(actionClass, oa);
 		addConstructorWithVertex(actionClass, oa.getActivity().getContext());
+		addGetContextObject(actionClass, oa.getActivity().getContext());
+	}
+
+	private void addGetContextObject(OJClass actionClass, INakedBehavioredClassifier context) {
+		OJAnnotatedOperation getContextObject = new OJAnnotatedOperation("getContextObject");
+		getContextObject.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		getContextObject.setReturnType(OJUtil.classifierPathname(context));
+		getContextObject.getBody().addToStatements("return this.contextObject");
+		actionClass.addToOperations(getContextObject);
 	}
 
 	private void addGetInControlFlows(OJClass actionClass, INakedActivityNode oa) {

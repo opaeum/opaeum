@@ -25,7 +25,7 @@ public class TinkerBehaviorUtil {
 	public static OJPathName tinkerClassifierBehaviorExecutorService = new OJPathName("org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService");
 	public static OJPathName tinkerAbstractAcceptEventAction = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractAcceptEventAction");
 	public static OJPathName tinkerAbstractSendSignalAction = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractSendSignalAction");
-	
+	public static OJPathName tinkerSignalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
 	
 	public static String edgeGetter(INakedActivityEdge edge) {
 		return "get" + NameConverter.capitalize(edge.getName());
