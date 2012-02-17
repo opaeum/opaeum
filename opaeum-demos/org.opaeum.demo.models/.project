@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>org.opaeum.demo.models</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>models</name>
+			<type>2</type>
+			<location>/home/ampie/Workspaces/opaeum/opaeum-linkage/org.opaeum.transformation.engine/models</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,10 @@
+opaeum-runtime-bpm/.classpath
+opaeum-runtime-bpm/.project
+opaeum-runtime-bpm/.settings
+opaeum-runtime-bpm/OpaeumSimpleTypes.library/src/main/generated-java
+opaeum-runtime-bpm/opaeum-runtime-bpm-hibernate/src/main/generated-java
+opaeum-runtime-bpm/opaeum-runtime-bpm-hibernate/src/main/generated-resources
+opaeum-runtime-bpm/opaeum-runtime-bpm-hibernate/src/test/generated-java
+opaeum-runtime-bpm/pom.xml
+opaeum-runtime-bpm/target
+opaeum-runtime-bpm/test-output
