@@ -58,7 +58,7 @@ public class InstanceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitSlot(Slot emfSlot,NakedSlotImpl nakedSlot){
 		InstanceSpecification owningInstance = emfSlot.getOwningInstance();
-		if(owningInstance.getClassifiers().size() == 1){
+		if(owningInstance.getClassifiers().size() == 1 || owningInstance instanceof EnumerationLiteral){
 			if(!(emfSlot.getDefiningFeature() == null || emfSlot.getDefiningFeature() instanceof ExtensionEnd)){
 				INakedProperty definingFeature = (INakedProperty) getNakedPeer(emfSlot.getDefiningFeature());
 				nakedSlot.setDefiningFeature(definingFeature);

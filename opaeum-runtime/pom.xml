@@ -2,22 +2,42 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opaeum</groupId>
 	<artifactId>opaeum-runtime</artifactId>
 	<packaging>pom</packaging>
 	<name>Opaeum Runtime</name>
 	<version>1.0.0-SNAPSHOT</version>
-  <scm>
-    <connection>scm:git:git://github.com/opaeum/opaeum.git</connection>
-    <developerConnection>scm:git:git://github.com/opaeum/opaeum.git</developerConnection>
-    <url>git://github.com/opaeum/opaeum.git</url>
-  </scm>
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://github.com/opaeum/opaeum.git</connection>
+		<developerConnection>scm:git:git://github.com/opaeum/opaeum.git</developerConnection>
+		<url>git://github.com/opaeum/opaeum.git</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>pietermartin</id>
+			<name>Pieter Martin</name>
+			<email>pieter.martin@gmail.com</email>
+		</developer>
+		<developer>
+			<id>ampie</id>
+			<name>Ampie Barnard</name>
+			<email>ampieb@gmail.com</email>
+		</developer>
+	</developers>
 	<repositories>
 		<repository>
 			<id>repository.jboss.org</id>
@@ -33,38 +53,57 @@
 			<name>TinkerPop Maven2 Repository</name>
 			<url>http://tinkerpop.com/maven2</url>
 		</repository>
-
 	</repositories>
-<profiles>
-  <profile>
-    <id>sign</id>
-    <activation>
-      <property>
-        <name>performRelease</name>
-        <value>true</value>
-      </property>
-    </activation>
-    <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.1</version>
-          <executions>
-            <execution>
-              <id>sign-artifacts</id>
-              <phase>verify</phase>
-              <goals>
-                <goal>sign</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </build>
-  </profile>
-</profiles>
-
+	<profiles>
+		<profile>
+			<id>sign</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.5</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.1.2</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -111,35 +150,20 @@
 					<artifactId>build-helper-maven-plugin</artifactId>
 					<version>1.5</version>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
 			</plugins>
 		</pluginManagement>
 	</build>
 	<modules>
 		<module>opaeum-runtime-domain</module>
-		<module>opaeum-test-adaptor</module>
-		<module>opaeum-test-tinker</module>
-		<module>opaeum-runtime-bpm-hibernate</module>
-		<module>opaeum-runtime-hibernate</module>
-		<module>opaeum-runtime-jpa</module>
-		<module>opaeum-runtime-cdi-hibernate</module>
-		<module>opaeum-runtime-seam2-jpa</module>
-		<module>opaeum-runtime-tinker-adaptor</module>
-		<module>opaeum-runtime-tinker-domain</module>
+		<module>opaeum-test-adaptor</module> 
+		<module>opaeum-test-tinker</module> 
+		<module>opaeum-runtime-bpm-hibernate</module> 
+		<module>opaeum-runtime-hibernate</module> 
+		<module>opaeum-runtime-jpa</module> 
+		<module>opaeum-runtime-cdi-hibernate</module> 
+		<module>opaeum-runtime-seam2-jpa</module> 
+		<module>opaeum-runtime-tinker-adaptor</module> 
+		<module>opaeum-runtime-tinker-domain</module> 
 		<module>opaeum-runtime-tinker-neo4j</module>
 	</modules>
 	<dependencyManagement>
@@ -318,7 +342,6 @@
 		</dependencies>
 	</dependencyManagement>
 	<properties>
-	<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
+		<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
 	</properties>
-
 </project>

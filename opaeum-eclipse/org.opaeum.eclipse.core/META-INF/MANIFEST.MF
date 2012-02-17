@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.opaeum.transformation.engine,
  org.opaeum.metamodels.ocl,
  org.opaeum.metamodels.emfworkspace,
- org.opaeum.compilation.java
+ org.opaeum.compilation.java,
+ org.eclipse.emf.transaction;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6 
 Export-Package: org.opaeum.eclipse,

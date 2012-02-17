@@ -173,9 +173,6 @@ public class JpaUtil{
 		String keyToParentTable = null;
 		if(f instanceof INakedProperty && f.getOtherEnd() != null){
 			INakedProperty p = f;
-			if(p.getOtherEnd().getMappingInfo().getPersistentName()==null){
-				System.out.println();
-			}
 			keyToParentTable = p.getOtherEnd().getMappingInfo().getPersistentName().getAsIs();
 		}else{
 			INakedClassifier nakedOwner = f.getOwner();
@@ -192,10 +189,6 @@ public class JpaUtil{
 			tableName = ((INakedAssociation) p.getAssociation()).getMappingInfo().getPersistentName().toString();
 		}else{
 			INakedClassifier nakedOwner = umlOwner;
-			if(f.getMappingInfo().getPersistentName()==null){
-				System.out.println();
-			}
-
 			tableName = nakedOwner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName().getWithoutId();
 		}
 		return tableName;

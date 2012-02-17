@@ -172,9 +172,6 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		OJAnnotatedClass ojOwner = findJavaClass(owner);
 		OJAnnotatedField field = (OJAnnotatedField) ojOwner.findField(map.fieldname());
 		if(field != null){
-			if(map.getProperty().getNakedBaseType().getName().equals("IUserWorkspaceHelper") && !map.getProperty().getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
-				System.out.println();
-			}
 			// may have been removed by custom transformation
 			INakedProperty f = map.getProperty();
 			if(f.getNakedBaseType() instanceof INakedEnumeration){

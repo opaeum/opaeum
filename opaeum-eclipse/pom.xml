@@ -18,6 +18,7 @@
 		<module>org.opaeum.eclipse.reverse</module>
 		<module>org.opaeum.eclipse.reverse.db</module>
 		<module>org.opaeum.eclipse.feature</module>
+		<module>org.opaeum.eclipse.uml.propertysections</module>
 		<module>org.opaeum.eclipse.source.feature</module>
 	</modules>
 	<repositories>
@@ -25,6 +26,11 @@
 			<id>eclipse-indigo</id>
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/releases/indigo</url>
+		</repository>
+		<repository>
+			<id>topcased-indigo</id>
+			<layout>p2</layout>
+			<url>http://topcased-mm.gforge.enseeiht.fr/indigo/release/topcased5.0.0/</url>
 		</repository>
 	</repositories>
 

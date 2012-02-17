@@ -8,7 +8,14 @@ public class NakedInterfaceRealizationImpl extends NakedElementImpl implements I
 	private static final long serialVersionUID = 7528018002930390436L;
 	INakedInterface contract;
 	private int index;
-	
+	public NakedInterfaceRealizationImpl(){
+	}
+	public NakedInterfaceRealizationImpl(INakedInterface processObject){
+		initialize(processObject.getId() + "asdf", processObject.getName(), false);
+		this.contract = processObject;
+		mappingInfo=processObject.getMappingInfo().getCopy();
+		mappingInfo.setIdInModel(id);
+	}
 	@Override
 	public String getMetaClass(){
 		return "interfaceRealization";
@@ -34,9 +41,6 @@ public class NakedInterfaceRealizationImpl extends NakedElementImpl implements I
 	}
 	@Override
 	public void setIndex(int index){
-		if(index==-1){
-			System.out.println();
-		}
 		this.index = index;
 	}
 }

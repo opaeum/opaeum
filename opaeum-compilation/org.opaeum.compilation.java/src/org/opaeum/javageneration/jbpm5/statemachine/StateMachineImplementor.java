@@ -48,6 +48,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;

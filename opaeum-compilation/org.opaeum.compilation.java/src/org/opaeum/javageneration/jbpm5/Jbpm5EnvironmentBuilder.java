@@ -139,6 +139,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 			Set<String> libs = new HashSet<String>();
 			libs.add("OpaeumSimpleTypes".toLowerCase());
 			libs.add("UMLPrimitiveTypes".toLowerCase());
+			libs.add("PrimitiveTypes".toLowerCase());
 			libs.add("JavaPrimitiveTypes".toLowerCase());
 			libs.add("OpaeumSimpleTypes".toLowerCase());
 			return !libs.contains(element.getName().toLowerCase());

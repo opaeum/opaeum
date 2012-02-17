@@ -153,7 +153,6 @@ public class BehaviorUtil{
 	}
 	public boolean isLongRunning(INakedOperation o){
 		if(o.isLongRunning()){
-			System.out.println();
 			return true;
 		}else{
 			for(INakedBehavior method:o.getMethods()){

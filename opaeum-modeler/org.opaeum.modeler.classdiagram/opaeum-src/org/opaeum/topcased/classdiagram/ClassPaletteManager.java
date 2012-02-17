@@ -111,7 +111,7 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		entries.add(new ModelerCreationToolEntry("Package", "Package", factory, ClassImageRegistry.getImageDescriptor("PACKAGE"), ClassImageRegistry
 				.getImageDescriptor("PACKAGE_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getClass_(), "default");
-		entries.add(new ModelerCreationToolEntry("Class", "Class", factory, ClassImageRegistry.getImageDescriptor("CLASS"), ClassImageRegistry
+		entries.add(new ModelerCreationToolEntry("Entity", "Entity", factory, ClassImageRegistry.getImageDescriptor("CLASS"), ClassImageRegistry
 				.getImageDescriptor("CLASS_LARGE")));
 		factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getDataType(), "default");
 		entries.add(new ModelerCreationToolEntry("Data Type", "Data Type", factory, ClassImageRegistry.getImageDescriptor("DATATYPE"), ClassImageRegistry
@@ -290,31 +290,5 @@ public class ClassPaletteManager extends ModelerPaletteManager{
 		if(connectionsDrawer.getChildren().size() > 0){
 			getRoot().add(connectionsDrawer);
 		}
-	}
-	private void createCommentDrawer(){
-		// commentDrawer = new PaletteDrawer("Comment", null);
-		// List<PaletteEntry> entries = new CustomPaletteArrayList("org.topcased.modeler.uml.classdiagram");
-		// CreationFactory factory;
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getComment(), "default");
-		// entries.add(new ModelerCreationToolEntry("Comment", "Comment", factory, ClassImageRegistry.getImageDescriptor("COMMENT"),
-		// ClassImageRegistry
-		// .getImageDescriptor("COMMENT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, ClassSimpleObjectConstants.SIMPLE_OBJECT_COMMENTLINK, "default", false);
-		// entries.add(new ModelerConnectionCreationToolEntry("Comment link", "Comment link", factory,
-		// ClassImageRegistry.getImageDescriptor("COMMENTLINK"),
-		// ClassImageRegistry.getImageDescriptor("COMMENTLINK_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, UMLPackage.eINSTANCE.getConstraint(), "default");
-		// entries.add(new ModelerCreationToolEntry("Constraint", "Constraint", factory,
-		// ClassImageRegistry.getImageDescriptor("CONSTRAINT"), ClassImageRegistry
-		// .getImageDescriptor("CONSTRAINT_LARGE")));
-		// factory = new GraphElementCreationFactory(creationUtils, AllSimpleObjectConstants.SIMPLE_OBJECT_CONSTRAINTLINK, "default",
-		// false);
-		// entries.add(new ModelerConnectionCreationToolEntry("Constraint Link", "Constraint Link", factory,
-		// ClassImageRegistry.getImageDescriptor("CONSTRAINTLINK"),
-		// ClassImageRegistry.getImageDescriptor("CONSTRAINTLINK_LARGE")));
-		// commentDrawer.addAll(entries);
-		// if(commentDrawer.getChildren().size() > 0){
-		// getRoot().add(commentDrawer);
-		// }
 	}
 }

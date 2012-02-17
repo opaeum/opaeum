@@ -65,9 +65,6 @@ public abstract class AbstractJpaAnnotator extends AbstractStructureVisitor{
 			// Remember that oneToOne uniqueness will be added as a
 			// uniqueConstraint
 			NameWrapper persistentName = f.getMappingInfo().getPersistentName();
-			if(persistentName == null){
-				System.out.println();
-			}
 			String asIs = persistentName.getAsIs();
 			OJAnnotationValue column = JpaUtil.addJoinColumn(field, asIs, !f.isRequired());
 			if(isOtherEndOrdered(f)){

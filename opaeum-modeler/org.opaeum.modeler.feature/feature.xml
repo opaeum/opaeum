@@ -39,7 +39,6 @@
       <import plugin="org.eclipse.ocl.uml"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.validation"/>
       <import plugin="org.opaeum.linkage.core"/>
       <import plugin="org.opaeum.linkage.emfextraction"/>
       <import plugin="org.opaeum.linkage.namegeneration"/>
@@ -53,13 +52,10 @@
       <import plugin="org.opaeum.metamodels.text"/>
       <import plugin="org.opaeum.metamodels.uim"/>
       <import plugin="org.opaeum.transformation.engine"/>
-      <import plugin="org.opaeum.compilation.uim"/>
-      <import plugin="org.opaeum.uimodeler.classform"/>
-      <import plugin="org.topcased.modeler.diagrams"/>
-      <import plugin="org.opaeum.uimodeler.editor"/>
-      <import plugin="org.opaeum.uimodeler.userinteractionproperties"/>
+      <import plugin="org.eclipse.emf.validation"/>
       <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
+      <import plugin="org.opaeum.eclipse.uml.propertysections"/>
    </requires>
 
    <plugin
@@ -99,13 +95,6 @@
 
    <plugin
          id="org.opaeum.modeler.statemachinediagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.modeler.uimadapter"
          download-size="0"
          install-size="0"
          version="0.0.0"

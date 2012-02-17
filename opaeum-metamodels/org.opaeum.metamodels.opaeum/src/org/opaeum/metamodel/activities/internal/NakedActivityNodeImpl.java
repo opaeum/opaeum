@@ -14,6 +14,7 @@ import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedActivityPartition;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
@@ -21,7 +22,7 @@ import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode{
 	private static final long serialVersionUID = 1142310904812L;
-	private Set<INakedActivityEdge> incoming = new TreeSet<INakedActivityEdge>();
+	private Set<INakedActivityEdge> incoming = new TreeSet<INakedActivityEdge>(new DefaultOpaeumComparator());
 	private Set<INakedActivityEdge> outgoing = new TreeSet<INakedActivityEdge>();
 	private INakedActivityPartition inPartition;
 	private Set<INakedActivityNode> redefinedNodes = new HashSet<INakedActivityNode>();

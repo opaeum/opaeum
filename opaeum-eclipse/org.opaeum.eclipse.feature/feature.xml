@@ -33,11 +33,13 @@
       <import plugin="org.opaeum.metamodels.ocl"/>
       <import plugin="org.opaeum.metamodels.emfworkspace"/>
       <import plugin="org.opaeum.compilation.java"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui.ide" version="3.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.jdt.core.manipulation"/>
-      <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.opaeum.compilation.filegeneration"/>
       <import plugin="org.opaeum.compilation.misc"/>
       <import plugin="org.opaeum.compilation.ocltojava"/>
@@ -49,7 +51,6 @@
       <import plugin="org.opaeum.metamodels.maven"/>
       <import plugin="org.opaeum.metamodels.text"/>
       <import plugin="org.opaeum.metamodels.uim"/>
-      <import plugin="org.eclipse.gef"/>
       <import plugin="org.eclipse.core.filesystem"/>
       <import plugin="org.eclipse.datatools.connectivity.oda"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.profile"/>
@@ -58,16 +59,75 @@
       <import plugin="org.eclipse.platform"/>
       <import plugin="org.eclipse.emf.ecore.edit"/>
       <import plugin="org.eclipse.datatools.connectivity.ui.dse"/>
-      <import plugin="org.eclipse.ui.browser"/>
-      <import plugin="org.eclipse.ui.ide.application"/>
+      <import plugin="org.eclipse.datatools.enablement.postgresql"/>
+      <import plugin="org.eclipse.datatools.enablement.postgresql.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.postgresql.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.hsqldb"/>
+      <import plugin="org.eclipse.datatools.enablement.hsqldb.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.hsqldb.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.informix"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.informix.dbdefinition" version="1.0.4" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.informix.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.ibm.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.ingres"/>
+      <import plugin="org.eclipse.datatools.enablement.ingres.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.ingres.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.msft.sqlserver"/>
+      <import plugin="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.msft.sqlserver.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.mysql"/>
+      <import plugin="org.eclipse.datatools.enablement.mysql.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.mysql.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.oracle"/>
+      <import plugin="org.eclipse.datatools.enablement.oracle.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.oracle.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.sqlite"/>
+      <import plugin="org.eclipse.datatools.enablement.sqlite.dbdefinition"/>
+      <import plugin="org.eclipse.datatools.enablement.sqlite.ui"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase"/>
+      <import plugin="org.eclipse.datatools.enablement.sybase.ui"/>
+      <import plugin="org.eclipse.datatools.sqltools.ddlgen.ui"/>
+      <import plugin="org.eclipse.datatools.modelbase.sql.edit"/>
       <import feature="org.opaeum.compilation.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
       <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <import plugin="org.eclipse.ui.ide" version="3.7.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.datatools.sqldevtools.data.feature" version="1.9.1.v201108301820-642BgJ9DJAQGVCaIQ"/>
+      <import feature="org.eclipse.datatools.sqldevtools.ddl.feature" version="1.9.1.v201108301820-278078B04G8S_IMz00Iz00PmQz01"/>
+      <import feature="org.eclipse.datatools.sqldevtools.ddlgen.feature" version="1.9.1.v201108301820-7A-3F7RZHLz-Hz-OlPz0Qf"/>
+      <import feature="org.eclipse.datatools.sqldevtools.feature" version="1.9.1.v201108301820-7N847CFDsn0VdrPUJvPUshDWIPJ0"/>
+      <import feature="org.eclipse.datatools.sqldevtools.parsers.feature" version="1.9.1.v201108301820-622BgJ9CR9XFcEWLP"/>
+      <import feature="org.eclipse.datatools.sqldevtools.results.feature" version="1.9.1.v201108301820-57B4AkF7AJ7NCBBMBL"/>
+      <import feature="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature" version="1.9.1.v201108301820-4208375LG5BJ93413"/>
+      <import feature="org.eclipse.datatools.sqldevtools.sqlbuilder.feature" version="1.9.1.v201108301820-79-4EVVFJoFwKcN-L_"/>
+      <import plugin="org.eclipse.emf.transaction" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ocl.uml"/>
+      <import plugin="org.eclipse.uml2"/>
+      <import plugin="org.eclipse.emf"/>
+      <import plugin="org.eclipse.emf.edit.ui"/>
+      <import plugin="org.eclipse.uml2.uml.edit"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ocl.ecore"/>
+      <import plugin="com.ibm.icu"/>
+      <import plugin="org.apache.ant"/>
+      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.emf.codegen.ecore.ui"/>
+      <import plugin="org.eclipse.emf.facet.infra.browser"/>
+      <import plugin="org.eclipse.emf.facet.infra.browser.uicore"/>
+      <import plugin="org.topcased.facilities"/>
+      <import plugin="org.topcased.tabbedproperties"/>
    </requires>
 
    <plugin
          id="org.opaeum.eclipse.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opaeum.eclipse.uml.propertysections"
          download-size="0"
          install-size="0"
          version="0.0.0"

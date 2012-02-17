@@ -71,12 +71,13 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			OJAnnotatedOperation clear = new OJAnnotatedOperation("clear");
 			ojOwner.addToOperations(clear);
 			// TODO this object already exists - find it
-			EndToAssociationClass end1ToAssocationClass = new EndToAssociationClass(((INakedAssociation) umlOwner).getEnd1());
-			TypeResolver.resolveCollection(end1ToAssocationClass, end1ToAssocationClass.getBaseType(), getOclEngine().getOclLibrary());
-			NakedStructuralFeatureMap mapFromEnd1 = new NakedStructuralFeatureMap(end1ToAssocationClass);
-			EndToAssociationClass end2ToAssocationClass = new EndToAssociationClass(((INakedAssociation) umlOwner).getEnd2());
-			TypeResolver.resolveCollection(end2ToAssocationClass, end2ToAssocationClass.getBaseType(), getOclEngine().getOclLibrary());
-			NakedStructuralFeatureMap mapFromEnd2 = new NakedStructuralFeatureMap(end2ToAssocationClass);
+			
+			EndToAssociationClass end1ToAssocationClass = (EndToAssociationClass) assocClass.getPropertyToEnd1().getOtherEnd();//new EndToAssociationClass(((INakedAssociation) umlOwner).getEnd1());
+//			TypeResolver.resolveCollection(end1ToAssocationClass, end1ToAssocationClass.getBaseType(), getOclEngine().getOclLibrary());
+			NakedStructuralFeatureMap mapFromEnd1 = OJUtil.buildStructuralFeatureMap(end1ToAssocationClass);
+			EndToAssociationClass end2ToAssocationClass = (EndToAssociationClass) assocClass.getPropertyToEnd2().getOtherEnd();//new EndToAssociationClass(((INakedAssociation) umlOwner).getEnd2());
+//			TypeResolver.resolveCollection(end2ToAssocationClass, end2ToAssocationClass.getBaseType(), getOclEngine().getOclLibrary());
+			NakedStructuralFeatureMap mapFromEnd2 = OJUtil.buildStructuralFeatureMap(end2ToAssocationClass);
 			if(assocClass.getEnd1().isNavigable()){
 				clear.getBody().addToStatements(mapToEnd1.getter() + "()." + mapFromEnd1.internalRemover() + "(this)");
 				clear.getBody().addToStatements("this." + mapToEnd1.internalRemover() + "(" + mapToEnd1.getter() + "())");
@@ -489,14 +490,14 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		if(!(owner instanceof OJAnnotatedInterface)){
 			adder.setStatic(map.isStatic());
 			adder.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
-			iterateAndRemove(map, adder);
+			iterateAndRemove(map, adder,map.fieldname());
 			owner.addToOperations(adder);
 		}
 		return adder;
 	}
-	private void iterateAndRemove(NakedStructuralFeatureMap map,OJOperation adder){
+	private void iterateAndRemove(NakedStructuralFeatureMap map,OJOperation adder, String source){
 		OJAnnotatedField tmpList = new OJAnnotatedField("tmp", map.javaTypePath());
-		tmpList.setInitExp(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 1) + map.getter() + "())");
+		tmpList.setInitExp(map.javaDefaultValue().substring(0, map.javaDefaultValue().length() - 1) + source + ")");
 		adder.getBody().addToLocals(tmpList);
 		OJForStatement forAll = new OJForStatement();
 		forAll.setCollection("tmp");
@@ -516,7 +517,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 			clear.setStatic(map.isStatic());
 			clear.setVisibility(map.getProperty().isReadOnly() ? OJVisibilityKind.PRIVATE : OJVisibilityKind.PUBLIC);
 			if(isMap(map.getProperty())){
-				iterateAndRemove(map, clear);
+				iterateAndRemove(map, clear,map.getter() + "()");
 				clear.getBody().addToStatements(map.fieldname() + ".clear()");
 			}else{
 				clear.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");

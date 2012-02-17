@@ -618,7 +618,7 @@
 				<input type="org.eclipse.uml2.uml.StructuralFeature" />
 			</propertySection>
 			<propertySection id="org.opaeum.topcased.propertysections.property.PropertyRoleInCubeSection" class="org.opaeum.topcased.propertysections.property.PropertyRoleInCubeSection"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.topcased.propertysections.PropertyDefaultValueSection" >
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.topcased.propertysections.PropertyDefaultValueSection" filter="org.opaeum.topcased.propertysections.PropertyNotInProfileFilter">
 				<input type="org.eclipse.uml2.uml.StructuralFeature" />
 			</propertySection>
 			<propertySection afterSection="org.opaeum.topcased.propertysections.PropertyBooleanFeaturesSection" class="org.opaeum.topcased.propertysections.property.PropertyDefaultValueSection"
@@ -678,11 +678,11 @@
 				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
 			<propertySection id="org.opaeum.topcased.propertysections.property.FirstEndRoleInCubeSection" class="org.opaeum.topcased.propertysections.property.FirstEndRoleInCubeSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection" >
+				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection" filter="org.opaeum.topcased.propertysections.AssociationNotInProfileFilter">
 				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
 			<propertySection id="org.opaeum.topcased.propertysections.property.SecondEndRoleInCubeSection" class="org.opaeum.topcased.propertysections.property.SecondEndRoleInCubeSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection" >
+				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection" filter="org.opaeum.topcased.propertysections.AssociationNotInProfileFilter">
 				<input type="org.eclipse.uml2.uml.Association" />
 			</propertySection>
 			<propertySection afterSection="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection" class="org.opaeum.topcased.propertysections.property.FirstEndDefaultValueSection"
@@ -803,7 +803,8 @@
 				<input type="org.eclipse.uml2.uml.Classifier" />
 			</propertySection>
 			<propertySection id="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection" class="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection"
-				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection">
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection"
+				filter="org.opaeum.topcased.propertysections.ClassNotInProfileFilter">
 				<input type="org.eclipse.uml2.uml.Class" />
 			</propertySection>
 			<propertySection afterSection="org.topcased.modeler.BackgroundColorSection" class="org.topcased.modeler.uml.internal.properties.sections.classifier.ClassifierElementsVisibilityPropertySection"
@@ -1021,7 +1022,7 @@
 				no redundant decorator appears if a "From package" information is already provided.
 			</description>
 		</synchronizedModelDiagramRule>
-		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.usecasediagram.edit.PackageEditPart" modelInterface="org.eclipse.uml2.uml.Package"
+		<synchronizedModelDiagramRule graphicType="org.topcased.modeler.uml.alldiagram.edit.PackageEditPart" modelInterface="org.eclipse.uml2.uml.Package"
 			synchronizationRule="org.topcased.modeler.uml.parentrule.PartWithHeaderLabelSuffixParentRule">
 			<description> Some EditParts already display a label suffix indicating from which package an element is imported. For these EditParts, this rule ensures that
 				no redundant decorator appears if a "From package" information is already provided.
@@ -1118,7 +1119,7 @@
 		</OrderAlgorithm>
 	</extension>
 	<extension point="org.topcased.modeler.diagrams.validation.missingAnchors">
-		<modelAnchors class="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors" modelanchor="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
+		<modelAnchors  modelanchor="org.topcased.modeler.uml.validation.core.ActivityEdgeAnchors"
 			type="ActivityEdge">
 		</modelAnchors>
 	</extension>

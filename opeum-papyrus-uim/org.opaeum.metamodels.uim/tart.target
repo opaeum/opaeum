@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+
+<target name="tart" sequenceNumber="1">
+<locations>
+<location includeAllPlatforms="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.rap.sdk.feature.group" version="2.8.0.v20120130-0821"/>
+<unit id="org.eclipse.rap.runtime.requirements.feature.group" version="1.5.0.20120131-1125"/>
+<unit id="org.eclipse.rap.runtime.feature.group" version="1.5.0.20120131-1125"/>
+<repository location="http://download.eclipse.org/releases/juno"/>
+</location>
+</locations>
+</target>

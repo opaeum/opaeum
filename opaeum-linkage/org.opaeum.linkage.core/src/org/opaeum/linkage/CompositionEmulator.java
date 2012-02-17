@@ -24,22 +24,19 @@ import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.AssociationClassToEnd;
 import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
+import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
-@StepDependency(phase = LinkagePhase.class,after = {
-		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class
-},before = {
-	TypeResolver.class
-},requires = {
-		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class
-})
+@StepDependency(phase = LinkagePhase.class,after = {ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class},before = {TypeResolver.class},requires = {
+		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class})
 public class CompositionEmulator extends AbstractModelElementLinker{
 	@VisitBefore(matchSubclasses = true)
 	public void visitAssociation(INakedAssociation ass){
 		// For some reason, Topcased sometimes creates broken associations. THere also seems to be a bug in EMF that sometimes causes broken
 		// associations. THese cannot be processes at all.
-		if(ass.getEnd1() != null && ass.getEnd2() != null && ass.getEnd1().getNakedBaseType() != null && ass.getEnd2().getNakedBaseType() != null){
+		if(ass.getEnd1() != null && ass.getEnd2() != null && ass.getEnd1().getNakedBaseType() != null
+				&& ass.getEnd2().getNakedBaseType() != null){
 			if(ass.getPropertyToEnd1() == null){
 				ass.setPropertyToEnd1(new AssociationClassToEnd(ass.getEnd1()));
 			}
@@ -77,7 +74,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			}
 		}
 	}
-	//TODO maybe find a better place for this
+	// TODO maybe find a better place for this
 	@VisitBefore(matchSubclasses = true)
 	public void visitClassifier(INakedClassifier c){
 		if(!(c instanceof ICompositionParticipant)){
@@ -86,7 +83,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParticipant(ICompositionParticipant cp){
-		//TODO maybe find a better place for this
+		// TODO maybe find a better place for this
 		cp.reorderSequences();
 		if(cp instanceof INakedAssociation){
 			// do nothing
@@ -106,6 +103,10 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 				}
 				if(cp instanceof INakedBehavior){
 					INakedBehavior b = (INakedBehavior) cp;
+					if(b.isProcess() && getBuiltInTypes().getProcessObject() != null
+							&& !b.getInterfaces().contains(getBuiltInTypes().getProcessObject()) && !b.conformsTo(getBuiltInTypes().getAbstractRequest())){
+						b.addOwnedElement(new NakedInterfaceRealizationImpl(getBuiltInTypes().getProcessObject()));
+					}
 					if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
 						if(endFromComposite != null){
 							NonInverseArtificialProperty inverseArtificialProperty = new NonInverseArtificialProperty(endFromComposite, "contextObject");

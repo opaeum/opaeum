@@ -1885,4 +1885,13 @@
             loadByDefault="true">
       </browserCustomization>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.papyrus.uml.modelexplorer.PapyrusPerspective"
+            fixed="false"
+            id="org.opaeum.papyrus.uml.modelexplorer.perspective1"
+            name="Opaeum perspective">
+      </perspective>
+   </extension>
 </plugin>

@@ -2,7 +2,6 @@ package org.opaeum.eclipse;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,21 +10,17 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.widgets.Display;
@@ -53,14 +48,12 @@ import org.opaeum.linkage.AbstractModelElementLinker;
 import org.opaeum.linkage.LinkagePhase;
 import org.opaeum.linkage.QualifierLogicCalculator;
 import org.opaeum.linkage.SourcePopulationResolver;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.internal.NakedModelWorkspaceImpl;
 import org.opaeum.validation.ValidationPhase;
 import org.opaeum.validation.namegeneration.JavaNameRegenerator;
-import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 @SuppressWarnings("restriction")
 public final class EmfToOpaeumSynchronizer{
@@ -105,7 +98,8 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	protected void scheduleSynchronization(){
 		if(!suspended){
-			SynchronizationProcessRunner synchronizer = new SynchronizationProcessRunner(getTransformationProcess(), synchronizationListener, emfChanges);
+			SynchronizationProcessRunner synchronizer = new SynchronizationProcessRunner(getTransformationProcess(), synchronizationListener,
+					emfChanges);
 			synchronizer.schedule();
 		}
 	}
@@ -131,11 +125,13 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	public void emfWorkspaceLoaded(EmfWorkspace w){
 		for(Package model:w.getPotentialGeneratingModels()){
+			boolean dirty = false;
 			if(model instanceof Model || model instanceof Profile){
 				if(!EmfWorkspace.isReadOnly(model.eResource())){
 					EMap<String,String> d = StereotypesHelper.getNumlAnnotation(model).getDetails();
 					if(d.get("uuid") == null || d.get("uuid").trim().length() == 0){
 						d.put("uuid", Math.round(Math.random() * 1000000) + "");
+						dirty = true;
 					}
 				}
 				if(model instanceof Model){
@@ -145,14 +141,19 @@ public final class EmfToOpaeumSynchronizer{
 						modelStereotype = pf.getOwnedStereotype(StereotypeNames.MODEL_LIBRARY);
 					}
 					if(!model.isStereotypeApplied(modelStereotype)){
+						dirty = true;
 						model.applyStereotype(modelStereotype);
 					}
 					if(model.getValue(modelStereotype, "mappedImplementationPackage") == null){
+						dirty = true;
 						model.setValue(modelStereotype, "mappedImplementationPackage", cfg.getMavenGroupId() + "." + model.getName().toLowerCase());
 					}
 				}
 				try{
-					model.eResource().save(new HashMap<Object,Object>());
+					if(dirty){
+						model.eResource().save(new HashMap<Object,Object>());
+					}
+					;
 				}catch(IOException e){
 					e.printStackTrace();
 				}
@@ -211,7 +212,8 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	@SuppressWarnings("unchecked")
 	protected HashSet<Class<? extends ITransformationStep>> getTransformationSteps(){
-		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(Arrays.asList(StereotypeApplicationExtractor.class));
+		HashSet<Class<? extends ITransformationStep>> result = new HashSet<Class<? extends ITransformationStep>>(
+				Arrays.asList(StereotypeApplicationExtractor.class));
 		Set<Class<? extends AbstractModelElementLinker>> allSteps = LinkagePhase.getAllSteps();
 		// TODO ignore linkage steps as they will be included from Javatransformations
 		allSteps.remove(SourcePopulationResolver.class);
@@ -238,7 +240,8 @@ public final class EmfToOpaeumSynchronizer{
 			if(!suspended && resourcesBeingLoaded.isEmpty()){
 				linker.notifyChanged(notification);
 			}
-			if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY || notification.getEventType() == Notification.SET){
+			if(notification.getEventType() == Notification.ADD || notification.getEventType() == Notification.ADD_MANY
+					|| notification.getEventType() == Notification.SET){
 				final boolean annotationCreated = notification.getNotifier() instanceof EModelElement
 						&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(notification.getFeature());
 				if(!annotationCreated){
@@ -356,5 +359,8 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	public TransformationProcess getTransformationProcess(){
 		return transformationProcess;
+	}
+	public void removeSynchronizationListener(OpaeumSynchronizationListener editingContext){
+		this.synchronizationListener.remove(editingContext); // TODO Auto-generated method stub
 	}
 }

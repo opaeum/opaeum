@@ -15,7 +15,7 @@
 	<properties>
 		<opaeum.version>1.0.0-SNAPSHOT</opaeum.version>
 		<tycho-version>0.13.0</tycho-version>
-		<forceContextQualifier>201201181600</forceContextQualifier>
+		<forceContextQualifier>201202091200</forceContextQualifier>
 	</properties>
 	<licenses>
 		<license>
@@ -39,14 +39,40 @@
 	<build>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>sign</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.2</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<keystore>/home/ampie/Workspaces/opaeum/opaeum.keystore</keystore>
+							<alias>opaeum</alias>
+							<storepass>ainnikki</storepass>
+							<keypass>ainnikki</keypass>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<modules>
-		<module>opaeum-bpmn2</module>
 		<module>opaeum-compilation</module>
 		<module>opaeum-eclipse</module>
 		<module>opaeum-linkage</module>
 		<module>opaeum-metamodels</module>
 		<module>opaeum-modeler</module>
-		<module>opaeum-uimodeler</module>
 		<!--module>opaeum-runtime</module-->
 		<!--module>opaeum-tests/jbpmtestintegration/jbpmtestintegration-generator</module -->
 	</modules>

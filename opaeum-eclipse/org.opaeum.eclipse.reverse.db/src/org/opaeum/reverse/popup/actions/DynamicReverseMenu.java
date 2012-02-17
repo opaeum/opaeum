@@ -12,9 +12,11 @@ public class DynamicReverseMenu extends CompoundContributionItem{
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		ReverseEngineerTablesAction a = new ReverseEngineerTablesAction();
-		a.setText("Reverse");
+		a.setText("Create UML Entities from Tables");
+		PurgeDeletedRecordsAction a2 = new PurgeDeletedRecordsAction();
+		a2.setText("Purge Deleted Records ");
 		return new IContributionItem[]{
-			new ActionContributionItem(a)
+			new ActionContributionItem(a),new ActionContributionItem(a2)
 		};
 	}
 }

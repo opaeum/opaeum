@@ -111,7 +111,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 		public EObject caseEncapsulatedClassifier(EncapsulatedClassifier object){
 			if(this.notification.getEventType() == Notification.ADD){
 				if(this.notification.getNewValue() instanceof Port){
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_GATEWAY, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_GATEWAY,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
 				}
 			}
 			return super.caseEncapsulatedClassifier(object);
@@ -121,8 +122,10 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(this.notification.getEventType() == Notification.ADD){
 				switch(this.notification.getFeatureID(StructuredClassifier.class)){
 				case UMLPackage.STRUCTURED_CLASSIFIER__OWNED_CONNECTOR:
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_CHANNEL, StereotypeNames.OPIUM_BPM_PROFILE);
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DELEGATION, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_CHANNEL,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DELEGATION,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
 					break;
 				}
 			}
@@ -180,7 +183,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(this.notification.getFeatureID(Namespace.class)){
 			case UMLPackage.CONSTRAINT__SPECIFICATION:
 				if(notification.getNewValue() == null){
-					//No cigar
+					// No cigar
 					forceConstraintSpecification(c);
 				}
 				break;
@@ -246,7 +249,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				switch(notification.getEventType()){
 				case Notification.ADD:
 					p = (Property) notification.getNewValue();
-					if(p.getOtherEnd() != null){
+					if(p.getOtherEnd() != null && p.getOtherEnd().getType()!=null){//Remember n-ary associations
 						synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
 						if(p.getOtherEnd().getType() instanceof Signal){
 							synchronizeSignalPins((Signal) p.getOtherEnd().getType());
@@ -311,8 +314,9 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getEventType()){
 			case Notification.ADD:
 				if(notification.getNewValue() instanceof Activity){
-					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.BUSINES_PROCESS, StereotypeNames.OPIUM_BPM_PROFILE);
-					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.METHOD, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.BUSINES_PROCESS,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, (Element) notification.getNewValue(), StereotypeNames.METHOD, StereotypeNames.OPAEUM_BPM_PROFILE);
 				}
 				break;
 			}
@@ -382,15 +386,15 @@ public class OpaeumElementLinker extends EContentAdapter{
 			case Notification.ADD:
 				ActivityNode newValue = (ActivityNode) notification.getNewValue();
 				if(newValue instanceof AcceptEventAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_DEADLINE_ACTION, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_DEADLINE_ACTION, StereotypeNames.OPAEUM_BPM_PROFILE);
 				}else if(newValue instanceof OpaqueAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SINGLE_SCREEN_TASK, StereotypeNames.OPAEUM_BPM_PROFILE);
 				}else if(newValue instanceof CallBehaviorAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.EMBEDDED_SCREEN_FLOW_TASK, StereotypeNames.OPAEUM_BPM_PROFILE);
 				}else if(newValue instanceof SendSignalAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.SEND_NOTIFICATION_ACTION, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.SEND_NOTIFICATION_ACTION, StereotypeNames.OPAEUM_BPM_PROFILE);
 				}else if(newValue instanceof AcceptCallAction){
-					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_TASK_EVENT_ACTION, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(a, newValue, StereotypeNames.ACCEPT_TASK_EVENT_ACTION, StereotypeNames.OPAEUM_BPM_PROFILE);
 				}
 				if(newValue instanceof Action){
 					populateRequiredPins((Action) newValue);
@@ -499,18 +503,20 @@ public class OpaeumElementLinker extends EContentAdapter{
 				}
 			}
 			if(notification.getNewValue() instanceof Signal){
-				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.NOTIFICATION, StereotypeNames.OPIUM_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.NOTIFICATION, StereotypeNames.OPAEUM_BPM_PROFILE);
 			}
 			if(notification.getNewValue() instanceof Interface){
 				Interface intf = (Interface) notification.getNewValue();
-				applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.OPIUM_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, intf, StereotypeNames.BUSINESS_SERVICE, StereotypeNames.OPAEUM_BPM_PROFILE);
 				applyStereotypeIfNecessary(p, intf, StereotypeNames.HELPER, StereotypeNames.OPIUM_STANDARD_PROFILE);
 			}
 			if(notification.getNewValue() instanceof Component){
-				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.OPIUM_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT,
+						StereotypeNames.OPAEUM_BPM_PROFILE);
 			}
 			if(notification.getNewValue() instanceof org.eclipse.uml2.uml.Class){
-				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE, StereotypeNames.OPIUM_BPM_PROFILE);
+				applyStereotypeIfNecessary(p, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE,
+						StereotypeNames.OPAEUM_BPM_PROFILE);
 			}
 			if(notification.getNewValue() instanceof TimeEvent){
 				applyRelativeTimeEventStereotype((TimeEvent) notification.getNewValue(), p);
@@ -640,10 +646,14 @@ public class OpaeumElementLinker extends EContentAdapter{
 				break;
 			case UMLPackage.CLASS__OWNED_ATTRIBUTE:
 				if(notification.getEventType() == Notification.ADD){
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.MEASURE, StereotypeNames.OPIUM_BPM_PROFILE);
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DIMENSION, StereotypeNames.OPIUM_BPM_PROFILE);
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.PARTICIPANT_REFERENCE, StereotypeNames.OPIUM_BPM_PROFILE);
-					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.MEASURE,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.DIMENSION,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.PARTICIPANT_REFERENCE,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(object, (Element) notification.getNewValue(), StereotypeNames.BUSINESS_ROLE_CONTAINMENT,
+							StereotypeNames.OPAEUM_BPM_PROFILE);
 				}
 				synchronizeSlotsOnReferringInstances(object);
 				break;
@@ -658,12 +668,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 				case Notification.ADD:
 					EnumerationLiteral literal = (EnumerationLiteral) notification.getNewValue();
 					StereotypesHelper.getNumlAnnotation(en).getReferences().add(literal);
-					EList<Classifier> classifiers = literal.getClassifiers();
-					if(!classifiers.contains(en)){
-						// This should trigger normal Slot synchronization logic but somehow it doesn't??
-						classifiers.add(en);
-						synchronizeSlots(en, literal);
-					}
+					synchronizeSlots(en, literal);
 					break;
 				case Notification.ADD_MANY:
 					break;
@@ -754,7 +759,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 					}
 				}
 				Element owner = (Element) p.eContainer();
-				EList<Parameter> parms = owner instanceof Behavior ? ((Behavior) owner).getOwnedParameters() : ((Operation) owner).getOwnedParameters();
+				EList<Parameter> parms = owner instanceof Behavior ? ((Behavior) owner).getOwnedParameters() : ((Operation) owner)
+						.getOwnedParameters();
 				for(EObject eObject:StereotypesHelper.getNumlAnnotation(owner).getReferences()){
 					if(eObject instanceof CallAction){
 						synchronizeParameters(parms, (CallAction) eObject);
@@ -792,13 +798,14 @@ public class OpaeumElementLinker extends EContentAdapter{
 							outputPin.createUpperBound("ub", null, UMLPackage.eINSTANCE.getLiteralUnlimitedNatural());
 							aea.getResults().add(outputPin);
 						}
-						outputPin.setType(LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_SIMPLE_TYPES).getOwnedType("DateTime"));
+						outputPin.setType(LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPAEUM_SIMPLE_TYPES).getOwnedType(
+								"DateTime"));
 						outputPin.setName("time");
 						while(1 < aea.getResults().size()){
 							aea.getResults().remove(1);
 						}
 						if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_DEADLINE_ACTION)){
-							Model lib = LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+							Model lib = LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPAEUM_BPM_LIBRARY);
 							if(aea.getResults().size() >= 2){
 								outputPin = aea.getResults().get(1);
 							}else{
@@ -810,7 +817,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 							outputPin.setName("task");
 						}
 					}else if(StereotypesHelper.hasStereotype(aea, StereotypeNames.ACCEPT_TASK_EVENT_ACTION)){
-						Model lib = LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY);
+						Model lib = LibraryImporter.importLibraryIfNecessary(aea.getModel(), StereotypeNames.OPAEUM_BPM_LIBRARY);
 						OutputPin outputPin;
 						if(aea.getResults().size() >= 1){
 							outputPin = aea.getResults().get(0);
@@ -924,7 +931,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 				if(oper != null){
 					synchronizeParameters(oper.getOwnedParameters(), a);
 				}
-				if(StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_STATE_MACHINE) || StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_PROCESS)
+				if(StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_STATE_MACHINE)
+						|| StereotypesHelper.hasKeyword(oper, StereotypeNames.BUSINES_PROCESS)
 						|| StereotypesHelper.hasKeyword(oper, StereotypeNames.SCREEN_FLOW)
 						&& !StereotypesHelper.hasKeyword(EmfElementFinder.getNearestClassifier(a), StereotypeNames.BUSINES_PROCESS)){
 					a.setIsSynchronous(false);
@@ -1104,7 +1112,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 					EAnnotation eAnnotation = (EAnnotation) not.getNotifier();
 					TimeEvent te = (TimeEvent) not.getNewValue();
 					Element eModelElement = (Element) eAnnotation.getEModelElement();
-					applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPIUM_BPM_PROFILE);
+					applyStereotypeIfNecessary(eModelElement, te, StereotypeNames.DEADLINE, StereotypeNames.OPAEUM_BPM_PROFILE);
 					applyRelativeTimeEventStereotype(te, eModelElement);
 				}
 				break;
@@ -1154,8 +1162,8 @@ public class OpaeumElementLinker extends EContentAdapter{
 			if(ass instanceof Classifier){
 				Classifier specific = (Classifier) ass;
 				if(StereotypesHelper.hasStereotype(specific, stereotypeName)){
-					Classifier general = (Classifier) LibraryImporter.importLibraryIfNecessary(specific.getModel(), StereotypeNames.OPIUM_BPM_LIBRARY).getOwnedType(
-							stereotypeName);
+					Classifier general = (Classifier) LibraryImporter
+							.importLibraryIfNecessary(specific.getModel(), StereotypeNames.OPAEUM_BPM_LIBRARY).getOwnedType(stereotypeName);
 					if(general != null){
 						if(general instanceof Interface && specific instanceof BehavioredClassifier){
 							maybeRealizeInterface((BehavioredClassifier) specific, (Interface) general);
@@ -1171,13 +1179,13 @@ public class OpaeumElementLinker extends EContentAdapter{
 		int lastNumber = 0;
 		List<NamedElement> members = new ArrayList<NamedElement>();
 		if(ne.getNamespace() == null){
-			if(ne.getOwner()!=null)
-			for(Element element:ne.getOwner().getOwnedElements()){
-				if(element instanceof NamedElement){
-					members.add((NamedElement) element);
+			if(ne.getOwner() != null)
+				for(Element element:ne.getOwner().getOwnedElements()){
+					if(element instanceof NamedElement){
+						members.add((NamedElement) element);
+					}
 				}
-			}else{
-				
+			else{
 			}
 		}else{
 			members.addAll(ne.getNamespace().getMembers());

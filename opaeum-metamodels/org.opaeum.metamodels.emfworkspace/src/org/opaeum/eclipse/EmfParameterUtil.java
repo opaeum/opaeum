@@ -55,13 +55,14 @@ public class EmfParameterUtil{
 	public static int calculateOwnedAttributeIndex(Property assEnd){
 		List<Property> ownedAttributes = new ArrayList<Property>();
 		Element owner = assEnd.getOwner();
-		if(owner == assEnd.getAssociation()  && assEnd.isNavigable()){
-			addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
+		if(owner == assEnd.getAssociation() && assEnd.isNavigable()){
+			if(assEnd.getAssociation().getMemberEnds().size() == 2){// Filter Broken Associations a'la Topcased
+				addNonInhertiedAttributes(ownedAttributes, (Classifier) assEnd.getOtherEnd().getType());
+			}
 		}else if(owner instanceof Classifier){
 			addNonInhertiedAttributes(ownedAttributes, (Classifier) owner);
 		}
 		int indexOf = ownedAttributes.indexOf(assEnd);
-
 		return indexOf;
 	}
 	private static void addNonInhertiedAttributes(List<Property> ownedAttributes,Classifier owner){
@@ -75,9 +76,11 @@ public class EmfParameterUtil{
 			ownedAttributes.addAll(((org.eclipse.uml2.uml.Interface) owner).getOwnedAttributes());
 		}
 		for(Association a:owner.getAssociations()){
-			for(Property p:a.getMemberEnds()){
-				if(p.isNavigable() && p.getOtherEnd().getType() == owner && !ownedAttributes.contains(p)){
-					ownedAttributes.add(p);
+			if(a.getMemberEnds().size() == 2){// Filter Broken Associations a'la Topcased
+				for(Property p:a.getMemberEnds()){
+					if(p.isNavigable() && p.getOtherEnd().getType() == owner && !ownedAttributes.contains(p)){
+						ownedAttributes.add(p);
+					}
 				}
 			}
 		}
@@ -106,7 +109,8 @@ public class EmfParameterUtil{
 	private static boolean shouldCountParameter(int paramaterKind,Parameter p){
 		switch(paramaterKind){
 		case EXCEPTION:
-			return (p.getDirection().equals(ParameterDirectionKind.OUT_LITERAL) || p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL)) && p.isException();
+			return (p.getDirection().equals(ParameterDirectionKind.OUT_LITERAL) || p.getDirection().equals(ParameterDirectionKind.RETURN_LITERAL))
+					&& p.isException();
 		case ARGUMENT:
 			return p.getDirection().equals(ParameterDirectionKind.IN_LITERAL) || p.getDirection().equals(ParameterDirectionKind.INOUT_LITERAL);
 		case RESULT:
@@ -139,6 +143,7 @@ public class EmfParameterUtil{
 		return direction == ParameterDirectionKind.IN_LITERAL || direction == ParameterDirectionKind.INOUT_LITERAL;
 	}
 	public static boolean isResult(ParameterDirectionKind direction){
-		return direction == ParameterDirectionKind.OUT_LITERAL || direction == ParameterDirectionKind.INOUT_LITERAL || direction == ParameterDirectionKind.RETURN_LITERAL;
+		return direction == ParameterDirectionKind.OUT_LITERAL || direction == ParameterDirectionKind.INOUT_LITERAL
+				|| direction == ParameterDirectionKind.RETURN_LITERAL;
 	}
 }

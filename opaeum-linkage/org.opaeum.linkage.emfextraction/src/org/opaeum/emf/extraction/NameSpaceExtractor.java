@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -65,6 +66,7 @@ import org.opaeum.metamodel.core.internal.NakedElementImpl;
 import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 import org.opaeum.metamodel.core.internal.NakedEnumerationImpl;
 import org.opaeum.metamodel.core.internal.NakedHelperImpl;
+import org.opaeum.metamodel.core.internal.NakedInstanceSpecificationImpl;
 import org.opaeum.metamodel.core.internal.NakedInterfaceImpl;
 import org.opaeum.metamodel.core.internal.NakedPackageImpl;
 import org.opaeum.metamodel.core.internal.NakedPowerTypeImpl;
@@ -149,7 +151,6 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitBefore
 	public void visitPrimitiveType(PrimitiveType p,NakedPrimitiveTypeImpl npt){
-
 		initializeClassifier(npt, p);
 	}
 	public NakedElementImpl createElementFor(Element e,java.lang.Class<?> peerClass){
@@ -168,12 +169,12 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 				}
 			}
 			return super.createElementFor(e, peerClass);
-		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior || e instanceof Collaboration
-				|| e instanceof PrimitiveType){
+		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior
+				|| e instanceof Collaboration || e instanceof PrimitiveType){
 			return super.createElementFor(e, peerClass);
 		}else if(e instanceof Class){
 			Class c = (Class) e;
-			if(StereotypesHelper.hasStereotype(c, "Helper")){
+			if(StereotypesHelper.hasStereotype(c, StereotypeNames.HELPER)){
 				return new NakedHelperImpl();
 			}else if(isBusinessService(c)){
 				return new NakedUserInRoleImpl();
@@ -184,13 +185,16 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			Interface i = (Interface) e;
 			if(isBusinessService(i)){
 				return new NakedBusinessServiceImpl();
-			}else if(StereotypesHelper.hasStereotype(i, "Helper")){
+			}else if(StereotypesHelper.hasStereotype(i, StereotypeNames.HELPER)){
 				return new NakedHelperImpl();
 			}else{
-				if(i.getName().equals("IUserWorkspaceHelper")){
-					System.out.println();
+				if(i.getName().endsWith("Helper")){// Hack because we keep on losing the stereotype?? TODO investigate
+					NakedHelperImpl h = new NakedHelperImpl();
+					h.initialize(UUID.randomUUID().toString(), StereotypeNames.HELPER, false);
+					NakedInstanceSpecificationImpl st = new NakedInstanceSpecificationImpl();
+					h.addStereotype(st);
+					return h;
 				}
-
 				return new NakedInterfaceImpl();
 			}
 		}else if(e instanceof Enumeration){
@@ -248,9 +252,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}
 	}
 	private boolean isBusinessService(Classifier c){
-		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{
-				"businessworker","caseworker","worker","user","userrole","businessService","businessrole"
-		});
+		boolean representsUser = StereotypesHelper.hasStereotype(c, new String[]{"businessworker","caseworker","worker","user","userrole",
+				"businessService","businessrole"});
 		if(!representsUser){
 			for(Dependency o:c.getClientDependencies()){
 				if(o.getSuppliers().size() == 1 && o.getSuppliers().get(0) instanceof Actor){
@@ -284,13 +287,9 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitActivity(Activity a,NakedActivityImpl na){
 		ActivityKind kind = null;
-		if(StereotypesHelper.hasStereotype(a, new String[]{
-				"process","businessprocess"
-		})){
+		if(StereotypesHelper.hasStereotype(a, new String[]{"process","businessprocess"})){
 			kind = ActivityKind.PROCESS;
-		}else if(StereotypesHelper.hasStereotype(a, new String[]{
-			"simpleMethod"
-		})){
+		}else if(StereotypesHelper.hasStereotype(a, new String[]{"simpleMethod"})){
 			kind = ActivityKind.SIMPLE_SYNCHRONOUS_METHOD;
 		}else{
 			kind = ActivityKind.COMPLEX_SYNCHRONOUS_METHOD;
@@ -301,9 +300,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitStateMachine(StateMachine sm,NakedStateMachineImpl nsm){
 		StateMachineKind kind = StateMachineKind.LONG_LIVED;
-		if(StereotypesHelper.hasStereotype(sm, new String[]{
-			"screenFlow"
-		})){
+		if(StereotypesHelper.hasStereotype(sm, new String[]{"screenFlow"})){
 			kind = StateMachineKind.SCREEN_FLOW;
 		}
 		nsm.setStateMachineKind(kind);
@@ -339,7 +336,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			na.setClass(true);
 		}else{
 			for(Property property:memberEnds){
-				boolean isDerived = property.isDerived() || property.isDerivedUnion() || property.getOtherEnd().isDerived() || property.getAssociation().isDerived();
+				boolean isDerived = property.isDerived() || property.isDerivedUnion() || property.getOtherEnd().isDerived()
+						|| property.getAssociation().isDerived();
 				if(!isDerived && property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
 					na.setClass(true);
 					break;

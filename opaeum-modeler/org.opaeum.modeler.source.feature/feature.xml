@@ -6,7 +6,8 @@
       provider-name="Opaeum"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
-  <description url="%license">
+
+   <description url="%license">
       Opaeum Modeler Source Feature
    </description>
 
@@ -16,8 +17,7 @@
 
    <license url="%licenseURL">
       %license
-   </license>   
-
+   </license>
 
    <requires>
       <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>
@@ -101,13 +101,6 @@
 
    <plugin
          id="org.opaeum.modeler.statemachinediagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.modeler.uimadapter"
          download-size="0"
          install-size="0"
          version="0.0.0"

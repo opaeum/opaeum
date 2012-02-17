@@ -5,6 +5,7 @@ import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.action.MenuManager;
@@ -30,20 +31,25 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
 				if(s.getSelection() instanceof IStructuredSelection){
 					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
-					if(selection.getFirstElement() instanceof IContainer){
+					Object firstElement = selection.getFirstElement();
+					if(firstElement instanceof IContainer){
 						if(DynamicOpaeumMenu.hasUmlModels(selection) || DynamicOpaeumMenu.hasConfigFile(selection)){
 							return EvaluationResult.TRUE;
 						}
-					}else if(selection.getFirstElement() instanceof Model){
-						return EvaluationResult.TRUE;
-					}else if(selection.getFirstElement() instanceof Element){
-						if(EmfExtractionPhase.canBeProcessedIndividually((EObject) selection.getFirstElement())){
+					}else{
+						if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
+							firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
+						}else if(firstElement instanceof Model){
 							return EvaluationResult.TRUE;
-						}
-					}else if(selection.getFirstElement() instanceof AbstractGraphicalEditPart){
-						AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) selection.getFirstElement();
-						if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
-							return EvaluationResult.TRUE;
+						}else if(firstElement instanceof Element){
+							if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
+								return EvaluationResult.TRUE;
+							}
+						}else if(firstElement instanceof AbstractGraphicalEditPart){
+							AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
+							if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
+								return EvaluationResult.TRUE;
+							}
 						}
 					}
 				}
@@ -58,10 +64,13 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
 				if(s.getSelection() instanceof IStructuredSelection){
 					IStructuredSelection selection = (IStructuredSelection) s.getSelection();
-					if(selection.getFirstElement() instanceof Model){
+					Object firstElement = selection.getFirstElement();
+					if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
+						firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
+					}
+					if(firstElement instanceof Model){
 						return EvaluationResult.TRUE;
 					}
-					System.out.println(selection.getFirstElement());
 				}
 				return EvaluationResult.FALSE;
 			}

@@ -112,7 +112,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 					// Instance VAlue
 					env = environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
 				}
-				s.setValue(replaceSingleParsedOclString(string, context, slot.getDefiningFeature().getType(), env));
+				INakedProperty property = slot.getDefiningFeature();
+				if(property==null){
+					System.out.println();
+				}
+				s.setValue(replaceSingleParsedOclString(string, context, property.getType(), env));
 			}
 		}
 	}
@@ -490,7 +494,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			OclParser parser = new OclParser(r);
 			try{
 				if(getBuiltInTypes().getBusinessRole() != null){
-					env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getBusinessRole()), false);
+					env.addElement("currentBusinessRole", new VariableDeclaration("currentBusinessRole", getBuiltInTypes().getBusinessRole()), false);
+				}
+				if(getBuiltInTypes().getOpaeumPerson() != null){
+					env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getOpaeumPerson()), false);
 				}
 				ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
 				IOclContext newC = transformIntoOclContext(holder, ast, localErrors);

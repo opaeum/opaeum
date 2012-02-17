@@ -195,7 +195,7 @@ public abstract class VisitorAdapter<NODE,ROOT extends NODE>{
 	}
 	protected void visitChildren(NODE o){
 		ArrayList<NODE> children = new ArrayList<NODE>(getChildren(o));
-		if(shouldMultiThread(children)){
+		if(shouldMultiThread(children) && false){
 			depth = 1000000;
 			throwable = null;
 			Set<ScheduledFuture<?>> jobs = new HashSet<ScheduledFuture<?>>();

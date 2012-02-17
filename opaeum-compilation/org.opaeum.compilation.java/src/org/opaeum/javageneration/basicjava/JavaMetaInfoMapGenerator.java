@@ -104,6 +104,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		Set<String> ignore = new HashSet<String>();
 		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		ignore.add("UMLPrimitiveTypes".toLowerCase());
+		ignore.add("PrimitiveTypes".toLowerCase());
 		ignore.add("JavaPrimitiveTypes".toLowerCase());
 		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		for(INakedRootObject ro:treeSet){

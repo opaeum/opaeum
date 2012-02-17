@@ -2183,6 +2183,14 @@
     </references>
   </types>
   <types metaclassName="uml.Class">
+    <attributes
+        attributeName="generalization">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </attributes>
     <references
         referenceName="ownedElement">
       <customizedFeatures>

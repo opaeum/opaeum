@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Raptest
+Bundle-SymbolicName: raptest; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: raptest.Activator
+Require-Bundle: org.eclipse.rap.ui,
+ org.eclipse.core.databinding;bundle-version="1.4.0",
+ org.eclipse.core.databinding.beans;bundle-version="1.2.100",
+ org.eclipse.rap.jface.databinding;bundle-version="1.4.1",
+ org.eclipse.core.databinding.property;bundle-version="1.4.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: javax.servlet;version="2.4.0",
+ javax.servlet.http;version="2.4.0"
+Bundle-ClassPath: lib/commons-beanutils-1.5.jar,
+ lib/commons-collections-2.1.jar,
+ lib/commons-digester-1.7.jar,
+ lib/commons-logging.jar,
+ lib/itext-1.3.1.jar,
+ lib/jasperreports-1.2.6.jar,
+ lib/jcommon-1.0.0.jar,
+ lib/jfreechart-1.0.0.jar,
+ lib/poi-2.0-final-20040126.jar,
+ lib/runtime.jar,
+ .

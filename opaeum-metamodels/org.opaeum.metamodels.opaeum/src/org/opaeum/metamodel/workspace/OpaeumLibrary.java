@@ -7,6 +7,7 @@ import nl.klasse.octopus.stdlib.IOclLibrary;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
 
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
@@ -25,8 +26,20 @@ public class OpaeumLibrary{
 	private INakedSimpleType booleanType;
 	private INakedInterface businessRole;
 	private INakedInterface taskObject;
+	private INakedEntity opaeumPerson;
+	private INakedInterface processResponsibilityObject;
+	private INakedInterface taskResponsibilityObject;
 	private IOclLibrary oclLibrary;
 	private INakedStateMachine taskRequest;
+	private INakedStateMachine processRequest;
+	private INakedInterface processObject;
+	private INakedStateMachine abstractRequest;
+	public void setAbstractRequest(INakedStateMachine abstractRequest){
+		this.abstractRequest = abstractRequest;
+	}
+	public void setProcessObject(INakedInterface processObject){
+		this.processObject = processObject;
+	}
 	public OpaeumLibrary(IOclLibrary oclLibrary){
 		super();
 		this.setOclLibrary(oclLibrary);
@@ -120,5 +133,35 @@ public class OpaeumLibrary{
 	}
 	public void setDurationType(INakedStructuredDataType durationType){
 		this.durationType = durationType;
+	}
+	public INakedEntity getOpaeumPerson(){
+		return opaeumPerson;
+	}
+	public void setOpaeumPerson(INakedEntity opaeumPerson){
+		this.opaeumPerson = opaeumPerson;
+	}
+	public INakedInterface getProcessResponsibilityObject(){
+		return processResponsibilityObject;
+	}
+	public void setProcessResponsibilityObject(INakedInterface processResponsibilityObject){
+		this.processResponsibilityObject = processResponsibilityObject;
+	}
+	public INakedInterface getTaskResponsibilityObject(){
+		return taskResponsibilityObject;
+	}
+	public void setTaskResponsibilityObject(INakedInterface taskResponsibilityObject){
+		this.taskResponsibilityObject = taskResponsibilityObject;
+	}
+	public INakedInterface getProcessObject(){
+		return this.processObject;
+	}
+	public INakedStateMachine getAbstractRequest(){
+		return abstractRequest;
+	}
+	public INakedStateMachine getProcessRequest(){
+		return processRequest;
+	}
+	public void setProcessRequest(INakedStateMachine processRequest){
+		this.processRequest = processRequest;
 	}
 }

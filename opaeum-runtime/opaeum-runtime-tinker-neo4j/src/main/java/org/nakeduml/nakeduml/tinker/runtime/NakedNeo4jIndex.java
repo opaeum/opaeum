@@ -1,18 +1,15 @@
 package org.nakeduml.nakeduml.tinker.runtime;
 
-import org.apache.lucene.search.NumericRangeQuery;
-import org.apache.lucene.search.Query;
 import org.nakeduml.tinker.runtime.NakedTinkerIndex;
 import org.neo4j.graphdb.PropertyContainer;
-import org.neo4j.index.lucene.QueryContext;
 import org.neo4j.index.lucene.ValueContext;
 
 import com.tinkerpop.blueprints.pgm.CloseableSequence;
 import com.tinkerpop.blueprints.pgm.Index;
 import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jElement;
 
-public class NakedNeo4jIndex<T extends Neo4jElement, S extends PropertyContainer> implements NakedTinkerIndex<T> {
-
+public class NakedNeo4jIndex<T extends Neo4jElement, S extends PropertyContainer>
+		implements NakedTinkerIndex<T> {
 	private Index<T> index;
 
 	public NakedNeo4jIndex(Index<T> index) {
@@ -40,9 +37,11 @@ public class NakedNeo4jIndex<T extends Neo4jElement, S extends PropertyContainer
 	@Override
 	public void put(String key, Object value, T element) {
 		if (value instanceof Integer) {
-			this.index.put(key, new ValueContext(value).indexNumeric(), element);
+			this.index
+					.put(key, new ValueContext(value).indexNumeric(), element);
 		} else if (value instanceof Float) {
-			this.index.put(key, new ValueContext(value).indexNumeric(), element);
+			this.index
+					.put(key, new ValueContext(value).indexNumeric(), element);
 		} else {
 			this.index.put(key, value, element);
 		}
@@ -53,29 +52,39 @@ public class NakedNeo4jIndex<T extends Neo4jElement, S extends PropertyContainer
 		return this.index.get(key, value);
 	}
 
-	@Override
 	public CloseableSequence<T> query(String key, Object value) {
-		if (key.equals("index") && value == null) {
-			Query q = NumericRangeQuery.newIntRange("index", Integer.MIN_VALUE, Integer.MAX_VALUE, true, true);
-			return this.index.query(key, new QueryContext(q).sortNumeric("index", false));
-		} else if (key.equals("index") && value != null && value instanceof Integer) {
-			Query q = NumericRangeQuery.newIntRange("index", (Integer) value, (Integer) value, true, true);
-			return this.index.query(key, new QueryContext(q).sortNumeric("index", false));
-		} else {
-			return this.index.query(key, value);
-		}
+		throw new NoSuchMethodError();
+//		if (key.equals("index") && value == null) {
+//			Query q = NumericRangeQuery.newIntRange("index", Integer.MIN_VALUE,
+//					Integer.MAX_VALUE, true, true);
+//			return this.index.query(key,
+//					new QueryContext(q).sortNumeric("index", false));
+//		} else if (key.equals("index") && value != null
+//				&& value instanceof Integer) {
+//			Query q = NumericRangeQuery.newIntRange("index", (Integer) value,
+//					(Integer) value, true, true);
+//			return this.index.query(key,
+//					new QueryContext(q).sortNumeric("index", false));
+//		} else {
+//			return this.index.query(key, value);
+//		}
 	}
 
 	@Override
 	public CloseableSequence<T> get(Float value) {
-		return this.index.query("index", QueryContext.numericRange( "index", value, value ));
+		throw new NoSuchMethodError();
+//		return this.index.query("index",
+//				QueryContext.numericRange("index", value, value));
 	}
 
 	@Override
-	public CloseableSequence<T> queryList(Float from, boolean minInclusive, boolean reversed) {
-		Query q = NumericRangeQuery.newFloatRange("index", from, Float.MAX_VALUE, minInclusive, true);
-		return this.index.query(null, new QueryContext(q).sortNumeric("index", reversed));
-//		return this.index.query(null, QueryContext.numericRange("index", from, null).sortNumeric("index", reversed).tradeCorrectnessForSpeed());
+	public CloseableSequence<T> queryList(Float from, boolean minInclusive,
+			boolean reversed) {
+		throw new NoSuchMethodError();
+//		Query q = NumericRangeQuery.newFloatRange("index", from,
+//				Float.MAX_VALUE, minInclusive, true);
+//		return this.index.query(null,
+//				new QueryContext(q).sortNumeric("index", reversed));
 	}
 
 	@Override

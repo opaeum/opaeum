@@ -1,0 +1,16 @@
+
+Button[BORDER] {
+  border: none;
+}
+
+List-Item:selected, TableItem:selected, TreeItem:selected {
+  background-color: rgb( 109, 126, 133 );
+}
+
+MenuItem:hover {
+  background-color: rgb( 109, 126, 133 );
+}
+
+Shell-Titlebar {
+  background-image: url( /theme/icons/caption_active.gif );
+}

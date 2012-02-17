@@ -1,6 +1,5 @@
 package org.opaeum.topcased.uml.editor;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -17,8 +16,6 @@ import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.modeler.editor.Modeler;
-import org.topcased.modeler.editor.outline.IOutlineMenuConstants;
-import org.topcased.modeler.internal.actions.CreateDiagramAction;
 import org.topcased.modeler.uml.actions.DefineProfileAction;
 import org.topcased.modeler.uml.actions.UMLEObjectAction;
 import org.topcased.modeler.uml.editor.outline.UMLNavigator;

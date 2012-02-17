@@ -37,7 +37,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.part.FileEditorInput;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.context.OpaeumEditingContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 
 public class ReverseEngineerClassesAction extends AbstractHandler implements IObjectActionDelegate{
 	/**
@@ -118,7 +118,7 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 			OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(file.getParent());
 			try{
 				if(ctx != null){
-					OpaeumEditingContext eCtx = ctx.getEditingContextFor(file);
+					OpenUmlFile eCtx = ctx.getEditingContextFor(file);
 					if(eCtx != null){
 						ctx.getEmfToOpaeumSynchronizer().suspend();
 						new UmlGenerator().generateUml(types, eCtx.getModel());

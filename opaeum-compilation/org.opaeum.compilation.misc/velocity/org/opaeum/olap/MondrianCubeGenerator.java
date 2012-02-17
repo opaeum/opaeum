@@ -3,6 +3,7 @@ package org.opaeum.olap;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -137,8 +138,8 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 	protected static String translateFormula(String sv){
 		Set<String> split = new HashSet<String>(Arrays.asList(sv.split("[\\/\\-\\*\\+\\)\\(]")));
 		for(String string:split){
-			if(isMeasureExpression(string)){
-				sv = sv.replaceAll(string, "[Measures].[" + string + "]");
+			if(isMeasureExpression(string.trim())){
+				sv = sv.replaceAll(string, "[Measures].[" + string.trim() + "]");
 			}
 		}
 		return sv;
@@ -245,9 +246,9 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		addLevels(dimensionNode.getProperty(), theLevels);
 		return theLevels;
 	}
-	protected List<Element> addJoinDimension(DimensionNode dimensionNode,Element hierarchy){
+	protected List<Element> addJoinDimension(DimensionNode leaf,Element hierarchy){
 		List<Element> levels = new ArrayList<Element>();
-		DimensionNode curNode = dimensionNode.master;
+		DimensionNode curNode = leaf.master;
 		Element prevParent = hierarchy;
 		while(curNode != null){
 			if(curNode.getProperty().getNakedBaseType() instanceof ICompositionParticipant){
@@ -271,6 +272,7 @@ public class MondrianCubeGenerator extends AbstractStructureVisitor{
 		}
 		// // TODO if property belongs to a general class, introduce extra join to general class
 		// // TODO join with date_type table
+		Collections.reverse(levels);//Will be in a detail-to-master order - reverse
 		return levels;
 	}
 	protected List<Element> addSingleTable(DimensionNode dimensionNode,Element hierarchy){

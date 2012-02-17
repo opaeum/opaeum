@@ -14,13 +14,6 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.BusinessComponent;
-import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendarGenerated;
-import org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
-import org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday;
-import org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday;
-import org.opaeum.runtime.bpm.businesscalendar.TimeOfDay;
-import org.opaeum.runtime.bpm.businesscalendar.WorkDay;
-import org.opaeum.runtime.bpm.businesscalendar.WorkDayKind;
 
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Filter(name = "noDeletedObjects")

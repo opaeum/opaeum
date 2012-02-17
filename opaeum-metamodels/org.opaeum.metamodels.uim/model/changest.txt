@@ -1,36 +1,25 @@
-Object and Process Oriented Application Development and Execution environment for SME's
-
-Removes the gap between business processes and business data
-Unifies data and process modelling in one tool
-Keeps the modelling initiative business oriented
-Allows business and it to work on models together
-
-Target applications
-Small to very small business with little IT infrastructure and basically no development capabilities
-Needs for ERP but not enough money
-
-Business model
-
 Free 4 hour demo's with workable solution afterwards
 Value added libraries and services
 
-Rapid Modelling in unified modeling tool for:
-UML Class Diagrams
-UML Processes (Activities)
-UML Methods (activities)
-UML Composite Structure Diagrams
-UML State Machines
-BPMN Processes
-User Interface models directly tied into model
-Exactly as simple or complex as the user wants it to be
-Hide away unnecessary complexity of UML/BPMN
+Rapid Modelling in a unified Business Modeling tool for the following constructs and the relationships among then:
+Business Components (groups, teams, business units), 
+Business Services, 
+Business Roles and their Responsibilities, 
+Business Actors (Customers and Partners)
+Business Entities, 
+Business Processes,
+Business Statemachines.
 
 Cloud ready
 Use existing accounts (LinkedIn, Facebook, Gmail) to log in
-Manage Groups and Users through these tools
-Schedules Calendar entries for significant events
+Manage Users and Contacts through these tools
+Schedules Google Calendar entries for significant events
+Schedules Google Tasks for display
+Deploys to remote servers
+Planned support for Google Docs and Picasa
 
-Business Activity Monitoring
+Business Intelligence
+
 Built into the core engine and  available from modeling environment
 Hides complexity - no queries or complex structures to worry about
  
@@ -41,9 +30,6 @@ Task can wait for sub-process completion, and process wait for task completion
 
 TODOS
 
-ECLIPSE
-General
-GeneratorGenerator - make this an eclipse plugin too
 
 BAM
 Introduce Dashboard formPanel for Charts based on standard queries - generate MDX
@@ -51,47 +37,22 @@ Trickle feed process data, as well as data marked as facts to the warehouse
 Integrate Saiku  Jquery components with JSF
 
 Opaeum Topcased
-Add Observations to Stereotypes for Activities to be used in time and interval expression
 Disable Opaeum functionality if all the resources could not be resolved
 Async actions in pallete for Screenflows, Responsibilities, 
 Action to Convert methods to business processes
-On Argument Pin table, provide add and remove buttons to add and remove params from the called element  
-Action to generate screenflow, process,method or operation on call action
-For Parameter nodes, choose parameters either from activity or containing statemachine
-Qualifier section for properties - expose only name and type
 For output pins, create a shortcut UI to create addVariable and addStructuralFeature actions to flow from the pins
 For Structural Feature and Calloperation actions, calculate available feature based on the type of the target pin
-Transformation and selection behavior sections of object flows
 EmbeddedScreenflowtasks should force a single relationship to a single STateMAchine (include deletion? or not?). At least create it.
-Custom ProblemView
 Relink an emf UML model
-Reception.Signal
 Display Operation.name at the top 
 Arrow for delegation and socket-ball for assembly
 Policy for delegation should match provided interfaces at least
-Policit for assembly
-Allow editing of provided and required interfaces of a port and automatically maintain a class for it, hide the class if possible, delete the class when the port is deleted, mabye
-keep it as a stereotype attribute
-
-Refactoring
-Port BehaviorUtil to EmfBehaviorUtil and identify processes and tasks during extraction, 
-OR port eclipse code to use OpaeumWorkspace instead
-Introduce a new construct @TransformationFeature that ONLY specifies requirements and not positioning
 
 UIM
-Menu and tree -  Introduce ActionItem and Action Group group operations and properties, display tree/menu in Swing
-Put label width on all possible containers of fields
-Row height on uimColumnLayout
 remove fields pointing to obsolete properties
 remove operation navigations and action buttons to obsolete operations
 remove obsolete forms 
-allow forms to be reused as panels
 Add button bar for actions on multiple rows in the table
-Introduce entryScreen for components:
- allow formpanels to be used, 
- have an external and internal view
- by default, don't allow compositional browsing beyond the component external view, except for those contained by exposed interfaces but allow this to be overridden for manager type users
- show menu items for each operation on each outgoing gateway port that the current users has a required dependency for
 Introduce ocl expressions for things such as lookups and security constraints
 Generate UIM from INakedWorkspace
 
@@ -131,7 +92,6 @@ Composite Structures
 With delegation to multiple parts/ports ensure that collectively all the interfaces are implemented - remember to modify logic in Topcased
 
 Classes
-Facts
 Generalizationsets
 PowerTypes
 link powerTypeInstances with generalization
@@ -144,11 +104,6 @@ Merge object tokens on objectflows targeting a join
 Refactor Jbpm out:
 1. Class per action, possibly even pin and flow
 2. Implement tokens as a single separate class and associate with appropriate activityNodeActiviation
-For notifications implement default recipient, bcc and cc expressions on the Notification class
-For notifications implement optional recipient, bcc and cc expressions on the Send Notification Action
-
-Maven
-put MavenArtefatId in profile
 
 Validation
 ModelNameUniqueness

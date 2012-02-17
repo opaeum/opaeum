@@ -40,11 +40,9 @@ import org.opaeum.metamodel.profiles.INakedStereotype;
  * @author ampie
  * 
  */
-@StepDependency(phase = EmfExtractionPhase.class,requires = {
-		ValueSpecificationExtractor.class,ConnectorExtractor.class,ImportExtractor.class,ObservationExtractor.class
-},after = {
-		ConnectorExtractor.class,ValueSpecificationExtractor.class,ImportExtractor.class,ObservationExtractor.class
-})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {ValueSpecificationExtractor.class,ConnectorExtractor.class,
+		ImportExtractor.class,ObservationExtractor.class},after = {ConnectorExtractor.class,ValueSpecificationExtractor.class,
+		ImportExtractor.class,ObservationExtractor.class})
 public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	@VisitAfter
 	public void visitContextualEvent(Trigger t){
@@ -67,9 +65,7 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visit(Element element){
-		
 		NakedElementImpl nakedPeer = (NakedElementImpl) getNakedPeer(element);
-		
 		if(element instanceof Comment){
 			visitComment((Comment) element);
 		}
@@ -135,34 +131,36 @@ public class StereotypeApplicationExtractor extends AbstractExtractorFromEmf{
 			instanceSpec.setClassifier(nakedStereotype);
 		}
 		EObject application = modelElement.getStereotypeApplication(stereotype);
-		List<? extends INakedProperty> effectiveAttributes = nakedStereotype.getEffectiveAttributes();
-		Iterator<? extends INakedProperty> attributes = effectiveAttributes.iterator();
-		while(attributes.hasNext()){
-			INakedProperty attribute = (INakedProperty) attributes.next();
-			EStructuralFeature structuralFeature = application.eClass().getEStructuralFeature(attribute.getName());
-			if(structuralFeature != null){
-				// might be an "artificial" feature introduced by Opaeum
-				Object value = application.eGet(structuralFeature);
-				String id = stereotypeApplicationId + "#" + attribute.getName();
-				INakedSlot slot = (INakedSlot) nakedWorkspace.getModelElement(id);
-				if(slot == null){
-					slot = new NakedSlotImpl();
-					slot.initialize(id, attribute.getName(), false);
-					slot.setOwnerElement(instanceSpec);
-					instanceSpec.addOwnedElement(slot);
-					nakedWorkspace.putModelElement(slot);
-				}
-				slot.setDefiningFeature(attribute);
-				if(value instanceof EList){
-					EList<? extends EObject> values = (EList<? extends EObject>) value;
-					Iterator<? extends EObject> iter = values.iterator();
-					int i = 0;
-					while(iter.hasNext()){
-						putValue(i, iter.next(), slot);
-						i++;
+		if(application != null){// Bug in UML4.0.0
+			List<? extends INakedProperty> effectiveAttributes = nakedStereotype.getEffectiveAttributes();
+			Iterator<? extends INakedProperty> attributes = effectiveAttributes.iterator();
+			while(attributes.hasNext()){
+				INakedProperty attribute = (INakedProperty) attributes.next();
+				EStructuralFeature structuralFeature = application.eClass().getEStructuralFeature(attribute.getName());
+				if(structuralFeature != null){
+					// might be an "artificial" feature introduced by Opaeum
+					Object value = application.eGet(structuralFeature);
+					String id = stereotypeApplicationId + "#" + attribute.getName();
+					INakedSlot slot = (INakedSlot) nakedWorkspace.getModelElement(id);
+					if(slot == null){
+						slot = new NakedSlotImpl();
+						slot.initialize(id, attribute.getName(), false);
+						slot.setOwnerElement(instanceSpec);
+						instanceSpec.addOwnedElement(slot);
+						nakedWorkspace.putModelElement(slot);
 					}
-				}else{
-					putValue(0, value, slot);
+					slot.setDefiningFeature(attribute);
+					if(value instanceof EList){
+						EList<? extends EObject> values = (EList<? extends EObject>) value;
+						Iterator<? extends EObject> iter = values.iterator();
+						int i = 0;
+						while(iter.hasNext()){
+							putValue(i, iter.next(), slot);
+							i++;
+						}
+					}else{
+						putValue(0, value, slot);
+					}
 				}
 			}
 		}

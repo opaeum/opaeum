@@ -63,7 +63,6 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 							ids.put(e.getMappingInfo().getOpaeumId(),e);
 						}else{
 							duplicates++;
-							System.out.println();
 							INakedElement other = ids.get(e.getMappingInfo().getOpaeumId());
 							System.out.println(e.getMappingInfo().getQualifiedUmlName() +" collides with " + other.getMappingInfo().getQualifiedUmlName());
 							System.out.println(e.getClass().getName() + " collides with " +other.getClass().getName() );

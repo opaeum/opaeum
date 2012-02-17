@@ -1,14 +1,12 @@
 package org.opaeum.runtime.bpm;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,18 +39,6 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.runtime.bpm.abstractrequest.ActivateHandler202;
-import org.opaeum.runtime.bpm.abstractrequest.CompleteHandler197;
-import org.opaeum.runtime.bpm.abstractrequest.ResumeHandler205;
-import org.opaeum.runtime.bpm.abstractrequest.StartHandler213;
-import org.opaeum.runtime.bpm.abstractrequest.SuspendHandler201;
-import org.opaeum.runtime.bpm.taskrequest.ClaimHandler262;
-import org.opaeum.runtime.bpm.taskrequest.DelegateHandler252;
-import org.opaeum.runtime.bpm.taskrequest.ForwardHandler249;
-import org.opaeum.runtime.bpm.taskrequest.RevokeHandler254;
-import org.opaeum.runtime.bpm.taskrequest.SkipHandler265;
-import org.opaeum.runtime.bpm.taskrequest.StopHandler266;
-import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -550,53 +536,42 @@ public class TaskRequest extends AbstractRequest implements IEventGenerator, Com
 	}
 	
 	public void generateActivateEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ActivateHandler202(true)));
 	}
 	
 	public void generateAddTaskRequestParticipantEvent(Participant _newParticipant, TaskParticipationKind _kind) {
 	}
 	
 	public void generateClaimEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ClaimHandler262(true)));
 	}
 	
 	public void generateCompleteEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new CompleteHandler197(true)));
 	}
 	
 	public void generateDelegateEvent(BusinessRole _delegate) {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new DelegateHandler252(_delegate,true)));
 	}
 	
 	public void generateForwardEvent(BusinessRole _toPerson) {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ForwardHandler249(_toPerson,true)));
 	}
 	
 	public void generateRemoveTaskRequestParticipantEvent(Participant _participant, TaskParticipationKind _kind) {
 	}
 	
 	public void generateResumeEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new ResumeHandler205(true)));
 	}
 	
 	public void generateRevokeEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new RevokeHandler254(true)));
 	}
 	
 	public void generateSkipEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new SkipHandler265(true)));
 	}
 	
 	public void generateStartEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new StartHandler213(true)));
 	}
 	
 	public void generateStopEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new StopHandler266(true)));
 	}
 	
 	public void generateSuspendEvent() {
-		this.getOutgoingEvents().add(new OutgoingEvent(this, new SuspendHandler201(true)));
 	}
 	
 	public boolean getActive() {

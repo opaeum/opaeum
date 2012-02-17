@@ -53,6 +53,7 @@ import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;

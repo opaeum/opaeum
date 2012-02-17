@@ -29,7 +29,6 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 	public static final String RULE_ATTRIBUTE = "rule"; //$NON-NLS-1$
 	// TODO eliminate dependency on context
 	private OpaeumEclipseContext context;
-	private long nextMarked = 0;
 	private long lastMarked = 0;
 	private Map<EObject,BrokenElement> brokenElements;
 	private HashMap<String,IMarker> existingMarkers;
@@ -38,10 +37,13 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		this.context = context;
 	}
 	public void maybeSchedule(){
-		if(lastMarked == 0 || lastMarked > System.currentTimeMillis() + 3000 ){
+		System.out.println("OpaeumErrorMarker.maybeSchedule()");
+		if(lastMarked == 0 || lastMarked > System.currentTimeMillis() - 30000){
 			Display.getDefault().syncExec(new Runnable(){
 				@Override
 				public void run(){
+					System.out.println("OpaeumErrorMarker.maybeSchedule().new Runnable() {...}.run()");
+					
 					existingMarkers = new HashMap<String,IMarker>();
 					brokenElements = new HashMap<EObject,BrokenElement>();
 					Set<String> brokenUris = calcBrokenElements();
@@ -52,9 +54,8 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 					}catch(CoreException e){
 						e.printStackTrace();
 					}finally{
-						if(System.currentTimeMillis() + 3000 >= nextMarked &&context.getUmlDirectory().exists()){
-							nextMarked = System.currentTimeMillis() + 3000;
-							Display.getDefault().timerExec(3001, this);
+						if(lastMarked > System.currentTimeMillis() - 30000 && context.getUmlDirectory().exists()){
+							Display.getDefault().timerExec(30001, this);
 						}
 					}
 				}
@@ -73,8 +74,8 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 			String markerKey = markerKey(marker);
 			if(brokenUris.contains(markerKey)){
 				existingMarkers.put(markerKey, marker);
-				if(marker.getCreationTime()>System.currentTimeMillis()+20000){
-					//Safety net - should rather be recalculated through dependency calculation
+				if(marker.getCreationTime() > System.currentTimeMillis() + 20000){
+					// Safety net - should rather be recalculated through dependency calculation
 					context.getEmfToOpaeumSynchronizer().addEmfChange(URI.createURI((String) marker.getAttribute(EValidator.URI_ATTRIBUTE)));
 				}
 			}else if(context.isOpen((IFile) marker.getResource())){
@@ -103,7 +104,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 								brokenUris.add(markerKey(findUmlFile(eObject), eObject, key));
 							}else if(object instanceof INakedElement){
 								EObject eObject = findElement(((INakedElement) object).getId());
-								if(eObject!=null){
+								if(eObject != null){
 									brokenUris.add(markerKey(findUmlFile(eObject), eObject, key));
 								}
 							}

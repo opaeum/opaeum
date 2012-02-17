@@ -1,7 +1,6 @@
 package org.opaeum.runtime.bpm.businesscalendar;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,8 +25,6 @@ import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
-import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.runtime.environment.Environment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
