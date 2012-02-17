@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:Standard="http://www.eclipse.org/uml2/schemas/Standard/1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+  <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpaeumSimpleTypes">
+    <eAnnotations xmi:id="_CVdBwM5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+      <details xmi:id="_CVdBwc5vEeCLs7vQmm8tBQ" key="uuid" value="9f50af7e_a244_4962_b89f_c0b2dcce18c8"/>
+    </eAnnotations>
+    <elementImport xmi:id="_naIU4MbwEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_CVdo085vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVdo1M5vEeCLs7vQmm8tBQ" key="uuid" value="ec56f8b3_f361_4804_89d3_398bdefc81d0"/>
+      </eAnnotations>
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78MbwEd-qWtMD5IZMIA">
+      <eAnnotations xmi:id="_CVeP5M5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVeP5c5vEeCLs7vQmm8tBQ" key="uuid" value="9dc0fa9f_4ede_4e86_b00b_4030c6053d52"/>
+      </eAnnotations>
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <elementImport xmi:id="_naI78cbwEd-qWtMD5IZMIA" alias="">
+      <eAnnotations xmi:id="_CVdBxM5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVdo0M5vEeCLs7vQmm8tBQ" key="uuid" value="9e5396ce_b3df_4fee_a6a9_9f3a071788a7"/>
+      </eAnnotations>
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+    </elementImport>
+    <packageImport xmi:id="_cozrQNY6EeCzsIYqLQKrXg">
+      <eAnnotations xmi:id="_A_yrYNY7EeCzsIYqLQKrXg" source="http://www.opaeum.org">
+        <details xmi:id="_A_zScNY7EeCzsIYqLQKrXg" key="uuid" value="555d1217_0197_4daf_86bd_86f290099c35"/>
+      </eAnnotations>
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_w4cZ8MPxEd-SNsUNWzjz5A" name="DateTime">
+      <eAnnotations xmi:id="_CVdo1c5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVdo1s5vEeCLs7vQmm8tBQ" key="uuid" value="5987ba63_7cc3_4b55_9f79_5c194e1e9a93"/>
+      </eAnnotations>
+      <ownedOperation xmi:id="_ghKKMM5VEeC1yrA33E3a4g" name="after" isQuery="true">
+        <eAnnotations xmi:id="_CVdo185vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+          <details xmi:id="_CVdo2M5vEeCLs7vQmm8tBQ" key="uuid" value="8a0b2284_996f_41d7_9818_8d07c5dbbf63"/>
+        </eAnnotations>
+        <ownedParameter xmi:id="_hhBrwM5VEeC1yrA33E3a4g" name="in" type="_w4cZ8MPxEd-SNsUNWzjz5A">
+          <eAnnotations xmi:id="_CVeP4M5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+            <details xmi:id="_CVeP4c5vEeCLs7vQmm8tBQ" key="uuid" value="2c1e8fab_6c89_40b5_a495_8068b9a3db76"/>
+          </eAnnotations>
+        </ownedParameter>
+        <ownedParameter xmi:id="_i9fCsM5VEeC1yrA33E3a4g" name="result" direction="return">
+          <eAnnotations xmi:id="_CVeP4s5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+            <details xmi:id="_CVeP485vEeCLs7vQmm8tBQ" key="uuid" value="9ab366c7_d994_4055_8562_33e0a1da9a02"/>
+          </eAnnotations>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_i0SLIMbwEd-qWtMD5IZMIA" name="Text">
+      <eAnnotations xmi:id="_CVeP5s5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVeP585vEeCLs7vQmm8tBQ" key="uuid" value="442e2e21_1b63_4cc0_a304_288d3a45ae7b"/>
+      </eAnnotations>
+      <generalization xmi:id="_1JWd8MbwEd-qWtMD5IZMIA">
+        <eAnnotations xmi:id="_CVeP6M5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org"/>
+        <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </generalization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_UjiHwMkJEeCqJJ6VBTMkzg" name="Real">
+      <eAnnotations xmi:id="_CVdo0c5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVdo0s5vEeCLs7vQmm8tBQ" key="uuid" value="dd2c1365_9c27_4e55_83ee_688d0006dbfe"/>
+      </eAnnotations>
+    </packagedElement>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_mKrbYBW6EeGS9eDihWY8Xw" name="BinaryLargeObject">
+      <eAnnotations xmi:id="_mMvQ4BW6EeGS9eDihWY8Xw" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <profileApplication xmi:id="_e8qRkM5VEeC1yrA33E3a4g">
+      <eAnnotations xmi:id="_e8qRkc5VEeC1yrA33E3a4g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <eAnnotations xmi:id="_CVdBws5vEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_CVdBw85vEeCLs7vQmm8tBQ" key="uuid" value="d2ed2a09_0c3b_4e3d_9029_a61da27c3f41"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+  </uml:Model>
+  <OpaeumStandardProfile:Model xmi:id="_8D9EgNYvEeCbpsr9qtLjVA" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_8iT0cNYvEeCbpsr9qtLjVA" base_DataType="_w4cZ8MPxEd-SNsUNWzjz5A" mappedImplementationType="java.util.Date" strategyFactory="org.opaeum.strategies.DateTimeStrategyFactory"/>
+  <OpaeumStandardProfile:PrimitiveType xmi:id="_BuhaoNYwEeCbpsr9qtLjVA" base_PrimitiveType="_i0SLIMbwEd-qWtMD5IZMIA" strategyFactory="org.opaeum.strategies.TextStrategyFactory"/>
+  <Standard:ModelLibrary xmi:id="_-aUd8NY6EeCzsIYqLQKrXg" base_Package="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ModelLibrary xmi:id="_cwpYoOnCEeCaZdEDdx_4Qg" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
+  <OpaeumStandardProfile:ValueType xmi:id="_mOnqwBW7EeGS9eDihWY8Xw" base_DataType="_mKrbYBW6EeGS9eDihWY8Xw" mappedImplementationType="byte[]" strategyFactory="org.opaeum.strategies.BlobStrategyFactory"/>
+</xmi:XMI>
