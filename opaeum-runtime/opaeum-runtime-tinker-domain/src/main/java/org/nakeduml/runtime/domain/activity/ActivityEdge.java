@@ -10,12 +10,12 @@ import org.nakeduml.tinker.runtime.GraphDb;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.pipes.AbstractPipe;
 
-public abstract class AbstractControlFlowEdge extends AbstractPipe<ControlToken, Boolean> {
+public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Boolean> {
 
 	protected Edge edge;
-	transient private List<ControlToken> controlTokens = new ArrayList<ControlToken>();
+	private List<T> controlTokens = new ArrayList<T>();
 
-	public AbstractControlFlowEdge(Edge edge) {
+	public ActivityEdge(Edge edge) {
 		super();
 		this.edge = edge;
 	}
@@ -24,7 +24,7 @@ public abstract class AbstractControlFlowEdge extends AbstractPipe<ControlToken,
 	protected Boolean processNextStart() throws NoSuchElementException {
 		// Take all tokens
 		while (starts.hasNext()) {
-			ControlToken controlToken = (ControlToken) starts.next();
+			T controlToken = this.starts.next();
 			if (evaluateGuardConditions(controlToken)) {
 				this.controlTokens.add(controlToken);
 			} else {
@@ -32,7 +32,7 @@ public abstract class AbstractControlFlowEdge extends AbstractPipe<ControlToken,
 			}
 		}
 		if (hasWeightPassed()) {
-			AbstractNode target = getTarget();
+			ActivityNode<T> target = getTarget();
 			target.setStarts(this.controlTokens);
 			return target.next();
 		} else {
@@ -40,13 +40,13 @@ public abstract class AbstractControlFlowEdge extends AbstractPipe<ControlToken,
 		}
 	}
 
-	protected abstract AbstractNode getTarget();
+	protected abstract ActivityNode<T> getTarget();
 
-	protected abstract AbstractNode getSource();
+	protected abstract ActivityNode<T> getSource();
 
-	protected abstract String getName();
+	public abstract String getName();
 
-	protected abstract boolean evaluateGuardConditions(ControlToken controlToken);
+	protected abstract boolean evaluateGuardConditions(T token);
 
 	protected abstract int getWeigth();
 

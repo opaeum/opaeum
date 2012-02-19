@@ -463,8 +463,6 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 
 	private void buildTinkerGetterForOne(OJAnnotatedClass owner, NakedStructuralFeatureMap map, OJAnnotatedOperation getter) {
 		boolean isComposite = map.getProperty().isComposite();
-		// isComposite = TinkerGenerationUtil.calculateDirection(map,
-		// isComposite);
 		isComposite = map.getProperty().isInverse();
 		INakedClassifier otherClassifier;
 		String otherClassName;

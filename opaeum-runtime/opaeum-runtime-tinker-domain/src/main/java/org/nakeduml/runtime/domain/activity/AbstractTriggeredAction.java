@@ -7,7 +7,7 @@ import org.opaeum.runtime.domain.ISignal;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class AbstractTriggeredAction extends AbstractAction {
+public abstract class AbstractTriggeredAction extends Action {
 
 	private List<Trigger> triggers = new ArrayList<Trigger>();
 	private boolean triggered = false;

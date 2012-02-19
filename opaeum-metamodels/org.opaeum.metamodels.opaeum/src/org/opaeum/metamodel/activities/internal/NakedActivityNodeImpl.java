@@ -21,8 +21,8 @@ import org.opaeum.metamodel.core.internal.NakedElementImpl;
 
 public class NakedActivityNodeImpl extends NakedElementImpl implements INakedActivityNode{
 	private static final long serialVersionUID = 1142310904812L;
-	private Set<INakedActivityEdge> incoming = new TreeSet<INakedActivityEdge>();
-	private Set<INakedActivityEdge> outgoing = new TreeSet<INakedActivityEdge>();
+	private Set<INakedActivityEdge> incoming = new HashSet<INakedActivityEdge>();
+	private Set<INakedActivityEdge> outgoing = new HashSet<INakedActivityEdge>();
 	private INakedActivityPartition inPartition;
 	private Set<INakedActivityNode> redefinedNodes = new HashSet<INakedActivityNode>();
 	@Override

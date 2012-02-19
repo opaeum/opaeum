@@ -3,14 +3,14 @@ package org.activitytest.signaltest;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService;
-import org.nakeduml.runtime.domain.activity.AbstractNode;
+import org.nakeduml.runtime.domain.activity.ActivityNode;
 import org.nakeduml.runtime.domain.activity.NodeStatus;
+import org.nakeduml.runtime.domain.activity.Token;
 import org.opaeum.signaltest.Application;
 import org.opaeum.signaltest.OpenWindowSignal;
 import org.opaeum.signaltest.TemperatureController;
@@ -31,11 +31,37 @@ public class SignalTest extends BaseLocalDbTest {
 		TemperatureController temperatureController = new TemperatureController(app);
 		temperatureController.setName("temperatureController");
 		db.stopTransaction(Conclusion.SUCCESS);
+		
+		//Take 2, one for sending and one for receiving
+		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+		
+		ActivityNode openWindowAction = window.getClassifierBehavior().getNodeForName("OpenWindowAction");
+		Assert.assertEquals(1, openWindowAction.getNodeStat().getExecuteCount());
+		
 		db.startTransaction();
 		temperatureController.getClassifierBehavior().execute();
 		db.stopTransaction(Conclusion.SUCCESS);
-		TinkerClassifierBehaviorExecutorService.INSTANCE.shutdown();
-		TinkerClassifierBehaviorExecutorService.INSTANCE.waitForCompletion(10, TimeUnit.SECONDS);
+
+		//Take 2, one for sending and one for receiving
+		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+
+		Window w = new Window(window.getVertex());
+		openWindowAction = w.getClassifierBehavior().getNodeForName("OpenWindowAction");
+		Assert.assertEquals(2, openWindowAction.getNodeStat().getExecuteCount());
+		
+		db.startTransaction();
+		temperatureController.getClassifierBehavior().execute();
+		db.stopTransaction(Conclusion.SUCCESS);
+
+		//Take 2, one for sending and one for receiving
+		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+
+		w = new Window(window.getVertex());
+		openWindowAction = w.getClassifierBehavior().getNodeForName("OpenWindowAction");
+		Assert.assertEquals(3, openWindowAction.getNodeStat().getExecuteCount());
 	}
 	
 	@Test
@@ -46,22 +72,23 @@ public class SignalTest extends BaseLocalDbTest {
 		Window window = new Window(app);
 		window.setName("window1");
 		db.stopTransaction(Conclusion.SUCCESS);
+		
 		db.startTransaction();
 		OpenWindowSignal openWindowSignal = new OpenWindowSignal(true);
 		window.receiveSignal(openWindowSignal);
 		db.stopTransaction(Conclusion.SUCCESS);
+		
 		Future<Boolean> future = TinkerClassifierBehaviorExecutorService.INSTANCE.take();
-		future.get();
 
-		Set<AbstractNode> activeNodes = window.getClassifierBehavior().getActiveNodes();
+		Set<ActivityNode<? extends Token>> activeNodes = window.getClassifierBehavior().getActiveNodes();
 		Assert.assertEquals(0, activeNodes.size());
 		
-		AbstractNode acceptEventActionNode = window.getClassifierBehavior().getNodeForName("OpenWindowAcceptEventAction");
+		ActivityNode<? extends Token> acceptEventActionNode = window.getClassifierBehavior().getNodeForName("OpenWindowAcceptEventAction");
 		Assert.assertEquals(NodeStatus.ENABLED, acceptEventActionNode.getNodeStatus());
-		Set<AbstractNode> enabledNodes = window.getClassifierBehavior().getEnabledNodes();
+		Set<ActivityNode<? extends Token>> enabledNodes = window.getClassifierBehavior().getEnabledNodes();
 		Assert.assertEquals(1, enabledNodes.size());
 		
-		AbstractNode finalNode = window.getClassifierBehavior().getNodeForName("FlowFinalNode1");
+		ActivityNode<? extends Token> finalNode = window.getClassifierBehavior().getNodeForName("FlowFinalNode1");
 		Assert.assertEquals(1, finalNode.getNodeStat().getExecuteCount());
 
 		db.startTransaction();

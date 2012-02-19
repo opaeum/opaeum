@@ -200,7 +200,7 @@ public class UmlNameRegenerator extends AbstractNameGenerator{
 		}
 		return name;
 	}
-	private String generateTypedElementName(String in,INakedTypedElement te){
+	protected String generateTypedElementName(String in,INakedTypedElement te){
 		String name = in;
 		if(te instanceof INakedParameterNode){
 			// Ensure that paramterNodes and their parameters have the same name

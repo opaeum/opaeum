@@ -28,5 +28,6 @@ Export-Package: org.nakeduml.tinker.activity,
  org.nakeduml.tinker.generator,
  org.nakeduml.tinker.javageneration.basicjava,
  org.nakeduml.tinker.javageneration.composition,
- org.nakeduml.tinker.linkage
+ org.nakeduml.tinker.linkage,
+ org.nakeduml.tinker.validation.namegeneration
 Bundle-Vendor: Opaeum

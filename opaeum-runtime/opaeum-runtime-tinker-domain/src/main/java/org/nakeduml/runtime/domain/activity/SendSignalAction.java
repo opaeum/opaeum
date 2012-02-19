@@ -9,17 +9,17 @@ import org.opaeum.runtime.domain.ISignal;
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class AbstractSendSignalAction extends AbstractAction {
+public abstract class SendSignalAction extends InvocationAction {
 
-	public AbstractSendSignalAction() {
+	public SendSignalAction() {
 		super();
 	}
 
-	public AbstractSendSignalAction(boolean persist, String name) {
+	public SendSignalAction(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	public AbstractSendSignalAction(Vertex vertex) {
+	public SendSignalAction(Vertex vertex) {
 		super(vertex);
 	}
 	

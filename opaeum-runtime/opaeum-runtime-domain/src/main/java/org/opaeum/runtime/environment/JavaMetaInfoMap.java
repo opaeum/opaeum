@@ -62,17 +62,17 @@ public abstract class JavaMetaInfoMap{
 		eventHandlersByUuid.put(uuid, handler);
 	}
 	protected void putClass(Class<? extends Object> c,String uuid){
-		if(ISignal.class.isAssignableFrom(c)){
-			Class<? extends IEventHandler> handler = IntrospectionUtil.classForName(c.getName() + "Handler");
-			putEventHandler(handler, uuid);
-		}else if(IPersistentObject.class.isAssignableFrom(c)){
-			// TODO datagenerator
-		}else if(IEnum.class.isAssignableFrom(c)){
-			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
-		}
-		if(IProcessObject.class.isAssignableFrom(c)){
-			addSecondaryClass(EnumResolver.class, c, "StateResolver", true);
-		}
+//		if(ISignal.class.isAssignableFrom(c)){
+//			Class<? extends IEventHandler> handler = IntrospectionUtil.classForName(c.getName() + "Handler");
+//			putEventHandler(handler, uuid);
+//		}else if(IPersistentObject.class.isAssignableFrom(c)){
+//			// TODO datagenerator
+//		}else if(IEnum.class.isAssignableFrom(c)){
+//			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
+//		}
+//		if(IProcessObject.class.isAssignableFrom(c)){
+//			addSecondaryClass(EnumResolver.class, c, "StateResolver", true);
+//		}
 		allClasses.add(c);
 		classUuidMap.put(c, uuid);
 		uuidClassMap.put(uuid, c);

@@ -5,24 +5,24 @@ import java.util.NoSuchElementException;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 
-public abstract class AbstractAcceptEventAction extends AbstractTriggeredAction {
+public abstract class AcceptEventAction extends AbstractTriggeredAction {
 
-	public AbstractAcceptEventAction() {
+	public AcceptEventAction() {
 		super();
 	}
 
-	public AbstractAcceptEventAction(boolean persist, String name) {
+	public AcceptEventAction(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	public AbstractAcceptEventAction(Vertex vertex) {
+	public AcceptEventAction(Vertex vertex) {
 		super(vertex);
 	}
 	
 	@Override
 	protected Boolean processNextStart() throws NoSuchElementException {
 		Boolean result = super.processNextStart();
-		if (getInControlFlows().isEmpty()) {
+		if (getInFlows().isEmpty()) {
 			setNodeStatus(NodeStatus.ENABLED);
 		}
 		return result;

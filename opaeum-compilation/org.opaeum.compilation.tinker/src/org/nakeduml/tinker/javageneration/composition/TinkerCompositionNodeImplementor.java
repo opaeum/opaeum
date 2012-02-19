@@ -26,6 +26,7 @@ import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { CompositionEmulator.class, OperationAnnotator.class }, after = { OperationAnnotator.class,
 		AttributeExpressionGenerator.class }, replaces = CompositionNodeImplementor.class)
@@ -33,7 +34,7 @@ public class TinkerCompositionNodeImplementor extends CompositionNodeImplementor
 
 	@Override
 	protected void visitClass(ICompositionParticipant c) {
-		if (OJUtil.hasOJClass(c)) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof OperationMessageStructureImpl)) {
 			OJPathName path = OJUtil.classifierPathname(c);
 			OJClassifier ojClassifier = this.javaModel.findClass(path);
 			if (ojClassifier instanceof OJAnnotatedClass) {

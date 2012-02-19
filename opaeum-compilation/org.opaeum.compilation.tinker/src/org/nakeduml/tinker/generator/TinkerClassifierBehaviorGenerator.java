@@ -51,18 +51,29 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 			call.getBody().addToStatements("GraphDb.getDb().startTransaction()");
 			OJTryStatement tryS = new OJTryStatement();
 			tryS.getTryPart().addToStatements("removeFromEventPool(signal)");
-			
-			tryS.getTryPart().addToStatements("Set<AbstractNode> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(signal)");
+
+			tryS.getTryPart().addToStatements(
+					"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
+							+ "<? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(signal)");
 			OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
-			ifNodesToTrigger.addToThenPart("AbstractNode acceptEventAction = nodesToTrigger.iterator().next()");
-			ifNodesToTrigger.addToThenPart("acceptEventAction.setStarts(new SingleIterator<ControlToken>(new ControlToken(acceptEventAction.getName())))");
+			String tokenType;
+			if (reception.getSignal().getAttributes().isEmpty()) {
+				ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+				tokenType = "ControlToken";
+			} else {
+				ojClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName);
+				tokenType = "ObjectToken";
+			}
+			ifNodesToTrigger.addToThenPart(TinkerBehaviorUtil.tinkerActivityNodePathName.getLast() + "<" + tokenType + "> acceptEventAction = (ActivityNode<" + tokenType
+					+ ">)nodesToTrigger.iterator().next()");
+			ifNodesToTrigger.addToThenPart("acceptEventAction.setStarts(new SingleIterator<" + tokenType + ">(new " + tokenType + "(acceptEventAction.getName())))");
 			ifNodesToTrigger.addToThenPart("acceptEventAction.next()");
 			tryS.getTryPart().addToStatements(ifNodesToTrigger);
-			ojClass.addToImports(TinkerBehaviorUtil.tinkerAbstractNodePathName);
+			ojClass.addToImports(TinkerBehaviorUtil.tinkerActivityNodePathName);
 			ojClass.addToImports(new OJPathName("java.util.Set"));
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerSingleIteratorPathName);
-			ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
-			
+			ojClass.addToImports(TinkerBehaviorUtil.tinkerTokenPathName);
+
 			tryS.getTryPart().addToStatements("GraphDb.getDb().stopTransaction(Conclusion.SUCCESS)");
 			ojClass.addToImports(TinkerGenerationUtil.tinkerConclusionPathName);
 			tryS.setCatchParam(new OJParameter("e", new OJPathName("java.loang.Exception")));
@@ -73,7 +84,7 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 			classifierSignalEvent.getClassDeclaration().addToOperations(call);
 
 			ojClass.addToOperations(receptionOper);
-			
+
 			receptionOper.getBody().addToStatements("addToEventPool(signal)");
 			receptionOper.getBody().addToStatements(TinkerBehaviorUtil.tinkerClassifierBehaviorExecutorService.getLast() + ".INSTANCE.submit(classifierSignalEvent)");
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerClassifierBehaviorExecutorService);

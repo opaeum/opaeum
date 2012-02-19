@@ -12,6 +12,11 @@ import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INakedParameterNode{
 	private static final long serialVersionUID = 9125417030702683972L;
 	INakedParameter parameter;
+	
+	public NakedParameterNodeImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String getMetaClass(){
 		return "parameterNode";
@@ -24,11 +29,12 @@ public class NakedParameterNodeImpl extends NakedObjectNodeImpl implements INake
 	}
 	@Override
 	public String getName(){
-		if(parameter == null){
-			return super.getName();
-		}else{
-			return parameter.getName();
-		}
+		return super.getName();
+//		if(parameter == null){
+//			return super.getName();
+//		}else{
+//			return parameter.getName();
+//		}
 	}
 	@Override
 	public ObjectNodeType getObjectNodeType(){

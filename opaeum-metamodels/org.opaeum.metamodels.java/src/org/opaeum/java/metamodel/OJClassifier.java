@@ -96,6 +96,13 @@ public class OJClassifier extends OJClassifierGEN{
 			// do nothing, no need to import "float"
 		}else if(path.getLast().equals("Object")){
 			// do nothing, no need to import "Object"
+		}else if(path.getLast().charAt(path.getLast().length() - 1) == '>'){
+			//some generic type, remove generic part
+			String lastEntry = path.getLast();
+			lastEntry = lastEntry.substring(0, lastEntry.indexOf("<"));
+			OJPathName path2 = path.getCopy().getHead();
+			path2.addToNames(lastEntry);
+			this.addToImports(path2);
 		}else if(path.getLast().charAt(path.getLast().length() - 1) == ']'){
 			// some array type, remove '[]'
 			String lastEntry = path.getLast();

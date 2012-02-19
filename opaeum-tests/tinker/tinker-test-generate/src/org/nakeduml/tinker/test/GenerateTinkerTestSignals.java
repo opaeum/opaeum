@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.tinker.activity.TinkerActivityGenerator;
+import org.nakeduml.tinker.activity.TinkerOperationGenerator;
 import org.nakeduml.tinker.activity.nullify.TinkerActivityEventConsumptionImplementor;
 import org.nakeduml.tinker.activity.nullify.TinkerActivityProcessImplementor;
 import org.nakeduml.tinker.activity.nullify.TinkerSpecificationImplementor;
@@ -18,12 +19,14 @@ import org.nakeduml.tinker.generator.TinkerCollectionStep;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
 import org.nakeduml.tinker.generator.TinkerQualifierGenerator;
 import org.nakeduml.tinker.javageneration.basicjava.TinkerOperationAnnotator;
+import org.nakeduml.tinker.javageneration.basicjava.TinkerSimpleActivityMethodImplementor;
 import org.nakeduml.tinker.javageneration.composition.TinkerComponentInitializer;
 import org.nakeduml.tinker.javageneration.composition.TinkerCompositionNodeImplementor;
 import org.nakeduml.tinker.linkage.TinkerCompositionEmulator;
 import org.nakeduml.tinker.linkage.TinkerNakedParsedOclStringResolver;
 import org.nakeduml.tinker.linkage.TinkerQualifierLogicCalculator;
 import org.nakeduml.tinker.linkage.TinkerQualifierResolver;
+import org.nakeduml.tinker.validation.namegeneration.TinkerUmlNameRegenerator;
 import org.opaeum.emf.extraction.StereotypeApplicationExtractor;
 import org.opaeum.emf.load.EmfWorkspaceLoader;
 import org.opaeum.feature.DefaultTransformationLog;
@@ -96,6 +99,9 @@ public class GenerateTinkerTestSignals {
 		steps.add(TinkerOperationAnnotator.class);
 		steps.add(TinkerClassifierBehaviorGenerator.class);
 		steps.add(TinkerCompositionEmulator.class);
+		steps.add(TinkerSimpleActivityMethodImplementor.class);
+		steps.add(TinkerUmlNameRegenerator.class);
+		steps.add(TinkerOperationGenerator.class);
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}

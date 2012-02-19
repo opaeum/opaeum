@@ -37,6 +37,7 @@ import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jVertex;
 
 public class NakedNeo4jGraph implements NakedGraph {
 
+	private static final long serialVersionUID = 7025198246796291511L;
 	private Neo4jGraph neo4jGraph;
 	private TransactionEventHandler<IPersistentObject> transactionEventHandler;
 	private TinkerSchemaHelper schemaHelper;
@@ -120,11 +121,13 @@ public class NakedNeo4jGraph implements NakedGraph {
 		neo4jGraph.shutdown();
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public <T extends Element> NakedTinkerIndex<T> createManualIndex(String indexName, Class<T> indexClass) {
 		return new NakedNeo4jIndex(neo4jGraph.createManualIndex(indexName, indexClass));
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public <T extends Element> NakedTinkerIndex<T> getIndex(String indexName, Class<T> indexClass) {
 		Index<T> index = this.neo4jGraph.getIndex(indexName, indexClass);
@@ -245,6 +248,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T instantiateClassifier(Long id) {
 		try {

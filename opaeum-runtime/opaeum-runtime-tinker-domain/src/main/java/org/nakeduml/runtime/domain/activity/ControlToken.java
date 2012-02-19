@@ -4,29 +4,25 @@ import org.nakeduml.tinker.runtime.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public class ControlToken {
-
-	private Vertex vertex;
-
-	public ControlToken(String edgeName) {
-		this.vertex = GraphDb.getDb().addVertex("ControlToken");
-		setEdgeName(edgeName);
-	}
+public class ControlToken extends Token {
 
 	public ControlToken(Vertex vertex) {
-		this.vertex = vertex;
+		super(vertex);
 	}
 
-	public Vertex getVertex() {
-		return vertex;
+	public ControlToken(String edgeName) {
+		super(edgeName);
 	}
 
-	public String getEdgeName() {
-		return (String) this.vertex.getProperty("edgeName");
-	}
-
-	public void setEdgeName(String edgeName) {
-		this.vertex.setProperty("edgeName", edgeName);
+	@Override
+	protected void addEdgeToActivityNode(ActivityNode<? extends Token> node) {
+		// Multiple tokens from the same incoming edge is merged
+		if (!node.vertex.getOutEdges(TOKEN + getEdgeName()).iterator().hasNext()) {
+			GraphDb.getDb().addEdge(null, node.vertex, getVertex(), TOKEN + getEdgeName());
+		} else {
+			// TODO write test case for this
+			GraphDb.getDb().removeVertex(getVertex());
+		}
 	}
 
 }

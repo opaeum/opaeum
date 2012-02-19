@@ -22,6 +22,7 @@ import org.opaeum.metamodel.activities.internal.NakedOutputPinImpl;
 import org.opaeum.metamodel.activities.internal.NakedPinImpl;
 import org.opaeum.metamodel.activities.internal.NakedValuePinImpl;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityImpl;
 
 public abstract class AbstractActionExtractor extends CommonBehaviorExtractor{

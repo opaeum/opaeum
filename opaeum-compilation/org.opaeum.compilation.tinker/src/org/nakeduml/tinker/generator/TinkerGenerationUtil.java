@@ -9,6 +9,7 @@ import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
@@ -207,5 +208,9 @@ public class TinkerGenerationUtil {
 			return "this."+(audit?"auditVertex":"vertex")+".setProperty(\"" + TinkerGenerationUtil.tinkeriseUmlName(map.getProperty().getMappingInfo().getQualifiedUmlName()) + "\", val==null?\""
 					+ TINKER_DB_NULL + "\":val)";
 		}
+	}
+
+	public static void addOverrideAnnotation(OJAnnotatedOperation oper) {
+		oper.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));		
 	}
 }
