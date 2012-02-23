@@ -1,0 +1,10 @@
+#set($shouldGenerate=true)<?xml version="1.0" encoding="UTF-8"?>
+source.. = #foreach($sf in $project.sourceFolders)#if($sf.relativePath.length()>1)${sf.relativePath},\
+#end#end
+output.. = target/classes/
+bin.includes = META-INF/,\
+               .,\
+               nl_fragment.properties,\
+               plugin_de.properties,\
+               plugin_zh.properties,\
+               target/classes/
