@@ -43,15 +43,24 @@
     <availablePage>
       <emfPageIdentifier href="OpaeumBPM.library.notation#_fE36gFeeEeGTv4Udq66lQg"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumBPM.library.notation#_p7QtAF13EeGKRdKItFLDfg"/>
+    </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumBPM.library.notation#_1sBlUF13EeGKRdKItFLDfg"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_cJ_jcFZOEeGj5_I7bIwNoA"/>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_Abxv8FPdEeGqgJxtJrI3sQ"/>
         </children>
         <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_fE36gFeeEeGTv4Udq66lQg"/>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_p7QtAF13EeGKRdKItFLDfg"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_1sBlUF13EeGKRdKItFLDfg"/>
         </children>
       </children>
     </windows>

@@ -92,7 +92,14 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		}else if(o instanceof INakedRootObject){
 			INakedRootObject pkg = (INakedRootObject) o;
 			setRootObjectUtilPackage(pkg);
-			super.visitRecursively(o);
+			this.setCurrentRootObject(pkg);
+			visitBeforeMethods(o);
+			visitChildren(o);
+			setRootObjectUtilPackage(pkg);
+			visitAfterMethods(o);
+			if(o instanceof INakedRootObject){
+				setCurrentRootObject(null);// NB!! needs to be cleared from every thread
+			}
 			UtilityCreator.setUtilPackage(null);
 		}else{
 			super.visitRecursively(o);

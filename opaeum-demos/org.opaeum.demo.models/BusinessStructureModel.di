@@ -10,12 +10,18 @@
     <availablePage>
       <emfPageIdentifier href="model2.profile.notation#_BLgyUFFBEeG-sZ_4D_W2lA"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="BusinessStructureModel.notation#_Zh3WAFxhEeGaLvytS4KS2w"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
           <emfPageIdentifier href="BusinessStructureModel.notation#_-V3YEE8VEeGA3PFuQY5w7Q"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="BusinessStructureModel.notation#_Zh3WAFxhEeGaLvytS4KS2w"/>
         </children>
         <children>
           <emfPageIdentifier href="BusinessStructureModel.notation#__BIYQE85EeGeHcy1LQEecA"/>

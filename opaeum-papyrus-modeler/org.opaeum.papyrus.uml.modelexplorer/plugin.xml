@@ -1888,10 +1888,18 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="org.eclipse.papyrus.uml.modelexplorer.PapyrusPerspective"
+            class="org.eclipse.papyrus.uml.modelexplorer.OpaeumPerspective"
             fixed="false"
             id="org.opaeum.papyrus.uml.modelexplorer.perspective1"
-            name="Opaeum perspective">
+            name="Opaeum">
       </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
+      <profile
+            name="org.opaeum.papyrus.uml.modelexplorer.profile1"
+            path="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml"
+            provider="Opaeum">
+      </profile>
    </extension>
 </plugin>

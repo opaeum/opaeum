@@ -20,6 +20,10 @@ public abstract class AbstractPropertyLookupSection extends AbstractReferenceLoo
 	protected boolean isMultiplicityCompatible(Property thisProperty, Property potentialProperty){
 		return potentialProperty.getUpper()==1?thisProperty.getUpper()==1:true;
 	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return false;
+	}
 	protected Property getProperty(){
 		return (Property) getEObject();
 	}

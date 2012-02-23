@@ -20,7 +20,7 @@ public class StereotypeApplyingTypeCreationTool extends AspectUnspecifiedTypeCre
 				Element c = (Element) editPart.getAdapter(Element.class);
 				Stereotype st = ProfileApplier.getProfile(c, profileName).getOwnedStereotype(stereotypeName);
 				ApplyStereotypeCommand command = new ApplyStereotypeCommand(c, st);
-				OpaeumEclipseContext.getCurrentContext().execute(command);
+				OpaeumEclipseContext.getCurrentContext().executeAndForget(command);
 			};
 		});
 	}

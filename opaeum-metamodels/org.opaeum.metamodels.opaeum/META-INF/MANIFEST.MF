@@ -9,7 +9,9 @@ Bundle-Vendor: Opaeum
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.opaeum.metamodels.ocl
-Export-Package: org.opaeum.feature,
+Export-Package: org.opaeum,
+ org.opaeum.annotation,
+ org.opaeum.feature,
  org.opaeum.metamodel.actions,
  org.opaeum.metamodel.actions.internal,
  org.opaeum.metamodel.activities,
@@ -37,11 +39,11 @@ Export-Package: org.opaeum.feature,
  org.opaeum.metamodel.validation,
  org.opaeum.metamodel.workspace,
  org.opaeum.metamodel.workspace.internal,
- org.opaeum.annotation,
  org.opaeum.name,
  org.opaeum.runtime.domain,
  org.opaeum.runtime.environment,
  org.opaeum.runtime.environment.marshall,
  org.opaeum.runtime.event,
+ org.opaeum.runtime.jbpm,
  org.opaeum.runtime.persistence,
  org.opaeum.util

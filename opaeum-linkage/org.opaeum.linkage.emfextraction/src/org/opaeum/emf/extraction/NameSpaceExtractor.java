@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -50,8 +48,9 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.activities.ActivityKind;
 import org.opaeum.metamodel.activities.internal.NakedActivityImpl;
+import org.opaeum.metamodel.bpm.internal.NakedBusinessComponentImpl;
 import org.opaeum.metamodel.bpm.internal.NakedBusinessServiceImpl;
-import org.opaeum.metamodel.bpm.internal.NakedUserInRoleImpl;
+import org.opaeum.metamodel.bpm.internal.NakedBusinessRoleImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedOpaqueBehaviorImpl;
 import org.opaeum.metamodel.commonbehaviors.internal.NakedSignalImpl;
@@ -59,7 +58,6 @@ import org.opaeum.metamodel.components.internal.NakedComponentImpl;
 import org.opaeum.metamodel.compositestructures.internal.NakedCollaborationImpl;
 import org.opaeum.metamodel.core.CodeGenerationStrategy;
 import org.opaeum.metamodel.core.INakedClassifier;
-import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedAssociationImpl;
 import org.opaeum.metamodel.core.internal.NakedElementImpl;
@@ -119,8 +117,13 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		}catch(IOException e1){
 		}
 	}
+	
 	@VisitBefore
 	public void visitStereotype(Stereotype c,NakedStereotypeImpl ns){
+		initializeClassifier(ns, c);
+	}
+	@VisitBefore
+	public void visitActor(Actor c,NakedActorImpl ns){
 		initializeClassifier(ns, c);
 	}
 	@VisitBefore
@@ -137,10 +140,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	public void visitComponent(Component c,NakedComponentImpl nc){
 		initializeClassifier(nc, c);
 	}
-	@VisitBefore
-	public void visitActor(Actor a,NakedActorImpl na){
-		initializeClassifier(na, a);
-	}
+
 	@VisitBefore
 	public void visitUseCase(UseCase uc,NakedUseCaseImpl nuc){
 		initializeClassifier(nuc, uc);
@@ -169,15 +169,22 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 				}
 			}
 			return super.createElementFor(e, peerClass);
-		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Component || e instanceof Behavior
-				|| e instanceof Collaboration || e instanceof PrimitiveType){
+		}else if(e instanceof Stereotype || e instanceof AssociationClass || e instanceof Behavior
+				|| e instanceof PrimitiveType){
 			return super.createElementFor(e, peerClass);
+		}else if(e instanceof Component){
+			Component dt = (Component) e;
+			if(StereotypesHelper.hasStereotype(dt, StereotypeNames.BUSINESS_COMPONENT)){
+				return new NakedBusinessComponentImpl();
+			}else{
+				return new NakedComponentImpl();
+			}
 		}else if(e instanceof Class){
 			Class c = (Class) e;
 			if(StereotypesHelper.hasStereotype(c, StereotypeNames.HELPER)){
 				return new NakedHelperImpl();
 			}else if(isBusinessService(c)){
-				return new NakedUserInRoleImpl();
+				return new NakedBusinessRoleImpl();
 			}else{
 				return new NakedEntityImpl();
 			}

@@ -27,8 +27,10 @@ import org.opaeum.metamodel.models.INakedModel;
 public class CodeCleanup extends AbstractJavaProducingVisitor{
 	@VisitAfter
 	public void visitModel(INakedModel p){
-		OJPackage util = javaModel.findPackage(UtilityCreator.getUtilPathName());
-		util = javaModel.findPackage(UtilityCreator.getUtilPathName());
+		OJPathName utilPathName = UtilityCreator.getUtilPathName();
+
+		OJPackage util = javaModel.findPackage(utilPathName);
+		util = javaModel.findPackage(utilPathName);
 		for(OJClassifier c:util.getClasses()){
 			if(c.getName().equals("Stdlib")){
 				for(OJOperation op:c.getOperations()){

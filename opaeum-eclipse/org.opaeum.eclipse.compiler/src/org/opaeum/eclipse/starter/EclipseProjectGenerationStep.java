@@ -82,17 +82,19 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	public void visitSourceFolder(SourceFolder sf) throws CoreException{
 		IProject project = root.getProject(sf.getSourceFolder().getParent().getName());
 		String[] string = sf.getRelativePath().replace('/', '~').split("~");
-		IFolder sourceFolder = project.getFolder(string[0]);
-		if(!sourceFolder.exists()){
-			sourceFolder.create(false, true, null);
-		}
-		for(int i = 1;i < string.length;i++){
-			sourceFolder = sourceFolder.getFolder(string[i]);
+		if(!string[0].isEmpty()){
+			IFolder sourceFolder = project.getFolder(string[0]);
 			if(!sourceFolder.exists()){
 				sourceFolder.create(false, true, null);
 			}
+			for(int i = 1;i < string.length;i++){
+				sourceFolder = sourceFolder.getFolder(string[i]);
+				if(!sourceFolder.exists()){
+					sourceFolder.create(false, true, null);
+				}
+			}
+			deleteUnkownMembers(sf, sourceFolder);
 		}
-		deleteUnkownMembers(sf, sourceFolder);
 	}
 	@VisitBefore()
 	public void visitTextFile(TextFile tf) throws CoreException{
@@ -119,7 +121,7 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 	protected void visitParentsRecursively(TextOutputNode node){
 		if(node != null){
 			visitParentsRecursively(node.getParent());
-			for(VisitSpec v:methodInvokers. beforeMethods){
+			for(VisitSpec v:methodInvokers.beforeMethods){
 				maybeVisit(node, v);
 			}
 		}
@@ -130,6 +132,6 @@ public class EclipseProjectGenerationStep extends AbstractTextNodeVisitor implem
 		visitOnly(element);
 	}
 	public void release(){
-		this.root=null;
+		this.root = null;
 	}
 }

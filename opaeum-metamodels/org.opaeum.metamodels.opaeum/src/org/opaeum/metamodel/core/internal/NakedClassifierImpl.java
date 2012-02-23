@@ -88,16 +88,16 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	}
 	@Override
 	public void removeObsoleteArtificialProperties(){
-		Collection<InverseArtificialProperty> aps = new HashSet<InverseArtificialProperty>();
+		Collection<AbstractEmulatedProperty > aps = new HashSet<AbstractEmulatedProperty >();
 		ArrayList<INakedProperty> oas = new ArrayList<INakedProperty>(ownedAttributes);
 		for(INakedProperty p:oas){
-			if(p instanceof InverseArtificialProperty && p.getOtherEnd() != null){
-				aps.add((InverseArtificialProperty) p);
+			if(p instanceof AbstractEmulatedProperty  && p.getOtherEnd() != null){
+				aps.add((AbstractEmulatedProperty ) p);
 			}
 		}
-		for(InverseArtificialProperty ap:aps){
+		for(AbstractEmulatedProperty  ap:aps){
 			for(INakedProperty p:oas){
-				if(!(p instanceof InverseArtificialProperty)){
+				if(!(p instanceof AbstractEmulatedProperty )){
 					// TODO has some limitations - think about Contexts when a behavior is given a specification
 					boolean compositionSame = p.isComposite() == ap.isComposite() && p.getOtherEnd() != null
 							&& p.getOtherEnd().isComposite() == ap.getOtherEnd().isComposite();

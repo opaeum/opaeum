@@ -50,10 +50,11 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,UtilCreator.class
-},after = {
-		JpaAnnotator.class,UtilCreator.class,CompositionNodeImplementor.class/*Dependendent on the markDelete method being created*/
+@StepDependency(phase = JavaTransformationPhase.class,requires = {InverseCalculator.class,PersistentNameGenerator.class,JpaAnnotator.class,
+		UtilCreator.class},after = {JpaAnnotator.class,UtilCreator.class,CompositionNodeImplementor.class/*
+																																																			 * Dependendent on the markDelete
+																																																			 * method being created
+																																																			 */
 },before = {})
 public class HibernateAnnotator extends AbstractStructureVisitor{
 	@VisitAfter(matchSubclasses = true)
@@ -131,8 +132,10 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
 					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
-					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName() + "_type="
-							+ (config.shouldBeCm1Compatible() ? "'" + ojOwner.getPathName().toString() + "'" : owner.getMappingInfo().getOpaeumId().toString()));
+					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName()
+							+ "_type="
+							+ (config.shouldBeCm1Compatible() ? "'" + ojOwner.getPathName().toString() + "'" : owner.getMappingInfo().getOpaeumId()
+									.toString()));
 					field.addAnnotationIfNew(where);
 				}
 				if(f.isOrdered()){
@@ -152,9 +155,11 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 				if(f.getNakedBaseType() instanceof INakedEnumeration || f.getNakedBaseType() instanceof INakedSimpleType){
 					OJAnnotationValue collectionOfElements = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.CollectionOfElements"));
-					OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement", OJUtil.classifierPathname(f.getNakedBaseType()));
+					OJAnnotationAttributeValue targetElement = new OJAnnotationAttributeValue("targetElement", OJUtil.classifierPathname(f
+							.getNakedBaseType()));
 					collectionOfElements.putAttribute(targetElement);
-					OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName("javax.persistence.FetchType"), "LAZY"));
+					OJAnnotationAttributeValue lazy = new OJAnnotationAttributeValue("fetch", new OJEnumValue(new OJPathName(
+							"javax.persistence.FetchType"), "LAZY"));
 					collectionOfElements.putAttribute(lazy);
 					field.addAnnotationIfNew(collectionOfElements);
 				}
@@ -196,7 +201,8 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("org.hibernate.validator.NotNull")));
 				}
 			}
-			if(map.isOneToOne() && f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
+			if(map.isOneToOne() && f.getOtherEnd() != null && f.getOtherEnd().isNavigable()
+					&& f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
 				// NB! for CM both sides need to be non-inverse
 				JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
 				OJAnnotationValue oneToOne = field.findAnnotation(new OJPathName("javax.persistence.OneToOne"));
@@ -207,7 +213,8 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 			}
 			OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
-			if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse() && field.findAnnotation(indexPathName) == null){
+			if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse()
+					&& field.findAnnotation(indexPathName) == null){
 				OJAnnotationValue index = new OJAnnotationValue(indexPathName);
 				index.putAttribute("name", "idx_" + owner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName());
 				index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());
@@ -293,11 +300,12 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked = new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart().addToStatements("Session session =" + Environment.class.getName() + ".getInstance().getComponent(Session.class)");
-		ifMocked.getThenPart().addToStatements("return new HashSet(session.createQuery(\"from " + complexType.getName() + "\").list())");
+		ifMocked.getThenPart()
+				.addToStatements("CmtPersistence session =" + Environment.class.getName() + ".getInstance().getComponent(CmtPersistence.class)");
+		ifMocked.getThenPart().addToStatements("return new HashSet(session.readAll("+ ojClass.getPathName() + ".class))");
+		ojClass.addToImports(new OJPathName("org.opaeum.runtime.persistence.CmtPersistence"));
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");
-		ojClass.addToImports(new OJPathName("org.hibernate.Session"));
 		ojClass.addToImports(new OJPathName("java.util.HashSet"));
 		OJPathName setExtends = new OJPathName("java.util.Set");
 		ojClass.addToImports(set.getDeepCopy());

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
-  <uml:Model xmi:id="_xKPr4FlIEeG5W7BcEUHRDg" name="model">
+<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumBPMProfile="http:///schemas/OpaeumBPMProfile/1.0.0.6" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumBPMProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+  <uml:Model xmi:id="_xKPr4FlIEeG5W7BcEUHRDg" name="testmodel">
     <eAnnotations xmi:id="_xQnZoFlIEeG5W7BcEUHRDg" source="http://www.opaeum.org">
       <details xmi:id="_xQoAsFlIEeG5W7BcEUHRDg" key="uuid" value="988915"/>
     </eAnnotations>
@@ -8,8 +8,12 @@
       <eAnnotations xmi:id="_Pye-gFlfEeGRCeadXA1dUw" source="http://www.opaeum.org"/>
       <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_qb8akM37EdqwVrslYOdUDA"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Class" xmi:id="_t4BgoFldEeGUyJWwfs_VJQ" name="Class1">
-      <eAnnotations xmi:id="_t4RYQFldEeGUyJWwfs_VJQ" source="http://www.opaeum.org"/>
+    <packageImport xmi:id="_5HFb0FxXEeGmza_cj7W9vg">
+      <eAnnotations xmi:id="_5JEY0FxXEeGmza_cj7W9vg" source="http://www.opaeum.org"/>
+      <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Component" xmi:id="_HFuSQFuaEeG1eMG0Z5qnHg" name="Component1">
+      <eAnnotations xmi:id="_HGRE0FuaEeG1eMG0Z5qnHg" source="http://www.opaeum.org"/>
     </packagedElement>
     <profileApplication xmi:id="_frotsFlNEeG2Waj2LvbphQ">
       <eAnnotations xmi:id="_ftu_cFlNEeG2Waj2LvbphQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
@@ -24,6 +28,7 @@
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
-  <OpaeumStandardProfile:Model xmi:id="_f02UEFlNEeG2Waj2LvbphQ" mappedImplementationPackage="org.opeum.demo1.model" base_Model="_xKPr4FlIEeG5W7BcEUHRDg"/>
-  <OpaeumStandardProfile:Entity xmi:id="_t-THwFldEeGUyJWwfs_VJQ" base_Class="_t4BgoFldEeGUyJWwfs_VJQ"/>
+  <OpaeumStandardProfile:Model xmi:id="_f02UEFlNEeG2Waj2LvbphQ" persistentName="testmodel" mappedImplementationPackage="org.opeum.demo1.testmodel" artifactIdentifier="testmodel" base_Model="_xKPr4FlIEeG5W7BcEUHRDg"/>
+  <OpaeumBPMProfile:BusinessComponent xmi:id="_HM87oFuaEeG1eMG0Z5qnHg" base_Component="_HFuSQFuaEeG1eMG0Z5qnHg"/>
+  <OpaeumStandardProfile:Entity xmi:id="_HNwz8FuaEeG1eMG0Z5qnHg" base_Class="_HFuSQFuaEeG1eMG0Z5qnHg"/>
 </xmi:XMI>

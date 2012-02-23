@@ -10,6 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.browser,
  org.eclipse.ui.views,
  org.eclipse.ui.views.properties.tabbed,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml,
+ org.eclipse.papyrus.uml.profile,
+ org.eclipse.gmf.runtime.diagram.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

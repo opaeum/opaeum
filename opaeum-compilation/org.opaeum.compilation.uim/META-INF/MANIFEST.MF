@@ -6,13 +6,12 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.opaeum.uim.uml2uim.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.uml2.uml,
- org.opaeum.metamodels.uim,
  org.opaeum.metamodels.emfworkspace,
- org.opaeum.transformation.engine,
- org.opaeum.linkage.emfextraction,
+ org.opaeum.metamodels.uim,
  org.opaeum.metamodels.text,
- org.opaeum.metamodels.opaeum
+ org.opaeum.transformation.engine,
+ org.opaeum.metamodels.opaeum,
+ org.opaeum.linkage.emfextraction;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .

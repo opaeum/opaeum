@@ -16,7 +16,7 @@ public class SignalChooserForEvent extends ObjectChooserComposite{
 	public SignalChooserForEvent(Composite parent,int labelWidth,TabbedPropertySheetWidgetFactory f){
 		super(parent, "Signal", f, labelWidth);
 	}
-	protected void updateTrigger(){
+	protected void updateElement(){
 		if(cSingleObjectChooser.getSelection() instanceof Signal){
 			trigger.setEvent(EventFinder.findOrCreateEvent(trigger.getOwner(), (Signal) cSingleObjectChooser.getSelection()));
 		}

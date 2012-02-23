@@ -33,7 +33,6 @@ import org.opaeum.javageneration.jbpm5.Jbpm5Util;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.jbpm5.activity.ActivityProcessImplementor;
 import org.opaeum.javageneration.oclexpressions.CodeCleanup;
-import org.opaeum.javageneration.oclexpressions.PreAndPostConditionGenerator;
 import org.opaeum.javageneration.oclexpressions.ValueSpecificationUtil;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
@@ -48,28 +47,29 @@ import org.opaeum.metamodel.commonbehaviors.INakedTimeEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
-import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.metamodel.statemachines.INakedRegion;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
 import org.opaeum.metamodel.statemachines.INakedTransition;
+//import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.IProcessStep;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		OperationAnnotator.class,ProcessIdentifier.class,CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
-},after = {
-		OperationAnnotator.class,ActivityProcessImplementor.class
+@StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,ProcessIdentifier.class,
+		CompositionEmulator.class,NakedParsedOclStringResolver.class,CodeCleanup.class},after = {OperationAnnotator.class,
+		ActivityProcessImplementor.class
 /* Needs repeatable sequence in the ocl generating steps */
 },before = CodeCleanup.class)
 public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void visitStateMachine(INakedStateMachine umlStateMachine){
 		OJAnnotatedClass ojStateMachine = findJavaClass(umlStateMachine);
-		addImports(ojStateMachine);
-		OJUtil.addTransientProperty(ojStateMachine, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(OJVisibilityKind.PROTECTED);
+		addImports(ojStateMachine,umlStateMachine);
+		OJUtil.addTransientProperty(ojStateMachine, Jbpm5ObjectNodeExpressor.EXCEPTION_FIELD, new OJPathName("Object"), true).setVisibility(
+				OJVisibilityKind.PROTECTED);
 		addParameterDelegation(ojStateMachine, umlStateMachine);
-		implementProcessInterfaceOperations(ojStateMachine, new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"), umlStateMachine);
+		implementProcessInterfaceOperations(ojStateMachine, new OJPathName(umlStateMachine.getMappingInfo().getQualifiedJavaName() + "State"),
+				umlStateMachine);
 		OJOperation execute = implementExecute(ojStateMachine, umlStateMachine);
 		execute.getBody().addToStatements("this.setProcessInstanceId(processInstance.getId())");
 		visitRegions(ojStateMachine, umlStateMachine.getRegions());
@@ -87,7 +87,8 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 				copy.getBody().addToStatements("return getClassifierBehavior()!=null && getClassifierBehavior()." + copy.getName() + "()");
 				context.addToOperations(copy);
 			}
-			getter.getBody().addToStatements("return isStepActive(" + ojStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
+			getter.getBody().addToStatements(
+					"return isStepActive(" + ojStateMachine.getName() + "State." + Jbpm5Util.stepLiteralName(state) + ")");
 		}
 		implementOnEntryIfRequired(ojStateMachine, state, map);
 		implementOnExitIfRequired(ojStateMachine, state, map);
@@ -161,9 +162,12 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 			if(state.getKind().isFinal() && state.getContainer().getRegionOwner() instanceof INakedState){
 				ojStateMachine.addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
-				onEntry.getBody().addToStatements(
-						"((NodeInstanceContainer)context.getNodeInstance().getNodeInstanceContainer()).removeNodeInstance((NodeInstanceImpl)context.getNodeInstance())");
-				onEntry.getBody()
+				onEntry
+						.getBody()
+						.addToStatements(
+								"((NodeInstanceContainer)context.getNodeInstance().getNodeInstanceContainer()).removeNodeInstance((NodeInstanceImpl)context.getNodeInstance())");
+				onEntry
+						.getBody()
 						.addToStatements(
 								"((NodeInstanceContainer) context.getNodeInstance().getNodeInstanceContainer()).nodeInstanceCompleted((NodeInstanceImpl)context.getNodeInstance(), null)");
 			}
@@ -202,13 +206,15 @@ public class StateMachineImplementor extends AbstractJavaProcessVisitor{
 			}
 		}
 	}
-	private void addImports(OJClass javaStateMachine){
+	private void addImports(OJClass javaStateMachine,INakedStateMachine sm){
 		javaStateMachine.addToImports(new OJPathName(Set.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(HashSet.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(List.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(ArrayList.class.getName()));
 		javaStateMachine.addToImports(new OJPathName(Timestamp.class.getName()));
-		javaStateMachine.addToImports(IProcessObject.class.getName());
+		if(!sm.conformsTo(getLibrary().getAbstractRequest())){
+			javaStateMachine.addToImports(IProcessObject.class.getName());
+		}
 		javaStateMachine.addToImports(IProcessStep.class.getName());
 	}
 	@Override

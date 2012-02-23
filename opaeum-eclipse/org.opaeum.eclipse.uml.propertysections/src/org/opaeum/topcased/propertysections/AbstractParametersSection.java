@@ -20,7 +20,6 @@ public abstract class AbstractParametersSection extends AbstractTabbedPropertySe
 		parametersTableComposite = new ParametersTableComposite(composite, SWT.NONE, getWidgetFactory(), getFeature()){
 			public void updateSelectedParameter(Parameter newParameter){
 				parameterDetailsComposite.setParameter(newParameter);
-				refresh();
 			}
 		};
 		parameterDetailsGroup = getWidgetFactory().createGroup(composite, "Parameter Details");

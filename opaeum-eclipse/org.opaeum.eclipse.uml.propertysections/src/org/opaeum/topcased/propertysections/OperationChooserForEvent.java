@@ -17,7 +17,7 @@ public class OperationChooserForEvent extends ObjectChooserComposite{
 	public OperationChooserForEvent(Composite parent,int labelWidth,TabbedPropertySheetWidgetFactory toolkit){
 		super(parent, "Operation", toolkit, labelWidth);
 	}
-	protected void updateTrigger(){
+	protected void updateElement(){
 		if(cSingleObjectChooser.getSelection() instanceof Operation){
 			trigger.setEvent(EventFinder.findOrCreateEvent(trigger.getOwner(), (Operation) cSingleObjectChooser.getSelection()));
 		}

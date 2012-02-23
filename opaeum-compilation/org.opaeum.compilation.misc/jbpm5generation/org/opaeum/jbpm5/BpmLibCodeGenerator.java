@@ -47,6 +47,8 @@ public class BpmLibCodeGenerator implements ISourceFolderStrategy{
 		OpaeumConfig cfg = buildConfig();
 		EmfWorkspace workspace = EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg);
 		workspace.markLibraries("OpaeumSimpleTypes.library.uml");
+		workspace.markLibraries("OpaeumSimpleTypes.papyrus.uml");
+		workspace.markLibraries("OpaeumBPM.library.uml");
 		process.execute(cfg, workspace, getSteps(), new DefaultTransformationLog());
 		workspace.getMappingInfo().store();
 	}

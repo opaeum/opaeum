@@ -770,7 +770,7 @@
             <details xmi:id="_TCQBJs5tEeCLs7vQmm8tBQ" key="uuid" value="d6e66578_e1a1_4736_beef_9bfb36f36ac8"/>
             <details xmi:id="_2vGU-NYJEeCIftwUy_ucRw" key="uid" value="b1f959d2_a509_4eb0_9533_10880092507f"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_mYTrQK0NEeCK48ywUpk_rg" name="startedBy">
+          <ownedParameter xmi:id="_mYTrQK0NEeCK48ywUpk_rg" name="startedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPG1hNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPG1hdfJEeCXQPv0AMhLcg" key="uid" value="da7297cf_9af6_4290_b61a_4ffe7887a090"/>
               <details xmi:id="_Sp4CU0t9EeGElKTCe2jfDw" key="opaeumId" value="252060@_mYTrQK0NEeCK48ywUpk_rg"/>
@@ -790,7 +790,7 @@
             <details xmi:id="_TCRPQ85tEeCLs7vQmm8tBQ" key="uuid" value="57a73970_27c0_43c2_bf84_217588287539"/>
             <details xmi:id="_2vGU-tYJEeCIftwUy_ucRw" key="uid" value="a8c9648a_a7f4_42da_989f_5938347e92b4"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_roekYK0NEeCK48ywUpk_rg" name="claimedBy">
+          <ownedParameter xmi:id="_roekYK0NEeCK48ywUpk_rg" name="claimedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPG1iNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPG1idfJEeCXQPv0AMhLcg" key="uid" value="bdfe7ad0_6ec2_4a8e_bce0_f7b1b4f27d48"/>
               <details xmi:id="_Sp4CVUt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_roekYK0NEeCK48ywUpk_rg"/>
@@ -810,7 +810,7 @@
             <details xmi:id="_TCR2U85tEeCLs7vQmm8tBQ" key="uuid" value="ec016cd5_a77f_494f_8cb2_0993a12a1378"/>
             <details xmi:id="_2vGU_NYJEeCIftwUy_ucRw" key="uid" value="800a0674_500b_4a08_ab3c_3da56c021b95"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_wGUosK0NEeCK48ywUpk_rg" name="suspendedBy">
+          <ownedParameter xmi:id="_wGUosK0NEeCK48ywUpk_rg" name="suspendedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPHckNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPHckdfJEeCXQPv0AMhLcg" key="uid" value="b7b8f109_60f8_44cf_be50_6f47b1e2ce72"/>
               <details xmi:id="_Sp4CV0t9EeGElKTCe2jfDw" key="opaeumId" value="252060@_wGUosK0NEeCK48ywUpk_rg"/>
@@ -830,7 +830,7 @@
             <details xmi:id="_TCQoNs5tEeCLs7vQmm8tBQ" key="uuid" value="d31ed2f8_1950_4756_b51f_399097440e88"/>
             <details xmi:id="_2vG8ANYJEeCIftwUy_ucRw" key="uid" value="9b08e4d0_7678_4294_956d_8d845c8efe39"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_1Xu38K0NEeCK48ywUpk_rg" name="stoppedBy">
+          <ownedParameter xmi:id="_1Xu38K0NEeCK48ywUpk_rg" name="stoppedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPHclNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPHcldfJEeCXQPv0AMhLcg" key="uid" value="996c0f3f_e67d_46ff_a943_9877311e415b"/>
               <details xmi:id="_Sp4CWUt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_1Xu38K0NEeCK48ywUpk_rg"/>
@@ -850,7 +850,7 @@
             <details xmi:id="_TCRPR85tEeCLs7vQmm8tBQ" key="uuid" value="1722026c_8dc5_4e7b_b099_8a49c5f7b467"/>
             <details xmi:id="_2vG8AtYJEeCIftwUy_ucRw" key="uid" value="6456cfec_56b0_41fc_968d_2e10556e2abf"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_9Y_YoK0NEeCK48ywUpk_rg" name="resumedBy">
+          <ownedParameter xmi:id="_9Y_YoK0NEeCK48ywUpk_rg" name="resumedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPHcmNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPHcmdfJEeCXQPv0AMhLcg" key="uid" value="8960478e_5a71_4712_a3f1_f57b3649e38b"/>
               <details xmi:id="_Sp4CW0t9EeGElKTCe2jfDw" key="opaeumId" value="252060@_9Y_YoK0NEeCK48ywUpk_rg"/>
@@ -870,7 +870,7 @@
             <details xmi:id="_TCTEc85tEeCLs7vQmm8tBQ" key="uuid" value="6b36d586_5db5_4b08_8957_a7d21bb1634c"/>
             <details xmi:id="_2vG8BNYJEeCIftwUy_ucRw" key="uid" value="2966b2c6_8bf6_4ecf_9729_44786e92c2fe"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_AhkTIK0OEeCK48ywUpk_rg" name="revokedBy">
+          <ownedParameter xmi:id="_AhkTIK0OEeCK48ywUpk_rg" name="revokedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIDoNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPIDodfJEeCXQPv0AMhLcg" key="uid" value="6b5d6210_55fd_4057_ad42_65ffb425dce2"/>
               <details xmi:id="_Sp4CXUt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_AhkTIK0OEeCK48ywUpk_rg"/>
@@ -890,7 +890,7 @@
             <details xmi:id="_TCQBIM5tEeCLs7vQmm8tBQ" key="uuid" value="e33e12bc_fff7_4b70_a535_47e2a0e4490f"/>
             <details xmi:id="_2vG8BtYJEeCIftwUy_ucRw" key="uid" value="9162cfcc_7218_4848_9dc9_fa49be6d6345"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_Fe698K0OEeCK48ywUpk_rg" name="delegatedBy">
+          <ownedParameter xmi:id="_Fe698K0OEeCK48ywUpk_rg" name="delegatedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIDpNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org" references="_kPJpkK0REeCK48ywUpk_rg">
               <details xmi:id="_VPIDpdfJEeCXQPv0AMhLcg" key="uid" value="5521e670_835d_438c_808c_cc29a5a5176d"/>
               <details xmi:id="_Sp4CX0t9EeGElKTCe2jfDw" key="opaeumId" value="252060@_Fe698K0OEeCK48ywUpk_rg"/>
@@ -900,7 +900,7 @@
               <details xmi:id="_2vG8B9YJEeCIftwUy_ucRw" key="uid" value="9d166a29_5266_4996_9872_ef9cf8f19279"/>
             </eAnnotations>
           </ownedParameter>
-          <ownedParameter xmi:id="_GAGYYK0OEeCK48ywUpk_rg" name="delegatedTo">
+          <ownedParameter xmi:id="_GAGYYK0OEeCK48ywUpk_rg" name="delegatedTo" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIDptfJEeCXQPv0AMhLcg" source="http://www.opaeum.org" references="_kPK3sK0REeCK48ywUpk_rg">
               <details xmi:id="_VPIDp9fJEeCXQPv0AMhLcg" key="uid" value="88b01c5e_506f_4eba_863d_757484f004db"/>
               <details xmi:id="_Sp4CYEt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_GAGYYK0OEeCK48ywUpk_rg"/>
@@ -920,7 +920,7 @@
             <details xmi:id="_TCSdZc5tEeCLs7vQmm8tBQ" key="uuid" value="be928add_c441_4722_9ca4_55e62001185b"/>
             <details xmi:id="_2vG8CdYJEeCIftwUy_ucRw" key="uid" value="42c64374_db48_4d95_8cef_fe7e3eaa675e"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_Qcqd4K0OEeCK48ywUpk_rg" name="forwardedBy">
+          <ownedParameter xmi:id="_Qcqd4K0OEeCK48ywUpk_rg" name="forwardedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIDqtfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPIDq9fJEeCXQPv0AMhLcg" key="uid" value="535d9cdc_5a7d_4986_82df_372aa9bf829b"/>
               <details xmi:id="_Sp4CYkt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_Qcqd4K0OEeCK48ywUpk_rg"/>
@@ -930,7 +930,7 @@
               <details xmi:id="_2vG8CtYJEeCIftwUy_ucRw" key="uid" value="840cb336_8b83_4f95_871d_9382cadee9de"/>
             </eAnnotations>
           </ownedParameter>
-          <ownedParameter xmi:id="_Qv0DYK0OEeCK48ywUpk_rg" name="forwardedTo">
+          <ownedParameter xmi:id="_Qv0DYK0OEeCK48ywUpk_rg" name="forwardedTo" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIqsNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPIqsdfJEeCXQPv0AMhLcg" key="uid" value="8c96fbe7_43d5_4593_8699_1846396f4072"/>
               <details xmi:id="_Sp4CY0t9EeGElKTCe2jfDw" key="opaeumId" value="252060@_Qv0DYK0OEeCK48ywUpk_rg"/>
@@ -950,7 +950,7 @@
             <details xmi:id="_TCQoMs5tEeCLs7vQmm8tBQ" key="uuid" value="5ca783d9_68c7_4b5a_9da9_38bc6f5e37f2"/>
             <details xmi:id="_2vG8DNYJEeCIftwUy_ucRw" key="uid" value="6fc76ffa_a7f2_4ab2_879f_430b43c2a245"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_YslssK0OEeCK48ywUpk_rg" name="activatedBy">
+          <ownedParameter xmi:id="_YslssK0OEeCK48ywUpk_rg" name="activatedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIqtNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPIqtdfJEeCXQPv0AMhLcg" key="uid" value="a9ebbb47_b3ed_493d_9d45_8f446ad4cb09"/>
               <details xmi:id="_Sp4CZUt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_YslssK0OEeCK48ywUpk_rg"/>
@@ -970,7 +970,7 @@
             <details xmi:id="_TCSdYc5tEeCLs7vQmm8tBQ" key="uuid" value="55da2d9a_27df_446d_8575_19bea4648d54"/>
             <details xmi:id="_2vHjENYJEeCIftwUy_ucRw" key="uid" value="d283d8ef_5d47_4c08_9eec_6e5d8679fbbf"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_cHSR8K0OEeCK48ywUpk_rg" name="completedBy">
+          <ownedParameter xmi:id="_cHSR8K0OEeCK48ywUpk_rg" name="completedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPIquNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPIqudfJEeCXQPv0AMhLcg" key="uid" value="4c97d70d_f8a1_4fae_b5ef_8b4a258fe82b"/>
               <details xmi:id="_Sp4CZ0t9EeGElKTCe2jfDw" key="opaeumId" value="252060@_cHSR8K0OEeCK48ywUpk_rg"/>
@@ -990,7 +990,7 @@
             <details xmi:id="_TCPaE85tEeCLs7vQmm8tBQ" key="uuid" value="769aa6c0_3b27_474c_b415_a61b11d68581"/>
             <details xmi:id="_2vHjEtYJEeCIftwUy_ucRw" key="uid" value="af3b52a7_49fb_4919_ac42_cdd6325fe4f6"/>
           </eAnnotations>
-          <ownedParameter xmi:id="_hELpwK0OEeCK48ywUpk_rg" name="skippedBy">
+          <ownedParameter xmi:id="_hELpwK0OEeCK48ywUpk_rg" name="skippedBy" type="_YgstsI29EeCrtavWRHwoHg">
             <eAnnotations xmi:id="_VPJRwNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
               <details xmi:id="_VPJRwdfJEeCXQPv0AMhLcg" key="uid" value="c1ea04d9_47e2_43b4_879f_677dccd89f3c"/>
               <details xmi:id="_Sp4CaUt9EeGElKTCe2jfDw" key="opaeumId" value="252060@_hELpwK0OEeCK48ywUpk_rg"/>
@@ -1379,7 +1379,7 @@
           <eAnnotations xmi:id="_gtR88EvQEeGmqIr8YsFD4g" source="http://www.opaeum.org"/>
         </generalization>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_k23OoEtmEeGd4cpyhpib9Q" name="Person">
+      <packagedElement xmi:type="uml:Class" xmi:id="_k23OoEtmEeGd4cpyhpib9Q" clientDependency="_-KmUIF13EeGKRdKItFLDfg" name="Person">
         <eAnnotations xmi:id="_k40WcEtmEeGd4cpyhpib9Q" source="http://www.opaeum.org">
           <details xmi:id="_YLLZAEvQEeGmqIr8YsFD4g" key="opaeumId" value="252060@_k23OoEtmEeGd4cpyhpib9Q"/>
         </eAnnotations>
@@ -1475,8 +1475,11 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3lakUVYuEeGj5_I7bIwNoA"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3lakUlYuEeGj5_I7bIwNoA" value="*"/>
         </ownedAttribute>
+        <interfaceRealization xmi:id="_-KmUIF13EeGKRdKItFLDfg" name="InterfaceRealization1" client="_k23OoEtmEeGd4cpyhpib9Q" supplier="_7c1tYF13EeGKRdKItFLDfg" contract="_7c1tYF13EeGKRdKItFLDfg">
+          <eAnnotations xmi:id="_-KyhYF13EeGKRdKItFLDfg" source="http://www.opaeum.org"/>
+        </interfaceRealization>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_pZdQEEtmEeGd4cpyhpib9Q" name="OrganizationalNode">
+      <packagedElement xmi:type="uml:Class" xmi:id="_pZdQEEtmEeGd4cpyhpib9Q" clientDependency="_92MxcF13EeGKRdKItFLDfg" name="OrganizationalNode">
         <eAnnotations xmi:id="_pba-8EtmEeGd4cpyhpib9Q" source="http://www.opaeum.org">
           <details xmi:id="_YLNOMEvQEeGmqIr8YsFD4g" key="opaeumId" value="252060@_pZdQEEtmEeGd4cpyhpib9Q"/>
         </eAnnotations>
@@ -1536,6 +1539,9 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8YsOoVZFEeGj5_I7bIwNoA"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8YsOolZFEeGj5_I7bIwNoA" value="1"/>
         </ownedAttribute>
+        <interfaceRealization xmi:id="_92MxcF13EeGKRdKItFLDfg" name="InterfaceRealization1" client="_pZdQEEtmEeGd4cpyhpib9Q" supplier="_8ItU4F13EeGKRdKItFLDfg" contract="_8ItU4F13EeGKRdKItFLDfg">
+          <eAnnotations xmi:id="_92VUUF13EeGKRdKItFLDfg" source="http://www.opaeum.org"/>
+        </interfaceRealization>
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_zGMYgEvREeGmqIr8YsFD4g" name="IBusinessCollaboration">
         <eAnnotations xmi:id="_zIPm8EvREeGmqIr8YsFD4g" source="http://www.opaeum.org"/>
@@ -1677,13 +1683,16 @@
           <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_NRu9QFYjEeGJUqEGX7bKSg" name="BusinessNetwork">
+      <packagedElement xmi:type="uml:Class" xmi:id="_NRu9QFYjEeGJUqEGX7bKSg" clientDependency="_-dv5oF13EeGKRdKItFLDfg" name="BusinessNetwork">
         <eAnnotations xmi:id="_NSDtYFYjEeGJUqEGX7bKSg" source="http://www.opaeum.org"/>
         <ownedAttribute xmi:id="_YJETMFYjEeGJUqEGX7bKSg" name="businessCollaboration" type="_zGMYgEvREeGmqIr8YsFD4g" aggregation="composite" association="_YJGvcFYjEeGJUqEGX7bKSg">
           <eAnnotations xmi:id="_YLf8IFYjEeGJUqEGX7bKSg" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YJE6QFYjEeGJUqEGX7bKSg"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YJE6QVYjEeGJUqEGX7bKSg" value="*"/>
         </ownedAttribute>
+        <interfaceRealization xmi:id="_-dv5oF13EeGKRdKItFLDfg" name="InterfaceRealization1" client="_NRu9QFYjEeGJUqEGX7bKSg" supplier="_6e-W8F13EeGKRdKItFLDfg" contract="_6e-W8F13EeGKRdKItFLDfg">
+          <eAnnotations xmi:id="_-d4cgF13EeGKRdKItFLDfg" source="http://www.opaeum.org"/>
+        </interfaceRealization>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_YJGvcFYjEeGJUqEGX7bKSg" name="BusinessNetworkFacilatatesCollaboration" memberEnd="_YJGvcVYjEeGJUqEGX7bKSg _YJETMFYjEeGJUqEGX7bKSg" navigableOwnedEnd="_YJGvcVYjEeGJUqEGX7bKSg">
         <eAnnotations xmi:id="_YJJywFYjEeGJUqEGX7bKSg" source="http://www.opaeum.org"/>
@@ -1748,6 +1757,15 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8YuD0lZFEeGj5_I7bIwNoA" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8YuD01ZFEeGj5_I7bIwNoA" value="1"/>
         </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_6e-W8F13EeGKRdKItFLDfg" name="IBusinessNetwork">
+        <eAnnotations xmi:id="_6fTuIF13EeGKRdKItFLDfg" source="http://www.opaeum.org"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_7c1tYF13EeGKRdKItFLDfg" name="IPerson">
+        <eAnnotations xmi:id="_7c70AF13EeGKRdKItFLDfg" source="http://www.opaeum.org"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_8ItU4F13EeGKRdKItFLDfg" name="IOrganizationNode">
+        <eAnnotations xmi:id="_8IxmUF13EeGKRdKItFLDfg" source="http://www.opaeum.org"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_8wYxEEt9EeGElKTCe2jfDw" name="request">
@@ -2514,7 +2532,7 @@
               <details xmi:id="_TBxgAs5tEeCLs7vQmm8tBQ" key="uuid" value="74f4e52e_68da_4917_8dbb_c046f1de6857"/>
               <details xmi:id="_FuYnHkt-EeGElKTCe2jfDw" key="opaeumId" value="252060@_jOHDUK0REeCK48ywUpk_rg"/>
             </eAnnotations>
-            <argument xmi:type="uml:ValuePin" xmi:id="_kPJpkK0REeCK48ywUpk_rg" name="delegatedBy">
+            <argument xmi:type="uml:ValuePin" xmi:id="_kPJpkK0REeCK48ywUpk_rg" name="delegatedBy" type="_YgstsI29EeCrtavWRHwoHg">
               <eAnnotations xmi:id="_VO2W0NfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
                 <details xmi:id="_VO2W0dfJEeCXQPv0AMhLcg" key="uid" value="f5824a5c_e47a_4595_98cd_fda370323b36"/>
                 <details xmi:id="_FuYnH0t-EeGElKTCe2jfDw" key="opaeumId" value="252060@_kPJpkK0REeCK48ywUpk_rg"/>
@@ -2528,16 +2546,16 @@
                   <details xmi:id="_FuYnIEt-EeGElKTCe2jfDw" key="opaeumId" value="252060@_VPrdQNfJEeCXQPv0AMhLcg"/>
                 </eAnnotations>
               </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_kPJpkq0REeCK48ywUpk_rg" name="delegatedBy">
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_kPJpkq0REeCK48ywUpk_rg" name="delegatedBy" type="_YgstsI29EeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_TByHFM5tEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
                   <details xmi:id="_TByHFc5tEeCLs7vQmm8tBQ" key="uuid" value="bc077118_a0b9_46f8_8235_571977ef8d1d"/>
                   <details xmi:id="_FuYnIUt-EeGElKTCe2jfDw" key="opaeumId" value="252060@_kPJpkq0REeCK48ywUpk_rg"/>
                 </eAnnotations>
                 <language>OCL</language>
-                <body>currentBusinessRole</body>
+                <body>currentRole</body>
               </value>
             </argument>
-            <argument xmi:type="uml:ValuePin" xmi:id="_kPK3sK0REeCK48ywUpk_rg" name="delegatedTo">
+            <argument xmi:type="uml:ValuePin" xmi:id="_kPK3sK0REeCK48ywUpk_rg" name="delegatedTo" type="_YgstsI29EeCrtavWRHwoHg">
               <eAnnotations xmi:id="_VO2W0tfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
                 <details xmi:id="_VO2W09fJEeCXQPv0AMhLcg" key="uid" value="89c81550_e578_43a1_a08a_cd8488dd26be"/>
                 <details xmi:id="_FuYnIkt-EeGElKTCe2jfDw" key="opaeumId" value="252060@_kPK3sK0REeCK48ywUpk_rg"/>
@@ -2551,7 +2569,7 @@
                   <details xmi:id="_FuYnI0t-EeGElKTCe2jfDw" key="opaeumId" value="252060@_VPrdQtfJEeCXQPv0AMhLcg"/>
                 </eAnnotations>
               </upperBound>
-              <value xmi:type="uml:OpaqueExpression" xmi:id="_kPK3sq0REeCK48ywUpk_rg" name="delegatedTo">
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_kPK3sq0REeCK48ywUpk_rg" name="delegatedTo" type="_YgstsI29EeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_TBxgBc5tEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
                   <details xmi:id="_TBxgBs5tEeCLs7vQmm8tBQ" key="uuid" value="481893d5_9cde_492e_a7ce_15b18406a923"/>
                   <details xmi:id="_FuYnJEt-EeGElKTCe2jfDw" key="opaeumId" value="252060@_kPK3sq0REeCK48ywUpk_rg"/>
@@ -4787,6 +4805,12 @@
       </eAnnotations>
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
+    <profileApplication xmi:id="_ydD9sF1xEeGzoaYLLYPBeg">
+      <eAnnotations xmi:id="_zSKYsF18EeGTEsCrqX4GQw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
   </uml:Model>
   <JavaxValidation:Max xmi:id="_rHYGMNcBEeCJ0dmaHEVVnw" value="59" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>
   <JavaxValidation:Max xmi:id="_LS1hENcCEeCJ0dmaHEVVnw" value="31" base_DataType="_FvE9kNcCEeCJ0dmaHEVVnw" base_PrimitiveType="_FvE9kNcCEeCJ0dmaHEVVnw"/>
@@ -4797,7 +4821,6 @@
   <JavaxValidation:DecimalMin xmi:id="_fmQhgNcDEeCJ0dmaHEVVnw" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_iGlYIODmEeCsDuwu_RQvSA" base_Class="_x9fmQNb9EeCJ0dmaHEVVnw" persistentName="" generateAbstractSupertype="true"/>
   <OpaeumStandardProfile:ModelLibrary xmi:id="_s3ewQOElEeCp-KZHwwR6Dg" persistentName="opaeum_bpm" mappedImplementationPackage="org.opaeum.runtime.bpm" isSchema="true" regenerate="true" groupIdentifier="org.opaeum" artifactIdentifier="opaeum-runtime-bpm-hibernate" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
-  <OpaeumStandardProfile:Model xmi:id="_1TKecEtlEeGd4cpyhpib9Q" persistentName="opaeum_organization" mappedImplementationPackage="org.opaeum.organization" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
   <OpaeumStandardProfile:Attribute xmi:id="_Gh93UEtnEeGd4cpyhpib9Q" base_Property="_FfSSUEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_PXUucEtnEeGd4cpyhpib9Q" base_Property="_OorfwEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_nC7LoEtoEeGd4cpyhpib9Q" base_Class="_pZdQEEtmEeGd4cpyhpib9Q" nameProperty="_OorfwEtnEeGd4cpyhpib9Q"/>
@@ -4808,6 +4831,7 @@
   <OpaeumStandardProfile:Attribute xmi:id="_6YJWEEt3EeGElKTCe2jfDw" base_Property="_RZHMwEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_7SNxoEt3EeGElKTCe2jfDw" base_Property="_TCe-UEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_C3oq4Et4EeGElKTCe2jfDw" base_Property="_Bih5IEt4EeGElKTCe2jfDw"/>
+  <OpaeumStandardProfile:Interface xmi:id="_OKj-sFPeEeGqgJx55rI3sQ" base_Interface="_7c1tYF13EeGKRdKItFLDfg" mappedImplementationType="org.opaeum.runtime.organization.IPerson"/>
   <OpaeumStandardProfile:Entity xmi:id="_OKj-sFPeEeGqgJxtJrI3sQ" base_Class="_TFKVQNb_EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_YU654FPeEeGqgJxtJrI3sQ" base_Class="_5rW3kNcCEeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_j9WVkFPeEeGqgJxtJrI3sQ" base_Class="_Jn9QcNb-EeCJ0dmaHEVVnw"/>
@@ -4827,4 +4851,6 @@
   <OpaeumStandardProfile:Entity xmi:id="_Z8ns8FZOEeGj5_I7bIwNoA" base_Class="_e0G_YK0gEeCwWeEjtrrMeQ"/>
   <OpaeumStandardProfile:Entity xmi:id="_PKhKYFZQEeGj5_I7bIwNoA" base_Class="_n9EsUI6SEeCrtavWRHwoHg"/>
   <OpaeumStandardProfile:Entity xmi:id="_PNIZgFZQEeGj5_I7bIwNoA" base_Class="_nezb8I6SEeCrtavWRHwoHg"/>
+  <OpaeumStandardProfile:Interface xmi:id="_1kjSEF18EeGTEsCrqX4GQw" base_Interface="_6e-W8F13EeGKRdKItFLDfg" mappedImplementationType="org.opaeum.runtime.organization.IBusinessNetwork"/>
+  <OpaeumStandardProfile:Interface xmi:id="_3tTuUF18EeGTEsCrqX4GQw" base_Interface="_8ItU4F13EeGKRdKItFLDfg" mappedImplementationType="org.opaeum.runtime.organization.IOrganizationNode"/>
 </xmi:XMI>

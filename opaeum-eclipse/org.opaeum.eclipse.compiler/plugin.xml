@@ -16,6 +16,9 @@
           className="org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
+          className="org.opaeum.pomgeneration.SingleProjectRapSourceFolderStrategy">
+    </sourceFolderStrategy>
+    <sourceFolderStrategy
           className="org.opaeum.pomgeneration.TestSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
@@ -31,6 +34,9 @@
        point="org.opaeum.eclipse.transformationStep">
     <transformationStep
           className="org.opaeum.generation.features.PersistenceUsingHibernate">
+    </transformationStep>
+    <transformationStep
+          className="org.opaeum.rap.RapProjectBuilder">
     </transformationStep>
     <transformationStep
           className="org.opaeum.generation.features.PersistenceUsingJpa">

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -37,6 +39,20 @@ public class ParameterComposite extends Composite{
 	private CSingleObjectChooser parameterType;
 	private CCombo parameterDirectionCb;
 	private Button isExceptionBtn;
+	private EContentAdapter adaptor = new EContentAdapter(){
+		public void notifyChanged(Notification notification){
+			if(notification.getNotifier().equals(parameter)){
+				switch(notification.getFeatureID(Parameter.class)){
+				case UMLPackage.PARAMETER__NAME:
+				case UMLPackage.PARAMETER__DIRECTION:
+				case UMLPackage.PARAMETER__IS_EXCEPTION:
+				case UMLPackage.PARAMETER__TYPE:
+					loadData();
+				}
+				System.out.println("ParameterComposite.adaptor.new EContentAdapter() {...}.notifyChanged()");
+			}
+		}
+	};
 	public ParameterComposite(Composite parent,int style,TabbedPropertySheetWidgetFactory widgetFactory){
 		super(parent, style);
 		this.widgetFactory = widgetFactory;
@@ -56,10 +72,27 @@ public class ParameterComposite extends Composite{
 			}
 		}
 	}
+	public void dispose(){
+		super.dispose();
+		removeAdaptor();
+	}
+	private void removeAdaptor(){
+		if(parameter != null){
+			parameter.eAdapters().remove(adaptor);
+		}
+	}
 	public void setParameter(Parameter parameter){
+		removeAdaptor();
+		System.out.println("ParameterComposite.setParameter()");
 		setEnabled(this, parameter != null);
 		this.parameter = parameter;
+		addAdaptor();
 		loadData();
+	}
+	private void addAdaptor(){
+		if(this.parameter != null && !this.parameter.eAdapters().contains(adaptor)){
+			this.parameter.eAdapters().add(adaptor);
+		}
 	}
 	public void setEditingDomain(EditingDomain mixedEditDomain){
 		this.mixedEditDomain = mixedEditDomain;

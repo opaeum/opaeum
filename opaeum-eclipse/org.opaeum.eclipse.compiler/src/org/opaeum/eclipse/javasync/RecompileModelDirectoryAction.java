@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.opaeum.eclipse.OpaeumEclipsePlugin;
 import org.opaeum.eclipse.ProgressMonitorTransformationLog;
@@ -87,7 +88,16 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 		final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(folder);
 		monitor.worked(5);
 		monitor.subTask("Loading Opaeum Metadata");
-		ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
+		ctx.executeAndWait(new AbstractCommand(){
+			@Override
+			public void execute(){
+				ctx.loadDirectory(new SubProgressMonitor(monitor, 200));
+			}
+
+			@Override
+			public void redo(){
+			}
+		});
 		INakedModelWorkspace nakedWorkspace = ctx.getNakedWorkspace();
 		PersistentNameGenerator png = new PersistentNameGenerator();
 		png.startVisiting(nakedWorkspace);

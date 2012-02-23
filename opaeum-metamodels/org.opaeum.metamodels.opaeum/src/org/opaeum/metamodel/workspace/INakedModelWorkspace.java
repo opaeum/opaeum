@@ -11,6 +11,7 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
+import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.validation.ErrorMap;
 
 public interface INakedModelWorkspace extends INakedElementOwner{
@@ -39,4 +40,7 @@ public interface INakedModelWorkspace extends INakedElementOwner{
 	void addRootClassifier(INakedClassifier cp);
 	Collection<INakedClassifier> getRootClassifiers();
 	void release();
+	INakedClassifier getApplicationRoot();
+	void setApplicationRoot(INakedClassifier  root);
+	public abstract Collection<INakedModel> getPrimaryModels();
 }

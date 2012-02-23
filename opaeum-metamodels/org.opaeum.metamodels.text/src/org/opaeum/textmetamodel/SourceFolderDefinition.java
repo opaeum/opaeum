@@ -22,7 +22,8 @@ public class SourceFolderDefinition{
 		cleanDirectories = false;
 	}
 	public boolean prefixModelIdentifierToSourceFolder(){
-		return projectNameStrategy==ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER;
+		return projectNameStrategy == ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER
+				|| projectNameStrategy == ProjectNameStrategy.QUALIFIED_WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER;
 	}
 	public void dontCleanDirectoriesOrOverwriteFiles(){
 		dontCleanDirectories();

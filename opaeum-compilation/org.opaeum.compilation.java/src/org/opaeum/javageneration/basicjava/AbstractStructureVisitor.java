@@ -37,7 +37,9 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
+import org.opaeum.metamodel.usecases.INakedActor;
 
 public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	public AbstractStructureVisitor(){
@@ -47,7 +49,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 	protected abstract void visitComplexStructure(INakedComplexStructure umlOwner);
 	@VisitBefore(matchSubclasses = true,match = {
 			INakedEntity.class,INakedStructuredDataType.class,INakedAssociation.class,INakedSignal.class,INakedComponent.class,INakedEnumeration.class,
-			INakedBehavior.class
+			INakedBehavior.class,INakedActor.class,NakedBusinessCollaboration.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){

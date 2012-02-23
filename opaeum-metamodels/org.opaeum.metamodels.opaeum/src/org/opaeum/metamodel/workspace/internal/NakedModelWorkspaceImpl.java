@@ -7,17 +7,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import nl.klasse.octopus.oclengine.IOclEngine;
 import nl.klasse.octopus.oclengine.internal.OclEngine;
 
 import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.WorkspaceMappingInfo;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
+import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.validation.ErrorMap;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodel.workspace.OpaeumLibrary;
@@ -37,11 +40,22 @@ public class NakedModelWorkspaceImpl extends NakedElementOwnerImpl implements IN
 	private Set<INakedRootObject> primaryRootObjects = new HashSet<INakedRootObject>();
 	private String identifier;
 	private Map<INakedElement,Set<INakedElement>> dependencies = new HashMap<INakedElement,Set<INakedElement>>();
+	private INakedClassifier applicationRoot;
 	public NakedModelWorkspaceImpl(){
 	}
 	public synchronized void markDependency(INakedElement from,INakedElement to){
 		Set<INakedElement> set = getDependentElements(to);
 		set.add(from);
+	}
+	@Override
+	public Collection<INakedModel> getPrimaryModels(){
+		Collection<INakedModel> result=new TreeSet<INakedModel>(new DefaultOpaeumComparator());
+		for(INakedRootObject ro:getPrimaryRootObjects()){
+			if(ro instanceof INakedModel){
+				result.add((INakedModel) ro);
+			}
+		}
+		return result;
 	}
 	public synchronized Set<INakedElement> getDependentElements(INakedElement to){
 		Set<INakedElement> set = this.dependencies.get(to);
@@ -218,5 +232,14 @@ public class NakedModelWorkspaceImpl extends NakedElementOwnerImpl implements IN
 		this.primaryRootObjects.clear();
 		
 
+	}
+	@Override
+	public INakedClassifier getApplicationRoot(){
+		return this.applicationRoot;
+	}
+	@Override
+	public void setApplicationRoot(INakedClassifier root){
+		this.applicationRoot=root;
+		
 	}
 }

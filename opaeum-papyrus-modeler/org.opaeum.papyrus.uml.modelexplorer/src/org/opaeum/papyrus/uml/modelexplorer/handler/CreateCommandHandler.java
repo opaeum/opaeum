@@ -109,7 +109,7 @@ public abstract class CreateCommandHandler extends AbstractCommandHandler {
 	/**
 	 * Add selection on new element after creation.
 	 * 
-	 * @see org.listerel.papyrus.sysml.modelexplorer.common.handler.AbstractCommandHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see org.listerel.papyrus.sysml.modelexplorer.common.handler.AbstractCommandHandler#executeAndForget(org.eclipse.core.commands.ExecutionEvent)
 	 * 
 	 * @param event
 	 * @return

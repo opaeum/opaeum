@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.opaeum.feature.ISourceFolderStrategy;
 import org.opaeum.feature.ITransformationStep;
 import org.opaeum.feature.OpaeumConfig;
@@ -24,8 +25,8 @@ import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
 import org.opaeum.strategies.TextStrategyFactory;
 
-public class OpaeumEclipsePlugin extends Plugin implements IRegistryChangeListener{
-	public static final String PLUGIN_ID = "org.opaeum.eclipse";
+public class OpaeumEclipsePlugin extends AbstractUIPlugin implements IRegistryChangeListener{
+	public static final String PLUGIN_ID = "org.opaeum.eclipse.core";
 	public static final String TRANSFORMATION_STEP_EXTENSION_POINT_ID = "transformationStep";
 	public static final String SOURCE_FOLDER_DEFINITION_STRATEGY_EXTENSION_POINT_ID = "sourceFolderStrategy";
 	public static final String MODEL_LIBRARY_EXTENSION_POINT_ID = "modelLibrary";

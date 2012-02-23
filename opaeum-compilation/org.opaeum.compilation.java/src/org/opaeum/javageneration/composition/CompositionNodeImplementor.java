@@ -5,6 +5,7 @@ import java.util.List;
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
 import nl.klasse.octopus.model.IModelElement;
 
+import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
@@ -112,8 +113,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 							aMap.getMap().getter() + "()." + aMap.getOtherEndToAssocationClassMap().internalAdder() + "(" + aMap.getEndToAssocationClassMap().getter()
 									+ "())");
 				}else{
-					NakedStructuralFeatureMap featureMap = new NakedStructuralFeatureMap(endToComposite);
-					NakedStructuralFeatureMap otherFeatureMap = new NakedStructuralFeatureMap(endToComposite.getOtherEnd());
+					NakedStructuralFeatureMap featureMap = OJUtil.buildStructuralFeatureMap(endToComposite);
+					NakedStructuralFeatureMap otherFeatureMap = OJUtil.buildStructuralFeatureMap(endToComposite.getOtherEnd());
 					if(isMap(otherFeatureMap.getProperty())){
 						String qArgs = OJUtil.addQualifierArguments(otherFeatureMap.getProperty().getQualifiers(), "this");
 						addToOwningObject.getBody().addToStatements(
@@ -157,8 +158,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		for(INakedProperty np:sc.getEffectiveAttributes()){
 			if(!np.isComposite() && np.getOtherEnd() != null && np.getOtherEnd().isNavigable() && !np.isDerived() && !np.getOtherEnd().isDerived()
 					&& (isPersistent(np.getNakedBaseType()) || np.getNakedBaseType() instanceof INakedInterface)){
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(np);
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(np.getOtherEnd());
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
+				NakedStructuralFeatureMap otherMap = OJUtil.buildStructuralFeatureMap(np.getOtherEnd());
 				if(map.isManyToMany()){
 					markDeleted.getBody().addToStatements(map.removeAll() + "(" + map.getter() + "())");
 				}else if(map.isManyToOne()){
@@ -235,7 +236,8 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		getOwner.setBody(new OJBlock());
 		if(c.hasComposite()){
 			INakedProperty ce = c.getEndToComposite();
-			getOwner.getBody().addToStatements("return get" + ce.getMappingInfo().getJavaName().getCapped() + "()");
+			MappingInfo mappingInfo = ce.getMappingInfo();
+			getOwner.getBody().addToStatements("return get" + mappingInfo.getJavaName().getCapped() + "()");
 		}else{
 			getOwner.getBody().addToStatements("return null");
 		}

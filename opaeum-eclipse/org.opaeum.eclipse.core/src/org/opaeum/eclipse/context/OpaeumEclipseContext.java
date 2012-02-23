@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.EditingDomainManager;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
@@ -133,6 +134,7 @@ public class OpaeumEclipseContext{
 	private boolean newlyCreated;
 	private LoadEditingDomainJob currentJob;
 	private EObjectSelectorUI eObjectSelectorUI;
+	private TransactionalEditingDomain directoryEditingDomain;
 	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
 		isOpen = true;
@@ -274,7 +276,8 @@ public class OpaeumEclipseContext{
 					dew = next.getEmfWorkspace();
 				}else{
 					// No open editors - create a temp EmfWorkspace
-					ResourceSet rst = new ResourceSetImpl();
+					ResourceSet rst;
+					rst = new ResourceSetImpl();
 					URI uri = URI.createPlatformResourceURI(getUmlDirectory().getFullPath().toString(), true);
 					OpaeumConfig cfg = getEmfToOpaeumSynchronizer().getConfig();
 					dew = new EmfWorkspace(uri, rst, cfg.getWorkspaceMappingInfo(), cfg.getWorkspaceIdentifier());
@@ -358,6 +361,8 @@ public class OpaeumEclipseContext{
 		if(currentOpenFile != null && openUmlFiles.get(currentOpenFile) != null){
 			OpenUmlFile editingContext = openUmlFiles.get(currentOpenFile);
 			return editingContext.editingDomain;
+		}else if(directoryEditingDomain != null){
+			return directoryEditingDomain;
 		}else{
 			return null;
 		}
@@ -417,6 +422,7 @@ public class OpaeumEclipseContext{
 		getCurrentContext().selectOpenFileFor(e);
 	}
 	private void selectOpenFileFor(Element e){
+		// TODO consider using the element's resource's filename
 		Set<Entry<IFile,OpenUmlFile>> entrySet = openUmlFiles.entrySet();
 		for(Entry<IFile,OpenUmlFile> entry:entrySet){
 			if(entry.getValue().getEmfWorkspace().getResourceSet().equals(e.eResource().getResourceSet())){
@@ -435,26 +441,65 @@ public class OpaeumEclipseContext{
 	public void seteObjectSelectorUI(EObjectSelectorUI eObjectSelectorUI){
 		this.eObjectSelectorUI = eObjectSelectorUI;
 	}
-	public void execute(final Command command){
+	public void executeAndForget(final Command command){
+		performExecute(command, null);
+	}
+	public void executeAndWait(final Command command){
+		if(Display.getCurrent() != null){
+			throw new IllegalStateException("ExecuteAndWait can only be called from background threads");
+		}
 		if(getEditingDomain() instanceof TransactionalEditingDomain){
-			// !!!!! Papyrus requires all this shit
 			try{
-				((TransactionalEditingDomain) getEditingDomain()).runExclusive(new Runnable() {
-					public void run() {
-						Display.getCurrent().asyncExec(new Runnable() {
-
-							public void run() {
-								getEditingDomain().getCommandStack().execute(command);
-							}
-						});
-					}
-				});
-			}catch(Exception e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Object lock = new Object();
+				synchronized(lock){
+					executeInOwnTransaction(command, lock);
+					lock.wait(3*60*1000);
+				}
+			}catch(InterruptedException e){
+				throw new RuntimeException(e);
 			}
+		}else if(getEditingDomain() == null){
+			command.execute();
 		}else{
 			getEditingDomain().getCommandStack().execute(command);
 		}
+	}
+	private void performExecute(final Command command,final Object lock){
+		if(getEditingDomain() instanceof TransactionalEditingDomain){
+			executeInOwnTransaction(command, lock);
+		}else if(getEditingDomain() == null){
+			command.execute();
+		}else{
+			getEditingDomain().getCommandStack().execute(command);
+		}
+	}
+	private void executeInOwnTransaction(final Command command,final Object lock){
+		// !!!!! Papyrus requires all this shit
+		Display.getDefault().asyncExec(new Runnable(){
+			public void run(){
+				try{
+					((TransactionalEditingDomain) getEditingDomain()).runExclusive(new Runnable(){
+						public void run(){
+							Display.getCurrent().asyncExec(new Runnable(){
+								public void run(){
+									try{
+										getEditingDomain().getCommandStack().execute(command);
+									}finally{
+										if(lock != null){
+											synchronized(lock){
+												lock.notifyAll();
+											}
+										}
+									}
+								}
+							});
+						}
+					});
+				}catch(Exception e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

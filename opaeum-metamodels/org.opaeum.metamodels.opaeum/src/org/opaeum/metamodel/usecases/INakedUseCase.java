@@ -1,6 +1,6 @@
 package org.opaeum.metamodel.usecases;
 
-import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 
-public interface INakedUseCase extends INakedClassifier {
+public interface INakedUseCase extends INakedBehavioredClassifier {
 }

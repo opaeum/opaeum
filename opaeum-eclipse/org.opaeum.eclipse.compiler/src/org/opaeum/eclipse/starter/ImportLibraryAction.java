@@ -25,7 +25,7 @@ public class ImportLibraryAction extends AbstractOpaeumAction{
 		Model library = (Model) resource.getContents().get(0);
 		pi.setImportedPackage(library);
 		if(!model.getImportedPackages().contains(library)){
-			currentContext.execute(AddCommand.create(currentContext.getEditingDomain(), model, UMLPackage.eINSTANCE.getPackageImport(), pi));
+			currentContext.executeAndForget(AddCommand.create(currentContext.getEditingDomain(), model, UMLPackage.eINSTANCE.getPackageImport(), pi));
 		}
 	}
 }

@@ -10,7 +10,7 @@ import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedInterfaceRealization;
 import org.opaeum.metamodel.core.internal.NakedEntityImpl;
 
-public class NakedUserInRoleImpl extends NakedEntityImpl implements INakedBusinessRole{
+public class NakedBusinessRoleImpl extends NakedEntityImpl implements INakedBusinessRole{
 	/**
 	 * 
 	 */

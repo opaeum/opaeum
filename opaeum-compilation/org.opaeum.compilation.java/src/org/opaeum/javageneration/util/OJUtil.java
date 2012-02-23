@@ -308,7 +308,7 @@ public class OJUtil{
 	 * 
 	 */
 	public static boolean hasOJClass(INakedClassifier c){
-		if(c == null || c instanceof INakedStereotype || c instanceof INakedActor || c instanceof INakedCollaboration || c instanceof INakedUseCase){
+		if(c == null || c instanceof INakedStereotype || c instanceof INakedCollaboration || c instanceof INakedUseCase){
 			return false;
 		}else if(c.isMarkedForDeletion() || c.getCodeGenerationStrategy().isNone()){
 			return false;

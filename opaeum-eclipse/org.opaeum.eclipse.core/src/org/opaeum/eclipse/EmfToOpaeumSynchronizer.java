@@ -70,6 +70,7 @@ public final class EmfToOpaeumSynchronizer{
 	private Set<UMLResource> resourcesLoaded = new HashSet<UMLResource>();
 	boolean suspended = false;
 	private Set<OpaeumSynchronizationListener> synchronizationListener = new HashSet<OpaeumSynchronizationListener>();
+	private Set<WorkspaceLoadListener> workspaceLoadListener = new HashSet<WorkspaceLoadListener>();
 	OpaeumElementLinker linker = new OpaeumElementLinker();
 	public EmfToOpaeumSynchronizer(OpaeumConfig cfg){
 		this.resourceHelper = new EclipseUriToFileConverter();
@@ -84,6 +85,9 @@ public final class EmfToOpaeumSynchronizer{
 	}
 	public void addSynchronizationListener(OpaeumSynchronizationListener l){
 		this.synchronizationListener.add(l);
+	}
+	public void addWorkspaceLoadListener(WorkspaceLoadListener l){
+		this.workspaceLoadListener.add(l);
 	}
 	public void suspend(){
 		suspended = true;
@@ -123,41 +127,9 @@ public final class EmfToOpaeumSynchronizer{
 			});
 		}
 	}
-	public void emfWorkspaceLoaded(EmfWorkspace w){
-		for(Package model:w.getPotentialGeneratingModels()){
-			boolean dirty = false;
-			if(model instanceof Model || model instanceof Profile){
-				if(!EmfWorkspace.isReadOnly(model.eResource())){
-					EMap<String,String> d = StereotypesHelper.getNumlAnnotation(model).getDetails();
-					if(d.get("uuid") == null || d.get("uuid").trim().length() == 0){
-						d.put("uuid", Math.round(Math.random() * 1000000) + "");
-						dirty = true;
-					}
-				}
-				if(model instanceof Model){
-					Profile pf = ProfileApplier.applyNakedUmlProfile((Model) model);
-					Stereotype modelStereotype = pf.getOwnedStereotype(StereotypeNames.MODEL);
-					if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL_LIBRARY)){
-						modelStereotype = pf.getOwnedStereotype(StereotypeNames.MODEL_LIBRARY);
-					}
-					if(!model.isStereotypeApplied(modelStereotype)){
-						dirty = true;
-						model.applyStereotype(modelStereotype);
-					}
-					if(model.getValue(modelStereotype, "mappedImplementationPackage") == null){
-						dirty = true;
-						model.setValue(modelStereotype, "mappedImplementationPackage", cfg.getMavenGroupId() + "." + model.getName().toLowerCase());
-					}
-				}
-				try{
-					if(dirty){
-						model.eResource().save(new HashMap<Object,Object>());
-					}
-					;
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-			}
+	private void emfWorkspaceLoaded(EmfWorkspace w){
+		for(WorkspaceLoadListener workspaceLoadListener:this.workspaceLoadListener){
+			workspaceLoadListener.workspaceLoaded(w);
 		}
 	}
 	public void setCurrentEmfWorkspace(EmfWorkspace e){

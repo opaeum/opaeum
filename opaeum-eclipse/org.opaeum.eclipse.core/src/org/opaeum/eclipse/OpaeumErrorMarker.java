@@ -50,11 +50,11 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 					try{
 						calcExistingMarkers(brokenUris);
 						markFiles();
-						lastMarked = System.currentTimeMillis();
 					}catch(CoreException e){
 						e.printStackTrace();
 					}finally{
 						if(lastMarked > System.currentTimeMillis() - 30000 && context.getUmlDirectory().exists()){
+							lastMarked = System.currentTimeMillis();
 							Display.getDefault().timerExec(30001, this);
 						}
 					}

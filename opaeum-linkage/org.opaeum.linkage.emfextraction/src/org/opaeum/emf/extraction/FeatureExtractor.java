@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Extension;
 import org.eclipse.uml2.uml.ExtensionEnd;
@@ -16,6 +17,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Reception;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfParameterUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
@@ -57,7 +59,8 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			return new NakedPortImpl();
 		}else if(e instanceof Property){
 			Property p = (Property) e;
-			if(p instanceof ExtensionEnd || p.getOtherEnd() instanceof ExtensionEnd || p.getOwner() instanceof Property || p.getAssociation() instanceof Extension){
+			if(p instanceof ExtensionEnd || p.getOtherEnd() instanceof ExtensionEnd || p.getOwner() instanceof Property
+					|| p.getAssociation() instanceof Extension){
 				return null;
 			}else{
 				if(p.getAssociation() != null){
@@ -88,16 +91,24 @@ public class FeatureExtractor extends AbstractExtractorFromEmf{
 			return super.createElementFor(e, peerClass);
 		}
 	}
-	@VisitBefore(matchSubclasses = false,match = {
-			Property.class,ExtensionEnd.class,Port.class
-	})
+	@VisitBefore(matchSubclasses = false,match = {Property.class,ExtensionEnd.class,Port.class})
 	public void visitProperty(Property p,NakedPropertyImpl np){
+		//NB!! the navigability logic needs to sit here as it affects the containment tree
 		boolean navigable = p.isNavigable() || p.isComposite() || p.getAssociation() == null || p.getAssociation().getMemberEnds().size() < 2;
 		if(p.getOtherEnd() != null){
 			Property opposite = p.getOtherEnd();
-			if(opposite.isComposite() && opposite.getType() instanceof org.eclipse.uml2.uml.Class){
-				// force bidirectionality for composition between two classes
-				navigable = true;
+			if(opposite.isComposite()){
+				if(opposite.getType().eClass().equals(UMLPackage.eINSTANCE.getDataType())){
+					// Datatypes should have no knowledge of where they are contained from
+					navigable = false;
+				}else if(opposite.getType() instanceof org.eclipse.uml2.uml.Class){
+					// force bidirectionality for composition between two classes
+					navigable = true;
+				}
+			}
+			if(p.getType().eClass().equals(UMLPackage.eINSTANCE.getDataType())  && !(p.isComposite())){
+				//DataTypes can only be navigated to through composition
+				navigable=false;
 			}
 			// if(!isAllowedAssociationEnd(opposite.getType(), p.getType())){
 			// navigable = false;

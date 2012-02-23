@@ -494,7 +494,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			OclParser parser = new OclParser(r);
 			try{
 				if(getBuiltInTypes().getBusinessRole() != null){
-					env.addElement("currentBusinessRole", new VariableDeclaration("currentBusinessRole", getBuiltInTypes().getBusinessRole()), false);
+					env.addElement("currentRole", new VariableDeclaration("currentRole", getBuiltInTypes().getBusinessRole()), false);
 				}
 				if(getBuiltInTypes().getOpaeumPerson() != null){
 					env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getOpaeumPerson()), false);

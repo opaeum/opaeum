@@ -20,6 +20,7 @@ public class NakedStructuralFeatureMap extends StructuralFeatureMap{
 	}
 	public NakedStructuralFeatureMap(INakedProperty feature){
 		super(feature);
+		
 		baseTypeMap = OJUtil.buildClassifierMap(feature.getNakedBaseType());
 		featureTypeMap = OJUtil.buildClassifierMap(feature.getType());
 	}

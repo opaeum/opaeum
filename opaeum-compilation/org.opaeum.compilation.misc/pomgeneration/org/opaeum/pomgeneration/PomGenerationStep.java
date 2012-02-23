@@ -81,6 +81,8 @@ public abstract class PomGenerationStep implements ITransformationStep{
 			return this.workspace.getIdentifier() + suffix;
 		case WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
 			return this.workspace.getIdentifier() + suffix;
+		case QUALIFIED_WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
+			return config.getMavenGroupId() + "." + workspace.getIdentifier();
 		default:
 			return "";
 		}

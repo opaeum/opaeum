@@ -46,13 +46,13 @@ public abstract class ObjectChooserComposite extends Composite{
 				if(cSingleObjectChooser.getSelection()==null){
 					cSingleObjectChooser.setSelection(getCause());
 				}else{
-					updateTrigger();
+					updateElement();
 				}
 			}
 		});
 		toolkit.adapt(this);
 	}
-	protected abstract void updateTrigger();
+	protected abstract void updateElement();
 	protected Element getCause(){
 		Element org = null;
 		if(trigger.getEvent() instanceof SignalEvent){

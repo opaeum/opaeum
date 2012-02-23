@@ -6,7 +6,6 @@ import java.util.Collections;
 import nl.klasse.octopus.expressions.IVariableDeclaration;
 import nl.klasse.octopus.expressions.internal.types.OclExpression;
 
-import org.opaeum.feature.MappingInfo;
 import org.opaeum.metamodel.actions.CallBehaviorMessageStructure;
 import org.opaeum.metamodel.activities.internal.StructuredActivityNodeClassifier;
 import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
@@ -40,6 +39,9 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty implemen
 		initialiseNestedClasifier(type);
 	}
 	private void initialiseNestedClasifier(INakedClassifier type){
+		if(type.getName().equals("Online_Customer")){
+			System.out.println();
+		}
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.name = NameConverter.decapitalize(type.getName());
 		this.mappingInfo.setPersistentName(null);

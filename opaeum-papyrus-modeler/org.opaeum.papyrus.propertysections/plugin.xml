@@ -34,20 +34,32 @@
 			<propertyTab id="org.opaeum.eclipse.invariantsTab"
 				category="domain" indented="true" label="Invariants"
 				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.topcased.modeler.modelTab.firstEndTab"
+			<propertyTab id="org.opaeum.papyrus.firstEndTab"
 				category="domain" indented="true" label="First End"
 				afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.topcased.modeler.modelTab.secondEndTab"
+			<propertyTab id="org.opaeum.papyrus.secondEndTab"
 				category="domain" indented="true" label="Second End"
-				afterTab="org.topcased.modeler.modelTab.firstEndTab" />
-			<propertyTab id="org.topcased.modeler.profilesTab"
+				afterTab="org.opaeum.papyrus.firstEndStereotypesTab" />
+			<propertyTab id="org.opaeum.papyrus.profilesTab"
 				category="domain" label="Profiles" afterTab="org.opaeum.eclipse.opaeumTab" />
-			<propertyTab id="org.topcased.modeler.stereotypesTab"
+			<propertyTab
+         afterTab="org.opaeum.papyrus.firstEndTab"
+         category="domain"
+         id="org.opaeum.papyrus.firstEndStereotypesTab"
+         indented="true"
+         label="First End Stereotypes"/>
+			<propertyTab
+         afterTab="org.opaeum.papyrus.secondEndTab"
+         category="domain"
+         id="org.opaeum.papyrus.secondEndStereotypesTab"
+         indented="true"
+         label="Second End Stereotypes"/>
+			<propertyTab id="org.opaeum.papyrus.stereotypesTab"
 				category="domain" label="Stereotypes" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.redefinitionTab"
 				category="domain" label="Redefinition" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.topcased.modeler.stereotypeAttributesTab"
-				category="domain" label="Stereotype Attributes" afterTab="org.topcased.modeler.stereotypesTab"
+				category="domain" label="Stereotype Attributes" afterTab="org.opaeum.papyrus.stereotypesTab"
 				indented="true" />
 			<propertyTab id="org.opaeum.eclipse.templateTab"
 				category="domain" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab"
@@ -165,76 +177,88 @@
 			<!-- The Association First and Second End Property Sections -->
 			<!--propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstEndClassifierSection" 
-				tab="org.topcased.modeler.modelTab.firstEndTab"> <input type="org.eclipse.uml2.uml.Association" 
+				tab="org.opaeum.papyrus.firstEndTab"> <input type="org.eclipse.uml2.uml.Association" 
 				/> </propertySection> <propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondEndClassifierSection" 
-				tab="org.topcased.modeler.modelTab.secondEndTab"> <input type="org.eclipse.uml2.uml.Association" 
+				tab="org.opaeum.papyrus.secondEndTab"> <input type="org.eclipse.uml2.uml.Association" 
 				/> </propertySection -->
+			<propertySection
+				id="org.opaeum.papyrus.uml.FirstEndAppliedStereotypeSectionWithView"
+				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
+				class="org.opaeum.papyrus.uml.FirstEndAppliedStereotypeSectionWithView"
+				tab="org.opaeum.papyrus.firstEndStereotypesTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.papyrus.uml.SecondEndAppliedStereotypeSectionWithView"
+				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
+				class="org.opaeum.papyrus.uml.SecondEndAppliedStereotypeSectionWithView"
+				tab="org.opaeum.papyrus.secondEndStereotypesTab">
+			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.propertysections.property.FirstEndNameSection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndNameSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.propertysections.property.SecondEndNameSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndNameSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.property.FirstEndNameSection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndMultiplicityElemementFeaturesSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.property.SecondEndNameSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndMultiplicityElemementFeaturesSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndBooleanPropertiesSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.FirstEndBooleanPropertiesSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndNavigabilityAndCompositionSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.property.FirstEndNavigabilityAndCompositionSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndBooleanPropertiesSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndNavigabilityAndCompositionSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.property.SecondEndNavigabilityAndCompositionSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.propertysections.property.FirstEndRoleInCubeSection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndRoleInCubeSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab"
+				tab="org.opaeum.papyrus.firstEndTab"
 				afterSection="org.opaeum.topcased.propertysections.FirstEndMultiplicityElemementFeaturesSection"
 				filter="org.opaeum.topcased.propertysections.AssociationNotInProfileFilter">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.propertysections.property.SecondEndRoleInCubeSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndRoleInCubeSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab"
+				tab="org.opaeum.papyrus.secondEndTab"
 				afterSection="org.opaeum.topcased.propertysections.SecondEndMultiplicityElemementFeaturesSection"
 				filter="org.opaeum.topcased.propertysections.AssociationNotInProfileFilter">
 			</propertySection>
@@ -243,42 +267,42 @@
 				class="org.opaeum.topcased.propertysections.property.FirstEndDefaultValueSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.SecondEndBooleanPropertiesSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndDefaultValueSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.FirstEndDefaultValueSection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndRedefinedPropertySection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.SecondEndDefaultValueSection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndRedefinedPropertySection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.FirstEndRedefinedPropertySection"
 				class="org.opaeum.topcased.propertysections.property.FirstEndSubsettedPropertiesSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.FirstEndSubsettedPropertiesSection"
-				tab="org.topcased.modeler.modelTab.firstEndTab">
+				tab="org.opaeum.papyrus.firstEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.SecondEndRedefinedPropertySection"
 				class="org.opaeum.topcased.propertysections.property.SecondEndSubsettedPropertiesSection"
 				filter="org.opaeum.topcased.propertysections.filters.AssociationFilter"
 				id="org.opaeum.topcased.propertysections.SecondEndSubsettedPropertiesSection"
-				tab="org.topcased.modeler.modelTab.secondEndTab">
+				tab="org.opaeum.papyrus.secondEndTab">
 			</propertySection>
 			<propertySection
 				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
@@ -361,19 +385,13 @@
 				filter="org.opaeum.topcased.propertysections.filters.ClassFilter"
 				tab="org.opaeum.eclipse.invariantsTab">
 			</propertySection>
-			<!--propertySection id="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection" 
-				class="org.topcased.modeler.uml.internal.properties.sections.ProfilesSection" 
-				tab="org.topcased.modeler.profilesTab"> <input type="org.eclipse.uml2.uml.Package" 
-				/> </propertySection> <propertySection id="org.topcased.modeler.uml.internal.properties.sections.StereotypesSection" 
-				class="org.topcased.modeler.uml.internal.properties.sections.StereotypesSection" 
-				tab="org.topcased.modeler.stereotypesTab"> <input type="org.eclipse.uml2.uml.Element" 
-				/> </propertySection> <propertySection id="org.topcased.modeler.uml.internal.properties.sections.StereotypeAttributesSection" 
-				class="org.topcased.modeler.uml.internal.properties.sections.StereotypeAttributesSection" 
-				tab="org.topcased.modeler.stereotypeAttributesTab"> <input type="org.eclipse.uml2.uml.Element" 
-				/> </propertySection> <propertySection afterSection="org.opaeum.topcased.propertysections.EObjectErrorSection" 
-				class="org.opaeum.topcased.propertysections.NamedElementNameSection" filter="org.opaeum.topcased.propertysections.NamedElementNameSectionFilter" 
-				id="org.opaeum.topcased.propertysections.NamedElementNameSection" tab="org.opaeum.eclipse.opaeumTab"> 
-				<input type="org.eclipse.uml2.uml.NamedElement" /> </propertySection> <propertySection 
+			<propertySection
+				id="org.eclipse.papyrus.uml.profile.ui.section.AppliedProfileSection"
+				class="org.eclipse.papyrus.uml.profile.ui.section.AppliedProfileSection"
+				filter="org.eclipse.papyrus.uml.profile.filter.AppliedProfileSectionFilter"
+				tab="org.opaeum.papyrus.profilesTab">
+			</propertySection>
+		<!--propertySection 
 				id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection" 
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"> 
@@ -388,7 +406,7 @@
 				id="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.ClassifierIsAbstractSection" 
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementVisibilitySection"> 
-				<input type="org.eclipse.uml2.uml.Classifier" /> </propertySection -->
+				<input type="org.eclipse.uml2.uml.Classifier" /> </propertySection-->
 			<propertySection
 				id="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection"
 				class="org.opaeum.topcased.propertysections.classifier.ClassNamePropertySection"
@@ -469,26 +487,26 @@
 			<!-- The connector First end Property -->
 			<!--propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndCardinalitySection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndCardinalitySection" 
-				tab="org.topcased.modeler.modelTab.firstEndTab"> <input type="org.eclipse.uml2.uml.Connector" 
+				tab="org.opaeum.papyrus.firstEndTab"> <input type="org.eclipse.uml2.uml.Connector" 
 				/> </propertySection> <propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection" 
-				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection"> 
+				tab="org.opaeum.papyrus.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection"> 
 				<input type="org.eclipse.uml2.uml.Connector" /> </propertySection> <propertySection 
 				id="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsOrderedSection" 
-				tab="org.topcased.modeler.modelTab.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection"> 
+				tab="org.opaeum.papyrus.firstEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.FirstConnectorEndIsUniqueSection"> 
 				<input type="org.eclipse.uml2.uml.Connector" /> </propertySection -->
 			<!-- The connector Second end Property -->
 			<!--propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndCardinalitySection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndCardinalitySection" 
-				tab="org.topcased.modeler.modelTab.secondEndTab"> <input type="org.eclipse.uml2.uml.Connector" 
+				tab="org.opaeum.papyrus.secondEndTab"> <input type="org.eclipse.uml2.uml.Connector" 
 				/> </propertySection> <propertySection id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection" 
-				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection"> 
+				tab="org.opaeum.papyrus.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection"> 
 				<input type="org.eclipse.uml2.uml.Connector" /> </propertySection> <propertySection 
 				id="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsOrderedSection" 
-				tab="org.topcased.modeler.modelTab.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection"> 
+				tab="org.opaeum.papyrus.secondEndTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.association.SecondConnectorEndIsUniqueSection"> 
 				<input type="org.eclipse.uml2.uml.Connector" /> </propertySection> <propertySection 
 				class="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSection" 
 				filter="org.topcased.modeler.uml.internal.properties.sections.ElementImportTypeSectionFilter" 
@@ -508,6 +526,12 @@
 				tab="org.opaeum.eclipse.opaeumTab"> <input type="org.eclipse.uml2.uml.Stereotype"> 
 				</input> </propertySection -->
 
+			<propertySection
+				id="org.eclipse.papyrus.uml.profile.ui.section.AppliedStereotypeSectionWithView"
+				filter="org.eclipse.papyrus.uml.profile.filter.AppliedStereotypeSectionFilter"
+				class="org.eclipse.papyrus.uml.profile.ui.section.AppliedStereotypeSectionWithView"
+				tab="org.opaeum.papyrus.stereotypesTab">
+			</propertySection>
 		</propertySections>
 	</extension>
 </plugin>

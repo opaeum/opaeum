@@ -1,6 +1,8 @@
 package org.opaeum.eclipse;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -276,10 +278,7 @@ public class EmfElementFinder{
 		// Unimplemented containment features, oy
 		if(root instanceof Activity){
 			Activity node = (Activity) root;
-			PropertyDescriptor p = IntrospectionUtil.getProperty("ownedNodes", node.getClass());
-			if(p != null){
-				elements.addAll((Collection<? extends Element>) IntrospectionUtil.get(p,node));
-			}
+			getOwnedNodesForEclipseUml4(elements, node);
 			elements.addAll(node.getEdges());
 		}else if(root instanceof StructuredActivityNode){
 			StructuredActivityNode node = (StructuredActivityNode) root;
@@ -334,6 +333,30 @@ public class EmfElementFinder{
 			}
 		}
 		return elements;
+	}
+	private static void getOwnedNodesForEclipseUml4(Collection<Element> elements,Activity node){
+		Method getOwnedNodes;
+		try{
+			getOwnedNodes = node.getClass().getMethod("getOwnedNodes");
+			if(getOwnedNodes!=null){
+				elements.addAll((Collection<? extends Element>) getOwnedNodes.invoke(node));
+			}
+		}catch(SecurityException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(NoSuchMethodException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(IllegalArgumentException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(IllegalAccessException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(InvocationTargetException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static Classifier getNearestClassContext(Element element){
 		Classifier clss = EmfElementFinder.getNearestClassifier(element);
