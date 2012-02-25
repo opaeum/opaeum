@@ -132,9 +132,6 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 		}
 		ojClass.addToOperations(addToOwningObject);
 	}
-	protected boolean isMap(INakedProperty p){
-		return p.getName().equals("updateChangeLog");
-	}
 	public boolean isInterfaceOrAssociationClass(ICompositionParticipant c){
 		return c instanceof INakedInterface || c instanceof INakedAssociation;
 	}

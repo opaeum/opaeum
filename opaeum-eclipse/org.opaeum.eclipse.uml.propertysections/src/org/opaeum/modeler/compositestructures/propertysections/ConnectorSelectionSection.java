@@ -62,7 +62,7 @@ public class ConnectorSelectionSection extends AttachedOpaqueBehaviorSection imp
 	}
 	private Stereotype getStereotype(){
 		Profile p = ProfileApplier.applyProfile(getConnector().getModel(), StereotypeNames.OPAEUM_BPM_PROFILE);
-		return p.getOwnedStereotype(StereotypeNames.DELEGATION);
+		return p.getOwnedStereotype(StereotypeNames.RESPONSIBILITY_DELEGATION);
 	}
 	protected void addVariables(){
 		TypeAndMultiplicity sourceType = EmfCompositeStructuresUtil.findTargetType(getConnector());

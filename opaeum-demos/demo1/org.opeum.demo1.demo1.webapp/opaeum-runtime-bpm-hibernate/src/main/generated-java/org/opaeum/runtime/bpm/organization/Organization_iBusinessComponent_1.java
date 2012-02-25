@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,13 +21,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -32,6 +36,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,11 +51,13 @@ import org.w3c.dom.NodeList;
 @Entity(name="Organization_iBusinessComponent_1")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class Organization_iBusinessComponent_1 implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
-	@Index(columnNames="business_component",name="idx_organization_i_business_component_1_business_component")
-	@Any(metaColumn=
-		@Column(name="business_component_type"),metaDef="IBusinessComponent")
-	@JoinColumn(name="business_component",nullable=true)
-	private IBusinessComponent businessComponent;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="business_component"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="business_component_type"),name="classIdentifier")})
+	private InterfaceValue businessComponent;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -62,6 +69,8 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	@Index(columnNames="represented_organization_id",name="idx_organization_i_business_component_1_represented_organization_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="represented_organization_id",nullable=true)
@@ -135,7 +144,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public IBusinessComponent getBusinessComponent() {
-		IBusinessComponent result = this.businessComponent;
+		IBusinessComponent result = (IBusinessComponent)this.businessComponent.getValue(persistence);
 		
 		return result;
 	}
@@ -313,7 +322,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	}
 	
 	public void z_internalAddToBusinessComponent(IBusinessComponent val) {
-		this.businessComponent=val;
+		this.businessComponent.setValue(val);
 	}
 	
 	public void z_internalAddToRepresentedOrganization(OrganizationalNode val) {
@@ -322,12 +331,13 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 	
 	public void z_internalRemoveFromBusinessComponent(IBusinessComponent val) {
 		if ( getBusinessComponent()!=null && val!=null && val.equals(getBusinessComponent()) ) {
-			this.businessComponent=null;
+			this.businessComponent.setValue(null);
 		}
 	}
 	
 	public void z_internalRemoveFromRepresentedOrganization(OrganizationalNode val) {
 		if ( getRepresentedOrganization()!=null && val!=null && val.equals(getRepresentedOrganization()) ) {
+			this.representedOrganization=null;
 			this.representedOrganization=null;
 		}
 	}

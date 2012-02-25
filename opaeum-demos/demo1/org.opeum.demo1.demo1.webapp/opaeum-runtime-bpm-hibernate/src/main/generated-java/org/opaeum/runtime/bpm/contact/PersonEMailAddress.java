@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +22,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.organization.Person;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -35,6 +35,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -59,12 +60,14 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	static private Set<PersonEMailAddress> mockedAllInstances;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@Index(columnNames="person_id",name="idx_person_e_mail_address_person_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_id",nullable=true)
 	private Person person;
 	static final private long serialVersionUID = 2460027813273694992l;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.contact.PersonEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
 	private PersonEMailAddressType type;
 
@@ -278,11 +281,13 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	public void z_internalRemoveFromPerson(Person val) {
 		if ( getPerson()!=null && val!=null && val.equals(getPerson()) ) {
 			this.person=null;
+			this.person=null;
 		}
 	}
 	
 	public void z_internalRemoveFromType(PersonEMailAddressType val) {
 		if ( getType()!=null && val!=null && val.equals(getType()) ) {
+			this.type=null;
 			this.type=null;
 		}
 	}

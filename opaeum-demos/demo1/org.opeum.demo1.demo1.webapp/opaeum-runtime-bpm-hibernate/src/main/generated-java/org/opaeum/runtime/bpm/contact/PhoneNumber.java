@@ -34,6 +34,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -66,6 +67,8 @@ abstract public class PhoneNumber implements IPersistentObject, IEventGenerator,
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 4277765386770808106l;
 	private String uid;
 
@@ -246,6 +249,7 @@ abstract public class PhoneNumber implements IPersistentObject, IEventGenerator,
 	
 	public void z_internalRemoveFromNumber(String val) {
 		if ( getNumber()!=null && val!=null && val.equals(getNumber()) ) {
+			this.number=null;
 			this.number=null;
 		}
 	}

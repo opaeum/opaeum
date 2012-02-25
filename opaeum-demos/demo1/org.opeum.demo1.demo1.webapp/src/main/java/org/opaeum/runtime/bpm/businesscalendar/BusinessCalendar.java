@@ -24,14 +24,10 @@ import org.opaeum.runtime.bpm.businesscalendar.WorkDayKind;
 //This class is timezone agnostic. It assumes that all the Calendar objects
 // that it is being passed
 // are correctly timezoned.
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Filter(name = "noDeletedObjects")
 @Entity(name = "BusinessCalendar")
 @DiscriminatorColumn(name = "type_descriminator",discriminatorType = javax.persistence.DiscriminatorType.STRING)
 @Inheritance(strategy = javax.persistence.InheritanceType.JOINED)
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {
-		"business_component","deleted_on"
-}),name = "business_calendar")
 @NumlMetaInfo(uuid = "65a77c10_1db1_40f2_9bc5_e3306b228731")
 @AccessType("field")
 public class BusinessCalendar extends BusinessCalendarGenerated{
@@ -275,7 +271,7 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 	private int timeOfDayInMinutes(Calendar c){
 		return c.get(Calendar.HOUR_OF_DAY) * 60 + c.get(Calendar.MINUTE);
 	}
-	private WorkDay getWorkDay(WorkDayKind type){
+	public WorkDay getWorkDay(WorkDayKind type){
 		for(WorkDay element:getWorkDay()){
 			if(element.getKind().equals(type)){
 				return element;

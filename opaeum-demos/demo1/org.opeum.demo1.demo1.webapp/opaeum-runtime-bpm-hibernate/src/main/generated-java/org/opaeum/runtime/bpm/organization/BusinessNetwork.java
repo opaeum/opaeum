@@ -36,6 +36,7 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IBusinessNetwork;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -73,10 +74,12 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	private Set<OrganizationalNode> organization = new HashSet<OrganizationalNode>();
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="collaboration",targetEntity=Person.class)
-	private Set<Person> person = new HashSet<Person>();
+	private Map<String, Person> person = new HashMap<String,Person>();
 	static final private long serialVersionUID = 2395627898464121473l;
 	private String uid;
 
@@ -100,12 +103,6 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	public void addAllToOrganization(Set<OrganizationalNode> organization) {
 		for ( OrganizationalNode o : organization ) {
 			addToOrganization(o);
-		}
-	}
-	
-	public void addAllToPerson(Set<Person> person) {
-		for ( Person o : person ) {
-			addToPerson(o);
 		}
 	}
 	
@@ -138,11 +135,11 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	public void addToOwningObject() {
 	}
 	
-	public void addToPerson(Person person) {
+	public void addToPerson(String username, Person person) {
 		if ( person!=null ) {
 			person.z_internalRemoveFromCollaboration(person.getCollaboration());
 			person.z_internalAddToCollaboration(this);
-			z_internalAddToPerson(person);
+			z_internalAddToPerson(username,person);
 		}
 	}
 	
@@ -174,7 +171,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToPerson(curVal);
+						this.addToPerson(curVal.getUsername(),curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -213,7 +210,11 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void clearPerson() {
-		removeAllFromPerson(getPerson());
+		Set<Person> tmp = new HashSet<Person>(getPerson());
+		for ( Person o : tmp ) {
+			removeFromPerson(o.getUsername(),o);
+		}
+		person.clear();
 	}
 	
 	public void copyShallowState(BusinessNetwork from, BusinessNetwork to) {
@@ -221,7 +222,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	
 	public void copyState(BusinessNetwork from, BusinessNetwork to) {
 		for ( Person child : from.getPerson() ) {
-			to.addToPerson(child.makeCopy());
+			to.addToPerson(child.getUsername(),child.makeCopy());
 		}
 		for ( OrganizationalNode child : from.getOrganization() ) {
 			to.addToOrganization(child.makeCopy());
@@ -297,9 +298,17 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return null;
 	}
 	
+	public Person getPerson(String username) {
+		Person result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(username.toString());
+		result=this.person.get(key.toString());
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	public Set<Person> getPerson() {
-		Set<Person> result = this.person;
+		Set<Person> result = new HashSet<Person>(this.person.values());
 		
 		return result;
 	}
@@ -411,13 +420,6 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		}
 	}
 	
-	public void removeAllFromPerson(Set<Person> person) {
-		Set<Person> tmp = new HashSet<Person>(person);
-		for ( Person o : tmp ) {
-			removeFromPerson(o);
-		}
-	}
-	
 	public void removeFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		if ( businessCollaboration!=null ) {
 			z_internalRemoveFromBusinessCollaboration(businessCollaboration);
@@ -442,10 +444,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		this.markDeleted();
 	}
 	
-	public void removeFromPerson(Person person) {
+	public void removeFromPerson(String username, Person person) {
 		if ( person!=null ) {
 			person.z_internalRemoveFromCollaboration(this);
-			z_internalRemoveFromPerson(person);
+			z_internalRemoveFromPerson(username,person);
 		}
 	}
 	
@@ -482,11 +484,6 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
-	}
-	
-	public void setPerson(Set<Person> person) {
-		this.clearPerson();
-		this.addAllToPerson(person);
 	}
 	
 	public void setUid(String newUid) {
@@ -537,8 +534,12 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		this.organization.add(val);
 	}
 	
-	public void z_internalAddToPerson(Person val) {
-		this.person.add(val);
+	public void z_internalAddToPerson(String username, Person val) {
+		StringBuilder key = new StringBuilder();
+		key.append(username.toString());
+		val.z_internalAddToUsername(username);
+		this.person.put(key.toString(),val);
+		val.setZ_keyOfPersonOnBusinessNetwork(key.toString());
 	}
 	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
@@ -558,8 +559,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		this.organization.remove(val);
 	}
 	
-	public void z_internalRemoveFromPerson(Person val) {
-		this.person.remove(val);
+	public void z_internalRemoveFromPerson(String username, Person val) {
+		StringBuilder key = new StringBuilder();
+		key.append(username.toString());
+		this.person.remove(key.toString());
 	}
 
 }

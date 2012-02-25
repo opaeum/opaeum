@@ -75,6 +75,9 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 			}
 		}else{
 			firstElement=getElementFrom();
+			if(firstElement instanceof Model){
+				System.out.println("JavaTransformationProcessManager.getCurrentTransformationProcess()="+JavaTransformationProcessManager.getCurrentTransformationProcess());
+			}
 			if(firstElement instanceof Model && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
 				actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
 			}else if((firstElement instanceof Element) && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){

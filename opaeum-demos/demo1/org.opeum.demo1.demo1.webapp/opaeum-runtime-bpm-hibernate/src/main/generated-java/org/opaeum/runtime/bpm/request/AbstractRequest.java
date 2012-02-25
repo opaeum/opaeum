@@ -16,7 +16,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -35,6 +34,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.Type;
 import org.jbpm.workflow.core.NodeContainer;
 import org.jbpm.workflow.core.WorkflowProcess;
 import org.jbpm.workflow.core.impl.NodeImpl;
@@ -56,6 +56,7 @@ import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,7 +85,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.request.AbstractRequestStateResolver")
 	private AbstractRequestState endNodeInRegion1;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="executed_on")
@@ -106,6 +107,8 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="request",targetEntity=ParticipationInRequest.class)
 	private Set<ParticipationInRequest> participationInRequest = new HashSet<ParticipationInRequest>();
+	@Transient
+	private AbstractPersistence persistence;
 	@Transient
 	private boolean processDirty;
 	@Transient
@@ -721,6 +724,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	
 	public void z_internalRemoveFromParentTask(TaskRequest val) {
 		if ( getParentTask()!=null && val!=null && val.equals(getParentTask()) ) {
+			this.parentTask=null;
 			this.parentTask=null;
 		}
 	}

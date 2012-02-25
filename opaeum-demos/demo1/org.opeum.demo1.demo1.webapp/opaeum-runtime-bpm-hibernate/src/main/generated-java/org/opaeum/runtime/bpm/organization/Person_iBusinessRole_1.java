@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,13 +21,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -32,6 +36,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,11 +51,13 @@ import org.w3c.dom.NodeList;
 @Entity(name="Person_iBusinessRole_1")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
-	@Index(columnNames="business_role",name="idx_person_i_business_role_1_business_role")
-	@Any(metaColumn=
-		@Column(name="business_role_type"),metaDef="IBusinessRole")
-	@JoinColumn(name="business_role",nullable=true)
-	private IBusinessRole businessRole;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="business_role"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="business_role_type"),name="classIdentifier")})
+	private InterfaceValue businessRole;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -62,6 +69,8 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	@Index(columnNames="represented_person_id",name="idx_person_i_business_role_1_represented_person_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="represented_person_id",nullable=true)
@@ -135,7 +144,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public IBusinessRole getBusinessRole() {
-		IBusinessRole result = this.businessRole;
+		IBusinessRole result = (IBusinessRole)this.businessRole.getValue(persistence);
 		
 		return result;
 	}
@@ -313,7 +322,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	}
 	
 	public void z_internalAddToBusinessRole(IBusinessRole val) {
-		this.businessRole=val;
+		this.businessRole.setValue(val);
 	}
 	
 	public void z_internalAddToRepresentedPerson(Person val) {
@@ -322,12 +331,13 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 	
 	public void z_internalRemoveFromBusinessRole(IBusinessRole val) {
 		if ( getBusinessRole()!=null && val!=null && val.equals(getBusinessRole()) ) {
-			this.businessRole=null;
+			this.businessRole.setValue(null);
 		}
 	}
 	
 	public void z_internalRemoveFromRepresentedPerson(Person val) {
 		if ( getRepresentedPerson()!=null && val!=null && val.equals(getRepresentedPerson()) ) {
+			this.representedPerson=null;
 			this.representedPerson=null;
 		}
 	}

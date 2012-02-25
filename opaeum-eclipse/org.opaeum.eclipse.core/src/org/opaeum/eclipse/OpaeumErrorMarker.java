@@ -43,7 +43,6 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 				@Override
 				public void run(){
 					System.out.println("OpaeumErrorMarker.maybeSchedule().new Runnable() {...}.run()");
-					
 					existingMarkers = new HashMap<String,IMarker>();
 					brokenElements = new HashMap<EObject,BrokenElement>();
 					Set<String> brokenUris = calcBrokenElements();
@@ -116,7 +115,14 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		return brokenUris;
 	}
 	private String markerKey(IFile file,EObject o,IValidationRule key){
-		return file.getName() + ":" + EcoreUtil.getURI(o).toString() + ":" + key.name();
+		if(file == null){
+			return "";// Sometimes the file is not found TODO investigate
+		}else{
+			String fileName = file.getName();
+			String uri = EcoreUtil.getURI(o).toString();
+			String keyName = key.name();
+			return fileName + ":" + uri + ":" + keyName;
+		}
 	}
 	private void markFiles(BrokenElement entry,final EObject o){
 		for(final BrokenRule brokenRule:entry.getRulesBrokenSince(new Date(lastMarked))){

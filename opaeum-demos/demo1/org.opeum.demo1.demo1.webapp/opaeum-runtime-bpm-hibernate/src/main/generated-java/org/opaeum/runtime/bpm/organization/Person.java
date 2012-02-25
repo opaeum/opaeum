@@ -30,6 +30,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.contact.PersonEMailAddress;
 import org.opaeum.runtime.bpm.contact.PersonPhoneNumber;
+import org.opaeum.runtime.bpm.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -41,6 +42,7 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IPerson;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -86,6 +88,8 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="representedPerson",targetEntity=PersonFullfillsActorRole.class)
@@ -97,21 +101,25 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="person",targetEntity=PersonPhoneNumber.class)
-	private Set<PersonPhoneNumber> phoneNumber = new HashSet<PersonPhoneNumber>();
+	private Map<String, PersonPhoneNumber> phoneNumber = new HashMap<String,PersonPhoneNumber>();
 	static final private long serialVersionUID = 3517707551286497542l;
 	@Column(name="surname")
 	private String surname;
 	private String uid;
 	@Column(name="username")
 	private String username;
+	@Column(name="key_in_person_on_bus_net")
+	private String z_keyOfPersonOnBusinessNetwork;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
+	 * @param username 
 	 */
-	public Person(BusinessNetwork owningObject) {
+	public Person(BusinessNetwork owningObject, String username) {
 		init(owningObject);
 		addToOwningObject();
+		setUsername(username);
 	}
 	
 	/** Default constructor for Person
@@ -155,12 +163,6 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
-	public void addAllToPhoneNumber(Set<PersonPhoneNumber> phoneNumber) {
-		for ( PersonPhoneNumber o : phoneNumber ) {
-			addToPhoneNumber(o);
-		}
-	}
-	
 	public void addToBusinessActor(IBusinessActor businessActor) {
 		if ( businessActor!=null ) {
 			businessActor.z_internalRemoveFromRepresentedPerson(businessActor.getRepresentedPerson());
@@ -196,7 +198,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getCollaboration().z_internalAddToPerson((Person)this);
+		getCollaboration().z_internalAddToPerson(this.getUsername(),(Person)this);
 	}
 	
 	public void addToPersonFullfillsActorRole_businessActor(PersonFullfillsActorRole personFullfillsActorRole_businessActor) {
@@ -215,11 +217,11 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
-	public void addToPhoneNumber(PersonPhoneNumber phoneNumber) {
+	public void addToPhoneNumber(PersonPhoneNumberType type, PersonPhoneNumber phoneNumber) {
 		if ( phoneNumber!=null ) {
 			phoneNumber.z_internalRemoveFromPerson(phoneNumber.getPerson());
 			phoneNumber.z_internalAddToPerson(this);
-			z_internalAddToPhoneNumber(phoneNumber);
+			z_internalAddToPhoneNumber(type,phoneNumber);
 		}
 	}
 	
@@ -263,7 +265,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToPhoneNumber(curVal);
+						this.addToPhoneNumber(curVal.getType(),curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -350,7 +352,11 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void clearPhoneNumber() {
-		removeAllFromPhoneNumber(getPhoneNumber());
+		Set<PersonPhoneNumber> tmp = new HashSet<PersonPhoneNumber>(getPhoneNumber());
+		for ( PersonPhoneNumber o : tmp ) {
+			removeFromPhoneNumber(o.getType(),o);
+		}
+		phoneNumber.clear();
 	}
 	
 	public void copyShallowState(Person from, Person to) {
@@ -364,7 +370,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		to.setFirstName(from.getFirstName());
 		to.setSurname(from.getSurname());
 		for ( PersonPhoneNumber child : from.getPhoneNumber() ) {
-			to.addToPhoneNumber(child.makeCopy());
+			to.addToPhoneNumber(child.getType(),child.makeCopy());
 		}
 		for ( PersonEMailAddress child : from.getEMailAddress() ) {
 			to.addToEMailAddress(child.makeCopy());
@@ -504,9 +510,17 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		return null;
 	}
 	
+	public PersonPhoneNumber getPhoneNumber(PersonPhoneNumberType type) {
+		PersonPhoneNumber result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		result=this.phoneNumber.get(key.toString());
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
 	public Set<PersonPhoneNumber> getPhoneNumber() {
-		Set<PersonPhoneNumber> result = this.phoneNumber;
+		Set<PersonPhoneNumber> result = new HashSet<PersonPhoneNumber>(this.phoneNumber.values());
 		
 		return result;
 	}
@@ -530,6 +544,10 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		String result = this.username;
 		
 		return result;
+	}
+	
+	public String getZ_keyOfPersonOnBusinessNetwork() {
+		return this.z_keyOfPersonOnBusinessNetwork;
 	}
 	
 	public int hashCode() {
@@ -556,7 +574,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	
 	public void markDeleted() {
 		if ( getCollaboration()!=null ) {
-			getCollaboration().z_internalRemoveFromPerson(this);
+			getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
 		for ( PersonPhoneNumber child : new ArrayList<PersonPhoneNumber>(getPhoneNumber()) ) {
 			child.markDeleted();
@@ -683,13 +701,6 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
-	public void removeAllFromPhoneNumber(Set<PersonPhoneNumber> phoneNumber) {
-		Set<PersonPhoneNumber> tmp = new HashSet<PersonPhoneNumber>(phoneNumber);
-		for ( PersonPhoneNumber o : tmp ) {
-			removeFromPhoneNumber(o);
-		}
-	}
-	
 	public void removeFromBusinessActor(IBusinessActor businessActor) {
 		if ( businessActor!=null ) {
 			z_internalRemoveFromBusinessActor(businessActor);
@@ -734,10 +745,10 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		}
 	}
 	
-	public void removeFromPhoneNumber(PersonPhoneNumber phoneNumber) {
+	public void removeFromPhoneNumber(PersonPhoneNumberType type, PersonPhoneNumber phoneNumber) {
 		if ( phoneNumber!=null ) {
 			phoneNumber.z_internalRemoveFromPerson(this);
-			z_internalRemoveFromPhoneNumber(phoneNumber);
+			z_internalRemoveFromPhoneNumber(type,phoneNumber);
 		}
 	}
 	
@@ -761,10 +772,10 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	
 	public void setCollaboration(BusinessNetwork collaboration) {
 		if ( this.getCollaboration()!=null ) {
-			this.getCollaboration().z_internalRemoveFromPerson(this);
+			this.getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
 		}
 		if ( collaboration!=null ) {
-			collaboration.z_internalAddToPerson(this);
+			collaboration.z_internalAddToPerson(this.getUsername(),this);
 			this.z_internalAddToCollaboration(collaboration);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
@@ -812,11 +823,6 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		this.addAllToPerson_iBusinessRole_1_businessRole(person_iBusinessRole_1_businessRole);
 	}
 	
-	public void setPhoneNumber(Set<PersonPhoneNumber> phoneNumber) {
-		this.clearPhoneNumber();
-		this.addAllToPhoneNumber(phoneNumber);
-	}
-	
 	public void setSurname(String surname) {
 		this.z_internalAddToSurname(surname);
 	}
@@ -826,7 +832,17 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setUsername(String username) {
+		if ( getCollaboration()!=null && getUsername()!=null ) {
+			getCollaboration().z_internalRemoveFromPerson(this.getUsername(),this);
+		}
 		this.z_internalAddToUsername(username);
+		if ( getCollaboration()!=null && getUsername()!=null ) {
+			getCollaboration().z_internalAddToPerson(this.getUsername(),this);
+		}
+	}
+	
+	public void setZ_keyOfPersonOnBusinessNetwork(String z_keyOfPersonOnBusinessNetwork) {
+		this.z_keyOfPersonOnBusinessNetwork=z_keyOfPersonOnBusinessNetwork;
 	}
 	
 	public String toXmlReferenceString() {
@@ -921,8 +937,12 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		this.person_iBusinessRole_1_businessRole.add(val);
 	}
 	
-	public void z_internalAddToPhoneNumber(PersonPhoneNumber val) {
-		this.phoneNumber.add(val);
+	public void z_internalAddToPhoneNumber(PersonPhoneNumberType type, PersonPhoneNumber val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		val.z_internalAddToType(type);
+		this.phoneNumber.put(key.toString(),val);
+		val.setZ_keyOfPhoneNumberOnPerson(key.toString());
 	}
 	
 	public void z_internalAddToSurname(String val) {
@@ -935,6 +955,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	
 	public void z_internalRemoveFromAuthenticationToken(String val) {
 		if ( getAuthenticationToken()!=null && val!=null && val.equals(getAuthenticationToken()) ) {
+			this.authenticationToken=null;
 			this.authenticationToken=null;
 		}
 	}
@@ -960,6 +981,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	public void z_internalRemoveFromCollaboration(BusinessNetwork val) {
 		if ( getCollaboration()!=null && val!=null && val.equals(getCollaboration()) ) {
 			this.collaboration=null;
+			this.collaboration=null;
 		}
 	}
 	
@@ -969,6 +991,7 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	
 	public void z_internalRemoveFromFirstName(String val) {
 		if ( getFirstName()!=null && val!=null && val.equals(getFirstName()) ) {
+			this.firstName=null;
 			this.firstName=null;
 		}
 	}
@@ -985,18 +1008,22 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		this.person_iBusinessRole_1_businessRole.remove(val);
 	}
 	
-	public void z_internalRemoveFromPhoneNumber(PersonPhoneNumber val) {
-		this.phoneNumber.remove(val);
+	public void z_internalRemoveFromPhoneNumber(PersonPhoneNumberType type, PersonPhoneNumber val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		this.phoneNumber.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromSurname(String val) {
 		if ( getSurname()!=null && val!=null && val.equals(getSurname()) ) {
+			this.surname=null;
 			this.surname=null;
 		}
 	}
 	
 	public void z_internalRemoveFromUsername(String val) {
 		if ( getUsername()!=null && val!=null && val.equals(getUsername()) ) {
+			this.username=null;
 			this.username=null;
 		}
 	}

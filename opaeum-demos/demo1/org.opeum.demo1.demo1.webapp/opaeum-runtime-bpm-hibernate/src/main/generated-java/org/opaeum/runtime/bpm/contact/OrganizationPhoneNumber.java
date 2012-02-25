@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +22,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.organization.OrganizationalNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -35,6 +35,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -63,18 +64,24 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	private OrganizationalNode organization;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 6058915114543502092l;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberTypeResolver")
 	@Column(name="type",nullable=true)
 	private OrganizationPhoneNumberType type;
+	@Column(name="key_in_pho_num_on_org_nod")
+	private String z_keyOfPhoneNumberOnOrganizationalNode;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
+	 * @param type 
 	 */
-	public OrganizationPhoneNumber(OrganizationalNode owningObject) {
+	public OrganizationPhoneNumber(OrganizationalNode owningObject, OrganizationPhoneNumberType type) {
 		init(owningObject);
 		addToOwningObject();
+		setType(type);
 	}
 	
 	/** Default constructor for OrganizationPhoneNumber
@@ -85,7 +92,7 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getOrganization().z_internalAddToPhoneNumber((OrganizationPhoneNumber)this);
+		getOrganization().z_internalAddToPhoneNumber(this.getType(),(OrganizationPhoneNumber)this);
 	}
 	
 	static public Set<? extends OrganizationPhoneNumber> allInstances() {
@@ -168,6 +175,10 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 		return result;
 	}
 	
+	public String getZ_keyOfPhoneNumberOnOrganizationalNode() {
+		return this.z_keyOfPhoneNumberOnOrganizationalNode;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -194,7 +205,7 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	public void markDeleted() {
 		super.markDeleted();
 		if ( getOrganization()!=null ) {
-			getOrganization().z_internalRemoveFromPhoneNumber(this);
+			getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
 		setDeletedOn(new Date());
 	}
@@ -227,10 +238,10 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	
 	public void setOrganization(OrganizationalNode organization) {
 		if ( this.getOrganization()!=null ) {
-			this.getOrganization().z_internalRemoveFromPhoneNumber(this);
+			this.getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
 		if ( organization!=null ) {
-			organization.z_internalAddToPhoneNumber(this);
+			organization.z_internalAddToPhoneNumber(this.getType(),this);
 			this.z_internalAddToOrganization(organization);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
@@ -243,7 +254,17 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	}
 	
 	public void setType(OrganizationPhoneNumberType type) {
+		if ( getOrganization()!=null && getType()!=null ) {
+			getOrganization().z_internalRemoveFromPhoneNumber(this.getType(),this);
+		}
 		this.z_internalAddToType(type);
+		if ( getOrganization()!=null && getType()!=null ) {
+			getOrganization().z_internalAddToPhoneNumber(this.getType(),this);
+		}
+	}
+	
+	public void setZ_keyOfPhoneNumberOnOrganizationalNode(String z_keyOfPhoneNumberOnOrganizationalNode) {
+		this.z_keyOfPhoneNumberOnOrganizationalNode=z_keyOfPhoneNumberOnOrganizationalNode;
 	}
 	
 	public String toXmlReferenceString() {
@@ -278,11 +299,13 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	public void z_internalRemoveFromOrganization(OrganizationalNode val) {
 		if ( getOrganization()!=null && val!=null && val.equals(getOrganization()) ) {
 			this.organization=null;
+			this.organization=null;
 		}
 	}
 	
 	public void z_internalRemoveFromType(OrganizationPhoneNumberType val) {
 		if ( getType()!=null && val!=null && val.equals(getType()) ) {
+			this.type=null;
 			this.type=null;
 		}
 	}

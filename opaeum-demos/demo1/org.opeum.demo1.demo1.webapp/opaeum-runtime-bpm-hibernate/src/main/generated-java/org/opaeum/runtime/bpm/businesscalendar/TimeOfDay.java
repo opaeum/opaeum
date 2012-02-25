@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -31,6 +32,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,6 +66,8 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 2904073007558910507l;
 	private String uid;
 
@@ -239,11 +243,13 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	public void z_internalRemoveFromHours(Integer val) {
 		if ( getHours()!=null && val!=null && val.equals(getHours()) ) {
 			this.hours=null;
+			this.hours=null;
 		}
 	}
 	
 	public void z_internalRemoveFromMinutes(Integer val) {
 		if ( getMinutes()!=null && val!=null && val.equals(getMinutes()) ) {
+			this.minutes=null;
 			this.minutes=null;
 		}
 	}

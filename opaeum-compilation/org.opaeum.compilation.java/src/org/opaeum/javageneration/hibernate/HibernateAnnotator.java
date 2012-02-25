@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IClassifier;
 
@@ -186,7 +191,25 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 			}else if(f.getNakedBaseType() instanceof INakedSimpleType){
 				// TODO use strategies
 			}else if(f.getNakedBaseType() instanceof INakedInterface && !f.getNakedBaseType().hasStereotype(StereotypeNames.HELPER)){
-				HibernateUtil.addAny(field, map);
+				if(config.shouldBeCm1Compatible()){
+					HibernateUtil.addAny(field, map);
+				}else{
+					field.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Embedded.class.getName())));
+					OJAnnotationValue overrides = new OJAnnotationValue(new OJPathName(AttributeOverrides.class.getName()));
+					OJAnnotationValue identifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
+					identifier.putAttribute("name", "identifier");
+					overrides.addAnnotationValue(identifier);
+					OJAnnotationValue identifierColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
+					identifier.putAttribute("column", identifierColumn);
+					identifierColumn.putAttribute("name", map.getProperty().getMappingInfo().getPersistentName().getAsIs());
+					field.addAnnotationIfNew(overrides);
+					OJAnnotationValue classIdentifier = new OJAnnotationValue(new OJPathName(AttributeOverride.class.getName()));
+					classIdentifier.putAttribute("name", "classIdentifier");
+					OJAnnotationValue classIdentifierColumn = new OJAnnotationValue(new OJPathName(Column.class.getName()));
+					classIdentifier.putAttribute("column", classIdentifierColumn);
+					classIdentifierColumn.putAttribute("name", map.getProperty().getMappingInfo().getPersistentName().getAsIs() + "_type");
+					overrides.addAnnotationValue(classIdentifier);
+				}
 				if(f.isComposite()){
 					HibernateUtil.addCascade(field, CascadeType.ALL);
 					field.removeAnnotation(new OJPathName("javax.persistence.Transient"));
@@ -212,13 +235,16 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 					oneToOne.removeAttribute("mappedBy");
 				}
 			}
-			OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
-			if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse()
-					&& field.findAnnotation(indexPathName) == null){
-				OJAnnotationValue index = new OJAnnotationValue(indexPathName);
-				index.putAttribute("name", "idx_" + owner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName());
-				index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());
-				field.putAnnotation(index);
+			if(!(f.getBaseType() instanceof INakedInterface)){
+				//TODO address this by adding an extra field to the entity
+				OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
+				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse()
+						&& field.findAnnotation(indexPathName) == null){
+					OJAnnotationValue index = new OJAnnotationValue(indexPathName);
+					index.putAttribute("name", "idx_" + owner.getMappingInfo().getPersistentName() + "_" + f.getMappingInfo().getPersistentName());
+					index.putAttribute("columnNames", f.getMappingInfo().getPersistentName().getAsIs());
+					field.putAnnotation(index);
+				}
 			}
 		}
 	}
@@ -300,9 +326,9 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 		allInstances.setStatic(true);
 		OJIfStatement ifMocked = new OJIfStatement("mockedAllInstances==null");
 		allInstances.getBody().addToStatements(ifMocked);
-		ifMocked.getThenPart()
-				.addToStatements("CmtPersistence session =" + Environment.class.getName() + ".getInstance().getComponent(CmtPersistence.class)");
-		ifMocked.getThenPart().addToStatements("return new HashSet(session.readAll("+ ojClass.getPathName() + ".class))");
+		ifMocked.getThenPart().addToStatements(
+				"CmtPersistence session =" + Environment.class.getName() + ".getInstance().getComponent(CmtPersistence.class)");
+		ifMocked.getThenPart().addToStatements("return new HashSet(session.readAll(" + ojClass.getPathName() + ".class))");
 		ojClass.addToImports(new OJPathName("org.opaeum.runtime.persistence.CmtPersistence"));
 		ifMocked.setElsePart(new OJBlock());
 		ifMocked.getElsePart().addToStatements("return mockedAllInstances");

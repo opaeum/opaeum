@@ -36,7 +36,7 @@
           className="org.opaeum.generation.features.PersistenceUsingHibernate">
     </transformationStep>
     <transformationStep
-          className="org.opaeum.rap.RapProjectBuilder">
+          className="org.opaeum.rap.RapCapabilities">
     </transformationStep>
     <transformationStep
           className="org.opaeum.generation.features.PersistenceUsingJpa">
@@ -55,6 +55,10 @@
     <modelLibrary
           name="Opaeum BPM and Business Calendar Library"
           uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml">
+    </modelLibrary>
+    <modelLibrary
+          name="Opaeum BPM Common Library"
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml">
     </modelLibrary>
  </extension>
  <extension

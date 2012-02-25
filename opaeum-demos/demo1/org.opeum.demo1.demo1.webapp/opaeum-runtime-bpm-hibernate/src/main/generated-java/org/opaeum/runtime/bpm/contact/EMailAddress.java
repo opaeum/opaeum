@@ -34,6 +34,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -66,6 +67,8 @@ abstract public class EMailAddress implements IPersistentObject, IEventGenerator
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 68765912252045048l;
 	private String uid;
 
@@ -246,6 +249,7 @@ abstract public class EMailAddress implements IPersistentObject, IEventGenerator
 	
 	public void z_internalRemoveFromAddress(String val) {
 		if ( getAddress()!=null && val!=null && val.equals(getAddress()) ) {
+			this.address=null;
 			this.address=null;
 		}
 	}

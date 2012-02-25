@@ -46,6 +46,9 @@ public abstract class ProcessStepEnumerationImplementor extends StereotypeAnnota
 		OJUtil.addField(e, constructor, "parentState", abstractProcessStep);
 		OJUtil.addField(e, constructor, "uuid", new OJPathName("String"));
 		OJUtil.addField(e, constructor, "id", new OJPathName("long"));
+		OJAnnotatedOperation getUid = new OJAnnotatedOperation("getUid", new OJPathName("String"));
+		getUid.initializeResultVariable("getUuid()");
+		e.addToOperations(getUid);
 		OJUtil.addField(e, constructor, "humanName", new OJPathName("String"));
 		OJUtil.addField(e, constructor, "triggerMethods", new OJPathName(TriggerMethod.class.getName()+"[]"));
 		e.addToImports(TriggerMethod.class.getName());

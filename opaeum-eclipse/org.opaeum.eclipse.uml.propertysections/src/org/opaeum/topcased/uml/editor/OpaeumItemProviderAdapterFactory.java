@@ -136,7 +136,7 @@ public class OpaeumItemProviderAdapterFactory extends UMLItemProviderAdapterFact
 						Connector a = (Connector) object;
 						if(StereotypesHelper.hasStereotype(a, StereotypeNames.BUSINESS_CHANNEL)){
 							return "<Business Channel> " + a.getName();
-						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.DELEGATION)){
+						}else if(StereotypesHelper.hasStereotype(a, StereotypeNames.RESPONSIBILITY_DELEGATION)){
 							return "<Delegation> " + a.getName();
 						}
 					}

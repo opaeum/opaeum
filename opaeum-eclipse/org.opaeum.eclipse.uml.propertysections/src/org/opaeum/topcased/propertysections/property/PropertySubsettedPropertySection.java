@@ -25,6 +25,6 @@ public class PropertySubsettedPropertySection extends AbstractPropertyLookupSect
 
 	@Override
 	protected String getLabelText(){
-		return "Subsetted properties";
+		return "Subsetted types";
 	}
 }

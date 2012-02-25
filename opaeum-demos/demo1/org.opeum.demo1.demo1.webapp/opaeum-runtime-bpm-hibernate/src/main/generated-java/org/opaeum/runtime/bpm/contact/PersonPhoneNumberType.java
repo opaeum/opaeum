@@ -22,6 +22,12 @@ import org.opaeum.runtime.domain.IEnum;
 		this.uuid=uuid;
 	}
 
+	public String getUid() {
+		String result = getUuid();
+		
+		return result;
+	}
+	
 	public String getUuid() {
 		return this.uuid;
 	}

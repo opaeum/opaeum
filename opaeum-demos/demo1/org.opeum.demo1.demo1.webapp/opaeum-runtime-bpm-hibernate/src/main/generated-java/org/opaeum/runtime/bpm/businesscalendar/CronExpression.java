@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -27,6 +28,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -62,6 +64,8 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 5460935804071936083l;
 	private String uid;
 
@@ -297,11 +301,13 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	public void z_internalRemoveFromDayOfMonth(String val) {
 		if ( getDayOfMonth()!=null && val!=null && val.equals(getDayOfMonth()) ) {
 			this.dayOfMonth=null;
+			this.dayOfMonth=null;
 		}
 	}
 	
 	public void z_internalRemoveFromDayOfWeek(String val) {
 		if ( getDayOfWeek()!=null && val!=null && val.equals(getDayOfWeek()) ) {
+			this.dayOfWeek=null;
 			this.dayOfWeek=null;
 		}
 	}
@@ -309,17 +315,20 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 	public void z_internalRemoveFromHours(String val) {
 		if ( getHours()!=null && val!=null && val.equals(getHours()) ) {
 			this.hours=null;
+			this.hours=null;
 		}
 	}
 	
 	public void z_internalRemoveFromMinutes(String val) {
 		if ( getMinutes()!=null && val!=null && val.equals(getMinutes()) ) {
 			this.minutes=null;
+			this.minutes=null;
 		}
 	}
 	
 	public void z_internalRemoveFromMonth(String val) {
 		if ( getMonth()!=null && val!=null && val.equals(getMonth()) ) {
+			this.month=null;
 			this.month=null;
 		}
 	}

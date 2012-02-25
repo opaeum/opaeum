@@ -37,9 +37,9 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		resolver.setSuperclass(new OJPathName("org.opaeum.hibernate.domain.AbstractEnumResolver"));
 	}
 	private OJAnnotatedOperation buildToOpaeumId(OJEnum oje, Collection<? extends INakedElement> els){
-		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("toOpaeumId",new OJPathName("int"));
+		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("toOpaeumId",new OJPathName("long"));
 		toOpaeumId.addParam("en", new OJPathName(IEnum.class.getName()));
-		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName("int"));
+		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName("long"));
 		result.setInitExp("-1");
 		toOpaeumId.getBody().addToLocals(result);
 		OJSwitchStatement sst= new OJSwitchStatement();
@@ -48,7 +48,7 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 		for(INakedElement l:els){
 			OJSwitchCase sc = new OJSwitchCase();
 			sc.setLabel(getLiteralName(l));
-			sc.getBody().addToStatements("result = "  + l.getMappingInfo().getOpaeumId());
+			sc.getBody().addToStatements("result = "  + l.getMappingInfo().getOpaeumId() + "l");
 			sst.addToCases(sc);
 		}
 		toOpaeumId.getBody().addToStatements("return result");
@@ -57,13 +57,13 @@ public abstract class AbstractEnumResolverImplementor extends AbstractJavaProduc
 	protected abstract String getLiteralName(INakedElement l);
 	private OJAnnotatedOperation buildFromOpaeumId(OJEnum oje,Collection<? extends INakedElement> els){
 		OJAnnotatedOperation toOpaeumId = new OJAnnotatedOperation("fromOpaeumId", new OJPathName(IEnum.class.getName()));
-		toOpaeumId.addParam("i", new OJPathName("int"));
+		toOpaeumId.addParam("i", new OJPathName("long"));
 		OJAnnotatedField result = new OJAnnotatedField("result", new OJPathName(IEnum.class.getName()));
 		result.setInitExp("null");
 		toOpaeumId.getBody().addToLocals(result);
 		OJBlock elsePart =toOpaeumId.getBody();
 		for(INakedElement l:els){
-			OJIfStatement sc = new OJIfStatement("i=="+l.getMappingInfo().getOpaeumId() + "","result = " + oje.getName() + "." + getLiteralName(l));
+			OJIfStatement sc = new OJIfStatement("i=="+l.getMappingInfo().getOpaeumId() + "l","result = " + oje.getName() + "." + getLiteralName(l));
 			elsePart.addToStatements(sc);
 			sc.setElsePart(new OJBlock());
 			elsePart=sc.getElsePart();

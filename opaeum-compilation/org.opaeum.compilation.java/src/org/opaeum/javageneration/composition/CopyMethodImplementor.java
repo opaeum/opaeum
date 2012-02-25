@@ -6,7 +6,6 @@ import java.util.List;
 import nl.klasse.octopus.model.IModelElement;
 
 import org.opaeum.feature.StepDependency;
-import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -19,8 +18,8 @@ import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
-import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.OperationAnnotator;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.persistence.PersistentObjectImplementor;
@@ -40,9 +39,8 @@ import org.opaeum.name.NameConverter;
 },after = {
 	OperationAnnotator.class
 })
-public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
-	@VisitAfter(matchSubclasses = true)
-	public void visitClass(INakedClassifier c){
+public class CopyMethodImplementor extends AbstractStructureVisitor{
+	protected void visitComplexStructure(INakedComplexStructure c){
 		OJPathName path = OJUtil.classifierPathname(c);
 		OJClassifier myOwner = this.javaModel.findClass(path);
 		// NakedModelElement mew = (NakedModelElement)
@@ -141,7 +139,7 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 								OJBlock whileBody = forBlock;
 								ws.setBody(whileBody);
 								ws.setElemType(map.javaBaseTypePath());
-								if(isMap(map)){
+								if(isMap(map.getProperty())){
 									StringBuilder sb = new StringBuilder();
 									List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
 									//Assume qualifiers are back by attributes as we are doing composition here
@@ -202,7 +200,8 @@ public class CopyMethodImplementor extends AbstractJavaProducingVisitor{
 			}
 		}
 	}
-	private boolean isMap(NakedStructuralFeatureMap map){
-		return map.umlName().equals("updateChangeLog");
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		
 	}
 }

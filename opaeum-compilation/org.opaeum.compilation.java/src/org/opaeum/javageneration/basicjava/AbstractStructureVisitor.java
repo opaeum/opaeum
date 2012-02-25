@@ -183,4 +183,8 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			}
 		}
 	}
+	protected final boolean isMap(INakedProperty property){
+		return property.getQualifiers().size() > 0 && (property.getName().equals("updateChangeLog") || !config.shouldBeCm1Compatible());
+	}
+
 }

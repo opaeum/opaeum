@@ -12,7 +12,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -29,6 +28,7 @@ import javax.persistence.Version;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -40,6 +40,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -75,7 +76,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	private Long id;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.businesscalendar.WorkDayKindResolver")
 	@Column(name="kind",nullable=true)
 	private WorkDayKind kind;
 	static private Set<WorkDay> mockedAllInstances;
@@ -84,19 +85,25 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 5790311637175134369l;
 	@ManyToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="start_time_id",nullable=true)
 	private TimeOfDay startTime;
 	private String uid;
+	@Column(name="key_in_wor_day_on_bus_cal")
+	private String z_keyOfWorkDayOnBusinessCalendar;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
+	 * @param kind 
 	 */
-	public WorkDay(BusinessCalendar owningObject) {
+	public WorkDay(BusinessCalendar owningObject, WorkDayKind kind) {
 		init(owningObject);
 		addToOwningObject();
+		setKind(kind);
 	}
 	
 	/** Default constructor for WorkDay
@@ -107,7 +114,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getBusinessCalendar().z_internalAddToWorkDay((WorkDay)this);
+		getBusinessCalendar().z_internalAddToWorkDay(this.getKind(),(WorkDay)this);
 	}
 	
 	static public Set<? extends WorkDay> allInstances() {
@@ -273,6 +280,10 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.uid;
 	}
 	
+	public String getZ_keyOfWorkDayOnBusinessCalendar() {
+		return this.z_keyOfWorkDayOnBusinessCalendar;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -297,7 +308,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void markDeleted() {
 		if ( getBusinessCalendar()!=null ) {
-			getBusinessCalendar().z_internalRemoveFromWorkDay(this);
+			getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
 		if ( getStartTime()!=null ) {
 			getStartTime().markDeleted();
@@ -346,10 +357,10 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setBusinessCalendar(BusinessCalendar businessCalendar) {
 		if ( this.getBusinessCalendar()!=null ) {
-			this.getBusinessCalendar().z_internalRemoveFromWorkDay(this);
+			this.getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
 		}
 		if ( businessCalendar!=null ) {
-			businessCalendar.z_internalAddToWorkDay(this);
+			businessCalendar.z_internalAddToWorkDay(this.getKind(),this);
 			this.z_internalAddToBusinessCalendar(businessCalendar);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
@@ -374,7 +385,13 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setKind(WorkDayKind kind) {
+		if ( getBusinessCalendar()!=null && getKind()!=null ) {
+			getBusinessCalendar().z_internalRemoveFromWorkDay(this.getKind(),this);
+		}
 		this.z_internalAddToKind(kind);
+		if ( getBusinessCalendar()!=null && getKind()!=null ) {
+			getBusinessCalendar().z_internalAddToWorkDay(this.getKind(),this);
+		}
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -391,6 +408,10 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void setUid(String newUid) {
 		this.uid=newUid;
+	}
+	
+	public void setZ_keyOfWorkDayOnBusinessCalendar(String z_keyOfWorkDayOnBusinessCalendar) {
+		this.z_keyOfWorkDayOnBusinessCalendar=z_keyOfWorkDayOnBusinessCalendar;
 	}
 	
 	public String toXmlReferenceString() {
@@ -444,11 +465,13 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	public void z_internalRemoveFromBusinessCalendar(BusinessCalendar val) {
 		if ( getBusinessCalendar()!=null && val!=null && val.equals(getBusinessCalendar()) ) {
 			this.businessCalendar=null;
+			this.businessCalendar=null;
 		}
 	}
 	
 	public void z_internalRemoveFromEndTime(TimeOfDay val) {
 		if ( getEndTime()!=null && val!=null && val.equals(getEndTime()) ) {
+			this.endTime=null;
 			this.endTime=null;
 		}
 	}
@@ -456,11 +479,13 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	public void z_internalRemoveFromKind(WorkDayKind val) {
 		if ( getKind()!=null && val!=null && val.equals(getKind()) ) {
 			this.kind=null;
+			this.kind=null;
 		}
 	}
 	
 	public void z_internalRemoveFromStartTime(TimeOfDay val) {
 		if ( getStartTime()!=null && val!=null && val.equals(getStartTime()) ) {
+			this.startTime=null;
 			this.startTime=null;
 		}
 	}

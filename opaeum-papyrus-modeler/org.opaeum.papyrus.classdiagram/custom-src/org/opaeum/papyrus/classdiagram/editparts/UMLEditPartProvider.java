@@ -12,23 +12,18 @@ import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
-import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.GradientStyle;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.datatype.GradientData;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.papyrus.uml.diagram.clazz.edit.parts.*;
 import org.eclipse.papyrus.uml.diagram.clazz.part.UMLVisualIDRegistry;
-import org.eclipse.papyrus.uml.diagram.common.figure.node.ClassifierFigure;
-import org.eclipse.papyrus.uml.diagram.common.figure.node.ComponentFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IMultilineEditableFigure;
-import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeFigure;
 import org.eclipse.papyrus.uml.diagram.common.figure.node.IPapyrusNodeNamedElementFigure;
-import org.eclipse.papyrus.uml.diagram.common.figure.node.PapyrusNodeFigure;
+import org.eclipse.papyrus.uml.diagram.common.figure.node.SignalFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.emf.extraction.StereotypesHelper;
 
 public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.providers.UMLEditPartProvider{
@@ -76,7 +71,7 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 				case ComponentNameEditPart.VISUAL_ID:
 					return new ComponentNameEditPart(view);
 				case SignalEditPart.VISUAL_ID:
-					return new SignalEditPart(view);
+					return new OpaeumSignalEditPart(view);
 				case SignalNameEditPart.VISUAL_ID:
 					return new SignalNameEditPart(view);
 				case InterfaceEditPart.VISUAL_ID:
@@ -96,37 +91,7 @@ public class UMLEditPartProvider extends org.eclipse.papyrus.uml.diagram.clazz.p
 				case PackageNameEditPart.VISUAL_ID:
 					return new PackageNameEditPart(view);
 				case ClassEditPart.VISUAL_ID:
-					return new ClassEditPart(view){
-						protected IFigure createNodeShape(){
-							ClassifierFigure result = new ClassifierFigure("Business Entity");
-							primaryShape = result;
-							setGradient(new GradientData(FigureUtilities.RGBToInteger(ColorConstants.blue.getRGB()),
-									FigureUtilities.RGBToInteger(ColorConstants.black.getRGB()), GradientStyle.VERTICAL));
-							return primaryShape;
-						}
-						@Override
-						protected void handleNotificationEvent(Notification event){
-							if(event.getNewValue() instanceof DynamicEObjectImpl){
-								//stereotype;
-								refreshVisuals();
-							}
-							super.handleNotificationEvent(event);
-						}
-						@Override
-						protected void refreshVisuals(){
-							super.refreshVisuals();
-							if((IPapyrusNodeNamedElementFigure) getPrimaryShape() != null && resolveSemanticElement() != null){
-								IPapyrusNodeNamedElementFigure l = (IPapyrusNodeNamedElementFigure) getPrimaryShape();
-								Element element = (Element) getAdapter(Element.class);
-								if(StereotypesHelper.hasStereotype(element, "BusinessRole")){
-									l.getTaggedLabel().setText("<<Business Role>>");
-								}else{
-									l.getTaggedLabel().setText("<<Business Entity>>");
-								}
-							}
-//							((PapyrusNodeFigure) getPrimaryShape()).setIsUsingGradient(true);
-						}
-					};
+					return new OpaeumClassEditPart(view);
 				case ClassNameEditPart.VISUAL_ID:
 					return new ClassNameEditPart(view);
 				case PrimitiveTypeEditPart.VISUAL_ID:

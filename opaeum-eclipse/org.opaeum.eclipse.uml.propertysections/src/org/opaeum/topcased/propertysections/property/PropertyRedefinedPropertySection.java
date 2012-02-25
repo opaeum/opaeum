@@ -20,6 +20,6 @@ public class PropertyRedefinedPropertySection extends AbstractPropertyLookupSect
 	}
 	@Override
 	protected String getLabelText(){
-		return "Redefined properties";
+		return "Redefined types";
 	}
 }

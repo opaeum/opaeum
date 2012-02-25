@@ -12,13 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,9 +28,7 @@ import javax.persistence.Transient;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.process.ProcessContext;
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Type;
 import org.jbpm.workflow.core.NodeContainer;
@@ -40,6 +39,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.abstractrequest.ActivateHandler3717858776997870408;
@@ -68,6 +68,7 @@ import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.domain.TransitionListener;
 import org.opaeum.runtime.domain.UmlNodeInstance;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -94,14 +95,14 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
 	protected Object currentException;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.request.TaskDelegationResolver")
 	@Column(name="delegation",nullable=true)
 	private TaskDelegation delegation;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.request.TaskRequestStateResolver")
 	private TaskRequestState endNodeInTaskRequestRegion;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="executed_on")
@@ -114,6 +115,8 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="taskRequest",targetEntity=ParticipationInTask.class)
 	private Set<ParticipationInTask> participationInTask = new HashSet<ParticipationInTask>();
 	@Transient
+	private AbstractPersistence persistence;
+	@Transient
 	private boolean processDirty;
 	@Transient
 	transient private WorkflowProcessInstance processInstance;
@@ -124,11 +127,13 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(fetch=javax.persistence.FetchType.LAZY,mappedBy="parentTask",targetEntity=AbstractRequest.class)
 	private Set<AbstractRequest> subRequests = new HashSet<AbstractRequest>();
-	@Index(columnNames="task_object",name="idx_task_request_task_object")
-	@Any(metaColumn=
-		@Column(name="task_object_type"),metaDef="ITaskObject")
-	@JoinColumn(name="task_object",nullable=true)
-	private ITaskObject taskObject;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="task_object"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="task_object_type"),name="classIdentifier")})
+	private InterfaceValue taskObject;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -812,7 +817,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	
 	@NumlMetaInfo(uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	public ITaskObject getTaskObject() {
-		ITaskObject result = this.taskObject;
+		ITaskObject result = (ITaskObject)this.taskObject.getValue(persistence);
 		
 		return result;
 	}
@@ -827,6 +832,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void init(ProcessContext context) {
+		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}
@@ -1265,11 +1271,12 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void z_internalAddToTaskObject(ITaskObject val) {
-		this.taskObject=val;
+		this.taskObject.setValue(val);
 	}
 	
 	public void z_internalRemoveFromDelegation(TaskDelegation val) {
 		if ( getDelegation()!=null && val!=null && val.equals(getDelegation()) ) {
+			this.delegation=null;
 			this.delegation=null;
 		}
 	}
@@ -1284,7 +1291,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	
 	public void z_internalRemoveFromTaskObject(ITaskObject val) {
 		if ( getTaskObject()!=null && val!=null && val.equals(getTaskObject()) ) {
-			this.taskObject=null;
+			this.taskObject.setValue(null);
 		}
 	}
 	

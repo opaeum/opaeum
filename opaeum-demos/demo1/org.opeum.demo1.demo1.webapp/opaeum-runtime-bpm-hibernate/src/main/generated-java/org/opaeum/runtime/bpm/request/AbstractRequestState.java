@@ -42,6 +42,12 @@ public enum AbstractRequestState implements IProcessStep {
 		return this.triggerMethods;
 	}
 	
+	public String getUid() {
+		String result = getUuid();
+		
+		return result;
+	}
+	
 	public String getUuid() {
 		return this.uuid;
 	}

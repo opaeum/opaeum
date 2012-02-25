@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,6 +23,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.organization.OrganizationalNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -36,6 +36,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -65,18 +66,24 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	private OrganizationalNode organization;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 1041028322921096628l;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
 	private OrganizationEMailAddressType type;
+	@Column(name="key_in_e_m_a_on_org_nod")
+	private String z_keyOfEMailAddressOnOrganizationalNode;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
+	 * @param type 
 	 */
-	public OrganizationEMailAddress(OrganizationalNode owningObject) {
+	public OrganizationEMailAddress(OrganizationalNode owningObject, OrganizationEMailAddressType type) {
 		init(owningObject);
 		addToOwningObject();
+		setType(type);
 	}
 	
 	/** Default constructor for OrganizationEMailAddress
@@ -87,7 +94,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getOrganization().z_internalAddToEMailAddress((OrganizationEMailAddress)this);
+		getOrganization().z_internalAddToEMailAddress(this.getType(),(OrganizationEMailAddress)this);
 	}
 	
 	static public Set<? extends OrganizationEMailAddress> allInstances() {
@@ -170,6 +177,10 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return result;
 	}
 	
+	public String getZ_keyOfEMailAddressOnOrganizationalNode() {
+		return this.z_keyOfEMailAddressOnOrganizationalNode;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -196,7 +207,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	public void markDeleted() {
 		super.markDeleted();
 		if ( getOrganization()!=null ) {
-			getOrganization().z_internalRemoveFromEMailAddress(this);
+			getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
 		setDeletedOn(new Date());
 	}
@@ -229,10 +240,10 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	
 	public void setOrganization(OrganizationalNode organization) {
 		if ( this.getOrganization()!=null ) {
-			this.getOrganization().z_internalRemoveFromEMailAddress(this);
+			this.getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
 		if ( organization!=null ) {
-			organization.z_internalAddToEMailAddress(this);
+			organization.z_internalAddToEMailAddress(this.getType(),this);
 			this.z_internalAddToOrganization(organization);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
@@ -245,7 +256,17 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	}
 	
 	public void setType(OrganizationEMailAddressType type) {
+		if ( getOrganization()!=null && getType()!=null ) {
+			getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
+		}
 		this.z_internalAddToType(type);
+		if ( getOrganization()!=null && getType()!=null ) {
+			getOrganization().z_internalAddToEMailAddress(this.getType(),this);
+		}
+	}
+	
+	public void setZ_keyOfEMailAddressOnOrganizationalNode(String z_keyOfEMailAddressOnOrganizationalNode) {
+		this.z_keyOfEMailAddressOnOrganizationalNode=z_keyOfEMailAddressOnOrganizationalNode;
 	}
 	
 	public String toXmlReferenceString() {
@@ -280,11 +301,13 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	public void z_internalRemoveFromOrganization(OrganizationalNode val) {
 		if ( getOrganization()!=null && val!=null && val.equals(getOrganization()) ) {
 			this.organization=null;
+			this.organization=null;
 		}
 	}
 	
 	public void z_internalRemoveFromType(OrganizationEMailAddressType val) {
 		if ( getType()!=null && val!=null && val.equals(getType()) ) {
+			this.type=null;
 			this.type=null;
 		}
 	}

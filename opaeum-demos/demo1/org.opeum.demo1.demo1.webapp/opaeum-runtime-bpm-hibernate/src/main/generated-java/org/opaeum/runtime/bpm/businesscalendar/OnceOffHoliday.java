@@ -36,6 +36,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -73,6 +74,8 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 778183449069016075l;
 	private String uid;
 
@@ -320,17 +323,20 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 	public void z_internalRemoveFromBusinessCalendar(BusinessCalendar val) {
 		if ( getBusinessCalendar()!=null && val!=null && val.equals(getBusinessCalendar()) ) {
 			this.businessCalendar=null;
+			this.businessCalendar=null;
 		}
 	}
 	
 	public void z_internalRemoveFromDate(Date val) {
 		if ( getDate()!=null && val!=null && val.equals(getDate()) ) {
 			this.date=null;
+			this.date=null;
 		}
 	}
 	
 	public void z_internalRemoveFromName(String val) {
 		if ( getName()!=null && val!=null && val.equals(getName()) ) {
+			this.name=null;
 			this.name=null;
 		}
 	}

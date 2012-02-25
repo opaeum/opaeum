@@ -47,14 +47,6 @@
             class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.grid.RulerGridPropertySection" 
             tab="property.tab.DiagramPropertySection">
          </propertySection>     
-         <propertySection
-            id="property.section.domain" 
-            tab="property.tab.advanced"
-            class="org.eclipse.papyrus.uml.diagram.clazz.sheet.UMLPropertySection">
-            <input type="org.eclipse.gmf.runtime.notation.View"/>
-            <input type="org.eclipse.gef.EditPart"/>
-            <input type="org.eclipse.papyrus.uml.diagram.clazz.navigator.UMLAbstractNavigatorItem"/>
-         </propertySection>
       </propertySections>
    </extension>
 <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
@@ -1994,6 +1986,26 @@
  	</entry>
 	<entry
        defineOnly="true"
+       description="Create a new Business Document"
+       id="clazz.tool.businessdocument"
+       kind="tool"
+       label="Business Document"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create a new Business Entity"
+       id="clazz.tool.businessentity"
+       kind="tool"
+       label="Business Entity"
+       large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif"
+       path=""
+       small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Interface.gif">
+ 	</entry>
+	<entry
+       defineOnly="true"
        description="Create a new BusinessRole"
        id="clazz.tool.businessrole"
        kind="tool"
@@ -2515,7 +2527,7 @@
  	 
  	 <predefinedEntry
  	      remove="true"
-          id="clazz.tool.class"
+          id="clazz.tool.businessentity"
           path="/clazz.group.business">
     </predefinedEntry>
  	 <predefinedEntry
@@ -2533,6 +2545,10 @@
     </predefinedEntry>
  	 <predefinedEntry
           id="clazz.tool.notification"
+          path="/clazz.group.business">
+    </predefinedEntry>
+ 	 <predefinedEntry
+          id="clazz.tool.businessdocument"
           path="/clazz.group.business">
     </predefinedEntry>
  	<!--predefinedEntry

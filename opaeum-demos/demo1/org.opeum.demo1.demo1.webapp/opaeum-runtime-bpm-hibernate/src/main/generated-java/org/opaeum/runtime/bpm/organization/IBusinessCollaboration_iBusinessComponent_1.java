@@ -8,22 +8,24 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -31,6 +33,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,16 +48,20 @@ import org.w3c.dom.NodeList;
 @Entity(name="IBusinessCollaboration_iBusinessComponent_1")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class IBusinessCollaboration_iBusinessComponent_1 implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
-	@Index(columnNames="business_collaboration",name="idx_i_business_collaboration_i_business_component_1_business_collaboration")
-	@Any(metaColumn=
-		@Column(name="business_collaboration_type"),metaDef="IBusinessCollaboration")
-	@JoinColumn(name="business_collaboration",nullable=true)
-	private IBusinessCollaboration businessCollaboration;
-	@Index(columnNames="business_component",name="idx_i_business_collaboration_i_business_component_1_business_component")
-	@Any(metaColumn=
-		@Column(name="business_component_type"),metaDef="IBusiness")
-	@JoinColumn(name="business_component",nullable=true)
-	private IBusiness businessComponent;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="business_collaboration"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="business_collaboration_type"),name="classIdentifier")})
+	private InterfaceValue businessCollaboration;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="business_component"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="business_component_type"),name="classIdentifier")})
+	private InterfaceValue businessComponent;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -66,6 +73,8 @@ public class IBusinessCollaboration_iBusinessComponent_1 implements IPersistentO
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 290134081061645991l;
 	private String uid;
 
@@ -135,14 +144,14 @@ public class IBusinessCollaboration_iBusinessComponent_1 implements IPersistentO
 	
 	@NumlMetaInfo(uuid="252060@_Rj0BAFYkEeGJUqEGX7bKSg252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
-		IBusinessCollaboration result = this.businessCollaboration;
+		IBusinessCollaboration result = (IBusinessCollaboration)this.businessCollaboration.getValue(persistence);
 		
 		return result;
 	}
 	
 	@NumlMetaInfo(uuid="252060@_Rj0BAFYkEeGJUqEGX7bKSg252060@_Rj0oE1YkEeGJUqEGX7bKSg")
 	public IBusiness getBusinessComponent() {
-		IBusiness result = this.businessComponent;
+		IBusiness result = (IBusiness)this.businessComponent.getValue(persistence);
 		
 		return result;
 	}
@@ -313,22 +322,22 @@ public class IBusinessCollaboration_iBusinessComponent_1 implements IPersistentO
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration val) {
-		this.businessCollaboration=val;
+		this.businessCollaboration.setValue(val);
 	}
 	
 	public void z_internalAddToBusinessComponent(IBusiness val) {
-		this.businessComponent=val;
+		this.businessComponent.setValue(val);
 	}
 	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration val) {
 		if ( getBusinessCollaboration()!=null && val!=null && val.equals(getBusinessCollaboration()) ) {
-			this.businessCollaboration=null;
+			this.businessCollaboration.setValue(null);
 		}
 	}
 	
 	public void z_internalRemoveFromBusinessComponent(IBusiness val) {
 		if ( getBusinessComponent()!=null && val!=null && val.equals(getBusinessComponent()) ) {
-			this.businessComponent=null;
+			this.businessComponent.setValue(null);
 		}
 	}
 

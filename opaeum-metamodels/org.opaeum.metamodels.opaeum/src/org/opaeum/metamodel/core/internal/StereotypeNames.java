@@ -8,6 +8,12 @@ public class StereotypeNames{
 	public static final String PRIMITIVE_TYPE = "PrimitiveType";
 	public static final String HELPER = "Helper";
 	public static final String NUML_ANNOTATION = "http://www.opaeum.org";
+	//Package paths in libraries
+	public static final String PKG_ORGANIZATION = "organization";
+	public static final String PKG_REQUEST= "request";
+	public static final String PKG_REQUEST_OBJECT = "requestobject";
+	public static final String PKG_CALENDAR = "organization";
+	public static final String PKG_DOCUMENT = "document";
 	// RUP
 	public static final String BUSINESS_ACTOR = "BusinessActor";
 	public static final String BUSINESS_WORKER = "BusinessWorker";
@@ -70,7 +76,8 @@ public class StereotypeNames{
 	public static final String ACCEPT_DEADLINE_ACTION = "AcceptDeadlineAction";
 	public static final String SEND_NOTIFICATION_ACTION = "SendNotificationAction";
 	public static final String NOTIFICATION = "Notification";
-	public static final String OPIUM_STANDARD_PROFILE = "OpaeumStandardProfile.papyrus.uml";
+	public static final String OPAEUM_STANDARD_PROFILE_PAPYRUS = "OpaeumStandardProfile.papyrus.uml";
+	public static final String OPAEUM_STANDARD_PROFILE_TOPCASED = "OpaeumStandardProfile.uml";
 	public static final String ACCEPT_TASK_EVENT_ACTION = "AcceptTaskEventAction";
 	public static final String RELATIVE_TIME_EVENT = "RelativeTimeEvent";
 	public static final String SCREEN_FLOW = "ScreenFlow";
@@ -85,10 +92,21 @@ public class StereotypeNames{
 	public static final String MODEL_LIBRARY = "ModelLibrary";
 	public static final String BUSINESS_GATEWAY = "BusinessGateway";
 	public static final String BUSINESS_CHANNEL = "BusinessChannel";
+	public static final String BUSINESS_DURATION_OBSERVATION= "BusinessDurationObservation";
+	@Deprecated
 	public static final String DIMENSION = "Dimension";
+	@Deprecated
 	public static final String MEASURE = "Measure";
+	@Deprecated
 	public static final String FACT = "Fact";
-	public static final String DELEGATION = "Delegation";
+	public static final String RESPONSIBILITY_DELEGATION = "ResponsibilityDelegation";
 	public static final String PARTICIPANT_REFERENCE = "ParticipantReference";
 	public static final String BUSINESS_ROLE_CONTAINMENT = "BusinessRoleContainment";
+	public static final String BUSINESS_TIME_EVENT="BusinessTimeEvent";
+	public static final String BUSINESS_CHANGE_EVENT="BusinessChangeEvent";
+	public static final String CONTEXTUAL_TIME_EVENT="ContextualTimeEvent";
+	public static final String CONTEXTUAL_CHANGE_EVENT="ContextualChangeEvent";
+	public static final String BUSINESS_USE_CASE = "BusinessUseCase";
+	public static final String BUSINESS = "Business";
+	public static final String BUSINESS_DOCUMENT = "BusinessDocument";
 }

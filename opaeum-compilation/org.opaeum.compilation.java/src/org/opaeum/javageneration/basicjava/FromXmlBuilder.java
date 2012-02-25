@@ -155,9 +155,6 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 			}
 		}
 	}
-	private boolean isMap(NakedStructuralFeatureMap map){
-		return map.umlName().equals("updateChangeLog");
-	}
 	private void populatePropertyValues(NakedStructuralFeatureMap map,OJWhileStatement w){
 		OJBlock thenPart = iterateThroughPropertyValues(map, w);
 		OJAnnotatedField curVal = new OJAnnotatedField("curVal", map.javaBaseTypePath());
@@ -168,7 +165,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
 		tryNewInstance.getCatchPart().addToStatements("curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
 		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
-		if(isMap(map)){
+		if(isMap(map.getProperty())){
 			List<INakedProperty> qualifiers = map.getProperty().getQualifiers();
 			String varName = "curVal";
 			String string = OJUtil.addQualifierArguments(qualifiers, varName);

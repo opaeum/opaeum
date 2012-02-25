@@ -37,7 +37,7 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.metamodel.core.internal.TagNames;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
@@ -55,11 +55,13 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 		if(getTypedElement().getModel() != null){
-			Profile applyNakedUmlProfile = ProfileApplier.applyNakedUmlProfile(getTypedElement().getModel());
-			Stereotype propertyStereotype = findStereotype(applyNakedUmlProfile);
+			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), getTypedElement().getModel());
+			getEditingDomain().getCommandStack().execute(cmd);
+			Profile profile = cmd.getProfile();
+			Stereotype propertyStereotype = findStereotype(profile);
 			this.propertyStereotype = propertyStereotype;
-			roleEnumeration = (EEnum) applyNakedUmlProfile.getDefinition().getEClassifier("RoleInCube");
-			formulaEnumeration = (EEnum) applyNakedUmlProfile.getDefinition().getEClassifier("AggregationFormula");
+			roleEnumeration = (EEnum) profile.getDefinition().getEClassifier("RoleInCube");
+			formulaEnumeration = (EEnum) profile.getDefinition().getEClassifier("AggregationFormula");
 		}
 	}
 	@Override
@@ -117,7 +119,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 		}else{
 			if(propertyStereotype != null && roleEnumeration != null){
 				// NB!!! For Some reason EMF returns a UML.EnumerationLiteral and not an ECORE.EEnumLiteral, but only for single value
-				// properties
+				// types
 				if(couldBeDimension()){
 					prepareForDimension();
 				}else if(couldBeMeasure()){
@@ -208,6 +210,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 			return false;
 		}
 	}
+	@SuppressWarnings("rawtypes")
 	protected void setRole(String name){
 		if(propertyStereotype != null){
 			if(!getTypedElement().isStereotypeApplied(propertyStereotype)){
@@ -235,6 +238,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 			}
 		}
 	}
+	@SuppressWarnings("unchecked")
 	protected void displayFormulas(){
 		Button prev = check;
 		for(final EEnumLiteral l:formulaEnumeration.getELiterals()){
@@ -265,7 +269,6 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 				}
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e){
-					// TODO Auto-generated method stub
 				}
 			});
 			c.setSelection(value.contains(l));

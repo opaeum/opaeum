@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +22,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.organization.Person;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -35,6 +35,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -59,22 +60,28 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	static private Set<PersonPhoneNumber> mockedAllInstances;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@Index(columnNames="person_id",name="idx_person_phone_number_person_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_id",nullable=true)
 	private Person person;
 	static final private long serialVersionUID = 11888058762954742l;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.contact.PersonPhoneNumberTypeResolver")
 	@Column(name="type",nullable=true)
 	private PersonPhoneNumberType type;
+	@Column(name="key_in_pho_num_on_person")
+	private String z_keyOfPhoneNumberOnPerson;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
+	 * @param type 
 	 */
-	public PersonPhoneNumber(Person owningObject) {
+	public PersonPhoneNumber(Person owningObject, PersonPhoneNumberType type) {
 		init(owningObject);
 		addToOwningObject();
+		setType(type);
 	}
 	
 	/** Default constructor for PersonPhoneNumber
@@ -85,7 +92,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getPerson().z_internalAddToPhoneNumber((PersonPhoneNumber)this);
+		getPerson().z_internalAddToPhoneNumber(this.getType(),(PersonPhoneNumber)this);
 	}
 	
 	static public Set<? extends PersonPhoneNumber> allInstances() {
@@ -168,6 +175,10 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return result;
 	}
 	
+	public String getZ_keyOfPhoneNumberOnPerson() {
+		return this.z_keyOfPhoneNumberOnPerson;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -194,7 +205,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	public void markDeleted() {
 		super.markDeleted();
 		if ( getPerson()!=null ) {
-			getPerson().z_internalRemoveFromPhoneNumber(this);
+			getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
 		setDeletedOn(new Date());
 	}
@@ -231,10 +242,10 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	
 	public void setPerson(Person person) {
 		if ( this.getPerson()!=null ) {
-			this.getPerson().z_internalRemoveFromPhoneNumber(this);
+			this.getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
 		if ( person!=null ) {
-			person.z_internalAddToPhoneNumber(this);
+			person.z_internalAddToPhoneNumber(this.getType(),this);
 			this.z_internalAddToPerson(person);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
@@ -243,7 +254,17 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	}
 	
 	public void setType(PersonPhoneNumberType type) {
+		if ( getPerson()!=null && getType()!=null ) {
+			getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
+		}
 		this.z_internalAddToType(type);
+		if ( getPerson()!=null && getType()!=null ) {
+			getPerson().z_internalAddToPhoneNumber(this.getType(),this);
+		}
+	}
+	
+	public void setZ_keyOfPhoneNumberOnPerson(String z_keyOfPhoneNumberOnPerson) {
+		this.z_keyOfPhoneNumberOnPerson=z_keyOfPhoneNumberOnPerson;
 	}
 	
 	public String toXmlReferenceString() {
@@ -278,11 +299,13 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	public void z_internalRemoveFromPerson(Person val) {
 		if ( getPerson()!=null && val!=null && val.equals(getPerson()) ) {
 			this.person=null;
+			this.person=null;
 		}
 	}
 	
 	public void z_internalRemoveFromType(PersonPhoneNumberType val) {
 		if ( getType()!=null && val!=null && val.equals(getType()) ) {
+			this.type=null;
 			this.type=null;
 		}
 	}

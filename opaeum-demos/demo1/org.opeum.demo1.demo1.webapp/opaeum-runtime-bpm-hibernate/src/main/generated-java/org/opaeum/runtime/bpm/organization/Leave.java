@@ -36,6 +36,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -67,6 +68,8 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@Index(columnNames="person_id",name="idx_leave_person_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_id",nullable=true)
@@ -324,17 +327,20 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	public void z_internalRemoveFromFromDate(String val) {
 		if ( getFromDate()!=null && val!=null && val.equals(getFromDate()) ) {
 			this.fromDate=null;
+			this.fromDate=null;
 		}
 	}
 	
 	public void z_internalRemoveFromPerson(Person val) {
 		if ( getPerson()!=null && val!=null && val.equals(getPerson()) ) {
 			this.person=null;
+			this.person=null;
 		}
 	}
 	
 	public void z_internalRemoveFromToDate(String val) {
 		if ( getToDate()!=null && val!=null && val.equals(getToDate()) ) {
+			this.toDate=null;
 			this.toDate=null;
 		}
 	}

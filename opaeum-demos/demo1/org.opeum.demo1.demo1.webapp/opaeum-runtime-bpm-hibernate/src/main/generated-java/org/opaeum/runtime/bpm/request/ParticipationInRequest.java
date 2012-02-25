@@ -12,7 +12,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +22,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -35,6 +35,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,12 +57,14 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.request.RequestParticipationKindResolver")
 	@Column(name="kind",nullable=true)
 	private RequestParticipationKind kind;
 	static private Set<ParticipationInRequest> mockedAllInstances;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@Index(columnNames="request_id",name="idx_participation_in_request_request_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="request_id",nullable=true)
@@ -289,11 +292,13 @@ public class ParticipationInRequest extends Participation implements IPersistent
 	public void z_internalRemoveFromKind(RequestParticipationKind val) {
 		if ( getKind()!=null && val!=null && val.equals(getKind()) ) {
 			this.kind=null;
+			this.kind=null;
 		}
 	}
 	
 	public void z_internalRemoveFromRequest(AbstractRequest val) {
 		if ( getRequest()!=null && val!=null && val.equals(getRequest()) ) {
+			this.request=null;
 			this.request=null;
 		}
 	}

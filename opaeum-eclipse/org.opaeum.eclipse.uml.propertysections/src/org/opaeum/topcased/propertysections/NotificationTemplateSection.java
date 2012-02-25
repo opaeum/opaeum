@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.richtext.IRichText;
 import org.topcased.richtext.RichText;
 import org.topcased.richtext.RichTextToolBar;
@@ -147,7 +148,7 @@ public class NotificationTemplateSection extends AbstractTabbedPropertySection{
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		Profile p = ProfileApplier.applyProfile(getSignal().getModel(), "OpaeumProfileForBPM.uml");
+		Profile p = ProfileApplier.applyProfile(getSignal().getModel(), StereotypeNames.OPAEUM_BPM_PROFILE);
 		Stereotype not = p.getOwnedStereotype("Notification");
 		if(getSignal().isStereotypeApplied(not)){
 			richText.setText((String) getSignal().getValue(not, "template"));
@@ -157,7 +158,7 @@ public class NotificationTemplateSection extends AbstractTabbedPropertySection{
 	}
 	private void updateNotification(){
 		Signal s = (Signal) getEObject();
-		Profile p = ProfileApplier.applyProfile(s.getModel(), "OpaeumProfileForBPM.uml");
+		Profile p = ProfileApplier.applyProfile(s.getModel(), StereotypeNames.OPAEUM_BPM_PROFILE);
 		Stereotype not = p.getOwnedStereotype("Notification");
 		if(!s.isStereotypeApplied(not)){
 			s.applyStereotype(not);

@@ -1,5 +1,7 @@
 package org.opaeum.javageneration.persistence;
 
+import javax.persistence.Transient;
+
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
@@ -7,8 +9,10 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.basicjava.AttributeImplementor;
@@ -25,17 +29,14 @@ import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 /**
  * This class builds all the operations specified by the AbstractEntity interface. It also provides an implementation for the equals method
  * that uses the id of the instance involved
  */
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		AttributeImplementor.class,PersistentNameGenerator.class
-},after = {
-	AttributeImplementor.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeImplementor.class,PersistentNameGenerator.class},after = {AttributeImplementor.class})
 public class PersistentObjectImplementor extends AbstractStructureVisitor{
 	private static final OJPathName ABSTRACT_ENTITY = new OJPathName(IPersistentObject.class.getName());
 	@VisitBefore
@@ -58,6 +59,9 @@ public class PersistentObjectImplementor extends AbstractStructureVisitor{
 		}else if(ojClassifier instanceof OJClass){
 			OJClass ojClass = (OJClass) ojClassifier;
 			if(isPersistent(c)){
+				OJAnnotatedField persistence = new OJAnnotatedField("persistence", new OJPathName(AbstractPersistence.class.getName()));
+				persistence.addAnnotationIfNew(new OJAnnotationValue(new OJPathName(Transient.class.getName())));
+				ojClass.addToFields(persistence);
 				INakedComplexStructure entity = (INakedComplexStructure) c;
 				ojClass.addToImports(ABSTRACT_ENTITY);
 				if(entity.findAttribute("name") == null){

@@ -9,24 +9,25 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Proxy;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -38,6 +39,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -68,11 +70,15 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
-	@Index(columnNames="participant",name="idx_participation_participant")
-	@Any(metaColumn=
-		@Column(name="participant_type"),metaDef="Participant")
-	@JoinColumn(name="participant",nullable=true)
-	private Participant participant;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="participant"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="participant_type"),name="classIdentifier")})
+	private InterfaceValue participant;
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 3694398622584451528l;
 	private String uid;
 
@@ -151,7 +157,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	
 	@NumlMetaInfo(uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
-		Participant result = this.participant;
+		Participant result = (Participant)this.participant.getValue(persistence);
 		
 		return result;
 	}
@@ -274,12 +280,12 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 	}
 	
 	public void z_internalAddToParticipant(Participant val) {
-		this.participant=val;
+		this.participant.setValue(val);
 	}
 	
 	public void z_internalRemoveFromParticipant(Participant val) {
 		if ( getParticipant()!=null && val!=null && val.equals(getParticipant()) ) {
-			this.participant=null;
+			this.participant.setValue(null);
 		}
 	}
 

@@ -2,15 +2,13 @@ package org.opaeum.eclipse;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class ProfileApplier{
-	public static Profile applyNakedUmlProfile(Model model){
-		return applyProfile(model, org.opaeum.metamodel.core.internal.StereotypeNames.OPIUM_STANDARD_PROFILE);
-	}
+
 	public static Profile applyProfile(Model model,String profileName){
 		URI uri = URI.createURI(StereotypeNames.MODELS_PATHMAP + "profiles/" + profileName);
 		return applyProfileIfNecessary(model, uri);

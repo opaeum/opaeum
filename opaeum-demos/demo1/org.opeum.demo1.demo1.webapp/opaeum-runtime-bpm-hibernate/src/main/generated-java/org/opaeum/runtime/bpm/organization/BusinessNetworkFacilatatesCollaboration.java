@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,13 +21,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -32,6 +36,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,11 +51,13 @@ import org.w3c.dom.NodeList;
 @Entity(name="BusinessNetworkFacilatatesCollaboration")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class BusinessNetworkFacilatatesCollaboration implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
-	@Index(columnNames="business_collaboration",name="idx_business_network_facilatates_collaboration_business_collaboration")
-	@Any(metaColumn=
-		@Column(name="business_collaboration_type"),metaDef="IBusinessCollaboration")
-	@JoinColumn(name="business_collaboration",nullable=true)
-	private IBusinessCollaboration businessCollaboration;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="business_collaboration"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="business_collaboration_type"),name="classIdentifier")})
+	private InterfaceValue businessCollaboration;
 	@Index(columnNames="business_network_id",name="idx_business_network_facilatates_collaboration_business_network_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_network_id",nullable=true)
@@ -66,6 +73,8 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 2393652207927689043l;
 	private String uid;
 
@@ -135,7 +144,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
-		IBusinessCollaboration result = this.businessCollaboration;
+		IBusinessCollaboration result = (IBusinessCollaboration)this.businessCollaboration.getValue(persistence);
 		
 		return result;
 	}
@@ -313,7 +322,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void z_internalAddToBusinessCollaboration(IBusinessCollaboration val) {
-		this.businessCollaboration=val;
+		this.businessCollaboration.setValue(val);
 	}
 	
 	public void z_internalAddToBusinessNetwork(BusinessNetwork val) {
@@ -322,12 +331,13 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	
 	public void z_internalRemoveFromBusinessCollaboration(IBusinessCollaboration val) {
 		if ( getBusinessCollaboration()!=null && val!=null && val.equals(getBusinessCollaboration()) ) {
-			this.businessCollaboration=null;
+			this.businessCollaboration.setValue(null);
 		}
 	}
 	
 	public void z_internalRemoveFromBusinessNetwork(BusinessNetwork val) {
 		if ( getBusinessNetwork()!=null && val!=null && val.equals(getBusinessNetwork()) ) {
+			this.businessNetwork=null;
 			this.businessNetwork=null;
 		}
 	}

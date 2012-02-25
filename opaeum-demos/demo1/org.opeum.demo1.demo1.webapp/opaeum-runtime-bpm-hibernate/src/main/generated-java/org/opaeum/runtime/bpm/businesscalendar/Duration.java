@@ -11,16 +11,17 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -28,6 +29,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,10 +58,12 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
+	@Transient
+	private AbstractPersistence persistence;
 	@Column(name="quantity")
 	private Double quantity;
 	static final private long serialVersionUID = 6916267881564579221l;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnitResolver")
 	@Column(name="time_unit",nullable=true)
 	private BusinessTimeUnit timeUnit;
 	private String uid;
@@ -250,17 +254,20 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 	public void z_internalRemoveFromFromDate(Date val) {
 		if ( getFromDate()!=null && val!=null && val.equals(getFromDate()) ) {
 			this.fromDate=null;
+			this.fromDate=null;
 		}
 	}
 	
 	public void z_internalRemoveFromQuantity(Double val) {
 		if ( getQuantity()!=null && val!=null && val.equals(getQuantity()) ) {
 			this.quantity=null;
+			this.quantity=null;
 		}
 	}
 	
 	public void z_internalRemoveFromTimeUnit(BusinessTimeUnit val) {
 		if ( getTimeUnit()!=null && val!=null && val.equals(getTimeUnit()) ) {
+			this.timeUnit=null;
 			this.timeUnit=null;
 		}
 	}

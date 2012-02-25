@@ -309,7 +309,7 @@ public class OpaeumConfig{
 		store();
 	}
 	public boolean shouldBeCm1Compatible(){
-		return true;
+		return false;//!"false".equals(props.getProperty("cm1"));
 	}
 	public void setAutoSync(Boolean b){
 		this.props.setProperty(AUTO_SYNC, b.toString());

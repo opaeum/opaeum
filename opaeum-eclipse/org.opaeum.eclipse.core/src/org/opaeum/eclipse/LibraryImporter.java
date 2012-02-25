@@ -5,6 +5,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.PackageImport;
+import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class LibraryImporter{
 	public static Model importLibraryIfNecessary(Model model,String librName){
@@ -23,7 +24,7 @@ public class LibraryImporter{
 	public static Model findLibrary(Model model,String librName){
 		Model library = null;
 		for(Resource resource:model.eResource().getResourceSet().getResources()){
-			if(resource.getContents().get(0) instanceof Model){
+			if(resource.getContents().size()>0 &&resource.getContents().get(0) instanceof Model){
 				Model m=(Model) resource.getContents().get(0);
 				if(!m.eIsProxy() && resource.getURI().lastSegment().equals(librName)){
 					library = m;

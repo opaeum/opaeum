@@ -21,7 +21,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TimeEvent;
 import org.eclipse.uml2.uml.Trigger;
-import org.opaeum.eclipse.ProfileApplier;
+import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
@@ -114,7 +114,9 @@ public class RelativeTimeEventDetailsComposite extends AbsoluteTimeEventDetailsC
 			}
 		}
 		if(this.stereotype == null || this.timeUnit == null){
-			Profile p = ProfileApplier.applyProfile(e.getModel(), StereotypeNames.OPIUM_STANDARD_PROFILE);
+			ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), e.getModel());
+			getEditingDomain().getCommandStack().execute(cmd);
+			Profile p = cmd.getProfile();
 			this.stereotype = (Stereotype) p.getOwnedType(stereotypeName);
 			this.timeUnit = (Enumeration) p.getOwnedType("TimeUnit");
 		}

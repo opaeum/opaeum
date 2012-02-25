@@ -12,7 +12,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -28,6 +27,7 @@ import javax.validation.constraints.Min;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -39,6 +39,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -71,7 +72,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	private Long id;
 	static private Set<RecurringHoliday> mockedAllInstances;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.businesscalendar.MonthResolver")
 	@Column(name="month",nullable=true)
 	private Month month;
 	@Column(name="name")
@@ -81,6 +82,8 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 6208240707029980235l;
 	private String uid;
 
@@ -351,11 +354,13 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	public void z_internalRemoveFromBusinessCalendar(BusinessCalendar val) {
 		if ( getBusinessCalendar()!=null && val!=null && val.equals(getBusinessCalendar()) ) {
 			this.businessCalendar=null;
+			this.businessCalendar=null;
 		}
 	}
 	
 	public void z_internalRemoveFromDay(Integer val) {
 		if ( getDay()!=null && val!=null && val.equals(getDay()) ) {
+			this.day=null;
 			this.day=null;
 		}
 	}
@@ -363,11 +368,13 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 	public void z_internalRemoveFromMonth(Month val) {
 		if ( getMonth()!=null && val!=null && val.equals(getMonth()) ) {
 			this.month=null;
+			this.month=null;
 		}
 	}
 	
 	public void z_internalRemoveFromName(String val) {
 		if ( getName()!=null && val!=null && val.equals(getName()) ) {
+			this.name=null;
 			this.name=null;
 		}
 	}

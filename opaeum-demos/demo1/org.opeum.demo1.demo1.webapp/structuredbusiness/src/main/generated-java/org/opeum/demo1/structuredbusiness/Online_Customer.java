@@ -31,6 +31,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opeum.demo1.structuredbusiness.util.Stdlib;
 import org.opeum.demo1.structuredbusiness.util.StructuredbusinessFormatter;
@@ -62,6 +63,8 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 7139819000430120483l;
 	private String uid;
 

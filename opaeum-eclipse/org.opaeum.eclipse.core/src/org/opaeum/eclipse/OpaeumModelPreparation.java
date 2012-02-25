@@ -9,6 +9,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
+import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
@@ -32,15 +33,9 @@ public class OpaeumModelPreparation implements WorkspaceLoadListener{
 							}
 						}
 						if(model instanceof Model){
-							Profile opaeumStandardProfile=null;
-							for(Profile profile:model.getAllAppliedProfiles()){
-								if(profile.getName().equals("OpaeumStandardProfile")){
-									opaeumStandardProfile = profile;
-								}
-							}
-							if(opaeumStandardProfile == null){
-								opaeumStandardProfile = ProfileApplier.applyNakedUmlProfile((Model) model);
-							}
+							ApplyOpaeumStandardProfileCommand cmd = new ApplyOpaeumStandardProfileCommand(context.getEditingDomain(), model);
+							cmd.execute();
+							Profile opaeumStandardProfile=cmd.getProfile();
 							Stereotype modelStereotype = opaeumStandardProfile.getOwnedStereotype(StereotypeNames.MODEL);
 							if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL_LIBRARY)){
 								modelStereotype = opaeumStandardProfile.getOwnedStereotype(StereotypeNames.MODEL_LIBRARY);

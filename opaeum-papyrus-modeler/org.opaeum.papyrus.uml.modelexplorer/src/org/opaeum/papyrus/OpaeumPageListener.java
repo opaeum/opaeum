@@ -65,6 +65,15 @@ public class OpaeumPageListener implements IStartup{
 			this.window = window;
 		}
 		public void partActivated(IWorkbenchPart part){
+			if(part instanceof PapyrusMultiDiagramEditor){
+				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) part;
+				IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
+				OpaeumEclipseContext result = OpaeumEclipseContext.getContextFor(umlFile.getParent());
+				if(result==null){
+					//Happens when the document was open when the Workbench was closed.
+					partOpened(part);
+				}
+			}
 		}
 		private IFile getUmlFile(final IFileEditorInput fe){
 			return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));

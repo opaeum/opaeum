@@ -985,10 +985,10 @@
  	</entry>
 	<entry
        defineOnly="true"
-       description="Create Subject"
-       id="usecase.tool.subject"
+       description="Create Business Under Discussion"
+       id="usecase.tool.businesscomponent"
        kind="tool"
-       label="Subject"
+       label="Business Under Discussion"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif"
        path=""
        small_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Component.gif">
@@ -1006,7 +1006,7 @@
 	<entry
        defineOnly="true"
        description="Create Business Use Case"
-       id="usecase.tool.usecase"
+       id="usecase.tool.businessusecase"
        kind="tool"
        label="Business Use Case"
        large_icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/UseCase.gif"
@@ -1200,7 +1200,7 @@
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
-          id="usecase.tool.subject"
+          id="usecase.tool.businesscomponent"
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
@@ -1208,7 +1208,7 @@
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry
-          id="usecase.tool.usecase"
+          id="usecase.tool.businessusecase"
           path="/usecase.group.nodes">
     </predefinedEntry>
  	<predefinedEntry

@@ -16,7 +16,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,6 +25,7 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.process.ProcessContext;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Type;
 import org.jbpm.workflow.core.NodeContainer;
 import org.jbpm.workflow.core.WorkflowProcess;
 import org.jbpm.workflow.core.impl.NodeImpl;
@@ -47,6 +47,7 @@ import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -75,7 +76,7 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@Enumerated(	javax.persistence.EnumType.STRING)
+	@Type(type="org.opaeum.runtime.bpm.request.ProcessRequestStateResolver")
 	private ProcessRequestState endNodeInProcessRequestRegion;
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="executed_on")
@@ -83,6 +84,8 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	static private Set<ProcessRequest> mockedAllInstances;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@Transient
 	private boolean processDirty;
 	@Transient
@@ -343,6 +346,7 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 	}
 	
 	public void init(ProcessContext context) {
+		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}

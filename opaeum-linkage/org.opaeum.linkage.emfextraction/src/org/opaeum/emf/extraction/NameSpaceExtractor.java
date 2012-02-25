@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -17,6 +18,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Association;
@@ -31,6 +33,7 @@ import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Extension;
+import org.eclipse.uml2.uml.GeneralizationSet;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
@@ -206,6 +209,12 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			}
 		}else if(e instanceof Enumeration){
 			Enumeration en = (Enumeration) e;
+			Collection<Setting> inverseReferences = emfWorkspace.getCrossReferenceAdapter().getInverseReferences(en);
+			for(Setting setting:inverseReferences){
+				if(setting.getEObject() instanceof GeneralizationSet){
+					return new NakedPowerTypeImpl();
+				}
+			}
 			if(StereotypesHelper.hasStereotype(en, "powertype") || en.getPowertypeExtents().size() > 0){
 				return new NakedPowerTypeImpl();
 			}else{

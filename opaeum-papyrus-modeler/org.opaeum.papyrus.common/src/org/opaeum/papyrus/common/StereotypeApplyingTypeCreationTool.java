@@ -7,6 +7,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.papyrus.uml.diagram.common.service.AspectUnspecifiedTypeCreationTool;
 import org.eclipse.papyrus.uml.diagram.common.service.palette.StereotypePostAction;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.ProfileApplier;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;

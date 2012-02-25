@@ -31,7 +31,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar;
 import org.opaeum.runtime.bpm.contact.OrganizationEMailAddress;
+import org.opaeum.runtime.bpm.contact.OrganizationEMailAddressType;
 import org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber;
+import org.opaeum.runtime.bpm.contact.OrganizationPhoneNumberType;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -43,6 +45,7 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IOrganizationNode;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -72,7 +75,7 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="organization",targetEntity=OrganizationEMailAddress.class)
-	private Set<OrganizationEMailAddress> eMailAddress = new HashSet<OrganizationEMailAddress>();
+	private Map<String, OrganizationEMailAddress> eMailAddress = new HashMap<String,OrganizationEMailAddress>();
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.AUTO)
 	private Long id;
@@ -92,10 +95,12 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	private Set<Organization_iBusinessComponent_1> organization_iBusinessComponent_1_businessComponent = new HashSet<Organization_iBusinessComponent_1>();
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="organization",targetEntity=OrganizationPhoneNumber.class)
-	private Set<OrganizationPhoneNumber> phoneNumber = new HashSet<OrganizationPhoneNumber>();
+	private Map<String, OrganizationPhoneNumber> phoneNumber = new HashMap<String,OrganizationPhoneNumber>();
 	static final private long serialVersionUID = 9636702410571466l;
 	private String uid;
 
@@ -125,12 +130,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		}
 	}
 	
-	public void addAllToEMailAddress(Set<OrganizationEMailAddress> eMailAddress) {
-		for ( OrganizationEMailAddress o : eMailAddress ) {
-			addToEMailAddress(o);
-		}
-	}
-	
 	public void addAllToOrganizationFullfillsActorRole_businessActor(Set<OrganizationFullfillsActorRole> organizationFullfillsActorRole_businessActor) {
 		for ( OrganizationFullfillsActorRole o : organizationFullfillsActorRole_businessActor ) {
 			addToOrganizationFullfillsActorRole_businessActor(o);
@@ -140,12 +139,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	public void addAllToOrganization_iBusinessComponent_1_businessComponent(Set<Organization_iBusinessComponent_1> organization_iBusinessComponent_1_businessComponent) {
 		for ( Organization_iBusinessComponent_1 o : organization_iBusinessComponent_1_businessComponent ) {
 			addToOrganization_iBusinessComponent_1_businessComponent(o);
-		}
-	}
-	
-	public void addAllToPhoneNumber(Set<OrganizationPhoneNumber> phoneNumber) {
-		for ( OrganizationPhoneNumber o : phoneNumber ) {
-			addToPhoneNumber(o);
 		}
 	}
 	
@@ -165,11 +158,11 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		}
 	}
 	
-	public void addToEMailAddress(OrganizationEMailAddress eMailAddress) {
+	public void addToEMailAddress(OrganizationEMailAddressType type, OrganizationEMailAddress eMailAddress) {
 		if ( eMailAddress!=null ) {
 			eMailAddress.z_internalRemoveFromOrganization(eMailAddress.getOrganization());
 			eMailAddress.z_internalAddToOrganization(this);
-			z_internalAddToEMailAddress(eMailAddress);
+			z_internalAddToEMailAddress(type,eMailAddress);
 		}
 	}
 	
@@ -195,11 +188,11 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		getBusinessNetwork().z_internalAddToOrganization((OrganizationalNode)this);
 	}
 	
-	public void addToPhoneNumber(OrganizationPhoneNumber phoneNumber) {
+	public void addToPhoneNumber(OrganizationPhoneNumberType type, OrganizationPhoneNumber phoneNumber) {
 		if ( phoneNumber!=null ) {
 			phoneNumber.z_internalRemoveFromOrganization(phoneNumber.getOrganization());
 			phoneNumber.z_internalAddToOrganization(this);
-			z_internalAddToPhoneNumber(phoneNumber);
+			z_internalAddToPhoneNumber(type,phoneNumber);
 		}
 	}
 	
@@ -234,7 +227,7 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToPhoneNumber(curVal);
+						this.addToPhoneNumber(curVal.getType(),curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -252,7 +245,7 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToEMailAddress(curVal);
+						this.addToEMailAddress(curVal.getType(),curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -305,7 +298,11 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	}
 	
 	public void clearEMailAddress() {
-		removeAllFromEMailAddress(getEMailAddress());
+		Set<OrganizationEMailAddress> tmp = new HashSet<OrganizationEMailAddress>(getEMailAddress());
+		for ( OrganizationEMailAddress o : tmp ) {
+			removeFromEMailAddress(o.getType(),o);
+		}
+		eMailAddress.clear();
 	}
 	
 	public void clearOrganizationFullfillsActorRole_businessActor() {
@@ -317,7 +314,11 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	}
 	
 	public void clearPhoneNumber() {
-		removeAllFromPhoneNumber(getPhoneNumber());
+		Set<OrganizationPhoneNumber> tmp = new HashSet<OrganizationPhoneNumber>(getPhoneNumber());
+		for ( OrganizationPhoneNumber o : tmp ) {
+			removeFromPhoneNumber(o.getType(),o);
+		}
+		phoneNumber.clear();
 	}
 	
 	public void copyShallowState(OrganizationalNode from, OrganizationalNode to) {
@@ -330,10 +331,10 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	public void copyState(OrganizationalNode from, OrganizationalNode to) {
 		to.setName(from.getName());
 		for ( OrganizationPhoneNumber child : from.getPhoneNumber() ) {
-			to.addToPhoneNumber(child.makeCopy());
+			to.addToPhoneNumber(child.getType(),child.makeCopy());
 		}
 		for ( OrganizationEMailAddress child : from.getEMailAddress() ) {
-			to.addToEMailAddress(child.makeCopy());
+			to.addToEMailAddress(child.getType(),child.makeCopy());
 		}
 		if ( from.getBusinessCalendar()!=null ) {
 			to.setBusinessCalendar(from.getBusinessCalendar().makeCopy());
@@ -388,9 +389,17 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		return this.deletedOn;
 	}
 	
+	public OrganizationEMailAddress getEMailAddress(OrganizationEMailAddressType type) {
+		OrganizationEMailAddress result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		result=this.eMailAddress.get(key.toString());
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
 	public Set<OrganizationEMailAddress> getEMailAddress() {
-		Set<OrganizationEMailAddress> result = this.eMailAddress;
+		Set<OrganizationEMailAddress> result = new HashSet<OrganizationEMailAddress>(this.eMailAddress.values());
 		
 		return result;
 	}
@@ -450,9 +459,17 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		return getBusinessNetwork();
 	}
 	
+	public OrganizationPhoneNumber getPhoneNumber(OrganizationPhoneNumberType type) {
+		OrganizationPhoneNumber result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		result=this.phoneNumber.get(key.toString());
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
 	public Set<OrganizationPhoneNumber> getPhoneNumber() {
-		Set<OrganizationPhoneNumber> result = this.phoneNumber;
+		Set<OrganizationPhoneNumber> result = new HashSet<OrganizationPhoneNumber>(this.phoneNumber.values());
 		
 		return result;
 	}
@@ -499,10 +516,10 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		if ( getBusinessCalendar()!=null ) {
 			getBusinessCalendar().markDeleted();
 		}
-		for ( OrganizationFullfillsActorRole child : new ArrayList<OrganizationFullfillsActorRole>(getOrganizationFullfillsActorRole_businessActor()) ) {
+		for ( Organization_iBusinessComponent_1 child : new ArrayList<Organization_iBusinessComponent_1>(getOrganization_iBusinessComponent_1_businessComponent()) ) {
 			child.markDeleted();
 		}
-		for ( Organization_iBusinessComponent_1 child : new ArrayList<Organization_iBusinessComponent_1>(getOrganization_iBusinessComponent_1_businessComponent()) ) {
+		for ( OrganizationFullfillsActorRole child : new ArrayList<OrganizationFullfillsActorRole>(getOrganizationFullfillsActorRole_businessActor()) ) {
 			child.markDeleted();
 		}
 		setDeletedOn(new Date());
@@ -547,16 +564,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 					}
 				}
 			}
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_businessActor") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5544220265950373323")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organization_iBusinessComponent_1_businessComponent") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("6254493747225779734")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -564,6 +571,16 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						addToOrganization_iBusinessComponent_1_businessComponent((Organization_iBusinessComponent_1)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_businessActor") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("5544220265950373323")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -584,13 +601,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		}
 	}
 	
-	public void removeAllFromEMailAddress(Set<OrganizationEMailAddress> eMailAddress) {
-		Set<OrganizationEMailAddress> tmp = new HashSet<OrganizationEMailAddress>(eMailAddress);
-		for ( OrganizationEMailAddress o : tmp ) {
-			removeFromEMailAddress(o);
-		}
-	}
-	
 	public void removeAllFromOrganizationFullfillsActorRole_businessActor(Set<OrganizationFullfillsActorRole> organizationFullfillsActorRole_businessActor) {
 		Set<OrganizationFullfillsActorRole> tmp = new HashSet<OrganizationFullfillsActorRole>(organizationFullfillsActorRole_businessActor);
 		for ( OrganizationFullfillsActorRole o : tmp ) {
@@ -602,13 +612,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		Set<Organization_iBusinessComponent_1> tmp = new HashSet<Organization_iBusinessComponent_1>(organization_iBusinessComponent_1_businessComponent);
 		for ( Organization_iBusinessComponent_1 o : tmp ) {
 			removeFromOrganization_iBusinessComponent_1_businessComponent(o);
-		}
-	}
-	
-	public void removeAllFromPhoneNumber(Set<OrganizationPhoneNumber> phoneNumber) {
-		Set<OrganizationPhoneNumber> tmp = new HashSet<OrganizationPhoneNumber>(phoneNumber);
-		for ( OrganizationPhoneNumber o : tmp ) {
-			removeFromPhoneNumber(o);
 		}
 	}
 	
@@ -624,10 +627,10 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		}
 	}
 	
-	public void removeFromEMailAddress(OrganizationEMailAddress eMailAddress) {
+	public void removeFromEMailAddress(OrganizationEMailAddressType type, OrganizationEMailAddress eMailAddress) {
 		if ( eMailAddress!=null ) {
 			eMailAddress.z_internalRemoveFromOrganization(this);
-			z_internalRemoveFromEMailAddress(eMailAddress);
+			z_internalRemoveFromEMailAddress(type,eMailAddress);
 		}
 	}
 	
@@ -649,10 +652,10 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		this.markDeleted();
 	}
 	
-	public void removeFromPhoneNumber(OrganizationPhoneNumber phoneNumber) {
+	public void removeFromPhoneNumber(OrganizationPhoneNumberType type, OrganizationPhoneNumber phoneNumber) {
 		if ( phoneNumber!=null ) {
 			phoneNumber.z_internalRemoveFromOrganization(this);
-			z_internalRemoveFromPhoneNumber(phoneNumber);
+			z_internalRemoveFromPhoneNumber(type,phoneNumber);
 		}
 	}
 	
@@ -716,11 +719,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		this.deletedOn=deletedOn;
 	}
 	
-	public void setEMailAddress(Set<OrganizationEMailAddress> eMailAddress) {
-		this.clearEMailAddress();
-		this.addAllToEMailAddress(eMailAddress);
-	}
-	
 	public void setId(Long id) {
 		this.id=id;
 	}
@@ -745,11 +743,6 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
-	}
-	
-	public void setPhoneNumber(Set<OrganizationPhoneNumber> phoneNumber) {
-		this.clearPhoneNumber();
-		this.addAllToPhoneNumber(phoneNumber);
 	}
 	
 	public void setUid(String newUid) {
@@ -787,16 +780,16 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 			sb.append("\n" + getBusinessCalendar().toXmlString());
 			sb.append("\n</businessCalendar>");
 		}
-		sb.append("\n<organizationFullfillsActorRole_businessActor propertyId=\"5544220265950373323\">");
-		for ( OrganizationFullfillsActorRole organizationFullfillsActorRole_businessActor : getOrganizationFullfillsActorRole_businessActor() ) {
-			sb.append("\n" + organizationFullfillsActorRole_businessActor.toXmlString());
-		}
-		sb.append("\n</organizationFullfillsActorRole_businessActor>");
 		sb.append("\n<organization_iBusinessComponent_1_businessComponent propertyId=\"6254493747225779734\">");
 		for ( Organization_iBusinessComponent_1 organization_iBusinessComponent_1_businessComponent : getOrganization_iBusinessComponent_1_businessComponent() ) {
 			sb.append("\n" + organization_iBusinessComponent_1_businessComponent.toXmlReferenceString());
 		}
 		sb.append("\n</organization_iBusinessComponent_1_businessComponent>");
+		sb.append("\n<organizationFullfillsActorRole_businessActor propertyId=\"5544220265950373323\">");
+		for ( OrganizationFullfillsActorRole organizationFullfillsActorRole_businessActor : getOrganizationFullfillsActorRole_businessActor() ) {
+			sb.append("\n" + organizationFullfillsActorRole_businessActor.toXmlString());
+		}
+		sb.append("\n</organizationFullfillsActorRole_businessActor>");
 		sb.append("\n</OrganizationalNode>");
 		return sb.toString();
 	}
@@ -821,8 +814,12 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		this.businessNetwork=val;
 	}
 	
-	public void z_internalAddToEMailAddress(OrganizationEMailAddress val) {
-		this.eMailAddress.add(val);
+	public void z_internalAddToEMailAddress(OrganizationEMailAddressType type, OrganizationEMailAddress val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		val.z_internalAddToType(type);
+		this.eMailAddress.put(key.toString(),val);
+		val.setZ_keyOfEMailAddressOnOrganizationalNode(key.toString());
 	}
 	
 	public void z_internalAddToName(String val) {
@@ -837,8 +834,12 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		this.organization_iBusinessComponent_1_businessComponent.add(val);
 	}
 	
-	public void z_internalAddToPhoneNumber(OrganizationPhoneNumber val) {
-		this.phoneNumber.add(val);
+	public void z_internalAddToPhoneNumber(OrganizationPhoneNumberType type, OrganizationPhoneNumber val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		val.z_internalAddToType(type);
+		this.phoneNumber.put(key.toString(),val);
+		val.setZ_keyOfPhoneNumberOnOrganizationalNode(key.toString());
 	}
 	
 	public void z_internalRemoveFromBusinessActor(IBusinessActor businessActor) {
@@ -852,6 +853,7 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	
 	public void z_internalRemoveFromBusinessCalendar(BusinessCalendar val) {
 		if ( getBusinessCalendar()!=null && val!=null && val.equals(getBusinessCalendar()) ) {
+			this.businessCalendar=null;
 			this.businessCalendar=null;
 		}
 	}
@@ -868,15 +870,19 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 	public void z_internalRemoveFromBusinessNetwork(BusinessNetwork val) {
 		if ( getBusinessNetwork()!=null && val!=null && val.equals(getBusinessNetwork()) ) {
 			this.businessNetwork=null;
+			this.businessNetwork=null;
 		}
 	}
 	
-	public void z_internalRemoveFromEMailAddress(OrganizationEMailAddress val) {
-		this.eMailAddress.remove(val);
+	public void z_internalRemoveFromEMailAddress(OrganizationEMailAddressType type, OrganizationEMailAddress val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		this.eMailAddress.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromName(String val) {
 		if ( getName()!=null && val!=null && val.equals(getName()) ) {
+			this.name=null;
 			this.name=null;
 		}
 	}
@@ -889,8 +895,10 @@ public class OrganizationalNode implements IOrganizationNode, IPersistentObject,
 		this.organization_iBusinessComponent_1_businessComponent.remove(val);
 	}
 	
-	public void z_internalRemoveFromPhoneNumber(OrganizationPhoneNumber val) {
-		this.phoneNumber.remove(val);
+	public void z_internalRemoveFromPhoneNumber(OrganizationPhoneNumberType type, OrganizationPhoneNumber val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		this.phoneNumber.remove(key.toString());
 	}
 
 }

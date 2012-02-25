@@ -40,6 +40,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,6 +85,8 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	private OrganizationalNode organization;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Transient
+	private AbstractPersistence persistence;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessCalendar",targetEntity=RecurringHoliday.class)
@@ -93,7 +96,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessCalendar",targetEntity=WorkDay.class)
-	private Set<WorkDay> workDay = new HashSet<WorkDay>();
+	private Map<String, WorkDay> workDay = new HashMap<String,WorkDay>();
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -118,12 +121,6 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	public void addAllToRecurringHoliday(Set<RecurringHoliday> recurringHoliday) {
 		for ( RecurringHoliday o : recurringHoliday ) {
 			addToRecurringHoliday(o);
-		}
-	}
-	
-	public void addAllToWorkDay(Set<WorkDay> workDay) {
-		for ( WorkDay o : workDay ) {
-			addToWorkDay(o);
 		}
 	}
 	
@@ -156,11 +153,11 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		}
 	}
 	
-	public void addToWorkDay(WorkDay workDay) {
+	public void addToWorkDay(WorkDayKind kind, WorkDay workDay) {
 		if ( workDay!=null ) {
 			workDay.z_internalRemoveFromBusinessCalendar(workDay.getBusinessCalendar());
 			workDay.z_internalAddToBusinessCalendar((BusinessCalendar)this);
-			z_internalAddToWorkDay(workDay);
+			z_internalAddToWorkDay(kind,workDay);
 		}
 	}
 	
@@ -201,7 +198,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToWorkDay(curVal);
+						this.addToWorkDay(curVal.getKind(),curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -261,7 +258,11 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	public void clearWorkDay() {
-		removeAllFromWorkDay(getWorkDay());
+		Set<WorkDay> tmp = new HashSet<WorkDay>(getWorkDay());
+		for ( WorkDay o : tmp ) {
+			removeFromWorkDay(o.getKind(),o);
+		}
+		workDay.clear();
 	}
 	
 	@NumlMetaInfo(uuid="252060@_dXLYsASTEeGb9qsDxKJdSA")
@@ -279,7 +280,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	
 	public void copyState(BusinessCalendar from, BusinessCalendar to) {
 		for ( WorkDay child : from.getWorkDay() ) {
-			to.addToWorkDay(child.makeCopy());
+			to.addToWorkDay(child.getKind(),child.makeCopy());
 		}
 		for ( RecurringHoliday child : from.getRecurringHoliday() ) {
 			to.addToRecurringHoliday(child.makeCopy());
@@ -391,9 +392,17 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return this.uid;
 	}
 	
+	public WorkDay getWorkDay(WorkDayKind kind) {
+		WorkDay result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(kind.getUid());
+		result=this.workDay.get(key.toString());
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	public Set<WorkDay> getWorkDay() {
-		Set<WorkDay> result = this.workDay;
+		Set<WorkDay> result = new HashSet<WorkDay>(this.workDay.values());
 		
 		return result;
 	}
@@ -495,13 +504,6 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		}
 	}
 	
-	public void removeAllFromWorkDay(Set<WorkDay> workDay) {
-		Set<WorkDay> tmp = new HashSet<WorkDay>(workDay);
-		for ( WorkDay o : tmp ) {
-			removeFromWorkDay(o);
-		}
-	}
-	
 	public void removeFromOnceOffHoliday(OnceOffHoliday onceOffHoliday) {
 		if ( onceOffHoliday!=null ) {
 			onceOffHoliday.z_internalRemoveFromBusinessCalendar((BusinessCalendar)this);
@@ -520,10 +522,10 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		}
 	}
 	
-	public void removeFromWorkDay(WorkDay workDay) {
+	public void removeFromWorkDay(WorkDayKind kind, WorkDay workDay) {
 		if ( workDay!=null ) {
 			workDay.z_internalRemoveFromBusinessCalendar((BusinessCalendar)this);
-			z_internalRemoveFromWorkDay(workDay);
+			z_internalRemoveFromWorkDay(kind,workDay);
 		}
 	}
 	
@@ -602,11 +604,6 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		this.uid=newUid;
 	}
 	
-	public void setWorkDay(Set<WorkDay> workDay) {
-		this.clearWorkDay();
-		this.addAllToWorkDay(workDay);
-	}
-	
 	public String toXmlReferenceString() {
 		return "<BusinessCalendar uid=\""+getUid() + "\"/>";
 	}
@@ -670,12 +667,17 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		this.recurringHoliday.add(val);
 	}
 	
-	public void z_internalAddToWorkDay(WorkDay val) {
-		this.workDay.add(val);
+	public void z_internalAddToWorkDay(WorkDayKind kind, WorkDay val) {
+		StringBuilder key = new StringBuilder();
+		key.append(kind.getUid());
+		val.z_internalAddToKind(kind);
+		this.workDay.put(key.toString(),val);
+		val.setZ_keyOfWorkDayOnBusinessCalendar(key.toString());
 	}
 	
 	public void z_internalRemoveFromBusinessDaysPerMonth(Integer val) {
 		if ( getBusinessDaysPerMonth()!=null && val!=null && val.equals(getBusinessDaysPerMonth()) ) {
+			this.businessDaysPerMonth=null;
 			this.businessDaysPerMonth=null;
 		}
 	}
@@ -683,11 +685,13 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	public void z_internalRemoveFromBusinessHoursPerDay(Double val) {
 		if ( getBusinessHoursPerDay()!=null && val!=null && val.equals(getBusinessHoursPerDay()) ) {
 			this.businessHoursPerDay=null;
+			this.businessHoursPerDay=null;
 		}
 	}
 	
 	public void z_internalRemoveFromBusinessHoursPerWeek(Double val) {
 		if ( getBusinessHoursPerWeek()!=null && val!=null && val.equals(getBusinessHoursPerWeek()) ) {
+			this.businessHoursPerWeek=null;
 			this.businessHoursPerWeek=null;
 		}
 	}
@@ -699,6 +703,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	public void z_internalRemoveFromOrganization(OrganizationalNode val) {
 		if ( getOrganization()!=null && val!=null && val.equals(getOrganization()) ) {
 			this.organization=null;
+			this.organization=null;
 		}
 	}
 	
@@ -706,8 +711,10 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		this.recurringHoliday.remove(val);
 	}
 	
-	public void z_internalRemoveFromWorkDay(WorkDay val) {
-		this.workDay.remove(val);
+	public void z_internalRemoveFromWorkDay(WorkDayKind kind, WorkDay val) {
+		StringBuilder key = new StringBuilder();
+		key.append(kind.getUid());
+		this.workDay.remove(key.toString());
 	}
 
 }

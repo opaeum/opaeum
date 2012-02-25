@@ -12,10 +12,22 @@ Require-Bundle: org.eclipse.rap.rms.data,
  org.eclipse.rap.jface.databinding,
  org.eclipse.rap.rwt,
  org.eclipse.rap.jface,
- org.opaeum.compilation.runtimedependencies,
- org.opaeum.rap.runtime.dependencies,
- org.opaeum.rap.runtime.dependencies.source,
- org.eclipse.rap.ui
+ org.eclipse.rap.ui,
+ javax.persistence,
+ javax.validation,
+ org.hibernate.common.annotations,
+ org.hibernate.core,
+ org.hibernate.entitymanager,
+ org.hibernate.validator,
+ org.jbpm.flow,
+ org.jbpm.persistence.jpa,
+ org.drools.knowledge.api,
+ org.opaeum.rap.domain,
+ org.opaeum.rap.hibernate,
+ org.opaeum.rap.jpa,
+ org.opaeum.rap.runtime,
+ org.junit;bundle-version="4.8.2"
+ 
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator

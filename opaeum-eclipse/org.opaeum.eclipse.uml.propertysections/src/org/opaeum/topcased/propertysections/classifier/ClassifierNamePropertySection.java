@@ -18,14 +18,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
 import org.opaeum.eclipse.EmfClassifierUtil;
-import org.opaeum.eclipse.ProfileApplier;
-import org.opaeum.eclipse.commands.ApplyProfileCommand;
+import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.eclipse.commands.ApplyStereotypeCommand;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
 import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
 public abstract class ClassifierNamePropertySection extends AbstractTabbedPropertySection{
@@ -45,8 +42,9 @@ public abstract class ClassifierNamePropertySection extends AbstractTabbedProper
 	@Override
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
-		getEditingDomain().getCommandStack().execute(new ApplyProfileCommand(getClassifier().getModel(), getStandardProfile()));
-		this.stereotype = getStandardProfile().getOwnedStereotype(getStereotypeName());
+		ApplyOpaeumStandardProfileCommand command = new ApplyOpaeumStandardProfileCommand(getEditingDomain(), getClassifier().getModel());
+		getEditingDomain().getCommandStack().execute(command);
+		this.stereotype = command.getProfile().getOwnedStereotype(getStereotypeName());
 		getEditingDomain().getCommandStack().execute(new ApplyStereotypeCommand(getClassifier(), stereotype));
 		properties.clear();
 		for(Property property:getClassifier().getAllAttributes()){
@@ -54,9 +52,6 @@ public abstract class ClassifierNamePropertySection extends AbstractTabbedProper
 				properties.add(property);
 			}
 		}
-	}
-	private Profile getStandardProfile(){
-		return ProfileApplier.getProfile(getClassifier(), StereotypeNames.OPIUM_STANDARD_PROFILE);
 	}
 	private Classifier getClassifier(){
 		return (Classifier) getEObject();

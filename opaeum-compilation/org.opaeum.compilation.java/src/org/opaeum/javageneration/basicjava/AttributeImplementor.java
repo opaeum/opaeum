@@ -1,6 +1,5 @@
 package org.opaeum.javageneration.basicjava;
 
-import java.util.Collection;
 import java.util.List;
 
 import nl.klasse.octopus.codegen.umlToJava.maps.StructuralFeatureMap;
@@ -9,7 +8,6 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJConstructor;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
@@ -23,7 +21,6 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.linkage.TypeResolver;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
@@ -314,6 +311,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				String condition = map.getter() + "()!=null && val!=null && val.equals(" + map.getter() + "())";
 				OJIfStatement ifEquals = new OJIfStatement(condition, remove);
 				remover.getBody().addToStatements(ifEquals);
+				ifEquals.getThenPart().addToStatements(getReferencePrefix(owner, map) + map.fieldname() + "=null");
 			}
 		}
 		remover.addParam("val", map.javaBaseTypePath());
@@ -358,9 +356,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				adder.getBody().addToStatements("key.append(" + qMap.fieldname() + ".getUid())");
 			}
 		}
-	}
-	protected boolean isMap(INakedProperty property){
-		return property.getQualifiers().size() > 0 && property.getName().equals("updateChangeLog");
 	}
 	protected OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		OJPathName javaTypePath;

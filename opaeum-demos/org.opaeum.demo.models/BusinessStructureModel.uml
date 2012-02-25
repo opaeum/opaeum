@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumBPMProfile="http:///schemas/OpaeumBPMProfile/1.0.0.6" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumBPMProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:OpaeumBPMProfile="http:///schemas/OpaeumBPMProfile/1.0.0.6" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:OpaeumStandardProfile_1="http:///schemas/OpaeumStandardProfile/_XxO3EF-cEeGSPaWW9iQb9Q/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/OpaeumBPMProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.uml#_2agDYNfJEeCXQPv0AMhLcg http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg http:///schemas/OpaeumStandardProfile/_XxO3EF-cEeGSPaWW9iQb9Q/0 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XxU9sF-cEeGSPaWW9iQb9Q">
   <uml:Model xmi:id="_-VLbkE8VEeGA3PFuQY5w7Q" name="structuredbusiness">
     <eAnnotations xmi:id="_hDBBsE8YEeG-ysddVp_ifQ" source="http://www.opaeum.org">
       <details xmi:id="_hDFTIE8YEeG-ysddVp_ifQ" key="uuid" value="914890"/>
@@ -8,8 +8,13 @@
       <eAnnotations xmi:id="_W8hrcFxhEeGaLvytS4KS2w" source="http://www.opaeum.org"/>
       <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qb8akM37EdqwVrslYOdUDA"/>
     </packageImport>
-    <packagedElement xmi:type="uml:Actor" xmi:id="_kBsu8FegEeGTv4Udq66lQg" name="Online Customer">
+    <packagedElement xmi:type="uml:Actor" xmi:id="_kBsu8FegEeGTv4Udq66lQg" clientDependency="_2IhC8F-6EeGfxpWmxnvG1g" name="Online Customer">
       <eAnnotations xmi:id="_kCqYQFegEeGTv4Udq66lQg" source="http://www.opaeum.org"/>
+      <interfaceRealization xmi:id="_2IhC8F-6EeGfxpWmxnvG1g" name="isAIBusinessActor" client="_kBsu8FegEeGTv4Udq66lQg">
+        <eAnnotations xmi:id="_2Kpw8F-6EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_AN3QcEtxEeGElKTCe2jfDw"/>
+      </interfaceRealization>
     </packagedElement>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_ldjo8FegEeGTv4Udq66lQg" name="Apply for New Account">
       <eAnnotations xmi:id="_leDYMFegEeGTv4Udq66lQg" source="http://www.opaeum.org"/>
@@ -46,6 +51,46 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nyijVlegEeGTv4Udq66lQg" value="1"/>
       </ownedEnd>
     </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_10su4F-VEeG_gNCCKLvjAw" name="adsf">
+      <eAnnotations xmi:id="_06JyYF-6EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_IJ6ysF-WEeG_gNCCKLvjAw" name="Actor">
+      <eAnnotations xmi:id="_06LAgF-6EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_Eqoy8F-XEeG_gNCCKLvjAw" name="Actor1">
+      <eAnnotations xmi:id="_06HWIF-6EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1-07cF-6EeGfxpWmxnvG1g" clientDependency="_2IktUF-6EeGfxpWmxnvG1g" name="BusinessDocument1">
+      <eAnnotations xmi:id="_1_KSoF-6EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+      <ownedAttribute xmi:id="_G31f8F-7EeGfxpWmxnvG1g" name="Property1">
+        <eAnnotations xmi:id="_G33VIF-7EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+      </ownedAttribute>
+      <interfaceRealization xmi:id="_2IktUF-6EeGfxpWmxnvG1g" name="isAIBusinessDocument" client="_1-07cF-6EeGfxpWmxnvG1g">
+        <eAnnotations xmi:id="_2KnUsF-6EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cOzTkF9lEeG3X_yvufTVmw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cOzTkF9lEeG3X_yvufTVmw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_BVyMoF-7EeGfxpWmxnvG1g" clientDependency="_BcNkwV-7EeGfxpWmxnvG1g" name="BusinessRole1">
+      <eAnnotations xmi:id="_BV5hYF-7EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+      <interfaceRealization xmi:id="_BcNkwV-7EeGfxpWmxnvG1g" name="isAIBusinessRole" client="_BVyMoF-7EeGfxpWmxnvG1g">
+        <eAnnotations xmi:id="_BeSBUF-7EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+        <supplier xmi:type="uml:Interface" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+        <contract href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tH0fAIoVEeCLqpffVZYAlw"/>
+      </interfaceRealization>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_gLqUoF-7EeGfxpWmxnvG1g" name="Class1">
+      <eAnnotations xmi:id="_gLt_AF-7EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_e-XJIF-9EeGfxpWmxnvG1g" name="BusinessDocument2">
+      <eAnnotations xmi:id="_e-fE8F-9EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_n8IVYF-9EeGfxpWmxnvG1g" name="BusinessRole2">
+      <eAnnotations xmi:id="_n8KxoF-9EeGfxpWmxnvG1g" source="http://www.opaeum.org"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Signal" xmi:id="_prs3wF_MEeG6dLdH60ij_Q" name="Notification1">
+      <eAnnotations xmi:id="_prxJMF_MEeG6dLdH60ij_Q" source="http://www.opaeum.org"/>
+    </packagedElement>
     <profileApplication xmi:id="_fJR44E8YEeG-ysddVp_ifQ">
       <eAnnotations xmi:id="_fJxBEE8YEeG-ysddVp_ifQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
@@ -66,7 +111,7 @@
     </profileApplication>
     <profileApplication xmi:id="_-XB4cFlXEeG2Waj2LvbphQ">
       <eAnnotations xmi:id="_-ZLNgFlXEeG2Waj2LvbphQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XxU9sF-cEeGSPaWW9iQb9Q"/>
       </eAnnotations>
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
@@ -79,4 +124,9 @@
   <OpaeumStandardProfile:Entity xmi:id="_nshvwF0jEeGS-JbGKi1uUw" base_Class="_nl148F0jEeGS-JbGKi1uUw"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_ZHzp0F1qEeGmG9hcb4DVLA" base_Property="_nyijUVegEeGTv4Udq66lQg"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_ZIK2MF1qEeGmG9hcb4DVLA" base_Property="_nyijUVegEeGTv4Udq66lQg"/>
+  <OpaeumBPMProfile:BusinessDocument xmi:id="_2IkGQF-6EeGfxpWmxnvG1g" base_Class="_1-07cF-6EeGfxpWmxnvG1g"/>
+  <OpaeumBPMProfile:BusinessRole xmi:id="_BcNkwF-7EeGfxpWmxnvG1g" base_Class="_BVyMoF-7EeGfxpWmxnvG1g"/>
+  <OpaeumStandardProfile_1:Entity xmi:id="_k2FMoF_MEeG6dLdH60ij_Q" base_Class="_n8IVYF-9EeGfxpWmxnvG1g"/>
+  <OpaeumStandardProfile_1:Entity xmi:id="_my-XIF_MEeG6dLdH60ij_Q" base_Class="_1-07cF-6EeGfxpWmxnvG1g"/>
+  <OpaeumBPMProfile:Notification xmi:id="_p1klcF_MEeG6dLdH60ij_Q" base_Signal="_prs3wF_MEeG6dLdH60ij_Q"/>
 </xmi:XMI>

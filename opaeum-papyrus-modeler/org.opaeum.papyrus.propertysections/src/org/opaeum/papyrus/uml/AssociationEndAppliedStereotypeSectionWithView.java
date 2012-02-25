@@ -7,8 +7,8 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.papyrus.uml.profile.tree.objects.StereotypedElementTreeObject;
-import org.eclipse.papyrus.uml.profile.ui.compositeforview.AppliedStereotypeCompositeWithView;
-import org.eclipse.papyrus.uml.profile.ui.compositeforview.AppliedStereotypePropertyCompositeWithView;
+//import org.eclipse.papyrus.uml.profile.ui.compositeforview.AppliedStereotypeCompositeWithView;
+//import org.eclipse.papyrus.uml.profile.ui.compositeforview.AppliedStereotypePropertyCompositeWithView;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
@@ -17,24 +17,24 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Element;
 
 public abstract class AssociationEndAppliedStereotypeSectionWithView extends AbstractPropertySection {
-	private AppliedStereotypeCompositeWithView appliedStereotypeComposite;
-	private AppliedStereotypePropertyCompositeWithView propertyComposite;
+//	private AppliedStereotypeCompositeWithView appliedStereotypeComposite;
+//	private AppliedStereotypePropertyCompositeWithView propertyComposite;
 	public AssociationEndAppliedStereotypeSectionWithView(){
 		super();
 	}
 	@Override
 	public void createControls(Composite parent,TabbedPropertySheetPage tabbedPropertySheetPage){
 		super.createControls(parent, tabbedPropertySheetPage);
-		appliedStereotypeComposite = new AppliedStereotypeCompositeWithView(parent);
-		appliedStereotypeComposite.createContent(parent, getWidgetFactory());
-		propertyComposite = new AppliedStereotypePropertyCompositeWithView(parent, appliedStereotypeComposite);
-		propertyComposite.createContent(parent, getWidgetFactory());
-		appliedStereotypeComposite.setPropertyComposite(propertyComposite);
+//		appliedStereotypeComposite = new AppliedStereotypeCompositeWithView(parent);
+//		appliedStereotypeComposite.createContent(parent, getWidgetFactory());
+//		propertyComposite = new AppliedStereotypePropertyCompositeWithView(parent, appliedStereotypeComposite);
+//		propertyComposite.createContent(parent, getWidgetFactory());
+//		appliedStereotypeComposite.setPropertyComposite(propertyComposite);
 	}
 	@Override
 	public void refresh(){
-		appliedStereotypeComposite.refresh();
-		propertyComposite.refresh();
+//		appliedStereotypeComposite.refresh();
+//		propertyComposite.refresh();
 	}
 	@Override
 	public boolean shouldUseExtraSpace(){
@@ -54,18 +54,18 @@ public abstract class AssociationEndAppliedStereotypeSectionWithView extends Abs
 				View view = (View) graphicalEditPart.getModel();
 				Association association = (Association) view.getElement();
 				if(association != null){
-					appliedStereotypeComposite.setDiagramElement(view);
-					propertyComposite.setDiagramElement(view);
-					appliedStereotypeComposite.setElement(getEnd(association));
-					appliedStereotypeComposite.setInput(new StereotypedElementTreeObject(getEnd(association)));
+//					appliedStereotypeComposite.setDiagramElement(view);
+//					propertyComposite.setDiagramElement(view);
+//					appliedStereotypeComposite.setElement(getEnd(association));
+//					appliedStereotypeComposite.setInput(new StereotypedElementTreeObject(getEnd(association)));
 				}
 			}else{
 				EObject eobject = resolveSemanticObject(input);
 				if(eobject instanceof Association){
 					Association association = (Association) eobject;
-					appliedStereotypeComposite.setDiagramElement(null);
-					appliedStereotypeComposite.setElement(getEnd(association));
-					appliedStereotypeComposite.setInput(new StereotypedElementTreeObject(getEnd(association)));
+//					appliedStereotypeComposite.setDiagramElement(null);
+//					appliedStereotypeComposite.setElement(getEnd(association));
+//					appliedStereotypeComposite.setInput(new StereotypedElementTreeObject(getEnd(association)));
 				}
 			}
 		}
@@ -84,9 +84,9 @@ public abstract class AssociationEndAppliedStereotypeSectionWithView extends Abs
 	}
 	public void dispose(){
 		super.dispose();
-		if(appliedStereotypeComposite != null)
-			appliedStereotypeComposite.disposeListeners();
-		if(propertyComposite != null)
-			propertyComposite.disposeListeners();
+		// if(appliedStereotypeComposite != null)
+		// appliedStereotypeComposite.disposeListeners();
+		// if(propertyComposite != null)
+		// propertyComposite.disposeListeners();
 	}
 }

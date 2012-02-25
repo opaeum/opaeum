@@ -60,6 +60,9 @@ public class EmfWorkspace implements Element{
 		addGeneratingModelOrProfile(model);
 	}
 	public ECrossReferenceAdapter getCrossReferenceAdapter(){
+		if(crossReferenceAdaptor==null){
+			crossReferenceAdaptor=ECrossReferenceAdapter.getCrossReferenceAdapter(resourceSet);
+		}
 		return this.crossReferenceAdaptor;
 	}
 	// Load entire resourceSet

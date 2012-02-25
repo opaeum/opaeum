@@ -49,6 +49,15 @@
     <availablePage>
       <emfPageIdentifier href="OpaeumBPM.library.notation#_1sBlUF13EeGKRdKItFLDfg"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumBPM.library.notation#_ZQa24F9lEeG3X_yvufTVmw"/>
+    </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumBPMCommon.notation#_LhArIF9mEeG3X_yvufTVmw"/>
+    </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumBPM.library.notation#_8Ju9UF-gEeGSPaWW9iQb9Q"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
@@ -60,7 +69,22 @@
           <emfPageIdentifier href="OpaeumBPM.library.notation#_p7QtAF13EeGKRdKItFLDfg"/>
         </children>
         <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_fxJ0MFZKEeGj5_I7bIwNoA"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPMCommon.notation#_LhArIF9mEeG3X_yvufTVmw"/>
+        </children>
+        <children>
           <emfPageIdentifier href="OpaeumBPM.library.notation#_1sBlUF13EeGKRdKItFLDfg"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_ZQa24F9lEeG3X_yvufTVmw"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_8Ju9UF-gEeGSPaWW9iQb9Q"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_uMlM4FPiEeGhgtp358IFlA"/>
         </children>
       </children>
     </windows>

@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,13 +21,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -32,6 +36,7 @@ import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,11 +51,13 @@ import org.w3c.dom.NodeList;
 @Entity(name="OrganizationFullfillsActorRole")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class OrganizationFullfillsActorRole implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
-	@Index(columnNames="business_actor",name="idx_organization_fullfills_actor_role_business_actor")
-	@Any(metaColumn=
-		@Column(name="business_actor_type"),metaDef="IBusinessActor")
-	@JoinColumn(name="business_actor",nullable=true)
-	private IBusinessActor businessActor;
+	@Embedded
+	@AttributeOverrides(	{
+		@AttributeOverride(column=
+			@Column(name="business_actor"),name="identifier"),
+		@AttributeOverride(column=
+			@Column(name="business_actor_type"),name="classIdentifier")})
+	private InterfaceValue businessActor;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -66,6 +73,8 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="organization_id",nullable=true)
 	private OrganizationalNode organization;
+	@Transient
+	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 2252066632228028224l;
 	private String uid;
 
@@ -135,7 +144,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
-		IBusinessActor result = this.businessActor;
+		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
 		
 		return result;
 	}
@@ -316,7 +325,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	}
 	
 	public void z_internalAddToBusinessActor(IBusinessActor val) {
-		this.businessActor=val;
+		this.businessActor.setValue(val);
 	}
 	
 	public void z_internalAddToOrganization(OrganizationalNode val) {
@@ -325,12 +334,13 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 	
 	public void z_internalRemoveFromBusinessActor(IBusinessActor val) {
 		if ( getBusinessActor()!=null && val!=null && val.equals(getBusinessActor()) ) {
-			this.businessActor=null;
+			this.businessActor.setValue(null);
 		}
 	}
 	
 	public void z_internalRemoveFromOrganization(OrganizationalNode val) {
 		if ( getOrganization()!=null && val!=null && val.equals(getOrganization()) ) {
+			this.organization=null;
 			this.organization=null;
 		}
 	}

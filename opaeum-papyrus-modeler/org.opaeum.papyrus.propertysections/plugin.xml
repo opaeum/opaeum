@@ -385,12 +385,6 @@
 				filter="org.opaeum.topcased.propertysections.filters.ClassFilter"
 				tab="org.opaeum.eclipse.invariantsTab">
 			</propertySection>
-			<propertySection
-				id="org.eclipse.papyrus.uml.profile.ui.section.AppliedProfileSection"
-				class="org.eclipse.papyrus.uml.profile.ui.section.AppliedProfileSection"
-				filter="org.eclipse.papyrus.uml.profile.filter.AppliedProfileSectionFilter"
-				tab="org.opaeum.papyrus.profilesTab">
-			</propertySection>
 		<!--propertySection 
 				id="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection" 
 				class="org.topcased.modeler.uml.internal.properties.sections.InstanceSpecificationIsInstanceOfSection" 
@@ -527,10 +521,17 @@
 				</input> </propertySection -->
 
 			<propertySection
-				id="org.eclipse.papyrus.uml.profile.ui.section.AppliedStereotypeSectionWithView"
-				filter="org.eclipse.papyrus.uml.profile.filter.AppliedStereotypeSectionFilter"
-				class="org.eclipse.papyrus.uml.profile.ui.section.AppliedStereotypeSectionWithView"
-				tab="org.opaeum.papyrus.stereotypesTab">
+				id="org.opaeum.topcased.propertysections.ElementImportAliasSection"
+				filter="org.opaeum.topcased.propertysections.filters.ElementImportFilter"
+				class="org.opaeum.topcased.propertysections.ElementImportAliasSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.classifier.BusinessDocumentDocumentTypeSection"
+				filter="org.opaeum.topcased.propertysections.filters.BusinessDocumentFilter"
+				class="org.opaeum.topcased.propertysections.classifier.BusinessDocumentDocumentTypeSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
 			</propertySection>
 		</propertySections>
 	</extension>
