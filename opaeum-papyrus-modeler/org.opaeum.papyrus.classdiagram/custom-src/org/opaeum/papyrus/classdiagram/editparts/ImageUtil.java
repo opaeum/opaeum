@@ -6,11 +6,15 @@ import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.ImageUtilities;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.papyrus.uml.diagram.clazz.part.UMLDiagramEditorPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
 public class ImageUtil{
@@ -24,7 +28,7 @@ public class ImageUtil{
 			height = original.getBounds().height;
 			for(int y = 0;y < height;y++){
 				for(int x = 0;x < width;x++){
-					image.getImageData().setPixel(x, y, smooth(x, y));
+//					image.getImageData().setPixel(ImageUtilities. x, y, smooth(x, y).getRGB().);
 				}
 			}
 		}
@@ -33,19 +37,22 @@ public class ImageUtil{
 		 * this pixel and all the adjacent pixels.
 		 */
 		private Color smooth(int xpos,int ypos){
-			List<Integer> pixels = new ArrayList<Integer>(9);
+			List<Color> pixels = new ArrayList<Color>(9);
 			for(int y = ypos - 1;y <= ypos + 1;y++){
 				for(int x = xpos - 1;x <= xpos + 1;x++){
-					if(x >= 0 && x < width && y >= 0 && y < height)
-						pixels.add(original.getImageData().getPixel(x, y));
+					if(x >= 0 && x < width && y >= 0 && y < height){
+						ImageData imageData = original.getImageData();
+//						pixels.add(new RGB(imageData.getPixel(x, y)));
+					}
 				}
 			}
-			return new Color(Display.getCurrent(), avgRed(pixels), avgGreen(pixels), avgBlue(pixels));
+			return null;
+//			return new Color(Display.getCurrent(), avgRed(pixels), avgGreen(pixels), avgBlue(pixels)).getRGB());
 		}
 		/**
 		 * Return the average of all the red values in the given list of pixels.
 		 */
-		private int avgRed(List pixels){
+		private int avgRed(List<Color> pixels){
 			int total = 0;
 			for(Iterator it = pixels.iterator();it.hasNext();){
 				total += ((Color) it.next()).getRed();
@@ -55,7 +62,7 @@ public class ImageUtil{
 		/**
 		 * Return the average of all the green values in the given list of pixels.
 		 */
-		private int avgGreen(List pixels){
+		private int avgGreen(List<Color> pixels){
 			int total = 0;
 			for(Iterator it = pixels.iterator();it.hasNext();){
 				total += ((Color) it.next()).getGreen();
@@ -65,7 +72,7 @@ public class ImageUtil{
 		/**
 		 * Return the average of all the blue values in the given list of pixels.
 		 */
-		private int avgBlue(List pixels){
+		private int avgBlue(List<Color> pixels){
 			int total = 0;
 			for(Iterator it = pixels.iterator();it.hasNext();){
 				total += ((Color) it.next()).getBlue();
@@ -87,6 +94,7 @@ public class ImageUtil{
 				// Pattern pt = new Pattern(Display.getCurrent(), location.x, location.y, location.x + actualImageWidth, location.y
 				// + actualImageHeight, ColorConstants.white, ColorConstants.lightGray);
 				// graphics.setBackgroundPattern(pt);
+				 img= new Image(Display.getCurrent(), ImageUtilities.createShadedImage(img, new Color(Display.getCurrent(),255,255,255)));
 				graphics.drawImage(img, location.scale(1d / amount));
 				graphics.setBackgroundPattern(null);
 				// pt.dispose();
