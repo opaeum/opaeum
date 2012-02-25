@@ -63,7 +63,7 @@
             contributorClass="org.opaeum.rap.runtime.internal.editors.EntityEditorContributor"
             extensions="mpe"
             icon="icons/rms_persp.gif"
-            id="org.eclipse.rap.rms.ui.internal.editors.EntityEditor"
+            id="org.opaeum.rap.runtime.internal.editors.EntityEditor"
             name="Entity Editor">
       </editor>
    </extension>
@@ -76,7 +76,7 @@
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>
          <adapter
-               type="org.eclipse.rap.rms.ui.internal.datamodel.ILock">
+               type="org.opaeum.rap.runtime.internal.datamodel.ILock">
          </adapter>
       </factory>
    </extension>

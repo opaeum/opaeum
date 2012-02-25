@@ -82,7 +82,7 @@ public class OpenEditorAction extends SelectionProviderAction {
   {
     IAdaptable adaptable = ( IAdaptable )entity;
     ILock lock = ( ILock )adaptable.getAdapter( ILock.class ); 
-    boolean result = lock.lock();
+    boolean result = lock==null?true:lock.lock();
     if( !result && showMessage ) {
       Shell shell = activePage.getWorkbenchWindow().getShell();
       String msg

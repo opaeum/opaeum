@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.rap.runtime.dependencies.source
-Bundle-SymbolicName: org.opaeum.rap.runtime.dependencies.source
-Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.core.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6

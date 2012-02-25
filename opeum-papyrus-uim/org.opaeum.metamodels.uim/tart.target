@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="tart" sequenceNumber="5">
+<target name="tart" sequenceNumber="27">
 <locations>
-<location includeAllPlatforms="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.rap.sdk.feature.group" version="2.8.0.v20120130-0821"/>
-<unit id="org.eclipse.rap.runtime.requirements.feature.group" version="1.5.0.20120131-1125"/>
-<unit id="org.eclipse.rap.runtime.feature.group" version="1.5.0.20120131-1125"/>
-<repository location="http://download.eclipse.org/releases/juno"/>
-</location>
 <location includeAllPlatforms="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.opaeum.eclipse.feature.feature.group" version="1.0.0.201202091204"/>
 <unit id="org.opaeum.eclipse.source.feature.feature.group" version="1.0.0.201202091204"/>
@@ -24,5 +18,13 @@
 <unit id="org.topcased.ocl.feature.feature.group" version="4.3.0.201107291409"/>
 <repository location="file:/home/ampie/Workspaces/opaeum/opaeum-modeler/org.opaeum.modeler.product/target/repository/"/>
 </location>
+<location includeAllPlatforms="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.rap.sdk.feature.group" version="2.8.0.v20120130-0821"/>
+<unit id="org.eclipse.rap.runtime.requirements.feature.group" version="1.5.0.20120131-1125"/>
+<unit id="org.eclipse.rap.runtime.feature.group" version="1.5.0.20120131-1125"/>
+<unit id="org.eclipse.uml2.sdk.feature.group" version="4.0.0.v20120130-1013"/>
+<repository location="http://download.eclipse.org/releases/juno"/>
+</location>
+<location path="/home/ampie/Eclipse Products/Papyrus0938m5Dev/targetplatform" type="Directory"/>
 </locations>
 </target>
