@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_LgcDYF9mEeG3X_yvufTVmw" name="OpaeumBPMCommon">
+  <eAnnotations xmi:id="_Mdik0F9mEeG3X_yvufTVmw" source="http://www.opaeum.org"/>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_7zLcgNb-EeCJ0dmaHEVVnw" name="BusinessTimeUnit">
+    <eAnnotations xmi:id="_VPTp09fJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
+      <details xmi:id="_ER-FAF97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+    </eAnnotations>
+    <eAnnotations xmi:id="_7zLcgdb-EeCJ0dmaHEVVnw" source="http://www.opaeum.org"/>
+    <ownedLiteral xmi:id="_9aqXsNb-EeCJ0dmaHEVVnw" name="businessMinute">
+      <eAnnotations xmi:id="_9asM4Nb-EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER_TIV97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_AADsoNb_EeCJ0dmaHEVVnw" name="actualMinute">
+      <eAnnotations xmi:id="_AAFh0Nb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER-sEF97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_BSwqoNb_EeCJ0dmaHEVVnw" name="businessHour">
+      <eAnnotations xmi:id="_BSyf0Nb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER-sFF97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_B9jUENb_EeCJ0dmaHEVVnw" name="actualHour">
+      <eAnnotations xmi:id="_B9lJQNb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER-FAV97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_Cl_0INb_EeCJ0dmaHEVVnw" name="businessDay">
+      <eAnnotations xmi:id="_CmC3cNb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER-sE197EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_DolSgNb_EeCJ0dmaHEVVnw" name="calendarDay">
+      <eAnnotations xmi:id="_DonHsNb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER_TI197EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_EYj98Nb_EeCJ0dmaHEVVnw" name="calendarWeek">
+      <eAnnotations xmi:id="_EYmaMNb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER-sEV97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_MWLUwNb_EeCJ0dmaHEVVnw" name="businessWeek">
+      <eAnnotations xmi:id="_MWOYENb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER_TIl97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_NEFjoNb_EeCJ0dmaHEVVnw" name="calendarMonth">
+      <eAnnotations xmi:id="_NEH_4Nb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER_TIF97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_N78YsNb_EeCJ0dmaHEVVnw" name="businessMonth">
+      <eAnnotations xmi:id="_N7-08Nb_EeCJ0dmaHEVVnw" source="http://www.opaeum.org">
+        <details xmi:id="_ER-sEl97EeGBOcUynGQdJQ" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_5lxp4LRZEeCilvbXE8KmHA" name="TaskDelegation">
+    <eAnnotations xmi:id="_VPOxUNfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
+      <details xmi:id="_VPOxUdfJEeCXQPv0AMhLcg" key="uid" value="8f0688b4_89c6_40a8_b034_ac157dfedace"/>
+      <details xmi:id="_FueGbUt-EeGElKTCe2jfDw" key="opaeumId" value="252060@null"/>
+    </eAnnotations>
+    <eAnnotations xmi:id="_TClYWM5tEeCLs7vQmm8tBQ" source="http://www.opaeum.org" references="_MmeToLRaEeCilvbXE8KmHA _PtH7gLRaEeCilvbXE8KmHA _PFIHYLRaEeCilvbXE8KmHA _OFIC8LRaEeCilvbXE8KmHA">
+      <details xmi:id="_TCl_YM5tEeCLs7vQmm8tBQ" key="uuid" value="5aee6ba0_7517_4887_ba4f_f7766e191b03"/>
+      <details xmi:id="_2vIxNdYJEeCIftwUy_ucRw" key="uid" value="2ecb389e_ab14_47b5_83ca_b74b99ecd3b5"/>
+    </eAnnotations>
+    <ownedLiteral xmi:id="_MmeToLRaEeCilvbXE8KmHA" name="potentialOwners">
+      <eAnnotations xmi:id="_TCl_Yc5tEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_TCl_Ys5tEeCLs7vQmm8tBQ" key="uuid" value="09690faf_0088_4aed_afcd_53c93bbfd864"/>
+        <details xmi:id="_FueGbkt-EeGElKTCe2jfDw" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_OFIC8LRaEeCilvbXE8KmHA" name="nobody">
+      <eAnnotations xmi:id="_TCmmcM5tEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_TCmmcc5tEeCLs7vQmm8tBQ" key="uuid" value="4ace4b26_ba08_425c_9451_3ec2adf2809e"/>
+        <details xmi:id="_FueGb0t-EeGElKTCe2jfDw" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_PFIHYLRaEeCilvbXE8KmHA" name="anybody">
+      <eAnnotations xmi:id="_TCl_Zc5tEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_TCl_Zs5tEeCLs7vQmm8tBQ" key="uuid" value="73f07074_caf6_42dc_89c1_e85e2224530e"/>
+        <details xmi:id="_FueGcEt-EeGElKTCe2jfDw" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_PtH7gLRaEeCilvbXE8KmHA" name="other">
+      <eAnnotations xmi:id="_TCl_Y85tEeCLs7vQmm8tBQ" source="http://www.opaeum.org">
+        <details xmi:id="_TCl_ZM5tEeCLs7vQmm8tBQ" key="uuid" value="2114477e_6d86_406f_a9fb_8b310094bc77"/>
+        <details xmi:id="_FueGcUt-EeGElKTCe2jfDw" key="opaeumId" value="252060@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_6cgJ0F98EeGQnpmoOY8nIw" name="delete">
+    <eAnnotations xmi:id="_6czEwF98EeGQnpmoOY8nIw" source="http://www.opaeum.org" references="_8Z_xQF98EeGQnpmoOY8nIw _CsuTkF99EeGQnpmoOY8nIw"/>
+    <ownedLiteral xmi:id="_8Z_xQF98EeGQnpmoOY8nIw" name="textDocument">
+      <eAnnotations xmi:id="_8aA_YF98EeGQnpmoOY8nIw" source="http://www.opaeum.org"/>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_CsuTkF99EeGQnpmoOY8nIw" name="spreadSheet">
+      <eAnnotations xmi:id="_Csu6oF99EeGQnpmoOY8nIw" source="http://www.opaeum.org"/>
+    </ownedLiteral>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_Ckeg4F9ZEeG3X_yvufTVmw" name="DocumentType">
+    <eAnnotations xmi:id="_Ckg9IF9ZEeG3X_yvufTVmw" source="http://www.opaeum.org" references="_FHq2YF9ZEeG3X_yvufTVmw _HHmt0F9ZEeG3X_yvufTVmw _IwrkcF9ZEeG3X_yvufTVmw _iIQ3wF9ZEeG3X_yvufTVmw _pU6rsF9ZEeG3X_yvufTVmw">
+      <details xmi:id="_P4LBMF99EeGQnpmoOY8nIw" key="opaeumId" value="5af53d08_98ea_4474_b6d1_a42a44ac5f47@null"/>
+    </eAnnotations>
+    <ownedLiteral xmi:id="_FHq2YF9ZEeG3X_yvufTVmw" name="spreadSheet">
+      <eAnnotations xmi:id="_FHsrkF9ZEeG3X_yvufTVmw" source="http://www.opaeum.org">
+        <details xmi:id="_P4MPUF99EeGQnpmoOY8nIw" key="opaeumId" value="5af53d08_98ea_4474_b6d1_a42a44ac5f47@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_HHmt0F9ZEeG3X_yvufTVmw" name="presentation">
+      <eAnnotations xmi:id="_HHojAF9ZEeG3X_yvufTVmw" source="http://www.opaeum.org">
+        <details xmi:id="_P4LoQV99EeGQnpmoOY8nIw" key="opaeumId" value="5af53d08_98ea_4474_b6d1_a42a44ac5f47@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_IwrkcF9ZEeG3X_yvufTVmw" name="readOnlyDocument">
+      <eAnnotations xmi:id="_IwunwF9ZEeG3X_yvufTVmw" source="http://www.opaeum.org">
+        <details xmi:id="_P4MPUl99EeGQnpmoOY8nIw" key="opaeumId" value="5af53d08_98ea_4474_b6d1_a42a44ac5f47@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_iIQ3wF9ZEeG3X_yvufTVmw" name="document">
+      <eAnnotations xmi:id="_iISs8F9ZEeG3X_yvufTVmw" source="http://www.opaeum.org">
+        <details xmi:id="_P4MPUV99EeGQnpmoOY8nIw" key="opaeumId" value="5af53d08_98ea_4474_b6d1_a42a44ac5f47@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+    <ownedLiteral xmi:id="_pU6rsF9ZEeG3X_yvufTVmw" name="image">
+      <eAnnotations xmi:id="_pU8g4F9ZEeG3X_yvufTVmw" source="http://www.opaeum.org">
+        <details xmi:id="_P4LoQF99EeGQnpmoOY8nIw" key="opaeumId" value="5af53d08_98ea_4474_b6d1_a42a44ac5f47@null"/>
+      </eAnnotations>
+    </ownedLiteral>
+  </packagedElement>
+</uml:Model>

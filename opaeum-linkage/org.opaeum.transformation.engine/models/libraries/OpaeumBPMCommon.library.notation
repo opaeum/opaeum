@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML">
+  <notation:Diagram xmi:id="_LhArIF9mEeG3X_yvufTVmw" type="PapyrusUMLClassDiagram" name="Enumerations" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_6d_-oF98EeGQnpmoOY8nIw" type="2006" fontName="Sans" fontHeight="8" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6eCa4F98EeGQnpmoOY8nIw" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6eCa4V98EeGQnpmoOY8nIw" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6eDB8F98EeGQnpmoOY8nIw" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6eDB8V98EeGQnpmoOY8nIw" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6eDB8l98EeGQnpmoOY8nIw" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6eDB8198EeGQnpmoOY8nIw" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_6eDB9F98EeGQnpmoOY8nIw" type="5023"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_6eDpAF98EeGQnpmoOY8nIw" type="7015">
+        <children xmi:type="notation:Shape" xmi:id="_8aqfoF98EeGQnpmoOY8nIw" type="3017" fontName="Sans" fontHeight="8" lineColor="0">
+          <element xmi:type="uml:EnumerationLiteral" href="OpaeumBPMCommon.uml#_8Z_xQF98EeGQnpmoOY8nIw"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_8aqfoV98EeGQnpmoOY8nIw"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_Cs4roF99EeGQnpmoOY8nIw" type="3017" fontName="Sans" fontHeight="8" lineColor="0">
+          <element xmi:type="uml:EnumerationLiteral" href="OpaeumBPMCommon.uml#_CsuTkF99EeGQnpmoOY8nIw"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_Cs4roV99EeGQnpmoOY8nIw"/>
+        </children>
+        <styles xmi:type="notation:TitleStyle" xmi:id="_6eDpAV98EeGQnpmoOY8nIw"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_6eDpAl98EeGQnpmoOY8nIw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_6eDpA198EeGQnpmoOY8nIw"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6eDpBF98EeGQnpmoOY8nIw"/>
+      </children>
+      <element xmi:type="uml:Enumeration" href="OpaeumBPMCommon.uml#_6cgJ0F98EeGQnpmoOY8nIw"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6eAlsF98EeGQnpmoOY8nIw" x="280" y="80"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_LhArIV9mEeG3X_yvufTVmw"/>
+    <element xmi:type="uml:Model" href="OpaeumBPMCommon.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
+  </notation:Diagram>
+  <notation:Diagram xmi:id="_mXTM8F-6EeGfxpWmxnvG1g" type="PapyrusUMLClassDiagram" name="Then" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_nJs6QF-6EeGfxpWmxnvG1g" type="2006" fontName="Sans" fontHeight="8" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nKWagF-6EeGfxpWmxnvG1g" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nKXBkF-6EeGfxpWmxnvG1g" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nKXooF-6EeGfxpWmxnvG1g" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nKXooV-6EeGfxpWmxnvG1g" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nKYPsF-6EeGfxpWmxnvG1g" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nKYPsV-6EeGfxpWmxnvG1g" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_nKYPsl-6EeGfxpWmxnvG1g" type="5023"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_nKYPs1-6EeGfxpWmxnvG1g" type="7015">
+        <styles xmi:type="notation:TitleStyle" xmi:id="_nKYPtF-6EeGfxpWmxnvG1g"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_nKY2wF-6EeGfxpWmxnvG1g"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_nKY2wV-6EeGfxpWmxnvG1g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nKY2wl-6EeGfxpWmxnvG1g"/>
+      </children>
+      <element xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nJthUF-6EeGfxpWmxnvG1g" x="266" y="62"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_nLJEsF-6EeGfxpWmxnvG1g" type="2006" fontName="Sans" fontHeight="8" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nLJrwV-6EeGfxpWmxnvG1g" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nLKS0F-6EeGfxpWmxnvG1g" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nLKS0V-6EeGfxpWmxnvG1g" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nLKS0l-6EeGfxpWmxnvG1g" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nLKS01-6EeGfxpWmxnvG1g" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nLKS1F-6EeGfxpWmxnvG1g" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_nLKS1V-6EeGfxpWmxnvG1g" type="5023"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_nLKS1l-6EeGfxpWmxnvG1g" type="7015">
+        <styles xmi:type="notation:TitleStyle" xmi:id="_nLKS11-6EeGfxpWmxnvG1g"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_nLKS2F-6EeGfxpWmxnvG1g"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_nLK54F-6EeGfxpWmxnvG1g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLK54V-6EeGfxpWmxnvG1g"/>
+      </children>
+      <element xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_5lxp4LRZEeCilvbXE8KmHA"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLJrwF-6EeGfxpWmxnvG1g" x="65" y="60"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_nLaxgF-6EeGfxpWmxnvG1g" type="2006" fontName="Sans" fontHeight="8" lineColor="0">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nLbYkF-6EeGfxpWmxnvG1g" source="ShadowFigure">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nLbYkV-6EeGfxpWmxnvG1g" key="ShadowFigure_Value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nLbYkl-6EeGfxpWmxnvG1g" source="displayNameLabelIcon">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nLb_oF-6EeGfxpWmxnvG1g" key="displayNameLabelIcon_value" value="false"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nLb_oV-6EeGfxpWmxnvG1g" source="QualifiedName">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_nLb_ol-6EeGfxpWmxnvG1g" key="QualifiedNameDepth" value="1000"/>
+      </eAnnotations>
+      <children xmi:type="notation:DecorationNode" xmi:id="_nLb_o1-6EeGfxpWmxnvG1g" type="5023"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_nLb_pF-6EeGfxpWmxnvG1g" type="7015">
+        <styles xmi:type="notation:TitleStyle" xmi:id="_nLb_pV-6EeGfxpWmxnvG1g"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_nLb_pl-6EeGfxpWmxnvG1g"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_nLb_p1-6EeGfxpWmxnvG1g"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLb_qF-6EeGfxpWmxnvG1g"/>
+      </children>
+      <element xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLaxgV-6EeGfxpWmxnvG1g" x="490" y="60"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_mXTM8V-6EeGfxpWmxnvG1g"/>
+    <element xmi:type="uml:Model" href="OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
+  </notation:Diagram>
+</xmi:XMI>
