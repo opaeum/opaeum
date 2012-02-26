@@ -3,7 +3,6 @@ package org.opaeum.name;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.opaeum.name.NameConverter;
 
 public class NameConverterTest{
 	@Test

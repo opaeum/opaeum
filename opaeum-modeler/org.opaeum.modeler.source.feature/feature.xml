@@ -6,7 +6,8 @@
       provider-name="Opaeum"
       license-feature="org.opaeum.metamodels.feature"
       license-feature-version="1.0.0.qualifier">
-  <description url="%license">
+
+   <description url="%license">
       Opaeum Modeler Source Feature
    </description>
 
@@ -16,112 +17,48 @@
 
    <license url="%licenseURL">
       %license
-   </license>   
-
+   </license>
 
    <requires>
-      <import plugin="org.topcased.validation.core" version="3.0.0" match="compatible"/>
-      <import plugin="org.eclipse.ui" version="3.7.0" match="compatible"/>
-      <import plugin="org.topcased.modeler" version="3.1.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.emf.ecore.edit"/>
-      <import plugin="org.eclipse.emf.edit.ui"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="org.eclipse.uml2.uml.edit"/>
-      <import plugin="org.eclipse.uml2.common.edit"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.uml2.common"/>
-      <import plugin="org.eclipse.emf.ecore.xmi"/>
-      <import plugin="org.eclipse.uml2.uml"/>
-      <import plugin="org.eclipse.emf.ecore"/>
-      <import plugin="org.topcased.modeler.graphconf"/>
-      <import plugin="org.opaeum.eclipse.core"/>
-      <import plugin="org.topcased.ui"/>
-      <import plugin="org.eclipse.ocl.uml"/>
-      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt" version="1.4.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render" version="1.4.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.emf.validation"/>
-      <import plugin="org.opaeum.linkage.core"/>
-      <import plugin="org.opaeum.linkage.emfextraction"/>
-      <import plugin="org.opaeum.linkage.namegeneration"/>
-      <import plugin="org.opaeum.linkage.validation"/>
-      <import plugin="org.opaeum.metamodels.drools"/>
-      <import plugin="org.opaeum.metamodels.emfworkspace"/>
-      <import plugin="org.opaeum.metamodels.java"/>
-      <import plugin="org.opaeum.metamodels.maven"/>
-      <import plugin="org.opaeum.metamodels.ocl"/>
-      <import plugin="org.opaeum.metamodels.opaeum"/>
-      <import plugin="org.opaeum.metamodels.text"/>
-      <import plugin="org.opaeum.metamodels.uim"/>
-      <import plugin="org.opaeum.transformation.engine"/>
-      <import plugin="org.opaeum.compilation.uim"/>
-      <import plugin="org.opaeum.uimodeler.classform"/>
-      <import plugin="org.topcased.modeler.diagrams"/>
-      <import plugin="org.opaeum.uimodeler.editor"/>
-      <import plugin="org.opaeum.uimodeler.userinteractionproperties"/>
-      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
-         id="org.topcased.validation.ocl"
+         id="org.opaeum.modeler.activitydiagram.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.topcased.modeler.diagrams.validation"
+         id="org.opaeum.modeler.classdiagram.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opaeum.modeler.activitydiagram"
+         id="org.opaeum.modeler.compositestructurediagram.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opaeum.modeler.classdiagram"
+         id="org.opaeum.modeler.statemachinediagram.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opaeum.modeler.compositestructurediagram"
+         id="org.opaeum.modeler.validation.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.opaeum.modeler.statemachinediagram"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.modeler.uimadapter"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.modeler.validation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.opaeum.modeler.componentdiagram"
+         id="org.opaeum.modeler.componentdiagram.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

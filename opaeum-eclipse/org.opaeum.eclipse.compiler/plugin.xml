@@ -16,6 +16,9 @@
           className="org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy">
     </sourceFolderStrategy>
     <sourceFolderStrategy
+          className="org.opaeum.pomgeneration.SingleProjectRapSourceFolderStrategy">
+    </sourceFolderStrategy>
+    <sourceFolderStrategy
           className="org.opaeum.pomgeneration.TestSourceFolderStrategy">
     </sourceFolderStrategy>
  </extension>
@@ -33,6 +36,9 @@
           className="org.opaeum.generation.features.PersistenceUsingHibernate">
     </transformationStep>
     <transformationStep
+          className="org.opaeum.rap.RapProjectBuilder">
+    </transformationStep>
+    <transformationStep
           className="org.opaeum.generation.features.PersistenceUsingJpa">
     </transformationStep>
  </extension>
@@ -40,7 +46,11 @@
        point="org.opaeum.eclipse.modelLibrary">
     <modelLibrary
           name="Opaeum Simple Types"
-          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml">
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml">
+    </modelLibrary>
+    <modelLibrary
+          name="UML Primitive Types"
+          uri="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.uml">
     </modelLibrary>
     <modelLibrary
           name="Opaeum BPM and Business Calendar Library"
@@ -49,9 +59,14 @@
  </extension>
  <extension
        point="org.opaeum.eclipse.profile">
+
+    <profile
+          name="Standard Profile"
+          uri="pathmap://UML_PROFILES/StandardL3.profile.uml">
+    </profile>
     <profile
           name="Opaeum Standard Profile"
-          uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml">
+          uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml">
     </profile>
     <profile
           name="Opaeum BPM Profile"

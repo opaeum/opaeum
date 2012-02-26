@@ -2,9 +2,7 @@
 <feature
       id="org.opaeum.compilation.source.feature"
       label="Opaeum Model Compilation Source Feature"
-      version="1.0.0.qualifier"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      version="1.0.0.qualifier">
 
   <description url="%license">
       Opaeum Model Compilation Source Feature
@@ -18,24 +16,6 @@
       %license
    </license>   
    <requires>
-      <import plugin="org.eclipse.uml2.uml"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.opaeum.transformation.engine"/>
-      <import plugin="org.opaeum.metamodels.text"/>
-      <import plugin="org.opaeum.metamodels.opaeum"/>
-      <import plugin="org.opaeum.metamodels.java"/>
-      <import plugin="org.opaeum.metamodels.ocl"/>
-      <import plugin="org.opaeum.linkage.core"/>
-      <import plugin="org.opaeum.linkage.namegeneration"/>
-      <import plugin="org.opaeum.linkage.validation"/>
-      <import plugin="org.opaeum.metamodels.maven"/>
-      <import plugin="org.opaeum.metamodels.drools"/>
-      <import plugin="org.opaeum.metamodels.emfworkspace"/>
-      <import plugin="org.opaeum.linkage.emfextraction"/>
-      <import plugin="org.opaeum.metamodels.uim"/>
-      <import feature="org.opaeum.linkage.feature" version="1.0.0.qualifier"/>
-      <import feature="org.opaeum.metamodels.feature" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin

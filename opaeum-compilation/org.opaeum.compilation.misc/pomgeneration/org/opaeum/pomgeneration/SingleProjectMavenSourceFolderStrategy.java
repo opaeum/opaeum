@@ -73,6 +73,7 @@ public class SingleProjectMavenSourceFolderStrategy implements ISourceFolderStra
 		integratedJboss.dontCleanDirectoriesOrOverwriteFiles();
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_RESOURCE, true, "", "src/main/generated-resources");
 		cfg.defineSourceFolder(TextSourceFolderIdentifier.INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE, true, "", "src/test/generated-resources");
+		cfg.defineSourceFolder(TextSourceFolderIdentifier.WEB_PROJECT_ROOT, ProjectNameStrategy.QUALIFIED_WORKSPACE_NAME_AND_SUFFIX, ".webapp", "src/test/generated-resources");
 	}
 	@Override
 	public boolean isSingleProjectStrategy(){

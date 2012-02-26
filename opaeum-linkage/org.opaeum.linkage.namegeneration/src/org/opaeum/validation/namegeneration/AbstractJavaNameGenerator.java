@@ -204,6 +204,9 @@ public abstract class AbstractJavaNameGenerator extends AbstractNameGenerator{
 		}
 	}
 	private static void addParentsToPath(INakedNameSpace c,StringBuilder path){
+		if(c==null){
+			System.out.println();
+		}
 		INakedNameSpace parent = c.getParent();
 		if(parent != null){
 			if(parent instanceof INakedPackage && ((INakedPackage) parent).getMappedImplementationPackage() != null

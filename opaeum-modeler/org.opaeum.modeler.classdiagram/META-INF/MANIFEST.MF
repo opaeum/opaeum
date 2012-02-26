@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.opaeum.topcased.uml.OpaeumPlugin
 Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: org.opaeum.eclipse.uml.propertysections,
+ org.eclipse.core.runtime,
  org.eclipse.emf.ecore.edit,
  org.eclipse.emf.edit.ui,
  org.eclipse.ui.ide,
@@ -40,8 +41,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.opaeum.metamodels.opaeum;visibility:=reexport,
  org.opaeum.metamodels.text;visibility:=reexport,
  org.opaeum.metamodels.uim;visibility:=reexport,
- org.opaeum.transformation.engine;visibility:=reexport,
- org.opaeum.modeler.uimadapter;visibility:=reexport
+ org.opaeum.transformation.engine;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.draw2d,
  org.eclipse.gef.editparts,
@@ -58,10 +58,6 @@ Export-Package: org.eclipse.draw2d,
  org.opaeum.topcased.classdiagram,
  org.opaeum.topcased.classdiagram.edit,
  org.opaeum.topcased.classdiagram.figure,
- org.opaeum.topcased.propertysections,
- org.opaeum.topcased.propertysections.constraints,
- org.opaeum.topcased.propertysections.filters,
- org.opaeum.topcased.propertysections.ocl,
  org.opaeum.topcased.uml,
  org.opaeum.topcased.uml.editor,
  org.topcased.modeler.uml,
@@ -105,7 +101,6 @@ Export-Package: org.eclipse.draw2d,
  org.topcased.modeler.uml.internal.properties.sections.stereotype,
  org.topcased.modeler.uml.internal.properties.sections.structuralfeature,
  org.topcased.modeler.uml.internal.ui.navigator,
- org.topcased.modeler.uml.oclinterpreter,
  org.topcased.modeler.uml.oclinterpreter.internal.l10n,
  org.topcased.modeler.uml.parentrule,
  org.topcased.modeler.uml.preferences,

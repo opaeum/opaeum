@@ -46,11 +46,8 @@ import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
  * @author ampie
  * 
  */
-@StepDependency(phase = EmfExtractionPhase.class,requires = {
-		InstanceExtractor.class,TriggerExtractor.class,ActivityEdgeExtractor.class
-},after = {
-		InstanceExtractor.class,TriggerExtractor.class,ActivityEdgeExtractor.class
-})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {InstanceExtractor.class,TriggerExtractor.class,ActivityEdgeExtractor.class},after = {
+		InstanceExtractor.class,TriggerExtractor.class,ActivityEdgeExtractor.class})
 public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	@Override
 	protected int getThreadPoolSize(){
@@ -62,8 +59,12 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitAfter()
 	public void visitConstraintAfter(Constraint c,NakedConstraintImpl nc){
-		// Force proper population of ownedElement collections(Pre/Post conditions
-		nc.getOwnerElement().addOwnedElement(nc);
+		if(nc == null || nc.getOwnerElement() == null){
+			//TODO find out why this happens in the STandard UML Profiles
+		}else{
+			// Force proper population of ownedElement collections(Pre/Post conditions
+			nc.getOwnerElement().addOwnedElement(nc);
+		}
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void visitValueSpecification(ValueSpecification value,NakedValueSpecificationImpl result){
@@ -98,8 +99,8 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 				result.addOwnedElement(instance);
 			}
 		}
-		if(value.getOwner() instanceof ActivityEdge && result.getOwnerElement()!=null){
-			NakedActivityEdgeImpl nae = (NakedActivityEdgeImpl)result.getOwnerElement() ;
+		if(value.getOwner() instanceof ActivityEdge && result.getOwnerElement() != null){
+			NakedActivityEdgeImpl nae = (NakedActivityEdgeImpl) result.getOwnerElement();
 			ActivityEdge ae = (ActivityEdge) value.getOwner();
 			if(value == ae.getGuard()){
 				nae.setGuard(result);

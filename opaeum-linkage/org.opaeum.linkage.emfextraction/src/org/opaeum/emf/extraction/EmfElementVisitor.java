@@ -3,6 +3,7 @@ package org.opaeum.emf.extraction;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;

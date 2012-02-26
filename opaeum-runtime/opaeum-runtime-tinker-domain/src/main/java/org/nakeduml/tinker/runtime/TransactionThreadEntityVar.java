@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
-import org.nakeduml.runtime.domain.TinkerCompositionNode;
 
 
 public class TransactionThreadEntityVar {

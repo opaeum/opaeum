@@ -1,2 +1,6 @@
-OpaeumLibraryForBPM\:\:TaskDelegation=org.opaeum.runtime.domain.TaskDelegation
-##OpaeumLibraryForBPM\:\:businesscalendar\:\:BusinessCalendar=org.opaeum.runtime.bpm.businesscalendar.impl.BusinessCalendar
+OpaeumOrganization\:\:IOpaeumPerson=org.opaeum.runtime.organization.IOpaeumPerson
+OpaeumOrganization\:\:IOpaeumPersonPhoneNumber=org.opaeum.runtime.organization.IOpaeumPersonPhoneNumber
+OpaeumOrganization\:\:IOpaeumPersonEMailAddres=org.opaeum.runtime.organization.IOpaeumPersonEMailAddress
+OpaeumOrganization\:\:IOpaeumOrganization=org.opaeum.runtime.organization.IOpaeumOrganization
+OpaeumOrganization\:\:IOpaeumOrganizationPhoneNumber=org.opaeum.runtime.organization.IOpaeumOrganizationPhoneNumber
+OpaeumOrganization\:\:IOpaeumOrganizationEMailAddress=org.opaeum.runtime.organization.IOpaeumOrganizationEMailAddress

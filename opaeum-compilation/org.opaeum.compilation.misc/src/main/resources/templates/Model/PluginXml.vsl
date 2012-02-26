@@ -1,0 +1,200 @@
+#set($shouldGenerate=true)<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.rap.ui.entrypoint">
+      <entrypoint
+            class="org.opaeum.rap.runtime.startup.RMS"
+            id="org.eclipse.rap.rms.ui.internal.startup.RMS"
+            parameter="rms">
+      </entrypoint>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.opaeum.rap.runtime.internal.startup.RMSPerspective"
+            icon="icons/rms_persp.gif"
+            id="org.opaeum.rap.runtime.internal.startup.RMSPerspective"
+            name="%rms">
+      </perspective>
+      <perspective
+            class="org.opaeum.rap.runtime.internal.startup.IntroPerspective"
+            icon="icons/intro.gif"
+            id="org.opaeum.rap.runtime.internal.startup.IntroPerspective"
+            name="%intro">
+      </perspective>
+      <perspective
+            class="org.opaeum.rap.login.LoginPerspectiveFactory"
+            id="org.opaeum.rap.login.LoginPerspectiveFactory"
+            name="Login">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.rap.rms.ui.RMS"
+            class="org.opaeum.rap.runtime.internal.views.Navigator"
+            icon="icons/rms_persp.gif"
+            id="org.opaeum.rap.runtime.internal.views.Navigator"
+            name="%navigator">
+      </view>
+      <view
+            category="org.eclipse.rap.rms.ui.RMS"
+            class="org.opaeum.rap.runtime.internal.views.Intro"
+            icon="icons/intro.gif"
+            id="org.opaeum.rap.runtime.internal.views.Intro"
+            name="%intro">
+      </view>
+      <category
+            id="org.eclipse.rap.rms.ui.RMS"
+            name="%rms">
+      </category>
+      <view
+            class="org.opaeum.rap.login.LoginView"
+            id="org.opaeum.rap.login.LoginView"
+            name="Login"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.opaeum.rap.runtime.internal.editors.EntityEditor"
+            contributorClass="org.opaeum.rap.runtime.internal.editors.EntityEditorContributor"
+            extensions="mpe"
+            icon="icons/rms_persp.gif"
+            id="org.eclipse.rap.rms.ui.internal.editors.EntityEditor"
+            name="Entity Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.rap.rms.data.IEntity"
+            class="org.opaeum.rap.runtime.internal.datamodel.EntityAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+         <adapter
+               type="org.eclipse.rap.rms.ui.internal.datamodel.ILock">
+         </adapter>
+      </factory>
+   </extension>
+     <extension
+      point="org.eclipse.equinox.http.registry.resources">
+    <resource
+        alias="/help"
+        base-name="/help"/>
+  </extension>
+     <extension
+           point="org.eclipse.rap.ui.themes">
+        <theme
+              file="theme/rms.css"
+              id="org.eclipse.rap.rms.ui.RMSTheme"
+              name="RMS Theme">
+        </theme>
+     </extension>
+     <extension
+           point="org.eclipse.rap.ui.branding">
+        <branding
+              defaultEntrypointId="org.eclipse.rap.rms.ui.internal.startup.RMS"
+              id="org.eclipse.rap.rms.ui.RMS"
+              servletName="rms"
+              themeId="org.eclipse.rap.rms.ui.RMSTheme"
+              title="RAP Workbench Demo">
+        </branding>
+     </extension>
+
+
+  <!-- all activity-related stuff was introduced to split the demos at runtime-->
+  
+  <extension
+         point="org.eclipse.ui.services">
+      <sourceProvider
+            provider="org.opaeum.rap.runtime.internal.UrlParamsSourceProvider">
+         <variable
+               name="org.eclipse.rap.demo.activities.entryPoint"
+               priorityLevel="workbench">
+         </variable>
+      </sourceProvider>
+   </extension>
+
+  <!-- org.eclipse.rap.demo plugin -->
+  <!-- This plugin has several entry-points therefore we check for each of them when enabling the plugin contributions. -->
+  <extension point="org.eclipse.ui.activities">
+    <activity id="org.eclipse.rap.demo" name="Enable org.eclipse.rap.demo contributions">
+      <enabledWhen>
+        <with variable="org.eclipse.rap.demo.activities.entryPoint">
+          <iterate ifEmpty="true" operator="or">
+            <or>
+              <equals value="default" />
+            </or>
+          </iterate>
+        </with>
+      </enabledWhen>
+    </activity>
+    <!-- Only contributions matching org.eclipse.rap.demo/* are enabled -->
+    <activityPatternBinding activityId="org.eclipse.rap.demo"
+      pattern="^org\.eclipse\.rap\.demo/.*">
+    </activityPatternBinding>
+  </extension>
+
+  <extension point="org.eclipse.ui.activities">
+    <activity id="org.eclipse.rap.maildemo" name="Enable org.eclipse.rap.maildemo contributions">
+      <enabledWhen>
+        <with variable="org.eclipse.rap.demo.activities.entryPoint">
+          <iterate ifEmpty="true" operator="or">
+            <or>
+              <equals value="mail" />
+              <equals value="mailext" />
+            </or>
+          </iterate>
+        </with>
+      </enabledWhen>
+    </activity>
+    <!-- Only contributions matching org.eclipse.rap.demo/* are enabled -->
+    <activityPatternBinding activityId="org.eclipse.rap.maildemo"
+      pattern="^org\.eclipse\.rap\.maildemo/.*">
+    </activityPatternBinding>
+  </extension>
+
+   <!-- org.eclipse.rap.examples plugin -->
+   <extension point="org.eclipse.ui.activities">
+      <activity id="org.eclipse.rap.examples" name="Enable org.eclipse.rap.examples contributions">
+        <enabledWhen>
+          <with variable="org.eclipse.rap.demo.activities.entryPoint">
+            <iterate ifEmpty="true" operator="or">
+              <equals value="examples" />
+            </iterate>
+          </with>
+        </enabledWhen>
+      </activity>
+      <activityPatternBinding activityId="org.eclipse.rap.examples"
+            pattern="^org\.eclipse\.rap\.examples/.*">
+      </activityPatternBinding>
+   </extension>
+
+  <!-- org.eclipse.rap.rms.ui plugin -->
+  <extension point="org.eclipse.ui.activities">
+    <activity id="org.eclipse.rap.rms.ui" name="Enable org.eclipse.rap.rms.ui contributions">
+      <enabledWhen>
+        <with variable="org.eclipse.rap.demo.activities.entryPoint">
+          <iterate ifEmpty="true" operator="or">
+            <equals value="rms" />
+          </iterate>
+        </with>
+      </enabledWhen>
+    </activity>
+    <!-- Contributions matching org.eclipse.rap.demo/* and org.eclipse.rap.pde.runtime/* are enabled -->
+    <activityPatternBinding activityId="org.eclipse.rap.rms.ui"
+      pattern="^org\.eclipse\.rap\.rms\.ui/.*">
+    </activityPatternBinding>
+    <activityPatternBinding activityId="org.eclipse.rap.rms.ui"
+      pattern="^org\.eclipse\.rap\.pde\.runtime/.*">
+    </activityPatternBinding>
+    <activityPatternBinding activityId="org.eclipse.rap.rms.ui"
+      pattern="^org\.eclipse\.rap\.ui\.views/.*">
+    </activityPatternBinding>
+  </extension>
+
+</plugin>

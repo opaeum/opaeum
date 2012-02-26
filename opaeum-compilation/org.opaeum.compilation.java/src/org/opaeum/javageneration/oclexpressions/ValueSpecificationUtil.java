@@ -96,7 +96,12 @@ public class ValueSpecificationUtil{
 			operationContext.getBody().addToLocals(now);
 		}
 		if(value.getExpressionString().contains("currentUser") && !hasLocal(operationContext, "currentUser")){
-			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opaeum.runtime.bpm.BusinessRole"));
+			OJAnnotatedField now = new OJAnnotatedField("currentUser", new OJPathName("org.opaeum.runtime.organization.IPerson"));
+			now.setInitExp("null");
+			operationContext.getBody().addToLocals(now);
+		}
+		if(value.getExpressionString().contains("currentRole") && !hasLocal(operationContext, "currentRole")){
+			OJAnnotatedField now = new OJAnnotatedField("currentRole", new OJPathName("org.opaeum.runtime.bpm.organization.Participant"));
 			now.setInitExp("null");
 			operationContext.getBody().addToLocals(now);
 		}

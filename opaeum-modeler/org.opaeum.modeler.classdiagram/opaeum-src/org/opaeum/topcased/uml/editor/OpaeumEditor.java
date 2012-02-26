@@ -10,12 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditDomain;
-import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gmf.runtime.common.ui.util.PartListenerAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -28,19 +23,36 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
+import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.feature.OpaeumConfig;
-import org.topcased.modeler.editor.MixedEditDomain;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.editor.outline.ModelNavigator;
 import org.topcased.modeler.preferences.ModelerPreferenceConstants;
 import org.topcased.modeler.uml.editor.outline.UMLOutlinePage;
 
-public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
+public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor implements EObjectSelectorUI{
+	private final class MyPartListener extends PartListenerAdapter{
+		private IFile umlFile;
+		@Override
+		public void partClosed(IWorkbenchPart part){
+			try{
+				if(getCurrentContext() != null){
+					getCurrentContext().onClose(umlFile);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally{
+				OpaeumEclipseContext.setCurrentContext(null);
+			}
+		}
+		public void setFile(IFile umlFile){
+			this.umlFile = umlFile;
+		}
+	}
 	private Stack<EObject> history = new Stack<EObject>();
-	private PartListenerAdapter partListener;
+	private MyPartListener partListener;
 	private Object diagramOutlinePage;
 	public static OpaeumEclipseContext getCurrentContext(){
 		return OpaeumEclipseContext.getCurrentContext();
@@ -70,36 +82,11 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 	public void init(IEditorSite site,IEditorInput input) throws PartInitException{
 		super.init(site, input);
 		setIsReadOnly(OpaeumConfig.isValidVersionNumber(getFile(input).getParent().getName()));
-		final ResourceSet resourceSet = getEditingDomain().getResourceSet();
-		getSite().getPage().addPartListener(getPartListener(resourceSet));
 	}
-	private PartListenerAdapter getPartListener(final ResourceSet resourceSet){
+	private MyPartListener getPartListener(){
 		if(partListener == null){
-			this.partListener = new PartListenerAdapter(){
-				@Override
-				public void partClosed(IWorkbenchPart part){
-					try{
-						boolean dirty = false;
-						try{
-							dirty = isDirty();
-						}catch(Exception e){
-						}
-						if(dirty && getCurrentContext() != null){
-							getCurrentContext().removeNakedModel(getResourceSet());
-						}
-						if(getCurrentContext() != null){
-							getCurrentContext().onClose(!dirty, resourceSet);
-						}
-						if(getCurrentContext() != null){
-							getCurrentContext().onClose(true, resourceSet);
-						}
-					}catch(Exception e){
-						e.printStackTrace();
-					}finally{
-						OpaeumEclipseContext.setCurrentContext(null);
-					}
-				}
-			};
+			this.partListener = new MyPartListener();
+			getSite().getPage().addPartListener(partListener);
 		}
 		return this.partListener;
 	}
@@ -115,10 +102,11 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 			monitor.done();
 		}
 	}
-	public Object getAdapter(Class type){
+	public Object getAdapter(@SuppressWarnings("rawtypes")
+	Class type){
 		if(type == IContentOutlinePage.class){
-			if(this.diagramOutlinePage==null){
-				this.diagramOutlinePage=super.getAdapter(IContentOutlinePage.class);
+			if(this.diagramOutlinePage == null){
+				this.diagramOutlinePage = super.getAdapter(IContentOutlinePage.class);
 			}
 			return this.diagramOutlinePage;
 		}
@@ -132,13 +120,13 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 				return new OpaeumNavigator(parent, editor, pageSite);
 			}
 			@Override
-			public Object getAdapter(Class adapter){
+			public Object getAdapter(@SuppressWarnings("rawtypes")
+			Class adapter){
 				// Workaround for bug in Topcased
 				return OpaeumEditor.this.getAdapter(adapter);
 			}
 			public void dispose(){
 				super.dispose();
-				Thread.currentThread().dumpStack();
 			}
 		};
 	}
@@ -160,11 +148,13 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor{
 		IFile umlFile = getUmlFile(fe);
 		OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlDir);
 		if(result != null){
-			if(result.isSyncronizingWith(getEditingDomain().getResourceSet())){
-				result.setCurrentEditContext(getEditingDomain(), umlFile);
+			getPartListener().setFile(umlFile);
+			if(result.isSyncronizingWith(umlFile)){
+				result.setCurrentEditContext(getEditingDomain(), umlFile, this);
 			}else{
 				result.startSynch(getEditingDomain(), umlFile);
 			}
+			result.seteObjectSelectorUI(this);
 		}
 		return result;
 	}

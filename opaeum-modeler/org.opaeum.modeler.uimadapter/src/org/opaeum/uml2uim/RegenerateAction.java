@@ -30,9 +30,7 @@ public class RegenerateAction extends AbstractUimGenerationAction implements IOb
 			fs.visitRecursively(modelElement);
 			DiagramSynchronizer ds = new DiagramSynchronizer(workspace,uimResourceSet,false);
 			ds.visitRecursively(modelElement);
-			UimSynchronizationPhase. save(workspace.getDirectoryUri(),workspace.getResourceSet());
-			UimSynchronizationPhase.save(workspace.getDirectoryUri(),uimResourceSet);
-		}catch(IOException e){
+		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
 	}

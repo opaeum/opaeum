@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="raptest.viewapp"
+         name="raptest.viewapp"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            thread="main"
+            cardinality="singleton-global"
+            visible="true">
+         <run
+               class="raptest.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="RAP Perspective"
+            class="raptest.Perspective"
+            id="raptest.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="View"
+            class="raptest.View"
+            id="raptest.view">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.branding">
+      <branding
+            defaultEntrypointId="raptest.viewapp"
+            id="raptest.branding"
+            servletName="view"
+            themeId="org.eclipse.rap.design.example.fancy.theme"
+            title="RAP Single View">
+      </branding>
+   </extension>
+
+</plugin>

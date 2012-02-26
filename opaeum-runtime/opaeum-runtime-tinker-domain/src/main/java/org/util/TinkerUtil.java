@@ -7,11 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.nakeduml.tinker.runtime.NakedGraph;
-import org.nakeduml.tinker.runtime.TinkerSchemaHelper;
-
-import com.tinkerpop.blueprints.pgm.Vertex;
-
 public class TinkerUtil {
 
 	public static String[] convertEnumsForPersistence(Collection<? extends Enum<?>> multiEmbeddedReason) {

@@ -23,7 +23,6 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.event.TransactionEventHandler;
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
-import org.neo4j.kernel.TopLevelTransaction;
 import org.opaeum.runtime.domain.IPersistentObject;
 
 import com.tinkerpop.blueprints.pgm.AutomaticIndex;
@@ -281,7 +280,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 	public void resume(Transaction t) {
 		try {
 			getTransactionManager().resume(t);
-			neo4jGraph.resume(new TopLevelTransaction(getTransactionManager()));
+//			neo4jGraph.resume(new TopLevelTransaction(getTransactionManager()));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -290,7 +289,7 @@ public class NakedNeo4jGraph implements NakedGraph {
 	@Override
 	public Transaction suspend() {
 		try {
-			neo4jGraph.suspend();
+//			neo4jGraph.suspend();
 			return getTransactionManager().suspend();
 		} catch (Exception e) {
 			throw new RuntimeException(e);

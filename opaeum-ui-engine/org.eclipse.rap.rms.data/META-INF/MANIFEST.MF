@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.rap.rms.data
+Bundle-SymbolicName: org.eclipse.rap.rms.data
+Bundle-Version: 0.0.0.qualifier
+Bundle-Vendor: Opaeum
+Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Export-Package: org.eclipse.rap.rms.data,
+ org.eclipse.rap.rms.internal.data
+Require-Bundle: org.eclipse.rap.rwt,
+ org.eclipse.core.runtime
+Bundle-Localization: plugin

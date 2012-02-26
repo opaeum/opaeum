@@ -1,7 +1,6 @@
 package org.opaeum.textmetamodel;
 
-
-public enum TextSourceFolderIdentifier  implements ISourceFolderIdentifier{
+public enum TextSourceFolderIdentifier implements ISourceFolderIdentifier{
 	DOMAIN_GEN_RESOURCE,
 	DOMAIN_TEST_RESOURCE,
 	DOMAIN_GEN_TEST_RESOURCE,
@@ -15,5 +14,8 @@ public enum TextSourceFolderIdentifier  implements ISourceFolderIdentifier{
 	ADAPTOR_RESOURCE,
 	INTEGRATED_ADAPTOR_TEST_RESOURCE_JBOSSAS,
 	INTEGRATED_ADAPTOR_RESOURCE,
-	INTEGRATED_ADAPTOR_TEST_RESOURCE, ADAPTOR_GEN_TEST_RESOURCE, INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE
+	INTEGRATED_ADAPTOR_TEST_RESOURCE,
+	ADAPTOR_GEN_TEST_RESOURCE,
+	INTEGRATED_ADAPTOR_TEST_GEN_RESOURCE,
+	WEB_PROJECT_ROOT
 }

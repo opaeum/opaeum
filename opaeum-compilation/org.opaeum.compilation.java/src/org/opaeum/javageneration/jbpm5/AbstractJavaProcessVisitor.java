@@ -23,7 +23,6 @@ import org.opaeum.javageneration.hibernate.HibernateUtil;
 import org.opaeum.javageneration.jbpm5.actions.Jbpm5ObjectNodeExpressor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.javageneration.util.ReflectionUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
@@ -36,7 +35,6 @@ import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.environment.Environment;
 
 public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVisitor{
-	public static final OJPathName ABSTRACT_PROCESS = new OJPathName(IProcessObject.class.getName());
 	public static final OJPathName ABSTRACT_PROCESS_STEP = new OJPathName(IProcessStep.class.getName());
 	public static final OJPathName ACTIVE_ENTITY = new OJPathName(IActiveEntity.class.getName());
 	static final OJPathName STATEFUL_KNOWLEDGE_SESSION = new OJPathName("org.drools.runtime.StatefulKnowledgeSession");
@@ -92,14 +90,17 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		javaMethod.getBody().addToStatements("params.put(\"processObject\", this)");
 		javaMethod.getBody().addToStatements(
 				"processInstance = (WorkflowProcessInstance)" + Environment.class.getName()
-						+ ".getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\"" + Jbpm5Util.generateProcessName(element) + "\",params)");
+						+ ".getInstance().getComponent(StatefulKnowledgeSession.class).startProcess(\"" + Jbpm5Util.generateProcessName(element)
+						+ "\",params)");
 		javaMethod.getBody().addToStatements("((WorkflowProcessImpl)processInstance.getProcess()).setAutoComplete(true)");
 		javaMethod.getOwner().addToImports(STATEFUL_KNOWLEDGE_SESSION);
 	}
 	protected void implementProcessInterfaceOperations(OJAnnotatedClass ojBehavior,OJPathName stepEnumeration,INakedClassifier umlBehavior){
 		Jbpm5Util.implementRelationshipWithProcess(ojBehavior, true, "process");
 		addDirtyLogic(ojBehavior);
-		ojBehavior.addToImplementedInterfaces(ReflectionUtil.getUtilInterface(IProcessObject.class));
+		if(!umlBehavior.conformsTo(getLibrary().getAbstractRequest())){
+			ojBehavior.addToImplementedInterfaces(new OJPathName(IProcessObject.class.getName()));
+		}
 		doGetInnermostNonParallelStep(ojBehavior, umlBehavior);
 		doIsStepActive(ojBehavior, umlBehavior);
 		doGetActiveLeafSteps(ojBehavior, umlBehavior);
@@ -147,7 +148,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		forNodeInstances.setCollection("getNodeInstancesRecursively()");
 		forNodeInstances.setElemName("curNodeInstance");
 		forNodeInstances.setElemType(Jbpm5Util.getNodeInstance());
-		OJIfStatement ifSameParent = new OJIfStatement("curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer()", "transition(curNodeInstance,newNode)");
+		OJIfStatement ifSameParent = new OJIfStatement("curNodeInstance.getNode().getNodeContainer()==newNode.getNodeContainer()",
+				"transition(curNodeInstance,newNode)");
 		forNodeInstances.getBody().addToStatements(ifSameParent);
 		ifSameParent.getThenPart().addToStatements("return");
 		ojBehavior.addToOperations(forceStateChange);
@@ -174,7 +176,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		ojBehavior.addToOperations(getNodeForState);
 		getNodeForState.setVisibility(OJVisibilityKind.PRIVATE);
 		getNodeForState.addParam("step", stepEnumeration);
-		getNodeForState.getBody().addToStatements("return recursivelyFindNode(step, (Collection)Arrays.asList(getProcessDefinition().getNodes()))");
+		getNodeForState.getBody().addToStatements(
+				"return recursivelyFindNode(step, (Collection)Arrays.asList(getProcessDefinition().getNodes()))");
 		OJAnnotatedOperation recursivelyFindNode = new OJAnnotatedOperation("recursivelyFindNode", Jbpm5Util.getNode());
 		OJPathName collectionOfNode = new OJPathName("Collection");
 		collectionOfNode.addToElementTypes(Jbpm5Util.getNode());
@@ -262,7 +265,8 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 		ojBehavior.addToImports("org.jbpm.workflow.instance.NodeInstanceContainer");
 		OJAnnotatedOperation getNodeInstancesRecursively = new OJAnnotatedOperation("getNodeInstancesRecursively", collectionOfNodeInstances);
 		getNodeInstancesRecursively.getBody().addToStatements(
-				"return (Collection<" + Jbpm5Util.getNodeInstance().getLast() + ">)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true)");
+				"return (Collection<" + Jbpm5Util.getNodeInstance().getLast()
+						+ ">)(Collection)((NodeInstanceContainer)getProcessInstance()).getNodeInstances(true)");
 		ojBehavior.addToOperations(getNodeInstancesRecursively);
 	}
 	private void doGetInnermostNonParallelStep(OJClass ojBehavior,INakedClassifier umlBehavior){
@@ -283,9 +287,11 @@ public abstract class AbstractJavaProcessVisitor extends AbstractJavaProducingVi
 			token.setInitExp("(" + Jbpm5Util.getNodeInstance().getLast() + ")getProcessInstance().getNodeInstances().iterator().next()");
 			ifEnded.getElsePart().addToLocals(token);
 			OJWhileStatement whileOneChild = new OJWhileStatement();
-			whileOneChild.setCondition("nodeInstance instanceof NodeInstanceContainer && ((NodeInstanceContainer)nodeInstance).getNodeInstances().size()==1");
+			whileOneChild
+					.setCondition("nodeInstance instanceof NodeInstanceContainer && ((NodeInstanceContainer)nodeInstance).getNodeInstances().size()==1");
 			whileOneChild.getBody().addToStatements(
-					"nodeInstance=(" + Jbpm5Util.getNodeInstance().getLast() + ")((NodeInstanceContainer)nodeInstance).getNodeInstances().iterator().next()");
+					"nodeInstance=(" + Jbpm5Util.getNodeInstance().getLast()
+							+ ")((NodeInstanceContainer)nodeInstance).getNodeInstances().iterator().next()");
 			ifEnded.getElsePart().addToStatements(whileOneChild);
 			ifEnded.getElsePart().addToStatements("return " + ojBehavior.getName() + "State.resolveById(nodeInstance.getNodeId())");
 		}

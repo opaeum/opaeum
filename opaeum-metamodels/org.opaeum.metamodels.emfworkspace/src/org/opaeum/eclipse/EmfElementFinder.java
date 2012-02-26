@@ -1,5 +1,8 @@
 package org.opaeum.eclipse;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -49,6 +52,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
@@ -95,7 +99,8 @@ public class EmfElementFinder{
 				}else if(a.getOwner() instanceof Operation){
 					Operation oper = (Operation) a.getOwner();
 					for(Parameter parameter:oper.getOwnedParameters()){
-						if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
+						if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
+								|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 							result.add(parameter);
 						}else if(oper.getPostconditions().contains(a)){
 							result.add(parameter);
@@ -105,7 +110,8 @@ public class EmfElementFinder{
 			}else if(a instanceof Operation){
 				Operation oper = (Operation) a;
 				for(Parameter parameter:oper.getOwnedParameters()){
-					if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL || parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
+					if(parameter.getDirection() == ParameterDirectionKind.IN_LITERAL
+							|| parameter.getDirection() == ParameterDirectionKind.INOUT_LITERAL){
 						result.add(parameter);
 					}
 				}
@@ -260,16 +266,21 @@ public class EmfElementFinder{
 		for(int i = 0;i < charArray.length;i++){
 			result = (result << 1) + charArray[i];
 		}
-		 return (int) result;
-//		return string.hashCode();
+		return (int) result;
+		// return string.hashCode();
 	}
 	public static Collection<Element> getCorrectOwnedElements(Element root){
 		return getCorrectOwnedElementsAndRetryIfFailed(root, 0);
 	}
+	@SuppressWarnings("unchecked")
 	protected static Collection<Element> getCorrectOwnedElementsAndRetryIfFailed(Element root,int count){
 		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
 		// Unimplemented containment features, oy
-		if(root instanceof StructuredActivityNode){
+		if(root instanceof Activity){
+			Activity node = (Activity) root;
+			getOwnedNodesForEclipseUml4(elements, node);
+			elements.addAll(node.getEdges());
+		}else if(root instanceof StructuredActivityNode){
 			StructuredActivityNode node = (StructuredActivityNode) root;
 			elements.addAll(node.getNodes());
 			elements.addAll(node.getEdges());
@@ -313,21 +324,46 @@ public class EmfElementFinder{
 		}catch(ArrayIndexOutOfBoundsException e){
 			// HACK weird bug in:
 			// org.eclipse.emf.ecore.util.ECrossReferenceAdapter.getInverseReferences(ECrossReferenceAdapter.java:332)
-			if(count<5){
+			if(count < 5){
 				try{
 					Thread.sleep(2000);
 				}catch(InterruptedException e1){
 				}
-				return getCorrectOwnedElementsAndRetryIfFailed(root,++count);
+				return getCorrectOwnedElementsAndRetryIfFailed(root, ++count);
 			}
 		}
 		return elements;
+	}
+	private static void getOwnedNodesForEclipseUml4(Collection<Element> elements,Activity node){
+		Method getOwnedNodes;
+		try{
+			getOwnedNodes = node.getClass().getMethod("getOwnedNodes");
+			if(getOwnedNodes!=null){
+				elements.addAll((Collection<? extends Element>) getOwnedNodes.invoke(node));
+			}
+		}catch(SecurityException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(NoSuchMethodException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(IllegalArgumentException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(IllegalAccessException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(InvocationTargetException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static Classifier getNearestClassContext(Element element){
 		Classifier clss = EmfElementFinder.getNearestClassifier(element);
 		if(clss instanceof StateMachine){
 			return clss;
-		}else if(clss instanceof Behavior && ((Behavior) clss).getContext() != null && !StereotypesHelper.hasKeyword(clss, StereotypeNames.BUSINES_PROCESS)){
+		}else if(clss instanceof Behavior && ((Behavior) clss).getContext() != null
+				&& !StereotypesHelper.hasKeyword(clss, StereotypeNames.BUSINES_PROCESS)){
 			clss = ((Behavior) clss).getContext();
 		}
 		return clss;

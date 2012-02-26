@@ -27,11 +27,7 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
 /**
  */
-@StepDependency(phase = LinkagePhase.class,requires = {
-	PinLinker.class
-},after = {
-	PinLinker.class
-})
+@StepDependency(phase = LinkagePhase.class,requires = {PinLinker.class},after = {PinLinker.class})
 public class TypeResolver extends AbstractModelElementLinker{
 	public static class DefaultPrimitiveType extends NakedPrimitiveTypeImpl{
 	}
@@ -78,6 +74,7 @@ public class TypeResolver extends AbstractModelElementLinker{
 					type = pt.getOclType();
 				}
 			}
+
 			boolean singleObject = aw.getNakedMultiplicity().isSingleObject();
 			if(aw instanceof INakedProperty){
 				singleObject = singleObject && ((INakedProperty) aw).getQualifierNames().length == 0;
@@ -85,8 +82,10 @@ public class TypeResolver extends AbstractModelElementLinker{
 			if(singleObject){
 				aw.setType(type);
 			}else{
-				IOclLibrary lib = this.workspace.getOclEngine().getOclLibrary();
-				resolveCollection(aw, type, lib);
+				if(type != null){
+					IOclLibrary lib = this.workspace.getOclEngine().getOclLibrary();
+					resolveCollection(aw, type, lib);
+				}
 			}
 		}
 	}

@@ -18,9 +18,6 @@
    <feature url="features/org.opaeum.modeler.feature_1.0.0.qualifier.jar" id="org.opaeum.modeler.feature" version="1.0.0.qualifier">
       <category name="Opaeum"/>
    </feature>
-   <feature url="features/org.opaeum.uimodeler.feature_1.0.0.qualifier.jar" id="org.opaeum.uimodeler.feature" version="1.0.0.qualifier">
-      <category name="Opaeum"/>
-   </feature>
    <feature url="features/org.topcased.core.feature_4.3.0.qualifier.jar" id="org.topcased.core.feature" version="4.3.0.qualifier">
       <category name="Topcased"/>
    </feature>
@@ -40,9 +37,6 @@
       <category name="Opaeum"/>
    </feature>
    <feature url="features/org.opaeum.metamodels.source.feature_1.0.0.qualifier.jar" id="org.opaeum.metamodels.source.feature" version="1.0.0.qualifier">
-      <category name="Opaeum"/>
-   </feature>
-   <feature url="features/org.opaeum.uimodeler.source.feature_1.0.0.qualifier.jar" id="org.opaeum.uimodeler.source.feature" version="1.0.0.qualifier">
       <category name="Opaeum"/>
    </feature>
    <category-def name="Opaeum" label="Opaeum">

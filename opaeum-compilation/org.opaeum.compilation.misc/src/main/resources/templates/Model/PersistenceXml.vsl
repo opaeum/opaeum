@@ -77,7 +77,7 @@
 		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
 		<properties>
 			<property name="hibernate.dialect" value="com.rorotika.cm.ria.hql.CmPostgreSQLDialect" />
-<!--			<property name="hibernate.hbm2ddl.auto" value="update" />-->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.cache.use_second_level_cache"

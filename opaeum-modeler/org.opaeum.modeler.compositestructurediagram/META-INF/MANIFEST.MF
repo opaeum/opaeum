@@ -7,7 +7,8 @@ Bundle-Vendor: Opaeum
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.uml2.uml.edit,
  org.topcased.modeler,
- org.opaeum.modeler.classdiagram
+ org.opaeum.modeler.classdiagram,
+ org.opaeum.eclipse.uml.propertysections
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.topcased.modeler.uml.compositestructuresdiagram.CompositeStructuresPlugin
 Export-Package: org.topcased.modeler.uml.compositestructuresdiagram,

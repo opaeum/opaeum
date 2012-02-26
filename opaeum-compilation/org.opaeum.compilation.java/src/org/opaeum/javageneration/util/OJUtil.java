@@ -53,6 +53,7 @@ import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.EmulatedCompositionMessageStructure;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
@@ -307,7 +308,7 @@ public class OJUtil{
 	 * 
 	 */
 	public static boolean hasOJClass(INakedClassifier c){
-		if(c == null || c instanceof INakedStereotype || c instanceof INakedActor || c instanceof INakedCollaboration || c instanceof INakedUseCase){
+		if(c == null || c instanceof INakedStereotype || c instanceof INakedCollaboration || c instanceof INakedUseCase){
 			return false;
 		}else if(c.isMarkedForDeletion() || c.getCodeGenerationStrategy().isNone()){
 			return false;

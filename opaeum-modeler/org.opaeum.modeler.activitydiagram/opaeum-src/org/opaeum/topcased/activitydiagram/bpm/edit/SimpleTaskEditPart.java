@@ -1,13 +1,10 @@
 package org.opaeum.topcased.activitydiagram.bpm.edit;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.uml2.uml.NamedElement;
 import org.opaeum.topcased.activitydiagram.OpaeumObjectFlowEdgeCreationEditPolicy;
 import org.opaeum.topcased.uml.editor.OpaeumEditor;
-import org.opaeum.uml2uim.AbstractUimGenerationAction;
-import org.opaeum.uml2uim.SynchronizeAction;
 import org.topcased.draw2d.figures.ComposedLabel;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.uml.activitydiagram.ActivityEditPolicyConstants;
@@ -27,11 +24,11 @@ public class SimpleTaskEditPart extends OpaqueActionEditPart{
 		if(request.getType() == RequestConstants.REQ_OPEN){
 			NamedElement e = (NamedElement) getEObject();
 			String uuid = OpaeumEditor.getCurrentContext().getId(e);
-			URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
-			if(!AbstractUimGenerationAction.getFile(uri).exists()){
-				SynchronizeAction.doSynchronize(e);
-			}
-			AbstractUimGenerationAction.openEditor(e, uuid);
+//			URI uri = AbstractUimGenerationAction.getFileUri(e, uuid);
+//			if(!AbstractUimGenerationAction.getFile(uri).exists()){
+//				SynchronizeAction.doSynchronize(e);
+//			}
+//			AbstractUimGenerationAction.openEditor(e, uuid);
 		}else{
 			super.performRequest(request);
 		}

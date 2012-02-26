@@ -1,8 +1,5 @@
 package org.opaeum.runtime.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.opaeum.runtime.event.INotificationReceiver;
 
 /**

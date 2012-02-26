@@ -1,71 +1,76 @@
 package org.opaeum.linkage;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.opaeum.feature.StepDependency;
+import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.actions.CallBehaviorMessageStructure;
 import org.opaeum.metamodel.actions.INakedCallBehaviorAction;
 import org.opaeum.metamodel.activities.ActivityKind;
 import org.opaeum.metamodel.activities.INakedStructuredActivityNode;
 import org.opaeum.metamodel.activities.internal.StructuredActivityNodeClassifier;
+import org.opaeum.metamodel.bpm.INakedBusinessComponent;
 import org.opaeum.metamodel.bpm.INakedEmbeddedSingleScreenTask;
 import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.bpm.internal.EmbeddedScreenFlowTaskMessageStructure;
 import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.AssociationClassToEnd;
 import org.opaeum.metamodel.core.internal.EndToAssociationClass;
 import org.opaeum.metamodel.core.internal.InverseArtificialProperty;
+import org.opaeum.metamodel.core.internal.NakedAssociationImpl;
+import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
+import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
+import org.opaeum.metamodel.profiles.INakedProfile;
+import org.opaeum.metamodel.usecases.INakedActor;
+import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
-@StepDependency(phase = LinkagePhase.class,after = {
-		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class
-},before = {
-	TypeResolver.class
-},requires = {
-		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class
-})
+@StepDependency(phase = LinkagePhase.class,after = {ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class},before = {TypeResolver.class},requires = {
+		ProcessIdentifier.class,MappedTypeLinker.class,ParameterLinker.class})
 public class CompositionEmulator extends AbstractModelElementLinker{
+	SortedSet<ICompositionParticipant> rootClasses = new TreeSet<ICompositionParticipant>(new DefaultOpaeumComparator());
 	@VisitBefore(matchSubclasses = true)
 	public void visitAssociation(INakedAssociation ass){
-		// For some reason, Topcased sometimes creates broken associations. THere also seems to be a bug in EMF that sometimes causes broken
-		// associations. THese cannot be processes at all.
-		if(ass.getEnd1() != null && ass.getEnd2() != null && ass.getEnd1().getNakedBaseType() != null && ass.getEnd2().getNakedBaseType() != null){
-			if(ass.getPropertyToEnd1() == null){
-				ass.setPropertyToEnd1(new AssociationClassToEnd(ass.getEnd1()));
+		if(ass.getPropertyToEnd1() == null){
+			ass.setPropertyToEnd1(new AssociationClassToEnd(ass.getEnd1()));
+		}
+		if(ass.getPropertyToEnd2() == null){
+			ass.setPropertyToEnd2(new AssociationClassToEnd(ass.getEnd2()));
+		}
+		// TODO qualifiers
+		if(ass.isClass()){
+			if(ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() == null){
+				// add the implied property
+				ass.getPropertyToEnd1().setOtherEnd(new EndToAssociationClass(ass.getEnd1()));
+				ass.getPropertyToEnd1().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd1().getOtherEnd());
+			}else if(!ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() != null){
+				// must have changed - remove the implied property
+				ass.getPropertyToEnd1().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd1().getOtherEnd(), true);
+				ass.getPropertyToEnd1().setOtherEnd(null);
 			}
-			if(ass.getPropertyToEnd2() == null){
-				ass.setPropertyToEnd2(new AssociationClassToEnd(ass.getEnd2()));
-			}
-			// TODO qualifiers
-			if(ass.isClass()){
-				if(ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() == null){
-					// add the implied property
-					ass.getPropertyToEnd1().setOtherEnd(new EndToAssociationClass(ass.getEnd1()));
-					ass.getPropertyToEnd1().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd1().getOtherEnd());
-				}else if(!ass.getEnd1().isNavigable() && ass.getPropertyToEnd1().getOtherEnd() != null){
-					// must have changed - remove the implied property
-					ass.getPropertyToEnd1().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd1().getOtherEnd(), true);
-					ass.getPropertyToEnd1().setOtherEnd(null);
-				}
-				if(ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() == null){
-					// add the implied property
-					ass.getPropertyToEnd2().setOtherEnd(new EndToAssociationClass(ass.getEnd2()));
-					ass.getPropertyToEnd2().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd2().getOtherEnd());
-				}else if(!ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() != null){
-					// must have changed - remove the implied property
-					ass.getPropertyToEnd2().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd2().getOtherEnd(), true);
-					ass.getPropertyToEnd2().setOtherEnd(null);
-				}
+			if(ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() == null){
+				// add the implied property
+				ass.getPropertyToEnd2().setOtherEnd(new EndToAssociationClass(ass.getEnd2()));
+				ass.getPropertyToEnd2().getNakedBaseType().addOwnedElement(ass.getPropertyToEnd2().getOtherEnd());
+			}else if(!ass.getEnd2().isNavigable() && ass.getPropertyToEnd2().getOtherEnd() != null){
+				// must have changed - remove the implied property
+				ass.getPropertyToEnd2().getNakedBaseType().removeOwnedElement(ass.getPropertyToEnd2().getOtherEnd(), true);
+				ass.getPropertyToEnd2().setOtherEnd(null);
 			}
 		}
 	}
@@ -77,7 +82,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			}
 		}
 	}
-	//TODO maybe find a better place for this
+	// TODO maybe find a better place for this
 	@VisitBefore(matchSubclasses = true)
 	public void visitClassifier(INakedClassifier c){
 		if(!(c instanceof ICompositionParticipant)){
@@ -86,7 +91,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void visitParticipant(ICompositionParticipant cp){
-		//TODO maybe find a better place for this
+		// TODO maybe find a better place for this
 		cp.reorderSequences();
 		if(cp instanceof INakedAssociation){
 			// do nothing
@@ -106,6 +111,10 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 				}
 				if(cp instanceof INakedBehavior){
 					INakedBehavior b = (INakedBehavior) cp;
+					if(b.isProcess() && getBuiltInTypes().getProcessObject() != null
+							&& !b.getInterfaces().contains(getBuiltInTypes().getProcessObject()) && !b.conformsTo(getBuiltInTypes().getAbstractRequest())){
+						b.addOwnedElement(new NakedInterfaceRealizationImpl(getBuiltInTypes().getProcessObject()));
+					}
 					if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
 						if(endFromComposite != null){
 							NonInverseArtificialProperty inverseArtificialProperty = new NonInverseArtificialProperty(endFromComposite, "contextObject");
@@ -146,6 +155,15 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 					// Is null when being deleted
 					cp.getEndToComposite().getNakedBaseType().removeObsoleteArtificialProperties();
 				}
+			}
+		}
+		if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && cp.getEndToComposite() == null && !cp.getIsAbstract()){
+			// TODO rethink this - maybe just always create an application root
+			/* The problem is that during modelling the need for an artificial root may arise and then disappear again */
+			if(workspace.getApplicationRoot() == null){
+				rootClasses.add(cp);
+			}else{
+				addCompositionToApplicationRoot(workspace.getApplicationRoot(), cp);
 			}
 		}
 	}
@@ -234,5 +252,49 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		owner.addOwnedElement(inverseArtificialProperty);
 		addAffectedElement(owner);
 		addAffectedElement(msg);
+	}
+	@VisitAfter
+	public void visitWorkspaceBefore(INakedModelWorkspace ws){
+		rootClasses.clear();
+	}
+	@VisitAfter
+	public void visitWorkspaceAfter(INakedModelWorkspace ws){
+		if(rootClasses.size() > 1){
+			SortedSet<INakedRootObject> rootObjects = new TreeSet<INakedRootObject>(new Comparator<INakedRootObject>(){
+				@Override
+				public int compare(INakedRootObject o1,INakedRootObject o2){
+					return o1.getAllDependencies().size() - o2.getAllDependencies().size();
+				}
+			});
+			outer:for(INakedRootObject ro:ws.getPrimaryModels()){
+				for(ICompositionParticipant p:rootClasses){
+					if(!ro.getAllDependencies().contains(p.getRootObject())){
+						continue outer;
+					}
+				}
+				rootObjects.add(ro);
+			}
+			if(rootObjects.isEmpty()){
+				rootObjects.addAll(ws.getPrimaryModels());
+			}
+			NakedBusinessCollaboration root = new NakedBusinessCollaboration(rootObjects.first());
+			ws.putModelElement(root);
+			rootObjects.first().addOwnedElement(root);
+			ws.setApplicationRoot(root);
+			for(ICompositionParticipant p:rootClasses){
+				addCompositionToApplicationRoot(root, p);
+			}
+		}
+	}
+	private void addCompositionToApplicationRoot(INakedClassifier root,ICompositionParticipant p){
+		NakedAssociationImpl assoc = new NakedAssociationImpl();
+		InverseArtificialProperty toChildren = new InverseArtificialProperty(root, p);
+		NonInverseArtificialProperty toRoot = new NonInverseArtificialProperty(toChildren, "root");
+		toChildren.setOtherEnd(toRoot);
+		assoc.setEnd(0, toRoot);
+		assoc.setEnd(1, toChildren);
+		root.addOwnedElement(toChildren);
+		p.addOwnedElement(toRoot);
+		p.setEndToComposite(toRoot);
 	}
 }

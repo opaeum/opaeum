@@ -44,11 +44,11 @@ public abstract class AbstractNameGenerator extends NakedElementOwnerVisitor imp
 	public void visitRecursively(INakedElementOwner o){
 		if(shouldVisitRecursively(o)){
 			super.visitRecursively(o);
-			if(o instanceof INakedOperation && BehaviorUtil.hasExecutionInstance((IParameterOwner) o)){
+			if(o instanceof INakedOperation && ((INakedOperation) o).getMessageStructure()!=null){
 				visitRecursively(((INakedOperation) o).getMessageStructure());
 			}else if(o instanceof INakedEmbeddedTask){
 				visitRecursively(((INakedEmbeddedTask) o).getMessageStructure());
-			}else if(o instanceof INakedCallAction && BehaviorUtil.hasMessageStructure((INakedAction) o)){
+			}else if(o instanceof INakedCallAction && ((INakedCallAction) o).getMessageStructure()!=null){
 				visitRecursively(((INakedCallAction) o).getMessageStructure());
 			}else if(o instanceof INakedStructuredActivityNode && ((INakedStructuredActivityNode) o).getMessageStructure() != null){
 				visitRecursively(((INakedStructuredActivityNode) o).getMessageStructure());

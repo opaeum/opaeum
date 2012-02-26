@@ -75,6 +75,7 @@ Export-Package: org.apache.commons.collections,
  org.opaeum.jbpm5,
  org.opaeum.olap,
  org.opaeum.pomgeneration,
+ org.opaeum.rap,
  org.opaeum.velocity,
  org.opaeum.versioning,
  templates.Model

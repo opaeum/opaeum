@@ -79,6 +79,8 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.internal.NakedInterfaceImpl;
+import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.runtime.domain.ExceptionHolder;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {

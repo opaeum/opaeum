@@ -22,11 +22,16 @@ public class LibraryImporter{
 	}
 	public static Model findLibrary(Model model,String librName){
 		Model library = null;
+		for(Resource resource:model.eResource().getResourceSet().getResources()){
+			if(resource.getContents().get(0) instanceof Model){
+				Model m=(Model) resource.getContents().get(0);
+				if(!m.eIsProxy() && resource.getURI().lastSegment().equals(librName)){
+					library = m;
+				}
+			}
+		}
 		EList<PackageImport> packageImports = model.getPackageImports();
 		for(PackageImport packageImport:packageImports){
-			if(packageImport.getImportedPackage() instanceof Model &&  !packageImport.getImportedPackage().eIsProxy() && packageImport.getImportedPackage().eResource().getURI().lastSegment().equals(librName)){
-				library = (Model) packageImport.getImportedPackage();
-			}
 		}
 		return library;
 	}

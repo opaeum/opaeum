@@ -54,6 +54,9 @@ public class Conformance {
      * @return boolean
      */
     static public boolean conformsTo(IClassifier actualType, IClassifier formalType) {
+    	if(formalType==null){
+    		System.out.println();
+    	}
         if (Check.ENABLED) Check.pre("Conformance.conformsTo: toConform is null", actualType != null );
 
         if( formalType == OclEngine.getCurrentOclLibrary().lookupStandardType("DependsOnSourceType")) {

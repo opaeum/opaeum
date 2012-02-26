@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.opaeum.papyrus.propertysections
+Bundle-SymbolicName: org.opaeum.papyrus.propertysections;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.opaeum.papyrus.propertysections.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.opaeum.eclipse.uml.propertysections,
+ org.eclipse.ui.browser,
+ org.eclipse.ui.views,
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.uml2.uml,
+ org.eclipse.papyrus.uml.profile,
+ org.eclipse.gmf.runtime.diagram.ui
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -21,6 +21,9 @@ public abstract class TextFileGeneratingVisitor extends NakedElementOwnerVisitor
 	protected String getProjectName(SourceFolderDefinition outputRoot){
 		String projectPrefix = null;
 		switch(outputRoot.getProjectNameStrategy()){
+		case QUALIFIED_WORKSPACE_NAME_AND_SUFFIX:
+			projectPrefix = config.getMavenGroupId() + "." + workspace.getIdentifier();
+			break;
 		case SUFFIX_ONLY:
 			projectPrefix = "";
 			break;
@@ -29,6 +32,10 @@ public abstract class TextFileGeneratingVisitor extends NakedElementOwnerVisitor
 			break;
 		case WORKSPACE_NAME_AND_SUFFIX:
 			projectPrefix = workspace.getIdentifier();
+			break;
+		case QUALIFIED_WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
+			projectPrefix = config.getMavenGroupId() + "." + workspace.getIdentifier();
+			break;
 		case WORKSPACE_NAME_AND_SUFFIX_PREFIX_MODEL_NAME_TO_SOURCE_FOLDER:
 			projectPrefix = workspace.getIdentifier();
 			break;

@@ -46,6 +46,9 @@ public final class EclipseUriToFileConverter implements UriToFileConverter{
 			String platformString2 = uri.toPlatformString(true);
 			try{
 				IFile diFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString2));
+				if(diFile==null||diFile.getLocation()==null){
+					return null;
+				}
 				return diFile.getLocation().toFile();
 			}catch(IllegalArgumentException a){
 				try{

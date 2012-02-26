@@ -19,8 +19,8 @@ public class ReverseEngineeringContributionFactory extends ExtensionContribution
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
-		MenuManager menuManager = new MenuManager("Reverse Engineer");
-		additions.addContributionItem(menuManager, new Expression(){
+		MenuManager menuManager = new MenuManager("Opaeum");
+		Expression visibleWhen = new Expression(){
 			@Override
 			public EvaluationResult evaluate(IEvaluationContext context) throws CoreException{
 				ISelectionService s = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
@@ -32,7 +32,8 @@ public class ReverseEngineeringContributionFactory extends ExtensionContribution
 				}
 				return EvaluationResult.FALSE;
 			}
-		});
+		};
+		additions.addContributionItem(menuManager, visibleWhen);
 		menuManager.add(new DynamicReverseMenu());
 	}
 }

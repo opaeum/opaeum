@@ -92,6 +92,7 @@ public class OpaeumEditorMenu extends UMLEditorMenu{
 		super.setSelectedEObject(object);
 		selectedObject = object;
 	}
+	@SuppressWarnings("unchecked")
 	protected Collection<IAction> generateCreateChildActionsGen(Collection<?> theDescriptors,ISelection selection){
 		Collection<IAction> actions = new ArrayList<IAction>();
 		if(theDescriptors != null){

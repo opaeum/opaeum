@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.opaeum.metamodels.uim/src"
+    editDirectory="/org.opaeum.uimodeler.edit/src" modelPluginID="org.opaeum.metamodels.uim"
+    modelName="Uim" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false" editPluginID="org.opaeum.uimodeler.edit" runtimeVersion="2.6"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+  <foreignModel>Uim.ecore</foreignModel>
+  <genPackages prefix="Uim" basePackage="org.opaeum" resource="XMI" disposableProviderFactory="true"
+      contentTypeIdentifier="" ecorePackage="Uim.ecore#/">
+    <genClasses ecoreClass="Uim.ecore#//UimField">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UimField/control"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimField/controlKind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimField/labelWidth"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UimField/binding"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Uim.ecore#//UimComponent">
+      <genOperations ecoreOperation="Uim.ecore#//UimComponent/getParent"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="Uim.ecore#//UserInteractionElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UserInteractionElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//UimDataTable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UimDataTable/binding"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//UimTabPanel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UimTabPanel/children"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimTabPanel/activeTabIndex"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//UimTab">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//UimTab/parent"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//UimContainer"/>
+    <genClasses ecoreClass="Uim.ecore#//MasterComponent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//MasterComponent/detailPanels"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//UmlReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UmlReference/umlElementUid"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//UimPanel"/>
+    <genClasses ecoreClass="Uim.ecore#//ObjectSelectorTree"/>
+    <nestedGenPackages prefix="Layout" basePackage="org.opaeum.uim" resource="XML"
+        disposableProviderFactory="true" ecorePackage="Uim.ecore#//layout">
+      <genClasses ecoreClass="Uim.ecore#//layout/UimColumnLayout"/>
+      <genClasses ecoreClass="Uim.ecore#//layout/UimFullLayout"/>
+      <genClasses ecoreClass="Uim.ecore#//layout/UimXYLayout"/>
+      <genClasses ecoreClass="Uim.ecore#//layout/UimBorderLayout">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//layout/UimBorderLayout/horizontal"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//layout/UimToolbarLayout"/>
+      <genClasses image="false" ecoreClass="Uim.ecore#//layout/OutlayableComponent">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//layout/OutlayableComponent/parent"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//layout/UimLayout">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//layout/UimLayout/parent"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//layout/UimLayout/children"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="Uim.ecore#//layout/LayoutContainer">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//layout/LayoutContainer/layout"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//layout/UimGridLayout">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//layout/UimGridLayout/numberOfColumns"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Control" basePackage="org.opaeum.uim" resource="XML"
+        disposableProviderFactory="true" ecorePackage="Uim.ecore#//control">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//control/ControlKind">
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/datePopup"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/dropdown"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/text"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/textArea"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/singleSelectListBox"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/checkBox"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/numberScroller"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/singleSelectTreeView"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/multiSelectTreeView"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/multiSelectListBox"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/singleSelectPopupSearch"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/multiSelectPopupSearch"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/toggleButton"/>
+      </genEnums>
+      <genClasses ecoreClass="Uim.ecore#//control/UimNumberScroller"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimToggleButton"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimSingleSelectPopupSearch"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimMultiSelectPopupSearch"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimMultiSelectTreeView"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimMultiSelectListBox"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimDropdown"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimCheckBox"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimLookup">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//control/UimLookup/lookupSource"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//control/UimTextArea">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimTextArea/rows"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//control/UimText"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimDatePopup"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimSingleSelectListBox">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimSingleSelectListBox/rows"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//control/UimControl">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimControl/width"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//control/UimControl/field"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//control/UimSingleSelectTreeView"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Folder" basePackage="org.opaeum.uim" resource="XML"
+        disposableProviderFactory="true" ecorePackage="Uim.ecore#//folder">
+      <genClasses image="false" ecoreClass="Uim.ecore#//folder/AbstractFolder">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//folder/AbstractFolder/children"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//folder/ActivityFolder"/>
+      <genClasses ecoreClass="Uim.ecore#//folder/EntityFolder"/>
+      <genClasses ecoreClass="Uim.ecore#//folder/StateMachineFolder"/>
+      <genClasses image="false" ecoreClass="Uim.ecore#//folder/AbstractFormFolder">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//folder/AbstractFormFolder/parent"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//folder/PackageFolder"/>
+      <genClasses image="false" ecoreClass="Uim.ecore#//folder/OperationContainingFolder"/>
+      <genClasses ecoreClass="Uim.ecore#//folder/UserInteractionModel"/>
+      <genClasses ecoreClass="Uim.ecore#//folder/UserInteractionWorkspace">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//folder/UserInteractionWorkspace/visibility"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//folder/UserInteractionWorkspace/editability"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Form" basePackage="org.opaeum.uim" resource="XML" disposableProviderFactory="true"
+        ecorePackage="Uim.ecore#//form">
+      <genClasses ecoreClass="Uim.ecore#//form/FormPanel">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//form/FormPanel/form"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/ActionTaskForm">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//form/ActionTaskForm/folder"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/StateForm">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//form/StateForm/folder"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/ClassForm">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//form/ClassForm/folder"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/UimForm">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//form/UimForm/panel"/>
+        <genOperations ecoreOperation="Uim.ecore#//form/UimForm/getFolder"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/OperationTaskForm">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//form/OperationTaskForm/folder"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/OperationInvocationForm">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//form/OperationInvocationForm/folder"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//form/DetailPanel">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//form/DetailPanel/masterComponent"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Binding" basePackage="org.opaeum.uim" resource="XML"
+        disposableProviderFactory="true" ecorePackage="Uim.ecore#//binding">
+      <genClasses ecoreClass="Uim.ecore#//binding/LookupBinding">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/LookupBinding/lookup"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//binding/NavigationBinding">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/NavigationBinding/navigation"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//binding/TableBinding">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/TableBinding/table"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//binding/FieldBinding">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/FieldBinding/field"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="Uim.ecore#//binding/UimBinding">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//binding/UimBinding/next"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//binding/PropertyRef">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/PropertyRef/binding"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/PropertyRef/previous"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//binding/PropertyRef/next"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Security" basePackage="org.opaeum.uim" resource="XML"
+        disposableProviderFactory="true" ecorePackage="Uim.ecore#//security">
+      <genClasses ecoreClass="Uim.ecore#//security/EditableSecureObject">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//security/EditableSecureObject/editability"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//security/SecureObject">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//security/SecureObject/visibility"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//security/RequiredRole"/>
+      <genClasses ecoreClass="Uim.ecore#//security/WorkspaceSecurityConstraint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//security/WorkspaceSecurityConstraint/requiresGroupOwnership"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//security/WorkspaceSecurityConstraint/requiresOwnership"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//security/WorkspaceSecurityConstraint/requiredRoles"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//security/SecurityConstraint">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//security/SecurityConstraint/inheritFromParent"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Action" basePackage="org.opaeum.uim" resource="XML"
+        disposableProviderFactory="true" ecorePackage="Uim.ecore#//action">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//action/ActionKind">
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/update"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/delete"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/back"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/executeOperation"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/delegateTask"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/completeTask"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/suspendTask"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/create"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/forwardTask"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/claimTask"/>
+      </genEnums>
+      <genClasses ecoreClass="Uim.ecore#//action/BuiltInAction">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInAction/kind"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="Uim.ecore#//action/UimAction"/>
+      <genClasses ecoreClass="Uim.ecore#//action/TransitionAction"/>
+      <genClasses ecoreClass="Uim.ecore#//action/NavigationToOperation">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//action/NavigationToOperation/toForm"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//action/OperationAction"/>
+      <genClasses image="false" ecoreClass="Uim.ecore#//action/UimNavigation"/>
+      <genClasses ecoreClass="Uim.ecore#//action/NavigationToEntity">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//action/NavigationToEntity/toForm"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/NavigationToEntity/binding"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

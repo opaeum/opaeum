@@ -2,15 +2,11 @@ package org.opaeum.reverse.popup.actions;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.datatools.connectivity.sqm.core.rte.jdbc.JDBCCatalog;
-import org.eclipse.datatools.connectivity.sqm.core.rte.jdbc.JDBCSchema;
 import org.eclipse.datatools.connectivity.sqm.core.rte.jdbc.JDBCTable;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -24,7 +20,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.part.FileEditorInput;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
-import org.opaeum.eclipse.context.OpaeumEditingContext;
+import org.opaeum.eclipse.context.OpenUmlFile;
 import org.opaeum.eclipse.reverse.db.UmlGenerator;
 
 public class ReverseEngineerTablesAction extends Action{
@@ -41,7 +37,7 @@ public class ReverseEngineerTablesAction extends Action{
 						if(e.getEditorInput() instanceof FileEditorInput){
 							FileEditorInput editorInput = (FileEditorInput) e.getEditorInput();
 							if(editorInput.getFile().getParent().findMember("opaeum.properties") != null){
-								OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(editorInput.getFile().getParent());
+								OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(editorInput.getFile().getParent());
 								for(IResource r:editorInput.getFile().getParent().members()){
 									if(r.getName().endsWith(".uml")){
 										if(ctx.getEditingContextFor((IFile) r) != null){
@@ -74,7 +70,7 @@ public class ReverseEngineerTablesAction extends Action{
 			IFile file = (IFile) dialog.getFirstResult();
 			OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(file.getParent());
 			if(ctx != null){
-				OpaeumEditingContext eCtx = ctx.getEditingContextFor(file);
+				OpenUmlFile eCtx = ctx.getEditingContextFor(file);
 				if(eCtx != null){
 					ctx.getEmfToOpaeumSynchronizer().suspend();
 					new UmlGenerator().generateUml(calculateTables(), eCtx.getModel());
@@ -88,23 +84,7 @@ public class ReverseEngineerTablesAction extends Action{
 			}
 		}
 	}
-	@SuppressWarnings("unchecked")
 	private Collection<JDBCTable> calculateTables(){
-		Iterator<?> iterator = selection.iterator();
-		Collection<JDBCTable> result = new HashSet<JDBCTable>();
-		while(iterator.hasNext()){
-			Object object = (Object) iterator.next();
-			if(object instanceof JDBCTable){
-				result.add((JDBCTable) object);
-			}else if(object instanceof JDBCSchema){
-				result.addAll(((JDBCSchema) object).getTables());
-			}else if(object instanceof JDBCCatalog){
-				EList<JDBCSchema> schemas = ((JDBCCatalog) object).getSchemas();
-				for(JDBCSchema jdbcSchema:schemas){
-					result.addAll(jdbcSchema.getTables());
-				}
-			}
-		}
-		return result;
+		return SelectedTableCollector.collectEffectivelySelectedTables(selection);
 	}
 }

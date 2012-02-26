@@ -36,7 +36,7 @@ public class NakedInterfaceImpl extends NakedClassifierImpl implements INakedInt
 	}
 	@Override
 	public boolean isPersistent(){
-		return false;
+		return false;//TODO investigate why this is necessary
 	}
 	@Override
 	public boolean isFact(){

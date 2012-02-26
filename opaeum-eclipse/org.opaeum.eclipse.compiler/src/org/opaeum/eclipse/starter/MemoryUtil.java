@@ -1,18 +1,17 @@
 package org.opaeum.eclipse.starter;
 
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.opaeum.eclipse.EmfToOpaeumSynchronizer;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.generated.OJClassGEN;
-import org.opaeum.java.metamodel.generated.OJClassifierGEN;
 import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.metamodel.core.internal.NakedElementOwnerImpl;
 import org.opaeum.textmetamodel.TextOutputNode;
 
 public class MemoryUtil{
+	@SuppressWarnings("unused")
 	public static void printMemoryUsage(){
 		if(false){
 			EmfToOpaeumSynchronizer.schedule(new Runnable(){

@@ -2,9 +2,14 @@
 <feature
       id="org.opaeum.linkage.source.feature"
       label="Opaeum Linkage Source Feature"
-      version="1.0.0.qualifier"
-      license-feature="org.opaeum.metamodels.feature"
-      license-feature-version="1.0.0.qualifier">
+      version="1.0.0.qualifier">
+   <description url="%license">
+      Opaeum Linkage Source Feature
+   </description>
+
+   <copyright url="%copyrightURL">
+      %copyright
+   </copyright>
 
    <license url="%licenseURL">
       %license

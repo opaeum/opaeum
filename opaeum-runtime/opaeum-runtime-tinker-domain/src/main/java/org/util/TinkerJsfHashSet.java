@@ -12,7 +12,6 @@ import javax.faces.model.DataModelListener;
 
 import org.apache.commons.collections.set.ListOrderedSet;
 import org.nakeduml.runtime.domain.TinkerNode;
-import org.util.TinkerCollection;
 
 public class TinkerJsfHashSet<E> extends DataModel<E> implements TinkerSet<E>, TinkerCollection<E> {
 

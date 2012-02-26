@@ -52,7 +52,7 @@ public class NakedTypedElementImpl extends NakedMultiplicityElement implements I
 
 	public void setType(IClassifier type) {
 		if(type==null){
-			
+			System.out.println();
 		}
 		this.type = type;
 	}

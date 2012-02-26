@@ -15,6 +15,7 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.core.CodeGenerationStrategy;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedPrimitiveType;
@@ -39,6 +40,11 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	public void visitStatemachine(INakedStateMachine m){
 		if(m.getName().equals("TaskRequest")){
 			getBuiltInTypes().setTaskRequest(m);
+		}else if(m.getName().equals("ProcessRequest")){
+			getBuiltInTypes().setProcessRequest(m);
+		}else if(m.getName().equals("AbstractRequest")){
+			getBuiltInTypes().setAbstractRequest(m);
+			
 		}
 	}
 	@VisitBefore
@@ -49,10 +55,22 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	}
 	@VisitBefore
 	public void visitInterface(INakedInterface m){
-		if(m.getName().equals("BusinessRole")){
+		if(m.getName().equals("IBusinessRole")){
 			getBuiltInTypes().setBusinessRole(m);
-		}else if(m.getName().equals("TaskObject")){
+		}else if(m.getName().equals("ITaskObject")){
 			getBuiltInTypes().setTaskObject(m);
+		}else if(m.getName().equals("IProcessObject")){
+			getBuiltInTypes().setProcessObject(m);
+		}else if(m.getName().equals("ITaskResponsibilityObject")){
+			getBuiltInTypes().setTaskResponsibilityObject(m);
+		}else if(m.getName().equals("IProcessResponsibilityObject")){
+			getBuiltInTypes().setProcessResponsibilityObject(m);
+		}
+	}
+	@VisitBefore
+	public void visitEntity(INakedEntity e){
+		if(e.getName().equals("OpaeumPerson")){
+			getBuiltInTypes().setOpaeumPerson(e);
 		}
 	}
 	@SuppressWarnings("deprecation")
@@ -69,10 +87,12 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		}else if(name.equalsIgnoreCase(config.getRealType())){
 			updateDefaultType(simpleType, "java.lang.Double");
 			getBuiltInTypes().setRealType(simpleType);
-			((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
-		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes") || simpleType.getNameSpace().getName().equalsIgnoreCase("uml")){
+			((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
+					.lookupStandardType(IOclLibrary.RealTypeName));
+		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("PrimitiveTypes") ||simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes")
+				|| simpleType.getNameSpace().getName().equalsIgnoreCase("uml")) {
 			INakedPrimitiveType primitiveType = (INakedPrimitiveType) simpleType;
-			boolean isStandardPrimitive = simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes");
+			boolean isStandardPrimitive = simpleType.getNameSpace().getName().equalsIgnoreCase("PrimitiveTypes")||simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes");
 			if(primitiveType.getName().equals("String")){
 				if(isStandardPrimitive){
 					getBuiltInTypes().setDefaultType(primitiveType);

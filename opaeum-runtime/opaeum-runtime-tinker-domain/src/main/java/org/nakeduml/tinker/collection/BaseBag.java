@@ -1,6 +1,5 @@
 package org.nakeduml.tinker.collection;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import com.google.common.collect.HashMultiset;

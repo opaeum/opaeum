@@ -7,8 +7,8 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
@@ -33,15 +33,21 @@ import org.opaeum.feature.OpaeumConfig;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
+	protected Object getElementFrom(){
+		Object firstElement = selection.getFirstElement();
+		if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
+			return ((IAdaptable) firstElement).getAdapter(EObject.class);
+		}
+		return firstElement;
+	}
 	@Override
 	protected IContributionItem[] getContributionItems(){
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		List<IContributionItem> actions = new ArrayList<IContributionItem>();
-		if(selection.getFirstElement() instanceof Model && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-			actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
-		}else if(selection.getFirstElement() instanceof IContainer){
-			IContainer firstElement = (IContainer) selection.getFirstElement();
-			if(OpaeumConfig.isValidVersionNumber(firstElement.getName())){
+		Object firstElement = selection.getFirstElement();
+		if(firstElement instanceof IContainer){
+			IContainer container = (IContainer) firstElement;
+			if(OpaeumConfig.isValidVersionNumber(container.getName())){
 				actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
 				actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
 			}else{
@@ -49,7 +55,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 					EditOpaeumConfigAction action = new EditOpaeumConfigAction(selection);
 					actions.add(new ActionContributionItem(action));
 					if(hasConfigFile(selection)){
-						if(!OpaeumEclipseContext.findOrCreateContextFor((IContainer) selection.getFirstElement()).isLoading()){
+						if(!OpaeumEclipseContext.findOrCreateContextFor((IContainer) firstElement).isLoading()){
 							action.setText("Edit Opaeum Settings");
 							actions.add(new ActionContributionItem(new ClearOpaeumCacheACtion(selection)));
 							actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
@@ -67,21 +73,25 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 					}
 				}
 			}
-		}else if((selection.getFirstElement() instanceof Element)&& JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-			
-			
-			if(EmfExtractionPhase.canBeProcessedIndividually((EObject) selection.getFirstElement())){
-				actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
-			}
-		}else if(selection.getFirstElement() instanceof AbstractGraphicalEditPart && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-			//TODO we never get here
-			AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) selection.getFirstElement();
-			System.out.println(a.getModel());
-			if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
-				actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+		}else{
+			firstElement=getElementFrom();
+			if(firstElement instanceof Model && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
+				actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
+			}else if((firstElement instanceof Element) && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
+				if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
+					actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+				}
+			}else if(firstElement instanceof AbstractGraphicalEditPart
+					&& JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
+				// TODO we never get here
+				AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
+				System.out.println(a.getModel());
+				if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
+					actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+				}
 			}
 		}
-		System.out.println(selection.getFirstElement());
+		System.out.println(firstElement);
 		return (IContributionItem[]) actions.toArray(new IContributionItem[actions.size()]);
 	}
 	public static boolean hasUmlModels(IStructuredSelection selection2){

@@ -32,6 +32,9 @@ public class UtilityCreator{
 	 * @return
 	 */
 	public static OJPathName getUtilPathName(){
+		if(utilPath.get()==null){
+			System.out.println();
+		}
 		return utilPath.get().getCopy();
 	}
 	/**
@@ -49,6 +52,7 @@ public class UtilityCreator{
 	public static void setUtilPackage(OJPackage findPackage){
 		utilPack.set(findPackage);
 		if(findPackage == null){
+
 			utilPath.set(null);
 		}else{
 			utilPath.set(findPackage.getPathName());

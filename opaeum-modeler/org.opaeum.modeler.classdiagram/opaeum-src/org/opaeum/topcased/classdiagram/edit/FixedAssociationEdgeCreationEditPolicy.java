@@ -14,6 +14,7 @@ import org.topcased.modeler.uml.classdiagram.policies.AssociationEdgeCreationEdi
 public final class FixedAssociationEdgeCreationEditPolicy extends AssociationEdgeCreationEditPolicy{
 	protected CreateTypedEdgeCommand createCommand(EditDomain domain,GraphEdge edge,GraphElement source){
 		return new AssociationEdgeCreationCommand(domain, edge, source){
+			@SuppressWarnings("rawtypes")
 			protected EList getAssociationContainerList(){
 				if(getContainerEObject() instanceof Package){
 					Package pack = (Package) getContainerEObject();

@@ -10,6 +10,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.activities.INakedActivityVariable;
@@ -27,6 +28,7 @@ import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.IParameterOwner;
 import org.opaeum.metamodel.core.internal.emulated.EmulatingElement;
+import org.opaeum.metamodel.profiles.INakedStereotype;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.strategies.BlobStrategyFactory;
 import org.opaeum.strategies.DateTimeStrategyFactory;
@@ -41,6 +43,9 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 		OpaeumConfig.registerClass(BlobStrategyFactory.class);
 		StdlibMap.javaRealType.replaceTail("double");
 		StdlibMap.javaRealObjectType.replaceTail("Double");
+	}
+	@Override
+	public void visitAssociationClassProperty(INakedClassifier c,AssociationClassEndMap map){
 	}
 	@Override
 	protected int getThreadPoolSize(){
@@ -99,8 +104,12 @@ public class UmlToJavaMapInitialiser extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap map){
-		if(map.getProperty().getOtherEnd()!=null){
-			OJUtil.buildStructuralFeatureMap(map.getProperty().getOtherEnd());
+		INakedProperty p = map.getProperty();
+		if(p.getOtherEnd()!=null && p.getOtherEnd().isNavigable() &&!p.getNakedBaseType().getOwnedAttributes().contains(p.getOtherEnd())){
+			System.out.println();
+		}
+		if(p.getOtherEnd() != null){
+			OJUtil.buildStructuralFeatureMap(p.getOtherEnd());
 		}
 		// NB!! This will initialise NakedStructuralFeatureMaps
 	}

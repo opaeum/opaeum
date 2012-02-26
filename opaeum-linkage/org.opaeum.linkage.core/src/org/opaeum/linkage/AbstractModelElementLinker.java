@@ -72,7 +72,8 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 		// Link nonGeneratingRootObjects once only, since they would typically not be editable from the editor
 		boolean isLinkedNonGeneratingObject = false;
 		if(o instanceof INakedRootObject){
-			boolean isPrimaryModel = workspace.getGeneratingModelsOrProfiles().size()==1 && workspace.getGeneratingModelsOrProfiles().contains(o);
+			List<INakedRootObject> generatingModelsOrProfiles = workspace.getGeneratingModelsOrProfiles();
+			boolean isPrimaryModel = generatingModelsOrProfiles.size()==1 && generatingModelsOrProfiles.contains(o);
 			isLinkedNonGeneratingObject = !isPrimaryModel && ((INakedRootObject) o).getStatus().isLinked();
 		}
 		boolean result= !(shouldIgnoreBecauseItIsDeleted || isLinkedNonGeneratingObject);

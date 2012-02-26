@@ -9,6 +9,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.uml2.uml.Element;
+import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.topcased.modeler.edit.EMFGraphEdgeEditPart;
 import org.topcased.modeler.editor.outline.VirtualContainer;
 
 public class StereotypeVirtualContainer implements VirtualContainer{
@@ -17,7 +19,7 @@ public class StereotypeVirtualContainer implements VirtualContainer{
 	public EClass getEClassToMatch(){
 		return EcorePackage.eINSTANCE.getEObject();
 	}
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked","rawtypes"})
 	@Override
 	public Collection<EObject> getChildren(EObject eobject){
 		if(eobject instanceof Element){
@@ -44,4 +46,8 @@ public class StereotypeVirtualContainer implements VirtualContainer{
 	public Image getIcon(EObject eobject){
 		return (Image) itemProviderAdapterFactory.getResourceLocator().getImage("full/obj16/Stereotype");
 	}
+	public static void main(String[] args){
+		System.out.println(IntrospectionUtil.getProperty("EObject", EMFGraphEdgeEditPart.class));
+	}
+
 }

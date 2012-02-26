@@ -115,14 +115,14 @@
       <propertySections contributorId="org.topcased.modeler.editor.Modeler">
        <propertySection
                afterSection="org.topcased.modeler.uml.NamedElementSection"
-             class="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
+             class="org.opaeum.topcased.statemachinediagram.propertysections.TransitionGuardSection"
              id="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
              tab="org.opaeum.eclipse.opaeumTab">
           <input type="org.eclipse.uml2.uml.Transition"/>
        </propertySection>
        <propertySection
                afterSection="org.opaeum.topcased.statemachinediagram.TransitionGuardSection"
-             class="org.opaeum.topcased.statemachinediagram.TransitionTriggerSection"
+             class="org.opaeum.topcased.statemachinediagram.propertysections.TransitionTriggerSection"
              id="org.opaeum.topcased.statemachinediagram.TransitionTriggerSection"
              tab="org.opaeum.eclipse.opaeumTab">
           <input type="org.eclipse.uml2.uml.Transition"/>

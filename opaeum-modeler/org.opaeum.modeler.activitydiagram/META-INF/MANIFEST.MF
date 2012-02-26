@@ -23,14 +23,12 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.opaeum.modeler.classdiagram,
  org.opaeum.eclipse.core,
- org.opaeum.modeler.uimadapter
+ org.opaeum.eclipse.uml.propertysections
 Bundle-ActivationPolicy: lazy
 Export-Package: org.opaeum.topcased.activitydiagram,
  org.opaeum.topcased.activitydiagram.bpm,
  org.opaeum.topcased.activitydiagram.bpm.edit,
- org.opaeum.topcased.activitydiagram.filters,
  org.opaeum.topcased.activitydiagram.method,
- org.opaeum.topcased.activitydiagram.propertysections,
  org.topcased.modeler.uml.activitydiagram,
  org.topcased.modeler.uml.activitydiagram.commands,
  org.topcased.modeler.uml.activitydiagram.commands.update,

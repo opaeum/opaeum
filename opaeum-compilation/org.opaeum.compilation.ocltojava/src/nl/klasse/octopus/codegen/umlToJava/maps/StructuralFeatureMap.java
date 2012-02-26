@@ -46,6 +46,9 @@ public class StructuralFeatureMap extends PackageableElementMap {
 	public StructuralFeatureMap(IStructuralFeature feature) {
 		super(feature);
 		this.feature = feature;
+		if(feature==null){
+			System.out.println();
+		}
 		if(feature.getType()==null){
 			System.out.println("Type is null:" + feature.getPathName());
 			

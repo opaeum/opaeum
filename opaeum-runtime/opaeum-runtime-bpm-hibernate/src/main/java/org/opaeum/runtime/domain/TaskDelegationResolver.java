@@ -1,8 +1,5 @@
 package org.opaeum.runtime.domain;
 
-import org.opaeum.runtime.domain.EnumResolver;
-import org.opaeum.runtime.domain.IEnum;
-import org.opaeum.runtime.domain.TaskDelegation;
 
 
 
