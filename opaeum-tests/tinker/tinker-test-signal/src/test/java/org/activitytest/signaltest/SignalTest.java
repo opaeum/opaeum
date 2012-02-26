@@ -2,7 +2,6 @@ package org.activitytest.signaltest;
 
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import junit.framework.Assert;
 
@@ -36,7 +35,7 @@ public class SignalTest extends BaseLocalDbTest {
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 		
-		ActivityNode openWindowAction = window.getClassifierBehavior().getNodeForName("OpenWindowAction");
+		ActivityNode<?> openWindowAction = window.getClassifierBehavior().getNodeForName("OpenWindowAction");
 		Assert.assertEquals(1, openWindowAction.getNodeStat().getExecuteCount());
 		
 		db.startTransaction();
@@ -78,7 +77,7 @@ public class SignalTest extends BaseLocalDbTest {
 		window.receiveSignal(openWindowSignal);
 		db.stopTransaction(Conclusion.SUCCESS);
 		
-		Future<Boolean> future = TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+		Boolean future = TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 
 		Set<ActivityNode<? extends Token>> activeNodes = window.getClassifierBehavior().getActiveNodes();
 		Assert.assertEquals(0, activeNodes.size());
@@ -96,7 +95,6 @@ public class SignalTest extends BaseLocalDbTest {
 		window.receiveSignal(openWindowSignal);
 		db.stopTransaction(Conclusion.SUCCESS);
 		future = TinkerClassifierBehaviorExecutorService.INSTANCE.take();
-		future.get();
 		acceptEventActionNode = window.getClassifierBehavior().getNodeForName("OpenWindowAcceptEventAction");
 		Assert.assertEquals(NodeStatus.ENABLED, acceptEventActionNode.getNodeStatus());
 		finalNode = window.getClassifierBehavior().getNodeForName("FlowFinalNode1");

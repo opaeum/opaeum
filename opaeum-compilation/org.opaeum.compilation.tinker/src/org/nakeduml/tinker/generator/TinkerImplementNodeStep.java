@@ -23,6 +23,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
@@ -86,7 +87,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 	
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(ICompositionParticipant c) {
-		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {
+		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType) && !(c instanceof INakedInterface)) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
 			ojClass.addToImports(TinkerGenerationUtil.edgePathName);
@@ -105,7 +106,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 				addSuperWithPersistenceToDefaultConstructor(ojClass);
 			}
 			
-			if (c.getEndToComposite() != null) {
+			if (c.getEndToComposite() != null && !(c instanceof INakedInterface)) {
 				addInitVertexToConstructorWithOwningObject(ojClass, c);
 			} else {
 				if (!c.getIsAbstract() && !hasSuperwithCompositeParent(c)) {
@@ -151,7 +152,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 
 	private void addGetObjectVersion(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getObjectVersion = new OJAnnotatedOperation("getObjectVersion");
-		getObjectVersion.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+		TinkerGenerationUtil.addOverrideAnnotation(getObjectVersion);
 		getObjectVersion.setReturnType(new OJPathName("int"));
 		getObjectVersion.getBody().addToStatements("return TinkerIdUtil.getVersion(this.vertex)");
 		ojClass.addToImports(TinkerGenerationUtil.tinkerIdUtilPathName);

@@ -81,8 +81,17 @@ public class ObjectToken<O> extends Token {
 		GraphDb.getDb().addEdge(null, node.vertex, getVertex(), TOKEN + getEdgeName());
 	}
 
-	public ObjectToken<O> duplicate() {
-		return new ObjectToken<O>(getEdgeName(), getObject());
+	@SuppressWarnings("unchecked")
+	@Override
+	public ObjectToken<O> duplicate(String flowName) {
+		ObjectToken<O> objectToken = new ObjectToken<O>(flowName, getObject());
+		return objectToken;
+	}
+
+	@Override
+	public void remove() {
+		removeEdgeToObject();
+		GraphDb.getDb().removeVertex(getVertex());
 	}
 
 }

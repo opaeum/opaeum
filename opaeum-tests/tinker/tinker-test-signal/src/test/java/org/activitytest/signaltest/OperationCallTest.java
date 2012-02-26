@@ -13,7 +13,7 @@ import org.opaeum.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
-public class CallTest extends BaseLocalDbTest {
+public class OperationCallTest extends BaseLocalDbTest {
 
 	@Test
 	public void testCallOperation() throws InterruptedException, ExecutionException {
@@ -32,7 +32,7 @@ public class CallTest extends BaseLocalDbTest {
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 		
-		ActivityNode openWindowAction = window.getClassifierBehavior().getNodeForName("OpenWindowAction");
+		ActivityNode<?> openWindowAction = window.getClassifierBehavior().getNodeForName("OpenWindowAction");
 		Assert.assertEquals(1, openWindowAction.getNodeStat().getExecuteCount());
 
 		db.startTransaction();

@@ -31,6 +31,8 @@ public abstract class Token {
 	}
 	
 	protected abstract void addEdgeToActivityNode(ActivityNode<? extends Token> node);
+	public abstract <T extends Token> T duplicate(String flowName);
+	public abstract void remove();
 
 	protected void removeEdgeFromActivityNode() {
 		if (this.vertex.getInEdges(TOKEN + getEdgeName()).iterator().hasNext()) {

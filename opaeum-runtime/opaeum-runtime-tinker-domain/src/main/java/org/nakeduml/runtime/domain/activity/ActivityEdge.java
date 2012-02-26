@@ -13,7 +13,7 @@ import com.tinkerpop.pipes.AbstractPipe;
 public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Boolean> {
 
 	protected Edge edge;
-	private List<T> controlTokens = new ArrayList<T>();
+	private List<Token> controlTokens = new ArrayList<Token>();
 
 	public ActivityEdge(Edge edge) {
 		super();
@@ -32,7 +32,7 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 			}
 		}
 		if (hasWeightPassed()) {
-			ActivityNode<T> target = getTarget();
+			ActivityNode<Token> target = getTarget();
 			target.setStarts(this.controlTokens);
 			return target.next();
 		} else {
@@ -40,9 +40,9 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 		}
 	}
 
-	protected abstract ActivityNode<T> getTarget();
+	protected abstract <O extends Token> ActivityNode<O> getTarget();
 
-	protected abstract ActivityNode<T> getSource();
+	protected abstract <O extends Token> ActivityNode<O> getSource();
 
 	public abstract String getName();
 

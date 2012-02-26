@@ -1,6 +1,5 @@
 package org.nakeduml.runtime.domain.activity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +10,15 @@ public abstract class ForkNode<T extends Token> extends ControlNode<T> {
 	public ForkNode() {
 		super();
 	}
-	
+
 	public ForkNode(Vertex vertex) {
 		super(vertex);
-	}	
+	}
 
 	public ForkNode(boolean persist, String name) {
 		super(persist, name);
 	}
-	
+
 	protected abstract ActivityEdge<T> getInFlow();
 
 	@Override
@@ -27,6 +26,6 @@ public abstract class ForkNode<T extends Token> extends ControlNode<T> {
 		List<ActivityEdge<T>> result = new ArrayList<ActivityEdge<T>>();
 		result.add(getInFlow());
 		return result;
-	}	
-	
+	}
+
 }

@@ -467,13 +467,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		INakedClassifier otherClassifier;
 		String otherClassName;
 		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map);
-		if (map.getProperty().getOtherEnd() != null) {
-			otherClassifier = map.getProperty().getOtherEnd().getOwner();
-			otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
-		} else {
-			otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
-			otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
-		}
+		otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
+		otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
 		OJBlock block = new OJBlock();
 		if (isComposite) {
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");

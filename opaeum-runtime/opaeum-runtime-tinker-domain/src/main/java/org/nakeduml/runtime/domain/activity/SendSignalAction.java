@@ -1,5 +1,8 @@
 package org.nakeduml.runtime.domain.activity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier;
 import org.nakeduml.runtime.domain.IClassifierSignalEvent;
 import org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService;
@@ -25,7 +28,7 @@ public abstract class SendSignalAction extends InvocationAction {
 	
 	@Override
 	protected void execute() {
-		System.out.println("x");
+		System.out.println("executing action " + getClass().getSimpleName());
 		TinkerClassifierBehaviorExecutorService.INSTANCE.submit(new IClassifierSignalEvent() {
 			@Override
 			public Boolean call() throws Exception {
@@ -46,5 +49,26 @@ public abstract class SendSignalAction extends InvocationAction {
 	protected abstract BaseTinkerBehavioredClassifier resolveTarget();
 
 	protected abstract ISignal constructSignal();
+	
+	@Override
+	protected List<? extends OutputPin<?>> getOutputPins() {
+		return Arrays.asList();
+	}
+	
+	protected void transferObjectTokensToAction() {
+		super.transferObjectTokensToAction();
+		//Now take
+		
+		
+//		for (InputPin<?> inputPin : this.getInputPins()) {
+//			for (ObjectToken<?> token : inputPin.getInTokens()) {
+//				token.removeEdgeFromActivityNode();
+//				addToInputPinVariable(inputPin, token.getObject());
+//				token.removeEdgeToObject();
+//				GraphDb.getDb().removeVertex(token.getVertex());
+//			}
+//		}
+	}	
+
 	
 }

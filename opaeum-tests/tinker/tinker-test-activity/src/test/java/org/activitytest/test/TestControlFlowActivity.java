@@ -27,8 +27,8 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		customer.setName("customer1");
 		SendEmailActivity sendEmailActivityProcess = customer.getClassifierBehavior();
 		db.stopTransaction(Conclusion.SUCCESS);
-//		Root + Customer + Activity nodes + 1 Control token
-		Assert.assertEquals(19, countVertices());
+//		Root + Customer + homeAddress + workAddress + Activity nodes + 1 Control token
+		Assert.assertEquals(21, countVertices());
 		ActivityNode<? extends Token> initialNode1 = sendEmailActivityProcess.getNodeForName("InitialNode1");
 		Assert.assertEquals(0, initialNode1.getInTokens().size());
 		Assert.assertEquals(1, initialNode1.getOutTokens().size());
@@ -48,7 +48,7 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertNotNull(sendEmail);
 		Assert.assertEquals(NodeStatus.INACTIVE, sendEmail.getNodeStatus());
 		Assert.assertEquals(0, sendEmail.getNodeStat().getExecuteCount());
-		Assert.assertEquals(20, countVertices());
+		Assert.assertEquals(22, countVertices());
 
 		db.startTransaction();
 		Assert.assertFalse(sendEmailActivityProcess.execute());
@@ -56,7 +56,7 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertFalse(sendEmailActivityProcess.execute());
 		db.stopTransaction(Conclusion.SUCCESS);
 		
-		Assert.assertEquals(19, countVertices());
+		Assert.assertEquals(21, countVertices());
 		sendEmail = sendEmailActivityProcess.getNodeForName("SendEmail");
 		Assert.assertEquals(NodeStatus.COMPLETE, sendEmail.getNodeStatus());
 		Assert.assertEquals(1, sendEmail.getOutTokens().size());
@@ -68,13 +68,13 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		Assert.assertFalse(sendEmailActivityProcess.execute());
 		Assert.assertFalse(sendEmailActivityProcess.execute());
 		db.stopTransaction(Conclusion.SUCCESS);
-		Assert.assertEquals(23, countVertices());
+		Assert.assertEquals(25, countVertices());
 
 		db.startTransaction();
 		Assert.assertFalse(sendEmailActivityProcess.execute());
 		db.stopTransaction(Conclusion.SUCCESS);
 
-		Assert.assertEquals(18, countVertices());
+		Assert.assertEquals(20, countVertices());
 
 		initialNode1 = sendEmailActivityProcess.getNodeForName("InitialNode1");
 		Assert.assertEquals(0, initialNode1.getInTokens().size());

@@ -38,7 +38,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	@Override
 	public List<ObjectToken<O>> getInTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ActivityEdge<ObjectToken<O>> flow : getInFlows()) {
+		for (ActivityEdge<?> flow : getInFlows()) {
 			if (flow instanceof ObjectFlow) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
@@ -54,7 +54,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	@Override
 	public List<ObjectToken<O>> getInTokens(String inFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ActivityEdge<ObjectToken<O>> flow : getInFlows()) {
+		for (ActivityEdge<?> flow : getInFlows()) {
 			if (inFlowName.equals(flow.getName())) {
 				if (flow instanceof ObjectFlow) {
 					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
@@ -72,19 +72,13 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	@Override
 	public List<ObjectToken<O>> getOutTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
-			if (flow instanceof ObjectFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add(new ObjectToken<O>(edge.getInVertex()));
-				}
-			} else {
-				throw new IllegalStateException("wtf");
-			}
+		Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + getName());
+		for (Edge edge : iter) {
+			result.add(new ObjectToken<O>(edge.getInVertex()));
 		}
 		return result;
 	}
-
+	
 	@Override
 	public List<ObjectToken<O>> getOutTokens(String outFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
@@ -102,5 +96,12 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 		}
 		return result;
 	}
+
+	@Override
+	protected void addIncomingToken(ObjectToken<O> token) {
+		token.removeEdgeFromActivityNode();
+		token.addEdgeToActivityNode(this);
+	}	
+	
 
 }

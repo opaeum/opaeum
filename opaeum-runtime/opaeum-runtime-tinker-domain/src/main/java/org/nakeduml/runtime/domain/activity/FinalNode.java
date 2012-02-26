@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class FinalNode<T extends Token> extends ControlNode<T> {
+public abstract class FinalNode extends GenericControlNode {
 
 	public FinalNode() {
 		super();
@@ -21,8 +21,8 @@ public abstract class FinalNode<T extends Token> extends ControlNode<T> {
 	}
 
 	@Override
-	protected List<ActivityEdge<T>> getOutFlows() {
-		return Collections.<ActivityEdge<T>>emptyList();
+	protected List<ActivityEdge<Token>> getOutFlows() {
+		return Collections.<ActivityEdge<Token>>emptyList();
 	}
 	
 	@Override

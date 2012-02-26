@@ -11,6 +11,7 @@ public abstract class AbstractTriggeredAction extends Action {
 
 	private List<Trigger> triggers = new ArrayList<Trigger>();
 	private boolean triggered = false;
+	private ISignal signal;
 	
 	public AbstractTriggeredAction() {
 		super();
@@ -23,7 +24,20 @@ public abstract class AbstractTriggeredAction extends Action {
 	public AbstractTriggeredAction(Vertex vertex) {
 		super(vertex);
 	}
+	
+	public void setTrigger(ISignal signal) {
+		this.triggered = true;
+		this.signal = signal;
+	}
+	
+	@Override
+	protected void transferObjectTokensToAction() {
+		super.transferObjectTokensToAction();
+		copySignalToOutputPin(this.signal);
+	}	
 
+	public abstract void copySignalToOutputPin(ISignal signal);
+	
 	@Override
 	protected boolean isTriggered() {
 		return this.triggered;
@@ -40,7 +54,6 @@ public abstract class AbstractTriggeredAction extends Action {
 	public boolean containsTriggerWithSignalType(Class<? extends ISignal> signalType) {
 		for (Trigger trigger : this.triggers) {
 			if (trigger.getSignalType().isAssignableFrom(signalType)) {
-				this.triggered = true;
 				return true;
 			}
 		}

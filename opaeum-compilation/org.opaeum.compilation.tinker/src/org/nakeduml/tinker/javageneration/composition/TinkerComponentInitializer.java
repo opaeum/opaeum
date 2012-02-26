@@ -26,6 +26,7 @@ import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
 
@@ -34,7 +35,7 @@ public class TinkerComponentInitializer extends ComponentInitializer {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitClassifier(ICompositionParticipant entity) {
-		if (OJUtil.hasOJClass(entity)) {
+		if (OJUtil.hasOJClass(entity) && !(entity instanceof INakedInterface)) {
 			OJAnnotatedClass ojClass = findJavaClass(entity);
 			OJOperation init = ojClass.findOperation("init", Arrays.asList(new OJPathName[] { new OJPathName("org.opaeum.runtime.domain.CompositionNode") }));
 			List<? extends INakedProperty> aws = entity.getOwnedAttributes();

@@ -14,7 +14,10 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
+import org.opaeum.javageneration.maps.NakedClassifierMap;
+import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
@@ -52,9 +55,18 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 			OJTryStatement tryS = new OJTryStatement();
 			tryS.getTryPart().addToStatements("removeFromEventPool(signal)");
 
-			tryS.getTryPart().addToStatements(
-					"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
-							+ "<? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(signal)");
+			INakedBehavior method = reception.getMethods().iterator().next();
+			if (method == c.getClassifierBehavior()) {
+				tryS.getTryPart().addToStatements(
+						"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
+								+ "<? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(signal)");
+			} else {
+				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(method.getEndToComposite().getOtherEnd());
+				tryS.getTryPart().addToStatements(OJUtil.classifierPathname(method).getLast() + " m = new " + OJUtil.classifierPathname(method).getLast() + "(" + "this)");
+				tryS.getTryPart().addToStatements(
+						"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast() + "<? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(signal)");
+			}
+
 			OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
 			String tokenType;
 			if (reception.getSignal().getAttributes().isEmpty()) {
@@ -64,8 +76,12 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 				ojClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName);
 				tokenType = "ObjectToken";
 			}
-			ifNodesToTrigger.addToThenPart(TinkerBehaviorUtil.tinkerActivityNodePathName.getLast() + "<" + tokenType + "> acceptEventAction = (ActivityNode<" + tokenType
-					+ ">)nodesToTrigger.iterator().next()");
+			ifNodesToTrigger.addToThenPart(TinkerBehaviorUtil.tinkerAcceptEventAction.getLast() + " acceptEventAction = (" + TinkerBehaviorUtil.tinkerAcceptEventAction.getLast()
+					+ ")nodesToTrigger.iterator().next()");
+			ojClass.addToImports(TinkerBehaviorUtil.tinkerAcceptEventAction);
+			if (!reception.getSignal().getOwnedAttributes().isEmpty()) {
+				ifNodesToTrigger.addToThenPart("acceptEventAction.setTrigger(signal)");
+			}
 			ifNodesToTrigger.addToThenPart("acceptEventAction.setStarts(new SingleIterator<" + tokenType + ">(new " + tokenType + "(acceptEventAction.getName())))");
 			ifNodesToTrigger.addToThenPart("acceptEventAction.next()");
 			tryS.getTryPart().addToStatements(ifNodesToTrigger);

@@ -81,12 +81,6 @@ public class NakedNeo4jGraph implements NakedGraph {
 	}
 
 	@Override
-	public void removeVertex(Vertex vertex) {
-		TransactionThreadEntityVar.remove(vertex.getId().toString());
-		neo4jGraph.removeVertex(vertex);
-	}
-
-	@Override
 	public Iterable<Vertex> getVertices() {
 		return neo4jGraph.getVertices();
 	}
@@ -170,6 +164,12 @@ public class NakedNeo4jGraph implements NakedGraph {
 			v.setProperty("className", className);
 		}
 		return v;
+	}
+	
+	@Override
+	public void removeVertex(Vertex vertex) {
+		TransactionThreadEntityVar.remove(vertex.getId().toString());
+		neo4jGraph.removeVertex(vertex);
 	}
 
 	@Override

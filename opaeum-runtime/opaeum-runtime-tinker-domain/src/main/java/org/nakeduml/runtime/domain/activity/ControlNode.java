@@ -3,7 +3,6 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
@@ -30,11 +29,15 @@ public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
 		return doAllIncomingFlowsHaveTokens();
 	}	
 	
+	public abstract List<T> getInTokens();
+	public abstract List<T> getInTokens(String inFlowName);
+	public abstract List<T> getOutTokens();
+	public abstract List<T> getOutTokens(String outFlowName);
+	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
+
 	@Override
 	protected Boolean executeNode() {
 		List<Boolean> flowResult = new ArrayList<Boolean>();
-
-		removeIncomingControlTokens();
 
 		setNodeStatus(NodeStatus.ENABLED);
 		setNodeStatus(NodeStatus.ACTIVE);
@@ -43,10 +46,13 @@ public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
 
 		this.nodeStat.increment();
 
-		// For each out control flow add a control token
-		for (ActivityEdge<T> flow : getOutFlows()) {
-			T token = instantiateToken(flow.getName());	
-			addOutgoingToken(token);
+		for (T token : getInTokens()) {
+			// For each out flow add a token
+			for (ActivityEdge<T> flow : getOutFlows()) {
+				T duplicate = token.duplicate(flow.getName());
+				addOutgoingToken(duplicate);
+			}
+			token.remove();
 		}
 
 		// Continue each out flow with its tokens
@@ -54,105 +60,13 @@ public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
 			flow.setStarts(getOutTokens(flow.getName()));
 			flowResult.add(flow.processNextStart());
 		}
-
-		// TODO Start transaction
+		
 		setNodeStatus(NodeStatus.COMPLETE);
-		// TODO End transaction
 		boolean result = true;
 		for (Boolean b : flowResult) {
 			if (!b) {
 				result = false;
 				break;
-			}
-		}
-		return result;
-	}
-	
-	protected abstract T instantiateToken(String name);	
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<T> getInTokens() {
-		List<T> result = new ArrayList<T>();
-		for (ActivityEdge<T> flow : getInFlows()) {
-			if (flow instanceof ControlFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add((T) new ControlToken(edge.getInVertex()));
-				}
-			} else if (flow instanceof ObjectFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add((T) new ObjectToken(edge.getInVertex()));
-				}
-			} else {
-				throw new IllegalStateException("wtf");
-			}
-		}
-		return result;
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<T> getInTokens(String inFlowName) {
-		List<T> result = new ArrayList<T>();
-		for (ActivityEdge<T> flow : getInFlows()) {
-			if (flow.getName().equals(inFlowName)) {
-				if (flow instanceof ControlFlow) {
-					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-					for (Edge edge : iter) {
-						result.add((T) new ControlToken(edge.getInVertex()));
-					}
-				} else if (flow instanceof ObjectFlow) {
-					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-					for (Edge edge : iter) {
-						result.add((T) new ObjectToken(edge.getInVertex()));
-					}
-				} else {
-					throw new IllegalStateException("wtf");
-				}
-			}
-		}
-		return result;
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<T> getOutTokens() {
-		List<T> result = new ArrayList<T>();
-		for (ActivityEdge<T> flow : getOutFlows()) {
-			if (flow instanceof ControlFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add((T) new ControlToken(edge.getInVertex()));
-				}
-			} else if (flow instanceof ObjectFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add((T) new ObjectToken(edge.getInVertex()));
-				}
-			} else {
-				throw new IllegalStateException("wtf");
-			}
-		}
-		return result;
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<T> getOutTokens(String outFlowName) {
-		List<T> result = new ArrayList<T>();
-		for (ActivityEdge<T> flow : getOutFlows()) {
-			if (flow.getName().equals(outFlowName)) {
-				if (flow instanceof ControlFlow) {
-					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-					for (Edge edge : iter) {
-						result.add((T) new ControlToken(edge.getInVertex()));
-					}
-				} else if (flow instanceof ObjectFlow) {
-					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-					for (Edge edge : iter) {
-						result.add((T) new ObjectToken(edge.getInVertex()));
-					}
-				} else {
-					throw new IllegalStateException("wtf");
-				}
 			}
 		}
 		return result;

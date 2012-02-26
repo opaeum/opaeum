@@ -25,10 +25,11 @@ public class TinkerClassifierBehaviorExecutorService {
 		completionService.submit(cse);
 	}
 
-	public Future<Boolean> take() {
+	public Boolean take() {
 		try {
-			return this.completionService.take();
-		} catch (InterruptedException e) {
+			Future<Boolean> f =  this.completionService.take();
+			return f.get();
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

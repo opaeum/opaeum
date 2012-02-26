@@ -1,55 +1,62 @@
 package org.nakeduml.runtime.domain.activity;
 
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
+public abstract class JoinNodeControlToken extends JoinNode<ControlToken> {
 
-public abstract class InitialNode extends ControlNode<ControlToken> {
-
-	public InitialNode() {
+	public JoinNodeControlToken() {
 		super();
 	}
 	
-	public InitialNode(Vertex vertex) {
+	public JoinNodeControlToken(Vertex vertex) {
 		super(vertex);
 	}	
 
-	public InitialNode(boolean persist, String name) {
+	public JoinNodeControlToken(boolean persist, String name) {
 		super(persist, name);
 	}
+	
+	@Override
+	protected abstract ActivityEdge<ControlToken> getOutFlow();
 
-	protected boolean doAllIncomingFlowsHaveTokens() {
-		return true;
+	@Override
+	protected List<? extends ActivityEdge<ControlToken>> getOutFlows() {
+		List<ActivityEdge<ControlToken>> result = new ArrayList<ActivityEdge<ControlToken>>();
+		result.add(getOutFlow());
+		return result;
 	}
 	
 	@Override
-	protected List<? extends ActivityEdge<ControlToken>> getInFlows() {
-		return Collections.<ActivityEdge<ControlToken>>emptyList();
-	}
+	protected abstract List<? extends ActivityEdge<ControlToken>> getInFlows();	
 
-	@Override
-	protected boolean mayContinue() {
-		return true;
-	}
-	
 	@Override
 	public List<ControlToken> getInTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + getName());
-		for (Edge edge : iter) {
-			result.add(new ControlToken(edge.getInVertex()));
+		for (ActivityEdge<ControlToken> flow : getInFlows()) {
+			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+			for (Edge edge : iter) {
+				result.add(new ControlToken(edge.getInVertex()));
+			}
 		}
 		return result;
 	}
 
 	@Override
 	public List<ControlToken> getInTokens(String inFlowName) {
-		throw new IllegalStateException("Initial nodes do not have in flows");
+		List<ControlToken> result = new ArrayList<ControlToken>();
+		for (ActivityEdge<ControlToken> flow : getInFlows()) {
+			if (flow.getName().equals(inFlowName)) {
+				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+				for (Edge edge : iter) {
+					result.add(new ControlToken(edge.getInVertex()));
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -77,6 +84,5 @@ public abstract class InitialNode extends ControlNode<ControlToken> {
 		}
 		return result;
 	}
-	
 
 }

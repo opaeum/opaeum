@@ -25,4 +25,15 @@ public class ControlToken extends Token {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public ControlToken duplicate(String flowName) {
+		return new ControlToken(flowName);
+	}
+
+	@Override
+	public void remove() {
+		GraphDb.getDb().removeVertex(getVertex());
+	}
+
 }

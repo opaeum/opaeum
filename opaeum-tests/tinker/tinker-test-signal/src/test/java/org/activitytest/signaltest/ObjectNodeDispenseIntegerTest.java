@@ -27,9 +27,13 @@ public class ObjectNodeDispenseIntegerTest extends BaseLocalDbTest  {
 		WaterDispensor waterDispensor = application.getWaterDispensor();
 		waterDispensor.dispense(1);
 		db.stopTransaction(Conclusion.SUCCESS);
+		
+		//10 vertices with actvity nodes
+		//+ 1 for the activity parameter
+		
+		Assert.assertEquals(11, countVertices());
+//		Assert.assertEquals(10, countEdges());
 
-		Assert.assertEquals(9, countVertices());
-		Assert.assertEquals(10, countEdges());
 	}
 	
 }

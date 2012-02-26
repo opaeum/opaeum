@@ -39,7 +39,7 @@
         <ownedAttribute xmi:id="_1l4AkELJEeGxMcroWGkAng" name="name">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedAttribute>
-        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6cRIMEmiEeGRU-oDT9bd3A" name="WindowActivity" specification="_6R9D4ETnEeGhsfN-6S6hRw">
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_6cRIMEmiEeGRU-oDT9bd3A" name="WindowClassifierBehavior" specification="_6R9D4ETnEeGhsfN-6S6hRw">
           <node xmi:type="uml:AcceptEventAction" xmi:id="_4aRboEUKEeGhsfN-6S6hRw" name="OpenWindowAcceptEventAction" outgoing="_9SXzAEUKEeGhsfN-6S6hRw">
             <trigger xmi:id="_arwt4EUWEeGhsfN-6S6hRw" name="OpenWindowTrigger" event="_DCqZoETqEeGhsfN-6S6hRw"/>
           </node>

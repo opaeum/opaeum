@@ -2,6 +2,7 @@ package org.nakeduml.runtime.domain.activity;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
 import org.nakeduml.tinker.runtime.GraphDb;
@@ -15,7 +16,8 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 
 	protected Vertex vertex;
 	protected NodeStat nodeStat;
-
+	protected static final Logger logger = Logger.getLogger(ActivityNode.class.getName());
+	
 	public ActivityNode() {
 		super();
 	}
@@ -35,12 +37,12 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 	
 	protected abstract boolean mayContinue();
 	protected abstract boolean mayAcceptToken();
-	protected abstract List<? extends ActivityEdge<T>> getInFlows();
+	protected abstract List<? extends ActivityEdge<?>> getInFlows();
 	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
-	public abstract List<T> getInTokens(String inFlowName);
-	public abstract List<T> getOutTokens();
-	public abstract List<T> getOutTokens(String outFlowName);
-	public abstract List<T> getInTokens();
+	public abstract List<? extends Token> getInTokens();
+	public abstract List<?> getInTokens(String inFlowName);
+	public abstract List<?> getOutTokens();
+	public abstract List<?> getOutTokens(String outFlowName);
 	
 	public Vertex getVertex() {
 		return vertex;
@@ -85,18 +87,10 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 		edge.setProperty("outClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
 	}
 
-	protected void removeIncomingControlTokens() {
-		for (T token : getInTokens()) {
-			if (token instanceof ControlToken) {
-				GraphDb.getDb().removeVertex(token.getVertex());
-			} else {
-				throw new IllegalStateException("This must not be called for ObjectTokens");
-			}
-		}
-	}
+//	protected abstract void removeIncomingTokens();
 
 	protected boolean doAllIncomingFlowsHaveTokens() {
-		for (ActivityEdge<T> flow : getInFlows()) {
+		for (ActivityEdge<?> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			if (iter.iterator().hasNext()) {
 				continue;

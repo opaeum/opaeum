@@ -1,58 +1,56 @@
 package org.nakeduml.runtime.domain.activity;
 
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
+public abstract class DecisionControlToken extends DecisionNode<ControlToken> {
 
-public abstract class InitialNode extends ControlNode<ControlToken> {
-
-	public InitialNode() {
+	public DecisionControlToken() {
 		super();
 	}
-	
-	public InitialNode(Vertex vertex) {
-		super(vertex);
-	}	
 
-	public InitialNode(boolean persist, String name) {
+	public DecisionControlToken(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	protected boolean doAllIncomingFlowsHaveTokens() {
-		return true;
-	}
-	
-	@Override
-	protected List<? extends ActivityEdge<ControlToken>> getInFlows() {
-		return Collections.<ActivityEdge<ControlToken>>emptyList();
+	public DecisionControlToken(Vertex vertex) {
+		super(vertex);
 	}
 
-	@Override
-	protected boolean mayContinue() {
-		return true;
-	}
-	
-	@Override
+//	@Override
+//	protected void removeIncomingTokens() {
+//		for (ControlToken token : getInTokens()) {
+//			GraphDb.getDb().removeVertex(token.getVertex());
+//		}
+//	}
+
 	public List<ControlToken> getInTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + getName());
-		for (Edge edge : iter) {
-			result.add(new ControlToken(edge.getInVertex()));
+		for (ActivityEdge<ControlToken> flow : getInFlows()) {
+			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+			for (Edge edge : iter) {
+				result.add(new ControlToken(edge.getInVertex()));
+			}
 		}
 		return result;
 	}
 
-	@Override
 	public List<ControlToken> getInTokens(String inFlowName) {
-		throw new IllegalStateException("Initial nodes do not have in flows");
+		List<ControlToken> result = new ArrayList<ControlToken>();
+		for (ActivityEdge<ControlToken> flow : getInFlows()) {
+			if (flow.getName().equals(inFlowName)) {
+				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+				for (Edge edge : iter) {
+					result.add(new ControlToken(edge.getInVertex()));
+				}
+			}
+		}
+		return result;
 	}
 
-	@Override
 	public List<ControlToken> getOutTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
 		for (ActivityEdge<ControlToken> flow : getOutFlows()) {
@@ -64,7 +62,6 @@ public abstract class InitialNode extends ControlNode<ControlToken> {
 		return result;
 	}
 
-	@Override
 	public List<ControlToken> getOutTokens(String outFlowName) {
 		List<ControlToken> result = new ArrayList<ControlToken>();
 		for (ActivityEdge<ControlToken> flow : getOutFlows()) {
@@ -77,6 +74,5 @@ public abstract class InitialNode extends ControlNode<ControlToken> {
 		}
 		return result;
 	}
-	
 
 }

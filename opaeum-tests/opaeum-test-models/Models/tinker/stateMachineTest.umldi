@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_kkZiIE82EeGvsfzaRQeiyA" activeDiagram="_zlIWYE82EeGvsfzaRQeiyA">
+  <model href="stateMachineTest.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_kkZiIU82EeGvsfzaRQeiyA" position="0,0" size="100,100" name="stateMachineTest" viewport="0,0">
+    <property xmi:id="_kkkhQE82EeGvsfzaRQeiyA" key="pageFormatName" value="A4"/>
+    <property xmi:id="_kkkhQU82EeGvsfzaRQeiyA" key="diagramWidth" value="840"/>
+    <property xmi:id="_kkkhQk82EeGvsfzaRQeiyA" key="diagramHeight" value="1188"/>
+    <property xmi:id="_kkkhQ082EeGvsfzaRQeiyA" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_kkkhRE82EeGvsfzaRQeiyA" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_kkkhRU82EeGvsfzaRQeiyA" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_kkkhRk82EeGvsfzaRQeiyA" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_kkkhR082EeGvsfzaRQeiyA" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_kkkhSE82EeGvsfzaRQeiyA" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_kkZiIk82EeGvsfzaRQeiyA" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="stateMachineTest.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_nr3CUE82EeGvsfzaRQeiyA" position="161,65" size="246,-1">
+      <anchorage xmi:id="_wnUhcE82EeGvsfzaRQeiyA" graphEdge="_wnW9sE82EeGvsfzaRQeiyA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nr3CUU82EeGvsfzaRQeiyA" presentation="default">
+        <element href="stateMachineTest.uml#_nr760E82EeGvsfzaRQeiyA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_nr3CUk82EeGvsfzaRQeiyA">
+        <property xmi:id="_nr3CU082EeGvsfzaRQeiyA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nr3CVE82EeGvsfzaRQeiyA" presentation="default">
+          <element href="stateMachineTest.uml#_nr760E82EeGvsfzaRQeiyA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_owfIEE82EeGvsfzaRQeiyA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_owfIEU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_owhkUE82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_nr3pYE82EeGvsfzaRQeiyA">
+        <property xmi:id="_nr3pYU82EeGvsfzaRQeiyA" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_nr3pYk82EeGvsfzaRQeiyA" presentation="default">
+          <element href="stateMachineTest.uml#_nr760E82EeGvsfzaRQeiyA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_tiSDIE82EeGvsfzaRQeiyA" position="310,213" size="285,-1">
+      <anchorage xmi:id="_wnUhcU82EeGvsfzaRQeiyA" graphEdge="_wnW9sE82EeGvsfzaRQeiyA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tiSDIU82EeGvsfzaRQeiyA" presentation="default">
+        <element href="stateMachineTest.uml#_tiWUkE82EeGvsfzaRQeiyA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_tiSDIk82EeGvsfzaRQeiyA">
+        <property xmi:id="_tiSDI082EeGvsfzaRQeiyA" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tiSDJE82EeGvsfzaRQeiyA" presentation="default">
+          <element href="stateMachineTest.uml#_tiWUkE82EeGvsfzaRQeiyA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_uq8UUE82EeGvsfzaRQeiyA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uq8UUU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_uq9icE82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_tiSDJU82EeGvsfzaRQeiyA">
+        <property xmi:id="_tiSDJk82EeGvsfzaRQeiyA" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tiSDJ082EeGvsfzaRQeiyA" presentation="default">
+          <element href="stateMachineTest.uml#_tiWUkE82EeGvsfzaRQeiyA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_EH6zQE83EeGvsfzaRQeiyA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EH6zQU83EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_EH8BYE83EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_wnW9sE82EeGvsfzaRQeiyA" anchor="_wnUhcE82EeGvsfzaRQeiyA _wnUhcU82EeGvsfzaRQeiyA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_wnW9sU82EeGvsfzaRQeiyA" presentation="default">
+        <element href="stateMachineTest.uml#_wnbPIE82EeGvsfzaRQeiyA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_wnW9sk82EeGvsfzaRQeiyA" id="srcNameEdgeObject" uDistance="10" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_wnW9s082EeGvsfzaRQeiyA" id="srcPropertiesEdgeObject" uDistance="25" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_wnW9tE82EeGvsfzaRQeiyA" id="srcCountEdgeObject" uDistance="10" vDistance="-10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_wnW9tU82EeGvsfzaRQeiyA" id="targetNameEdgeObject" uDistance="10" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_wnW9tk82EeGvsfzaRQeiyA" id="targetPropertiesEdgeObject" uDistance="25" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_wnW9t082EeGvsfzaRQeiyA" id="targetCountEdgeObject" uDistance="10" vDistance="-10"/>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_wnW9uE82EeGvsfzaRQeiyA" visible="false" id="middleNameEdgeObject" offset="0,10"/>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_wnW9uU82EeGvsfzaRQeiyA" id="stereotypeEdgeObject" offset="0,-10"/>
+    </contained>
+  </diagrams>
+  <subdiagrams xmi:id="_zlHIQE82EeGvsfzaRQeiyA">
+    <model href="stateMachineTest.uml#_y2rU8E82EeGvsfzaRQeiyA"/>
+    <diagrams xmi:id="_zlIWYE82EeGvsfzaRQeiyA" position="0,0" size="100,100" name="StateMachine1" viewport="0,0">
+      <property xmi:id="_zlqh4E82EeGvsfzaRQeiyA" key="pageFormatName" value="A4"/>
+      <property xmi:id="_zlqh4U82EeGvsfzaRQeiyA" key="diagramWidth" value="840"/>
+      <property xmi:id="_zlqh4k82EeGvsfzaRQeiyA" key="diagramHeight" value="1188"/>
+      <property xmi:id="_zlqh4082EeGvsfzaRQeiyA" key="pageMarginName" value="Small Margin"/>
+      <property xmi:id="_zlqh5E82EeGvsfzaRQeiyA" key="diagramTopMargin" value="20"/>
+      <property xmi:id="_zlqh5U82EeGvsfzaRQeiyA" key="diagramBottomMargin" value="20"/>
+      <property xmi:id="_zlqh5k82EeGvsfzaRQeiyA" key="diagramLeftMargin" value="20"/>
+      <property xmi:id="_zlqh5082EeGvsfzaRQeiyA" key="diagramRightMargin" value="20"/>
+      <property xmi:id="_zlqh6E82EeGvsfzaRQeiyA" key="orientation" value="portrait"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zlIWYU82EeGvsfzaRQeiyA" presentation="org.topcased.modeler.uml.statemachinediagram">
+        <element href="stateMachineTest.uml#_y2rU8E82EeGvsfzaRQeiyA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_8gGGQE82EeGvsfzaRQeiyA" position="0,0" size="-1,-1">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_8gGGQU82EeGvsfzaRQeiyA" presentation="default">
+          <element href="stateMachineTest.uml#_8gPQME82EeGvsfzaRQeiyA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_9oU5oE82EeGvsfzaRQeiyA" position="224,24" size="-1,-1">
+          <property xmi:id="_9oWu0E82EeGvsfzaRQeiyA" key="name" value="visible"/>
+          <anchorage xmi:id="__2pyYE82EeGvsfzaRQeiyA" graphEdge="__2uD0E82EeGvsfzaRQeiyA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9oU5oU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_9oaZME82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_-IoxYE82EeGvsfzaRQeiyA" position="278,164" size="50,50">
+          <anchorage xmi:id="__2pyYU82EeGvsfzaRQeiyA" graphEdge="__2uD0E82EeGvsfzaRQeiyA ___TYEE82EeGvsfzaRQeiyA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-IoxYU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_-Iu4AE82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_-azfcE82EeGvsfzaRQeiyA" position="308,313" size="50,50">
+          <anchorage xmi:id="___Ri4E82EeGvsfzaRQeiyA" graphEdge="___TYEE82EeGvsfzaRQeiyA _AInFEE83EeGvsfzaRQeiyA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-azfcU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_-a3w4E82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_-wpzoE82EeGvsfzaRQeiyA" position="247,477" size="40,40">
+          <anchorage xmi:id="_AIl28E83EeGvsfzaRQeiyA" graphEdge="_AInFEE83EeGvsfzaRQeiyA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_-wpzoU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_-wsP4E82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="__2uD0E82EeGvsfzaRQeiyA" anchor="__2pyYE82EeGvsfzaRQeiyA __2pyYU82EeGvsfzaRQeiyA">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="__2uD0U82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#__2uD1E82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="__2uD0k82EeGvsfzaRQeiyA" id="nameEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="__2uD0082EeGvsfzaRQeiyA" visible="false" id="TransitionStereotypeEdgeObject"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="___TYEE82EeGvsfzaRQeiyA" anchor="__2pyYU82EeGvsfzaRQeiyA ___Ri4E82EeGvsfzaRQeiyA">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="___TYEU82EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#___T_IE82EeGvsfzaRQeiyA"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="___TYEk82EeGvsfzaRQeiyA" id="nameEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="___TYE082EeGvsfzaRQeiyA" visible="false" id="TransitionStereotypeEdgeObject"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_AInFEE83EeGvsfzaRQeiyA" anchor="___Ri4E82EeGvsfzaRQeiyA _AIl28E83EeGvsfzaRQeiyA">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_AInFEU83EeGvsfzaRQeiyA" presentation="default">
+            <element href="stateMachineTest.uml#_AInFFE83EeGvsfzaRQeiyA"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_AInFEk83EeGvsfzaRQeiyA" id="nameEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_AInFE083EeGvsfzaRQeiyA" visible="false" id="TransitionStereotypeEdgeObject"/>
+        </contained>
+      </contained>
+    </diagrams>
+  </subdiagrams>
+</diagrams:Diagrams>

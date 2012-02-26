@@ -386,6 +386,13 @@
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_tFD3cE89EeGvsfzaRQeiyA" presentation="default">
             <element href="signalTest.uml#_tFOPgE89EeGvsfzaRQeiyA"/>
           </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_PRlbIF-lEeGDnrcNgbl2_Q" position="304,-24" size="-1,-1">
+            <property xmi:id="_PRlbIV-lEeGDnrcNgbl2_Q" key="isVisibleLabel" value="visible"/>
+            <property xmi:id="_PRlbIl-lEeGDnrcNgbl2_Q" key="portPosition" value="8"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PRlbI1-lEeGDnrcNgbl2_Q" presentation="default">
+              <element href="signalTest.uml#_xJ7bEE89EeGvsfzaRQeiyA"/>
+            </semanticModel>
+          </contained>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_ug1R4E89EeGvsfzaRQeiyA" position="270,314" size="40,40">
           <anchorage xmi:id="_varD8E89EeGvsfzaRQeiyA" graphEdge="_vatgME89EeGvsfzaRQeiyA"/>
@@ -420,7 +427,7 @@
     <subdiagrams xmi:id="_76P_QE_bEeGGwYSpWE5KDA"/>
     <subdiagrams xmi:id="_xfHyQE_dEeGGwYSpWE5KDA">
       <model href="signalTest.uml#_ukWqQE_dEeGGwYSpWE5KDA"/>
-      <diagrams xmi:id="_xfHyQU_dEeGGwYSpWE5KDA" position="0,0" size="100,100" name="DispenseWaterActivity" viewport="0,80">
+      <diagrams xmi:id="_xfHyQU_dEeGGwYSpWE5KDA" position="0,0" size="100,100" name="DispenseWaterActivity" viewport="0,0">
         <property xmi:id="_xfnhgE_dEeGGwYSpWE5KDA" key="pageFormatName" value="A4"/>
         <property xmi:id="_xfnhgU_dEeGGwYSpWE5KDA" key="diagramWidth" value="840"/>
         <property xmi:id="_xfnhgk_dEeGGwYSpWE5KDA" key="diagramHeight" value="1188"/>

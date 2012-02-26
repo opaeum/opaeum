@@ -3,8 +3,6 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nakeduml.tinker.runtime.GraphDb;
-
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.pipes.util.SingleIterator;
 
@@ -32,15 +30,8 @@ public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
 	}
 	
 	@Override
-	protected boolean mayContinue() {
-		return doAllIncomingFlowsHaveTokens();
-	}	
-	
-	@Override
 	protected Boolean executeNode() {
 		List<Boolean> flowResult = new ArrayList<Boolean>();
-
-		removeIncomingControlTokens();
 
 		setNodeStatus(NodeStatus.ENABLED);
 		setNodeStatus(NodeStatus.ACTIVE);
@@ -48,21 +39,22 @@ public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
 		execute();
 
 		this.nodeStat.increment();
-		
+
 		boolean oneOutgoingFlowGuardSucceeded = false;
-		//For each out control flow add a control token
-		for (ActivityEdge<T> flow : getOutFlows()) {
-			T controlToken = instantiateToken(flow.getName());
-			if (flow.evaluateGuardConditions(controlToken)) {
-				oneOutgoingFlowGuardSucceeded = true;
-				addOutgoingToken(controlToken);
-				flow.setStarts(new SingleIterator<T>(controlToken));
-				//Continue each out flow with its tokens
-				flowResult.add(flow.processNextStart());
-				break;
-			} else {
-				GraphDb.getDb().removeVertex(controlToken.getVertex());
+		for (T token : getInTokens()) {
+			// For each out flow add a token
+			for (ActivityEdge<T> flow : getOutFlows()) {
+				if (flow.evaluateGuardConditions(token)) {
+					oneOutgoingFlowGuardSucceeded = true;
+					T duplicate = token.duplicate(flow.getName());
+					addOutgoingToken(duplicate);
+					flow.setStarts(new SingleIterator<T>(duplicate));
+					// Continue each out flow with its tokens
+					flowResult.add(flow.processNextStart());
+					break;
+				}
 			}
+			token.remove();
 		}
 		
 		if (!oneOutgoingFlowGuardSucceeded) {
@@ -81,7 +73,6 @@ public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
 		}
 		return result;
 	}
-
-	protected abstract T instantiateToken(String name);	
+	
 
 }
