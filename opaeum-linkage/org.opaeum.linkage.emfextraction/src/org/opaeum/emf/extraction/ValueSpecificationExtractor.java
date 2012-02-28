@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Constraint;
@@ -19,6 +20,7 @@ import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.ObjectNode;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
@@ -31,6 +33,7 @@ import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.internal.NakedActivityEdgeImpl;
+import org.opaeum.metamodel.activities.internal.NakedObjectNodeImpl;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.internal.NakedConstraintImpl;
@@ -106,6 +109,13 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 				nae.setWeight(result);
 			}
 		}
+		if (value.getOwner() instanceof ObjectNode && result.getOwnerElement()!=null){
+			NakedObjectNodeImpl npn = (NakedObjectNodeImpl)result.getOwnerElement() ;
+			ObjectNode an = (ObjectNode) value.getOwner();
+			if(value == an.getUpperBound()){
+				npn.setUpperBound(result);
+			}
+		}
 	}
 	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
@@ -119,6 +129,8 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 				return super.createElementFor(e, peerClass);
 			}else if(owner instanceof Constraint || owner instanceof ActivityEdge || owner instanceof ChangeEvent || owner instanceof EAnnotation
 					|| owner instanceof Slot){
+				return super.createElementFor(e, peerClass);
+			}else if(owner instanceof ObjectNode && e == ((ObjectNode) owner).getUpperBound()){
 				return super.createElementFor(e, peerClass);
 			}else{
 				return null;

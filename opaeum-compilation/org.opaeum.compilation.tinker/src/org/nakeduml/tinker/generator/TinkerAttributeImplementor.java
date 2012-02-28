@@ -23,6 +23,7 @@ import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
@@ -367,7 +368,9 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		} else {
 			adder.getBody().addToStatements(TinkerGenerationUtil.addSetterForSimpleType(map));
 			adder.getBody().addToStatements("this." + map.umlName() + " = val");
-			addEntityToTransactionThreadEntityVar(adder);
+			if (umlOwner instanceof ICompositionParticipant) {
+				addEntityToTransactionThreadEntityVar(adder);
+			}
 		}
 	}
 
@@ -383,7 +386,9 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	public void buildTinkerToOneAdder(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation setter) {
-		addEntityToTransactionThreadEntityVar(setter);
+		if (umlOwner instanceof ICompositionParticipant) {
+			addEntityToTransactionThreadEntityVar(setter);
+		}
 		if (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null) {
 			// Create an edge
 			if (map.getProperty().getOtherEnd() != null) {
@@ -404,7 +409,9 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	}
 
 	public void buildTinkerToOneRemover(INakedClassifier umlOwner, NakedStructuralFeatureMap map, NakedStructuralFeatureMap otherMap, OJAnnotatedClass owner, OJOperation remover) {
-		addEntityToTransactionThreadEntityVar(remover);
+		if (umlOwner instanceof ICompositionParticipant) {
+			addEntityToTransactionThreadEntityVar(remover);
+		}
 		// Manies gets removed in the collection
 		if (map.isOneToOne() && (!map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
 			// Remove the edge
@@ -456,19 +463,12 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 
 	private void buildTinkerGetterForOne(OJAnnotatedClass owner, NakedStructuralFeatureMap map, OJAnnotatedOperation getter) {
 		boolean isComposite = map.getProperty().isComposite();
-		// isComposite = TinkerGenerationUtil.calculateDirection(map,
-		// isComposite);
 		isComposite = map.getProperty().isInverse();
 		INakedClassifier otherClassifier;
 		String otherClassName;
 		String otherAssociationName = TinkerGenerationUtil.getEdgeName(map);
-		if (map.getProperty().getOtherEnd() != null) {
-			otherClassifier = map.getProperty().getOtherEnd().getOwner();
-			otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
-		} else {
-			otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
-			otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
-		}
+		otherClassifier = (INakedClassifier) map.getProperty().getBaseType();
+		otherClassName = otherClassifier.getMappingInfo().getJavaName().getAsIs();
 		OJBlock block = new OJBlock();
 		if (isComposite) {
 			OJSimpleStatement iter = new OJSimpleStatement("Iterable<Edge> iter1 = this.vertex.getOutEdges(\"" + otherAssociationName + "\")");

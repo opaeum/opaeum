@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.nakeduml.runtime.domain.TinkerAuditableNode;
 import org.nakeduml.runtime.domain.TinkerCompositionNode;
+import org.nakeduml.runtime.domain.TinkerNode;
 import org.nakeduml.tinker.runtime.GraphDb;
 import org.nakeduml.tinker.runtime.TransactionThreadEntityVar;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -23,10 +24,12 @@ public abstract class BaseCollection<E> implements Collection<E> {
 
 	protected Collection<E> internalCollection;
 	protected boolean composite;
+	//On a compositional association inverse is true for the set children
 	protected boolean inverse;
 	protected boolean manyToMany;
 	protected boolean loaded = false;
 	protected TinkerCompositionNode owner;
+	//This is the vertex of the owner of the collection
 	protected Vertex vertex;
 	protected String label;
 	protected Class<?> parentClass;
@@ -38,13 +41,14 @@ public abstract class BaseCollection<E> implements Collection<E> {
 			E node = null;
 			try {
 				Class<?> c = this.getClassToInstantiate(edge);
-				Object value = this.getVertexForDirection(edge).getProperty("value");
 				if (c.isEnum()) {
+					Object value = this.getVertexForDirection(edge).getProperty("value");
 					node = (E) Enum.valueOf((Class<? extends Enum>) c, (String) value);
 					this.internalVertexMap.put(value, this.getVertexForDirection(edge));
 				} else if (TinkerCompositionNode.class.isAssignableFrom(c)) {
 					node = (E) c.getConstructor(Vertex.class).newInstance(this.getVertexForDirection(edge));
 				} else {
+					Object value = this.getVertexForDirection(edge).getProperty("value");
 					node = (E) value;
 					this.internalVertexMap.put(value, this.getVertexForDirection(edge));
 				}
@@ -125,6 +129,9 @@ public abstract class BaseCollection<E> implements Collection<E> {
 			TinkerCompositionNode node = (TinkerCompositionNode) e;
 			TransactionThreadEntityVar.setNewEntity((TinkerCompositionNode) node);
 			v = node.getVertex();
+		} else if (e instanceof TinkerNode) {
+			TinkerNode node = (TinkerNode) e;
+			v = node.getVertex();
 		} else if (e.getClass().isEnum()) {
 			v = GraphDb.getDb().addVertex(null);
 			v.setProperty("value", ((Enum<?>) e).name());
@@ -200,7 +207,7 @@ public abstract class BaseCollection<E> implements Collection<E> {
 		} else {
 			// Inverse is only false on many to manies
 			if (!this.manyToMany) {
-				throw new IllegalStateException("Inverse can not be false if the inverse is false");
+				throw new IllegalStateException("Inverse can not be false on many to many");
 			}
 			edge = GraphDb.getDb().addEdge(null, v, this.vertex, this.label);
 			edge.setProperty("outClass", e.getClass().getName());

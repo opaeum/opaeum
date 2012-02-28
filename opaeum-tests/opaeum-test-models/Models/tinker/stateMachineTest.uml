@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA" name="org">
+  <elementImport xmi:id="_q_MbUE82EeGvsfzaRQeiyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_q_OQgE82EeGvsfzaRQeiyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <elementImport xmi:id="_q_OQgU82EeGvsfzaRQeiyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_q_OQgk82EeGvsfzaRQeiyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="stateMachineTest">
+    <packagedElement xmi:type="uml:Class" xmi:id="_nr760E82EeGvsfzaRQeiyA" name="Application">
+      <ownedAttribute xmi:id="_owhkUE82EeGvsfzaRQeiyA" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_wnTTUE82EeGvsfzaRQeiyA" name="window" type="_tiWUkE82EeGvsfzaRQeiyA" aggregation="composite" association="_wnbPIE82EeGvsfzaRQeiyA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wnTTUU82EeGvsfzaRQeiyA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wnTTUk82EeGvsfzaRQeiyA"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_tiWUkE82EeGvsfzaRQeiyA" name="Window" classifierBehavior="_y2rU8E82EeGvsfzaRQeiyA">
+      <ownedAttribute xmi:id="_uq9icE82EeGvsfzaRQeiyA" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_y2rU8E82EeGvsfzaRQeiyA" name="StateMachine1">
+        <region xmi:id="_8gPQME82EeGvsfzaRQeiyA" name="Region1">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_9oaZME82EeGvsfzaRQeiyA" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_-Iu4AE82EeGvsfzaRQeiyA" name="State1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_-a3w4E82EeGvsfzaRQeiyA" name="State2"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_-wsP4E82EeGvsfzaRQeiyA" name="FinalState1"/>
+          <transition xmi:id="__2uD1E82EeGvsfzaRQeiyA" name="Transition1" kind="local" source="_9oaZME82EeGvsfzaRQeiyA" target="_-Iu4AE82EeGvsfzaRQeiyA"/>
+          <transition xmi:id="___T_IE82EeGvsfzaRQeiyA" name="Transition2" kind="local" source="_-Iu4AE82EeGvsfzaRQeiyA" target="_-a3w4E82EeGvsfzaRQeiyA">
+            <trigger xmi:id="_FvbjoE83EeGvsfzaRQeiyA" name=""/>
+          </transition>
+          <transition xmi:id="_AInFFE83EeGvsfzaRQeiyA" name="Transition3" kind="local" source="_-a3w4E82EeGvsfzaRQeiyA" target="_-wsP4E82EeGvsfzaRQeiyA"/>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_EH8BYE83EeGvsfzaRQeiyA" name="open"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_wnbPIE82EeGvsfzaRQeiyA" name="A_&lt;application>_&lt;window>" memberEnd="_wnbPIU82EeGvsfzaRQeiyA _wnTTUE82EeGvsfzaRQeiyA" navigableOwnedEnd="_wnbPIU82EeGvsfzaRQeiyA">
+      <ownedEnd xmi:id="_wnbPIU82EeGvsfzaRQeiyA" name="application" type="_nr760E82EeGvsfzaRQeiyA" association="_wnbPIE82EeGvsfzaRQeiyA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wnbPIk82EeGvsfzaRQeiyA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wnbPI082EeGvsfzaRQeiyA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

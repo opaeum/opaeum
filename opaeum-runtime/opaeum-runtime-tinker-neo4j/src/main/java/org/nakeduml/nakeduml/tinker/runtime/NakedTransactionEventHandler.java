@@ -42,7 +42,7 @@ public class NakedTransactionEventHandler<T> implements TransactionEventHandler<
 						return null;
 					}
 					TransactionThreadEntityVar.clear();
-					throw new IllegalStateException(String.format("Entity %s must have a composite owner of type %s", tinkerNode.getVertex().getId(), "ahem"));
+					throw new IllegalStateException(String.format("Entity %s %s does not have a composite owner", tinkerNode.getClass().getSimpleName(), tinkerNode.getName()));
 
 				}
 			}

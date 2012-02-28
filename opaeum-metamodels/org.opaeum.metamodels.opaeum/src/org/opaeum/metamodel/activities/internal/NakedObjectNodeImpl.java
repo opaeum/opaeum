@@ -15,6 +15,7 @@ import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedMultiplicity;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.internal.NakedMultiplicityElement;
 
 public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INakedObjectNode{
@@ -26,6 +27,7 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	private INakedClassifier baseType;
 	private int index;
 	private INakedExceptionHandler incomingExceptionHandler;
+	private INakedValueSpecification value;
 	public INakedObjectNode getFeedingNode(){
 		return getObjectNodeSource(getIncoming());
 	}
@@ -128,5 +130,12 @@ public class NakedObjectNodeImpl extends NakedActivityNodeImpl implements INaked
 	@Override
 	public boolean fitsInTo(INakedMultiplicityElement other){
 		return NakedMultiplicityElement.fitsInto(this, other);
+	}
+	@Override
+	public INakedValueSpecification getUpperBound() {
+		return this.value;
+	}
+	public void setUpperBound(INakedValueSpecification value) {
+		this.value = value;
 	}
 }

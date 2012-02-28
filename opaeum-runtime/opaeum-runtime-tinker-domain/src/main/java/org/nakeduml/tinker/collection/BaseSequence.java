@@ -95,6 +95,18 @@ public abstract class BaseSequence<E> extends BaseCollection<E> implements Tinke
 					}
 					break;
 				}
+			} else if (o instanceof  TinkerNode) {
+				TinkerNode node = (TinkerNode) o;
+				v = node.getVertex();				
+				Set<Edge> edges = GraphDb.getDb().getEdgesBetween(this.vertex, v, this.label);
+				for (Edge edge : edges) {
+					removeEdgefromIndex(v, edge, indexOf);
+					GraphDb.getDb().removeEdge(edge);
+					if (o instanceof TinkerAuditableNode) {
+						createAudit(e, v, true);
+					}
+					break;
+				}
 			} else if (o.getClass().isEnum()) {
 				v = this.internalVertexMap.get(((Enum<?>) o).name());
 				Edge edge = v.getInEdges(this.label).iterator().next();

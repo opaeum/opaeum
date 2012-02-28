@@ -1,6 +1,7 @@
 package org.opaeum.java.metamodel.annotation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,12 +56,16 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	public OJAnnotationValue removeAnnotation(OJPathName type){
 		return f_annotations.remove(type);
 	}
+	public OJConstructor findConstructor(OJPathName ... parameter1){
+		List<OJPathName> pathNames = Arrays.asList(parameter1);
+		return findConstructor(pathNames);
+	}
 	public OJConstructor findConstructor(OJPathName parameter1){
 		List<OJPathName> pathnames = Collections.singletonList(parameter1);
 		return findConstructor(pathnames);
 	}
 	// public?
-	private OJConstructor findConstructor(List<OJPathName> pathnames){
+	public OJConstructor findConstructor(List<OJPathName> pathnames){
 		for(OJConstructor con:getConstructors()){
 			if(isMatch(pathnames, con.getParamTypes())){
 				return con;
@@ -71,7 +76,7 @@ public class OJAnnotatedClass extends OJClass implements OJAnnotatedElement{
 	private static boolean isMatch(List<OJPathName> pathnames,List<OJPathName> paramTypes){
 		if(paramTypes.size() == pathnames.size()){
 			for(int i = 0;i < paramTypes.size();i++){
-				if(!paramTypes.get(i).equals(pathnames.get(0))){
+				if(!paramTypes.get(i).equals(pathnames.get(i))){
 					return false;
 				}
 			}

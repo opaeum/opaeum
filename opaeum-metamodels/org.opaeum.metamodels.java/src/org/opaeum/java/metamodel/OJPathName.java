@@ -10,6 +10,9 @@ import org.opaeum.java.metamodel.generated.OJPathNameGEN;
 import org.opaeum.java.metamodel.utilities.JavaUtil;
 
 public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
+
+	private List<OJPathName> generics = new ArrayList<OJPathName>();
+	
 	// static public OJPathName VOID = new OJPathName("java.lang.void");
 	/******************************************************
 	 * The constructor for this classifier.
@@ -35,8 +38,24 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 	}
 	public String getLast(){
 		String result = "";
-		if(getNames().size() > 0)
+		if(getNames().size() > 0) {
 			result = (String) getNames().get(getNames().size() - 1);
+		}
+		StringBuilder pathInfo = new StringBuilder();
+		if (!this.generics.isEmpty()) {
+			boolean first = true;
+			pathInfo.append("<");
+			for (OJPathName pathName : this.generics) {
+				if(first){
+					first = false;
+				}else{
+					pathInfo.append(",");
+				}
+				pathInfo.append(pathName.getLast());
+			}
+			pathInfo.append(">");
+			result += pathInfo.toString();
+		}
 		return result;
 	}
 	public OJPathName getHead(){
@@ -82,6 +101,19 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 			}
 			String elem = (String) it.next();
 			pathInfo.append(elem);
+		}
+		if (!this.generics.isEmpty()) {
+			pathInfo.append("<");
+			first = true;
+			for (OJPathName pathName : this.generics) {
+				if(first){
+					first = false;
+				}else{
+					pathInfo.append(",");
+				}
+				pathInfo.append(pathName.toJavaString());
+			}
+			pathInfo.append(">");
 		}
 		return pathInfo.toString();
 	}
@@ -178,5 +210,10 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 			return -1;//Shortest is less
 		}
 		return 0;
+	}
+	
+	public OJPathName addToGenerics(OJPathName path) {
+		this.generics.add(path);
+		return this;
 	}
 }

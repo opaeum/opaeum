@@ -53,7 +53,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	protected static OJPathName COMPOSITION_NODE = new OJPathName(CompositionNode.class.getName());
 	public static final String GET_OWNING_OBJECT = "getOwningObject";
-	private void visitClass(ICompositionParticipant c){
+	protected void visitClass(ICompositionParticipant c){
 
 		if(OJUtil.hasOJClass(c)){
 			OJPathName path = OJUtil.classifierPathname(c);

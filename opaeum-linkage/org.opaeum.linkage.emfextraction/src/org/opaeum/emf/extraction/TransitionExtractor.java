@@ -13,7 +13,7 @@ import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.internal.NakedTransitionImpl;
 
-@StepDependency(phase = EmfExtractionPhase.class,requires = {StateExtractor.class,InstanceExtractor.class},after = {StateExtractor.class,InstanceExtractor.class})
+@StepDependency(phase = EmfExtractionPhase.class,requires = {StateExtractor.class,InstanceExtractor.class, ActivityExtractor.class},after = {ActivityExtractor.class, StateExtractor.class,InstanceExtractor.class})
 public class TransitionExtractor extends CommonBehaviorExtractor{
 	protected List<INakedTypedElement> getEnvironment(){
 		List<INakedTypedElement> result = new ArrayList<INakedTypedElement>();
