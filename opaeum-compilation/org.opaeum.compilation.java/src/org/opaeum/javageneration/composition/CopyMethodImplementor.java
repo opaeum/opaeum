@@ -9,13 +9,11 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJForStatement;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
-import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
 import org.opaeum.java.metamodel.generated.OJVisibilityKindGEN;
 import org.opaeum.javageneration.JavaTransformationPhase;
@@ -63,18 +61,16 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 			oper.setAbstract(true);
 		}else{
 			OJBlock body = oper.getBody();
-			OJAnnotatedField result = new OJAnnotatedField("result", owner.getPathName());
-			result.setInitExp("new " + owner.getName() + "()");
-			body.addToLocals(result);
+			oper.initializeResultVariable("new " + owner.getName() + "()");
+			oper.getResultVariable().setType(owner.getPathName());
 			body.addToStatements("copyShallowState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
 			if(super.transformationContext.isFeatureSelected(PersistentObjectImplementor.class)){
 				body.addToStatements(new OJSimpleStatement("result.setId(this.getId())"));
 			}
-			body.addToStatements("return result");
 		}
 	}
 	private void implementCopyMethod(OJClass owner,INakedClassifier classifier){
-		OJOperation oper = owner.getUniqueOperation("makeCopy");
+		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.getUniqueOperation("makeCopy");
 		if(oper == null){
 			oper = new OJAnnotatedOperation("makeCopy");
 			oper.setReturnType(OJUtil.classifierPathname(classifier));
@@ -86,12 +82,11 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 			// Can NEVER instantiate abstract objects
 			oper.setAbstract(true);
 		}else{
+			oper.initializeResultVariable("new " + owner.getName() + "()");
+			oper.getResultVariable().setType(owner.getPathName());
+
 			OJBlock body = oper.getBody();
-			OJAnnotatedField result = new OJAnnotatedField("result", owner.getPathName());
-			result.setInitExp("new " + owner.getName() + "()");
-			body.addToLocals(result);
 			body.addToStatements("copyState((" + classifier.getMappingInfo().getJavaName() + ")this,result)");
-			body.addToStatements("return result");
 		}
 	}
 	private void addCopyStateMethod(INakedClassifier classifier,OJClass owner){
@@ -181,18 +176,14 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 								copyMany.setReturnType(map.javaTypePath());
 								owner.addToOperations(copyMany);
 								copyMany.addParam("from", map.javaTypePath());
-								OJField result = new OJField();
-								result.setName("result");
-								result.setType(map.javaTypePath());
 								owner.addToImports(map.javaDefaultTypePath());
-								result.setInitExp("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
-								copyMany.getBody().addToLocals(result);
+								copyMany.initializeResultVariable("new " + map.javaDefaultTypePath().getLast() + "<" + map.javaBaseType() + ">()");
+								copyMany.getResultVariable().setType(owner.getPathName());
 								OJForStatement forS = new OJForStatement("", "", "entity", "from");
 								forS.setElemType(map.javaBaseTypePath());
 								forS.setBody(forBlock);
 								forBlock.addToStatements(new OJSimpleStatement("result.add(entity." + copyMethodName + "())"));
 								copyMany.getBody().addToStatements(forS);
-								copyMany.getBody().addToStatements("return result");
 							}
 						}
 					}

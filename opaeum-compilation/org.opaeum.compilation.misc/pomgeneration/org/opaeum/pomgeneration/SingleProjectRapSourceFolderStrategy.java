@@ -36,7 +36,7 @@ public class SingleProjectRapSourceFolderStrategy implements ISourceFolderStrate
 		webAppRoot.dontCleanDirectoriesOrOverwriteFiles();
 		SourceFolderDefinition webProjectRoot = cfg.defineSourceFolder(TextSourceFolderIdentifier.WEB_PROJECT_ROOT,
 				ProjectNameStrategy.QUALIFIED_WORKSPACE_NAME_AND_SUFFIX, ".webapp", "");
-		webProjectRoot.dontCleanDirectoriesOrOverwriteFiles();
+		webProjectRoot.dontCleanDirectories();
 	}
 	private static void mapDomainProjects(OpaeumConfig cfg){
 		cfg.defineSourceFolder(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC,

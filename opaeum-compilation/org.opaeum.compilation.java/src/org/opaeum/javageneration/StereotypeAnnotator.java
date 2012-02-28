@@ -10,6 +10,7 @@ import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnumValue;
@@ -44,6 +45,9 @@ public class StereotypeAnnotator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void applyStereotypeAsAnnotation(OJAnnotatedElement javaElement,INakedInstanceSpecification stereotypeApplication){
+		if(javaElement instanceof OJAnnotatedField ){
+			OJAnnotatedField  f = (OJAnnotatedField) javaElement;
+		}
 		OJAnnotationValue an = buildAnnotation(stereotypeApplication);
 		putAnnotation(javaElement, an);
 	}

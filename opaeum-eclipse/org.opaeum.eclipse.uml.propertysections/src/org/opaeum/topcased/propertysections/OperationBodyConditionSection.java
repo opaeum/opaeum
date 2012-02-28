@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.topcased.propertysections.base.AbstractOpaqueExpressionSection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OperationBodyConditionSection extends AbstractOpaqueExpressionSection{

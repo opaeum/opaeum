@@ -16,4 +16,5 @@ Require-Bundle: org.opaeum.rap.domain;bundle-version="1.0.0",
  javax.validation;bundle-version="1.0.0"
 Export-Package: org.opaeum.audit,
  org.opaeum.environment.adaptor,
- org.opaeum.hibernate.domain
+ org.opaeum.hibernate.domain,
+ org.opaeum.runtime.domain

@@ -401,13 +401,13 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			type = pin.getValue().getOclValue().getExpression().getExpressionType();
 		}else if(pin.getValue().isLiteral()){
 			if(pin.getValue().getValue() instanceof Boolean){
-				type = getBuiltInTypes().getBooleanType();
+				type = getLibrary().getBooleanType();
 			}else if(pin.getValue().getValue() instanceof String){
-				type = getBuiltInTypes().getStringType();
+				type = getLibrary().getStringType();
 			}else if(pin.getValue().getValue() instanceof Integer){
-				type = getBuiltInTypes().getIntegerType();
+				type = getLibrary().getIntegerType();
 			}else if(pin.getValue().getValue() instanceof Double){
-				type = getBuiltInTypes().getRealType();
+				type = getLibrary().getRealType();
 			}
 		}
 		if(type != null){
@@ -432,7 +432,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			pin.setIsUnique(collectionType.getMetaType() == CollectionMetaType.SET || collectionType.getMetaType() == CollectionMetaType.ORDEREDSET);
 		}else if(type instanceof StdlibPrimitiveType){
 			StdlibPrimitiveType standardType = (StdlibPrimitiveType) type;
-			pin.setBaseType(getBuiltInTypes().lookupStandardType(standardType));
+			pin.setBaseType(getLibrary().lookupStandardType(standardType));
 			pin.setMultiplicity(new NakedMultiplicityImpl(pin.getNakedMultiplicity().getLower(), 1));
 		}
 	}
@@ -493,11 +493,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			java.io.Reader r = new java.io.BufferedReader(sr);
 			OclParser parser = new OclParser(r);
 			try{
-				if(getBuiltInTypes().getBusinessRole() != null){
-					env.addElement("currentRole", new VariableDeclaration("currentRole", getBuiltInTypes().getBusinessRole()), false);
+				if(getLibrary().getBusinessRole() != null){
+					env.addElement("currentRole", new VariableDeclaration("currentRole", getLibrary().getBusinessRole()), false);
 				}
-				if(getBuiltInTypes().getOpaeumPerson() != null){
-					env.addElement("currentUser", new VariableDeclaration("currentUser", getBuiltInTypes().getOpaeumPerson()), false);
+				if(getLibrary().getOpaeumPerson() != null){
+					env.addElement("currentUser", new VariableDeclaration("currentUser", getLibrary().getOpaeumPerson()), false);
 				}
 				ast = ea.analyzeParsetree(parser.OclExpression(), c, ns, env);
 				IOclContext newC = transformIntoOclContext(holder, ast, localErrors);

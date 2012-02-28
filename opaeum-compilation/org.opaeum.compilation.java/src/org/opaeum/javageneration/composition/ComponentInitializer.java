@@ -12,13 +12,14 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.javageneration.AbstractJavaProducingVisitor;
 import org.opaeum.javageneration.JavaTransformationPhase;
+import org.opaeum.javageneration.basicjava.AbstractStructureVisitor;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.linkage.CompositionEmulator;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedComplexStructure;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
@@ -29,33 +30,28 @@ import org.opaeum.metamodel.core.INakedStructuredDataType;
  * This class implements the 'createComponents()' method. This method takes the semantics of compositional relationships one step further:
  * if the entity has compositional children that are required, it creates them and adds their initialization to the init method
  */
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		CompositionEmulator.class,CompositionNodeImplementor.class
-},after = {
-	CompositionNodeImplementor.class
-})
-public class ComponentInitializer extends AbstractJavaProducingVisitor{
-	@VisitAfter(matchSubclasses = true)
-	public void visitClassifier(INakedEntity entity){
+@StepDependency(phase = JavaTransformationPhase.class,requires = {CompositionEmulator.class,CompositionNodeImplementor.class},after = {CompositionNodeImplementor.class})
+public class ComponentInitializer extends AbstractStructureVisitor{
+	@Override
+	protected void visitComplexStructure(INakedComplexStructure entity){
 		if(OJUtil.hasOJClass(entity)){
-			OJAnnotatedClass ojClass = findJavaClass(entity);
-			OJOperation init = ojClass.getUniqueOperation("init");
-			List<? extends INakedProperty> aws = entity.getOwnedAttributes();
-			init.getBody().addToStatements("createComponents()");
-			OJOperation createComponents = new OJAnnotatedOperation("createComponents");
-			init.getOwner().addToOperations(createComponents);
-			createComponents.setBody(new OJBlock());
-			if(entity.hasSupertype()){
-				createComponents.getBody().addToStatements("super.createComponents()");
-			}
-			for(int i = 0;i < aws.size();i++){
-				IModelElement a = (IModelElement) aws.get(i);
-				if(a instanceof INakedProperty){
-					INakedProperty np = (INakedProperty) a;
+			if(entity instanceof INakedEntity){
+				OJAnnotatedClass ojClass = findJavaClass(entity);
+				OJOperation init = ojClass.getUniqueOperation("init");
+				List<? extends INakedProperty> aws = entity.getOwnedAttributes();
+				init.getBody().addToStatements("createComponents()");
+				OJOperation createComponents = new OJAnnotatedOperation("createComponents");
+				init.getOwner().addToOperations(createComponents);
+				createComponents.setBody(new OJBlock());
+				if(entity.hasSupertype()){
+					createComponents.getBody().addToStatements("super.createComponents()");
+				}
+				for(INakedProperty np:aws){
 					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(np);
-					if(!np.isDerived() && (np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType)){
+					if(!np.isDerived()
+							&& (np.getNakedBaseType() instanceof INakedEntity || np.getNakedBaseType() instanceof INakedStructuredDataType)){
 						INakedClassifier type = np.getNakedBaseType();
-						if(np.hasQualifiers() && np.getNakedMultiplicity().getLower() == 1 && np.getQualifiers().size() == 1
+						if(isMap(np) && np.getNakedMultiplicity().getLower() == 1 && np.getQualifiers().size() == 1
 								&& (np.getQualifiers().get(0)).getNakedBaseType() instanceof INakedEnumeration){
 							INakedProperty qualifier = np.getQualifiers().get(0);
 							INakedEnumeration en = (INakedEnumeration) qualifier.getNakedBaseType();
@@ -65,12 +61,11 @@ public class ComponentInitializer extends AbstractJavaProducingVisitor{
 							ifEmpty.getThenPart().addToStatements(type.getMappingInfo().getJavaName() + " new" + np.getMappingInfo().getJavaName());
 							List<INakedEnumerationLiteral> ownedLiterals = en.getOwnedLiterals();
 							for(INakedEnumerationLiteral l:ownedLiterals){
-								ifEmpty.getThenPart().addToStatements("new" + np.getMappingInfo().getJavaName() + "= new " + type.getMappingInfo().getJavaName() + "()");
 								ifEmpty.getThenPart().addToStatements(
-										"addTo" + np.getMappingInfo().getJavaName().getCapped() + "(" + "new" + np.getMappingInfo().getJavaName() + ")");
+										"new" + np.getMappingInfo().getJavaName() + "= new " + type.getMappingInfo().getJavaName() + "()");
 								ifEmpty.getThenPart().addToStatements(
-										"new" + np.getMappingInfo().getJavaName() + ".set" + qualifier.getMappingInfo().getJavaName().getCapped() + "("
-												+ en.getMappingInfo().getQualifiedJavaName() + "." + l.getMappingInfo().getJavaName().getUpperCase() + ")");
+										map.adder() + "(" + en.getMappingInfo().getQualifiedJavaName() + "." + l.getMappingInfo().getJavaName().getUpperCase()
+												+ ",new" + np.getMappingInfo().getJavaName() + ")");
 							}
 							createComponents.getBody().addToStatements(ifEmpty);
 							if(np.getNakedBaseType() instanceof ICompositionParticipant){
@@ -91,5 +86,9 @@ public class ComponentInitializer extends AbstractJavaProducingVisitor{
 				}
 			}
 		}
+	}
+	@Override
+	protected void visitProperty(INakedClassifier owner,NakedStructuralFeatureMap buildStructuralFeatureMap){
+		// TODO Auto-generated method stub
 	}
 }

@@ -63,6 +63,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		constr.getBody().addToStatements("this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000)");
 		handler.addToConstructors(constr);
 		handler.addToImplementedInterfaces(new OJPathName(ISignalEventHandler.class.getName()));
+		handler.addToImports("org.opaeum.runtime.environment.Environment");
 		findOrCreatePackage(handlerTypePath.getHead()).addToClasses(handler);
 		createTextPath(handler, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		addMarshallingImports(handler);
@@ -70,22 +71,24 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		OJAnnotatedOperation marshall = buildMarshall(s, "signal", effectiveAttributes, false);
 		handler.addToOperations(marshall);
 		if(s.isNotification()){
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, from))");
-			OJUtil.addTransientProperty(handler, "from", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-21l, cc))");
-			OJUtil.addTransientProperty(handler, "cc", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-22l, bcc))");
-			OJUtil.addTransientProperty(handler, "bcc", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
-			marshall.getBody().addToStatements("result.add(new PropertyValue(-23l, to))");
-			OJUtil.addTransientProperty(handler, "to", new OJPathName("java.util.HashSet<INotificationReceiver>"), true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-20l, Value.valueOf(from)))");
+			OJPathName setOfReceiver = new OJPathName("java.util.HashSet");
+			setOfReceiver.addToElementTypes(new OJPathName("org.opaeum.runtime.event.INotificationReceiver"));
+			OJUtil.addTransientProperty(handler, "from", new OJPathName("org.opaeum.runtime.event.INotificationReceiver"), true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-21l, Value.valueOf(cc)))");
+			OJUtil.addTransientProperty(handler, "cc", setOfReceiver, true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-22l, Value.valueOf(bcc)))");
+			OJUtil.addTransientProperty(handler, "bcc", setOfReceiver, true);
+			marshall.getBody().addToStatements("result.add(new PropertyValue(-23l, Value.valueOf(to)))");
+			OJUtil.addTransientProperty(handler, "to", setOfReceiver, true);
 		}
 		OJAnnotatedOperation unmarshall = buildUnmarshall(s, "signal", effectiveAttributes, false);
 		if(s.isNotification()){
-			unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
-			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-20l", "this.from=(String)Value.valueOf(p.getValue(),persistence)"));
-			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-21l", "this.cc=(String)Value.valueOf(p.getValue(),persistence)"));
-			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-22l", "this.bcc=(String)Value.valueOf(p.getValue(),persistence)"));
-			unmarshall.getBody().addToStatements(new OJIfStatement("p.getId()==-23l", "this.t=(String)Value.valueOf(p.getValue(),persistence)"));
+			OJForStatement ps = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
+			ps.getBody().addToStatements(new OJIfStatement("p.getId()==-20l", "this.from=(INotificationReceiver)Value.valueOf(p.getValue(),persistence)"));
+			ps.getBody().addToStatements(new OJIfStatement("p.getId()==-21l", "this.cc=(HashSet<INotificationReceiver>)Value.valueOf(p.getValue(),persistence)"));
+			ps.getBody().addToStatements(new OJIfStatement("p.getId()==-22l", "this.bcc=(HashSet<INotificationReceiver>)Value.valueOf(p.getValue(),persistence)"));
+			ps.getBody().addToStatements(new OJIfStatement("p.getId()==-23l", "this.to=(HashSet<INotificationReceiver>)Value.valueOf(p.getValue(),persistence)"));
 		}
 		addIsEvent(handler, constr, marshall, unmarshall);
 		OJAnnotatedField result = new OJAnnotatedField("signal", c);
@@ -341,7 +344,7 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		argConstr.getBody().addToStatements("this.isEvent=isEvent");
 	}
 	private void addIsEventMarshal(OJAnnotatedOperation marshall){
-		marshall.getBody().addToStatements(marshall.getBody().getStatements().size() - 1, "result.add(new PropertyValue(-6l, Value.valueOf(isEvent)))");
+		marshall.getBody().addToStatements(Math.max(0,marshall.getBody().getStatements().size() - 1), "result.add(new PropertyValue(-6l, Value.valueOf(isEvent)))");
 	}
 	private void addIsEventUnmarshall(OJAnnotatedOperation unmarshall){
 		OJForStatement sst = (OJForStatement) unmarshall.getBody().findStatementRecursive(PROPERTY_ID_SWITCH);
@@ -385,10 +388,8 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 	private OJAnnotatedOperation buildMarshall(INakedClassifier parent,String target,Collection<? extends INakedTypedElement> e,boolean includeNodeId){
 		OJPathName collectionOfPropertyValues = getCollectionOfPropertyValues();
 		OJAnnotatedOperation marshall = new OJAnnotatedOperation("marshall", collectionOfPropertyValues);
-		OJAnnotatedField result = new OJAnnotatedField("result", collectionOfPropertyValues);
 		OJBlock blo = marshall.getBody();
-		blo.addToLocals(result);
-		result.setInitExp("new ArrayList<PropertyValue>()");
+		marshall.initializeResultVariable("new ArrayList<PropertyValue>()");
 		for(INakedTypedElement p:e){
 			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(parent, p);
 			blo.addToStatements("result.add(new PropertyValue(" + p.getMappingInfo().getOpaeumId() + "l, Value.valueOf(" + target + "." + map.getter() + "())))");
@@ -396,7 +397,6 @@ public class EventHandlerImplementor extends AbstractJavaProducingVisitor{
 		if(includeNodeId){
 			marshall.getBody().addToStatements("result.add(new PropertyValue(-5l, Value.valueOf(nodeId)))");
 		}
-		blo.addToStatements("return result");
 		return marshall;
 	}
 	private OJPathName getCollectionOfPropertyValues(){

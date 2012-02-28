@@ -104,7 +104,7 @@ public class RegenerateUuids extends AbstractOpaeumAction{
 					}
 				}
 			}
-			 populateAnnotation(e, keywords);
+//			 populateAnnotation(e, keywords);
 		}
 		private void populateAnnotation(Element o,Set<String> keywords){
 			// FIrst generate the ID appropriately

@@ -20,7 +20,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.name.SingularNameWrapper;
-import org.opaeum.topcased.propertysections.AbstractOclBodyBodySection;
+import org.opaeum.topcased.propertysections.base.AbstractOclBodyBodySection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public abstract class AbstractArtificialOpaqueExpressionSection extends AbstractOclBodyBodySection{

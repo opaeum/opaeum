@@ -14,4 +14,14 @@ public class StandaloneJpaConversationalPersistence extends AbstractJpaConversat
 	protected EntityManager getEntityManager(){
 		return entityManager;
 	}
+	@Override
+	public void flush(){
+		if(entityManager.getTransaction()!=null && entityManager.getTransaction().isActive()){
+		super.flush();
+		}else{
+			entityManager.getTransaction().begin();
+			super.flush();
+			entityManager.getTransaction().commit();
+		}
+	}
 }

@@ -8,7 +8,7 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.topcased.propertysections.AbstractTriggerSection;
+import org.opaeum.topcased.propertysections.base.AbstractTriggerSection;
 
 public class TransitionTriggerSection extends AbstractTriggerSection{
 	@Override

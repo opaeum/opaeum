@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_XkGiwB07Ed-QQ4mYkrb7Gg" name="OpaeumStandardProfile">
+<uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_XkGiwB07Ed-QQ4mYkrb7Gg" name="OpaeumStandardProfile">
   <eAnnotations xmi:id="_CJba8M5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org">
     <details xmi:id="_CJba8c5OEeCdMfaUBBrWVQ" key="uuid" value="48e3a22b_66a7_4f76_8d14_662244361cc9"/>
   </eAnnotations>
@@ -8,7 +8,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NK0SJBEeGYwegmKZeKqg" name="ValueType">
         <eAnnotations xmi:id="_1_NK0iJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="__6EbgMPwEd-SNsUNWzjz5A"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NK0yJBEeGYwegmKZeKqg" name="base_DataType" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//DataType"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//DataType"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NK1SJBEeGYwegmKZeKqg" name="mappedImplementationType" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -20,7 +20,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NK2SJBEeGYwegmKZeKqg" name="PrimitiveType">
         <eAnnotations xmi:id="_1_NK2iJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_pcOdkMbyEd-qWtMD5IZMIA"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NK2yJBEeGYwegmKZeKqg" name="base_PrimitiveType" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//PrimitiveType"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//PrimitiveType"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NK3SJBEeGYwegmKZeKqg" name="strategyFactory" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -29,7 +29,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NK3yJBEeGYwegmKZeKqg" name="Entity">
         <eAnnotations xmi:id="_1_NK4CJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_kh880DsuEeC5OLJvkS0EWA"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NK4SJBEeGYwegmKZeKqg" name="base_Class" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Class"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NK4yJBEeGYwegmKZeKqg" name="persistentName" ordered="false">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -41,7 +41,7 @@
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NK6SJBEeGYwegmKZeKqg" name="nameProperty" ordered="false">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Property"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NK6yJBEeGYwegmKZeKqg" name="AbstractPackage">
@@ -59,7 +59,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NK8yJBEeGYwegmKZeKqg" name="Helper">
         <eAnnotations xmi:id="_1_NK9CJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_W2Dx8O15Ed-YtrI3G6ybsA"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NK9SJBEeGYwegmKZeKqg" name="base_Classifier" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Classifier"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Classifier"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NK9yJBEeGYwegmKZeKqg" name="name" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -82,7 +82,7 @@
         <eAnnotations xmi:id="_1_NLBSJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_Fd9DQPPzEd-dN_RbXTlVPA"/>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NLBiJBEeGYwegmKZeKqg" name="timeUnit" ordered="false" lowerBound="1" eType="_1_NK-yJBEeGYwegmKZeKqg"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NLCCJBEeGYwegmKZeKqg" name="base_TimeEvent" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//TimeEvent"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//TimeEvent"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_Nx4CJBEeGYwegmKZeKqg" name="Trigger">
@@ -91,7 +91,7 @@
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_Nx5CJBEeGYwegmKZeKqg" name="base_Trigger" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Trigger"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Trigger"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_Nx5iJBEeGYwegmKZeKqg" name="Model" eSuperTypes="_1_NK6yJBEeGYwegmKZeKqg">
@@ -100,13 +100,13 @@
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_Nx6iJBEeGYwegmKZeKqg" name="base_Model" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Model"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Model"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_Nx7SJBEeGYwegmKZeKqg" name="Profile" eSuperTypes="_1_NK6yJBEeGYwegmKZeKqg">
         <eAnnotations xmi:id="_1_Nx7iJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_cY1BQNYIEeCIftwUy_ucRw"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_Nx7yJBEeGYwegmKZeKqg" name="base_Profile" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Profile"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Profile"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_Nx8SJBEeGYwegmKZeKqg" name="identifier" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -115,7 +115,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_Nx9CJBEeGYwegmKZeKqg" name="Package" eSuperTypes="_1_NK6yJBEeGYwegmKZeKqg">
         <eAnnotations xmi:id="_1_Nx9SJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_P9ezgNYLEeCIftwUy_ucRw"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_Nx9iJBEeGYwegmKZeKqg" name="base_Package" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Package"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Package"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_Nx-SJBEeGYwegmKZeKqg" name="Property" eSuperTypes="_1_NyACJBEeGYwegmKZeKqg">
@@ -124,7 +124,7 @@
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_Nx_SJBEeGYwegmKZeKqg" name="base_Property" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Property"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NyACJBEeGYwegmKZeKqg" name="AbstractProperty">
@@ -159,7 +159,7 @@
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NyGiJBEeGYwegmKZeKqg" name="base_Model" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Model"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Model"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NyHSJBEeGYwegmKZeKqg" name="AssociationEnd" eSuperTypes="_1_NyACJBEeGYwegmKZeKqg">
@@ -168,13 +168,13 @@
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NyISJBEeGYwegmKZeKqg" name="base_Property" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Property"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
         </eStructuralFeatures>
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NyJCJBEeGYwegmKZeKqg" name="Attribute" eSuperTypes="_1_NyACJBEeGYwegmKZeKqg">
         <eAnnotations xmi:id="_1_NyJSJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_oUkywCAQEeGvZZlzr0lwHg"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NyJiJBEeGYwegmKZeKqg" name="base_Property" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Property"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Property"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NyKCJBEeGYwegmKZeKqg" name="persistentName" ordered="false">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -186,7 +186,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NyLSJBEeGYwegmKZeKqg" name="Association">
         <eAnnotations xmi:id="_1_NyLiJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_tr-VQCAQEeGvZZlzr0lwHg"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NyLyJBEeGYwegmKZeKqg" name="base_Association" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Association"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Association"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NyMSJBEeGYwegmKZeKqg" name="persistentName" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -195,7 +195,7 @@
       <eClassifiers xmi:type="ecore:EClass" xmi:id="_1_NyMyJBEeGYwegmKZeKqg" name="Component" eSuperTypes="_1_NK6yJBEeGYwegmKZeKqg">
         <eAnnotations xmi:id="_1_NyNCJBEeGYwegmKZeKqg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_v-YvcCCiEeGiGJSJsNSSjg"/>
         <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1_NyNSJBEeGYwegmKZeKqg" name="base_Component" ordered="false" lowerBound="1">
-          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Component"/>
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Component"/>
         </eStructuralFeatures>
         <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1_NyNyJBEeGYwegmKZeKqg" name="mappedImplementationType" ordered="false" lowerBound="1">
           <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -207,43 +207,33 @@
     </contents>
   </eAnnotations>
   <elementImport xmi:id="_A986YMPxEd-SNsUNWzjz5A">
-    <eAnnotations xmi:id="_CJhhkM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#PrimitiveType"/>
   </elementImport>
   <elementImport xmi:id="_DMl8MMPxEd-SNsUNWzjz5A">
-    <eAnnotations xmi:id="_CJrSkM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#DataType"/>
   </elementImport>
   <elementImport xmi:id="_lp0j0DsuEeC5OLJvkS0EWA">
-    <eAnnotations xmi:id="_CJjWw85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
   </elementImport>
   <elementImport xmi:id="_oU9UYDsuEeC5OLJvkS0EWA">
-    <eAnnotations xmi:id="_CJdQI85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Package"/>
   </elementImport>
   <elementImport xmi:id="_SBfpUF53Ed-rtK3sI5v_aQ">
-    <eAnnotations xmi:id="_CJgTc85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
   </elementImport>
   <elementImport xmi:id="_IBk2kPPzEd-dN_RbXTlVPA">
-    <eAnnotations xmi:id="_CJcCAs5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeEvent"/>
   </elementImport>
   <elementImport xmi:id="_e0N2MP3eEd-uA4oh6NA2Cw">
-    <eAnnotations xmi:id="_CJcCAM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Trigger"/>
   </elementImport>
   <elementImport xmi:id="_WseicNYIEeCIftwUy_ucRw">
-    <eAnnotations xmi:id="_h20owNxPEeCo2u_sV3elog" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Model"/>
   </elementImport>
   <elementImport xmi:id="_eEFpMNYIEeCIftwUy_ucRw">
-    <eAnnotations xmi:id="_h29LoNxPEeCo2u_sV3elog" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Profile"/>
   </elementImport>
   <elementImport xmi:id="_igcJUN7HEeCmRficbXEeTA">
-    <eAnnotations xmi:id="_xgMb4ODlEeCsDuwu_RQvSA" source="http://www.opaeum.org"/>
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
   </elementImport>
   <elementImport xmi:id="_rx-twCAQEeGvZZlzr0lwHg">
@@ -253,42 +243,30 @@
     <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Component"/>
   </elementImport>
   <packageImport xmi:id="_b3qnYCWuEd62NaW46C6lHg">
-    <eAnnotations xmi:id="_CJgTdc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
   <packageImport xmi:id="_YlKXIB07Ed-QQ4mYkrb7Gg">
-    <eAnnotations xmi:id="_CJkk4s5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
   </packageImport>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="__6EbgMPwEd-SNsUNWzjz5A" name="ValueType">
-    <eAnnotations xmi:id="_CJfsYM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_HIM2IcPxEd-SNsUNWzjz5A" name="base_DataType" association="_HIMPEMPxEd-SNsUNWzjz5A">
-      <eAnnotations xmi:id="_CJfsYs5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#DataType"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_TM8aYMPxEd-SNsUNWzjz5A" name="mappedImplementationType">
-      <eAnnotations xmi:id="_CJgTcc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_8GH9cMbdEd-qWtMD5IZMIA" name="strategyFactory">
-      <eAnnotations xmi:id="_CJfsZM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_HIMPEMPxEd-SNsUNWzjz5A" name="DataType_SimpleType" memberEnd="_HIM2IMPxEd-SNsUNWzjz5A _HIM2IcPxEd-SNsUNWzjz5A" navigableOwnedEnd="_HIM2IMPxEd-SNsUNWzjz5A">
-    <eAnnotations xmi:id="_CJg6gc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_HIM2IMPxEd-SNsUNWzjz5A" name="extension_SimpleType" type="__6EbgMPwEd-SNsUNWzjz5A" aggregation="composite" association="_HIMPEMPxEd-SNsUNWzjz5A">
-      <eAnnotations xmi:id="_CJg6g85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_HIM2IMPxEd-SNsUNWzjz5A" name="extension_SimpleType" type="__6EbgMPwEd-SNsUNWzjz5A" aggregation="composite" association="_HIMPEMPxEd-SNsUNWzjz5A"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_pcOdkMbyEd-qWtMD5IZMIA" name="PrimitiveType">
-    <eAnnotations xmi:id="_CJiIoc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_rMycQsbyEd-qWtMD5IZMIA" name="base_PrimitiveType" association="_rMycQMbyEd-qWtMD5IZMIA">
-      <eAnnotations xmi:id="_CJiIo85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#PrimitiveType"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_r3XDQMbyEd-qWtMD5IZMIA" name="strategyFactory">
-      <eAnnotations xmi:id="_ZFmRsCAREeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
@@ -296,251 +274,154 @@
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_rMycQcbyEd-qWtMD5IZMIA" name="extension_PrimitiveType" type="_pcOdkMbyEd-qWtMD5IZMIA" aggregation="composite" association="_rMycQMbyEd-qWtMD5IZMIA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_kh880DsuEeC5OLJvkS0EWA" name="Entity">
-    <eAnnotations xmi:id="_ZFoG4CAREeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_r5B4EjsuEeC5OLJvkS0EWA" name="base_Class" association="_r5B4EDsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_CJfFUs5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_tCXesDsuEeC5OLJvkS0EWA" name="persistentName">
-      <eAnnotations xmi:id="_CJfFUM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_BjaFYCCjEeGiGJSJsNSSjg"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_0WeFcODlEeCsDuwu_RQvSA" name="generateAbstractSupertype">
-      <eAnnotations xmi:id="_0Wn2cODlEeCsDuwu_RQvSA" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_5nO5ACCiEeGiGJSJsNSSjg" name="mappedImplementationType">
-      <eAnnotations xmi:id="_nVY1ICCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_A6x_ICCjEeGiGJSJsNSSjg"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_aY7C0CFmEeGWOYQZVSMZ9g" name="nameProperty">
-      <eAnnotations xmi:id="_acYmgCFmEeGWOYQZVSMZ9g" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nrH4sCFmEeGWOYQZVSMZ9g"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_mmu4ADsuEeC5OLJvkS0EWA" name="AbstractPackage">
-    <eAnnotations xmi:id="_CJqEcM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_umsYMDsuEeC5OLJvkS0EWA" name="persistentName">
-      <eAnnotations xmi:id="_CJqrhc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_wjy-EDsuEeC5OLJvkS0EWA" name="mappedImplementationPackage">
-      <eAnnotations xmi:id="_CJqEdM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_3XZ_4DsuEeC5OLJvkS0EWA" name="isSchema">
-      <eAnnotations xmi:id="_CJqrgc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_MJThgDsvEeC5OLJvkS0EWA">
-        <eAnnotations xmi:id="_CJqrg85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-      </defaultValue>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_MJThgDsvEeC5OLJvkS0EWA"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_r5B4EDsuEeC5OLJvkS0EWA" name="Class_Entity" memberEnd="_r5B4ETsuEeC5OLJvkS0EWA _r5B4EjsuEeC5OLJvkS0EWA" navigableOwnedEnd="_r5B4ETsuEeC5OLJvkS0EWA">
-    <eAnnotations xmi:id="_CJcpFc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_r5B4ETsuEeC5OLJvkS0EWA" name="extension_Entity" type="_kh880DsuEeC5OLJvkS0EWA" aggregation="composite" association="_r5B4EDsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_CJdQIc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_r5B4ETsuEeC5OLJvkS0EWA" name="extension_Entity" type="_kh880DsuEeC5OLJvkS0EWA" aggregation="composite" association="_r5B4EDsuEeC5OLJvkS0EWA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_W2Dx8O15Ed-YtrI3G6ybsA" name="Helper">
-    <eAnnotations xmi:id="_CJivss5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_X_iigu15Ed-YtrI3G6ybsA" name="base_Classifier" association="_X_iigO15Ed-YtrI3G6ybsA">
-      <eAnnotations xmi:id="_CJjWwc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_oVi34O2KEd-LHImu-adf5Q" name="name">
-      <eAnnotations xmi:id="_CJivtM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_87-AMCCiEeGiGJSJsNSSjg" name="mappedImplementationType">
-      <eAnnotations xmi:id="_nUpOQCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DKDTECCjEeGiGJSJsNSSjg"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_X_iigO15Ed-YtrI3G6ybsA" name="Classifier_Helper" memberEnd="_X_iige15Ed-YtrI3G6ybsA _X_iigu15Ed-YtrI3G6ybsA" navigableOwnedEnd="_X_iige15Ed-YtrI3G6ybsA">
-    <eAnnotations xmi:id="_CJd3MM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_X_iige15Ed-YtrI3G6ybsA" name="extension_Helper" type="_W2Dx8O15Ed-YtrI3G6ybsA" aggregation="composite" association="_X_iigO15Ed-YtrI3G6ybsA">
-      <eAnnotations xmi:id="_CJd3Ms5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_X_iige15Ed-YtrI3G6ybsA" name="extension_Helper" type="_W2Dx8O15Ed-YtrI3G6ybsA" aggregation="composite" association="_X_iigO15Ed-YtrI3G6ybsA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Enumeration" xmi:id="_y0TnkPPyEd-dN_RbXTlVPA" name="TimeUnit">
-    <eAnnotations xmi:id="_CJkk5M5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org" references="_y0VcwfPyEd-dN_RbXTlVPA _y0XR8fPyEd-dN_RbXTlVPA _y0X5APPyEd-dN_RbXTlVPA _y0VcwPPyEd-dN_RbXTlVPA _y0U1sPPyEd-dN_RbXTlVPA _y0X5AfPyEd-dN_RbXTlVPA _y0YgEPPyEd-dN_RbXTlVPA"/>
-    <ownedLiteral xmi:id="_y0U1sPPyEd-dN_RbXTlVPA" name="HOUR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJnBI85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0VcwPPyEd-dN_RbXTlVPA" name="MINUTE" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJmaEM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0VcwfPyEd-dN_RbXTlVPA" name="SECOND" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJlL8s5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0XR8fPyEd-dN_RbXTlVPA" name="DAY" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJlzAc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0X5APPyEd-dN_RbXTlVPA" name="MONTH" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJlzBc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0X5AfPyEd-dN_RbXTlVPA" name="WEEK" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJoPQ85OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_y0YgEPPyEd-dN_RbXTlVPA" name="YEAR" classifier="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJo2UM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedLiteral>
+    <ownedLiteral xmi:id="_y0U1sPPyEd-dN_RbXTlVPA" name="HOUR"/>
+    <ownedLiteral xmi:id="_y0VcwPPyEd-dN_RbXTlVPA" name="MINUTE"/>
+    <ownedLiteral xmi:id="_y0VcwfPyEd-dN_RbXTlVPA" name="SECOND"/>
+    <ownedLiteral xmi:id="_y0XR8fPyEd-dN_RbXTlVPA" name="DAY"/>
+    <ownedLiteral xmi:id="_y0X5APPyEd-dN_RbXTlVPA" name="MONTH"/>
+    <ownedLiteral xmi:id="_y0X5AfPyEd-dN_RbXTlVPA" name="WEEK"/>
+    <ownedLiteral xmi:id="_y0YgEPPyEd-dN_RbXTlVPA" name="YEAR"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_Fd9DQPPzEd-dN_RbXTlVPA" name="RelativeTimeEvent">
-    <eAnnotations xmi:id="_CJd3NM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    <ownedAttribute xmi:id="_SI7hEPPzEd-dN_RbXTlVPA" name="timeUnit" type="_y0TnkPPyEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJeeQM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedAttribute>
+    <ownedAttribute xmi:id="_SI7hEPPzEd-dN_RbXTlVPA" name="timeUnit" type="_y0TnkPPyEd-dN_RbXTlVPA"/>
     <ownedAttribute xmi:id="_qbee8vPzEd-dN_RbXTlVPA" name="base_TimeEvent" association="_qbee8PPzEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJeeQs5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#TimeEvent"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_qbee8PPzEd-dN_RbXTlVPA" name="TimeEvent_RelativeTimeEvent" memberEnd="_qbee8fPzEd-dN_RbXTlVPA _qbee8vPzEd-dN_RbXTlVPA" navigableOwnedEnd="_qbee8fPzEd-dN_RbXTlVPA">
-    <eAnnotations xmi:id="_CJo2Us5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_qbee8fPzEd-dN_RbXTlVPA" name="extension_RelativeTimeEvent" type="_Fd9DQPPzEd-dN_RbXTlVPA" aggregation="composite" association="_qbee8PPzEd-dN_RbXTlVPA">
-      <eAnnotations xmi:id="_CJo2VM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_qbee8fPzEd-dN_RbXTlVPA" name="extension_RelativeTimeEvent" type="_Fd9DQPPzEd-dN_RbXTlVPA" aggregation="composite" association="_qbee8PPzEd-dN_RbXTlVPA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_TeX_UP3eEd-uA4oh6NA2Cw" name="Trigger">
-    <eAnnotations xmi:id="_CJjWxc5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_Xh44EP3eEd-uA4oh6NA2Cw" name="isHumanTrigger">
-      <eAnnotations xmi:id="_CJj9085OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_p7wLUP3eEd-uA4oh6NA2Cw" value="true">
-        <eAnnotations xmi:id="_CJkk4M5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-      </defaultValue>
+      <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_p7wLUP3eEd-uA4oh6NA2Cw" value="true"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_lzQr8P3eEd-uA4oh6NA2Cw" name="base_Trigger" association="_lzPd0P3eEd-uA4oh6NA2Cw">
-      <eAnnotations xmi:id="_CJj90c5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Trigger"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_lzPd0P3eEd-uA4oh6NA2Cw" name="Trigger_Trigger" memberEnd="_lzPd0f3eEd-uA4oh6NA2Cw _lzQr8P3eEd-uA4oh6NA2Cw" navigableOwnedEnd="_lzPd0f3eEd-uA4oh6NA2Cw">
-    <eAnnotations xmi:id="_CJrSks5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_lzPd0f3eEd-uA4oh6NA2Cw" name="extension_Trigger" type="_TeX_UP3eEd-uA4oh6NA2Cw" aggregation="composite" association="_lzPd0P3eEd-uA4oh6NA2Cw">
-      <eAnnotations xmi:id="_CJrSlM5OEeCdMfaUBBrWVQ" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_lzPd0f3eEd-uA4oh6NA2Cw" name="extension_Trigger" type="_TeX_UP3eEd-uA4oh6NA2Cw" aggregation="composite" association="_lzPd0P3eEd-uA4oh6NA2Cw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_TwTsQNYIEeCIftwUy_ucRw" name="Model">
-    <eAnnotations xmi:id="_TwTsQdYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_WHGkgNYIEeCIftwUy_ucRw" general="_mmu4ADsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_h246MNxPEeCo2u_sV3elog" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_WHGkgNYIEeCIftwUy_ucRw" general="_mmu4ADsuEeC5OLJvkS0EWA"/>
     <ownedAttribute xmi:id="_G5ntsNYIEeCIftwUy_ucRw" name="artifactIdentifier">
-      <eAnnotations xmi:id="_G5o70NYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_auYRpNYIEeCIftwUy_ucRw" name="base_Model" association="_auYRoNYIEeCIftwUy_ucRw">
-      <eAnnotations xmi:id="_auZfwNYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Model"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_auYRoNYIEeCIftwUy_ucRw" name="Model_Model" memberEnd="_auYRodYIEeCIftwUy_ucRw _auYRpNYIEeCIftwUy_ucRw">
-    <eAnnotations xmi:id="_auYRotYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_auYRodYIEeCIftwUy_ucRw" name="extension_Model" type="_TwTsQNYIEeCIftwUy_ucRw" aggregation="composite" association="_auYRoNYIEeCIftwUy_ucRw">
-      <eAnnotations xmi:id="_MlNQINYLEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_auYRodYIEeCIftwUy_ucRw" name="extension_Model" type="_TwTsQNYIEeCIftwUy_ucRw" aggregation="composite" association="_auYRoNYIEeCIftwUy_ucRw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_cY1BQNYIEeCIftwUy_ucRw" name="Profile">
-    <eAnnotations xmi:id="_cY1BQdYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_dmlN0NYIEeCIftwUy_ucRw" general="_mmu4ADsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_h21P0NxPEeCo2u_sV3elog" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_dmlN0NYIEeCIftwUy_ucRw" general="_mmu4ADsuEeC5OLJvkS0EWA"/>
     <ownedAttribute xmi:id="_fecHUdYIEeCIftwUy_ucRw" name="base_Profile" association="_febgQNYIEeCIftwUy_ucRw">
-      <eAnnotations xmi:id="_fedVcNYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Profile"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_gMJh4NYIEeCIftwUy_ucRw" name="identifier">
-      <eAnnotations xmi:id="_gMLXENYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_febgQNYIEeCIftwUy_ucRw" name="Profile_Profile" memberEnd="_febgQdYIEeCIftwUy_ucRw _fecHUdYIEeCIftwUy_ucRw">
-    <eAnnotations xmi:id="_febgQtYIEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_febgQdYIEeCIftwUy_ucRw" name="extension_Profile" type="_cY1BQNYIEeCIftwUy_ucRw" aggregation="composite" association="_febgQNYIEeCIftwUy_ucRw">
-      <eAnnotations xmi:id="_MlNQItYLEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_febgQdYIEeCIftwUy_ucRw" name="extension_Profile" type="_cY1BQNYIEeCIftwUy_ucRw" aggregation="composite" association="_febgQNYIEeCIftwUy_ucRw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_P9ezgNYLEeCIftwUy_ucRw" name="Package">
-    <eAnnotations xmi:id="_P9ezgdYLEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_UZd2oNYLEeCIftwUy_ucRw" general="_mmu4ADsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_h23FAdxPEeCo2u_sV3elog" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_UZd2oNYLEeCIftwUy_ucRw" general="_mmu4ADsuEeC5OLJvkS0EWA"/>
     <ownedAttribute xmi:id="_XQaOlNYLEeCIftwUy_ucRw" name="base_Package" association="_XQaOkNYLEeCIftwUy_ucRw">
-      <eAnnotations xmi:id="_XQbcsNYLEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Package"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_XQaOkNYLEeCIftwUy_ucRw" name="Package_Package" memberEnd="_XQaOkdYLEeCIftwUy_ucRw _XQaOlNYLEeCIftwUy_ucRw">
-    <eAnnotations xmi:id="_XQaOktYLEeCIftwUy_ucRw" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_XQaOkdYLEeCIftwUy_ucRw" name="extension_Package" type="_P9ezgNYLEeCIftwUy_ucRw" aggregation="composite" association="_XQaOkNYLEeCIftwUy_ucRw">
-      <eAnnotations xmi:id="_0dmZMNfGEeCXQPv0AMhLcg" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_XQaOkdYLEeCIftwUy_ucRw" name="extension_Package" type="_P9ezgNYLEeCIftwUy_ucRw" aggregation="composite" association="_XQaOkNYLEeCIftwUy_ucRw"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_l69IYN7HEeCmRficbXEeTA" name="Property">
-    <eAnnotations xmi:id="_l69IYd7HEeCmRficbXEeTA" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_U8WL0CCqEeGzZcqh0kaN7A" general="_SERygCCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_U-oq0CCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_U8WL0CCqEeGzZcqh0kaN7A" general="_SERygCCqEeGzZcqh0kaN7A"/>
     <ownedAttribute xmi:id="_mlujsN7HEeCmRficbXEeTA" name="persistentName">
-      <eAnnotations xmi:id="_mlvx0N7HEeCmRficbXEeTA" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_o-9r8N7HEeCmRficbXEeTA" name="base_Property" association="_o-72wN7HEeCmRficbXEeTA">
-      <eAnnotations xmi:id="_o-_hIN7HEeCmRficbXEeTA" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_o-72wN7HEeCmRficbXEeTA" name="Property_Property" memberEnd="_o-72wd7HEeCmRficbXEeTA _o-9r8N7HEeCmRficbXEeTA">
-    <eAnnotations xmi:id="_o-9E4N7HEeCmRficbXEeTA" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_o-72wd7HEeCmRficbXEeTA" name="extension_Property" type="_l69IYN7HEeCmRficbXEeTA" aggregation="composite" association="_o-72wN7HEeCmRficbXEeTA">
-      <eAnnotations xmi:id="_xgL00ODlEeCsDuwu_RQvSA" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_o-72wd7HEeCmRficbXEeTA" name="extension_Property" type="_l69IYN7HEeCmRficbXEeTA" aggregation="composite" association="_o-72wN7HEeCmRficbXEeTA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_9nyWoOEjEeCZsvOjs18MJw" name="ModelLibrary">
-    <eAnnotations xmi:id="_9ptpQOEjEeCZsvOjs18MJw" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_ZDuHUOEkEeCZsvOjs18MJw" general="_mmu4ADsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_ZFqBAOEkEeCZsvOjs18MJw" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_ZDuHUOEkEeCZsvOjs18MJw" general="_mmu4ADsuEeC5OLJvkS0EWA"/>
     <ownedAttribute xmi:id="__MrQ0OEjEeCZsvOjs18MJw" name="regenerate">
-      <eAnnotations xmi:id="__OmjcOEjEeCZsvOjs18MJw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_GZMh4OEkEeCZsvOjs18MJw" name="groupIdentifier">
-      <eAnnotations xmi:id="_GbJCoOEkEeCZsvOjs18MJw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_ZrpC8OEkEeCZsvOjs18MJw" name="artifactIdentifier">
-      <eAnnotations xmi:id="_ZtljsOEkEeCZsvOjs18MJw" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_9alysOEkEeCBS9H2w0zISQ" name="base_Model" association="_9akkkOEkEeCBS9H2w0zISQ">
-      <eAnnotations xmi:id="_9clWwOEkEeCBS9H2w0zISQ" source="http://www.opaeum.org"/>
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Model"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_9akkkOEkEeCBS9H2w0zISQ" name="Model_ModelLibrary" memberEnd="_9akkkeEkEeCBS9H2w0zISQ _9alysOEkEeCBS9H2w0zISQ">
-    <eAnnotations xmi:id="_9clWweEkEeCBS9H2w0zISQ" source="http://www.opaeum.org"/>
-    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_9akkkeEkEeCBS9H2w0zISQ" name="extension_ModelLibrary" type="_9nyWoOEjEeCZsvOjs18MJw" aggregation="composite" association="_9akkkOEkEeCBS9H2w0zISQ">
-      <eAnnotations xmi:id="_9cl90OEkEeCBS9H2w0zISQ" source="http://www.opaeum.org"/>
-    </ownedEnd>
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_9akkkeEkEeCBS9H2w0zISQ" name="extension_ModelLibrary" type="_9nyWoOEjEeCZsvOjs18MJw" aggregation="composite" association="_9akkkOEkEeCBS9H2w0zISQ"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_iHQU4CAQEeGvZZlzr0lwHg" name="AssociationEnd">
-    <eAnnotations xmi:id="_iL8AkCAQEeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_UwxN8CCqEeGzZcqh0kaN7A" general="_SERygCCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_Uy7KECCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_UwxN8CCqEeGzZcqh0kaN7A" general="_SERygCCqEeGzZcqh0kaN7A"/>
     <ownedAttribute xmi:id="_jZbHYCAQEeGvZZlzr0lwHg" name="persistentName">
-      <eAnnotations xmi:id="_jbZdUCAQEeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lQgk0CAQEeGvZZlzr0lwHg" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lnIVECAQEeGvZZlzr0lwHg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lQgk0CAQEeGvZZlzr0lwHg" value="*"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_m8rywCAQEeGvZZlzr0lwHg" name="base_Property" association="_m8qkoCAQEeGvZZlzr0lwHg">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
@@ -550,20 +431,15 @@
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_m8qkoSAQEeGvZZlzr0lwHg" name="extension_AssociationEnd" type="_iHQU4CAQEeGvZZlzr0lwHg" aggregation="composite" association="_m8qkoCAQEeGvZZlzr0lwHg"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_oUkywCAQEeGvZZlzr0lwHg" name="Attribute">
-    <eAnnotations xmi:id="_oXEtICAQEeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_UjFXQCCqEeGzZcqh0kaN7A" general="_SERygCCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_UlS9wCCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_UjFXQCCqEeGzZcqh0kaN7A" general="_SERygCCqEeGzZcqh0kaN7A"/>
     <ownedAttribute xmi:id="_pedzACAQEeGvZZlzr0lwHg" name="base_Property" association="_pedL8yAQEeGvZZlzr0lwHg">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Property"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_pvppoCAQEeGvZZlzr0lwHg" name="persistentName">
-      <eAnnotations xmi:id="_pxpNsCAQEeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CmcPsCCjEeGiGJSJsNSSjg"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_zYUoICJBEeGYwegmKZeKqg" name="isPrimaryKey">
-      <eAnnotations xmi:id="_zb3EUCJBEeGYwegmKZeKqg" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
     </ownedAttribute>
   </packagedElement>
@@ -571,12 +447,10 @@
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_pedL9CAQEeGvZZlzr0lwHg" name="extension_Attribute" type="_oUkywCAQEeGvZZlzr0lwHg" aggregation="composite" association="_pedL8yAQEeGvZZlzr0lwHg"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_tr-VQCAQEeGvZZlzr0lwHg" name="Association">
-    <eAnnotations xmi:id="_tuJfgCAQEeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
     <ownedAttribute xmi:id="_vvY-giAQEeGvZZlzr0lwHg" name="base_Association" association="_vvY-gCAQEeGvZZlzr0lwHg">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Association"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_zItDsCAQEeGvZZlzr0lwHg" name="persistentName">
-      <eAnnotations xmi:id="_zKqykCAQEeGvZZlzr0lwHg" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>
@@ -584,19 +458,14 @@
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_vvY-gSAQEeGvZZlzr0lwHg" name="extension_Association" type="_tr-VQCAQEeGvZZlzr0lwHg" aggregation="composite" association="_vvY-gCAQEeGvZZlzr0lwHg"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_v-YvcCCiEeGiGJSJsNSSjg" name="Component">
-    <eAnnotations xmi:id="_nWMtcCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    <generalization xmi:id="_z86agCCiEeGiGJSJsNSSjg" general="_mmu4ADsuEeC5OLJvkS0EWA">
-      <eAnnotations xmi:id="_nWMGYCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </generalization>
+    <generalization xmi:id="_z86agCCiEeGiGJSJsNSSjg" general="_mmu4ADsuEeC5OLJvkS0EWA"/>
     <ownedAttribute xmi:id="_zgEtgCCiEeGiGJSJsNSSjg" name="base_Component" association="_zgDfYCCiEeGiGJSJsNSSjg">
       <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Component"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_ESVJwCCjEeGiGJSJsNSSjg" name="mappedImplementationType">
-      <eAnnotations xmi:id="_nWKRMCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_MysoUCCjEeGiGJSJsNSSjg" name="schemaName">
-      <eAnnotations xmi:id="_nWK4QCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Nq734CCjEeGiGJSJsNSSjg"/>
     </ownedAttribute>
@@ -605,43 +474,22 @@
     <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_zgDfYSCiEeGiGJSJsNSSjg" name="extension_Component" type="_v-YvcCCiEeGiGJSJsNSSjg" aggregation="composite" association="_zgDfYCCiEeGiGJSJsNSSjg"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Enumeration" xmi:id="_0DHE8CCpEeGzZcqh0kaN7A" name="RoleInCube">
-    <eAnnotations xmi:id="_0DXjoCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org" references="_9GkCcCCpEeGzZcqh0kaN7A _9cEYYCCpEeGzZcqh0kaN7A _93w14CCpEeGzZcqh0kaN7A"/>
-    <ownedLiteral xmi:id="_9GkCcCCpEeGzZcqh0kaN7A" name="NONE" classifier="_0DHE8CCpEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_9GkpgCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_9cEYYCCpEeGzZcqh0kaN7A" name="MEASURE" classifier="_0DHE8CCpEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_9cP-kCCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_93w14CCpEeGzZcqh0kaN7A" name="DIMENSION" classifier="_0DHE8CCpEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_93xc8CCpEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </ownedLiteral>
+    <ownedLiteral xmi:id="_9GkCcCCpEeGzZcqh0kaN7A" name="NONE"/>
+    <ownedLiteral xmi:id="_9cEYYCCpEeGzZcqh0kaN7A" name="MEASURE"/>
+    <ownedLiteral xmi:id="_93w14CCpEeGzZcqh0kaN7A" name="DIMENSION"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Enumeration" xmi:id="_HQW88CCqEeGzZcqh0kaN7A" name="AggregationFormula">
-    <eAnnotations xmi:id="_HQYLECCqEeGzZcqh0kaN7A" source="http://www.opaeum.org" references="_JeiEsCCqEeGzZcqh0kaN7A _J3APECCqEeGzZcqh0kaN7A _KMU-0CCqEeGzZcqh0kaN7A"/>
-    <ownedLiteral xmi:id="_JeiEsCCqEeGzZcqh0kaN7A" name="COUNT" classifier="_HQW88CCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_JeirwCCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_J3APECCqEeGzZcqh0kaN7A" name="SUM" classifier="_HQW88CCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_J3BdMCCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </ownedLiteral>
-    <ownedLiteral xmi:id="_KMU-0CCqEeGzZcqh0kaN7A" name="AVERAGE" classifier="_HQW88CCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_KMVl4CCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    </ownedLiteral>
+    <ownedLiteral xmi:id="_JeiEsCCqEeGzZcqh0kaN7A" name="COUNT"/>
+    <ownedLiteral xmi:id="_J3APECCqEeGzZcqh0kaN7A" name="SUM"/>
+    <ownedLiteral xmi:id="_KMU-0CCqEeGzZcqh0kaN7A" name="AVERAGE"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_SERygCCqEeGzZcqh0kaN7A" name="AbstractProperty">
-    <eAnnotations xmi:id="_SGpKACCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-    <ownedAttribute xmi:id="_pxbZwCCpEeGzZcqh0kaN7A" name="roleInCube" type="_0DHE8CCpEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_p0XZACCpEeGzZcqh0kaN7A" source="http://www.opaeum.org">
-        <details xmi:id="_TzJIECCqEeGzZcqh0kaN7A" key="opaeumId" value="48e3a22b_66a7_4f76_8d14_662244361cc9@null"/>
-      </eAnnotations>
-    </ownedAttribute>
+    <ownedAttribute xmi:id="_pxbZwCCpEeGzZcqh0kaN7A" name="roleInCube" type="_0DHE8CCpEeGzZcqh0kaN7A"/>
     <ownedAttribute xmi:id="_V6ZIcCCqEeGzZcqh0kaN7A" name="aggregationFormulas" type="_HQW88CCqEeGzZcqh0kaN7A">
-      <eAnnotations xmi:id="_V8W3UCCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
-      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZXkZ8CCqEeGzZcqh0kaN7A" value="*"/>
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ZlMmQCCqEeGzZcqh0kaN7A"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZXkZ8CCqEeGzZcqh0kaN7A" value="*"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_iLtwICCqEeGzZcqh0kaN7A" name="derivationFormula">
-      <eAnnotations xmi:id="_iNstICCqEeGzZcqh0kaN7A" source="http://www.opaeum.org"/>
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
   </packagedElement>

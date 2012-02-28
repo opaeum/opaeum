@@ -1,5 +1,6 @@
 package org.opaeum.metamodel.core.internal.emulated;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,8 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 	protected String id;
 	protected MappingInfo mappingInfo;
 	protected IClassifier type;
-	private INakedProperty otherEnd;
+	protected INakedProperty otherEnd;
+	private Collection<INakedProperty> subsettedProperties;
 	public AbstractEmulatedProperty(INakedClassifier owner,INakedElement element){
 		super(element);
 		if(owner==null||element==null){
@@ -146,7 +148,10 @@ public abstract class AbstractEmulatedProperty extends EmulatingElement implemen
 		return Collections.emptyList();
 	}
 	public Collection<INakedProperty> getSubsettedProperties(){
-		return Collections.emptyList();
+		if(this.subsettedProperties==null){
+			this.subsettedProperties=new ArrayList<INakedProperty>();
+		}
+		return this.subsettedProperties;
 	}
 	public boolean hasQualifier(String name){
 		return false;

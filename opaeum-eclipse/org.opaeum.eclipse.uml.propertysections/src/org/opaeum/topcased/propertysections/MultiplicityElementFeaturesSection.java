@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.topcased.propertysections.base.AbstractMultiFeaturePropertySection;
 
 public class MultiplicityElementFeaturesSection extends AbstractMultiFeaturePropertySection{
 	private Text from;

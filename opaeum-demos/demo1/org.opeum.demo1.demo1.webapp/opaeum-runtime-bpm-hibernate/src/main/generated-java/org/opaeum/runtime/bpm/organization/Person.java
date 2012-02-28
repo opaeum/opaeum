@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -31,6 +32,8 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.contact.PersonEMailAddress;
 import org.opaeum.runtime.bpm.contact.PersonPhoneNumber;
 import org.opaeum.runtime.bpm.contact.PersonPhoneNumberType;
+import org.opaeum.runtime.bpm.contact.PhysicalAddress;
+import org.opaeum.runtime.bpm.contact.PostalAddress;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -52,7 +55,9 @@ import org.w3c.dom.NodeList;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="person",schema="opaeum_bpm")
+@Table(name="person",schema="opaeum_bpm",uniqueConstraints={
+	@UniqueConstraint(columnNames={"postal_address_id","deleted_on"}),
+	@UniqueConstraint(columnNames={"physical_address_id","deleted_on"})})
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="Person")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -102,6 +107,12 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="person",targetEntity=PersonPhoneNumber.class)
 	private Map<String, PersonPhoneNumber> phoneNumber = new HashMap<String,PersonPhoneNumber>();
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="physical_address_id",nullable=true)
+	private PhysicalAddress physicalAddress;
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="postal_address_id",nullable=true)
+	private PostalAddress postalAddress;
 	static final private long serialVersionUID = 3517707551286497542l;
 	@Column(name="surname")
 	private String surname;
@@ -525,6 +536,20 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@NumlMetaInfo(uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
+	public PhysicalAddress getPhysicalAddress() {
+		PhysicalAddress result = this.physicalAddress;
+		
+		return result;
+	}
+	
+	@NumlMetaInfo(uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
+	public PostalAddress getPostalAddress() {
+		PostalAddress result = this.postalAddress;
+		
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
 		String result = this.surname;
@@ -633,6 +658,26 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						((Leave)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("postalAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3364558357702710040")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setPostalAddress((PostalAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("physicalAddress") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("3105719662914651808")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setPhysicalAddress((PhysicalAddress)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -823,6 +868,14 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		this.addAllToPerson_iBusinessRole_1_businessRole(person_iBusinessRole_1_businessRole);
 	}
 	
+	public void setPhysicalAddress(PhysicalAddress physicalAddress) {
+		this.z_internalAddToPhysicalAddress(physicalAddress);
+	}
+	
+	public void setPostalAddress(PostalAddress postalAddress) {
+		this.z_internalAddToPostalAddress(postalAddress);
+	}
+	
 	public void setSurname(String surname) {
 		this.z_internalAddToSurname(surname);
 	}
@@ -883,6 +936,20 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 			sb.append("\n" + leave.toXmlString());
 		}
 		sb.append("\n</leave>");
+		if ( getPostalAddress()==null ) {
+			sb.append("\n<postalAddress/>");
+		} else {
+			sb.append("\n<postalAddress propertyId=\"3364558357702710040\">");
+			sb.append("\n" + getPostalAddress().toXmlReferenceString());
+			sb.append("\n</postalAddress>");
+		}
+		if ( getPhysicalAddress()==null ) {
+			sb.append("\n<physicalAddress/>");
+		} else {
+			sb.append("\n<physicalAddress propertyId=\"3105719662914651808\">");
+			sb.append("\n" + getPhysicalAddress().toXmlReferenceString());
+			sb.append("\n</physicalAddress>");
+		}
 		sb.append("\n<person_iBusinessRole_1_businessRole propertyId=\"5291344624570808175\">");
 		for ( Person_iBusinessRole_1 person_iBusinessRole_1_businessRole : getPerson_iBusinessRole_1_businessRole() ) {
 			sb.append("\n" + person_iBusinessRole_1_businessRole.toXmlReferenceString());
@@ -943,6 +1010,14 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		val.z_internalAddToType(type);
 		this.phoneNumber.put(key.toString(),val);
 		val.setZ_keyOfPhoneNumberOnPerson(key.toString());
+	}
+	
+	public void z_internalAddToPhysicalAddress(PhysicalAddress val) {
+		this.physicalAddress=val;
+	}
+	
+	public void z_internalAddToPostalAddress(PostalAddress val) {
+		this.postalAddress=val;
 	}
 	
 	public void z_internalAddToSurname(String val) {
@@ -1012,6 +1087,20 @@ public class Person implements IPerson, IPersistentObject, IEventGenerator, Hibe
 		StringBuilder key = new StringBuilder();
 		key.append(type.getUid());
 		this.phoneNumber.remove(key.toString());
+	}
+	
+	public void z_internalRemoveFromPhysicalAddress(PhysicalAddress val) {
+		if ( getPhysicalAddress()!=null && val!=null && val.equals(getPhysicalAddress()) ) {
+			this.physicalAddress=null;
+			this.physicalAddress=null;
+		}
+	}
+	
+	public void z_internalRemoveFromPostalAddress(PostalAddress val) {
+		if ( getPostalAddress()!=null && val!=null && val.equals(getPostalAddress()) ) {
+			this.postalAddress=null;
+			this.postalAddress=null;
+		}
 	}
 	
 	public void z_internalRemoveFromSurname(String val) {

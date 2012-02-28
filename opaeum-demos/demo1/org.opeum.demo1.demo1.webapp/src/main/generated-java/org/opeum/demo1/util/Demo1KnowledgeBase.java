@@ -15,7 +15,7 @@ public class Demo1KnowledgeBase extends AbstractJbpmKnowledgeBase {
 
 	public Set<String> getProcessLocations() {
 		Set<String> result = new HashSet<String>();
-		result.addAll(org.opeum.demo1.structuredbusiness.util.StructuredbusinessKnowledgeBase.INSTANCE.getProcessLocations());
+		result.addAll(structuredbusiness.util.StructuredbusinessKnowledgeBase.INSTANCE.getProcessLocations());
 		result.addAll(org.opeum.demo1.testmodel.util.TestmodelKnowledgeBase.INSTANCE.getProcessLocations());
 		return result;
 	}

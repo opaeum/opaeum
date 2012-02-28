@@ -15,6 +15,7 @@ public class OpaeumLibraryForBPMKnowledgeBase extends AbstractJbpmKnowledgeBase 
 
 	public Set<String> getProcessLocations() {
 		Set<String> result = new HashSet<String>();
+		result.addAll(opaeumbpmcommon.util.OpaeumBPMCommonKnowledgeBase.INSTANCE.getProcessLocations());
 		result.add("org/opaeum/runtime/bpm/request/AbstractRequest.rf");
 		result.add("org/opaeum/runtime/bpm/request/ProcessRequest.rf");
 		result.add("org/opaeum/runtime/bpm/request/TaskRequest.rf");

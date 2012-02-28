@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Display;
 
@@ -28,7 +29,7 @@ public class ImageUtil{
 			height = original.getBounds().height;
 			for(int y = 0;y < height;y++){
 				for(int x = 0;x < width;x++){
-//					image.getImageData().setPixel(ImageUtilities. x, y, smooth(x, y).getRGB().);
+					// image.getImageData().setPixel(ImageUtilities. x, y, smooth(x, y).getRGB().);
 				}
 			}
 		}
@@ -42,12 +43,12 @@ public class ImageUtil{
 				for(int x = xpos - 1;x <= xpos + 1;x++){
 					if(x >= 0 && x < width && y >= 0 && y < height){
 						ImageData imageData = original.getImageData();
-//						pixels.add(new RGB(imageData.getPixel(x, y)));
+						// pixels.add(new RGB(imageData.getPixel(x, y)));
 					}
 				}
 			}
 			return null;
-//			return new Color(Display.getCurrent(), avgRed(pixels), avgGreen(pixels), avgBlue(pixels)).getRGB());
+			// return new Color(Display.getCurrent(), avgRed(pixels), avgGreen(pixels), avgBlue(pixels)).getRGB());
 		}
 		/**
 		 * Return the average of all the red values in the given list of pixels.
@@ -91,10 +92,12 @@ public class ImageUtil{
 				int x = f.getLocation().x + ((f.getBounds().width - actualImageWidth) / 2);
 				int y = f.getLocation().y + (f.getBounds().height - actualImageHeight);
 				Point location = new Point(x, y);
+				int brightest = 255;
 				// Pattern pt = new Pattern(Display.getCurrent(), location.x, location.y, location.x + actualImageWidth, location.y
 				// + actualImageHeight, ColorConstants.white, ColorConstants.lightGray);
 				// graphics.setBackgroundPattern(pt);
-				 img= new Image(Display.getCurrent(), ImageUtilities.createShadedImage(img, new Color(Display.getCurrent(),255,255,255)));
+//				img = new Image(Display.getCurrent(), createShadedImage(img, new Color(Display.getCurrent(), brightest, brightest,
+//						brightest)));
 				graphics.drawImage(img, location.scale(1d / amount));
 				graphics.setBackgroundPattern(null);
 				// pt.dispose();
@@ -102,4 +105,65 @@ public class ImageUtil{
 			}
 		}
 	}
+	public static ImageData createShadedImage(Image fromImage, Color shade) {
+		org.eclipse.swt.graphics.Rectangle r = fromImage.getBounds();
+		ImageData data = fromImage.getImageData();
+		PaletteData palette = data.palette;
+		if (!palette.isDirect) {
+			/* Convert the palette entries */
+			RGB[] rgbs = palette.getRGBs();
+			for (int i = 0; i < rgbs.length; i++) {
+				if (data.transparentPixel != i) {
+					RGB color = rgbs[i];
+					color.red = determineShading(color.red, shade.getRed());
+					color.blue = determineShading(color.blue, shade.getBlue());
+					color.green = determineShading(color.green,
+							shade.getGreen());
+				}
+			}
+			data.palette = new PaletteData(rgbs);
+		} else {
+			/* Convert the pixels. */
+			int[] scanline = new int[r.width];
+			int redMask = palette.redMask;
+			int greenMask = palette.greenMask;
+			int blueMask = palette.blueMask;
+			int redShift = palette.redShift;
+			int greenShift = palette.greenShift;
+			int blueShift = palette.blueShift;
+			for (int y = 0; y < r.height; y++) {
+				data.getPixels(0, y, r.width, scanline, 0);
+				for (int x = 0; x < r.width; x++) {
+					int pixel = scanline[x];
+					int red = pixel & redMask;
+					red = (redShift < 0) ? red >>> -redShift : red << redShift;
+					int green = pixel & greenMask;
+					green = (greenShift < 0) ? green >>> -greenShift
+							: green << greenShift;
+					int blue = pixel & blueMask;
+					blue = (blueShift < 0) ? blue >>> -blueShift
+							: blue << blueShift;
+					red = determineShading(red, shade.getRed());
+					blue = determineShading(blue, shade.getBlue());
+					green = determineShading(green, shade.getGreen());
+					red = (redShift < 0) ? red << -redShift : red >> redShift;
+					red &= redMask;
+					green = (greenShift < 0) ? green << -greenShift
+							: green >> greenShift;
+					green &= greenMask;
+					blue = (blueShift < 0) ? blue << -blueShift
+							: blue >> blueShift;
+					blue &= blueMask;
+					scanline[x] = red | blue | green;
+				}
+				data.setPixels(0, y, r.width, scanline, 0);
+			}
+		}
+		return data;
+	}
+
+	private static int determineShading(int origColor, int shadeColor) {
+		return Math.min(255,15+(origColor + shadeColor)/2);
+	}
+
 }

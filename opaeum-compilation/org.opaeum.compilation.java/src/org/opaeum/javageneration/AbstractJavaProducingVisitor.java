@@ -16,6 +16,7 @@ import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreat
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.oclengine.IOclEngine;
 
+import org.opaeum.feature.MappingInfo;
 import org.opaeum.feature.OpaeumConfig;
 import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJClassifier;
@@ -52,7 +53,11 @@ public class AbstractJavaProducingVisitor extends TextFileGeneratingVisitor impl
 		SortedSet<T> result = new TreeSet<T>(new Comparator<T>(){
 			@Override
 			public int compare(T o1,T o2){
-				return o1.getMappingInfo().getQualifiedUmlName().compareTo(o2.getMappingInfo().getQualifiedUmlName());
+				MappingInfo mappingInfo = o1.getMappingInfo();
+				MappingInfo mappingInfo2 = o2.getMappingInfo();
+				String qualifiedUmlName = mappingInfo.getQualifiedUmlName();
+				String qualifiedUmlName2 = mappingInfo2.getQualifiedUmlName();
+				return qualifiedUmlName.compareTo(qualifiedUmlName2);
 			}
 		});
 		for(INakedRootObject r:roots){

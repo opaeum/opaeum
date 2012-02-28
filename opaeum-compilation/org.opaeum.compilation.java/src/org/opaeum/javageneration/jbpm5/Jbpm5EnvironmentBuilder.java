@@ -89,7 +89,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 		knowledgeBase.addToOperations(getProcessLocations);
 		createTextPath(knowledgeBase, i);
 		for(INakedRootObject ro:bpmModels){
-			if(ro instanceof INakedModel){
+			if(ro instanceof INakedModel && ( !((INakedModel) ro).isLibrary() || ((INakedModel) ro).isRegeneratingLibrary())){
 				getProcessLocations.getBody().addToStatements("result.addAll(" + Jbpm5Util.jbpmKnowledgeBase(ro) + ".INSTANCE.getProcessLocations())");
 			}
 		}

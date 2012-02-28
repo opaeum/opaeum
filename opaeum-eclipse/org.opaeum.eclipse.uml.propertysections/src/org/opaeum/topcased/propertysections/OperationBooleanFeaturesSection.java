@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.topcased.propertysections.base.AbstractMultiFeaturePropertySection;
 
 public class OperationBooleanFeaturesSection extends AbstractMultiFeaturePropertySection{
 	private Button isQuery;

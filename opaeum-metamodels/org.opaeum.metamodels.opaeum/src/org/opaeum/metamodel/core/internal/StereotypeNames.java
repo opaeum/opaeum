@@ -22,6 +22,7 @@ public class StereotypeNames{
 	public static final String BusinessEvent = "BusinessEvent";
 	public static final String BUSINESS_GOAL = "BusinessGoal";
 	// CORE
+	public static final String INTERFACE = "Interface";
 	public static final String COMPONENT = "Component";
 	public static final String ASSOCATION = "Association";
 	public static final String ENTITY = "Entity";

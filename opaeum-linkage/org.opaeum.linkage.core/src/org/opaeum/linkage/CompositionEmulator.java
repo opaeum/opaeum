@@ -23,6 +23,7 @@ import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedProperty;
@@ -111,9 +112,9 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 				}
 				if(cp instanceof INakedBehavior){
 					INakedBehavior b = (INakedBehavior) cp;
-					if(b.isProcess() && getBuiltInTypes().getProcessObject() != null
-							&& !b.getInterfaces().contains(getBuiltInTypes().getProcessObject()) && !b.conformsTo(getBuiltInTypes().getAbstractRequest())){
-						b.addOwnedElement(new NakedInterfaceRealizationImpl(getBuiltInTypes().getProcessObject()));
+					if(b.isProcess() && getLibrary().getProcessObject() != null && !b.getInterfaces().contains(getLibrary().getProcessObject())
+							&& !b.conformsTo(getLibrary().getAbstractRequest())){
+						b.addOwnedElement(new NakedInterfaceRealizationImpl(getLibrary().getProcessObject()));
 					}
 					if(b.getContext() != null && BehaviorUtil.hasExecutionInstance(b)){
 						if(endFromComposite != null){
@@ -157,13 +158,16 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 				}
 			}
 		}
-		if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && cp.getEndToComposite() == null && !cp.getIsAbstract()){
-			// TODO rethink this - maybe just always create an application root
-			/* The problem is that during modelling the need for an artificial root may arise and then disappear again */
-			if(workspace.getApplicationRoot() == null){
-				rootClasses.add(cp);
-			}else{
-				addCompositionToApplicationRoot(workspace.getApplicationRoot(), cp);
+		if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && !cp.getIsAbstract()){
+			if(cp.getEndToComposite() == null || cp.getEndToComposite().getBaseType().equals(getLibrary().getBusinessCollaboration())){
+				//Need to realize that abstract association to the real BUsinessCollabroation
+				// TODO rethink this - maybe just always create an application root
+				/* The problem is that during modelling the need for an artificial root may arise and then disappear again */
+				if(workspace.getApplicationRoot() == null){
+					rootClasses.add(cp);
+				}else{
+					addCompositionToApplicationRoot(workspace.getApplicationRoot(), cp);
+				}
 			}
 		}
 	}
@@ -253,7 +257,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		addAffectedElement(owner);
 		addAffectedElement(msg);
 	}
-	@VisitAfter
+	@VisitBefore
 	public void visitWorkspaceBefore(INakedModelWorkspace ws){
 		rootClasses.clear();
 	}
@@ -279,6 +283,9 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			}
 			NakedBusinessCollaboration root = new NakedBusinessCollaboration(rootObjects.first());
 			ws.putModelElement(root);
+			if(getLibrary().getBusinessCollaboration() != null){
+				root.addInterface(getLibrary().getBusinessCollaboration());
+			}
 			rootObjects.first().addOwnedElement(root);
 			ws.setApplicationRoot(root);
 			for(ICompositionParticipant p:rootClasses){
@@ -296,5 +303,20 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		root.addOwnedElement(toChildren);
 		p.addOwnedElement(toRoot);
 		p.setEndToComposite(toRoot);
+		INakedInterface businessCollaboration = getLibrary().getBusinessCollaboration();
+		if(p instanceof INakedBusinessComponent){
+			if(getLibrary().getBusiness() != null && !p.getInterfaces().contains(getLibrary().getBusiness())){
+				p.addOwnedElement(new NakedInterfaceRealizationImpl(getLibrary().getBusiness()));
+			}
+			INakedProperty businessEnd = (INakedProperty) businessCollaboration.findAssociationEnd("business");
+			toChildren.getSubsettedProperties().add(businessEnd);
+			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusiness().findAssociationEnd("businessCollaboration");
+			toRoot.getSubsettedProperties().add(collaborationEnd);
+		}else{
+			INakedProperty actorEnd = (INakedProperty) businessCollaboration.findAssociationEnd("businessActor");
+			toChildren.getSubsettedProperties().add(actorEnd);
+			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusinessActor().findAssociationEnd("businessCollaboration");
+			toRoot.getSubsettedProperties().add(collaborationEnd);
+		}
 	}
 }

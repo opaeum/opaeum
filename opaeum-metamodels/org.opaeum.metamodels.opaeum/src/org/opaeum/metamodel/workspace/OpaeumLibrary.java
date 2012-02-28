@@ -33,7 +33,10 @@ public class OpaeumLibrary{
 	private INakedStateMachine taskRequest;
 	private INakedStateMachine processRequest;
 	private INakedInterface processObject;
+	private INakedInterface businessCollaboration;
 	private INakedStateMachine abstractRequest;
+	private INakedInterface business;
+	private INakedInterface businessActor;
 	public void setAbstractRequest(INakedStateMachine abstractRequest){
 		this.abstractRequest = abstractRequest;
 	}
@@ -163,5 +166,23 @@ public class OpaeumLibrary{
 	}
 	public void setProcessRequest(INakedStateMachine processRequest){
 		this.processRequest = processRequest;
+	}
+	public INakedInterface getBusinessCollaboration(){
+		return businessCollaboration;
+	}
+	public void setBusinessCollaboration(INakedInterface businessCollaboration){
+		this.businessCollaboration = businessCollaboration;
+	}
+	public INakedInterface getBusiness(){
+		return business;
+	}
+	public void setBusiness(INakedInterface business){
+		this.business = business;
+	}
+	public INakedInterface getBusinessActor(){
+		return businessActor;
+	}
+	public void setBusinessActor(INakedInterface businessActor){
+		this.businessActor = businessActor;
 	}
 }

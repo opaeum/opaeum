@@ -17,17 +17,15 @@ import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		AttributeExpressionGenerator.class,ConstrainedImplementor.class,AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,InvariantsGenerator.class,
-		ConstrainedImplementor.class
-},after = {
-		AttributeExpressionGenerator.class,ConstrainedImplementor.class,AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,InvariantsGenerator.class,
-		ConstrainedImplementor.class
-})
+@StepDependency(phase = JavaTransformationPhase.class,requires = {AttributeExpressionGenerator.class,ConstrainedImplementor.class,
+		AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,InvariantsGenerator.class,ConstrainedImplementor.class},after = {
+		AttributeExpressionGenerator.class,ConstrainedImplementor.class,AttributeExpressionGenerator.class,PreAndPostConditionGenerator.class,
+		InvariantsGenerator.class,ConstrainedImplementor.class})
 public class OclTestGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore
 	public void visitEntity(INakedEntity entity){
@@ -43,7 +41,7 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 			if(p.getInitialValue() != null && p.getInitialValue().isOclValue()){
 				String name = "test" + p.getMappingInfo().getJavaName() + "InitialValue";
 				addTestMEthod(entity, pn, test, testInterface, name);
-//				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
+				// NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(p);
 				// testInitialValue.getBody().addToStatements("assert object."
 				// + map.getter() + "().equals(" + map.javaDefaultValue()
 				// +")");
@@ -70,10 +68,10 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 		}
 	}
 	private void addTestMEthod(INakedEntity entity,OJPathName pn,OJAnnotatedClass test,OJAnnotatedInterface testInterface,String name){
-		String newName=name;
-		int i=0;
-		while(test.getUniqueOperation(newName)!=null){
-			newName=name+i;
+		String newName = name;
+		int i = 0;
+		while(test.getUniqueOperation(newName) != null){
+			newName = name + i;
 		}
 		OJAnnotatedOperation testInitialValue = new OJAnnotatedOperation(newName);
 		testInterface.addToOperations(testInitialValue.getDeepCopy());
@@ -88,8 +86,21 @@ public class OclTestGenerator extends AbstractJavaProducingVisitor{
 				compositionalOwner.setInitExp("new " + compositeEndMap.javaBaseType() + "()");
 				testInitialValue.getBody().addToLocals(compositionalOwner);
 				OJAnnotatedField object = new OJAnnotatedField("object", pn);
-				object.setInitExp("new " + pn.getLast() + "(parent)");
-				testInitialValue.getBody().addToLocals(object);
+				if(endToComposite.getOtherEnd().getQualifiers().size() > 0){
+					object.setInitExp("null");
+					if(endToComposite.getOtherEnd().getQualifiers().size() == 1){
+						if(endToComposite.getOtherEnd().getQualifiers().get(0).getBaseType() instanceof INakedEnumeration){
+							INakedEnumeration en=(INakedEnumeration) endToComposite.getOtherEnd().getQualifiers().get(0).getBaseType();
+							if(en.getOwnedLiterals().size()>0){
+								test.addToImports(OJUtil.classifierPathname(en));
+								object.setInitExp("new " + pn.getLast() + "("+en.getName() +"."+ en.getOwnedLiterals().get(0).getName().toUpperCase() +",parent)");
+							}
+						}
+					}
+				}else{
+					object.setInitExp("new " + pn.getLast() + "(parent)");
+					testInitialValue.getBody().addToLocals(object);
+				}
 			}else{
 				OJAnnotatedField object = new OJAnnotatedField("object", pn);
 				object.setInitExp("new " + pn.getLast() + "()");

@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
@@ -65,6 +66,7 @@ public class OpaeumPageListener implements IStartup{
 			this.window = window;
 		}
 		public void partActivated(IWorkbenchPart part){
+			System.out.println("OpaeumPageListener.OpaeumPartListener.partActivated()");
 			if(part instanceof PapyrusMultiDiagramEditor){
 				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) part;
 				IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
@@ -73,6 +75,19 @@ public class OpaeumPageListener implements IStartup{
 					//Happens when the document was open when the Workbench was closed.
 					partOpened(part);
 				}
+			}else if(part instanceof ModelExplorerPageBookView){
+				ModelExplorerPageBookView v=(ModelExplorerPageBookView) part;
+				IEditorPart editor = v.getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
+				if(editor instanceof PapyrusMultiDiagramEditor){
+					PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) editor;
+					IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
+					OpaeumEclipseContext result = OpaeumEclipseContext.getContextFor(umlFile.getParent());
+					if(result==null){
+						//Happens when the document was open when the Workbench was closed.
+						partOpened(editor);
+					}
+				}
+				
 			}
 		}
 		private IFile getUmlFile(final IFileEditorInput fe){

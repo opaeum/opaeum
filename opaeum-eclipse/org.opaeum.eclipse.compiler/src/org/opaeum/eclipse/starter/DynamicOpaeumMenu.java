@@ -61,6 +61,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 							actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
 							actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 							actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
+							System.out.println("DynamicOpaeumMenu.getContributionItems()");
 							actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
 							actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
 							actions.add(new ActionContributionItem(new VersionAction(selection)));
@@ -75,9 +76,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 			}
 		}else{
 			firstElement=getElementFrom();
-			if(firstElement instanceof Model){
-				System.out.println("JavaTransformationProcessManager.getCurrentTransformationProcess()="+JavaTransformationProcessManager.getCurrentTransformationProcess());
-			}
 			if(firstElement instanceof Model && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
 				actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
 			}else if((firstElement instanceof Element) && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
@@ -86,15 +84,12 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 				}
 			}else if(firstElement instanceof AbstractGraphicalEditPart
 					&& JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-				// TODO we never get here
 				AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-				System.out.println(a.getModel());
 				if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
 					actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
 				}
 			}
 		}
-		System.out.println(firstElement);
 		return (IContributionItem[]) actions.toArray(new IContributionItem[actions.size()]);
 	}
 	public static boolean hasUmlModels(IStructuredSelection selection2){
@@ -108,7 +103,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 				}
 			}
 		}catch(CoreException e){
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

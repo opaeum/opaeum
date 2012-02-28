@@ -1,0 +1,4 @@
+OpaeumBPMCommon\:\:BusinessTimeUnit=org.opaeum.runtime.domain.BusinessTimeUnit
+OpaeumBPMCommon\:\:DocumentType=org.opaeum.runtime.domain.DocumentType
+OpaeumBPMCommon\:\:TaskDelegation=org.opaeum.runtime.domain.TaskDelegation
+OpaeumBPMCommon\:\:DeadlineKind=org.opaeum.runtime.domain.DeadlineKind

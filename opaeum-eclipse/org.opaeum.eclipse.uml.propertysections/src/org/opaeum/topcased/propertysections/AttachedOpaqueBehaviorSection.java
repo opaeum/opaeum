@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfActivityUtil.TypeAndMultiplicity;
+import org.opaeum.topcased.propertysections.base.AbstractOclBodyBodySection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public abstract class AttachedOpaqueBehaviorSection extends AbstractOclBodyBodySection implements EObjectNavigationSource{

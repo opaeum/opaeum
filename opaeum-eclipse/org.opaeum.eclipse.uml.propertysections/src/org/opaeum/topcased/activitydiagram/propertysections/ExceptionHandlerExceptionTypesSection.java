@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.ExceptionHandler;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.topcased.propertysections.AbstractReferenceLookupSection;
 import org.opaeum.topcased.propertysections.UmlMetaTypeRemover;
+import org.opaeum.topcased.propertysections.base.AbstractReferenceLookupSection;
 import org.topcased.tabbedproperties.utils.ITypeCacheAdapter;
 import org.topcased.tabbedproperties.utils.TypeCacheAdapter;
 

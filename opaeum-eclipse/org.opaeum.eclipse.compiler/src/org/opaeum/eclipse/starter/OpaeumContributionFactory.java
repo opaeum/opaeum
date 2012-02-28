@@ -39,7 +39,8 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 					}else{
 						if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
 							firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
-						}else if(firstElement instanceof Model){
+						}
+						if(firstElement instanceof Model){
 							return EvaluationResult.TRUE;
 						}else if(firstElement instanceof Element){
 							if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){

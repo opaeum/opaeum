@@ -18,7 +18,6 @@ public class NonInverseArtificialProperty extends AbstractEmulatedProperty imple
 	private static final long serialVersionUID = 1L;
 	private INakedClassifier baseType;
 	private String name;
-	private INakedProperty otherEnd;
 	private boolean isDerived;
 	@Override
 	public void setName(String umlName){

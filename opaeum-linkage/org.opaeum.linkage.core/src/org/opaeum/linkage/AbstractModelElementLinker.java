@@ -32,7 +32,7 @@ public abstract class AbstractModelElementLinker extends NakedElementOwnerVisito
 	protected int getThreadPoolSize(){
 		return 12;
 	}
-	protected OpaeumLibrary getBuiltInTypes(){
+	protected OpaeumLibrary getLibrary(){
 		return workspace.getOpaeumLibrary();
 	}
 	protected ErrorMap getErrorMap(){

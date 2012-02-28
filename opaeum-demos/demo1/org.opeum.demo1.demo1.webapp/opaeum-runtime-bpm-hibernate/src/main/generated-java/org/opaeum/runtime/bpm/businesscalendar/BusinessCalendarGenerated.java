@@ -32,6 +32,7 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.organization.OrganizationalNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.domain.BusinessTimeUnit;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -297,14 +298,11 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		if ( getWorkDay().isEmpty() ) {
 			WorkDay newworkDay;
 			newworkDay= new WorkDay();
-			addToWorkDay(newworkDay);
-			newworkDay.setKind(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.WEEKDAY);
+			addToWorkDay(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.WEEKDAY,newworkDay);
 			newworkDay= new WorkDay();
-			addToWorkDay(newworkDay);
-			newworkDay.setKind(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.SATURDAY);
+			addToWorkDay(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.SATURDAY,newworkDay);
 			newworkDay= new WorkDay();
-			addToWorkDay(newworkDay);
-			newworkDay.setKind(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.SUNDAY);
+			addToWorkDay(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.SUNDAY,newworkDay);
 		}
 	}
 	

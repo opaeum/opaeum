@@ -37,9 +37,6 @@ public class OpaeumModelPreparation implements WorkspaceLoadListener{
 							cmd.execute();
 							Profile opaeumStandardProfile=cmd.getProfile();
 							Stereotype modelStereotype = opaeumStandardProfile.getOwnedStereotype(StereotypeNames.MODEL);
-							if(StereotypesHelper.hasStereotype(model, StereotypeNames.MODEL_LIBRARY)){
-								modelStereotype = opaeumStandardProfile.getOwnedStereotype(StereotypeNames.MODEL_LIBRARY);
-							}
 							if(!model.isStereotypeApplied(modelStereotype)){
 								dirty = true;
 								model.applyStereotype(modelStereotype);

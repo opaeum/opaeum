@@ -39,38 +39,44 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	@VisitBefore
 	public void visitStatemachine(INakedStateMachine m){
 		if(m.getName().equals("TaskRequest")){
-			getBuiltInTypes().setTaskRequest(m);
+			getLibrary().setTaskRequest(m);
 		}else if(m.getName().equals("ProcessRequest")){
-			getBuiltInTypes().setProcessRequest(m);
+			getLibrary().setProcessRequest(m);
 		}else if(m.getName().equals("AbstractRequest")){
-			getBuiltInTypes().setAbstractRequest(m);
+			getLibrary().setAbstractRequest(m);
 			
 		}
 	}
 	@VisitBefore
 	public void visitDataType(INakedStructuredDataType m){
 		if(m.getName().equals("Duration")){
-			getBuiltInTypes().setDurationType(m);
+			getLibrary().setDurationType(m);
 		}
 	}
 	@VisitBefore
 	public void visitInterface(INakedInterface m){
 		if(m.getName().equals("IBusinessRole")){
-			getBuiltInTypes().setBusinessRole(m);
+			getLibrary().setBusinessRole(m);
 		}else if(m.getName().equals("ITaskObject")){
-			getBuiltInTypes().setTaskObject(m);
+			getLibrary().setTaskObject(m);
 		}else if(m.getName().equals("IProcessObject")){
-			getBuiltInTypes().setProcessObject(m);
+			getLibrary().setProcessObject(m);
 		}else if(m.getName().equals("ITaskResponsibilityObject")){
-			getBuiltInTypes().setTaskResponsibilityObject(m);
+			getLibrary().setTaskResponsibilityObject(m);
 		}else if(m.getName().equals("IProcessResponsibilityObject")){
-			getBuiltInTypes().setProcessResponsibilityObject(m);
+			getLibrary().setProcessResponsibilityObject(m);
+		}else if(m.getName().equals("IBusinessCollaboration")){
+			getLibrary().setBusinessCollaboration(m);
+		}else if(m.getName().equals("IBusiness")){
+			getLibrary().setBusiness(m);
+		}else if(m.getName().equals("IBusinessActor")){
+			getLibrary().setBusinessActor(m);
 		}
 	}
 	@VisitBefore
 	public void visitEntity(INakedEntity e){
 		if(e.getName().equals("OpaeumPerson")){
-			getBuiltInTypes().setOpaeumPerson(e);
+			getLibrary().setOpaeumPerson(e);
 		}
 	}
 	@SuppressWarnings("deprecation")
@@ -79,14 +85,14 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		String name = simpleType.getName();
 		// TODO get rid of this....
 		if(name.equalsIgnoreCase(config.getEMailAddressType())){
-			getBuiltInTypes().setEmailAddressType(simpleType);
+			getLibrary().setEmailAddressType(simpleType);
 			updateDefaultType(simpleType, "java.lang.String");
 		}else if(name.equalsIgnoreCase(config.getDateType())){
-			getBuiltInTypes().setDateType(simpleType);
+			getLibrary().setDateType(simpleType);
 			updateDefaultType(simpleType, "java.util.Date");
 		}else if(name.equalsIgnoreCase(config.getRealType())){
 			updateDefaultType(simpleType, "java.lang.Double");
-			getBuiltInTypes().setRealType(simpleType);
+			getLibrary().setRealType(simpleType);
 			((INakedPrimitiveType) simpleType).setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary()
 					.lookupStandardType(IOclLibrary.RealTypeName));
 		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("PrimitiveTypes") ||simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes")
@@ -95,20 +101,20 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 			boolean isStandardPrimitive = simpleType.getNameSpace().getName().equalsIgnoreCase("PrimitiveTypes")||simpleType.getNameSpace().getName().equalsIgnoreCase("UMLPrimitiveTypes");
 			if(primitiveType.getName().equals("String")){
 				if(isStandardPrimitive){
-					getBuiltInTypes().setDefaultType(primitiveType);
-					getBuiltInTypes().setStringType(primitiveType);
+					getLibrary().setDefaultType(primitiveType);
+					getLibrary().setStringType(primitiveType);
 				}
 				updateDefaultType(primitiveType, "java.lang.String");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
 			}else if(primitiveType.getName().equalsIgnoreCase("Boolean")){
 				if(isStandardPrimitive){
-					getBuiltInTypes().setBooleanType(primitiveType);
+					getLibrary().setBooleanType(primitiveType);
 				}
 				updateDefaultType(primitiveType, "java.lang.Boolean");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.BooleanTypeName));
 			}else if(primitiveType.getName().equalsIgnoreCase("Integer")){
 				if(isStandardPrimitive){
-					getBuiltInTypes().setIntegerType(primitiveType);
+					getLibrary().setIntegerType(primitiveType);
 				}
 				updateDefaultType(primitiveType, "java.lang.Integer");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.IntegerTypeName));
@@ -121,7 +127,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		}else if(simpleType.getNameSpace().getName().equalsIgnoreCase("ecore")){
 			INakedPrimitiveType primitiveType = (INakedPrimitiveType) simpleType;
 			if(primitiveType.getName().equals("EDouble")){
-				getBuiltInTypes().setRealType(primitiveType);
+				getLibrary().setRealType(primitiveType);
 				updateDefaultType(primitiveType, "java.lang.Double");
 				primitiveType.setOclType((IPrimitiveType) workspace.getOclEngine().getOclLibrary().lookupStandardType(IOclLibrary.RealTypeName));
 			}
@@ -163,7 +169,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 				loadStrategies(simpleType, stereotype, javaType);
 			}
 			if(simpleType.getName().equals("DateTime")){
-				getBuiltInTypes().setDateType(simpleType);
+				getLibrary().setDateType(simpleType);
 			}
 		}else if(simpleType.hasStereotype(StereotypeNames.PRIMITIVE_TYPE)){
 			loadStrategies(simpleType, simpleType.getStereotype(StereotypeNames.PRIMITIVE_TYPE), simpleType.getMappedImplementationType());
@@ -173,7 +179,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 		}
 	}
 	private void loadStrategies(INakedSimpleType simpleType,INakedInstanceSpecification stereotype,String javaType){
-		getBuiltInTypes().getTypeMap().put(getPathNameInModel(simpleType).toString(), new MappedType(javaType));
+		getLibrary().getTypeMap().put(getPathNameInModel(simpleType).toString(), new MappedType(javaType));
 		for(AbstractStrategyFactory sf:strategyFactories){
 			if(sf.appliesTo(simpleType)){
 				simpleType.setStrategyFactory(sf);
@@ -182,7 +188,7 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	}
 	@VisitAfter(matchSubclasses = true)
 	public void setCodeGenerationStrategy(INakedClassifier classifier){
-		MappedType mappedType = getBuiltInTypes().getTypeMap().get(getPathNameInModel(classifier).toString());
+		MappedType mappedType = getLibrary().getTypeMap().get(getPathNameInModel(classifier).toString());
 		if(mappedType != null){
 			classifier.setCodeGenerationStrategy(CodeGenerationStrategy.NO_CODE);
 			classifier.setMappedImplementationType(mappedType.getQualifiedJavaName());

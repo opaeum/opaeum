@@ -10,6 +10,7 @@ import org.drools.impl.EnvironmentImpl;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
+import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
@@ -69,6 +70,11 @@ public class MockEnvironment extends Environment{
 	}
 	@Override
 	public UmtPersistence newUmtPersistence(){
+		return null;
+	}
+	@Override
+	public INotificationService getNotificationService(){
+		// TODO Auto-generated method stub
 		return null;
 	}
 

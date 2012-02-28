@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.topcased.propertysections.base.AbstractMultiFeaturePropertySection;
 
 public class AssociationEndNavigabilityAndCompositionSection extends AbstractMultiFeaturePropertySection{
 	private Button isComposite;

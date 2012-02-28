@@ -25,6 +25,7 @@ import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.domain.BusinessTimeUnit;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
@@ -63,7 +64,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 	@Column(name="quantity")
 	private Double quantity;
 	static final private long serialVersionUID = 6916267881564579221l;
-	@Type(type="org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnitResolver")
+	@Type(type="org.opaeum.runtime.domain.BusinessTimeUnitResolver")
 	@Column(name="time_unit",nullable=true)
 	private BusinessTimeUnit timeUnit;
 	private String uid;

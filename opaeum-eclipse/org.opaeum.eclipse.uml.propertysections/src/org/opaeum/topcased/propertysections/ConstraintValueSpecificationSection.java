@@ -5,6 +5,7 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.opaeum.topcased.propertysections.base.AbstractOpaqueExpressionSection;
 
 public class ConstraintValueSpecificationSection extends AbstractOpaqueExpressionSection{
 	@Override

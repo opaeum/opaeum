@@ -18,11 +18,13 @@ import javax.persistence.Table;
 
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
+import org.opaeum.hibernate.domain.EMailNotificationService;
 import org.opaeum.hibernate.domain.EventOccurrence;
 import org.opaeum.runtime.domain.IActiveObject;
 import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
@@ -36,6 +38,7 @@ public class StandaloneJpaEnvironment extends Environment{
 	private StandaloneJpaConversationalPersistence persistence;
 	private StandaloneJpaJbpmKnowledgeSession knowledgeSession;
 	private EntityManager entityManager;
+	private EMailNotificationService notificationService;
 	private static AbstractJbpmKnowledgeBase abstractJbpmKnowledgeBase;
 	@SuppressWarnings("unchecked")
 	@Override
@@ -63,13 +66,13 @@ public class StandaloneJpaEnvironment extends Environment{
 				loadDriver("com.ibm.db2.jcc.DB2Driver");
 				loadDriver("org.gjt.mm.mysql.Driver");
 				// TODO etc
-				Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL),
-						Environment.getInstance().getProperty(Environment.DB_USER, "sa"), Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
+				Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL), Environment.getInstance()
+						.getProperty(Environment.DB_USER, "sa"), Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
 				Statement st = connection.createStatement();
 				for(String string:schemas){
 					try{
 						st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION DBA");
-						//TODO make this db-independent
+						// TODO make this db-independent
 						connection.commit();
 					}catch(Exception e){
 						e.printStackTrace();
@@ -176,5 +179,12 @@ public class StandaloneJpaEnvironment extends Environment{
 		EntityManager result = openHibernateSession();
 		((Session) result.getDelegate()).enableFilter("noDeletedObjects");
 		return new StandaloneJpaUmtPersistence(result);
+	}
+	@Override
+	public INotificationService getNotificationService(){
+		if(this.notificationService == null){
+			this.notificationService = new EMailNotificationService();
+		}
+		return this.notificationService;
 	}
 }

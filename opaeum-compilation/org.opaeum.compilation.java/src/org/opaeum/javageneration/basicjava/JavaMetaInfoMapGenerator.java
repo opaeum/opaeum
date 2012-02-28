@@ -108,7 +108,7 @@ public class JavaMetaInfoMapGenerator extends AbstractJavaProducingVisitor imple
 		ignore.add("JavaPrimitiveTypes".toLowerCase());
 		ignore.add("OpaeumSimpleTypes".toLowerCase());
 		for(INakedRootObject ro:treeSet){
-			if(ro instanceof INakedModel && !ignore.contains(ro.getName().toLowerCase())){
+			if(ro instanceof INakedModel && ( !((INakedModel) ro).isLibrary() || ((INakedModel) ro).isRegeneratingLibrary())){
 				initBlock.addToStatements("this.importMetaInfo(" + javaMetaInfoMapPath(ro) + ".INSTANCE)");
 			}
 		}

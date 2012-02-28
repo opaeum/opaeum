@@ -55,6 +55,13 @@ import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
 
 public class OpaeumEclipseContext{
+	public static boolean shouldBeCm1Compatible(){
+		if(getCurrentContext()!=null){
+			return getCurrentContext().getConfig().shouldBeCm1Compatible();
+		}else{
+			return true;
+		}
+	}
 	private class LoadEditingDomainJob extends Job{
 		private final EditingDomain domain;
 		private final IFile file;

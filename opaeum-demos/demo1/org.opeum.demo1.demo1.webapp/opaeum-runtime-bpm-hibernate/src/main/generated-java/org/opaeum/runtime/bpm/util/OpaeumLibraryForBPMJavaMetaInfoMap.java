@@ -9,11 +9,13 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 	/** Constructor for OpaeumLibraryForBPMJavaMetaInfoMap
 	 */
 	public OpaeumLibraryForBPMJavaMetaInfoMap() {
+		this.importMetaInfo(org.opaeum.runtime.bpm.opaeumsimpletypes.util.OpaeumSimpleTypesJavaMetaInfoMap.INSTANCE);
+		this.importMetaInfo(opaeumbpmcommon.util.OpaeumBPMCommonJavaMetaInfoMap.INSTANCE);
+		this.importMetaInfo(primitivetypes.util.PrimitiveTypesJavaMetaInfoMap.INSTANCE);
 		putClass(org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_x9fmQNb9EeCJ0dmaHEVVnw");
 		putMethod(org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_NTccANcEEeCJ0dmaHEVVnw",1046973307095054425l);
 		putMethod(org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_dXLYsASTEeGb9qsDxKJdSA",460894547451043801l);
 		putMethod(org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar.class,"252060@_mOhZgNcEEeCJ0dmaHEVVnw",1668962487164386505l);
-		putClass(org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit.class,"252060@_7zLcgNb-EeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.CronExpression.class,"252060@_hqpgYASQEeGb9qsDxKJdSA");
 		putClass(java.util.Date.class,"252060@_qJQboNcCEeCJ0dmaHEVVnw");
 		putClass(java.lang.Integer.class,"252060@_FvE9kNcCEeCJ0dmaHEVVnw");
@@ -26,7 +28,11 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.runtime.bpm.businesscalendar.TimeOfDay.class,"252060@_UjTHMNb_EeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.WorkDay.class,"252060@_Jn9QcNb-EeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.class,"252060@_EnGlsNb-EeCJ0dmaHEVVnw");
+		putClass(org.opaeum.runtime.bpm.contact.Address.class,"252060@_eIdasF-jEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.bpm.contact.EMailAddress.class,"252060@_r-4aMEtmEeGd4cpyhpib9Q");
+		putClass(org.opaeum.runtime.bpm.contact.IPersonAddress.class,"252060@_EpwdoF-hEeGSPaWW9iQb9Q");
+		putClass(org.opaeum.runtime.bpm.contact.IPersonEMailAddress.class,"252060@_9gswQF-gEeGSPaWW9iQb9Q");
+		putClass(org.opaeum.runtime.bpm.contact.IPersonPhoneNumber.class,"252060@_DY-LMF-hEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.bpm.contact.OrganizationEMailAddress.class,"252060@_GfviYEtqEeGd4cpyhpib9Q");
 		putClass(org.opaeum.runtime.bpm.contact.OrganizationEMailAddressType.class,"252060@_58k8wEtpEeGd4cpyhpib9Q");
 		putClass(org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber.class,"252060@_Ca9wQEtoEeGd4cpyhpib9Q");
@@ -36,8 +42,14 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.runtime.bpm.contact.PersonPhoneNumber.class,"252060@_3E_9kEtnEeGd4cpyhpib9Q");
 		putClass(org.opaeum.runtime.bpm.contact.PersonPhoneNumberType.class,"252060@_Z-VwcEtnEeGd4cpyhpib9Q");
 		putClass(org.opaeum.runtime.bpm.contact.PhoneNumber.class,"252060@_qzasoEtmEeGd4cpyhpib9Q");
+		putClass(org.opaeum.runtime.bpm.contact.PhysicalAddress.class,"252060@_cD7-MF-jEeGSPaWW9iQb9Q");
+		putClass(org.opaeum.runtime.bpm.contact.PostalAddress.class,"252060@_anU2QF-jEeGSPaWW9iQb9Q");
+		putClass(org.opaeum.runtime.bpm.document.IBusinessDocument.class,"252060@_cOzTkF9lEeG3X_yvufTVmw");
+		putMethod(org.opaeum.runtime.bpm.document.IBusinessDocument.class,"252060@_nx6xcF9lEeG3X_yvufTVmw",4293337385271490119l);
+		putClass(org.opaeum.runtime.bpm.document.INotification.class,"252060@_G-a2oF-bEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.bpm.organization.BusinessNetwork.class,"252060@_NRu9QFYjEeGJUqEGX7bKSg");
 		putClass(org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration.class,"252060@_YJGvcFYjEeGJUqEGX7bKSg");
+		putClass(org.opaeum.runtime.bpm.organization.BusinessService.class,"252060@_bVBY0F-aEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.bpm.organization.IBusiness.class,"252060@_G6MA0FYtEeGj5_I7bIwNoA");
 		putClass(org.opaeum.runtime.bpm.organization.IBusinessActor.class,"252060@_AN3QcEtxEeGElKTCe2jfDw");
 		putClass(org.opaeum.runtime.bpm.organization.IBusinessCollaboration.class,"252060@_zGMYgEvREeGmqIr8YsFD4g");
@@ -71,7 +83,6 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.runtime.bpm.request.ProcessRequest.class,"252060@_ciiWAI2-EeCrtavWRHwoHg");
 		putMethod(org.opaeum.runtime.bpm.request.ProcessRequest.class,"252060@_4zDaYK0wEeCTTvcJZSDicw",3600202940411078804l);
 		putClass(org.opaeum.runtime.bpm.request.RequestParticipationKind.class,"252060@_ysdO4I6MEeCrtavWRHwoHg");
-		putClass(org.opaeum.runtime.bpm.request.TaskDelegation.class,"252060@_5lxp4LRZEeCilvbXE8KmHA");
 		putClass(org.opaeum.runtime.bpm.request.TaskParticipationKind.class,"252060@_neCVAI6UEeCne5ArYLDbiA");
 		putClass(org.opaeum.runtime.bpm.request.TaskRequest.class,"252060@_zFmsEIoVEeCLqpffVZYAlw");
 		putMethod(org.opaeum.runtime.bpm.request.TaskRequest.class,"252060@_0lAQAIoaEeCPduia_-NbFw",6837298467385087869l);

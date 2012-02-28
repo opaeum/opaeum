@@ -49,7 +49,7 @@ public class TypeResolver extends AbstractModelElementLinker{
 	public void resolveClassifier(INakedInstanceSpecification is){
 		if(is.getClassifier() == null){
 			// For Keywords only
-			is.setClassifier(getBuiltInTypes().getStringType());
+			is.setClassifier(getLibrary().getStringType());
 		}
 	}
 	@VisitBefore(matchSubclasses = true)

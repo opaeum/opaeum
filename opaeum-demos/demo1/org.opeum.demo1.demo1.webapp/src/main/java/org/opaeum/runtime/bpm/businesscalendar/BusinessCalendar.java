@@ -13,17 +13,12 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendarGenerated;
-import org.opaeum.runtime.bpm.businesscalendar.BusinessTimeUnit;
-import org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday;
-import org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday;
-import org.opaeum.runtime.bpm.businesscalendar.TimeOfDay;
-import org.opaeum.runtime.bpm.businesscalendar.WorkDay;
-import org.opaeum.runtime.bpm.businesscalendar.WorkDayKind;
+import org.opaeum.runtime.domain.BusinessTimeUnit;
 
 //This class is timezone agnostic. It assumes that all the Calendar objects
 // that it is being passed
 // are correctly timezoned.
+@org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Filter(name = "noDeletedObjects")
 @Entity(name = "BusinessCalendar")
 @DiscriminatorColumn(name = "type_descriminator",discriminatorType = javax.persistence.DiscriminatorType.STRING)
@@ -270,14 +265,6 @@ public class BusinessCalendar extends BusinessCalendarGenerated{
 	 */
 	private int timeOfDayInMinutes(Calendar c){
 		return c.get(Calendar.HOUR_OF_DAY) * 60 + c.get(Calendar.MINUTE);
-	}
-	public WorkDay getWorkDay(WorkDayKind type){
-		for(WorkDay element:getWorkDay()){
-			if(element.getKind().equals(type)){
-				return element;
-			}
-		}
-		return null;
 	}
 	public WorkDay getWeekDay(){
 		return getWorkDay(WorkDayKind.WEEKDAY);

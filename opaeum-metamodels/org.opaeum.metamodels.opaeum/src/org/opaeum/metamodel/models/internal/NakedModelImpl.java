@@ -3,6 +3,7 @@ package org.opaeum.metamodel.models.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.internal.NakedRootObjectImpl;
 import org.opaeum.metamodel.models.INakedModel;
@@ -36,11 +37,13 @@ public class NakedModelImpl extends NakedRootObjectImpl implements INakedModel{
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
-		if(stereotype.hasValueForFeature("regenerate")){
-			isRegeneratingLibrary=Boolean.TRUE.equals(stereotype.getFirstValueFor("regenerate").getValue());
+		if(stereotype.hasValueForFeature("modelType")){
+			INakedEnumerationLiteral value = (INakedEnumerationLiteral) stereotype.getFirstValueFor("modelType").getValue();
+			isLibrary = isLibrary||value.getName().equals("REFERENCED_LIBRARY") || value.getName().equals("REGENERATING_LIBRARY");
+			isRegeneratingLibrary= value.getName().equals("REGENERATING_LIBRARY");
 		}
 	}
-	public void putImplementationCode(String artifactName, String code){
+	public void putImplementationCode(String artifactName,String code){
 		providedImplementationCode.put(artifactName, code);
 	}
 	@Override

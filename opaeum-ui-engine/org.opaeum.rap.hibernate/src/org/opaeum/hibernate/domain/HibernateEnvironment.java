@@ -28,6 +28,7 @@ import org.opaeum.runtime.domain.ISignal;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.event.IEventHandler;
+import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
@@ -42,6 +43,7 @@ public class HibernateEnvironment extends Environment{
 	private Map<String,Object> components = new HashMap<String,Object>();
 	private Session hibernateSession;
 	private CmtPersistence cmtPersistence;
+	private EMailNotificationService notificationService;
 	public <T>void mockComponent(Class<T> clazz,T component){
 		this.components.put(clazz.getName(), component);
 	}
@@ -179,5 +181,12 @@ public class HibernateEnvironment extends Environment{
 	@Override
 	public UmtPersistence newUmtPersistence(){
 		return new HibernateUmtPersistence(openHibernateSession());
+	}
+	@Override
+	public INotificationService getNotificationService(){
+		if(this.notificationService == null){
+			this.notificationService = new EMailNotificationService();
+		}
+		return this.notificationService;
 	}
 }

@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension point="org.eclipse.papyrus.views.properties.environment">
+      <environment environmentModel="Model/Environment.xmi">
+      </environment>
+   </extension>
+   <extension point="org.eclipse.papyrus.views.properties.context">
+      <context contextModel="Model/UML/UML.ctx">
+      </context>
+   </extension>
+      <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="TreeOutlinePage"
+            labelProvider="org.eclipse.papyrus.views.properties.providers.SelectionLabelProvider"
+            tabDescriptorProvider="org.eclipse.papyrus.views.properties.xwt.XWTTabDescriptorProvider">
+         <propertyCategory
+               category="org.eclipse.papyrus"></propertyCategory>
+      </propertyContributor>
+   </extension>
+  <extension point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping source="pathmap://UML_CONTEXT/" target="platform:/plugin/org.eclipse.papyrus.views.properties.uml/Model/UML/">
+      </mapping>
+   </extension>
+      <extension point="org.eclipse.papyrus.views.properties.context">
+         <context contextModel="Model/UMLNotation/UMLNotation.ctx">
+         </context>
+      </extension>
+
+   <extension
+         point="org.eclipse.emf.facet.infra.query.registration">
+      <modelqueryset
+            file="Model/UML/uml.querySet">
+      </modelqueryset>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.views.properties.labelprovider">
+      <labelProvider
+            labelProvider="org.eclipse.papyrus.uml.properties.providers.UMLFilteredLabelProvider"
+            priority="50">
+      </labelProvider>
+   </extension>
+   
+
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
 		<propertyContributor contributorId="TreeOutlinePage">
 			<propertyCategory category="domain">
@@ -54,7 +96,7 @@
          id="org.opaeum.papyrus.secondEndStereotypesTab"
          indented="true"
          label="Second End Stereotypes"/>
-			<propertyTab id="org.opaeum.papyrus.stereotypesTab"
+			<propertyTab id="org.opaeum.papyrus.stereotypesTab" 
 				category="domain" label="Stereotypes" afterTab="org.opaeum.eclipse.opaeumTab" />
 			<propertyTab id="org.opaeum.eclipse.redefinitionTab"
 				category="domain" label="Redefinition" afterTab="org.opaeum.eclipse.opaeumTab" />
@@ -73,6 +115,9 @@
 			<propertyTab id="property.tab.advanced" category="domain"
 				label="Advanced" afterTab="property.tab.AppearancePropertySection"
 				indented="false" />
+   		<propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab="Advanced"/>
+     	<propertyTab id="Comments" label="Comments" category="org.eclipse.papyrus" afterTab="Base"/>
+     	<propertyTab id="advanced" label="Advanced" category="org.eclipse.papyrus" afterTab="Comments"/>
 		</propertyTabs>
 	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections"
@@ -530,6 +575,34 @@
 				id="org.opaeum.topcased.propertysections.classifier.BusinessDocumentDocumentTypeSection"
 				filter="org.opaeum.topcased.propertysections.filters.BusinessDocumentFilter"
 				class="org.opaeum.topcased.propertysections.classifier.BusinessDocumentDocumentTypeSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.ModelModelTypeSection"
+				filter="org.opaeum.topcased.propertysections.filters.ModelFilter"
+				class="org.opaeum.topcased.propertysections.ModelModelTypeSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.classifier.BusinessDocumentDocumentTypeSection"
+				filter="org.opaeum.topcased.propertysections.filters.ModelFilter"
+				class="org.opaeum.topcased.propertysections.ModelMappedImplementationPackageSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.InterfaceMappedImplementationTypeSection"
+				filter="org.opaeum.topcased.propertysections.filters.InterfaceFilter"
+				class="org.opaeum.topcased.propertysections.InterfaceMappedImplementationTypeSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.InterfaceMappedImplementationTypeSection"
+				filter="org.opaeum.topcased.propertysections.filters.EntityFilter"
+				class="org.opaeum.topcased.propertysections.EntityMappedImplementationTypeSection"
 				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
 				tab="org.opaeum.eclipse.opaeumTab">
 			</propertySection>

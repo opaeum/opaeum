@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.topcased.propertysections.AbstractOclBodyBodySection;
+import org.opaeum.topcased.propertysections.base.AbstractOclBodyBodySection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class OpaqueActionBodySection extends AbstractOclBodyBodySection{

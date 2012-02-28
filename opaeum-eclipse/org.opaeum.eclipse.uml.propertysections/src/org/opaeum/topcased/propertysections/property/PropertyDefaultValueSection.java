@@ -12,7 +12,7 @@ import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.opaeum.topcased.propertysections.AbstractOpaqueExpressionSection;
+import org.opaeum.topcased.propertysections.base.AbstractOpaqueExpressionSection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 
 public class PropertyDefaultValueSection extends AbstractOpaqueExpressionSection{

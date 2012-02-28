@@ -1,5 +1,6 @@
 package org.opaeum.runtime.environment;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
@@ -31,6 +32,15 @@ public abstract class JavaMetaInfoMap{
 	}
 	public Collection<Class<?>> getAllClasses(){
 		return allClasses;
+	}
+	public Collection<Class<?>> getClassesByAnnotation(Class<?extends Annotation> a){
+		Collection<Class<?>> result=new HashSet<Class<?>>();
+		for(Class<?> c:getAllClasses()){
+			if(c.isAnnotationPresent(a)){
+				result.add(c);
+			}
+		}
+		return result;
 	}
 	@SuppressWarnings("unchecked")
 	public <T> T newInstance(String uuid){

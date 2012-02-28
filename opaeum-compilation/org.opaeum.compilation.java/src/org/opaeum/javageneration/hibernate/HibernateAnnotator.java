@@ -9,6 +9,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.OneToMany;
 
 import nl.klasse.octopus.codegen.umlToJava.modelgenerators.visitors.UtilityCreator;
 import nl.klasse.octopus.model.IClassifier;
@@ -135,12 +136,13 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				OJAnnotationValue lazyCollection = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.LazyCollection"), TRUE);
 				field.addAnnotationIfNew(lazyCollection);
 				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && f.getOtherEnd().getNakedBaseType() instanceof INakedInterface){
+					OJAnnotationValue oneToMany = field.findAnnotation(new OJPathName(OneToMany.class.getName()));
+					oneToMany.removeAttribute("mappedBy");
 					JpaUtil.addJoinColumn(field, f.getMappingInfo().getPersistentName().getAsIs(), true);
 					OJAnnotationValue where = new OJAnnotationValue(new OJPathName("org.hibernate.annotations.Where"));
 					where.putAttribute("clause", f.getOtherEnd().getMappingInfo().getPersistentName()
 							+ "_type="
-							+ (config.shouldBeCm1Compatible() ? "'" + ojOwner.getPathName().toString() + "'" : owner.getMappingInfo().getOpaeumId()
-									.toString()));
+							+  "'" + (config.shouldBeCm1Compatible() ?ojOwner.getPathName().toString() : owner.getMappingInfo().getIdInModel()+ "'" ));
 					field.addAnnotationIfNew(where);
 				}
 				if(f.isOrdered()){
@@ -236,7 +238,7 @@ public class HibernateAnnotator extends AbstractStructureVisitor{
 				}
 			}
 			if(!(f.getBaseType() instanceof INakedInterface)){
-				//TODO address this by adding an extra field to the entity
+				// TODO address this by adding an extra field to the entity
 				OJPathName indexPathName = new OJPathName("org.hibernate.annotations.Index");
 				if(f.getOtherEnd() != null && f.getOtherEnd().isNavigable() && map.isOne() && !f.isInverse()
 						&& field.findAnnotation(indexPathName) == null){

@@ -52,6 +52,7 @@ public abstract class AbstractStructureVisitor extends StereotypeAnnotator{
 			INakedBehavior.class,INakedActor.class,NakedBusinessCollaboration.class
 	})
 	public void visitFeaturesOf(INakedClassifier c){
+
 		if(OJUtil.hasOJClass(c)){
 			if(c instanceof INakedComplexStructure){
 				visitComplexStructure((INakedComplexStructure) c);

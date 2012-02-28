@@ -10,6 +10,10 @@ public class NakedInterfaceRealizationImpl extends NakedElementImpl implements I
 	private int index;
 	public NakedInterfaceRealizationImpl(){
 	}
+	/**
+	 * Constructor for emulation of realization
+	 * @param processObject
+	 */
 	public NakedInterfaceRealizationImpl(INakedInterface processObject){
 		initialize(processObject.getId() + "asdf", processObject.getName(), false);
 		this.contract = processObject;

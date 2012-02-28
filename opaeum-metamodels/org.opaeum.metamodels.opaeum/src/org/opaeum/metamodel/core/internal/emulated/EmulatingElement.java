@@ -82,21 +82,20 @@ public abstract class EmulatingElement implements INakedElement{
 		return originalElement.getOwnerElement();
 	}
 	public INakedInstanceSpecification getStereotype(String name){
-		return originalElement.getStereotype(name);
+		return null;
 	}
 	public Collection<? extends INakedInstanceSpecification> getStereotypes(){
-		return originalElement.getStereotypes();
+		return Collections.emptySet();
 	}
 	@SuppressWarnings("unchecked")
 	public <T>T getTaggedValue(String stereotype,String tag){
-		Object o = originalElement.getTaggedValue(stereotype, tag);
-		return (T) o;
+		return null;
 	}
 	public boolean hasStereotype(String name){
-		return originalElement.hasStereotype(name);
+		return false;
 	}
 	public boolean hasTaggedValue(String stereotype,String tag){
-		return originalElement.hasTaggedValue(stereotype, tag);
+		return false;
 	}
 	public void initialize(String id,String name,boolean b){
 	}

@@ -7,6 +7,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OpaqueExpression;
 import org.opaeum.eclipse.EmfElementFinder;
+import org.opaeum.topcased.propertysections.base.AbstractOclBodyBodySection;
 import org.opaeum.topcased.propertysections.ocl.OclBodyComposite;
 import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 /**

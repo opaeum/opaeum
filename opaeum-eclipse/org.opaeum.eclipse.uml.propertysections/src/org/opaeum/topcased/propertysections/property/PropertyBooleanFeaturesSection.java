@@ -9,7 +9,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfElementFinder;
-import org.opaeum.topcased.propertysections.AbstractMultiFeaturePropertySection;
+import org.opaeum.topcased.propertysections.base.AbstractMultiFeaturePropertySection;
 
 public class PropertyBooleanFeaturesSection extends AbstractMultiFeaturePropertySection{
 	private Button isReadOnly;

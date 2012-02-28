@@ -2,6 +2,7 @@ package org.opaeum.metamodel.core.internal.emulated;
 
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedComplexStructure;
+import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
 
 public class NakedBusinessCollaboration extends EmulatedClassifier implements ICompositionParticipant,INakedComplexStructure{
@@ -14,4 +15,7 @@ public class NakedBusinessCollaboration extends EmulatedClassifier implements IC
 	public boolean hasComposite(){
 		return false;
 	};
+	public INakedElementOwner getOwnerElement(){
+		return owner;
+	}
 }

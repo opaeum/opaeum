@@ -18,6 +18,7 @@ import nl.klasse.octopus.model.VisibilityKind;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.Actor;
@@ -132,7 +133,8 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 	@VisitBefore
 	public void visitModel(Model p,NakedModelImpl nm){
 		nm.setIdentifier(p.eResource().getURI().trimFileExtension().lastSegment());
-		nm.setLibrary(emfWorkspace.isLibrary(p) || StereotypesHelper.hasStereotype(p, StereotypeNames.MODEL_LIBRARY));
+		nm.setLibrary(p.isModelLibrary() || StereotypesHelper.hasStereotype(p, StereotypeNames.MODEL_LIBRARY));
+		
 		this.populateRootObject(p, nm);
 		extractImplementationCodeFor(p, nm);
 	}

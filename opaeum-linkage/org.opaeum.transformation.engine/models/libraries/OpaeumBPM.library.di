@@ -63,28 +63,10 @@
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_Abxv8FPdEeGqgJxtJrI3sQ"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_p7QtAF13EeGKRdKItFLDfg"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_fxJ0MFZKEeGj5_I7bIwNoA"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPMCommon.notation#_LhArIF9mEeG3X_yvufTVmw"/>
-        </children>
-        <children>
           <emfPageIdentifier href="OpaeumBPM.library.notation#_1sBlUF13EeGKRdKItFLDfg"/>
         </children>
         <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_ZQa24F9lEeG3X_yvufTVmw"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_8Ju9UF-gEeGSPaWW9iQb9Q"/>
-        </children>
-        <children>
-          <emfPageIdentifier href="OpaeumBPM.library.notation#_uMlM4FPiEeGhgtp358IFlA"/>
+          <emfPageIdentifier href="OpaeumBPM.library.notation#_Abxv8FPdEeGqgJxtJrI3sQ"/>
         </children>
       </children>
     </windows>

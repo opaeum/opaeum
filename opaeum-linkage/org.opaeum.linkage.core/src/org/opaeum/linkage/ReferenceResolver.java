@@ -99,7 +99,7 @@ public class ReferenceResolver extends AbstractModelElementLinker{
 					}else{
 						// TODO create validation error
 						// getErrorMap().putError(holder, rule, objects)
-						cls = getBuiltInTypes().getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName);
+						cls = getLibrary().getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName);
 					}
 				}
 				boolean isImported=false;

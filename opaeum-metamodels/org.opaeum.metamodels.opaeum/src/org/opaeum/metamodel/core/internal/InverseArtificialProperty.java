@@ -28,7 +28,6 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty implemen
 	private NakedMultiplicityImpl multiplicity;
 	private String name;
 	private boolean isOrdered;
-	private INakedProperty otherEnd;
 	private boolean isDerived;
 	public InverseArtificialProperty(INakedBehavioredClassifier context,INakedBehavior behavior){
 		super(context, behavior);

@@ -50,7 +50,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="PersonPhoneNumber")
 @DiscriminatorValue(	"person_phone_number")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonPhoneNumber, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970

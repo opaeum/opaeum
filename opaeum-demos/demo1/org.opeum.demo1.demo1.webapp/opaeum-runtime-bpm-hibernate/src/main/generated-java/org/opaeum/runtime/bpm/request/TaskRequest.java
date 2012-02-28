@@ -65,6 +65,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IProcessStep;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
+import org.opaeum.runtime.domain.TaskDelegation;
 import org.opaeum.runtime.domain.TransitionListener;
 import org.opaeum.runtime.domain.UmlNodeInstance;
 import org.opaeum.runtime.environment.Environment;
@@ -95,7 +96,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 	@Transient
 	protected Object currentException;
-	@Type(type="org.opaeum.runtime.bpm.request.TaskDelegationResolver")
+	@Type(type="org.opaeum.runtime.domain.TaskDelegationResolver")
 	@Column(name="delegation",nullable=true)
 	private TaskDelegation delegation;
 		// Initialise to 1000 from 1970
@@ -832,7 +833,6 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void init(ProcessContext context) {
-		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}

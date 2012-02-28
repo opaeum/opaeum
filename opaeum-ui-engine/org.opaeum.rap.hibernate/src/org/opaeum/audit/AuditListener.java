@@ -91,10 +91,12 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void integrate(Configuration configuration,SessionFactoryImplementor sessionFactory,SessionFactoryServiceRegistry serviceRegistry){
+		System.out.println();
 		//TODO ensure that this is registered as a PostLoadListener
 	}
 	@Override
 	public void integrate(MetadataImplementor metadata,SessionFactoryImplementor sessionFactory,SessionFactoryServiceRegistry serviceRegistry){
+		System.out.println();
 	}
 	@Override
 	public void disintegrate(SessionFactoryImplementor sessionFactory,SessionFactoryServiceRegistry serviceRegistry){

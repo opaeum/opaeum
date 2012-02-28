@@ -9,7 +9,7 @@ public class Demo1JavaMetaInfoMap extends JavaMetaInfoMap {
 	/** Constructor for Demo1JavaMetaInfoMap
 	 */
 	public Demo1JavaMetaInfoMap() {
-		this.importMetaInfo(org.opeum.demo1.structuredbusiness.util.StructuredbusinessJavaMetaInfoMap.INSTANCE);
+		this.importMetaInfo(structuredbusiness.util.StructuredbusinessJavaMetaInfoMap.INSTANCE);
 		this.importMetaInfo(org.opeum.demo1.testmodel.util.TestmodelJavaMetaInfoMap.INSTANCE);
 	}
 
