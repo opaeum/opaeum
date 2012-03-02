@@ -17,9 +17,6 @@ public class NakedValuePinImpl extends NakedInputPinImpl implements INakedValueP
 	@Override
 	public void addOwnedElement(INakedElement element) {
 		super.addOwnedElement(element);
-		if(element instanceof INakedValueSpecification){
-			this.value=(INakedValueSpecification) element;
-		}
 	}
 	@Override
 	public boolean hasValidInput() {

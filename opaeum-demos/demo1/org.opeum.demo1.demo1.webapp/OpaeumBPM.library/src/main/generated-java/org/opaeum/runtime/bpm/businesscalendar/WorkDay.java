@@ -30,6 +30,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -101,9 +102,9 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 	 * @param kind 
 	 */
 	public WorkDay(BusinessCalendar owningObject, WorkDayKind kind) {
+		setKind(kind);
 		init(owningObject);
 		addToOwningObject();
-		setKind(kind);
 	}
 	
 	/** Default constructor for WorkDay
@@ -145,7 +146,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.setStartTime(curVal);
@@ -163,7 +164,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.setEndTime(curVal);
@@ -220,6 +221,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return false;
 	}
 	
+	@Property(isComposite=false,opposite="workDay")
 	@NumlMetaInfo(uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -235,6 +237,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
+	@Property(isComposite=true,opposite="workDay")
 	@NumlMetaInfo(uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
 		TimeOfDay result = this.endTime;
@@ -246,6 +249,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.id;
 	}
 	
+	@Property(isComposite=false,opposite="workDay")
 	@NumlMetaInfo(uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
 		WorkDayKind result = this.kind;
@@ -276,6 +280,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getBusinessCalendar();
 	}
 	
+	@Property(isComposite=true,opposite="workDay")
 	@NumlMetaInfo(uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
 		TimeOfDay result = this.startTime;

@@ -53,6 +53,10 @@
       </eAnnotations>
       <children xmi:type="notation:DecorationNode" xmi:id="_dzXwkF9YEeG3X_yvufTVmw" type="1034"/>
       <children xmi:type="notation:BasicCompartment" xmi:id="_dzXwkV9YEeG3X_yvufTVmw" type="1071">
+        <children xmi:type="notation:Shape" xmi:id="_fFVuAGOmEeGodsKwWzy5aw" type="3002" fontName="Sans" fontHeight="8" lineColor="0">
+          <element xmi:type="uml:Property" href="OpaeumBPMProfile.uml#_fEjD0GOmEeGodsKwWzy5aw"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_fFVuAWOmEeGodsKwWzy5aw"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_dzXwkl9YEeG3X_yvufTVmw"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_dzXwk19YEeG3X_yvufTVmw"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_dzXwlF9YEeG3X_yvufTVmw"/>
@@ -105,7 +109,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_r8lG9F9YEeG3X_yvufTVmw"/>
       </children>
       <element xmi:type="uml:Stereotype" href="OpaeumBPMProfile.uml#_yFc3EI59EeCrtavWRHwoHg"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_r8hckV9YEeG3X_yvufTVmw" x="545" y="95"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_r8hckV9YEeG3X_yvufTVmw" x="535" y="95"/>
     </children>
     <children xmi:type="notation:Shape" xmi:id="_srRY8F9YEeG3X_yvufTVmw" type="1031" fontName="Sans" fontHeight="8" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_srTOIF9YEeG3X_yvufTVmw" source="ShadowFigure">

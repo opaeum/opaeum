@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,13 +30,15 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.contact.PersonEMailAddress;
 import org.opaeum.runtime.bpm.contact.PersonPhoneNumber;
-import org.opaeum.runtime.bpm.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.bpm.contact.PhysicalAddress;
 import org.opaeum.runtime.bpm.contact.PostalAddress;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.contact.PersonEMailAddressType;
+import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -44,7 +47,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
-import org.opaeum.runtime.organization.IPerson;
+import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -61,7 +64,7 @@ import org.w3c.dom.NodeList;
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonNode")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Column(name="authentication_token")
 	private String authenticationToken;
 	@Transient
@@ -77,7 +80,8 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="person",targetEntity=PersonEMailAddress.class)
-	private Set<PersonEMailAddress> eMailAddress = new HashSet<PersonEMailAddress>();
+	@MapKey(name="z_keyOfEMailAddressOnPersonNode")
+	private Map<String, PersonEMailAddress> eMailAddress = new HashMap<String,PersonEMailAddress>();
 	@Column(name="first_name")
 	private String firstName;
 	@Id
@@ -106,6 +110,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="person",targetEntity=PersonPhoneNumber.class)
+	@MapKey(name="z_keyOfPhoneNumberOnPersonNode")
 	private Map<String, PersonPhoneNumber> phoneNumber = new HashMap<String,PersonPhoneNumber>();
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="physical_address_id",nullable=true)
@@ -128,9 +133,9 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	 * @param username 
 	 */
 	public PersonNode(BusinessNetwork owningObject, String username) {
+		setUsername(username);
 		init(owningObject);
 		addToOwningObject();
-		setUsername(username);
 	}
 	
 	/** Default constructor for PersonNode
@@ -147,12 +152,6 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	public void addAllToBusinessRole(Set<IBusinessRole> businessRole) {
 		for ( IBusinessRole o : businessRole ) {
 			addToBusinessRole(o);
-		}
-	}
-	
-	public void addAllToEMailAddress(Set<PersonEMailAddress> eMailAddress) {
-		for ( PersonEMailAddress o : eMailAddress ) {
-			addToEMailAddress(o);
 		}
 	}
 	
@@ -177,7 +176,6 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	public void addToBusinessActor(IBusinessActor businessActor) {
 		if ( businessActor!=null ) {
 			businessActor.z_internalRemoveFromRepresentedPerson(businessActor.getRepresentedPerson());
-			businessActor.z_internalAddToRepresentedPerson(this);
 			z_internalAddToBusinessActor(businessActor);
 		}
 	}
@@ -185,16 +183,15 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	public void addToBusinessRole(IBusinessRole businessRole) {
 		if ( businessRole!=null ) {
 			businessRole.z_internalRemoveFromRepresentedPerson(businessRole.getRepresentedPerson());
-			businessRole.z_internalAddToRepresentedPerson(this);
 			z_internalAddToBusinessRole(businessRole);
 		}
 	}
 	
-	public void addToEMailAddress(PersonEMailAddress eMailAddress) {
+	public void addToEMailAddress(PersonEMailAddressType type, PersonEMailAddress eMailAddress) {
 		if ( eMailAddress!=null ) {
 			eMailAddress.z_internalRemoveFromPerson(eMailAddress.getPerson());
 			eMailAddress.z_internalAddToPerson(this);
-			z_internalAddToEMailAddress(eMailAddress);
+			z_internalAddToEMailAddress(type,eMailAddress);
 		}
 	}
 	
@@ -273,7 +270,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToPhoneNumber(curVal.getType(),curVal);
@@ -291,10 +288,10 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
-						this.addToEMailAddress(curVal);
+						this.addToEMailAddress(curVal.getType(),curVal);
 						map.put(curVal.getUid(), curVal);
 					}
 				}
@@ -309,7 +306,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToLeave(curVal);
@@ -327,7 +324,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToPersonFullfillsActorRole_businessActor(curVal);
@@ -347,7 +344,11 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	}
 	
 	public void clearEMailAddress() {
-		removeAllFromEMailAddress(getEMailAddress());
+		Set<PersonEMailAddress> tmp = new HashSet<PersonEMailAddress>(getEMailAddress());
+		for ( PersonEMailAddress o : tmp ) {
+			removeFromEMailAddress(o.getType(),o);
+		}
+		eMailAddress.clear();
 	}
 	
 	public void clearLeave() {
@@ -384,7 +385,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 			to.addToPhoneNumber(child.getType(),child.makeCopy());
 		}
 		for ( PersonEMailAddress child : from.getEMailAddress() ) {
-			to.addToEMailAddress(child.makeCopy());
+			to.addToEMailAddress(child.getType(),child.makeCopy());
 		}
 		for ( Leave child : from.getLeave() ) {
 			to.addToLeave(child.makeCopy());
@@ -396,8 +397,9 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	public void createComponents() {
 	}
 	
-	public PersonEMailAddress createEMailAddress() {
+	public PersonEMailAddress createEMailAddress(PersonEMailAddressType type) {
 		PersonEMailAddress newInstance= new PersonEMailAddress();
+		newInstance.setType(type);
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -420,8 +422,9 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return newInstance;
 	}
 	
-	public PersonPhoneNumber createPhoneNumber() {
+	public PersonPhoneNumber createPhoneNumber(PersonPhoneNumberType type) {
 		PersonPhoneNumber newInstance= new PersonPhoneNumber();
+		newInstance.setType(type);
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -433,6 +436,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return false;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	public String getAuthenticationToken() {
 		String result = this.authenticationToken;
@@ -460,6 +464,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return this.cancelledEvents;
 	}
 	
+	@Property(isComposite=false,opposite="person")
 	@NumlMetaInfo(uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
 	public BusinessNetwork getCollaboration() {
 		BusinessNetwork result = this.collaboration;
@@ -471,13 +476,23 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return this.deletedOn;
 	}
 	
+	public PersonEMailAddress getEMailAddress(PersonEMailAddressType type) {
+		PersonEMailAddress result = null;
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		result=this.eMailAddress.get(key.toString());
+		return result;
+	}
+	
+	@Property(isComposite=true,opposite="person")
 	@NumlMetaInfo(uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
 	public Set<PersonEMailAddress> getEMailAddress() {
-		Set<PersonEMailAddress> result = this.eMailAddress;
+		Set<PersonEMailAddress> result = new HashSet<PersonEMailAddress>(this.eMailAddress.values());
 		
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	public String getFirstName() {
 		String result = this.firstName;
@@ -496,6 +511,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return this.id;
 	}
 	
+	@Property(isComposite=true,opposite="person")
 	@NumlMetaInfo(uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
 	public Set<Leave> getLeave() {
 		Set<Leave> result = this.leave;
@@ -519,6 +535,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return getCollaboration();
 	}
 	
+	@Property(isComposite=true,opposite="representedPerson")
 	@NumlMetaInfo(uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public Set<PersonFullfillsActorRole> getPersonFullfillsActorRole_businessActor() {
 		Set<PersonFullfillsActorRole> result = this.personFullfillsActorRole_businessActor;
@@ -535,6 +552,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return null;
 	}
 	
+	@Property(isComposite=true,opposite="representedPerson")
 	@NumlMetaInfo(uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Set<Person_iBusinessRole_1> getPerson_iBusinessRole_1_businessRole() {
 		Set<Person_iBusinessRole_1> result = this.person_iBusinessRole_1_businessRole;
@@ -559,6 +577,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="person")
 	@NumlMetaInfo(uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
 	public Set<PersonPhoneNumber> getPhoneNumber() {
 		Set<PersonPhoneNumber> result = new HashSet<PersonPhoneNumber>(this.phoneNumber.values());
@@ -566,6 +585,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="person")
 	@NumlMetaInfo(uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
 	public PhysicalAddress getPhysicalAddress() {
 		PhysicalAddress result = this.physicalAddress;
@@ -573,6 +593,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="person")
 	@NumlMetaInfo(uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
 	public PostalAddress getPostalAddress() {
 		PostalAddress result = this.postalAddress;
@@ -580,6 +601,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
 		String result = this.surname;
@@ -594,6 +616,7 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		return this.uid;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	public String getUsername() {
 		String result = this.username;
@@ -638,9 +661,6 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 			child.markDeleted();
 		}
 		for ( Leave child : new ArrayList<Leave>(getLeave()) ) {
-			child.markDeleted();
-		}
-		for ( IBusinessRole child : new ArrayList<IBusinessRole>(getBusinessRole()) ) {
 			child.markDeleted();
 		}
 		for ( Person_iBusinessRole_1 child : new ArrayList<Person_iBusinessRole_1>(getPerson_iBusinessRole_1_businessRole()) ) {
@@ -748,13 +768,6 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		}
 	}
 	
-	public void removeAllFromEMailAddress(Set<PersonEMailAddress> eMailAddress) {
-		Set<PersonEMailAddress> tmp = new HashSet<PersonEMailAddress>(eMailAddress);
-		for ( PersonEMailAddress o : tmp ) {
-			removeFromEMailAddress(o);
-		}
-	}
-	
 	public void removeAllFromLeave(Set<Leave> leave) {
 		Set<Leave> tmp = new HashSet<Leave>(leave);
 		for ( Leave o : tmp ) {
@@ -788,10 +801,10 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		}
 	}
 	
-	public void removeFromEMailAddress(PersonEMailAddress eMailAddress) {
+	public void removeFromEMailAddress(PersonEMailAddressType type, PersonEMailAddress eMailAddress) {
 		if ( eMailAddress!=null ) {
 			eMailAddress.z_internalRemoveFromPerson(this);
-			z_internalRemoveFromEMailAddress(eMailAddress);
+			z_internalRemoveFromEMailAddress(type,eMailAddress);
 		}
 	}
 	
@@ -860,11 +873,6 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
-	}
-	
-	public void setEMailAddress(Set<PersonEMailAddress> eMailAddress) {
-		this.clearEMailAddress();
-		this.addAllToEMailAddress(eMailAddress);
 	}
 	
 	public void setFirstName(String firstName) {
@@ -1014,8 +1022,12 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		this.collaboration=val;
 	}
 	
-	public void z_internalAddToEMailAddress(PersonEMailAddress val) {
-		this.eMailAddress.add(val);
+	public void z_internalAddToEMailAddress(PersonEMailAddressType type, PersonEMailAddress val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		val.z_internalAddToType(type);
+		this.eMailAddress.put(key.toString(),val);
+		val.setZ_keyOfEMailAddressOnPersonNode(key.toString());
 	}
 	
 	public void z_internalAddToFirstName(String val) {
@@ -1090,8 +1102,10 @@ public class PersonNode implements IPerson, IPersistentObject, IEventGenerator, 
 		}
 	}
 	
-	public void z_internalRemoveFromEMailAddress(PersonEMailAddress val) {
-		this.eMailAddress.remove(val);
+	public void z_internalRemoveFromEMailAddress(PersonEMailAddressType type, PersonEMailAddress val) {
+		StringBuilder key = new StringBuilder();
+		key.append(type.getUid());
+		this.eMailAddress.remove(key.toString());
 	}
 	
 	public void z_internalRemoveFromFirstName(String val) {

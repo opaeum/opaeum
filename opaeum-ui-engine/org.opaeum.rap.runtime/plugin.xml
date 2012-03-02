@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+   <extension-point id="org.opaeum.rap.runtime.opaeumRAPApplication" name="Opaeum RAP Application" schema="schema/org.opaeum.rap.application.exsd"/>
    <extension
          point="org.eclipse.rap.ui.entrypoint">
       <entrypoint
@@ -100,7 +101,7 @@
               defaultEntrypointId="org.eclipse.rap.rms.ui.internal.startup.RMS"
               id="org.eclipse.rap.rms.ui.RMS"
               servletName="rms"
-              themeId="org.eclipse.rap.rms.ui.RMSTheme"
+              themeId="org.eclipse.rap.design.example.business.theme"
               title="RAP Workbench Demo">
         </branding>
      </extension>

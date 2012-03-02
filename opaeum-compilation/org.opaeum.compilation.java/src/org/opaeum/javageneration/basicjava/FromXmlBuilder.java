@@ -163,7 +163,7 @@ public class FromXmlBuilder extends AbstractStructureVisitor{
 		thenPart.addToStatements(tryNewInstance);
 		tryNewInstance.getTryPart().addToStatements("curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute(\"className\"))");
 		tryNewInstance.setCatchParam(new OJParameter("e", new OJPathName("Exception")));
-		tryNewInstance.getCatchPart().addToStatements("curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
+		tryNewInstance.getCatchPart().addToStatements("curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute(\"classUuid\"))");
 		thenPart.addToStatements("curVal.buildTreeFromXml((Element)currentPropertyValueNode,map)");
 		if(isMap(map.getProperty())){
 			List<INakedProperty> qualifiers = map.getProperty().getQualifiers();

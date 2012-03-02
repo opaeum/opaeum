@@ -25,10 +25,12 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.hibernate.domain.InterfaceValue;
+import org.opaeum.annotation.Property;
+import org.opaeum.hibernate.domain.CascadingInterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -51,13 +53,14 @@ import org.w3c.dom.NodeList;
 @Entity(name="BusinessNetworkFacilatatesCollaboration")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class BusinessNetworkFacilatatesCollaboration implements IPersistentObject, HibernateEntity, CompositionNode, Serializable {
+	@Cascade(value=org.hibernate.annotations.CascadeType.ALL)
 	@Embedded
 	@AttributeOverrides(	{
 		@AttributeOverride(column=
 			@Column(name="business_collaboration"),name="identifier"),
 		@AttributeOverride(column=
 			@Column(name="business_collaboration_type"),name="classIdentifier")})
-	private InterfaceValue businessCollaboration;
+	private CascadingInterfaceValue businessCollaboration = new CascadingInterfaceValue();
 	@Index(columnNames="business_network_id",name="idx_business_network_facilatates_collaboration_business_network_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_network_id",nullable=true)
@@ -123,7 +126,24 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-		
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("businessCollaboration") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("9180074202228577303")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						IBusinessCollaboration curVal;
+						try {
+							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
+						} catch (Exception e) {
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+						}
+						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
+						this.setBusinessCollaboration(curVal);
+						map.put(curVal.getUid(), curVal);
+					}
+				}
+			}
 		}
 	}
 	
@@ -142,6 +162,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return false;
 	}
 	
+	@Property(isComposite=true,opposite="businessNetworkFacilatatesCollaboration_businessNetwork")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = (IBusinessCollaboration)this.businessCollaboration.getValue(persistence);
@@ -149,6 +170,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -192,11 +214,11 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 	}
 	
 	public void markDeleted() {
-		if ( getBusinessCollaboration()!=null ) {
-			getBusinessCollaboration().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessNetwork(this);
-		}
 		if ( getBusinessNetwork()!=null ) {
 			getBusinessNetwork().z_internalRemoveFromBusinessNetworkFacilatatesCollaboration_businessCollaboration(this);
+		}
+		if ( getBusinessCollaboration()!=null ) {
+			getBusinessCollaboration().markDeleted();
 		}
 		setDeletedOn(new Date());
 	}
@@ -216,7 +238,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						setBusinessCollaboration((IBusinessCollaboration)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+						((IBusinessCollaboration)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -307,7 +329,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 			sb.append("\n<businessCollaboration/>");
 		} else {
 			sb.append("\n<businessCollaboration propertyId=\"9180074202228577303\">");
-			sb.append("\n" + getBusinessCollaboration().toXmlReferenceString());
+			sb.append("\n" + getBusinessCollaboration().toXmlString());
 			sb.append("\n</businessCollaboration>");
 		}
 		if ( getBusinessNetwork()==null ) {

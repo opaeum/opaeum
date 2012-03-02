@@ -26,6 +26,7 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.rap.RapCapabilities;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.textmetamodel.TextSourceFolderIdentifier;
 import org.opaeum.textmetamodel.TextWorkspace;
@@ -105,7 +106,7 @@ public abstract class AbstractPersistenceConfigGenerator extends AbstractTextPro
 		for(String string:config.getAdditionalPersistentClasses()){
 			persistentClasses.add(new OJPathName(string));
 		}
-		if(!config.getSourceFolderStrategy().isSingleProjectStrategy()){
+		if(!config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isFeatureSelected(RapCapabilities.class)){
 			//CLasses across multiple jars need to be registered explicitly 
 			for(INakedElement e:workspace.getAllElements()){
 				if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent() && isGeneratingElement(e)){

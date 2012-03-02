@@ -311,11 +311,11 @@ public final class EmfToOpaeumSynchronizer{
 		threadPool.schedule(new Runnable(){
 			@Override
 			public void run(){
-				if(System.currentTimeMillis() - lastChange >= 200){
+				if(System.currentTimeMillis() - lastChange >= 500){
 					scheduleSynchronization();
 				}
 			}
-		}, 200, TimeUnit.MILLISECONDS);
+		}, 500, TimeUnit.MILLISECONDS);
 	}
 	public static void sheduleTask(Runnable r,long l){
 		threadPool.schedule(r, l, TimeUnit.MILLISECONDS);

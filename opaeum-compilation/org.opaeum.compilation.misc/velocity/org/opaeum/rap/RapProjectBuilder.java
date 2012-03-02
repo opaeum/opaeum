@@ -21,10 +21,10 @@ public class RapProjectBuilder extends AbstractBootstrapStep{
 		SourceFolder sf = getSourceFolder(config.getSourceFolderDefinition(TextSourceFolderIdentifier.WEB_PROJECT_ROOT));
 		vars.put("project", sf.getParent());
 		ISourceFolderIdentifier outputRootId=TextSourceFolderIdentifier.WEB_PROJECT_ROOT;
-		processTemplate(workspace, "templates/Model/RapProjectXml.vsl", ".project", outputRootId, vars);
-		processTemplate(workspace, "templates/Model/MANIFESTMF.vsl", "META-INF/MANIFEST.MF", outputRootId, vars);
-		processTemplate(workspace, "templates/Model/RapProjectClasspath.vsl", ".classpath", outputRootId, vars);
-		processTemplate(workspace, "templates/Model/RapLaunch.vsl", workspace.getName() +".launch", outputRootId, vars);
-		processTemplate(workspace, "templates/Model/RapBuildProperties.vsl", "build.properties", outputRootId, vars);
+//		processTemplate(workspace, "templates/Model/RapProjectXml.vsl", ".project", outputRootId, vars);
+//		processTemplate(workspace, "templates/Model/MANIFESTMF.vsl", "META-INF/MANIFEST.MF", outputRootId, vars);
+//		processTemplate(workspace, "templates/Model/RapProjectClasspath.vsl", ".classpath", outputRootId, vars);
+//		processTemplate(workspace, "templates/Model/RapLaunch.vsl", workspace.getName() +".launch", outputRootId, vars);
+//		processTemplate(workspace, "templates/Model/RapBuildProperties.vsl", "build.properties", outputRootId, vars);
 	}
 }

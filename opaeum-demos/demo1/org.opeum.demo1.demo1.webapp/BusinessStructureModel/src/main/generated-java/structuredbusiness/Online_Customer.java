@@ -32,6 +32,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.IBusinessActor;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole;
@@ -52,6 +53,8 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.organization.IOrganizationNode;
+import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
 import org.w3c.dom.Element;
@@ -234,10 +237,14 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public OrganizationNode getOrganization() {
-		OrganizationNode result = this.organizationFullfillsActorRole_organization.getOrganization();
+		OrganizationNode result = null;
+		if ( this.organizationFullfillsActorRole_organization!=null ) {
+			result = this.organizationFullfillsActorRole_organization.getOrganization();
+		}
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="businessActor")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole result = this.organizationFullfillsActorRole_organization;
@@ -268,6 +275,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return getRoot();
 	}
 	
+	@Property(isComposite=false,opposite="participant")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -289,6 +297,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="businessActor")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson() {
 		PersonFullfillsActorRole result = this.personFullfillsActorRole_representedPerson;
@@ -305,10 +314,14 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public PersonNode getRepresentedPerson() {
-		PersonNode result = this.personFullfillsActorRole_representedPerson.getRepresentedPerson();
+		PersonNode result = null;
+		if ( this.personFullfillsActorRole_representedPerson!=null ) {
+			result = this.personFullfillsActorRole_representedPerson.getRepresentedPerson();
+		}
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="online_Customer")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;
@@ -410,6 +423,10 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		this.objectVersion=objectVersion;
 	}
 	
+	public void setOrganization(IOrganizationNode org) {
+		setOrganization((OrganizationNode)org);
+	}
+	
 	public void setOrganization(OrganizationNode organization) {
 		if ( this.getOrganization()!=null ) {
 			this.getOrganization().z_internalRemoveFromBusinessActor(this);
@@ -485,6 +502,10 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 				this.z_internalAddToPersonFullfillsActorRole_representedPerson(personFullfillsActorRole_representedPerson);
 			}
 		}
+	}
+	
+	public void setRepresentedPerson(IPersonNode p) {
+		setRepresentedPerson((PersonNode)p);
 	}
 	
 	public void setRepresentedPerson(PersonNode representedPerson) {
@@ -572,7 +593,9 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void z_internalRemoveFromOrganization(OrganizationNode organization) {
-		this.organizationFullfillsActorRole_organization.clear();
+		if ( this.organizationFullfillsActorRole_organization!=null ) {
+			this.organizationFullfillsActorRole_organization.clear();
+		}
 	}
 	
 	public void z_internalRemoveFromOrganizationFullfillsActorRole_organization(OrganizationFullfillsActorRole val) {
@@ -594,7 +617,9 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void z_internalRemoveFromRepresentedPerson(PersonNode representedPerson) {
-		this.personFullfillsActorRole_representedPerson.clear();
+		if ( this.personFullfillsActorRole_representedPerson!=null ) {
+			this.personFullfillsActorRole_representedPerson.clear();
+		}
 	}
 	
 	public void z_internalRemoveFromRoot(Structuredbusiness val) {

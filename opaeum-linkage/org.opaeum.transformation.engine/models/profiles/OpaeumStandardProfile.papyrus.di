@@ -7,12 +7,18 @@
     <availablePage>
       <emfPageIdentifier href="OpaeumStandardProfile.papyrus.notation#_GwfmIFlKEeG5W7BcEUHRDg"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="OpaeumStandardProfile.papyrus.notation#_UFRB0GHwEeGZ2ZtqKSR12g"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
       <children xsi:type="di:TabFolder">
         <children>
           <emfPageIdentifier href="OpaeumStandardProfile.papyrus.notation#_3oY-kFlJEeG5W7BcEUHRDg"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="OpaeumStandardProfile.papyrus.notation#_UFRB0GHwEeGZ2ZtqKSR12g"/>
         </children>
         <children>
           <emfPageIdentifier href="OpaeumStandardProfile.papyrus.notation#_GwfmIFlKEeG5W7BcEUHRDg"/>

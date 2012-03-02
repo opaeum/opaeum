@@ -31,8 +31,8 @@ import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
 public class StandaloneJpaEnvironment extends Environment{
-	Map<Class<?>,Object> components = new HashMap<Class<?>,Object>();
-	private static EntityManagerFactory entityManagerFactory;
+	protected Map<Class<?>,Object> components = new HashMap<Class<?>,Object>();
+	protected static EntityManagerFactory entityManagerFactory;
 	private StandaloneJpaUmtPersistence txPersistence;
 	private StandaloneJpaCmtPersistence cmtPersistence;
 	private StandaloneJpaConversationalPersistence persistence;
@@ -49,41 +49,44 @@ public class StandaloneJpaEnvironment extends Environment{
 		defaultImplementation = StandaloneJpaEnvironment.class;
 		return (StandaloneJpaEnvironment) Environment.getInstance();
 	}
-	private EntityManagerFactory getEntityManagerFactory(){
+	protected EntityManagerFactory getEntityManagerFactory(){
 		if(entityManagerFactory == null){
-			Set<String> schemas = new HashSet<String>();
-			for(Class<?> class1:getMetaInfoMap().getAllClasses()){
-				if(class1.isAnnotationPresent(Table.class)){
-					schemas.add(class1.getAnnotation(Table.class).schema());
-				}
-			}
-			schemas.remove(null);
-			schemas.remove("");
-			try{
-				loadDriver("org.hsqldb.jdbcDriver");
-				loadDriver("org.postgres.Driver");
-				loadDriver("oracle.jdbc.driver.OracleDriver");
-				loadDriver("com.ibm.db2.jcc.DB2Driver");
-				loadDriver("org.gjt.mm.mysql.Driver");
-				// TODO etc
-				Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL), Environment.getInstance()
-						.getProperty(Environment.DB_USER, "sa"), Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
-				Statement st = connection.createStatement();
-				for(String string:schemas){
-					try{
-						st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION DBA");
-						// TODO make this db-independent
-						connection.commit();
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-				}
-			}catch(SQLException e1){
-				e1.printStackTrace();
-			}
+			createSchemas();
 			entityManagerFactory = Persistence.createEntityManagerFactory(getProperty(HIBERNATE_CONFIG_NAME));
 		}
 		return entityManagerFactory;
+	}
+	protected void createSchemas(){
+		Set<String> schemas = new HashSet<String>();
+		for(Class<?> class1:getMetaInfoMap().getAllClasses()){
+			if(class1.isAnnotationPresent(Table.class)){
+				schemas.add(class1.getAnnotation(Table.class).schema());
+			}
+		}
+		schemas.remove(null);
+		schemas.remove("");
+		try{
+			loadDriver("org.hsqldb.jdbcDriver");
+			loadDriver("org.postgres.Driver");
+			loadDriver("oracle.jdbc.driver.OracleDriver");
+			loadDriver("com.ibm.db2.jcc.DB2Driver");
+			loadDriver("org.gjt.mm.mysql.Driver");
+			// TODO etc
+			Connection connection = DriverManager.getConnection(super.getProperty(JDBC_CONNECTION_URL), Environment.getInstance()
+					.getProperty(Environment.DB_USER, "sa"), Environment.getInstance().getProperty(Environment.DB_PASSWORD, ""));
+			Statement st = connection.createStatement();
+			for(String string:schemas){
+				try{
+					st.executeUpdate("CREATE SCHEMA " + string + " AUTHORIZATION DBA");
+					// TODO make this db-independent
+					connection.commit();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
 	}
 	private void loadDriver(String driver){
 		try{

@@ -8,11 +8,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -42,10 +44,9 @@ import org.opaeum.textmetamodel.TextWorkspace;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class RecompileElementAction extends AbstractOpaeumAction implements IObjectActionDelegate{
-	
 	public RecompileElementAction(){
 		super(null, "Recompile Element");
-	}	
+	}
 	public RecompileElementAction(IStructuredSelection selection){
 		super(selection, "Recompile Element");
 		this.selection = selection;
@@ -55,12 +56,15 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 	public void run(){
 		for(Iterator<?> it = selection.iterator();it.hasNext();){
 			Object selectedElement = it.next();
+			if(!(selectedElement instanceof Element) && selectedElement instanceof IAdaptable){
+				selectedElement = ((IAdaptable) selectedElement).getAdapter(EObject.class);
+			}
 			if(selectedElement instanceof AbstractGraphicalEditPart){
 				AbstractGraphicalEditPart ep = (AbstractGraphicalEditPart) selectedElement;
-				//TODO make pluggable to support Papyrus
+				// TODO make pluggable to support Papyrus
 				if(ep.getModel().getClass().getName().startsWith("org.topcased.modeler.di.model")){
 					Object bridge = IntrospectionUtil.get(IntrospectionUtil.getProperty("semanticModel", ep.getModel().getClass()), ep.getModel());
-					selectedElement=IntrospectionUtil.get(IntrospectionUtil.getProperty("element", bridge.getClass()),bridge);
+					selectedElement = IntrospectionUtil.get(IntrospectionUtil.getProperty("element", bridge.getClass()), bridge);
 				}
 			}
 			if(selectedElement instanceof Element){
@@ -69,10 +73,10 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 					@Override
 					protected IStatus run(final IProgressMonitor monitor){
 						OpaeumEclipseContext.selectContext(element);
-						OpaeumEclipseContext currentContext =OpaeumEclipseContext.getCurrentContext();
+						OpaeumEclipseContext currentContext = OpaeumEclipseContext.getCurrentContext();
 						try{
 							TransformationProcess p = JavaTransformationProcessManager.getTransformationProcessFor(currentContext.getUmlDirectory());
-							if(p == null||currentContext.isLoading()){
+							if(p == null || currentContext.isLoading()){
 								Display.getDefault().syncExec(new Runnable(){
 									public void run(){
 										MessageDialog.openError(Display.getCurrent().getActiveShell(), "Opaeum is still initializing",
@@ -90,20 +94,19 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 								png.visitRecursively(currentContext.getNakedWorkspace().getGeneratingModelsOrProfiles().iterator().next());
 								Collection<INakedElement> allDescendants = ne.getAllDescendants();
 								allDescendants.add(ne);
-								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class, new ProgressMonitorTransformationLog(
-										monitor, 60));
+								Collection<?> processElements = p.processElements(allDescendants, JavaTransformationPhase.class,
+										new ProgressMonitorTransformationLog(monitor, 60));
 								TextFileGenerator tfg = new TextFileGenerator();
 								tfg.initialize(cfg);
 								TextFileDeleter tfd = new TextFileDeleter();
-								tfg.initialize(cfg);
+								tfd.initialize(cfg);
 								for(Object object:processElements){
 									if(object instanceof TextOutputNode){
 										TextOutputNode txt = (TextOutputNode) object;
 										if(txt.shouldDelete()){
-											
 											monitor.subTask("Emitting " + txt.getName());
 											tfd.visitOnly(txt);
-										}else {
+										}else{
 											tfg.visitUpFirst(txt);
 										}
 									}
@@ -141,16 +144,14 @@ public class RecompileElementAction extends AbstractOpaeumAction implements IObj
 	@Override
 	public void run(IAction action){
 		run();
-		
 	}
 	@Override
 	public void selectionChanged(IAction action,ISelection selection){
 		if(selection instanceof IStructuredSelection){
-			this.selection=(IStructuredSelection) selection;
+			this.selection = (IStructuredSelection) selection;
 		}
 	}
 	@Override
 	public void setActivePart(IAction action,IWorkbenchPart targetPart){
-		
 	}
 }

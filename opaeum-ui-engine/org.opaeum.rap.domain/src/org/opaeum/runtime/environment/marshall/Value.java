@@ -17,7 +17,7 @@ import org.opaeum.runtime.persistence.AbstractPersistence;
 public abstract class Value implements Serializable{
 	// utility method for custom developed marshalling scenarios
 	public static Object valueOf(Value value,AbstractPersistence persistence){
-		JavaMetaInfoMap map = Environment.getMetaInfoMap();
+		JavaMetaInfoMap map = Environment.getInstance().getInstance().getMetaInfoMap();
 		if(value instanceof EntityValue){
 			return persistence.getReference(value.getValueClass(), ((EntityValue) value).getId());
 		}else if(value instanceof HelperValue){
@@ -39,7 +39,7 @@ public abstract class Value implements Serializable{
 	}
 	// utility method for custom developed marshalling scenarios
 	public static Value valueOf(Object value){
-		JavaMetaInfoMap map = Environment.getMetaInfoMap();
+		JavaMetaInfoMap map = Environment.getInstance().getMetaInfoMap();
 		if(value instanceof IPersistentObject){
 			return valueOf((IPersistentObject) value);
 		}else if(value instanceof IActiveObject){
@@ -57,7 +57,7 @@ public abstract class Value implements Serializable{
 		}
 	}
 	public Class<?> getValueClass(){
-		return Environment.getMetaInfoMap().getClass(getTypeId());
+		return Environment.getInstance().getMetaInfoMap().getClass(getTypeId());
 	}
 	private static CollectionValue valueOfCollection(Collection<Value> newValue,Collection<?> oldValue){
 		for(Object o:oldValue){
@@ -66,17 +66,17 @@ public abstract class Value implements Serializable{
 		if(oldValue.isEmpty()){
 			return new CollectionValue(newValue);
 		}else{
-			return new CollectionValue(Environment.getMetaInfoMap().getUuidFor(oldValue.iterator().next().getClass()), newValue);
+			return new CollectionValue(Environment.getInstance().getMetaInfoMap().getUuidFor(oldValue.iterator().next().getClass()), newValue);
 		}
 	}
 	private static EntityValue valueOf(IPersistentObject inputSource){
 		if(inputSource.getId() == null){
 			throw new IllegalStateException("entity " + ((IPersistentObject) inputSource).getClass().getName() + " does not have an id");
 		}
-		return new EntityValue(Environment.getMetaInfoMap().getUuidFor(inputSource.getClass()), inputSource);
+		return new EntityValue(Environment.getInstance().getMetaInfoMap().getUuidFor(inputSource.getClass()), inputSource);
 	}
 	private static HelperValue valueOf(IActiveObject inputSource){
-		return new HelperValue(Environment.getMetaInfoMap().getUuidFor(inputSource.getClass()));
+		return new HelperValue(Environment.getInstance().getMetaInfoMap().getUuidFor(inputSource.getClass()));
 	}
 	private static final long serialVersionUID = 531640008870617688L;
 	// necessary for custom developed marshalling scenarios

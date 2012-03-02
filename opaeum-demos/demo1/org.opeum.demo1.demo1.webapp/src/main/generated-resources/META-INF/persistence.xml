@@ -7,52 +7,52 @@
 
 	<persistence-unit name="demo1">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:/cmDatasource</jta-data-source>
- 
+		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDay</class>
+		<class>structuredbusiness.DocumentVerifier</class>
+		<class>structuredbusiness.IdBook</class>
+		<class>org.opaeum.runtime.bpm.contact.PersonEMailAddress</class>
+		<class>structuredbusiness.Online_Customer</class>
+		<class>structuredbusiness.Structuredbusiness</class>
+		<class>org.opaeum.runtime.bpm.request.ProcessRequest</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationNode</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar</class>
+		<class>org.opaeum.runtime.bpm.request.TaskRequest</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
+		<class>org.opaeum.runtime.bpm.contact.PhysicalAddress</class>
+		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
+		<class>org.opaeum.runtime.bpm.organization.PersonNode</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
+		<class>structuredbusiness.Manager</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.Duration</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
+		<class>org.opaeum.runtime.bpm.organization.Organization_iBusinessComponent_1</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddress</class>
+		<class>org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1</class>
+		<class>org.opaeum.runtime.bpm.contact.PersonPhoneNumber</class>
+		<class>org.opaeum.runtime.bpm.organization.PersonFullfillsActorRole</class>
+		<class>org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
+		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
+		<class>org.opaeum.runtime.bpm.contact.PhoneNumber</class>
+		<class>structuredbusiness.LulusRole</class>
+		<class>structuredbusiness.DishwashersInc</class>
+		<class>org.opaeum.runtime.bpm.organization.Leave</class>
+		<class>org.opaeum.runtime.bpm.request.ParticipationInTask</class>
+		<class>structuredbusiness.DishWasher</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.TimeOfDay</class>
+		<class>structuredbusiness.Supplier</class>
+		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber</class>
+		<class>org.opaeum.runtime.bpm.request.Participation</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration</class>
+		<class>org.opaeum.runtime.bpm.contact.Address</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday</class>
+		<class>org.opaeum.runtime.bpm.contact.EMailAddress</class>
+		<class>structuredbusiness.Accountant</class>
+		<class>org.opeum.demo1.util</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>
 		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
-		<class>org.opaeum.audit.AuditEntry</class>
-		<class>org.opaeum.audit.AuditEntryPropertyChange</class>
-		<class>org.opaeum.audit.EntityPropertyChange</class>
-		<class>org.opaeum.audit.PropertyChange</class>
-		<class>org.opaeum.audit.StringPropertyChange</class>
-		<class>org.opaeum.audit.BooleanPropertyChange</class>
-		<class>org.opaeum.audit.DateTimePropertyChange</class>
-		<class>org.opaeum.audit.IntegerPropertyChange</class>
-		<class>org.opaeum.audit.FloatingPointPropertyChange</class>
-		<class>org.opaeum.audit.NullPropertyChange</class>
 		<properties>
-			<property name="hibernate.dialect" value="com.rorotika.cm.ria.hql.CmPostgreSQLDialect" />
-<!--			<property name="hibernate.hbm2ddl.auto" value="update" />-->
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.format_sql" value="true" />
-			<property name="jboss.entity.manager.factory.jndi.name"
-				value="java:/demo1EntityManagerFactory" />
-			<property name="hibernate.cache.use_second_level_cache"
-				value="false" />
-			<property name="hibernate.cache.use_query_cache" value="true" />
-			<property name="hibernate.default_batch_fetch_size" value="8" />
-			<property name="hibernate.order_updates" value="true" />
-			<property name="hibernate.order_inserts" value="true" />
-			<property name="hibernate.jdbc.batch_size" value="20" />
-			<property name="hibernate.max_fetch_depth" value="1" />
-			<property name="jboss.entity.manager.factory.jndi.name" value="java:/demo1EntityManagerFactory"/>
-			<property name="hibernate.ejb.event.post-load" value="org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opaeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.post-insert"
-				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.post-update"
-				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener" />
-			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
-		</properties>
-	</persistence-unit>
-	<!--persistence-unit name="demo1-standalone" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
-		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>
-		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
-		<properties>
-			<property name="hibernate.dialect" value="com.rorotika.cm.ria.hql.CmPostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
@@ -66,15 +66,17 @@
 			<property name="hibernate.max_fetch_depth" value="1" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
-			<property name="hibernate.connection.url" value="jdbc:hsqldb:mem:demo1DB" />
+			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:demo1DB" />
 			<property name="hibernate.connection.username" value="sa" />
 			<property name="hibernate.connection.password" value="" />
-			<property name="hibernate.ejb.event.post-load" value="org.hibernate.ejb.event.EJB3PostLoadEventListener,org.opaeum.audit.AuditListener" />
+			<property name="hibernate.archive.autodetection" value="false" />
+			<property name="hibernate.ejb.event.post-load" value="org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-insert"
-				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.opaeum.audit.AuditListener" />
+				value="org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-update"
-				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.opaeum.audit.AuditListener" />
+				value="org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.create-onflush" value="org.opaeum.audit.AuditListener" />
 		</properties>
-	</persistence-unit-->
+	</persistence-unit>
 </persistence>

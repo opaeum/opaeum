@@ -354,7 +354,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 			na.setClass(true);
 		}else{
 			for(Property property:memberEnds){
-				boolean isDerived = property.isDerived() || property.isDerivedUnion() || property.getOtherEnd().isDerived()
+				boolean isDerived = property.isDerived() || property.isDerivedUnion() || (property.getOtherEnd()!=null && property.getOtherEnd().isDerived())
 						|| property.getAssociation().isDerived();
 				if(!isDerived && property.getType() instanceof Interface && EmfPropertyUtil.isMany(property)){
 					na.setClass(true);

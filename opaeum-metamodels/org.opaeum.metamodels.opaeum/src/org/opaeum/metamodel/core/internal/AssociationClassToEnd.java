@@ -26,6 +26,7 @@ public class AssociationClassToEnd extends AbstractEmulatedProperty{
 		this.id = ((INakedElement) property.getAssociation()).getId() + property.getId();
 		this.mappingInfo = checkBaseType(property).getMappingInfo().getCopy();
 		this.mappingInfo.setIdInModel(id);
+		isComposite=property.getAssociation().getOtherEnd(property).isComposite();
 	}
 	private static INakedClassifier checkBaseType(INakedProperty property){
 		if(property.getBaseType()==null){

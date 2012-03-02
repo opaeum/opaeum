@@ -11,6 +11,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
@@ -31,18 +33,21 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 	private OpaeumEclipseContext context;
 	private long lastMarked = 0;
 	private Map<EObject,BrokenElement> brokenElements;
-	private HashMap<String,IMarker> existingMarkers;
-	public OpaeumErrorMarker(OpaeumEclipseContext context){
-		super();
+	public OpaeumEclipseContext getContext(){
+		return context;
+	}
+	public void setContext(OpaeumEclipseContext context){
 		this.context = context;
 	}
+	private HashMap<String,IMarker> existingMarkers;
+	public OpaeumErrorMarker(){
+		super();
+	}
 	public void maybeSchedule(){
-		System.out.println("OpaeumErrorMarker.maybeSchedule()");
-		if(lastMarked == 0 || lastMarked > System.currentTimeMillis() - 30000){
+		if((lastMarked == 0 || lastMarked < System.currentTimeMillis() - 3000)){
 			Display.getDefault().syncExec(new Runnable(){
 				@Override
 				public void run(){
-					System.out.println("OpaeumErrorMarker.maybeSchedule().new Runnable() {...}.run()");
 					existingMarkers = new HashMap<String,IMarker>();
 					brokenElements = new HashMap<EObject,BrokenElement>();
 					Set<String> brokenUris = calcBrokenElements();
@@ -52,9 +57,11 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 					}catch(CoreException e){
 						e.printStackTrace();
 					}finally{
-						if(lastMarked > System.currentTimeMillis() - 30000 && context.getUmlDirectory().exists()){
+						if(lastMarked < System.currentTimeMillis() - 3000 && context.getUmlDirectory().exists()){
 							lastMarked = System.currentTimeMillis();
-							Display.getDefault().timerExec(30001, this);
+							Display.getDefault().timerExec(3001, this);
+						}else{
+							System.out.println();
 						}
 					}
 				}
@@ -67,7 +74,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 			markFiles(entry.getValue(), entry.getKey());
 		}
 	}
-	private void calcExistingMarkers(Set<String> brokenUris) throws CoreException{
+	protected void calcExistingMarkers(Set<String> brokenUris) throws CoreException{
 		IMarker[] mrks = context.getUmlDirectory().findMarkers(EValidator.MARKER, true, IResource.DEPTH_INFINITE);
 		for(IMarker marker:mrks){
 			String markerKey = markerKey(marker);
@@ -78,7 +85,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 					context.getEmfToOpaeumSynchronizer().addEmfChange(URI.createURI((String) marker.getAttribute(EValidator.URI_ATTRIBUTE)));
 				}
 			}else if(context.isOpen((IFile) marker.getResource())){
-				marker.delete();
+					marker.delete();
 			}
 		}
 	}
@@ -114,7 +121,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		}
 		return brokenUris;
 	}
-	private String markerKey(IFile file,EObject o,IValidationRule key){
+	protected String markerKey(IFile file,EObject o,IValidationRule key){
 		if(file == null){
 			return "";// Sometimes the file is not found TODO investigate
 		}else{
@@ -125,7 +132,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 		}
 	}
 	private void markFiles(BrokenElement entry,final EObject o){
-		for(final BrokenRule brokenRule:entry.getRulesBrokenSince(new Date(lastMarked))){
+		for(final BrokenRule brokenRule:getBrokenRulesToAdd(entry)){
 			try{
 				String messagePattern = brokenRule.getRule().getMessagePattern();
 				String message = EmfValidationUtil.replaceArguments(o, brokenRule, messagePattern);
@@ -145,7 +152,10 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 			}
 		}
 	}
-	public void maybeMarkFile(final EObject o,final BrokenRule brokenRule,String message) throws CoreException{
+	protected Set<BrokenRule> getBrokenRulesToAdd(BrokenElement entry){
+		return entry.getRulesBrokenSince(new Date(lastMarked));
+	}
+	protected void maybeMarkFile(final EObject o,final BrokenRule brokenRule,String message) throws CoreException{
 		IFile file = findUmlFile(o);
 		if(file != null){
 			IMarker marker = existingMarkers.get(markerKey(file, o, brokenRule.getRule()));
@@ -160,7 +170,7 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 			marker.setAttribute(IMarker.MESSAGE, message);
 		}
 	}
-	private IFile findUmlFile(EObject o){
+	protected IFile findUmlFile(EObject o){
 		IFile file = null;
 		String expectedFileName = o.eResource().getURI().lastSegment();
 		try{

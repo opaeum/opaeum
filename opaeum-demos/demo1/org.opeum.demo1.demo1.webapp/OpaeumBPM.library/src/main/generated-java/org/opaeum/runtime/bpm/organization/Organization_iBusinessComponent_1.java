@@ -28,6 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -57,7 +58,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 			@Column(name="business_component"),name="identifier"),
 		@AttributeOverride(column=
 			@Column(name="business_component_type"),name="classIdentifier")})
-	private InterfaceValue businessComponent;
+	private InterfaceValue businessComponent = new InterfaceValue();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -142,6 +143,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return false;
 	}
 	
+	@Property(isComposite=false,opposite="organization_iBusinessComponent_1_representedOrganization")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public IBusinessComponent getBusinessComponent() {
 		IBusinessComponent result = (IBusinessComponent)this.businessComponent.getValue(persistence);
@@ -169,6 +171,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return getBusinessComponent();
 	}
 	
+	@Property(isComposite=false,opposite="organization_iBusinessComponent_1_businessComponent")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = this.representedOrganization;

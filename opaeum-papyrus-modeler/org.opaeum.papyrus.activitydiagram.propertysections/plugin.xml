@@ -3,7 +3,7 @@
 <plugin>
 
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-		<propertyTabs contributorId="org.topcased.modeler.editor.Modeler">
+		<propertyTabs contributorId="TreeOutlinePage">
 			<propertyTab
 				id="org.opaeum.topcased.activitydiagram.deadlinesTab"
 				label="Deadlines"
@@ -32,7 +32,7 @@
 	</extension>
 
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
-		<propertySections contributorId="org.topcased.modeler.editor.Modeler">
+		<propertySections contributorId="TreeOutlinePage">
 			<propertySection
 				id="org.opaeum.topcased.activitydiagram.propertysections.TimeObservationEventSection"
 				class="org.opaeum.topcased.activitydiagram.propertysections.TimeObservationEventSection"
@@ -94,8 +94,7 @@
 				id="org.opaeum.topcased.activitydiagram.propertysections.ActionPinsSection"
 				class="org.opaeum.topcased.activitydiagram.propertysections.ActionPinsSection"
 				tab="org.topcased.modeler.modelTab.parametersTab"
-				filter="org.opaeum.topcased.propertysections.filters.activity.ActionFilter"
-				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				filter="org.opaeum.topcased.propertysections.filters.activity.ActionFilter">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.activitydiagram.propertysections.BehaviorSpecificationSection"

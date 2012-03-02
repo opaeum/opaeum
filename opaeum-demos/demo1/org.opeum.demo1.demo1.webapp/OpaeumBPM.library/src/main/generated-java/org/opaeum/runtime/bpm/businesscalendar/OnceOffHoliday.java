@@ -26,6 +26,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -144,6 +145,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return false;
 	}
 	
+	@Property(isComposite=false,opposite="onceOffHoliday")
 	@NumlMetaInfo(uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -155,6 +157,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return this.cancelledEvents;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
 	public Date getDate() {
 		Date result = this.date;
@@ -170,6 +173,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return this.id;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;

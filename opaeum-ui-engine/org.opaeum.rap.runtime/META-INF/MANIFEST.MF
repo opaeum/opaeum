@@ -12,7 +12,10 @@ Require-Bundle: org.eclipse.rap.rms.data,
  org.eclipse.rap.jface.databinding,
  org.eclipse.rap.rwt,
  org.eclipse.rap.jface,
- org.eclipse.rap.ui
+ org.eclipse.rap.ui,
+ org.opaeum.rap.domain,
+ org.opaeum.rap.hibernate,
+ org.opaeum.rap.jpa
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
@@ -148,3 +151,4 @@ Export-Package: com.google.api.client.auth,
  org.opaeum.rap.runtime.internal.views,
  org.opaeum.rap.runtime.internal.wizards,
  org.opaeum.rap.runtime.startup
+Bundle-ActivationPolicy: lazy

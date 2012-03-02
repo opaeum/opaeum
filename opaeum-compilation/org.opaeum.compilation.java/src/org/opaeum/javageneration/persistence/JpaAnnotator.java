@@ -253,6 +253,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 //		equals.getBody().addToStatements(ifThis);
 	}
 	private boolean isMap(NakedStructuralFeatureMap map){
-		return map.umlName().equals("updateChangeLog");
+		return super.isMap(map.getProperty());
 	}
 }

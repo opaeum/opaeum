@@ -594,6 +594,9 @@
         <generalization xmi:id="_f2LV0EvQEeGmqIr8YsFD4g" general="_YgstsI29EeCrtavWRHwoHg">
           <eAnnotations xmi:id="_JcpGQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </generalization>
+        <generalization xmi:id="_jcjpoGQZEeGbL9nlXe9lTQ" general="_cPyg8GQZEeGbL9nlXe9lTQ">
+          <eAnnotations xmi:id="_jezFUGQZEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
+        </generalization>
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_uVek8IoVEeCLqpffVZYAlw" name="IBusinessComponent">
         <eAnnotations xmi:id="_JcxCEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -639,6 +642,9 @@
           <eAnnotations xmi:id="_Jc4W0GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fNec4ktpEeGd4cpyhpib9Q"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fNec4UtpEeGd4cpyhpib9Q" value="*"/>
+          <qualifier xmi:id="_YFI-cGH1EeG9Du3sLzHVMg" name="type" type="_YLfSwEtnEeGd4cpyhpib9Q">
+            <eAnnotations xmi:id="_ZLTVQGH1EeG9Du3sLzHVMg" source="http://www.opaeum.org"/>
+          </qualifier>
         </ownedAttribute>
         <ownedAttribute xmi:id="_UvAxkEt3EeGElKTCe2jfDw" name="leave" type="_Pybi0Et3EeGElKTCe2jfDw" aggregation="composite" association="_UvR3UEt3EeGElKTCe2jfDw">
           <eAnnotations xmi:id="_Jc7aIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -653,7 +659,7 @@
           <eAnnotations xmi:id="_JcxpIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_3lakUFYuEeGj5_I7bIwNoA" name="businessRole" type="_tH0fAIoVEeCLqpffVZYAlw" aggregation="composite" association="_3lcZgFYuEeGj5_I7bIwNoA">
+        <ownedAttribute xmi:id="_3lakUFYuEeGj5_I7bIwNoA" name="businessRole" type="_tH0fAIoVEeCLqpffVZYAlw" association="_3lcZgFYuEeGj5_I7bIwNoA">
           <eAnnotations xmi:id="_JczeUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3lakUVYuEeGj5_I7bIwNoA"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3lakUlYuEeGj5_I7bIwNoA" value="*"/>
@@ -794,6 +800,42 @@
         <interfaceRealization xmi:id="_-dv5oF13EeGKRdKItFLDfg" name="InterfaceRealization1" client="_NRu9QFYjEeGJUqEGX7bKSg" supplier="_6e-W8F13EeGKRdKItFLDfg" contract="_6e-W8F13EeGKRdKItFLDfg">
           <eAnnotations xmi:id="_Jdv5gGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </interfaceRealization>
+        <ownedBehavior xmi:type="uml:Activity" xmi:id="_Nn1XcGIIEeGzlJ4_CwngCw" name="addToBusinessCollaboration" node="_6yDHwGIIEeGzlJ4_CwngCw">
+          <eAnnotations xmi:id="_Nn6P8GIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+          <ownedParameter xmi:id="_dy7GAGIIEeGzlJ4_CwngCw" name="collaboration" type="_NsvpEGG6EeGY4pS7YATNzA">
+            <eAnnotations xmi:id="_d03mwGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+          </ownedParameter>
+          <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_6yDHwGIIEeGzlJ4_CwngCw" name="AddStructuralFeatureValueAction1" structuralFeature="_YJETMFYjEeGJUqEGX7bKSg">
+            <eAnnotations xmi:id="_6yUNgGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+            <object xmi:type="uml:ValuePin" xmi:id="_6yKcgGIIEeGzlJ4_CwngCw">
+              <eAnnotations xmi:id="_60szIGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6yMRsGIIEeGzlJ4_CwngCw" value="*">
+                <eAnnotations xmi:id="_60n6oGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+              </upperBound>
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_6yOG4GIIEeGzlJ4_CwngCw" name="nullSpecification">
+                <eAnnotations xmi:id="_60kQQGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+                <language>OCL</language>
+                <body>self</body>
+              </value>
+            </object>
+            <result xmi:id="_6yE88GIIEeGzlJ4_CwngCw">
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6yIAQGIIEeGzlJ4_CwngCw" value="*">
+                <eAnnotations xmi:id="_60fXwGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+              </upperBound>
+            </result>
+            <value xmi:type="uml:ValuePin" xmi:id="_6yP8EGIIEeGzlJ4_CwngCw">
+              <eAnnotations xmi:id="_60afQGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6yQjIGIIEeGzlJ4_CwngCw" value="*">
+                <eAnnotations xmi:id="_60TxkGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+              </upperBound>
+              <value xmi:type="uml:OpaqueExpression" xmi:id="_6yRxQGIIEeGzlJ4_CwngCw" name="nullSpecification">
+                <eAnnotations xmi:id="_60YDAGIIEeGzlJ4_CwngCw" source="http://www.opaeum.org"/>
+                <language>OCL</language>
+                <body>collaboration.oclAsType(IBusinessCollaboration)</body>
+              </value>
+            </value>
+          </node>
+        </ownedBehavior>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_YJGvcFYjEeGJUqEGX7bKSg" name="BusinessNetworkFacilatatesCollaboration" memberEnd="_YJGvcVYjEeGJUqEGX7bKSg _YJETMFYjEeGJUqEGX7bKSg" navigableOwnedEnd="_YJGvcVYjEeGJUqEGX7bKSg">
         <eAnnotations xmi:id="_JdurYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -899,6 +941,9 @@
       <packagedElement xmi:type="uml:Interface" xmi:id="_NsvpEGG6EeGY4pS7YATNzA" name="IBusinessCollaborationBase">
         <eAnnotations xmi:id="_NszTcGG6EeGY4pS7YATNzA" source="http://www.opaeum.org"/>
       </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_cPyg8GQZEeGbL9nlXe9lTQ" name="IBusinessRoleBase">
+        <eAnnotations xmi:id="_cP2LUGQZEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_8wYxEEt9EeGElKTCe2jfDw" name="request">
       <eAnnotations xmi:id="_JjlbwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -991,14 +1036,18 @@
             <eAnnotations xmi:id="_JgYWwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <result xmi:id="_nezb9Y6SEeCrtavWRHwoHg" name="result" outgoing="_nezcCI6SEeCrtavWRHwoHg">
               <eAnnotations xmi:id="_JgXvsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_sKTckI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_sKTckI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EDvWYGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
             </result>
           </node>
           <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_nezb9o6SEeCrtavWRHwoHg" name="addParticipation" outgoing="_nezcDo6SEeCrtavWRHwoHg" incoming="_nezcC46SEeCrtavWRHwoHg" structuralFeature="_BB8NEI6VEeCne5ArYLDbiA">
             <eAnnotations xmi:id="_Jgd2UGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_nezb946SEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JgazAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_waNS4I6hEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_waNS4I6hEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_ED1dAGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_nezb-I6SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JgZk4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1007,7 +1056,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_nezb-Y6SEeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JgcoMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_Xv08cI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_Xv08cI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_ED_1EGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_nezb-o6SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JgcBIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1019,14 +1070,18 @@
             <eAnnotations xmi:id="_JglLEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <value xmi:id="_nezb_I6SEeCrtavWRHwoHg" name="value" incoming="_nezcCI6SEeCrtavWRHwoHg">
               <eAnnotations xmi:id="_Jgj88GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_rOCBkI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_rOCBkI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EDHEQGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
             </value>
           </node>
           <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_nezb_Y6SEeCrtavWRHwoHg" name="SetNewParticipant" outgoing="_nezcEY6SEeCrtavWRHwoHg" incoming="_nezcDo6SEeCrtavWRHwoHg" structuralFeature="_3YyGlIoXEeCPduia_-NbFw">
             <eAnnotations xmi:id="_JgWhkGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_nezb_o6SEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JgVTcGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_vEKtAI6hEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_vEKtAI6hEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EDT4kGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_nezb_46SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JgUFUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1035,7 +1090,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_nezcAI6SEeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JgSQIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_YpcFAI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_YpcFAI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EDfewGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_nezcAY6SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JgQa8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1047,7 +1104,9 @@
             <eAnnotations xmi:id="_JgOlwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_nezcA46SEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JgMJgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_ZV6JcI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_ZV6JcI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EEI_AGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_nezcBI6SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JgKUUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1056,7 +1115,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_nezcBY6SEeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JgIfIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_aDEKYI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_aDEKYI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EEVzUGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_nezcBo6SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JgGp8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1080,7 +1141,9 @@
             <eAnnotations xmi:id="_Jiq1wGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_n9EsVI6SEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JipnoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_Tb9TgI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_Tb9TgI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_ECfZMGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_n9EsVY6SEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JioZgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1089,7 +1152,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_n9EsVo6SEeCrtavWRHwoHg" name="valueh">
               <eAnnotations xmi:id="_JinLYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_UdawgI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_UdawgI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_ECxGAGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lVDLwAUjEeGW7ewPJklrOA"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-KHvQAUgEeGFG55e4PPoxA" value="1"/>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_n9EsV46SEeCrtavWRHwoHg" name="ValuePin1Expression">
@@ -1182,7 +1247,9 @@
             <eAnnotations xmi:id="_JihEwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <argument xmi:type="uml:ValuePin" xmi:id="_W0ZxIK0QEeCK48ywUpk_rg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
               <eAnnotations xmi:id="_Jif2oGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPqPINfJEeCXQPv0AMhLcg" name="ub"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPqPINfJEeCXQPv0AMhLcg" name="ub">
+                <eAnnotations xmi:id="_EBZNAGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_W0ZxIq0QEeCK48ywUpk_rg" name="participant" type="_YgstsI29EeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_JieogGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1191,7 +1258,9 @@
             </argument>
             <argument xmi:type="uml:ValuePin" xmi:id="_W0cNYa0QEeCK48ywUpk_rg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
               <eAnnotations xmi:id="_JidaYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPqPItfJEeCXQPv0AMhLcg" name="ub"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPqPItfJEeCXQPv0AMhLcg" name="ub">
+                <eAnnotations xmi:id="_EBPcAGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_W0cNY60QEeCK48ywUpk_rg" name="kind" type="_ysdO4I6MEeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_JiblMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1206,7 +1275,9 @@
             <eAnnotations xmi:id="_JiEY0GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <argument xmi:type="uml:ValuePin" xmi:id="_AU1MwK0QEeCK48ywUpk_rg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg">
               <eAnnotations xmi:id="_JiDxwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPq2MNfJEeCXQPv0AMhLcg" name="ub"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPq2MNfJEeCXQPv0AMhLcg" name="ub">
+                <eAnnotations xmi:id="_EB4VMGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_AU1Mwq0QEeCK48ywUpk_rg" name="newParticipant" type="_YgstsI29EeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_JiCjoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1215,7 +1286,9 @@
             </argument>
             <argument xmi:type="uml:ValuePin" xmi:id="_AU1z0K0QEeCK48ywUpk_rg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
               <eAnnotations xmi:id="_JiBVgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPq2MtfJEeCXQPv0AMhLcg" name="ub"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPq2MtfJEeCXQPv0AMhLcg" name="ub">
+                <eAnnotations xmi:id="_ECL3MGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_AU1z0q0QEeCK48ywUpk_rg" name="kind" type="_neCVAI6UEeCne5ArYLDbiA">
                 <eAnnotations xmi:id="_JiAHYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1230,7 +1303,9 @@
             <eAnnotations xmi:id="_Jh5ZsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <argument xmi:type="uml:ValuePin" xmi:id="_kPJpkK0REeCK48ywUpk_rg" name="delegatedBy" type="_YgstsI29EeCrtavWRHwoHg">
               <eAnnotations xmi:id="_Jh0hMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPrdQNfJEeCXQPv0AMhLcg" name="ub"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPrdQNfJEeCXQPv0AMhLcg" name="ub">
+                <eAnnotations xmi:id="_EBhI0GHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_kPJpkq0REeCK48ywUpk_rg" name="delegatedBy" type="_YgstsI29EeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_JhzTEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1239,7 +1314,9 @@
             </argument>
             <argument xmi:type="uml:ValuePin" xmi:id="_kPK3sK0REeCK48ywUpk_rg" name="delegatedTo" type="_YgstsI29EeCrtavWRHwoHg">
               <eAnnotations xmi:id="_Jh4yoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPrdQtfJEeCXQPv0AMhLcg" name="ub"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_VPrdQtfJEeCXQPv0AMhLcg" name="ub">
+                <eAnnotations xmi:id="_EBprsGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_kPK3sq0REeCK48ywUpk_rg" name="delegatedTo" type="_YgstsI29EeCrtavWRHwoHg">
                 <eAnnotations xmi:id="_Jh3kgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1248,7 +1325,9 @@
             </argument>
             <target xmi:type="uml:ValuePin" xmi:id="_HMKesK0VEeCK48ywUpk_rg" name="target">
               <eAnnotations xmi:id="_Jh2WYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZNncYM5bEeC1m8onT4Ef6A" value="*"/>
+              <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ZNncYM5bEeC1m8onT4Ef6A" value="*">
+                <eAnnotations xmi:id="_EBxAcGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_InxhEK0VEeCK48ywUpk_rg" name="targetExpression">
                 <eAnnotations xmi:id="_Jh1vUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1566,14 +1645,18 @@
             <eAnnotations xmi:id="_JfEvMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <result xmi:id="_RZnDQI6OEeCrtavWRHwoHg" name="result" outgoing="_kWNQII6OEeCrtavWRHwoHg">
               <eAnnotations xmi:id="_JfDhEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_t1RwoI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_t1RwoI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EEqjcGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
             </result>
           </node>
           <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_UudfMI6OEeCrtavWRHwoHg" name="addParticipation" outgoing="_ig8iMI6PEeCrtavWRHwoHg" incoming="_7J8GoI6OEeCrtavWRHwoHg" structuralFeature="_XLHkUI6NEeCrtavWRHwoHg">
             <eAnnotations xmi:id="_JfPHQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_mJImUI6OEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JfMD8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_bxwg0I6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_bxwg0I6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EElq8GHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_m5BLII6OEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JfK10GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1582,7 +1665,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_phN8cI6OEeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JfOgMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_cmBPUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_cmBPUI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EEgycGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_prsHEI6OEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JfNSEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1594,14 +1679,18 @@
             <eAnnotations xmi:id="_JfHygGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <value xmi:id="_iGFAkI6OEeCrtavWRHwoHg" name="value" incoming="_kWNQII6OEeCrtavWRHwoHg">
               <eAnnotations xmi:id="_JfGkYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_djDfUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_djDfUI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EEb58GHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
             </value>
           </node>
           <node xmi:type="uml:AddStructuralFeatureValueAction" xmi:id="_RzuW8I6PEeCrtavWRHwoHg" name="SetNewParticipant" outgoing="_ziglwI6PEeCrtavWRHwoHg" incoming="_ig8iMI6PEeCrtavWRHwoHg" structuralFeature="_3YyGlIoXEeCPduia_-NbFw">
             <eAnnotations xmi:id="_JfBr4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_eNtLYI6PEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_Je-okGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_elXQ4I6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_elXQ4I6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EEvb8GHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_eXOTwI6PEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_Je-BgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1610,7 +1699,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="__ZrBAI6PEeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JfAdwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_uf-6gI6kEeCFsPOcAnk69Q" name="LiteralInteger2"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_uf-6gI6kEeCFsPOcAnk69Q" name="LiteralInteger2">
+                <eAnnotations xmi:id="_EE50AGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <upperValue xmi:type="uml:LiteralInteger" xmi:id="_fiKQUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
               <value xmi:type="uml:OpaqueExpression" xmi:id="__j7wQI6PEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_Je_2sGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1623,7 +1714,9 @@
             <eAnnotations xmi:id="_JfUm0GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_wnZfgI6PEeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JfQ8cGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_vl3kgI6kEeCFsPOcAnk69Q" name="LiteralInteger2"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_vl3kgI6kEeCFsPOcAnk69Q" name="LiteralInteger2">
+                <eAnnotations xmi:id="_EFPyQGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <upperValue xmi:type="uml:LiteralInteger" xmi:id="_gaiCwI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_ww6n4I6PEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JfQVYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -1633,7 +1726,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_Br5iUI6QEeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JfTYsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_hPBawI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_hPBawI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EFKSsGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_B1EFYI6QEeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_JfSKkGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1657,7 +1752,9 @@
             <eAnnotations xmi:id="_JezpcGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
             <object xmi:type="uml:ValuePin" xmi:id="_AnZi8I6REeCrtavWRHwoHg" name="object">
               <eAnnotations xmi:id="_JexNMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_7Rdo8I6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_7Rdo8I6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EFoMwGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_BBoA0I6REeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_Jev_EGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
                 <language>OCL</language>
@@ -1666,7 +1763,9 @@
             </object>
             <value xmi:type="uml:ValuePin" xmi:id="_ETPikI6REeCrtavWRHwoHg" name="value">
               <eAnnotations xmi:id="_JeybUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_8Y7nUI6kEeCFsPOcAnk69Q" name="LiteralInteger1"/>
+              <upperBound xmi:type="uml:LiteralInteger" xmi:id="_8Y7nUI6kEeCFsPOcAnk69Q" name="LiteralInteger1">
+                <eAnnotations xmi:id="_EFdNoGHZEeGq_OeQG5Lv8A" source="http://www.opaeum.org"/>
+              </upperBound>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7197UAUgEeGFG55e4PPoxA" value="*"/>
               <value xmi:type="uml:OpaqueExpression" xmi:id="_Eb_O4I6REeCrtavWRHwoHg" name="ValuePin1Expression">
                 <eAnnotations xmi:id="_Jex0QGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2043,20 +2142,26 @@
       <packagedElement xmi:type="uml:Interface" xmi:id="_DY-LMF-hEeGSPaWW9iQb9Q" name="IPersonPhoneNumber">
         <eAnnotations xmi:id="_JlL-QGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Interface" xmi:id="_EpwdoF-hEeGSPaWW9iQb9Q" name="IPersonAddress">
+      <packagedElement xmi:type="uml:Interface" xmi:id="_EpwdoF-hEeGSPaWW9iQb9Q" name="IPersonPhysicalAddress">
         <eAnnotations xmi:id="_JkFLAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_anU2QF-jEeGSPaWW9iQb9Q" name="PostalAddress">
+      <packagedElement xmi:type="uml:Class" xmi:id="_anU2QF-jEeGSPaWW9iQb9Q" clientDependency="_QA8NkGHsEeGz6amjGW5wRQ" name="PostalAddress">
         <eAnnotations xmi:id="_Jj92QGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <generalization xmi:id="_faUrMF-jEeGSPaWW9iQb9Q" general="_eIdasF-jEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_Jj8oIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </generalization>
+        <interfaceRealization xmi:id="_QA8NkGHsEeGz6amjGW5wRQ" name="InterfaceRealization1" client="_anU2QF-jEeGSPaWW9iQb9Q" supplier="_IRdZYGHsEeGz6amjGW5wRQ" contract="_IRdZYGHsEeGz6amjGW5wRQ">
+          <eAnnotations xmi:id="_QBBGEGHsEeGz6amjGW5wRQ" source="http://www.opaeum.org"/>
+        </interfaceRealization>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_cD7-MF-jEeGSPaWW9iQb9Q" name="PhysicalAddress">
+      <packagedElement xmi:type="uml:Class" xmi:id="_cD7-MF-jEeGSPaWW9iQb9Q" clientDependency="_Qu7U8GHsEeGz6amjGW5wRQ" name="PhysicalAddress">
         <eAnnotations xmi:id="_JkQxMGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <generalization xmi:id="_fu5NAF-jEeGSPaWW9iQb9Q" general="_eIdasF-jEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_JkOU8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </generalization>
+        <interfaceRealization xmi:id="_Qu7U8GHsEeGz6amjGW5wRQ" name="InterfaceRealization1" client="_cD7-MF-jEeGSPaWW9iQb9Q" supplier="_EpwdoF-hEeGSPaWW9iQb9Q" contract="_EpwdoF-hEeGSPaWW9iQb9Q">
+          <eAnnotations xmi:id="_QvANcGHsEeGz6amjGW5wRQ" source="http://www.opaeum.org"/>
+        </interfaceRealization>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_eIdasF-jEeGSPaWW9iQb9Q" name="Address">
         <eAnnotations xmi:id="_Jj16cGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2075,6 +2180,9 @@
         <ownedAttribute xmi:id="_tLfVAF-jEeGSPaWW9iQb9Q" name="Property1">
           <eAnnotations xmi:id="_JjxB8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_IRdZYGHsEeGz6amjGW5wRQ" name="IPersonPostalAddress">
+        <eAnnotations xmi:id="_IRsC4GHsEeGz6amjGW5wRQ" source="http://www.opaeum.org"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_XYGqYF9lEeG3X_yvufTVmw" name="document">
@@ -2130,7 +2238,7 @@
   <OpaeumStandardProfile:Attribute xmi:id="_6YJWEEt3EeGElKTCe2jfDw" base_Property="_RZHMwEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_7SNxoEt3EeGElKTCe2jfDw" base_Property="_TCe-UEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_C3oq4Et4EeGElKTCe2jfDw" base_Property="_Bih5IEt4EeGElKTCe2jfDw"/>
-  <OpaeumStandardProfile:Interface xmi:id="_OKj-sFPeEeGqgJx55rI3sQ" base_Interface="_7c1tYF13EeGKRdKItFLDfg" mappedImplementationType="org.opaeum.runtime.organization.IPerson"/>
+  <OpaeumStandardProfile:Interface xmi:id="_OKj-sFPeEeGqgJx55rI3sQ" mappedImplementationType="org.opaeum.runtime.organization.IPersonNode" base_Interface="_7c1tYF13EeGKRdKItFLDfg"/>
   <OpaeumStandardProfile:Entity xmi:id="_OKj-sFPeEeGqgJxtJrI3sQ" base_Class="_TFKVQNb_EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_YU654FPeEeGqgJxtJrI3sQ" base_Class="_5rW3kNcCEeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_j9WVkFPeEeGqgJxtJrI3sQ" base_Class="_Jn9QcNb-EeCJ0dmaHEVVnw"/>
@@ -2150,12 +2258,22 @@
   <OpaeumStandardProfile:Entity xmi:id="_Z8ns8FZOEeGj5_I7bIwNoA" base_Class="_e0G_YK0gEeCwWeEjtrrMeQ"/>
   <OpaeumStandardProfile:Entity xmi:id="_PKhKYFZQEeGj5_I7bIwNoA" base_Class="_n9EsUI6SEeCrtavWRHwoHg"/>
   <OpaeumStandardProfile:Entity xmi:id="_PNIZgFZQEeGj5_I7bIwNoA" base_Class="_nezb8I6SEeCrtavWRHwoHg"/>
-  <OpaeumStandardProfile:Interface xmi:id="_1kjSEF18EeGTEsCrqX4GQw" base_Interface="_6e-W8F13EeGKRdKItFLDfg" mappedImplementationType="org.opaeum.runtime.organization.IBusinessNetwork"/>
-  <OpaeumStandardProfile:Interface xmi:id="_3tTuUF18EeGTEsCrqX4GQw" base_Interface="_8ItU4F13EeGKRdKItFLDfg" mappedImplementationType="org.opaeum.runtime.organization.IOrganizationNode"/>
+  <OpaeumStandardProfile:Interface xmi:id="_1kjSEF18EeGTEsCrqX4GQw" mappedImplementationType="org.opaeum.runtime.organization.IBusinessNetwork" base_Interface="_6e-W8F13EeGKRdKItFLDfg"/>
+  <OpaeumStandardProfile:Interface xmi:id="_3tTuUF18EeGTEsCrqX4GQw" mappedImplementationType="org.opaeum.runtime.organization.IOrganizationNode" base_Interface="_8ItU4F13EeGKRdKItFLDfg"/>
   <OpaeumStandardProfile:Attribute xmi:id="_YnDc4F99EeGQnpmoOY8nIw" base_Property="_3FqBQF9lEeG3X_yvufTVmw"/>
   <OpaeumStandardProfile:Model xmi:id="_K9zXAGFAEeG5-sRmY0oorQ" mappedImplementationPackage="org.opaeum.runtime.bpm" base_Model="_qb8akM37EdqwVrslYOdUDA" modelType="REGENERATING_LIBRARY"/>
   <OpaeumStandardProfile:Model xmi:id="_u-OmYGFCEeGkTcsMClexwg" mappedImplementationPackage="org.opaeum.runtime.bpm" base_Model="_qb8akM37EdqwVrslYOdUDA"/>
-  <OpaeumStandardProfile:Interface xmi:id="_V5WzQGG8EeGfz5OQPVy8bA" base_Interface="_KfH2gGG6EeGY4pS7YATNzA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessActorBase"/>
-  <OpaeumStandardProfile:Interface xmi:id="_yjGa4GG8EeGfz5OQPVy8bA" base_Interface="_MVFSkGG6EeGY4pS7YATNzA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessBase"/>
-  <OpaeumStandardProfile:Interface xmi:id="_0G8MMGG8EeGfz5OQPVy8bA" base_Interface="_NsvpEGG6EeGY4pS7YATNzA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessCollaborationBase"/>
+  <OpaeumStandardProfile:Interface xmi:id="_V5WzQGG8EeGfz5OQPVy8bA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessActorBase" base_Interface="_KfH2gGG6EeGY4pS7YATNzA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_yjGa4GG8EeGfz5OQPVy8bA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessBase" base_Interface="_MVFSkGG6EeGY4pS7YATNzA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_0G8MMGG8EeGfz5OQPVy8bA" mappedImplementationType="org.opaeum.runtime.organization.IBusinessCollaborationBase" base_Interface="_NsvpEGG6EeGY4pS7YATNzA"/>
+  <OpaeumStandardProfile:Interface xmi:id="_-miMMGHrEeGz6amjGW5wRQ" mappedImplementationType="org.opaeum.runtime.contact.IPersonEMailAddress" base_Interface="_9gswQF-gEeGSPaWW9iQb9Q"/>
+  <OpaeumStandardProfile:Interface xmi:id="_AdfGwGHsEeGz6amjGW5wRQ" mappedImplementationType="org.opaeum.runtime.contact.IPersonPhoneNumber" base_Interface="_DY-LMF-hEeGSPaWW9iQb9Q"/>
+  <OpaeumStandardProfile:Interface xmi:id="_Brz7EGHsEeGz6amjGW5wRQ" mappedImplementationType="org.opaeum.runtime.contact.IPersonPhysicalAddress" base_Interface="_EpwdoF-hEeGSPaWW9iQb9Q"/>
+  <OpaeumStandardProfile:Entity xmi:id="_Laow0GHsEeGz6amjGW5wRQ" base_Class="_cD7-MF-jEeGSPaWW9iQb9Q"/>
+  <OpaeumStandardProfile:Entity xmi:id="_Ljo70GHsEeGz6amjGW5wRQ" base_Class="_anU2QF-jEeGSPaWW9iQb9Q"/>
+  <OpaeumStandardProfile:Interface xmi:id="_TOrU4GHsEeGz6amjGW5wRQ" mappedImplementationType="org.opaeum.runtime.contact.IPersonPostalAddress" base_Interface="_IRdZYGHsEeGz6amjGW5wRQ"/>
+  <OpaeumStandardProfile:Enumeration xmi:id="_s6X9YGH0EeG9Du3sLzHVMg" mappedImplementationType="org.opaeum.runtime.contact.PersonEMailAddressType" base_Enumeration="_YLfSwEtnEeGd4cpyhpib9Q"/>
+  <OpaeumStandardProfile:Enumeration xmi:id="_u8e_EGH0EeG9Du3sLzHVMg" mappedImplementationType="org.opaeum.runtime.contact.PersonPhoneNumberType" base_Enumeration="_Z-VwcEtnEeGd4cpyhpib9Q"/>
+  <OpaeumStandardProfile:Entity xmi:id="_OTp7oGIIEeGzlJ4_CwngCw" base_Class="_Nn1XcGIIEeGzlJ4_CwngCw"/>
+  <OpaeumStandardProfile:Interface xmi:id="_hO7UcGQZEeGbL9nlXe9lTQ" mappedImplementationType="org.opaeum.runtime.organization.IBusinessRoleBase" base_Interface="_cPyg8GQZEeGbL9nlXe9lTQ"/>
 </xmi:XMI>

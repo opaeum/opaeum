@@ -81,7 +81,8 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 	}
 	protected final boolean requiresExtraction(Element o){
 		if(o instanceof Profile || o instanceof Model){
-			boolean isPrimaryRootObject = emfWorkspace.getGeneratingModelsOrProfiles().size() == 1 && emfWorkspace.getGeneratingModelsOrProfiles().contains(o);
+			boolean isPrimaryRootObject = emfWorkspace.getGeneratingModelsOrProfiles().size() == 1
+					&& emfWorkspace.getGeneratingModelsOrProfiles().contains(o);
 			boolean b = isPrimaryRootObject || getNakedPeer(o) == null || !((INakedRootObject) getNakedPeer(o)).getStatus().isExtracted();
 			return b;
 		}else{
@@ -101,7 +102,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			if(ne != null){
 				initialize(ne, o, owner);
 			}
-		}else if(o instanceof NamedElement && ne != null){
+		}else if(ne != null){
 			// TODO not optimal. Gets called for every extractor
 			if((owner == null || getId(owner) == null || o.eResource() == null) && ne.getOwnerElement() != null){
 				// do deletion
@@ -120,8 +121,10 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 					}
 				}
 			}
-			NamedElement namedElement = (NamedElement) o;
-			ne.setName(normalize(namedElement.getName()));
+			if(o instanceof NamedElement){
+				NamedElement namedElement = (NamedElement) o;
+				ne.setName(normalize(namedElement.getName()));
+			}
 		}
 		return ne;
 	}
@@ -228,12 +231,12 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		INakedClassifier baseType = (INakedClassifier) getNakedPeer(type);
 		if(type != null && baseType == null){
 			if(type.getOwner() instanceof Model && ((Model) type.getOwner()).getName().equals("uml")){
-					String path = "pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#" + type.getName();
-					EObject eObject = emfWorkspace.getResourceSet().getEObject(URI.createURI(path), true);
-					if(eObject ==null){
-						System.out.println(type.getQualifiedName() + " not found");
-					}
-					baseType = (INakedClassifier) getNakedPeer((Element) eObject);
+				String path = "pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#" + type.getName();
+				EObject eObject = emfWorkspace.getResourceSet().getEObject(URI.createURI(path), true);
+				if(eObject == null){
+					System.out.println(type.getQualifiedName() + " not found");
+				}
+				baseType = (INakedClassifier) getNakedPeer((Element) eObject);
 			}else{
 				System.out.println("Type not found: " + type.getQualifiedName());
 			}

@@ -2,6 +2,7 @@ package org.opaeum.emf.extraction;
 
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
+import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
@@ -32,6 +33,7 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.activities.internal.NakedActivityEdgeImpl;
 import org.opaeum.metamodel.activities.internal.NakedObjectNodeImpl;
 import org.opaeum.metamodel.core.INakedElement;
@@ -114,6 +116,10 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 			ObjectNode an = (ObjectNode) value.getOwner();
 			if(value == an.getUpperBound()){
 				npn.setUpperBound(result);
+			}else if(value.getOwner() instanceof ValuePin && ((ValuePin )value.getOwner()).getValue()==value){
+				((INakedValuePin) npn).setValue(result);
+			}else{
+				//TODO
 			}
 		}
 	}

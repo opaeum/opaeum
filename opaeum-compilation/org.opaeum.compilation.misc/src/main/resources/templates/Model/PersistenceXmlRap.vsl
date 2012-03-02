@@ -1,0 +1,53 @@
+#set($shouldGenerate=true)
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<persistence-unit name="${persistenceConfigName}">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+#foreach($c in $persistentClasses)
+		<class>${c}</class>
+#end 
+#if($pkg)
+		<class>${pkg}</class>
+#end		
+#if($requiresJbpm)
+		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
+		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>
+#end
+		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.cache.use_second_level_cache"
+				value="false" />
+			<property name="hibernate.cache.use_query_cache" value="false" />
+			<property name="hibernate.default_batch_fetch_size" value="8" />
+			<property name="hibernate.order_updates" value="true" />
+			<property name="hibernate.order_inserts" value="true" />
+			<property name="hibernate.jdbc.batch_size" value="20" />
+			<property name="hibernate.max_fetch_depth" value="1" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
+			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:${workspace.name}DB" />
+			<property name="hibernate.connection.username" value="sa" />
+			<property name="hibernate.connection.password" value="" />
+#if($persistentClasses)			
+			<property name="hibernate.archive.autodetection" value="false" />
+#end
+#if($requiresAuditing)
+			<property name="hibernate.ejb.event.post-load" value="org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.post-insert"
+				value="org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.post-update"
+				value="org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.flush" value="org.opaeum.audit.AuditListener" />
+			<property name="hibernate.ejb.event.create-onflush" value="org.opaeum.audit.AuditListener" />
+#end
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
+import org.opaeum.rap.runtime.SelectionForContact;
 
 
 public class ClassSelectionEditingSupport extends EditingSupport{

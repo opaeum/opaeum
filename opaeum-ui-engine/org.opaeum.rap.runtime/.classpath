@@ -4,11 +4,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/dependencies/guava-r09.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/dependencies/jackson-core-asl-1.9.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gdata-base-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gdata-client-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gdata-client-1.0.jar" sourcepath="/home/ampie/JavaSoftware/gdata/java/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/gdata-client-meta-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gdata-contacts-3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gdata-contacts-meta-3.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/gdata-core-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gdata-core-1.0.jar" sourcepath="/home/ampie/JavaSoftware/gdata/java/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/google-api-client-1.6.0-beta.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/google-api-client-extensions-1.6.0-beta.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/google-collect-1.0-rc1.jar"/>

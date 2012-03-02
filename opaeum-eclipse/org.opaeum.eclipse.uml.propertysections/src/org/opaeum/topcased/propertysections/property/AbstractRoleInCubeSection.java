@@ -26,22 +26,22 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Profile;
-import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.opaeum.eclipse.EmfClassifierUtil;
 import org.opaeum.eclipse.commands.ApplyOpaeumStandardProfileCommand;
 import org.opaeum.metamodel.core.internal.TagNames;
-import org.topcased.tabbedproperties.sections.AbstractTabbedPropertySection;
 
-public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySection{
+public abstract class AbstractRoleInCubeSection extends AbstractTypedAndMultiplicityElementPropertySection{
 	protected Button check;
 	private Collection<Button> formulaChecks = new HashSet<Button>();
 	Stereotype propertyStereotype;
@@ -80,9 +80,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 		this.label = getWidgetFactory().createLabel(composite, getLabelText());
 		FormData layoutData = new FormData();
 		layoutData.left = new FormAttachment(0, 0);
-		layoutData.right = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{
-			getLabelText()
-		}) - 10);
+		layoutData.right = new FormAttachment(0, getStandardLabelWidth(composite, new String[]{getLabelText()}) - 10);
 		layoutData.top = new FormAttachment(0, ITabbedPropertyConstants.VSPACE);
 		label.setLayoutData(layoutData);
 		this.check = getWidgetFactory().createButton(composite, "Is Measure", SWT.CHECK);
@@ -164,46 +162,59 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 	}
 	@Override
 	protected void handleModelChanged(Notification msg){
-		super.handleModelChanged(msg);
-		Object notifier = msg.getNotifier();
-		if(notifier.equals(getTypedElement())){
-			switch(msg.getFeatureID(Property.class)){
-			case UMLPackage.PROPERTY__TYPE:
-			case UMLPackage.OBJECT_NODE__TYPE:
-			case UMLPackage.TYPED_ELEMENT__TYPE:
-				// TODO put in Linker
-				if(check.getText().equals("Is Measure") && !couldBeMeasure()){
-					setRole("NONE");
+		if(!this.check.isDisposed()){
+			super.handleModelChanged(msg);
+			Object notifier = msg.getNotifier();
+			if(notifier instanceof Element){
+				switch(msg.getFeatureID(MultiplicityElement.class)){
+				case UMLPackage.MULTIPLICITY_ELEMENT__UPPER:
+				case UMLPackage.MULTIPLICITY_ELEMENT__UPPER_VALUE:
+					checkRoleAndRefresh();
 				}
-				if(check.getText().equals("Is Dimension") && !couldBeDimension()){
-					setRole("NONE");
+				switch(msg.getFeatureID(LiteralInteger.class)){
+				case UMLPackage.LITERAL_INTEGER__VALUE:
+					checkRoleAndRefresh();
 				}
-				refresh();
+				switch(msg.getFeatureID(TypedElement.class)){
+				case UMLPackage.TYPED_ELEMENT__TYPE:
+					checkRoleAndRefresh();
+				}
+				switch(msg.getFeatureID(TypedElement.class)){
+				case UMLPackage.TYPED_ELEMENT__TYPE:
+					checkRoleAndRefresh();
+				}
 			}
 		}
+	}
+	private void checkRoleAndRefresh(){
+		if(check.getText().equals("Is Measure") && !couldBeMeasure()){
+			setRole("NONE");
+		}
+		if(check.getText().equals("Is Dimension") && !couldBeDimension()){
+			setRole("NONE");
+		}
+		refresh();
 	}
 	private boolean couldBeDimension(){
 		TypedElement p = getTypedElement();
 		if(p.getType() instanceof org.eclipse.uml2.uml.Class || p.getType() instanceof Enumeration || p.getType() instanceof Interface){
 			return true;
 		}else if(p.getType() instanceof PrimitiveType){
-			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "String") || EmfClassifierUtil.comformsToLibraryType(p.getType(), "Boolean");
+			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "String")
+					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Boolean");
 		}else if(p.getType() instanceof DataType){
 			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "DateTime");
 		}else{
 			return false;
 		}
 	}
-	protected TypedElement getTypedElement(){
-		TypedElement p = (TypedElement) getEObject();
-		return p;
-	}
 	private boolean couldBeMeasure(){
 		TypedElement p = getTypedElement();
 		if(p.getType() instanceof org.eclipse.uml2.uml.Class || p.getType() instanceof Enumeration){
 			return false;
 		}else if(p.getType() instanceof PrimitiveType){
-			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "Real") || EmfClassifierUtil.comformsToLibraryType(p.getType(), "Integer")
+			return EmfClassifierUtil.comformsToLibraryType(p.getType(), "Real")
+					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Integer")
 					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Float") || EmfClassifierUtil.comformsToLibraryType(p.getType(), "Short")
 					|| EmfClassifierUtil.comformsToLibraryType(p.getType(), "Double") || EmfClassifierUtil.comformsToLibraryType(p.getType(), "Long");
 		}else{
@@ -221,7 +232,7 @@ public abstract class AbstractRoleInCubeSection extends AbstractTabbedPropertySe
 			EStructuralFeature feat = propertyStereotype.getDefinition().getEStructuralFeature("roleInCube");
 			ed.getCommandStack().execute(SetCommand.create(ed, sa, feat, roleEnumeration.getEEnumLiteral(name)));
 			// getEditingDomain().getCommandStack().execute(
-			// SetCommand.create(getEditingDomain(), getProperty().getStereotypeApplication(propertyStereotype),
+			// SetCommand.create(getEditingDomain(), getTypedElement().getStereotypeApplication(propertyStereotype),
 			// propertyStereotype.getDefinition()
 			// .getEStructuralFeature("roleInCube"), roleEnumeration.getOwnedLiteral(name)));
 			if(name.equals("NONE")){

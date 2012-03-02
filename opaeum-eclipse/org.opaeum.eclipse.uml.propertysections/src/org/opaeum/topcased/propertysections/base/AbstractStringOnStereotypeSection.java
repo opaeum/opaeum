@@ -72,7 +72,7 @@ public abstract class AbstractStringOnStereotypeSection extends AbstractTabbedPr
 	protected void createWidgets(Composite composite){
 		super.createWidgets(composite);
 		this.label = getWidgetFactory().createLabel(composite, getLabelText());
-		this.text = new TextViewer(composite, SWT.BORDER | SWT.BORDER | SWT.SINGLE).getTextWidget();
+		this.text = new TextViewer(composite, SWT.BORDER | SWT.FLAT| SWT.SINGLE).getTextWidget();
 		new TextChangeListener(){
 			@Override
 			public void textChanged(Control control){

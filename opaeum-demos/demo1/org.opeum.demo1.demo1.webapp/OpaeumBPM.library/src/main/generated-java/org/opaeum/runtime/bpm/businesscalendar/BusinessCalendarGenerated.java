@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,6 +30,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -97,6 +99,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="businessCalendar",targetEntity=WorkDay.class)
+	@MapKey(name="z_keyOfWorkDayOnBusinessCalendar")
 	private Map<String, WorkDay> workDay = new HashMap<String,WorkDay>();
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -196,7 +199,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToWorkDay(curVal.getKind(),curVal);
@@ -214,7 +217,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToRecurringHoliday(curVal);
@@ -232,7 +235,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToOnceOffHoliday(curVal);
@@ -318,8 +321,9 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return newInstance;
 	}
 	
-	public WorkDay createWorkDay() {
+	public WorkDay createWorkDay(WorkDayKind kind) {
 		WorkDay newInstance= new WorkDay();
+		newInstance.setKind(kind);
 		newInstance.init((BusinessCalendar)this);
 		return newInstance;
 	}
@@ -331,6 +335,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return false;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	public Integer getBusinessDaysPerMonth() {
 		Integer result = this.businessDaysPerMonth;
@@ -338,6 +343,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerDay() {
 		Double result = this.businessHoursPerDay;
@@ -345,6 +351,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerWeek() {
 		Double result = this.businessHoursPerWeek;
@@ -372,6 +379,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return this.objectVersion;
 	}
 	
+	@Property(isComposite=true,opposite="businessCalendar")
 	@NumlMetaInfo(uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
 	public Set<OnceOffHoliday> getOnceOffHoliday() {
 		Set<OnceOffHoliday> result = this.onceOffHoliday;
@@ -379,6 +387,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="businessCalendar")
 	@NumlMetaInfo(uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -394,6 +403,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return getOrganization();
 	}
 	
+	@Property(isComposite=true,opposite="businessCalendar")
 	@NumlMetaInfo(uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
 	public Set<RecurringHoliday> getRecurringHoliday() {
 		Set<RecurringHoliday> result = this.recurringHoliday;
@@ -416,6 +426,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="businessCalendar")
 	@NumlMetaInfo(uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	public Set<WorkDay> getWorkDay() {
 		Set<WorkDay> result = new HashSet<WorkDay>(this.workDay.values());

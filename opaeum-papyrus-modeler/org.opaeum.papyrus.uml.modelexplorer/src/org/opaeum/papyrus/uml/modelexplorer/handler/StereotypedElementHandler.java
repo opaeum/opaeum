@@ -6,15 +6,12 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.utils.ServiceUtilsForActionHandlers;
 import org.eclipse.papyrus.uml.modelexplorer.handler.CreateCommandHandler;
-import org.eclipse.papyrus.uml.service.types.element.UMLElementTypes;
-import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Profile;
 import org.opaeum.eclipse.ProfileApplier;
-import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public abstract class StereotypedElementHandler extends CreateCommandHandler implements IHandler{
 	protected abstract String getStereotype();
@@ -22,6 +19,10 @@ public abstract class StereotypedElementHandler extends CreateCommandHandler imp
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException{
 		final Object execute = super.execute(event);
+		applyStereotype(execute);
+		return execute;
+	}
+	protected void applyStereotype(final Object execute){
 		ServiceUtilsForActionHandlers util = new ServiceUtilsForActionHandlers();
 		try{
 			util.getTransactionalEditingDomain().getCommandStack().execute(new AbstractCommand(){
@@ -33,8 +34,8 @@ public abstract class StereotypedElementHandler extends CreateCommandHandler imp
 					if(execute instanceof Collection){
 						Collection<?> result = (Collection<?>) execute;
 						Object next = result.iterator().next();
-						if(next instanceof Activity){
-							Activity a = (Activity) next;
+						if(next instanceof Element){
+							Element a = (Element) next;
 							Profile applyProfile = ProfileApplier.applyProfile(a.getModel(), getProfile());
 							a.applyStereotype(applyProfile.getOwnedStereotype(getStereotype()));
 						}
@@ -46,6 +47,5 @@ public abstract class StereotypedElementHandler extends CreateCommandHandler imp
 		}catch(ServiceException e){
 			e.printStackTrace();
 		}
-		return execute;
 	}
 }

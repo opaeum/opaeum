@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.request.AbstractRequest;
 import org.opaeum.runtime.bpm.request.Participation;
 import org.opaeum.runtime.bpm.request.ParticipationInRequest;
@@ -39,6 +40,7 @@ public interface Participant extends HibernateEntity, CompositionNode, Serializa
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests();
 	
+	@Property(isComposite=false,opposite="participant")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation();
 	

@@ -39,6 +39,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.Participant;
@@ -134,7 +135,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 			@Column(name="task_object"),name="identifier"),
 		@AttributeOverride(column=
 			@Column(name="task_object_type"),name="classIdentifier")})
-	private InterfaceValue taskObject;
+	private InterfaceValue taskObject = new InterfaceValue();
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -226,7 +227,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToParticipationInRequest(curVal);
@@ -244,7 +245,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToParticipationInTask(curVal);
@@ -697,6 +698,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return this.currentException;
 	}
 	
+	@Property(isComposite=false,opposite="taskRequest")
 	@NumlMetaInfo(uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
 	public TaskDelegation getDelegation() {
 		TaskDelegation result = this.delegation;
@@ -758,6 +760,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return getTaskObject();
 	}
 	
+	@Property(isComposite=true,opposite="taskRequest")
 	@NumlMetaInfo(uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
 	public Set<ParticipationInTask> getParticipationInTask() {
 		Set<ParticipationInTask> result = this.participationInTask;
@@ -799,6 +802,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="parentTask")
 	@NumlMetaInfo(uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	public Set<AbstractRequest> getSubRequests() {
 		Set<AbstractRequest> result = this.subRequests;
@@ -822,6 +826,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return isStepActive(TaskRequestState.SUSPENDED_RESERVEDBUTSUSPENDED);
 	}
 	
+	@Property(isComposite=false,opposite="taskRequest")
 	@NumlMetaInfo(uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	public ITaskObject getTaskObject() {
 		ITaskObject result = (ITaskObject)this.taskObject.getValue(persistence);

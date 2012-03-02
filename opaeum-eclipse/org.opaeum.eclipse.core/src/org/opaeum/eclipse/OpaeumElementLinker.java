@@ -3,7 +3,6 @@ package org.opaeum.eclipse;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -25,6 +24,8 @@ import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
 import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.AddStructuralFeatureValueAction;
+import org.eclipse.uml2.uml.AddVariableValueAction;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -118,9 +119,6 @@ public class OpaeumElementLinker extends EContentAdapter{
 					}
 				}
 			}
-			// if(notification.getFeatureID(Element.class), UMLPackage.){
-			//
-			// }
 			return super.caseElement(object);
 		}
 		@Override
@@ -278,10 +276,13 @@ public class OpaeumElementLinker extends EContentAdapter{
 					break;
 				case Notification.REMOVE:
 					p = (Property) notification.getOldValue();
-					synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
-					if(p.getOtherEnd().getType() instanceof Signal){
-						// remove individually to ensure existing value pins stay in tact
-						removeReferencingPins(p);
+					if(p.getOtherEnd().getType() != null){
+						//NB!! could be deleting
+						synchronizeSlotsOnReferringInstances((Classifier) p.getOtherEnd().getType());
+						if(p.getOtherEnd().getType() instanceof Signal){
+							// remove individually to ensure existing value pins stay in tact
+							removeReferencingPins(p);
+						}
 					}
 					break;
 				}
@@ -465,6 +466,12 @@ public class OpaeumElementLinker extends EContentAdapter{
 				((ReadVariableAction) ac).setResult(UMLFactory.eINSTANCE.createOutputPin());
 			}else if(ac instanceof CreateObjectAction){
 				((CreateObjectAction) ac).setResult(UMLFactory.eINSTANCE.createOutputPin());
+			}else if(ac instanceof AddStructuralFeatureValueAction){
+				((AddStructuralFeatureValueAction) ac).setResult(UMLFactory.eINSTANCE.createOutputPin());
+				((AddStructuralFeatureValueAction) ac).setObject(UMLFactory.eINSTANCE.createValuePin());
+				((AddStructuralFeatureValueAction) ac).setValue(UMLFactory.eINSTANCE.createValuePin());
+			}else if(ac instanceof AddVariableValueAction){
+				((AddVariableValueAction) ac).setValue(UMLFactory.eINSTANCE.createValuePin());
 			}
 		}
 		public EObject caseBehavior(Behavior behavior){
@@ -543,7 +550,10 @@ public class OpaeumElementLinker extends EContentAdapter{
 			switch(notification.getEventType()){
 			case Notification.ADD:
 				doGeneralInitialization(p, notification.getNewValue());
-				implementAppropriateInterface(o, StereotypeNames.BUSINESS_COMPONENT, StereotypeNames.PKG_ORGANIZATION);
+				if(notification.getNewValue() instanceof Element){
+					implementAppropriateInterface((Element) notification.getNewValue(), StereotypeNames.BUSINESS_COMPONENT,
+							StereotypeNames.PKG_ORGANIZATION);
+				}
 				break;
 			}
 			return null;
@@ -641,7 +651,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 					synchronizeSignalPins((Signal) g.getSpecific());
 				}
 				if(notification.getNewValue() == null){
-					g.getSpecific().getGeneralizations().remove(g);
+					// g.getSpecific().getGeneralizations().remove(g);
 				}
 				break;
 			}

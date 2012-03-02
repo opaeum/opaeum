@@ -24,6 +24,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Proxy;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -122,6 +123,7 @@ abstract public class EMailAddress implements IPersistentObject, IEventGenerator
 		return false;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_FfSSUEtnEeGd4cpyhpib9Q")
 	public String getAddress() {
 		String result = this.address;

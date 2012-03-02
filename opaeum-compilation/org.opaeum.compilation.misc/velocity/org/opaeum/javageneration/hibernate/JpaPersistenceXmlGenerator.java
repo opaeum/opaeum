@@ -6,6 +6,7 @@ import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
+import org.opaeum.rap.RapCapabilities;
 
 @StepDependency(phase = JavaTransformationPhase.class,requires = {},after = {})
 public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerator{
@@ -23,12 +24,16 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 		}
 	}
 	protected boolean shouldProcessModel(){
-		//Might overwrite other models persistence.xml
+		// Might overwrite other models persistence.xml
 		return !(config.getSourceFolderStrategy().isSingleProjectStrategy() || transformationContext.isIntegrationPhase());
 	}
-
 	protected String getTemplateName(){
-		return "templates/Model/PersistenceXml.vsl";
+		//TODO temp hack - make fully configurable in config
+		if(transformationContext.isFeatureSelected(RapCapabilities.class)){
+			return "templates/Model/PersistenceXmlRap.vsl";
+		}else{
+			return "templates/Model/PersistenceXml.vsl";
+		}
 	}
 	@Override
 	protected String getDomainEnvironmentImplementation(){

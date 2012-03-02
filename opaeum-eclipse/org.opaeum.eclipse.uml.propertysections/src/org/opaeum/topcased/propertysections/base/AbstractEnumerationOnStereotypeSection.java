@@ -48,8 +48,12 @@ public abstract class AbstractEnumerationOnStereotypeSection extends AbstractTab
 	public void setInput(IWorkbenchPart part,ISelection selection){
 		super.setInput(part, selection);
 		this.stereotype = ProfileApplier.getProfile(getElement(), getProfileName()).getOwnedStereotype(getStereotypeName());
-		this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
-		this.literals = ((EEnum) this.feature.getEType()).getELiterals();
+		if(stereotype != null){
+			this.feature = this.stereotype.getDefinition().getEStructuralFeature(getAttributeName());
+			if(this.feature != null && this.feature.getEType() instanceof EEnum){
+				this.literals = ((EEnum) this.feature.getEType()).getELiterals();
+			}
+		}
 	}
 	@Override
 	public void refresh(){

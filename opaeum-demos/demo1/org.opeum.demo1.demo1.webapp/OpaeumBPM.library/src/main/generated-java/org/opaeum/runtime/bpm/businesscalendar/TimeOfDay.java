@@ -26,6 +26,7 @@ import javax.validation.constraints.Min;
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -117,6 +118,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.deletedOn;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	public Integer getHours() {
 		Integer result = this.hours;
@@ -135,6 +137,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	public Integer getMinutes() {
 		Integer result = this.minutes;

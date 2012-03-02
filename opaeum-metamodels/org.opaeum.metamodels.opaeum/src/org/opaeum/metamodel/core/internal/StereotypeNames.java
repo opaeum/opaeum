@@ -110,4 +110,5 @@ public class StereotypeNames{
 	public static final String BUSINESS_USE_CASE = "BusinessUseCase";
 	public static final String BUSINESS = "Business";
 	public static final String BUSINESS_DOCUMENT = "BusinessDocument";
+	public static final String ENUMERATION = "Enumeration";
 }

@@ -3,6 +3,7 @@ package org.opaeum.javageneration.hibernate;
 import java.util.List;
 
 import org.opaeum.feature.StepDependency;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
@@ -27,7 +28,8 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 			OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 			getter.setReturnType(map.javaTypePath());
 			owner.addToOperations(getter);
-			getter.initializeResultVariable("(" + map.javaType() + ")" + getReferencePrefix(owner, map) + map.fieldname() + ".getValue(persistence)");
+			getter.initializeResultVariable("(" + map.javaType() + ")" + getReferencePrefix(owner, map) + map.fieldname()
+					+ ".getValue(persistence)");
 			INakedElement property = map.getProperty();
 			OJUtil.addMetaInfo(getter, property);
 			return getter;
@@ -64,8 +66,16 @@ public class HibernateAttributeImplementor extends AttributeImplementor{
 	@Override
 	protected OJAnnotatedField buildField(OJAnnotatedClass owner,NakedStructuralFeatureMap map){
 		if(isInterfaceValue(owner, map)){
-			OJAnnotatedField field = new OJAnnotatedField(map.fieldname(), new OJPathName("org.opaeum.hibernate.domain.InterfaceValue"));
-			owner.addToFields(field);
+			OJAnnotatedField field=null;
+			if(map.getProperty().isComposite()){
+				field = new OJAnnotatedField(map.fieldname(), new OJPathName("org.opaeum.hibernate.domain.CascadingInterfaceValue"));
+				owner.addToFields(field);
+				field.setInitExp("new CascadingInterfaceValue()");
+			}else{
+				field = new OJAnnotatedField(map.fieldname(), new OJPathName("org.opaeum.hibernate.domain.InterfaceValue"));
+				owner.addToFields(field);
+				field.setInitExp("new InterfaceValue()");
+			}
 			return field;
 		}else{
 			return super.buildField(owner, map);

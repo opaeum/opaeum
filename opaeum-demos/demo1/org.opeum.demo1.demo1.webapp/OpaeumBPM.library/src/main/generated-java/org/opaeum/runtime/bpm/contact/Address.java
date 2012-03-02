@@ -24,6 +24,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Proxy;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -154,6 +155,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.cancelledEvents;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	public String getComplexName() {
 		String result = this.complexName;
@@ -185,6 +187,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return null;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	public String getProperty1() {
 		String result = this.property1;
@@ -192,6 +195,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	public String getStreetName() {
 		String result = this.streetName;
@@ -199,6 +203,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	public String getStreetNumber() {
 		String result = this.streetNumber;
@@ -213,6 +218,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.uid;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	public String getUnitNumber() {
 		String result = this.unitNumber;

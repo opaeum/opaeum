@@ -28,12 +28,7 @@ import org.opaeum.metamodel.core.INakedProperty;
  * @author ampie
  * 
  */
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	CompositionEmulator.class,OperationAnnotator.class
-},after = {
-OperationAnnotator.class
-})
-
+@StepDependency(phase = JavaTransformationPhase.class,requires = {CompositionEmulator.class,OperationAnnotator.class},after = {OperationAnnotator.class})
 public class FactoryMethodCreator extends AbstractStructureVisitor{
 	private void createFactoryMethod(INakedProperty pw,OJClass owner){
 		INakedClassifier type = pw.getNakedBaseType();
@@ -42,7 +37,7 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		String createOperName = "create" + pw.getMappingInfo().getJavaName().getSingular().getCapped();
 		while(ops.hasNext()){
 			OJOperation op = (OJOperation) ops.next();
-			if(op.getParameters().size() == 0 && op.getName().equals(createOperName)){
+			if(op.getParameters().size() == pw.getQualifiers().size() && op.getName().equals(createOperName)){
 				creator = op;
 				break;
 			}
@@ -50,10 +45,18 @@ public class FactoryMethodCreator extends AbstractStructureVisitor{
 		if(creator == null){
 			creator = new OJAnnotatedOperation(createOperName);
 			owner.addToOperations(creator);
+			for(INakedProperty p:pw.getQualifiers()){
+				NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(p);
+				creator.addParam(m.fieldname(), m.javaTypePath());
+			}
 		}
 		creator.setReturnType(new OJPathName(type.getMappingInfo().getQualifiedJavaName()));
 		OJBlock body = new OJBlock();
-		body.addToStatements((type).getMappingInfo().getJavaName() + " newInstance= new " + type.getMappingInfo().getJavaName() + "()");
+		body.addToStatements(type.getMappingInfo().getJavaName() + " newInstance= new " + type.getMappingInfo().getJavaName() + "()");
+		for(INakedProperty p:pw.getQualifiers()){
+			NakedStructuralFeatureMap m = OJUtil.buildStructuralFeatureMap(p);
+			body.addToStatements("newInstance." + m.setter() + "(" + m.fieldname() + ")");
+		}
 		// if(pw.getOtherEnd() != null && pw.getOtherEnd().isNavigable()){
 		// NameWrapper javaName = pw.getOtherEnd().getMappingInfo().getJavaName();
 		// body.addToStatements("newInstance.set" + javaName.getCapped() + "((" + owner.getName() + ")this)");

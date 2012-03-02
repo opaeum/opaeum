@@ -43,6 +43,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -186,7 +187,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToParticipationInRequest(curVal);
@@ -424,6 +425,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return null;
 	}
 	
+	@Property(isComposite=false,opposite="subRequests")
 	@NumlMetaInfo(uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	public TaskRequest getParentTask() {
 		TaskRequest result = this.parentTask;
@@ -431,6 +433,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="request")
 	@NumlMetaInfo(uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
 	public Set<ParticipationInRequest> getParticipationInRequest() {
 		Set<ParticipationInRequest> result = this.participationInRequest;

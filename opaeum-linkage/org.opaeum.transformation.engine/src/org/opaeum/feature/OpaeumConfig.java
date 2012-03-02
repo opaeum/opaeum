@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -218,13 +219,15 @@ public class OpaeumConfig{
 	public SourceFolderDefinition getSourceFolderDefinition(ISourceFolderIdentifier id){
 		return sourceFolderDefinitions.get(id);
 	}
-	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,boolean useWorkspaceName,String projectSuffix,String relativeSourceFolder){
+	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,boolean useWorkspaceName,String projectSuffix,
+			String relativeSourceFolder){
 		SourceFolderDefinition value = new SourceFolderDefinition(useWorkspaceName ? ProjectNameStrategy.WORKSPACE_NAME_AND_SUFFIX
 				: ProjectNameStrategy.MODEL_NAME_AND_SUFFIX, projectSuffix, relativeSourceFolder);
 		sourceFolderDefinitions.put(id, value);
 		return value;
 	}
-	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectSuffix,String relativeSourceFolder){
+	public SourceFolderDefinition defineSourceFolder(ISourceFolderIdentifier id,ProjectNameStrategy pns,String projectSuffix,
+			String relativeSourceFolder){
 		SourceFolderDefinition value = new SourceFolderDefinition(pns, projectSuffix, relativeSourceFolder);
 		sourceFolderDefinitions.put(id, value);
 		return value;
@@ -309,7 +312,7 @@ public class OpaeumConfig{
 		store();
 	}
 	public boolean shouldBeCm1Compatible(){
-		return false;//!"false".equals(props.getProperty("cm1"));
+		return false;// !"false".equals(props.getProperty("cm1"));
 	}
 	public void setAutoSync(Boolean b){
 		this.props.setProperty(AUTO_SYNC, b.toString());
@@ -329,7 +332,12 @@ public class OpaeumConfig{
 		return this.sqlDialect;
 	}
 	public Collection<String> getAdditionalPersistentClasses(){
-		return Arrays.asList(this.props.getProperty(ADDITIONAL_PERSISTENT_CLASSES, "com.rorotika.cm.audit.NetworkElementAuditEntry").split(";"));
+		String property = this.props.getProperty(ADDITIONAL_PERSISTENT_CLASSES);
+		if(property == null){
+			return Collections.emptySet();
+		}else{
+			return Arrays.asList(property.split(";"));
+		}
 	}
 	public void setVersion(String version){
 		getVersion().parse(version);
@@ -353,6 +361,16 @@ public class OpaeumConfig{
 	public void setVersion(VersionNumber version2){
 		this.version = version2;
 		store();
+	}
+	public Class<?> getErrorMarker(){
+		Collection<Class<?>> values = classRegistry.values();
+		for(Class<?> class1:values){
+			// Temporary TODO fix when migrating away from topcased
+			if(class1.getName().endsWith("ErrorMarker")){
+				return class1;
+			}
+		}
+		return null;
 	}
 	public OpaeumConfig getCopy(){
 		OpaeumConfig result = new OpaeumConfig(getConfigFile());

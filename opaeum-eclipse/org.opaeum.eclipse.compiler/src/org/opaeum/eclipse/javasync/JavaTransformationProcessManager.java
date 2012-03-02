@@ -49,7 +49,7 @@ public class JavaTransformationProcessManager implements IStartup,Runnable{
 			// Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));
 		}finally{
 			try{
-				Display.getDefault().timerExec(1000, this);
+				Display.getDefault().timerExec(10000, this);
 			}catch(Throwable e){
 				e.printStackTrace();
 				// Activator.getDefault().getLog().log(new Status(Status.WARNING, Activator.PLUGIN_ID, e.getMessage(), e));

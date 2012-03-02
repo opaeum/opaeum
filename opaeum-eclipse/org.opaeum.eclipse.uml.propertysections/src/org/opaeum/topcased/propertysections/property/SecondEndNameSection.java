@@ -10,13 +10,21 @@ import org.opaeum.topcased.propertysections.NamedElementNameSection;
 public class SecondEndNameSection extends NamedElementNameSection{
 	@Override
 	protected EObject getEObject(){
-		return super.getEObject()==null?null:((Association) super.getEObject()).getMemberEnds().get(1);
+		Association association = (Association) super.getEObject();
+		if(association == null || association.getMembers().size() < 2){
+			return null;
+		}else{
+			return association.getMemberEnds().get(1);
+		}
 	}
 	@Override
 	protected List<EObject> getEObjectList(){
 		List<EObject> result = new ArrayList<EObject>();
 		for(EObject eObject:super.getEObjectList()){
-			result.add(((Association) eObject).getMemberEnds().get(1));
+			Association association = (Association) eObject;
+			if(association.getMembers().size() >= 2){
+				result.add(association.getMemberEnds().get(1));
+			}
 		}
 		return result;
 	}

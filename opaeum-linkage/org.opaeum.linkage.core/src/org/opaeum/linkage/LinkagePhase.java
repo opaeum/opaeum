@@ -16,6 +16,8 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.core.RootObjectStatus;
+import org.opaeum.metamodel.validation.BrokenElement;
+import org.opaeum.metamodel.validation.BrokenRule;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.visitor.NakedElementOwnerVisitor;
 
@@ -24,7 +26,7 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	public final class ErrorRemover extends NakedElementOwnerVisitor{
 		@VisitBefore(matchSubclasses = true)
 		public void visitElement(INakedElement e){
-			modelWorkspace.getErrorMap().getErrors().remove(e.getId());
+			BrokenElement remove = modelWorkspace.getErrorMap().getErrors().remove(e.getId());
 		}
 		@Override
 		protected int getThreadPoolSize(){
@@ -37,11 +39,31 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	private List<AbstractModelElementLinker> linkers;
 	@Override
 	public Collection<?> processElements(TransformationContext context,Collection<INakedElement> elements){
+		Collection<INakedElement> affectedElements = new HashSet<INakedElement>(elements);
+		for(BrokenElement brokenElement:modelWorkspace.getErrorMap().getErrors().values()){
+			for(BrokenRule b:brokenElement.getBrokenRules().values()){
+				Object[] parameters = b.getParameters();
+				for(Object object:parameters){
+					for(INakedElement iNakedElement:elements){
+						if(object == iNakedElement){
+							for(Object object2:parameters){
+								if(object2 instanceof INakedElement){
+									affectedElements.add((INakedElement) object2);
+								}
+							}
+							INakedElement source = modelWorkspace.getModelElement(b.getElementId());
+							if(source != null){
+								affectedElements.add(source);
+							}
+						}
+					}
+				}
+			}
+		}
 		ErrorRemover er = new ErrorRemover();
-		for(INakedElement element:elements){
+		for(INakedElement element:affectedElements){
 			er.visitRecursively(element);
 		}
-		Collection<INakedElement> affectedElements = new HashSet<INakedElement>(elements);
 		for(AbstractModelElementLinker d:linkers){
 			for(INakedElement element:filterChildrenOut(affectedElements)){
 				d.setCurrentRootObject(element.getRootObject());
@@ -107,17 +129,16 @@ public class LinkagePhase implements TransformationPhase<AbstractModelElementLin
 	}
 	@SuppressWarnings("unchecked")
 	public static Set<Class<? extends AbstractModelElementLinker>> getAllSteps(){
-		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class, ProcessIdentifier.class,
-				MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, CompositionEmulator.class, ReferenceResolver.class, QualifierLogicCalculator.class,
-				ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class, EnumerationValuesAttributeAdder.class, TypeResolver.class,
-				SourcePopulationResolver.class,RootClassifierIdentifier.class));
+		return new HashSet<Class<? extends AbstractModelElementLinker>>(Arrays.asList(NakedParsedOclStringResolver.class,
+				ProcessIdentifier.class, MappedTypeLinker.class, DependencyCalculator.class, PinLinker.class, CompositionEmulator.class,
+				ReferenceResolver.class, QualifierLogicCalculator.class, ParameterLinker.class, ObjectFlowLinker.class, InverseCalculator.class,
+				EnumerationValuesAttributeAdder.class, TypeResolver.class, SourcePopulationResolver.class, RootClassifierIdentifier.class));
 	}
 	@Override
 	public void release(){
-		this.modelWorkspace=null;
+		this.modelWorkspace = null;
 		for(AbstractModelElementLinker l:this.linkers){
 			l.release();
 		}
-		
 	}
 }

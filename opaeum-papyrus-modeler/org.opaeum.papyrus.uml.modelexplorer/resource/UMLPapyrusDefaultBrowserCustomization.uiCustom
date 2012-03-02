@@ -6698,6 +6698,14 @@
             value="false"/>
       </customizedFeatures>
     </references>
+    <references
+        referenceName="ownedNode">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
   </types>
   <types metaclassName="uml.Variable">
     <references

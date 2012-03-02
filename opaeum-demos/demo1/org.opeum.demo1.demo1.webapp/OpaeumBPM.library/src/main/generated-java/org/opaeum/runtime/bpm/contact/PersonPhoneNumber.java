@@ -24,9 +24,12 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.contact.IPersonPhoneNumber;
+import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -67,7 +70,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	@JoinColumn(name="person_id",nullable=true)
 	private PersonNode person;
 	static final private long serialVersionUID = 11888058762954742l;
-	@Type(type="org.opaeum.runtime.bpm.contact.PersonPhoneNumberTypeResolver")
+	@Type(type="org.opaeum.runtime.contact.PersonPhoneNumberTypeResolver")
 	@Column(name="type",nullable=true)
 	private PersonPhoneNumberType type;
 	@Column(name="key_in_pho_num_on_per_nod")
@@ -79,9 +82,9 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	 * @param type 
 	 */
 	public PersonPhoneNumber(PersonNode owningObject, PersonPhoneNumberType type) {
+		setType(type);
 		init(owningObject);
 		addToOwningObject();
-		setType(type);
 	}
 	
 	/** Default constructor for PersonPhoneNumber
@@ -161,6 +164,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return getPerson();
 	}
 	
+	@Property(isComposite=false,opposite="phoneNumber")
 	@NumlMetaInfo(uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -168,6 +172,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="personPhoneNumber")
 	@NumlMetaInfo(uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	public PersonPhoneNumberType getType() {
 		PersonPhoneNumberType result = this.type;

@@ -3,6 +3,8 @@ package org.opaeum.runtime.environment;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.opaeum.runtime.domain.IActiveObject;
@@ -11,6 +13,7 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.event.EventService;
 import org.opaeum.runtime.event.INotificationService;
 import org.opaeum.runtime.jbpm.AbstractJbpmKnowledgeBase;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.DatabaseManagementSystem;
 import org.opaeum.runtime.persistence.UmtPersistence;
 
@@ -26,10 +29,11 @@ public abstract class Environment{
 	public static final String DBMS = "opaeum.database.management.system";
 	private static final EventService EVENT_SERVICE = new EventService();
 	protected static ThreadLocal<Environment> instance = new ThreadLocal<Environment>();
-	protected static JavaMetaInfoMap persistentNameClassMap;
+	protected static JavaMetaInfoMap metaInfoMap;
 	protected Properties properties;
 	protected static Class<? extends Environment> defaultImplementation;
 	private DatabaseManagementSystem dbms;
+	static private Map<String,Class<?>> classes = new HashMap<String,Class<?>>();
 	public static Environment buildInstanceForRelease(VersionNumber n){
 		Environment env = (Environment) instantiateImplementation(ENVIRONMENT_IMPLEMENTATION, loadProperties(propertiesFileName(n)));
 		return env;
@@ -52,19 +56,28 @@ public abstract class Environment{
 		}
 		return instance.get();
 	}
-	public static JavaMetaInfoMap getMetaInfoMap(){
-		if(persistentNameClassMap == null){
-			persistentNameClassMap = (JavaMetaInfoMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
+	public  JavaMetaInfoMap getMetaInfoMap(){
+		if(metaInfoMap == null){
+			metaInfoMap = (JavaMetaInfoMap) instantiateImplementation(PERSISTENT_NAME_CLASS_MAP);
 		}
-		return persistentNameClassMap;
+		return metaInfoMap;
 	}
 	public abstract <T>Class<T> getImplementationClass(T o);
 	public static Object instantiateImplementation(String environmentImplementation){
 		return instantiateImplementation(environmentImplementation, loadProperties());
 	}
+	public void registerClass(Class<?> c){
+		classes.put(c.getName(), c);
+	}
 	private static Object instantiateImplementation(String environmentImplementation,Properties properties){
 		Object newInstance;
-		Class<?> cls = IntrospectionUtil.classForName(properties.getProperty(environmentImplementation));
+		Class<? extends Object> cls;
+		String className = properties.getProperty(environmentImplementation);
+		if(classes.containsKey(className)){
+			cls = classes.get(className);
+		}else{
+			cls = IntrospectionUtil.classForName(className);
+		}
 		newInstance = IntrospectionUtil.newInstance(cls);
 		if(newInstance instanceof Environment){
 			((Environment) newInstance).properties = properties;
@@ -97,6 +110,12 @@ public abstract class Environment{
 			if(resource == null){
 				resource = Thread.currentThread().getContextClassLoader().getResource(propertiesFileName);
 			}
+			if(resource==null && defaultImplementation!=null){
+				resource=defaultImplementation.getResource(propertiesFileName);
+			}
+			if(resource==null&&classes.size()>0){
+				resource=classes.values().iterator().next().getResource(propertiesFileName);
+			}
 			properties.load(resource.openStream());
 		}catch(IOException e){
 			throw new RuntimeException(e);
@@ -116,4 +135,5 @@ public abstract class Environment{
 	}
 	public abstract void sendSignal(IActiveObject target,ISignal s);
 	public abstract UmtPersistence newUmtPersistence();
+	public abstract ConversationalPersistence getPersistence();
 }

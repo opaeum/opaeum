@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.DocumentType;
@@ -20,6 +21,7 @@ public interface IBusinessDocument extends HibernateEntity, CompositionNode, Ser
 	
 	public void generateMakeCopyEvent();
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType();
 	

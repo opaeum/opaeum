@@ -13,27 +13,35 @@ import org.hibernate.event.internal.AbstractFlushingEventListener;
 import org.hibernate.event.spi.EventSource;
 import org.hibernate.event.spi.FlushEvent;
 import org.hibernate.event.spi.FlushEventListener;
+import org.hibernate.event.spi.PersistEvent;
+import org.hibernate.event.spi.PersistEventListener;
 import org.hibernate.event.spi.PostInsertEvent;
 import org.hibernate.event.spi.PostInsertEventListener;
 import org.hibernate.event.spi.PostLoadEvent;
 import org.hibernate.event.spi.PostLoadEventListener;
+import org.hibernate.persister.entity.EntityPersister;
 import org.jbpm.persistence.processinstance.ProcessInstanceInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.IEventGenerator;
+import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IProcessObject;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
-public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,PostInsertEventListener{
+public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,PostInsertEventListener,
+		PersistEventListener{
 	private static final long serialVersionUID = -8583155822068850343L;
 	static Map<EventSource,Set<IEventGenerator>> eventGeneratorMap = Collections.synchronizedMap(new WeakHashMap<EventSource,Set<IEventGenerator>>());
 	static Map<EventSource,Set<IProcessObject>> processObjectMap = Collections.synchronizedMap(new WeakHashMap<EventSource,Set<IProcessObject>>());
-	AbstractPersistence persistence;
+	static Map<EventSource,AbstractHibernatePersistence> persistenceMap = Collections
+			.synchronizedMap(new WeakHashMap<EventSource,AbstractHibernatePersistence>());
 	private AbstractPersistence getPersistence(EventSource session){
+		AbstractHibernatePersistence persistence = persistenceMap.get(session);
 		if(persistence == null){
 			persistence = new AbstractHibernatePersistence(session){
 			};
+			persistenceMap.put(session, persistence);
 		}
 		return persistence;
 	}
@@ -155,5 +163,24 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 			eg.getCancelledEvents().clear();
 		}
 		return allCancellations;
+	}
+	@Override
+	public void onPersist(PersistEvent event) throws HibernateException{
+		EntityPersister p = event.getSession().getEntityPersister(event.getEntityName(), event.getObject());
+		Object[] propertyValues = p.getPropertyValues(event.getObject());
+		for(Object object2:propertyValues){
+			if(object2 instanceof CascadingInterfaceValue){
+				CascadingInterfaceValue iv = (CascadingInterfaceValue) object2;
+				if(iv.hasValue() && iv.getIdentifier() == null){
+					IPersistentObject value = iv.getValue(getPersistence(event.getSession()));
+					event.getSession().persist(value);
+					iv.setValue(value);// Populate the id
+				}
+			}
+		}
+	}
+	@Override
+	public void onPersist(PersistEvent event,Map createdAlready) throws HibernateException{
+		onPersist(event);
 	}
 }

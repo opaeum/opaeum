@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,6 +30,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar;
 import org.opaeum.runtime.bpm.contact.OrganizationEMailAddress;
 import org.opaeum.runtime.bpm.contact.OrganizationEMailAddressType;
@@ -75,6 +77,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="organization",targetEntity=OrganizationEMailAddress.class)
+	@MapKey(name="z_keyOfEMailAddressOnOrganizationNode")
 	private Map<String, OrganizationEMailAddress> eMailAddress = new HashMap<String,OrganizationEMailAddress>();
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
@@ -100,6 +103,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="organization",targetEntity=OrganizationPhoneNumber.class)
+	@MapKey(name="z_keyOfPhoneNumberOnOrganizationNode")
 	private Map<String, OrganizationPhoneNumber> phoneNumber = new HashMap<String,OrganizationPhoneNumber>();
 	static final private long serialVersionUID = 9636702410571466l;
 	private String uid;
@@ -145,7 +149,6 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	public void addToBusinessActor(IBusinessActor businessActor) {
 		if ( businessActor!=null ) {
 			businessActor.z_internalRemoveFromOrganization(businessActor.getOrganization());
-			businessActor.z_internalAddToOrganization(this);
 			z_internalAddToBusinessActor(businessActor);
 		}
 	}
@@ -153,7 +156,6 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	public void addToBusinessComponent(IBusinessComponent businessComponent) {
 		if ( businessComponent!=null ) {
 			businessComponent.z_internalRemoveFromRepresentedOrganization(businessComponent.getRepresentedOrganization());
-			businessComponent.z_internalAddToRepresentedOrganization(this);
 			z_internalAddToBusinessComponent(businessComponent);
 		}
 	}
@@ -224,7 +226,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToPhoneNumber(curVal.getType(),curVal);
@@ -242,7 +244,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToEMailAddress(curVal.getType(),curVal);
@@ -260,7 +262,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.setBusinessCalendar(curVal);
@@ -278,7 +280,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToOrganizationFullfillsActorRole_businessActor(curVal);
@@ -350,8 +352,9 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 	public void createComponents() {
 	}
 	
-	public OrganizationEMailAddress createEMailAddress() {
+	public OrganizationEMailAddress createEMailAddress(OrganizationEMailAddressType type) {
 		OrganizationEMailAddress newInstance= new OrganizationEMailAddress();
+		newInstance.setType(type);
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -368,8 +371,9 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return newInstance;
 	}
 	
-	public OrganizationPhoneNumber createPhoneNumber() {
+	public OrganizationPhoneNumber createPhoneNumber(OrganizationPhoneNumberType type) {
 		OrganizationPhoneNumber newInstance= new OrganizationPhoneNumber();
+		newInstance.setType(type);
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -389,6 +393,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="organization")
 	@NumlMetaInfo(uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -404,6 +409,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="organization")
 	@NumlMetaInfo(uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -427,6 +433,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="organization")
 	@NumlMetaInfo(uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
 	public Set<OrganizationEMailAddress> getEMailAddress() {
 		Set<OrganizationEMailAddress> result = new HashSet<OrganizationEMailAddress>(this.eMailAddress.values());
@@ -438,6 +445,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.id;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
 	public String getName() {
 		String result = this.name;
@@ -449,6 +457,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.objectVersion;
 	}
 	
+	@Property(isComposite=true,opposite="organization")
 	@NumlMetaInfo(uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public Set<OrganizationFullfillsActorRole> getOrganizationFullfillsActorRole_businessActor() {
 		Set<OrganizationFullfillsActorRole> result = this.organizationFullfillsActorRole_businessActor;
@@ -465,6 +474,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return null;
 	}
 	
+	@Property(isComposite=true,opposite="representedOrganization")
 	@NumlMetaInfo(uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Set<Organization_iBusinessComponent_1> getOrganization_iBusinessComponent_1_businessComponent() {
 		Set<Organization_iBusinessComponent_1> result = this.organization_iBusinessComponent_1_businessComponent;
@@ -497,6 +507,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="organization")
 	@NumlMetaInfo(uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
 	public Set<OrganizationPhoneNumber> getPhoneNumber() {
 		Set<OrganizationPhoneNumber> result = new HashSet<OrganizationPhoneNumber>(this.phoneNumber.values());

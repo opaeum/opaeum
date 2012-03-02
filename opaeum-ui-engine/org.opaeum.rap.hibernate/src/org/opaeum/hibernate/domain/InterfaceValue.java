@@ -29,7 +29,7 @@ public class InterfaceValue{
 			classIdentifier = null;
 		}else{
 			identifier = value.getId();
-			classIdentifier = Environment.getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(value.getClass()));
+			classIdentifier = Environment.getInstance().getMetaInfoMap().getUuidFor(IntrospectionUtil.getOriginalClass(value.getClass()));
 		}
 		this.value=value;
 	}
@@ -37,13 +37,13 @@ public class InterfaceValue{
 		this.identifier = identifier;
 	}
 	public boolean hasValue(){
-		return classIdentifier != null && identifier != null;
+		return classIdentifier != null && (identifier != null || value!=null);
 	}
 	private Class<?> getImplementationClass(){
 		if(classIdentifier == null){
 			return null;
 		}else{
-			return Environment.getMetaInfoMap().getClass(classIdentifier);
+			return Environment.getInstance().getMetaInfoMap().getClass(classIdentifier);
 		}
 	}
 }

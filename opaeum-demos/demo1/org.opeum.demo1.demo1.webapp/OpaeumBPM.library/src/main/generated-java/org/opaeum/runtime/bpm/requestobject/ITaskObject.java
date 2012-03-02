@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -61,6 +62,7 @@ public interface ITaskObject extends HibernateEntity, CompositionNode, IRequestO
 	
 	public void generateOnSuspendedEvent(Participant suspendedBy);
 	
+	@Property(isComposite=true,opposite="taskObject")
 	@NumlMetaInfo(uuid="252060@_I3guUY3pEeCfQedkc0TCdA")
 	public TaskRequest getTaskRequest();
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -19,15 +20,19 @@ public interface IBusinessActor extends Participant, HibernateEntity, Compositio
 	@NumlMetaInfo(uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	public IBusinessCollaboration getBusinessCollaboration();
 	
+	@Property(isComposite=false,opposite="businessActor")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization();
 	
+	@Property(isComposite=true,opposite="businessActor")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization();
 	
+	@Property(isComposite=true,opposite="businessActor")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson();
 	
+	@Property(isComposite=false,opposite="businessActor")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw")
 	public PersonNode getRepresentedPerson();
 	

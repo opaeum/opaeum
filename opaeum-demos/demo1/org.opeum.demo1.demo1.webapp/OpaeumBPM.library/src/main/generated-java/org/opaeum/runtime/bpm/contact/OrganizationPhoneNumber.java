@@ -24,6 +24,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -79,9 +80,9 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 	 * @param type 
 	 */
 	public OrganizationPhoneNumber(OrganizationNode owningObject, OrganizationPhoneNumberType type) {
+		setType(type);
 		init(owningObject);
 		addToOwningObject();
-		setType(type);
 	}
 	
 	/** Default constructor for OrganizationPhoneNumber
@@ -153,6 +154,7 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 		return "OrganizationPhoneNumber["+getId()+"]";
 	}
 	
+	@Property(isComposite=false,opposite="phoneNumber")
 	@NumlMetaInfo(uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -168,6 +170,7 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 		return getOrganization();
 	}
 	
+	@Property(isComposite=false,opposite="organizationPhoneNumber")
 	@NumlMetaInfo(uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
 	public OrganizationPhoneNumberType getType() {
 		OrganizationPhoneNumberType result = this.type;

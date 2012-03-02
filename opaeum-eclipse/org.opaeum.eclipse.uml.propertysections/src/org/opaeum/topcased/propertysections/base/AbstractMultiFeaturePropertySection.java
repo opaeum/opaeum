@@ -70,7 +70,6 @@ public abstract class AbstractMultiFeaturePropertySection extends AbstractTabbed
 		}
 		@Override
 		public void focusLost(FocusEvent e){
-			textChanged(control);
 		}
 	}
 	public abstract void refresh();

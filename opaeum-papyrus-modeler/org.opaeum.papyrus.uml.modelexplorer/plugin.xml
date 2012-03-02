@@ -68,7 +68,10 @@
 <!-- Creation command declarations -->
 <extension point="org.eclipse.ui.commands">
 	<!-- Creation command for BusinessProcesses -->
-	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.BusinessProcessHandler" description="Create a new Business Procee" id="org.eclipse.papyrus.uml.modelexplorer.BusinessProcessCreateCommand" name="Create a new Business Process">
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.BusinessProcessHandler" description="Create a new Business Process" id="org.eclipse.papyrus.uml.modelexplorer.BusinessProcessCreateCommand" name="Create a new Business Process">
+	</command>
+	<!-- Creation command for BusinessProcesses -->
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.MethodHandler" description="Create a new Method" id="org.eclipse.papyrus.uml.modelexplorer.MethodCreateCommand" name="Create a new Method">
 	</command>
 	<!-- Creation command for Abstraction -->
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.eclipse.papyrus.uml.modelexplorer.handler.AbstractionHandler" description="Create a new Abstraction" id="org.eclipse.papyrus.uml.modelexplorer.AbstractionCreateCommand" name="Create a new Abstraction">
@@ -866,6 +869,9 @@
 
 	<menuContribution locationURI="popup:org.eclipse.papyrus.views.modelexplorer.popupmenu.createchild" allPopups="false">
 		<command commandId="org.eclipse.papyrus.uml.modelexplorer.BusinessProcessCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Activity.gif" label="Create a new BusinessProcess" style="push" tooltip="Create a new BusinessProcess">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.MethodCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Activity.gif" label="Create a new Method" style="push" tooltip="Create a new Method">
 			<visibleWhen checkEnabled="true"/>
 		</command>
 	

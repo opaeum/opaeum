@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -23,9 +24,11 @@ public interface IBusinessCollaboration extends IBusinessCollaborationBase, Hibe
 	@NumlMetaInfo(uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	public Set<IBusinessActor> getBusinessActor();
 	
+	@Property(isComposite=false,opposite="businessCollaboration")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork();
 	
+	@Property(isComposite=true,opposite="businessCollaboration")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork();
 	

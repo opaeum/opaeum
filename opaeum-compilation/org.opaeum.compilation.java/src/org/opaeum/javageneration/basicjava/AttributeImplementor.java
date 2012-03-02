@@ -17,6 +17,7 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -226,7 +227,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				ifMatch.getThenPart().addToStatements("cur.clear()");
 				ifMatch.getThenPart().addToStatements("break");
 			}else{
-				internalRemover.getBody().addToStatements(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + ".clear()");
+				OJIfStatement ifNotNull = new OJIfStatement(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "!=null");
+				internalRemover.getBody().addToStatements(ifNotNull);
+				ifNotNull.getThenPart().addToStatements(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + ".clear()");
 			}
 		}
 		owner.addToOperations(internalRemover);
@@ -250,8 +253,11 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 				getter.getBody().addToStatements(foreach);
 				foreach.getBody().addToStatements("result.add(cur." + mapFromAssClassToOtherEnd.getter() + "())");
 			}else{
-				result.setInitExp(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "."
-						+ aMap.getAssocationClassToOtherEndMap().getter() + "()");
+				OJIfStatement ifNotNull = new OJIfStatement(getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "!=null");
+				getter.getBody().addToStatements(ifNotNull);
+				ifNotNull.getThenPart().addToStatements(
+						"result = " + getReferencePrefix(owner, map) + mapToAssClass.fieldname() + "."
+								+ aMap.getAssocationClassToOtherEndMap().getter() + "()");
 			}
 			getter.getBody().addToStatements("return result");
 		}
@@ -285,7 +291,13 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}else{
 			buildSetter(umlOwner, owner, map);
 		}
-		buildGetter(owner, map, false);
+		OJAnnotatedOperation getter = buildGetter(owner, map, false);
+		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.Property"));
+		ap.putAttribute("isComposite", map.getProperty().isComposite());
+		if(map.getProperty().getOtherEnd()!=null){
+			ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
+		}
+		getter.addAnnotationIfNew(ap);
 		if(field != null){
 			applyStereotypesAsAnnotations((p), field);
 			INakedClassifier baseType = p.getNakedBaseType();
@@ -408,7 +420,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 						if(isMap(p.getOtherEnd())){
 							adder.getBody().addToStatements(
 									map.fieldname() + "." + otherMap.internalAdder() + "(" + addQualifierArguments(otherMap, "this") + "this)");
-						}else{
+						}else if(p.getAssociation() == null || !p.getAssociation().isClass()){
 							adder.getBody().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 						}
 					}
@@ -421,7 +433,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 					if(isMap(p.getOtherEnd())){
 						ifNotNul2.getThenPart().addToStatements(
 								map.fieldname() + "." + otherMap.internalAdder() + "(" + addQualifierArguments(otherMap, "this") + "this)");
-					}else{
+					}else if(p.getAssociation() == null || !p.getAssociation().isClass()){
 						ifNotNul2.getThenPart().addToStatements(map.fieldname() + "." + otherMap.internalAdder() + "(this)");
 					}
 					ifNotNul2.getThenPart().addToStatements(internalAddStatement);

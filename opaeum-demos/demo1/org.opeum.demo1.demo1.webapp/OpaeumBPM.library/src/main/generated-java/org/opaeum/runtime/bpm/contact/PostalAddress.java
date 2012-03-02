@@ -22,6 +22,7 @@ import org.hibernate.annotations.Filter;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.contact.IPersonPostalAddress;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -45,7 +46,7 @@ import org.w3c.dom.NodeList;
 @Entity(name="PostalAddress")
 @DiscriminatorValue(	"postal_address")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PostalAddress extends Address implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class PostalAddress extends Address implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonPostalAddress, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970

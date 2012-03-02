@@ -4,8 +4,7 @@ Bundle-Name: org.opaeum.rap.hibernate
 Bundle-SymbolicName: org.opaeum.rap.hibernate
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.opaeum.rap.domain;bundle-version="1.0.0",
- org.hibernate.common.annotations;bundle-version="1.0.0",
+Require-Bundle: org.hibernate.common.annotations;bundle-version="1.0.0",
  org.hibernate.core;bundle-version="1.0.0",
  org.hibernate.entitymanager;bundle-version="1.0.0",
  org.hibernate.validator;bundle-version="1.0.0",
@@ -13,8 +12,10 @@ Require-Bundle: org.opaeum.rap.domain;bundle-version="1.0.0",
  org.jbpm.persistence.jpa;bundle-version="1.0.0",
  org.drools.knowledge.api;bundle-version="1.0.0",
  javax.persistence;bundle-version="1.0.0",
- javax.validation;bundle-version="1.0.0"
+ javax.validation;bundle-version="1.0.0",
+ org.opaeum.rap.domain;bundle-version="1.0.0"
 Export-Package: org.opaeum.audit,
  org.opaeum.environment.adaptor,
  org.opaeum.hibernate.domain,
+ org.opaeum.runtime.contact,
  org.opaeum.runtime.domain

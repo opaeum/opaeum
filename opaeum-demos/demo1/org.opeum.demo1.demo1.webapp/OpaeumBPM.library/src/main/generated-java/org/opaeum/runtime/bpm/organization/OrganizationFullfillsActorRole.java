@@ -28,6 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -57,7 +58,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 			@Column(name="business_actor"),name="identifier"),
 		@AttributeOverride(column=
 			@Column(name="business_actor_type"),name="classIdentifier")})
-	private InterfaceValue businessActor;
+	private InterfaceValue businessActor = new InterfaceValue();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -142,6 +143,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return false;
 	}
 	
+	@Property(isComposite=false,opposite="organizationFullfillsActorRole_organization")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
 		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
@@ -165,6 +167,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return this.objectVersion;
 	}
 	
+	@Property(isComposite=false,opposite="organizationFullfillsActorRole_businessActor")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;

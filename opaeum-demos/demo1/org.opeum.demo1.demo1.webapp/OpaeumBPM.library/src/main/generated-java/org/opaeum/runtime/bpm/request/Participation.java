@@ -27,6 +27,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Proxy;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -76,7 +77,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 			@Column(name="participant"),name="identifier"),
 		@AttributeOverride(column=
 			@Column(name="participant_type"),name="classIdentifier")})
-	private InterfaceValue participant;
+	private InterfaceValue participant = new InterfaceValue();
 	@Transient
 	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 3694398622584451528l;
@@ -155,6 +156,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		return null;
 	}
 	
+	@Property(isComposite=false,opposite="participation")
 	@NumlMetaInfo(uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
 		Participant result = (Participant)this.participant.getValue(persistence);

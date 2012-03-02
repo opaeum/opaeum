@@ -44,10 +44,9 @@ public class PropertyQualifiersSection extends AbstractTabbedPropertySection{
 	}
 	public void refresh(){
 		super.refresh();
-		EditingDomain mixedEditDomain = (EditingDomain) getPart().getAdapter(EditingDomain.class);
-		propertiesTableComposite.setEditingDomain(mixedEditDomain);
+		propertiesTableComposite.setEditingDomain(getEditingDomain());
 		propertiesTableComposite.setOwner((Element) getEObject());
-		propertiesDetailsComposite.setEditingDomain(mixedEditDomain);
+		propertiesDetailsComposite.setEditingDomain(getEditingDomain());
 		propertiesDetailsComposite.setProperty(null);
 	}
 	public void setEnabled(boolean b){

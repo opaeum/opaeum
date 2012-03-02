@@ -28,6 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -57,7 +58,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 			@Column(name="business_role"),name="identifier"),
 		@AttributeOverride(column=
 			@Column(name="business_role_type"),name="classIdentifier")})
-	private InterfaceValue businessRole;
+	private InterfaceValue businessRole = new InterfaceValue();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -142,6 +143,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return false;
 	}
 	
+	@Property(isComposite=false,opposite="person_iBusinessRole_1_representedPerson")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public IBusinessRole getBusinessRole() {
 		IBusinessRole result = (IBusinessRole)this.businessRole.getValue(persistence);
@@ -169,6 +171,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return getBusinessRole();
 	}
 	
+	@Property(isComposite=false,opposite="person_iBusinessRole_1_businessRole")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = this.representedPerson;

@@ -68,7 +68,7 @@ public class Jbpm5EnvironmentBuilder extends AbstractJavaProducingVisitor implem
 			createKnowledgeBase(primaryRootObjects2, emptySet, pn, JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			OJAnnotatedPackageInfo pkgInfo = findOrCreatePackageInfo(pn.getHead(), JavaSourceFolderIdentifier.INTEGRATED_ADAPTOR_GEN_SRC);
 			JpaUtil.addNamedQueries(pkgInfo, "ProcessInstancesWaitingForEvent",
-					"select processInstanceInfo.processInstanceId from ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
+					"select processInstanceInfo.processInstanceId from org.jbpm.persistence.processinstance.ProcessInstanceInfo processInstanceInfo where :type in elements(processInstanceInfo.eventTypes)");
 		}
 	}
 	protected void createKnowledgeBase(SortedSet<INakedRootObject> bpmModels,SortedSet<INakedBehavior> processes,OJPathName pn,JavaSourceFolderIdentifier i){

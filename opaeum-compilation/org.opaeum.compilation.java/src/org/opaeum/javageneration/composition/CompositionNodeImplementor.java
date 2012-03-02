@@ -85,18 +85,18 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 					testConstructor = new OJConstructor();
 					ojClass.addToConstructors(testConstructor);
 					testConstructor.addParam("owningObject", new OJPathName(owningType.getMappingInfo().getQualifiedJavaName()));
+					if(isMap(endToComposite.getOtherEnd())){
+						for(INakedProperty p:endToComposite.getOtherEnd().getQualifiers()){
+							NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(p);
+							testConstructor.addParam(qMap.fieldname(), qMap.javaTypePath());
+							testConstructor.getBody().addToStatements(qMap.setter() + "(" + qMap.fieldname() + ")");
+						}
+					}
 					testConstructor.getBody().addToStatements("init(owningObject)");
 				}else{
 				}
 				testConstructor.setComment("This constructor is intended for easy initialization in unit tests");
 				testConstructor.getBody().addToStatements("addToOwningObject()");
-				if(isMap(endToComposite.getOtherEnd())){
-					for(INakedProperty p:endToComposite.getOtherEnd().getQualifiers()){
-						NakedStructuralFeatureMap qMap = OJUtil.buildStructuralFeatureMap(p);
-						testConstructor.addParam(qMap.fieldname(), qMap.javaTypePath());
-						testConstructor.getBody().addToStatements(qMap.setter() + "(" + qMap.fieldname() + ")");
-					}
-				}
 			}
 		}
 	}

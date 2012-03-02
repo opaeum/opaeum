@@ -24,9 +24,12 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
+import org.opaeum.runtime.contact.IPersonEMailAddress;
+import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -67,15 +70,19 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	@JoinColumn(name="person_id",nullable=true)
 	private PersonNode person;
 	static final private long serialVersionUID = 2460027813273694992l;
-	@Type(type="org.opaeum.runtime.bpm.contact.PersonEMailAddressTypeResolver")
+	@Type(type="org.opaeum.runtime.contact.PersonEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
 	private PersonEMailAddressType type;
+	@Column(name="key_in_e_m_a_on_per_nod")
+	private String z_keyOfEMailAddressOnPersonNode;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
 	 * @param owningObject 
+	 * @param type 
 	 */
-	public PersonEMailAddress(PersonNode owningObject) {
+	public PersonEMailAddress(PersonNode owningObject, PersonEMailAddressType type) {
+		setType(type);
 		init(owningObject);
 		addToOwningObject();
 	}
@@ -88,7 +95,7 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
-		getPerson().z_internalAddToEMailAddress((PersonEMailAddress)this);
+		getPerson().z_internalAddToEMailAddress(this.getType(),(PersonEMailAddress)this);
 	}
 	
 	static public Set<? extends PersonEMailAddress> allInstances() {
@@ -157,6 +164,7 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return getPerson();
 	}
 	
+	@Property(isComposite=false,opposite="eMailAddress")
 	@NumlMetaInfo(uuid="252060@_fNvioUtpEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -164,11 +172,16 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return result;
 	}
 	
+	@Property(isComposite=false,opposite="personEMailAddress")
 	@NumlMetaInfo(uuid="252060@_NrUNtEtpEeGd4cpyhpib9Q")
 	public PersonEMailAddressType getType() {
 		PersonEMailAddressType result = this.type;
 		
 		return result;
+	}
+	
+	public String getZ_keyOfEMailAddressOnPersonNode() {
+		return this.z_keyOfEMailAddressOnPersonNode;
 	}
 	
 	public int hashCode() {
@@ -197,7 +210,7 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	public void markDeleted() {
 		super.markDeleted();
 		if ( getPerson()!=null ) {
-			getPerson().z_internalRemoveFromEMailAddress(this);
+			getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
 		setDeletedOn(new Date());
 	}
@@ -234,10 +247,10 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	
 	public void setPerson(PersonNode person) {
 		if ( this.getPerson()!=null ) {
-			this.getPerson().z_internalRemoveFromEMailAddress(this);
+			this.getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
 		if ( person!=null ) {
-			person.z_internalAddToEMailAddress(this);
+			person.z_internalAddToEMailAddress(this.getType(),this);
 			this.z_internalAddToPerson(person);
 			setDeletedOn(Stdlib.FUTURE);
 		} else {
@@ -246,7 +259,17 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	}
 	
 	public void setType(PersonEMailAddressType type) {
+		if ( getPerson()!=null && getType()!=null ) {
+			getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
+		}
 		this.z_internalAddToType(type);
+		if ( getPerson()!=null && getType()!=null ) {
+			getPerson().z_internalAddToEMailAddress(this.getType(),this);
+		}
+	}
+	
+	public void setZ_keyOfEMailAddressOnPersonNode(String z_keyOfEMailAddressOnPersonNode) {
+		this.z_keyOfEMailAddressOnPersonNode=z_keyOfEMailAddressOnPersonNode;
 	}
 	
 	public String toXmlReferenceString() {

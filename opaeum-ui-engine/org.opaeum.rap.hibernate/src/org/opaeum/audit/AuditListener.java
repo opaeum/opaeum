@@ -6,10 +6,8 @@ import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.classic.Lifecycle;
 import org.hibernate.engine.internal.Versioning;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.event.internal.AbstractFlushingEventListener;
 import org.hibernate.event.spi.EventSource;
 import org.hibernate.event.spi.FlushEvent;
 import org.hibernate.event.spi.FlushEventListener;
@@ -23,10 +21,11 @@ import org.hibernate.integrator.spi.Integrator;
 import org.hibernate.metamodel.source.MetadataImplementor;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.service.spi.SessionFactoryServiceRegistry;
+import org.opaeum.hibernate.domain.EventDispatcher;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 
-public class AuditListener extends AbstractFlushingEventListener implements PostInsertEventListener,PostLoadEventListener,PostUpdateEventListener,
+public class AuditListener extends EventDispatcher implements PostInsertEventListener,PostLoadEventListener,PostUpdateEventListener,
 		FlushEventListener,Integrator{
 	private static final long serialVersionUID = -233067098331332700L;
 	private static final Map<EventSource,AuditWorkUnit> entries = Collections.synchronizedMap(new HashMap<EventSource,AuditWorkUnit>());
@@ -46,6 +45,7 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void onPostInsert(PostInsertEvent event){
+		super.onPostInsert(event);
 		Object entity = event.getEntity();
 		EntityPersister persister = event.getPersister();
 		EventSource session = event.getSession();
@@ -64,23 +64,15 @@ public class AuditListener extends AbstractFlushingEventListener implements Post
 	}
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
+		super.onFlush(event);
 		final EventSource source = event.getSession();
-		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
-			flushEverythingToExecutions(event);
-			performExecutions(source);
-			postFlush(source);
-			if(source.getFactory().getStatistics().isStatisticsEnabled()){
-				source.getFactory().getStatisticsImplementor().flush();
-			}
-			getWorkUnitForSession(source).flush();
-		}
 		entries.remove(source);
 	}
 	@Override
 	public void onPostLoad(PostLoadEvent event){
+		super.onPostLoad(event);
 		// NB!!! Don't touch this code - copied from hibernate
 		// log.debug( "calling onLoad()" );
-		((Lifecycle) event.getEntity()).onLoad(event.getSession(), event.getId());
 		if(event.getEntity() instanceof AuditEntry){
 			AuditEntry ae = (AuditEntry) event.getEntity();
 			ae.setOriginal((IPersistentObject) event.getSession().load(ae.getOriginalClass(), ae.getOriginalId()));

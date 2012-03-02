@@ -32,6 +32,7 @@ public class ReferenceResolver extends AbstractModelElementLinker{
 	}
 	@VisitBefore(matchSubclasses = true)
 	public void linkQualifiers(INakedProperty property){
+		System.out.println(property.getName());
 		String[] qualifierNames = property.getQualifierNames();
 		List<INakedProperty> qualifiers = new ArrayList<INakedProperty>();
 		INakedClassifier baseType = property.getNakedBaseType();

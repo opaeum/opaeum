@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.drools.RuntimeDroolsException;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.EnumResolver;
@@ -55,10 +56,11 @@ public abstract class JavaMetaInfoMap{
 				if(uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())){
 					try{
 						String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
-						Class<? extends IEventHandler> mi = IntrospectionUtil.classForName(handlerName);
+						Class<? extends IEventHandler> mi = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(handlerName);
 						this.eventHandlersByUuid.put(uuid, mi);
 						allClasses.add(mi);
-					}catch(RuntimeException e){
+						
+					}catch(ClassNotFoundException e){
 					}
 					break;
 				}
@@ -73,7 +75,12 @@ public abstract class JavaMetaInfoMap{
 	}
 	protected void putClass(Class<? extends Object> c,String uuid){
 		if(ISignal.class.isAssignableFrom(c)){
-			Class<? extends IEventHandler> handler = IntrospectionUtil.classForName(c.getName() + "Handler");
+			Class<? extends IEventHandler> handler=null;
+			try{
+				handler = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(c.getName() + "Handler");
+			}catch(ClassNotFoundException e){
+				throw new RuntimeException(e);
+			}
 			putEventHandler(handler, uuid);
 		}else if(IPersistentObject.class.isAssignableFrom(c)){
 			// TODO datagenerator
@@ -103,7 +110,7 @@ public abstract class JavaMetaInfoMap{
 	}
 	private void addSecondaryClass(Class<?> secondaryClassSuperclass,Class<? extends Object> c,String string,boolean singleton){
 		try{
-			Class<?> secondaryClass = Class.forName(c.getName() + string);
+			Class<?> secondaryClass = c.getClassLoader().loadClass(c.getName() + string);
 			Map<Class<?>,Object> map = secondaryClassMap.get(secondaryClassSuperclass);
 			if(map == null){
 				map = new HashMap<Class<?>,Object>();

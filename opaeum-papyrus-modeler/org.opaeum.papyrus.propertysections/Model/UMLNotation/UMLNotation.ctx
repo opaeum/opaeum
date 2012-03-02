@@ -6,9 +6,9 @@
 	<dependencies
 		href="ppe:/context/org.eclipse.papyrus.infra.gmfdiag.properties/model/notation.ctx#/" />
 	<tabs label="Appearance" id="appearance" category="org.eclipse.papyrus"
-		priority="75">
+		priority="175">
 		<afterTab
-			href="ppe:/context/org.opaeum.papyrus.propertysections/Model/UML/UML.ctx#//@tabs.1" />
+			href="ppe:/context/org.opaeum.papyrus.propertysections/Model/UML/UML.ctx#//@tabs.0" />
 		<sections name="Label" sectionFile="ui/Label.xwt">
 			<widget href="ui/Label.xwt#/" />
 		</sections>

@@ -53,6 +53,7 @@ import org.opaeum.metamodel.core.INakedRootObject;
 import org.opaeum.metamodel.models.INakedModel;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.runtime.domain.ExceptionAnalyser;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class OpaeumEclipseContext{
 	public static boolean shouldBeCm1Compatible(){
@@ -149,7 +150,13 @@ public class OpaeumEclipseContext{
 		umlElementCache = new EmfToOpaeumSynchronizer(cfg);
 		umlElementCache.addSynchronizationListener(new OclUpdater(this.openUmlFiles));
 		this.umlDirectory = umlDirectory;
-		this.errorMarker = new OpaeumErrorMarker(this);
+		if(cfg.getErrorMarker()==null){
+			this.errorMarker=new OpaeumErrorMarker();
+		}else{
+			this.errorMarker=(OpaeumErrorMarker) IntrospectionUtil.newInstance(cfg.getErrorMarker());
+			
+		}
+		errorMarker.setContext(this);
 		umlElementCache.addSynchronizationListener(errorMarker);
 	}
 	public boolean isNewlyCreated(){
@@ -206,6 +213,7 @@ public class OpaeumEclipseContext{
 	}
 	public void setCurrentEditContext(EditingDomain rs,IFile file,EObjectSelectorUI eObjectSelectorUI){
 		seteObjectSelectorUI(eObjectSelectorUI);
+		setCurrentContext(this);
 		this.currentOpenFile = file;
 		OpenUmlFile editingContext = openUmlFiles.get(rs.getResourceSet());
 		if(editingContext != null){
@@ -213,9 +221,9 @@ public class OpaeumEclipseContext{
 			// could still be loading
 		}
 	}
-	public void onSave(IProgressMonitor monitor,ResourceSet resourceSet){
+	public void onSave(IProgressMonitor monitor,IFile f){
 		try{
-			OpenUmlFile openUmlFile = this.openUmlFiles.get(resourceSet);
+			OpenUmlFile openUmlFile = this.openUmlFiles.get(f);
 			if(openUmlFile != null){
 				openUmlFile.setDirty(false);
 			}
@@ -386,7 +394,7 @@ public class OpaeumEclipseContext{
 	public static void setCurrentContext(OpaeumEclipseContext currentContext){
 		OpaeumEclipseContext.currentContext = currentContext;
 	}
-	public static OpaeumEclipseContext findOrCreateContextFor(IContainer umlDir){
+	public static OpaeumEclipseContext findOrCreateContextFor(IContainer umlDir ){
 		OpaeumEclipseContext result = getContextFor(umlDir);
 		if(result == null){
 			OpaeumConfig cfg = null;
@@ -508,5 +516,8 @@ public class OpaeumEclipseContext{
 				}
 			}
 		});
+	}
+	public OpaeumErrorMarker getErrorMarker(){
+		return errorMarker;
 	}
 }

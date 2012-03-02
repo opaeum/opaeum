@@ -136,8 +136,12 @@ public class EObjectErrorSection extends AbstractTabbedPropertySection implement
 							gl.marginHeight = 0;
 							gl.verticalSpacing = 0;
 							EObject brokenElement = ctx.getCurrentEmfWorkspace().getElement(brokenRule.getValue().getElementId());
-							for(int i = 0;i < split.length;i++){
-								createMessageFragment(brokenElement, comp, split[i], brokenRule.getValue().getParameters());
+							if(split.length == 1 && split[0].length()==0){
+								createMessageFragment(brokenElement, comp, brokenRule.getKey().name(), brokenRule.getValue().getParameters());
+							}else{
+								for(int i = 0;i < split.length;i++){
+									createMessageFragment(brokenElement, comp, split[i], brokenRule.getValue().getParameters());
+								}
 							}
 							comp.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 							comp.layout();

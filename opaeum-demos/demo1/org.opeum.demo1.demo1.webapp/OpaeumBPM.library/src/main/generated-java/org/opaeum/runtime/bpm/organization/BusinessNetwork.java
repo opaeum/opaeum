@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,6 +26,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -35,6 +37,7 @@ import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 import org.opaeum.runtime.persistence.CmtPersistence;
@@ -79,6 +82,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="collaboration",targetEntity=PersonNode.class)
+	@MapKey(name="z_keyOfPersonOnBusinessNetwork")
 	private Map<String, PersonNode> person = new HashMap<String,PersonNode>();
 	static final private long serialVersionUID = 2395627898464121473l;
 	private String uid;
@@ -109,9 +113,14 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	public void addToBusinessCollaboration(IBusinessCollaboration businessCollaboration) {
 		if ( businessCollaboration!=null ) {
 			businessCollaboration.z_internalRemoveFromBusinessNetwork(businessCollaboration.getBusinessNetwork());
-			businessCollaboration.z_internalAddToBusinessNetwork(this);
 			z_internalAddToBusinessCollaboration(businessCollaboration);
 		}
+	}
+	
+	@NumlMetaInfo(uuid="252060@_Nn1XcGIIEeGzlJ4_CwngCw")
+	public void addToBusinessCollaboration(IBusinessCollaborationBase collaboration) {
+		BusinessNetwork tgtAddStructuralFeatureValueAction1=this;
+		tgtAddStructuralFeatureValueAction1.addToBusinessCollaboration(((IBusinessCollaboration) collaboration));
 	}
 	
 	public void addToBusinessNetworkFacilatatesCollaboration_businessCollaboration(BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessCollaboration) {
@@ -168,7 +177,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToPerson(curVal.getUsername(),curVal);
@@ -186,7 +195,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
-							curVal=Environment.getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
+							curVal=Environment.getInstance().getMetaInfoMap().newInstance(((Element)currentPropertyValueNode).getAttribute("classUuid"));
 						}
 						curVal.buildTreeFromXml((Element)currentPropertyValueNode,map);
 						this.addToOrganization(curVal);
@@ -244,8 +253,9 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return newInstance;
 	}
 	
-	public PersonNode createPerson() {
+	public PersonNode createPerson(String username) {
 		PersonNode newInstance= new PersonNode();
+		newInstance.setUsername(username);
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -265,6 +275,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="businessNetwork")
 	@NumlMetaInfo(uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public Set<BusinessNetworkFacilatatesCollaboration> getBusinessNetworkFacilatatesCollaboration_businessCollaboration() {
 		Set<BusinessNetworkFacilatatesCollaboration> result = this.businessNetworkFacilatatesCollaboration_businessCollaboration;
@@ -301,6 +312,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return this.objectVersion;
 	}
 	
+	@Property(isComposite=true,opposite="businessNetwork")
 	@NumlMetaInfo(uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
 	public Set<OrganizationNode> getOrganization() {
 		Set<OrganizationNode> result = this.organization;
@@ -324,6 +336,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
+	@Property(isComposite=true,opposite="collaboration")
 	@NumlMetaInfo(uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	public Set<PersonNode> getPerson() {
 		Set<PersonNode> result = new HashSet<PersonNode>(this.person.values());
@@ -360,10 +373,10 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	public void markDeleted() {
-		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
+		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
 			child.markDeleted();
 		}
-		for ( PersonNode child : new ArrayList<PersonNode>(getPerson()) ) {
+		for ( IBusinessCollaboration child : new ArrayList<IBusinessCollaboration>(getBusinessCollaboration()) ) {
 			child.markDeleted();
 		}
 		for ( OrganizationNode child : new ArrayList<OrganizationNode>(getOrganization()) ) {

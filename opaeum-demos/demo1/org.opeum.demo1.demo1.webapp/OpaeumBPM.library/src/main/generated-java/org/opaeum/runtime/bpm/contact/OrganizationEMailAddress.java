@@ -25,6 +25,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -81,9 +82,9 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	 * @param type 
 	 */
 	public OrganizationEMailAddress(OrganizationNode owningObject, OrganizationEMailAddressType type) {
+		setType(type);
 		init(owningObject);
 		addToOwningObject();
-		setType(type);
 	}
 	
 	/** Default constructor for OrganizationEMailAddress
@@ -155,6 +156,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return "OrganizationEMailAddress["+getId()+"]";
 	}
 	
+	@Property(isComposite=false,opposite="eMailAddress")
 	@NumlMetaInfo(uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -170,6 +172,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return getOrganization();
 	}
 	
+	@Property(isComposite=false,opposite="organizationEMailAddress")
 	@NumlMetaInfo(uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
 	public OrganizationEMailAddressType getType() {
 		OrganizationEMailAddressType result = this.type;

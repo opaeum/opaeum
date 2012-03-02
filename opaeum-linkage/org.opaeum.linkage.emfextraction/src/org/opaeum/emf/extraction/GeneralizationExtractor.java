@@ -28,7 +28,9 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 		BehavioredClassifier child = r.getImplementingClassifier();
 		INakedInterface nakedParent = (INakedInterface) getNakedPeer(parent);
 		INakedBehavioredClassifier nakedChild = (INakedBehavioredClassifier) getNakedPeer(child);
-		if(!impl.isMarkedForDeletion()){
+		if(impl.isMarkedForDeletion()){
+			nakedChild.removeOwnedElement(impl, false);//Bug in UML4.0.0 Generalization does not 
+		}else{
 			if(nakedParent == null){
 				System.out.println("Contract is not in model:" + parent.getName());
 				return;
@@ -44,9 +46,9 @@ public class GeneralizationExtractor extends AbstractExtractorFromEmf{
 	@Override
 	protected NakedElementImpl createElementFor(Element e,Class<?> peerClass){
 		// ignore generalizations/realizations to proxies
-		if(e instanceof InterfaceRealization && !((InterfaceRealization) e).getContract().eIsProxy()){
+		if(e instanceof InterfaceRealization && ((InterfaceRealization) e).getContract()!=null && !((InterfaceRealization) e).getContract().eIsProxy()){
 			return super.createElementFor(e, peerClass);
-		}else if(e instanceof Generalization && !((Generalization) e).getGeneral().eIsProxy()){
+		}else if(e instanceof Generalization && ((Generalization) e).getGeneral()!=null&&!((Generalization) e).getGeneral().eIsProxy()){
 			return super.createElementFor(e, peerClass);
 		}else{
 			return null;

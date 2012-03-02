@@ -14,9 +14,12 @@
       <propertyContributor
             contributorId="TreeOutlinePage"
             labelProvider="org.eclipse.papyrus.views.properties.providers.SelectionLabelProvider"
-            tabDescriptorProvider="org.eclipse.papyrus.views.properties.xwt.XWTTabDescriptorProvider">
-         <propertyCategory
-               category="org.eclipse.papyrus"></propertyCategory>
+            tabDescriptorProvider="org.opaeum.papyrus.uml.OpaeumTabDescriptorProvider">
+			<propertyCategory category="domain">
+			</propertyCategory>
+         <propertyCategory category="org.eclipse.papyrus"></propertyCategory>
+			<propertyCategory category="visual">
+			</propertyCategory>
       </propertyContributor>
    </extension>
   <extension point="org.eclipse.emf.ecore.uri_mapping">
@@ -43,18 +46,10 @@
    </extension>
    
 
-	<extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-		<propertyContributor contributorId="TreeOutlinePage">
-			<propertyCategory category="domain">
-			</propertyCategory>
-			<propertyCategory category="visual">
-			</propertyCategory>
-		</propertyContributor>
-	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 		<propertyTabs contributorId="TreeOutlinePage">
 			<propertyTab id="org.opaeum.eclipse.opaeumTab" category="domain"
-				label="UML2" indented="false" />
+				label="UML1" indented="false" />
 			<propertyTab id="org.opaeum.eclipse.interfacesTab"
 				category="domain" label="Interfaces" indented="true"
 				afterTab="org.opaeum.eclipse.opaeumTab" />
@@ -106,18 +101,18 @@
 			<propertyTab id="org.opaeum.eclipse.templateTab"
 				category="domain" label="Notification Text" afterTab="org.opaeum.eclipse.opaeumTab"
 				indented="true" />
-			<propertyTab category="domain"
+			<propertyTab category="appearance"
 				id="property.tab.AppearancePropertySection" afterTab="org.opaeum.eclipse.opaeumTab"
-				label="Appearance" />
+				label="Appearance1" />
 			<propertyTab category="domain"
 				id="property.tab.DiagramPropertySection" afterTab="org.opaeum.eclipse.opaeumTab"
 				label="Diagram" />
-			<propertyTab id="property.tab.advanced" category="domain"
-				label="Advanced" afterTab="property.tab.AppearancePropertySection"
+			<propertyTab id="property.tab.advanced" category="domain" 
+				label="Advanced1" afterTab="org.opaeum.eclipse.opaeumTab"
 				indented="false" />
-   		<propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab="Advanced"/>
+   		<propertyTab id="Base" label="General" category="org.eclipse.papyrus" afterTab=""/>
      	<propertyTab id="Comments" label="Comments" category="org.eclipse.papyrus" afterTab="Base"/>
-     	<propertyTab id="advanced" label="Advanced" category="org.eclipse.papyrus" afterTab="Comments"/>
+     	<propertyTab id="advanced" label="Advanced2" category="org.eclipse.papyrus" afterTab="org.opaeum.eclipse.opaeumTab" />
 		</propertyTabs>
 	</extension>
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections"
@@ -178,9 +173,8 @@
 			<propertySection
 				id="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
 				class="org.opaeum.topcased.propertysections.MultiplicityElementFeaturesSection"
-				tab="org.opaeum.eclipse.opaeumTab"
+				tab="org.opaeum.eclipse.opaeumTab" filter="org.opaeum.topcased.propertysections.filters.MultiplicityElementFilter"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.TypedElementTypeSection">
-				<input type="org.eclipse.uml2.uml.MultiplicityElement" />
 			</propertySection>
 			<!--Property PropertySections -->
 			<propertySection
@@ -603,6 +597,13 @@
 				id="org.opaeum.topcased.propertysections.InterfaceMappedImplementationTypeSection"
 				filter="org.opaeum.topcased.propertysections.filters.EntityFilter"
 				class="org.opaeum.topcased.propertysections.EntityMappedImplementationTypeSection"
+				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
+				tab="org.opaeum.eclipse.opaeumTab">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.topcased.propertysections.EnumerationMappedImplementationTypeSection"
+				filter="org.opaeum.topcased.propertysections.filters.EnumerationFilter"
+				class="org.opaeum.topcased.propertysections.EnumerationMappedImplementationTypeSection"
 				afterSection="org.opaeum.topcased.propertysections.NamedElementNameSection"
 				tab="org.opaeum.eclipse.opaeumTab">
 			</propertySection>

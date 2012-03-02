@@ -16,7 +16,7 @@ public abstract  class AbstractEnumResolver  implements EnumResolver,UserType{
 	@Override
 	public int[] sqlTypes(){
 		return new int[]{
-			Types.INTEGER
+			Types.BIGINT
 		};
 	}
 	@Override
@@ -31,7 +31,7 @@ public abstract  class AbstractEnumResolver  implements EnumResolver,UserType{
 	@Override
 	public void nullSafeSet(PreparedStatement st,Object value,int index,SessionImplementor session) throws HibernateException,SQLException{
 		if(value == null){
-			st.setNull(index, Types.INTEGER);
+			st.setNull(index, Types.BIGINT);
 		}else{
 			st.setLong(index, toOpaeumId((IEnum) value));
 		}

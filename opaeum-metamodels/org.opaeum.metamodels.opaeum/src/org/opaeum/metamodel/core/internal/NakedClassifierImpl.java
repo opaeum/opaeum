@@ -158,6 +158,9 @@ public abstract class NakedClassifierImpl extends NakedNameSpaceImpl implements 
 	public List<INakedProperty> getEffectiveAttributes(){
 		List<INakedProperty> results = new ArrayList<INakedProperty>();
 		for(INakedGeneralization s:getNakedGeneralizations()){
+			if(s.getGeneral()==null){
+				System.out.println();
+			}
 			List<? extends INakedProperty> superAttributes = s.getGeneral().getEffectiveAttributes();
 			addEffectiveAttributes(results, superAttributes);
 		}

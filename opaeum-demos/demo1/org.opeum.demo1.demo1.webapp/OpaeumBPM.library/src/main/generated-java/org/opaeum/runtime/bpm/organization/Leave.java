@@ -26,6 +26,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.Property;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -152,6 +153,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return this.deletedOn;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
 	public String getFromDate() {
 		String result = this.fromDate;
@@ -179,6 +181,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return getPerson();
 	}
 	
+	@Property(isComposite=false,opposite="leave")
 	@NumlMetaInfo(uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -186,6 +189,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return result;
 	}
 	
+	@Property(isComposite=false)
 	@NumlMetaInfo(uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
 	public String getToDate() {
 		String result = this.toDate;

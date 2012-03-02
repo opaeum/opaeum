@@ -66,6 +66,7 @@ public final class JavaSourceSynchronizer implements OpaeumEclipseContextListene
 	}
 	@Override
 	public void onSave(IProgressMonitor monit){
+		System.out.println();
 		new Job("Synchronizing Java sources"){
 			public IStatus run(IProgressMonitor monitor){
 				try{
