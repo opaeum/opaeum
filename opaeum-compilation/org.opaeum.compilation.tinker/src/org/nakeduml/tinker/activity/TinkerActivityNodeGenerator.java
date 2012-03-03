@@ -1,6 +1,8 @@
 package org.nakeduml.tinker.activity;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
@@ -44,6 +46,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
+import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
@@ -191,6 +194,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		OJAnnotatedClass controlNodeClass = null;
 		String tokenType = determineTokenType(controlNode).getLast();
 		OJPathName superPath;
+		INakedActivityEdge next;
 		switch (controlNode.getControlNodeType()) {
 		case ACTIVITY_FINAL_NODE:
 			controlNodeClass = createFinalNodeClass(controlNode, TinkerBehaviorUtil.tinkerFinalNodePathName.getCopy());
@@ -199,26 +203,51 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			controlNodeClass = createInitialNodeClass(controlNode);
 			break;
 		case FORK_NODE:
-			if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
-				superPath = TinkerBehaviorUtil.tinkerForkNodeObjectTokenPathName;
+			next = controlNode.getIncoming().iterator().next();
+			if (next instanceof INakedObjectFlow) {
+				superPath = TinkerBehaviorUtil.tinkerForkNodeObjectTokenPathName.getCopy();
 			} else {
-				superPath = TinkerBehaviorUtil.tinkerForkNodeControlTokenPathName;
+				superPath = TinkerBehaviorUtil.tinkerForkNodeControlTokenPathName.getCopy();
 			}
 			controlNodeClass = createDecisionOrForkNodeClass(controlNode, superPath);
 			break;
 		case MERGE_NODE:
-			if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
-				superPath = TinkerBehaviorUtil.tinkerMergeNodeObjectTokenPathName;
+			next = controlNode.getIncoming().iterator().next();
+			if (next instanceof INakedObjectFlow) {
+				
+				List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+				Exitter mutableBoolean = new Exitter(false);
+				getObjectFlowPathName(controlNode, c, mutableBoolean);
+				
+				if (!mutableBoolean.shouldExit()) {
+					OJPathName pathName = OJUtil.classifierPathname(c.get(0));
+					superPath = TinkerBehaviorUtil.tinkerMergeNodeObjectTokenKnownPathName.getCopy();
+					superPath.addToGenerics(pathName);
+				} else {
+					superPath = TinkerBehaviorUtil.tinkerMergeNodeObjectTokenUnknownPathName.getCopy();
+				}
 			} else {
-				superPath = TinkerBehaviorUtil.tinkerMergeNodeControlTokenPathName;
+				superPath = TinkerBehaviorUtil.tinkerMergeNodeControlTokenPathName.getCopy();
 			}
 			controlNodeClass = createMergeNodeClass(controlNode, superPath);
 			break;
 		case JOIN_NODE:
-			if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
-				superPath = TinkerBehaviorUtil.tinkerJoinNodeObjectTokenPathName;
+			next = controlNode.getIncoming().iterator().next();
+			if (next instanceof INakedObjectFlow) {
+				
+				List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+				Exitter mutableBoolean = new Exitter(false);
+				getObjectFlowPathName(controlNode, c, mutableBoolean);
+				
+				if (!mutableBoolean.shouldExit()) {
+					OJPathName pathName = OJUtil.classifierPathname(c.get(0));
+					superPath = TinkerBehaviorUtil.tinkerJoinNodeObjectTokenKnownPathName.getCopy();
+					superPath.addToGenerics(pathName);
+				} else {
+					superPath = TinkerBehaviorUtil.tinkerJoinNodeObjectTokenUnknownPathName.getCopy();
+				}
 			} else {
-				superPath = TinkerBehaviorUtil.tinkerJoinNodeControlTokenPathName;
+				superPath = TinkerBehaviorUtil.tinkerJoinNodeControlTokenPathName.getCopy();
 			}
 			controlNodeClass = createJoinNodeClass(controlNode, superPath);
 			break;
@@ -226,11 +255,21 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			controlNodeClass = createFinalNodeClass(controlNode, TinkerBehaviorUtil.tinkerFinalNodePathName.getCopy());
 			break;
 		case DECISION_NODE:
-			// Same as fork, one in multipl out
-			if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
-				superPath = TinkerBehaviorUtil.tinkerDecisionObjectTokenNodePathName;
+			next = controlNode.getIncoming().iterator().next();
+			if (next instanceof INakedObjectFlow) {
+				List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+				Exitter mutableBoolean = new Exitter(false);
+				getObjectFlowPathName(controlNode, c, mutableBoolean);
+				
+				if (!mutableBoolean.shouldExit()) {
+					OJPathName pathName = OJUtil.classifierPathname(c.get(0));
+					superPath = TinkerBehaviorUtil.tinkerDecisionObjectTokenNodeKnownPathName.getCopy();
+					superPath.addToGenerics(pathName);
+				} else {
+					superPath = TinkerBehaviorUtil.tinkerDecisionObjectTokenNodeUnknownPathName.getCopy();
+				}
 			} else {
-				superPath = TinkerBehaviorUtil.tinkerDecisionControlTokenNodePathName;
+				superPath = TinkerBehaviorUtil.tinkerDecisionControlTokenNodePathName.getCopy();
 			}
 			controlNodeClass = createDecisionOrForkNodeClass(controlNode, superPath);
 			break;
@@ -238,13 +277,42 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			break;
 		}
 		if (tokenType.equals(TinkerBehaviorUtil.tinkerObjectTokenPathName.getLast())) {
-			controlNodeClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName);
+			controlNodeClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName.getCopy());
 		} else {
-			controlNodeClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+			controlNodeClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName.getCopy());
 		}
 		addContextObjectField(controlNodeClass, controlNode.getActivity().getContext());
 		addContextObjectToDefaultConstructor(controlNodeClass, controlNode.getActivity().getContext());
 		addGetContextObject(controlNodeClass, controlNode.getActivity().getContext());
+	}
+
+	// TODO this needs to be recursive no?
+	private void getObjectFlowPathName(INakedControlNode controlNode, List<INakedClassifier> c, Exitter mutableBoolean) {
+		// if all edges are object nodes and have the same type then return it
+		if (!mutableBoolean.shouldExit()) {
+			for (INakedActivityEdge edge : controlNode.getIncoming()) {
+				if (edge instanceof INakedObjectFlow) {
+					INakedObjectFlow objectFlow = (INakedObjectFlow) edge;
+					INakedActivityNode source = objectFlow.getSource();
+					if (source instanceof INakedObjectNode) {
+						INakedObjectNode objectNode = (INakedObjectNode) source;
+						if (c.isEmpty()) {
+							c.add(objectNode.getNakedBaseType());
+						} else {
+							if (!c.get(0).equals(objectNode.getNakedBaseType())) {
+								mutableBoolean.setExit(false);
+								break;
+							}
+						}
+					} else {
+						getObjectFlowPathName((INakedControlNode) source, c, mutableBoolean);
+					}
+				} else {
+					mutableBoolean.setExit(false);
+					break;
+				}
+			}
+		}
 	}
 
 	private OJPathName determineTokenType(INakedControlNode controlNode) {
@@ -352,7 +420,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			throw new IllegalStateException("Join node can only have one outgoing edge");
 		}
 		addOutControlFlowGetters(mergeControlNode, controlNode);
-
+		mergeControlNode.addToImports(mergeControlNode.getSuperclass().getGenerics());
 		return mergeControlNode;
 	}
 
@@ -373,7 +441,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 			throw new IllegalStateException("Join node can only have one outgoing edge");
 		}
 		addOutControlFlowGetters(joinControlNode, controlNode);
-
+		joinControlNode.addToImports(joinControlNode.getSuperclass().getGenerics());
 		return joinControlNode;
 	}
 
@@ -389,12 +457,12 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addConstructorWithVertex(forkControlNode, controlNode.getActivity().getContext());
 		addGetOutFlows(forkControlNode, controlNode);
 		addOutControlFlowGetters(forkControlNode, controlNode);
-		addGetInControlFlow(forkControlNode, controlNode);
+		addGetInFlow(forkControlNode, controlNode);
 		if (controlNode.getIncoming().size() > 1) {
 			throw new IllegalStateException("Fork node can only have one incoming edge");
 		}
 		addInControlFlowGetters(forkControlNode, controlNode);
-
+		forkControlNode.addToImports(forkControlNode.getSuperclass().getGenerics());
 		return forkControlNode;
 	}
 
@@ -460,16 +528,33 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		controlFlowEdge.addToConstructors(edgeConstructor);
 
 		if (edge instanceof INakedObjectFlow) {
-			OJPathName superClass = TinkerBehaviorUtil.tinkerObjectFlowPathName.getCopy();
-			INakedObjectNode originatingObjectNode = ((INakedObjectFlow) edge).getOriginatingObjectNode();
-			OJPathName genericPathname;
-			if (originatingObjectNode != null) {
-				genericPathname = OJUtil.classifierPathname(originatingObjectNode.getNakedBaseType());
+			OJPathName superClass;
+			if (edge.getSource() instanceof INakedControlNode) {
+				
+				List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+				Exitter mutableBoolean = new Exitter(false);
+				getObjectFlowPathName((INakedControlNode) edge.getSource(), c, mutableBoolean);
+				
+				if (!mutableBoolean.shouldExit()) {
+					OJPathName objectTokenKnownPathName = OJUtil.classifierPathname(c.get(0));
+					superClass = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
+					superClass.addToGenerics(objectTokenKnownPathName);
+					controlFlowEdge.addToImports(objectTokenKnownPathName);
+				} else {
+					superClass = TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getCopy();
+				}
 			} else {
-				genericPathname = new OJPathName("java.lang.Object");
+				INakedObjectNode originatingObjectNode = ((INakedObjectFlow) edge).getOriginatingObjectNode();
+				OJPathName genericPathname;
+				if (originatingObjectNode != null) {
+					superClass = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
+					genericPathname = OJUtil.classifierPathname(originatingObjectNode.getNakedBaseType());
+					superClass.addToGenerics(genericPathname);
+					controlFlowEdge.addToImports(genericPathname);
+				} else {
+					superClass = TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getCopy();
+				}
 			}
-			superClass.addToGenerics(genericPathname);
-			controlFlowEdge.addToImports(genericPathname);
 			controlFlowEdge.setSuperclass(superClass);
 		} else {
 			controlFlowEdge.setSuperclass(TinkerBehaviorUtil.tinkerControlFlowPathName);
@@ -568,16 +653,18 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	private void addEvaluateGuardCondition(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
 		OJAnnotatedOperation evaluateGuardConditions = new OJAnnotatedOperation("evaluateGuardConditions");
 		evaluateGuardConditions.setReturnType(new OJPathName("boolean"));
+		controlFlowEdge.addToOperations(evaluateGuardConditions);
+		String guardEvaluation;
 		if (edge instanceof INakedObjectFlow) {
-			evaluateGuardConditions.addParam("controlToken", TinkerBehaviorUtil.tinkerObjectTokenPathName);
+			evaluateGuardConditions.addParam("token", TinkerBehaviorUtil.tinkerObjectTokenPathName);
+			guardEvaluation = ValueSpecificationUtil.expressValue(evaluateGuardConditions, edge.getGuard(), edge.getActivity() , new StdlibPrimitiveType("Boolean"));
 		} else {
-			evaluateGuardConditions.addParam("controlToken", TinkerBehaviorUtil.tinkerControlTokenPathName);
+			evaluateGuardConditions.addParam("token", TinkerBehaviorUtil.tinkerControlTokenPathName);
+			guardEvaluation = ValueSpecificationUtil.expressValue(controlFlowEdge, edge.getGuard(), new StdlibPrimitiveType("Boolean"), false);
 		}
-		String guardEvaluation = ValueSpecificationUtil.expressValue(controlFlowEdge, edge.getGuard(), new StdlibPrimitiveType("Boolean"), false);
 		evaluateGuardConditions.getBody().addToStatements("return " + guardEvaluation);
 		evaluateGuardConditions.setVisibility(OJVisibilityKind.PROTECTED);
 		evaluateGuardConditions.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
-		controlFlowEdge.addToOperations(evaluateGuardConditions);
 	}
 
 	private void addGetWeight(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
@@ -788,101 +875,34 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		actionClass.addToOperations(getContextObject);
 	}
 
-	private void addGetInFlows(OJClass actionClass, INakedActivityNode oa) {
-		OJAnnotatedOperation getInControlFlows = new OJAnnotatedOperation("getInFlows");
-		TinkerGenerationUtil.addOverrideAnnotation(getInControlFlows);
+	private void addGetInFlow(OJClass actionClass, INakedActivityNode oa) {
+		OJAnnotatedOperation getInFlow = new OJAnnotatedOperation("getInFlow");
 
-//		OJPathName tokenPathName;
-//		if (oa instanceof INakedObjectNode) {
-//			tokenPathName = OJUtil.classifierPathname(((INakedObjectNode) oa).getNakedBaseType());
-//		} else if (oa instanceof INakedControlNode) {
-//			INakedControlNode controlNode = (INakedControlNode)oa;
-//			if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
-//				tokenPathName = TinkerBehaviorUtil.tinkerMergeNodeObjectTokenPathName.getCopy();
-//			} else {
-//				tokenPathName = TinkerBehaviorUtil.tinkerMergeNodeControlTokenPathName.getCopy();
-//			}
-//		} else {
-//			actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
-//			tokenPathName = TinkerBehaviorUtil.tinkerControlTokenPathName.getCopy();
-//		}
-		OJPathName returnType = new OJPathName("java.util.List");
-		OJPathName edgePathName;
-		StringBuilder sb;
-		if (oa instanceof INakedControlNode
-				&& (((INakedControlNode) oa).getControlNodeType() == ControlNodeType.FLOW_FINAL_NODE || ((INakedControlNode) oa).getControlNodeType() == ControlNodeType.ACTIVITY_FINAL_NODE)) {
-			edgePathName = TinkerBehaviorUtil.tinkerActivityEdgePathName.getCopy();
-			edgePathName.addToGenerics(new OJPathName("?"));
-			actionClass.addToImports(TinkerBehaviorUtil.tinkerTokenPathName);
-			returnType.addToElementTypes(new OJPathName("? extends " + edgePathName.getLast()));
-			sb = new StringBuilder("return Arrays.asList(");
-		} else {
-			if (oa instanceof INakedObjectNode) {
-				edgePathName = TinkerBehaviorUtil.tinkerObjectFlowPathName.getCopy();
-				OJPathName tokenGenericPathName = OJUtil.classifierPathname(((INakedObjectNode) oa).getNakedBaseType());
-				edgePathName.addToGenerics(tokenGenericPathName);
-				returnType.addToElementTypes(edgePathName);
-				sb = new StringBuilder("return Arrays.");
-				sb.append("<ObjectFlow<");
-				sb.append(tokenGenericPathName.getLast());
-				sb.append(">>asList(");
-			} else if (oa instanceof INakedControlNode) {	
-				INakedControlNode controlNode = (INakedControlNode)oa;
-				if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
-					edgePathName = TinkerBehaviorUtil.tinkerObjectFlowPathName.getCopy();
-//					edgePathName.addToGenerics(tokenPathName);
-					returnType.addToElementTypes(edgePathName);
-					sb = new StringBuilder("return Arrays.");
-					sb.append("<ObjectFlow<");
-					sb.append("?");
-					sb.append(">>asList(");
-				} else {
-					edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
-					returnType.addToElementTypes(edgePathName);
-					sb = new StringBuilder("return Arrays.<ControlFlow>asList(");
-				}
-			} else {
-				edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
-				returnType.addToElementTypes(edgePathName);
-				sb = new StringBuilder("return Arrays.<ControlFlow>asList(");
-			}
-		}
-		getInControlFlows.setReturnType(returnType);
+		INakedActivityEdge outEdge = oa.getIncoming().iterator().next();
+		OJPathName path = OJUtil.packagePathname(outEdge.getNameSpace()).getCopy();
+		path.addToNames(NameConverter.capitalize(outEdge.getName()));
+		getInFlow.setReturnType(path);
 
-		boolean first = true;
 		for (INakedActivityEdge edge : oa.getIncoming()) {
-			if (!first) {
-				sb.append(", ");
-			}
-			first = false;
-			sb.append(TinkerBehaviorUtil.edgeGetter(edge));
-			sb.append("()");
+			getInFlow.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(edge) + "()");
 		}
-		sb.append(")");
-		getInControlFlows.getBody().addToStatements(sb.toString());
 		actionClass.addToImports(new OJPathName("java.util.Arrays"));
 		actionClass.addToImports(TinkerBehaviorUtil.tinkerActivityEdgePathName);
-		actionClass.addToOperations(getInControlFlows);
+		actionClass.addToOperations(getInFlow);
 	}
 
-	private void addGetInControlFlow(OJClass actionClass, INakedActivityNode oa) {
-		OJAnnotatedOperation getInControlFlows = new OJAnnotatedOperation("getInFlow");
+	private void addGetOutFlow(OJClass actionClass, INakedActivityNode oa) {
+		OJAnnotatedOperation getOutFlow = new OJAnnotatedOperation("getOutFlow");
 
-		String tokenType;
-		if (oa instanceof INakedObjectNode) {
-			tokenType = TinkerBehaviorUtil.tinkerObjectTokenPathName.getLast();
-		} else {
-			tokenType = TinkerBehaviorUtil.tinkerControlTokenPathName.getLast();
-		}
-		OJPathName returnType = new OJPathName(TinkerBehaviorUtil.tinkerActivityEdgePathName.toJavaString() + "<" + tokenType + ">");
-		getInControlFlows.setReturnType(returnType);
+		INakedActivityEdge outEdge = oa.getOutgoing().iterator().next();
+		OJPathName path = OJUtil.packagePathname(outEdge.getNameSpace()).getCopy();
+		path.addToNames(NameConverter.capitalize(outEdge.getName()));
+		getOutFlow.setReturnType(path);
 
-		for (INakedActivityEdge edge : oa.getIncoming()) {
-			getInControlFlows.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(edge) + "()");
+		for (INakedActivityEdge edge : oa.getOutgoing()) {
+			getOutFlow.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(edge) + "()");
 		}
-		actionClass.addToImports(new OJPathName("java.util.Arrays"));
-		actionClass.addToImports(TinkerBehaviorUtil.tinkerActivityEdgePathName);
-		actionClass.addToOperations(getInControlFlows);
+		actionClass.addToOperations(getOutFlow);
 	}
 
 	private void addInControlFlowGetters(OJClass actionClass, INakedActivityNode oa) {
@@ -925,32 +945,171 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		actionClass.addToOperations(flowGetter);
 	}
 
+	private void addGetInFlows(OJClass actionClass, INakedActivityNode oa) {
+		OJAnnotatedOperation getInControlFlows = new OJAnnotatedOperation("getInFlows");
+		TinkerGenerationUtil.addOverrideAnnotation(getInControlFlows);
+
+		OJPathName returnType = new OJPathName("java.util.List");
+		OJPathName edgePathName;
+		StringBuilder sb;
+		if (oa instanceof INakedControlNode
+				&& (((INakedControlNode) oa).getControlNodeType() == ControlNodeType.FLOW_FINAL_NODE || ((INakedControlNode) oa).getControlNodeType() == ControlNodeType.ACTIVITY_FINAL_NODE)) {
+			edgePathName = TinkerBehaviorUtil.tinkerActivityEdgePathName.getCopy();
+			edgePathName.addToGenerics(new OJPathName("?"));
+			actionClass.addToImports(TinkerBehaviorUtil.tinkerTokenPathName);
+			returnType.addToElementTypes(new OJPathName("? extends " + edgePathName.getLast()));
+			sb = new StringBuilder("return Arrays.asList(");
+		} else {
+			if (oa instanceof INakedObjectNode) {
+				edgePathName = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
+				OJPathName tokenGenericPathName = OJUtil.classifierPathname(((INakedObjectNode) oa).getNakedBaseType());
+				edgePathName.addToGenerics(tokenGenericPathName);
+				returnType.addToElementTypes(edgePathName);
+				sb = new StringBuilder("return Arrays.");
+				sb.append("<" + TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getLast() + "<");
+				sb.append(tokenGenericPathName.getLast());
+				sb.append(">>asList(");
+			} else if (oa instanceof INakedControlNode) {
+				INakedControlNode controlNode = (INakedControlNode) oa;
+				if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
+					
+					List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+					Exitter mutableBoolean = new Exitter(false);
+					getObjectFlowPathName(controlNode, c, mutableBoolean);
+					
+					if (!mutableBoolean.shouldExit()) {
+						OJPathName objectFlowKnownTokenPathName = OJUtil.classifierPathname(c.get(0));
+						edgePathName = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
+						edgePathName.addToGenerics(objectFlowKnownTokenPathName);
+						returnType.addToElementTypes(edgePathName);
+						sb = new StringBuilder("return Arrays.");
+						sb.append("<" + TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getLast() + "<");
+						sb.append(objectFlowKnownTokenPathName.getLast());
+						sb.append(">>asList(");
+					} else {
+						edgePathName = TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getCopy();
+						returnType.addToElementTypes(edgePathName);
+						sb = new StringBuilder("return Arrays.");
+						sb.append("<" + TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getLast() + ">asList(");
+
+					}
+				} else {
+					edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
+					returnType.addToElementTypes(edgePathName);
+					sb = new StringBuilder("return Arrays.<ControlFlow>asList(");
+				}
+			} else {
+				edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
+				returnType.addToElementTypes(edgePathName);
+				sb = new StringBuilder("return Arrays.<ControlFlow>asList(");
+			}
+		}
+		getInControlFlows.setReturnType(returnType);
+
+		boolean first = true;
+		for (INakedActivityEdge edge : oa.getIncoming()) {
+			if (!first) {
+				sb.append(", ");
+			}
+			first = false;
+			sb.append(TinkerBehaviorUtil.edgeGetter(edge));
+			sb.append("()");
+
+			if (edge.getSource() instanceof INakedControlNode) {
+				OJPathName objectTokenKnownPathName = null;
+				OJPathName controlNodeObjectTokenKnownPathName = null;
+				if (oa instanceof INakedControlNode && !((INakedControlNode) oa).getControlNodeType().isFinalNode()) {
+					
+					List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+					Exitter mutableBoolean = new Exitter(false);
+					getObjectFlowPathName((INakedControlNode) edge.getSource(), c, mutableBoolean);
+					if (!mutableBoolean.shouldExit()) {
+						objectTokenKnownPathName = OJUtil.classifierPathname(c.get(0));
+					}
+
+					c = new ArrayList<INakedClassifier>();
+					mutableBoolean = new Exitter(false);
+					getObjectFlowPathName((INakedControlNode) oa, c, mutableBoolean);
+					if (!mutableBoolean.shouldExit()) {
+						controlNodeObjectTokenKnownPathName = OJUtil.classifierPathname(c.get(0));
+					}
+					
+				} else if (oa instanceof INakedObjectNode) {
+
+					List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+					Exitter mutableBoolean = new Exitter(false);
+					getObjectFlowPathName((INakedControlNode) edge.getSource(), c, mutableBoolean);
+					if (!mutableBoolean.shouldExit()) {
+						objectTokenKnownPathName = OJUtil.classifierPathname(c.get(0));
+					}
+					
+					controlNodeObjectTokenKnownPathName = OJUtil.classifierPathname(((INakedObjectNode) oa).getNakedBaseType());
+				}
+				if (controlNodeObjectTokenKnownPathName != null && objectTokenKnownPathName == null) {
+					sb.append(".<");
+					sb.append(controlNodeObjectTokenKnownPathName.getLast());
+					sb.append(">convertToKnown()");
+				} else if (controlNodeObjectTokenKnownPathName == null && objectTokenKnownPathName != null) {
+					sb.append(".<");
+					sb.append(objectTokenKnownPathName.getLast());
+					sb.append(">convertToUnknown()");
+				}
+			}
+		}
+		sb.append(")");
+		getInControlFlows.getBody().addToStatements(sb.toString());
+		actionClass.addToImports(new OJPathName("java.util.Arrays"));
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerActivityEdgePathName);
+		actionClass.addToOperations(getInControlFlows);
+	}
+
 	private void addGetOutFlows(OJClass actionClass, INakedActivityNode oa) {
 		OJAnnotatedOperation getOutControlFlows = new OJAnnotatedOperation("getOutFlows");
 		TinkerGenerationUtil.addOverrideAnnotation(getOutControlFlows);
 
-		OJPathName tokenPathName;
-		if (oa instanceof INakedObjectNode) {
-			tokenPathName = OJUtil.classifierPathname(((INakedObjectNode) oa).getNakedBaseType());
-		} else {
-			actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
-			tokenPathName = TinkerBehaviorUtil.tinkerControlTokenPathName.getCopy();
-		}
-
 		OJPathName returnType = new OJPathName("java.util.List");
+		OJPathName edgePathName;
 		StringBuilder sb;
 		if (oa instanceof INakedObjectNode) {
-			OJPathName edgePathName = TinkerBehaviorUtil.tinkerObjectFlowPathName.getCopy();
-			edgePathName.addToGenerics(tokenPathName);
+			edgePathName = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
+			OJPathName tokenGenericPathName = OJUtil.classifierPathname(((INakedObjectNode) oa).getNakedBaseType());
+			edgePathName.addToGenerics(tokenGenericPathName);
 			returnType.addToElementTypes(edgePathName);
 			sb = new StringBuilder("return Arrays.");
-			sb.append("<ObjectFlow<");
-			sb.append(tokenPathName.getLast());
+			sb.append("<" + TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getLast() + "<");
+			sb.append(tokenGenericPathName.getLast());
 			sb.append(">>asList(");
+		} else if (oa instanceof INakedControlNode && !((INakedControlNode) oa).getControlNodeType().isInitialNode()) {
+			INakedControlNode controlNode = (INakedControlNode) oa;
+			if (controlNode.getIncoming().iterator().next() instanceof INakedObjectFlow) {
+				List<INakedClassifier> c = new ArrayList<INakedClassifier>();
+				Exitter mutableBoolean = new Exitter(false);
+				getObjectFlowPathName(controlNode, c, mutableBoolean);
+				if (!mutableBoolean.shouldExit()) {
+					OJPathName objectFlowKnownTokenPathName = OJUtil.classifierPathname(c.get(0));
+					edgePathName = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
+					edgePathName.addToGenerics(objectFlowKnownTokenPathName);
+					returnType.addToElementTypes(edgePathName);
+					sb = new StringBuilder("return Arrays.");
+					sb.append("<" + TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getLast() + "<");
+					sb.append(objectFlowKnownTokenPathName.getLast());
+					sb.append(">>asList(");
+				} else {
+					edgePathName = TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getCopy();
+					returnType.addToElementTypes(edgePathName);
+					sb = new StringBuilder("return Arrays.");
+					sb.append("<" + TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getLast() + ">asList(");
+
+				}
+			} else {
+				edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
+				returnType.addToElementTypes(edgePathName);
+				sb = new StringBuilder("return Arrays.<ControlFlow>asList(");
+			}
 		} else {
-			OJPathName edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
+			edgePathName = TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy();
 			returnType.addToElementTypes(edgePathName);
-			sb = new StringBuilder("return Arrays.<" + TinkerBehaviorUtil.tinkerControlFlowPathName.getLast() + ">asList(");
+			sb = new StringBuilder("return Arrays.<ControlFlow>asList(");
 		}
 		getOutControlFlows.setReturnType(returnType);
 
@@ -967,29 +1126,6 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		getOutControlFlows.getBody().addToStatements(sb.toString());
 		actionClass.addToImports(new OJPathName("java.util.Arrays"));
 		actionClass.addToImports(TinkerBehaviorUtil.tinkerActivityEdgePathName);
-		actionClass.addToOperations(getOutControlFlows);
-	}
-
-	private void addGetOutFlow(OJClass actionClass, INakedActivityNode oa) {
-		OJAnnotatedOperation getOutControlFlows = new OJAnnotatedOperation("getOutFlow");
-
-		// TODO join and merge node with object flows
-		if (oa instanceof INakedObjectNode) {
-			getOutControlFlows.setReturnType(TinkerBehaviorUtil.tinkerObjectFlowPathName.getCopy());
-		} else {
-			if (oa instanceof INakedControlNode && (((INakedControlNode) oa).getControlNodeType().isJoinNode() || ((INakedControlNode) oa).getControlNodeType().isMergeNode())) {
-				INakedActivityEdge outEdge = oa.getOutgoing().iterator().next();
-				OJPathName path = OJUtil.packagePathname(outEdge.getNameSpace()).getCopy();
-				path.addToNames(NameConverter.capitalize(outEdge.getName()));
-				getOutControlFlows.setReturnType(path);
-			} else {
-				getOutControlFlows.setReturnType(TinkerBehaviorUtil.tinkerControlFlowPathName.getCopy());
-			}
-		}
-
-		for (INakedActivityEdge edge : oa.getOutgoing()) {
-			getOutControlFlows.getBody().addToStatements("return " + TinkerBehaviorUtil.edgeGetter(edge) + "()");
-		}
 		actionClass.addToOperations(getOutControlFlows);
 	}
 

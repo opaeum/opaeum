@@ -36,6 +36,7 @@ import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedValuePin;
+import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.name.NameConverter;
 
@@ -49,9 +50,11 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			activityClass.setSuperclass(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
 			OJAnnotatedOperation execute = addExecute(a, activityClass);
 
+			List<INakedAction> actions = new ArrayList<INakedAction>();
+			List<String> instantiatedClasses = new ArrayList<String>();
 			List<INakedActivityNode> initNodes = getInitNodes(a);
 			for (INakedActivityNode initNode : initNodes) {
-				visitInitNodes(initNode, execute);
+				visitInitNodes(initNode, execute, actions, instantiatedClasses);
 			}
 
 			implementGetInitialNode(activityClass, initNodes);
@@ -134,8 +137,11 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		List<INakedActivityNode> result = new ArrayList<INakedActivityNode>();
 		Collection<INakedActivityNode> nodes = a.getActivityNodes();
 		for (INakedActivityNode node : nodes) {
-			if (node.getIncoming().isEmpty()) {
-				result.add(node);
+			if (node instanceof INakedParameterNode || node instanceof INakedAcceptEventAction
+					|| (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isInitialNode())) {
+				if (node.getIncoming().isEmpty()) {
+					result.add(node);
+				}
 			}
 
 		}
@@ -154,12 +160,12 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		return result;
 	}
 
-	private void visitInitNodes(INakedActivityNode node, OJAnnotatedOperation execute) {
+	private void visitInitNodes(INakedActivityNode node, OJAnnotatedOperation execute, List<INakedAction> actions, List<String> instantiatedClasses) {
 		INakedActivity activity = node.getActivity();
 		OJAnnotatedClass activityClass = findJavaClass(activity);
 		addInitNode(activityClass, node);
 		OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
-		createActivityGraph(activityClass, init.getBody(), node);
+		createActivityGraph(activityClass, init.getBody(), node, actions, instantiatedClasses);
 		startProcessInExecute(activityClass, node, execute);
 	}
 
@@ -219,25 +225,24 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		activityClass.addToImports(TinkerBehaviorUtil.tinkerTokenPathName);
 	}
 
-	private void createActivityGraph(OJAnnotatedClass activityClass, OJBlock block, INakedActivityNode initNode) {
-		List<INakedAction> actions = new ArrayList<INakedAction>();
-		walkActivityForNodes(new ArrayList<String>(), activityClass, block, initNode, actions);
-		walkActivityForEdges(new ArrayList<String>(), block, initNode);
-		addEdgeToInitNode(new ArrayList<String>(), initNode, block);
-		addPinEdgesToActions(actions, block);
+	private void createActivityGraph(OJAnnotatedClass activityClass, OJBlock block, INakedActivityNode initNode, List<INakedAction> actions, List<String> instantiatedClasses) {
+		walkActivityForNodes(instantiatedClasses, activityClass, block, initNode, actions);
+		walkActivityForEdges(instantiatedClasses, block, initNode);
+		addEdgeToInitNode(instantiatedClasses, initNode, block);
+		addPinEdgesToActions(instantiatedClasses, actions, block);
 	}
 
-	private void addPinEdgesToActions(List<INakedAction> actions, OJBlock block) {
+	private void addPinEdgesToActions(List<String> instantiatedClasses, List<INakedAction> actions, OJBlock block) {
 		for (INakedAction node : actions) {
 			Collection<INakedInputPin> inputs = ((INakedAction) node).getInput();
 			for (INakedInputPin inputPin : inputs) {
 				if ((node instanceof INakedSendSignalAction && ((INakedSendSignalAction) node).getTarget() == inputPin) || inputPin instanceof INakedValuePin) {
 					continue;
 				}
-				addPinEdge(node, inputPin, block);
+				addPinEdge(instantiatedClasses, node, inputPin, block);
 			}
 			for (INakedOutputPin outputPin : ((INakedAction) node).getOutput()) {
-				addPinEdge(node, outputPin, block);
+				addPinEdge(instantiatedClasses, node, outputPin, block);
 			}
 		}
 	}
@@ -252,6 +257,10 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 				walkActivityForEdges(instantiatedClasses, block, outputPin);
 			}
 		}
+		if (node instanceof INakedInputPin) {
+			INakedInputPin inputPin = (INakedInputPin)node;
+			walkActivityForEdges(instantiatedClasses, block, inputPin.getAction());
+		}
 	}
 
 	private void walkActivityForNodes(List<String> instantiatedClasses, OJAnnotatedClass activityClass, OJBlock block, INakedActivityNode node, List<INakedAction> actions) {
@@ -260,28 +269,35 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			walkActivityForNodes(instantiatedClasses, activityClass, block, edge.getTarget(), actions);
 		}
 		if (node instanceof INakedAction) {
-			actions.add((INakedAction) node);
-			for (INakedOutputPin outputPin : ((INakedAction) node).getOutput()) {
+			INakedAction action = (INakedAction) node;
+			actions.add(action);
+			for (INakedOutputPin outputPin : action.getOutput()) {
 				walkActivityForNodes(instantiatedClasses, activityClass, block, outputPin, actions);
 			}
+		} else if (node instanceof INakedInputPin) {
+			INakedAction action = ((INakedInputPin) node).getAction();
+			walkActivityForNodes(instantiatedClasses, activityClass, block, action, actions);
 		}
 	}
 
-	private void addPinEdge(INakedActivityNode node, INakedPin pin, OJBlock block) {
-		OJSimpleStatement addEdge1 = new OJSimpleStatement();
+	private void addPinEdge(List<String> instantiatedClasses, INakedActivityNode node, INakedPin pin, OJBlock block) {
 		String edgeName = NameConverter.decapitalize(node.getName()) + NameConverter.capitalize(pin.getName()) + "Edge";
-		addEdge1.setExpression("Edge " + edgeName + " = GraphDb.getDb().addEdge(null, " + NameConverter.decapitalize(node.getName()) + ".getVertex(), "
-				+ NameConverter.decapitalize(pin.getName()) + ".getVertex(), \"" + ((pin instanceof INakedInputPin) ? "inputPin" : "outputPin")
-				+ NameConverter.capitalize(pin.getName()) + "\")");
-		block.addToStatements(addEdge1);
+		if (!instantiatedClasses.contains(edgeName)) {
+			instantiatedClasses.add(edgeName);
+			OJSimpleStatement addEdge1 = new OJSimpleStatement();
+			addEdge1.setExpression("Edge " + edgeName + " = GraphDb.getDb().addEdge(null, " + NameConverter.decapitalize(node.getName()) + ".getVertex(), "
+					+ NameConverter.decapitalize(pin.getName()) + ".getVertex(), \"" + ((pin instanceof INakedInputPin) ? "inputPin" : "outputPin")
+					+ NameConverter.capitalize(pin.getName()) + "\")");
+			block.addToStatements(addEdge1);
 
-		OJSimpleStatement addEdge2 = new OJSimpleStatement();
-		addEdge2.setExpression(edgeName + ".setProperty(\"inClass\", " + NameConverter.decapitalize(pin.getName()) + ".getClass().getName())");
-		block.addToStatements(addEdge2);
+			OJSimpleStatement addEdge2 = new OJSimpleStatement();
+			addEdge2.setExpression(edgeName + ".setProperty(\"inClass\", " + NameConverter.decapitalize(pin.getName()) + ".getClass().getName())");
+			block.addToStatements(addEdge2);
 
-		OJSimpleStatement addEdge3 = new OJSimpleStatement();
-		addEdge3.setExpression(edgeName + ".setProperty(\"outClass\", " + NameConverter.decapitalize(node.getName()) + ".getClass().getName())");
-		block.addToStatements(addEdge3);
+			OJSimpleStatement addEdge3 = new OJSimpleStatement();
+			addEdge3.setExpression(edgeName + ".setProperty(\"outClass\", " + NameConverter.decapitalize(node.getName()) + ".getClass().getName())");
+			block.addToStatements(addEdge3);
+		}
 	}
 
 	private void addEdge(List<String> instantiatedClasses, INakedActivityEdge edge, OJBlock block) {
@@ -306,7 +322,6 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 	}
 
 	private void addEdgeToInitNode(List<String> instantiatedClasses, INakedActivityNode initNode, OJBlock block) {
-		if (!instantiatedClasses.contains(NameConverter.capitalize(initNode.getName()))) {
 			instantiatedClasses.add(NameConverter.capitalize(initNode.getName()));
 			OJSimpleStatement addEdge1 = new OJSimpleStatement();
 			addEdge1.setExpression("Edge " + NameConverter.decapitalize(initNode.getName()) + "Edge = GraphDb.getDb().addEdge(null, "
@@ -321,7 +336,6 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			addEdge3.setExpression(NameConverter.decapitalize(initNode.getName()) + "Edge.setProperty(\"outClass\", " + NameConverter.decapitalize(initNode.getName())
 					+ ".getClass().getName())");
 			block.addToStatements(addEdge3);
-		}
 	}
 
 	private void instantiateNode(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivityNode node, OJBlock block) {

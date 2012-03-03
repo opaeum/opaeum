@@ -49,7 +49,7 @@ public abstract class InputPin<O> extends ObjectNode<O> {
 	}
 	
 	@Override
-	protected List<ObjectFlow<O>> getOutFlows() {
+	protected List<ObjectFlowKnown<O>> getOutFlows() {
 		return Collections.emptyList();
 	}
 	

@@ -14,7 +14,7 @@ import org.opaeum.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
-public class TestActivity1 extends BaseLocalDbTest {
+public class TestTestActivity1 extends BaseLocalDbTest {
 
 	@Test
 	public void testActivity1() {

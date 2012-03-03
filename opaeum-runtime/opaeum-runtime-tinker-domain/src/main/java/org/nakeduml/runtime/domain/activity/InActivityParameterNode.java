@@ -22,7 +22,7 @@ public abstract class InActivityParameterNode<O> extends ActivityParameterNode<O
 	}
 
 	@Override
-	protected List<ObjectFlow<O>> getInFlows() {
+	protected List<ObjectFlowKnown<O>> getInFlows() {
 		return Collections.emptyList();
 	}
 	

@@ -216,4 +216,8 @@ public class OJPathName extends OJPathNameGEN implements Comparable<OJPathName>{
 		this.generics.add(path);
 		return this;
 	}
+	
+	public List<OJPathName> getGenerics() {
+		return this.generics;
+	}
 }

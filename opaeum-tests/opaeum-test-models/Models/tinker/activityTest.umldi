@@ -722,7 +722,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_Amq_EGT5EeGJ46qUKfXPZg">
     <model href="activityTest.uml#_-okToGT4EeGJ46qUKfXPZg"/>
-    <diagrams xmi:id="_AmrmIGT5EeGJ46qUKfXPZg" position="0,0" size="100,100" name="TestActivity2" viewport="0,469">
+    <diagrams xmi:id="_AmrmIGT5EeGJ46qUKfXPZg" position="0,0" size="100,100" name="TestActivity2" viewport="0,428">
       <property xmi:id="_Am96AGT5EeGJ46qUKfXPZg" key="pageFormatName" value="A3"/>
       <property xmi:id="_Am96AWT5EeGJ46qUKfXPZg" key="diagramWidth" value="1188"/>
       <property xmi:id="_Am96AmT5EeGJ46qUKfXPZg" key="diagramHeight" value="1680"/>
@@ -785,7 +785,7 @@
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JVvlAWUaEeGfwPJWsJfZ8w" presentation="default">
           <element href="activityTest.uml#_JV8ZUGUaEeGfwPJWsJfZ8w"/>
         </semanticModel>
-        <contained xsi:type="di:GraphNode" xmi:id="_Khp-gGUaEeGfwPJWsJfZ8w" position="79,3" size="-1,-1">
+        <contained xsi:type="di:GraphNode" xmi:id="_Khp-gGUaEeGfwPJWsJfZ8w" position="62,-3" size="-1,-1">
           <property xmi:id="_Khp-gWUaEeGfwPJWsJfZ8w" key="isVisibleLabel" value="visible"/>
           <property xmi:id="_Khp-gmUaEeGfwPJWsJfZ8w" key="portPosition" value="8"/>
           <anchorage xmi:id="_QDku8WUaEeGfwPJWsJfZ8w" graphEdge="_QDmkIGUaEeGfwPJWsJfZ8w"/>

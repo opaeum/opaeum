@@ -86,7 +86,7 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 	}
 	
 	@Override
-	protected List<ObjectFlow<O>> getInFlows() {
+	protected List<ObjectFlowKnown<O>> getInFlows() {
 		return Collections.emptyList();
 	}
 

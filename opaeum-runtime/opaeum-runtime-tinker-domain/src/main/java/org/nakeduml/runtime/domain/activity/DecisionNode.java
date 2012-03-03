@@ -20,10 +20,13 @@ public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
 		super(persist, name);
 	}
 
+	@Override
+	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
+
 	protected abstract ActivityEdge<T> getInFlow();
 
 	@Override
-	protected List<ActivityEdge<T>> getInFlows() {
+	protected List<? extends ActivityEdge<T>> getInFlows() {
 		List<ActivityEdge<T>> result = new ArrayList<ActivityEdge<T>>();
 		result.add(getInFlow());
 		return result;

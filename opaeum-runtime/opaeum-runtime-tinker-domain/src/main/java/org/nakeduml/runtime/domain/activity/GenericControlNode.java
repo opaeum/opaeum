@@ -29,7 +29,7 @@ public abstract class GenericControlNode extends ControlNode<Token> {
 				for (Edge edge : iter) {
 					result.add(new ControlToken(edge.getInVertex()));
 				}
-			} else if (flow instanceof ObjectFlow<?>) {
+			} else if (flow instanceof ObjectFlowKnown<?>) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
 					result.add(new ObjectToken(edge.getInVertex()));
@@ -51,7 +51,7 @@ public abstract class GenericControlNode extends ControlNode<Token> {
 					for (Edge edge : iter) {
 						result.add(new ControlToken(edge.getInVertex()));
 					}
-				} else if (flow instanceof ObjectFlow<?>) {
+				} else if (flow instanceof ObjectFlowKnown<?>) {
 					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 					for (Edge edge : iter) {
 						result.add(new ObjectToken(edge.getInVertex()));
@@ -73,7 +73,7 @@ public abstract class GenericControlNode extends ControlNode<Token> {
 				for (Edge edge : iter) {
 					result.add(new ControlToken(edge.getInVertex()));
 				}
-			} else if (flow instanceof ObjectFlow<?>) {
+			} else if (flow instanceof ObjectFlowKnown<?>) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
 					result.add(new ObjectToken(edge.getInVertex()));
@@ -95,7 +95,7 @@ public abstract class GenericControlNode extends ControlNode<Token> {
 					for (Edge edge : iter) {
 						result.add(new ControlToken(edge.getInVertex()));
 					}
-				} else if (flow instanceof ObjectFlow<?>) {
+				} else if (flow instanceof ObjectFlowKnown<?>) {
 					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 					for (Edge edge : iter) {
 						result.add(new ObjectToken(edge.getInVertex()));

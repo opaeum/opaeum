@@ -20,7 +20,7 @@ public abstract class OutActivityParameterNode<O> extends ActivityParameterNode<
 	}
 
 	@Override
-	protected List<ObjectFlow<O>> getOutFlows() {
+	protected List<ObjectFlowKnown<O>> getOutFlows() {
 		return Collections.emptyList();
 	}
 

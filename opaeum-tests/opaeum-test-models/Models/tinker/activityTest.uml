@@ -225,20 +225,20 @@
           <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_LrJZIWT5EeGJ46qUKfXPZg" value="*"/>
         </node>
         <node xmi:type="uml:OpaqueAction" xmi:id="_rpA2YGUZEeGfwPJWsJfZ8w" name="OpaqueAction1">
-          <inputValue xmi:id="_yB2AsGUZEeGfwPJWsJfZ8w" name="workAddress" incoming="_3WtzoGUZEeGfwPJWsJfZ8w" type="_n6KUYF-aEeGDnrcNgbl2_Q">
+          <inputValue xmi:id="_yB2AsGUZEeGfwPJWsJfZ8w" name="inWorkAddress" incoming="_3WtzoGUZEeGfwPJWsJfZ8w" type="_n6KUYF-aEeGDnrcNgbl2_Q">
             <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_yB2AsWUZEeGfwPJWsJfZ8w" value="*"/>
           </inputValue>
           <outputValue xmi:id="_Fjs2wGUaEeGfwPJWsJfZ8w" name="outWorkAddress" outgoing="_W6_SsGUaEeGfwPJWsJfZ8w" type="_n6KUYF-aEeGDnrcNgbl2_Q"/>
-          <body>workAddress</body>
+          <body>inWorkAddress</body>
         </node>
         <node xmi:type="uml:OpaqueAction" xmi:id="_JV8ZUGUaEeGfwPJWsJfZ8w" name="OpaqueAction2">
-          <inputValue xmi:id="_KhrMoGUaEeGfwPJWsJfZ8w" name="homeAddress" incoming="_QDzYcGUaEeGfwPJWsJfZ8w" type="_n6KUYF-aEeGDnrcNgbl2_Q">
+          <inputValue xmi:id="_KhrMoGUaEeGfwPJWsJfZ8w" name="inHomeAddress" incoming="_QDzYcGUaEeGfwPJWsJfZ8w" type="_n6KUYF-aEeGDnrcNgbl2_Q">
             <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KhrMoWUaEeGfwPJWsJfZ8w" value="*"/>
           </inputValue>
           <outputValue xmi:id="_NB0OIGUaEeGfwPJWsJfZ8w" name="outHomeAddress" outgoing="_WVlfkGUaEeGfwPJWsJfZ8w" type="_n6KUYF-aEeGDnrcNgbl2_Q">
             <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NB0OIWUaEeGfwPJWsJfZ8w" value="*"/>
           </outputValue>
-          <body>homeAddress</body>
+          <body>inHomeAddress</body>
         </node>
         <node xmi:type="uml:MergeNode" xmi:id="_VQHsUGUaEeGfwPJWsJfZ8w" name="MergeNode1" outgoing="_ZOZfwGUaEeGfwPJWsJfZ8w" incoming="_WVlfkGUaEeGfwPJWsJfZ8w _W6_SsGUaEeGfwPJWsJfZ8w"/>
         <node xmi:type="uml:DecisionNode" xmi:id="_YLssoGUaEeGfwPJWsJfZ8w" name="DecisionNode1" outgoing="_aAiR4GUbEeGfwPJWsJfZ8w _aSjO8GUbEeGfwPJWsJfZ8w" incoming="_ZOZfwGUaEeGfwPJWsJfZ8w"/>
@@ -283,7 +283,9 @@
           <weight xmi:type="uml:LiteralInteger" xmi:id="_ZOZfwmUaEeGfwPJWsJfZ8w" value="1"/>
         </edge>
         <edge xmi:type="uml:ObjectFlow" xmi:id="_aAiR4GUbEeGfwPJWsJfZ8w" name="ObjectFlow6" source="_YLssoGUaEeGfwPJWsJfZ8w" target="_QPdZYGUbEeGfwPJWsJfZ8w">
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_aAiR4WUbEeGfwPJWsJfZ8w" value="true"/>
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_4Fs-wGVUEeG_ZfKT8PoZUg">
+            <body>token.name</body>
+          </guard>
           <weight xmi:type="uml:LiteralInteger" xmi:id="_aAiR4mUbEeGfwPJWsJfZ8w" value="1"/>
         </edge>
         <edge xmi:type="uml:ObjectFlow" xmi:id="_aSjO8GUbEeGfwPJWsJfZ8w" name="ObjectFlow7" source="_YLssoGUaEeGfwPJWsJfZ8w" target="_Wx3WcGUbEeGfwPJWsJfZ8w">

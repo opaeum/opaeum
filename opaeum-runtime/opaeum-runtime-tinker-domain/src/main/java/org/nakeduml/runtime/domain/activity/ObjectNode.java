@@ -3,6 +3,8 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Address;
+
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
@@ -36,15 +38,15 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	protected abstract int getUpperBound();
 
 	@Override
-	protected abstract List<ObjectFlow<O>> getInFlows();
+	protected abstract List<ObjectFlowKnown<O>> getInFlows();
 
 	@Override
-	protected abstract List<ObjectFlow<O>> getOutFlows();
+	protected abstract List<ObjectFlowKnown<O>> getOutFlows();
 
 	@Override
 	public List<ObjectToken<O>> getInTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ObjectFlow<O> flow : getInFlows()) {
+		for (ObjectFlowKnown<O> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				result.add(new ObjectToken<O>(edge.getInVertex()));
@@ -58,7 +60,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
 		for (ActivityEdge<?> flow : getInFlows()) {
 			if (inFlowName.equals(flow.getName())) {
-				if (flow instanceof ObjectFlow) {
+				if (flow instanceof ObjectFlowKnown) {
 					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 					for (Edge edge : iter) {
 						result.add(new ObjectToken<O>(edge.getInVertex()));
@@ -91,7 +93,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	@Override
 	public List<ObjectToken<O>> getOutTokens(String outFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ObjectFlow<O> flow : getOutFlows()) {
+		for (ObjectFlowKnown<O> flow : getOutFlows()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
@@ -118,6 +120,14 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 			logger.finest(String.format("Inputpin %s has reached its upper", getName()));
 		}
 	}
+	
+	protected <T> List<ObjectFlowKnown<T>> convertToKnownObjectFlows(List<ObjectFlowUnknown> asList) {
+		List<ObjectFlowKnown<T>> result = new ArrayList<ObjectFlowKnown<T>>();
+		for (ObjectFlowUnknown objectFlowUnknown : asList) {
+			result.add(objectFlowUnknown.<T>convertToKnown());
+		}
+		return result;
+	}
 
 	@Override
 	public String toString() {
@@ -125,7 +135,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 		sb.append("\n");
 		sb.append(getClass().getSimpleName());
 		sb.append(" has the following in tokens,");
-		for (ObjectFlow<?> flow : getInFlows()) {
+		for (ObjectFlowKnown<?> flow : getInFlows()) {
 			for (ObjectToken<O> t : getInTokens(flow.getName())) {
 				sb.append("\nFlow = ");
 				sb.append(flow.getName());
@@ -134,7 +144,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 			}
 		}
 		sb.append("\nAnd the following out tokens,");
-		for (ObjectFlow<?> flow : getOutFlows()) {
+		for (ObjectFlowKnown<?> flow : getOutFlows()) {
 			for (ObjectToken<O> t : getOutTokens(flow.getName())) {
 				sb.append("\nFlow = ");
 				sb.append(flow.getName());

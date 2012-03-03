@@ -6,34 +6,30 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class JoinNodeObjectToken<O> extends JoinNode<ObjectToken<O>> {
+public abstract class DecisionObjectTokenKnown<O> extends DecisionNode<ObjectToken<O>> {
 
-	public JoinNodeObjectToken() {
+	public DecisionObjectTokenKnown() {
 		super();
 	}
-	
-	public JoinNodeObjectToken(Vertex vertex) {
-		super(vertex);
-	}	
 
-	public JoinNodeObjectToken(boolean persist, String name) {
+	public DecisionObjectTokenKnown(boolean persist, String name) {
 		super(persist, name);
 	}
-	
-	@Override
-	protected abstract ActivityEdge<ObjectToken<O>> getOutFlow();
 
-	@Override
-	protected List<? extends ActivityEdge<ObjectToken<O>>> getOutFlows() {
-		List<ActivityEdge<ObjectToken<O>>> result = new ArrayList<ActivityEdge<ObjectToken<O>>>();
-		result.add(getOutFlow());
-		return result;
+	public DecisionObjectTokenKnown(Vertex vertex) {
+		super(vertex);
 	}
 	
 	@Override
-	protected abstract List<ActivityEdge<ObjectToken<O>>> getInFlows();
-	
+	protected abstract ObjectFlowKnown<O> getInFlow();
+
 	@Override
+	protected List<ObjectFlowKnown<O>> getInFlows() {
+		List<ObjectFlowKnown<O>> result = new ArrayList<ObjectFlowKnown<O>>();
+		result.add(getInFlow());
+		return result;
+	}
+
 	public List<ObjectToken<O>> getInTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
 		for (ActivityEdge<ObjectToken<O>> flow : getInFlows()) {
@@ -45,7 +41,6 @@ public abstract class JoinNodeObjectToken<O> extends JoinNode<ObjectToken<O>> {
 		return result;
 	}
 
-	@Override
 	public List<ObjectToken<O>> getInTokens(String inFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
 		for (ActivityEdge<ObjectToken<O>> flow : getInFlows()) {
@@ -59,7 +54,6 @@ public abstract class JoinNodeObjectToken<O> extends JoinNode<ObjectToken<O>> {
 		return result;
 	}
 
-	@Override
 	public List<ObjectToken<O>> getOutTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
 		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
@@ -71,7 +65,6 @@ public abstract class JoinNodeObjectToken<O> extends JoinNode<ObjectToken<O>> {
 		return result;
 	}
 
-	@Override
 	public List<ObjectToken<O>> getOutTokens(String outFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
 		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
@@ -83,7 +76,5 @@ public abstract class JoinNodeObjectToken<O> extends JoinNode<ObjectToken<O>> {
 			}
 		}
 		return result;
-	}		
-	
-	
+	}	
 }
