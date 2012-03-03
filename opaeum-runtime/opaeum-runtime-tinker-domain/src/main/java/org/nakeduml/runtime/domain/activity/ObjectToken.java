@@ -94,4 +94,12 @@ public class ObjectToken<O> extends Token {
 		GraphDb.getDb().removeVertex(getVertex());
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Object Token value = ");
+		sb.append(getObject());
+		return sb.toString();
+	}
+
 }

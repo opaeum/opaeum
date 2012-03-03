@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
-import org.nakeduml.tinker.runtime.GraphDb;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -96,12 +95,19 @@ public abstract class Action extends ExecutableNode {
 		return result;
 	}
 
+	/*
+	 * This will only be called if the lower multiplicity is reachedAll up to
+	 * upper multiplicity is consumed
+	 */
 	protected void transferObjectTokensToAction() {
 		for (InputPin<?> inputPin : this.getInputPins()) {
+			int tokensTransferedCount = 0;
 			for (ObjectToken<?> token : inputPin.getInTokens()) {
-				token.removeEdgeFromActivityNode();
-				addToInputPinVariable(inputPin, token.getObject());
-				token.remove();
+				if (++tokensTransferedCount <= inputPin.getUpperMultiplicity()) {
+					token.removeEdgeFromActivityNode();
+					addToInputPinVariable(inputPin, token.getObject());
+					token.remove();
+				}
 			}
 		}
 	}
@@ -117,15 +123,6 @@ public abstract class Action extends ExecutableNode {
 
 	protected void execute() {
 		// Empty
-
-		// Consume object tokens
-		for (InputPin<?> inputPin : this.getInputPins()) {
-			for (ObjectToken<?> token : inputPin.getInTokens()) {
-				token.removeEdgeFromActivityNode();
-				token.removeEdgeToObject();
-				GraphDb.getDb().removeVertex(token.getVertex());
-			}
-		}
 	}
 
 	protected boolean isTriggered() {
@@ -140,14 +137,10 @@ public abstract class Action extends ExecutableNode {
 	@Override
 	public List<ControlToken> getInTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ActivityEdge<?> flow : getInFlows()) {
-			if (flow instanceof ControlFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add(new ControlToken(edge.getInVertex()));
-				}
-			} else {
-				throw new IllegalStateException("wtf");
+		for (ControlFlow flow : getInFlows()) {
+			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+			for (Edge edge : iter) {
+				result.add(new ControlToken(edge.getInVertex()));
 			}
 		}
 		return result;
@@ -156,15 +149,11 @@ public abstract class Action extends ExecutableNode {
 	@Override
 	public List<ControlToken> getInTokens(String inFlowName) {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ActivityEdge<?> flow : getInFlows()) {
+		for (ControlFlow flow : getInFlows()) {
 			if (inFlowName.equals(flow.getName())) {
-				if (flow instanceof ControlFlow) {
-					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-					for (Edge edge : iter) {
-						result.add(new ControlToken(edge.getInVertex()));
-					}
-				} else {
-					throw new IllegalStateException("wtf");
+				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+				for (Edge edge : iter) {
+					result.add(new ControlToken(edge.getInVertex()));
 				}
 			}
 		}
@@ -174,7 +163,7 @@ public abstract class Action extends ExecutableNode {
 	@Override
 	public List<ControlToken> getOutTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ActivityEdge<ControlToken> flow : getOutFlows()) {
+		for (ControlFlow flow : getOutFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				result.add(new ControlToken(edge.getInVertex()));
@@ -186,7 +175,7 @@ public abstract class Action extends ExecutableNode {
 	@Override
 	public List<ControlToken> getOutTokens(String outFlowName) {
 		List<ControlToken> result = new ArrayList<ControlToken>();
-		for (ActivityEdge<ControlToken> flow : getOutFlows()) {
+		for (ControlFlow flow : getOutFlows()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
@@ -199,16 +188,10 @@ public abstract class Action extends ExecutableNode {
 	}
 
 	@Override
-	protected List<? extends ActivityEdge<?>> getInFlows() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected abstract List<ControlFlow> getInFlows();
 
 	@Override
-	protected List<? extends ActivityEdge<ControlToken>> getOutFlows() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	protected abstract List<ControlFlow> getOutFlows();
 
 	@Override
 	protected BaseTinkerSoftDelete getContextObject() {
@@ -220,38 +203,23 @@ public abstract class Action extends ExecutableNode {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(super.toString());
 		sb.append("\n");
-		sb.append("InputPin:");
-		int i = 0;
-		for (Object o : getInputPinVariables()) {
+		sb.append("InputPins:");
+		for (InputPin<?> o : getInputPins()) {
 			sb.append("		");
-			sb.append(getInputPins().get(i++).getName());
-			sb.append(" = ");
-			sb.append(o);
+			sb.append(o.toString());
 			sb.append("\n");
 		}
-		sb.append("OutputPin:\n");
-		sb.append("Values on pin:");
-		for (OutputPin<?> outputPin : getOutputPins()) {
+		sb.append("\nVariables:");
+		for (Object o : getInputPinVariables()) {
 			sb.append("		");
-			sb.append(outputPin.getName());
-			sb.append(" = ");
-			for (ObjectToken<?> t : outputPin.getOutTokens()) {
-				sb.append(t.getObject());
-			}
+			sb.append(o.toString());
+			sb.append("\n");
 		}
-		sb.append("\nValues on pin's outflows:");
+		sb.append("\nOutputPin:");
 		for (OutputPin<?> outputPin : getOutputPins()) {
 			sb.append("		");
-			sb.append(outputPin.getName());
-			sb.append(" = ");
-			for (ActivityEdge<?> flow : outputPin.getOutFlows()) {
-				for (ObjectToken<?> t : outputPin.getOutTokens(flow.getName())) {
-					sb.append("flow = ");
-					sb.append(flow.getName());
-					sb.append("pin value = ");
-					sb.append(t.getObject());
-				}
-			}
+			sb.append(outputPin.toString());
+			sb.append("\n");
 		}
 		return sb.toString();
 	}

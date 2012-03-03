@@ -29,28 +29,30 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 		if (getUpperBound() == -1) {
 			return false;
 		} else {
-			return  getInTokens().size() >= getUpperBound();
+			return getInTokens().size() >= getUpperBound();
 		}
 	}
 
 	protected abstract int getUpperBound();
 
 	@Override
+	protected abstract List<ObjectFlow<O>> getInFlows();
+
+	@Override
+	protected abstract List<ObjectFlow<O>> getOutFlows();
+
+	@Override
 	public List<ObjectToken<O>> getInTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ActivityEdge<?> flow : getInFlows()) {
-			if (flow instanceof ObjectFlow) {
-				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-				for (Edge edge : iter) {
-					result.add(new ObjectToken<O>(edge.getInVertex()));
-				}
-			} else {
-				throw new IllegalStateException("wtf");
+		for (ObjectFlow<O> flow : getInFlows()) {
+			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+			for (Edge edge : iter) {
+				result.add(new ObjectToken<O>(edge.getInVertex()));
 			}
 		}
 		return result;
 	}
-
+	
 	@Override
 	public List<ObjectToken<O>> getInTokens(String inFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
@@ -69,6 +71,13 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.nakeduml.runtime.domain.activity.ActivityNode#getOutTokens()
+	 * 
+	 * Out tokens count tokens before they are duplicated onto all out flows
+	 */
 	@Override
 	public List<ObjectToken<O>> getOutTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
@@ -78,19 +87,15 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public List<ObjectToken<O>> getOutTokens(String outFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
+		for (ObjectFlow<O> flow : getOutFlows()) {
 			if (flow.getName().equals(outFlowName)) {
-				if (flow instanceof ObjectFlow) {
-					Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
-					for (Edge edge : iter) {
-						result.add(new ObjectToken<O>(edge.getInVertex()));
-					}
-				} else {
-					throw new IllegalStateException("wtf");
+				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
+				for (Edge edge : iter) {
+					result.add(new ObjectToken<O>(edge.getInVertex()));
 				}
 			}
 		}
@@ -101,7 +106,43 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	protected void addIncomingToken(ObjectToken<O> token) {
 		token.removeEdgeFromActivityNode();
 		token.addEdgeToActivityNode(this);
-	}	
-	
+	}
+
+	protected void addIncomingToken(ObjectTokenInterator<O> iter) {
+		// mayAcceptToken validates upper
+		while (iter.hasNext() && mayAcceptToken()) {
+			ObjectToken<O> objectToken = (ObjectToken<O>) iter.next();
+			addIncomingToken(objectToken);
+		}
+		if (!mayAcceptToken()) {
+			logger.finest(String.format("Inputpin %s has reached its upper", getName()));
+		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.append("\n");
+		sb.append(getClass().getSimpleName());
+		sb.append(" has the following in tokens,");
+		for (ObjectFlow<?> flow : getInFlows()) {
+			for (ObjectToken<O> t : getInTokens(flow.getName())) {
+				sb.append("\nFlow = ");
+				sb.append(flow.getName());
+				sb.append(" value = ");
+				sb.append(t.toString());
+			}
+		}
+		sb.append("\nAnd the following out tokens,");
+		for (ObjectFlow<?> flow : getOutFlows()) {
+			for (ObjectToken<O> t : getOutTokens(flow.getName())) {
+				sb.append("\nFlow = ");
+				sb.append(flow.getName());
+				sb.append(" value = ");
+				sb.append(t.toString());
+			}
+		}
+		return sb.toString();
+	}
 
 }

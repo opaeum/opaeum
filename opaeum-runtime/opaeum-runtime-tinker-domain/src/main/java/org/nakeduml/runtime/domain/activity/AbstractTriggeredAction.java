@@ -3,6 +3,8 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.TinkerNode;
+import org.nakeduml.tinker.runtime.GraphDb;
 import org.opaeum.runtime.domain.ISignal;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -34,9 +36,16 @@ public abstract class AbstractTriggeredAction extends Action {
 	protected void transferObjectTokensToAction() {
 		super.transferObjectTokensToAction();
 		copySignalToOutputPin(this.signal);
+		removeSignal(this.signal);
 	}	
 
 	public abstract void copySignalToOutputPin(ISignal signal);
+
+	protected void removeSignal(ISignal signal) {
+		if ( signal instanceof TinkerNode ) {
+			GraphDb.getDb().removeVertex(((TinkerNode)signal).getVertex());
+		}
+	}
 	
 	@Override
 	protected boolean isTriggered() {

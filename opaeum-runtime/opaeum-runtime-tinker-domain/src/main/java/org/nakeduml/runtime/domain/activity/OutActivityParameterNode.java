@@ -20,8 +20,8 @@ public abstract class OutActivityParameterNode<O> extends ActivityParameterNode<
 	}
 
 	@Override
-	protected List<? extends ActivityEdge<ObjectToken<O>>> getOutFlows() {
-		return Collections.<ActivityEdge<ObjectToken<O>>>emptyList();
+	protected List<ObjectFlow<O>> getOutFlows() {
+		return Collections.emptyList();
 	}
 
 }

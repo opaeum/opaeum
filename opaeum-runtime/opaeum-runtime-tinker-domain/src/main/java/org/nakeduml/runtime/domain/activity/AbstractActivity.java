@@ -20,7 +20,6 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 	protected abstract List<? extends ActivityNode<?>> getInitialNodes();
 	protected abstract List<? extends ActivityParameterNode<?>> getIncomingParameters();
 	protected abstract List<? extends ActivityParameterNode<?>> getOutgoingParameters();
-	public abstract boolean execute();
 	
 	public Set<ActivityNode<? extends Token>> getEnabledNodesWithMatchingTrigger(ISignal signal) {
 		Set<ActivityNode<? extends Token>> result = new HashSet<ActivityNode<? extends Token>>();
@@ -45,6 +44,9 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 		Set<ActivityNode<? extends Token>> visited = new HashSet<ActivityNode<? extends Token>>();
 		for (ActivityNode<? extends Token> initNode : getInitialNodes()) {
 			walkActivity(result, visited, initNode, name);
+			if (!result.isEmpty()) {
+				break;
+			}
 		}
 		if (result.isEmpty()) {
 			return null;
@@ -118,14 +120,15 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 		}
 		if (currentNode instanceof Action) {
 			for (OutputPin<?> outputPin : ((Action) currentNode).getOutputPins()) {
-				for (ActivityEdge<? extends Token> outFlow : outputPin.getOutFlows()) {
-					ActivityNode<? extends Token> target = outFlow.getTarget();
-					if (!visited.contains(target)) {
-						walkActivity(result, visited, target, name);
-					} else {
-						continue;
-					}
-				}
+				walkActivity(result, visited, outputPin, name);
+//				for (ActivityEdge<? extends Token> outFlow : outputPin.getOutFlows()) {
+//					ActivityNode<? extends Token> target = outFlow.getTarget();
+//					if (!visited.contains(target)) {
+//						walkActivity(result, visited, target, name);
+//					} else {
+//						continue;
+//					}
+//				}
 			}
 			
 		}

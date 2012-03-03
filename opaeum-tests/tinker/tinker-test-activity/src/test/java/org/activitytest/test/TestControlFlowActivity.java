@@ -3,6 +3,8 @@ package org.activitytest.test;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.activitytest.Address;
+import org.activitytest.AddressType;
 import org.activitytest.Customer;
 import org.activitytest.Root;
 import org.activitytest.customer.SendEmailActivity;
@@ -25,6 +27,12 @@ public class TestControlFlowActivity extends BaseLocalDbTest {
 		root.setName("THEROOT");
 		Customer customer = new Customer(root);
 		customer.setName("customer1");
+		Address homeAddress = new Address(customer);
+		homeAddress.setAddressType(AddressType.HOME);
+		homeAddress.setName("homeAddress1");
+		Address workAddress = new Address(customer);
+		workAddress.setAddressType(AddressType.WORK);
+		workAddress.setName("workAddress1");
 		SendEmailActivity sendEmailActivityProcess = customer.getClassifierBehavior();
 		db.stopTransaction(Conclusion.SUCCESS);
 //		Root + Customer + homeAddress + workAddress + Activity nodes + 1 Control token

@@ -260,7 +260,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		owner.addToOperations(getter);
 	}
-	protected void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
+	public void implementAttributeFully(INakedClassifier umlOwner,NakedStructuralFeatureMap map){
 		INakedProperty p = map.getProperty();
 		OJAnnotatedClass owner = findJavaClass(umlOwner);
 		OJAnnotatedField field = null;

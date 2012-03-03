@@ -22,8 +22,8 @@ public abstract class InActivityParameterNode<O> extends ActivityParameterNode<O
 	}
 
 	@Override
-	protected List<ActivityEdge<ObjectToken<O>>> getInFlows() {
-		return Collections.<ActivityEdge<ObjectToken<O>>>emptyList();
+	protected List<ObjectFlow<O>> getInFlows() {
+		return Collections.emptyList();
 	}
 	
 	@Override

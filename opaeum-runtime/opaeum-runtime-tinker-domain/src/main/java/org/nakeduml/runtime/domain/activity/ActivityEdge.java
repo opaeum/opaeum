@@ -13,7 +13,7 @@ import com.tinkerpop.pipes.AbstractPipe;
 public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Boolean> {
 
 	protected Edge edge;
-	private List<Token> controlTokens = new ArrayList<Token>();
+	private List<T> tokens = new ArrayList<T>();
 
 	public ActivityEdge(Edge edge) {
 		super();
@@ -24,16 +24,16 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 	protected Boolean processNextStart() throws NoSuchElementException {
 		// Take all tokens
 		while (starts.hasNext()) {
-			T controlToken = this.starts.next();
-			if (evaluateGuardConditions(controlToken)) {
-				this.controlTokens.add(controlToken);
+			T token = this.starts.next();
+			if (evaluateGuardConditions(token)) {
+				this.tokens.add(token);
 			} else {
-				GraphDb.getDb().removeVertex(controlToken.getVertex());
+				GraphDb.getDb().removeVertex(token.getVertex());
 			}
 		}
 		if (hasWeightPassed()) {
-			ActivityNode<Token> target = getTarget();
-			target.setStarts(this.controlTokens);
+			ActivityNode<T> target = getTarget();
+			target.setStarts(this.tokens);
 			return target.next();
 		} else {
 			return false;
@@ -51,7 +51,7 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 	protected abstract int getWeigth();
 
 	protected boolean hasWeightPassed() {
-		return getWeigth() <= this.controlTokens.size();
+		return getWeigth() <= this.tokens.size();
 	}
 	
 }

@@ -1,6 +1,7 @@
 package org.nakeduml.runtime.domain.activity;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,12 +26,12 @@ public abstract class OpaqueAction<R> extends Action {
 		super.execute();
 		// Place the result of the body expression on the output pin
 		OutputPin<R> resultPin = getResultPin();
-		if (resultPin != null && resultPin.mayAcceptToken()) {
-			resultPin.addIncomingToken(new ObjectToken<R>(resultPin.getName(), getBodyExpression()));
+		if (resultPin != null) {
+			resultPin.addIncomingToken(new ObjectTokenInterator<R>(resultPin.getName(), getBodyExpression().iterator()));
 		}
 	}
 
-	protected abstract R getBodyExpression();
+	protected abstract Collection<R> getBodyExpression();
 
 	@Override
 	protected List<? extends OutputPin<?>> getOutputPins() {

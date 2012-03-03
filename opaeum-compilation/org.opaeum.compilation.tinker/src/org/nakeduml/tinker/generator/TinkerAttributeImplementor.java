@@ -13,6 +13,7 @@ import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJSimpleStatement;
 import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
@@ -54,6 +55,10 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	public static final String EMBEDDED_MANY_RESULT_IFNOTNULL = "embeddedManyResultifNotNull";
 	public static final String EMBEDDED_MANY_PROPERTY_RESULT = "embeddedManyPropertyResult";
 	public static final String ITER_HAS_NEXT = "ITER_HAS_NEXT";
+
+	public void setJavaModel(OJWorkspace javaModel) {
+		this.javaModel = javaModel;
+	}
 
 	@Override
 	protected OJOperation buildAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
@@ -103,7 +108,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	 * Tinker uses TinkerSet and TinkerList that are initiated in constructors
 	 */
 	@Override
-	protected OJAnnotatedField buildField(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
+	public OJAnnotatedField buildField(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		OJAnnotatedField field = super.buildField(owner, map);
 		if (map.isMany()) {
 			OJPathName fieldType;

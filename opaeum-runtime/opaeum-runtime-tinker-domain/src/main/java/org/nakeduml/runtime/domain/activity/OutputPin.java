@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.nakeduml.tinker.runtime.GraphDb;
-
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class OutputPin<O> extends ObjectNode<O> {
@@ -63,9 +61,7 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 			flowResult.add(flow.processNextStart());
 		}
 
-		// TODO Start transaction
 		setNodeStatus(NodeStatus.COMPLETE);
-		// TODO End transaction
 		boolean result = true;
 		for (Boolean b : flowResult) {
 			if (!b) {
@@ -84,14 +80,13 @@ public abstract class OutputPin<O> extends ObjectNode<O> {
 		return getOutTokens().size() >= getUpperMultiplicity();
 	}
 
-	// TODO think about upper
 	@Override
 	protected boolean mayContinue() {
 		return isLowerMultiplicityReached();
 	}
 	
 	@Override
-	protected List<? extends ActivityEdge<ObjectToken<O>>> getInFlows() {
+	protected List<ObjectFlow<O>> getInFlows() {
 		return Collections.emptyList();
 	}
 

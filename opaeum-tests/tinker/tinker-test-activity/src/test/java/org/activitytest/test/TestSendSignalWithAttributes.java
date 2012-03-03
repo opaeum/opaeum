@@ -2,6 +2,8 @@ package org.activitytest.test;
 
 import junit.framework.Assert;
 
+import org.activitytest.Address;
+import org.activitytest.AddressType;
 import org.activitytest.Customer;
 import org.activitytest.Root;
 import org.activitytest.customer.TestReceiveSignalWithAttributesActivity;
@@ -25,6 +27,12 @@ public class TestSendSignalWithAttributes extends BaseLocalDbTest  {
 		root.setName("THEROOT");
 		Customer customer = new Customer(root);
 		customer.setName("customer1");
+		Address homeAddress = new Address(customer);
+		homeAddress.setAddressType(AddressType.HOME);
+		homeAddress.setName("homeAddress1");
+		Address workAddress = new Address(customer);
+		workAddress.setAddressType(AddressType.WORK);
+		workAddress.setName("workAddress1");
 		customer.getHomeAddress().setName("homeAddress1");
 		db.stopTransaction(Conclusion.SUCCESS);
 		
@@ -38,7 +46,8 @@ public class TestSendSignalWithAttributes extends BaseLocalDbTest  {
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
 
-		//+ 3 for TestSendSignalActivity Actions + 1 for Activity + 5 for TestReceiveSignalActivity Actions + 1 for Activity
+		//Comment out deletion of activity for these test to pass!!!!!!!!!!!!!!!!!!!!
+		//+ 3 for TestSendSignalActivity Actions + 1 for Activity + 5 for TestReceiveSignalActivity Actions + 1 for Activity -1 as activity gets deleted
 		Assert.assertEquals(31, countVertices());
 
 		Assert.assertEquals(1, customer.getTestSendSignalWithAttributesActivity().size());

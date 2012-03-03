@@ -48,6 +48,8 @@ public class TinkerBehaviorUtil {
 	public static OJPathName tinkerAcceptEventAction = new OJPathName("org.nakeduml.runtime.domain.activity.AcceptEventAction");
 	public static OJPathName tinkerSendSignalAction = new OJPathName("org.nakeduml.runtime.domain.activity.SendSignalAction");
 	public static OJPathName tinkerSignalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
+	public static OJPathName tinkerObjectTokenInteratorPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectTokenInterator");
+	
 	
 	public static String edgeGetter(INakedActivityEdge edge) {
 		return "get" + NameConverter.capitalize(edge.getName());
@@ -81,9 +83,6 @@ public class TinkerBehaviorUtil {
 	}
 	public static String inputPinGetter(INakedInputPin inputPin) {
 		return "get" + NameConverter.capitalize(inputPin.getName()) + "InputPin";
-	}
-	public static String inputPinVariableName(INakedInputPin inputPin) {
-		return inputPin.getName();
 	}
 	
 }

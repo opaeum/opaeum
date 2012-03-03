@@ -49,7 +49,7 @@ public abstract class InputPin<O> extends ObjectNode<O> {
 	}
 	
 	@Override
-	protected List<? extends ActivityEdge<ObjectToken<O>>> getOutFlows() {
+	protected List<ObjectFlow<O>> getOutFlows() {
 		return Collections.emptyList();
 	}
 	

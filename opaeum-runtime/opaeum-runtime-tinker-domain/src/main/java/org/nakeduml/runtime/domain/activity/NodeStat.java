@@ -24,5 +24,10 @@ public class NodeStat {
 	public void increment() {
 		this.vertex.setProperty("executeCount", getExecuteCount() + 1);
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("NodeStat execute count = %d", getExecuteCount());
+	}
 
 }

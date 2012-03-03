@@ -34,8 +34,12 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		
 		for (INakedParameter param : oper.getOwnedParameters()) {
 			if (param.getDirection() == ParameterDirectionKind.IN || param.getDirection() == ParameterDirectionKind.INOUT) {
-				OJParameter ojParameter = new OJParameter(param.getName(), OJUtil.classifierPathname(param.getNakedBaseType()));
-				operation.addToParameters(ojParameter);
+				OJParameter p = new OJParameter();
+				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
+				p.setName(pMap.fieldname());
+				p.setType(pMap.javaTypePath());
+				operation.addToParameters(p);
+				operation.getOwner().addToImports(pMap.javaTypePath());
 			}
 		}
 		
@@ -47,16 +51,19 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			if (method.getArgumentParameters().size() != oper.getOwnedParameters().size()) {
 				throw new IllegalStateException("Operation parameters and behavior parameters do not match up");
 			}
-			int count = 0;
-			for (INakedParameter param : method.getArgumentParameters()) {
-				if (param.getDirection() == ParameterDirectionKind.IN || param.getDirection() == ParameterDirectionKind.INOUT) {
-					operation.getBody().addToStatements(NameConverter.decapitalize(method.getName())+ ".set" + NameConverter.capitalize(param.getName()) + "(" + oper.getOwnedParameters().get(count).getName() + ")");
+			String executeParams = "";
+			boolean first = true;
+			for (INakedParameter param : oper.getArgumentParameters()) {
+				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
+				if (!first) {
+					executeParams += ", ";
+					first = false;
 				}
-				count++;
+				executeParams += pMap.fieldname();
 			}
-			operation.getBody().addToStatements(NameConverter.decapitalize(method.getName()) + ".execute()");
-			OJIfStatement ifFinished = new OJIfStatement("!" + NameConverter.decapitalize(method.getName()) + ".isFinished()");
-			ifFinished.addToThenPart(compositeMap.adder() + "(" + NameConverter.decapitalize(method.getName()) + ")");
+			operation.getBody().addToStatements(NameConverter.decapitalize(method.getName()) + ".execute("+executeParams+")");
+			OJIfStatement ifFinished = new OJIfStatement(NameConverter.decapitalize(method.getName()) + ".isFinished()");
+			ifFinished.addToThenPart(NameConverter.decapitalize(method.getName()) + ".markDeleted()");
 			operation.getBody().addToStatements(ifFinished);
 		}
 	}

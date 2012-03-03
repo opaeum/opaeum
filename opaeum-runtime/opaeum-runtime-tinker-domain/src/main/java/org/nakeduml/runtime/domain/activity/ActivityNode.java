@@ -37,13 +37,15 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 	
 	protected abstract boolean mayContinue();
 	protected abstract boolean mayAcceptToken();
+	protected abstract Boolean executeNode();
 	protected abstract List<? extends ActivityEdge<?>> getInFlows();
 	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
 	public abstract List<? extends Token> getInTokens();
 	public abstract List<?> getInTokens(String inFlowName);
 	public abstract List<?> getOutTokens();
 	public abstract List<?> getOutTokens(String outFlowName);
-	
+	protected abstract BaseTinkerSoftDelete getContextObject();
+
 	public Vertex getVertex() {
 		return vertex;
 	}
@@ -67,8 +69,6 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 		}
 	}
 
-	protected abstract Boolean executeNode();
-
 	public NodeStatus getNodeStatus() {
 		return (NodeStatus) org.util.TinkerUtil.convertEnumFromPersistence(NodeStatus.class, (String) this.vertex.getProperty("nodeStatus"));
 	}
@@ -86,8 +86,6 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 		Edge edge = GraphDb.getDb().addEdge(null, this.vertex, token.getVertex(), Token.TOKEN + token.getEdgeName());
 		edge.setProperty("outClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
 	}
-
-//	protected abstract void removeIncomingTokens();
 
 	protected boolean doAllIncomingFlowsHaveTokens() {
 		for (ActivityEdge<?> flow : getInFlows()) {
@@ -125,6 +123,11 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 		return getNodeStatus() == NodeStatus.INACTIVE;
 	}
 
-	protected abstract BaseTinkerSoftDelete getContextObject();
-
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.append("\n");
+		sb.append(this.nodeStat.toString());
+		return sb.toString();
+	}
 }

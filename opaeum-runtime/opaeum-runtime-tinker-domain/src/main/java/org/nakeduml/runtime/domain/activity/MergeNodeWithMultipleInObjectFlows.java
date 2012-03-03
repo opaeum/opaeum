@@ -6,22 +6,23 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class MergeNodeObjectToken<O> extends MergeNode<ObjectToken<O>> {
 
-	public MergeNodeObjectToken() {
+public abstract class MergeNodeWithMultipleInObjectFlows extends MergeNode<ObjectToken<?>> {
+
+	public MergeNodeWithMultipleInObjectFlows() {
 		super();
 	}
 
-	public MergeNodeObjectToken(boolean persist, String name) {
+	public MergeNodeWithMultipleInObjectFlows(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	public MergeNodeObjectToken(Vertex vertex) {
+	public MergeNodeWithMultipleInObjectFlows(Vertex vertex) {
 		super(vertex);
 	}
-
+	
 	@Override
-	protected abstract ObjectFlow<O> getOutFlow();
+	protected abstract ObjectFlow<?> getOutFlow();
 
 	@Override
 	protected abstract List<ObjectFlow<O>> getInFlows();
@@ -84,4 +85,6 @@ public abstract class MergeNodeObjectToken<O> extends MergeNode<ObjectToken<O>> 
 		}
 		return result;
 	}
+	
+
 }
