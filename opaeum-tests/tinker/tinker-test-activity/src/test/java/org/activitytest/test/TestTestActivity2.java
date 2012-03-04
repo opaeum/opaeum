@@ -41,5 +41,10 @@ public class TestTestActivity2 extends BaseLocalDbTest {
 		testActivity2.setWorkAddressParam(customer.getWorkAddress());
 		testActivity2.execute();
 		db.stopTransaction(Conclusion.SUCCESS);
+		
+		Assert.assertEquals(40, countVertices());
+		Assert.assertEquals(1, testActivity2.getNodeForName("OpaqueAction3").getNodeStat().getExecuteCount());
+		Assert.assertEquals(1, testActivity2.getNodeForName("OpaqueAction4").getNodeStat().getExecuteCount());
+		
 	}
 }

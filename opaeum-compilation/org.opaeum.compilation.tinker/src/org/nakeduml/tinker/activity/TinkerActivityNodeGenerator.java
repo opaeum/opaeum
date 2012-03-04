@@ -528,6 +528,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		controlFlowEdge.addToConstructors(edgeConstructor);
 
 		if (edge instanceof INakedObjectFlow) {
+			OJPathName objectTokenKnownPathName = null;
 			OJPathName superClass;
 			if (edge.getSource() instanceof INakedControlNode) {
 				
@@ -536,7 +537,7 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 				getObjectFlowPathName((INakedControlNode) edge.getSource(), c, mutableBoolean);
 				
 				if (!mutableBoolean.shouldExit()) {
-					OJPathName objectTokenKnownPathName = OJUtil.classifierPathname(c.get(0));
+					objectTokenKnownPathName = OJUtil.classifierPathname(c.get(0));
 					superClass = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
 					superClass.addToGenerics(objectTokenKnownPathName);
 					controlFlowEdge.addToImports(objectTokenKnownPathName);
@@ -545,25 +546,29 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 				}
 			} else {
 				INakedObjectNode originatingObjectNode = ((INakedObjectFlow) edge).getOriginatingObjectNode();
-				OJPathName genericPathname;
 				if (originatingObjectNode != null) {
 					superClass = TinkerBehaviorUtil.tinkerObjectFlowKnownPathName.getCopy();
-					genericPathname = OJUtil.classifierPathname(originatingObjectNode.getNakedBaseType());
-					superClass.addToGenerics(genericPathname);
-					controlFlowEdge.addToImports(genericPathname);
+					objectTokenKnownPathName = OJUtil.classifierPathname(originatingObjectNode.getNakedBaseType());
+					superClass.addToGenerics(objectTokenKnownPathName);
+					controlFlowEdge.addToImports(objectTokenKnownPathName);
 				} else {
 					superClass = TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName.getCopy();
 				}
 			}
 			controlFlowEdge.setSuperclass(superClass);
+			if (superClass.equals(TinkerBehaviorUtil.tinkerObjectFlowUnknownPathName)) {
+				addEvaluateGuardCondition(controlFlowEdge, (INakedObjectFlow)edge, new OJPathName("java.lang.Object"));		
+			} else {
+				addEvaluateGuardCondition(controlFlowEdge, (INakedObjectFlow)edge, objectTokenKnownPathName);		
+			}
 		} else {
 			controlFlowEdge.setSuperclass(TinkerBehaviorUtil.tinkerControlFlowPathName);
+			addEvaluateControlFlowGuardCondition(controlFlowEdge, edge);
 		}
 
 		super.createTextPath(controlFlowEdge, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 
 		addGetWeight(controlFlowEdge, edge);
-		addEvaluateGuardCondition(controlFlowEdge, edge);
 		addTarget(controlFlowEdge, edge);
 		addSource(controlFlowEdge, edge);
 		addName(controlFlowEdge, edge);
@@ -650,18 +655,26 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		controlFlowEdge.addToOperations(getTarget);
 	}
 
-	private void addEvaluateGuardCondition(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
+	private void addEvaluateGuardCondition(OJAnnotatedClass controlFlowEdge, INakedObjectFlow edge, OJPathName tokenValuePathName) {
 		OJAnnotatedOperation evaluateGuardConditions = new OJAnnotatedOperation("evaluateGuardConditions");
+		TinkerGenerationUtil.addOverrideAnnotation(evaluateGuardConditions);
 		evaluateGuardConditions.setReturnType(new OJPathName("boolean"));
 		controlFlowEdge.addToOperations(evaluateGuardConditions);
 		String guardEvaluation;
-		if (edge instanceof INakedObjectFlow) {
-			evaluateGuardConditions.addParam("token", TinkerBehaviorUtil.tinkerObjectTokenPathName);
-			guardEvaluation = ValueSpecificationUtil.expressValue(evaluateGuardConditions, edge.getGuard(), edge.getActivity() , new StdlibPrimitiveType("Boolean"));
-		} else {
-			evaluateGuardConditions.addParam("token", TinkerBehaviorUtil.tinkerControlTokenPathName);
-			guardEvaluation = ValueSpecificationUtil.expressValue(controlFlowEdge, edge.getGuard(), new StdlibPrimitiveType("Boolean"), false);
-		}
+		evaluateGuardConditions.addParam("tokenValue", tokenValuePathName);
+		guardEvaluation = ValueSpecificationUtil.expressValue(evaluateGuardConditions, edge.getGuard(), edge.getActivity() , new StdlibPrimitiveType("Boolean"));
+		evaluateGuardConditions.getBody().addToStatements("return " + guardEvaluation);
+		evaluateGuardConditions.setVisibility(OJVisibilityKind.PROTECTED);
+		evaluateGuardConditions.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
+	}
+
+	private void addEvaluateControlFlowGuardCondition(OJAnnotatedClass controlFlowEdge, INakedActivityEdge edge) {
+		OJAnnotatedOperation evaluateGuardConditions = new OJAnnotatedOperation("evaluateGuardConditions");
+		TinkerGenerationUtil.addOverrideAnnotation(evaluateGuardConditions);
+		evaluateGuardConditions.setReturnType(new OJPathName("boolean"));
+		controlFlowEdge.addToOperations(evaluateGuardConditions);
+		String guardEvaluation;
+		guardEvaluation = ValueSpecificationUtil.expressValue(controlFlowEdge, edge.getGuard(), new StdlibPrimitiveType("Boolean"), false);
 		evaluateGuardConditions.getBody().addToStatements("return " + guardEvaluation);
 		evaluateGuardConditions.setVisibility(OJVisibilityKind.PROTECTED);
 		evaluateGuardConditions.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));

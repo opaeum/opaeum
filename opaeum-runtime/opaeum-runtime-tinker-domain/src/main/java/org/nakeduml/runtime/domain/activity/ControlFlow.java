@@ -8,4 +8,10 @@ public abstract class ControlFlow extends ActivityEdge<ControlToken> {
 		super(edge);
 	}
 
+	protected abstract boolean evaluateGuardConditions();
+
+	@Override
+	protected boolean evaluateGuardConditions(ControlToken token) {
+		return evaluateGuardConditions();	
+	}	
 }

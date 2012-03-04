@@ -284,12 +284,14 @@
         </edge>
         <edge xmi:type="uml:ObjectFlow" xmi:id="_aAiR4GUbEeGfwPJWsJfZ8w" name="ObjectFlow6" source="_YLssoGUaEeGfwPJWsJfZ8w" target="_QPdZYGUbEeGfwPJWsJfZ8w">
           <guard xmi:type="uml:OpaqueExpression" xmi:id="_4Fs-wGVUEeG_ZfKT8PoZUg">
-            <body>token.name</body>
+            <body>tokenValue.addressType = AddressType::HOME</body>
           </guard>
           <weight xmi:type="uml:LiteralInteger" xmi:id="_aAiR4mUbEeGfwPJWsJfZ8w" value="1"/>
         </edge>
         <edge xmi:type="uml:ObjectFlow" xmi:id="_aSjO8GUbEeGfwPJWsJfZ8w" name="ObjectFlow7" source="_YLssoGUaEeGfwPJWsJfZ8w" target="_Wx3WcGUbEeGfwPJWsJfZ8w">
-          <guard xmi:type="uml:LiteralBoolean" xmi:id="_aSjO8WUbEeGfwPJWsJfZ8w" value="true"/>
+          <guard xmi:type="uml:OpaqueExpression" xmi:id="_i3C5gGYhEeGB_qBVwTLi3g">
+            <body>tokenValue.addressType = AddressType::WORK</body>
+          </guard>
           <weight xmi:type="uml:LiteralInteger" xmi:id="_aSjO8mUbEeGfwPJWsJfZ8w" value="1"/>
         </edge>
         <edge xmi:type="uml:ObjectFlow" xmi:id="_mKYYkGUbEeGfwPJWsJfZ8w" name="ObjectFlow8" source="_gHAg4GUbEeGfwPJWsJfZ8w" target="_d8gYMGUbEeGfwPJWsJfZ8w">

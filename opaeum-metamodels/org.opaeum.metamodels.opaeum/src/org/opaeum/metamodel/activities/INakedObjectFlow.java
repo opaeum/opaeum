@@ -1,5 +1,6 @@
 package org.opaeum.metamodel.activities;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.core.INakedClassifier;
 public interface INakedObjectFlow extends INakedActivityEdge {
 	INakedObjectNode getOriginatingObjectNode();
 	INakedBehavior getTransformation();
@@ -7,4 +8,5 @@ public interface INakedObjectFlow extends INakedActivityEdge {
 	void setSelection(INakedBehavior b);
 	INakedBehavior getSelection();
 	INakedObjectNode getFedObjectNode();
+	INakedClassifier getOriginatingObjectNodeClassifier();
 }

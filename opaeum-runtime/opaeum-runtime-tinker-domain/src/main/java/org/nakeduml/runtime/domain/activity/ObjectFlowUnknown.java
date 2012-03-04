@@ -7,6 +7,13 @@ public abstract class ObjectFlowUnknown extends ActivityEdge<ObjectToken<?>> {
 	public ObjectFlowUnknown(Edge edge) {
 		super(edge);
 	}
+	
+	protected abstract boolean evaluateGuardConditions(Object tokenValue);
+
+	@Override
+	protected boolean evaluateGuardConditions(ObjectToken<?> token) {
+		return evaluateGuardConditions(token.getObject());	
+	}	
 
 	public <T> ObjectFlowKnown<T> convertToKnown() {
 		return new ObjectFlowKnown<T>(ObjectFlowUnknown.this.edge) {
@@ -31,6 +38,11 @@ public abstract class ObjectFlowUnknown extends ActivityEdge<ObjectToken<?>> {
 			@Override
 			protected boolean evaluateGuardConditions(ObjectToken<T> token) {
 				return ObjectFlowUnknown.this.evaluateGuardConditions(token);
+			}
+			
+			@Override
+			protected boolean evaluateGuardConditions(T tokenValue) {
+				return true;
 			}
 
 			@Override

@@ -248,6 +248,15 @@ public class EnvironmentFactory{
 			}
 		}
 	}
+	
+	public void addObjectTokenParameter(Environment env,INakedObjectFlow edge){
+		INakedObjectFlow objectFlow = edge;
+		INakedClassifier c = objectFlow.getOriginatingObjectNodeClassifier();
+		if(c != null){
+			env.addElement("tokenValue", new VariableDeclaration("tokenValue", c), false);
+		}
+	}
+	
 	public void addFlowParameters(Environment env,INakedTransition t){
 		addTypedElementsAsParameters(env, t.getParameters());
 	}
