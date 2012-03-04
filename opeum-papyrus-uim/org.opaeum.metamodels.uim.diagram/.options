@@ -1,0 +1,7 @@
+# Tracing options for the org.opaeum.metamodels.uim.diagram plug-in
+
+# Common issues
+org.opaeum.metamodels.uim.diagram/debug=false
+
+# Visual IDs
+org.opaeum.metamodels.uim.diagram/debug/visualID=false

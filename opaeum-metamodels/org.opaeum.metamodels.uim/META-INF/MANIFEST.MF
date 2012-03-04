@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: org.opaeum.metamodels.uim
-Bundle-SymbolicName: org.opaeum.metamodels.uim;singleton:=true
+Bundle-Name: org.opaeum.metamodels.uim.old
+Bundle-SymbolicName: org.opaeum.metamodels.uim.old;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Opaeum

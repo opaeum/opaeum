@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension
+         point="org.eclipse.core.runtime.applications"
+         id="UimEditorAdvisorApplication">
+      <application>
+         <run class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$Application"/>
+      </application>
+   </extension>
+
+   <extension point="org.eclipse.ui.perspectives">
+      <perspective
+            name="%_UI_Perspective_label"
+            class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$Perspective"
+            id="org.opaeum.uimodeler.presentation.UimEditorAdvisorPerspective">
+      </perspective>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <command
+            name="%_UI_Menu_OpenURI_label"
+            description="%_UI_Menu_OpenURI_description"
+            categoryId="org.eclipse.ui.category.file"
+            id="org.opaeum.uimodeler.presentation.UimEditorAdvisorOpenURICommand"/>
+   </extension>
+
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_UimEditorAdvisor_ActionSet_label"
+            visible="true"
+            id="UimEditorAdvisorActionSet">
+         <action
+               label="%_UI_Menu_About_label"
+               class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$AboutAction"
+               menubarPath="help/additions"
+               id="org.opaeum.uimodeler.presentation.UimEditorAdvisorAboutAction"/>
+         <action
+               label="%_UI_Menu_OpenURI_label"
+               definitionId="org.opaeum.uimodeler.presentation.UimEditorAdvisorOpenURICommand"
+               class="org.opaeum.uimodeler.presentation.UimEditorAdvisor$OpenURIAction"
+               menubarPath="file/additions"
+               id="org.opaeum.uimodeler.presentation.UimEditorAdvisorOpenURIAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_UimModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.presentation.UimActionBarContributorActionSet">
+         <action
+               label="%_UI_UimModelWizard_label"
+               class="org.opaeum.uim.presentation.UimActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.presentation.UimActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.presentation.UimEditorID"
+            name="%_UI_UimEditor_label"
+            icon="icons/full/obj16/UimModelFile.gif"
+            extensions="uim"
+            class="org.opaeum.uim.presentation.UimEditor"
+            contributorClass="org.opaeum.uim.presentation.UimActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_ControlModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.control.presentation.ControlActionBarContributorActionSet">
+         <action
+               label="%_UI_ControlModelWizard_label"
+               class="org.opaeum.uim.control.presentation.ControlActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.control.presentation.ControlActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.control.presentation.ControlEditorID"
+            name="%_UI_ControlEditor_label"
+            icon="icons/full/obj16/ControlModelFile.gif"
+            extensions="control"
+            class="org.opaeum.uim.control.presentation.ControlEditor"
+            contributorClass="org.opaeum.uim.control.presentation.ControlActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_EditorModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.editor.presentation.EditorActionBarContributorActionSet">
+         <action
+               label="%_UI_EditorModelWizard_label"
+               class="org.opaeum.uim.editor.presentation.EditorActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.editor.presentation.EditorActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.editor.presentation.EditorEditorID"
+            name="%_UI_EditorEditor_label"
+            icon="icons/full/obj16/EditorModelFile.gif"
+            extensions="editor"
+            class="org.opaeum.uim.editor.presentation.EditorEditor"
+            contributorClass="org.opaeum.uim.editor.presentation.EditorActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_BindingModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.binding.presentation.BindingActionBarContributorActionSet">
+         <action
+               label="%_UI_BindingModelWizard_label"
+               class="org.opaeum.uim.binding.presentation.BindingActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.binding.presentation.BindingActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.binding.presentation.BindingEditorID"
+            name="%_UI_BindingEditor_label"
+            icon="icons/full/obj16/BindingModelFile.gif"
+            extensions="binding"
+            class="org.opaeum.uim.binding.presentation.BindingEditor"
+            contributorClass="org.opaeum.uim.binding.presentation.BindingActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_ConstraintModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributorActionSet">
+         <action
+               label="%_UI_ConstraintModelWizard_label"
+               class="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.constraint.presentation.ConstraintEditorID"
+            name="%_UI_ConstraintEditor_label"
+            icon="icons/full/obj16/ConstraintModelFile.gif"
+            extensions="constraint"
+            class="org.opaeum.uim.constraint.presentation.ConstraintEditor"
+            contributorClass="org.opaeum.uim.constraint.presentation.ConstraintActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_ActionModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.action.presentation.ActionActionBarContributorActionSet">
+         <action
+               label="%_UI_ActionModelWizard_label"
+               class="org.opaeum.uim.action.presentation.ActionActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.action.presentation.ActionActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.action.presentation.ActionEditorID"
+            name="%_UI_ActionEditor_label"
+            icon="icons/full/obj16/ActionModelFile.gif"
+            extensions="action"
+            class="org.opaeum.uim.action.presentation.ActionEditor"
+            contributorClass="org.opaeum.uim.action.presentation.ActionActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_PanelModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.panel.presentation.PanelActionBarContributorActionSet">
+         <action
+               label="%_UI_PanelModelWizard_label"
+               class="org.opaeum.uim.panel.presentation.PanelActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.panel.presentation.PanelActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.panel.presentation.PanelEditorID"
+            name="%_UI_PanelEditor_label"
+            icon="icons/full/obj16/PanelModelFile.gif"
+            extensions="panel"
+            class="org.opaeum.uim.panel.presentation.PanelEditor"
+            contributorClass="org.opaeum.uim.panel.presentation.PanelActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_WizardModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.wizard.presentation.WizardActionBarContributorActionSet">
+         <action
+               label="%_UI_WizardModelWizard_label"
+               class="org.opaeum.uim.wizard.presentation.WizardActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.wizard.presentation.WizardActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.wizard.presentation.WizardEditorID"
+            name="%_UI_WizardEditor_label"
+            icon="icons/full/obj16/WizardModelFile.gif"
+            extensions="wizard"
+            class="org.opaeum.uim.wizard.presentation.WizardEditor"
+            contributorClass="org.opaeum.uim.wizard.presentation.WizardActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="%_UI_PerspectiveModelWizard_ActionSet_label"
+            visible="true"
+            id="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributorActionSet">
+         <action
+               label="%_UI_PerspectiveModelWizard_label"
+               class="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributor$NewAction"
+               menubarPath="file/new/additions"
+               id="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributorNewAction"/>
+      </actionSet>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.opaeum.uim.perspective.presentation.PerspectiveEditorID"
+            name="%_UI_PerspectiveEditor_label"
+            icon="icons/full/obj16/PerspectiveModelFile.gif"
+            extensions="perspective"
+            class="org.opaeum.uim.perspective.presentation.PerspectiveEditor"
+            contributorClass="org.opaeum.uim.perspective.presentation.PerspectiveActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

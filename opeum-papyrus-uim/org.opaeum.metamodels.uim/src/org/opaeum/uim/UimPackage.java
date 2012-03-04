@@ -1,0 +1,998 @@
+/**
+ */
+package org.opaeum.uim;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.opaeum.uim.constraint.ConstraintPackage;
+
+/**
+ * <!-- begin-user-doc -->
+ * The <b>Package</b> for the model.
+ * It contains accessors for the meta objects to represent
+ * <ul>
+ *   <li>each class,</li>
+ *   <li>each feature of each class,</li>
+ *   <li>each enum,</li>
+ *   <li>and each data type</li>
+ * </ul>
+ * <!-- end-user-doc -->
+ * @see org.opaeum.uim.UimFactory
+ * @model kind="package"
+ * @generated
+ */
+public interface UimPackage extends EPackage {
+	/**
+	 * The package name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String eNAME = "uim";
+
+	/**
+	 * The package namespace URI.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String eNS_URI = "http://opaeum.org/uimetamodel/1.0";
+
+	/**
+	 * The package namespace name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String eNS_PREFIX = "uim";
+
+	/**
+	 * The singleton instance of the package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	UimPackage eINSTANCE = org.opaeum.uim.impl.UimPackageImpl.init();
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimFieldImpl <em>Field</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UimFieldImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimField()
+	 * @generated
+	 */
+	int UIM_FIELD = 0;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__VISIBILITY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__EDITABILITY = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__NAME = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Control</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__CONTROL = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Control Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__CONTROL_KIND = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Label Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__MINIMUM_LABEL_WIDTH = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__BINDING = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Orientation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__ORIENTATION = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Label Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD__MIMUM_LABEL_HEIGHT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of structural features of the '<em>Field</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_FIELD_FEATURE_COUNT = ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT_FEATURE_COUNT + 7;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UserInteractionElementImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUserInteractionElement()
+	 * @generated
+	 */
+	int USER_INTERACTION_ELEMENT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERACTION_ELEMENT__NAME = 0;
+
+	/**
+	 * The number of structural features of the '<em>User Interaction Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERACTION_ELEMENT_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UimComponentImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimComponent()
+	 * @generated
+	 */
+	int UIM_COMPONENT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_COMPONENT__NAME = USER_INTERACTION_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_COMPONENT__VISIBILITY = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_COMPONENT_FEATURE_COUNT = USER_INTERACTION_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.MasterComponent
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getMasterComponent()
+	 * @generated
+	 */
+	int MASTER_COMPONENT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Detail Panels</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MASTER_COMPONENT__DETAIL_PANELS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Master Component</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MASTER_COMPONENT_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UimDataTableImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimDataTable()
+	 * @generated
+	 */
+	int UIM_DATA_TABLE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Detail Panels</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATA_TABLE__DETAIL_PANELS = MASTER_COMPONENT__DETAIL_PANELS;
+
+	/**
+	 * The feature id for the '<em><b>Binding</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATA_TABLE__BINDING = MASTER_COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Data Table</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATA_TABLE_FEATURE_COUNT = MASTER_COMPONENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UimContainerImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUimContainer()
+	 * @generated
+	 */
+	int UIM_CONTAINER = 4;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER__NAME = UIM_COMPONENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER__VISIBILITY = UIM_COMPONENT__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER__EDITABILITY = UIM_COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER__CHILDREN = UIM_COMPONENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTAINER_FEATURE_COUNT = UIM_COMPONENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UmlReferenceImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUmlReference()
+	 * @generated
+	 */
+	int UML_REFERENCE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UML_REFERENCE__UML_ELEMENT_UID = 0;
+
+	/**
+	 * The number of structural features of the '<em>Uml Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UML_REFERENCE_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.ObjectSelectorTreeImpl <em>Object Selector Tree</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.ObjectSelectorTreeImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getObjectSelectorTree()
+	 * @generated
+	 */
+	int OBJECT_SELECTOR_TREE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Detail Panels</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_SELECTOR_TREE__DETAIL_PANELS = MASTER_COMPONENT__DETAIL_PANELS;
+
+	/**
+	 * The number of structural features of the '<em>Object Selector Tree</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_SELECTOR_TREE_FEATURE_COUNT = MASTER_COMPONENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.DetailPanelImpl <em>Detail Panel</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.DetailPanelImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getDetailPanel()
+	 * @generated
+	 */
+	int DETAIL_PANEL = 8;
+
+	/**
+	 * The feature id for the '<em><b>Master Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL_PANEL__MASTER_COMPONENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL_PANEL__PANEL = 1;
+
+	/**
+	 * The number of structural features of the '<em>Detail Panel</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL_PANEL_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.UserInterfaceEntryPointImpl <em>User Interface Entry Point</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.UserInterfaceEntryPointImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getUserInterfaceEntryPoint()
+	 * @generated
+	 */
+	int USER_INTERFACE_ENTRY_POINT = 9;
+
+	/**
+	 * The number of structural features of the '<em>User Interface Entry Point</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USER_INTERFACE_ENTRY_POINT_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.PageImpl <em>Page</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.PageImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getPage()
+	 * @generated
+	 */
+	int PAGE = 10;
+
+	/**
+	 * The number of structural features of the '<em>Page</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_FEATURE_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.Orientation <em>Orientation</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.Orientation
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getOrientation()
+	 * @generated
+	 */
+	int ORIENTATION = 11;
+
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimField <em>Field</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Field</em>'.
+	 * @see org.opaeum.uim.UimField
+	 * @generated
+	 */
+	EClass getUimField();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.UimField#getControl <em>Control</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Control</em>'.
+	 * @see org.opaeum.uim.UimField#getControl()
+	 * @see #getUimField()
+	 * @generated
+	 */
+	EReference getUimField_Control();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimField#getControlKind <em>Control Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Control Kind</em>'.
+	 * @see org.opaeum.uim.UimField#getControlKind()
+	 * @see #getUimField()
+	 * @generated
+	 */
+	EAttribute getUimField_ControlKind();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimField#getMinimumLabelWidth <em>Minimum Label Width</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Minimum Label Width</em>'.
+	 * @see org.opaeum.uim.UimField#getMinimumLabelWidth()
+	 * @see #getUimField()
+	 * @generated
+	 */
+	EAttribute getUimField_MinimumLabelWidth();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.UimField#getBinding <em>Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Binding</em>'.
+	 * @see org.opaeum.uim.UimField#getBinding()
+	 * @see #getUimField()
+	 * @generated
+	 */
+	EReference getUimField_Binding();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimField#getOrientation <em>Orientation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Orientation</em>'.
+	 * @see org.opaeum.uim.UimField#getOrientation()
+	 * @see #getUimField()
+	 * @generated
+	 */
+	EAttribute getUimField_Orientation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UimField#getMimumLabelHeight <em>Mimum Label Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Mimum Label Height</em>'.
+	 * @see org.opaeum.uim.UimField#getMimumLabelHeight()
+	 * @see #getUimField()
+	 * @generated
+	 */
+	EAttribute getUimField_MimumLabelHeight();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimComponent <em>Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Component</em>'.
+	 * @see org.opaeum.uim.UimComponent
+	 * @generated
+	 */
+	EClass getUimComponent();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>User Interaction Element</em>'.
+	 * @see org.opaeum.uim.UserInteractionElement
+	 * @generated
+	 */
+	EClass getUserInteractionElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UserInteractionElement#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.opaeum.uim.UserInteractionElement#getName()
+	 * @see #getUserInteractionElement()
+	 * @generated
+	 */
+	EAttribute getUserInteractionElement_Name();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimDataTable <em>Data Table</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Data Table</em>'.
+	 * @see org.opaeum.uim.UimDataTable
+	 * @generated
+	 */
+	EClass getUimDataTable();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.UimDataTable#getBinding <em>Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Binding</em>'.
+	 * @see org.opaeum.uim.UimDataTable#getBinding()
+	 * @see #getUimDataTable()
+	 * @generated
+	 */
+	EReference getUimDataTable_Binding();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UimContainer <em>Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Container</em>'.
+	 * @see org.opaeum.uim.UimContainer
+	 * @generated
+	 */
+	EClass getUimContainer();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.UimContainer#getChildren <em>Children</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Children</em>'.
+	 * @see org.opaeum.uim.UimContainer#getChildren()
+	 * @see #getUimContainer()
+	 * @generated
+	 */
+	EReference getUimContainer_Children();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Master Component</em>'.
+	 * @see org.opaeum.uim.MasterComponent
+	 * @generated
+	 */
+	EClass getMasterComponent();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.opaeum.uim.MasterComponent#getDetailPanels <em>Detail Panels</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Detail Panels</em>'.
+	 * @see org.opaeum.uim.MasterComponent#getDetailPanels()
+	 * @see #getMasterComponent()
+	 * @generated
+	 */
+	EReference getMasterComponent_DetailPanels();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UmlReference <em>Uml Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uml Reference</em>'.
+	 * @see org.opaeum.uim.UmlReference
+	 * @generated
+	 */
+	EClass getUmlReference();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.UmlReference#getUmlElementUid <em>Uml Element Uid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uml Element Uid</em>'.
+	 * @see org.opaeum.uim.UmlReference#getUmlElementUid()
+	 * @see #getUmlReference()
+	 * @generated
+	 */
+	EAttribute getUmlReference_UmlElementUid();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.ObjectSelectorTree <em>Object Selector Tree</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Object Selector Tree</em>'.
+	 * @see org.opaeum.uim.ObjectSelectorTree
+	 * @generated
+	 */
+	EClass getObjectSelectorTree();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.DetailPanel <em>Detail Panel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Detail Panel</em>'.
+	 * @see org.opaeum.uim.DetailPanel
+	 * @generated
+	 */
+	EClass getDetailPanel();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.DetailPanel#getMasterComponent <em>Master Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Master Component</em>'.
+	 * @see org.opaeum.uim.DetailPanel#getMasterComponent()
+	 * @see #getDetailPanel()
+	 * @generated
+	 */
+	EReference getDetailPanel_MasterComponent();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.DetailPanel#getPanel <em>Panel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Panel</em>'.
+	 * @see org.opaeum.uim.DetailPanel#getPanel()
+	 * @see #getDetailPanel()
+	 * @generated
+	 */
+	EReference getDetailPanel_Panel();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.UserInterfaceEntryPoint <em>User Interface Entry Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>User Interface Entry Point</em>'.
+	 * @see org.opaeum.uim.UserInterfaceEntryPoint
+	 * @generated
+	 */
+	EClass getUserInterfaceEntryPoint();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.Page <em>Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Page</em>'.
+	 * @see org.opaeum.uim.Page
+	 * @generated
+	 */
+	EClass getPage();
+
+	/**
+	 * Returns the meta object for enum '{@link org.opaeum.uim.Orientation <em>Orientation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Orientation</em>'.
+	 * @see org.opaeum.uim.Orientation
+	 * @generated
+	 */
+	EEnum getOrientation();
+
+	/**
+	 * Returns the factory that creates the instances of the model.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the factory that creates the instances of the model.
+	 * @generated
+	 */
+	UimFactory getUimFactory();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimFieldImpl <em>Field</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UimFieldImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimField()
+		 * @generated
+		 */
+		EClass UIM_FIELD = eINSTANCE.getUimField();
+
+		/**
+		 * The meta object literal for the '<em><b>Control</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_FIELD__CONTROL = eINSTANCE.getUimField_Control();
+
+		/**
+		 * The meta object literal for the '<em><b>Control Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UIM_FIELD__CONTROL_KIND = eINSTANCE.getUimField_ControlKind();
+
+		/**
+		 * The meta object literal for the '<em><b>Minimum Label Width</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UIM_FIELD__MINIMUM_LABEL_WIDTH = eINSTANCE.getUimField_MinimumLabelWidth();
+
+		/**
+		 * The meta object literal for the '<em><b>Binding</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_FIELD__BINDING = eINSTANCE.getUimField_Binding();
+
+		/**
+		 * The meta object literal for the '<em><b>Orientation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UIM_FIELD__ORIENTATION = eINSTANCE.getUimField_Orientation();
+
+		/**
+		 * The meta object literal for the '<em><b>Mimum Label Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UIM_FIELD__MIMUM_LABEL_HEIGHT = eINSTANCE.getUimField_MimumLabelHeight();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimComponentImpl <em>Component</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UimComponentImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimComponent()
+		 * @generated
+		 */
+		EClass UIM_COMPONENT = eINSTANCE.getUimComponent();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UserInteractionElementImpl <em>User Interaction Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UserInteractionElementImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUserInteractionElement()
+		 * @generated
+		 */
+		EClass USER_INTERACTION_ELEMENT = eINSTANCE.getUserInteractionElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute USER_INTERACTION_ELEMENT__NAME = eINSTANCE.getUserInteractionElement_Name();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimDataTableImpl <em>Data Table</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UimDataTableImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimDataTable()
+		 * @generated
+		 */
+		EClass UIM_DATA_TABLE = eINSTANCE.getUimDataTable();
+
+		/**
+		 * The meta object literal for the '<em><b>Binding</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_DATA_TABLE__BINDING = eINSTANCE.getUimDataTable_Binding();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UimContainerImpl <em>Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UimContainerImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUimContainer()
+		 * @generated
+		 */
+		EClass UIM_CONTAINER = eINSTANCE.getUimContainer();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_CONTAINER__CHILDREN = eINSTANCE.getUimContainer_Children();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.MasterComponent <em>Master Component</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.MasterComponent
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getMasterComponent()
+		 * @generated
+		 */
+		EClass MASTER_COMPONENT = eINSTANCE.getMasterComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Detail Panels</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MASTER_COMPONENT__DETAIL_PANELS = eINSTANCE.getMasterComponent_DetailPanels();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UmlReferenceImpl <em>Uml Reference</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UmlReferenceImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUmlReference()
+		 * @generated
+		 */
+		EClass UML_REFERENCE = eINSTANCE.getUmlReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Uml Element Uid</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UML_REFERENCE__UML_ELEMENT_UID = eINSTANCE.getUmlReference_UmlElementUid();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.ObjectSelectorTreeImpl <em>Object Selector Tree</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.ObjectSelectorTreeImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getObjectSelectorTree()
+		 * @generated
+		 */
+		EClass OBJECT_SELECTOR_TREE = eINSTANCE.getObjectSelectorTree();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.DetailPanelImpl <em>Detail Panel</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.DetailPanelImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getDetailPanel()
+		 * @generated
+		 */
+		EClass DETAIL_PANEL = eINSTANCE.getDetailPanel();
+
+		/**
+		 * The meta object literal for the '<em><b>Master Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DETAIL_PANEL__MASTER_COMPONENT = eINSTANCE.getDetailPanel_MasterComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Panel</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DETAIL_PANEL__PANEL = eINSTANCE.getDetailPanel_Panel();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.UserInterfaceEntryPointImpl <em>User Interface Entry Point</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.UserInterfaceEntryPointImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getUserInterfaceEntryPoint()
+		 * @generated
+		 */
+		EClass USER_INTERFACE_ENTRY_POINT = eINSTANCE.getUserInterfaceEntryPoint();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.PageImpl <em>Page</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.PageImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getPage()
+		 * @generated
+		 */
+		EClass PAGE = eINSTANCE.getPage();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.Orientation <em>Orientation</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.Orientation
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getOrientation()
+		 * @generated
+		 */
+		EEnum ORIENTATION = eINSTANCE.getOrientation();
+
+	}
+
+} //UimPackage

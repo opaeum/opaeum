@@ -487,4 +487,8 @@
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_vkHEIWSDEeG8Es66O6-kpg" id="(0.375,0.14)"/>
     </edges>
   </notation:Diagram>
+  <notation:Diagram xmi:id="_CT1YgGXKEeGNlsfM_ofeJw" type="PapyrusUMLClassDiagram" name="ClassDiagram" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_CT1YgWXKEeGNlsfM_ofeJw"/>
+    <element xmi:type="uml:Model" href="BusinessStructureModel.uml#_-VLbkE8VEeGA3PFuQY5w7Q"/>
+  </notation:Diagram>
 </xmi:XMI>
