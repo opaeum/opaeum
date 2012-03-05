@@ -24,6 +24,8 @@ import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.EditorPage;
 import org.opaeum.uim.editor.MenuConfiguration;
+import org.opaeum.uim.editor.QueryInvocationEditor;
+import org.opaeum.uim.editor.ResponsibilityTaskEditor;
 import org.opaeum.uim.editor.OperationInvocationEditor;
 import org.opaeum.uim.editor.OperationTaskEditor;
 import org.opaeum.uim.editor.VisibleOperation;
@@ -68,14 +70,14 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass operationTaskEditorEClass = null;
+	private EClass responsibilityTaskEditorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass operationInvocationEditorEClass = null;
+	private EClass queryInvocationEditorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -209,7 +211,7 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAbstractEditor_Editability() {
+	public EReference getAbstractEditor_ActionBar() {
 		return (EReference)abstractEditorEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -218,7 +220,7 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAbstractEditor_Visibility() {
+	public EReference getAbstractEditor_MenuConfiguration() {
 		return (EReference)abstractEditorEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -227,17 +229,8 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAbstractEditor_ActionBar() {
+	public EReference getAbstractEditor_Pages() {
 		return (EReference)abstractEditorEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getAbstractEditor_MenuConfiguration() {
-		return (EReference)abstractEditorEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -263,8 +256,8 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOperationTaskEditor() {
-		return operationTaskEditorEClass;
+	public EClass getResponsibilityTaskEditor() {
+		return responsibilityTaskEditorEClass;
 	}
 
 	/**
@@ -272,8 +265,8 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOperationInvocationEditor() {
-		return operationInvocationEditorEClass;
+	public EClass getQueryInvocationEditor() {
+		return queryInvocationEditorEClass;
 	}
 
 	/**
@@ -292,15 +285,6 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 	 */
 	public EReference getEditorPage_Editor() {
 		return (EReference)editorPageEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getEditorPage_Panel() {
-		return (EReference)editorPageEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -386,22 +370,20 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 
 		// Create classes and their features
 		abstractEditorEClass = createEClass(ABSTRACT_EDITOR);
-		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__EDITABILITY);
-		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__VISIBILITY);
 		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__ACTION_BAR);
 		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__MENU_CONFIGURATION);
+		createEReference(abstractEditorEClass, ABSTRACT_EDITOR__PAGES);
 
 		actionTaskEditorEClass = createEClass(ACTION_TASK_EDITOR);
 
 		classEditorEClass = createEClass(CLASS_EDITOR);
 
-		operationTaskEditorEClass = createEClass(OPERATION_TASK_EDITOR);
+		responsibilityTaskEditorEClass = createEClass(RESPONSIBILITY_TASK_EDITOR);
 
-		operationInvocationEditorEClass = createEClass(OPERATION_INVOCATION_EDITOR);
+		queryInvocationEditorEClass = createEClass(QUERY_INVOCATION_EDITOR);
 
 		editorPageEClass = createEClass(EDITOR_PAGE);
 		createEReference(editorPageEClass, EDITOR_PAGE__EDITOR);
-		createEReference(editorPageEClass, EDITOR_PAGE__PANEL);
 
 		actionBarEClass = createEClass(ACTION_BAR);
 
@@ -438,7 +420,6 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 
 		// Obtain other dependent packages
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
-		ConstraintPackage theConstraintPackage = (ConstraintPackage)EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI);
 		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
 
 		// Create type parameters
@@ -450,30 +431,28 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 		abstractEditorEClass.getESuperTypes().add(theUimPackage.getUserInterfaceEntryPoint());
 		actionTaskEditorEClass.getESuperTypes().add(this.getAbstractEditor());
 		classEditorEClass.getESuperTypes().add(this.getAbstractEditor());
-		operationTaskEditorEClass.getESuperTypes().add(this.getAbstractEditor());
-		operationInvocationEditorEClass.getESuperTypes().add(this.getAbstractEditor());
+		responsibilityTaskEditorEClass.getESuperTypes().add(this.getAbstractEditor());
+		queryInvocationEditorEClass.getESuperTypes().add(this.getAbstractEditor());
 		editorPageEClass.getESuperTypes().add(theUimPackage.getPage());
 		actionBarEClass.getESuperTypes().add(thePanelPackage.getAbstractPanel());
 		visibleOperationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(abstractEditorEClass, AbstractEditor.class, "AbstractEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getAbstractEditor_Editability(), theConstraintPackage.getRootUserInteractionConstraint(), null, "editability", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAbstractEditor_Visibility(), theConstraintPackage.getRootUserInteractionConstraint(), null, "visibility", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAbstractEditor_ActionBar(), this.getActionBar(), null, "actionBar", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAbstractEditor_MenuConfiguration(), this.getMenuConfiguration(), this.getMenuConfiguration_Editor(), "menuConfiguration", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAbstractEditor_Pages(), this.getEditorPage(), this.getEditorPage_Editor(), "pages", null, 0, -1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actionTaskEditorEClass, ActionTaskEditor.class, "ActionTaskEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(classEditorEClass, ClassEditor.class, "ClassEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(operationTaskEditorEClass, OperationTaskEditor.class, "OperationTaskEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(responsibilityTaskEditorEClass, ResponsibilityTaskEditor.class, "ResponsibilityTaskEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(operationInvocationEditorEClass, OperationInvocationEditor.class, "OperationInvocationEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(queryInvocationEditorEClass, QueryInvocationEditor.class, "QueryInvocationEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(editorPageEClass, EditorPage.class, "EditorPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getEditorPage_Editor(), this.getAbstractEditor(), null, "editor", null, 1, 1, EditorPage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEditorPage_Panel(), thePanelPackage.getAbstractPanel(), null, "panel", null, 1, 1, EditorPage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEditorPage_Editor(), this.getAbstractEditor(), this.getAbstractEditor_Pages(), "editor", null, 1, 1, EditorPage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actionBarEClass, ActionBar.class, "ActionBar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

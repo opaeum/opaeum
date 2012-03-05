@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
@@ -105,6 +106,10 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createLinkToEntityAdapter();
 			}
 			@Override
+			public Adapter caseOperationActionPopup(OperationActionPopup object) {
+				return createOperationActionPopupAdapter();
+			}
+			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
 			}
@@ -119,6 +124,10 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseUmlReference(UmlReference object) {
 				return createUmlReferenceAdapter();
+			}
+			@Override
+			public Adapter caseUserInterface(UserInterface object) {
+				return createUserInterfaceAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -239,6 +248,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationActionPopup <em>Operation Action Popup</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.action.OperationActionPopup
+	 * @generated
+	 */
+	public Adapter createOperationActionPopupAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -291,6 +314,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUmlReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UserInterface
+	 * @generated
+	 */
+	public Adapter createUserInterfaceAdapter() {
 		return null;
 	}
 

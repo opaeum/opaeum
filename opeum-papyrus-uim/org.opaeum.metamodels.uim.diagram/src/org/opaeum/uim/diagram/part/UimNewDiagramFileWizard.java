@@ -27,7 +27,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 
 /**
  * @generated
@@ -54,7 +54,7 @@ public class UimNewDiagramFileWizard extends Wizard{
 		assert editingDomain != null:"Editing domain must be specified"; //$NON-NLS-1$
 		myFileCreationPage = new WizardNewFileCreationPage(Messages.UimNewDiagramFileWizard_CreationPageName, StructuredSelection.EMPTY);
 		myFileCreationPage.setTitle(Messages.UimNewDiagramFileWizard_CreationPageTitle);
-		myFileCreationPage.setDescription(NLS.bind(Messages.UimNewDiagramFileWizard_CreationPageDescription, EditorPageEditPart.MODEL_ID));
+		myFileCreationPage.setDescription(NLS.bind(Messages.UimNewDiagramFileWizard_CreationPageDescription, UserInterfaceEditPart.MODEL_ID));
 		IPath filePath;
 		String fileName = URI.decode(domainModelURI.trimFileExtension().lastSegment());
 		if(domainModelURI.isPlatformResource()){
@@ -95,10 +95,10 @@ public class UimNewDiagramFileWizard extends Wizard{
 				Messages.UimNewDiagramFileWizard_InitDiagramCommand, affectedFiles){
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
 				int diagramVID = UimVisualIDRegistry.getDiagramVisualID(diagramRootElementSelectionPage.getModelElement());
-				if(diagramVID != EditorPageEditPart.VISUAL_ID){
+				if(diagramVID != UserInterfaceEditPart.VISUAL_ID){
 					return CommandResult.newErrorCommandResult(Messages.UimNewDiagramFileWizard_IncorrectRootError);
 				}
-				Diagram diagram = ViewService.createDiagram(diagramRootElementSelectionPage.getModelElement(), EditorPageEditPart.MODEL_ID,
+				Diagram diagram = ViewService.createDiagram(diagramRootElementSelectionPage.getModelElement(), UserInterfaceEditPart.MODEL_ID,
 						UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				diagramResource.getContents().add(diagram);
 				return CommandResult.newOKCommandResult();
@@ -142,7 +142,7 @@ public class UimNewDiagramFileWizard extends Wizard{
 				return false;
 			}
 			boolean result = ViewService.getInstance().provides(
-					new CreateDiagramViewOperation(new EObjectAdapter(selectedModelElement), EditorPageEditPart.MODEL_ID,
+					new CreateDiagramViewOperation(new EObjectAdapter(selectedModelElement), UserInterfaceEditPart.MODEL_ID,
 							UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT));
 			setErrorMessage(result ? null : Messages.UimNewDiagramFileWizard_RootSelectionPageInvalidSelectionMessage);
 			return result;

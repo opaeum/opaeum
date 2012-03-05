@@ -58,13 +58,13 @@ public interface UimFactory extends EFactory {
 	ObjectSelectorTree createObjectSelectorTree();
 
 	/**
-	 * Returns a new object of class '<em>Detail Panel</em>'.
+	 * Returns a new object of class '<em>Detail Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Detail Panel</em>'.
+	 * @return a new object of class '<em>Detail Component</em>'.
 	 * @generated
 	 */
-	DetailPanel createDetailPanel();
+	DetailComponent createDetailComponent();
 
 	/**
 	 * Returns a new object of class '<em>User Interface Entry Point</em>'.
@@ -74,6 +74,24 @@ public interface UimFactory extends EFactory {
 	 * @generated
 	 */
 	UserInterfaceEntryPoint createUserInterfaceEntryPoint();
+
+	/**
+	 * Returns a new object of class '<em>User Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>User Interface</em>'.
+	 * @generated
+	 */
+	UserInterface createUserInterface();
+
+	/**
+	 * Returns a new object of class '<em>Panel Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Panel Class</em>'.
+	 * @generated
+	 */
+	PanelClass createPanelClass();
 
 	/**
 	 * Returns the package supported by this factory.

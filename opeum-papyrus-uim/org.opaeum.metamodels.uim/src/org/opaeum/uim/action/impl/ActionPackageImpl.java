@@ -17,6 +17,7 @@ import org.opaeum.uim.action.BuiltInAction;
 import org.opaeum.uim.action.LinkToEntity;
 import org.opaeum.uim.action.LinkToOperation;
 import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationActionPopup;
 import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.action.UimLink;
@@ -91,6 +92,13 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * @generated
 	 */
 	private EClass linkToEntityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationActionPopupEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -257,6 +265,15 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOperationAction_Popup() {
+		return (EReference)operationActionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getUimLink() {
 		return uimLinkEClass;
 	}
@@ -277,6 +294,24 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 */
 	public EReference getLinkToEntity_Binding() {
 		return (EReference)linkToEntityEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperationActionPopup() {
+		return operationActionPopupEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationActionPopup_OperationAction() {
+		return (EReference)operationActionPopupEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -327,11 +362,15 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		createEReference(linkToOperationEClass, LINK_TO_OPERATION__TO_FORM);
 
 		operationActionEClass = createEClass(OPERATION_ACTION);
+		createEReference(operationActionEClass, OPERATION_ACTION__POPUP);
 
 		uimLinkEClass = createEClass(UIM_LINK);
 
 		linkToEntityEClass = createEClass(LINK_TO_ENTITY);
 		createEReference(linkToEntityEClass, LINK_TO_ENTITY__BINDING);
+
+		operationActionPopupEClass = createEClass(OPERATION_ACTION_POPUP);
+		createEReference(operationActionPopupEClass, OPERATION_ACTION_POPUP__OPERATION_ACTION);
 
 		// Create enums
 		actionKindEEnum = createEEnum(ACTION_KIND);
@@ -378,8 +417,10 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		linkToOperationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 		operationActionEClass.getESuperTypes().add(this.getUimAction());
 		operationActionEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		uimLinkEClass.getESuperTypes().add(theUimPackage.getUimComponent());
 		linkToEntityEClass.getESuperTypes().add(this.getUimLink());
 		linkToEntityEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		operationActionPopupEClass.getESuperTypes().add(theUimPackage.getUserInterface());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(builtInActionEClass, BuiltInAction.class, "BuiltInAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -390,14 +431,18 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		initEClass(transitionActionEClass, TransitionAction.class, "TransitionAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(linkToOperationEClass, LinkToOperation.class, "LinkToOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLinkToOperation_ToForm(), theEditorPackage.getOperationInvocationEditor(), null, "toForm", null, 0, 1, LinkToOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLinkToOperation_ToForm(), theEditorPackage.getQueryInvocationEditor(), null, "toForm", null, 0, 1, LinkToOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationActionEClass, OperationAction.class, "OperationAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperationAction_Popup(), this.getOperationActionPopup(), this.getOperationActionPopup_OperationAction(), "popup", null, 0, 1, OperationAction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimLinkEClass, UimLink.class, "UimLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(linkToEntityEClass, LinkToEntity.class, "LinkToEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLinkToEntity_Binding(), theBindingPackage.getNavigationBinding(), theBindingPackage.getNavigationBinding_Navigation(), "binding", null, 0, 1, LinkToEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(operationActionPopupEClass, OperationActionPopup.class, "OperationActionPopup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperationActionPopup_OperationAction(), this.getOperationAction(), this.getOperationAction_Popup(), "operationAction", null, 0, 1, OperationActionPopup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(actionKindEEnum, ActionKind.class, "ActionKind");

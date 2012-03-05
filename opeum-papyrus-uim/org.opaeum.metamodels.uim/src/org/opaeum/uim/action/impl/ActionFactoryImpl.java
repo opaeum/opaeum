@@ -67,6 +67,7 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 			case ActionPackage.LINK_TO_OPERATION: return createLinkToOperation();
 			case ActionPackage.OPERATION_ACTION: return createOperationAction();
 			case ActionPackage.LINK_TO_ENTITY: return createLinkToEntity();
+			case ActionPackage.OPERATION_ACTION_POPUP: return createOperationActionPopup();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -150,6 +151,16 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	public LinkToEntity createLinkToEntity() {
 		LinkToEntityImpl linkToEntity = new LinkToEntityImpl();
 		return linkToEntity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationActionPopup createOperationActionPopup() {
+		OperationActionPopupImpl operationActionPopup = new OperationActionPopupImpl();
+		return operationActionPopup;
 	}
 
 	/**

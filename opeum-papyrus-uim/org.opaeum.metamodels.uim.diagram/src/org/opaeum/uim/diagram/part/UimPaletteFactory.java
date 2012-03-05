@@ -1,16 +1,10 @@
 package org.opaeum.uim.diagram.part;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.gef.Tool;
-import org.eclipse.gef.palette.PaletteContainer;
-import org.eclipse.gef.palette.PaletteDrawer;
-import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.services.palette.PaletteFactory;
-import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.papyrus.uml.diagram.common.service.AspectUnspecifiedTypeCreationTool;
 import org.opaeum.uim.diagram.providers.UimElementTypes;
@@ -23,6 +17,14 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	 * @generated
 	 */
 	private final static String CREATEFIELD1CREATIONTOOL = "createField1CreationTool"; //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	private final static String CREATEDATATABLE2CREATIONTOOL = "createDataTable2CreationTool"; //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	private final static String CREATECOLUMN5CREATIONTOOL = "createColumn5CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -42,6 +44,18 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
+	private final static String CREATETRANSITIONACTION2CREATIONTOOL = "createTransitionAction2CreationTool"; //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	private final static String CREATEOPERATIONACTION3CREATIONTOOL = "createOperationAction3CreationTool"; //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	private final static String CREATELINKTOENTITY5CREATIONTOOL = "createLinkToEntity5CreationTool"; //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
 	public UimPaletteFactory(){
 	}
 	/**
@@ -50,6 +64,12 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	public Tool createTool(String toolId){
 		if(toolId.equals(CREATEFIELD1CREATIONTOOL)){
 			return createField1CreationTool();
+		}
+		if(toolId.equals(CREATEDATATABLE2CREATIONTOOL)){
+			return createDataTable2CreationTool();
+		}
+		if(toolId.equals(CREATECOLUMN5CREATIONTOOL)){
+			return createColumn5CreationTool();
 		}
 		if(toolId.equals(CREATEGRIDPANEL1CREATIONTOOL)){
 			return createGridPanel1CreationTool();
@@ -62,6 +82,15 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 		}
 		if(toolId.equals(CREATEBUILTINACTION1CREATIONTOOL)){
 			return createBuiltInAction1CreationTool();
+		}
+		if(toolId.equals(CREATETRANSITIONACTION2CREATIONTOOL)){
+			return createTransitionAction2CreationTool();
+		}
+		if(toolId.equals(CREATEOPERATIONACTION3CREATIONTOOL)){
+			return createOperationAction3CreationTool();
+		}
+		if(toolId.equals(CREATELINKTOENTITY5CREATIONTOOL)){
+			return createLinkToEntity5CreationTool();
 		}
 		// default return: null
 		return null;
@@ -85,9 +114,27 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
+	private Tool createDataTable2CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UimElementTypes.UimDataTable_3009);
+		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
+		return tool;
+	}
+	/**
+	 * @generated
+	 */
+	private Tool createColumn5CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UimElementTypes.UimField_3010);
+		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
+		return tool;
+	}
+	/**
+	 * @generated
+	 */
 	private Tool createGridPanel1CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(UimElementTypes.GridPanel_2001);
+		types.add(UimElementTypes.GridPanel_2004);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
@@ -95,8 +142,9 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	 * @generated
 	 */
 	private Tool createVerticalPanel2CreationTool(){
-		List<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(UimElementTypes.VerticalPanel_2003);
+		List<IElementType> types = new ArrayList<IElementType>(2);
+		types.add(UimElementTypes.VerticalPanel_3004);
+		types.add(UimElementTypes.VerticalPanel_2006);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
@@ -104,8 +152,9 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	 * @generated
 	 */
 	private Tool createHorizontalPanel3CreationTool(){
-		List<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(UimElementTypes.HorizontalPanel_2002);
+		List<IElementType> types = new ArrayList<IElementType>(2);
+		types.add(UimElementTypes.HorizontalPanel_3003);
+		types.add(UimElementTypes.HorizontalPanel_2005);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
@@ -115,6 +164,34 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	private Tool createBuiltInAction1CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UimElementTypes.BuiltInAction_3002);
+		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
+		return tool;
+	}
+	/**
+	 * @generated
+	 */
+	private Tool createTransitionAction2CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UimElementTypes.TransitionAction_3005);
+		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
+		return tool;
+	}
+	/**
+	 * @generated
+	 */
+	private Tool createOperationAction3CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UimElementTypes.OperationAction_3006);
+		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
+		return tool;
+	}
+	/**
+	 * @generated
+	 */
+	private Tool createLinkToEntity5CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(2);
+		types.add(UimElementTypes.LinkToOperation_3007);
+		types.add(UimElementTypes.LinkToEntity_3008);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}

@@ -14,6 +14,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.editor.ActionTaskEditor;
 import org.opaeum.uim.editor.EditorPackage;
 
@@ -75,7 +76,7 @@ public class ActionTaskEditorItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ActionTaskEditor)object).getUmlElementUid();
+		String label = ((ActionTaskEditor)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ActionTaskEditor_type") :
 			getString("_UI_ActionTaskEditor_type") + " " + label;
@@ -118,8 +119,8 @@ public class ActionTaskEditorItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == EditorPackage.Literals.ABSTRACT_EDITOR__EDITABILITY ||
-			childFeature == EditorPackage.Literals.ABSTRACT_EDITOR__VISIBILITY;
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
 
 		if (qualify) {
 			return getString

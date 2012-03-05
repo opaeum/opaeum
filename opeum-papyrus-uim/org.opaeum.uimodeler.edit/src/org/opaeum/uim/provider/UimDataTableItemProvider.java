@@ -17,11 +17,18 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.binding.BindingFactory;
+import org.opaeum.uim.constraint.ConstraintFactory;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uim.panel.PanelFactory;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.UimDataTable} object.
@@ -30,7 +37,7 @@ import org.opaeum.uim.binding.BindingFactory;
  * @generated
  */
 public class UimDataTableItemProvider
-	extends ItemProviderAdapter
+	extends MasterComponentItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -58,29 +65,29 @@ public class UimDataTableItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addDetailPanelsPropertyDescriptor(object);
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Detail Panels feature.
+	 * This adds a property descriptor for the Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addDetailPanelsPropertyDescriptor(Object object) {
+	protected void addNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_MasterComponent_detailPanels_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MasterComponent_detailPanels_feature", "_UI_MasterComponent_type"),
-				 UimPackage.Literals.MASTER_COMPONENT__DETAIL_PANELS,
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
 				 true,
 				 false,
-				 true,
-				 null,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -97,6 +104,9 @@ public class UimDataTableItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
+			childrenFeatures.add(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY);
+			childrenFeatures.add(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY);
+			childrenFeatures.add(UimPackage.Literals.UIM_CONTAINER__CHILDREN);
 			childrenFeatures.add(UimPackage.Literals.UIM_DATA_TABLE__BINDING);
 		}
 		return childrenFeatures;
@@ -134,7 +144,10 @@ public class UimDataTableItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_UimDataTable_type");
+		String label = ((UimDataTable)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_UimDataTable_type") :
+			getString("_UI_UimDataTable_type") + " " + label;
 	}
 
 	/**
@@ -149,6 +162,12 @@ public class UimDataTableItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UimDataTable.class)) {
+			case UimPackage.UIM_DATA_TABLE__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
+			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
+			case UimPackage.UIM_DATA_TABLE__CHILDREN:
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -169,19 +188,106 @@ public class UimDataTableItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY,
+				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY,
+				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 UimFactory.eINSTANCE.createUimField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 UimFactory.eINSTANCE.createUimDataTable()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 UimFactory.eINSTANCE.createDetailComponent()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 EditorFactory.eINSTANCE.createActionBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createBuiltInAction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createTransitionAction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createLinkToOperation()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createOperationAction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createLinkToEntity()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 PanelFactory.eINSTANCE.createCollapsiblePanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 PanelFactory.eINSTANCE.createGridPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 PanelFactory.eINSTANCE.createVerticalPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 PanelFactory.eINSTANCE.createHorizontalPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(UimPackage.Literals.UIM_DATA_TABLE__BINDING,
 				 BindingFactory.eINSTANCE.createTableBinding()));
 	}
 
 	/**
-	 * Return the resource locator for this item provider's resources.
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public ResourceLocator getResourceLocator() {
-		return UimEditPlugin.INSTANCE;
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY ||
+			childFeature == ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }

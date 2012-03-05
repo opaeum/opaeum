@@ -3,12 +3,15 @@
 package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationActionPopup;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,6 +21,7 @@ import org.opaeum.uim.action.OperationAction;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.impl.OperationActionImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.impl.OperationActionImpl#getPopup <em>Popup</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,6 +47,16 @@ public class OperationActionImpl extends UimActionImpl implements OperationActio
 	 * @ordered
 	 */
 	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getPopup() <em>Popup</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPopup()
+	 * @generated
+	 * @ordered
+	 */
+	protected OperationActionPopup popup;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -89,11 +103,104 @@ public class OperationActionImpl extends UimActionImpl implements OperationActio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public OperationActionPopup getPopup() {
+		if (popup != null && popup.eIsProxy()) {
+			InternalEObject oldPopup = (InternalEObject)popup;
+			popup = (OperationActionPopup)eResolveProxy(oldPopup);
+			if (popup != oldPopup) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.OPERATION_ACTION__POPUP, oldPopup, popup));
+			}
+		}
+		return popup;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationActionPopup basicGetPopup() {
+		return popup;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetPopup(OperationActionPopup newPopup, NotificationChain msgs) {
+		OperationActionPopup oldPopup = popup;
+		popup = newPopup;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ActionPackage.OPERATION_ACTION__POPUP, oldPopup, newPopup);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPopup(OperationActionPopup newPopup) {
+		if (newPopup != popup) {
+			NotificationChain msgs = null;
+			if (popup != null)
+				msgs = ((InternalEObject)popup).eInverseRemove(this, ActionPackage.OPERATION_ACTION_POPUP__OPERATION_ACTION, OperationActionPopup.class, msgs);
+			if (newPopup != null)
+				msgs = ((InternalEObject)newPopup).eInverseAdd(this, ActionPackage.OPERATION_ACTION_POPUP__OPERATION_ACTION, OperationActionPopup.class, msgs);
+			msgs = basicSetPopup(newPopup, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.OPERATION_ACTION__POPUP, newPopup, newPopup));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionPackage.OPERATION_ACTION__POPUP:
+				if (popup != null)
+					msgs = ((InternalEObject)popup).eInverseRemove(this, ActionPackage.OPERATION_ACTION_POPUP__OPERATION_ACTION, OperationActionPopup.class, msgs);
+				return basicSetPopup((OperationActionPopup)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ActionPackage.OPERATION_ACTION__POPUP:
+				return basicSetPopup(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ActionPackage.OPERATION_ACTION__UML_ELEMENT_UID:
 				return getUmlElementUid();
+			case ActionPackage.OPERATION_ACTION__POPUP:
+				if (resolve) return getPopup();
+				return basicGetPopup();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -108,6 +215,9 @@ public class OperationActionImpl extends UimActionImpl implements OperationActio
 		switch (featureID) {
 			case ActionPackage.OPERATION_ACTION__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
+				return;
+			case ActionPackage.OPERATION_ACTION__POPUP:
+				setPopup((OperationActionPopup)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -124,6 +234,9 @@ public class OperationActionImpl extends UimActionImpl implements OperationActio
 			case ActionPackage.OPERATION_ACTION__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
+			case ActionPackage.OPERATION_ACTION__POPUP:
+				setPopup((OperationActionPopup)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -138,6 +251,8 @@ public class OperationActionImpl extends UimActionImpl implements OperationActio
 		switch (featureID) {
 			case ActionPackage.OPERATION_ACTION__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
+			case ActionPackage.OPERATION_ACTION__POPUP:
+				return popup != null;
 		}
 		return super.eIsSet(featureID);
 	}

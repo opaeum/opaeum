@@ -12,7 +12,7 @@ import org.eclipse.gmf.runtime.emf.type.core.commands.EditElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.ConfigureRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
-import org.opaeum.uim.editor.EditorPage;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.panel.PanelFactory;
 import org.opaeum.uim.panel.VerticalPanel;
 
@@ -66,7 +66,7 @@ public class VerticalPanelCreateCommand extends EditElementCommand{
 	 * @generated
 	 */
 	public boolean canExecute(){
-		EditorPage container = (EditorPage) getElementToEdit();
+		UserInterface container = (UserInterface) getElementToEdit();
 		if(container.getPanel() != null){
 			return false;
 		}
@@ -77,7 +77,7 @@ public class VerticalPanelCreateCommand extends EditElementCommand{
 	 */
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
 		VerticalPanel newElement = PanelFactory.eINSTANCE.createVerticalPanel();
-		EditorPage owner = (EditorPage) getElementToEdit();
+		UserInterface owner = (UserInterface) getElementToEdit();
 		owner.setPanel(newElement);
 		doConfigure(newElement, monitor, info);
 		((CreateElementRequest) getRequest()).setNewElement(newElement);

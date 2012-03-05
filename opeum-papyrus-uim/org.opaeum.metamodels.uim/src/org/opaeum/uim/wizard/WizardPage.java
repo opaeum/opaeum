@@ -14,7 +14,6 @@ import org.opaeum.uim.panel.AbstractPanel;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.wizard.WizardPage#getWizard <em>Wizard</em>}</li>
- *   <li>{@link org.opaeum.uim.wizard.WizardPage#getPanel <em>Panel</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,31 +49,5 @@ public interface WizardPage extends Page {
 	 * @generated
 	 */
 	void setWizard(AbstractWizard value);
-
-	/**
-	 * Returns the value of the '<em><b>Panel</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Panel</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Panel</em>' containment reference.
-	 * @see #setPanel(AbstractPanel)
-	 * @see org.opaeum.uim.wizard.WizardPackage#getWizardPage_Panel()
-	 * @model containment="true"
-	 * @generated
-	 */
-	AbstractPanel getPanel();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.wizard.WizardPage#getPanel <em>Panel</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Panel</em>' containment reference.
-	 * @see #getPanel()
-	 * @generated
-	 */
-	void setPanel(AbstractPanel value);
 
 } // WizardPage

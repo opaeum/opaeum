@@ -124,6 +124,11 @@ public class UimSwitch<T> {
 				UimDataTable uimDataTable = (UimDataTable)theEObject;
 				T result = caseUimDataTable(uimDataTable);
 				if (result == null) result = caseMasterComponent(uimDataTable);
+				if (result == null) result = caseUimContainer(uimDataTable);
+				if (result == null) result = caseUimComponent(uimDataTable);
+				if (result == null) result = caseEditableConstrainedObject(uimDataTable);
+				if (result == null) result = caseUserInteractionElement(uimDataTable);
+				if (result == null) result = caseConstrainedObject(uimDataTable);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -156,21 +161,43 @@ public class UimSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case UimPackage.DETAIL_PANEL: {
-				DetailPanel detailPanel = (DetailPanel)theEObject;
-				T result = caseDetailPanel(detailPanel);
+			case UimPackage.DETAIL_COMPONENT: {
+				DetailComponent detailComponent = (DetailComponent)theEObject;
+				T result = caseDetailComponent(detailComponent);
+				if (result == null) result = caseUimComponent(detailComponent);
+				if (result == null) result = caseUserInteractionElement(detailComponent);
+				if (result == null) result = caseConstrainedObject(detailComponent);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UimPackage.USER_INTERFACE_ENTRY_POINT: {
 				UserInterfaceEntryPoint userInterfaceEntryPoint = (UserInterfaceEntryPoint)theEObject;
 				T result = caseUserInterfaceEntryPoint(userInterfaceEntryPoint);
+				if (result == null) result = caseUserInteractionElement(userInterfaceEntryPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case UimPackage.PAGE: {
 				Page page = (Page)theEObject;
 				T result = casePage(page);
+				if (result == null) result = caseUserInterface(page);
+				if (result == null) result = caseEditableConstrainedObject(page);
+				if (result == null) result = caseUserInteractionElement(page);
+				if (result == null) result = caseConstrainedObject(page);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UimPackage.USER_INTERFACE: {
+				UserInterface userInterface = (UserInterface)theEObject;
+				T result = caseUserInterface(userInterface);
+				if (result == null) result = caseUserInteractionElement(userInterface);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UimPackage.PANEL_CLASS: {
+				PanelClass panelClass = (PanelClass)theEObject;
+				T result = casePanelClass(panelClass);
+				if (result == null) result = caseUmlReference(panelClass);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -299,17 +326,17 @@ public class UimSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Detail Panel</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Detail Component</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Detail Panel</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Detail Component</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDetailPanel(DetailPanel object) {
+	public T caseDetailComponent(DetailComponent object) {
 		return null;
 	}
 
@@ -340,6 +367,36 @@ public class UimSwitch<T> {
 	 * @generated
 	 */
 	public T casePage(Page object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInterface(UserInterface object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Panel Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Panel Class</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePanelClass(PanelClass object) {
 		return null;
 	}
 

@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: User Interaction Properties
+Bundle-SymbolicName: org.opaeum.uimodeler.userinteractionproperties; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.opaeum.uim.userinteractionproperties.UimPluginSections
+Bundle-Vendor: Opaeum
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.ui.views.properties.tabbed,
+ org.topcased.tabbedproperties,
+ org.opaeum.uimodeler.edit,
+ org.eclipse.emf.edit.ui,
+ org.opaeum.metamodels.uim,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.eclipse.core,
+ org.opaeum.uimodeler.editor;bundle-version="1.0.0",
+ org.opaeum.uimodeler.modelexplorer,
+ org.eclipse.draw2d
+Eclipse-LazyStart: true
+Export-Package: org.opaeum.uim.userinteractionproperties,
+ org.opaeum.uim.userinteractionproperties.providers,
+ org.opaeum.uim.userinteractionproperties.sections
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -6,7 +6,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ListCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
@@ -16,7 +15,6 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
-import org.opaeum.uim.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy;
 import org.opaeum.uim.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy;
 import org.opaeum.uim.diagram.part.Messages;
 
@@ -27,7 +25,7 @@ public class GridPanelGridPanelChildrenCompartmentEditPart extends ShapeCompartm
 	/**
 	 * @generated
 	 */
-	public static final int VISUAL_ID = 7001;
+	public static final int VISUAL_ID = 7002;
 	/**
 	 * @generated
 	 */

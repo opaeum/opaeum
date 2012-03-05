@@ -3,7 +3,6 @@
  ******************************************************************************/
 package org.opaeum.uim.modeleditor.actions;
 
-import org.topcased.modeler.actions.ModelerActionBarContributor;
 
 /**
  * Generated Actions

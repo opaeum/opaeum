@@ -34,7 +34,7 @@ public interface RequiredRole extends UmlReference {
 	 * @see #setConstraint(RootUserInteractionConstraint)
 	 * @see org.opaeum.uim.constraint.ConstraintPackage#getRequiredRole_Constraint()
 	 * @see org.opaeum.uim.constraint.RootUserInteractionConstraint#getRequiredRoles
-	 * @model opposite="requiredRoles" transient="false"
+	 * @model opposite="requiredRoles" required="true" transient="false"
 	 * @generated
 	 */
 	RootUserInteractionConstraint getConstraint();

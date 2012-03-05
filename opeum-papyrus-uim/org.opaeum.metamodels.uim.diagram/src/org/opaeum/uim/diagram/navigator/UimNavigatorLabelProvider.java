@@ -15,14 +15,29 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
+import org.opaeum.uim.UimDataTable;
+import org.opaeum.uim.UimField;
+import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.action.LinkToEntity;
+import org.opaeum.uim.action.LinkToOperation;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.diagram.edit.parts.BuiltInActionEditPart;
 import org.opaeum.uim.diagram.edit.parts.BuiltInActionNameKindEditPart;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelNameEditPart;
+import org.opaeum.uim.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uim.diagram.edit.parts.HorizontalPanelEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToEntityEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToOperationEditPart;
+import org.opaeum.uim.diagram.edit.parts.OperationActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uim.diagram.edit.parts.UimFieldEditPart;
 import org.opaeum.uim.diagram.edit.parts.UimFieldNameEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uim.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uim.diagram.edit.parts.VerticalPanelEditPart;
 import org.opaeum.uim.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uim.diagram.part.UimVisualIDRegistry;
@@ -75,19 +90,35 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 */
 	public Image getImage(View view){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case EditorPageEditPart.VISUAL_ID:
-			return getImage("Navigator?Diagram?http://opaeum.org/uimetamodel/form/1.0?EditorPage", UimElementTypes.EditorPage_1000); //$NON-NLS-1$
+		case UserInterfaceEditPart.VISUAL_ID:
+			return getImage("Navigator?Diagram?http://opaeum.org/uimetamodel/1.0?UserInterface", UimElementTypes.UserInterface_1000); //$NON-NLS-1$
 		case GridPanelEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?GridPanel", UimElementTypes.GridPanel_2001); //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?GridPanel", UimElementTypes.GridPanel_2004); //$NON-NLS-1$
 		case HorizontalPanelEditPart.VISUAL_ID:
 			return getImage(
-					"Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?HorizontalPanel", UimElementTypes.HorizontalPanel_2002); //$NON-NLS-1$
+					"Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?HorizontalPanel", UimElementTypes.HorizontalPanel_2005); //$NON-NLS-1$
 		case VerticalPanelEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?VerticalPanel", UimElementTypes.VerticalPanel_2003); //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?VerticalPanel", UimElementTypes.VerticalPanel_2006); //$NON-NLS-1$
 		case UimFieldEditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/1.0?UimField", UimElementTypes.UimField_3001); //$NON-NLS-1$
 		case BuiltInActionEditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInAction", UimElementTypes.BuiltInAction_3002); //$NON-NLS-1$
+		case HorizontalPanel2EditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/panel/1.0?HorizontalPanel", UimElementTypes.HorizontalPanel_3003); //$NON-NLS-1$
+		case VerticalPanel2EditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/panel/1.0?VerticalPanel", UimElementTypes.VerticalPanel_3004); //$NON-NLS-1$
+		case TransitionActionEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?TransitionAction", UimElementTypes.TransitionAction_3005); //$NON-NLS-1$
+		case OperationActionEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationAction", UimElementTypes.OperationAction_3006); //$NON-NLS-1$
+		case LinkToOperationEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?LinkToOperation", UimElementTypes.LinkToOperation_3007); //$NON-NLS-1$
+		case LinkToEntityEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?LinkToEntity", UimElementTypes.LinkToEntity_3008); //$NON-NLS-1$
+		case UimDataTableEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/1.0?UimDataTable", UimElementTypes.UimDataTable_3009); //$NON-NLS-1$
+		case UimField2EditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/1.0?UimField", UimElementTypes.UimField_3010); //$NON-NLS-1$
 		}
 		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
 	}
@@ -132,61 +163,83 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getUnresolvedDomainElementProxyText(view);
 		}
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case EditorPageEditPart.VISUAL_ID:
-			return getEditorPage_1000Text(view);
+		case UserInterfaceEditPart.VISUAL_ID:
+			return getUserInterface_1000Text(view);
 		case GridPanelEditPart.VISUAL_ID:
-			return getGridPanel_2001Text(view);
+			return getGridPanel_2004Text(view);
 		case HorizontalPanelEditPart.VISUAL_ID:
-			return getHorizontalPanel_2002Text(view);
+			return getHorizontalPanel_2005Text(view);
 		case VerticalPanelEditPart.VISUAL_ID:
-			return getVerticalPanel_2003Text(view);
+			return getVerticalPanel_2006Text(view);
 		case UimFieldEditPart.VISUAL_ID:
 			return getUimField_3001Text(view);
 		case BuiltInActionEditPart.VISUAL_ID:
 			return getBuiltInAction_3002Text(view);
+		case HorizontalPanel2EditPart.VISUAL_ID:
+			return getHorizontalPanel_3003Text(view);
+		case VerticalPanel2EditPart.VISUAL_ID:
+			return getVerticalPanel_3004Text(view);
+		case TransitionActionEditPart.VISUAL_ID:
+			return getTransitionAction_3005Text(view);
+		case OperationActionEditPart.VISUAL_ID:
+			return getOperationAction_3006Text(view);
+		case LinkToOperationEditPart.VISUAL_ID:
+			return getLinkToOperation_3007Text(view);
+		case LinkToEntityEditPart.VISUAL_ID:
+			return getLinkToEntity_3008Text(view);
+		case UimDataTableEditPart.VISUAL_ID:
+			return getUimDataTable_3009Text(view);
+		case UimField2EditPart.VISUAL_ID:
+			return getUimField_3010Text(view);
 		}
 		return getUnknownElementText(view);
 	}
 	/**
 	 * @generated
 	 */
-	private String getEditorPage_1000Text(View view){
-		return ""; //$NON-NLS-1$
+	private String getUserInterface_1000Text(View view){
+		UserInterface domainModelElement = (UserInterface) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 1000); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getGridPanel_2001Text(View view){
-		IParser parser = UimParserProvider.getParser(UimElementTypes.GridPanel_2001, view.getElement() != null ? view.getElement() : view,
+	private String getGridPanel_2004Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.GridPanel_2004, view.getElement() != null ? view.getElement() : view,
 				UimVisualIDRegistry.getType(GridPanelNameEditPart.VISUAL_ID));
 		if(parser != null){
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5002); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5004); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getHorizontalPanel_2002Text(View view){
+	private String getHorizontalPanel_2005Text(View view){
 		HorizontalPanel domainModelElement = (HorizontalPanel) view.getElement();
 		if(domainModelElement != null){
 			return domainModelElement.getName();
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2002); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2005); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getVerticalPanel_2003Text(View view){
+	private String getVerticalPanel_2006Text(View view){
 		VerticalPanel domainModelElement = (VerticalPanel) view.getElement();
 		if(domainModelElement != null){
 			return domainModelElement.getName();
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2003); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 2006); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -213,6 +266,102 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
 			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5003); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getHorizontalPanel_3003Text(View view){
+		HorizontalPanel domainModelElement = (HorizontalPanel) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3003); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getVerticalPanel_3004Text(View view){
+		VerticalPanel domainModelElement = (VerticalPanel) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3004); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getTransitionAction_3005Text(View view){
+		TransitionAction domainModelElement = (TransitionAction) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3005); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getOperationAction_3006Text(View view){
+		OperationAction domainModelElement = (OperationAction) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3006); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getLinkToOperation_3007Text(View view){
+		LinkToOperation domainModelElement = (LinkToOperation) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3007); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getLinkToEntity_3008Text(View view){
+		LinkToEntity domainModelElement = (LinkToEntity) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3008); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getUimDataTable_3009Text(View view){
+		UimDataTable domainModelElement = (UimDataTable) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3009); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getUimField_3010Text(View view){
+		UimField domainModelElement = (UimField) view.getElement();
+		if(domainModelElement != null){
+			return domainModelElement.getName();
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3010); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -253,6 +402,6 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	 * @generated
 	 */
 	private boolean isOwnView(View view){
-		return EditorPageEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
+		return UserInterfaceEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
 	}
 }

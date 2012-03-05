@@ -10,7 +10,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.topcased.modeler.wizards.DiagramsPage;
 
 /**
  * @generated

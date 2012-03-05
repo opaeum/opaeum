@@ -12,6 +12,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.constraint.RootUserInteractionConstraint;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.ActionBar;
@@ -27,16 +30,38 @@ import org.opaeum.uim.impl.UmlReferenceImpl;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getEditability <em>Editability</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getActionBar <em>Action Bar</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getMenuConfiguration <em>Menu Configuration</em>}</li>
+ *   <li>{@link org.opaeum.uim.editor.impl.AbstractEditorImpl#getPages <em>Pages</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEditor {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -78,6 +103,16 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	protected MenuConfiguration menuConfiguration;
 
 	/**
+	 * The cached value of the '{@link #getPages() <em>Pages</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPages()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EditorPage> pages;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -94,6 +129,27 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	@Override
 	protected EClass eStaticClass() {
 		return EditorPackage.Literals.ABSTRACT_EDITOR;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.ABSTRACT_EDITOR__NAME, oldName, name));
 	}
 
 	/**
@@ -273,6 +329,18 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EditorPage> getPages() {
+		if (pages == null) {
+			pages = new EObjectContainmentWithInverseEList<EditorPage>(EditorPage.class, this, EditorPackage.ABSTRACT_EDITOR__PAGES, EditorPackage.EDITOR_PAGE__EDITOR);
+		}
+		return pages;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -281,6 +349,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 				if (menuConfiguration != null)
 					msgs = ((InternalEObject)menuConfiguration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION, null, msgs);
 				return basicSetMenuConfiguration((MenuConfiguration)otherEnd, msgs);
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getPages()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -301,6 +371,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 				return basicSetActionBar(null, msgs);
 			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
 				return basicSetMenuConfiguration(null, msgs);
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+				return ((InternalEList<?>)getPages()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -313,6 +385,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case EditorPackage.ABSTRACT_EDITOR__NAME:
+				return getName();
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				return getEditability();
 			case EditorPackage.ABSTRACT_EDITOR__VISIBILITY:
@@ -321,6 +395,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 				return getActionBar();
 			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
 				return getMenuConfiguration();
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+				return getPages();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -334,6 +410,9 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case EditorPackage.ABSTRACT_EDITOR__NAME:
+				setName((String)newValue);
+				return;
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				setEditability((RootUserInteractionConstraint)newValue);
 				return;
@@ -345,6 +424,10 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 				return;
 			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
 				setMenuConfiguration((MenuConfiguration)newValue);
+				return;
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+				getPages().clear();
+				getPages().addAll((Collection<? extends EditorPage>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -358,6 +441,9 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case EditorPackage.ABSTRACT_EDITOR__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				setEditability((RootUserInteractionConstraint)null);
 				return;
@@ -369,6 +455,9 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 				return;
 			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
 				setMenuConfiguration((MenuConfiguration)null);
+				return;
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+				getPages().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -382,6 +471,8 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case EditorPackage.ABSTRACT_EDITOR__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 				return editability != null;
 			case EditorPackage.ABSTRACT_EDITOR__VISIBILITY:
@@ -390,8 +481,72 @@ public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEdit
 				return actionBar != null;
 			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
 				return menuConfiguration != null;
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
+				return pages != null && !pages.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == UserInteractionElement.class) {
+			switch (derivedFeatureID) {
+				case EditorPackage.ABSTRACT_EDITOR__NAME: return UimPackage.USER_INTERACTION_ELEMENT__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == UserInterfaceEntryPoint.class) {
+			switch (derivedFeatureID) {
+				case EditorPackage.ABSTRACT_EDITOR__EDITABILITY: return UimPackage.USER_INTERFACE_ENTRY_POINT__EDITABILITY;
+				case EditorPackage.ABSTRACT_EDITOR__VISIBILITY: return UimPackage.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == UserInteractionElement.class) {
+			switch (baseFeatureID) {
+				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return EditorPackage.ABSTRACT_EDITOR__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == UserInterfaceEntryPoint.class) {
+			switch (baseFeatureID) {
+				case UimPackage.USER_INTERFACE_ENTRY_POINT__EDITABILITY: return EditorPackage.ABSTRACT_EDITOR__EDITABILITY;
+				case UimPackage.USER_INTERFACE_ENTRY_POINT__VISIBILITY: return EditorPackage.ABSTRACT_EDITOR__VISIBILITY;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
 	}
 
 } //AbstractEditorImpl

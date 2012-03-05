@@ -125,7 +125,7 @@ public class LinkToOperationItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((LinkToOperation)object).getUmlElementUid();
+		String label = ((LinkToOperation)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_LinkToOperation_type") :
 			getString("_UI_LinkToOperation_type") + " " + label;

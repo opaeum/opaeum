@@ -119,7 +119,7 @@
       <viewProvider class="org.opaeum.uim.diagram.providers.UimViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Uim"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003,3001,3002"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2004,2005,2006,3001,3002,3003,3004,3005,3006,3007,3008,3009,3010"/>
       </viewProvider>
    </extension>
 
@@ -131,16 +131,16 @@
             <method name="getType()" value="Uim"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002,2003,3001,3002"/>
+            <method name="getType()" value="2004,2005,2006,3001,3002,3003,3004,3005,3006,3007,3008,3009,3010"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value=""/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value="5002,5001,5003"/>
+            <method name="getType()" value="5004,5001,5003"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
-            <method name="getType()" value="7001"/>
+            <method name="getType()" value="7002,7003"/>
          </object>
          <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
       </editpartProvider>
@@ -150,11 +150,11 @@
       <?gmfgen generated="true"?>
       <modelingAssistantProvider class="org.opaeum.uim.diagram.providers.UimModelingAssistantProvider">
          <Priority name="Lowest"/>
-         <object class="org.opaeum.uim.diagram.edit.parts.EditorPageEditPart" id="EditorPage_1000"/>
-         <object class="org.opaeum.uim.diagram.edit.parts.GridPanelEditPart" id="GridPanel_2001"/>
-         <object class="org.opaeum.uim.diagram.edit.parts.HorizontalPanelEditPart" id="HorizontalPanel_2002"/>
-         <object class="org.opaeum.uim.diagram.edit.parts.VerticalPanelEditPart" id="VerticalPanel_2003"/>
-         <context elements="EditorPage_1000,GridPanel_2001,HorizontalPanel_2002,VerticalPanel_2003"/>
+         <object class="org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart" id="UserInterface_1000"/>
+         <object class="org.opaeum.uim.diagram.edit.parts.GridPanelEditPart" id="GridPanel_2004"/>
+         <object class="org.opaeum.uim.diagram.edit.parts.HorizontalPanelEditPart" id="HorizontalPanel_2005"/>
+         <object class="org.opaeum.uim.diagram.edit.parts.VerticalPanelEditPart" id="VerticalPanel_2006"/>
+         <context elements="UserInterface_1000,GridPanel_2004,HorizontalPanel_2005,VerticalPanel_2006"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -174,45 +174,43 @@
 
    <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
       <?gmfgen generated="true"?>
-      <metamodel nsURI="http://opaeum.org/uimetamodel/form/1.0">
+      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
          <metamodelType
-               id="org.opaeum.metamodels.uim.diagram.EditorPage_1000"
-               name="%metatype.name.EditorPage_1000"
+               id="org.opaeum.metamodels.uim.diagram.UserInterface_1000"
+               name="%metatype.name.UserInterface_1000"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="EditorPage"
-               edithelper="org.opaeum.uim.diagram.edit.helpers.EditorPageEditHelper">
+               eclass="UserInterface"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.UserInterfaceEditHelper">
             <param name="semanticHint" value="1000"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
          <metamodelType
-               id="org.opaeum.metamodels.uim.diagram.GridPanel_2001"
-               name="%metatype.name.GridPanel_2001"
+               id="org.opaeum.metamodels.uim.diagram.GridPanel_2004"
+               name="%metatype.name.GridPanel_2004"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
                eclass="GridPanel"
                edithelper="org.opaeum.uim.diagram.edit.helpers.GridPanelEditHelper">
-            <param name="semanticHint" value="2001"/>
+            <param name="semanticHint" value="2004"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
-         <metamodelType
-               id="org.opaeum.metamodels.uim.diagram.HorizontalPanel_2002"
-               name="%metatype.name.HorizontalPanel_2002"
-               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="HorizontalPanel"
-               edithelper="org.opaeum.uim.diagram.edit.helpers.HorizontalPanelEditHelper">
-            <param name="semanticHint" value="2002"/>
-         </metamodelType>
+         <specializationType
+               id="org.opaeum.metamodels.uim.diagram.HorizontalPanel_2005"
+               name="%metatype.name.HorizontalPanel_2005"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.opaeum.metamodels.uim.diagram.HorizontalPanel_3003"/>
+            <param name="semanticHint" value="2005"/>
+         </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
-         <metamodelType
-               id="org.opaeum.metamodels.uim.diagram.VerticalPanel_2003"
-               name="%metatype.name.VerticalPanel_2003"
-               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="VerticalPanel"
-               edithelper="org.opaeum.uim.diagram.edit.helpers.VerticalPanelEditHelper">
-            <param name="semanticHint" value="2003"/>
-         </metamodelType>
+         <specializationType
+               id="org.opaeum.metamodels.uim.diagram.VerticalPanel_2006"
+               name="%metatype.name.VerticalPanel_2006"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.opaeum.metamodels.uim.diagram.VerticalPanel_3004"/>
+            <param name="semanticHint" value="2006"/>
+         </specializationType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
          <metamodelType
@@ -234,6 +232,85 @@
             <param name="semanticHint" value="3002"/>
          </metamodelType>
       </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.HorizontalPanel_3003"
+               name="%metatype.name.HorizontalPanel_3003"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="HorizontalPanel"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.HorizontalPanelEditHelper">
+            <param name="semanticHint" value="3003"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/panel/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.VerticalPanel_3004"
+               name="%metatype.name.VerticalPanel_3004"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="VerticalPanel"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.VerticalPanelEditHelper">
+            <param name="semanticHint" value="3004"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.TransitionAction_3005"
+               name="%metatype.name.TransitionAction_3005"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TransitionAction"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.TransitionActionEditHelper">
+            <param name="semanticHint" value="3005"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.OperationAction_3006"
+               name="%metatype.name.OperationAction_3006"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="OperationAction"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.OperationActionEditHelper">
+            <param name="semanticHint" value="3006"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.LinkToOperation_3007"
+               name="%metatype.name.LinkToOperation_3007"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="LinkToOperation"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.LinkToOperationEditHelper">
+            <param name="semanticHint" value="3007"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.LinkToEntity_3008"
+               name="%metatype.name.LinkToEntity_3008"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="LinkToEntity"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.LinkToEntityEditHelper">
+            <param name="semanticHint" value="3008"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
+         <metamodelType
+               id="org.opaeum.metamodels.uim.diagram.UimDataTable_3009"
+               name="%metatype.name.UimDataTable_3009"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="UimDataTable"
+               edithelper="org.opaeum.uim.diagram.edit.helpers.UimDataTableEditHelper">
+            <param name="semanticHint" value="3009"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
+         <specializationType
+               id="org.opaeum.metamodels.uim.diagram.UimField_3010"
+               name="%metatype.name.UimField_3010"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.opaeum.metamodels.uim.diagram.UimField_3001"/>
+            <param name="semanticHint" value="3010"/>
+         </specializationType>
+      </metamodel>
    </extension>
 
    <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
@@ -246,12 +323,20 @@
          </enablement>
       </clientContext> 
       <binding context="org.opaeum.metamodels.uim.diagram.TypeContext">
-         <elementType ref="org.opaeum.metamodels.uim.diagram.EditorPage_1000"/>
-         <elementType ref="org.opaeum.metamodels.uim.diagram.GridPanel_2001"/>
-         <elementType ref="org.opaeum.metamodels.uim.diagram.HorizontalPanel_2002"/>
-         <elementType ref="org.opaeum.metamodels.uim.diagram.VerticalPanel_2003"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.UserInterface_1000"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.GridPanel_2004"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.HorizontalPanel_2005"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.VerticalPanel_2006"/>
          <elementType ref="org.opaeum.metamodels.uim.diagram.UimField_3001"/>
          <elementType ref="org.opaeum.metamodels.uim.diagram.BuiltInAction_3002"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.HorizontalPanel_3003"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.VerticalPanel_3004"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.TransitionAction_3005"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.OperationAction_3006"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.LinkToOperation_3007"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.LinkToEntity_3008"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.UimDataTable_3009"/>
+         <elementType ref="org.opaeum.metamodels.uim.diagram.UimField_3010"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>
@@ -290,7 +375,7 @@
             priority="normal" 
             contentProvider="org.opaeum.uim.diagram.navigator.UimNavigatorContentProvider" 
             labelProvider="org.opaeum.uim.diagram.navigator.UimNavigatorLabelProvider"
-            icon="icons/obj16/EditorDiagramFile.gif"
+            icon="icons/obj16/UimDiagramFile.gif"
             activeByDefault="true">
          <triggerPoints>
             <or>
@@ -326,7 +411,7 @@
             priority="normal" 
             contentProvider="org.opaeum.uim.diagram.navigator.UimDomainNavigatorContentProvider" 
             labelProvider="org.opaeum.uim.diagram.navigator.UimDomainNavigatorLabelProvider"
-            icon="icons/obj16/EditorDiagramFile.gif"
+            icon="icons/obj16/UimDiagramFile.gif"
             activeByDefault="true">
          <triggerPoints>
             <or>
@@ -399,7 +484,7 @@
                <and>
                   <with variable="activePartId"><equals value="org.opaeum.uim.diagram.part.UimDiagramEditorID"/></with>
                   <with variable="selection"><iterate ifEmpty="false"> 
-                     <instanceof value="org.opaeum.uim.diagram.edit.parts.EditorPageEditPart"/>
+                     <instanceof value="org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart"/>
                   </iterate></with>
                </and>
             </visibleWhen>
@@ -444,6 +529,26 @@
  	</entry>
 	<entry
        defineOnly="true"
+       description="Create new DataTable"
+       id="createDataTable2CreationTool"
+       kind="tool"
+       label="DataTable"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new Column"
+       id="createColumn5CreationTool"
+       kind="tool"
+       label="Column"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
        description="Create new GridPanel"
        id="createGridPanel1CreationTool"
        kind="tool"
@@ -478,6 +583,36 @@
        id="createBuiltInAction1CreationTool"
        kind="tool"
        label="BuiltInAction"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new TransitionAction"
+       id="createTransitionAction2CreationTool"
+       kind="tool"
+       label="TransitionAction"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new OperationAction"
+       id="createOperationAction3CreationTool"
+       kind="tool"
+       label="OperationAction"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new LinkToEntity"
+       id="createLinkToEntity5CreationTool"
+       kind="tool"
+       label="LinkToEntity"
        large_icon=""
        path=""
        small_icon="">
@@ -608,6 +743,41 @@
 		
 	<?gmfgen generated="true"?>
 	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+			class="org.opaeum.uim.diagram.preferences.LinkToOperationPreferencePage"
+            id="org.opaeum.uim.diagram.preferences.LinkToOperationPreferencePage"
+            name="LinkToOperation Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+			class="org.opaeum.uim.diagram.preferences.GridPanelPreferencePage"
+            id="org.opaeum.uim.diagram.preferences.GridPanelPreferencePage"
+            name="GridPanel Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+			class="org.opaeum.uim.diagram.preferences.UimDataTablePreferencePage"
+            id="org.opaeum.uim.diagram.preferences.UimDataTablePreferencePage"
+            name="UimDataTable Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+			class="org.opaeum.uim.diagram.preferences.UimFieldPreferencePage"
+            id="org.opaeum.uim.diagram.preferences.UimFieldPreferencePage"
+            name="UimField Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
+			class="org.opaeum.uim.diagram.preferences.LinkToEntityPreferencePage"
+            id="org.opaeum.uim.diagram.preferences.LinkToEntityPreferencePage"
+            name="LinkToEntity Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
 			class="org.opaeum.uim.diagram.preferences.BuiltInActionPreferencePage"
             id="org.opaeum.uim.diagram.preferences.BuiltInActionPreferencePage"
             name="BuiltInAction Node" />
@@ -622,9 +792,9 @@
 		
 	<?gmfgen generated="true"?>
 	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
-			class="org.opaeum.uim.diagram.preferences.GridPanelPreferencePage"
-            id="org.opaeum.uim.diagram.preferences.GridPanelPreferencePage"
-            name="GridPanel Node" />
+			class="org.opaeum.uim.diagram.preferences.OperationActionPreferencePage"
+            id="org.opaeum.uim.diagram.preferences.OperationActionPreferencePage"
+            name="OperationAction Node" />
 	
 		
 	<?gmfgen generated="true"?>
@@ -636,9 +806,9 @@
 		
 	<?gmfgen generated="true"?>
 	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.Uim"
-			class="org.opaeum.uim.diagram.preferences.UimFieldPreferencePage"
-            id="org.opaeum.uim.diagram.preferences.UimFieldPreferencePage"
-            name="UimField Node" />
+			class="org.opaeum.uim.diagram.preferences.TransitionActionPreferencePage"
+            id="org.opaeum.uim.diagram.preferences.TransitionActionPreferencePage"
+            name="TransitionAction Node" />
 	
 
 
@@ -647,22 +817,22 @@
    <extension
          point="org.eclipse.papyrus.infra.core.papyrusDiagram">
       <diagramCategory
-            class="org.opaeum.uimodeler.util.CreateEditorPageCommand"
-            description="Create UIM diagrams"
+            class="org.opaeum.uimodeler.util.CreateClassEditorCommand"
+            description="Create Class Editor"
             icon="icons/obj16/EditorDiagramFile.gif"
             id="uim"
-            label="opaeum User Interface Modelling">
+            label="Class Editor">
       </diagramCategory>      
          
       <editorDiagram
             actionBarContributorId="org.opaeum.uim.presentation.UimActionBarContributor"
             contextId="com.cea.papyrus.gmf.editor.context"
-            factoryClass="org.opaeum.uimodeler.util.PageDiagramEditorFactory"
+            factoryClass="org.opaeum.uimodeler.util.UserInterfaceDiagramEditorFactory"
             icon="icons/obj16/EditorDiagramFile.gif">
       </editorDiagram>
       <creationCommand
-            creationCommandClass="org.opaeum.uimodeler.util.CreateEditorPageDiagramCommand"
-            creationCondition="org.opaeum.uimodeler.util.EditorPageCreationCondition"
+            creationCommandClass="org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand"
+            creationCondition="org.opaeum.uimodeler.util.UserInterfaceCreationCondition"
             icon="icons/obj16/EditorDiagramFile.gif"
             id="org.opaeum.uimodeler.util.CreateEditorPageDiagramCommand"
             language="uim"

@@ -22,7 +22,14 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.diagram.edit.parts.BuiltInActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.HorizontalPanel2EditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToEntityEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToOperationEditPart;
+import org.opaeum.uim.diagram.edit.parts.OperationActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uim.diagram.edit.parts.UimFieldEditPart;
+import org.opaeum.uim.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uim.diagram.part.UimDiagramUpdater;
 import org.opaeum.uim.diagram.part.UimNodeDescriptor;
 import org.opaeum.uim.diagram.part.UimVisualIDRegistry;
@@ -55,7 +62,7 @@ public class GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy extends Ca
 	protected List getSemanticChildrenList(){
 		View viewObject = (View) getHost().getModel();
 		LinkedList<EObject> result = new LinkedList<EObject>();
-		List<UimNodeDescriptor> childDescriptors = UimDiagramUpdater.getGridPanelGridPanelChildrenCompartment_7001SemanticChildren(viewObject);
+		List<UimNodeDescriptor> childDescriptors = UimDiagramUpdater.getGridPanelGridPanelChildrenCompartment_7002SemanticChildren(viewObject);
 		for(UimNodeDescriptor d:childDescriptors){
 			result.add(d.getModelElement());
 		}
@@ -72,7 +79,19 @@ public class GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy extends Ca
 	 */
 	private boolean isMyDiagramElement(View view){
 		int visualID = UimVisualIDRegistry.getVisualID(view);
-		return visualID == UimFieldEditPart.VISUAL_ID || visualID == BuiltInActionEditPart.VISUAL_ID;
+		switch(visualID){
+		case UimFieldEditPart.VISUAL_ID:
+		case BuiltInActionEditPart.VISUAL_ID:
+		case HorizontalPanel2EditPart.VISUAL_ID:
+		case VerticalPanel2EditPart.VISUAL_ID:
+		case TransitionActionEditPart.VISUAL_ID:
+		case OperationActionEditPart.VISUAL_ID:
+		case LinkToOperationEditPart.VISUAL_ID:
+		case LinkToEntityEditPart.VISUAL_ID:
+		case UimDataTableEditPart.VISUAL_ID:
+			return true;
+		}
+		return false;
 	}
 	/**
 	 * @generated
@@ -83,7 +102,7 @@ public class GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy extends Ca
 		}
 		LinkedList<IAdaptable> createdViews = new LinkedList<IAdaptable>();
 		List<UimNodeDescriptor> childDescriptors = UimDiagramUpdater
-				.getGridPanelGridPanelChildrenCompartment_7001SemanticChildren((View) getHost().getModel());
+				.getGridPanelGridPanelChildrenCompartment_7002SemanticChildren((View) getHost().getModel());
 		LinkedList<View> orphaned = new LinkedList<View>();
 		// we care to check only views we recognize as ours
 		LinkedList<View> knownViewChildren = new LinkedList<View>();

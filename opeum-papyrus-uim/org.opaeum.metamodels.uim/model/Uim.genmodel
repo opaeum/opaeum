@@ -20,7 +20,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimField/minimumLabelWidth"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UimField/binding"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimField/orientation"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UimField/mimumLabelHeight"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Uim.ecore#//UimComponent">
       <genOperations ecoreOperation="Uim.ecore#//UimComponent/getParent"/>
@@ -41,12 +40,23 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//UmlReference/umlElementUid"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//ObjectSelectorTree"/>
-    <genClasses ecoreClass="Uim.ecore#//DetailPanel">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//DetailPanel/masterComponent"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//DetailPanel/panel"/>
+    <genClasses ecoreClass="Uim.ecore#//DetailComponent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//DetailComponent/masterComponent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//DetailComponent/panelClasses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//DetailComponent/panel"/>
     </genClasses>
-    <genClasses ecoreClass="Uim.ecore#//UserInterfaceEntryPoint"/>
+    <genClasses ecoreClass="Uim.ecore#//UserInterfaceEntryPoint">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceEntryPoint/editability"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceEntryPoint/visibility"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="Uim.ecore#//Page"/>
+    <genClasses ecoreClass="Uim.ecore#//UserInterface">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterface/panel"/>
+    </genClasses>
+    <genClasses ecoreClass="Uim.ecore#//PanelClass">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//PanelClass/detailComponent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Uim.ecore#//PanelClass/panel"/>
+    </genClasses>
     <nestedGenPackages prefix="Control" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//control">
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//control/ControlKind">
@@ -93,18 +103,16 @@
     <nestedGenPackages prefix="Editor" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//editor">
       <genClasses ecoreClass="Uim.ecore#//editor/AbstractEditor">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/editability"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/visibility"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/actionBar"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/menuConfiguration"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/AbstractEditor/pages"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//editor/ActionTaskEditor"/>
       <genClasses ecoreClass="Uim.ecore#//editor/ClassEditor"/>
-      <genClasses ecoreClass="Uim.ecore#//editor/OperationTaskEditor"/>
-      <genClasses ecoreClass="Uim.ecore#//editor/OperationInvocationEditor"/>
+      <genClasses ecoreClass="Uim.ecore#//editor/ResponsibilityTaskEditor"/>
+      <genClasses ecoreClass="Uim.ecore#//editor/QueryInvocationEditor"/>
       <genClasses ecoreClass="Uim.ecore#//editor/EditorPage">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//editor/EditorPage/editor"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//editor/EditorPage/panel"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//editor/ActionBar"/>
       <genClasses ecoreClass="Uim.ecore#//editor/MenuConfiguration">
@@ -184,10 +192,17 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference Uim.ecore#//action/LinkToOperation/toForm"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//action/OperationAction"/>
+      <genClasses ecoreClass="Uim.ecore#//action/OperationAction">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//action/OperationAction/popup"/>
+      </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//action/UimLink"/>
       <genClasses ecoreClass="Uim.ecore#//action/LinkToEntity">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/LinkToEntity/binding"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//action/OperationActionPopup">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//action/OperationActionPopup/operationAction"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Panel" basePackage="org.opaeum.uim" resource="XML"
@@ -209,7 +224,6 @@
       <genClasses ecoreClass="Uim.ecore#//wizard/InvokeResponsibilityWizard"/>
       <genClasses ecoreClass="Uim.ecore#//wizard/WizardPage">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//wizard/WizardPage/wizard"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//wizard/WizardPage/panel"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Perspective" basePackage="org.opaeum.uim" resource="XML"
@@ -248,8 +262,8 @@
       <genClasses ecoreClass="Uim.ecore#//perspective/ExplorerConfiguration">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/perspective"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/hiddenClasses"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/visibleProperties"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/hiddenProperties"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/visibleNonCompositeProperties"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//perspective/ExplorerConfiguration/hiddenCompositeProperties"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//perspective/HiddenClass">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//perspective/HiddenClass/explorerConfiguration"/>

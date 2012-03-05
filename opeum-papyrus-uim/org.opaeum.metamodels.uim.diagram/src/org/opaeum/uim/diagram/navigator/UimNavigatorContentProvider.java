@@ -5,11 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -17,18 +15,26 @@ import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gmf.runtime.emf.core.GMFEditingDomainFactory;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
-import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 import org.opaeum.uim.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
+import org.opaeum.uim.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uim.diagram.edit.parts.HorizontalPanelEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToEntityEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToOperationEditPart;
+import org.opaeum.uim.diagram.edit.parts.OperationActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uim.diagram.edit.parts.UimFieldEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uim.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uim.diagram.edit.parts.VerticalPanelEditPart;
 import org.opaeum.uim.diagram.part.UimVisualIDRegistry;
 
@@ -119,7 +125,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 *this method is a modification of gmf code in order to avoid  getViewChidreen() method becoming greater than 64kb.
 	 *@generated
 	 **/
-	private Object[] getViewChildrenForEditorPageEditPart(View view,Object parentElement){
+	private Object[] getViewChildrenForUserInterfaceEditPart(View view,Object parentElement){
 		Collection result = new ArrayList();
 		Collection connectedViews = getChildrenByType(Collections.singleton(view), UimVisualIDRegistry.getType(GridPanelEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
@@ -144,6 +150,56 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
 		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(HorizontalPanel2EditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(VerticalPanel2EditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(TransitionActionEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationActionEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToOperationEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToEntityEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(VerticalPanel2EditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(HorizontalPanel2EditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(UimDataTableEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		return result.toArray();
+	}
+	/**
+	 *
+	 *Papyrus Template
+	 *this method is a modification of gmf code in order to avoid  getViewChidreen() method becoming greater than 64kb.
+	 *@generated
+	 **/
+	private Object[] getViewChildrenForUimDataTableEditPart(View view,Object parentElement){
+		Collection result = new ArrayList();
+		Collection connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(UimField2EditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		return result.toArray();
 	}
@@ -217,13 +273,17 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 */
 	private Object[] getViewChildren(View view,Object parentElement){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case EditorPageEditPart.VISUAL_ID:{
+		case UserInterfaceEditPart.VISUAL_ID:{
 			//modification of the template to avoid mistake of 65kb.
-			return getViewChildrenForEditorPageEditPart(view, parentElement);
+			return getViewChildrenForUserInterfaceEditPart(view, parentElement);
 		}
 		case GridPanelEditPart.VISUAL_ID:{
 			//modification of the template to avoid mistake of 65kb.
 			return getViewChildrenForGridPanelEditPart(view, parentElement);
+		}
+		case UimDataTableEditPart.VISUAL_ID:{
+			//modification of the template to avoid mistake of 65kb.
+			return getViewChildrenForUimDataTableEditPart(view, parentElement);
 		}
 		}
 		return EMPTY_ARRAY;
@@ -318,7 +378,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 * @generated
 	 */
 	private boolean isOwnView(View view){
-		return EditorPageEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
+		return UserInterfaceEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
 	}
 	/**
 	 * @generated

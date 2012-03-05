@@ -7,9 +7,9 @@
     xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
   <nodes>
     <containmentFeature
-        href="Uim.ecore#//editor/EditorPage/panel"/>
+        href="Uim.ecore#//UserInterface/panel"/>
     <childrenFeature
-        href="Uim.ecore#//editor/EditorPage/panel"/>
+        href="Uim.ecore#//UserInterface/panel"/>
     <ownedChild>
       <domainMetaElement
           href="Uim.ecore#//panel/GridPanel"/>
@@ -83,8 +83,141 @@
               href="page.gmfgraph#BuiltInAction"/>
         </ownedChild>
       </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.1/@ownedChild">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.2/@ownedChild">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="Uim.ecore#//action/TransitionAction"/>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="page.gmftool#//@palette/@tools.2/@tools.1"/>
+          <diagramNode
+              href="page.gmfgraph#TransitionAction"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="Uim.ecore#//action/OperationAction"/>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="page.gmftool#//@palette/@tools.2/@tools.2"/>
+          <diagramNode
+              href="page.gmfgraph#OperationAction"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="Uim.ecore#//action/LinkToOperation"/>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="page.gmftool#//@palette/@tools.2/@tools.4"/>
+          <diagramNode
+              href="page.gmfgraph#LinkToOperation"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="Uim.ecore#//action/LinkToEntity"/>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="page.gmftool#//@palette/@tools.2/@tools.4"/>
+          <diagramNode
+              href="page.gmfgraph#LinkToEntity"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.2/@ownedChild">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0"
+          referencedChild="//@nodes.1/@ownedChild">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="Uim.ecore#//UimDataTable"/>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="page.gmftool#//@palette/@tools.0/@tools.1"/>
+          <diagramNode
+              href="page.gmfgraph#UimDataTable"/>
+          <children
+              compartment="//@nodes.0/@ownedChild/@children.10/@ownedChild/@compartments.0">
+            <containmentFeature
+                href="Uim.ecore#//UimContainer/children"/>
+            <childrenFeature
+                href="Uim.ecore#//UimContainer/children"/>
+            <ownedChild>
+              <domainMetaElement
+                  href="Uim.ecore#//UimField"/>
+              <tool
+                  xsi:type="gmftool:CreationTool"
+                  href="page.gmftool#//@palette/@tools.0/@tools.4"/>
+              <diagramNode
+                  href="page.gmfgraph#ColumnName"/>
+            </ownedChild>
+          </children>
+          <compartments
+              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.0">
+            <compartment
+                href="page.gmfgraph#DataTableColumnCompartment"/>
+          </compartments>
+        </ownedChild>
+      </children>
       <compartments
-          children="//@nodes.0/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.1">
+          children="//@nodes.0/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.1 //@nodes.0/@ownedChild/@children.2 //@nodes.0/@ownedChild/@children.3 //@nodes.0/@ownedChild/@children.4 //@nodes.0/@ownedChild/@children.5 //@nodes.0/@ownedChild/@children.6 //@nodes.0/@ownedChild/@children.7 //@nodes.0/@ownedChild/@children.8 //@nodes.0/@ownedChild/@children.9 //@nodes.0/@ownedChild/@children.10">
         <compartment
             href="page.gmfgraph#GridPanelChildrenCompartment"/>
       </compartments>
@@ -92,9 +225,9 @@
   </nodes>
   <nodes>
     <containmentFeature
-        href="Uim.ecore#//editor/EditorPage/panel"/>
+        href="Uim.ecore#//UserInterface/panel"/>
     <childrenFeature
-        href="Uim.ecore#//editor/EditorPage/panel"/>
+        href="Uim.ecore#//UserInterface/panel"/>
     <ownedChild>
       <domainMetaElement
           href="Uim.ecore#//panel/HorizontalPanel"/>
@@ -107,9 +240,9 @@
   </nodes>
   <nodes>
     <containmentFeature
-        href="Uim.ecore#//editor/EditorPage/panel"/>
+        href="Uim.ecore#//UserInterface/panel"/>
     <childrenFeature
-        href="Uim.ecore#//editor/EditorPage/panel"/>
+        href="Uim.ecore#//UserInterface/panel"/>
     <ownedChild>
       <domainMetaElement
           href="Uim.ecore#//panel/VerticalPanel"/>
@@ -126,7 +259,7 @@
     <domainModel
         href="Uim.ecore#/"/>
     <domainMetaElement
-        href="Uim.ecore#//editor/EditorPage"/>
+        href="Uim.ecore#//UserInterface"/>
     <palette
         href="page.gmftool#//@palette"/>
   </diagram>

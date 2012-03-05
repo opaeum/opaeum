@@ -3,7 +3,7 @@ package org.opaeum.uim.diagram.preferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.pages.AbstractPapyrusNodePreferencePage;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uim.diagram.part.UimDiagramEditorPlugin;
 
 /**
@@ -15,7 +15,7 @@ public class HorizontalPanelPreferencePage extends AbstractPapyrusNodePreference
 	 */
 	public HorizontalPanelPreferencePage(){
 		super();
-		setPreferenceKey(EditorPageEditPart.MODEL_ID + "_HorizontalPanel");
+		setPreferenceKey(UserInterfaceEditPart.MODEL_ID + "_HorizontalPanel");
 	}
 	/**
 	 * @generated
@@ -28,7 +28,7 @@ public class HorizontalPanelPreferencePage extends AbstractPapyrusNodePreference
 	 * @generated
 	 */
 	public static void initDefaults(IPreferenceStore store){
-		String key = EditorPageEditPart.MODEL_ID + "_HorizontalPanel";
+		String key = UserInterfaceEditPart.MODEL_ID + "_HorizontalPanel";
 		store.setDefault(PreferenceConstantHelper.getElementConstant(key, PreferenceConstantHelper.WIDTH), 40);
 		store.setDefault(PreferenceConstantHelper.getElementConstant(key, PreferenceConstantHelper.HEIGHT), 40);
 		//org.eclipse.jface.preference.PreferenceConverter.setDefault(store, org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper.getElementConstant(elementName, org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper.COLOR_FILL), new org.eclipse.swt.graphics.RGB(255, 255, 255));

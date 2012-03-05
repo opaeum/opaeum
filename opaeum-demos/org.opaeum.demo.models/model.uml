@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frm:ClassEditor xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frm="http://opaeum.org/uimetamodel/form/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/form/1.0 http://opaeum.org/uimetamodel/1.0#//editor http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_lD0sUWbgEeG9OZC0wQOO2g" name="ClassEditor"><pages xmi:id="_lEbJQGbgEeG9OZC0wQOO2g" name="NewPage">
+    <panel xmi:type="panel:GridPanel" xmi:id="_meNmsGbgEeG9OZC0wQOO2g" name="asdfasdfas">
+      <children xmi:type="uact:BuiltInAction" xmi:id="_M02KYGbhEeG9OZC0wQOO2g"/>
+      <children xmi:type="uact:TransitionAction" xmi:id="_NXuN8GbhEeG9OZC0wQOO2g"/>
+      <children xmi:type="uact:OperationAction" xmi:id="_NsiAUGbhEeG9OZC0wQOO2g"/>
+      <children xmi:type="uact:LinkToEntity" xmi:id="_OYzQcGbhEeG9OZC0wQOO2g"/>
+      <children xmi:type="uim:UimField" xmi:id="_PYkEUGbhEeG9OZC0wQOO2g" name="asdf"/>
+    </panel>
+  </pages></frm:ClassEditor>

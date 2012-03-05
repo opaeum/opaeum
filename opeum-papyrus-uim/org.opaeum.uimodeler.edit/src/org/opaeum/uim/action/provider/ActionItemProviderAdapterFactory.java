@@ -185,6 +185,29 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationActionPopup} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected OperationActionPopupItemProvider operationActionPopupItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationActionPopup}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createOperationActionPopupAdapter() {
+		if (operationActionPopupItemProvider == null) {
+			operationActionPopupItemProvider = new OperationActionPopupItemProvider(this);
+		}
+
+		return operationActionPopupItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -288,6 +311,7 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 		if (linkToOperationItemProvider != null) linkToOperationItemProvider.dispose();
 		if (operationActionItemProvider != null) operationActionItemProvider.dispose();
 		if (linkToEntityItemProvider != null) linkToEntityItemProvider.dispose();
+		if (operationActionPopupItemProvider != null) operationActionPopupItemProvider.dispose();
 	}
 
 }

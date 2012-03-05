@@ -49,22 +49,22 @@ public interface EditorFactory extends EFactory {
 	ClassEditor createClassEditor();
 
 	/**
-	 * Returns a new object of class '<em>Operation Task Editor</em>'.
+	 * Returns a new object of class '<em>Responsibility Task Editor</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Task Editor</em>'.
+	 * @return a new object of class '<em>Responsibility Task Editor</em>'.
 	 * @generated
 	 */
-	OperationTaskEditor createOperationTaskEditor();
+	ResponsibilityTaskEditor createResponsibilityTaskEditor();
 
 	/**
-	 * Returns a new object of class '<em>Operation Invocation Editor</em>'.
+	 * Returns a new object of class '<em>Query Invocation Editor</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Invocation Editor</em>'.
+	 * @return a new object of class '<em>Query Invocation Editor</em>'.
 	 * @generated
 	 */
-	OperationInvocationEditor createOperationInvocationEditor();
+	QueryInvocationEditor createQueryInvocationEditor();
 
 	/**
 	 * Returns a new object of class '<em>Page</em>'.

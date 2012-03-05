@@ -10,6 +10,7 @@ import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.LinkToOperation;
+import org.opaeum.uim.editor.QueryInvocationEditor;
 import org.opaeum.uim.editor.OperationInvocationEditor;
 
 /**
@@ -55,7 +56,7 @@ public class LinkToOperationImpl extends UimLinkImpl implements LinkToOperation 
 	 * @generated
 	 * @ordered
 	 */
-	protected OperationInvocationEditor toForm;
+	protected QueryInvocationEditor toForm;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -102,10 +103,10 @@ public class LinkToOperationImpl extends UimLinkImpl implements LinkToOperation 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationInvocationEditor getToForm() {
+	public QueryInvocationEditor getToForm() {
 		if (toForm != null && toForm.eIsProxy()) {
 			InternalEObject oldToForm = (InternalEObject)toForm;
-			toForm = (OperationInvocationEditor)eResolveProxy(oldToForm);
+			toForm = (QueryInvocationEditor)eResolveProxy(oldToForm);
 			if (toForm != oldToForm) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.LINK_TO_OPERATION__TO_FORM, oldToForm, toForm));
@@ -119,7 +120,7 @@ public class LinkToOperationImpl extends UimLinkImpl implements LinkToOperation 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationInvocationEditor basicGetToForm() {
+	public QueryInvocationEditor basicGetToForm() {
 		return toForm;
 	}
 
@@ -128,8 +129,8 @@ public class LinkToOperationImpl extends UimLinkImpl implements LinkToOperation 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setToForm(OperationInvocationEditor newToForm) {
-		OperationInvocationEditor oldToForm = toForm;
+	public void setToForm(QueryInvocationEditor newToForm) {
+		QueryInvocationEditor oldToForm = toForm;
 		toForm = newToForm;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.LINK_TO_OPERATION__TO_FORM, oldToForm, toForm));
@@ -164,7 +165,7 @@ public class LinkToOperationImpl extends UimLinkImpl implements LinkToOperation 
 				setUmlElementUid((String)newValue);
 				return;
 			case ActionPackage.LINK_TO_OPERATION__TO_FORM:
-				setToForm((OperationInvocationEditor)newValue);
+				setToForm((QueryInvocationEditor)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -182,7 +183,7 @@ public class LinkToOperationImpl extends UimLinkImpl implements LinkToOperation 
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
 			case ActionPackage.LINK_TO_OPERATION__TO_FORM:
-				setToForm((OperationInvocationEditor)null);
+				setToForm((QueryInvocationEditor)null);
 				return;
 		}
 		super.eUnset(featureID);

@@ -214,15 +214,6 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getWizardPage_Panel() {
-		return (EReference)wizardPageEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public WizardFactory getWizardFactory() {
 		return (WizardFactory)getEFactoryInstance();
 	}
@@ -255,7 +246,6 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 
 		wizardPageEClass = createEClass(WIZARD_PAGE);
 		createEReference(wizardPageEClass, WIZARD_PAGE__WIZARD);
-		createEReference(wizardPageEClass, WIZARD_PAGE__PANEL);
 	}
 
 	/**
@@ -283,7 +273,6 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 
 		// Obtain other dependent packages
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
-		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -306,7 +295,6 @@ public class WizardPackageImpl extends EPackageImpl implements WizardPackage {
 
 		initEClass(wizardPageEClass, WizardPage.class, "WizardPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWizardPage_Wizard(), this.getAbstractWizard(), this.getAbstractWizard_Pages(), "wizard", null, 0, 1, WizardPage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getWizardPage_Panel(), thePanelPackage.getAbstractPanel(), null, "panel", null, 0, 1, WizardPage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //WizardPackageImpl

@@ -412,7 +412,7 @@ public class ConstraintPackageImpl extends EPackageImpl implements ConstraintPac
 		initEReference(getConstrainedObject_Visibility(), this.getUserInteractionConstraint(), null, "visibility", null, 0, 1, ConstrainedObject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requiredRoleEClass, RequiredRole.class, "RequiredRole", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRequiredRole_Constraint(), this.getRootUserInteractionConstraint(), this.getRootUserInteractionConstraint_RequiredRoles(), "constraint", null, 0, 1, RequiredRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequiredRole_Constraint(), this.getRootUserInteractionConstraint(), this.getRootUserInteractionConstraint_RequiredRoles(), "constraint", null, 1, 1, RequiredRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(rootUserInteractionConstraintEClass, RootUserInteractionConstraint.class, "RootUserInteractionConstraint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRootUserInteractionConstraint_RequiresGroupOwnership(), theEcorePackage.getEBoolean(), "requiresGroupOwnership", null, 0, 1, RootUserInteractionConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -425,7 +425,7 @@ public class ConstraintPackageImpl extends EPackageImpl implements ConstraintPac
 		initEAttribute(getUserInteractionConstraint_InheritFromParent(), theEcorePackage.getEBoolean(), "inheritFromParent", "true", 0, 1, UserInteractionConstraint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requiredStateEClass, RequiredState.class, "RequiredState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRequiredState_Constraint(), this.getRootUserInteractionConstraint(), this.getRootUserInteractionConstraint_RequiredStates(), "constraint", null, 0, 1, RequiredState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRequiredState_Constraint(), this.getRootUserInteractionConstraint(), this.getRootUserInteractionConstraint_RequiredStates(), "constraint", null, 1, 1, RequiredState.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //ConstraintPackageImpl

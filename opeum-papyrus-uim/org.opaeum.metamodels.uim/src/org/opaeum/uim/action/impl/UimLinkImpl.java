@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.UimLink;
+import org.opaeum.uim.impl.UimComponentImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,7 +17,7 @@ import org.opaeum.uim.action.UimLink;
  *
  * @generated
  */
-public abstract class UimLinkImpl extends EObjectImpl implements UimLink {
+public abstract class UimLinkImpl extends UimComponentImpl implements UimLink {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

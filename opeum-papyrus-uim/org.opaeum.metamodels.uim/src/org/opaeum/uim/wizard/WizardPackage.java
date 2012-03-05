@@ -66,6 +66,33 @@ public interface WizardPackage extends EPackage {
 	int ABSTRACT_WIZARD = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__NAME = UimPackage.USER_INTERFACE_ENTRY_POINT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__EDITABILITY = UimPackage.USER_INTERFACE_ENTRY_POINT__EDITABILITY;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_WIZARD__VISIBILITY = UimPackage.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+
+	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -101,6 +128,33 @@ public interface WizardPackage extends EPackage {
 	 * @generated
 	 */
 	int NEW_OBJECT_WIZARD = 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__NAME = ABSTRACT_WIZARD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__EDITABILITY = ABSTRACT_WIZARD__EDITABILITY;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_WIZARD__VISIBILITY = ABSTRACT_WIZARD__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -140,6 +194,33 @@ public interface WizardPackage extends EPackage {
 	int INVOKE_RESPONSIBILITY_WIZARD = 2;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_RESPONSIBILITY_WIZARD__NAME = ABSTRACT_WIZARD__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_RESPONSIBILITY_WIZARD__EDITABILITY = ABSTRACT_WIZARD__EDITABILITY;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVOKE_RESPONSIBILITY_WIZARD__VISIBILITY = ABSTRACT_WIZARD__VISIBILITY;
+
+	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -177,6 +258,42 @@ public interface WizardPackage extends EPackage {
 	int WIZARD_PAGE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIZARD_PAGE__NAME = UimPackage.PAGE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIZARD_PAGE__PANEL = UimPackage.PAGE__PANEL;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIZARD_PAGE__VISIBILITY = UimPackage.PAGE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIZARD_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
+
+	/**
 	 * The feature id for the '<em><b>Wizard</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -186,22 +303,13 @@ public interface WizardPackage extends EPackage {
 	int WIZARD_PAGE__WIZARD = UimPackage.PAGE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WIZARD_PAGE__PANEL = UimPackage.PAGE_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Page</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIZARD_PAGE_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 2;
+	int WIZARD_PAGE_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 1;
 
 
 	/**
@@ -265,17 +373,6 @@ public interface WizardPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getWizardPage_Wizard();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.wizard.WizardPage#getPanel <em>Panel</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Panel</em>'.
-	 * @see org.opaeum.uim.wizard.WizardPage#getPanel()
-	 * @see #getWizardPage()
-	 * @generated
-	 */
-	EReference getWizardPage_Panel();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -354,14 +451,6 @@ public interface WizardPackage extends EPackage {
 		 * @generated
 		 */
 		EReference WIZARD_PAGE__WIZARD = eINSTANCE.getWizardPage_Wizard();
-
-		/**
-		 * The meta object literal for the '<em><b>Panel</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference WIZARD_PAGE__PANEL = eINSTANCE.getWizardPage_Panel();
 
 	}
 

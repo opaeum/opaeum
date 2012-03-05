@@ -2,12 +2,12 @@ package org.opaeum.uim.diagram.edit.policies;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand;
 import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
-import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.commands.wrappers.EMFtoGMFCommandWrapper;
@@ -21,7 +21,7 @@ public class HorizontalPanelItemSemanticEditPolicy extends UimBaseItemSemanticEd
 	 * @generated
 	 */
 	public HorizontalPanelItemSemanticEditPolicy(){
-		super(UimElementTypes.HorizontalPanel_2002);
+		super(UimElementTypes.HorizontalPanel_2005);
 	}
 	/**
 	 * @generated

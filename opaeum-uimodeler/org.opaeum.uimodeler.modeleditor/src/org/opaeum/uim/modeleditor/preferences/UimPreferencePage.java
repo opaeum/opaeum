@@ -13,8 +13,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.opaeum.uim.modeleditor.UimPlugin;
-import org.topcased.facilities.preferences.AbstractTopcasedPreferencePage;
-import org.topcased.modeler.preferences.ModelerPreferenceConstants;
 
 /**
  * A preference page to configure all preferences of the Uim editor.

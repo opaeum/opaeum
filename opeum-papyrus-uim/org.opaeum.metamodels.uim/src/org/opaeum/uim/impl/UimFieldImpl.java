@@ -33,7 +33,6 @@ import org.opaeum.uim.control.UimControl;
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getMinimumLabelWidth <em>Minimum Label Width</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getMimumLabelHeight <em>Mimum Label Height</em>}</li>
  * </ul>
  * </p>
  *
@@ -139,26 +138,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	 * @ordered
 	 */
 	protected Orientation orientation = ORIENTATION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getMimumLabelHeight() <em>Mimum Label Height</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMimumLabelHeight()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Integer MIMUM_LABEL_HEIGHT_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getMimumLabelHeight() <em>Mimum Label Height</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMimumLabelHeight()
-	 * @generated
-	 * @ordered
-	 */
-	protected Integer mimumLabelHeight = MIMUM_LABEL_HEIGHT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -354,27 +333,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getMimumLabelHeight() {
-		return mimumLabelHeight;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMimumLabelHeight(Integer newMimumLabelHeight) {
-		Integer oldMimumLabelHeight = mimumLabelHeight;
-		mimumLabelHeight = newMimumLabelHeight;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__MIMUM_LABEL_HEIGHT, oldMimumLabelHeight, mimumLabelHeight));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public UimContainer getParent() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -437,8 +395,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return getBinding();
 			case UimPackage.UIM_FIELD__ORIENTATION:
 				return getOrientation();
-			case UimPackage.UIM_FIELD__MIMUM_LABEL_HEIGHT:
-				return getMimumLabelHeight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -468,9 +424,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return;
 			case UimPackage.UIM_FIELD__ORIENTATION:
 				setOrientation((Orientation)newValue);
-				return;
-			case UimPackage.UIM_FIELD__MIMUM_LABEL_HEIGHT:
-				setMimumLabelHeight((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -502,9 +455,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 			case UimPackage.UIM_FIELD__ORIENTATION:
 				setOrientation(ORIENTATION_EDEFAULT);
 				return;
-			case UimPackage.UIM_FIELD__MIMUM_LABEL_HEIGHT:
-				setMimumLabelHeight(MIMUM_LABEL_HEIGHT_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -529,8 +479,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 				return binding != null;
 			case UimPackage.UIM_FIELD__ORIENTATION:
 				return orientation != ORIENTATION_EDEFAULT;
-			case UimPackage.UIM_FIELD__MIMUM_LABEL_HEIGHT:
-				return MIMUM_LABEL_HEIGHT_EDEFAULT == null ? mimumLabelHeight != null : !MIMUM_LABEL_HEIGHT_EDEFAULT.equals(mimumLabelHeight);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -595,8 +543,6 @@ public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimFi
 		result.append(minimumLabelWidth);
 		result.append(", orientation: ");
 		result.append(orientation);
-		result.append(", mimumLabelHeight: ");
-		result.append(mimumLabelHeight);
 		result.append(')');
 		return result.toString();
 	}

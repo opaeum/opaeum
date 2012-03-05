@@ -2,6 +2,7 @@
  */
 package org.opaeum.uim.action;
 
+import org.opaeum.uim.UimComponent;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,5 +19,5 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface UimLink extends EObject {
+public interface UimLink extends UimComponent {
 } // UimLink

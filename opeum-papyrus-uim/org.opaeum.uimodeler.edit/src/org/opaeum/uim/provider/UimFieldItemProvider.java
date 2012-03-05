@@ -65,7 +65,6 @@ public class UimFieldItemProvider
 			addControlKindPropertyDescriptor(object);
 			addMinimumLabelWidthPropertyDescriptor(object);
 			addOrientationPropertyDescriptor(object);
-			addMimumLabelHeightPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -159,28 +158,6 @@ public class UimFieldItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Mimum Label Height feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMimumLabelHeightPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_UimField_mimumLabelHeight_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_UimField_mimumLabelHeight_feature", "_UI_UimField_type"),
-				 UimPackage.Literals.UIM_FIELD__MIMUM_LABEL_HEIGHT,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -252,7 +229,6 @@ public class UimFieldItemProvider
 			case UimPackage.UIM_FIELD__CONTROL_KIND:
 			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
 			case UimPackage.UIM_FIELD__ORIENTATION:
-			case UimPackage.UIM_FIELD__MIMUM_LABEL_HEIGHT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case UimPackage.UIM_FIELD__CONTROL:

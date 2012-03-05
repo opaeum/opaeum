@@ -11,6 +11,7 @@ import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
@@ -106,6 +107,7 @@ public class EditorSwitch<T> {
 				T result = caseAbstractEditor(abstractEditor);
 				if (result == null) result = caseUmlReference(abstractEditor);
 				if (result == null) result = caseUserInterfaceEntryPoint(abstractEditor);
+				if (result == null) result = caseUserInteractionElement(abstractEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -115,6 +117,7 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseAbstractEditor(actionTaskEditor);
 				if (result == null) result = caseUmlReference(actionTaskEditor);
 				if (result == null) result = caseUserInterfaceEntryPoint(actionTaskEditor);
+				if (result == null) result = caseUserInteractionElement(actionTaskEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -124,24 +127,27 @@ public class EditorSwitch<T> {
 				if (result == null) result = caseAbstractEditor(classEditor);
 				if (result == null) result = caseUmlReference(classEditor);
 				if (result == null) result = caseUserInterfaceEntryPoint(classEditor);
+				if (result == null) result = caseUserInteractionElement(classEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EditorPackage.OPERATION_TASK_EDITOR: {
-				OperationTaskEditor operationTaskEditor = (OperationTaskEditor)theEObject;
-				T result = caseOperationTaskEditor(operationTaskEditor);
-				if (result == null) result = caseAbstractEditor(operationTaskEditor);
-				if (result == null) result = caseUmlReference(operationTaskEditor);
-				if (result == null) result = caseUserInterfaceEntryPoint(operationTaskEditor);
+			case EditorPackage.RESPONSIBILITY_TASK_EDITOR: {
+				ResponsibilityTaskEditor responsibilityTaskEditor = (ResponsibilityTaskEditor)theEObject;
+				T result = caseResponsibilityTaskEditor(responsibilityTaskEditor);
+				if (result == null) result = caseAbstractEditor(responsibilityTaskEditor);
+				if (result == null) result = caseUmlReference(responsibilityTaskEditor);
+				if (result == null) result = caseUserInterfaceEntryPoint(responsibilityTaskEditor);
+				if (result == null) result = caseUserInteractionElement(responsibilityTaskEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case EditorPackage.OPERATION_INVOCATION_EDITOR: {
-				OperationInvocationEditor operationInvocationEditor = (OperationInvocationEditor)theEObject;
-				T result = caseOperationInvocationEditor(operationInvocationEditor);
-				if (result == null) result = caseAbstractEditor(operationInvocationEditor);
-				if (result == null) result = caseUmlReference(operationInvocationEditor);
-				if (result == null) result = caseUserInterfaceEntryPoint(operationInvocationEditor);
+			case EditorPackage.QUERY_INVOCATION_EDITOR: {
+				QueryInvocationEditor queryInvocationEditor = (QueryInvocationEditor)theEObject;
+				T result = caseQueryInvocationEditor(queryInvocationEditor);
+				if (result == null) result = caseAbstractEditor(queryInvocationEditor);
+				if (result == null) result = caseUmlReference(queryInvocationEditor);
+				if (result == null) result = caseUserInterfaceEntryPoint(queryInvocationEditor);
+				if (result == null) result = caseUserInteractionElement(queryInvocationEditor);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -149,6 +155,10 @@ public class EditorSwitch<T> {
 				EditorPage editorPage = (EditorPage)theEObject;
 				T result = caseEditorPage(editorPage);
 				if (result == null) result = casePage(editorPage);
+				if (result == null) result = caseUserInterface(editorPage);
+				if (result == null) result = caseEditableConstrainedObject(editorPage);
+				if (result == null) result = caseUserInteractionElement(editorPage);
+				if (result == null) result = caseConstrainedObject(editorPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -227,32 +237,32 @@ public class EditorSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation Task Editor</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Responsibility Task Editor</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation Task Editor</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Responsibility Task Editor</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseOperationTaskEditor(OperationTaskEditor object) {
+	public T caseResponsibilityTaskEditor(ResponsibilityTaskEditor object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation Invocation Editor</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Query Invocation Editor</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation Invocation Editor</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Query Invocation Editor</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseOperationInvocationEditor(OperationInvocationEditor object) {
+	public T caseQueryInvocationEditor(QueryInvocationEditor object) {
 		return null;
 	}
 
@@ -343,6 +353,21 @@ public class EditorSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInterface(UserInterface object) {
 		return null;
 	}
 

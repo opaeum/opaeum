@@ -2,8 +2,8 @@ package org.opaeum.uim.diagram.edit.policies;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import java.util.List;
+
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
@@ -17,7 +17,14 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.commands.wrappers.EMFtoGMFCommandWrapper;
 import org.opaeum.uim.diagram.edit.parts.BuiltInActionEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
+import org.opaeum.uim.diagram.edit.parts.HorizontalPanel2EditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToEntityEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToOperationEditPart;
+import org.opaeum.uim.diagram.edit.parts.OperationActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uim.diagram.edit.parts.UimFieldEditPart;
+import org.opaeum.uim.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uim.diagram.part.UimVisualIDRegistry;
 import org.opaeum.uim.diagram.providers.UimElementTypes;
 
@@ -29,7 +36,7 @@ public class GridPanelItemSemanticEditPolicy extends UimBaseItemSemanticEditPoli
 	 * @generated
 	 */
 	public GridPanelItemSemanticEditPolicy(){
-		super(UimElementTypes.GridPanel_2001);
+		super(UimElementTypes.GridPanel_2004);
 	}
 	/**
 	 * @generated
@@ -71,6 +78,41 @@ public class GridPanelItemSemanticEditPolicy extends UimBaseItemSemanticEditPoli
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
 						break;
 					case BuiltInActionEditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case HorizontalPanel2EditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case VerticalPanel2EditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case TransitionActionEditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case OperationActionEditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case LinkToOperationEditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case LinkToEntityEditPart.VISUAL_ID:
+						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
+						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
+						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));
+						break;
+					case UimDataTableEditPart.VISUAL_ID:
 						cmd.add(new DestroyElementCommand(new DestroyElementRequest(getEditingDomain(), cnode.getElement(), false))); // directlyOwned: true
 						// don't need explicit deletion of cnode as parent's view deletion would clean child views as well 
 						// cmd.add(new org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand(getEditingDomain(), cnode));

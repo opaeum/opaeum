@@ -27,8 +27,8 @@ public class UimEditPartFactory implements EditPartFactory{
 		if(model instanceof View){
 			View view = (View) model;
 			switch(UimVisualIDRegistry.getVisualID(view)){
-			case EditorPageEditPart.VISUAL_ID:
-				return new EditorPageEditPart(view);
+			case UserInterfaceEditPart.VISUAL_ID:
+				return new UserInterfaceEditPart(view);
 			case GridPanelEditPart.VISUAL_ID:
 				return new GridPanelEditPart(view);
 			case GridPanelNameEditPart.VISUAL_ID:
@@ -45,8 +45,26 @@ public class UimEditPartFactory implements EditPartFactory{
 				return new BuiltInActionEditPart(view);
 			case BuiltInActionNameKindEditPart.VISUAL_ID:
 				return new BuiltInActionNameKindEditPart(view);
+			case HorizontalPanel2EditPart.VISUAL_ID:
+				return new HorizontalPanel2EditPart(view);
+			case VerticalPanel2EditPart.VISUAL_ID:
+				return new VerticalPanel2EditPart(view);
+			case TransitionActionEditPart.VISUAL_ID:
+				return new TransitionActionEditPart(view);
+			case OperationActionEditPart.VISUAL_ID:
+				return new OperationActionEditPart(view);
+			case LinkToOperationEditPart.VISUAL_ID:
+				return new LinkToOperationEditPart(view);
+			case LinkToEntityEditPart.VISUAL_ID:
+				return new LinkToEntityEditPart(view);
+			case UimDataTableEditPart.VISUAL_ID:
+				return new UimDataTableEditPart(view);
+			case UimField2EditPart.VISUAL_ID:
+				return new UimField2EditPart(view);
 			case GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID:
 				return new GridPanelGridPanelChildrenCompartmentEditPart(view);
+			case UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID:
+				return new UimDataTableDataTableColumnCompartmentEditPart(view);
 			}
 		}
 		return createUnrecognizedEditPart(context, model);

@@ -27,18 +27,18 @@ public class UimParserProvider extends AbstractProvider implements IParserProvid
 	/**
 	 * @generated
 	 */
-	private IParser gridPanelName_5002Parser;
+	private IParser gridPanelName_5004Parser;
 	/**
 	 * @generated
 	 */
-	private IParser getGridPanelName_5002Parser(){
-		if(gridPanelName_5002Parser == null){
+	private IParser getGridPanelName_5004Parser(){
+		if(gridPanelName_5004Parser == null){
 			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
 			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
 			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
-			gridPanelName_5002Parser = parser;
+			gridPanelName_5004Parser = parser;
 		}
-		return gridPanelName_5002Parser;
+		return gridPanelName_5004Parser;
 	}
 	/**
 	 * @generated
@@ -82,7 +82,7 @@ public class UimParserProvider extends AbstractProvider implements IParserProvid
 	protected IParser getParser(int visualID){
 		switch(visualID){
 		case GridPanelNameEditPart.VISUAL_ID:
-			return getGridPanelName_5002Parser();
+			return getGridPanelName_5004Parser();
 		case UimFieldNameEditPart.VISUAL_ID:
 			return getUimFieldName_5001Parser();
 		case BuiltInActionNameKindEditPart.VISUAL_ID:

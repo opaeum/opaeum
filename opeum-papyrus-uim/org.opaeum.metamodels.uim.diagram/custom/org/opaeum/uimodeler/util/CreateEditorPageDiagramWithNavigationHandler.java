@@ -5,7 +5,7 @@ import org.eclipse.papyrus.infra.gmfdiag.navigation.CreateDiagramWithNavigationH
 public class CreateEditorPageDiagramWithNavigationHandler extends CreateDiagramWithNavigationHandler {
 
 	public CreateEditorPageDiagramWithNavigationHandler() {
-		super(new CreateEditorPageDiagramCommand(), new EditorPageCreationCondition());
+		super(new CreateUserInterfaceDiagramCommand(), new UserInterfaceCreationCondition());
 	}
 
 }

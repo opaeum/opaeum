@@ -14,6 +14,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.editor.ClassEditor;
 import org.opaeum.uim.editor.EditorPackage;
 
@@ -75,7 +76,7 @@ public class ClassEditorItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ClassEditor)object).getUmlElementUid();
+		String label = ((ClassEditor)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_ClassEditor_type") :
 			getString("_UI_ClassEditor_type") + " " + label;
@@ -118,8 +119,8 @@ public class ClassEditorItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == EditorPackage.Literals.ABSTRACT_EDITOR__EDITABILITY ||
-			childFeature == EditorPackage.Literals.ABSTRACT_EDITOR__VISIBILITY;
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
 
 		if (qualify) {
 			return getString

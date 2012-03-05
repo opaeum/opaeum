@@ -10,7 +10,7 @@ public class UimNavigatorSorter extends ViewerSorter{
 	/**
 	 * @generated
 	 */
-	private static final int GROUP_CATEGORY = 7003;
+	private static final int GROUP_CATEGORY = 7005;
 	/**
 	 * @generated
 	 */

@@ -11,6 +11,7 @@ import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
@@ -96,12 +97,12 @@ public class EditorAdapterFactory extends AdapterFactoryImpl {
 				return createClassEditorAdapter();
 			}
 			@Override
-			public Adapter caseOperationTaskEditor(OperationTaskEditor object) {
-				return createOperationTaskEditorAdapter();
+			public Adapter caseResponsibilityTaskEditor(ResponsibilityTaskEditor object) {
+				return createResponsibilityTaskEditorAdapter();
 			}
 			@Override
-			public Adapter caseOperationInvocationEditor(OperationInvocationEditor object) {
-				return createOperationInvocationEditorAdapter();
+			public Adapter caseQueryInvocationEditor(QueryInvocationEditor object) {
+				return createQueryInvocationEditorAdapter();
 			}
 			@Override
 			public Adapter caseEditorPage(EditorPage object) {
@@ -124,28 +125,32 @@ public class EditorAdapterFactory extends AdapterFactoryImpl {
 				return createUmlReferenceAdapter();
 			}
 			@Override
+			public Adapter caseUserInteractionElement(UserInteractionElement object) {
+				return createUserInteractionElementAdapter();
+			}
+			@Override
 			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
 				return createUserInterfaceEntryPointAdapter();
 			}
 			@Override
-			public Adapter casePage(Page object) {
-				return createPageAdapter();
-			}
-			@Override
-			public Adapter caseUserInteractionElement(UserInteractionElement object) {
-				return createUserInteractionElementAdapter();
+			public Adapter caseUserInterface(UserInterface object) {
+				return createUserInterfaceAdapter();
 			}
 			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
 				return createConstrainedObjectAdapter();
 			}
 			@Override
-			public Adapter caseUimComponent(UimComponent object) {
-				return createUimComponentAdapter();
-			}
-			@Override
 			public Adapter caseEditableConstrainedObject(EditableConstrainedObject object) {
 				return createEditableConstrainedObjectAdapter();
+			}
+			@Override
+			public Adapter casePage(Page object) {
+				return createPageAdapter();
+			}
+			@Override
+			public Adapter caseUimComponent(UimComponent object) {
+				return createUimComponentAdapter();
 			}
 			@Override
 			public Adapter caseUimContainer(UimContainer object) {
@@ -218,30 +223,30 @@ public class EditorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.editor.OperationTaskEditor <em>Operation Task Editor</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.editor.ResponsibilityTaskEditor <em>Responsibility Task Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.editor.OperationTaskEditor
+	 * @see org.opaeum.uim.editor.ResponsibilityTaskEditor
 	 * @generated
 	 */
-	public Adapter createOperationTaskEditorAdapter() {
+	public Adapter createResponsibilityTaskEditorAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.editor.OperationInvocationEditor <em>Operation Invocation Editor</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.editor.QueryInvocationEditor <em>Query Invocation Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.editor.OperationInvocationEditor
+	 * @see org.opaeum.uim.editor.QueryInvocationEditor
 	 * @generated
 	 */
-	public Adapter createOperationInvocationEditorAdapter() {
+	public Adapter createQueryInvocationEditorAdapter() {
 		return null;
 	}
 
@@ -326,6 +331,20 @@ public class EditorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInterfaceEntryPointAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UserInterface
+	 * @generated
+	 */
+	public Adapter createUserInterfaceAdapter() {
 		return null;
 	}
 

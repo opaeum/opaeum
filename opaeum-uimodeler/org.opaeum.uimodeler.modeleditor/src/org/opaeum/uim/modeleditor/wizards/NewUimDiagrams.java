@@ -21,10 +21,6 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IDE;
 import org.opaeum.uim.modeleditor.UimImageRegistry;
 import org.opaeum.uim.modeleditor.UimPlugin;
-import org.topcased.modeler.extensions.Template;
-import org.topcased.modeler.extensions.TemplatesManager;
-import org.topcased.modeler.tools.DiagramFileInitializer;
-import org.topcased.modeler.wizards.DiagramsPage;
 
 /**
  * Generated wizard that offers the model creation facilities.

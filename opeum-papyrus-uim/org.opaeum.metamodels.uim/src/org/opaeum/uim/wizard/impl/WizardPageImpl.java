@@ -22,23 +22,12 @@ import org.opaeum.uim.wizard.WizardPage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.wizard.impl.WizardPageImpl#getWizard <em>Wizard</em>}</li>
- *   <li>{@link org.opaeum.uim.wizard.impl.WizardPageImpl#getPanel <em>Panel</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class WizardPageImpl extends PageImpl implements WizardPage {
-	/**
-	 * The cached value of the '{@link #getPanel() <em>Panel</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPanel()
-	 * @generated
-	 * @ordered
-	 */
-	protected AbstractPanel panel;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,49 +93,6 @@ public class WizardPageImpl extends PageImpl implements WizardPage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AbstractPanel getPanel() {
-		return panel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetPanel(AbstractPanel newPanel, NotificationChain msgs) {
-		AbstractPanel oldPanel = panel;
-		panel = newPanel;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, WizardPackage.WIZARD_PAGE__PANEL, oldPanel, newPanel);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPanel(AbstractPanel newPanel) {
-		if (newPanel != panel) {
-			NotificationChain msgs = null;
-			if (panel != null)
-				msgs = ((InternalEObject)panel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - WizardPackage.WIZARD_PAGE__PANEL, null, msgs);
-			if (newPanel != null)
-				msgs = ((InternalEObject)newPanel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - WizardPackage.WIZARD_PAGE__PANEL, null, msgs);
-			msgs = basicSetPanel(newPanel, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, WizardPackage.WIZARD_PAGE__PANEL, newPanel, newPanel));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -168,8 +114,6 @@ public class WizardPageImpl extends PageImpl implements WizardPage {
 		switch (featureID) {
 			case WizardPackage.WIZARD_PAGE__WIZARD:
 				return basicSetWizard(null, msgs);
-			case WizardPackage.WIZARD_PAGE__PANEL:
-				return basicSetPanel(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -198,8 +142,6 @@ public class WizardPageImpl extends PageImpl implements WizardPage {
 		switch (featureID) {
 			case WizardPackage.WIZARD_PAGE__WIZARD:
 				return getWizard();
-			case WizardPackage.WIZARD_PAGE__PANEL:
-				return getPanel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -214,9 +156,6 @@ public class WizardPageImpl extends PageImpl implements WizardPage {
 		switch (featureID) {
 			case WizardPackage.WIZARD_PAGE__WIZARD:
 				setWizard((AbstractWizard)newValue);
-				return;
-			case WizardPackage.WIZARD_PAGE__PANEL:
-				setPanel((AbstractPanel)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -233,9 +172,6 @@ public class WizardPageImpl extends PageImpl implements WizardPage {
 			case WizardPackage.WIZARD_PAGE__WIZARD:
 				setWizard((AbstractWizard)null);
 				return;
-			case WizardPackage.WIZARD_PAGE__PANEL:
-				setPanel((AbstractPanel)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -250,8 +186,6 @@ public class WizardPageImpl extends PageImpl implements WizardPage {
 		switch (featureID) {
 			case WizardPackage.WIZARD_PAGE__WIZARD:
 				return getWizard() != null;
-			case WizardPackage.WIZARD_PAGE__PANEL:
-				return panel != null;
 		}
 		return super.eIsSet(featureID);
 	}

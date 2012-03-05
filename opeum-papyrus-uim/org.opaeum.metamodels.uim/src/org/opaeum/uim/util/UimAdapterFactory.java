@@ -111,8 +111,8 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 				return createObjectSelectorTreeAdapter();
 			}
 			@Override
-			public Adapter caseDetailPanel(DetailPanel object) {
-				return createDetailPanelAdapter();
+			public Adapter caseDetailComponent(DetailComponent object) {
+				return createDetailComponentAdapter();
 			}
 			@Override
 			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
@@ -121,6 +121,14 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter casePage(Page object) {
 				return createPageAdapter();
+			}
+			@Override
+			public Adapter caseUserInterface(UserInterface object) {
+				return createUserInterfaceAdapter();
+			}
+			@Override
+			public Adapter casePanelClass(PanelClass object) {
+				return createPanelClassAdapter();
 			}
 			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
@@ -263,16 +271,16 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.DetailPanel <em>Detail Panel</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.DetailComponent <em>Detail Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.DetailPanel
+	 * @see org.opaeum.uim.DetailComponent
 	 * @generated
 	 */
-	public Adapter createDetailPanelAdapter() {
+	public Adapter createDetailComponentAdapter() {
 		return null;
 	}
 
@@ -301,6 +309,34 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.UserInterface
+	 * @generated
+	 */
+	public Adapter createUserInterfaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PanelClass <em>Panel Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.PanelClass
+	 * @generated
+	 */
+	public Adapter createPanelClassAdapter() {
 		return null;
 	}
 

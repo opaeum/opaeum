@@ -6,7 +6,7 @@ import java.util.TreeMap;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.pages.AbstractPapyrusNodePreferencePage;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uim.diagram.part.UimDiagramEditorPlugin;
 
 /**
@@ -22,7 +22,7 @@ public class GridPanelPreferencePage extends AbstractPapyrusNodePreferencePage{
 	 */
 	public GridPanelPreferencePage(){
 		super();
-		setPreferenceKey(EditorPageEditPart.MODEL_ID + "_GridPanel");
+		setPreferenceKey(UserInterfaceEditPart.MODEL_ID + "_GridPanel");
 	}
 	/**
 	 * @generated
@@ -35,7 +35,7 @@ public class GridPanelPreferencePage extends AbstractPapyrusNodePreferencePage{
 	 * @generated
 	 */
 	public static void initDefaults(IPreferenceStore store){
-		String key = EditorPageEditPart.MODEL_ID + "_GridPanel";
+		String key = UserInterfaceEditPart.MODEL_ID + "_GridPanel";
 		store.setDefault(PreferenceConstantHelper.getElementConstant(key, PreferenceConstantHelper.WIDTH), 40);
 		store.setDefault(PreferenceConstantHelper.getElementConstant(key, PreferenceConstantHelper.HEIGHT), 40);
 		Map<String,Boolean> map = getStaticCompartmentVisibilityPreferences();

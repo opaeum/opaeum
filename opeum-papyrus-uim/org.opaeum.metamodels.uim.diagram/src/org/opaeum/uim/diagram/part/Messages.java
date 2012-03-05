@@ -220,6 +220,22 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
+	public static String createDataTable2CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createDataTable2CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String createColumn5CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createColumn5CreationTool_desc;
+	/**
+	 * @generated
+	 */
 	public static String createGridPanel1CreationTool_title;
 	/**
 	 * @generated
@@ -252,7 +268,35 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
+	public static String createTransitionAction2CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createTransitionAction2CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String createOperationAction3CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createOperationAction3CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String createLinkToEntity5CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createLinkToEntity5CreationTool_desc;
+	/**
+	 * @generated
+	 */
 	public static String GridPanelGridPanelChildrenCompartmentEditPart_title;
+	/**
+	 * @generated
+	 */
+	public static String UimDataTableDataTableColumnCompartmentEditPart_title;
 	/**
 	 * @generated
 	 */

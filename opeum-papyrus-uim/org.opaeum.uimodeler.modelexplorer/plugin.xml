@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.4"?>
+
+<plugin>
+
+   <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
+      <browserCustomization file="resource/UimPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
+   </extension>
+   <extension point="org.eclipse.emf.facet.infra.query.registration">
+      <modelqueryset file="resource/PapyrusBrowserQuery.querySet"/>
+   </extension>
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent activeByDefault="true" contentProvider="org.opaeum.uimodeler.modelexplorer.UimContentProvider" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.opaeum.uim.modelcontent"
+      		labelProvider="org.eclipse.papyrus.views.modelexplorer.MoDiscoLabelProvider" name="Uim Model Contents" priority="lower">
+         <triggerPoints>
+            <or>
+               <instanceof value="org.eclipse.emf.ecore.EObject">
+               </instanceof>
+               <adapt type="org.eclipse.emf.ecore.EObject">
+               </adapt>
+               <instanceof value="java.lang.Object">
+               </instanceof>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof value="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem">
+               </instanceof>
+               <instanceof value="org.eclipse.gmf.runtime.notation.Diagram">
+               </instanceof>
+            </or>
+         </possibleChildren>
+         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider" id="org.eclipse.papyrus.views.modelexplorer.actionprovider.GenericTransformActionProvider">
+            <enablement>
+               <or>
+                  <adapt type="org.eclipse.emf.ecore.EObject">
+                  </adapt>
+               </or>
+            </enablement>
+         </actionProvider>
+         <actionProvider class="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider" id="org.eclipse.papyrus.views.modelexplorer.actionprovider.EditingDomainActionProvider">
+            <enablement>
+               <and>
+                  <not>
+                     <instanceof value="org.eclipse.gmf.runtime.notation.Diagram">
+                     </instanceof>
+                  </not>
+                  <adapt type="org.eclipse.emf.ecore.EObject">
+                  </adapt>
+               </and>
+            </enablement>
+         </actionProvider>
+         <dropAssistant class="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant" id="org.eclipse.papyrus.views.modelexplorer.dnd.CommonDropAdapterAssistant">
+            <possibleDropTargets>
+               <or>
+                  <instanceof value="org.eclipse.gmf.runtime.notation.Diagram">
+                  </instanceof>
+                  <adapt type="org.eclipse.emf.ecore.EObject">
+                  </adapt>
+               </or>
+            </possibleDropTargets>
+         </dropAssistant>
+      </navigatorContent>
+   </extension>
+   
+
+<!-- Creation command declarations -->
+<extension point="org.eclipse.ui.commands">
+	<!-- Creation command for Abstraction -->
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.UserInterfaceHandler" description="Create a new Editor Page" id="org.opaeum.uimodeler.modelexplorer.handler.EditorPageHandler" name="Create a new Editor Page">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.UserInteractionConstraintHandler" description="Create a new Editor Page" id="org.opaeum.uimodeler.modelexplorer.handler.UserInteractionConstraintHandler" name="Create a new User Interaction Constraint">
+	</command>
+</extension>
+
+	
+<!-- UI Menu declaration for creation commands -->
+<extension point="org.eclipse.ui.menus">
+
+	<menuContribution locationURI="popup:org.eclipse.papyrus.views.modelexplorer.popupmenu.createchild" allPopups="false">
+	
+		<!-- Creation menu action for Abstraction -->
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.EditorPageHandler" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new Editor Page" style="push" tooltip="Create a new Editor Page">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+	</menuContribution>
+</extension>
+
+<!-- This declaration is added in order command (DeleteCommandHandler) status to be
+     verified (isVisible and isEnabled) before any attempt to execute the command, 
+     and to mask the command in case it is not supported or executable.
+  -->
+<extension point="org.eclipse.ui.startup">
+	<startup class="org.eclipse.papyrus.views.modelexplorer.Activator"/>
+</extension>
+<extension point="org.eclipse.core.runtime.adapters">
+   <factory adaptableType="org.eclipse.emf.facet.infra.browser.uicore.internal.model.ModelElementItem" class="org.opaeum.uimodeler.modelexplorer.factory.ModelElementItemFactory">
+      <adapter type="org.opaeum.uim.UserInteractionElement">
+      </adapter>
+   </factory>
+</extension>
+
+   <extension point="org.eclipse.emf.facet.infra.facet.registration">
+      <facetset file="resource/PapyrusUimFacet.facetSet">
+      </facetset>
+   </extension>
+   <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
+      <browserCustomization
+            file="resource/UimFacetDefaultBrowserCustomization.uiCustom"
+            loadByDefault="true"/>
+      <browserCustomization
+            file="resource/UimNotationCustomization.uiCustom"
+            loadByDefault="true">
+      </browserCustomization>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="org.opaeum.uimodeler.modelexplorer.UimPageListener">
+      </startup>
+   </extension>
+</plugin>

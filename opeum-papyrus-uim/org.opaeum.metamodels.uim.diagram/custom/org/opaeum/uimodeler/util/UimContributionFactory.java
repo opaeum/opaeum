@@ -6,8 +6,6 @@ import org.eclipse.core.expressions.IEvaluationContext;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,8 +19,6 @@ import org.eclipse.ui.menus.CommandContributionItemParameter;
 import org.eclipse.ui.menus.ExtensionContributionFactory;
 import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
-import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Model;
 import org.opaeum.uim.editor.EditorPage;
 
 public class UimContributionFactory extends ExtensionContributionFactory{
@@ -55,8 +51,8 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 			@Override
 			protected IContributionItem[] getContributionItems(){
 				CommandContributionItemParameter parameter = new CommandContributionItemParameter(PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow(), "org.opaeum.uimodeler.util.CreateEditorPageDiagramCommand",
-						"org.opaeum.uimodeler.util.CreateEditorPageDiagramCommand", null, WorkbenchImages
+						.getActiveWorkbenchWindow(), "org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand",
+						"org.opaeum.uimodeler.util.CreateUserInterfaceDiagramCommand", null, WorkbenchImages
 								.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR), WorkbenchImages
 								.getImageDescriptor(IWorkbenchGraphicConstants.IMG_ETOOL_PIN_EDITOR_DISABLED), null, null, null, null,
 						CommandContributionItem.STYLE_CHECK, null, false);

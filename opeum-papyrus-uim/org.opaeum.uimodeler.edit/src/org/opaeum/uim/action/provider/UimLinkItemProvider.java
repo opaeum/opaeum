@@ -15,6 +15,8 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.opaeum.uim.action.UimLink;
+import org.opaeum.uim.provider.UimComponentItemProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.opaeum.uim.provider.UimEditPlugin;
 
@@ -25,7 +27,7 @@ import org.opaeum.uim.provider.UimEditPlugin;
  * @generated
  */
 public class UimLinkItemProvider
-	extends ItemProviderAdapter
+	extends UimComponentItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -65,7 +67,10 @@ public class UimLinkItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_UimLink_type");
+		String label = ((UimLink)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_UimLink_type") :
+			getString("_UI_UimLink_type") + " " + label;
 	}
 
 	/**

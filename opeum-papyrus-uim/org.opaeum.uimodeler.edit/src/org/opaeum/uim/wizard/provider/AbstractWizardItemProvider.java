@@ -137,7 +137,7 @@ public class AbstractWizardItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AbstractWizard)object).getUmlElementUid();
+		String label = ((AbstractWizard)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_AbstractWizard_type") :
 			getString("_UI_AbstractWizard_type") + " " + label;
@@ -180,6 +180,29 @@ public class AbstractWizardItemProvider
 			(createChildParameter
 				(WizardPackage.Literals.ABSTRACT_WIZARD__PAGES,
 				 WizardFactory.eINSTANCE.createWizardPage()));
+	}
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 	/**

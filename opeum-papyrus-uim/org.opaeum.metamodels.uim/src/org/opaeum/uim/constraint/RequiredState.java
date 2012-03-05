@@ -34,7 +34,7 @@ public interface RequiredState extends UmlReference {
 	 * @see #setConstraint(RootUserInteractionConstraint)
 	 * @see org.opaeum.uim.constraint.ConstraintPackage#getRequiredState_Constraint()
 	 * @see org.opaeum.uim.constraint.RootUserInteractionConstraint#getRequiredStates
-	 * @model opposite="requiredStates" transient="false"
+	 * @model opposite="requiredStates" required="true" transient="false"
 	 * @generated
 	 */
 	RootUserInteractionConstraint getConstraint();

@@ -139,49 +139,49 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.OperationTaskEditor} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ResponsibilityTaskEditor} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationTaskEditorItemProvider operationTaskEditorItemProvider;
+	protected ResponsibilityTaskEditorItemProvider responsibilityTaskEditorItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.OperationTaskEditor}.
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.ResponsibilityTaskEditor}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createOperationTaskEditorAdapter() {
-		if (operationTaskEditorItemProvider == null) {
-			operationTaskEditorItemProvider = new OperationTaskEditorItemProvider(this);
+	public Adapter createResponsibilityTaskEditorAdapter() {
+		if (responsibilityTaskEditorItemProvider == null) {
+			responsibilityTaskEditorItemProvider = new ResponsibilityTaskEditorItemProvider(this);
 		}
 
-		return operationTaskEditorItemProvider;
+		return responsibilityTaskEditorItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.OperationInvocationEditor} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.QueryInvocationEditor} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationInvocationEditorItemProvider operationInvocationEditorItemProvider;
+	protected QueryInvocationEditorItemProvider queryInvocationEditorItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.OperationInvocationEditor}.
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.QueryInvocationEditor}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createOperationInvocationEditorAdapter() {
-		if (operationInvocationEditorItemProvider == null) {
-			operationInvocationEditorItemProvider = new OperationInvocationEditorItemProvider(this);
+	public Adapter createQueryInvocationEditorAdapter() {
+		if (queryInvocationEditorItemProvider == null) {
+			queryInvocationEditorItemProvider = new QueryInvocationEditorItemProvider(this);
 		}
 
-		return operationInvocationEditorItemProvider;
+		return queryInvocationEditorItemProvider;
 	}
 
 	/**
@@ -378,8 +378,8 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 		if (abstractEditorItemProvider != null) abstractEditorItemProvider.dispose();
 		if (actionTaskEditorItemProvider != null) actionTaskEditorItemProvider.dispose();
 		if (classEditorItemProvider != null) classEditorItemProvider.dispose();
-		if (operationTaskEditorItemProvider != null) operationTaskEditorItemProvider.dispose();
-		if (operationInvocationEditorItemProvider != null) operationInvocationEditorItemProvider.dispose();
+		if (responsibilityTaskEditorItemProvider != null) responsibilityTaskEditorItemProvider.dispose();
+		if (queryInvocationEditorItemProvider != null) queryInvocationEditorItemProvider.dispose();
 		if (editorPageItemProvider != null) editorPageItemProvider.dispose();
 		if (actionBarItemProvider != null) actionBarItemProvider.dispose();
 		if (menuConfigurationItemProvider != null) menuConfigurationItemProvider.dispose();

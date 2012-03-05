@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
@@ -129,6 +130,9 @@ public class ActionSwitch<T> {
 				T result = caseLinkToOperation(linkToOperation);
 				if (result == null) result = caseUimLink(linkToOperation);
 				if (result == null) result = caseUmlReference(linkToOperation);
+				if (result == null) result = caseUimComponent(linkToOperation);
+				if (result == null) result = caseUserInteractionElement(linkToOperation);
+				if (result == null) result = caseConstrainedObject(linkToOperation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -146,6 +150,9 @@ public class ActionSwitch<T> {
 			case ActionPackage.UIM_LINK: {
 				UimLink uimLink = (UimLink)theEObject;
 				T result = caseUimLink(uimLink);
+				if (result == null) result = caseUimComponent(uimLink);
+				if (result == null) result = caseUserInteractionElement(uimLink);
+				if (result == null) result = caseConstrainedObject(uimLink);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -154,6 +161,17 @@ public class ActionSwitch<T> {
 				T result = caseLinkToEntity(linkToEntity);
 				if (result == null) result = caseUimLink(linkToEntity);
 				if (result == null) result = caseUmlReference(linkToEntity);
+				if (result == null) result = caseUimComponent(linkToEntity);
+				if (result == null) result = caseUserInteractionElement(linkToEntity);
+				if (result == null) result = caseConstrainedObject(linkToEntity);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ActionPackage.OPERATION_ACTION_POPUP: {
+				OperationActionPopup operationActionPopup = (OperationActionPopup)theEObject;
+				T result = caseOperationActionPopup(operationActionPopup);
+				if (result == null) result = caseUserInterface(operationActionPopup);
+				if (result == null) result = caseUserInteractionElement(operationActionPopup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -267,6 +285,21 @@ public class ActionSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Action Popup</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Action Popup</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationActionPopup(OperationActionPopup object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -323,6 +356,21 @@ public class ActionSwitch<T> {
 	 * @generated
 	 */
 	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInterface(UserInterface object) {
 		return null;
 	}
 

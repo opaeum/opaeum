@@ -76,13 +76,22 @@ public interface EditorPackage extends EPackage {
 	int ABSTRACT_EDITOR__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__NAME = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__EDITABILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+	int ABSTRACT_EDITOR__EDITABILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -91,7 +100,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__VISIBILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+	int ABSTRACT_EDITOR__VISIBILITY = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
@@ -100,7 +109,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__ACTION_BAR = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+	int ABSTRACT_EDITOR__ACTION_BAR = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Menu Configuration</b></em>' containment reference.
@@ -109,7 +118,16 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR__MENU_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 3;
+	int ABSTRACT_EDITOR__MENU_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_EDITOR__PAGES = UimPackage.UML_REFERENCE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Abstract Editor</em>' class.
@@ -118,7 +136,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 4;
+	int ABSTRACT_EDITOR_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.ActionTaskEditorImpl <em>Action Task Editor</em>}' class.
@@ -138,6 +156,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTION_TASK_EDITOR__UML_ELEMENT_UID = ABSTRACT_EDITOR__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TASK_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -176,6 +203,15 @@ public interface EditorPackage extends EPackage {
 	int ACTION_TASK_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR__MENU_CONFIGURATION;
 
 	/**
+	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_TASK_EDITOR__PAGES = ABSTRACT_EDITOR__PAGES;
+
+	/**
 	 * The number of structural features of the '<em>Action Task Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -202,6 +238,15 @@ public interface EditorPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_EDITOR__UML_ELEMENT_UID = ABSTRACT_EDITOR__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -240,6 +285,15 @@ public interface EditorPackage extends EPackage {
 	int CLASS_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR__MENU_CONFIGURATION;
 
 	/**
+	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_EDITOR__PAGES = ABSTRACT_EDITOR__PAGES;
+
+	/**
 	 * The number of structural features of the '<em>Class Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -249,14 +303,14 @@ public interface EditorPackage extends EPackage {
 	int CLASS_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.OperationTaskEditorImpl <em>Operation Task Editor</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.ResponsibilityTaskEditorImpl <em>Responsibility Task Editor</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.editor.impl.OperationTaskEditorImpl
-	 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getOperationTaskEditor()
+	 * @see org.opaeum.uim.editor.impl.ResponsibilityTaskEditorImpl
+	 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getResponsibilityTaskEditor()
 	 * @generated
 	 */
-	int OPERATION_TASK_EDITOR = 3;
+	int RESPONSIBILITY_TASK_EDITOR = 3;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -265,7 +319,16 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_EDITOR__UML_ELEMENT_UID = ABSTRACT_EDITOR__UML_ELEMENT_UID;
+	int RESPONSIBILITY_TASK_EDITOR__UML_ELEMENT_UID = ABSTRACT_EDITOR__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_TASK_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -274,7 +337,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_EDITOR__EDITABILITY = ABSTRACT_EDITOR__EDITABILITY;
+	int RESPONSIBILITY_TASK_EDITOR__EDITABILITY = ABSTRACT_EDITOR__EDITABILITY;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -283,7 +346,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_EDITOR__VISIBILITY = ABSTRACT_EDITOR__VISIBILITY;
+	int RESPONSIBILITY_TASK_EDITOR__VISIBILITY = ABSTRACT_EDITOR__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
@@ -292,7 +355,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_EDITOR__ACTION_BAR = ABSTRACT_EDITOR__ACTION_BAR;
+	int RESPONSIBILITY_TASK_EDITOR__ACTION_BAR = ABSTRACT_EDITOR__ACTION_BAR;
 
 	/**
 	 * The feature id for the '<em><b>Menu Configuration</b></em>' containment reference.
@@ -301,26 +364,35 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR__MENU_CONFIGURATION;
+	int RESPONSIBILITY_TASK_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR__MENU_CONFIGURATION;
 
 	/**
-	 * The number of structural features of the '<em>Operation Task Editor</em>' class.
+	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_TASK_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+	int RESPONSIBILITY_TASK_EDITOR__PAGES = ABSTRACT_EDITOR__PAGES;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.OperationInvocationEditorImpl <em>Operation Invocation Editor</em>}' class.
+	 * The number of structural features of the '<em>Responsibility Task Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.editor.impl.OperationInvocationEditorImpl
-	 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getOperationInvocationEditor()
+	 * @generated
+	 * @ordered
+	 */
+	int RESPONSIBILITY_TASK_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.QueryInvocationEditorImpl <em>Query Invocation Editor</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.editor.impl.QueryInvocationEditorImpl
+	 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getQueryInvocationEditor()
 	 * @generated
 	 */
-	int OPERATION_INVOCATION_EDITOR = 4;
+	int QUERY_INVOCATION_EDITOR = 4;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -329,7 +401,16 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_EDITOR__UML_ELEMENT_UID = ABSTRACT_EDITOR__UML_ELEMENT_UID;
+	int QUERY_INVOCATION_EDITOR__UML_ELEMENT_UID = ABSTRACT_EDITOR__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOCATION_EDITOR__NAME = ABSTRACT_EDITOR__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
@@ -338,7 +419,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_EDITOR__EDITABILITY = ABSTRACT_EDITOR__EDITABILITY;
+	int QUERY_INVOCATION_EDITOR__EDITABILITY = ABSTRACT_EDITOR__EDITABILITY;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
@@ -347,7 +428,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_EDITOR__VISIBILITY = ABSTRACT_EDITOR__VISIBILITY;
+	int QUERY_INVOCATION_EDITOR__VISIBILITY = ABSTRACT_EDITOR__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Action Bar</b></em>' containment reference.
@@ -356,7 +437,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_EDITOR__ACTION_BAR = ABSTRACT_EDITOR__ACTION_BAR;
+	int QUERY_INVOCATION_EDITOR__ACTION_BAR = ABSTRACT_EDITOR__ACTION_BAR;
 
 	/**
 	 * The feature id for the '<em><b>Menu Configuration</b></em>' containment reference.
@@ -365,16 +446,25 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR__MENU_CONFIGURATION;
+	int QUERY_INVOCATION_EDITOR__MENU_CONFIGURATION = ABSTRACT_EDITOR__MENU_CONFIGURATION;
 
 	/**
-	 * The number of structural features of the '<em>Operation Invocation Editor</em>' class.
+	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_INVOCATION_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
+	int QUERY_INVOCATION_EDITOR__PAGES = ABSTRACT_EDITOR__PAGES;
+
+	/**
+	 * The number of structural features of the '<em>Query Invocation Editor</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY_INVOCATION_EDITOR_FEATURE_COUNT = ABSTRACT_EDITOR_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.EditorPageImpl <em>Page</em>}' class.
@@ -387,13 +477,13 @@ public interface EditorPackage extends EPackage {
 	int EDITOR_PAGE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Editor</b></em>' reference.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EDITOR_PAGE__EDITOR = UimPackage.PAGE_FEATURE_COUNT + 0;
+	int EDITOR_PAGE__NAME = UimPackage.PAGE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
@@ -402,7 +492,34 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDITOR_PAGE__PANEL = UimPackage.PAGE_FEATURE_COUNT + 1;
+	int EDITOR_PAGE__PANEL = UimPackage.PAGE__PANEL;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_PAGE__VISIBILITY = UimPackage.PAGE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editor</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EDITOR_PAGE__EDITOR = UimPackage.PAGE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Page</em>' class.
@@ -411,7 +528,7 @@ public interface EditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EDITOR_PAGE_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 2;
+	int EDITOR_PAGE_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.editor.impl.ActionBarImpl <em>Action Bar</em>}' class.
@@ -554,28 +671,6 @@ public interface EditorPackage extends EPackage {
 	EClass getAbstractEditor();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.AbstractEditor#getEditability <em>Editability</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Editability</em>'.
-	 * @see org.opaeum.uim.editor.AbstractEditor#getEditability()
-	 * @see #getAbstractEditor()
-	 * @generated
-	 */
-	EReference getAbstractEditor_Editability();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.AbstractEditor#getVisibility <em>Visibility</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Visibility</em>'.
-	 * @see org.opaeum.uim.editor.AbstractEditor#getVisibility()
-	 * @see #getAbstractEditor()
-	 * @generated
-	 */
-	EReference getAbstractEditor_Visibility();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.AbstractEditor#getActionBar <em>Action Bar</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -598,6 +693,17 @@ public interface EditorPackage extends EPackage {
 	EReference getAbstractEditor_MenuConfiguration();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.editor.AbstractEditor#getPages <em>Pages</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Pages</em>'.
+	 * @see org.opaeum.uim.editor.AbstractEditor#getPages()
+	 * @see #getAbstractEditor()
+	 * @generated
+	 */
+	EReference getAbstractEditor_Pages();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.editor.ActionTaskEditor <em>Action Task Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -618,24 +724,24 @@ public interface EditorPackage extends EPackage {
 	EClass getClassEditor();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.editor.OperationTaskEditor <em>Operation Task Editor</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.editor.ResponsibilityTaskEditor <em>Responsibility Task Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Operation Task Editor</em>'.
-	 * @see org.opaeum.uim.editor.OperationTaskEditor
+	 * @return the meta object for class '<em>Responsibility Task Editor</em>'.
+	 * @see org.opaeum.uim.editor.ResponsibilityTaskEditor
 	 * @generated
 	 */
-	EClass getOperationTaskEditor();
+	EClass getResponsibilityTaskEditor();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.editor.OperationInvocationEditor <em>Operation Invocation Editor</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.editor.QueryInvocationEditor <em>Query Invocation Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Operation Invocation Editor</em>'.
-	 * @see org.opaeum.uim.editor.OperationInvocationEditor
+	 * @return the meta object for class '<em>Query Invocation Editor</em>'.
+	 * @see org.opaeum.uim.editor.QueryInvocationEditor
 	 * @generated
 	 */
-	EClass getOperationInvocationEditor();
+	EClass getQueryInvocationEditor();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.editor.EditorPage <em>Page</em>}'.
@@ -648,26 +754,15 @@ public interface EditorPackage extends EPackage {
 	EClass getEditorPage();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.uim.editor.EditorPage#getEditor <em>Editor</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.editor.EditorPage#getEditor <em>Editor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Editor</em>'.
+	 * @return the meta object for the container reference '<em>Editor</em>'.
 	 * @see org.opaeum.uim.editor.EditorPage#getEditor()
 	 * @see #getEditorPage()
 	 * @generated
 	 */
 	EReference getEditorPage_Editor();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.uim.editor.EditorPage#getPanel <em>Panel</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Panel</em>'.
-	 * @see org.opaeum.uim.editor.EditorPage#getPanel()
-	 * @see #getEditorPage()
-	 * @generated
-	 */
-	EReference getEditorPage_Panel();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.editor.ActionBar <em>Action Bar</em>}'.
@@ -765,22 +860,6 @@ public interface EditorPackage extends EPackage {
 		EClass ABSTRACT_EDITOR = eINSTANCE.getAbstractEditor();
 
 		/**
-		 * The meta object literal for the '<em><b>Editability</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ABSTRACT_EDITOR__EDITABILITY = eINSTANCE.getAbstractEditor_Editability();
-
-		/**
-		 * The meta object literal for the '<em><b>Visibility</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ABSTRACT_EDITOR__VISIBILITY = eINSTANCE.getAbstractEditor_Visibility();
-
-		/**
 		 * The meta object literal for the '<em><b>Action Bar</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -795,6 +874,14 @@ public interface EditorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ABSTRACT_EDITOR__MENU_CONFIGURATION = eINSTANCE.getAbstractEditor_MenuConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Pages</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_EDITOR__PAGES = eINSTANCE.getAbstractEditor_Pages();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.ActionTaskEditorImpl <em>Action Task Editor</em>}' class.
@@ -817,24 +904,24 @@ public interface EditorPackage extends EPackage {
 		EClass CLASS_EDITOR = eINSTANCE.getClassEditor();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.OperationTaskEditorImpl <em>Operation Task Editor</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.ResponsibilityTaskEditorImpl <em>Responsibility Task Editor</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.editor.impl.OperationTaskEditorImpl
-		 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getOperationTaskEditor()
+		 * @see org.opaeum.uim.editor.impl.ResponsibilityTaskEditorImpl
+		 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getResponsibilityTaskEditor()
 		 * @generated
 		 */
-		EClass OPERATION_TASK_EDITOR = eINSTANCE.getOperationTaskEditor();
+		EClass RESPONSIBILITY_TASK_EDITOR = eINSTANCE.getResponsibilityTaskEditor();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.OperationInvocationEditorImpl <em>Operation Invocation Editor</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.QueryInvocationEditorImpl <em>Query Invocation Editor</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.editor.impl.OperationInvocationEditorImpl
-		 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getOperationInvocationEditor()
+		 * @see org.opaeum.uim.editor.impl.QueryInvocationEditorImpl
+		 * @see org.opaeum.uim.editor.impl.EditorPackageImpl#getQueryInvocationEditor()
 		 * @generated
 		 */
-		EClass OPERATION_INVOCATION_EDITOR = eINSTANCE.getOperationInvocationEditor();
+		EClass QUERY_INVOCATION_EDITOR = eINSTANCE.getQueryInvocationEditor();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.EditorPageImpl <em>Page</em>}' class.
@@ -847,20 +934,12 @@ public interface EditorPackage extends EPackage {
 		EClass EDITOR_PAGE = eINSTANCE.getEditorPage();
 
 		/**
-		 * The meta object literal for the '<em><b>Editor</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Editor</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference EDITOR_PAGE__EDITOR = eINSTANCE.getEditorPage_Editor();
-
-		/**
-		 * The meta object literal for the '<em><b>Panel</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EDITOR_PAGE__PANEL = eINSTANCE.getEditorPage_Panel();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.editor.impl.ActionBarImpl <em>Action Bar</em>}' class.

@@ -162,26 +162,26 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.DetailPanel} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.DetailComponent} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DetailPanelItemProvider detailPanelItemProvider;
+	protected DetailComponentItemProvider detailComponentItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.DetailPanel}.
+	 * This creates an adapter for a {@link org.opaeum.uim.DetailComponent}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createDetailPanelAdapter() {
-		if (detailPanelItemProvider == null) {
-			detailPanelItemProvider = new DetailPanelItemProvider(this);
+	public Adapter createDetailComponentAdapter() {
+		if (detailComponentItemProvider == null) {
+			detailComponentItemProvider = new DetailComponentItemProvider(this);
 		}
 
-		return detailPanelItemProvider;
+		return detailComponentItemProvider;
 	}
 
 	/**
@@ -205,6 +205,52 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 		}
 
 		return userInterfaceEntryPointItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.UserInterface} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UserInterfaceItemProvider userInterfaceItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.UserInterface}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUserInterfaceAdapter() {
+		if (userInterfaceItemProvider == null) {
+			userInterfaceItemProvider = new UserInterfaceItemProvider(this);
+		}
+
+		return userInterfaceItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.PanelClass} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PanelClassItemProvider panelClassItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.PanelClass}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPanelClassAdapter() {
+		if (panelClassItemProvider == null) {
+			panelClassItemProvider = new PanelClassItemProvider(this);
+		}
+
+		return panelClassItemProvider;
 	}
 
 	/**
@@ -310,8 +356,10 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 		if (uimDataTableItemProvider != null) uimDataTableItemProvider.dispose();
 		if (umlReferenceItemProvider != null) umlReferenceItemProvider.dispose();
 		if (objectSelectorTreeItemProvider != null) objectSelectorTreeItemProvider.dispose();
-		if (detailPanelItemProvider != null) detailPanelItemProvider.dispose();
+		if (detailComponentItemProvider != null) detailComponentItemProvider.dispose();
 		if (userInterfaceEntryPointItemProvider != null) userInterfaceEntryPointItemProvider.dispose();
+		if (userInterfaceItemProvider != null) userInterfaceItemProvider.dispose();
+		if (panelClassItemProvider != null) panelClassItemProvider.dispose();
 	}
 
 }

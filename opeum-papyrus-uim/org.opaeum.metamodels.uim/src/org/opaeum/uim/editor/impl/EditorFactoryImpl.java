@@ -67,8 +67,8 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 			case EditorPackage.ABSTRACT_EDITOR: return createAbstractEditor();
 			case EditorPackage.ACTION_TASK_EDITOR: return createActionTaskEditor();
 			case EditorPackage.CLASS_EDITOR: return createClassEditor();
-			case EditorPackage.OPERATION_TASK_EDITOR: return createOperationTaskEditor();
-			case EditorPackage.OPERATION_INVOCATION_EDITOR: return createOperationInvocationEditor();
+			case EditorPackage.RESPONSIBILITY_TASK_EDITOR: return createResponsibilityTaskEditor();
+			case EditorPackage.QUERY_INVOCATION_EDITOR: return createQueryInvocationEditor();
 			case EditorPackage.EDITOR_PAGE: return createEditorPage();
 			case EditorPackage.ACTION_BAR: return createActionBar();
 			case EditorPackage.MENU_CONFIGURATION: return createMenuConfiguration();
@@ -113,9 +113,9 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationTaskEditor createOperationTaskEditor() {
-		OperationTaskEditorImpl operationTaskEditor = new OperationTaskEditorImpl();
-		return operationTaskEditor;
+	public ResponsibilityTaskEditor createResponsibilityTaskEditor() {
+		ResponsibilityTaskEditorImpl responsibilityTaskEditor = new ResponsibilityTaskEditorImpl();
+		return responsibilityTaskEditor;
 	}
 
 	/**
@@ -123,9 +123,9 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationInvocationEditor createOperationInvocationEditor() {
-		OperationInvocationEditorImpl operationInvocationEditor = new OperationInvocationEditorImpl();
-		return operationInvocationEditor;
+	public QueryInvocationEditor createQueryInvocationEditor() {
+		QueryInvocationEditorImpl queryInvocationEditor = new QueryInvocationEditorImpl();
+		return queryInvocationEditor;
 	}
 
 	/**

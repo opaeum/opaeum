@@ -48,9 +48,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
-import org.opaeum.uim.editor.EditorFactory;
-import org.opaeum.uim.editor.EditorPage;
+import org.opaeum.uim.UimFactory;
+import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 
 /**
  * @generated
@@ -146,9 +146,9 @@ public class UimDiagramEditorUtil{
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain,
 				Messages.UimDiagramEditorUtil_CreateDiagramCommandLabel, Collections.EMPTY_LIST){
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-				EditorPage model = createInitialModel();
+				UserInterface model = createInitialModel();
 				attachModelToResource(model, modelResource);
-				Diagram diagram = ViewService.createDiagram(model, EditorPageEditPart.MODEL_ID, UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
+				Diagram diagram = ViewService.createDiagram(model, UserInterfaceEditPart.MODEL_ID, UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				if(diagram != null){
 					diagramResource.getContents().add(diagram);
 					diagram.setName(diagramName);
@@ -178,8 +178,8 @@ public class UimDiagramEditorUtil{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static EditorPage createInitialModel(){
-		return EditorFactory.eINSTANCE.createEditorPage();
+	private static UserInterface createInitialModel(){
+		return UimFactory.eINSTANCE.createUserInterface();
 	}
 	/**
 	 * Store model element in the resource.
@@ -187,7 +187,7 @@ public class UimDiagramEditorUtil{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static void attachModelToResource(EditorPage model,Resource resource){
+	private static void attachModelToResource(UserInterface model,Resource resource){
 		resource.getContents().add(model);
 	}
 	/**

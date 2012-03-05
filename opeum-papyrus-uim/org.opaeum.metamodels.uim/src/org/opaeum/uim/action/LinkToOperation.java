@@ -3,6 +3,7 @@
 package org.opaeum.uim.action;
 
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.editor.QueryInvocationEditor;
 import org.opaeum.uim.editor.OperationInvocationEditor;
 
 /**
@@ -35,12 +36,12 @@ public interface LinkToOperation extends UimLink, UmlReference {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>To Form</em>' reference.
-	 * @see #setToForm(OperationInvocationEditor)
+	 * @see #setToForm(QueryInvocationEditor)
 	 * @see org.opaeum.uim.action.ActionPackage#getLinkToOperation_ToForm()
 	 * @model
 	 * @generated
 	 */
-	OperationInvocationEditor getToForm();
+	QueryInvocationEditor getToForm();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.action.LinkToOperation#getToForm <em>To Form</em>}' reference.
@@ -50,6 +51,6 @@ public interface LinkToOperation extends UimLink, UmlReference {
 	 * @see #getToForm()
 	 * @generated
 	 */
-	void setToForm(OperationInvocationEditor value);
+	void setToForm(QueryInvocationEditor value);
 
 } // LinkToOperation

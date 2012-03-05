@@ -15,10 +15,9 @@ import org.opaeum.uim.constraint.RootUserInteractionConstraint;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opaeum.uim.editor.AbstractEditor#getEditability <em>Editability</em>}</li>
- *   <li>{@link org.opaeum.uim.editor.AbstractEditor#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.AbstractEditor#getActionBar <em>Action Bar</em>}</li>
  *   <li>{@link org.opaeum.uim.editor.AbstractEditor#getMenuConfiguration <em>Menu Configuration</em>}</li>
+ *   <li>{@link org.opaeum.uim.editor.AbstractEditor#getPages <em>Pages</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,58 +26,6 @@ import org.opaeum.uim.constraint.RootUserInteractionConstraint;
  * @generated
  */
 public interface AbstractEditor extends UmlReference, UserInterfaceEntryPoint {
-	/**
-	 * Returns the value of the '<em><b>Editability</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Editability</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Editability</em>' containment reference.
-	 * @see #setEditability(RootUserInteractionConstraint)
-	 * @see org.opaeum.uim.editor.EditorPackage#getAbstractEditor_Editability()
-	 * @model containment="true"
-	 * @generated
-	 */
-	RootUserInteractionConstraint getEditability();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.editor.AbstractEditor#getEditability <em>Editability</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Editability</em>' containment reference.
-	 * @see #getEditability()
-	 * @generated
-	 */
-	void setEditability(RootUserInteractionConstraint value);
-
-	/**
-	 * Returns the value of the '<em><b>Visibility</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Visibility</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Visibility</em>' containment reference.
-	 * @see #setVisibility(RootUserInteractionConstraint)
-	 * @see org.opaeum.uim.editor.EditorPackage#getAbstractEditor_Visibility()
-	 * @model containment="true"
-	 * @generated
-	 */
-	RootUserInteractionConstraint getVisibility();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.editor.AbstractEditor#getVisibility <em>Visibility</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Visibility</em>' containment reference.
-	 * @see #getVisibility()
-	 * @generated
-	 */
-	void setVisibility(RootUserInteractionConstraint value);
-
 	/**
 	 * Returns the value of the '<em><b>Action Bar</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -132,5 +79,23 @@ public interface AbstractEditor extends UmlReference, UserInterfaceEntryPoint {
 	 * @generated
 	 */
 	void setMenuConfiguration(MenuConfiguration value);
+
+	/**
+	 * Returns the value of the '<em><b>Pages</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.editor.EditorPage}.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.EditorPage#getEditor <em>Editor</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Pages</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Pages</em>' containment reference list.
+	 * @see org.opaeum.uim.editor.EditorPackage#getAbstractEditor_Pages()
+	 * @see org.opaeum.uim.editor.EditorPage#getEditor
+	 * @model opposite="editor" containment="true"
+	 * @generated
+	 */
+	EList<EditorPage> getPages();
 
 } // AbstractEditor

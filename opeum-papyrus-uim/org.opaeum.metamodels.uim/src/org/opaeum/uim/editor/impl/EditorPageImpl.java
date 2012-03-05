@@ -22,32 +22,12 @@ import org.opaeum.uim.panel.AbstractPanel;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.editor.impl.EditorPageImpl#getEditor <em>Editor</em>}</li>
- *   <li>{@link org.opaeum.uim.editor.impl.EditorPageImpl#getPanel <em>Panel</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class EditorPageImpl extends PageImpl implements EditorPage {
-	/**
-	 * The cached value of the '{@link #getEditor() <em>Editor</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEditor()
-	 * @generated
-	 * @ordered
-	 */
-	protected AbstractEditor editor;
-	/**
-	 * The cached value of the '{@link #getPanel() <em>Panel</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPanel()
-	 * @generated
-	 * @ordered
-	 */
-	protected AbstractPanel panel;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -73,15 +53,8 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 	 * @generated
 	 */
 	public AbstractEditor getEditor() {
-		if (editor != null && editor.eIsProxy()) {
-			InternalEObject oldEditor = (InternalEObject)editor;
-			editor = (AbstractEditor)eResolveProxy(oldEditor);
-			if (editor != oldEditor) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, EditorPackage.EDITOR_PAGE__EDITOR, oldEditor, editor));
-			}
-		}
-		return editor;
+		if (eContainerFeatureID() != EditorPackage.EDITOR_PAGE__EDITOR) return null;
+		return (AbstractEditor)eContainer();
 	}
 
 	/**
@@ -89,43 +62,8 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AbstractEditor basicGetEditor() {
-		return editor;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEditor(AbstractEditor newEditor) {
-		AbstractEditor oldEditor = editor;
-		editor = newEditor;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.EDITOR_PAGE__EDITOR, oldEditor, editor));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AbstractPanel getPanel() {
-		return panel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetPanel(AbstractPanel newPanel, NotificationChain msgs) {
-		AbstractPanel oldPanel = panel;
-		panel = newPanel;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EditorPackage.EDITOR_PAGE__PANEL, oldPanel, newPanel);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
+	public NotificationChain basicSetEditor(AbstractEditor newEditor, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newEditor, EditorPackage.EDITOR_PAGE__EDITOR, msgs);
 		return msgs;
 	}
 
@@ -134,18 +72,36 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPanel(AbstractPanel newPanel) {
-		if (newPanel != panel) {
+	public void setEditor(AbstractEditor newEditor) {
+		if (newEditor != eInternalContainer() || (eContainerFeatureID() != EditorPackage.EDITOR_PAGE__EDITOR && newEditor != null)) {
+			if (EcoreUtil.isAncestor(this, newEditor))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
-			if (panel != null)
-				msgs = ((InternalEObject)panel).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EditorPackage.EDITOR_PAGE__PANEL, null, msgs);
-			if (newPanel != null)
-				msgs = ((InternalEObject)newPanel).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EditorPackage.EDITOR_PAGE__PANEL, null, msgs);
-			msgs = basicSetPanel(newPanel, msgs);
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newEditor != null)
+				msgs = ((InternalEObject)newEditor).eInverseAdd(this, EditorPackage.ABSTRACT_EDITOR__PAGES, AbstractEditor.class, msgs);
+			msgs = basicSetEditor(newEditor, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.EDITOR_PAGE__PANEL, newPanel, newPanel));
+			eNotify(new ENotificationImpl(this, Notification.SET, EditorPackage.EDITOR_PAGE__EDITOR, newEditor, newEditor));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case EditorPackage.EDITOR_PAGE__EDITOR:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetEditor((AbstractEditor)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -156,10 +112,24 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case EditorPackage.EDITOR_PAGE__PANEL:
-				return basicSetPanel(null, msgs);
+			case EditorPackage.EDITOR_PAGE__EDITOR:
+				return basicSetEditor(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case EditorPackage.EDITOR_PAGE__EDITOR:
+				return eInternalContainer().eInverseRemove(this, EditorPackage.ABSTRACT_EDITOR__PAGES, AbstractEditor.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -171,10 +141,7 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case EditorPackage.EDITOR_PAGE__EDITOR:
-				if (resolve) return getEditor();
-				return basicGetEditor();
-			case EditorPackage.EDITOR_PAGE__PANEL:
-				return getPanel();
+				return getEditor();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -189,9 +156,6 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 		switch (featureID) {
 			case EditorPackage.EDITOR_PAGE__EDITOR:
 				setEditor((AbstractEditor)newValue);
-				return;
-			case EditorPackage.EDITOR_PAGE__PANEL:
-				setPanel((AbstractPanel)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -208,9 +172,6 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 			case EditorPackage.EDITOR_PAGE__EDITOR:
 				setEditor((AbstractEditor)null);
 				return;
-			case EditorPackage.EDITOR_PAGE__PANEL:
-				setPanel((AbstractPanel)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -224,9 +185,7 @@ public class EditorPageImpl extends PageImpl implements EditorPage {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case EditorPackage.EDITOR_PAGE__EDITOR:
-				return editor != null;
-			case EditorPackage.EDITOR_PAGE__PANEL:
-				return panel != null;
+				return getEditor() != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -67,8 +67,10 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 			case UimPackage.UIM_DATA_TABLE: return createUimDataTable();
 			case UimPackage.UML_REFERENCE: return createUmlReference();
 			case UimPackage.OBJECT_SELECTOR_TREE: return createObjectSelectorTree();
-			case UimPackage.DETAIL_PANEL: return createDetailPanel();
+			case UimPackage.DETAIL_COMPONENT: return createDetailComponent();
 			case UimPackage.USER_INTERFACE_ENTRY_POINT: return createUserInterfaceEntryPoint();
+			case UimPackage.USER_INTERFACE: return createUserInterface();
+			case UimPackage.PANEL_CLASS: return createPanelClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -149,9 +151,9 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public DetailPanel createDetailPanel() {
-		DetailPanelImpl detailPanel = new DetailPanelImpl();
-		return detailPanel;
+	public DetailComponent createDetailComponent() {
+		DetailComponentImpl detailComponent = new DetailComponentImpl();
+		return detailComponent;
 	}
 
 	/**
@@ -162,6 +164,26 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 	public UserInterfaceEntryPoint createUserInterfaceEntryPoint() {
 		UserInterfaceEntryPointImpl userInterfaceEntryPoint = new UserInterfaceEntryPointImpl();
 		return userInterfaceEntryPoint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UserInterface createUserInterface() {
+		UserInterfaceImpl userInterface = new UserInterfaceImpl();
+		return userInterface;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PanelClass createPanelClass() {
+		PanelClassImpl panelClass = new PanelClassImpl();
+		return panelClass;
 	}
 
 	/**

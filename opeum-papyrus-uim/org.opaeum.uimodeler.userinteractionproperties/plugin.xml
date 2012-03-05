@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+		<propertyTabs contributorId="TreeOutlinePage">
+			<propertyTab
+				category="domain"
+				id="org.opaeum.uim.userinteractionproperties.basic"
+				label="UI"/>    
+		</propertyTabs>
+	</extension>
+
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+		<propertySections contributorId="TreeOutlinePage">
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.UserInteractionElementFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection">
+				<input type="org.opaeum.uim.UserInteractionElement"/>
+			</propertySection>
+		</propertySections>
+	</extension>
+	
+</plugin>

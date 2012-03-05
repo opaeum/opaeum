@@ -79,7 +79,7 @@ public class VisibleNonCompositePropertyImpl extends UmlReferenceImpl implements
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newExplorerConfiguration != null)
-				msgs = ((InternalEObject)newExplorerConfiguration).eInverseAdd(this, PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES, ExplorerConfiguration.class, msgs);
+				msgs = ((InternalEObject)newExplorerConfiguration).eInverseAdd(this, PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES, ExplorerConfiguration.class, msgs);
 			msgs = basicSetExplorerConfiguration(newExplorerConfiguration, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -126,7 +126,7 @@ public class VisibleNonCompositePropertyImpl extends UmlReferenceImpl implements
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case PerspectivePackage.VISIBLE_NON_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION:
-				return eInternalContainer().eInverseRemove(this, PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES, ExplorerConfiguration.class, msgs);
+				return eInternalContainer().eInverseRemove(this, PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES, ExplorerConfiguration.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}

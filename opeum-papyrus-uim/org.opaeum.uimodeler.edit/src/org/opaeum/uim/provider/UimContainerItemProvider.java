@@ -164,6 +164,16 @@ public class UimContainerItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 UimFactory.eINSTANCE.createUimDataTable()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 UimFactory.eINSTANCE.createDetailComponent()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
 				 EditorFactory.eINSTANCE.createActionBar()));
 
 		newChildDescriptors.add
@@ -179,7 +189,17 @@ public class UimContainerItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createLinkToOperation()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
 				 ActionFactory.eINSTANCE.createOperationAction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 ActionFactory.eINSTANCE.createLinkToEntity()));
 
 		newChildDescriptors.add
 			(createChildParameter

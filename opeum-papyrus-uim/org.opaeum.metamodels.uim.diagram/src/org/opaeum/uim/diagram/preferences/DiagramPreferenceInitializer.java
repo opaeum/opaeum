@@ -13,11 +13,16 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer{
 	 */
 	public void initializeDefaultPreferences(){
 		IPreferenceStore store = getPreferenceStore();
+		LinkToOperationPreferencePage.initDefaults(store);
+		GridPanelPreferencePage.initDefaults(store);
+		UimDataTablePreferencePage.initDefaults(store);
+		UimFieldPreferencePage.initDefaults(store);
+		LinkToEntityPreferencePage.initDefaults(store);
 		BuiltInActionPreferencePage.initDefaults(store);
 		VerticalPanelPreferencePage.initDefaults(store);
-		GridPanelPreferencePage.initDefaults(store);
+		OperationActionPreferencePage.initDefaults(store);
 		HorizontalPanelPreferencePage.initDefaults(store);
-		UimFieldPreferencePage.initDefaults(store);
+		TransitionActionPreferencePage.initDefaults(store);
 	}
 	/**
 	 * @generated

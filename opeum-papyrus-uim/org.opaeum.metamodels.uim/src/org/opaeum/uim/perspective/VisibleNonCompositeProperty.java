@@ -23,7 +23,7 @@ import org.opaeum.uim.UmlReference;
 public interface VisibleNonCompositeProperty extends UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Explorer Configuration</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleProperties <em>Visible Properties</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleNonCompositeProperties <em>Visible Non Composite Properties</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Explorer Configuration</em>' container reference isn't clear,
@@ -33,8 +33,8 @@ public interface VisibleNonCompositeProperty extends UmlReference {
 	 * @return the value of the '<em>Explorer Configuration</em>' container reference.
 	 * @see #setExplorerConfiguration(ExplorerConfiguration)
 	 * @see org.opaeum.uim.perspective.PerspectivePackage#getVisibleNonCompositeProperty_ExplorerConfiguration()
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleProperties
-	 * @model opposite="visibleProperties" required="true" transient="false"
+	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleNonCompositeProperties
+	 * @model opposite="visibleNonCompositeProperties" required="true" transient="false"
 	 * @generated
 	 */
 	ExplorerConfiguration getExplorerConfiguration();

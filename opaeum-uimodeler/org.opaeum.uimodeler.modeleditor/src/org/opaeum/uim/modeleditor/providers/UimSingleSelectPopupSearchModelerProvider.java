@@ -6,7 +6,6 @@ package org.opaeum.uim.modeleditor.providers;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
 import org.opaeum.uim.control.ControlPackage;
-import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
  * This is the item provider adpater for a {@link org.opaeum.uim.control.UimSingleSelectPopupSearch} object.

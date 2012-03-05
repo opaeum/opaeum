@@ -162,6 +162,19 @@
       <accessors
           figure="//@figures.0/@descriptors.11/@actualFigure/@children.0"/>
     </descriptors>
+    <descriptors
+        name="ColumnFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle">
+        <children
+            xsi:type="gmfgraph:Label"
+            name="ColumnNameFigure"
+            text="&lt;..>"/>
+      </actualFigure>
+      <accessors
+          accessor="getFigureColumnNameFigure"
+          figure="//@figures.0/@descriptors.12/@actualFigure/@children.0"/>
+    </descriptors>
   </figures>
   <nodes
       name="UimField"
@@ -202,6 +215,8 @@
   <compartments
       name="GridPanelChildrenCompartment"
       figure="GridPanelFigure"/>
+  <compartments
+      name="DataTableColumnCompartment"/>
   <labels
       name="UimFieldName"
       figure="UimFieldFigure"
@@ -238,4 +253,8 @@
       name="HorizontalPanelName"
       figure="HorizontalPanelFigure"
       accessor="//@figures.0/@descriptors.11/@accessors.0"/>
+  <labels
+      name="ColumnName"
+      figure="ColumnFigure"
+      accessor="//@figures.0/@descriptors.12/@accessors.0"/>
 </gmfgraph:Canvas>

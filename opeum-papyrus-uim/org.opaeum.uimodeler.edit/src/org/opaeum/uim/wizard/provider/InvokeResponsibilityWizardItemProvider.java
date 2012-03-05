@@ -14,6 +14,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
 
 /**
@@ -74,7 +75,7 @@ public class InvokeResponsibilityWizardItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((InvokeResponsibilityWizard)object).getUmlElementUid();
+		String label = ((InvokeResponsibilityWizard)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_InvokeResponsibilityWizard_type") :
 			getString("_UI_InvokeResponsibilityWizard_type") + " " + label;
@@ -103,6 +104,29 @@ public class InvokeResponsibilityWizardItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+	}
+
+	/**
+	 * This returns the label text for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection) {
+		Object childFeature = feature;
+		Object childObject = child;
+
+		boolean qualify =
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
+
+		if (qualify) {
+			return getString
+				("_UI_CreateChild_text2",
+				 new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
+		}
+		return super.getCreateChildText(owner, feature, child, selection);
 	}
 
 }

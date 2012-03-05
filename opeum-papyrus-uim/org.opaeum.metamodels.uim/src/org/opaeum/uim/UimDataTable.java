@@ -20,7 +20,7 @@ import org.opaeum.uim.binding.TableBinding;
  * @model
  * @generated
  */
-public interface UimDataTable extends MasterComponent {
+public interface UimDataTable extends MasterComponent, UimContainer {
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.binding.TableBinding#getTable <em>Table</em>}'.

@@ -24,7 +24,6 @@ import org.opaeum.uim.control.UimControl;
  *   <li>{@link org.opaeum.uim.UimField#getMinimumLabelWidth <em>Minimum Label Width</em>}</li>
  *   <li>{@link org.opaeum.uim.UimField#getBinding <em>Binding</em>}</li>
  *   <li>{@link org.opaeum.uim.UimField#getOrientation <em>Orientation</em>}</li>
- *   <li>{@link org.opaeum.uim.UimField#getMimumLabelHeight <em>Mimum Label Height</em>}</li>
  * </ul>
  * </p>
  *
@@ -173,31 +172,5 @@ public interface UimField extends EditableConstrainedObject, UimComponent {
 	 * @generated
 	 */
 	void setOrientation(Orientation value);
-
-	/**
-	 * Returns the value of the '<em><b>Mimum Label Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Mimum Label Height</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Mimum Label Height</em>' attribute.
-	 * @see #setMimumLabelHeight(Integer)
-	 * @see org.opaeum.uim.UimPackage#getUimField_MimumLabelHeight()
-	 * @model
-	 * @generated
-	 */
-	Integer getMimumLabelHeight();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.UimField#getMimumLabelHeight <em>Mimum Label Height</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Mimum Label Height</em>' attribute.
-	 * @see #getMimumLabelHeight()
-	 * @generated
-	 */
-	void setMimumLabelHeight(Integer value);
 
 } // UimField

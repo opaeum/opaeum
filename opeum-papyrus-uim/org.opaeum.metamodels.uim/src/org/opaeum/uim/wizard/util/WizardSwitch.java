@@ -8,7 +8,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.wizard.*;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
@@ -95,6 +99,7 @@ public class WizardSwitch<T> {
 				T result = caseAbstractWizard(abstractWizard);
 				if (result == null) result = caseUserInterfaceEntryPoint(abstractWizard);
 				if (result == null) result = caseUmlReference(abstractWizard);
+				if (result == null) result = caseUserInteractionElement(abstractWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -104,6 +109,7 @@ public class WizardSwitch<T> {
 				if (result == null) result = caseAbstractWizard(newObjectWizard);
 				if (result == null) result = caseUserInterfaceEntryPoint(newObjectWizard);
 				if (result == null) result = caseUmlReference(newObjectWizard);
+				if (result == null) result = caseUserInteractionElement(newObjectWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -113,6 +119,7 @@ public class WizardSwitch<T> {
 				if (result == null) result = caseAbstractWizard(invokeResponsibilityWizard);
 				if (result == null) result = caseUserInterfaceEntryPoint(invokeResponsibilityWizard);
 				if (result == null) result = caseUmlReference(invokeResponsibilityWizard);
+				if (result == null) result = caseUserInteractionElement(invokeResponsibilityWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -120,6 +127,10 @@ public class WizardSwitch<T> {
 				WizardPage wizardPage = (WizardPage)theEObject;
 				T result = caseWizardPage(wizardPage);
 				if (result == null) result = casePage(wizardPage);
+				if (result == null) result = caseUserInterface(wizardPage);
+				if (result == null) result = caseEditableConstrainedObject(wizardPage);
+				if (result == null) result = caseUserInteractionElement(wizardPage);
+				if (result == null) result = caseConstrainedObject(wizardPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -188,6 +199,21 @@ public class WizardSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInteractionElement(UserInteractionElement object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>User Interface Entry Point</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -214,6 +240,51 @@ public class WizardSwitch<T> {
 	 * @generated
 	 */
 	public T caseUmlReference(UmlReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>User Interface</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUserInterface(UserInterface object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Constrained Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Constrained Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConstrainedObject(ConstrainedObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEditableConstrainedObject(EditableConstrainedObject object) {
 		return null;
 	}
 

@@ -10,13 +10,16 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorFactory;
@@ -59,8 +62,31 @@ public class AbstractEditorItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UserInteractionElement_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
+				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -75,10 +101,11 @@ public class AbstractEditorItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__EDITABILITY);
-			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__VISIBILITY);
+			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY);
+			childrenFeatures.add(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY);
 			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__ACTION_BAR);
 			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__MENU_CONFIGURATION);
+			childrenFeatures.add(EditorPackage.Literals.ABSTRACT_EDITOR__PAGES);
 		}
 		return childrenFeatures;
 	}
@@ -115,7 +142,7 @@ public class AbstractEditorItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AbstractEditor)object).getUmlElementUid();
+		String label = ((AbstractEditor)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_AbstractEditor_type") :
 			getString("_UI_AbstractEditor_type") + " " + label;
@@ -133,10 +160,14 @@ public class AbstractEditorItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(AbstractEditor.class)) {
+			case EditorPackage.ABSTRACT_EDITOR__NAME:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case EditorPackage.ABSTRACT_EDITOR__EDITABILITY:
 			case EditorPackage.ABSTRACT_EDITOR__VISIBILITY:
 			case EditorPackage.ABSTRACT_EDITOR__ACTION_BAR:
 			case EditorPackage.ABSTRACT_EDITOR__MENU_CONFIGURATION:
+			case EditorPackage.ABSTRACT_EDITOR__PAGES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -156,22 +187,22 @@ public class AbstractEditorItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EditorPackage.Literals.ABSTRACT_EDITOR__EDITABILITY,
+				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY,
 				 ConstraintFactory.eINSTANCE.createRootUserInteractionConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EditorPackage.Literals.ABSTRACT_EDITOR__EDITABILITY,
+				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY,
 				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EditorPackage.Literals.ABSTRACT_EDITOR__VISIBILITY,
+				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY,
 				 ConstraintFactory.eINSTANCE.createRootUserInteractionConstraint()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(EditorPackage.Literals.ABSTRACT_EDITOR__VISIBILITY,
+				(UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY,
 				 ConstraintFactory.eINSTANCE.createUserInteractionConstraint()));
 
 		newChildDescriptors.add
@@ -183,6 +214,11 @@ public class AbstractEditorItemProvider
 			(createChildParameter
 				(EditorPackage.Literals.ABSTRACT_EDITOR__MENU_CONFIGURATION,
 				 EditorFactory.eINSTANCE.createMenuConfiguration()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EditorPackage.Literals.ABSTRACT_EDITOR__PAGES,
+				 EditorFactory.eINSTANCE.createEditorPage()));
 	}
 
 	/**
@@ -197,8 +233,8 @@ public class AbstractEditorItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == EditorPackage.Literals.ABSTRACT_EDITOR__EDITABILITY ||
-			childFeature == EditorPackage.Literals.ABSTRACT_EDITOR__VISIBILITY;
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__EDITABILITY ||
+			childFeature == UimPackage.Literals.USER_INTERFACE_ENTRY_POINT__VISIBILITY;
 
 		if (qualify) {
 			return getString

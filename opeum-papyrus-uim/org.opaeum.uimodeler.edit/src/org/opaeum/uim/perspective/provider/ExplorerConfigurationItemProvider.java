@@ -75,8 +75,8 @@ public class ExplorerConfigurationItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__HIDDEN_CLASSES);
-			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES);
-			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES);
+			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES);
+			childrenFeatures.add(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES);
 		}
 		return childrenFeatures;
 	}
@@ -129,8 +129,8 @@ public class ExplorerConfigurationItemProvider
 
 		switch (notification.getFeatureID(ExplorerConfiguration.class)) {
 			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_CLASSES:
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -155,12 +155,12 @@ public class ExplorerConfigurationItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES,
+				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES,
 				 PerspectiveFactory.eINSTANCE.createVisibleNonCompositeProperty()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES,
+				(PerspectivePackage.Literals.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES,
 				 PerspectiveFactory.eINSTANCE.createHiddenCompositeProperty()));
 	}
 

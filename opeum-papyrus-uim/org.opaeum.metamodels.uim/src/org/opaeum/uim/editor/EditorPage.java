@@ -14,7 +14,6 @@ import org.opaeum.uim.panel.AbstractPanel;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.editor.EditorPage#getEditor <em>Editor</em>}</li>
- *   <li>{@link org.opaeum.uim.editor.EditorPage#getPanel <em>Panel</em>}</li>
  * </ul>
  * </p>
  *
@@ -24,55 +23,31 @@ import org.opaeum.uim.panel.AbstractPanel;
  */
 public interface EditorPage extends Page {
 	/**
-	 * Returns the value of the '<em><b>Editor</b></em>' reference.
+	 * Returns the value of the '<em><b>Editor</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.editor.AbstractEditor#getPages <em>Pages</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Editor</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Editor</em>' reference.
+	 * @return the value of the '<em>Editor</em>' container reference.
 	 * @see #setEditor(AbstractEditor)
 	 * @see org.opaeum.uim.editor.EditorPackage#getEditorPage_Editor()
-	 * @model required="true"
+	 * @see org.opaeum.uim.editor.AbstractEditor#getPages
+	 * @model opposite="pages" required="true" transient="false"
 	 * @generated
 	 */
 	AbstractEditor getEditor();
 
 	/**
-	 * Sets the value of the '{@link org.opaeum.uim.editor.EditorPage#getEditor <em>Editor</em>}' reference.
+	 * Sets the value of the '{@link org.opaeum.uim.editor.EditorPage#getEditor <em>Editor</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Editor</em>' reference.
+	 * @param value the new value of the '<em>Editor</em>' container reference.
 	 * @see #getEditor()
 	 * @generated
 	 */
 	void setEditor(AbstractEditor value);
-
-	/**
-	 * Returns the value of the '<em><b>Panel</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Panel</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Panel</em>' containment reference.
-	 * @see #setPanel(AbstractPanel)
-	 * @see org.opaeum.uim.editor.EditorPackage#getEditorPage_Panel()
-	 * @model containment="true" required="true"
-	 * @generated
-	 */
-	AbstractPanel getPanel();
-
-	/**
-	 * Sets the value of the '{@link org.opaeum.uim.editor.EditorPage#getPanel <em>Panel</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Panel</em>' containment reference.
-	 * @see #getPanel()
-	 * @generated
-	 */
-	void setPanel(AbstractPanel value);
 
 } // EditorPage

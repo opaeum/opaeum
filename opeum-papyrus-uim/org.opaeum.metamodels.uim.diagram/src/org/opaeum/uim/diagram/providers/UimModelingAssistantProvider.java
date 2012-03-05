@@ -20,9 +20,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
-import org.opaeum.uim.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uim.diagram.part.Messages;
 import org.opaeum.uim.diagram.part.UimDiagramEditorPlugin;
 
@@ -35,17 +35,29 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 	 */
 	public List getTypesForPopupBar(IAdaptable host){
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host.getAdapter(IGraphicalEditPart.class);
-		if(editPart instanceof EditorPageEditPart){
+		if(editPart instanceof UserInterfaceEditPart){
 			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
-			types.add(UimElementTypes.GridPanel_2001);
-			types.add(UimElementTypes.HorizontalPanel_2002);
-			types.add(UimElementTypes.VerticalPanel_2003);
+			types.add(UimElementTypes.GridPanel_2004);
+			types.add(UimElementTypes.HorizontalPanel_2005);
+			types.add(UimElementTypes.VerticalPanel_2006);
 			return types;
 		}
 		if(editPart instanceof GridPanelGridPanelChildrenCompartmentEditPart){
-			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(9);
 			types.add(UimElementTypes.UimField_3001);
 			types.add(UimElementTypes.BuiltInAction_3002);
+			types.add(UimElementTypes.HorizontalPanel_3003);
+			types.add(UimElementTypes.VerticalPanel_3004);
+			types.add(UimElementTypes.TransitionAction_3005);
+			types.add(UimElementTypes.OperationAction_3006);
+			types.add(UimElementTypes.LinkToOperation_3007);
+			types.add(UimElementTypes.LinkToEntity_3008);
+			types.add(UimElementTypes.UimDataTable_3009);
+			return types;
+		}
+		if(editPart instanceof UimDataTableDataTableColumnCompartmentEditPart){
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			types.add(UimElementTypes.UimField_3010);
 			return types;
 		}
 		return Collections.EMPTY_LIST;

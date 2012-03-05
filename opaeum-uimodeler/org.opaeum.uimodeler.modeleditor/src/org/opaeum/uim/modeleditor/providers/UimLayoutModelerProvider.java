@@ -7,7 +7,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.opaeum.uim.UimPackage;
-import org.topcased.modeler.providers.ILabelFeatureProvider;
 
 /**
  * This is the item provider adpater for a {@link org.opaeum.uim.layout.UimLayout} object.

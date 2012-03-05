@@ -18,13 +18,20 @@ import org.eclipse.swt.graphics.Image;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
 import org.opaeum.uim.diagram.edit.parts.GridPanelEditPart;
+import org.opaeum.uim.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uim.diagram.edit.parts.HorizontalPanelEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToEntityEditPart;
+import org.opaeum.uim.diagram.edit.parts.LinkToOperationEditPart;
+import org.opaeum.uim.diagram.edit.parts.OperationActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimDataTableEditPart;
+import org.opaeum.uim.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uim.diagram.edit.parts.UimFieldEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
+import org.opaeum.uim.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uim.diagram.edit.parts.VerticalPanelEditPart;
 import org.opaeum.uim.diagram.part.UimDiagramEditorPlugin;
-import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.panel.PanelPackage;
 
 /**
@@ -51,19 +58,19 @@ public class UimElementTypes{
 	/**
 	 * @generated
 	 */
-	public static final IElementType EditorPage_1000 = getElementType("org.opaeum.metamodels.uim.diagram.EditorPage_1000"); //$NON-NLS-1$
+	public static final IElementType UserInterface_1000 = getElementType("org.opaeum.metamodels.uim.diagram.UserInterface_1000"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType GridPanel_2001 = getElementType("org.opaeum.metamodels.uim.diagram.GridPanel_2001"); //$NON-NLS-1$
+	public static final IElementType GridPanel_2004 = getElementType("org.opaeum.metamodels.uim.diagram.GridPanel_2004"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType HorizontalPanel_2002 = getElementType("org.opaeum.metamodels.uim.diagram.HorizontalPanel_2002"); //$NON-NLS-1$
+	public static final IElementType HorizontalPanel_2005 = getElementType("org.opaeum.metamodels.uim.diagram.HorizontalPanel_2005"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType VerticalPanel_2003 = getElementType("org.opaeum.metamodels.uim.diagram.VerticalPanel_2003"); //$NON-NLS-1$
+	public static final IElementType VerticalPanel_2006 = getElementType("org.opaeum.metamodels.uim.diagram.VerticalPanel_2006"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -72,6 +79,38 @@ public class UimElementTypes{
 	 * @generated
 	 */
 	public static final IElementType BuiltInAction_3002 = getElementType("org.opaeum.metamodels.uim.diagram.BuiltInAction_3002"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType HorizontalPanel_3003 = getElementType("org.opaeum.metamodels.uim.diagram.HorizontalPanel_3003"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType VerticalPanel_3004 = getElementType("org.opaeum.metamodels.uim.diagram.VerticalPanel_3004"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType TransitionAction_3005 = getElementType("org.opaeum.metamodels.uim.diagram.TransitionAction_3005"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType OperationAction_3006 = getElementType("org.opaeum.metamodels.uim.diagram.OperationAction_3006"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType LinkToOperation_3007 = getElementType("org.opaeum.metamodels.uim.diagram.LinkToOperation_3007"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType LinkToEntity_3008 = getElementType("org.opaeum.metamodels.uim.diagram.LinkToEntity_3008"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType UimDataTable_3009 = getElementType("org.opaeum.metamodels.uim.diagram.UimDataTable_3009"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType UimField_3010 = getElementType("org.opaeum.metamodels.uim.diagram.UimField_3010"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -170,12 +209,20 @@ public class UimElementTypes{
 		Object type = hint.getAdapter(IElementType.class);
 		if(elements == null){
 			elements = new IdentityHashMap<IElementType,ENamedElement>();
-			elements.put(EditorPage_1000, EditorPackage.eINSTANCE.getEditorPage());
-			elements.put(GridPanel_2001, PanelPackage.eINSTANCE.getGridPanel());
-			elements.put(HorizontalPanel_2002, PanelPackage.eINSTANCE.getHorizontalPanel());
-			elements.put(VerticalPanel_2003, PanelPackage.eINSTANCE.getVerticalPanel());
+			elements.put(UserInterface_1000, UimPackage.eINSTANCE.getUserInterface());
+			elements.put(GridPanel_2004, PanelPackage.eINSTANCE.getGridPanel());
+			elements.put(HorizontalPanel_2005, PanelPackage.eINSTANCE.getHorizontalPanel());
+			elements.put(VerticalPanel_2006, PanelPackage.eINSTANCE.getVerticalPanel());
 			elements.put(UimField_3001, UimPackage.eINSTANCE.getUimField());
 			elements.put(BuiltInAction_3002, ActionPackage.eINSTANCE.getBuiltInAction());
+			elements.put(HorizontalPanel_3003, PanelPackage.eINSTANCE.getHorizontalPanel());
+			elements.put(VerticalPanel_3004, PanelPackage.eINSTANCE.getVerticalPanel());
+			elements.put(TransitionAction_3005, ActionPackage.eINSTANCE.getTransitionAction());
+			elements.put(OperationAction_3006, ActionPackage.eINSTANCE.getOperationAction());
+			elements.put(LinkToOperation_3007, ActionPackage.eINSTANCE.getLinkToOperation());
+			elements.put(LinkToEntity_3008, ActionPackage.eINSTANCE.getLinkToEntity());
+			elements.put(UimDataTable_3009, UimPackage.eINSTANCE.getUimDataTable());
+			elements.put(UimField_3010, UimPackage.eINSTANCE.getUimField());
 		}
 		return (ENamedElement) elements.get(type);
 	}
@@ -191,12 +238,20 @@ public class UimElementTypes{
 	public static boolean isKnownElementType(IElementType elementType){
 		if(KNOWN_ELEMENT_TYPES == null){
 			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
-			KNOWN_ELEMENT_TYPES.add(EditorPage_1000);
-			KNOWN_ELEMENT_TYPES.add(GridPanel_2001);
-			KNOWN_ELEMENT_TYPES.add(HorizontalPanel_2002);
-			KNOWN_ELEMENT_TYPES.add(VerticalPanel_2003);
+			KNOWN_ELEMENT_TYPES.add(UserInterface_1000);
+			KNOWN_ELEMENT_TYPES.add(GridPanel_2004);
+			KNOWN_ELEMENT_TYPES.add(HorizontalPanel_2005);
+			KNOWN_ELEMENT_TYPES.add(VerticalPanel_2006);
 			KNOWN_ELEMENT_TYPES.add(UimField_3001);
 			KNOWN_ELEMENT_TYPES.add(BuiltInAction_3002);
+			KNOWN_ELEMENT_TYPES.add(HorizontalPanel_3003);
+			KNOWN_ELEMENT_TYPES.add(VerticalPanel_3004);
+			KNOWN_ELEMENT_TYPES.add(TransitionAction_3005);
+			KNOWN_ELEMENT_TYPES.add(OperationAction_3006);
+			KNOWN_ELEMENT_TYPES.add(LinkToOperation_3007);
+			KNOWN_ELEMENT_TYPES.add(LinkToEntity_3008);
+			KNOWN_ELEMENT_TYPES.add(UimDataTable_3009);
+			KNOWN_ELEMENT_TYPES.add(UimField_3010);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
 	}
@@ -205,18 +260,34 @@ public class UimElementTypes{
 	 */
 	public static IElementType getElementType(int visualID){
 		switch(visualID){
-		case EditorPageEditPart.VISUAL_ID:
-			return EditorPage_1000;
+		case UserInterfaceEditPart.VISUAL_ID:
+			return UserInterface_1000;
 		case GridPanelEditPart.VISUAL_ID:
-			return GridPanel_2001;
+			return GridPanel_2004;
 		case HorizontalPanelEditPart.VISUAL_ID:
-			return HorizontalPanel_2002;
+			return HorizontalPanel_2005;
 		case VerticalPanelEditPart.VISUAL_ID:
-			return VerticalPanel_2003;
+			return VerticalPanel_2006;
 		case UimFieldEditPart.VISUAL_ID:
 			return UimField_3001;
 		case BuiltInActionEditPart.VISUAL_ID:
 			return BuiltInAction_3002;
+		case HorizontalPanel2EditPart.VISUAL_ID:
+			return HorizontalPanel_3003;
+		case VerticalPanel2EditPart.VISUAL_ID:
+			return VerticalPanel_3004;
+		case TransitionActionEditPart.VISUAL_ID:
+			return TransitionAction_3005;
+		case OperationActionEditPart.VISUAL_ID:
+			return OperationAction_3006;
+		case LinkToOperationEditPart.VISUAL_ID:
+			return LinkToOperation_3007;
+		case LinkToEntityEditPart.VISUAL_ID:
+			return LinkToEntity_3008;
+		case UimDataTableEditPart.VISUAL_ID:
+			return UimDataTable_3009;
+		case UimField2EditPart.VISUAL_ID:
+			return UimField_3010;
 		}
 		return null;
 	}

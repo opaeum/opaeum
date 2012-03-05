@@ -21,7 +21,7 @@ import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 import org.eclipse.ui.part.FileEditorInput;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uim.diagram.part.Messages;
 import org.opaeum.uim.diagram.part.UimDiagramEditor;
 import org.opaeum.uim.diagram.part.UimDiagramEditorPlugin;
@@ -108,7 +108,7 @@ public class UimNavigatorActionProvider extends CommonActionProvider{
 				}
 				if(selectedElement instanceof Diagram){
 					Diagram diagram = (Diagram) selectedElement;
-					if(EditorPageEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(diagram))){
+					if(UserInterfaceEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(diagram))){
 						myDiagram = diagram;
 					}
 				}

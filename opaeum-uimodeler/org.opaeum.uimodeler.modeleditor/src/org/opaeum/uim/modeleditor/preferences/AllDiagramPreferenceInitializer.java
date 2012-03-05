@@ -6,7 +6,6 @@ package org.opaeum.uim.modeleditor.preferences;
 import org.eclipse.core.runtime.Preferences;
 import org.opaeum.uim.modeleditor.UimPlugin;
 import org.opaeum.uim.modeleditor.editor.UimEditor;
-import org.topcased.modeler.preferences.AbstractTopcasedPreferenceInitializer;
 
 /**
  * Initialize preferences to all Uim diagrams.

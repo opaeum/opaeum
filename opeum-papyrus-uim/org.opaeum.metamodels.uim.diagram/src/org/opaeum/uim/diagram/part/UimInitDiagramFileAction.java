@@ -17,7 +17,7 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.opaeum.uim.diagram.edit.parts.EditorPageEditPart;
+import org.opaeum.uim.diagram.edit.parts.UserInterfaceEditPart;
 
 /**
  * @generated
@@ -75,7 +75,7 @@ public class UimInitDiagramFileAction implements IObjectActionDelegate{
 			return;
 		}
 		Wizard wizard = new UimNewDiagramFileWizard(domainModelURI, diagramRoot, editingDomain);
-		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle, EditorPageEditPart.MODEL_ID));
+		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle, UserInterfaceEditPart.MODEL_ID));
 		UimDiagramEditorUtil.runWizard(getShell(), wizard, "InitDiagramFile"); //$NON-NLS-1$
 	}
 }

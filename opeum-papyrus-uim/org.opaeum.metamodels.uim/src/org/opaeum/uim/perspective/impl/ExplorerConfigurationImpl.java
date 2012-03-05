@@ -30,8 +30,8 @@ import org.opaeum.uim.perspective.VisibleNonCompositeProperty;
  * <ul>
  *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getPerspective <em>Perspective</em>}</li>
  *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getHiddenClasses <em>Hidden Classes</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getVisibleProperties <em>Visible Properties</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getHiddenProperties <em>Hidden Properties</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getVisibleNonCompositeProperties <em>Visible Non Composite Properties</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.impl.ExplorerConfigurationImpl#getHiddenCompositeProperties <em>Hidden Composite Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -49,24 +49,24 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 	protected EList<HiddenClass> hiddenClasses;
 
 	/**
-	 * The cached value of the '{@link #getVisibleProperties() <em>Visible Properties</em>}' containment reference list.
+	 * The cached value of the '{@link #getVisibleNonCompositeProperties() <em>Visible Non Composite Properties</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getVisibleProperties()
+	 * @see #getVisibleNonCompositeProperties()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<VisibleNonCompositeProperty> visibleProperties;
+	protected EList<VisibleNonCompositeProperty> visibleNonCompositeProperties;
 
 	/**
-	 * The cached value of the '{@link #getHiddenProperties() <em>Hidden Properties</em>}' containment reference list.
+	 * The cached value of the '{@link #getHiddenCompositeProperties() <em>Hidden Composite Properties</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getHiddenProperties()
+	 * @see #getHiddenCompositeProperties()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<HiddenCompositeProperty> hiddenProperties;
+	protected EList<HiddenCompositeProperty> hiddenCompositeProperties;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -145,11 +145,11 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<VisibleNonCompositeProperty> getVisibleProperties() {
-		if (visibleProperties == null) {
-			visibleProperties = new EObjectContainmentWithInverseEList<VisibleNonCompositeProperty>(VisibleNonCompositeProperty.class, this, PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES, PerspectivePackage.VISIBLE_NON_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION);
+	public EList<VisibleNonCompositeProperty> getVisibleNonCompositeProperties() {
+		if (visibleNonCompositeProperties == null) {
+			visibleNonCompositeProperties = new EObjectContainmentWithInverseEList<VisibleNonCompositeProperty>(VisibleNonCompositeProperty.class, this, PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES, PerspectivePackage.VISIBLE_NON_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION);
 		}
-		return visibleProperties;
+		return visibleNonCompositeProperties;
 	}
 
 	/**
@@ -157,11 +157,11 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<HiddenCompositeProperty> getHiddenProperties() {
-		if (hiddenProperties == null) {
-			hiddenProperties = new EObjectContainmentWithInverseEList<HiddenCompositeProperty>(HiddenCompositeProperty.class, this, PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES, PerspectivePackage.HIDDEN_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION);
+	public EList<HiddenCompositeProperty> getHiddenCompositeProperties() {
+		if (hiddenCompositeProperties == null) {
+			hiddenCompositeProperties = new EObjectContainmentWithInverseEList<HiddenCompositeProperty>(HiddenCompositeProperty.class, this, PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES, PerspectivePackage.HIDDEN_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION);
 		}
-		return hiddenProperties;
+		return hiddenCompositeProperties;
 	}
 
 	/**
@@ -179,10 +179,10 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 				return basicSetPerspective((UimPerspective)otherEnd, msgs);
 			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_CLASSES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getHiddenClasses()).basicAdd(otherEnd, msgs);
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVisibleProperties()).basicAdd(otherEnd, msgs);
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getHiddenProperties()).basicAdd(otherEnd, msgs);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getVisibleNonCompositeProperties()).basicAdd(otherEnd, msgs);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getHiddenCompositeProperties()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -199,10 +199,10 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 				return basicSetPerspective(null, msgs);
 			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_CLASSES:
 				return ((InternalEList<?>)getHiddenClasses()).basicRemove(otherEnd, msgs);
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-				return ((InternalEList<?>)getVisibleProperties()).basicRemove(otherEnd, msgs);
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
-				return ((InternalEList<?>)getHiddenProperties()).basicRemove(otherEnd, msgs);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+				return ((InternalEList<?>)getVisibleNonCompositeProperties()).basicRemove(otherEnd, msgs);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
+				return ((InternalEList<?>)getHiddenCompositeProperties()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -233,10 +233,10 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 				return getPerspective();
 			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_CLASSES:
 				return getHiddenClasses();
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-				return getVisibleProperties();
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
-				return getHiddenProperties();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+				return getVisibleNonCompositeProperties();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
+				return getHiddenCompositeProperties();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -257,13 +257,13 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 				getHiddenClasses().clear();
 				getHiddenClasses().addAll((Collection<? extends HiddenClass>)newValue);
 				return;
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-				getVisibleProperties().clear();
-				getVisibleProperties().addAll((Collection<? extends VisibleNonCompositeProperty>)newValue);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+				getVisibleNonCompositeProperties().clear();
+				getVisibleNonCompositeProperties().addAll((Collection<? extends VisibleNonCompositeProperty>)newValue);
 				return;
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
-				getHiddenProperties().clear();
-				getHiddenProperties().addAll((Collection<? extends HiddenCompositeProperty>)newValue);
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
+				getHiddenCompositeProperties().clear();
+				getHiddenCompositeProperties().addAll((Collection<? extends HiddenCompositeProperty>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -283,11 +283,11 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_CLASSES:
 				getHiddenClasses().clear();
 				return;
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-				getVisibleProperties().clear();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+				getVisibleNonCompositeProperties().clear();
 				return;
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
-				getHiddenProperties().clear();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
+				getHiddenCompositeProperties().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -305,10 +305,10 @@ public class ExplorerConfigurationImpl extends EObjectImpl implements ExplorerCo
 				return getPerspective() != null;
 			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_CLASSES:
 				return hiddenClasses != null && !hiddenClasses.isEmpty();
-			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_PROPERTIES:
-				return visibleProperties != null && !visibleProperties.isEmpty();
-			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_PROPERTIES:
-				return hiddenProperties != null && !hiddenProperties.isEmpty();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES:
+				return visibleNonCompositeProperties != null && !visibleNonCompositeProperties.isEmpty();
+			case PerspectivePackage.EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES:
+				return hiddenCompositeProperties != null && !hiddenCompositeProperties.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -197,13 +197,31 @@ public interface ActionPackage extends EPackage {
 	int UIM_LINK = 5;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK__NAME = UimPackage.UIM_COMPONENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK__VISIBILITY = UimPackage.UIM_COMPONENT__VISIBILITY;
+
+	/**
 	 * The number of structural features of the '<em>Uim Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LINK_FEATURE_COUNT = 0;
+	int UIM_LINK_FEATURE_COUNT = UimPackage.UIM_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.LinkToOperationImpl <em>Link To Operation</em>}' class.
@@ -214,6 +232,24 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	int LINK_TO_OPERATION = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_OPERATION__NAME = UIM_LINK__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_OPERATION__VISIBILITY = UIM_LINK__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -280,13 +316,22 @@ public interface ActionPackage extends EPackage {
 	int OPERATION_ACTION__UML_ELEMENT_UID = UIM_ACTION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Popup</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION__POPUP = UIM_ACTION_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Operation Action</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 1;
+	int OPERATION_ACTION_FEATURE_COUNT = UIM_ACTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.LinkToEntityImpl <em>Link To Entity</em>}' class.
@@ -297,6 +342,24 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	int LINK_TO_ENTITY = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_ENTITY__NAME = UIM_LINK__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK_TO_ENTITY__VISIBILITY = UIM_LINK__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -326,6 +389,52 @@ public interface ActionPackage extends EPackage {
 	int LINK_TO_ENTITY_FEATURE_COUNT = UIM_LINK_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationActionPopupImpl <em>Operation Action Popup</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.action.impl.OperationActionPopupImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationActionPopup()
+	 * @generated
+	 */
+	int OPERATION_ACTION_POPUP = 7;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION_POPUP__NAME = UimPackage.USER_INTERFACE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION_POPUP__PANEL = UimPackage.USER_INTERFACE__PANEL;
+
+	/**
+	 * The feature id for the '<em><b>Operation Action</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION_POPUP__OPERATION_ACTION = UimPackage.USER_INTERFACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Operation Action Popup</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION_POPUP_FEATURE_COUNT = UimPackage.USER_INTERFACE_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -333,7 +442,7 @@ public interface ActionPackage extends EPackage {
 	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getActionKind()
 	 * @generated
 	 */
-	int ACTION_KIND = 7;
+	int ACTION_KIND = 8;
 
 
 	/**
@@ -409,6 +518,17 @@ public interface ActionPackage extends EPackage {
 	EClass getOperationAction();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.OperationAction#getPopup <em>Popup</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Popup</em>'.
+	 * @see org.opaeum.uim.action.OperationAction#getPopup()
+	 * @see #getOperationAction()
+	 * @generated
+	 */
+	EReference getOperationAction_Popup();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.action.UimLink <em>Uim Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -438,6 +558,27 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLinkToEntity_Binding();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationActionPopup <em>Operation Action Popup</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operation Action Popup</em>'.
+	 * @see org.opaeum.uim.action.OperationActionPopup
+	 * @generated
+	 */
+	EClass getOperationActionPopup();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.OperationActionPopup#getOperationAction <em>Operation Action</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Operation Action</em>'.
+	 * @see org.opaeum.uim.action.OperationActionPopup#getOperationAction()
+	 * @see #getOperationActionPopup()
+	 * @generated
+	 */
+	EReference getOperationActionPopup_OperationAction();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}'.
@@ -538,6 +679,14 @@ public interface ActionPackage extends EPackage {
 		EClass OPERATION_ACTION = eINSTANCE.getOperationAction();
 
 		/**
+		 * The meta object literal for the '<em><b>Popup</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_ACTION__POPUP = eINSTANCE.getOperationAction_Popup();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.UimLinkImpl <em>Uim Link</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -564,6 +713,24 @@ public interface ActionPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LINK_TO_ENTITY__BINDING = eINSTANCE.getLinkToEntity_Binding();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationActionPopupImpl <em>Operation Action Popup</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.action.impl.OperationActionPopupImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationActionPopup()
+		 * @generated
+		 */
+		EClass OPERATION_ACTION_POPUP = eINSTANCE.getOperationActionPopup();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation Action</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_ACTION_POPUP__OPERATION_ACTION = eINSTANCE.getOperationActionPopup_OperationAction();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.

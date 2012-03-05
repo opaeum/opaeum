@@ -134,7 +134,7 @@ public class LinkToEntityItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((LinkToEntity)object).getUmlElementUid();
+		String label = ((LinkToEntity)object).getName();
 		return label == null || label.length() == 0 ?
 			getString("_UI_LinkToEntity_type") :
 			getString("_UI_LinkToEntity_type") + " " + label;

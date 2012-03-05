@@ -17,13 +17,8 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.uim.modeleditor.UimPlugin;
-import org.opaeum.uim.util.UmlUimLinks;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
-import org.topcased.modeler.commands.GEFtoEMFCommandStackWrapper;
-import org.topcased.modeler.documentation.EAnnotationDocPage;
-import org.topcased.modeler.documentation.IDocPage;
-import org.topcased.modeler.editor.Modeler;
 
 /**
  * Generated Model editor

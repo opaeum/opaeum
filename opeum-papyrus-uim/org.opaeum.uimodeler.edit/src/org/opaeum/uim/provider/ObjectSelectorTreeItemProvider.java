@@ -26,7 +26,7 @@ import org.opaeum.uim.UimPackage;
  * @generated
  */
 public class ObjectSelectorTreeItemProvider
-	extends ItemProviderAdapter
+	extends MasterComponentItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -54,31 +54,8 @@ public class ObjectSelectorTreeItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addDetailPanelsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Detail Panels feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDetailPanelsPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_MasterComponent_detailPanels_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_MasterComponent_detailPanels_feature", "_UI_MasterComponent_type"),
-				 UimPackage.Literals.MASTER_COMPONENT__DETAIL_PANELS,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
 	}
 
 	/**
@@ -126,17 +103,6 @@ public class ObjectSelectorTreeItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
-
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public ResourceLocator getResourceLocator() {
-		return UimEditPlugin.INSTANCE;
 	}
 
 }
