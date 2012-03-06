@@ -1,5 +1,6 @@
 package org.nakeduml.tinker.generator;
 
+import java.util.List;
 import java.util.Set;
 
 import org.opaeum.feature.StepDependency;
@@ -12,12 +13,31 @@ import org.opaeum.javageneration.JavaTransformationPhase;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedEntity;
+import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerCollectionStep extends StereotypeAnnotator {
+
+	@VisitAfter(matchSubclasses = true)
+	public void visitProperty(INakedActivity c) {
+		if (OJUtil.hasOJClass(c)) {
+			List<INakedParameter> parameters = c.getArgumentParameters();
+			for (INakedParameter p : parameters) {
+				if (c.getSpecification() == null) {
+					TypedElementPropertyBridge propertyBridge = new TypedElementPropertyBridge(c, p);
+					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(propertyBridge);
+					if (!map.getProperty().isDerived() && map.isMany()) {
+						visitProperty(findJavaClass(c), map);
+					}
+				}
+			}
+		}
+	}
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitProperty(INakedEntity c) {

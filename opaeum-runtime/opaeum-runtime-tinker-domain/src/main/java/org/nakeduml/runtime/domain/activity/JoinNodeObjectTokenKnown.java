@@ -24,8 +24,8 @@ public abstract class JoinNodeObjectTokenKnown<O> extends JoinNode<ObjectToken<O
 	protected abstract ObjectFlowKnown<O> getOutFlow();
 
 	@Override
-	protected List<? extends ActivityEdge<ObjectToken<O>>> getOutFlows() {
-		List<ActivityEdge<ObjectToken<O>>> result = new ArrayList<ActivityEdge<ObjectToken<O>>>();
+	protected List<ObjectFlowKnown<O>> getOutFlows() {
+		List<ObjectFlowKnown<O>> result = new ArrayList<ObjectFlowKnown<O>>();
 		result.add(getOutFlow());
 		return result;
 	}

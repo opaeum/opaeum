@@ -7,10 +7,10 @@ import org.activitytest.Address;
 import org.activitytest.AddressType;
 import org.activitytest.Customer;
 import org.activitytest.Root;
+import org.activitytest.customer.Activity1;
 import org.junit.Assert;
 import org.junit.Test;
 import org.opaeum.test.tinker.BaseLocalDbTest;
-
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 
@@ -40,9 +40,9 @@ public class TestTestActivity1 extends BaseLocalDbTest {
 		Assert.assertEquals(32, countVertices());
 
 		//Test activity did not finished and is saved
-		Assert.assertEquals(1, customer.getTestActivity1().size());
+		Assert.assertEquals(1, customer.getActivity1().size());
 		
-		org.activitytest.customer.TestActivity1 testActivity1 = customer.getTestActivity1().get(0);
+		Activity1 testActivity1 = customer.getActivity1().get(0);
 		
 		Assert.assertEquals(1, testActivity1.getNodeForName("inputPin1").getInTokens().size());
 		Assert.assertEquals(0, testActivity1.getNodeForName("outputPin1").getOutTokens().size());

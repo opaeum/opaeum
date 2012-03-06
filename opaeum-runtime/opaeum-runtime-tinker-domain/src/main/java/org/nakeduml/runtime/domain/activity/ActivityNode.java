@@ -12,7 +12,7 @@ import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.pipes.AbstractPipe;
 
-public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Boolean> {
+public abstract class ActivityNode<IN extends Token, OUT extends Token> extends AbstractPipe<IN, Boolean> {
 
 	protected Vertex vertex;
 	protected NodeStat nodeStat;
@@ -39,7 +39,7 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 	protected abstract boolean mayAcceptToken();
 	protected abstract Boolean executeNode();
 	protected abstract List<? extends ActivityEdge<?>> getInFlows();
-	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
+	protected abstract List<? extends ActivityEdge<OUT>> getOutFlows();
 	public abstract List<? extends Token> getInTokens();
 	public abstract List<?> getInTokens(String inFlowName);
 	public abstract List<?> getOutTokens();
@@ -58,7 +58,7 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 	protected Boolean processNextStart() throws NoSuchElementException {
 		// Persist incoming control tokens
 		while (mayAcceptToken() && this.starts.hasNext()) {
-			T token = this.starts.next();
+			IN token = this.starts.next();
 			// This also removes the token from the source
 			addIncomingToken(token);
 		}
@@ -77,12 +77,12 @@ public abstract class ActivityNode<T extends Token> extends AbstractPipe<T, Bool
 		this.vertex.setProperty("nodeStatus", org.util.TinkerUtil.convertEnumForPersistence(nodeStatus));
 	}
 
-	protected void addIncomingToken(T token) {
+	protected void addIncomingToken(IN token) {
 		token.removeEdgeFromActivityNode();
 		token.addEdgeToActivityNode(this);
 	}	
 	
-	public void addOutgoingToken(T token) {
+	public void addOutgoingToken(OUT token) {
 		Edge edge = GraphDb.getDb().addEdge(null, this.vertex, token.getVertex(), Token.TOKEN + token.getEdgeName());
 		edge.setProperty("outClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
 	}

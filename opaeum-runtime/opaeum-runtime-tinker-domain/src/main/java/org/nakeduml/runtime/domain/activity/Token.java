@@ -30,7 +30,7 @@ public abstract class Token {
 		this.vertex.setProperty("edgeName", edgeName);
 	}
 	
-	protected abstract void addEdgeToActivityNode(ActivityNode<? extends Token> node);
+	protected abstract void addEdgeToActivityNode(ActivityNode<? extends Token, ? extends Token> node);
 	public abstract <T extends Token> T duplicate(String flowName);
 	public abstract void remove();
 

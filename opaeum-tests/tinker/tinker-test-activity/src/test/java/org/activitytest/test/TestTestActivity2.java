@@ -4,7 +4,7 @@ import org.activitytest.Address;
 import org.activitytest.AddressType;
 import org.activitytest.Customer;
 import org.activitytest.Root;
-import org.activitytest.customer.TestActivity2;
+import org.activitytest.customer.Activity2;
 import org.junit.Assert;
 import org.junit.Test;
 import org.opaeum.test.tinker.BaseLocalDbTest;
@@ -30,7 +30,7 @@ public class TestTestActivity2 extends BaseLocalDbTest {
 		Assert.assertEquals(21, countVertices());
 		
 		db.startTransaction();
-		TestActivity2 testActivity2 = new TestActivity2(customer);
+		Activity2 testActivity2 = new Activity2(customer);
 		db.stopTransaction(Conclusion.SUCCESS);
 		
 		//21 + 19

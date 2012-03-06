@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
+public abstract class ControlNode<IN extends Token, OUT extends Token> extends ActivityNode<IN, OUT> {
 
 	public ControlNode() {
 		super();
@@ -29,11 +29,11 @@ public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
 		return doAllIncomingFlowsHaveTokens();
 	}	
 	
-	public abstract List<T> getInTokens();
-	public abstract List<T> getInTokens(String inFlowName);
-	public abstract List<T> getOutTokens();
-	public abstract List<T> getOutTokens(String outFlowName);
-	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
+	public abstract List<IN> getInTokens();
+	public abstract List<IN> getInTokens(String inFlowName);
+	public abstract List<OUT> getOutTokens();
+	public abstract List<OUT> getOutTokens(String outFlowName);
+	protected abstract List<? extends ActivityEdge<OUT>> getOutFlows();
 
 	@Override
 	protected Boolean executeNode() {
@@ -46,17 +46,17 @@ public abstract class ControlNode<T extends Token> extends ActivityNode<T> {
 
 		this.nodeStat.increment();
 
-		for (T token : getInTokens()) {
+		for (IN token : getInTokens()) {
 			// For each out flow add a token
-			for (ActivityEdge<T> flow : getOutFlows()) {
-				T duplicate = token.duplicate(flow.getName());
+			for (ActivityEdge<OUT> flow : getOutFlows()) {
+				OUT duplicate = token.duplicate(flow.getName());
 				addOutgoingToken(duplicate);
 			}
 			token.remove();
 		}
 
 		// Continue each out flow with its tokens
-		for (ActivityEdge<T> flow : getOutFlows()) {
+		for (ActivityEdge<OUT> flow : getOutFlows()) {
 			flow.setStarts(getOutTokens(flow.getName()));
 			flowResult.add(flow.processNextStart());
 		}

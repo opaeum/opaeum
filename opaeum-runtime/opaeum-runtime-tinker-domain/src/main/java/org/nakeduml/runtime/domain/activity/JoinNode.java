@@ -1,8 +1,11 @@
 package org.nakeduml.runtime.domain.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class JoinNode<T extends Token> extends ControlNode<T> {
+public abstract class JoinNode<IN extends Token, OUT extends Token> extends ControlNode<IN, OUT> {
 
 	public JoinNode() {
 		super();
@@ -16,6 +19,13 @@ public abstract class JoinNode<T extends Token> extends ControlNode<T> {
 		super(persist, name);
 	}
 	
-	protected abstract ActivityEdge<T> getOutFlow();
+	protected abstract ActivityEdge<OUT> getOutFlow();
 	
+	@Override
+	protected List<ActivityEdge<OUT>> getOutFlows() {
+		List<ActivityEdge<OUT>> result = new ArrayList<ActivityEdge<OUT>>();
+		result.add(getOutFlow());
+		return result;
+	}
+
 }

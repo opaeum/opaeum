@@ -6,8 +6,8 @@ import org.activitytest.Address;
 import org.activitytest.AddressType;
 import org.activitytest.Customer;
 import org.activitytest.Root;
-import org.activitytest.customer.TestReceiveSignalWithAttributesActivity;
-import org.activitytest.customer.TestSendSignalWithAttributesActivity;
+import org.activitytest.customer.ReceiveSignalWithAttributesActivity;
+import org.activitytest.customer.SendSignalWithAttributesActivity;
 import org.junit.Test;
 import org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService;
 import org.nakeduml.runtime.domain.activity.FinalNode;
@@ -50,11 +50,11 @@ public class TestSendSignalWithAttributes extends BaseLocalDbTest  {
 		//+ 3 for TestSendSignalActivity Actions + 1 for Activity + 5 for TestReceiveSignalActivity Actions + 1 for Activity -1 as activity gets deleted
 		Assert.assertEquals(31, countVertices());
 
-		Assert.assertEquals(1, customer.getTestSendSignalWithAttributesActivity().size());
-		Assert.assertEquals(1, customer.getTestReceiveSignalWithAttributesActivity().size());
+		Assert.assertEquals(1, customer.getSendSignalWithAttributesActivity().size());
+		Assert.assertEquals(1, customer.getReceiveSignalWithAttributesActivity().size());
 		
-		TestSendSignalWithAttributesActivity testSendSignalWithAttributesActivity = customer.getTestSendSignalWithAttributesActivity().get(0);
-		TestReceiveSignalWithAttributesActivity testReceiveSignalWithAttributesActivity = customer.getTestReceiveSignalWithAttributesActivity().get(0);
+		SendSignalWithAttributesActivity testSendSignalWithAttributesActivity = customer.getSendSignalWithAttributesActivity().get(0);
+		ReceiveSignalWithAttributesActivity testReceiveSignalWithAttributesActivity = customer.getReceiveSignalWithAttributesActivity().get(0);
 
 		SendSignalAction ssa = (SendSignalAction) testSendSignalWithAttributesActivity.getNodeForName("SendSignalAction1");
 		Assert.assertNotNull(ssa);

@@ -15,6 +15,7 @@ import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
+import org.opaeum.java.metamodel.OJWorkspace;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedInterface;
@@ -41,6 +42,9 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 	public static final String IF_OLD_VALUE_NULL = "ifParamNull";
 	public static final String IF_PARAM_NOT_NULL = "ifParamNotNull";
 	public static final String MANY_INTERNAL_REMOVE_FROM_COLLECTION = "manyInternalRemoveToCollection";
+	public void setJavaModel(OJWorkspace javaModel) {
+		this.javaModel = javaModel;
+	}	
 	@Override
 	protected int getThreadPoolSize(){
 		return 12;

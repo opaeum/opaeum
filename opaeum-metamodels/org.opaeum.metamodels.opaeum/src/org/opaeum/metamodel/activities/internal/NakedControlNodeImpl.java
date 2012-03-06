@@ -1,6 +1,9 @@
 package org.opaeum.metamodel.activities.internal;
 import org.opaeum.metamodel.activities.ControlNodeType;
+import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedControlNode;
+import org.opaeum.metamodel.activities.INakedObjectFlow;
+import org.opaeum.metamodel.core.INakedClassifier;
 public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INakedControlNode {
 	private static final long serialVersionUID = -4774558296787039182L;
 	private ControlNodeType controlNodeType;
@@ -33,5 +36,34 @@ public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INake
 		} else {
 			return super.isImplicitJoin();
 		}
+	}
+	@Override
+	public INakedClassifier getOriginatingObjectNodeClassifier() {
+		INakedClassifier result = null;
+		for (INakedActivityEdge incoming : getIncoming()) {
+			if (!(incoming instanceof INakedObjectFlow)) {
+				return null;
+			} else {
+				INakedObjectFlow objectFlow = (INakedObjectFlow)incoming;
+				if (result==null) {
+					result = objectFlow.getOriginatingObjectNodeClassifier();
+				} else {
+					INakedClassifier tmp = objectFlow.getOriginatingObjectNodeClassifier();
+					if (tmp != result) {
+						return null;
+					}
+				}
+			}
+		}
+		return result;
+	}
+	@Override
+	public boolean hasIncomingObjectFlow() {
+		for (INakedActivityEdge incoming : getIncoming()) {
+			if (incoming instanceof INakedObjectFlow) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
