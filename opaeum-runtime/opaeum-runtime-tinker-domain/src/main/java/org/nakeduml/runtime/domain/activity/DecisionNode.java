@@ -6,7 +6,11 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.pipes.util.SingleIterator;
 
-public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
+/*
+ * The edges coming into and out of a decision node, other than the decision input flow (if any), must be either all 
+ * object flows or all control flows.
+ */
+public abstract class DecisionNode<IN  extends Token> extends ControlNode<IN, IN> {
 
 	public DecisionNode() {
 		super();
@@ -21,13 +25,13 @@ public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
 	}
 
 	@Override
-	protected abstract List<? extends ActivityEdge<T>> getOutFlows();
+	protected abstract List<? extends ActivityEdge<IN>> getOutFlows();
 
-	protected abstract ActivityEdge<T> getInFlow();
+	protected abstract ActivityEdge<IN> getInFlow();
 
 	@Override
-	protected List<? extends ActivityEdge<T>> getInFlows() {
-		List<ActivityEdge<T>> result = new ArrayList<ActivityEdge<T>>();
+	protected List<? extends ActivityEdge<IN>> getInFlows() {
+		List<ActivityEdge<IN>> result = new ArrayList<ActivityEdge<IN>>();
 		result.add(getInFlow());
 		return result;
 	}
@@ -44,14 +48,14 @@ public abstract class DecisionNode<T extends Token> extends ControlNode<T> {
 		this.nodeStat.increment();
 
 		boolean oneOutgoingFlowGuardSucceeded = false;
-		for (T token : getInTokens()) {
+		for (IN token : getInTokens()) {
 			// For each out flow add a token
-			for (ActivityEdge<T> flow : getOutFlows()) {
+			for (ActivityEdge<IN> flow : getOutFlows()) {
 				if (flow.evaluateGuardConditions(token)) {
 					oneOutgoingFlowGuardSucceeded = true;
-					T duplicate = token.duplicate(flow.getName());
+					IN duplicate = token.duplicate(flow.getName());
 					addOutgoingToken(duplicate);
-					flow.setStarts(new SingleIterator<T>(duplicate));
+					flow.setStarts(new SingleIterator<IN>(duplicate));
 					// Continue each out flow with its tokens
 					flowResult.add(flow.processNextStart());
 					break;

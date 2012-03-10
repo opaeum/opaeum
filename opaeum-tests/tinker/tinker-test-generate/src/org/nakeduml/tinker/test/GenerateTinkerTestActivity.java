@@ -14,6 +14,7 @@ import org.nakeduml.tinker.activity.nullify.TinkerActivityProcessImplementor;
 import org.nakeduml.tinker.activity.nullify.TinkerSpecificationImplementor;
 import org.nakeduml.tinker.emf.extraction.TinkerFeatureExtractor;
 import org.nakeduml.tinker.emf.extraction.TinkerNameSpaceExtractor;
+import org.nakeduml.tinker.emf.extraction.TinkerTriggerExtractor;
 import org.nakeduml.tinker.generator.TinkerClassifierBehaviorGenerator;
 import org.nakeduml.tinker.generator.TinkerCollectionStep;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
@@ -102,6 +103,7 @@ public class GenerateTinkerTestActivity {
 		steps.add(TinkerSimpleActivityMethodImplementor.class);
 		steps.add(TinkerUmlNameRegenerator.class);
 		steps.add(TinkerOperationGenerator.class);
+		steps.add(TinkerTriggerExtractor.class);
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}

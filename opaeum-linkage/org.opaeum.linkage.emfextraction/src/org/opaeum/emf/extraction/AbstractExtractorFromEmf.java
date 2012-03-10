@@ -171,7 +171,7 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		}
 		return octopusKind;
 	}
-	String getEventId(Trigger t){
+	protected String getEventId(Trigger t){
 		return getId(t.getEvent()) + getId(t);
 	}
 	public String getId(EObject e){

@@ -24,6 +24,7 @@ import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
@@ -303,7 +304,8 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		owner.addToImports(TinkerGenerationUtil.TINKER_NODE);
 		INakedProperty prop = map.getProperty();
 		INakedClassifier umlOwner = (INakedClassifier) map.getFeature().getOwner();
-		if (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())) {
+		if (prop.getOwner() instanceof INakedSignal
+				|| (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly()))) {
 			if (map.isOne()) {
 				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
 				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
@@ -394,7 +396,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		if (umlOwner instanceof ICompositionParticipant) {
 			addEntityToTransactionThreadEntityVar(setter);
 		}
-		if (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null) {
+		if (map.getProperty().getOwner() instanceof INakedSignal || (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
 			// Create an edge
 			if (map.getProperty().getOtherEnd() != null) {
 				OJField oldValue = new OJField();
@@ -404,9 +406,11 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 				setter.getBody().addToLocals(oldValue);
 				setter.getBody().addToStatements(map.internalRemover() + "(oldValue)");
 
-				OJIfStatement ifOldValueNotNull = new OJIfStatement("oldValue != null");
-				ifOldValueNotNull.addToThenPart("oldValue." + otherMap.internalRemover() + "(this)");
-				setter.getBody().addToStatements(ifOldValueNotNull);
+				if (!(map.getProperty().getOwner() instanceof INakedSignal)) {
+					OJIfStatement ifOldValueNotNull = new OJIfStatement("oldValue != null");
+					ifOldValueNotNull.addToThenPart("oldValue." + otherMap.internalRemover() + "(this)");
+					setter.getBody().addToStatements(ifOldValueNotNull);
+				}
 			}
 			createPolymorphicToOneRelationship(umlOwner, map, setter);
 		}

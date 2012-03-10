@@ -6,93 +6,69 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
+public abstract class ForkNodeObjectTokenUnknown extends ForkNode<ObjectToken<?>> {
 
-public abstract class MergeNodeObjectTokenUnknown extends MergeNode<ObjectToken<?>, ObjectToken<?>> {
-
-	public MergeNodeObjectTokenUnknown() {
+	public ForkNodeObjectTokenUnknown() {
 		super();
 	}
 
-	public MergeNodeObjectTokenUnknown(boolean persist, String name) {
+	public ForkNodeObjectTokenUnknown(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	public MergeNodeObjectTokenUnknown(Vertex vertex) {
+	public ForkNodeObjectTokenUnknown(Vertex vertex) {
 		super(vertex);
 	}
-	
-	@Override
-	protected abstract ObjectFlowUnknown getOutFlow();
 
-	@Override
-	protected abstract List<ObjectFlowUnknown> getInFlows();
-
-	@Override
-	protected List<ObjectFlowUnknown> getOutFlows() {
-		List<ObjectFlowUnknown> result = new ArrayList<ObjectFlowUnknown>();
-		result.add(getOutFlow());
-		return result;
-	}
-
-	@Override
+	@SuppressWarnings("rawtypes")
 	public List<ObjectToken<?>> getInTokens() {
 		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getInFlows()) {
+		for (ActivityEdge<ObjectToken<?>> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
-				@SuppressWarnings("rawtypes")
-				ObjectToken e = new ObjectToken(edge.getInVertex());
-				result.add(e);
+				result.add(new ObjectToken(edge.getInVertex()));
 			}
 		}
 		return result;
 	}
 
-	@Override
+	@SuppressWarnings("rawtypes")
 	public List<ObjectToken<?>> getInTokens(String inFlowName) {
 		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getInFlows()) {
+		for (ActivityEdge<ObjectToken<?>> flow : getInFlows()) {
 			if (flow.getName().equals(inFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
-					@SuppressWarnings("rawtypes")
-					ObjectToken e = new ObjectToken(edge.getInVertex());
-					result.add(e);
+					result.add(new ObjectToken(edge.getInVertex()));
 				}
 			}
 		}
 		return result;
 	}
 
-	@Override
+	@SuppressWarnings("rawtypes")
 	public List<ObjectToken<?>> getOutTokens() {
 		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getOutFlows()) {
+		for (ActivityEdge<ObjectToken<?>> flow : getOutFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
-				@SuppressWarnings("rawtypes")
-				ObjectToken e = new ObjectToken(edge.getInVertex());
-				result.add(e);
+				result.add(new ObjectToken(edge.getInVertex()));
 			}
 		}
 		return result;
 	}
 
-	@Override
+	@SuppressWarnings("rawtypes")
 	public List<ObjectToken<?>> getOutTokens(String outFlowName) {
 		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getOutFlows()) {
+		for (ActivityEdge<ObjectToken<?>> flow : getOutFlows()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
-					@SuppressWarnings("rawtypes")
-					ObjectToken e = new ObjectToken(edge.getInVertex());
-					result.add(e);
+					result.add(new ObjectToken(edge.getInVertex()));
 				}
 			}
 		}
 		return result;
-	}
-	
-
+	}		
 }

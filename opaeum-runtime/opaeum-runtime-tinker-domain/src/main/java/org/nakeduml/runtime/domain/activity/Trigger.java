@@ -1,24 +1,23 @@
 package org.nakeduml.runtime.domain.activity;
 
-import org.opaeum.runtime.domain.ISignal;
 
 public class Trigger {
 
-	private Class<? extends ISignal> signalType;
 	private String name;
+	private String eventName;
 
-	public Trigger(String name, Class<? extends ISignal> signalType) {
+	public Trigger(String name, String eventName) {
 		super();
 		this.name = name;
-		this.signalType = signalType;
+		this.eventName = eventName;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Class<? extends ISignal> getSignalType() {
-		return signalType;
+	public String getEventName() {
+		return eventName;
 	}
-	
+
 }

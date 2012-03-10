@@ -15,7 +15,7 @@ public class ControlToken extends Token {
 	}
 
 	@Override
-	protected void addEdgeToActivityNode(ActivityNode<? extends Token> node) {
+	protected void addEdgeToActivityNode(ActivityNode<? extends Token, ? extends Token> node) {
 		// Multiple tokens from the same incoming edge is merged
 		if (!node.vertex.getOutEdges(TOKEN + getEdgeName()).iterator().hasNext()) {
 			GraphDb.getDb().addEdge(null, node.vertex, getVertex(), TOKEN + getEdgeName());

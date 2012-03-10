@@ -6,20 +6,20 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class JoinNodeObjectTokenKnown<O> extends JoinNode<ObjectToken<O>> {
+public abstract class JoinNodeObjectTokenKnown<O> extends JoinNode<ObjectToken<O>, ObjectToken<O>> {
 
 	public JoinNodeObjectTokenKnown() {
 		super();
 	}
-	
+
 	public JoinNodeObjectTokenKnown(Vertex vertex) {
 		super(vertex);
-	}	
+	}
 
 	public JoinNodeObjectTokenKnown(boolean persist, String name) {
 		super(persist, name);
 	}
-	
+
 	@Override
 	protected abstract ObjectFlowKnown<O> getOutFlow();
 
@@ -29,10 +29,10 @@ public abstract class JoinNodeObjectTokenKnown<O> extends JoinNode<ObjectToken<O
 		result.add(getOutFlow());
 		return result;
 	}
-	
+
 	@Override
 	protected abstract List<ObjectFlowKnown<O>> getInFlows();
-	
+
 	@Override
 	public List<ObjectToken<O>> getInTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
@@ -83,7 +83,6 @@ public abstract class JoinNodeObjectTokenKnown<O> extends JoinNode<ObjectToken<O
 			}
 		}
 		return result;
-	}		
-	
-	
+	}
+
 }

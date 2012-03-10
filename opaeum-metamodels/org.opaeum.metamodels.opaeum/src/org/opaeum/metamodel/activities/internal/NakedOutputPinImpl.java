@@ -7,6 +7,11 @@ import org.opaeum.metamodel.core.INakedMultiplicity;
 import org.opaeum.metamodel.core.INakedParameter;
 public class NakedOutputPinImpl extends NakedPinImpl implements INakedOutputPin {
 	private static final long serialVersionUID = 2680974388304633167L;
+	
+	public NakedOutputPinImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public boolean treatAsAttribute() {
 		return true;
 	}

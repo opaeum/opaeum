@@ -7,4 +7,5 @@ public interface INakedControlNode extends INakedActivityNode {
 	void setControlNodeType(ControlNodeType nt);
 	INakedClassifier getOriginatingObjectNodeClassifier();
 	boolean hasIncomingObjectFlow();
+	boolean hasIncomingControlFlow();
 }

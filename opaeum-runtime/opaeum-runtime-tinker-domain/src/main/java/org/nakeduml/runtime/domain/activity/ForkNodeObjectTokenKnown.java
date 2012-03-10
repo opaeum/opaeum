@@ -6,17 +6,17 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ForkNodeObjectToken<O> extends ForkNode<ObjectToken<O>> {
+public abstract class ForkNodeObjectTokenKnown<O> extends ForkNode<ObjectToken<O>> {
 
-	public ForkNodeObjectToken() {
+	public ForkNodeObjectTokenKnown() {
 		super();
 	}
 
-	public ForkNodeObjectToken(boolean persist, String name) {
+	public ForkNodeObjectTokenKnown(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	public ForkNodeObjectToken(Vertex vertex) {
+	public ForkNodeObjectTokenKnown(Vertex vertex) {
 		super(vertex);
 	}
 

@@ -30,39 +30,6 @@ import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerAttributeImplementor.class, PersistentNameGenerator.class, HashcodeBuilder.class }, after = {HashcodeBuilder.class, ToXmlStringBuilder.class, ExtendedCompositionSemantics.class, PersistentNameGenerator.class, CompositionNodeImplementor.class})
 public class TinkerImplementNodeStep extends StereotypeAnnotator {
 
-//	@VisitAfter(matchSubclasses = true)
-//	public void visitActivity(INakedActivity c) {
-//		if (OJUtil.hasOJClass(c)) {
-//			OJAnnotatedClass ojClass = findJavaClass(c);
-//			ojClass.addToImports(TinkerGenerationUtil.graphDbPathName);
-//			ojClass.addToImports(TinkerGenerationUtil.edgePathName);
-//			ojClass.addToImports(TinkerGenerationUtil.introspectionUtilPathName);
-//			implementTinkerCompositionNode(ojClass);
-//			implementIsRoot(ojClass, c.getEndToComposite() == null);
-//			addPersistentConstructor(ojClass);
-//			if (c.getGeneralizations().isEmpty()) {
-//				persistUid(ojClass);
-//				extendsBaseSoftDelete(ojClass);
-//				addGetObjectVersion(ojClass);
-//				addGetSetId(ojClass);
-//				initialiseVertexInPersistentConstructor(ojClass);
-//				addCreateComponentsToDefaultConstructor(ojClass);
-//			} else {
-//				addSuperWithPersistenceToDefaultConstructor(ojClass);
-//			}
-//			
-//			if (c.getEndToComposite() != null) {
-//				addInitVertexToConstructorWithOwningObject(ojClass, c);
-//			} else {
-//				if (!c.getIsAbstract() && !hasSuperwithCompositeParent(c)) {
-//					attachCompositeRootToDbRoot(ojClass);
-//				}
-//			}	
-//			addContructorWithVertex(ojClass);
-//		}
-//		
-//	}
-
 	@VisitAfter(matchSubclasses = true)
 	public void visitSignal(INakedSignal c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType)) {

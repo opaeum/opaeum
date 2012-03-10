@@ -77,7 +77,7 @@ public class ObjectToken<O> extends Token {
 	}	
 
 	@Override
-	protected void addEdgeToActivityNode(ActivityNode<? extends Token> node) {
+	protected void addEdgeToActivityNode(ActivityNode<? extends Token, ? extends Token> node) {
 		GraphDb.getDb().addEdge(null, node.vertex, getVertex(), TOKEN + getEdgeName());
 	}
 

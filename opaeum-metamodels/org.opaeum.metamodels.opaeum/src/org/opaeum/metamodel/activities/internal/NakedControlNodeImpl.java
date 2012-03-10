@@ -7,6 +7,12 @@ import org.opaeum.metamodel.core.INakedClassifier;
 public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INakedControlNode {
 	private static final long serialVersionUID = -4774558296787039182L;
 	private ControlNodeType controlNodeType;
+	
+	
+	public NakedControlNodeImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public ControlNodeType getControlNodeType() {
 		return this.controlNodeType;
 	}
@@ -61,6 +67,15 @@ public class NakedControlNodeImpl extends NakedActivityNodeImpl implements INake
 	public boolean hasIncomingObjectFlow() {
 		for (INakedActivityEdge incoming : getIncoming()) {
 			if (incoming instanceof INakedObjectFlow) {
+				return true;
+			}
+		}
+		return false;
+	}
+	@Override
+	public boolean hasIncomingControlFlow() {
+		for (INakedActivityEdge incoming : getIncoming()) {
+			if (!(incoming instanceof INakedObjectFlow)) {
 				return true;
 			}
 		}

@@ -29,13 +29,13 @@ public abstract class ObjectFlowKnown<O> extends ActivityEdge<ObjectToken<O>> {
 			
 			@SuppressWarnings("unchecked")
 			@Override
-			protected ActivityNode<ObjectToken<?>> getTarget() {
+			protected ActivityNode<ObjectToken<?>, ObjectToken<?>> getTarget() {
 				return ObjectFlowKnown.this.getTarget();
 			}
 			
 			@SuppressWarnings("unchecked")
 			@Override
-			protected ActivityNode<ObjectToken<?>> getSource() {
+			protected ActivityNode<ObjectToken<?>, ObjectToken<?>> getSource() {
 				return ObjectFlowKnown.this.getSource();
 			}
 			

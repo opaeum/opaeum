@@ -6,20 +6,20 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class JoinNodeObjectTokenUnknown extends JoinNode<ObjectToken<?>, ObjectToken<?>> {
+public abstract class JoinNodeObjectTokenUnknownWithInControlToken extends JoinNode<Token, ObjectToken<?>> {
 
-	public JoinNodeObjectTokenUnknown() {
+	public JoinNodeObjectTokenUnknownWithInControlToken() {
 		super();
 	}
-	
-	public JoinNodeObjectTokenUnknown(Vertex vertex) {
-		super(vertex);
-	}	
 
-	public JoinNodeObjectTokenUnknown(boolean persist, String name) {
+	public JoinNodeObjectTokenUnknownWithInControlToken(Vertex vertex) {
+		super(vertex);
+	}
+
+	public JoinNodeObjectTokenUnknownWithInControlToken(boolean persist, String name) {
 		super(persist, name);
 	}
-	
+
 	@Override
 	protected abstract ObjectFlowUnknown getOutFlow();
 
@@ -29,34 +29,51 @@ public abstract class JoinNodeObjectTokenUnknown extends JoinNode<ObjectToken<?>
 		result.add(getOutFlow());
 		return result;
 	}
-	
+
 	@Override
-	protected abstract List<ObjectFlowUnknown> getInFlows();
-	
+	protected abstract List<ActivityEdge<? extends Token>> getInFlows();
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.nakeduml.runtime.domain.activity.JoinNode#getInTokens()
+	 * 
+	 * Consume control tokens, only object token continue.
+	 */
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<ObjectToken<?>> getInTokens() {
-		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getInFlows()) {
+	public List<Token> getInTokens() {
+		List<Token> result = new ArrayList<Token>();
+		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
-				@SuppressWarnings("rawtypes")
-				ObjectToken<?> e = new ObjectToken(edge.getInVertex());
-				result.add(e);
+				Token token;
+				if (!(flow instanceof ControlFlow)) {
+					token = new ObjectToken(edge.getInVertex());
+					result.add(token);
+				} else {
+					token = new ControlToken(edge.getInVertex());
+					token.remove();
+				}
 			}
 		}
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<ObjectToken<?>> getInTokens(String inFlowName) {
-		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getInFlows()) {
+	public List<Token> getInTokens(String inFlowName) {
+		List<Token> result = new ArrayList<Token>();
+		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			if (flow.getName().equals(inFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
-					@SuppressWarnings("rawtypes")
-					ObjectToken<?> e = new ObjectToken(edge.getInVertex());
-					result.add(e);
+					Token token;
+					if (flow instanceof ControlFlow) {
+						token = new ControlToken(edge.getInVertex());
+					} else {
+						token = new ObjectToken(edge.getInVertex());
+					}
+					result.add(token);
 				}
 			}
 		}
@@ -91,7 +108,6 @@ public abstract class JoinNodeObjectTokenUnknown extends JoinNode<ObjectToken<?>
 			}
 		}
 		return result;
-	}		
-	
-	
+	}
+
 }

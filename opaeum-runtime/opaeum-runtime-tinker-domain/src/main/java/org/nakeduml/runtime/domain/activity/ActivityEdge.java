@@ -32,7 +32,7 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 			}
 		}
 		if (hasWeightPassed()) {
-			ActivityNode<T> target = getTarget();
+			ActivityNode<T,?> target = getTarget();
 			target.setStarts(this.tokens);
 			return target.next();
 		} else {
@@ -40,9 +40,9 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 		}
 	}
 
-	protected abstract <O extends Token> ActivityNode<O> getTarget();
+	protected abstract <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getTarget();
 
-	protected abstract <O extends Token> ActivityNode<O> getSource();
+	protected abstract <IN extends Token, OUT extends Token> ActivityNode<IN, OUT> getSource();
 
 	public abstract String getName();
 

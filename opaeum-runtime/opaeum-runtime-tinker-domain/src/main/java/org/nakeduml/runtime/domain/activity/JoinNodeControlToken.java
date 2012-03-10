@@ -6,7 +6,7 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class JoinNodeControlToken extends JoinNode<ControlToken> {
+public abstract class JoinNodeControlToken extends JoinNode<ControlToken, ControlToken> {
 
 	public JoinNodeControlToken() {
 		super();

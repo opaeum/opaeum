@@ -15,18 +15,18 @@ public abstract class ObjectFlowUnknown extends ActivityEdge<ObjectToken<?>> {
 		return evaluateGuardConditions(token.getObject());	
 	}	
 
-	public <T> ObjectFlowKnown<T> convertToKnown() {
+	public <T> ObjectFlowKnown<T> convertToKnownObjectFlow() {
 		return new ObjectFlowKnown<T>(ObjectFlowUnknown.this.edge) {
 
 			@SuppressWarnings("unchecked")
 			@Override
-			protected ActivityNode<ObjectToken<T>> getTarget() {
+			protected ActivityNode<ObjectToken<T>, ObjectToken<T>> getTarget() {
 				return ObjectFlowUnknown.this.getTarget();
 			}
 
 			@SuppressWarnings("unchecked")
 			@Override
-			protected ActivityNode<ObjectToken<T>> getSource() {
+			protected ActivityNode<ObjectToken<T>, ObjectToken<T>> getSource() {
 				return ObjectFlowUnknown.this.getSource();
 			}
 

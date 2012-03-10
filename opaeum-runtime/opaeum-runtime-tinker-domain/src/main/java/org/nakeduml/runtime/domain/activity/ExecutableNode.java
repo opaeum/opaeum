@@ -2,7 +2,7 @@ package org.nakeduml.runtime.domain.activity;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ExecutableNode extends ActivityNode<ControlToken> {
+public abstract class ExecutableNode extends ActivityNode<ControlToken, ControlToken> {
 
 	public ExecutableNode() {
 		super();

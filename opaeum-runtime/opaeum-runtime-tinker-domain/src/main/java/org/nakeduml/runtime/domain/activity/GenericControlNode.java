@@ -6,7 +6,7 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class GenericControlNode extends ControlNode<Token> {
+public abstract class GenericControlNode extends ControlNode<Token, Token> {
 
 	public GenericControlNode() {
 		super();

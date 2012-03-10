@@ -3,6 +3,7 @@ package org.nakeduml.runtime.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.activity.Event;
 import org.nakeduml.tinker.collection.TinkerSequence;
 import org.nakeduml.tinker.collection.TinkerSequenceImpl;
 import org.nakeduml.tinker.runtime.GraphDb;
@@ -14,7 +15,7 @@ import com.tinkerpop.blueprints.pgm.Edge;
 public abstract class BaseTinkerBehavioredClassifier extends BaseTinkerSoftDelete implements Serializable, TinkerCompositionNode {
 
 	private static final long serialVersionUID = 228929853082097254L;
-	private TinkerSequence<ISignal> events;
+	private TinkerSequence<Event> events;
 
 	public BaseTinkerBehavioredClassifier() {
 		super();
@@ -25,23 +26,23 @@ public abstract class BaseTinkerBehavioredClassifier extends BaseTinkerSoftDelet
 	protected void attachToRoot() {
 		Edge edge = GraphDb.getDb().addEdge(null, GraphDb.getDb().getRoot(), this.vertex, "classifierBehavior");
 		edge.setProperty("inClass", IntrospectionUtil.getOriginalClass(this.getClass()).getName());
-		this.events = new TinkerSequenceImpl<ISignal>(this, "eventPool", "uid", true, false, true);
+		this.events = new TinkerSequenceImpl<Event>(this, "eventPool", "uid", true, false, true);
 	}
 
-	public List<ISignal> getEventPool() {
-		List<ISignal> result = this.events;
+	public List<Event> getEventPool() {
+		List<Event> result = this.events;
 		return result;
 	}
 	
-	public void addToEventPool(ISignal signal) {
-		if ( signal!=null ) {
-			this.events.add(signal);
+	public void addToEventPool(Event event) {
+		if ( event!=null ) {
+			this.events.add(event);
 		}
 	}
 	
-	public void removeFromEventPool(ISignal signal) {
-		if ( signal!=null ) {
-			this.events.remove(signal);
+	public void removeFromEventPool(Event event) {
+		if ( event!=null ) {
+			this.events.remove(event);
 		}
 	}
 	

@@ -6,7 +6,7 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class MergeNodeControlToken extends MergeNode<ControlToken> {
+public abstract class MergeNodeControlToken extends MergeNode<ControlToken, ControlToken> {
 
 	public MergeNodeControlToken() {
 		super();

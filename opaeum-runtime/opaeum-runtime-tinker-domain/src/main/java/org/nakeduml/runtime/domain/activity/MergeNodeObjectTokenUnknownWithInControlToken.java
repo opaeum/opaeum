@@ -7,23 +7,23 @@ import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 
-public abstract class MergeNodeObjectTokenUnknown extends MergeNode<ObjectToken<?>, ObjectToken<?>> {
+public abstract class MergeNodeObjectTokenUnknownWithInControlToken extends MergeNode<Token, ObjectToken<?>> {
 
-	public MergeNodeObjectTokenUnknown() {
+	public MergeNodeObjectTokenUnknownWithInControlToken() {
 		super();
 	}
 
-	public MergeNodeObjectTokenUnknown(boolean persist, String name) {
+	public MergeNodeObjectTokenUnknownWithInControlToken(boolean persist, String name) {
 		super(persist, name);
 	}
 
-	public MergeNodeObjectTokenUnknown(Vertex vertex) {
+	public MergeNodeObjectTokenUnknownWithInControlToken(Vertex vertex) {
 		super(vertex);
 	}
 	
 	@Override
 	protected abstract ObjectFlowUnknown getOutFlow();
-
+	
 	@Override
 	protected abstract List<ObjectFlowUnknown> getInFlows();
 
@@ -34,30 +34,40 @@ public abstract class MergeNodeObjectTokenUnknown extends MergeNode<ObjectToken<
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<ObjectToken<?>> getInTokens() {
-		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getInFlows()) {
+	public List<Token> getInTokens() {
+		List<Token> result = new ArrayList<Token>();
+		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
-				@SuppressWarnings("rawtypes")
-				ObjectToken e = new ObjectToken(edge.getInVertex());
-				result.add(e);
+				Token token;
+				if (flow instanceof ControlFlow) {
+					token = new ControlToken(edge.getInVertex());
+				} else {
+					token = new ObjectToken(edge.getInVertex());
+				}
+				result.add(token);
 			}
 		}
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<ObjectToken<?>> getInTokens(String inFlowName) {
-		List<ObjectToken<?>> result = new ArrayList<ObjectToken<?>>();
-		for (ObjectFlowUnknown flow : getInFlows()) {
+	public List<Token> getInTokens(String inFlowName) {
+		List<Token> result = new ArrayList<Token>();
+		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			if (flow.getName().equals(inFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
-					@SuppressWarnings("rawtypes")
-					ObjectToken e = new ObjectToken(edge.getInVertex());
-					result.add(e);
+					Token token;
+					if (flow instanceof ControlFlow) {
+						token = new ControlToken(edge.getInVertex());
+					} else {
+						token = new ObjectToken(edge.getInVertex());
+					}
+					result.add(token);
 				}
 			}
 		}

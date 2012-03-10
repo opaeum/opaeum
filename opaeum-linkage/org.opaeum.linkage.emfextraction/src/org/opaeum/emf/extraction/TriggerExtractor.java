@@ -56,7 +56,7 @@ public class TriggerExtractor extends AbstractActionExtractor{
 			}
 		}
 	}
-	private void updateEvent(NakedEventImpl nakedEvent,Trigger emfTrigger,Event event){
+	protected void updateEvent(NakedEventImpl nakedEvent,Trigger emfTrigger,Event event){
 		if(event instanceof SignalEvent){
 			SignalEvent se = (SignalEvent) event;
 			NakedSignalEventImpl nse = (NakedSignalEventImpl) nakedEvent;
@@ -71,7 +71,7 @@ public class TriggerExtractor extends AbstractActionExtractor{
 			initTimeEvent((TimeEvent)event, (AbstractTimeEventImpl) nakedEvent);
 		}
 	}
-	private NakedEventImpl createNewEvent(Event event){
+	protected NakedEventImpl createNewEvent(Event event){
 		if(event instanceof SignalEvent){
 			return new NakedSignalEventImpl();
 		}else if(event instanceof CallEvent){

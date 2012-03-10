@@ -5,6 +5,7 @@ import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.oclengine.internal.OclContextImpl;
 
 import org.opaeum.metamodel.core.INakedElement;
+import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedInstanceSpecification;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 
@@ -108,4 +109,8 @@ public class NakedValueSpecificationImpl extends NakedElementImpl implements INa
 	public boolean isValidOclValue(){
 		return isOclValue() && this.value instanceof OclContextImpl;
 	}
+	public void setOwnerElement(INakedElementOwner ownerElement){
+		super.setOwnerElement(ownerElement);
+	}
+	
 }

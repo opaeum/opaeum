@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ForkNode<T extends Token> extends ControlNode<T> {
+public abstract class ForkNode<IN extends Token> extends ControlNode<IN,IN> {
 
 	public ForkNode() {
 		super();
@@ -19,11 +19,11 @@ public abstract class ForkNode<T extends Token> extends ControlNode<T> {
 		super(persist, name);
 	}
 
-	protected abstract ActivityEdge<T> getInFlow();
+	protected abstract ActivityEdge<IN> getInFlow();
 
 	@Override
-	protected List<ActivityEdge<T>> getInFlows() {
-		List<ActivityEdge<T>> result = new ArrayList<ActivityEdge<T>>();
+	protected List<ActivityEdge<IN>> getInFlows() {
+		List<ActivityEdge<IN>> result = new ArrayList<ActivityEdge<IN>>();
 		result.add(getInFlow());
 		return result;
 	}

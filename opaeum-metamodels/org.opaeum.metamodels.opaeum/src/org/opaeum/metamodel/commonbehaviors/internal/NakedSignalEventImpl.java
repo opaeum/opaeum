@@ -10,6 +10,11 @@ import org.opaeum.metamodel.core.INakedTypedElement;
 public class NakedSignalEventImpl extends NakedEventImpl implements INakedSignalEvent{
 	private static final long serialVersionUID = 2719164087299253327L;
 	INakedSignal signal;
+	
+	public NakedSignalEventImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public INakedSignal getSignal(){
 		return signal;
 	}

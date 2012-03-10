@@ -13,7 +13,7 @@ public abstract class AbstractTriggeredAction extends Action {
 
 	private List<Trigger> triggers = new ArrayList<Trigger>();
 	private boolean triggered = false;
-	private ISignal signal;
+	private Event event;
 	
 	public AbstractTriggeredAction() {
 		super();
@@ -27,24 +27,28 @@ public abstract class AbstractTriggeredAction extends Action {
 		super(vertex);
 	}
 	
-	public void setTrigger(ISignal signal) {
+	public void setTrigger(Event signal) {
 		this.triggered = true;
-		this.signal = signal;
+		this.event = signal;
 	}
 	
 	@Override
 	protected void transferObjectTokensToAction() {
 		super.transferObjectTokensToAction();
-		copySignalToOutputPin(this.signal);
-		removeSignal(this.signal);
+		copyEventToOutputPin(this.event);
+		removeEvent(this.event);
 	}	
 
-	public abstract void copySignalToOutputPin(ISignal signal);
+	public abstract void copyEventToOutputPin(Event event);
 
-	protected void removeSignal(ISignal signal) {
-		if ( signal instanceof TinkerNode ) {
-			GraphDb.getDb().removeVertex(((TinkerNode)signal).getVertex());
+	protected void removeEvent(Event event) {
+		if (event instanceof SignalEvent) {
+			ISignal signal = ((SignalEvent)event).getSignal();
+			if (signal instanceof TinkerNode) {
+				GraphDb.getDb().removeVertex(((TinkerNode) signal).getVertex());
+			}
 		}
+		GraphDb.getDb().removeVertex(((TinkerNode)event).getVertex());
 	}
 	
 	@Override
@@ -56,13 +60,13 @@ public abstract class AbstractTriggeredAction extends Action {
 		return triggers;
 	}
 	
-	public void addToTriggers(String name, Class<? extends ISignal> signalType) {
-		this.triggers.add(new Trigger(name, signalType));
+	public void addToTriggers(String name, String eventName) {
+		this.triggers.add(new Trigger(name, eventName));
 	}
 	
-	public boolean containsTriggerWithSignalType(Class<? extends ISignal> signalType) {
+	public boolean containsTriggerForEvent(Event event) {
 		for (Trigger trigger : this.triggers) {
-			if (trigger.getSignalType().isAssignableFrom(signalType)) {
+			if (trigger.getEventName().equals(event.getName())) {
 				return true;
 			}
 		}

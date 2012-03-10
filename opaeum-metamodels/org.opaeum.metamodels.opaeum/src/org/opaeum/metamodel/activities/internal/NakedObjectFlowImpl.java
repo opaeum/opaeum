@@ -160,7 +160,7 @@ public class NakedObjectFlowImpl extends NakedActivityEdgeImpl implements INaked
 						}
 					}
 
-				} else  if (targetControlNode.getControlNodeType().isDecisionNode()) {
+				} else  if (targetControlNode.getControlNodeType().isDecisionNode() || targetControlNode.getControlNodeType().isForkNode()) {
 					((NakedObjectFlowImpl)targetControlNode.getIncoming().iterator().next()).getOriginatingObjectNodeClassifierInternal(classifier, exitter);
 				} else {
 					throw new IllegalStateException("wtf");

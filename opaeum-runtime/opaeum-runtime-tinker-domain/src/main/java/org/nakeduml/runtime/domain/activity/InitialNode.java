@@ -9,7 +9,7 @@ import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 
-public abstract class InitialNode extends ControlNode<ControlToken> {
+public abstract class InitialNode extends ControlNode<ControlToken, ControlToken> {
 
 	public InitialNode() {
 		super();

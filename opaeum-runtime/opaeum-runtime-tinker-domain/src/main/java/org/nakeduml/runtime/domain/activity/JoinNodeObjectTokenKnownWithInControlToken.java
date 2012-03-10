@@ -6,25 +6,22 @@ import java.util.List;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class MergeNodeObjectTokenKnown<O> extends MergeNode<ObjectToken<O>, ObjectToken<O>> {
+public abstract class JoinNodeObjectTokenKnownWithInControlToken<O> extends JoinNode<Token, ObjectToken<O>> {
 
-	public MergeNodeObjectTokenKnown() {
+	public JoinNodeObjectTokenKnownWithInControlToken() {
 		super();
 	}
 
-	public MergeNodeObjectTokenKnown(boolean persist, String name) {
-		super(persist, name);
+	public JoinNodeObjectTokenKnownWithInControlToken(Vertex vertex) {
+		super(vertex);
 	}
 
-	public MergeNodeObjectTokenKnown(Vertex vertex) {
-		super(vertex);
+	public JoinNodeObjectTokenKnownWithInControlToken(boolean persist, String name) {
+		super(persist, name);
 	}
 
 	@Override
 	protected abstract ObjectFlowKnown<O> getOutFlow();
-
-	@Override
-	protected abstract List<ObjectFlowKnown<O>> getInFlows();
 
 	@Override
 	protected List<ObjectFlowKnown<O>> getOutFlows() {
@@ -34,25 +31,49 @@ public abstract class MergeNodeObjectTokenKnown<O> extends MergeNode<ObjectToken
 	}
 
 	@Override
-	public List<ObjectToken<O>> getInTokens() {
-		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ObjectFlowKnown<O> flow : getInFlows()) {
+	protected abstract List<ActivityEdge<? extends Token>> getInFlows();
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.nakeduml.runtime.domain.activity.JoinNode#getInTokens()
+	 * 
+	 * Consume control tokens, only object token continue.
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List<Token> getInTokens() {
+		List<Token> result = new ArrayList<Token>();
+		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
-				result.add(new ObjectToken<O>(edge.getInVertex()));
+				Token token;
+				if (!(flow instanceof ControlFlow)) {
+					token = new ObjectToken(edge.getInVertex());
+					result.add(token);
+				} else {
+					token = new ControlToken(edge.getInVertex());
+					token.remove();
+				}
 			}
 		}
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<ObjectToken<O>> getInTokens(String inFlowName) {
-		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ObjectFlowKnown<O> flow : getInFlows()) {
+	public List<Token> getInTokens(String inFlowName) {
+		List<Token> result = new ArrayList<Token>();
+		for (ActivityEdge<? extends Token> flow : getInFlows()) {
 			if (flow.getName().equals(inFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
-					result.add(new ObjectToken<O>(edge.getInVertex()));
+					Token token;
+					if (flow instanceof ControlFlow) {
+						token = new ControlToken(edge.getInVertex());
+					} else {
+						token = new ObjectToken(edge.getInVertex());
+					}
+					result.add(token);
 				}
 			}
 		}
@@ -62,7 +83,7 @@ public abstract class MergeNodeObjectTokenKnown<O> extends MergeNode<ObjectToken
 	@Override
 	public List<ObjectToken<O>> getOutTokens() {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ObjectFlowKnown<O> flow : getOutFlows()) {
+		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
 			Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 			for (Edge edge : iter) {
 				result.add(new ObjectToken<O>(edge.getInVertex()));
@@ -74,7 +95,7 @@ public abstract class MergeNodeObjectTokenKnown<O> extends MergeNode<ObjectToken
 	@Override
 	public List<ObjectToken<O>> getOutTokens(String outFlowName) {
 		List<ObjectToken<O>> result = new ArrayList<ObjectToken<O>>();
-		for (ObjectFlowKnown<O> flow : getOutFlows()) {
+		for (ActivityEdge<ObjectToken<O>> flow : getOutFlows()) {
 			if (flow.getName().equals(outFlowName)) {
 				Iterable<Edge> iter = this.vertex.getOutEdges(Token.TOKEN + flow.getName());
 				for (Edge edge : iter) {
@@ -84,4 +105,5 @@ public abstract class MergeNodeObjectTokenKnown<O> extends MergeNode<ObjectToken
 		}
 		return result;
 	}
+
 }

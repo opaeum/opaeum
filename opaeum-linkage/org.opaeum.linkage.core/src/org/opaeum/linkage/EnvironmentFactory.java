@@ -14,6 +14,7 @@ import org.opaeum.metamodel.activities.ActivityNodeContainer;
 import org.opaeum.metamodel.activities.INakedAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
+import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedActivityVariable;
 import org.opaeum.metamodel.activities.INakedExpansionNode;
 import org.opaeum.metamodel.activities.INakedExpansionRegion;
@@ -36,6 +37,7 @@ import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.INakedTypedElement;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 import org.opaeum.metamodel.core.IParameterOwner;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedClassifier;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
 import org.opaeum.metamodel.statemachines.INakedState;
 import org.opaeum.metamodel.statemachines.INakedStateMachine;
@@ -253,7 +255,13 @@ public class EnvironmentFactory{
 		INakedObjectFlow objectFlow = edge;
 		INakedClassifier c = objectFlow.getOriginatingObjectNodeClassifier();
 		if(c != null){
-			env.addElement("tokenValue", new VariableDeclaration("tokenValue", c), false);
+			env.addElement(objectFlow.getName(), new VariableDeclaration(objectFlow.getName(), c), false);
+		} else {
+			INakedActivityNode target = objectFlow.getTarget();
+			if (target instanceof INakedObjectNode) {
+				INakedObjectNode objectNode = (INakedObjectNode)target;
+				env.addElement(objectFlow.getName(), new VariableDeclaration(objectFlow.getName(), objectNode.getType()), false);
+			}
 		}
 	}
 	
@@ -319,5 +327,13 @@ public class EnvironmentFactory{
 		for(INakedActivityVariable var:variables){
 			env.addElement(var.getName(), new VariableDeclaration(var.getName(), var.getType()), false);
 		}
+	}
+	
+	private class ConcreteEmulatedClassifier extends EmulatedClassifier {
+
+		protected ConcreteEmulatedClassifier(INakedNameSpace owner, INakedElement element) {
+			super(owner, element);
+		}
+		
 	}
 }

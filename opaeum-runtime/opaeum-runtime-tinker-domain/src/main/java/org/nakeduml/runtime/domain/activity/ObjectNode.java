@@ -3,12 +3,10 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.Address;
-
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
-public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
+public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectToken<O>> {
 
 	public ObjectNode() {
 		super();
@@ -124,7 +122,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>> {
 	protected <T> List<ObjectFlowKnown<T>> convertToKnownObjectFlows(List<ObjectFlowUnknown> asList) {
 		List<ObjectFlowKnown<T>> result = new ArrayList<ObjectFlowKnown<T>>();
 		for (ObjectFlowUnknown objectFlowUnknown : asList) {
-			result.add(objectFlowUnknown.<T>convertToKnown());
+			result.add(objectFlowUnknown.<T>convertToKnownObjectFlow());
 		}
 		return result;
 	}

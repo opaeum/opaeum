@@ -20,13 +20,6 @@ public abstract class DecisionControlToken extends DecisionNode<ControlToken> {
 		super(vertex);
 	}
 
-//	@Override
-//	protected void removeIncomingTokens() {
-//		for (ControlToken token : getInTokens()) {
-//			GraphDb.getDb().removeVertex(token.getVertex());
-//		}
-//	}
-
 	public List<ControlToken> getInTokens() {
 		List<ControlToken> result = new ArrayList<ControlToken>();
 		for (ActivityEdge<ControlToken> flow : getInFlows()) {
