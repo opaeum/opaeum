@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.control.impl;
 
@@ -25,8 +21,9 @@ import org.opaeum.uim.control.UimControl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.control.impl.UimControlImpl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.impl.UimControlImpl#getMimumWidth <em>Mimum Width</em>}</li>
  *   <li>{@link org.opaeum.uim.control.impl.UimControlImpl#getField <em>Field</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.impl.UimControlImpl#getMinimumHeight <em>Minimum Height</em>}</li>
  * </ul>
  * </p>
  *
@@ -34,24 +31,44 @@ import org.opaeum.uim.control.UimControl;
  */
 public class UimControlImpl extends EObjectImpl implements UimControl {
 	/**
-	 * The default value of the '{@link #getWidth() <em>Width</em>}' attribute.
+	 * The default value of the '{@link #getMimumWidth() <em>Mimum Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getWidth()
+	 * @see #getMimumWidth()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String WIDTH_EDEFAULT = null;
+	protected static final String MIMUM_WIDTH_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getWidth() <em>Width</em>}' attribute.
+	 * The cached value of the '{@link #getMimumWidth() <em>Mimum Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getWidth()
+	 * @see #getMimumWidth()
 	 * @generated
 	 * @ordered
 	 */
-	protected String width = WIDTH_EDEFAULT;
+	protected String mimumWidth = MIMUM_WIDTH_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getMinimumHeight() <em>Minimum Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMinimumHeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer MINIMUM_HEIGHT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getMinimumHeight() <em>Minimum Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMinimumHeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer minimumHeight = MINIMUM_HEIGHT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -77,8 +94,8 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getWidth() {
-		return width;
+	public String getMimumWidth() {
+		return mimumWidth;
 	}
 
 	/**
@@ -86,11 +103,11 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setWidth(String newWidth) {
-		String oldWidth = width;
-		width = newWidth;
+	public void setMimumWidth(String newMimumWidth) {
+		String oldMimumWidth = mimumWidth;
+		mimumWidth = newMimumWidth;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ControlPackage.UIM_CONTROL__WIDTH, oldWidth, width));
+			eNotify(new ENotificationImpl(this, Notification.SET, ControlPackage.UIM_CONTROL__MIMUM_WIDTH, oldMimumWidth, mimumWidth));
 	}
 
 	/**
@@ -132,6 +149,27 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ControlPackage.UIM_CONTROL__FIELD, newField, newField));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Integer getMinimumHeight() {
+		return minimumHeight;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMinimumHeight(Integer newMinimumHeight) {
+		Integer oldMinimumHeight = minimumHeight;
+		minimumHeight = newMinimumHeight;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ControlPackage.UIM_CONTROL__MINIMUM_HEIGHT, oldMinimumHeight, minimumHeight));
 	}
 
 	/**
@@ -186,10 +224,12 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ControlPackage.UIM_CONTROL__WIDTH:
-				return getWidth();
+			case ControlPackage.UIM_CONTROL__MIMUM_WIDTH:
+				return getMimumWidth();
 			case ControlPackage.UIM_CONTROL__FIELD:
 				return getField();
+			case ControlPackage.UIM_CONTROL__MINIMUM_HEIGHT:
+				return getMinimumHeight();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,11 +242,14 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ControlPackage.UIM_CONTROL__WIDTH:
-				setWidth((String)newValue);
+			case ControlPackage.UIM_CONTROL__MIMUM_WIDTH:
+				setMimumWidth((String)newValue);
 				return;
 			case ControlPackage.UIM_CONTROL__FIELD:
 				setField((UimField)newValue);
+				return;
+			case ControlPackage.UIM_CONTROL__MINIMUM_HEIGHT:
+				setMinimumHeight((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -220,11 +263,14 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ControlPackage.UIM_CONTROL__WIDTH:
-				setWidth(WIDTH_EDEFAULT);
+			case ControlPackage.UIM_CONTROL__MIMUM_WIDTH:
+				setMimumWidth(MIMUM_WIDTH_EDEFAULT);
 				return;
 			case ControlPackage.UIM_CONTROL__FIELD:
 				setField((UimField)null);
+				return;
+			case ControlPackage.UIM_CONTROL__MINIMUM_HEIGHT:
+				setMinimumHeight(MINIMUM_HEIGHT_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -238,10 +284,12 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ControlPackage.UIM_CONTROL__WIDTH:
-				return WIDTH_EDEFAULT == null ? width != null : !WIDTH_EDEFAULT.equals(width);
+			case ControlPackage.UIM_CONTROL__MIMUM_WIDTH:
+				return MIMUM_WIDTH_EDEFAULT == null ? mimumWidth != null : !MIMUM_WIDTH_EDEFAULT.equals(mimumWidth);
 			case ControlPackage.UIM_CONTROL__FIELD:
 				return getField() != null;
+			case ControlPackage.UIM_CONTROL__MINIMUM_HEIGHT:
+				return MINIMUM_HEIGHT_EDEFAULT == null ? minimumHeight != null : !MINIMUM_HEIGHT_EDEFAULT.equals(minimumHeight);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -256,8 +304,10 @@ public class UimControlImpl extends EObjectImpl implements UimControl {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (width: ");
-		result.append(width);
+		result.append(" (mimumWidth: ");
+		result.append(mimumWidth);
+		result.append(", minimumHeight: ");
+		result.append(minimumHeight);
 		result.append(')');
 		return result.toString();
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.papyrus.views.modelexplorer.ICommandFilter;
-import org.opaeum.uim.diagram.providers.UimElementTypes;
+import org.opaeum.uimodeler.userinterface.diagram.providers.UimElementTypes;
 
 public class CommandFilter implements ICommandFilter {
 
@@ -15,8 +15,8 @@ public class CommandFilter implements ICommandFilter {
 		if(visibleCommands == null) {
 			visibleCommands = new ArrayList<IElementType>();
 			visibleCommands.add(UimElementTypes.BuiltInAction_3002);
-			visibleCommands.add(UimElementTypes.GridPanel_2004);
-			visibleCommands.add(UimElementTypes.HorizontalPanel_2005);
+			visibleCommands.add(UimElementTypes.GridPanel_2001);
+			visibleCommands.add(UimElementTypes.HorizontalPanel_2002);
 			visibleCommands.add(UimElementTypes.HorizontalPanel_3003);
 			visibleCommands.add(UimElementTypes.LinkToEntity_3008);
 			visibleCommands.add(UimElementTypes.LinkToOperation_3007);
@@ -26,7 +26,7 @@ public class CommandFilter implements ICommandFilter {
 			visibleCommands.add(UimElementTypes.UimField_3001);
 			visibleCommands.add(UimElementTypes.UimField_3010);
 			visibleCommands.add(UimElementTypes.UserInterface_1000);
-			visibleCommands.add(UimElementTypes.VerticalPanel_2006);
+			visibleCommands.add(UimElementTypes.VerticalPanel_2003);
 			visibleCommands.add(UimElementTypes.VerticalPanel_3004);
 		}
 

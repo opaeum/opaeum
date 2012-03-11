@@ -15,7 +15,6 @@ Require-Bundle: org.eclipse.rap.rms.data,
  org.eclipse.rap.ui,
  org.jbpm.flow,
  org.jbpm.persistence.jpa,
- org.drools.knowledge.api,
  org.opaeum.rap.domain,
  org.opaeum.rap.runtime,
  org.junit;bundle-version="4.8.2"

@@ -49,7 +49,6 @@ public class ParameterComposite extends Composite{
 				case UMLPackage.PARAMETER__TYPE:
 					loadData();
 				}
-				System.out.println("ParameterComposite.adaptor.new EContentAdapter() {...}.notifyChanged()");
 			}
 		}
 	};
@@ -83,7 +82,6 @@ public class ParameterComposite extends Composite{
 	}
 	public void setParameter(Parameter parameter){
 		removeAdaptor();
-		System.out.println("ParameterComposite.setParameter()");
 		setEnabled(this, parameter != null);
 		this.parameter = parameter;
 		addAdaptor();

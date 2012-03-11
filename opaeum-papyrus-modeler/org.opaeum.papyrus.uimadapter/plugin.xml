@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          allPopups="true"
+          class="org.opaeum.uimodeler.util.UimContributionFactory"
+          locationURI="popup:org.eclipse.ui.popup.any?before=additions">
+    </menuContribution>
+ </extension>
+
+ <extension
+       id="org.opaeum.uim.uiml2uim.transformationSteps"
+       point="org.opaeum.eclipse.transformationStep">
+    <transformationStep
+          className="org.opaeum.uim.uml2uim.FormSynchronizer">
+    </transformationStep>
+    <transformationStep
+          className="org.opaeum.uim.uml2uim.ModelCopyStep">
+    </transformationStep>
+ </extension>
+</plugin>

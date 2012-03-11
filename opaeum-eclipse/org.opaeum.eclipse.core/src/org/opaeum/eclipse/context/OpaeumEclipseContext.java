@@ -398,8 +398,8 @@ public class OpaeumEclipseContext{
 		OpaeumEclipseContext result = getContextFor(umlDir);
 		if(result == null){
 			OpaeumConfig cfg = null;
-			final IFile propsFile = (IFile) umlDir.getFile(new Path("opaeum.properties"));
-			boolean newContext = !propsFile.exists();
+			final IFile propsFile = (IFile) umlDir.findMember("opaeum.properties");
+			boolean newContext = propsFile==null;
 			if(newContext){
 				cfg = new OpaeumConfig(new File(umlDir.getLocation().toFile(), "opaeum.properties"));
 				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg);

@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.UimBinding;
@@ -23,7 +24,10 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		return (UimBinding) getFeatureValue();
 	}
 	protected Collection<TypedElement> getTypedElements(){
-		return EmfElementFinder.getTypedElementsInScope(UmlUimLinks.getCurrentUmlLinks().getNearestClass((UimComponent) getEObject()));
+		return EmfElementFinder.getTypedElementsInScope(UmlUimLinks.getCurrentUmlLinks(getOwner()).getNearestClass((UimComponent) getEObject()));
+	}
+	private UserInteractionElement getOwner(){
+		return (UserInteractionElement) getEObject();
 	}
 	@Override
 	protected String getFeatureAsString(){
@@ -41,7 +45,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		return sb.toString();
 	}
 	private String getName(PropertyRef next){
-		Property typedElement = UmlUimLinks.getCurrentUmlLinks().getProperty(next);
+		Property typedElement = UmlUimLinks.getCurrentUmlLinks(getOwner()).getProperty(next);
 		if(typedElement == null){
 			return "NOTFOUND";
 		}else{
@@ -49,7 +53,7 @@ public abstract class AbstractBindingSection extends TypedElementCodeCompletingS
 		}
 	}
 	private String getName(UimBinding binding){
-		TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks().getTypedElement(binding);
+		TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks(getOwner()).getTypedElement(binding);
 		if(typedElement == null){
 			return "NOTFOUND";
 		}else{

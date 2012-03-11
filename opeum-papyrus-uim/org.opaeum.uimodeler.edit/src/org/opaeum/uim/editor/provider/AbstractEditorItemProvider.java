@@ -208,7 +208,7 @@ public class AbstractEditorItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(EditorPackage.Literals.ABSTRACT_EDITOR__ACTION_BAR,
-				 EditorFactory.eINSTANCE.createActionBar()));
+				 EditorFactory.eINSTANCE.createEditorActionBar()));
 
 		newChildDescriptors.add
 			(createChildParameter

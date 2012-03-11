@@ -25,15 +25,16 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.facet.infra.browser.uicore.internal.model.LinkItem;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.utils.BusinessModelResolver;
 import org.eclipse.papyrus.infra.core.utils.ServiceUtilsForActionHandlers;
-import org.opaeum.uimodeler.modelexplorer.Activator;
 import org.eclipse.papyrus.views.modelexplorer.CommandContext;
 import org.eclipse.papyrus.views.modelexplorer.ICommandContext;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.opaeum.uimodeler.modelexplorer.Activator;
 
 /**
  * <pre>
@@ -68,9 +69,7 @@ public abstract class AbstractCommandHandler extends AbstractHandler {
 	 * @return selected {@link EObject} or null
 	 * </pre>
 	 * 
-	 * @deprecated
 	 */
-	@Deprecated
 	protected EObject getSelectedElement() {
 		EObject eObject = null;
 

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.action;
 
@@ -44,13 +40,13 @@ public interface ActionFactory extends EFactory {
 	TransitionAction createTransitionAction();
 
 	/**
-	 * Returns a new object of class '<em>Navigation To Operation</em>'.
+	 * Returns a new object of class '<em>Link To Operation</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Navigation To Operation</em>'.
+	 * @return a new object of class '<em>Link To Operation</em>'.
 	 * @generated
 	 */
-	NavigationToOperation createNavigationToOperation();
+	LinkToOperation createLinkToOperation();
 
 	/**
 	 * Returns a new object of class '<em>Operation Action</em>'.
@@ -62,13 +58,22 @@ public interface ActionFactory extends EFactory {
 	OperationAction createOperationAction();
 
 	/**
-	 * Returns a new object of class '<em>Navigation To Entity</em>'.
+	 * Returns a new object of class '<em>Link To Entity</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Navigation To Entity</em>'.
+	 * @return a new object of class '<em>Link To Entity</em>'.
 	 * @generated
 	 */
-	NavigationToEntity createNavigationToEntity();
+	LinkToEntity createLinkToEntity();
+
+	/**
+	 * Returns a new object of class '<em>Operation Action Popup</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Action Popup</em>'.
+	 * @generated
+	 */
+	OperationActionPopup createOperationActionPopup();
 
 	/**
 	 * Returns the package supported by this factory.

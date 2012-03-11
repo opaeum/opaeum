@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -18,7 +17,6 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimFactory;
@@ -29,6 +27,7 @@ import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.panel.PanelFactory;
+import org.opaeum.uim.panel.PanelPackage;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.UimDataTable} object.
@@ -66,6 +65,10 @@ public class UimDataTableItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addPreferredWidthPropertyDescriptor(object);
+			addPreferredHeightPropertyDescriptor(object);
+			addFillHorizontallyPropertyDescriptor(object);
+			addFillVerticallyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -93,6 +96,94 @@ public class UimDataTableItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Preferred Width feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreferredWidthPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_preferredWidth_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_preferredWidth_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__PREFERRED_WIDTH,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Preferred Height feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreferredHeightPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_preferredHeight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_preferredHeight_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__PREFERRED_HEIGHT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Fill Horizontally feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFillHorizontallyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_fillHorizontally_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_fillHorizontally_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__FILL_HORIZONTALLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Fill Vertically feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFillVerticallyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_fillVertically_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_fillVertically_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__FILL_VERTICALLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -108,6 +199,7 @@ public class UimDataTableItemProvider
 			childrenFeatures.add(ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY);
 			childrenFeatures.add(UimPackage.Literals.UIM_CONTAINER__CHILDREN);
 			childrenFeatures.add(UimPackage.Literals.UIM_DATA_TABLE__BINDING);
+			childrenFeatures.add(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION);
 		}
 		return childrenFeatures;
 	}
@@ -163,12 +255,17 @@ public class UimDataTableItemProvider
 
 		switch (notification.getFeatureID(UimDataTable.class)) {
 			case UimPackage.UIM_DATA_TABLE__NAME:
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH:
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT:
+			case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY:
+			case UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
 			case UimPackage.UIM_DATA_TABLE__CHILDREN:
 			case UimPackage.UIM_DATA_TABLE__BINDING:
+			case UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -214,7 +311,12 @@ public class UimDataTableItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 EditorFactory.eINSTANCE.createActionBar()));
+				 UimFactory.eINSTANCE.createAbstractActionBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 EditorFactory.eINSTANCE.createEditorActionBar()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -265,6 +367,21 @@ public class UimDataTableItemProvider
 			(createChildParameter
 				(UimPackage.Literals.UIM_DATA_TABLE__BINDING,
 				 BindingFactory.eINSTANCE.createTableBinding()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
+				 ActionFactory.eINSTANCE.createBuiltInAction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
+				 ActionFactory.eINSTANCE.createTransitionAction()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
+				 ActionFactory.eINSTANCE.createOperationAction()));
 	}
 
 	/**
@@ -280,7 +397,9 @@ public class UimDataTableItemProvider
 
 		boolean qualify =
 			childFeature == ConstraintPackage.Literals.CONSTRAINED_OBJECT__VISIBILITY ||
-			childFeature == ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
+			childFeature == ConstraintPackage.Literals.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY ||
+			childFeature == UimPackage.Literals.UIM_CONTAINER__CHILDREN ||
+			childFeature == UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION;
 
 		if (qualify) {
 			return getString

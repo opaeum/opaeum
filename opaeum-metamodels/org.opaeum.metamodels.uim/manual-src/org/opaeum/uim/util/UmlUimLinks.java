@@ -3,11 +3,12 @@ package org.opaeum.uim.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.opaeum.emf.workspace.EmfWorkspace;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
@@ -15,14 +16,15 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfPropertyUtil;
-import org.opaeum.eclipse.EmfStateMachineUtil;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.OperationAction;
 import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.binding.FieldBinding;
@@ -31,20 +33,19 @@ import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
-import org.opaeum.uim.folder.OperationContainingFolder;
-import org.opaeum.uim.form.ActionTaskForm;
-import org.opaeum.uim.form.ClassForm;
-import org.opaeum.uim.form.FormPanel;
-import org.opaeum.uim.form.OperationInvocationForm;
-import org.opaeum.uim.form.OperationTaskForm;
-import org.opaeum.uim.form.StateForm;
+import org.opaeum.uim.editor.AbstractEditor;
+import org.opaeum.uim.editor.ActionTaskEditor;
+import org.opaeum.uim.editor.ClassEditor;
+import org.opaeum.uim.editor.OperationInvocationEditor;
+import org.opaeum.uim.editor.OperationTaskEditor;
+import org.opaeum.uim.editor.QueryInvocationEditor;
 
 public class UmlUimLinks{
-	Collection<EmfWorkspace> emfWorkspaces = new ArrayList<EmfWorkspace>();
 	private EmfWorkspace primaryEmfWorkspace;
-	public UmlUimLinks(EmfWorkspace map){
-		emfWorkspaces.add(map);
-		this.primaryEmfWorkspace=map;
+	static Map<Resource,UmlUimLinks> linksMap = new WeakHashMap<Resource,UmlUimLinks>();
+	public UmlUimLinks(Resource uimResource,EmfWorkspace map){
+		linksMap.put(uimResource, this);
+		this.primaryEmfWorkspace = map;
 	}
 	public Element getUmlElement(UmlReference uIMBinding){
 		return getLink(uIMBinding);
@@ -56,19 +57,12 @@ public class UmlUimLinks{
 		return (Property) getLink(uIMBinding);
 	}
 	private Element getLink(UmlReference uIMBinding){
-		for(EmfWorkspace map:emfWorkspaces){
-			Element element = map.getElement(uIMBinding.getUmlElementUid());
-			if(element != null){
-				return element;
-			}
+		EmfWorkspace map = primaryEmfWorkspace;
+		Element element = map.getElement(uIMBinding.getUmlElementUid());
+		if(element != null){
+			return element;
 		}
 		return null;
-	}
-	public Class getRepresentedClass(OperationContainingFolder folder){
-		return (Class) getLink(folder);
-	}
-	public State getState(StateForm sui){
-		return (State) getUmlElement(sui);
 	}
 	public Operation getOperation(OperationAction eObject){
 		return (Operation) getUmlElement(eObject);
@@ -76,16 +70,16 @@ public class UmlUimLinks{
 	public Transition getTransition(TransitionAction eObject){
 		return (Transition) getUmlElement(eObject);
 	}
-	public Operation getOperation(OperationInvocationForm form){
+	public Operation getOperation(OperationInvocationEditor form){
 		return (Operation) getUmlElement(form);
 	}
-	public Operation getOperation(OperationTaskForm oif){
+	public Operation getOperation(OperationTaskEditor oif){
 		return (Operation) getUmlElement(oif);
 	}
-	public OpaqueAction getAction(ActionTaskForm oif){
+	public OpaqueAction getAction(ActionTaskEditor oif){
 		return (OpaqueAction) getUmlElement(oif);
 	}
-	public Class getClass(ClassForm nearestForm){
+	public Class getClass(ClassEditor nearestForm){
 		return (Class) getUmlElement(nearestForm);
 	}
 	public String getId(Element e){
@@ -109,7 +103,7 @@ public class UmlUimLinks{
 	public Classifier getNearestClass(UimComponent uc){
 		UimDataTable nearestTable = getNearestTable(uc);
 		if(nearestTable == null){
-			FormPanel uf = getNearestForm(uc);
+			UserInterface uf = getNearestForm(uc);
 			return getRepresentedClass(uf);
 		}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
 			return (Classifier) getBindingType(nearestTable.getBinding());
@@ -131,25 +125,29 @@ public class UmlUimLinks{
 		}
 	}
 	public UimDataTable getNearestTable(UimComponent uc){
-		while(!(uc.getParent() instanceof UimDataTable)){
-			if(uc.getParent() instanceof FormPanel){
+		while(!(uc instanceof UimDataTable)){
+			if(uc.eContainer() == null){
 				return null;
+			}else if(uc.eContainer() instanceof UimDataTable){
+				return (UimDataTable) uc.eContainer();
+			}else if(uc.eContainer() instanceof UimComponent){
+				uc = (UimComponent) uc.eContainer();
 			}else{
-				uc = (UimComponent) uc.getParent();
+				return null;
 			}
 		}
-		return (UimDataTable) uc.getParent();
+		return null;
 	}
-	public FormPanel getNearestForm(EObject uc){
-		while(!(uc.eContainer() instanceof FormPanel)){
+	public static UserInterface getNearestForm(EObject uc){
+		while(!(uc.eContainer() instanceof UserInterface)){
 			uc = uc.eContainer();
 		}
-		return (FormPanel) uc.eContainer();
+		return (UserInterface) uc.eContainer();
 	}
-	public List<Operation> getValidOperationsFor(FormPanel ui){
-		if(ui instanceof ClassForm){
-			ClassForm cf = (ClassForm) ui;
-			Class representedClass = getRepresentedClass(cf.getFolder());
+	public List<Operation> getValidOperationsFor(UserInterface ui){
+		if(ui.eContainer() instanceof ClassEditor){
+			ClassEditor cf = (ClassEditor) ui.eContainer();
+			Class representedClass = getRepresentedClass(cf);
 			if(representedClass != null){
 				if(representedClass instanceof Behavior){
 					Behavior sm = (Behavior) representedClass;
@@ -160,18 +158,10 @@ public class UmlUimLinks{
 				EList<Operation> allOps = representedClass.getAllOperations();
 				return allOps;
 			}
-		}else if(ui instanceof StateForm){
-			StateForm sui = (StateForm) ui;
-			State state = getState(sui);
-			if(state != null){
-				List<Operation> results = EmfStateMachineUtil.getTriggerOperations(state);
-				results.addAll(EmfStateMachineUtil.getNonTriggerOperations(EmfStateMachineUtil.getStateMachine(state)));
-				return results;
-			}
 		}
 		return new ArrayList<Operation>();
 	}
-	public Class getRepresentedClass(FormPanel uf){
+	public Class getRepresentedClass(UmlReference uf){
 		Element rc = getUmlElement(uf);
 		if(rc instanceof Class){
 			return delegateToContextIfRequired((Class) rc);
@@ -216,9 +206,14 @@ public class UmlUimLinks{
 			return getType(current.getNext());
 		}
 	}
-	public Collection<? extends TypedElement> getOwnedTypedElements(FormPanel nearestForm){
+	public Collection<? extends TypedElement> getOwnedTypedElements(AbstractEditor nearestForm){
 		Element e = getUmlElement(nearestForm);
 		return EmfPropertyUtil.getOwnedTypedElements(e);
 	}
-
+	public static UmlUimLinks getCurrentUmlLinks(UserInteractionElement e){
+		return linksMap.get(e.eResource());
+	}
+	public Operation getOperation(QueryInvocationEditor form){
+		return (Operation) getUmlElement(form);
+	}
 }

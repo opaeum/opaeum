@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.impl;
 
@@ -14,14 +10,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.security.SecureObject;
-import org.opaeum.uim.security.SecurityConstraint;
-import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.UserInteractionConstraint;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Component</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Component</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -31,52 +25,44 @@ import org.opaeum.uim.security.SecurityPackage;
  *
  * @generated
  */
-public abstract class UimComponentImpl extends UserInteractionElementImpl implements UimComponent {
+public abstract class UimComponentImpl extends UserInteractionElementImpl implements UimComponent{
 	/**
-	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' containment reference. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #getVisibility()
 	 * @generated
 	 * @ordered
 	 */
-	protected SecurityConstraint visibility;
-
+	protected UserInteractionConstraint visibility;
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UimComponentImpl() {
+	protected UimComponentImpl(){
 		super();
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass() {
+	protected EClass eStaticClass(){
 		return UimPackage.Literals.UIM_COMPONENT;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SecurityConstraint getVisibility() {
+	public UserInteractionConstraint getVisibility(){
 		return visibility;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetVisibility(SecurityConstraint newVisibility, NotificationChain msgs) {
-		SecurityConstraint oldVisibility = visibility;
+	public NotificationChain basicSetVisibility(UserInteractionConstraint newVisibility,NotificationChain msgs){
+		UserInteractionConstraint oldVisibility = visibility;
 		visibility = newVisibility;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.UIM_COMPONENT__VISIBILITY, oldVisibility, newVisibility);
@@ -84,13 +70,11 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		}
 		return msgs;
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setVisibility(SecurityConstraint newVisibility) {
+	public void setVisibility(UserInteractionConstraint newVisibility){
 		if (newVisibility != visibility) {
 			NotificationChain msgs = null;
 			if (visibility != null)
@@ -103,120 +87,105 @@ public abstract class UimComponentImpl extends UserInteractionElementImpl implem
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_COMPONENT__VISIBILITY, newVisibility, newVisibility));
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated NOT
 	 */
-	public UimContainer getParent() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+	public UimContainer getParent(){
+		if(eContainer() instanceof UimContainer){
+			return (UimContainer) eContainer;
+		}else{
+			return null;
+		}
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,int featureID,NotificationChain msgs){
 		switch (featureID) {
 			case UimPackage.UIM_COMPONENT__VISIBILITY:
 				return basicSetVisibility(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+	public Object eGet(int featureID,boolean resolve,boolean coreType){
 		switch (featureID) {
 			case UimPackage.UIM_COMPONENT__VISIBILITY:
 				return getVisibility();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue) {
+	public void eSet(int featureID,Object newValue){
 		switch (featureID) {
 			case UimPackage.UIM_COMPONENT__VISIBILITY:
-				setVisibility((SecurityConstraint)newValue);
+				setVisibility((UserInteractionConstraint)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID) {
+	public void eUnset(int featureID){
 		switch (featureID) {
 			case UimPackage.UIM_COMPONENT__VISIBILITY:
-				setVisibility((SecurityConstraint)null);
+				setVisibility((UserInteractionConstraint)null);
 				return;
 		}
 		super.eUnset(featureID);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID) {
+	public boolean eIsSet(int featureID){
 		switch (featureID) {
 			case UimPackage.UIM_COMPONENT__VISIBILITY:
 				return visibility != null;
 		}
 		return super.eIsSet(featureID);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == SecureObject.class) {
+	public int eBaseStructuralFeatureID(int derivedFeatureID,Class<?> baseClass){
+		if (baseClass == ConstrainedObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_COMPONENT__VISIBILITY: return SecurityPackage.SECURE_OBJECT__VISIBILITY;
+				case UimPackage.UIM_COMPONENT__VISIBILITY: return ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY;
 				default: return -1;
 			}
 		}
 		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
 	}
-
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == SecureObject.class) {
+	public int eDerivedStructuralFeatureID(int baseFeatureID,Class<?> baseClass){
+		if (baseClass == ConstrainedObject.class) {
 			switch (baseFeatureID) {
-				case SecurityPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.UIM_COMPONENT__VISIBILITY;
+				case ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY: return UimPackage.UIM_COMPONENT__VISIBILITY;
 				default: return -1;
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
-
-} //UimComponentImpl
+} // UimComponentImpl

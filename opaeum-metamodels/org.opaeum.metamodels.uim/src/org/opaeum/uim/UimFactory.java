@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim;
 
@@ -44,33 +40,6 @@ public interface UimFactory extends EFactory {
 	UimDataTable createUimDataTable();
 
 	/**
-	 * Returns a new object of class '<em>Tab Panel</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Tab Panel</em>'.
-	 * @generated
-	 */
-	UimTabPanel createUimTabPanel();
-
-	/**
-	 * Returns a new object of class '<em>Tab</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Tab</em>'.
-	 * @generated
-	 */
-	UimTab createUimTab();
-
-	/**
-	 * Returns a new object of class '<em>Container</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Container</em>'.
-	 * @generated
-	 */
-	UimContainer createUimContainer();
-
-	/**
 	 * Returns a new object of class '<em>Uml Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -80,15 +49,6 @@ public interface UimFactory extends EFactory {
 	UmlReference createUmlReference();
 
 	/**
-	 * Returns a new object of class '<em>Panel</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Panel</em>'.
-	 * @generated
-	 */
-	UimPanel createUimPanel();
-
-	/**
 	 * Returns a new object of class '<em>Object Selector Tree</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -96,6 +56,69 @@ public interface UimFactory extends EFactory {
 	 * @generated
 	 */
 	ObjectSelectorTree createObjectSelectorTree();
+
+	/**
+	 * Returns a new object of class '<em>Detail Component</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Detail Component</em>'.
+	 * @generated
+	 */
+	DetailComponent createDetailComponent();
+
+	/**
+	 * Returns a new object of class '<em>User Interface Entry Point</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>User Interface Entry Point</em>'.
+	 * @generated
+	 */
+	UserInterfaceEntryPoint createUserInterfaceEntryPoint();
+
+	/**
+	 * Returns a new object of class '<em>User Interface</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>User Interface</em>'.
+	 * @generated
+	 */
+	UserInterface createUserInterface();
+
+	/**
+	 * Returns a new object of class '<em>Panel Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Panel Class</em>'.
+	 * @generated
+	 */
+	PanelClass createPanelClass();
+
+	/**
+	 * Returns a new object of class '<em>Class User Interaction Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Class User Interaction Model</em>'.
+	 * @generated
+	 */
+	ClassUserInteractionModel createClassUserInteractionModel();
+
+	/**
+	 * Returns a new object of class '<em>Responsibility User Interaction Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Responsibility User Interaction Model</em>'.
+	 * @generated
+	 */
+	ResponsibilityUserInteractionModel createResponsibilityUserInteractionModel();
+
+	/**
+	 * Returns a new object of class '<em>Abstract Action Bar</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Abstract Action Bar</em>'.
+	 * @generated
+	 */
+	AbstractActionBar createAbstractActionBar();
 
 	/**
 	 * Returns the package supported by this factory.

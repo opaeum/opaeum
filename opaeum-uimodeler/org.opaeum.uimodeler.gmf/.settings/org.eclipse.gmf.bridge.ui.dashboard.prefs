@@ -1,7 +1,0 @@
-#Wed Dec 14 19:30:50 SAST 2011
-eclipse.preferences.version=1
-gmf_dashboard/domainGenerationModel=platform\:/resource/org.opaeum.metamodels.uim/model/Uim.genmodel
-gmf_dashboard/domainModel=platform\:/resource/org.opaeum.metamodels.uim/model/Uim.ecore
-gmf_dashboard/graphicalDefinitionModel=platform\:/resource/org.opaeum.uimodeler.gmf/model/Uim.gmfgraph
-gmf_dashboard/mappingModel=platform\:/resource/org.opaeum.uimodeler.gmf/model/Uim.gmfmap
-gmf_dashboard/toolingDefinitionModel=platform\:/resource/org.opaeum.uimodeler.gmf/model/Uim.gmftool

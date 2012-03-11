@@ -61,7 +61,6 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 							actions.add(new ActionContributionItem(new RecompileModelDirectoryAction(selection)));
 							actions.add(new ActionContributionItem(new RecompileIntegrationCodeAction(selection)));
 							actions.add(new ActionContributionItem(new ToggleAutomaticSynchronization(selection)));
-							System.out.println("DynamicOpaeumMenu.getContributionItems()");
 							actions.add(new ActionContributionItem(new RegenerateUuids(selection)));
 							actions.add(new ActionContributionItem(new UpdateClasspathAction(selection)));
 							actions.add(new ActionContributionItem(new VersionAction(selection)));

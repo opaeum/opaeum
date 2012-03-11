@@ -1,12 +1,8 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim;
 
-import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.constraint.ConstrainedObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,7 +14,7 @@ import org.opaeum.uim.security.SecureObject;
  * @model abstract="true"
  * @generated
  */
-public interface UimComponent extends UserInteractionElement, SecureObject {
+public interface UimComponent extends UserInteractionElement, ConstrainedObject {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -25,6 +25,7 @@ import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.provider.EditableConstrainedObjectItemProvider;
 import org.opaeum.uim.control.ControlFactory;
+import org.opaeum.uim.panel.PanelPackage;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.UimField} object.
@@ -62,6 +63,10 @@ public class UimFieldItemProvider
 			super.getPropertyDescriptors(object);
 
 			addNamePropertyDescriptor(object);
+			addPreferredWidthPropertyDescriptor(object);
+			addPreferredHeightPropertyDescriptor(object);
+			addFillHorizontallyPropertyDescriptor(object);
+			addFillVerticallyPropertyDescriptor(object);
 			addControlKindPropertyDescriptor(object);
 			addMinimumLabelWidthPropertyDescriptor(object);
 			addOrientationPropertyDescriptor(object);
@@ -83,6 +88,94 @@ public class UimFieldItemProvider
 				 getString("_UI_UserInteractionElement_name_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_UserInteractionElement_name_feature", "_UI_UserInteractionElement_type"),
 				 UimPackage.Literals.USER_INTERACTION_ELEMENT__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Preferred Width feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreferredWidthPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_preferredWidth_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_preferredWidth_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__PREFERRED_WIDTH,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Preferred Height feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreferredHeightPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_preferredHeight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_preferredHeight_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__PREFERRED_HEIGHT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Fill Horizontally feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFillHorizontallyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_fillHorizontally_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_fillHorizontally_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__FILL_HORIZONTALLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Fill Vertically feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFillVerticallyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_fillVertically_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_fillVertically_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__FILL_VERTICALLY,
 				 true,
 				 false,
 				 false,
@@ -226,6 +319,10 @@ public class UimFieldItemProvider
 
 		switch (notification.getFeatureID(UimField.class)) {
 			case UimPackage.UIM_FIELD__NAME:
+			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
+			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
+			case UimPackage.UIM_FIELD__FILL_HORIZONTALLY:
+			case UimPackage.UIM_FIELD__FILL_VERTICALLY:
 			case UimPackage.UIM_FIELD__CONTROL_KIND:
 			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
 			case UimPackage.UIM_FIELD__ORIENTATION:

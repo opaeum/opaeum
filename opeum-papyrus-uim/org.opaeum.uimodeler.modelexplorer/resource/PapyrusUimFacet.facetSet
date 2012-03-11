@@ -14,7 +14,7 @@
       name="DiagramContainer"
       abstract="true">
     <eSuperTypes
-        href="http://opaeum.org/uimetamodel/1.0#//editor/EditorPage"/>
+        href="http://opaeum.org/uimetamodel/1.0#//UserInteractionElement"/>
     <eStructuralFeatures
         xsi:type="facet:FacetReference"
         name="diagrams"
@@ -26,12 +26,12 @@
           href="http://www.eclipse.org/gmf/runtime/1.0.2/notation#//Diagram"/>
       <valueQuery
           xsi:type="query:JavaModelQuery"
-          href="PapyrusBrowserQuery.querySet#GetContainedDiagrams"/>
+          href="UimBrowserQuery.querySet#GetContainedUimDiagrams"/>
     </eStructuralFeatures>
     <conditionQuery
         xsi:type="query:JavaModelQuery"
-        href="PapyrusBrowserQuery.querySet#IsDiagramContainer"/>
+        href="UimBrowserQuery.querySet#IsUimDiagramContainer"/>
   </eClassifiers>
   <extendedPackage
-      href="http://opaeum.org/uimetamodel/1.0#//editor"/>
+      href="http://opaeum.org/uimetamodel/1.0#/"/>
 </facet:FacetSet>

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.action.impl;
 
@@ -12,14 +8,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.NavigationToEntity;
-import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.LinkToEntity;
+import org.opaeum.uim.action.LinkToOperation;
 import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationActionPopup;
 import org.opaeum.uim.action.TransitionAction;
 
 /**
@@ -68,9 +64,10 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 		switch (eClass.getClassifierID()) {
 			case ActionPackage.BUILT_IN_ACTION: return createBuiltInAction();
 			case ActionPackage.TRANSITION_ACTION: return createTransitionAction();
-			case ActionPackage.NAVIGATION_TO_OPERATION: return createNavigationToOperation();
+			case ActionPackage.LINK_TO_OPERATION: return createLinkToOperation();
 			case ActionPackage.OPERATION_ACTION: return createOperationAction();
-			case ActionPackage.NAVIGATION_TO_ENTITY: return createNavigationToEntity();
+			case ActionPackage.LINK_TO_ENTITY: return createLinkToEntity();
+			case ActionPackage.OPERATION_ACTION_POPUP: return createOperationActionPopup();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -131,9 +128,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NavigationToOperation createNavigationToOperation() {
-		NavigationToOperationImpl navigationToOperation = new NavigationToOperationImpl();
-		return navigationToOperation;
+	public LinkToOperation createLinkToOperation() {
+		LinkToOperationImpl linkToOperation = new LinkToOperationImpl();
+		return linkToOperation;
 	}
 
 	/**
@@ -151,9 +148,19 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NavigationToEntity createNavigationToEntity() {
-		NavigationToEntityImpl navigationToEntity = new NavigationToEntityImpl();
-		return navigationToEntity;
+	public LinkToEntity createLinkToEntity() {
+		LinkToEntityImpl linkToEntity = new LinkToEntityImpl();
+		return linkToEntity;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationActionPopup createOperationActionPopup() {
+		OperationActionPopupImpl operationActionPopup = new OperationActionPopupImpl();
+		return operationActionPopup;
 	}
 
 	/**

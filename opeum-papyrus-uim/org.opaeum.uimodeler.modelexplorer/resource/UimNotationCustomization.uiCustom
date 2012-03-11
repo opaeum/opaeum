@@ -3,12 +3,12 @@
   <types metaclassName="notation.Diagram">
     <customizedFeatures customizedFeature="italic">
       <defaultValue xsi:type="uicustom:DerivedFeatureValue">
-        <valueCalculator xsi:type="query:JavaModelQuery" href="PapyrusBrowserQuery.querySet#IsReadOnly"/>
+        <valueCalculator xsi:type="query:JavaModelQuery" href="UimBrowserQuery.querySet#IsReadOnly"/>
       </defaultValue>
     </customizedFeatures>
     <customizedFeatures customizedFeature="icon">
       <defaultValue xsi:type="uicustom:DerivedFeatureValue">
-        <valueCalculator xsi:type="query:JavaModelQuery" href="PapyrusBrowserQuery.querySet#GetDiagramIcon"/>
+        <valueCalculator xsi:type="query:JavaModelQuery" href="UimBrowserQuery.querySet#GetUimDiagramIcon"/>
       </defaultValue>
     </customizedFeatures>
     <customizedFeatures customizedFeature="hideMetaclassName">
@@ -17,7 +17,7 @@
     <customizedFeatures customizedFeature="color">
       <valueCases>
         <value xsi:type="uicustom:StaticFeatureValue" value="(192,192,192)"/>
-        <condition xsi:type="query:JavaModelQuery" href="PapyrusBrowserQuery.querySet#IsReadOnly"/>
+        <condition xsi:type="query:JavaModelQuery" href="UimBrowserQuery.querySet#IsReadOnly"/>
       </valueCases>
     </customizedFeatures>
     <references referenceName="children">
@@ -46,5 +46,5 @@
       </customizedFeatures>
     </references>
   </types>
-  <availableQuerySets>PapyrusBrowserQuery</availableQuerySets>
+  <availableQuerySets>UimBrowserQuery</availableQuerySets>
 </uicustom:MetamodelView>

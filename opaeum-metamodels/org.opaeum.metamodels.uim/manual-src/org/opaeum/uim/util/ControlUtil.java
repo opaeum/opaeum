@@ -7,48 +7,51 @@ import org.eclipse.uml2.uml.Pin;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfPropertyUtil;
+import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.action.OperationAction;
 import org.opaeum.uim.control.ControlFactory;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.UimControl;
-import org.opaeum.uim.form.FormPanel;
-import org.opaeum.uim.form.OperationInvocationForm;
+import org.opaeum.uim.editor.QueryInvocationEditor;
 
 public class ControlUtil{
-	public static ControlKind[] getAllowedControlKinds(FormPanel form,TypedElement typedElement){
+	public static ControlKind[] getAllowedControlKinds(UserInterface form,TypedElement typedElement,boolean inTable){
 		if(typedElement == null || typedElement.getType() == null){
 			return new ControlKind[0];
 		}else{
 			String name = typedElement.getType().getName().toLowerCase();
 			if(name.endsWith("boolean")){
-				return new ControlKind[]{
-						ControlKind.CHECK_BOX,ControlKind.TOGGLE_BUTTON
-				};
+				return new ControlKind[]{ControlKind.CHECK_BOX,ControlKind.TOGGLE_BUTTON};
 			}else if(name.endsWith("date") || name.endsWith("datetime")){
-				return new ControlKind[]{
-						ControlKind.DATE_POPUP,ControlKind.TEXT
-				};
+				return new ControlKind[]{ControlKind.DATE_POPUP,ControlKind.TEXT};
 			}else if(name.endsWith("integer")){
-				return new ControlKind[]{
-						ControlKind.NUMBER_SCROLLER
-				};
+				return new ControlKind[]{ControlKind.NUMBER_SCROLLER};
 			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Class){
 				if(requiresManySelection(form, typedElement)){
-					return new ControlKind[]{
-							ControlKind.MULTI_SELECT_LIST_BOX,ControlKind.MULTI_SELECT_POPUP_SEARCH,ControlKind.MULTI_SELECT_TREE_VIEW
-					};
+					if(inTable){
+						return new ControlKind[]{ControlKind.MULTI_SELECT_POPUP_SEARCH};
+					}else{
+						return new ControlKind[]{ControlKind.MULTI_SELECT_LIST_BOX,ControlKind.MULTI_SELECT_POPUP_SEARCH,
+								ControlKind.MULTI_SELECT_TREE_VIEW};
+					}
 				}else{
-					return new ControlKind[]{
-							ControlKind.DROPDOWN,ControlKind.SINGLE_SELECT_LIST_BOX,ControlKind.SINGLE_SELECT_POPUP_SEARCH,ControlKind.SINGLE_SELECT_TREE_VIEW
-					};
+					if(inTable){
+						return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.SINGLE_SELECT_POPUP_SEARCH};
+					}else{
+						return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.SINGLE_SELECT_LIST_BOX,ControlKind.SINGLE_SELECT_POPUP_SEARCH,
+								ControlKind.SINGLE_SELECT_TREE_VIEW};
+					}
 				}
 			}else{
-				return new ControlKind[]{
-						ControlKind.TEXT,ControlKind.TEXT_AREA
-				};
+				if(inTable){
+					return new ControlKind[]{ControlKind.TEXT};
+				}else{
+					return new ControlKind[]{ControlKind.TEXT,ControlKind.TEXT_AREA};
+				}
 			}
 		}
 	}
-	public static boolean requiresManySelection(FormPanel form,TypedElement typedElement){
+	public static boolean requiresManySelection(UserInterface form,TypedElement typedElement){
 		if(typedElement instanceof Property){
 			Property p = (Property) typedElement;
 			if(p.getOtherEnd() != null){
@@ -60,12 +63,12 @@ public class ControlUtil{
 			return EmfPropertyUtil.isMany(typedElement) && requiresUserInput(form, typedElement);
 		}
 	}
-	public static boolean requiresUserInput(FormPanel form,TypedElement te){
+	public static boolean requiresUserInput(UserInterface form,TypedElement te){
 		if(te instanceof Pin){
 			return te instanceof OutputPin;
 		}else if(te instanceof Parameter){
 			Parameter p = (Parameter) te;
-			if(form instanceof OperationInvocationForm){
+			if(form.eContainer() instanceof QueryInvocationEditor || form.eContainer() instanceof OperationAction){
 				return p.getDirection() != ParameterDirectionKind.IN_LITERAL;
 			}else{
 				return p.getDirection() != ParameterDirectionKind.OUT_LITERAL && p.getDirection() != ParameterDirectionKind.RETURN_LITERAL;
@@ -73,7 +76,7 @@ public class ControlUtil{
 		}
 		return true;// property
 	}
-	public static ControlKind getPreferredControlKind(FormPanel form,TypedElement typedElement){
+	public static ControlKind getPreferredControlKind(UserInterface form,TypedElement typedElement){
 		// Use strategy or something
 		if(typedElement == null || typedElement.getType() == null){
 			return ControlKind.TEXT;
@@ -128,8 +131,9 @@ public class ControlUtil{
 		return null;
 	}
 	public static boolean isMultiRow(ControlKind controlKind){
-		return controlKind == ControlKind.MULTI_SELECT_LIST_BOX || controlKind == ControlKind.MULTI_SELECT_TREE_VIEW || controlKind == ControlKind.TEXT_AREA
-				|| controlKind == ControlKind.SINGLE_SELECT_LIST_BOX || controlKind == ControlKind.SINGLE_SELECT_TREE_VIEW;
+		return controlKind == ControlKind.MULTI_SELECT_LIST_BOX || controlKind == ControlKind.MULTI_SELECT_TREE_VIEW
+				|| controlKind == ControlKind.TEXT_AREA || controlKind == ControlKind.SINGLE_SELECT_LIST_BOX
+				|| controlKind == ControlKind.SINGLE_SELECT_TREE_VIEW;
 	}
 	public static int getPreferredHeight(ControlKind kind){
 		switch(kind){

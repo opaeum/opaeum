@@ -169,9 +169,6 @@ public class AcceptTaskEventActionTaskEventSection extends AbstractTabbedPropert
 		fd.height = rows * 38 + 45;
 		parent.setSize(parent.getSize().x, fd.height + 5);
 		parent.getParent().getParent().layout();
-		if(radioForEventsWIthNewUser.getSelection() && radioForEventsWithoutNewUser.getSelection()){
-			System.out.println(getAction().getTriggers());
-		}
 		eventsWithoutUser.layout();
 		eventsWithUser.layout();
 		super.refresh();

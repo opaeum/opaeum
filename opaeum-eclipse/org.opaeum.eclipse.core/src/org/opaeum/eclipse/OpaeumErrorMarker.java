@@ -61,7 +61,6 @@ public class OpaeumErrorMarker implements OpaeumSynchronizationListener{
 							lastMarked = System.currentTimeMillis();
 							Display.getDefault().timerExec(3001, this);
 						}else{
-							System.out.println();
 						}
 					}
 				}

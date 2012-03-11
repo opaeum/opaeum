@@ -8,22 +8,20 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
+import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInterface;
-
 import org.opaeum.uim.editor.EditorFactory;
-
 import org.opaeum.uim.panel.PanelFactory;
 
 /**
@@ -61,8 +59,31 @@ public class UserInterfaceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addUmlElementUidPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -132,6 +153,9 @@ public class UserInterfaceItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(UserInterface.class)) {
+			case UimPackage.USER_INTERFACE__UML_ELEMENT_UID:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
 			case UimPackage.USER_INTERFACE__PANEL:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
@@ -153,7 +177,12 @@ public class UserInterfaceItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE__PANEL,
-				 EditorFactory.eINSTANCE.createActionBar()));
+				 UimFactory.eINSTANCE.createAbstractActionBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.USER_INTERFACE__PANEL,
+				 EditorFactory.eINSTANCE.createEditorActionBar()));
 
 		newChildDescriptors.add
 			(createChildParameter

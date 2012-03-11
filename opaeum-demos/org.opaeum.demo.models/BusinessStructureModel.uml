@@ -231,4 +231,5 @@
   <OpaeumBPMProfile:BusinessRole xmi:id="_u_BHkGQWEeGbL9nlXe9lTQ" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
   <OpaeumStandardProfile:Entity xmi:id="_utrycGSDEeG8Es66O6-kpg" base_Class="_urUa8GSDEeG8Es66O6-kpg"/>
   <OpaeumBPMProfile:BusinessRole xmi:id="_uv4K0GSDEeG8Es66O6-kpg" base_Class="_urUa8GSDEeG8Es66O6-kpg"/>
+  <OpaeumStandardProfile:Entity xmi:id="_queDEGniEeG8oZKFSNJ-aA" base_Class="_u7lZEGQWEeGbL9nlXe9lTQ"/>
 </xmi:XMI>

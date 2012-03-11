@@ -1,16 +1,12 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim;
 
 import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.UimControl;
-import org.opaeum.uim.layout.OutlayableComponent;
-import org.opaeum.uim.security.EditableSecureObject;
+import org.opaeum.uim.panel.Outlayable;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,8 +22,9 @@ import org.opaeum.uim.security.EditableSecureObject;
  * <ul>
  *   <li>{@link org.opaeum.uim.UimField#getControl <em>Control</em>}</li>
  *   <li>{@link org.opaeum.uim.UimField#getControlKind <em>Control Kind</em>}</li>
- *   <li>{@link org.opaeum.uim.UimField#getLabelWidth <em>Label Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.UimField#getMinimumLabelWidth <em>Minimum Label Width</em>}</li>
  *   <li>{@link org.opaeum.uim.UimField#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.UimField#getOrientation <em>Orientation</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,7 +32,7 @@ import org.opaeum.uim.security.EditableSecureObject;
  * @model
  * @generated
  */
-public interface UimField extends EditableSecureObject, OutlayableComponent {
+public interface UimField extends EditableConstrainedObject, UimComponent, Outlayable {
 	/**
 	 * Returns the value of the '<em><b>Control</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.control.UimControl#getField <em>Field</em>}'.
@@ -94,31 +91,31 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 	void setControlKind(ControlKind value);
 
 	/**
-	 * Returns the value of the '<em><b>Label Width</b></em>' attribute.
+	 * Returns the value of the '<em><b>Minimum Label Width</b></em>' attribute.
 	 * The default value is <code>"200"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Label Width</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Minimum Label Width</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Label Width</em>' attribute.
-	 * @see #setLabelWidth(Integer)
-	 * @see org.opaeum.uim.UimPackage#getUimField_LabelWidth()
+	 * @return the value of the '<em>Minimum Label Width</em>' attribute.
+	 * @see #setMinimumLabelWidth(Integer)
+	 * @see org.opaeum.uim.UimPackage#getUimField_MinimumLabelWidth()
 	 * @model default="200"
 	 * @generated
 	 */
-	Integer getLabelWidth();
+	Integer getMinimumLabelWidth();
 
 	/**
-	 * Sets the value of the '{@link org.opaeum.uim.UimField#getLabelWidth <em>Label Width</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.UimField#getMinimumLabelWidth <em>Minimum Label Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Label Width</em>' attribute.
-	 * @see #getLabelWidth()
+	 * @param value the new value of the '<em>Minimum Label Width</em>' attribute.
+	 * @see #getMinimumLabelWidth()
 	 * @generated
 	 */
-	void setLabelWidth(Integer value);
+	void setMinimumLabelWidth(Integer value);
 
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' containment reference.
@@ -147,5 +144,34 @@ public interface UimField extends EditableSecureObject, OutlayableComponent {
 	 * @generated
 	 */
 	void setBinding(FieldBinding value);
+
+	/**
+	 * Returns the value of the '<em><b>Orientation</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.opaeum.uim.Orientation}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Orientation</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Orientation</em>' attribute.
+	 * @see org.opaeum.uim.Orientation
+	 * @see #setOrientation(Orientation)
+	 * @see org.opaeum.uim.UimPackage#getUimField_Orientation()
+	 * @model
+	 * @generated
+	 */
+	Orientation getOrientation();
+
+	/**
+	 * Sets the value of the '{@link org.opaeum.uim.UimField#getOrientation <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Orientation</em>' attribute.
+	 * @see org.opaeum.uim.Orientation
+	 * @see #getOrientation()
+	 * @generated
+	 */
+	void setOrientation(Orientation value);
 
 } // UimField

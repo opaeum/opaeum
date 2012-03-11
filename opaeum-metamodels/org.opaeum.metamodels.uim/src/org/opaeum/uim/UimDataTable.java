@@ -1,14 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim;
 
+import org.eclipse.emf.common.util.EList;
+import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.binding.TableBinding;
-import org.opaeum.uim.layout.LayoutContainer;
-import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.panel.Outlayable;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,6 +16,7 @@ import org.opaeum.uim.layout.OutlayableComponent;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.UimDataTable#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.UimDataTable#getActionsOnMultipleSelection <em>Actions On Multiple Selection</em>}</li>
  * </ul>
  * </p>
  *
@@ -26,7 +24,7 @@ import org.opaeum.uim.layout.OutlayableComponent;
  * @model
  * @generated
  */
-public interface UimDataTable extends MasterComponent, OutlayableComponent, LayoutContainer {
+public interface UimDataTable extends MasterComponent, UimContainer, Outlayable {
 	/**
 	 * Returns the value of the '<em><b>Binding</b></em>' containment reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.binding.TableBinding#getTable <em>Table</em>}'.
@@ -54,5 +52,21 @@ public interface UimDataTable extends MasterComponent, OutlayableComponent, Layo
 	 * @generated
 	 */
 	void setBinding(TableBinding value);
+
+	/**
+	 * Returns the value of the '<em><b>Actions On Multiple Selection</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.action.UimAction}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Actions On Multiple Selection</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Actions On Multiple Selection</em>' containment reference list.
+	 * @see org.opaeum.uim.UimPackage#getUimDataTable_ActionsOnMultipleSelection()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<UimAction> getActionsOnMultipleSelection();
 
 } // UimDataTable

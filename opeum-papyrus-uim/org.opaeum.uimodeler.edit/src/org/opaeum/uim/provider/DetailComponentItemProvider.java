@@ -8,9 +8,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -19,13 +17,10 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.opaeum.uim.DetailComponent;
 import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimPackage;
-
 import org.opaeum.uim.editor.EditorFactory;
-
 import org.opaeum.uim.panel.PanelFactory;
 
 /**
@@ -185,7 +180,12 @@ public class DetailComponentItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.DETAIL_COMPONENT__PANEL,
-				 EditorFactory.eINSTANCE.createActionBar()));
+				 UimFactory.eINSTANCE.createAbstractActionBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.DETAIL_COMPONENT__PANEL,
+				 EditorFactory.eINSTANCE.createEditorActionBar()));
 
 		newChildDescriptors.add
 			(createChildParameter

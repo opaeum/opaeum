@@ -7,7 +7,7 @@
       <browserCustomization file="resource/UimPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
    </extension>
    <extension point="org.eclipse.emf.facet.infra.query.registration">
-      <modelqueryset file="resource/PapyrusBrowserQuery.querySet"/>
+      <modelqueryset file="resource/UimBrowserQuery.querySet"/>
    </extension>
    <extension point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent activeByDefault="true" contentProvider="org.opaeum.uimodeler.modelexplorer.UimContentProvider" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Model.gif" id="org.opaeum.uim.modelcontent"
@@ -67,9 +67,23 @@
 <!-- Creation command declarations -->
 <extension point="org.eclipse.ui.commands">
 	<!-- Creation command for Abstraction -->
-	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.UserInterfaceHandler" description="Create a new Editor Page" id="org.opaeum.uimodeler.modelexplorer.handler.EditorPageHandler" name="Create a new Editor Page">
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateEditorPageCommandHandler" 
+		description="Creates a new Editor Page" id="org.opaeum.uimodeler.modelexplorer.handler.CreateEditorPageCommandHandler" name="Create a new EditorPage">
 	</command>
-	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.UserInteractionConstraintHandler" description="Create a new Editor Page" id="org.opaeum.uimodeler.modelexplorer.handler.UserInteractionConstraintHandler" name="Create a new User Interaction Constraint">
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateNewObjectWizardCommandHandler" 
+		description="Creates a New Object Wizard" id="org.opaeum.uimodeler.modelexplorer.handler.CreateNewObjectWizardCommandHandler" name="Create a NewObjectWizard">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationActionPopupCommandHandler" 
+			description="Creates a Operation Action Popup" id="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationActionPopupCommandHandler" name="Create a new OperationActionPopup">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreatePrimaryEditorCommandHandler" 
+	description="Creates a Primary Editor" id="org.opaeum.uimodeler.modelexplorer.handler.CreatePrimaryEditorCommandHandler" name="Create a new PrimaryEditor">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateSecondaryEditorCommandHandler" 
+		description="Creates a SecondaryEditor" id="org.opaeum.uimodeler.modelexplorer.handler.CreateSecondaryEditorCommandHandler" name="Create a new SecondaryEditor">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateWizardPageCommandHandler" 
+		description="Creates a new Wizard Page" id="org.opaeum.uimodeler.modelexplorer.handler.CreateWizardPageCommandHandler" name="Create a new WizardPage">
 	</command>
 </extension>
 
@@ -80,7 +94,28 @@
 	<menuContribution locationURI="popup:org.eclipse.papyrus.views.modelexplorer.popupmenu.createchild" allPopups="false">
 	
 		<!-- Creation menu action for Abstraction -->
-		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.EditorPageHandler" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new Editor Page" style="push" tooltip="Create a new Editor Page">
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateEditorPageCommandHandler" 
+		icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new Editor Page" style="push" tooltip="Create a new Editor Page">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateNewObjectWizardCommandHandler" 
+		icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new NewObjectWizard" style="push" tooltip="Create a new NewObjectWizard">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationActionPopupCommandHandler" 
+		icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new OperationActionPopup" style="push" tooltip="Create a new OperationActionPopup">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreatePrimaryEditorCommandHandler" 
+		icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new PrimaryEditor" style="push" tooltip="Create a new PrimaryEditor">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateSecondaryEditorCommandHandler" 
+		icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new SecondaryEditor" style="push" tooltip="Create a new SecondaryEditor">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateWizardPageCommandHandler" 
+			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new WizardPage" style="push" tooltip="Create a new WizardPage">
 			<visibleWhen checkEnabled="true"/>
 		</command>
 	</menuContribution>
@@ -116,7 +151,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="org.opaeum.uimodeler.modelexplorer.UimPageListener">
+            class="org.opaeum.uimodeler.modelexplorer.UimStartup">
       </startup>
    </extension>
 </plugin>

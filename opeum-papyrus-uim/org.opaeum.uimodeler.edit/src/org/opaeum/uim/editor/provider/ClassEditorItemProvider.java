@@ -16,7 +16,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.editor.ClassEditor;
-import org.opaeum.uim.editor.EditorPackage;
 
 /**
  * This is the item provider adapter for a {@link org.opaeum.uim.editor.ClassEditor} object.

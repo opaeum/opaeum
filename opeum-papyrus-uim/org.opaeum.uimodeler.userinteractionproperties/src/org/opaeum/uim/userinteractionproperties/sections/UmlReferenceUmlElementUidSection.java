@@ -1,11 +1,14 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.TypedElement;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.util.UmlUimLinks;
 
@@ -46,18 +49,26 @@ public class UmlReferenceUmlElementUidSection extends OpaeumChooserPropertySecti
 	 */
 	protected Object[] getComboFeatureValues(){
 		PropertyRef pr = (PropertyRef) getEObject();
-		if(pr.getBinding() != null && UmlUimLinks.getCurrentUmlLinks().getTypedElement(pr.getBinding()) != null){
-			TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks().getTypedElement(pr.getBinding());
+		UserInteractionElement grandParent = getGrandParent(pr);
+		if(pr.getBinding() != null && UmlUimLinks.getCurrentUmlLinks(grandParent).getTypedElement(pr.getBinding()) != null){
+			TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks(grandParent).getTypedElement(pr.getBinding());
 			Classifier classifier = (Classifier) typedElement.getType();
 			EList<Property> attrs = classifier.getAllAttributes();
 			return (Property[]) attrs.toArray(new Property[attrs.size()]);
-		}else if(pr.getPrevious() != null && UmlUimLinks.getCurrentUmlLinks().getProperty(pr.getPrevious()) != null){
-			TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks().getProperty(pr.getPrevious());
+		}else if(pr.getPrevious() != null && UmlUimLinks.getCurrentUmlLinks(grandParent).getProperty(pr.getPrevious()) != null){
+			TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks(grandParent).getProperty(pr.getPrevious());
 			Classifier classifier = (Classifier) typedElement.getType();
 			EList<Property> attrs = classifier.getAllAttributes();
 			return (Property[]) attrs.toArray(new Property[attrs.size()]);
 		}
 		return new Property[0];
+	}
+	private UserInteractionElement getGrandParent(EObject pr){
+		if(pr instanceof UserInteractionElement){
+			return (UserInteractionElement) pr;
+		}else{
+			return getGrandParent(pr.eContainer());
+		}
 	}
 	@Override
 	protected Object getFeatureValue(){

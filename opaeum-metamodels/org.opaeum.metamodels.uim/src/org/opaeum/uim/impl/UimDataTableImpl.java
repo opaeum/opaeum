@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.impl;
 
@@ -14,27 +10,22 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.TableBinding;
-import org.opaeum.uim.form.DetailPanel;
-import org.opaeum.uim.form.FormPackage;
-import org.opaeum.uim.layout.LayoutContainer;
-import org.opaeum.uim.layout.LayoutPackage;
-import org.opaeum.uim.layout.OutlayableComponent;
-import org.opaeum.uim.layout.UimLayout;
-import org.opaeum.uim.security.EditableSecureObject;
-import org.opaeum.uim.security.SecureObject;
-import org.opaeum.uim.security.SecurityConstraint;
-import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.constraint.UserInteractionConstraint;
+import org.opaeum.uim.panel.Outlayable;
+import org.opaeum.uim.panel.PanelPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,29 +34,22 @@ import org.opaeum.uim.security.SecurityPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getDetailPanels <em>Detail Panels</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getEditability <em>Editability</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getLayout <em>Layout</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getChildren <em>Children</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getPreferredWidth <em>Preferred Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getPreferredHeight <em>Preferred Height</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getFillHorizontally <em>Fill Horizontally</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getFillVertically <em>Fill Vertically</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimDataTableImpl#getActionsOnMultipleSelection <em>Actions On Multiple Selection</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
-	/**
-	 * The cached value of the '{@link #getDetailPanels() <em>Detail Panels</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDetailPanels()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<DetailPanel> detailPanels;
-
+public class UimDataTableImpl extends MasterComponentImpl implements UimDataTable {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -94,7 +78,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * @generated
 	 * @ordered
 	 */
-	protected SecurityConstraint visibility;
+	protected UserInteractionConstraint visibility;
 
 	/**
 	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
@@ -104,17 +88,97 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * @generated
 	 * @ordered
 	 */
-	protected SecurityConstraint editability;
+	protected UserInteractionConstraint editability;
 
 	/**
-	 * The cached value of the '{@link #getLayout() <em>Layout</em>}' containment reference.
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLayout()
+	 * @see #getChildren()
 	 * @generated
 	 * @ordered
 	 */
-	protected UimLayout layout;
+	protected EList<UimComponent> children;
+
+	/**
+	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredWidth()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer PREFERRED_WIDTH_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredWidth()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer preferredWidth = PREFERRED_WIDTH_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredHeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer PREFERRED_HEIGHT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredHeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer preferredHeight = PREFERRED_HEIGHT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFillHorizontally() <em>Fill Horizontally</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillHorizontally()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean FILL_HORIZONTALLY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFillHorizontally() <em>Fill Horizontally</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillHorizontally()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean fillHorizontally = FILL_HORIZONTALLY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillVertically()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean FILL_VERTICALLY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillVertically()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean fillVertically = FILL_VERTICALLY_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getBinding() <em>Binding</em>}' containment reference.
@@ -125,6 +189,16 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * @ordered
 	 */
 	protected TableBinding binding;
+
+	/**
+	 * The cached value of the '{@link #getActionsOnMultipleSelection() <em>Actions On Multiple Selection</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getActionsOnMultipleSelection()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<UimAction> actionsOnMultipleSelection;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -143,18 +217,6 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	@Override
 	protected EClass eStaticClass() {
 		return UimPackage.Literals.UIM_DATA_TABLE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<DetailPanel> getDetailPanels() {
-		if (detailPanels == null) {
-			detailPanels = new EObjectWithInverseResolvingEList<DetailPanel>(DetailPanel.class, this, UimPackage.UIM_DATA_TABLE__DETAIL_PANELS, FormPackage.DETAIL_PANEL__MASTER_COMPONENT);
-		}
-		return detailPanels;
 	}
 
 	/**
@@ -183,7 +245,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SecurityConstraint getVisibility() {
+	public UserInteractionConstraint getVisibility() {
 		return visibility;
 	}
 
@@ -192,8 +254,8 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetVisibility(SecurityConstraint newVisibility, NotificationChain msgs) {
-		SecurityConstraint oldVisibility = visibility;
+	public NotificationChain basicSetVisibility(UserInteractionConstraint newVisibility, NotificationChain msgs) {
+		UserInteractionConstraint oldVisibility = visibility;
 		visibility = newVisibility;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__VISIBILITY, oldVisibility, newVisibility);
@@ -207,7 +269,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setVisibility(SecurityConstraint newVisibility) {
+	public void setVisibility(UserInteractionConstraint newVisibility) {
 		if (newVisibility != visibility) {
 			NotificationChain msgs = null;
 			if (visibility != null)
@@ -226,48 +288,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimLayout getParent() {
-		if (eContainerFeatureID() != UimPackage.UIM_DATA_TABLE__PARENT) return null;
-		return (UimLayout)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetParent(UimLayout newParent, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newParent, UimPackage.UIM_DATA_TABLE__PARENT, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParent(UimLayout newParent) {
-		if (newParent != eInternalContainer() || (eContainerFeatureID() != UimPackage.UIM_DATA_TABLE__PARENT && newParent != null)) {
-			if (EcoreUtil.isAncestor(this, newParent))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
-			msgs = basicSetParent(newParent, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__PARENT, newParent, newParent));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public SecurityConstraint getEditability() {
+	public UserInteractionConstraint getEditability() {
 		return editability;
 	}
 
@@ -276,8 +297,8 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetEditability(SecurityConstraint newEditability, NotificationChain msgs) {
-		SecurityConstraint oldEditability = editability;
+	public NotificationChain basicSetEditability(UserInteractionConstraint newEditability, NotificationChain msgs) {
+		UserInteractionConstraint oldEditability = editability;
 		editability = newEditability;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__EDITABILITY, oldEditability, newEditability);
@@ -291,7 +312,7 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEditability(SecurityConstraint newEditability) {
+	public void setEditability(UserInteractionConstraint newEditability) {
 		if (newEditability != editability) {
 			NotificationChain msgs = null;
 			if (editability != null)
@@ -310,8 +331,11 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimLayout getLayout() {
-		return layout;
+	public EList<UimComponent> getChildren() {
+		if (children == null) {
+			children = new EObjectContainmentEList<UimComponent>(UimComponent.class, this, UimPackage.UIM_DATA_TABLE__CHILDREN);
+		}
+		return children;
 	}
 
 	/**
@@ -319,14 +343,8 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetLayout(UimLayout newLayout, NotificationChain msgs) {
-		UimLayout oldLayout = layout;
-		layout = newLayout;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__LAYOUT, oldLayout, newLayout);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public Integer getPreferredWidth() {
+		return preferredWidth;
 	}
 
 	/**
@@ -334,18 +352,74 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLayout(UimLayout newLayout) {
-		if (newLayout != layout) {
-			NotificationChain msgs = null;
-			if (layout != null)
-				msgs = ((InternalEObject)layout).eInverseRemove(this, LayoutPackage.UIM_LAYOUT__PARENT, UimLayout.class, msgs);
-			if (newLayout != null)
-				msgs = ((InternalEObject)newLayout).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__PARENT, UimLayout.class, msgs);
-			msgs = basicSetLayout(newLayout, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__LAYOUT, newLayout, newLayout));
+	public void setPreferredWidth(Integer newPreferredWidth) {
+		Integer oldPreferredWidth = preferredWidth;
+		preferredWidth = newPreferredWidth;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH, oldPreferredWidth, preferredWidth));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Integer getPreferredHeight() {
+		return preferredHeight;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPreferredHeight(Integer newPreferredHeight) {
+		Integer oldPreferredHeight = preferredHeight;
+		preferredHeight = newPreferredHeight;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT, oldPreferredHeight, preferredHeight));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getFillHorizontally() {
+		return fillHorizontally;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFillHorizontally(Boolean newFillHorizontally) {
+		Boolean oldFillHorizontally = fillHorizontally;
+		fillHorizontally = newFillHorizontally;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY, oldFillHorizontally, fillHorizontally));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getFillVertically() {
+		return fillVertically;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFillVertically(Boolean newFillVertically) {
+		Boolean oldFillVertically = fillVertically;
+		fillVertically = newFillVertically;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY, oldFillVertically, fillVertically));
 	}
 
 	/**
@@ -396,20 +470,33 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<UimAction> getActionsOnMultipleSelection() {
+		if (actionsOnMultipleSelection == null) {
+			actionsOnMultipleSelection = new EObjectContainmentEList<UimAction>(UimAction.class, this, UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION);
+		}
+		return actionsOnMultipleSelection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimContainer getParent() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UimPackage.UIM_DATA_TABLE__DETAIL_PANELS:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getDetailPanels()).basicAdd(otherEnd, msgs);
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetParent((UimLayout)otherEnd, msgs);
-			case UimPackage.UIM_DATA_TABLE__LAYOUT:
-				if (layout != null)
-					msgs = ((InternalEObject)layout).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.UIM_DATA_TABLE__LAYOUT, null, msgs);
-				return basicSetLayout((UimLayout)otherEnd, msgs);
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				if (binding != null)
 					msgs = ((InternalEObject)binding).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.UIM_DATA_TABLE__BINDING, null, msgs);
@@ -426,18 +513,16 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UimPackage.UIM_DATA_TABLE__DETAIL_PANELS:
-				return ((InternalEList<?>)getDetailPanels()).basicRemove(otherEnd, msgs);
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return basicSetVisibility(null, msgs);
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				return basicSetParent(null, msgs);
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
 				return basicSetEditability(null, msgs);
-			case UimPackage.UIM_DATA_TABLE__LAYOUT:
-				return basicSetLayout(null, msgs);
+			case UimPackage.UIM_DATA_TABLE__CHILDREN:
+				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				return basicSetBinding(null, msgs);
+			case UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
+				return ((InternalEList<?>)getActionsOnMultipleSelection()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -448,36 +533,28 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				return eInternalContainer().eInverseRemove(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UimPackage.UIM_DATA_TABLE__DETAIL_PANELS:
-				return getDetailPanels();
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				return getName();
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return getVisibility();
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				return getParent();
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
 				return getEditability();
-			case UimPackage.UIM_DATA_TABLE__LAYOUT:
-				return getLayout();
+			case UimPackage.UIM_DATA_TABLE__CHILDREN:
+				return getChildren();
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH:
+				return getPreferredWidth();
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT:
+				return getPreferredHeight();
+			case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY:
+				return getFillHorizontally();
+			case UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY:
+				return getFillVertically();
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				return getBinding();
+			case UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
+				return getActionsOnMultipleSelection();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -491,27 +568,37 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UimPackage.UIM_DATA_TABLE__DETAIL_PANELS:
-				getDetailPanels().clear();
-				getDetailPanels().addAll((Collection<? extends DetailPanel>)newValue);
-				return;
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				setName((String)newValue);
 				return;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
-				setVisibility((SecurityConstraint)newValue);
-				return;
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				setParent((UimLayout)newValue);
+				setVisibility((UserInteractionConstraint)newValue);
 				return;
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				setEditability((SecurityConstraint)newValue);
+				setEditability((UserInteractionConstraint)newValue);
 				return;
-			case UimPackage.UIM_DATA_TABLE__LAYOUT:
-				setLayout((UimLayout)newValue);
+			case UimPackage.UIM_DATA_TABLE__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection<? extends UimComponent>)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH:
+				setPreferredWidth((Integer)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT:
+				setPreferredHeight((Integer)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY:
+				setFillHorizontally((Boolean)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY:
+				setFillVertically((Boolean)newValue);
 				return;
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				setBinding((TableBinding)newValue);
+				return;
+			case UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
+				getActionsOnMultipleSelection().clear();
+				getActionsOnMultipleSelection().addAll((Collection<? extends UimAction>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -525,26 +612,35 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UimPackage.UIM_DATA_TABLE__DETAIL_PANELS:
-				getDetailPanels().clear();
-				return;
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
-				setVisibility((SecurityConstraint)null);
-				return;
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				setParent((UimLayout)null);
+				setVisibility((UserInteractionConstraint)null);
 				return;
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
-				setEditability((SecurityConstraint)null);
+				setEditability((UserInteractionConstraint)null);
 				return;
-			case UimPackage.UIM_DATA_TABLE__LAYOUT:
-				setLayout((UimLayout)null);
+			case UimPackage.UIM_DATA_TABLE__CHILDREN:
+				getChildren().clear();
+				return;
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH:
+				setPreferredWidth(PREFERRED_WIDTH_EDEFAULT);
+				return;
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT:
+				setPreferredHeight(PREFERRED_HEIGHT_EDEFAULT);
+				return;
+			case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY:
+				setFillHorizontally(FILL_HORIZONTALLY_EDEFAULT);
+				return;
+			case UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY:
+				setFillVertically(FILL_VERTICALLY_EDEFAULT);
 				return;
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				setBinding((TableBinding)null);
+				return;
+			case UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
+				getActionsOnMultipleSelection().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -558,20 +654,26 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UimPackage.UIM_DATA_TABLE__DETAIL_PANELS:
-				return detailPanels != null && !detailPanels.isEmpty();
 			case UimPackage.UIM_DATA_TABLE__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case UimPackage.UIM_DATA_TABLE__VISIBILITY:
 				return visibility != null;
-			case UimPackage.UIM_DATA_TABLE__PARENT:
-				return getParent() != null;
 			case UimPackage.UIM_DATA_TABLE__EDITABILITY:
 				return editability != null;
-			case UimPackage.UIM_DATA_TABLE__LAYOUT:
-				return layout != null;
+			case UimPackage.UIM_DATA_TABLE__CHILDREN:
+				return children != null && !children.isEmpty();
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH:
+				return PREFERRED_WIDTH_EDEFAULT == null ? preferredWidth != null : !PREFERRED_WIDTH_EDEFAULT.equals(preferredWidth);
+			case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT:
+				return PREFERRED_HEIGHT_EDEFAULT == null ? preferredHeight != null : !PREFERRED_HEIGHT_EDEFAULT.equals(preferredHeight);
+			case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY:
+				return FILL_HORIZONTALLY_EDEFAULT == null ? fillHorizontally != null : !FILL_HORIZONTALLY_EDEFAULT.equals(fillHorizontally);
+			case UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY:
+				return FILL_VERTICALLY_EDEFAULT == null ? fillVertically != null : !FILL_VERTICALLY_EDEFAULT.equals(fillVertically);
 			case UimPackage.UIM_DATA_TABLE__BINDING:
 				return binding != null;
+			case UimPackage.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION:
+				return actionsOnMultipleSelection != null && !actionsOnMultipleSelection.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -589,9 +691,9 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
-		if (baseClass == SecureObject.class) {
+		if (baseClass == ConstrainedObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__VISIBILITY: return SecurityPackage.SECURE_OBJECT__VISIBILITY;
+				case UimPackage.UIM_DATA_TABLE__VISIBILITY: return ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY;
 				default: return -1;
 			}
 		}
@@ -600,26 +702,24 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
-		if (baseClass == OutlayableComponent.class) {
+		if (baseClass == EditableConstrainedObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__PARENT: return LayoutPackage.OUTLAYABLE_COMPONENT__PARENT;
-				default: return -1;
-			}
-		}
-		if (baseClass == EditableSecureObject.class) {
-			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__EDITABILITY: return SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
+				case UimPackage.UIM_DATA_TABLE__EDITABILITY: return ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
 				default: return -1;
 			}
 		}
 		if (baseClass == UimContainer.class) {
 			switch (derivedFeatureID) {
+				case UimPackage.UIM_DATA_TABLE__CHILDREN: return UimPackage.UIM_CONTAINER__CHILDREN;
 				default: return -1;
 			}
 		}
-		if (baseClass == LayoutContainer.class) {
+		if (baseClass == Outlayable.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_DATA_TABLE__LAYOUT: return LayoutPackage.LAYOUT_CONTAINER__LAYOUT;
+				case UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH: return PanelPackage.OUTLAYABLE__PREFERRED_WIDTH;
+				case UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT: return PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT;
+				case UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY: return PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY;
+				case UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY: return PanelPackage.OUTLAYABLE__FILL_VERTICALLY;
 				default: return -1;
 			}
 		}
@@ -639,9 +739,9 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
-		if (baseClass == SecureObject.class) {
+		if (baseClass == ConstrainedObject.class) {
 			switch (baseFeatureID) {
-				case SecurityPackage.SECURE_OBJECT__VISIBILITY: return UimPackage.UIM_DATA_TABLE__VISIBILITY;
+				case ConstraintPackage.CONSTRAINED_OBJECT__VISIBILITY: return UimPackage.UIM_DATA_TABLE__VISIBILITY;
 				default: return -1;
 			}
 		}
@@ -650,26 +750,24 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 				default: return -1;
 			}
 		}
-		if (baseClass == OutlayableComponent.class) {
+		if (baseClass == EditableConstrainedObject.class) {
 			switch (baseFeatureID) {
-				case LayoutPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_DATA_TABLE__PARENT;
-				default: return -1;
-			}
-		}
-		if (baseClass == EditableSecureObject.class) {
-			switch (baseFeatureID) {
-				case SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.UIM_DATA_TABLE__EDITABILITY;
+				case ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY: return UimPackage.UIM_DATA_TABLE__EDITABILITY;
 				default: return -1;
 			}
 		}
 		if (baseClass == UimContainer.class) {
 			switch (baseFeatureID) {
+				case UimPackage.UIM_CONTAINER__CHILDREN: return UimPackage.UIM_DATA_TABLE__CHILDREN;
 				default: return -1;
 			}
 		}
-		if (baseClass == LayoutContainer.class) {
+		if (baseClass == Outlayable.class) {
 			switch (baseFeatureID) {
-				case LayoutPackage.LAYOUT_CONTAINER__LAYOUT: return UimPackage.UIM_DATA_TABLE__LAYOUT;
+				case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH: return UimPackage.UIM_DATA_TABLE__PREFERRED_WIDTH;
+				case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT: return UimPackage.UIM_DATA_TABLE__PREFERRED_HEIGHT;
+				case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY: return UimPackage.UIM_DATA_TABLE__FILL_HORIZONTALLY;
+				case PanelPackage.OUTLAYABLE__FILL_VERTICALLY: return UimPackage.UIM_DATA_TABLE__FILL_VERTICALLY;
 				default: return -1;
 			}
 		}
@@ -688,6 +786,14 @@ public class UimDataTableImpl extends EObjectImpl implements UimDataTable {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", preferredWidth: ");
+		result.append(preferredWidth);
+		result.append(", preferredHeight: ");
+		result.append(preferredHeight);
+		result.append(", fillHorizontally: ");
+		result.append(fillHorizontally);
+		result.append(", fillVertically: ");
+		result.append(fillVertically);
 		result.append(')');
 		return result.toString();
 	}

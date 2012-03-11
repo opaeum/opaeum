@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.LinkToEntity;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
@@ -48,7 +48,7 @@ public class LinkToEntityBindingSection extends AbstractBindingSection{
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
-		return ((NavigationToEntity) getEObject()).getBinding();
+		return ((LinkToEntity) getEObject()).getBinding();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->

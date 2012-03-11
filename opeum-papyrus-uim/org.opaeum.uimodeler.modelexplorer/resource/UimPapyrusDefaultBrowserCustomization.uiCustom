@@ -3,12 +3,41 @@
     xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:query="http://www.eclipse.org/EmfFacet/infra/query/0.8.incubation"
     xmlns:uicustom="http://www.eclipse.org/EmfFacet/infra/browser/custom/0.8"
     metamodelURI="http://opaeum.org/uimetamodel/1.0">
   <types metaclassName="uim.editor.EditorPage">
     <references
         referenceName="editor">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.wizard.WizardPage">
+    <references
+        referenceName="wizard">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.action.OperationActionPopup">
+    <references
+        referenceName="operationAction">
+      <customizedFeatures>
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="false"/>
+      </customizedFeatures>
+    </references>
+  </types>
+  <types metaclassName="uim.control.UimControl">
+    <references
+        referenceName="field">
       <customizedFeatures>
         <defaultValue
             xsi:type="uicustom:StaticFeatureValue"

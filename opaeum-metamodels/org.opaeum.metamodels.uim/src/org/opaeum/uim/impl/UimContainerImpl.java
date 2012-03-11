@@ -1,21 +1,23 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.security.EditableSecureObject;
-import org.opaeum.uim.security.SecurityConstraint;
-import org.opaeum.uim.security.SecurityPackage;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.constraint.UserInteractionConstraint;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,12 +27,13 @@ import org.opaeum.uim.security.SecurityPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.UimContainerImpl#getEditability <em>Editability</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimContainerImpl#getChildren <em>Children</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UimContainerImpl extends UimComponentImpl implements UimContainer {
+public abstract class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	/**
 	 * The cached value of the '{@link #getEditability() <em>Editability</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -39,7 +42,17 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 * @generated
 	 * @ordered
 	 */
-	protected SecurityConstraint editability;
+	protected UserInteractionConstraint editability;
+
+	/**
+	 * The cached value of the '{@link #getChildren() <em>Children</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getChildren()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<UimComponent> children;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -65,7 +78,7 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SecurityConstraint getEditability() {
+	public UserInteractionConstraint getEditability() {
 		return editability;
 	}
 
@@ -74,8 +87,8 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetEditability(SecurityConstraint newEditability, NotificationChain msgs) {
-		SecurityConstraint oldEditability = editability;
+	public NotificationChain basicSetEditability(UserInteractionConstraint newEditability, NotificationChain msgs) {
+		UserInteractionConstraint oldEditability = editability;
 		editability = newEditability;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UimPackage.UIM_CONTAINER__EDITABILITY, oldEditability, newEditability);
@@ -89,7 +102,7 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEditability(SecurityConstraint newEditability) {
+	public void setEditability(UserInteractionConstraint newEditability) {
 		if (newEditability != editability) {
 			NotificationChain msgs = null;
 			if (editability != null)
@@ -108,11 +121,25 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<UimComponent> getChildren() {
+		if (children == null) {
+			children = new EObjectContainmentEList<UimComponent>(UimComponent.class, this, UimPackage.UIM_CONTAINER__CHILDREN);
+		}
+		return children;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case UimPackage.UIM_CONTAINER__EDITABILITY:
 				return basicSetEditability(null, msgs);
+			case UimPackage.UIM_CONTAINER__CHILDREN:
+				return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -127,6 +154,8 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 		switch (featureID) {
 			case UimPackage.UIM_CONTAINER__EDITABILITY:
 				return getEditability();
+			case UimPackage.UIM_CONTAINER__CHILDREN:
+				return getChildren();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -136,11 +165,16 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case UimPackage.UIM_CONTAINER__EDITABILITY:
-				setEditability((SecurityConstraint)newValue);
+				setEditability((UserInteractionConstraint)newValue);
+				return;
+			case UimPackage.UIM_CONTAINER__CHILDREN:
+				getChildren().clear();
+				getChildren().addAll((Collection<? extends UimComponent>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -155,7 +189,10 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case UimPackage.UIM_CONTAINER__EDITABILITY:
-				setEditability((SecurityConstraint)null);
+				setEditability((UserInteractionConstraint)null);
+				return;
+			case UimPackage.UIM_CONTAINER__CHILDREN:
+				getChildren().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -171,6 +208,8 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 		switch (featureID) {
 			case UimPackage.UIM_CONTAINER__EDITABILITY:
 				return editability != null;
+			case UimPackage.UIM_CONTAINER__CHILDREN:
+				return children != null && !children.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -182,9 +221,9 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == EditableSecureObject.class) {
+		if (baseClass == EditableConstrainedObject.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_CONTAINER__EDITABILITY: return SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY;
+				case UimPackage.UIM_CONTAINER__EDITABILITY: return ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY;
 				default: return -1;
 			}
 		}
@@ -198,9 +237,9 @@ public class UimContainerImpl extends UimComponentImpl implements UimContainer {
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == EditableSecureObject.class) {
+		if (baseClass == EditableConstrainedObject.class) {
 			switch (baseFeatureID) {
-				case SecurityPackage.EDITABLE_SECURE_OBJECT__EDITABILITY: return UimPackage.UIM_CONTAINER__EDITABILITY;
+				case ConstraintPackage.EDITABLE_CONSTRAINED_OBJECT__EDITABILITY: return UimPackage.UIM_CONTAINER__EDITABILITY;
 				default: return -1;
 			}
 		}

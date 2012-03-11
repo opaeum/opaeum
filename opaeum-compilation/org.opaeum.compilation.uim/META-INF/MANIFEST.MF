@@ -11,10 +11,9 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.metamodels.text,
  org.opaeum.transformation.engine,
  org.opaeum.metamodels.opaeum,
- org.opaeum.linkage.emfextraction;bundle-version="1.0.0"
+ org.opaeum.linkage.emfextraction
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
-Export-Package: org.opaeum.uim.uml2uim,
- org.opaeum.uml2uim
+Export-Package: org.opaeum.uim.uml2uim
 Bundle-Vendor: Opaeum

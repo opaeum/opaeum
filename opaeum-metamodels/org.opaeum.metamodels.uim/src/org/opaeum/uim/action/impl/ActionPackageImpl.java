@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.action.impl;
 
@@ -18,25 +14,28 @@ import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.NavigationToEntity;
-import org.opaeum.uim.action.NavigationToOperation;
+import org.opaeum.uim.action.LinkToEntity;
+import org.opaeum.uim.action.LinkToOperation;
 import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationActionPopup;
 import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.action.UimAction;
-import org.opaeum.uim.action.UimNavigation;
+import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.impl.ControlPackageImpl;
-import org.opaeum.uim.folder.FolderPackage;
-import org.opaeum.uim.folder.impl.FolderPackageImpl;
-import org.opaeum.uim.form.FormPackage;
-import org.opaeum.uim.form.impl.FormPackageImpl;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
-import org.opaeum.uim.layout.LayoutPackage;
-import org.opaeum.uim.layout.impl.LayoutPackageImpl;
-import org.opaeum.uim.security.SecurityPackage;
-import org.opaeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.panel.PanelPackage;
+import org.opaeum.uim.panel.impl.PanelPackageImpl;
+import org.opaeum.uim.perspective.PerspectivePackage;
+import org.opaeum.uim.perspective.impl.PerspectivePackageImpl;
+import org.opaeum.uim.wizard.WizardPackage;
+import org.opaeum.uim.wizard.impl.WizardPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -71,7 +70,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass navigationToOperationEClass = null;
+	private EClass linkToOperationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -85,14 +84,21 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimNavigationEClass = null;
+	private EClass uimLinkEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass navigationToEntityEClass = null;
+	private EClass linkToEntityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationActionPopupEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -152,32 +158,35 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Obtain or create and register interdependencies
 		UimPackageImpl theUimPackage = (UimPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI) instanceof UimPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI) : UimPackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) : LayoutPackage.eINSTANCE);
 		ControlPackageImpl theControlPackage = (ControlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI) instanceof ControlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI) : ControlPackage.eINSTANCE);
-		FolderPackageImpl theFolderPackage = (FolderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) instanceof FolderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) : FolderPackage.eINSTANCE);
-		FormPackageImpl theFormPackage = (FormPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) instanceof FormPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) : FormPackage.eINSTANCE);
+		EditorPackageImpl theEditorPackage = (EditorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) instanceof EditorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) : EditorPackage.eINSTANCE);
 		BindingPackageImpl theBindingPackage = (BindingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI) instanceof BindingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI) : BindingPackage.eINSTANCE);
-		SecurityPackageImpl theSecurityPackage = (SecurityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) instanceof SecurityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) : SecurityPackage.eINSTANCE);
+		ConstraintPackageImpl theConstraintPackage = (ConstraintPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) instanceof ConstraintPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) : ConstraintPackage.eINSTANCE);
+		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
+		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
+		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theActionPackage.createPackageContents();
 		theUimPackage.createPackageContents();
-		theLayoutPackage.createPackageContents();
 		theControlPackage.createPackageContents();
-		theFolderPackage.createPackageContents();
-		theFormPackage.createPackageContents();
+		theEditorPackage.createPackageContents();
 		theBindingPackage.createPackageContents();
-		theSecurityPackage.createPackageContents();
+		theConstraintPackage.createPackageContents();
+		thePanelPackage.createPackageContents();
+		theWizardPackage.createPackageContents();
+		thePerspectivePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theActionPackage.initializePackageContents();
 		theUimPackage.initializePackageContents();
-		theLayoutPackage.initializePackageContents();
 		theControlPackage.initializePackageContents();
-		theFolderPackage.initializePackageContents();
-		theFormPackage.initializePackageContents();
+		theEditorPackage.initializePackageContents();
 		theBindingPackage.initializePackageContents();
-		theSecurityPackage.initializePackageContents();
+		theConstraintPackage.initializePackageContents();
+		thePanelPackage.initializePackageContents();
+		theWizardPackage.initializePackageContents();
+		thePerspectivePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theActionPackage.freeze();
@@ -229,8 +238,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNavigationToOperation() {
-		return navigationToOperationEClass;
+	public EClass getLinkToOperation() {
+		return linkToOperationEClass;
 	}
 
 	/**
@@ -238,8 +247,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNavigationToOperation_ToForm() {
-		return (EReference)navigationToOperationEClass.getEStructuralFeatures().get(0);
+	public EReference getLinkToOperation_ToForm() {
+		return (EReference)linkToOperationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -256,8 +265,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimNavigation() {
-		return uimNavigationEClass;
+	public EReference getOperationAction_Popup() {
+		return (EReference)operationActionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -265,8 +274,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNavigationToEntity() {
-		return navigationToEntityEClass;
+	public EClass getUimLink() {
+		return uimLinkEClass;
 	}
 
 	/**
@@ -274,8 +283,8 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNavigationToEntity_ToForm() {
-		return (EReference)navigationToEntityEClass.getEStructuralFeatures().get(0);
+	public EClass getLinkToEntity() {
+		return linkToEntityEClass;
 	}
 
 	/**
@@ -283,8 +292,26 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNavigationToEntity_Binding() {
-		return (EReference)navigationToEntityEClass.getEStructuralFeatures().get(1);
+	public EReference getLinkToEntity_Binding() {
+		return (EReference)linkToEntityEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperationActionPopup() {
+		return operationActionPopupEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationActionPopup_OperationAction() {
+		return (EReference)operationActionPopupEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -331,16 +358,19 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		transitionActionEClass = createEClass(TRANSITION_ACTION);
 
-		navigationToOperationEClass = createEClass(NAVIGATION_TO_OPERATION);
-		createEReference(navigationToOperationEClass, NAVIGATION_TO_OPERATION__TO_FORM);
+		linkToOperationEClass = createEClass(LINK_TO_OPERATION);
+		createEReference(linkToOperationEClass, LINK_TO_OPERATION__TO_FORM);
 
 		operationActionEClass = createEClass(OPERATION_ACTION);
+		createEReference(operationActionEClass, OPERATION_ACTION__POPUP);
 
-		uimNavigationEClass = createEClass(UIM_NAVIGATION);
+		uimLinkEClass = createEClass(UIM_LINK);
 
-		navigationToEntityEClass = createEClass(NAVIGATION_TO_ENTITY);
-		createEReference(navigationToEntityEClass, NAVIGATION_TO_ENTITY__TO_FORM);
-		createEReference(navigationToEntityEClass, NAVIGATION_TO_ENTITY__BINDING);
+		linkToEntityEClass = createEClass(LINK_TO_ENTITY);
+		createEReference(linkToEntityEClass, LINK_TO_ENTITY__BINDING);
+
+		operationActionPopupEClass = createEClass(OPERATION_ACTION_POPUP);
+		createEReference(operationActionPopupEClass, OPERATION_ACTION_POPUP__OPERATION_ACTION);
 
 		// Create enums
 		actionKindEEnum = createEEnum(ACTION_KIND);
@@ -370,9 +400,9 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		LayoutPackage theLayoutPackage = (LayoutPackage)EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
-		FormPackage theFormPackage = (FormPackage)EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI);
+		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
+		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
 		BindingPackage theBindingPackage = (BindingPackage)EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI);
 
 		// Create type parameters
@@ -381,16 +411,19 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		// Add supertypes to classes
 		builtInActionEClass.getESuperTypes().add(this.getUimAction());
-		uimActionEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
+		uimActionEClass.getESuperTypes().add(theUimPackage.getUimComponent());
+		uimActionEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
 		transitionActionEClass.getESuperTypes().add(this.getUimAction());
 		transitionActionEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		navigationToOperationEClass.getESuperTypes().add(this.getUimNavigation());
-		navigationToOperationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		linkToOperationEClass.getESuperTypes().add(this.getUimLink());
+		linkToOperationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 		operationActionEClass.getESuperTypes().add(this.getUimAction());
 		operationActionEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		uimNavigationEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
-		navigationToEntityEClass.getESuperTypes().add(this.getUimNavigation());
-		navigationToEntityEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		uimLinkEClass.getESuperTypes().add(theUimPackage.getUimComponent());
+		uimLinkEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
+		linkToEntityEClass.getESuperTypes().add(this.getUimLink());
+		linkToEntityEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		operationActionPopupEClass.getESuperTypes().add(theUimPackage.getUserInterface());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(builtInActionEClass, BuiltInAction.class, "BuiltInAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -400,27 +433,28 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		initEClass(transitionActionEClass, TransitionAction.class, "TransitionAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(navigationToOperationEClass, NavigationToOperation.class, "NavigationToOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNavigationToOperation_ToForm(), theFormPackage.getOperationInvocationForm(), null, "toForm", null, 0, 1, NavigationToOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(linkToOperationEClass, LinkToOperation.class, "LinkToOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLinkToOperation_ToForm(), theEditorPackage.getQueryInvocationEditor(), null, "toForm", null, 0, 1, LinkToOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationActionEClass, OperationAction.class, "OperationAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperationAction_Popup(), this.getOperationActionPopup(), this.getOperationActionPopup_OperationAction(), "popup", null, 0, 1, OperationAction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimNavigationEClass, UimNavigation.class, "UimNavigation", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(uimLinkEClass, UimLink.class, "UimLink", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(navigationToEntityEClass, NavigationToEntity.class, "NavigationToEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNavigationToEntity_ToForm(), theFormPackage.getClassForm(), null, "toForm", null, 0, 1, NavigationToEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNavigationToEntity_Binding(), theBindingPackage.getNavigationBinding(), theBindingPackage.getNavigationBinding_Navigation(), "binding", null, 0, 1, NavigationToEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(linkToEntityEClass, LinkToEntity.class, "LinkToEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getLinkToEntity_Binding(), theBindingPackage.getNavigationBinding(), theBindingPackage.getNavigationBinding_Navigation(), "binding", null, 0, 1, LinkToEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(operationActionPopupEClass, OperationActionPopup.class, "OperationActionPopup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperationActionPopup_OperationAction(), this.getOperationAction(), this.getOperationAction_Popup(), "operationAction", null, 0, 1, OperationActionPopup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(actionKindEEnum, ActionKind.class, "ActionKind");
 		addEEnumLiteral(actionKindEEnum, ActionKind.UPDATE);
 		addEEnumLiteral(actionKindEEnum, ActionKind.DELETE);
-		addEEnumLiteral(actionKindEEnum, ActionKind.BACK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.EXECUTE_OPERATION);
 		addEEnumLiteral(actionKindEEnum, ActionKind.DELEGATE_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.COMPLETE_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.SUSPEND_TASK);
-		addEEnumLiteral(actionKindEEnum, ActionKind.CREATE);
 		addEEnumLiteral(actionKindEEnum, ActionKind.FORWARD_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.CLAIM_TASK);
 	}

@@ -90,9 +90,6 @@ public class OperationAnnotator extends StereotypeAnnotator{
 	@VisitBefore(matchSubclasses = true)
 	public void visitClass(INakedClassifier c){
 		if(OJUtil.hasOJClass(c)){
-			if(c.getName().equals("ProcessRequest")){
-				System.out.println();
-			}
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			Set<INakedOperation> directlyImplementedOperations = c.getDirectlyImplementedOperations();
 			for(INakedOperation o:directlyImplementedOperations){

@@ -8,9 +8,6 @@
       <emfPageIdentifier href="BusinessStructureModel.notation#__BIYQE85EeGeHcy1LQEecA"/>
     </availablePage>
     <availablePage>
-      <emfPageIdentifier href="model2.profile.notation#_BLgyUFFBEeG-sZ_4D_W2lA"/>
-    </availablePage>
-    <availablePage>
       <emfPageIdentifier href="BusinessStructureModel.notation#_Zh3WAFxhEeGaLvytS4KS2w"/>
     </availablePage>
     <availablePage>

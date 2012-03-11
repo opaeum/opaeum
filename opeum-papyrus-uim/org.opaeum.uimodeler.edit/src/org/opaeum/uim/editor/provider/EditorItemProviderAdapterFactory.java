@@ -70,29 +70,6 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.AbstractEditor} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected AbstractEditorItemProvider abstractEditorItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.AbstractEditor}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createAbstractEditorAdapter() {
-		if (abstractEditorItemProvider == null) {
-			abstractEditorItemProvider = new AbstractEditorItemProvider(this);
-		}
-
-		return abstractEditorItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ActionTaskEditor} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -208,26 +185,26 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ActionBar} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.EditorActionBar} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ActionBarItemProvider actionBarItemProvider;
+	protected EditorActionBarItemProvider editorActionBarItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.editor.ActionBar}.
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.EditorActionBar}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createActionBarAdapter() {
-		if (actionBarItemProvider == null) {
-			actionBarItemProvider = new ActionBarItemProvider(this);
+	public Adapter createEditorActionBarAdapter() {
+		if (editorActionBarItemProvider == null) {
+			editorActionBarItemProvider = new EditorActionBarItemProvider(this);
 		}
 
-		return actionBarItemProvider;
+		return editorActionBarItemProvider;
 	}
 
 	/**
@@ -375,13 +352,12 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	 * @generated
 	 */
 	public void dispose() {
-		if (abstractEditorItemProvider != null) abstractEditorItemProvider.dispose();
 		if (actionTaskEditorItemProvider != null) actionTaskEditorItemProvider.dispose();
 		if (classEditorItemProvider != null) classEditorItemProvider.dispose();
 		if (responsibilityTaskEditorItemProvider != null) responsibilityTaskEditorItemProvider.dispose();
 		if (queryInvocationEditorItemProvider != null) queryInvocationEditorItemProvider.dispose();
 		if (editorPageItemProvider != null) editorPageItemProvider.dispose();
-		if (actionBarItemProvider != null) actionBarItemProvider.dispose();
+		if (editorActionBarItemProvider != null) editorActionBarItemProvider.dispose();
 		if (menuConfigurationItemProvider != null) menuConfigurationItemProvider.dispose();
 		if (visibleOperationItemProvider != null) visibleOperationItemProvider.dispose();
 	}

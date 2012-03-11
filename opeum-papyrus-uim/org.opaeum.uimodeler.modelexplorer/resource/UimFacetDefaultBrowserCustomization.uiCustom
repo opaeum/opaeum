@@ -16,7 +16,7 @@
               value="false"/>
           <condition
               xsi:type="query:JavaModelQuery"
-              href="PapyrusBrowserQuery.querySet#IsDiagramContainer"/>
+              href="UimBrowserQuery.querySet#IsUimDiagramContainer"/>
         </valueCases>
         <defaultValue
             xsi:type="uicustom:StaticFeatureValue"
@@ -30,5 +30,5 @@
       </customizedFeatures>
     </references>
   </types>
-  <availableQuerySets>PapyrusBrowserQuery</availableQuerySets>
+  <availableQuerySets>UimBrowserQuery</availableQuerySets>
 </uicustom:MetamodelView>

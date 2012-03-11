@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;

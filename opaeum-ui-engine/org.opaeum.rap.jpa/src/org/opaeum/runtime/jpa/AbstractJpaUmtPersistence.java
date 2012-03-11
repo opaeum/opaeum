@@ -21,6 +21,7 @@ public abstract class AbstractJpaUmtPersistence extends AbstractJpaPersistence i
 	}
 	@Override
 	public void commitTransaction(){
+		getEntityManager().flush();
 		getEntityManager().getTransaction().commit();
 	}
 	@Override

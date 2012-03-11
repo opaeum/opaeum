@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.binding.impl;
 
@@ -22,17 +18,19 @@ import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.impl.ControlPackageImpl;
-import org.opaeum.uim.folder.FolderPackage;
-import org.opaeum.uim.folder.impl.FolderPackageImpl;
-import org.opaeum.uim.form.FormPackage;
-import org.opaeum.uim.form.impl.FormPackageImpl;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
-import org.opaeum.uim.layout.LayoutPackage;
-import org.opaeum.uim.layout.impl.LayoutPackageImpl;
-import org.opaeum.uim.security.SecurityPackage;
-import org.opaeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.panel.PanelPackage;
+import org.opaeum.uim.panel.impl.PanelPackageImpl;
+import org.opaeum.uim.perspective.PerspectivePackage;
+import org.opaeum.uim.perspective.impl.PerspectivePackageImpl;
+import org.opaeum.uim.wizard.WizardPackage;
+import org.opaeum.uim.wizard.impl.WizardPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -134,32 +132,35 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 
 		// Obtain or create and register interdependencies
 		UimPackageImpl theUimPackage = (UimPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI) instanceof UimPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI) : UimPackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) : LayoutPackage.eINSTANCE);
 		ControlPackageImpl theControlPackage = (ControlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI) instanceof ControlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI) : ControlPackage.eINSTANCE);
-		FolderPackageImpl theFolderPackage = (FolderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) instanceof FolderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) : FolderPackage.eINSTANCE);
-		FormPackageImpl theFormPackage = (FormPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) instanceof FormPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) : FormPackage.eINSTANCE);
-		SecurityPackageImpl theSecurityPackage = (SecurityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) instanceof SecurityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) : SecurityPackage.eINSTANCE);
+		EditorPackageImpl theEditorPackage = (EditorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) instanceof EditorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) : EditorPackage.eINSTANCE);
+		ConstraintPackageImpl theConstraintPackage = (ConstraintPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) instanceof ConstraintPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) : ConstraintPackage.eINSTANCE);
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
+		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
+		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
+		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theBindingPackage.createPackageContents();
 		theUimPackage.createPackageContents();
-		theLayoutPackage.createPackageContents();
 		theControlPackage.createPackageContents();
-		theFolderPackage.createPackageContents();
-		theFormPackage.createPackageContents();
-		theSecurityPackage.createPackageContents();
+		theEditorPackage.createPackageContents();
+		theConstraintPackage.createPackageContents();
 		theActionPackage.createPackageContents();
+		thePanelPackage.createPackageContents();
+		theWizardPackage.createPackageContents();
+		thePerspectivePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theBindingPackage.initializePackageContents();
 		theUimPackage.initializePackageContents();
-		theLayoutPackage.initializePackageContents();
 		theControlPackage.initializePackageContents();
-		theFolderPackage.initializePackageContents();
-		theFormPackage.initializePackageContents();
-		theSecurityPackage.initializePackageContents();
+		theEditorPackage.initializePackageContents();
+		theConstraintPackage.initializePackageContents();
 		theActionPackage.initializePackageContents();
+		thePanelPackage.initializePackageContents();
+		theWizardPackage.initializePackageContents();
+		thePerspectivePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theBindingPackage.freeze();
@@ -390,7 +391,7 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		initEReference(getLookupBinding_Lookup(), theControlPackage.getUimLookup(), theControlPackage.getUimLookup_LookupSource(), "lookup", null, 0, 1, LookupBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(navigationBindingEClass, NavigationBinding.class, "NavigationBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNavigationBinding_Navigation(), theActionPackage.getNavigationToEntity(), theActionPackage.getNavigationToEntity_Binding(), "navigation", null, 1, 1, NavigationBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNavigationBinding_Navigation(), theActionPackage.getLinkToEntity(), theActionPackage.getLinkToEntity_Binding(), "navigation", null, 1, 1, NavigationBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableBindingEClass, TableBinding.class, "TableBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableBinding_Table(), theUimPackage.getUimDataTable(), theUimPackage.getUimDataTable_Binding(), "table", null, 1, 1, TableBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -254,6 +254,75 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ClassUserInteractionModel} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ClassUserInteractionModelItemProvider classUserInteractionModelItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.ClassUserInteractionModel}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createClassUserInteractionModelAdapter() {
+		if (classUserInteractionModelItemProvider == null) {
+			classUserInteractionModelItemProvider = new ClassUserInteractionModelItemProvider(this);
+		}
+
+		return classUserInteractionModelItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.ResponsibilityUserInteractionModel} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ResponsibilityUserInteractionModelItemProvider responsibilityUserInteractionModelItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.ResponsibilityUserInteractionModel}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createResponsibilityUserInteractionModelAdapter() {
+		if (responsibilityUserInteractionModelItemProvider == null) {
+			responsibilityUserInteractionModelItemProvider = new ResponsibilityUserInteractionModelItemProvider(this);
+		}
+
+		return responsibilityUserInteractionModelItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.AbstractActionBar} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AbstractActionBarItemProvider abstractActionBarItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.AbstractActionBar}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAbstractActionBarAdapter() {
+		if (abstractActionBarItemProvider == null) {
+			abstractActionBarItemProvider = new AbstractActionBarItemProvider(this);
+		}
+
+		return abstractActionBarItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -360,6 +429,9 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 		if (userInterfaceEntryPointItemProvider != null) userInterfaceEntryPointItemProvider.dispose();
 		if (userInterfaceItemProvider != null) userInterfaceItemProvider.dispose();
 		if (panelClassItemProvider != null) panelClassItemProvider.dispose();
+		if (classUserInteractionModelItemProvider != null) classUserInteractionModelItemProvider.dispose();
+		if (responsibilityUserInteractionModelItemProvider != null) responsibilityUserInteractionModelItemProvider.dispose();
+		if (abstractActionBarItemProvider != null) abstractActionBarItemProvider.dispose();
 	}
 
 }

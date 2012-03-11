@@ -144,7 +144,6 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 					if(p.getOtherEnd() != null){
 						otherEndName = new NakedStructuralFeatureMap(((INakedProperty) p).getOtherEnd()).fieldname();
 					}else{
-						System.out.println(p.getOtherEnd());
 					}
 					toMany.putAttribute(new OJAnnotationAttributeValue("mappedBy", otherEndName));
 				}

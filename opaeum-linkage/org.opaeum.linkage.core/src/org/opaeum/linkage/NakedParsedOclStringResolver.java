@@ -113,9 +113,6 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 					env = environmentFactory.createInstanceValueEnvironment((INakedValueSpecification) slot.getOwningInstance().getOwnerElement());
 				}
 				INakedProperty property = slot.getDefiningFeature();
-				if(property==null){
-					System.out.println();
-				}
 				s.setValue(replaceSingleParsedOclString(string, context, property.getType(), env));
 			}
 		}
@@ -549,13 +546,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 		Integer column = e.getError().getColumnNumber();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, msg, column);
 		System.out.println(ne.getMappingInfo().getQualifiedUmlName());
-		e.printStackTrace();
+//		e.printStackTrace();
 	}
 	private void putError(ParsedOclString holder,Throwable e){
 		INakedElement ne = (INakedElement) holder.getOwningModelElement().getModelElement();
 		this.getErrorMap().putError(ne, CoreValidationRule.OCL, "OCL Not well-formed", 1);
 		System.out.println(ne.getMappingInfo().getQualifiedUmlName());
-		e.printStackTrace();
 	}
 	private IOclLibrary getOclLibrary(){
 		return this.workspace.getOclEngine().getOclLibrary();

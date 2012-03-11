@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.impl;
 
@@ -11,20 +7,20 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.opaeum.uim.Orientation;
 import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.FieldBinding;
+import org.opaeum.uim.constraint.impl.EditableConstrainedObjectImpl;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimControl;
-import org.opaeum.uim.layout.LayoutPackage;
-import org.opaeum.uim.layout.OutlayableComponent;
-import org.opaeum.uim.layout.UimLayout;
-import org.opaeum.uim.security.impl.EditableSecureObjectImpl;
+import org.opaeum.uim.panel.Outlayable;
+import org.opaeum.uim.panel.PanelPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,17 +30,21 @@ import org.opaeum.uim.security.impl.EditableSecureObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getPreferredWidth <em>Preferred Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getPreferredHeight <em>Preferred Height</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getFillHorizontally <em>Fill Horizontally</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getFillVertically <em>Fill Vertically</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getControl <em>Control</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getControlKind <em>Control Kind</em>}</li>
- *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getLabelWidth <em>Label Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getMinimumLabelWidth <em>Minimum Label Width</em>}</li>
  *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getBinding <em>Binding</em>}</li>
+ *   <li>{@link org.opaeum.uim.impl.UimFieldImpl#getOrientation <em>Orientation</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
+public class UimFieldImpl extends EditableConstrainedObjectImpl implements UimField {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -64,6 +64,86 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredWidth()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer PREFERRED_WIDTH_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredWidth()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer preferredWidth = PREFERRED_WIDTH_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredHeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Integer PREFERRED_HEIGHT_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getPreferredHeight() <em>Preferred Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPreferredHeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected Integer preferredHeight = PREFERRED_HEIGHT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFillHorizontally() <em>Fill Horizontally</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillHorizontally()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean FILL_HORIZONTALLY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFillHorizontally() <em>Fill Horizontally</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillHorizontally()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean fillHorizontally = FILL_HORIZONTALLY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillVertically()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean FILL_VERTICALLY_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFillVertically() <em>Fill Vertically</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFillVertically()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean fillVertically = FILL_VERTICALLY_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getControl() <em>Control</em>}' containment reference.
@@ -96,24 +176,24 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	protected ControlKind controlKind = CONTROL_KIND_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getLabelWidth() <em>Label Width</em>}' attribute.
+	 * The default value of the '{@link #getMinimumLabelWidth() <em>Minimum Label Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLabelWidth()
+	 * @see #getMinimumLabelWidth()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Integer LABEL_WIDTH_EDEFAULT = new Integer(200);
+	protected static final Integer MINIMUM_LABEL_WIDTH_EDEFAULT = new Integer(200);
 
 	/**
-	 * The cached value of the '{@link #getLabelWidth() <em>Label Width</em>}' attribute.
+	 * The cached value of the '{@link #getMinimumLabelWidth() <em>Minimum Label Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLabelWidth()
+	 * @see #getMinimumLabelWidth()
 	 * @generated
 	 * @ordered
 	 */
-	protected Integer labelWidth = LABEL_WIDTH_EDEFAULT;
+	protected Integer minimumLabelWidth = MINIMUM_LABEL_WIDTH_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getBinding() <em>Binding</em>}' containment reference.
@@ -124,6 +204,26 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * @ordered
 	 */
 	protected FieldBinding binding;
+
+	/**
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOrientation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL;
+
+	/**
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOrientation()
+	 * @generated
+	 * @ordered
+	 */
+	protected Orientation orientation = ORIENTATION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -170,9 +270,8 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimLayout getParent() {
-		if (eContainerFeatureID() != UimPackage.UIM_FIELD__PARENT) return null;
-		return (UimLayout)eContainer();
+	public Integer getPreferredWidth() {
+		return preferredWidth;
 	}
 
 	/**
@@ -180,9 +279,11 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetParent(UimLayout newParent, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newParent, UimPackage.UIM_FIELD__PARENT, msgs);
-		return msgs;
+	public void setPreferredWidth(Integer newPreferredWidth) {
+		Integer oldPreferredWidth = preferredWidth;
+		preferredWidth = newPreferredWidth;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__PREFERRED_WIDTH, oldPreferredWidth, preferredWidth));
 	}
 
 	/**
@@ -190,20 +291,62 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setParent(UimLayout newParent) {
-		if (newParent != eInternalContainer() || (eContainerFeatureID() != UimPackage.UIM_FIELD__PARENT && newParent != null)) {
-			if (EcoreUtil.isAncestor(this, newParent))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newParent != null)
-				msgs = ((InternalEObject)newParent).eInverseAdd(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
-			msgs = basicSetParent(newParent, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__PARENT, newParent, newParent));
+	public Integer getPreferredHeight() {
+		return preferredHeight;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPreferredHeight(Integer newPreferredHeight) {
+		Integer oldPreferredHeight = preferredHeight;
+		preferredHeight = newPreferredHeight;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__PREFERRED_HEIGHT, oldPreferredHeight, preferredHeight));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getFillHorizontally() {
+		return fillHorizontally;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFillHorizontally(Boolean newFillHorizontally) {
+		Boolean oldFillHorizontally = fillHorizontally;
+		fillHorizontally = newFillHorizontally;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__FILL_HORIZONTALLY, oldFillHorizontally, fillHorizontally));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Boolean getFillVertically() {
+		return fillVertically;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFillVertically(Boolean newFillVertically) {
+		Boolean oldFillVertically = fillVertically;
+		fillVertically = newFillVertically;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__FILL_VERTICALLY, oldFillVertically, fillVertically));
 	}
 
 	/**
@@ -275,8 +418,8 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getLabelWidth() {
-		return labelWidth;
+	public Integer getMinimumLabelWidth() {
+		return minimumLabelWidth;
 	}
 
 	/**
@@ -284,11 +427,11 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setLabelWidth(Integer newLabelWidth) {
-		Integer oldLabelWidth = labelWidth;
-		labelWidth = newLabelWidth;
+	public void setMinimumLabelWidth(Integer newMinimumLabelWidth) {
+		Integer oldMinimumLabelWidth = minimumLabelWidth;
+		minimumLabelWidth = newMinimumLabelWidth;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__LABEL_WIDTH, oldLabelWidth, labelWidth));
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH, oldMinimumLabelWidth, minimumLabelWidth));
 	}
 
 	/**
@@ -339,13 +482,39 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Orientation getOrientation() {
+		return orientation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOrientation(Orientation newOrientation) {
+		Orientation oldOrientation = orientation;
+		orientation = newOrientation == null ? ORIENTATION_EDEFAULT : newOrientation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UimPackage.UIM_FIELD__ORIENTATION, oldOrientation, orientation));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public UimContainer getParent() {
+		return (UimContainer) eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UimPackage.UIM_FIELD__PARENT:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetParent((UimLayout)otherEnd, msgs);
 			case UimPackage.UIM_FIELD__CONTROL:
 				if (control != null)
 					msgs = ((InternalEObject)control).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UimPackage.UIM_FIELD__CONTROL, null, msgs);
@@ -366,8 +535,6 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UimPackage.UIM_FIELD__PARENT:
-				return basicSetParent(null, msgs);
 			case UimPackage.UIM_FIELD__CONTROL:
 				return basicSetControl(null, msgs);
 			case UimPackage.UIM_FIELD__BINDING:
@@ -382,34 +549,28 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case UimPackage.UIM_FIELD__PARENT:
-				return eInternalContainer().eInverseRemove(this, LayoutPackage.UIM_LAYOUT__CHILDREN, UimLayout.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case UimPackage.UIM_FIELD__NAME:
 				return getName();
-			case UimPackage.UIM_FIELD__PARENT:
-				return getParent();
+			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
+				return getPreferredWidth();
+			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
+				return getPreferredHeight();
+			case UimPackage.UIM_FIELD__FILL_HORIZONTALLY:
+				return getFillHorizontally();
+			case UimPackage.UIM_FIELD__FILL_VERTICALLY:
+				return getFillVertically();
 			case UimPackage.UIM_FIELD__CONTROL:
 				return getControl();
 			case UimPackage.UIM_FIELD__CONTROL_KIND:
 				return getControlKind();
-			case UimPackage.UIM_FIELD__LABEL_WIDTH:
-				return getLabelWidth();
+			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
+				return getMinimumLabelWidth();
 			case UimPackage.UIM_FIELD__BINDING:
 				return getBinding();
+			case UimPackage.UIM_FIELD__ORIENTATION:
+				return getOrientation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -425,8 +586,17 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 			case UimPackage.UIM_FIELD__NAME:
 				setName((String)newValue);
 				return;
-			case UimPackage.UIM_FIELD__PARENT:
-				setParent((UimLayout)newValue);
+			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
+				setPreferredWidth((Integer)newValue);
+				return;
+			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
+				setPreferredHeight((Integer)newValue);
+				return;
+			case UimPackage.UIM_FIELD__FILL_HORIZONTALLY:
+				setFillHorizontally((Boolean)newValue);
+				return;
+			case UimPackage.UIM_FIELD__FILL_VERTICALLY:
+				setFillVertically((Boolean)newValue);
 				return;
 			case UimPackage.UIM_FIELD__CONTROL:
 				setControl((UimControl)newValue);
@@ -434,11 +604,14 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 			case UimPackage.UIM_FIELD__CONTROL_KIND:
 				setControlKind((ControlKind)newValue);
 				return;
-			case UimPackage.UIM_FIELD__LABEL_WIDTH:
-				setLabelWidth((Integer)newValue);
+			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
+				setMinimumLabelWidth((Integer)newValue);
 				return;
 			case UimPackage.UIM_FIELD__BINDING:
 				setBinding((FieldBinding)newValue);
+				return;
+			case UimPackage.UIM_FIELD__ORIENTATION:
+				setOrientation((Orientation)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -455,8 +628,17 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 			case UimPackage.UIM_FIELD__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case UimPackage.UIM_FIELD__PARENT:
-				setParent((UimLayout)null);
+			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
+				setPreferredWidth(PREFERRED_WIDTH_EDEFAULT);
+				return;
+			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
+				setPreferredHeight(PREFERRED_HEIGHT_EDEFAULT);
+				return;
+			case UimPackage.UIM_FIELD__FILL_HORIZONTALLY:
+				setFillHorizontally(FILL_HORIZONTALLY_EDEFAULT);
+				return;
+			case UimPackage.UIM_FIELD__FILL_VERTICALLY:
+				setFillVertically(FILL_VERTICALLY_EDEFAULT);
 				return;
 			case UimPackage.UIM_FIELD__CONTROL:
 				setControl((UimControl)null);
@@ -464,11 +646,14 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 			case UimPackage.UIM_FIELD__CONTROL_KIND:
 				setControlKind(CONTROL_KIND_EDEFAULT);
 				return;
-			case UimPackage.UIM_FIELD__LABEL_WIDTH:
-				setLabelWidth(LABEL_WIDTH_EDEFAULT);
+			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
+				setMinimumLabelWidth(MINIMUM_LABEL_WIDTH_EDEFAULT);
 				return;
 			case UimPackage.UIM_FIELD__BINDING:
 				setBinding((FieldBinding)null);
+				return;
+			case UimPackage.UIM_FIELD__ORIENTATION:
+				setOrientation(ORIENTATION_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -484,16 +669,24 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 		switch (featureID) {
 			case UimPackage.UIM_FIELD__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case UimPackage.UIM_FIELD__PARENT:
-				return getParent() != null;
+			case UimPackage.UIM_FIELD__PREFERRED_WIDTH:
+				return PREFERRED_WIDTH_EDEFAULT == null ? preferredWidth != null : !PREFERRED_WIDTH_EDEFAULT.equals(preferredWidth);
+			case UimPackage.UIM_FIELD__PREFERRED_HEIGHT:
+				return PREFERRED_HEIGHT_EDEFAULT == null ? preferredHeight != null : !PREFERRED_HEIGHT_EDEFAULT.equals(preferredHeight);
+			case UimPackage.UIM_FIELD__FILL_HORIZONTALLY:
+				return FILL_HORIZONTALLY_EDEFAULT == null ? fillHorizontally != null : !FILL_HORIZONTALLY_EDEFAULT.equals(fillHorizontally);
+			case UimPackage.UIM_FIELD__FILL_VERTICALLY:
+				return FILL_VERTICALLY_EDEFAULT == null ? fillVertically != null : !FILL_VERTICALLY_EDEFAULT.equals(fillVertically);
 			case UimPackage.UIM_FIELD__CONTROL:
 				return control != null;
 			case UimPackage.UIM_FIELD__CONTROL_KIND:
 				return controlKind != CONTROL_KIND_EDEFAULT;
-			case UimPackage.UIM_FIELD__LABEL_WIDTH:
-				return LABEL_WIDTH_EDEFAULT == null ? labelWidth != null : !LABEL_WIDTH_EDEFAULT.equals(labelWidth);
+			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
+				return MINIMUM_LABEL_WIDTH_EDEFAULT == null ? minimumLabelWidth != null : !MINIMUM_LABEL_WIDTH_EDEFAULT.equals(minimumLabelWidth);
 			case UimPackage.UIM_FIELD__BINDING:
 				return binding != null;
+			case UimPackage.UIM_FIELD__ORIENTATION:
+				return orientation != ORIENTATION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -516,9 +709,12 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 				default: return -1;
 			}
 		}
-		if (baseClass == OutlayableComponent.class) {
+		if (baseClass == Outlayable.class) {
 			switch (derivedFeatureID) {
-				case UimPackage.UIM_FIELD__PARENT: return LayoutPackage.OUTLAYABLE_COMPONENT__PARENT;
+				case UimPackage.UIM_FIELD__PREFERRED_WIDTH: return PanelPackage.OUTLAYABLE__PREFERRED_WIDTH;
+				case UimPackage.UIM_FIELD__PREFERRED_HEIGHT: return PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT;
+				case UimPackage.UIM_FIELD__FILL_HORIZONTALLY: return PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY;
+				case UimPackage.UIM_FIELD__FILL_VERTICALLY: return PanelPackage.OUTLAYABLE__FILL_VERTICALLY;
 				default: return -1;
 			}
 		}
@@ -543,9 +739,12 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 				default: return -1;
 			}
 		}
-		if (baseClass == OutlayableComponent.class) {
+		if (baseClass == Outlayable.class) {
 			switch (baseFeatureID) {
-				case LayoutPackage.OUTLAYABLE_COMPONENT__PARENT: return UimPackage.UIM_FIELD__PARENT;
+				case PanelPackage.OUTLAYABLE__PREFERRED_WIDTH: return UimPackage.UIM_FIELD__PREFERRED_WIDTH;
+				case PanelPackage.OUTLAYABLE__PREFERRED_HEIGHT: return UimPackage.UIM_FIELD__PREFERRED_HEIGHT;
+				case PanelPackage.OUTLAYABLE__FILL_HORIZONTALLY: return UimPackage.UIM_FIELD__FILL_HORIZONTALLY;
+				case PanelPackage.OUTLAYABLE__FILL_VERTICALLY: return UimPackage.UIM_FIELD__FILL_VERTICALLY;
 				default: return -1;
 			}
 		}
@@ -564,10 +763,20 @@ public class UimFieldImpl extends EditableSecureObjectImpl implements UimField {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", preferredWidth: ");
+		result.append(preferredWidth);
+		result.append(", preferredHeight: ");
+		result.append(preferredHeight);
+		result.append(", fillHorizontally: ");
+		result.append(fillHorizontally);
+		result.append(", fillVertically: ");
+		result.append(fillVertically);
 		result.append(", controlKind: ");
 		result.append(controlKind);
-		result.append(", labelWidth: ");
-		result.append(labelWidth);
+		result.append(", minimumLabelWidth: ");
+		result.append(minimumLabelWidth);
+		result.append(", orientation: ");
+		result.append(orientation);
 		result.append(')');
 		return result.toString();
 	}

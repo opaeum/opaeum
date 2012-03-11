@@ -1,12 +1,8 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.action;
 
-import org.opaeum.uim.layout.OutlayableComponent;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,5 +18,5 @@ import org.opaeum.uim.layout.OutlayableComponent;
  * @model abstract="true"
  * @generated
  */
-public interface UimNavigation extends OutlayableComponent {
+public interface UimNavigation extends EObject {
 } // UimNavigation

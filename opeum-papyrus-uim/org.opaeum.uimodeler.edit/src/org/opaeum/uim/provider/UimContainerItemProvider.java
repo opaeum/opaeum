@@ -174,7 +174,12 @@ public class UimContainerItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 EditorFactory.eINSTANCE.createActionBar()));
+				 UimFactory.eINSTANCE.createAbstractActionBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
+				 EditorFactory.eINSTANCE.createEditorActionBar()));
 
 		newChildDescriptors.add
 			(createChildParameter

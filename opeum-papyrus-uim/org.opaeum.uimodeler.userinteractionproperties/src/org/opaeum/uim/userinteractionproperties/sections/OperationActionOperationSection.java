@@ -8,9 +8,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.uml2.uml.Operation;
-import org.opaeum.uim.UimDataTable;
+import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.opaeum.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
@@ -50,7 +49,10 @@ public class OperationActionOperationSection extends OpaeumChooserPropertySectio
 	 * @generated
 	 */
 	protected Object getFeatureValue(){
-		return UmlUimLinks.getCurrentUmlLinks().getOperation((OperationAction) getEObject());
+		return UmlUimLinks.getCurrentUmlLinks(getOperationAction()).getOperation(getOperationAction());
+	}
+	private OperationAction getOperationAction(){
+		return (OperationAction) getEObject();
 	}
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -61,8 +63,8 @@ public class OperationActionOperationSection extends OpaeumChooserPropertySectio
 	protected Object[] getComboFeatureValues(){
 		Collection<Operation> results = new ArrayList<Operation>();
 		if(getEObject() instanceof OperationAction){
-			OperationAction oa = (OperationAction) getEObject();
-			results.addAll(UmlUimLinks.getCurrentUmlLinks().getNearestClass(oa).getAllOperations());
+			OperationAction oa = getOperationAction();
+			results.addAll(UmlUimLinks.getCurrentUmlLinks(oa).getNearestClass(oa).getAllOperations());
 		}
 		return getParameterlessOperations(results);
 	}

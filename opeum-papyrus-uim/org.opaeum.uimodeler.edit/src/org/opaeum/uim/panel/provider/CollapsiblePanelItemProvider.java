@@ -56,9 +56,101 @@ public class CollapsiblePanelItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addPreferredWidthPropertyDescriptor(object);
+			addPreferredHeightPropertyDescriptor(object);
+			addFillHorizontallyPropertyDescriptor(object);
+			addFillVerticallyPropertyDescriptor(object);
 			addIsCollapsiblePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Preferred Width feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreferredWidthPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_preferredWidth_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_preferredWidth_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__PREFERRED_WIDTH,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Preferred Height feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPreferredHeightPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_preferredHeight_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_preferredHeight_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__PREFERRED_HEIGHT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Fill Horizontally feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFillHorizontallyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_fillHorizontally_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_fillHorizontally_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__FILL_HORIZONTALLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Fill Vertically feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addFillVerticallyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Outlayable_fillVertically_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Outlayable_fillVertically_feature", "_UI_Outlayable_type"),
+				 PanelPackage.Literals.OUTLAYABLE__FILL_VERTICALLY,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -120,6 +212,10 @@ public class CollapsiblePanelItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(CollapsiblePanel.class)) {
+			case PanelPackage.COLLAPSIBLE_PANEL__PREFERRED_WIDTH:
+			case PanelPackage.COLLAPSIBLE_PANEL__PREFERRED_HEIGHT:
+			case PanelPackage.COLLAPSIBLE_PANEL__FILL_HORIZONTALLY:
+			case PanelPackage.COLLAPSIBLE_PANEL__FILL_VERTICALLY:
 			case PanelPackage.COLLAPSIBLE_PANEL__IS_COLLAPSIBLE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;

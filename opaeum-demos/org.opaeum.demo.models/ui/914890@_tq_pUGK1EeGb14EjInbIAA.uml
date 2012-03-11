@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_R7mTIGtSEeGddohL1nLcJA" umlElementUid="914890@_tq_pUGK1EeGb14EjInbIAA">
+  <primaryEditor xmi:id="_R7mTIWtSEeGddohL1nLcJA" umlElementUid="914890@_tq_pUGK1EeGb14EjInbIAA" name="EditDocumentVerifier"><actionBar xmi:id="_R7tn4GtSEeGddohL1nLcJA">
+      <children xmi:type="uact:BuiltInAction" xmi:id="_R7tn4WtSEeGddohL1nLcJA" name="Update"/>
+      <children xmi:type="uact:BuiltInAction" xmi:id="_R7tn4mtSEeGddohL1nLcJA" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_R7ovYGtSEeGddohL1nLcJA" name="Edit Details">
+      <panel xmi:type="panel:GridPanel" xmi:id="_R7ovYWtSEeGddohL1nLcJA" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_R7rLoGtSEeGddohL1nLcJA" name="Represented person" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_R7rysGtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7rysWtSEeGddohL1nLcJA" umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7rysmtSEeGddohL1nLcJA" name="Initiated requests" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7rys2tSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7rytGtSEeGddohL1nLcJA" umlElementUid="252060@_rz7zsI6TEeCne5ArYLDbiA"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7rytWtSEeGddohL1nLcJA" name="Managed requests" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7rytmtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7ryt2tSEeGddohL1nLcJA" umlElementUid="252060@_jSstQI6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7ryuGtSEeGddohL1nLcJA" name="Interesting requests" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7ryuWtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7ryumtSEeGddohL1nLcJA" umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7sZwGtSEeGddohL1nLcJA" name="Owned task requests" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7sZwWtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7sZwmtSEeGddohL1nLcJA" umlElementUid="252060@_NYHP0I6mEeCFsPOcAnk69Q"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7sZw2tSEeGddohL1nLcJA" name="Participations in tasks" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7sZxGtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7sZxWtSEeGddohL1nLcJA" umlElementUid="252060@_DIGv8JBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7sZxmtSEeGddohL1nLcJA" name="Participations in requests" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7sZx2tSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7sZyGtSEeGddohL1nLcJA" umlElementUid="252060@_TfLFAJBkEeCWM9wKKqKWag"/>
+        </children>
+      </panel>
+    </pages><pages xmi:id="_R7tA0GtSEeGddohL1nLcJA" name="Participation">
+      <panel xmi:type="panel:GridPanel" xmi:id="_R7tA0WtSEeGddohL1nLcJA">
+        <children xmi:type="uim:UimDataTable" xmi:id="_R7tA0mtSEeGddohL1nLcJA" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uim:UimField" xmi:id="_R7tA1GtSEeGddohL1nLcJA" name="Participant" preferredWidth="200" controlKind="text" minimumLabelWidth="0">
+            <control xmi:type="ctl:UimText" xmi:id="_R7tA1WtSEeGddohL1nLcJA"/>
+            <binding xmi:id="_R7tA1mtSEeGddohL1nLcJA" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
+          </children>
+          <children xmi:type="uim:UimField" xmi:id="_o7v_kGtTEeGddohL1nLcJA" name="blue" preferredWidth="200" controlKind="text">
+            <control xmi:type="ctl:UimText" xmi:id="_xAn_gGtUEeGddohL1nLcJA"/>
+            <binding xmi:id="_x21OwGtUEeGddohL1nLcJA" umlElementUid="252060@_3YyGlIoXEeCPduia_-NbFw"/>
+          </children>
+          <children xmi:type="uim:UimField" xmi:id="_30YLQGtUEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7tA02tSEeGddohL1nLcJA" umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInAction" xmi:id="_y7TY8GtTEeGddohL1nLcJA" name="lkjlkjlkj" preferredWidth="120"/>
+        </children>
+      </panel>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_R7tn42tSEeGddohL1nLcJA" name="CreateDocumentVerifier" umlElementUid="914890@_tq_pUGK1EeGb14EjInbIAA">
+    <pages xmi:id="_R7uO8GtSEeGddohL1nLcJA" name="Edit Details">
+      <panel xmi:type="panel:GridPanel" xmi:id="_R7uO8WtSEeGddohL1nLcJA" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_R7uO8mtSEeGddohL1nLcJA" name="Represented person" preferredWidth="100" preferredHeight="20" fillHorizontally="false" fillVertically="false" controlKind="dropdown" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimDropdown" xmi:id="_R7uO82tSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7uO9GtSEeGddohL1nLcJA" umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7uO9WtSEeGddohL1nLcJA" name="Initiated requests" preferredWidth="100" fillHorizontally="false" fillVertically="false" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7uO9mtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7uO92tSEeGddohL1nLcJA" umlElementUid="252060@_rz7zsI6TEeCne5ArYLDbiA"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7uO-GtSEeGddohL1nLcJA" name="Managed requests" fillHorizontally="false" fillVertically="false" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7uO-WtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7uO-mtSEeGddohL1nLcJA" umlElementUid="252060@_jSstQI6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7uO-2tSEeGddohL1nLcJA" name="Interesting requests" fillHorizontally="false" fillVertically="false" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7uO_GtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7uO_WtSEeGddohL1nLcJA" umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7uO_mtSEeGddohL1nLcJA" name="Owned task requests" preferredWidth="400" preferredHeight="200" fillHorizontally="false" fillVertically="false" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7uO_2tSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7uPAGtSEeGddohL1nLcJA" umlElementUid="252060@_NYHP0I6mEeCFsPOcAnk69Q"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7u2AGtSEeGddohL1nLcJA" name="Participations in tasks" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7u2AWtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7u2AmtSEeGddohL1nLcJA" umlElementUid="252060@_DIGv8JBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_R7u2A2tSEeGddohL1nLcJA" name="Participations in requests" preferredHeight="100" fillHorizontally="false" fillVertically="false" controlKind="multiSelectListBox" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimMultiSelectListBox" xmi:id="_R7u2BGtSEeGddohL1nLcJA"/>
+          <binding xmi:id="_R7u2BWtSEeGddohL1nLcJA" umlElementUid="252060@_TfLFAJBkEeCWM9wKKqKWag"/>
+        </children>
+        <children xmi:type="uact:BuiltInAction" xmi:id="_W22HgGuGEeGE1IKqegFJ5g" name="pokpokokpko" fillHorizontally="true" fillVertically="false"/>
+      </panel>
+    </pages>
+    <pages xmi:id="_R7u2BmtSEeGddohL1nLcJA" name="Participation">
+      <panel xmi:type="panel:GridPanel" xmi:id="_R7u2B2tSEeGddohL1nLcJA">
+        <children xmi:type="uim:UimDataTable" xmi:id="_R7u2CGtSEeGddohL1nLcJA" name="lkjlkj" preferredWidth="400" preferredHeight="100" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uim:UimField" xmi:id="_SdIcoGuDEeGE1IKqegFJ5g" name="1234"/>
+          <children xmi:type="uact:OperationAction" xmi:id="_g9GQsGuEEeGE1IKqegFJ5g" name="qwer">
+            <popup xmi:id="_g9GQsWuEEeGE1IKqegFJ5g"/>
+          </children>
+          <children xmi:type="uact:OperationAction" xmi:id="_tDh1AGuaEeG2z7f4D432wQ" name="qdqwedqwedqwedqwd">
+            <popup xmi:id="_tDicEGuaEeG2z7f4D432wQ">
+              <panel xmi:type="panel:GridPanel" xmi:id="_l-ZTcGucEeGp5p3R-OVKQQ" name="Do stuff"/>
+            </popup>
+          </children>
+          <binding xmi:id="_R7u2CWtSEeGddohL1nLcJA" umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInAction" xmi:id="_Xu87kGuDEeGE1IKqegFJ5g" name="ACtion 123"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInAction" xmi:id="_b9imcGuEEeGE1IKqegFJ5g" name="pokpokopkokk"/>
+          <actionsOnMultipleSelection xmi:type="uact:BuiltInAction" xmi:id="_tlk-sGuFEeGE1IKqegFJ5g" name="oiuoiuoiuoiulkk"/>
+          <actionsOnMultipleSelection xmi:type="uact:OperationAction" xmi:id="_0oSFEGuIEeGYpac228pwaw" name="asdfasdfasdfa">
+            <popup xmi:id="_0oSFEWuIEeGYpac228pwaw"/>
+          </actionsOnMultipleSelection>
+          <actionsOnMultipleSelection xmi:type="uact:OperationAction" xmi:id="_W6AHMGucEeGp5p3R-OVKQQ" name="pokpokpokpok" preferredWidth="150">
+            <popup xmi:id="_W6BVUGucEeGp5p3R-OVKQQ"/>
+          </actionsOnMultipleSelection>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

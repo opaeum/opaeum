@@ -70,29 +70,6 @@ public class WizardItemProviderAdapterFactory extends WizardAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.AbstractWizard} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected AbstractWizardItemProvider abstractWizardItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.wizard.AbstractWizard}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createAbstractWizardAdapter() {
-		if (abstractWizardItemProvider == null) {
-			abstractWizardItemProvider = new AbstractWizardItemProvider(this);
-		}
-
-		return abstractWizardItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.wizard.NewObjectWizard} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -260,7 +237,6 @@ public class WizardItemProviderAdapterFactory extends WizardAdapterFactory imple
 	 * @generated
 	 */
 	public void dispose() {
-		if (abstractWizardItemProvider != null) abstractWizardItemProvider.dispose();
 		if (newObjectWizardItemProvider != null) newObjectWizardItemProvider.dispose();
 		if (invokeResponsibilityWizardItemProvider != null) invokeResponsibilityWizardItemProvider.dispose();
 		if (wizardPageItemProvider != null) wizardPageItemProvider.dispose();

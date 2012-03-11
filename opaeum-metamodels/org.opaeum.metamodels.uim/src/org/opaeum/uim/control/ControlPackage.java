@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.control;
 
@@ -71,13 +67,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_CONTROL = 13;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_CONTROL__WIDTH = 0;
+	int UIM_CONTROL__MIMUM_WIDTH = 0;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -89,13 +85,22 @@ public interface ControlPackage extends EPackage {
 	int UIM_CONTROL__FIELD = 1;
 
 	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CONTROL__MINIMUM_HEIGHT = 2;
+
+	/**
 	 * The number of structural features of the '<em>Uim Control</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_CONTROL_FEATURE_COUNT = 2;
+	int UIM_CONTROL_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimNumberScrollerImpl <em>Uim Number Scroller</em>}' class.
@@ -108,13 +113,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_NUMBER_SCROLLER = 0;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_NUMBER_SCROLLER__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_NUMBER_SCROLLER__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -124,6 +129,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_NUMBER_SCROLLER__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_NUMBER_SCROLLER__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The number of structural features of the '<em>Uim Number Scroller</em>' class.
@@ -145,13 +159,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_TOGGLE_BUTTON = 1;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_TOGGLE_BUTTON__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_TOGGLE_BUTTON__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -161,6 +175,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_TOGGLE_BUTTON__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_TOGGLE_BUTTON__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The number of structural features of the '<em>Uim Toggle Button</em>' class.
@@ -182,13 +205,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_LOOKUP = 8;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_LOOKUP__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_LOOKUP__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -198,6 +221,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_LOOKUP__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LOOKUP__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -228,13 +260,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_SINGLE_SELECT_POPUP_SEARCH = 2;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_SINGLE_SELECT_POPUP_SEARCH__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -244,6 +276,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_SINGLE_SELECT_POPUP_SEARCH__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SINGLE_SELECT_POPUP_SEARCH__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -274,13 +315,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_MULTI_SELECT_POPUP_SEARCH = 3;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_MULTI_SELECT_POPUP_SEARCH__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -290,6 +331,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_MULTI_SELECT_POPUP_SEARCH__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_MULTI_SELECT_POPUP_SEARCH__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -320,13 +370,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_MULTI_SELECT_TREE_VIEW = 4;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_MULTI_SELECT_TREE_VIEW__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_MULTI_SELECT_TREE_VIEW__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -336,6 +386,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_MULTI_SELECT_TREE_VIEW__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_MULTI_SELECT_TREE_VIEW__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -366,13 +425,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_MULTI_SELECT_LIST_BOX = 5;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_MULTI_SELECT_LIST_BOX__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_MULTI_SELECT_LIST_BOX__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -382,6 +441,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_MULTI_SELECT_LIST_BOX__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_MULTI_SELECT_LIST_BOX__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -412,13 +480,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_DROPDOWN = 6;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DROPDOWN__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_DROPDOWN__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -428,6 +496,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_DROPDOWN__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DROPDOWN__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -458,13 +535,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_CHECK_BOX = 7;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_CHECK_BOX__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_CHECK_BOX__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -474,6 +551,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_CHECK_BOX__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_CHECK_BOX__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The number of structural features of the '<em>Uim Check Box</em>' class.
@@ -495,13 +581,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_TEXT_AREA = 9;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_TEXT_AREA__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_TEXT_AREA__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -511,6 +597,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_TEXT_AREA__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_TEXT_AREA__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Rows</b></em>' attribute.
@@ -541,13 +636,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_TEXT = 10;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_TEXT__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_TEXT__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -557,6 +652,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_TEXT__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_TEXT__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The number of structural features of the '<em>Uim Text</em>' class.
@@ -578,13 +682,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_DATE_POPUP = 11;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_DATE_POPUP__WIDTH = UIM_CONTROL__WIDTH;
+	int UIM_DATE_POPUP__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -594,6 +698,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_DATE_POPUP__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_POPUP__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
 
 	/**
 	 * The number of structural features of the '<em>Uim Date Popup</em>' class.
@@ -615,13 +728,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_SINGLE_SELECT_LIST_BOX = 12;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_SINGLE_SELECT_LIST_BOX__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -631,6 +744,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_SINGLE_SELECT_LIST_BOX__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SINGLE_SELECT_LIST_BOX__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -670,13 +792,13 @@ public interface ControlPackage extends EPackage {
 	int UIM_SINGLE_SELECT_TREE_VIEW = 14;
 
 	/**
-	 * The feature id for the '<em><b>Width</b></em>' attribute.
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW__WIDTH = UIM_LOOKUP__WIDTH;
+	int UIM_SINGLE_SELECT_TREE_VIEW__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -686,6 +808,15 @@ public interface ControlPackage extends EPackage {
 	 * @ordered
 	 */
 	int UIM_SINGLE_SELECT_TREE_VIEW__FIELD = UIM_LOOKUP__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SINGLE_SELECT_TREE_VIEW__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -890,15 +1021,15 @@ public interface ControlPackage extends EPackage {
 	EClass getUimControl();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.uim.control.UimControl#getWidth <em>Width</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.control.UimControl#getMimumWidth <em>Mimum Width</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Width</em>'.
-	 * @see org.opaeum.uim.control.UimControl#getWidth()
+	 * @return the meta object for the attribute '<em>Mimum Width</em>'.
+	 * @see org.opaeum.uim.control.UimControl#getMimumWidth()
 	 * @see #getUimControl()
 	 * @generated
 	 */
-	EAttribute getUimControl_Width();
+	EAttribute getUimControl_MimumWidth();
 
 	/**
 	 * Returns the meta object for the container reference '{@link org.opaeum.uim.control.UimControl#getField <em>Field</em>}'.
@@ -910,6 +1041,17 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUimControl_Field();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.control.UimControl#getMinimumHeight <em>Minimum Height</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Minimum Height</em>'.
+	 * @see org.opaeum.uim.control.UimControl#getMinimumHeight()
+	 * @see #getUimControl()
+	 * @generated
+	 */
+	EAttribute getUimControl_MinimumHeight();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimSingleSelectTreeView <em>Uim Single Select Tree View</em>}'.
@@ -1118,12 +1260,12 @@ public interface ControlPackage extends EPackage {
 		EClass UIM_CONTROL = eINSTANCE.getUimControl();
 
 		/**
-		 * The meta object literal for the '<em><b>Width</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Mimum Width</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute UIM_CONTROL__WIDTH = eINSTANCE.getUimControl_Width();
+		EAttribute UIM_CONTROL__MIMUM_WIDTH = eINSTANCE.getUimControl_MimumWidth();
 
 		/**
 		 * The meta object literal for the '<em><b>Field</b></em>' container reference feature.
@@ -1132,6 +1274,14 @@ public interface ControlPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UIM_CONTROL__FIELD = eINSTANCE.getUimControl_Field();
+
+		/**
+		 * The meta object literal for the '<em><b>Minimum Height</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute UIM_CONTROL__MINIMUM_HEIGHT = eINSTANCE.getUimControl_MinimumHeight();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimSingleSelectTreeViewImpl <em>Uim Single Select Tree View</em>}' class.

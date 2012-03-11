@@ -1,12 +1,7 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim;
 
-import org.opaeum.uim.layout.OutlayableComponent;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,5 +13,5 @@ import org.opaeum.uim.layout.OutlayableComponent;
  * @model
  * @generated
  */
-public interface ObjectSelectorTree extends MasterComponent, OutlayableComponent {
+public interface ObjectSelectorTree extends MasterComponent {
 } // ObjectSelectorTree

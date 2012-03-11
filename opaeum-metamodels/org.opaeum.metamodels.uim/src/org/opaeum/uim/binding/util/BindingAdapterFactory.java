@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.binding.util;
 
@@ -11,7 +7,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.binding.*;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;

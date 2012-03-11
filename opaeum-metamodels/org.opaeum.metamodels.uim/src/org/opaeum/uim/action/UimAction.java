@@ -1,12 +1,9 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.action;
 
-import org.opaeum.uim.layout.OutlayableComponent;
+import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.panel.Outlayable;
 
 /**
  * <!-- begin-user-doc -->
@@ -22,5 +19,5 @@ import org.opaeum.uim.layout.OutlayableComponent;
  * @model abstract="true"
  * @generated
  */
-public interface UimAction extends OutlayableComponent {
+public interface UimAction extends UimComponent, Outlayable {
 } // UimAction

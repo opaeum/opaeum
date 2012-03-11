@@ -36,7 +36,7 @@ public class OpaeumPageListener implements IStartup{
 		private IWorkbenchWindow window;
 		Stack<EObject> selection = new Stack<EObject>();
 		public PapyrusEObjectSelectorUI(IWorkbenchWindow workbenchWindow){
-			this.window=workbenchWindow;
+			this.window = workbenchWindow;
 		}
 		public void gotoEObject(EObject key){
 			for(IViewReference vr:window.getActivePage().getViewReferences()){
@@ -87,9 +87,11 @@ public class OpaeumPageListener implements IStartup{
 			if(part instanceof PapyrusMultiDiagramEditor){
 				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) part;
 				IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
-				OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
-				if(result != null){
-					result.onClose(umlFile);
+				if(!umlFile.getParent().getName().equals("ui")){
+					OpaeumEclipseContext result = OpaeumEclipseContext.getContextFor(umlFile.getParent());
+					if(result != null){
+						result.onClose(umlFile);
+					}
 				}
 			}
 		}
@@ -123,30 +125,32 @@ public class OpaeumPageListener implements IStartup{
 	}
 	private void associateOpaeumContext(PapyrusMultiDiagramEditor e){
 		final IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
-		final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
-		((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
-		if(result.getEditingContextFor(umlFile) == null){
+		if(!umlFile.getParent().getName().equals("ui")){
+			final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
 			((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
-			result.startSynch(e.getEditingDomain(), umlFile);
-			result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(e.getSite().getWorkbenchWindow()));
-			ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
-			saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
-				public boolean isSaveOnCloseNeeded(){
-					return true;
-				}
-				public boolean isSaveAsAllowed(){
-					return false;
-				}
-				public boolean isDirty(){
-					return true;
-				}
-				public void doSaveAs(){
-				}
-				public void doSave(IProgressMonitor monitor){
-					result.onSave(monitor, umlFile);
-				}
-			});
-			result.setCurrentEditContext(e.getEditingDomain(), umlFile, result.geteObjectSelectorUI());
+			if(result.getEditingContextFor(umlFile) == null){
+				((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
+				result.startSynch(e.getEditingDomain(), umlFile);
+				result.seteObjectSelectorUI(new PapyrusEObjectSelectorUI(e.getSite().getWorkbenchWindow()));
+				ISaveAndDirtyService saveAndDirtyService = getSaveAndDirtyService(e);
+				saveAndDirtyService.registerIsaveablePart(new ISaveablePart(){
+					public boolean isSaveOnCloseNeeded(){
+						return true;
+					}
+					public boolean isSaveAsAllowed(){
+						return false;
+					}
+					public boolean isDirty(){
+						return true;
+					}
+					public void doSaveAs(){
+					}
+					public void doSave(IProgressMonitor monitor){
+						result.onSave(monitor, umlFile);
+					}
+				});
+				result.setCurrentEditContext(e.getEditingDomain(), umlFile, result.geteObjectSelectorUI());
+			}
 		}
 	}
 	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){

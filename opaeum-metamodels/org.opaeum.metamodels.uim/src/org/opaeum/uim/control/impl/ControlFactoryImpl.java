@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.control.impl;
 
@@ -12,7 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opaeum.uim.control.*;
 import org.opaeum.uim.control.ControlFactory;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.ControlPackage;

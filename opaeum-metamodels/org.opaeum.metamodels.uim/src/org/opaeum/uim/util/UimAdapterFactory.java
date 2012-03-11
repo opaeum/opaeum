@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.util;
 
@@ -10,23 +6,27 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.opaeum.uim.*;
+import org.opaeum.uim.AbstractActionBar;
+import org.opaeum.uim.ClassUserInteractionModel;
+import org.opaeum.uim.DetailComponent;
 import org.opaeum.uim.MasterComponent;
 import org.opaeum.uim.ObjectSelectorTree;
+import org.opaeum.uim.Page;
+import org.opaeum.uim.PanelClass;
+import org.opaeum.uim.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.UimPanel;
-import org.opaeum.uim.UimTab;
-import org.opaeum.uim.UimTabPanel;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.layout.LayoutContainer;
-import org.opaeum.uim.layout.OutlayableComponent;
-import org.opaeum.uim.security.EditableSecureObject;
-import org.opaeum.uim.security.SecureObject;
+import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.panel.AbstractPanel;
+import org.opaeum.uim.panel.Outlayable;
 
 /**
  * <!-- begin-user-doc -->
@@ -101,14 +101,6 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 				return createUimDataTableAdapter();
 			}
 			@Override
-			public Adapter caseUimTabPanel(UimTabPanel object) {
-				return createUimTabPanelAdapter();
-			}
-			@Override
-			public Adapter caseUimTab(UimTab object) {
-				return createUimTabAdapter();
-			}
-			@Override
 			public Adapter caseUimContainer(UimContainer object) {
 				return createUimContainerAdapter();
 			}
@@ -121,28 +113,56 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 				return createUmlReferenceAdapter();
 			}
 			@Override
-			public Adapter caseUimPanel(UimPanel object) {
-				return createUimPanelAdapter();
-			}
-			@Override
 			public Adapter caseObjectSelectorTree(ObjectSelectorTree object) {
 				return createObjectSelectorTreeAdapter();
 			}
 			@Override
-			public Adapter caseSecureObject(SecureObject object) {
-				return createSecureObjectAdapter();
+			public Adapter caseDetailComponent(DetailComponent object) {
+				return createDetailComponentAdapter();
 			}
 			@Override
-			public Adapter caseEditableSecureObject(EditableSecureObject object) {
-				return createEditableSecureObjectAdapter();
+			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
+				return createUserInterfaceEntryPointAdapter();
 			}
 			@Override
-			public Adapter caseOutlayableComponent(OutlayableComponent object) {
-				return createOutlayableComponentAdapter();
+			public Adapter casePage(Page object) {
+				return createPageAdapter();
 			}
 			@Override
-			public Adapter caseLayoutContainer(LayoutContainer object) {
-				return createLayoutContainerAdapter();
+			public Adapter caseUserInterface(UserInterface object) {
+				return createUserInterfaceAdapter();
+			}
+			@Override
+			public Adapter casePanelClass(PanelClass object) {
+				return createPanelClassAdapter();
+			}
+			@Override
+			public Adapter caseClassUserInteractionModel(ClassUserInteractionModel object) {
+				return createClassUserInteractionModelAdapter();
+			}
+			@Override
+			public Adapter caseResponsibilityUserInteractionModel(ResponsibilityUserInteractionModel object) {
+				return createResponsibilityUserInteractionModelAdapter();
+			}
+			@Override
+			public Adapter caseAbstractActionBar(AbstractActionBar object) {
+				return createAbstractActionBarAdapter();
+			}
+			@Override
+			public Adapter caseConstrainedObject(ConstrainedObject object) {
+				return createConstrainedObjectAdapter();
+			}
+			@Override
+			public Adapter caseEditableConstrainedObject(EditableConstrainedObject object) {
+				return createEditableConstrainedObjectAdapter();
+			}
+			@Override
+			public Adapter caseOutlayable(Outlayable object) {
+				return createOutlayableAdapter();
+			}
+			@Override
+			public Adapter caseAbstractPanel(AbstractPanel object) {
+				return createAbstractPanelAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -221,34 +241,6 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimTabPanel <em>Tab Panel</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimTabPanel
-	 * @generated
-	 */
-	public Adapter createUimTabPanelAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimTab <em>Tab</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimTab
-	 * @generated
-	 */
-	public Adapter createUimTabAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimContainer <em>Container</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -291,20 +283,6 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UimPanel <em>Panel</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.UimPanel
-	 * @generated
-	 */
-	public Adapter createUimPanelAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.ObjectSelectorTree <em>Object Selector Tree</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -319,58 +297,170 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.SecureObject <em>Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.DetailComponent <em>Detail Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.security.SecureObject
+	 * @see org.opaeum.uim.DetailComponent
 	 * @generated
 	 */
-	public Adapter createSecureObjectAdapter() {
+	public Adapter createDetailComponentAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.security.EditableSecureObject <em>Editable Secure Object</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterfaceEntryPoint <em>User Interface Entry Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.security.EditableSecureObject
+	 * @see org.opaeum.uim.UserInterfaceEntryPoint
 	 * @generated
 	 */
-	public Adapter createEditableSecureObjectAdapter() {
+	public Adapter createUserInterfaceEntryPointAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.OutlayableComponent <em>Outlayable Component</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.Page <em>Page</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.layout.OutlayableComponent
+	 * @see org.opaeum.uim.Page
 	 * @generated
 	 */
-	public Adapter createOutlayableComponentAdapter() {
+	public Adapter createPageAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.layout.LayoutContainer <em>Container</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.layout.LayoutContainer
+	 * @see org.opaeum.uim.UserInterface
 	 * @generated
 	 */
-	public Adapter createLayoutContainerAdapter() {
+	public Adapter createUserInterfaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PanelClass <em>Panel Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.PanelClass
+	 * @generated
+	 */
+	public Adapter createPanelClassAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.ClassUserInteractionModel <em>Class User Interaction Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.ClassUserInteractionModel
+	 * @generated
+	 */
+	public Adapter createClassUserInteractionModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.ResponsibilityUserInteractionModel <em>Responsibility User Interaction Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.ResponsibilityUserInteractionModel
+	 * @generated
+	 */
+	public Adapter createResponsibilityUserInteractionModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.AbstractActionBar <em>Abstract Action Bar</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.AbstractActionBar
+	 * @generated
+	 */
+	public Adapter createAbstractActionBarAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.constraint.ConstrainedObject <em>Constrained Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.constraint.ConstrainedObject
+	 * @generated
+	 */
+	public Adapter createConstrainedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.constraint.EditableConstrainedObject <em>Editable Constrained Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.constraint.EditableConstrainedObject
+	 * @generated
+	 */
+	public Adapter createEditableConstrainedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.panel.Outlayable <em>Outlayable</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.panel.Outlayable
+	 * @generated
+	 */
+	public Adapter createOutlayableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.panel.AbstractPanel <em>Abstract Panel</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.panel.AbstractPanel
+	 * @generated
+	 */
+	public Adapter createAbstractPanelAdapter() {
 		return null;
 	}
 

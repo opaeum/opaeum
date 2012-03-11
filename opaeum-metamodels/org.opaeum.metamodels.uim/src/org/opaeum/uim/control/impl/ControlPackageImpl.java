@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.control.impl;
 
@@ -18,6 +14,8 @@ import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.impl.ActionPackageImpl;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlFactory;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.control.ControlPackage;
@@ -36,15 +34,15 @@ import org.opaeum.uim.control.UimSingleSelectTreeView;
 import org.opaeum.uim.control.UimText;
 import org.opaeum.uim.control.UimTextArea;
 import org.opaeum.uim.control.UimToggleButton;
-import org.opaeum.uim.folder.FolderPackage;
-import org.opaeum.uim.folder.impl.FolderPackageImpl;
-import org.opaeum.uim.form.FormPackage;
-import org.opaeum.uim.form.impl.FormPackageImpl;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
-import org.opaeum.uim.layout.LayoutPackage;
-import org.opaeum.uim.layout.impl.LayoutPackageImpl;
-import org.opaeum.uim.security.SecurityPackage;
-import org.opaeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.panel.PanelPackage;
+import org.opaeum.uim.panel.impl.PanelPackageImpl;
+import org.opaeum.uim.perspective.PerspectivePackage;
+import org.opaeum.uim.perspective.impl.PerspectivePackageImpl;
+import org.opaeum.uim.wizard.WizardPackage;
+import org.opaeum.uim.wizard.impl.WizardPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -216,32 +214,35 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 
 		// Obtain or create and register interdependencies
 		UimPackageImpl theUimPackage = (UimPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI) instanceof UimPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI) : UimPackage.eINSTANCE);
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) : LayoutPackage.eINSTANCE);
-		FolderPackageImpl theFolderPackage = (FolderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) instanceof FolderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) : FolderPackage.eINSTANCE);
-		FormPackageImpl theFormPackage = (FormPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) instanceof FormPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) : FormPackage.eINSTANCE);
+		EditorPackageImpl theEditorPackage = (EditorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) instanceof EditorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) : EditorPackage.eINSTANCE);
 		BindingPackageImpl theBindingPackage = (BindingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI) instanceof BindingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI) : BindingPackage.eINSTANCE);
-		SecurityPackageImpl theSecurityPackage = (SecurityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) instanceof SecurityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) : SecurityPackage.eINSTANCE);
+		ConstraintPackageImpl theConstraintPackage = (ConstraintPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) instanceof ConstraintPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) : ConstraintPackage.eINSTANCE);
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
+		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
+		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
+		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theControlPackage.createPackageContents();
 		theUimPackage.createPackageContents();
-		theLayoutPackage.createPackageContents();
-		theFolderPackage.createPackageContents();
-		theFormPackage.createPackageContents();
+		theEditorPackage.createPackageContents();
 		theBindingPackage.createPackageContents();
-		theSecurityPackage.createPackageContents();
+		theConstraintPackage.createPackageContents();
 		theActionPackage.createPackageContents();
+		thePanelPackage.createPackageContents();
+		theWizardPackage.createPackageContents();
+		thePerspectivePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theControlPackage.initializePackageContents();
 		theUimPackage.initializePackageContents();
-		theLayoutPackage.initializePackageContents();
-		theFolderPackage.initializePackageContents();
-		theFormPackage.initializePackageContents();
+		theEditorPackage.initializePackageContents();
 		theBindingPackage.initializePackageContents();
-		theSecurityPackage.initializePackageContents();
+		theConstraintPackage.initializePackageContents();
 		theActionPackage.initializePackageContents();
+		thePanelPackage.initializePackageContents();
+		theWizardPackage.initializePackageContents();
+		thePerspectivePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theControlPackage.freeze();
@@ -410,7 +411,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUimControl_Width() {
+	public EAttribute getUimControl_MimumWidth() {
 		return (EAttribute)uimControlEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -421,6 +422,15 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 */
 	public EReference getUimControl_Field() {
 		return (EReference)uimControlEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUimControl_MinimumHeight() {
+		return (EAttribute)uimControlEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -499,8 +509,9 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		createEAttribute(uimSingleSelectListBoxEClass, UIM_SINGLE_SELECT_LIST_BOX__ROWS);
 
 		uimControlEClass = createEClass(UIM_CONTROL);
-		createEAttribute(uimControlEClass, UIM_CONTROL__WIDTH);
+		createEAttribute(uimControlEClass, UIM_CONTROL__MIMUM_WIDTH);
 		createEReference(uimControlEClass, UIM_CONTROL__FIELD);
+		createEAttribute(uimControlEClass, UIM_CONTROL__MINIMUM_HEIGHT);
 
 		uimSingleSelectTreeViewEClass = createEClass(UIM_SINGLE_SELECT_TREE_VIEW);
 
@@ -587,8 +598,9 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		initEAttribute(getUimSingleSelectListBox_Rows(), theEcorePackage.getEIntegerObject(), "rows", null, 0, 1, UimSingleSelectListBox.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimControlEClass, UimControl.class, "UimControl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUimControl_Width(), ecorePackage.getEString(), "width", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUimControl_MimumWidth(), ecorePackage.getEString(), "mimumWidth", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUimControl_Field(), theUimPackage.getUimField(), theUimPackage.getUimField_Control(), "field", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUimControl_MinimumHeight(), theEcorePackage.getEIntegerObject(), "minimumHeight", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimSingleSelectTreeViewEClass, UimSingleSelectTreeView.class, "UimSingleSelectTreeView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

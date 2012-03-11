@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.control;
 
@@ -17,8 +13,9 @@ import org.opaeum.uim.UimField;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.opaeum.uim.control.UimControl#getWidth <em>Width</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.UimControl#getMimumWidth <em>Mimum Width</em>}</li>
  *   <li>{@link org.opaeum.uim.control.UimControl#getField <em>Field</em>}</li>
+ *   <li>{@link org.opaeum.uim.control.UimControl#getMinimumHeight <em>Minimum Height</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,30 +25,30 @@ import org.opaeum.uim.UimField;
  */
 public interface UimControl extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Width</b></em>' attribute.
+	 * Returns the value of the '<em><b>Mimum Width</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Width</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Mimum Width</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Width</em>' attribute.
-	 * @see #setWidth(String)
-	 * @see org.opaeum.uim.control.ControlPackage#getUimControl_Width()
+	 * @return the value of the '<em>Mimum Width</em>' attribute.
+	 * @see #setMimumWidth(String)
+	 * @see org.opaeum.uim.control.ControlPackage#getUimControl_MimumWidth()
 	 * @model
 	 * @generated
 	 */
-	String getWidth();
+	String getMimumWidth();
 
 	/**
-	 * Sets the value of the '{@link org.opaeum.uim.control.UimControl#getWidth <em>Width</em>}' attribute.
+	 * Sets the value of the '{@link org.opaeum.uim.control.UimControl#getMimumWidth <em>Mimum Width</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Width</em>' attribute.
-	 * @see #getWidth()
+	 * @param value the new value of the '<em>Mimum Width</em>' attribute.
+	 * @see #getMimumWidth()
 	 * @generated
 	 */
-	void setWidth(String value);
+	void setMimumWidth(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Field</b></em>' container reference.
@@ -80,5 +77,31 @@ public interface UimControl extends EObject {
 	 * @generated
 	 */
 	void setField(UimField value);
+
+	/**
+	 * Returns the value of the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Minimum Height</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Minimum Height</em>' attribute.
+	 * @see #setMinimumHeight(Integer)
+	 * @see org.opaeum.uim.control.ControlPackage#getUimControl_MinimumHeight()
+	 * @model
+	 * @generated
+	 */
+	Integer getMinimumHeight();
+
+	/**
+	 * Sets the value of the '{@link org.opaeum.uim.control.UimControl#getMinimumHeight <em>Minimum Height</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Minimum Height</em>' attribute.
+	 * @see #getMinimumHeight()
+	 * @generated
+	 */
+	void setMinimumHeight(Integer value);
 
 } // UimControl

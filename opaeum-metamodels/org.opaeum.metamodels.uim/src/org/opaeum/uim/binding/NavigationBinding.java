@@ -1,12 +1,8 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.binding;
 
-import org.opaeum.uim.action.NavigationToEntity;
+import org.opaeum.uim.action.LinkToEntity;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,7 +23,7 @@ import org.opaeum.uim.action.NavigationToEntity;
 public interface NavigationBinding extends UimBinding {
 	/**
 	 * Returns the value of the '<em><b>Navigation</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.action.NavigationToEntity#getBinding <em>Binding</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.action.LinkToEntity#getBinding <em>Binding</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Navigation</em>' container reference isn't clear,
@@ -35,13 +31,13 @@ public interface NavigationBinding extends UimBinding {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Navigation</em>' container reference.
-	 * @see #setNavigation(NavigationToEntity)
+	 * @see #setNavigation(LinkToEntity)
 	 * @see org.opaeum.uim.binding.BindingPackage#getNavigationBinding_Navigation()
-	 * @see org.opaeum.uim.action.NavigationToEntity#getBinding
+	 * @see org.opaeum.uim.action.LinkToEntity#getBinding
 	 * @model opposite="binding" required="true" transient="false"
 	 * @generated
 	 */
-	NavigationToEntity getNavigation();
+	LinkToEntity getNavigation();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.uim.binding.NavigationBinding#getNavigation <em>Navigation</em>}' container reference.
@@ -51,6 +47,6 @@ public interface NavigationBinding extends UimBinding {
 	 * @see #getNavigation()
 	 * @generated
 	 */
-	void setNavigation(NavigationToEntity value);
+	void setNavigation(LinkToEntity value);
 
 } // NavigationBinding

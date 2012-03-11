@@ -1,44 +1,49 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package org.opaeum.uim.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.opaeum.uim.AbstractActionBar;
+import org.opaeum.uim.ClassUserInteractionModel;
+import org.opaeum.uim.DetailComponent;
 import org.opaeum.uim.MasterComponent;
 import org.opaeum.uim.ObjectSelectorTree;
+import org.opaeum.uim.Orientation;
+import org.opaeum.uim.Page;
+import org.opaeum.uim.PanelClass;
+import org.opaeum.uim.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimFactory;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.UimPanel;
-import org.opaeum.uim.UimTab;
-import org.opaeum.uim.UimTabPanel;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
+import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.impl.ActionPackageImpl;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.impl.BindingPackageImpl;
+import org.opaeum.uim.constraint.ConstraintPackage;
+import org.opaeum.uim.constraint.impl.ConstraintPackageImpl;
 import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.impl.ControlPackageImpl;
-import org.opaeum.uim.folder.FolderPackage;
-import org.opaeum.uim.folder.impl.FolderPackageImpl;
-import org.opaeum.uim.form.FormPackage;
-import org.opaeum.uim.form.impl.FormPackageImpl;
-import org.opaeum.uim.layout.LayoutPackage;
-import org.opaeum.uim.layout.impl.LayoutPackageImpl;
-import org.opaeum.uim.security.SecurityPackage;
-import org.opaeum.uim.security.impl.SecurityPackageImpl;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uim.editor.impl.EditorPackageImpl;
+import org.opaeum.uim.panel.PanelPackage;
+import org.opaeum.uim.panel.impl.PanelPackageImpl;
+import org.opaeum.uim.perspective.PerspectivePackage;
+import org.opaeum.uim.perspective.impl.PerspectivePackageImpl;
+import org.opaeum.uim.wizard.WizardPackage;
+import org.opaeum.uim.wizard.impl.WizardPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,20 +85,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimTabPanelEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass uimTabEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass uimContainerEClass = null;
 
 	/**
@@ -115,14 +106,70 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimPanelEClass = null;
+	private EClass objectSelectorTreeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass objectSelectorTreeEClass = null;
+	private EClass detailComponentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass userInterfaceEntryPointEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass pageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass userInterfaceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass panelClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass classUserInteractionModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass responsibilityUserInteractionModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass abstractActionBarEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum orientationEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -174,33 +221,36 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		EcorePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI) : LayoutPackage.eINSTANCE);
 		ControlPackageImpl theControlPackage = (ControlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI) instanceof ControlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI) : ControlPackage.eINSTANCE);
-		FolderPackageImpl theFolderPackage = (FolderPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) instanceof FolderPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI) : FolderPackage.eINSTANCE);
-		FormPackageImpl theFormPackage = (FormPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) instanceof FormPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI) : FormPackage.eINSTANCE);
+		EditorPackageImpl theEditorPackage = (EditorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) instanceof EditorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI) : EditorPackage.eINSTANCE);
 		BindingPackageImpl theBindingPackage = (BindingPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI) instanceof BindingPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI) : BindingPackage.eINSTANCE);
-		SecurityPackageImpl theSecurityPackage = (SecurityPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) instanceof SecurityPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI) : SecurityPackage.eINSTANCE);
+		ConstraintPackageImpl theConstraintPackage = (ConstraintPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) instanceof ConstraintPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI) : ConstraintPackage.eINSTANCE);
 		ActionPackageImpl theActionPackage = (ActionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) instanceof ActionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI) : ActionPackage.eINSTANCE);
+		PanelPackageImpl thePanelPackage = (PanelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) instanceof PanelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI) : PanelPackage.eINSTANCE);
+		WizardPackageImpl theWizardPackage = (WizardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) instanceof WizardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI) : WizardPackage.eINSTANCE);
+		PerspectivePackageImpl thePerspectivePackage = (PerspectivePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) instanceof PerspectivePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI) : PerspectivePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theUimPackage.createPackageContents();
-		theLayoutPackage.createPackageContents();
 		theControlPackage.createPackageContents();
-		theFolderPackage.createPackageContents();
-		theFormPackage.createPackageContents();
+		theEditorPackage.createPackageContents();
 		theBindingPackage.createPackageContents();
-		theSecurityPackage.createPackageContents();
+		theConstraintPackage.createPackageContents();
 		theActionPackage.createPackageContents();
+		thePanelPackage.createPackageContents();
+		theWizardPackage.createPackageContents();
+		thePerspectivePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theUimPackage.initializePackageContents();
-		theLayoutPackage.initializePackageContents();
 		theControlPackage.initializePackageContents();
-		theFolderPackage.initializePackageContents();
-		theFormPackage.initializePackageContents();
+		theEditorPackage.initializePackageContents();
 		theBindingPackage.initializePackageContents();
-		theSecurityPackage.initializePackageContents();
+		theConstraintPackage.initializePackageContents();
 		theActionPackage.initializePackageContents();
+		thePanelPackage.initializePackageContents();
+		theWizardPackage.initializePackageContents();
+		thePerspectivePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theUimPackage.freeze();
@@ -243,7 +293,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUimField_LabelWidth() {
+	public EAttribute getUimField_MinimumLabelWidth() {
 		return (EAttribute)uimFieldEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -254,6 +304,15 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 */
 	public EReference getUimField_Binding() {
 		return (EReference)uimFieldEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUimField_Orientation() {
+		return (EAttribute)uimFieldEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -306,44 +365,8 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimTabPanel() {
-		return uimTabPanelEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUimTabPanel_Children() {
-		return (EReference)uimTabPanelEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getUimTabPanel_ActiveTabIndex() {
-		return (EAttribute)uimTabPanelEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getUimTab() {
-		return uimTabEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getUimTab_Parent() {
-		return (EReference)uimTabEClass.getEStructuralFeatures().get(0);
+	public EReference getUimDataTable_ActionsOnMultipleSelection() {
+		return (EReference)uimDataTableEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -353,6 +376,15 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 */
 	public EClass getUimContainer() {
 		return uimContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUimContainer_Children() {
+		return (EReference)uimContainerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -396,8 +428,8 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimPanel() {
-		return uimPanelEClass;
+	public EClass getObjectSelectorTree() {
+		return objectSelectorTreeEClass;
 	}
 
 	/**
@@ -405,8 +437,197 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getObjectSelectorTree() {
-		return objectSelectorTreeEClass;
+	public EClass getDetailComponent() {
+		return detailComponentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDetailComponent_MasterComponent() {
+		return (EReference)detailComponentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDetailComponent_PanelClasses() {
+		return (EReference)detailComponentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDetailComponent_Panel() {
+		return (EReference)detailComponentEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUserInterfaceEntryPoint() {
+		return userInterfaceEntryPointEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUserInterfaceEntryPoint_Editability() {
+		return (EReference)userInterfaceEntryPointEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUserInterfaceEntryPoint_Visibility() {
+		return (EReference)userInterfaceEntryPointEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPage() {
+		return pageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUserInterface() {
+		return userInterfaceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUserInterface_Panel() {
+		return (EReference)userInterfaceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPanelClass() {
+		return panelClassEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPanelClass_DetailComponent() {
+		return (EReference)panelClassEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPanelClass_Panel() {
+		return (EReference)panelClassEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getClassUserInteractionModel() {
+		return classUserInteractionModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassUserInteractionModel_PrimaryEditor() {
+		return (EReference)classUserInteractionModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassUserInteractionModel_SecondaryEditors() {
+		return (EReference)classUserInteractionModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClassUserInteractionModel_NewObjectWizard() {
+		return (EReference)classUserInteractionModelEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getResponsibilityUserInteractionModel() {
+		return responsibilityUserInteractionModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResponsibilityUserInteractionModel_InvocationWizard() {
+		return (EReference)responsibilityUserInteractionModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResponsibilityUserInteractionModel_TaskEditor() {
+		return (EReference)responsibilityUserInteractionModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAbstractActionBar() {
+		return abstractActionBarEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getOrientation() {
+		return orientationEEnum;
 	}
 
 	/**
@@ -440,8 +661,9 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		uimFieldEClass = createEClass(UIM_FIELD);
 		createEReference(uimFieldEClass, UIM_FIELD__CONTROL);
 		createEAttribute(uimFieldEClass, UIM_FIELD__CONTROL_KIND);
-		createEAttribute(uimFieldEClass, UIM_FIELD__LABEL_WIDTH);
+		createEAttribute(uimFieldEClass, UIM_FIELD__MINIMUM_LABEL_WIDTH);
 		createEReference(uimFieldEClass, UIM_FIELD__BINDING);
+		createEAttribute(uimFieldEClass, UIM_FIELD__ORIENTATION);
 
 		uimComponentEClass = createEClass(UIM_COMPONENT);
 
@@ -450,15 +672,10 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 
 		uimDataTableEClass = createEClass(UIM_DATA_TABLE);
 		createEReference(uimDataTableEClass, UIM_DATA_TABLE__BINDING);
-
-		uimTabPanelEClass = createEClass(UIM_TAB_PANEL);
-		createEReference(uimTabPanelEClass, UIM_TAB_PANEL__CHILDREN);
-		createEAttribute(uimTabPanelEClass, UIM_TAB_PANEL__ACTIVE_TAB_INDEX);
-
-		uimTabEClass = createEClass(UIM_TAB);
-		createEReference(uimTabEClass, UIM_TAB__PARENT);
+		createEReference(uimDataTableEClass, UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION);
 
 		uimContainerEClass = createEClass(UIM_CONTAINER);
+		createEReference(uimContainerEClass, UIM_CONTAINER__CHILDREN);
 
 		masterComponentEClass = createEClass(MASTER_COMPONENT);
 		createEReference(masterComponentEClass, MASTER_COMPONENT__DETAIL_PANELS);
@@ -466,9 +683,39 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		umlReferenceEClass = createEClass(UML_REFERENCE);
 		createEAttribute(umlReferenceEClass, UML_REFERENCE__UML_ELEMENT_UID);
 
-		uimPanelEClass = createEClass(UIM_PANEL);
-
 		objectSelectorTreeEClass = createEClass(OBJECT_SELECTOR_TREE);
+
+		detailComponentEClass = createEClass(DETAIL_COMPONENT);
+		createEReference(detailComponentEClass, DETAIL_COMPONENT__MASTER_COMPONENT);
+		createEReference(detailComponentEClass, DETAIL_COMPONENT__PANEL_CLASSES);
+		createEReference(detailComponentEClass, DETAIL_COMPONENT__PANEL);
+
+		userInterfaceEntryPointEClass = createEClass(USER_INTERFACE_ENTRY_POINT);
+		createEReference(userInterfaceEntryPointEClass, USER_INTERFACE_ENTRY_POINT__EDITABILITY);
+		createEReference(userInterfaceEntryPointEClass, USER_INTERFACE_ENTRY_POINT__VISIBILITY);
+
+		pageEClass = createEClass(PAGE);
+
+		userInterfaceEClass = createEClass(USER_INTERFACE);
+		createEReference(userInterfaceEClass, USER_INTERFACE__PANEL);
+
+		panelClassEClass = createEClass(PANEL_CLASS);
+		createEReference(panelClassEClass, PANEL_CLASS__DETAIL_COMPONENT);
+		createEReference(panelClassEClass, PANEL_CLASS__PANEL);
+
+		classUserInteractionModelEClass = createEClass(CLASS_USER_INTERACTION_MODEL);
+		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__PRIMARY_EDITOR);
+		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__SECONDARY_EDITORS);
+		createEReference(classUserInteractionModelEClass, CLASS_USER_INTERACTION_MODEL__NEW_OBJECT_WIZARD);
+
+		responsibilityUserInteractionModelEClass = createEClass(RESPONSIBILITY_USER_INTERACTION_MODEL);
+		createEReference(responsibilityUserInteractionModelEClass, RESPONSIBILITY_USER_INTERACTION_MODEL__INVOCATION_WIZARD);
+		createEReference(responsibilityUserInteractionModelEClass, RESPONSIBILITY_USER_INTERACTION_MODEL__TASK_EDITOR);
+
+		abstractActionBarEClass = createEClass(ABSTRACT_ACTION_BAR);
+
+		// Create enums
+		orientationEEnum = createEEnum(ORIENTATION);
 	}
 
 	/**
@@ -495,52 +742,62 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		LayoutPackage theLayoutPackage = (LayoutPackage)EPackage.Registry.INSTANCE.getEPackage(LayoutPackage.eNS_URI);
 		ControlPackage theControlPackage = (ControlPackage)EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI);
-		FolderPackage theFolderPackage = (FolderPackage)EPackage.Registry.INSTANCE.getEPackage(FolderPackage.eNS_URI);
-		FormPackage theFormPackage = (FormPackage)EPackage.Registry.INSTANCE.getEPackage(FormPackage.eNS_URI);
+		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
 		BindingPackage theBindingPackage = (BindingPackage)EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI);
-		SecurityPackage theSecurityPackage = (SecurityPackage)EPackage.Registry.INSTANCE.getEPackage(SecurityPackage.eNS_URI);
+		ConstraintPackage theConstraintPackage = (ConstraintPackage)EPackage.Registry.INSTANCE.getEPackage(ConstraintPackage.eNS_URI);
 		ActionPackage theActionPackage = (ActionPackage)EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI);
+		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
+		WizardPackage theWizardPackage = (WizardPackage)EPackage.Registry.INSTANCE.getEPackage(WizardPackage.eNS_URI);
+		PerspectivePackage thePerspectivePackage = (PerspectivePackage)EPackage.Registry.INSTANCE.getEPackage(PerspectivePackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Add subpackages
-		getESubpackages().add(theLayoutPackage);
 		getESubpackages().add(theControlPackage);
-		getESubpackages().add(theFolderPackage);
-		getESubpackages().add(theFormPackage);
+		getESubpackages().add(theEditorPackage);
 		getESubpackages().add(theBindingPackage);
-		getESubpackages().add(theSecurityPackage);
+		getESubpackages().add(theConstraintPackage);
 		getESubpackages().add(theActionPackage);
+		getESubpackages().add(thePanelPackage);
+		getESubpackages().add(theWizardPackage);
+		getESubpackages().add(thePerspectivePackage);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		uimFieldEClass.getESuperTypes().add(theSecurityPackage.getEditableSecureObject());
-		uimFieldEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
+		uimFieldEClass.getESuperTypes().add(theConstraintPackage.getEditableConstrainedObject());
+		uimFieldEClass.getESuperTypes().add(this.getUimComponent());
+		uimFieldEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
 		uimComponentEClass.getESuperTypes().add(this.getUserInteractionElement());
-		uimComponentEClass.getESuperTypes().add(theSecurityPackage.getSecureObject());
+		uimComponentEClass.getESuperTypes().add(theConstraintPackage.getConstrainedObject());
 		uimDataTableEClass.getESuperTypes().add(this.getMasterComponent());
-		uimDataTableEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
-		uimDataTableEClass.getESuperTypes().add(theLayoutPackage.getLayoutContainer());
-		uimTabPanelEClass.getESuperTypes().add(this.getUimContainer());
-		uimTabPanelEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
-		uimTabEClass.getESuperTypes().add(theLayoutPackage.getLayoutContainer());
+		uimDataTableEClass.getESuperTypes().add(this.getUimContainer());
+		uimDataTableEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
 		uimContainerEClass.getESuperTypes().add(this.getUimComponent());
-		uimContainerEClass.getESuperTypes().add(theSecurityPackage.getEditableSecureObject());
-		uimPanelEClass.getESuperTypes().add(theLayoutPackage.getLayoutContainer());
-		uimPanelEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
+		uimContainerEClass.getESuperTypes().add(theConstraintPackage.getEditableConstrainedObject());
 		objectSelectorTreeEClass.getESuperTypes().add(this.getMasterComponent());
-		objectSelectorTreeEClass.getESuperTypes().add(theLayoutPackage.getOutlayableComponent());
+		detailComponentEClass.getESuperTypes().add(this.getUimComponent());
+		userInterfaceEntryPointEClass.getESuperTypes().add(this.getUserInteractionElement());
+		pageEClass.getESuperTypes().add(this.getUserInterface());
+		pageEClass.getESuperTypes().add(theConstraintPackage.getEditableConstrainedObject());
+		userInterfaceEClass.getESuperTypes().add(this.getUserInteractionElement());
+		userInterfaceEClass.getESuperTypes().add(this.getUmlReference());
+		panelClassEClass.getESuperTypes().add(this.getUmlReference());
+		classUserInteractionModelEClass.getESuperTypes().add(this.getUmlReference());
+		classUserInteractionModelEClass.getESuperTypes().add(this.getUserInteractionElement());
+		responsibilityUserInteractionModelEClass.getESuperTypes().add(this.getUserInteractionElement());
+		responsibilityUserInteractionModelEClass.getESuperTypes().add(this.getUmlReference());
+		abstractActionBarEClass.getESuperTypes().add(thePanelPackage.getAbstractPanel());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(uimFieldEClass, UimField.class, "UimField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUimField_Control(), theControlPackage.getUimControl(), theControlPackage.getUimControl_Field(), "control", null, 1, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUimField_ControlKind(), theControlPackage.getControlKind(), "controlKind", null, 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUimField_LabelWidth(), theEcorePackage.getEIntegerObject(), "labelWidth", "200", 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUimField_MinimumLabelWidth(), theEcorePackage.getEIntegerObject(), "minimumLabelWidth", "200", 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUimField_Binding(), theBindingPackage.getFieldBinding(), theBindingPackage.getFieldBinding_Field(), "binding", null, 1, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUimField_Orientation(), this.getOrientation(), "orientation", null, 0, 1, UimField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimComponentEClass, UimComponent.class, "UimComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -551,25 +808,54 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 
 		initEClass(uimDataTableEClass, UimDataTable.class, "UimDataTable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUimDataTable_Binding(), theBindingPackage.getTableBinding(), theBindingPackage.getTableBinding_Table(), "binding", null, 0, 1, UimDataTable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUimDataTable_ActionsOnMultipleSelection(), theActionPackage.getUimAction(), null, "actionsOnMultipleSelection", null, 0, -1, UimDataTable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimTabPanelEClass, UimTabPanel.class, "UimTabPanel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUimTabPanel_Children(), this.getUimTab(), this.getUimTab_Parent(), "children", null, 0, -1, UimTabPanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getUimTabPanel_ActiveTabIndex(), theEcorePackage.getEIntegerObject(), "activeTabIndex", null, 0, 1, UimTabPanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(uimContainerEClass, UimContainer.class, "UimContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUimContainer_Children(), this.getUimComponent(), null, "children", null, 0, -1, UimContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimTabEClass, UimTab.class, "UimTab", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUimTab_Parent(), this.getUimTabPanel(), this.getUimTabPanel_Children(), "parent", null, 1, 1, UimTab.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(uimContainerEClass, UimContainer.class, "UimContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(masterComponentEClass, MasterComponent.class, "MasterComponent", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMasterComponent_DetailPanels(), theFormPackage.getDetailPanel(), theFormPackage.getDetailPanel_MasterComponent(), "detailPanels", null, 0, -1, MasterComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(masterComponentEClass, MasterComponent.class, "MasterComponent", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMasterComponent_DetailPanels(), this.getDetailComponent(), this.getDetailComponent_MasterComponent(), "detailPanels", null, 0, -1, MasterComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(umlReferenceEClass, UmlReference.class, "UmlReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUmlReference_UmlElementUid(), theEcorePackage.getEString(), "umlElementUid", null, 0, 1, UmlReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimPanelEClass, UimPanel.class, "UimPanel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(objectSelectorTreeEClass, ObjectSelectorTree.class, "ObjectSelectorTree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(detailComponentEClass, DetailComponent.class, "DetailComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDetailComponent_MasterComponent(), this.getMasterComponent(), this.getMasterComponent_DetailPanels(), "masterComponent", null, 1, 1, DetailComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDetailComponent_PanelClasses(), this.getPanelClass(), this.getPanelClass_DetailComponent(), "panelClasses", null, 0, -1, DetailComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDetailComponent_Panel(), thePanelPackage.getAbstractPanel(), null, "panel", null, 1, 1, DetailComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(userInterfaceEntryPointEClass, UserInterfaceEntryPoint.class, "UserInterfaceEntryPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUserInterfaceEntryPoint_Editability(), theConstraintPackage.getRootUserInteractionConstraint(), null, "editability", null, 0, 1, UserInterfaceEntryPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUserInterfaceEntryPoint_Visibility(), theConstraintPackage.getRootUserInteractionConstraint(), null, "visibility", null, 0, 1, UserInterfaceEntryPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(userInterfaceEntryPointEClass, this.getPage(), "getPages", 0, -1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(pageEClass, Page.class, "Page", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(userInterfaceEClass, UserInterface.class, "UserInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUserInterface_Panel(), thePanelPackage.getAbstractPanel(), null, "panel", null, 1, 1, UserInterface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(panelClassEClass, PanelClass.class, "PanelClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getPanelClass_DetailComponent(), this.getDetailComponent(), this.getDetailComponent_PanelClasses(), "detailComponent", null, 1, 1, PanelClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPanelClass_Panel(), thePanelPackage.getAbstractPanel(), null, "panel", null, 1, 1, PanelClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(classUserInteractionModelEClass, ClassUserInteractionModel.class, "ClassUserInteractionModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getClassUserInteractionModel_PrimaryEditor(), theEditorPackage.getClassEditor(), null, "primaryEditor", null, 1, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassUserInteractionModel_SecondaryEditors(), theEditorPackage.getClassEditor(), null, "secondaryEditors", null, 0, -1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClassUserInteractionModel_NewObjectWizard(), theWizardPackage.getNewObjectWizard(), null, "newObjectWizard", null, 1, 1, ClassUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(responsibilityUserInteractionModelEClass, ResponsibilityUserInteractionModel.class, "ResponsibilityUserInteractionModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getResponsibilityUserInteractionModel_InvocationWizard(), theWizardPackage.getInvokeResponsibilityWizard(), null, "invocationWizard", null, 1, 1, ResponsibilityUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResponsibilityUserInteractionModel_TaskEditor(), theEditorPackage.getResponsibilityTaskEditor(), null, "taskEditor", null, 1, 1, ResponsibilityUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(abstractActionBarEClass, AbstractActionBar.class, "AbstractActionBar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		// Initialize enums and add enum literals
+		initEEnum(orientationEEnum, Orientation.class, "Orientation");
+		addEEnumLiteral(orientationEEnum, Orientation.HORIZONTAL);
+		addEEnumLiteral(orientationEEnum, Orientation.VERTICAL);
 
 		// Create resource
 		createResource(eNS_URI);

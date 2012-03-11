@@ -18,7 +18,27 @@
 				tab="org.opaeum.uim.userinteractionproperties.basic"
 				filter="org.opaeum.uim.userinteractionproperties.filters.UserInteractionElementFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection">
-				<input type="org.opaeum.uim.UserInteractionElement"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.OutlayableFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFieldFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFieldFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection">
 			</propertySection>
 		</propertySections>
 	</extension>
