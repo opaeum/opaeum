@@ -597,7 +597,7 @@
       </diagramCategory>      
          
       <editorDiagram
-            actionBarContributorId="org.opaeum.uim.presentation.UimActionBarContributor"
+            actionBarContributorId="org.eclipse.papyrus.infra.core.papyrusEditor"
             contextId="com.cea.papyrus.gmf.editor.context"
             factoryClass="org.opaeum.uimodeler.util.UserInterfaceDiagramEditorFactory"
             icon="icons/obj16/EditorDiagramFile.gif">

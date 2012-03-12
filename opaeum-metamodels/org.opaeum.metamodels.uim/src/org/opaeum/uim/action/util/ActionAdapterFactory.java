@@ -6,10 +6,14 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.Page;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
 import org.opaeum.uim.action.LinkToEntity;
@@ -20,6 +24,8 @@ import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.panel.Outlayable;
 
 /**
@@ -111,6 +117,10 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createOperationActionPopupAdapter();
 			}
 			@Override
+			public Adapter caseOperationPopupPage(OperationPopupPage object) {
+				return createOperationPopupPageAdapter();
+			}
+			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
 			}
@@ -131,8 +141,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 				return createUmlReferenceAdapter();
 			}
 			@Override
+			public Adapter casePageContainer(PageContainer object) {
+				return createPageContainerAdapter();
+			}
+			@Override
 			public Adapter caseUserInterface(UserInterface object) {
 				return createUserInterfaceAdapter();
+			}
+			@Override
+			public Adapter caseEditableConstrainedObject(EditableConstrainedObject object) {
+				return createEditableConstrainedObjectAdapter();
+			}
+			@Override
+			public Adapter casePage(Page object) {
+				return createPageAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -267,6 +289,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationPopupPage <em>Operation Popup Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.action.OperationPopupPage
+	 * @generated
+	 */
+	public Adapter createOperationPopupPageAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInteractionElement <em>User Interaction Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -337,6 +373,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.PageContainer
+	 * @generated
+	 */
+	public Adapter createPageContainerAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.UserInterface <em>User Interface</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -347,6 +397,34 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInterfaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.constraint.EditableConstrainedObject <em>Editable Constrained Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.constraint.EditableConstrainedObject
+	 * @generated
+	 */
+	public Adapter createEditableConstrainedObjectAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.Page <em>Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.Page
+	 * @generated
+	 */
+	public Adapter createPageAdapter() {
 		return null;
 	}
 

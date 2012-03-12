@@ -27,7 +27,7 @@ public final class UimDataTableComposite extends Composite{
 			public void controlMoved(ControlEvent e){
 			}
 		});
-		table = new Table(this, SWT.NONE);
+		table = new Table(this, SWT.CHECK);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		table.addListener(SWT.MeasureItem, new Listener(){
@@ -45,7 +45,7 @@ public final class UimDataTableComposite extends Composite{
 				super.setData(key, value);
 			}
 		};
-		this.actionBar = new Composite(this, SWT.NONE);
+		this.actionBar = new Composite(this, SWT.BORDER);
 		org.eclipse.swt.layout.GridLayout gl = new org.eclipse.swt.layout.GridLayout(30, false);
 		this.firstRow.setLayout(gl);
 		gl.marginHeight = 0;

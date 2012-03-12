@@ -16,6 +16,7 @@ import org.opaeum.uim.MasterComponent;
 import org.opaeum.uim.ObjectSelectorTree;
 import org.opaeum.uim.Orientation;
 import org.opaeum.uim.Page;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.PanelClass;
 import org.opaeum.uim.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.UimComponent;
@@ -163,6 +164,13 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * @generated
 	 */
 	private EClass abstractActionBarEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass pageContainerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -626,6 +634,15 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPageContainer() {
+		return pageContainerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getOrientation() {
 		return orientationEEnum;
 	}
@@ -714,6 +731,8 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 
 		abstractActionBarEClass = createEClass(ABSTRACT_ACTION_BAR);
 
+		pageContainerEClass = createEClass(PAGE_CONTAINER);
+
 		// Create enums
 		orientationEEnum = createEEnum(ORIENTATION);
 	}
@@ -780,6 +799,7 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		objectSelectorTreeEClass.getESuperTypes().add(this.getMasterComponent());
 		detailComponentEClass.getESuperTypes().add(this.getUimComponent());
 		userInterfaceEntryPointEClass.getESuperTypes().add(this.getUserInteractionElement());
+		userInterfaceEntryPointEClass.getESuperTypes().add(this.getPageContainer());
 		pageEClass.getESuperTypes().add(this.getUserInterface());
 		pageEClass.getESuperTypes().add(theConstraintPackage.getEditableConstrainedObject());
 		userInterfaceEClass.getESuperTypes().add(this.getUserInteractionElement());
@@ -830,8 +850,6 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEReference(getUserInterfaceEntryPoint_Editability(), theConstraintPackage.getRootUserInteractionConstraint(), null, "editability", null, 0, 1, UserInterfaceEntryPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUserInterfaceEntryPoint_Visibility(), theConstraintPackage.getRootUserInteractionConstraint(), null, "visibility", null, 0, 1, UserInterfaceEntryPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(userInterfaceEntryPointEClass, this.getPage(), "getPages", 0, -1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(pageEClass, Page.class, "Page", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(userInterfaceEClass, UserInterface.class, "UserInterface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -851,6 +869,10 @@ public class UimPackageImpl extends EPackageImpl implements UimPackage {
 		initEReference(getResponsibilityUserInteractionModel_TaskEditor(), theEditorPackage.getResponsibilityTaskEditor(), null, "taskEditor", null, 1, 1, ResponsibilityUserInteractionModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractActionBarEClass, AbstractActionBar.class, "AbstractActionBar", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(pageContainerEClass, PageContainer.class, "PageContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(pageContainerEClass, this.getPage(), "getPages", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(orientationEEnum, Orientation.class, "Orientation");

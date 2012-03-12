@@ -323,6 +323,29 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.PageContainer} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected PageContainerItemProvider pageContainerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.PageContainer}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createPageContainerAdapter() {
+		if (pageContainerItemProvider == null) {
+			pageContainerItemProvider = new PageContainerItemProvider(this);
+		}
+
+		return pageContainerItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -432,6 +455,7 @@ public class UimItemProviderAdapterFactory extends UimAdapterFactory implements 
 		if (classUserInteractionModelItemProvider != null) classUserInteractionModelItemProvider.dispose();
 		if (responsibilityUserInteractionModelItemProvider != null) responsibilityUserInteractionModelItemProvider.dispose();
 		if (abstractActionBarItemProvider != null) abstractActionBarItemProvider.dispose();
+		if (pageContainerItemProvider != null) pageContainerItemProvider.dispose();
 	}
 
 }

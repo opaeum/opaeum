@@ -13,6 +13,7 @@ import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.OperationAction;
 import org.opaeum.uim.action.OperationActionPopup;
+import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorFactory;
 import org.opaeum.uim.editor.EditorPage;
@@ -61,19 +62,19 @@ public class CreateUserInterfaceDiagramCommand extends AbstractPapyrusGmfCreateD
 		Diagram diagram = null;
 		if(owner instanceof EditorPage){
 			editorPage = (EditorPage) owner;
-		}else	if(owner instanceof WizardPage){
+		}else if(owner instanceof WizardPage){
 			editorPage = (WizardPage) owner;
-		}else	if(owner instanceof OperationActionPopup){
-			editorPage = (OperationActionPopup) owner;
-		}else if( owner instanceof AbstractEditor){
-			editorPage =  EditorFactory.eINSTANCE.createEditorPage();
+		}else if(owner instanceof OperationActionPopup){
+			OperationActionPopup owner2 = (OperationActionPopup) owner;
+			editorPage = ActionFactory.eINSTANCE.createOperationPopupPage();
+			owner2.getPages().add((OperationPopupPage) editorPage);
+		}else if(owner instanceof AbstractEditor){
+			editorPage = EditorFactory.eINSTANCE.createEditorPage();
 			((AbstractEditor) owner).getPages().add((EditorPage) editorPage);
 			editorPage.setName("NewPage");
-		}else if( owner instanceof OperationAction){
-			editorPage = ActionFactory.eINSTANCE.createOperationActionPopup();
-			((OperationAction) owner).setPopup((OperationActionPopup) editorPage);
-			editorPage.setName("NewPage");
-		}else if( owner instanceof AbstractWizard){
+		}else if(owner instanceof OperationPopupPage){
+			editorPage = (UserInterface) owner;
+		}else if(owner instanceof AbstractWizard){
 			editorPage = WizardFactory.eINSTANCE.createWizardPage();
 			((AbstractWizard) owner).getPages().add((WizardPage) editorPage);
 			editorPage.setName("NewPage");
@@ -82,7 +83,7 @@ public class CreateUserInterfaceDiagramCommand extends AbstractPapyrusGmfCreateD
 		// create diagram
 		if(diagram != null){
 			setName(name);
-//			initializeModel(owner);
+			// initializeModel(owner);
 			initializeDiagram(diagram);
 			diagramResource.getContents().add(diagram);
 		}

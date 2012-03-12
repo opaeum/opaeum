@@ -437,7 +437,7 @@ public class EmfWorkspace implements Element{
 	public void setUriToFileConverter(UriToFileConverter uriToFileConverter){
 		this.uriToFileConverter = uriToFileConverter;
 	}
-	public String getId(EObject object){
+	public static String getId(EObject object){
 		if(object == null){
 			return null;
 		}else if(object instanceof EmfWorkspace){
@@ -455,7 +455,7 @@ public class EmfWorkspace implements Element{
 			return uid;
 		}
 	}
-	public String getResourceId(Resource eResource){
+	public static String getResourceId(Resource eResource){
 		Element v = (Element) eResource.getContents().get(0);
 		EAnnotation ann = v.getEAnnotation(StereotypeNames.NUML_ANNOTATION);
 		if(ann == null){

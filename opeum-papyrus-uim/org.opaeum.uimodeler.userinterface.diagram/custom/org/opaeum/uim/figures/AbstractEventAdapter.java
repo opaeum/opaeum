@@ -33,7 +33,7 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		this.figure.addFigureListener(this);
 		this.figure.addLayoutListener(this);
 		this.figure.getParent().addLayoutListener(this);
-		this.figure.setLabelText(element.getName() == null ? "" : element.getName());
+		this.figure.setLabelText(element.getName() == null ? "New"+element.eClass().getName() : element.getName());
 		figure.getWidget().setData(UimFigureUtil.ELEMENT, element);
 		if(element instanceof Outlayable){
 			GridData gd = new GridData();
@@ -109,7 +109,11 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		super.notifyChanged(msg);
 	}
 	public void prepareForRepaint(){
+		/*VOODOO Code - trial and error*/
 		figure.markForRepaint();
+		if(figure.getParent() instanceof HackedDefaultSizeNodeFigure){
+			figure.getParent().invalidate();
+		}
 		figure.getWidget().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		if(figure.getWidget() instanceof Composite){
 			((Composite) figure.getWidget()).layout();

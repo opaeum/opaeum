@@ -15,10 +15,12 @@ Require-Bundle: org.eclipse.core.runtime,
  org.opaeum.metamodels.uim,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.eclipse.core,
- org.opaeum.uimodeler.editor;bundle-version="1.0.0",
+ org.opaeum.uimodeler.editor,
  org.opaeum.uimodeler.modelexplorer,
  org.eclipse.draw2d,
- org.opaeum.eclipse.uml.propertysections
+ org.opaeum.eclipse.uml.propertysections,
+ org.eclipse.uml2.uml.edit,
+ org.eclipse.uml2.uml.editor
 Eclipse-LazyStart: true
 Export-Package: org.opaeum.uim.userinteractionproperties,
  org.opaeum.uim.userinteractionproperties.providers,

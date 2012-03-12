@@ -46,8 +46,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="panel" lowerBound="1" eType="#//panel/AbstractPanel"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UserInterfaceEntryPoint" eSuperTypes="#//UserInteractionElement">
-    <eOperations name="getPages" upperBound="-1" eType="#//Page"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserInterfaceEntryPoint" eSuperTypes="#//UserInteractionElement #//PageContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="editability" eType="#//constraint/RootUserInteractionConstraint"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="visibility" eType="#//constraint/RootUserInteractionConstraint"
@@ -83,6 +82,9 @@
         eType="#//editor/ResponsibilityTaskEditor" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractActionBar" eSuperTypes="#//panel/AbstractPanel"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PageContainer">
+    <eOperations name="getPages" upperBound="-1" eType="#//Page"/>
+  </eClassifiers>
   <eSubpackages name="control" nsURI="http://opaeum.org/uimetamodel/control/1.0" nsPrefix="ctl">
     <eClassifiers xsi:type="ecore:EClass" name="UimNumberScroller" eSuperTypes="#//control/UimControl"/>
     <eClassifiers xsi:type="ecore:EClass" name="UimToggleButton" eSuperTypes="#//control/UimControl"/>
@@ -221,11 +223,14 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RootUserInteractionConstraint">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresGroupOwnership"
-          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresOwnership" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+          defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiresOwnership" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"
+          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requiredRoles" upperBound="-1"
           eType="#//constraint/RequiredRole" containment="true" eOpposite="#//constraint/RequiredRole/constraint"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="openToPublic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="openToPublic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+          defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requiredStates" upperBound="-1"
           eType="#//constraint/RequiredState" containment="true" eOpposite="#//constraint/RequiredState/constraint"/>
     </eClassifiers>
@@ -256,6 +261,9 @@
       <eLiterals name="suspendTask" value="6" literal="suspendTask"/>
       <eLiterals name="forwardTask" value="8"/>
       <eLiterals name="claimTask" value="9"/>
+      <eLiterals name="add" value="2"/>
+      <eLiterals name="refresh" value="7"/>
+      <eLiterals name="revert" value="10"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TransitionAction" eSuperTypes="#//action/UimAction #//UmlReference">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -284,10 +292,13 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="binding" eType="#//binding/NavigationBinding"
           containment="true" eOpposite="#//binding/NavigationBinding/navigation"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationActionPopup" eSuperTypes="#//UserInterface">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationActionPopup" eSuperTypes="#//PageContainer #//UmlReference">
       <eStructuralFeatures xsi:type="ecore:EReference" name="operationAction" eType="#//action/OperationAction"
           eOpposite="#//action/OperationAction/popup"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pages" upperBound="-1"
+          eType="#//action/OperationPopupPage" containment="true"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationPopupPage" eSuperTypes="#//Page"/>
   </eSubpackages>
   <eSubpackages name="panel" nsURI="http://opaeum.org/uimetamodel/panel/1.0" nsPrefix="panel">
     <eClassifiers xsi:type="ecore:EClass" name="GridPanel" eSuperTypes="#//panel/CollapsiblePanel">

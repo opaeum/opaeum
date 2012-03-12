@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.editor.EditorPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -651,31 +652,13 @@ public interface ActionPackage extends EPackage {
 	int OPERATION_ACTION_POPUP = 7;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_ACTION_POPUP__NAME = UimPackage.USER_INTERFACE__NAME;
-
-	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_ACTION_POPUP__UML_ELEMENT_UID = UimPackage.USER_INTERFACE__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_ACTION_POPUP__PANEL = UimPackage.USER_INTERFACE__PANEL;
+	int OPERATION_ACTION_POPUP__UML_ELEMENT_UID = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Operation Action</b></em>' container reference.
@@ -684,7 +667,16 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_ACTION_POPUP__OPERATION_ACTION = UimPackage.USER_INTERFACE_FEATURE_COUNT + 0;
+	int OPERATION_ACTION_POPUP__OPERATION_ACTION = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Pages</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_ACTION_POPUP__PAGES = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Operation Action Popup</em>' class.
@@ -693,7 +685,71 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_ACTION_POPUP_FEATURE_COUNT = UimPackage.USER_INTERFACE_FEATURE_COUNT + 1;
+	int OPERATION_ACTION_POPUP_FEATURE_COUNT = UimPackage.PAGE_CONTAINER_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationPopupPageImpl <em>Operation Popup Page</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.action.impl.OperationPopupPageImpl
+	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationPopupPage()
+	 * @generated
+	 */
+	int OPERATION_POPUP_PAGE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE__NAME = UimPackage.PAGE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE__UML_ELEMENT_UID = UimPackage.PAGE__UML_ELEMENT_UID;
+
+	/**
+	 * The feature id for the '<em><b>Panel</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE__PANEL = UimPackage.PAGE__PANEL;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE__VISIBILITY = UimPackage.PAGE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Editability</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE__EDITABILITY = UimPackage.PAGE__EDITABILITY;
+
+	/**
+	 * The number of structural features of the '<em>Operation Popup Page</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_POPUP_PAGE_FEATURE_COUNT = UimPackage.PAGE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.
@@ -703,7 +759,7 @@ public interface ActionPackage extends EPackage {
 	 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getActionKind()
 	 * @generated
 	 */
-	int ACTION_KIND = 8;
+	int ACTION_KIND = 9;
 
 
 	/**
@@ -840,6 +896,27 @@ public interface ActionPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOperationActionPopup_OperationAction();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.action.OperationActionPopup#getPages <em>Pages</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Pages</em>'.
+	 * @see org.opaeum.uim.action.OperationActionPopup#getPages()
+	 * @see #getOperationActionPopup()
+	 * @generated
+	 */
+	EReference getOperationActionPopup_Pages();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationPopupPage <em>Operation Popup Page</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operation Popup Page</em>'.
+	 * @see org.opaeum.uim.action.OperationPopupPage
+	 * @generated
+	 */
+	EClass getOperationPopupPage();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}'.
@@ -992,6 +1069,24 @@ public interface ActionPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OPERATION_ACTION_POPUP__OPERATION_ACTION = eINSTANCE.getOperationActionPopup_OperationAction();
+
+		/**
+		 * The meta object literal for the '<em><b>Pages</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_ACTION_POPUP__PAGES = eINSTANCE.getOperationActionPopup_Pages();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationPopupPageImpl <em>Operation Popup Page</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.action.impl.OperationPopupPageImpl
+		 * @see org.opaeum.uim.action.impl.ActionPackageImpl#getOperationPopupPage()
+		 * @generated
+		 */
+		EClass OPERATION_POPUP_PAGE = eINSTANCE.getOperationPopupPage();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.ActionKind <em>Kind</em>}' enum.

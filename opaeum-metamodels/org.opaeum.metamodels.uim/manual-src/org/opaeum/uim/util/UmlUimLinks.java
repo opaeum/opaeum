@@ -48,6 +48,9 @@ public class UmlUimLinks{
 		this.primaryEmfWorkspace = map;
 	}
 	public Element getUmlElement(UmlReference uIMBinding){
+		if(uIMBinding.getUmlElementUid() == null){
+			return null;
+		}
 		return getLink(uIMBinding);
 	}
 	public TypedElement getTypedElement(UimBinding uIMBinding){
@@ -215,5 +218,20 @@ public class UmlUimLinks{
 	}
 	public Operation getOperation(QueryInvocationEditor form){
 		return (Operation) getUmlElement(form);
+	}
+	public Element getNearestUmlElement(UserInteractionElement ui){
+		while(ui != null){
+			if(ui instanceof UmlReference){
+				Element umlElement = getUmlElement((UmlReference) ui);
+				if(umlElement == null){
+					ui = (UserInteractionElement) ui.eContainer();
+				}else{
+					return umlElement;
+				}
+			}else{
+				ui = (UserInteractionElement) ui.eContainer();
+			}
+		}
+		return null;
 	}
 }

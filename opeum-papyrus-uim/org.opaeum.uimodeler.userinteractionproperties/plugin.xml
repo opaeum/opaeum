@@ -8,37 +8,115 @@
 				category="domain"
 				id="org.opaeum.uim.userinteractionproperties.basic"
 				label="UI"/>    
+			<propertyTab
+				category="domain"
+				afterTab="org.opaeum.uim.userinteractionproperties.basic"
+				id="org.opaeum.uim.userinteractionproperties.constraints.visibility"
+				label="Visibility Constraints"/>    
+			<propertyTab
+				category="domain"
+				id="org.opaeum.uim.userinteractionproperties.constraints.editability"
+				afterTab="org.opaeum.uim.userinteractionproperties.constraints.visibility"
+				label="Editability Constraints"/>    
 		</propertyTabs>
 	</extension>
 
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="TreeOutlinePage">
 			<propertySection
-				id="org.opaeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				id="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
 				filter="org.opaeum.uim.userinteractionproperties.filters.UserInteractionElementFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
-				afterSection="org.opaeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
 				filter="org.opaeum.uim.userinteractionproperties.filters.OutlayableFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
-				afterSection="org.opaeum.uim.userinteractionproperties.basic.userinteractionelementnamesection.name"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
-				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFieldFilter"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldBindingSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
-				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFieldFilter"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ColumOrFormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.OutlayableColumnFeaturesSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UimFieldControlKindSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.OutlayableInRowFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.OutlayableColumnFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionKindSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.BuiltInActionFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionKindSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.OperationActionOperationSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.OperationActionFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.OperationActionOperationSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldOrientationSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.FormFieldFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldOrientationSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.UimDataTableBindingSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.UimDataTableFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.UimDataTableBindingSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.LinkToEntityBindingSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.OutlayableFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.LinkToEntityFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.LinkToEntityBindingSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.VisibilityUserInteractionConstraintBooleanFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.constraints.visibility"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ConstrainedObjectFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.VisibilityUserInteractionConstraintBooleanFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.EditabilityUserInteractionConstraintBooleanFeaturesSection"
+				tab="org.opaeum.uim.userinteractionproperties.constraints.editability"
+				filter="org.opaeum.uim.userinteractionproperties.filters.EditableConstrainedObjectFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.EditabilityUserInteractionConstraintBooleanFeaturesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.VisibilityRequiredRolesSection"
+				tab="org.opaeum.uim.userinteractionproperties.constraints.visibility"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.VisibilityUserInteractionConstraintBooleanFeaturesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.ConstrainedObjectFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.VisibilityRequiredRolesSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.EditabilityRequiredRolesSection"
+				tab="org.opaeum.uim.userinteractionproperties.constraints.editability"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.EditabilityUserInteractionConstraintBooleanFeaturesSection"
+				filter="org.opaeum.uim.userinteractionproperties.filters.EditableConstrainedObjectFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.EditabilityRequiredRolesSection">
 			</propertySection>
 		</propertySections>
 	</extension>

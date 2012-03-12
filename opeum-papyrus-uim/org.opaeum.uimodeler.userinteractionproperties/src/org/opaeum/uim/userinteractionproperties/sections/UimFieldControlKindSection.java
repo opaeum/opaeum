@@ -9,8 +9,6 @@ import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.util.ControlUtil;
 import org.opaeum.uim.util.UmlUimLinks;
-import org.topcased.tabbedproperties.sections.AbstractEnumerationPropertySection;
-
 
 public class UimFieldControlKindSection extends AbstractEnumerationPropertySection{
 	protected String getLabelText(){
@@ -25,7 +23,8 @@ public class UimFieldControlKindSection extends AbstractEnumerationPropertySecti
 		if(binding != null){
 			TypedElement typedElement = UmlUimLinks.getCurrentUmlLinks(getUimField()).getResultingType(binding);
 			if(typedElement != null && typedElement.getType() != null){
-				cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getCurrentUmlLinks(getUimField()).getNearestForm(binding.getField()), typedElement,getUimField().eContainer() instanceof UimDataTable);
+				cks = ControlUtil.getAllowedControlKinds(UmlUimLinks.getNearestForm(binding.getField()),
+						typedElement, getUimField().eContainer() instanceof UimDataTable);
 			}
 		}
 		String[] result = new String[cks.length];
@@ -40,11 +39,11 @@ public class UimFieldControlKindSection extends AbstractEnumerationPropertySecti
 	private UimField getUimField(){
 		return (UimField) getEObject();
 	}
-	protected Object getFeatureValue(int index){
-		final ControlKind byName = ControlKind.getByName(getEnumerationFeatureValues()[index]);
-		return byName;
-	}
 	protected Object getOldFeatureValue(){
 		return getUimField().getControlKind();
+	}
+	@Override
+	protected Object getFeatureValue(String name){
+		return ControlKind.getByName(name);
 	}
 }

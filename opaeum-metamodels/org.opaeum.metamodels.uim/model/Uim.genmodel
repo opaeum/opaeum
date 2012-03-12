@@ -49,7 +49,6 @@
     <genClasses ecoreClass="Uim.ecore#//UserInterfaceEntryPoint">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceEntryPoint/editability"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//UserInterfaceEntryPoint/visibility"/>
-      <genOperations ecoreOperation="Uim.ecore#//UserInterfaceEntryPoint/getPages"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Uim.ecore#//Page"/>
     <genClasses ecoreClass="Uim.ecore#//UserInterface">
@@ -69,6 +68,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//ResponsibilityUserInteractionModel/taskEditor"/>
     </genClasses>
     <genClasses ecoreClass="Uim.ecore#//AbstractActionBar"/>
+    <genClasses ecoreClass="Uim.ecore#//PageContainer">
+      <genOperations ecoreOperation="Uim.ecore#//PageContainer/getPages"/>
+    </genClasses>
     <nestedGenPackages prefix="Control" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//control">
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//control/ControlKind">
@@ -194,6 +196,9 @@
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/suspendTask"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/forwardTask"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/claimTask"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/add"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/refresh"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/revert"/>
       </genEnums>
       <genClasses ecoreClass="Uim.ecore#//action/BuiltInAction">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInAction/kind"/>
@@ -215,7 +220,9 @@
       <genClasses ecoreClass="Uim.ecore#//action/OperationActionPopup">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference Uim.ecore#//action/OperationActionPopup/operationAction"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationActionPopup/pages"/>
       </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//action/OperationPopupPage"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="Panel" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//panel">

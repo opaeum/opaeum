@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterfaceEntryPoint;
@@ -500,6 +501,11 @@ public abstract class AbstractEditorImpl extends UmlReferenceImpl implements Abs
 				default: return -1;
 			}
 		}
+		if (baseClass == PageContainer.class) {
+			switch (derivedFeatureID) {
+				default: return -1;
+			}
+		}
 		if (baseClass == UserInterfaceEntryPoint.class) {
 			switch (derivedFeatureID) {
 				case EditorPackage.ABSTRACT_EDITOR__EDITABILITY: return UimPackage.USER_INTERFACE_ENTRY_POINT__EDITABILITY;
@@ -520,6 +526,11 @@ public abstract class AbstractEditorImpl extends UmlReferenceImpl implements Abs
 		if (baseClass == UserInteractionElement.class) {
 			switch (baseFeatureID) {
 				case UimPackage.USER_INTERACTION_ELEMENT__NAME: return EditorPackage.ABSTRACT_EDITOR__NAME;
+				default: return -1;
+			}
+		}
+		if (baseClass == PageContainer.class) {
+			switch (baseFeatureID) {
 				default: return -1;
 			}
 		}

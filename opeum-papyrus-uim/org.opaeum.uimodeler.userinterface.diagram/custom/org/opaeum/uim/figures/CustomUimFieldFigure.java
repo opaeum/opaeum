@@ -48,7 +48,7 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		rl.horizontalSpacing = 0;
 		getComposite().setLayout(rl);
 		setLabel(new Label(getComposite(), SWT.NONE));
-		setControl(new Text(getComposite(), SWT.NONE));
+		setControl(createDefaultControl());
 		getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		GridData labelData = new GridData(GridData.CENTER, GridData.FILL, false, false);
 		getLabel().setLayoutData(labelData);
@@ -65,6 +65,9 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 			public void mouseDoubleClicked(MouseEvent me){
 			}
 		});
+	}
+	protected Control createDefaultControl(){
+		return new Text(getComposite(), SWT.NONE);
 	}
 	public void setMinimumLabelWidth(Integer size){
 		if(size != null){

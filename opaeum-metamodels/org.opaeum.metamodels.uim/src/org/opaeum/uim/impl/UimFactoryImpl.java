@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.*;
 import org.opaeum.uim.AbstractActionBar;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.DetailComponent;
@@ -78,6 +79,7 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 			case UimPackage.CLASS_USER_INTERACTION_MODEL: return createClassUserInteractionModel();
 			case UimPackage.RESPONSIBILITY_USER_INTERACTION_MODEL: return createResponsibilityUserInteractionModel();
 			case UimPackage.ABSTRACT_ACTION_BAR: return createAbstractActionBar();
+			case UimPackage.PAGE_CONTAINER: return createPageContainer();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -221,6 +223,16 @@ public class UimFactoryImpl extends EFactoryImpl implements UimFactory {
 	public AbstractActionBar createAbstractActionBar() {
 		AbstractActionBarImpl abstractActionBar = new AbstractActionBarImpl();
 		return abstractActionBar;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PageContainer createPageContainer() {
+		PageContainerImpl pageContainer = new PageContainerImpl();
+		return pageContainer;
 	}
 
 	/**

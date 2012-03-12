@@ -1,16 +1,15 @@
-1. Integrate binding sections
-1.1. Introduce new idea of a EntityUserInteractionModel per entity (new Wizard, Primary Editor, Secondary editors)
-1.2. Generate bare bones entity model for entity, remember .notation and .di files
-1.3. Implement navigation to Entity Model
-Lookup binding section that accounts for:
-Default
-Property -do first
-2.Show preferredWidth on columns
-Have a ControlKind/ControlConfiguration section that allows access to control settings
-Tree,Popup,Date, etc.
-
-
-
-
-
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
+TRansformation
+Do not show manies in table
+PropertySections:
+operation LinkToOperation
+Target form on LinkToEntity 
+ParameterIsCreateEffect section
+LookupBinding section
+ActionBar diagram
+Show entity simplename in link text
+Link orientation
+
+New Tasks:
+Define UserInteractionElements as Serializable and create a Save listener that deploys objects to the server automatically
+Add RadioButtons and checkboxes lists as control kinds, include their layout in the orientation

@@ -47,7 +47,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			EditorCreator fc = new EditorCreator(workspace, editor);
 			ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 			pins.addAll(a.getOutputs());
-			fc.prepareFormPanel("Task: " + NameConverter.separateWords(a.getName()), pins);
+			fc.prepareFormPanel(fc.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(a.getName()), pins);
 			fc.addButtonBar(ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND_TASK);
 		}
 	}
@@ -71,7 +71,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			model.getPrimaryEditor().setUmlElementUid(resourceUri);
 			EditorCreator ec = new EditorCreator(workspace, model.getPrimaryEditor());
 			Collection<Property> allAttributes = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c);
-			ec.prepareFormPanel("Edit " + NameConverter.separateWords(c.getName()), allAttributes);
+			ec.prepareFormPanel(ec.getUserInterfaceEntryPoint(), "Edit " + NameConverter.separateWords(c.getName()), allAttributes);
 			ec.addButtonBar(actionKinds);
 		}
 		if(model.getNewObjectWizard() == null || regenerate){
@@ -80,7 +80,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			model.getNewObjectWizard().setUmlElementUid(resourceUri);
 			WizardCreator wc = new WizardCreator(workspace, model.getNewObjectWizard());
 			Collection<Property> allAttributes = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c);
-			wc.prepareFormPanel("Create" + NameConverter.separateWords(c.getName()), allAttributes);
+			wc.prepareFormPanel(wc.getUserInterfaceEntryPoint(),"Create" + NameConverter.separateWords(c.getName()), allAttributes);
 		}
 	}
 	@VisitBefore(matchSubclasses = false)
@@ -94,7 +94,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				model.getTaskEditor().setName(o.getName());
 				model.getTaskEditor().setUmlElementUid(resourceUri);
 				EditorCreator ec = new EditorCreator(workspace, model.getTaskEditor());
-				ec.prepareFormPanel("Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				ec.prepareFormPanel(ec.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 				ec.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.SUSPEND_TASK);
 			}
 			if(regenerate || model.getInvocationWizard() == null){
@@ -102,7 +102,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				model.getInvocationWizard().setName("Request" + o.getName());
 				model.getInvocationWizard().setUmlElementUid(resourceUri);
 				WizardCreator wc = new WizardCreator(workspace, model.getInvocationWizard());
-				wc.prepareFormPanel(NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				wc.prepareFormPanel(wc.getUserInterfaceEntryPoint(),NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 			}
 		}else if(o.isQuery() && o.getReturnResult() != null){
 			QueryInvocationEditor editor = (QueryInvocationEditor) getResourceRoot(resourceUri, "uml",
@@ -112,7 +112,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				editor.setName(o.getName());
 				editor.setUmlElementUid(resourceUri);
 				EditorCreator ec = new EditorCreator(workspace, editor);
-				ec.prepareFormPanel("Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
+				ec.prepareFormPanel(ec.getUserInterfaceEntryPoint(),"Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
 				ec.addButtonBar(ActionKind.EXECUTE_OPERATION);
 			}
 		}

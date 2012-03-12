@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.*;
 import org.opaeum.uim.AbstractActionBar;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.DetailComponent;
@@ -147,6 +148,10 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseAbstractActionBar(AbstractActionBar object) {
 				return createAbstractActionBarAdapter();
+			}
+			@Override
+			public Adapter casePageContainer(PageContainer object) {
+				return createPageContainerAdapter();
 			}
 			@Override
 			public Adapter caseConstrainedObject(ConstrainedObject object) {
@@ -405,6 +410,20 @@ public class UimAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAbstractActionBarAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.PageContainer
+	 * @generated
+	 */
+	public Adapter createPageContainerAdapter() {
 		return null;
 	}
 

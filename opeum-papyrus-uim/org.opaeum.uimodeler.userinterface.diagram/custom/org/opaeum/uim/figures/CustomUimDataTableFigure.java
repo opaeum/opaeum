@@ -60,7 +60,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 		Figure columnCompartment = (Figure) getChildren().get(0);
 		Rectangle columnCompartmentBounds = new Rectangle();
 		columnCompartmentBounds.x = 8;// TODO find out why - currently trial and error it fluctuates after every regen!!!!
-		int tableHeaderHeight = 24;
+		int tableHeaderHeight = 27;
 		int actionBarHeight = 38;
 		columnCompartmentBounds.y = tableHeaderHeight;// TODO find out why - currently trial and error
 		columnCompartmentBounds.width = bnds.width + 16;

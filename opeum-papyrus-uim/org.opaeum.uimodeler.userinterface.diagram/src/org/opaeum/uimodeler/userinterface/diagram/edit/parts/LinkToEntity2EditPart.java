@@ -28,9 +28,14 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
+import org.opaeum.uim.figures.CustomLinkToEntityColumnFigure;
+import org.opaeum.uim.figures.HackedDefaultSizeNodeFigure;
+import org.opaeum.uim.figures.IUimFieldFigure;
+import org.opaeum.uim.figures.UimFieldEventAdapter;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.LinkToEntity2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
+import org.opaeum.uimodeler.util.UimFigureUtil;
 
 /**
  * @generated
@@ -86,16 +91,16 @@ public class LinkToEntity2EditPart extends ShapeNodeEditPart{
 		return lep;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new LinkToEntityColumnFigure();
+		return primaryShape = new CustomLinkToEntityColumnFigure(UimFigureUtil.getNearestComposite(getParent()));
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
-	public LinkToEntityColumnFigure getPrimaryShape(){
-		return (LinkToEntityColumnFigure) primaryShape;
+	public CustomLinkToEntityColumnFigure getPrimaryShape(){
+		return (CustomLinkToEntityColumnFigure) primaryShape;
 	}
 	/**
 	 * @generated
@@ -116,13 +121,14 @@ public class LinkToEntity2EditPart extends ShapeNodeEditPart{
 	 * Body of this method does not depend on settings in generation model
 	 * so you may safely remove <i>generated</i> tag and modify it.
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected NodeFigure createNodeFigure(){
-		NodeFigure figure = createNodePlate();
-		figure.setLayoutManager(new StackLayout());
 		IFigure shape = createNodeShape();
+		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
+		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
+		new UimFieldEventAdapter(this, (IUimFieldFigure) shape);
 		contentPane = setupContentPane(shape);
 		return figure;
 	}

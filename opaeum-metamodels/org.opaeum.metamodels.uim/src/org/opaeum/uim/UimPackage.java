@@ -948,6 +948,25 @@ public interface UimPackage extends EPackage {
 	int ABSTRACT_ACTION_BAR_FEATURE_COUNT = PanelPackage.ABSTRACT_PANEL_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.uim.impl.PageContainerImpl <em>Page Container</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.impl.PageContainerImpl
+	 * @see org.opaeum.uim.impl.UimPackageImpl#getPageContainer()
+	 * @generated
+	 */
+	int PAGE_CONTAINER = 16;
+
+	/**
+	 * The number of structural features of the '<em>Page Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PAGE_CONTAINER_FEATURE_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link org.opaeum.uim.Orientation <em>Orientation</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -955,7 +974,7 @@ public interface UimPackage extends EPackage {
 	 * @see org.opaeum.uim.impl.UimPackageImpl#getOrientation()
 	 * @generated
 	 */
-	int ORIENTATION = 16;
+	int ORIENTATION = 17;
 
 
 	/**
@@ -1383,6 +1402,16 @@ public interface UimPackage extends EPackage {
 	EClass getAbstractActionBar();
 
 	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Page Container</em>'.
+	 * @see org.opaeum.uim.PageContainer
+	 * @generated
+	 */
+	EClass getPageContainer();
+
+	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.Orientation <em>Orientation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1765,6 +1794,16 @@ public interface UimPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ABSTRACT_ACTION_BAR = eINSTANCE.getAbstractActionBar();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.impl.PageContainerImpl <em>Page Container</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.impl.PageContainerImpl
+		 * @see org.opaeum.uim.impl.UimPackageImpl#getPageContainer()
+		 * @generated
+		 */
+		EClass PAGE_CONTAINER = eINSTANCE.getPageContainer();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.Orientation <em>Orientation</em>}' enum.

@@ -22,7 +22,7 @@ import org.opaeum.uim.constraint.RootUserInteractionConstraint;
  * @model
  * @generated
  */
-public interface UserInterfaceEntryPoint extends UserInteractionElement {
+public interface UserInterfaceEntryPoint extends UserInteractionElement, PageContainer {
 
 	/**
 	 * Returns the value of the '<em><b>Editability</b></em>' containment reference.

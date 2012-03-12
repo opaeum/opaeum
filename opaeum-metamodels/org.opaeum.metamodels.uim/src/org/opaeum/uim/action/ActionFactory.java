@@ -76,6 +76,15 @@ public interface ActionFactory extends EFactory {
 	OperationActionPopup createOperationActionPopup();
 
 	/**
+	 * Returns a new object of class '<em>Operation Popup Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Popup Page</em>'.
+	 * @generated
+	 */
+	OperationPopupPage createOperationPopupPage();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

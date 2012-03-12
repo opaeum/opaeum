@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface RootUserInteractionConstraint extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Requires Group Ownership</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requires Group Ownership</em>' attribute isn't clear,
@@ -37,7 +38,7 @@ public interface RootUserInteractionConstraint extends EObject {
 	 * @return the value of the '<em>Requires Group Ownership</em>' attribute.
 	 * @see #setRequiresGroupOwnership(boolean)
 	 * @see org.opaeum.uim.constraint.ConstraintPackage#getRootUserInteractionConstraint_RequiresGroupOwnership()
-	 * @model
+	 * @model default="true"
 	 * @generated
 	 */
 	boolean isRequiresGroupOwnership();
@@ -54,6 +55,7 @@ public interface RootUserInteractionConstraint extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Requires Ownership</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requires Ownership</em>' attribute isn't clear,
@@ -63,7 +65,7 @@ public interface RootUserInteractionConstraint extends EObject {
 	 * @return the value of the '<em>Requires Ownership</em>' attribute.
 	 * @see #setRequiresOwnership(boolean)
 	 * @see org.opaeum.uim.constraint.ConstraintPackage#getRootUserInteractionConstraint_RequiresOwnership()
-	 * @model
+	 * @model default="false"
 	 * @generated
 	 */
 	boolean isRequiresOwnership();
@@ -98,6 +100,7 @@ public interface RootUserInteractionConstraint extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Open To Public</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Open To Public</em>' attribute isn't clear,
@@ -107,7 +110,7 @@ public interface RootUserInteractionConstraint extends EObject {
 	 * @return the value of the '<em>Open To Public</em>' attribute.
 	 * @see #setOpenToPublic(Boolean)
 	 * @see org.opaeum.uim.constraint.ConstraintPackage#getRootUserInteractionConstraint_OpenToPublic()
-	 * @model
+	 * @model default="false"
 	 * @generated
 	 */
 	Boolean getOpenToPublic();

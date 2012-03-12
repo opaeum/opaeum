@@ -18,6 +18,7 @@ import org.opaeum.uim.action.LinkToEntity;
 import org.opaeum.uim.action.LinkToOperation;
 import org.opaeum.uim.action.OperationAction;
 import org.opaeum.uim.action.OperationActionPopup;
+import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.action.UimLink;
@@ -99,6 +100,13 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * @generated
 	 */
 	private EClass operationActionPopupEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationPopupPageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -319,6 +327,24 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOperationActionPopup_Pages() {
+		return (EReference)operationActionPopupEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperationPopupPage() {
+		return operationPopupPageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getActionKind() {
 		return actionKindEEnum;
 	}
@@ -371,6 +397,9 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		operationActionPopupEClass = createEClass(OPERATION_ACTION_POPUP);
 		createEReference(operationActionPopupEClass, OPERATION_ACTION_POPUP__OPERATION_ACTION);
+		createEReference(operationActionPopupEClass, OPERATION_ACTION_POPUP__PAGES);
+
+		operationPopupPageEClass = createEClass(OPERATION_POPUP_PAGE);
 
 		// Create enums
 		actionKindEEnum = createEEnum(ACTION_KIND);
@@ -423,7 +452,9 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		uimLinkEClass.getESuperTypes().add(thePanelPackage.getOutlayable());
 		linkToEntityEClass.getESuperTypes().add(this.getUimLink());
 		linkToEntityEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		operationActionPopupEClass.getESuperTypes().add(theUimPackage.getUserInterface());
+		operationActionPopupEClass.getESuperTypes().add(theUimPackage.getPageContainer());
+		operationActionPopupEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		operationPopupPageEClass.getESuperTypes().add(theUimPackage.getPage());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(builtInActionEClass, BuiltInAction.class, "BuiltInAction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -446,6 +477,9 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 
 		initEClass(operationActionPopupEClass, OperationActionPopup.class, "OperationActionPopup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperationActionPopup_OperationAction(), this.getOperationAction(), this.getOperationAction_Popup(), "operationAction", null, 0, 1, OperationActionPopup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOperationActionPopup_Pages(), this.getOperationPopupPage(), null, "pages", null, 0, -1, OperationActionPopup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(operationPopupPageEClass, OperationPopupPage.class, "OperationPopupPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(actionKindEEnum, ActionKind.class, "ActionKind");
@@ -457,6 +491,9 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		addEEnumLiteral(actionKindEEnum, ActionKind.SUSPEND_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.FORWARD_TASK);
 		addEEnumLiteral(actionKindEEnum, ActionKind.CLAIM_TASK);
+		addEEnumLiteral(actionKindEEnum, ActionKind.ADD);
+		addEEnumLiteral(actionKindEEnum, ActionKind.REFRESH);
+		addEEnumLiteral(actionKindEEnum, ActionKind.REVERT);
 	}
 
 } //ActionPackageImpl

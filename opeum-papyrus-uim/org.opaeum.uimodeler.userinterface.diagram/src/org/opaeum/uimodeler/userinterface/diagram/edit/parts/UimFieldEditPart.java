@@ -137,7 +137,6 @@ public class UimFieldEditPart extends ShapeNodeEditPart{
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
 		new UimFieldEventAdapter(this, (CustomUimFieldFigure) shape);
-		contentPane = setupContentPane(shape);
 		return figure;
 	}
 	/**

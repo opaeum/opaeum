@@ -124,6 +124,7 @@ public class OpaeumPageListener implements IStartup{
 		return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));
 	}
 	private void associateOpaeumContext(PapyrusMultiDiagramEditor e){
+		IEditorPart activeEditor = e.getActiveEditor();
 		final IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
 		if(!umlFile.getParent().getName().equals("ui")){
 			final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());

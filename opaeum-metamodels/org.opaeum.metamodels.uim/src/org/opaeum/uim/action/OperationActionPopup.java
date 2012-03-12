@@ -2,6 +2,10 @@
  */
 package org.opaeum.uim.action;
 
+import org.eclipse.emf.common.util.EList;
+import org.opaeum.uim.PageContainer;
+import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.UserInterface;
 
 /**
@@ -13,6 +17,7 @@ import org.opaeum.uim.UserInterface;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.OperationActionPopup#getOperationAction <em>Operation Action</em>}</li>
+ *   <li>{@link org.opaeum.uim.action.OperationActionPopup#getPages <em>Pages</em>}</li>
  * </ul>
  * </p>
  *
@@ -20,7 +25,7 @@ import org.opaeum.uim.UserInterface;
  * @model
  * @generated
  */
-public interface OperationActionPopup extends UserInterface {
+public interface OperationActionPopup extends PageContainer, UmlReference {
 	/**
 	 * Returns the value of the '<em><b>Operation Action</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.action.OperationAction#getPopup <em>Popup</em>}'.
@@ -48,5 +53,21 @@ public interface OperationActionPopup extends UserInterface {
 	 * @generated
 	 */
 	void setOperationAction(OperationAction value);
+
+	/**
+	 * Returns the value of the '<em><b>Pages</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.action.OperationPopupPage}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Pages</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Pages</em>' containment reference list.
+	 * @see org.opaeum.uim.action.ActionPackage#getOperationActionPopup_Pages()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<OperationPopupPage> getPages();
 
 } // OperationActionPopup

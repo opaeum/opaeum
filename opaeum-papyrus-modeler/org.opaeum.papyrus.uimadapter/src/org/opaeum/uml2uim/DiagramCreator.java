@@ -14,19 +14,24 @@ import org.eclipse.papyrus.infra.core.sashwindows.di.SashWindowsMngr;
 import org.eclipse.papyrus.infra.core.sashwindows.di.TabFolder;
 import org.eclipse.papyrus.infra.core.sashwindows.di.Window;
 import org.opaeum.uim.Page;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.BuiltInAction;
+import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationActionPopup;
 import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.panel.GridPanel;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionNameKindEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
@@ -39,6 +44,7 @@ public class DiagramCreator{
 	private UserInterfaceEntryPoint userInterface;
 	private Resource resource;
 	SashWindowsMngr windowsManager;
+	private TabFolder folder;
 	public DiagramCreator(UserInterfaceEntryPoint cf,Resource diagramsResource,SashWindowsMngr windowsManager){
 		this.userInterface = cf;
 		this.resource = diagramsResource;
@@ -47,7 +53,6 @@ public class DiagramCreator{
 	public void createDiagrams(){
 		windowsManager.getSashModel().getWindows();
 		Window window;
-		TabFolder folder;
 		if(windowsManager.getSashModel().getWindows().size() == 1){
 			window = windowsManager.getSashModel().getWindows().get(0);
 			folder = (TabFolder) window.getChildren().get(0);
@@ -58,7 +63,10 @@ public class DiagramCreator{
 			window.getChildren().add(folder);
 		}
 		windowsManager.getSashModel().setCurrentSelection(folder);
-		for(Page page:userInterface.getPages()){
+		addPages(userInterface);
+	}
+	protected void addPages(PageContainer userInterface2){
+		for(Page page:userInterface2.getPages()){
 			Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 			diagram.setElement(page);
 			diagram.setType(UserInterfaceEditPart.MODEL_ID);
@@ -105,7 +113,7 @@ public class DiagramCreator{
 		diagram.getPersistedChildren().add(panelShape);
 		for(UimComponent uimComponent:panel.getChildren()){
 			if(uimComponent instanceof UimField){
-				populateField(compartmentDecoration, uimComponent);
+				addComponent(compartmentDecoration, uimComponent, UimFieldEditPart.VISUAL_ID + "", UimFieldNameEditPart.VISUAL_ID + "");
 			}else if(uimComponent instanceof GridPanel){
 				populateGridPanel(compartmentDecoration, (GridPanel) uimComponent);
 			}else if(uimComponent instanceof UimDataTable){
@@ -156,8 +164,20 @@ public class DiagramCreator{
 				populateDataTable(actionBarCompartment, (UimDataTable) uimComponent);
 			}
 		}
-	}
-	private void populateField(DecorationNode compartmentDecoration,UimComponent uimComponent){
-		addComponent(compartmentDecoration, uimComponent, UimFieldEditPart.VISUAL_ID + "", UimFieldNameEditPart.VISUAL_ID + "");
+		for(UimComponent uimComponent:panel.getActionsOnMultipleSelection()){
+			if(uimComponent instanceof BuiltInAction){
+				Shape fieldShape = NotationFactory.eINSTANCE.createShape();
+				actionBarCompartment.getPersistedChildren().add(fieldShape);
+				fieldShape.setElement(uimComponent);
+				fieldShape.setType(BuiltInAction3EditPart.VISUAL_ID + "");
+			}else if(uimComponent instanceof OperationAction){
+				Shape fieldShape = NotationFactory.eINSTANCE.createShape();
+				actionBarCompartment.getPersistedChildren().add(fieldShape);
+				fieldShape.setElement(uimComponent);
+				fieldShape.setType(OperationAction3EditPart.VISUAL_ID + "");
+				OperationActionPopup popup = ((OperationAction) uimComponent).getPopup();
+				addPages(popup);
+			}
+		}
 	}
 }

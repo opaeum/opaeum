@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.UmlReference;
+import org.opaeum.uim.perspective.*;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
 import org.opaeum.uim.perspective.HiddenClass;
 import org.opaeum.uim.perspective.HiddenCompositeProperty;

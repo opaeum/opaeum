@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.*;
 import org.opaeum.uim.AbstractActionBar;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.DetailComponent;
@@ -182,6 +183,7 @@ public class UimSwitch<T> {
 				UserInterfaceEntryPoint userInterfaceEntryPoint = (UserInterfaceEntryPoint)theEObject;
 				T result = caseUserInterfaceEntryPoint(userInterfaceEntryPoint);
 				if (result == null) result = caseUserInteractionElement(userInterfaceEntryPoint);
+				if (result == null) result = casePageContainer(userInterfaceEntryPoint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -236,6 +238,12 @@ public class UimSwitch<T> {
 				if (result == null) result = caseEditableConstrainedObject(abstractActionBar);
 				if (result == null) result = caseUserInteractionElement(abstractActionBar);
 				if (result == null) result = caseConstrainedObject(abstractActionBar);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UimPackage.PAGE_CONTAINER: {
+				PageContainer pageContainer = (PageContainer)theEObject;
+				T result = casePageContainer(pageContainer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -480,6 +488,21 @@ public class UimSwitch<T> {
 	 * @generated
 	 */
 	public T caseAbstractActionBar(AbstractActionBar object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePageContainer(PageContainer object) {
 		return null;
 	}
 

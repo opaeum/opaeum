@@ -1,13 +1,10 @@
 package org.opaeum.uimodeler.userinterface.diagram.edit.parts;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.FlowLayout;
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -20,7 +17,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
@@ -30,15 +26,12 @@ import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceConverter;
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Link;
-import org.eclipse.wb.os.OSSupport;
-import org.opaeum.uim.figures.ISWTFigure;
+import org.eclipse.swt.widgets.Text;
+import org.opaeum.uim.figures.CustomLinkToEntityFigure;
+import org.opaeum.uim.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uim.figures.LinkToEntityEventAdapter;
+import org.opaeum.uim.figures.UimFieldEventAdapter;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.LinkToEntityItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
@@ -94,16 +87,16 @@ public class LinkToEntityEditPart extends ShapeNodeEditPart{
 		return lep;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new LinkToEntityFigure();
+		return primaryShape = new CustomLinkToEntityFigure(UimFigureUtil.getNearestComposite(getParent()));
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
-	public LinkToEntityFigure getPrimaryShape(){
-		return (LinkToEntityFigure) primaryShape;
+	public CustomLinkToEntityFigure getPrimaryShape(){
+		return (CustomLinkToEntityFigure) primaryShape;
 	}
 	/**
 	 * @generated
@@ -170,12 +163,12 @@ public class LinkToEntityEditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected NodeFigure createNodeFigure(){
-		NodeFigure figure = createNodePlate();
-		figure.setLayoutManager(new StackLayout());
 		IFigure shape = createNodeShape();
+		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
+		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new LinkToEntityEventAdapter(this, (LinkToEntityFigure) shape);
+		new UimFieldEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
 	/**
@@ -230,81 +223,6 @@ public class LinkToEntityEditPart extends ShapeNodeEditPart{
 	 */
 	public EditPart getPrimaryChildEditPart(){
 		return getChildBySemanticHint(UimVisualIDRegistry.getType(LinkToEntityNameEditPart.VISUAL_ID));
-	}
-	/**
-	 * @generated NOT
-	 */
-	public static class LinkToEntityFigure extends RectangleFigure implements ISWTFigure{
-		/**
-		 * @generated NOT
-		 */
-		private WrappingLabel fFigureLinkToEntityUmlElementUidFigure;
-		/**
-		 * @generated
-		 */
-		public LinkToEntityFigure(){
-			FlowLayout layoutThis = new FlowLayout();
-			layoutThis.setStretchMinorAxis(false);
-			layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
-			layoutThis.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
-			layoutThis.setMajorSpacing(5);
-			layoutThis.setMinorSpacing(5);
-			layoutThis.setHorizontal(true);
-			this.setLayoutManager(layoutThis);
-			createContents();
-		}
-		/**
-		 * @generated NOT
-		 */
-		private Link link;
-		public LinkToEntityFigure(Composite parent){
-			FlowLayout layoutThis = new FlowLayout();
-			layoutThis.setStretchMinorAxis(false);
-			layoutThis.setMinorAlignment(FlowLayout.ALIGN_LEFTTOP);
-			layoutThis.setMajorAlignment(FlowLayout.ALIGN_LEFTTOP);
-			layoutThis.setMajorSpacing(5);
-			layoutThis.setMinorSpacing(5);
-			layoutThis.setHorizontal(true);
-			this.setLayoutManager(layoutThis);
-			createContents();
-			link = new Link(parent, SWT.BORDER);
-			link.setForeground(ColorConstants.blue);
-			link.setText("<...>");
-		}
-		/**
-		 * @generated NOT
-		 */
-		private void createContents(){
-			fFigureLinkToEntityUmlElementUidFigure = new WrappingLabel();
-			fFigureLinkToEntityUmlElementUidFigure.setText("<...>");
-			this.add(fFigureLinkToEntityUmlElementUidFigure);
-		}
-		/**
-		 * @generated NOT
-		 */
-		public WrappingLabel getFigureLinkToEntityUmlElementUidFigure(){
-			return fFigureLinkToEntityUmlElementUidFigure;
-		}
-		@Override
-		public Control getWidget(){
-			return link;
-		}
-		@Override
-		public void setLabelText(String string){
-			link.setText(string);
-		}
-		protected void paintClientArea(Graphics graphics){
-			Point copy = getLocation().getCopy();
-			try{
-				graphics.drawImage((Image) link.getData(OSSupport.WBP_IMAGE), copy.x, copy.y);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		@Override
-		public void markForRepaint(){
-			// TODO Auto-generated method stub
-		}
 	}
 	/**
 	 * @generated

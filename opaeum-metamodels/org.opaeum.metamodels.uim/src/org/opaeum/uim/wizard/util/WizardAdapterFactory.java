@@ -7,12 +7,14 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.Page;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.wizard.*;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
 import org.opaeum.uim.wizard.NewObjectWizard;
@@ -94,6 +96,10 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
 				return createUserInteractionElementAdapter();
+			}
+			@Override
+			public Adapter casePageContainer(PageContainer object) {
+				return createPageContainerAdapter();
 			}
 			@Override
 			public Adapter caseUserInterfaceEntryPoint(UserInterfaceEntryPoint object) {
@@ -206,6 +212,20 @@ public class WizardAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUserInteractionElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.PageContainer <em>Page Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.PageContainer
+	 * @generated
+	 */
+	public Adapter createPageContainerAdapter() {
 		return null;
 	}
 

@@ -33,7 +33,7 @@ public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 	}
 	@Override
 	public void setLabelText(String string){
-		column.setText(string);
+		column.setText(string==null || string.length()==0?"NewAction":string);
 		column.getParent().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		column.getParent().layout();
 		super.setLabelText(string);

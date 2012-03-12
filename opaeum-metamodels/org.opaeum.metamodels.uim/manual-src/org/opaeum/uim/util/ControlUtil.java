@@ -26,7 +26,14 @@ public class ControlUtil{
 				return new ControlKind[]{ControlKind.DATE_POPUP,ControlKind.TEXT};
 			}else if(name.endsWith("integer")){
 				return new ControlKind[]{ControlKind.NUMBER_SCROLLER};
-			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Class){
+			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Enumeration){
+				if(inTable){
+					return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.SINGLE_SELECT_POPUP_SEARCH};
+				}else{
+					return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.SINGLE_SELECT_LIST_BOX,ControlKind.SINGLE_SELECT_POPUP_SEARCH,
+							ControlKind.SINGLE_SELECT_TREE_VIEW};
+				}
+			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Class || typedElement.getType() instanceof org.eclipse.uml2.uml.Interface){
 				if(requiresManySelection(form, typedElement)){
 					if(inTable){
 						return new ControlKind[]{ControlKind.MULTI_SELECT_POPUP_SEARCH};

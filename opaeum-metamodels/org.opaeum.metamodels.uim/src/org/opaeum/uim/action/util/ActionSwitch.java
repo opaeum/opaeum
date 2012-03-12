@@ -6,10 +6,14 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.opaeum.uim.Page;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.UserInterfaceEntryPoint;
+import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.BuiltInAction;
 import org.opaeum.uim.action.LinkToEntity;
@@ -20,6 +24,8 @@ import org.opaeum.uim.action.TransitionAction;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.constraint.ConstrainedObject;
+import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.panel.Outlayable;
 
 /**
@@ -178,9 +184,20 @@ public class ActionSwitch<T> {
 			case ActionPackage.OPERATION_ACTION_POPUP: {
 				OperationActionPopup operationActionPopup = (OperationActionPopup)theEObject;
 				T result = caseOperationActionPopup(operationActionPopup);
-				if (result == null) result = caseUserInterface(operationActionPopup);
-				if (result == null) result = caseUserInteractionElement(operationActionPopup);
+				if (result == null) result = casePageContainer(operationActionPopup);
 				if (result == null) result = caseUmlReference(operationActionPopup);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ActionPackage.OPERATION_POPUP_PAGE: {
+				OperationPopupPage operationPopupPage = (OperationPopupPage)theEObject;
+				T result = caseOperationPopupPage(operationPopupPage);
+				if (result == null) result = casePage(operationPopupPage);
+				if (result == null) result = caseUserInterface(operationPopupPage);
+				if (result == null) result = caseEditableConstrainedObject(operationPopupPage);
+				if (result == null) result = caseUserInteractionElement(operationPopupPage);
+				if (result == null) result = caseUmlReference(operationPopupPage);
+				if (result == null) result = caseConstrainedObject(operationPopupPage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -309,6 +326,21 @@ public class ActionSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Popup Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Popup Page</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationPopupPage(OperationPopupPage object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>User Interaction Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -384,6 +416,21 @@ public class ActionSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePageContainer(PageContainer object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>User Interface</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -395,6 +442,36 @@ public class ActionSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInterface(UserInterface object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Editable Constrained Object</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseEditableConstrainedObject(EditableConstrainedObject object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Page</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Page</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePage(Page object) {
 		return null;
 	}
 

@@ -115,7 +115,7 @@
       <ownedAttribute xmi:id="_dBlRoGQWEeGbL9nlXe9lTQ" name="documentVerifier" type="_tq_pUGK1EeGb14EjInbIAA" aggregation="composite" association="_dBo8AGQWEeGbL9nlXe9lTQ">
         <eAnnotations xmi:id="_dD2igGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dBlRoWQWEeGbL9nlXe9lTQ" value="1"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dBlRomQWEeGbL9nlXe9lTQ" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dBlRomQWEeGbL9nlXe9lTQ" value="*"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_wkyykGQWEeGbL9nlXe9lTQ" name="manager" type="_u7lZEGQWEeGbL9nlXe9lTQ" aggregation="composite" association="_wk1O0GQWEeGbL9nlXe9lTQ">
         <eAnnotations xmi:id="_wm9VwGQWEeGbL9nlXe9lTQ" source="http://www.opaeum.org"/>

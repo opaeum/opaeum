@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
@@ -68,6 +69,7 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 			case ActionPackage.OPERATION_ACTION: return createOperationAction();
 			case ActionPackage.LINK_TO_ENTITY: return createLinkToEntity();
 			case ActionPackage.OPERATION_ACTION_POPUP: return createOperationActionPopup();
+			case ActionPackage.OPERATION_POPUP_PAGE: return createOperationPopupPage();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -161,6 +163,16 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	public OperationActionPopup createOperationActionPopup() {
 		OperationActionPopupImpl operationActionPopup = new OperationActionPopupImpl();
 		return operationActionPopup;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationPopupPage createOperationPopupPage() {
+		OperationPopupPageImpl operationPopupPage = new OperationPopupPageImpl();
+		return operationPopupPage;
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opaeum.uim.panel.*;
 import org.opaeum.uim.panel.CollapsiblePanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.HorizontalPanel;

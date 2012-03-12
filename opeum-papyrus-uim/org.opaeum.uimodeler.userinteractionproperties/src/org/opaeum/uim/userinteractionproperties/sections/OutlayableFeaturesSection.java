@@ -19,10 +19,10 @@ public class OutlayableFeaturesSection extends AbstractMultiFeaturePropertySecti
 	protected void setSectionData(Composite composite){
 		layout(null, label, 143);
 		layout(label, preferredWidth, 30);
-		layout(preferredWidth, toLabel, 10);
+		layout(preferredWidth, toLabel, 120);
 		layout(toLabel, preferredHeight, 30);
-		layout(preferredHeight, fillHorizontally, 140);
-		layout(fillHorizontally, fillVertically, 140);
+		layout(preferredHeight, fillHorizontally, 120);
+		layout(fillHorizontally, fillVertically, 120);
 	}
 	@Override
 	protected Outlayable getFeatureOwner(){

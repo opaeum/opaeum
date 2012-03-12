@@ -121,6 +121,15 @@ public interface UimFactory extends EFactory {
 	AbstractActionBar createAbstractActionBar();
 
 	/**
+	 * Returns a new object of class '<em>Page Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Page Container</em>'.
+	 * @generated
+	 */
+	PageContainer createPageContainer();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

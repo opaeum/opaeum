@@ -44,7 +44,7 @@ public class RootUserInteractionConstraintImpl extends EObjectImpl implements Ro
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean REQUIRES_GROUP_OWNERSHIP_EDEFAULT = false;
+	protected static final boolean REQUIRES_GROUP_OWNERSHIP_EDEFAULT = true;
 
 	/**
 	 * The cached value of the '{@link #isRequiresGroupOwnership() <em>Requires Group Ownership</em>}' attribute.
@@ -94,7 +94,7 @@ public class RootUserInteractionConstraintImpl extends EObjectImpl implements Ro
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Boolean OPEN_TO_PUBLIC_EDEFAULT = null;
+	protected static final Boolean OPEN_TO_PUBLIC_EDEFAULT = Boolean.FALSE;
 
 	/**
 	 * The cached value of the '{@link #getOpenToPublic() <em>Open To Public</em>}' attribute.

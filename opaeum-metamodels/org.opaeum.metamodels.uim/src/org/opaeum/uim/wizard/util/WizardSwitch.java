@@ -7,12 +7,14 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.opaeum.uim.Page;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
+import org.opaeum.uim.wizard.*;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.InvokeResponsibilityWizard;
 import org.opaeum.uim.wizard.NewObjectWizard;
@@ -99,6 +101,7 @@ public class WizardSwitch<T> {
 				if (result == null) result = caseUserInterfaceEntryPoint(abstractWizard);
 				if (result == null) result = caseUmlReference(abstractWizard);
 				if (result == null) result = caseUserInteractionElement(abstractWizard);
+				if (result == null) result = casePageContainer(abstractWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -109,6 +112,7 @@ public class WizardSwitch<T> {
 				if (result == null) result = caseUserInterfaceEntryPoint(newObjectWizard);
 				if (result == null) result = caseUmlReference(newObjectWizard);
 				if (result == null) result = caseUserInteractionElement(newObjectWizard);
+				if (result == null) result = casePageContainer(newObjectWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -119,6 +123,7 @@ public class WizardSwitch<T> {
 				if (result == null) result = caseUserInterfaceEntryPoint(invokeResponsibilityWizard);
 				if (result == null) result = caseUmlReference(invokeResponsibilityWizard);
 				if (result == null) result = caseUserInteractionElement(invokeResponsibilityWizard);
+				if (result == null) result = casePageContainer(invokeResponsibilityWizard);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -210,6 +215,21 @@ public class WizardSwitch<T> {
 	 * @generated
 	 */
 	public T caseUserInteractionElement(UserInteractionElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Page Container</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePageContainer(PageContainer object) {
 		return null;
 	}
 

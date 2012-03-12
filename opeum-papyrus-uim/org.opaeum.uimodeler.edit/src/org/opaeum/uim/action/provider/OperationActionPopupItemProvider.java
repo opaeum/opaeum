@@ -9,6 +9,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -16,8 +17,14 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.opaeum.uim.action.ActionFactory;
+import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.OperationActionPopup;
+import org.opaeum.uim.provider.PageContainerItemProvider;
+import org.opaeum.uim.editor.provider.AbstractEditorItemProvider;
 import org.opaeum.uim.provider.UimEditPlugin;
 import org.opaeum.uim.provider.UserInterfaceItemProvider;
 
@@ -28,7 +35,7 @@ import org.opaeum.uim.provider.UserInterfaceItemProvider;
  * @generated
  */
 public class OperationActionPopupItemProvider
-	extends UserInterfaceItemProvider
+	extends PageContainerItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,
@@ -56,9 +63,32 @@ public class OperationActionPopupItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addUmlElementUidPropertyDescriptor(object);
 			addOperationActionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Uml Element Uid feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUmlElementUidPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_UmlReference_umlElementUid_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_UmlReference_umlElementUid_feature", "_UI_UmlReference_type"),
+				 UimPackage.Literals.UML_REFERENCE__UML_ELEMENT_UID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -84,6 +114,36 @@ public class OperationActionPopupItemProvider
 	}
 
 	/**
+	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
+		if (childrenFeatures == null) {
+			super.getChildrenFeatures(object);
+			childrenFeatures.add(ActionPackage.Literals.OPERATION_ACTION_POPUP__PAGES);
+		}
+		return childrenFeatures;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EStructuralFeature getChildFeature(Object object, Object child) {
+		// Check the type of the specified child object and return the proper feature to use for
+		// adding (see {@link AddCommand}) it as a child.
+
+		return super.getChildFeature(object, child);
+	}
+
+	/**
 	 * This returns OperationActionPopup.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -102,7 +162,7 @@ public class OperationActionPopupItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((OperationActionPopup)object).getName();
+		String label = ((OperationActionPopup)object).getUmlElementUid();
 		return label == null || label.length() == 0 ?
 			getString("_UI_OperationActionPopup_type") :
 			getString("_UI_OperationActionPopup_type") + " " + label;
@@ -118,6 +178,15 @@ public class OperationActionPopupItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(OperationActionPopup.class)) {
+			case ActionPackage.OPERATION_ACTION_POPUP__UML_ELEMENT_UID:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+			case ActionPackage.OPERATION_ACTION_POPUP__PAGES:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 
@@ -131,6 +200,11 @@ public class OperationActionPopupItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ActionPackage.Literals.OPERATION_ACTION_POPUP__PAGES,
+				 ActionFactory.eINSTANCE.createOperationPopupPage()));
 	}
 
 	/**

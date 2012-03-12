@@ -96,7 +96,31 @@ public enum ActionKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CLAIM_TASK(9, "claimTask", "claimTask");
+	CLAIM_TASK(9, "claimTask", "claimTask"), /**
+	 * The '<em><b>Add</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #ADD_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	ADD(2, "add", "add"), /**
+	 * The '<em><b>Refresh</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REFRESH_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	REFRESH(7, "refresh", "refresh"), /**
+	 * The '<em><b>Revert</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #REVERT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	REVERT(10, "revert", "revert");
 
 	/**
 	 * The '<em><b>Update</b></em>' literal value.
@@ -219,6 +243,51 @@ public enum ActionKind implements Enumerator {
 	public static final int CLAIM_TASK_VALUE = 9;
 
 	/**
+	 * The '<em><b>Add</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Add</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #ADD
+	 * @model name="add"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int ADD_VALUE = 2;
+
+	/**
+	 * The '<em><b>Refresh</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Refresh</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #REFRESH
+	 * @model name="refresh"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int REFRESH_VALUE = 7;
+
+	/**
+	 * The '<em><b>Revert</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Revert</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #REVERT
+	 * @model name="revert"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int REVERT_VALUE = 10;
+
+	/**
 	 * An array of all the '<em><b>Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -234,6 +303,9 @@ public enum ActionKind implements Enumerator {
 			SUSPEND_TASK,
 			FORWARD_TASK,
 			CLAIM_TASK,
+			ADD,
+			REFRESH,
+			REVERT,
 		};
 
 	/**
@@ -292,6 +364,9 @@ public enum ActionKind implements Enumerator {
 			case SUSPEND_TASK_VALUE: return SUSPEND_TASK;
 			case FORWARD_TASK_VALUE: return FORWARD_TASK;
 			case CLAIM_TASK_VALUE: return CLAIM_TASK;
+			case ADD_VALUE: return ADD;
+			case REFRESH_VALUE: return REFRESH;
+			case REVERT_VALUE: return REVERT;
 		}
 		return null;
 	}

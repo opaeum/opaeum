@@ -100,7 +100,9 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 			if(WindowBuilderUtil.needsComponentShot(widget)){
 				WindowBuilderUtil.activateRootComposite(widget);
 				long start=System.currentTimeMillis();
+				OSSupport.get().beginShot(widget);
 				OSSupport.get().makeShots(widget);
+				OSSupport.get().endShot(widget);
 				System.out.println("Shot took " +(System.currentTimeMillis()-start));
 				WindowBuilderUtil.clearNeedsImage(widget);
 			}
