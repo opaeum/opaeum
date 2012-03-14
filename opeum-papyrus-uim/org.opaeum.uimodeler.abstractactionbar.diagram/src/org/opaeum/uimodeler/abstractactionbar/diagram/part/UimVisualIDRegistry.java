@@ -7,16 +7,23 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.providers.BaseViewInfo;
 import org.eclipse.papyrus.uml.diagram.common.providers.ViewInfo;
-import org.opaeum.uim.AbstractActionBar;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionNameEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionNameEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionNameEditPart;
+import org.opaeum.uim.editor.AbstractEditor;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarActionBarChildrenCompartmentEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonNameEditPart;
 
 /**
  * This registry is used to determine which type of visual object should be
@@ -35,8 +42,8 @@ public class UimVisualIDRegistry{
 	 */
 	public static int getVisualID(View view){
 		if(view instanceof Diagram){
-			if(AbstractActionBarEditPart.MODEL_ID.equals(view.getType())){
-				return AbstractActionBarEditPart.VISUAL_ID;
+			if(AbstractEditorEditPart.MODEL_ID.equals(view.getType())){
+				return AbstractEditorEditPart.VISUAL_ID;
 			}else{
 				return -1;
 			}
@@ -83,8 +90,8 @@ public class UimVisualIDRegistry{
 		if(domainElement == null){
 			return -1;
 		}
-		if(UimPackage.eINSTANCE.getAbstractActionBar().isSuperTypeOf(domainElement.eClass()) && isDiagram((AbstractActionBar) domainElement)){
-			return AbstractActionBarEditPart.VISUAL_ID;
+		if(EditorPackage.eINSTANCE.getAbstractEditor().isSuperTypeOf(domainElement.eClass()) && isDiagram((AbstractEditor) domainElement)){
+			return AbstractEditorEditPart.VISUAL_ID;
 		}
 		return -1;
 	}
@@ -96,29 +103,40 @@ public class UimVisualIDRegistry{
 			return -1;
 		}
 		String containerModelID = org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry.getModelID(containerView);
-		if(!AbstractActionBarEditPart.MODEL_ID.equals(containerModelID)){
+		if(!AbstractEditorEditPart.MODEL_ID.equals(containerModelID)){
 			return -1;
 		}
 		int containerVisualID;
-		if(AbstractActionBarEditPart.MODEL_ID.equals(containerModelID)){
+		if(AbstractEditorEditPart.MODEL_ID.equals(containerModelID)){
 			containerVisualID = org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry.getVisualID(containerView);
 		}else{
 			if(containerView instanceof Diagram){
-				containerVisualID = AbstractActionBarEditPart.VISUAL_ID;
+				containerVisualID = AbstractEditorEditPart.VISUAL_ID;
 			}else{
 				return -1;
 			}
 		}
 		switch(containerVisualID){
-		case AbstractActionBarEditPart.VISUAL_ID:
-			if(ActionPackage.eINSTANCE.getBuiltInAction().isSuperTypeOf(domainElement.eClass())){
-				return BuiltInActionEditPart.VISUAL_ID;
+		case AbstractEditorEditPart.VISUAL_ID:
+			if(EditorPackage.eINSTANCE.getEditorActionBar().isSuperTypeOf(domainElement.eClass())){
+				return EditorActionBarEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getTransitionAction().isSuperTypeOf(domainElement.eClass())){
-				return TransitionActionEditPart.VISUAL_ID;
+			break;
+		case EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID:
+			if(ActionPackage.eINSTANCE.getBuiltInLink().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInLinkEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getOperationAction().isSuperTypeOf(domainElement.eClass())){
-				return OperationActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getLinkToQuery().isSuperTypeOf(domainElement.eClass())){
+				return LinkToQueryEditPart.VISUAL_ID;
+			}
+			if(ActionPackage.eINSTANCE.getOperationButton().isSuperTypeOf(domainElement.eClass())){
+				return OperationButtonEditPart.VISUAL_ID;
+			}
+			if(ActionPackage.eINSTANCE.getBuiltInActionButton().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInActionButtonEditPart.VISUAL_ID;
+			}
+			if(ActionPackage.eINSTANCE.getTransitionButton().isSuperTypeOf(domainElement.eClass())){
+				return TransitionButtonEditPart.VISUAL_ID;
 			}
 			break;
 		}
@@ -129,43 +147,72 @@ public class UimVisualIDRegistry{
 	 */
 	public static boolean canCreateNode(View containerView,int nodeVisualID){
 		String containerModelID = org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry.getModelID(containerView);
-		if(!AbstractActionBarEditPart.MODEL_ID.equals(containerModelID)){
+		if(!AbstractEditorEditPart.MODEL_ID.equals(containerModelID)){
 			return false;
 		}
 		int containerVisualID;
-		if(AbstractActionBarEditPart.MODEL_ID.equals(containerModelID)){
+		if(AbstractEditorEditPart.MODEL_ID.equals(containerModelID)){
 			containerVisualID = org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry.getVisualID(containerView);
 		}else{
 			if(containerView instanceof Diagram){
-				containerVisualID = AbstractActionBarEditPart.VISUAL_ID;
+				containerVisualID = AbstractEditorEditPart.VISUAL_ID;
 			}else{
 				return false;
 			}
 		}
 		switch(containerVisualID){
-		case AbstractActionBarEditPart.VISUAL_ID:
-			if(BuiltInActionEditPart.VISUAL_ID == nodeVisualID){
-				return true;
-			}
-			if(TransitionActionEditPart.VISUAL_ID == nodeVisualID){
-				return true;
-			}
-			if(OperationActionEditPart.VISUAL_ID == nodeVisualID){
+		case AbstractEditorEditPart.VISUAL_ID:
+			if(EditorActionBarEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
-		case BuiltInActionEditPart.VISUAL_ID:
-			if(BuiltInActionNameEditPart.VISUAL_ID == nodeVisualID){
+		case EditorActionBarEditPart.VISUAL_ID:
+			if(EditorActionBarNameEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			if(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
-		case TransitionActionEditPart.VISUAL_ID:
-			if(TransitionActionNameEditPart.VISUAL_ID == nodeVisualID){
+		case BuiltInLinkEditPart.VISUAL_ID:
+			if(BuiltInLinkNameEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
-		case OperationActionEditPart.VISUAL_ID:
-			if(OperationActionNameEditPart.VISUAL_ID == nodeVisualID){
+		case LinkToQueryEditPart.VISUAL_ID:
+			if(LinkToQueryNameEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			break;
+		case OperationButtonEditPart.VISUAL_ID:
+			if(OperationButtonNameEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			break;
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			if(BuiltInActionButtonNameEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			break;
+		case TransitionButtonEditPart.VISUAL_ID:
+			if(TransitionButtonNameEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			break;
+		case EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID:
+			if(BuiltInLinkEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			if(LinkToQueryEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			if(OperationButtonEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			if(BuiltInActionButtonEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			if(TransitionButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
@@ -185,7 +232,7 @@ public class UimVisualIDRegistry{
 	 * "User can change implementation of this method to handle some specific\n""situations not covered by default logic.\n"
 	 * @generated
 	 */
-	private static boolean isDiagram(AbstractActionBar element){
+	private static boolean isDiagram(AbstractEditor element){
 		return true;
 	}
 	/**
@@ -197,23 +244,29 @@ public class UimVisualIDRegistry{
 	 */
 	public static ViewInfo getDiagramViewInfo(){
 		if(diagramViewInfo == null){
-			diagramViewInfo = getAbstractActionBar_1000ViewInfo();
+			diagramViewInfo = getAbstractEditor_1000ViewInfo();
 		}
 		return diagramViewInfo;
 	}
 	/**
 	 * @generated
 	 */
-	protected static ViewInfo getAbstractActionBar_1000ViewInfo(){
+	protected static ViewInfo getAbstractEditor_1000ViewInfo(){
 		ViewInfo root = new BaseViewInfo(1000, ViewInfo.Head, "", null, null);
 		ViewInfo viewInfo = null;
 		ViewInfo labelInfo = null;
-		viewInfo = new BaseViewInfo(2001, ViewInfo.Node, "BuiltInAction");
+		viewInfo = new BaseViewInfo(2011, ViewInfo.Node, "EditorActionBar");
 		root.addNode(1000, viewInfo);
-		viewInfo = new BaseViewInfo(2002, ViewInfo.Node, "TransitionAction");
-		root.addNode(1000, viewInfo);
-		viewInfo = new BaseViewInfo(2003, ViewInfo.Node, "OperationAction");
-		root.addNode(1000, viewInfo);
+		viewInfo = new BaseViewInfo(3001, ViewInfo.Node, "BuiltInLink");
+		root.addNode(7001, viewInfo);
+		viewInfo = new BaseViewInfo(3002, ViewInfo.Node, "LinkToQuery");
+		root.addNode(7001, viewInfo);
+		viewInfo = new BaseViewInfo(3003, ViewInfo.Node, "OperationButton");
+		root.addNode(7001, viewInfo);
+		viewInfo = new BaseViewInfo(3004, ViewInfo.Node, "BuiltInActionButton");
+		root.addNode(7001, viewInfo);
+		viewInfo = new BaseViewInfo(3005, ViewInfo.Node, "TransitionButton");
+		root.addNode(7001, viewInfo);
 		return root;
 	}
 }

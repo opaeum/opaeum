@@ -8,10 +8,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.opaeum.uim.panel.*;
-import org.opaeum.uim.panel.CollapsiblePanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.HorizontalPanel;
-import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelFactory;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.panel.VerticalPanel;
@@ -63,8 +61,6 @@ public class PanelFactoryImpl extends EFactoryImpl implements PanelFactory {
 			case PanelPackage.GRID_PANEL: return createGridPanel();
 			case PanelPackage.VERTICAL_PANEL: return createVerticalPanel();
 			case PanelPackage.HORIZONTAL_PANEL: return createHorizontalPanel();
-			case PanelPackage.COLLAPSIBLE_PANEL: return createCollapsiblePanel();
-			case PanelPackage.OUTLAYABLE: return createOutlayable();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -98,26 +94,6 @@ public class PanelFactoryImpl extends EFactoryImpl implements PanelFactory {
 	public HorizontalPanel createHorizontalPanel() {
 		HorizontalPanelImpl horizontalPanel = new HorizontalPanelImpl();
 		return horizontalPanel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CollapsiblePanel createCollapsiblePanel() {
-		CollapsiblePanelImpl collapsiblePanel = new CollapsiblePanelImpl();
-		return collapsiblePanel;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Outlayable createOutlayable() {
-		OutlayableImpl outlayable = new OutlayableImpl();
-		return outlayable;
 	}
 
 	/**

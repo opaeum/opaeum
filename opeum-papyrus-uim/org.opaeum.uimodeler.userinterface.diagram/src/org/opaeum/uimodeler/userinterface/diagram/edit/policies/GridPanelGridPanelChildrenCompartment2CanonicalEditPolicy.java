@@ -21,13 +21,13 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanel2EditPart;
@@ -82,13 +82,13 @@ public class GridPanelGridPanelChildrenCompartment2CanonicalEditPolicy extends C
 		int visualID = UimVisualIDRegistry.getVisualID(view);
 		switch(visualID){
 		case UimFieldEditPart.VISUAL_ID:
-		case BuiltInActionEditPart.VISUAL_ID:
+		case BuiltInActionButtonEditPart.VISUAL_ID:
 		case HorizontalPanel2EditPart.VISUAL_ID:
 		case VerticalPanel2EditPart.VISUAL_ID:
-		case TransitionActionEditPart.VISUAL_ID:
-		case OperationActionEditPart.VISUAL_ID:
-		case LinkToOperationEditPart.VISUAL_ID:
-		case LinkToEntityEditPart.VISUAL_ID:
+		case TransitionButtonEditPart.VISUAL_ID:
+		case OperationButtonEditPart.VISUAL_ID:
+		case LinkToQueryEditPart.VISUAL_ID:
+		case BuiltInLinkEditPart.VISUAL_ID:
 		case UimDataTableEditPart.VISUAL_ID:
 		case GridPanel2EditPart.VISUAL_ID:
 			return true;

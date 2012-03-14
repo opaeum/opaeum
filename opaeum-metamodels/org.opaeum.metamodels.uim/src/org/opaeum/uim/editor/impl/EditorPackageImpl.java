@@ -435,7 +435,7 @@ public class EditorPackageImpl extends EPackageImpl implements EditorPackage {
 		visibleOperationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(abstractEditorEClass, AbstractEditor.class, "AbstractEditor", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(abstractEditorEClass, AbstractEditor.class, "AbstractEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAbstractEditor_ActionBar(), this.getEditorActionBar(), null, "actionBar", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAbstractEditor_MenuConfiguration(), this.getMenuConfiguration(), this.getMenuConfiguration_Editor(), "menuConfiguration", null, 0, 1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAbstractEditor_Pages(), this.getEditorPage(), this.getEditorPage_Editor(), "pages", null, 0, -1, AbstractEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

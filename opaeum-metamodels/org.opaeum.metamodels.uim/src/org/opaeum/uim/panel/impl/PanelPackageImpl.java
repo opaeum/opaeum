@@ -375,10 +375,10 @@ public class PanelPackageImpl extends EPackageImpl implements PanelPackage {
 
 		initEClass(abstractPanelEClass, AbstractPanel.class, "AbstractPanel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(collapsiblePanelEClass, CollapsiblePanel.class, "CollapsiblePanel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(collapsiblePanelEClass, CollapsiblePanel.class, "CollapsiblePanel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCollapsiblePanel_IsCollapsible(), theEcorePackage.getEBooleanObject(), "isCollapsible", null, 0, 1, CollapsiblePanel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(outlayableEClass, Outlayable.class, "Outlayable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(outlayableEClass, Outlayable.class, "Outlayable", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOutlayable_PreferredWidth(), theEcorePackage.getEIntegerObject(), "preferredWidth", null, 0, 1, Outlayable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getOutlayable_PreferredHeight(), theEcorePackage.getEIntegerObject(), "preferredHeight", null, 0, 1, Outlayable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getOutlayable_FillHorizontally(), ecorePackage.getEBooleanObject(), "fillHorizontally", null, 0, 1, Outlayable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

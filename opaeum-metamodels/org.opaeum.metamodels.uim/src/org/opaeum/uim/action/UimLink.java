@@ -20,4 +20,4 @@ import org.opaeum.uim.panel.Outlayable;
  * @generated
  */
 public interface UimLink extends UimComponent, Outlayable {
-} // UimLink
+} // UimLinkControl

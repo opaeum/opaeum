@@ -40,40 +40,13 @@ public interface ControlFactory extends EFactory {
 	UimToggleButton createUimToggleButton();
 
 	/**
-	 * Returns a new object of class '<em>Uim Single Select Popup Search</em>'.
+	 * Returns a new object of class '<em>Uim Popup Search</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Single Select Popup Search</em>'.
+	 * @return a new object of class '<em>Uim Popup Search</em>'.
 	 * @generated
 	 */
-	UimSingleSelectPopupSearch createUimSingleSelectPopupSearch();
-
-	/**
-	 * Returns a new object of class '<em>Uim Multi Select Popup Search</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Multi Select Popup Search</em>'.
-	 * @generated
-	 */
-	UimMultiSelectPopupSearch createUimMultiSelectPopupSearch();
-
-	/**
-	 * Returns a new object of class '<em>Uim Multi Select Tree View</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Multi Select Tree View</em>'.
-	 * @generated
-	 */
-	UimMultiSelectTreeView createUimMultiSelectTreeView();
-
-	/**
-	 * Returns a new object of class '<em>Uim Multi Select List Box</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Multi Select List Box</em>'.
-	 * @generated
-	 */
-	UimMultiSelectListBox createUimMultiSelectListBox();
+	UimPopupSearch createUimPopupSearch();
 
 	/**
 	 * Returns a new object of class '<em>Uim Dropdown</em>'.
@@ -130,13 +103,13 @@ public interface ControlFactory extends EFactory {
 	UimDatePopup createUimDatePopup();
 
 	/**
-	 * Returns a new object of class '<em>Uim Single Select List Box</em>'.
+	 * Returns a new object of class '<em>Uim List Box</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Single Select List Box</em>'.
+	 * @return a new object of class '<em>Uim List Box</em>'.
 	 * @generated
 	 */
-	UimSingleSelectListBox createUimSingleSelectListBox();
+	UimListBox createUimListBox();
 
 	/**
 	 * Returns a new object of class '<em>Uim Control</em>'.
@@ -148,13 +121,67 @@ public interface ControlFactory extends EFactory {
 	UimControl createUimControl();
 
 	/**
-	 * Returns a new object of class '<em>Uim Single Select Tree View</em>'.
+	 * Returns a new object of class '<em>Uim Tree View</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uim Single Select Tree View</em>'.
+	 * @return a new object of class '<em>Uim Tree View</em>'.
 	 * @generated
 	 */
-	UimSingleSelectTreeView createUimSingleSelectTreeView();
+	UimTreeView createUimTreeView();
+
+	/**
+	 * Returns a new object of class '<em>Uim Link Control</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uim Link Control</em>'.
+	 * @generated
+	 */
+	UimLinkControl createUimLinkControl();
+
+	/**
+	 * Returns a new object of class '<em>Uim Date Scroller</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uim Date Scroller</em>'.
+	 * @generated
+	 */
+	UimDateScroller createUimDateScroller();
+
+	/**
+	 * Returns a new object of class '<em>Uim Selection Table</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uim Selection Table</em>'.
+	 * @generated
+	 */
+	UimSelectionTable createUimSelectionTable();
+
+	/**
+	 * Returns a new object of class '<em>Uim Radio Button</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uim Radio Button</em>'.
+	 * @generated
+	 */
+	UimRadioButton createUimRadioButton();
+
+	/**
+	 * Returns a new object of class '<em>Uim Label</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uim Label</em>'.
+	 * @generated
+	 */
+	UimLabel createUimLabel();
+
+	/**
+	 * Returns a new object of class '<em>Uim Date Time Popup</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Uim Date Time Popup</em>'.
+	 * @generated
+	 */
+	UimDateTimePopup createUimDateTimePopup();
 
 	/**
 	 * Returns the package supported by this factory.

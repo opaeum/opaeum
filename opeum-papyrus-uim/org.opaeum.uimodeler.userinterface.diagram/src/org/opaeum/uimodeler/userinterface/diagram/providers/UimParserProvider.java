@@ -13,20 +13,13 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelName2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonName2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.parsers.MessageFormatParser;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
 
@@ -53,6 +46,86 @@ public class UimParserProvider extends AbstractProvider implements IParserProvid
 	/**
 	 * @generated
 	 */
+	private IParser transitionButtonName_5015Parser;
+	/**
+	 * @generated
+	 */
+	private IParser getTransitionButtonName_5015Parser(){
+		if(transitionButtonName_5015Parser == null){
+			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			transitionButtonName_5015Parser = parser;
+		}
+		return transitionButtonName_5015Parser;
+	}
+	/**
+	 * @generated
+	 */
+	private IParser operationButtonName_5016Parser;
+	/**
+	 * @generated
+	 */
+	private IParser getOperationButtonName_5016Parser(){
+		if(operationButtonName_5016Parser == null){
+			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			operationButtonName_5016Parser = parser;
+		}
+		return operationButtonName_5016Parser;
+	}
+	/**
+	 * @generated
+	 */
+	private IParser linkToQueryName_5017Parser;
+	/**
+	 * @generated
+	 */
+	private IParser getLinkToQueryName_5017Parser(){
+		if(linkToQueryName_5017Parser == null){
+			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			linkToQueryName_5017Parser = parser;
+		}
+		return linkToQueryName_5017Parser;
+	}
+	/**
+	 * @generated
+	 */
+	private IParser builtInLinkName_5018Parser;
+	/**
+	 * @generated
+	 */
+	private IParser getBuiltInLinkName_5018Parser(){
+		if(builtInLinkName_5018Parser == null){
+			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			builtInLinkName_5018Parser = parser;
+		}
+		return builtInLinkName_5018Parser;
+	}
+	/**
+	 * @generated
+	 */
+	private IParser operationButtonName_5019Parser;
+	/**
+	 * @generated
+	 */
+	private IParser getOperationButtonName_5019Parser(){
+		if(operationButtonName_5019Parser == null){
+			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
+			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
+			operationButtonName_5019Parser = parser;
+		}
+		return operationButtonName_5019Parser;
+	}
+	/**
+	 * @generated
+	 */
 	private IParser gridPanelName_5014Parser;
 	/**
 	 * @generated
@@ -69,64 +142,20 @@ public class UimParserProvider extends AbstractProvider implements IParserProvid
 	/**
 	 * @generated
 	 */
-	private IParser transitionActionName_5003Parser;
-	/**
-	 * @generated
-	 */
-	private IParser getTransitionActionName_5003Parser(){
-		if(transitionActionName_5003Parser == null){
-			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
-			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
-			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
-			transitionActionName_5003Parser = parser;
-		}
-		return transitionActionName_5003Parser;
-	}
-	/**
-	 * @generated
-	 */
-	private IParser linkToOperationName_5005Parser;
-	/**
-	 * @generated
-	 */
-	private IParser getLinkToOperationName_5005Parser(){
-		if(linkToOperationName_5005Parser == null){
-			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
-			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
-			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
-			linkToOperationName_5005Parser = parser;
-		}
-		return linkToOperationName_5005Parser;
-	}
-	/**
-	 * @generated
-	 */
-	private IParser linkToEntityName_5006Parser;
-	/**
-	 * @generated
-	 */
-	private IParser getLinkToEntityName_5006Parser(){
-		if(linkToEntityName_5006Parser == null){
-			EAttribute[] features = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
-			EAttribute[] editableFeatures = new EAttribute[]{UimPackage.eINSTANCE.getUserInteractionElement_Name()};
-			MessageFormatParser parser = new MessageFormatParser(features, editableFeatures);
-			linkToEntityName_5006Parser = parser;
-		}
-		return linkToEntityName_5006Parser;
-	}
-	/**
-	 * @generated
-	 */
 	protected IParser getParser(int visualID){
 		switch(visualID){
 		case GridPanelNameEditPart.VISUAL_ID:
 			return getGridPanelName_5011Parser();
-		case TransitionActionNameEditPart.VISUAL_ID:
-			return getTransitionActionName_5003Parser();
-		case LinkToOperationNameEditPart.VISUAL_ID:
-			return getLinkToOperationName_5005Parser();
-		case LinkToEntityNameEditPart.VISUAL_ID:
-			return getLinkToEntityName_5006Parser();
+		case TransitionButtonNameEditPart.VISUAL_ID:
+			return getTransitionButtonName_5015Parser();
+		case OperationButtonNameEditPart.VISUAL_ID:
+			return getOperationButtonName_5016Parser();
+		case LinkToQueryNameEditPart.VISUAL_ID:
+			return getLinkToQueryName_5017Parser();
+		case BuiltInLinkNameEditPart.VISUAL_ID:
+			return getBuiltInLinkName_5018Parser();
+		case OperationButtonName2EditPart.VISUAL_ID:
+			return getOperationButtonName_5019Parser();
 		case GridPanelName2EditPart.VISUAL_ID:
 			return getGridPanelName_5014Parser();
 		}

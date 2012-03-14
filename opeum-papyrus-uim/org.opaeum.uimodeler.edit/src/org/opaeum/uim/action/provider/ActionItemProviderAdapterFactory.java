@@ -70,141 +70,118 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.BuiltInAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.BuiltInActionButton} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BuiltInActionItemProvider builtInActionItemProvider;
+	protected BuiltInActionButtonItemProvider builtInActionButtonItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.BuiltInAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.BuiltInActionButton}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createBuiltInActionAdapter() {
-		if (builtInActionItemProvider == null) {
-			builtInActionItemProvider = new BuiltInActionItemProvider(this);
+	public Adapter createBuiltInActionButtonAdapter() {
+		if (builtInActionButtonItemProvider == null) {
+			builtInActionButtonItemProvider = new BuiltInActionButtonItemProvider(this);
 		}
 
-		return builtInActionItemProvider;
+		return builtInActionButtonItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.TransitionAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.TransitionButton} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TransitionActionItemProvider transitionActionItemProvider;
+	protected TransitionButtonItemProvider transitionButtonItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.TransitionAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.TransitionButton}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createTransitionActionAdapter() {
-		if (transitionActionItemProvider == null) {
-			transitionActionItemProvider = new TransitionActionItemProvider(this);
+	public Adapter createTransitionButtonAdapter() {
+		if (transitionButtonItemProvider == null) {
+			transitionButtonItemProvider = new TransitionButtonItemProvider(this);
 		}
 
-		return transitionActionItemProvider;
+		return transitionButtonItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.LinkToOperation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.LinkToQuery} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LinkToOperationItemProvider linkToOperationItemProvider;
+	protected LinkToQueryItemProvider linkToQueryItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.LinkToOperation}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.LinkToQuery}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createLinkToOperationAdapter() {
-		if (linkToOperationItemProvider == null) {
-			linkToOperationItemProvider = new LinkToOperationItemProvider(this);
+	public Adapter createLinkToQueryAdapter() {
+		if (linkToQueryItemProvider == null) {
+			linkToQueryItemProvider = new LinkToQueryItemProvider(this);
 		}
 
-		return linkToOperationItemProvider;
+		return linkToQueryItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationAction} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationButton} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationActionItemProvider operationActionItemProvider;
+	protected OperationButtonItemProvider operationButtonItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationAction}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationButton}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createOperationActionAdapter() {
-		if (operationActionItemProvider == null) {
-			operationActionItemProvider = new OperationActionItemProvider(this);
+	public Adapter createOperationButtonAdapter() {
+		if (operationButtonItemProvider == null) {
+			operationButtonItemProvider = new OperationButtonItemProvider(this);
 		}
 
-		return operationActionItemProvider;
+		return operationButtonItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.LinkToEntity} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationPopup} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LinkToEntityItemProvider linkToEntityItemProvider;
+	protected OperationPopupItemProvider operationPopupItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.LinkToEntity}.
+	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationPopup}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createLinkToEntityAdapter() {
-		if (linkToEntityItemProvider == null) {
-			linkToEntityItemProvider = new LinkToEntityItemProvider(this);
+	public Adapter createOperationPopupAdapter() {
+		if (operationPopupItemProvider == null) {
+			operationPopupItemProvider = new OperationPopupItemProvider(this);
 		}
 
-		return linkToEntityItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.OperationActionPopup} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected OperationActionPopupItemProvider operationActionPopupItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.action.OperationActionPopup}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createOperationActionPopupAdapter() {
-		if (operationActionPopupItemProvider == null) {
-			operationActionPopupItemProvider = new OperationActionPopupItemProvider(this);
-		}
-
-		return operationActionPopupItemProvider;
+		return operationPopupItemProvider;
 	}
 
 	/**
@@ -228,6 +205,29 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 		}
 
 		return operationPopupPageItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.action.BuiltInLink} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected BuiltInLinkItemProvider builtInLinkItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.action.BuiltInLink}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createBuiltInLinkAdapter() {
+		if (builtInLinkItemProvider == null) {
+			builtInLinkItemProvider = new BuiltInLinkItemProvider(this);
+		}
+
+		return builtInLinkItemProvider;
 	}
 
 	/**
@@ -329,13 +329,13 @@ public class ActionItemProviderAdapterFactory extends ActionAdapterFactory imple
 	 * @generated
 	 */
 	public void dispose() {
-		if (builtInActionItemProvider != null) builtInActionItemProvider.dispose();
-		if (transitionActionItemProvider != null) transitionActionItemProvider.dispose();
-		if (linkToOperationItemProvider != null) linkToOperationItemProvider.dispose();
-		if (operationActionItemProvider != null) operationActionItemProvider.dispose();
-		if (linkToEntityItemProvider != null) linkToEntityItemProvider.dispose();
-		if (operationActionPopupItemProvider != null) operationActionPopupItemProvider.dispose();
+		if (builtInActionButtonItemProvider != null) builtInActionButtonItemProvider.dispose();
+		if (transitionButtonItemProvider != null) transitionButtonItemProvider.dispose();
+		if (linkToQueryItemProvider != null) linkToQueryItemProvider.dispose();
+		if (operationButtonItemProvider != null) operationButtonItemProvider.dispose();
+		if (operationPopupItemProvider != null) operationPopupItemProvider.dispose();
 		if (operationPopupPageItemProvider != null) operationPopupPageItemProvider.dispose();
+		if (builtInLinkItemProvider != null) builtInLinkItemProvider.dispose();
 	}
 
 }

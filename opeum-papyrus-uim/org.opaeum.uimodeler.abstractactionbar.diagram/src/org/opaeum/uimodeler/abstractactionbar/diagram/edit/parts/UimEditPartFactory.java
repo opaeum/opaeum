@@ -27,20 +27,34 @@ public class UimEditPartFactory implements EditPartFactory{
 		if(model instanceof View){
 			View view = (View) model;
 			switch(UimVisualIDRegistry.getVisualID(view)){
-			case AbstractActionBarEditPart.VISUAL_ID:
-				return new AbstractActionBarEditPart(view);
-			case BuiltInActionEditPart.VISUAL_ID:
-				return new BuiltInActionEditPart(view);
-			case BuiltInActionNameEditPart.VISUAL_ID:
-				return new BuiltInActionNameEditPart(view);
-			case TransitionActionEditPart.VISUAL_ID:
-				return new TransitionActionEditPart(view);
-			case TransitionActionNameEditPart.VISUAL_ID:
-				return new TransitionActionNameEditPart(view);
-			case OperationActionEditPart.VISUAL_ID:
-				return new OperationActionEditPart(view);
-			case OperationActionNameEditPart.VISUAL_ID:
-				return new OperationActionNameEditPart(view);
+			case AbstractEditorEditPart.VISUAL_ID:
+				return new AbstractEditorEditPart(view);
+			case EditorActionBarEditPart.VISUAL_ID:
+				return new EditorActionBarEditPart(view);
+			case EditorActionBarNameEditPart.VISUAL_ID:
+				return new EditorActionBarNameEditPart(view);
+			case BuiltInLinkEditPart.VISUAL_ID:
+				return new BuiltInLinkEditPart(view);
+			case BuiltInLinkNameEditPart.VISUAL_ID:
+				return new BuiltInLinkNameEditPart(view);
+			case LinkToQueryEditPart.VISUAL_ID:
+				return new LinkToQueryEditPart(view);
+			case LinkToQueryNameEditPart.VISUAL_ID:
+				return new LinkToQueryNameEditPart(view);
+			case OperationButtonEditPart.VISUAL_ID:
+				return new OperationButtonEditPart(view);
+			case OperationButtonNameEditPart.VISUAL_ID:
+				return new OperationButtonNameEditPart(view);
+			case BuiltInActionButtonEditPart.VISUAL_ID:
+				return new BuiltInActionButtonEditPart(view);
+			case BuiltInActionButtonNameEditPart.VISUAL_ID:
+				return new BuiltInActionButtonNameEditPart(view);
+			case TransitionButtonEditPart.VISUAL_ID:
+				return new TransitionButtonEditPart(view);
+			case TransitionButtonNameEditPart.VISUAL_ID:
+				return new TransitionButtonNameEditPart(view);
+			case EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID:
+				return new EditorActionBarActionBarChildrenCompartmentEditPart(view);
 			}
 		}
 		return createUnrecognizedEditPart(context, model);

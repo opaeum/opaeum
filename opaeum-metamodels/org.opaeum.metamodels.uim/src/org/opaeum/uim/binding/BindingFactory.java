@@ -31,15 +31,6 @@ public interface BindingFactory extends EFactory {
 	LookupBinding createLookupBinding();
 
 	/**
-	 * Returns a new object of class '<em>Navigation Binding</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Navigation Binding</em>'.
-	 * @generated
-	 */
-	NavigationBinding createNavigationBinding();
-
-	/**
 	 * Returns a new object of class '<em>Table Binding</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

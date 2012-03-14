@@ -13,9 +13,12 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer{
 	 */
 	public void initializeDefaultPreferences(){
 		IPreferenceStore store = getPreferenceStore();
-		BuiltInActionPreferencePage.initDefaults(store);
-		OperationActionPreferencePage.initDefaults(store);
-		TransitionActionPreferencePage.initDefaults(store);
+		EditorActionBarPreferencePage.initDefaults(store);
+		BuiltInLinkPreferencePage.initDefaults(store);
+		LinkToQueryPreferencePage.initDefaults(store);
+		BuiltInActionButtonPreferencePage.initDefaults(store);
+		TransitionButtonPreferencePage.initDefaults(store);
+		OperationButtonPreferencePage.initDefaults(store);
 	}
 	/**
 	 * @generated

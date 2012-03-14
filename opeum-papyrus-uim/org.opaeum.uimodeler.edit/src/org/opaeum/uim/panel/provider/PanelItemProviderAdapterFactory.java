@@ -139,52 +139,6 @@ public class PanelItemProviderAdapterFactory extends PanelAdapterFactory impleme
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.panel.CollapsiblePanel} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected CollapsiblePanelItemProvider collapsiblePanelItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.panel.CollapsiblePanel}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createCollapsiblePanelAdapter() {
-		if (collapsiblePanelItemProvider == null) {
-			collapsiblePanelItemProvider = new CollapsiblePanelItemProvider(this);
-		}
-
-		return collapsiblePanelItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.panel.Outlayable} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected OutlayableItemProvider outlayableItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.panel.Outlayable}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createOutlayableAdapter() {
-		if (outlayableItemProvider == null) {
-			outlayableItemProvider = new OutlayableItemProvider(this);
-		}
-
-		return outlayableItemProvider;
-	}
-
-	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -286,8 +240,6 @@ public class PanelItemProviderAdapterFactory extends PanelAdapterFactory impleme
 		if (gridPanelItemProvider != null) gridPanelItemProvider.dispose();
 		if (verticalPanelItemProvider != null) verticalPanelItemProvider.dispose();
 		if (horizontalPanelItemProvider != null) horizontalPanelItemProvider.dispose();
-		if (collapsiblePanelItemProvider != null) collapsiblePanelItemProvider.dispose();
-		if (outlayableItemProvider != null) outlayableItemProvider.dispose();
 	}
 
 }

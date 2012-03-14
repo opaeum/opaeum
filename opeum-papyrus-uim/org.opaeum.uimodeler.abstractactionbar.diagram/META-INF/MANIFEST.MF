@@ -36,7 +36,8 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrus.infra.gmfdiag.preferences,
  org.eclipse.papyrus.extensionpoints.editors,
  org.eclipse.papyrus.infra.emf,
- org.eclipse.papyrus.infra.emf.appearance
+ org.eclipse.papyrus.infra.emf.appearance,
+ org.opaeum.uimodeler.common
 Bundle-ClassPath: .
 Bundle-Activator: org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin
 Bundle-Vendor: %providerName
@@ -53,3 +54,5 @@ Export-Package: org.opaeum.metamodels.uim.actionbar.diagram,
  org.opaeum.uimodeler.abstractactionbar.diagram.providers,
  org.opaeum.uimodeler.abstractactionbar.diagram.sheet
 Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

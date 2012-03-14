@@ -20,10 +20,14 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarActionBarChildrenCompartmentEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry;
 
 /**
@@ -113,13 +117,40 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 *this method is a modification of gmf code in order to avoid  getViewChidreen() method becoming greater than 64kb.
 	 *@generated
 	 **/
-	private Object[] getViewChildrenForAbstractActionBarEditPart(View view,Object parentElement){
+	private Object[] getViewChildrenForAbstractEditorEditPart(View view,Object parentElement){
 		Collection result = new ArrayList();
-		Collection connectedViews = getChildrenByType(Collections.singleton(view), UimVisualIDRegistry.getType(BuiltInActionEditPart.VISUAL_ID));
+		Collection connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(EditorActionBarEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
-		connectedViews = getChildrenByType(Collections.singleton(view), UimVisualIDRegistry.getType(TransitionActionEditPart.VISUAL_ID));
+		return result.toArray();
+	}
+	/**
+	 *
+	 *Papyrus Template
+	 *this method is a modification of gmf code in order to avoid  getViewChidreen() method becoming greater than 64kb.
+	 *@generated
+	 **/
+	private Object[] getViewChildrenForEditorActionBarEditPart(View view,Object parentElement){
+		Collection result = new ArrayList();
+		Collection connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInLinkEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
-		connectedViews = getChildrenByType(Collections.singleton(view), UimVisualIDRegistry.getType(OperationActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToQueryEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationButtonEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionButtonEditPart.VISUAL_ID));
+		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+		connectedViews = getChildrenByType(Collections.singleton(view),
+				UimVisualIDRegistry.getType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(TransitionButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		return result.toArray();
 	}
@@ -193,9 +224,13 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 */
 	private Object[] getViewChildren(View view,Object parentElement){
 		switch(UimVisualIDRegistry.getVisualID(view)){
-		case AbstractActionBarEditPart.VISUAL_ID:{
+		case AbstractEditorEditPart.VISUAL_ID:{
 			//modification of the template to avoid mistake of 65kb.
-			return getViewChildrenForAbstractActionBarEditPart(view, parentElement);
+			return getViewChildrenForAbstractEditorEditPart(view, parentElement);
+		}
+		case EditorActionBarEditPart.VISUAL_ID:{
+			//modification of the template to avoid mistake of 65kb.
+			return getViewChildrenForEditorActionBarEditPart(view, parentElement);
 		}
 		}
 		return EMPTY_ARRAY;
@@ -289,7 +324,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 	 * @generated
 	 */
 	private boolean isOwnView(View view){
-		return AbstractActionBarEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
+		return AbstractEditorEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(view));
 	}
 	/**
 	 * @generated

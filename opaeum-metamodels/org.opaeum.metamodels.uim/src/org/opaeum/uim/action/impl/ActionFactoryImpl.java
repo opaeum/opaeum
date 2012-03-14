@@ -12,12 +12,14 @@ import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.LinkToEntity;
-import org.opaeum.uim.action.LinkToOperation;
-import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.action.OperationActionPopup;
-import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
+import org.opaeum.uim.action.BuiltInLinkKind;
+import org.opaeum.uim.action.LinkToQuery;
+import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.OperationPopup;
+import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.TransitionButton;
 
 /**
  * <!-- begin-user-doc -->
@@ -63,13 +65,13 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ActionPackage.BUILT_IN_ACTION: return createBuiltInAction();
-			case ActionPackage.TRANSITION_ACTION: return createTransitionAction();
-			case ActionPackage.LINK_TO_OPERATION: return createLinkToOperation();
-			case ActionPackage.OPERATION_ACTION: return createOperationAction();
-			case ActionPackage.LINK_TO_ENTITY: return createLinkToEntity();
-			case ActionPackage.OPERATION_ACTION_POPUP: return createOperationActionPopup();
+			case ActionPackage.BUILT_IN_ACTION_BUTTON: return createBuiltInActionButton();
+			case ActionPackage.TRANSITION_BUTTON: return createTransitionButton();
+			case ActionPackage.LINK_TO_QUERY: return createLinkToQuery();
+			case ActionPackage.OPERATION_BUTTON: return createOperationButton();
+			case ActionPackage.OPERATION_POPUP: return createOperationPopup();
 			case ActionPackage.OPERATION_POPUP_PAGE: return createOperationPopupPage();
+			case ActionPackage.BUILT_IN_LINK: return createBuiltInLink();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -85,6 +87,8 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 		switch (eDataType.getClassifierID()) {
 			case ActionPackage.ACTION_KIND:
 				return createActionKindFromString(eDataType, initialValue);
+			case ActionPackage.BUILT_IN_LINK_KIND:
+				return createBuiltInLinkKindFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -100,6 +104,8 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 		switch (eDataType.getClassifierID()) {
 			case ActionPackage.ACTION_KIND:
 				return convertActionKindToString(eDataType, instanceValue);
+			case ActionPackage.BUILT_IN_LINK_KIND:
+				return convertBuiltInLinkKindToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -110,9 +116,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BuiltInAction createBuiltInAction() {
-		BuiltInActionImpl builtInAction = new BuiltInActionImpl();
-		return builtInAction;
+	public BuiltInActionButton createBuiltInActionButton() {
+		BuiltInActionButtonImpl builtInActionButton = new BuiltInActionButtonImpl();
+		return builtInActionButton;
 	}
 
 	/**
@@ -120,9 +126,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TransitionAction createTransitionAction() {
-		TransitionActionImpl transitionAction = new TransitionActionImpl();
-		return transitionAction;
+	public TransitionButton createTransitionButton() {
+		TransitionButtonImpl transitionButton = new TransitionButtonImpl();
+		return transitionButton;
 	}
 
 	/**
@@ -130,9 +136,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LinkToOperation createLinkToOperation() {
-		LinkToOperationImpl linkToOperation = new LinkToOperationImpl();
-		return linkToOperation;
+	public LinkToQuery createLinkToQuery() {
+		LinkToQueryImpl linkToQuery = new LinkToQueryImpl();
+		return linkToQuery;
 	}
 
 	/**
@@ -140,9 +146,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationAction createOperationAction() {
-		OperationActionImpl operationAction = new OperationActionImpl();
-		return operationAction;
+	public OperationButton createOperationButton() {
+		OperationButtonImpl operationButton = new OperationButtonImpl();
+		return operationButton;
 	}
 
 	/**
@@ -150,19 +156,9 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LinkToEntity createLinkToEntity() {
-		LinkToEntityImpl linkToEntity = new LinkToEntityImpl();
-		return linkToEntity;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public OperationActionPopup createOperationActionPopup() {
-		OperationActionPopupImpl operationActionPopup = new OperationActionPopupImpl();
-		return operationActionPopup;
+	public OperationPopup createOperationPopup() {
+		OperationPopupImpl operationPopup = new OperationPopupImpl();
+		return operationPopup;
 	}
 
 	/**
@@ -173,6 +169,16 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	public OperationPopupPage createOperationPopupPage() {
 		OperationPopupPageImpl operationPopupPage = new OperationPopupPageImpl();
 		return operationPopupPage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BuiltInLink createBuiltInLink() {
+		BuiltInLinkImpl builtInLink = new BuiltInLinkImpl();
+		return builtInLink;
 	}
 
 	/**
@@ -192,6 +198,26 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 * @generated
 	 */
 	public String convertActionKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BuiltInLinkKind createBuiltInLinkKindFromString(EDataType eDataType, String initialValue) {
+		BuiltInLinkKind result = BuiltInLinkKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertBuiltInLinkKindToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

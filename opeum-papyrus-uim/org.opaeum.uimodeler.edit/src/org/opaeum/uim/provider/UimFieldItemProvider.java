@@ -370,22 +370,7 @@ public class UimFieldItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 ControlFactory.eINSTANCE.createUimSingleSelectPopupSearch()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 ControlFactory.eINSTANCE.createUimMultiSelectPopupSearch()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 ControlFactory.eINSTANCE.createUimMultiSelectTreeView()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 ControlFactory.eINSTANCE.createUimMultiSelectListBox()));
+				 ControlFactory.eINSTANCE.createUimPopupSearch()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -415,12 +400,42 @@ public class UimFieldItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 ControlFactory.eINSTANCE.createUimSingleSelectListBox()));
+				 ControlFactory.eINSTANCE.createUimListBox()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_FIELD__CONTROL,
-				 ControlFactory.eINSTANCE.createUimSingleSelectTreeView()));
+				 ControlFactory.eINSTANCE.createUimTreeView()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_FIELD__CONTROL,
+				 ControlFactory.eINSTANCE.createUimLinkControl()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_FIELD__CONTROL,
+				 ControlFactory.eINSTANCE.createUimDateScroller()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_FIELD__CONTROL,
+				 ControlFactory.eINSTANCE.createUimSelectionTable()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_FIELD__CONTROL,
+				 ControlFactory.eINSTANCE.createUimRadioButton()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_FIELD__CONTROL,
+				 ControlFactory.eINSTANCE.createUimLabel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UimPackage.Literals.UIM_FIELD__CONTROL,
+				 ControlFactory.eINSTANCE.createUimDateTimePopup()));
 
 		newChildDescriptors.add
 			(createChildParameter

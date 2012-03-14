@@ -1,15 +1,20 @@
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
 TRansformation
-Do not show manies in table
-PropertySections:
-operation LinkToOperation
-Target form on LinkToEntity 
-ParameterIsCreateEffect section
-LookupBinding section
+Correct orientation and sizing of labels and controls
+Generate EditorActionBar diagram
+Figures:
 ActionBar diagram
-Show entity simplename in link text
-Link orientation
+Link(s) orientation
+PropertySections:
+operation LinkToQuery section
+Remove targetForm from LinkToQuery
+Built in Link kind section
 
 New Tasks:
 Define UserInteractionElements as Serializable and create a Save listener that deploys objects to the server automatically
 Add RadioButtons and checkboxes lists as control kinds, include their layout in the orientation
+Add a "lastlinkedumlresource" to the modelroot to allow open editors to be reassociated with their uml models
+Add a userModified field to UserInteractionElement and do not overwrite these on sync
+Introduce an action that automatically creates an operation popup from a button
+Drag and drop uml items from a tree (properties, actions) 
+Add forcedLabelWidth and sameWidth to AbstractPanel

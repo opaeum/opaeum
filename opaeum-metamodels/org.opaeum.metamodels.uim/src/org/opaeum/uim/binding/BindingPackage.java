@@ -63,7 +63,7 @@ public interface BindingPackage extends EPackage {
 	 * @see org.opaeum.uim.binding.impl.BindingPackageImpl#getUimBinding()
 	 * @generated
 	 */
-	int UIM_BINDING = 4;
+	int UIM_BINDING = 3;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -139,52 +139,6 @@ public interface BindingPackage extends EPackage {
 	int LOOKUP_BINDING_FEATURE_COUNT = UIM_BINDING_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.binding.impl.NavigationBindingImpl <em>Navigation Binding</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.binding.impl.NavigationBindingImpl
-	 * @see org.opaeum.uim.binding.impl.BindingPackageImpl#getNavigationBinding()
-	 * @generated
-	 */
-	int NAVIGATION_BINDING = 1;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAVIGATION_BINDING__UML_ELEMENT_UID = UIM_BINDING__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Next</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAVIGATION_BINDING__NEXT = UIM_BINDING__NEXT;
-
-	/**
-	 * The feature id for the '<em><b>Navigation</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAVIGATION_BINDING__NAVIGATION = UIM_BINDING_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Navigation Binding</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NAVIGATION_BINDING_FEATURE_COUNT = UIM_BINDING_FEATURE_COUNT + 1;
-
-	/**
 	 * The meta object id for the '{@link org.opaeum.uim.binding.impl.TableBindingImpl <em>Table Binding</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -192,7 +146,7 @@ public interface BindingPackage extends EPackage {
 	 * @see org.opaeum.uim.binding.impl.BindingPackageImpl#getTableBinding()
 	 * @generated
 	 */
-	int TABLE_BINDING = 2;
+	int TABLE_BINDING = 1;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -238,7 +192,7 @@ public interface BindingPackage extends EPackage {
 	 * @see org.opaeum.uim.binding.impl.BindingPackageImpl#getFieldBinding()
 	 * @generated
 	 */
-	int FIELD_BINDING = 3;
+	int FIELD_BINDING = 2;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -284,7 +238,7 @@ public interface BindingPackage extends EPackage {
 	 * @see org.opaeum.uim.binding.impl.BindingPackageImpl#getPropertyRef()
 	 * @generated
 	 */
-	int PROPERTY_REF = 5;
+	int PROPERTY_REF = 4;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -352,27 +306,6 @@ public interface BindingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLookupBinding_Lookup();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.binding.NavigationBinding <em>Navigation Binding</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Navigation Binding</em>'.
-	 * @see org.opaeum.uim.binding.NavigationBinding
-	 * @generated
-	 */
-	EClass getNavigationBinding();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.binding.NavigationBinding#getNavigation <em>Navigation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Navigation</em>'.
-	 * @see org.opaeum.uim.binding.NavigationBinding#getNavigation()
-	 * @see #getNavigationBinding()
-	 * @generated
-	 */
-	EReference getNavigationBinding_Navigation();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.binding.TableBinding <em>Table Binding</em>}'.
@@ -519,24 +452,6 @@ public interface BindingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LOOKUP_BINDING__LOOKUP = eINSTANCE.getLookupBinding_Lookup();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.binding.impl.NavigationBindingImpl <em>Navigation Binding</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.binding.impl.NavigationBindingImpl
-		 * @see org.opaeum.uim.binding.impl.BindingPackageImpl#getNavigationBinding()
-		 * @generated
-		 */
-		EClass NAVIGATION_BINDING = eINSTANCE.getNavigationBinding();
-
-		/**
-		 * The meta object literal for the '<em><b>Navigation</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NAVIGATION_BINDING__NAVIGATION = eINSTANCE.getNavigationBinding_Navigation();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.binding.impl.TableBindingImpl <em>Table Binding</em>}' class.

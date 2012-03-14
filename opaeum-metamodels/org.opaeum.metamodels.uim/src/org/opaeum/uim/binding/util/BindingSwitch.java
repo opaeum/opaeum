@@ -11,7 +11,6 @@ import org.opaeum.uim.binding.*;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
-import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
@@ -98,14 +97,6 @@ public class BindingSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case BindingPackage.NAVIGATION_BINDING: {
-				NavigationBinding navigationBinding = (NavigationBinding)theEObject;
-				T result = caseNavigationBinding(navigationBinding);
-				if (result == null) result = caseUimBinding(navigationBinding);
-				if (result == null) result = caseUmlReference(navigationBinding);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case BindingPackage.TABLE_BINDING: {
 				TableBinding tableBinding = (TableBinding)theEObject;
 				T result = caseTableBinding(tableBinding);
@@ -152,21 +143,6 @@ public class BindingSwitch<T> {
 	 * @generated
 	 */
 	public T caseLookupBinding(LookupBinding object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Navigation Binding</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Navigation Binding</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseNavigationBinding(NavigationBinding object) {
 		return null;
 	}
 

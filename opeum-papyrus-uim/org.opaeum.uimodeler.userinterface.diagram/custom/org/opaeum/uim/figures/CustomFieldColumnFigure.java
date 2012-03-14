@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.wb.os.OSSupport;
-import org.opaeum.uimodeler.util.UimFigureUtil;
+import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
+import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 public class CustomFieldColumnFigure extends RectangleFigure implements IUimFieldFigure{
 	private WrappingLabel fColumnNameFigure;
@@ -25,7 +27,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	private TableColumn column;
 	public CustomFieldColumnFigure(Composite comp){
 		createContents();
-		Table table = ((UimDataTableComposite) comp).table;
+		Table table = ((UimDataTableComposite) comp).getTable();
 		column = new TableColumn(table, SWT.LEFT);
 		Composite firstRow = (Composite) comp.getChildren()[1];
 		this.composite = new Composite(firstRow, SWT.NONE){
@@ -96,7 +98,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 		column.getParent().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		column.getParent().layout();
 		UimDataTableComposite dtc = (UimDataTableComposite) column.getParent().getParent();
-		Table t = dtc.table;
+		Table t = dtc.getTable();
 		t.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		dtc.recalculateColumns();
 	}

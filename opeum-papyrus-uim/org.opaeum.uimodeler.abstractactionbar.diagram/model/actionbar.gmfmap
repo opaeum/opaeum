@@ -7,14 +7,16 @@
     xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
   <nodes>
     <containmentFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//editor/AbstractEditor/actionBar"/>
+    <childrenFeature
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//editor/AbstractEditor/actionBar"/>
     <ownedChild>
       <domainMetaElement
-          href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInAction"/>
+          href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//editor/EditorActionBar"/>
       <labelMappings
           xsi:type="gmfmap:FeatureLabelMapping">
         <diagramLabel
-            href="actionbar.gmfgraph#BuiltInActionName"/>
+            href="actionbar.gmfgraph#ActionBarName"/>
         <features
             href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
         <editableFeatures
@@ -22,53 +24,139 @@
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="actionbar.gmftool#//@palette/@tools.0/@tools.0"/>
+          href="actionbar.gmftool#//@palette/@tools.2"/>
       <diagramNode
-          href="actionbar.gmfgraph#BuiltInActionButton"/>
-    </ownedChild>
-  </nodes>
-  <nodes>
-    <containmentFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
-    <ownedChild>
-      <domainMetaElement
-          href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/TransitionAction"/>
-      <labelMappings
-          xsi:type="gmfmap:FeatureLabelMapping">
-        <diagramLabel
-            href="actionbar.gmfgraph#TransitionActionName"/>
-        <features
-            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
-        <editableFeatures
-            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
-      </labelMappings>
-      <tool
-          xsi:type="gmftool:CreationTool"
-          href="actionbar.gmftool#//@palette/@tools.0/@tools.1"/>
-      <diagramNode
-          href="actionbar.gmfgraph#TransitionButton"/>
-    </ownedChild>
-  </nodes>
-  <nodes>
-    <containmentFeature
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
-    <ownedChild>
-      <domainMetaElement
-          href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/OperationAction"/>
-      <labelMappings
-          xsi:type="gmfmap:FeatureLabelMapping">
-        <diagramLabel
-            href="actionbar.gmfgraph#OperationActionName"/>
-        <features
-            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
-        <editableFeatures
-            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
-      </labelMappings>
-      <tool
-          xsi:type="gmftool:CreationTool"
-          href="actionbar.gmftool#//@palette/@tools.0/@tools.2"/>
-      <diagramNode
-          href="actionbar.gmfgraph#OperationButton"/>
+          href="actionbar.gmfgraph#ActionBar"/>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInLink"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping">
+            <diagramLabel
+                href="actionbar.gmfgraph#BuiltInLinkName"/>
+            <features
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+            <editableFeatures
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="actionbar.gmftool#//@palette/@tools.1/@tools.1"/>
+          <diagramNode
+              href="actionbar.gmfgraph#BuiltInLink"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/LinkToQuery"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping">
+            <diagramLabel
+                href="actionbar.gmfgraph#LinkToQueryName"/>
+            <features
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+            <editableFeatures
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="actionbar.gmftool#//@palette/@tools.1/@tools.0"/>
+          <diagramNode
+              href="actionbar.gmfgraph#LinkToQuery"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/OperationButton"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping">
+            <diagramLabel
+                href="actionbar.gmfgraph#OperationButtonName"/>
+            <features
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+            <editableFeatures
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="actionbar.gmftool#//@palette/@tools.0/@tools.2"/>
+          <diagramNode
+              href="actionbar.gmfgraph#OperationButton"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInActionButton"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping">
+            <diagramLabel
+                href="actionbar.gmfgraph#BuiltInActionButtonName"/>
+            <features
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+            <editableFeatures
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="actionbar.gmftool#//@palette/@tools.0/@tools.0"/>
+          <diagramNode
+              href="actionbar.gmfgraph#BuiltInActionButton"/>
+        </ownedChild>
+      </children>
+      <children
+          compartment="//@nodes.0/@ownedChild/@compartments.0">
+        <containmentFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <childrenFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
+        <ownedChild>
+          <domainMetaElement
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/TransitionButton"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping">
+            <diagramLabel
+                href="actionbar.gmfgraph#TransitionButtonName"/>
+            <features
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+            <editableFeatures
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+          </labelMappings>
+          <tool
+              xsi:type="gmftool:CreationTool"
+              href="actionbar.gmftool#//@palette/@tools.0/@tools.1"/>
+          <diagramNode
+              href="actionbar.gmfgraph#TransitionButton"/>
+        </ownedChild>
+      </children>
+      <compartments
+          children="//@nodes.0/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.1 //@nodes.0/@ownedChild/@children.2 //@nodes.0/@ownedChild/@children.3 //@nodes.0/@ownedChild/@children.4">
+        <compartment
+            href="actionbar.gmfgraph#ActionBarChildrenCompartment"/>
+      </compartments>
     </ownedChild>
   </nodes>
   <diagram>
@@ -77,7 +165,7 @@
     <domainModel
         href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action"/>
     <domainMetaElement
-        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//AbstractActionBar"/>
+        href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//editor/AbstractEditor"/>
     <palette
         href="actionbar.gmftool#//@palette"/>
   </diagram>

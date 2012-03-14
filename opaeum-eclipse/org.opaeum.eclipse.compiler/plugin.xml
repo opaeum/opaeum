@@ -49,6 +49,10 @@
           uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml">
     </modelLibrary>
     <modelLibrary
+          name="Opaeum Simple Types Old"
+          uri="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.library.uml">
+    </modelLibrary>
+    <modelLibrary
           name="UML Primitive Types"
           uri="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.uml">
     </modelLibrary>

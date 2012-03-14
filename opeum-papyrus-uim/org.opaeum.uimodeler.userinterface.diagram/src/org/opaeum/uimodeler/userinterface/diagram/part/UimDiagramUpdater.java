@@ -12,22 +12,21 @@ import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.GridPanel;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartment2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
@@ -103,7 +102,7 @@ public class UimDiagramUpdater{
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == BuiltInActionEditPart.VISUAL_ID){
+			if(visualID == BuiltInActionButtonEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -115,19 +114,19 @@ public class UimDiagramUpdater{
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == TransitionActionEditPart.VISUAL_ID){
+			if(visualID == TransitionButtonEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == OperationActionEditPart.VISUAL_ID){
+			if(visualID == OperationButtonEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == LinkToOperationEditPart.VISUAL_ID){
+			if(visualID == LinkToQueryEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == LinkToEntityEditPart.VISUAL_ID){
+			if(visualID == BuiltInLinkEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -162,15 +161,11 @@ public class UimDiagramUpdater{
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == LinkToEntity2EditPart.VISUAL_ID){
+			if(visualID == BuiltInActionButton2EditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == BuiltInAction2EditPart.VISUAL_ID){
-				result.add(new UimNodeDescriptor(childElement, visualID));
-				continue;
-			}
-			if(visualID == OperationAction2EditPart.VISUAL_ID){
+			if(visualID == OperationButton2EditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -193,11 +188,11 @@ public class UimDiagramUpdater{
 		for(Iterator<?> it = modelElement.getActionsOnMultipleSelection().iterator();it.hasNext();){
 			UimAction childElement = (UimAction) it.next();
 			int visualID = UimVisualIDRegistry.getNodeVisualID(view, childElement);
-			if(visualID == BuiltInAction3EditPart.VISUAL_ID){
+			if(visualID == BuiltInActionButton3EditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == OperationAction3EditPart.VISUAL_ID){
+			if(visualID == OperationButton3EditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -224,7 +219,7 @@ public class UimDiagramUpdater{
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == BuiltInActionEditPart.VISUAL_ID){
+			if(visualID == BuiltInActionButtonEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -236,19 +231,19 @@ public class UimDiagramUpdater{
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == TransitionActionEditPart.VISUAL_ID){
+			if(visualID == TransitionButtonEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == OperationActionEditPart.VISUAL_ID){
+			if(visualID == OperationButtonEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == LinkToOperationEditPart.VISUAL_ID){
+			if(visualID == LinkToQueryEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
-			if(visualID == LinkToEntityEditPart.VISUAL_ID){
+			if(visualID == BuiltInLinkEditPart.VISUAL_ID){
 				result.add(new UimNodeDescriptor(childElement, visualID));
 				continue;
 			}
@@ -278,34 +273,32 @@ public class UimDiagramUpdater{
 			return getVerticalPanel_2003ContainedLinks(view);
 		case UimFieldEditPart.VISUAL_ID:
 			return getUimField_3001ContainedLinks(view);
-		case BuiltInActionEditPart.VISUAL_ID:
-			return getBuiltInAction_3002ContainedLinks(view);
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return getBuiltInActionButton_3018ContainedLinks(view);
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return getHorizontalPanel_3003ContainedLinks(view);
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return getVerticalPanel_3004ContainedLinks(view);
-		case TransitionActionEditPart.VISUAL_ID:
-			return getTransitionAction_3005ContainedLinks(view);
-		case OperationActionEditPart.VISUAL_ID:
-			return getOperationAction_3006ContainedLinks(view);
-		case LinkToOperationEditPart.VISUAL_ID:
-			return getLinkToOperation_3007ContainedLinks(view);
-		case LinkToEntityEditPart.VISUAL_ID:
-			return getLinkToEntity_3008ContainedLinks(view);
+		case TransitionButtonEditPart.VISUAL_ID:
+			return getTransitionButton_3019ContainedLinks(view);
+		case OperationButtonEditPart.VISUAL_ID:
+			return getOperationButton_3020ContainedLinks(view);
+		case LinkToQueryEditPart.VISUAL_ID:
+			return getLinkToQuery_3021ContainedLinks(view);
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return getBuiltInLink_3022ContainedLinks(view);
 		case UimDataTableEditPart.VISUAL_ID:
 			return getUimDataTable_3009ContainedLinks(view);
 		case UimField2EditPart.VISUAL_ID:
 			return getUimField_3010ContainedLinks(view);
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return getLinkToEntity_3011ContainedLinks(view);
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return getBuiltInAction_3012ContainedLinks(view);
-		case OperationAction2EditPart.VISUAL_ID:
-			return getOperationAction_3014ContainedLinks(view);
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return getBuiltInAction_3015ContainedLinks(view);
-		case OperationAction3EditPart.VISUAL_ID:
-			return getOperationAction_3016ContainedLinks(view);
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3023ContainedLinks(view);
+		case OperationButton2EditPart.VISUAL_ID:
+			return getOperationButton_3024ContainedLinks(view);
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3025ContainedLinks(view);
+		case OperationButton3EditPart.VISUAL_ID:
+			return getOperationButton_3026ContainedLinks(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017ContainedLinks(view);
 		}
@@ -324,34 +317,32 @@ public class UimDiagramUpdater{
 			return getVerticalPanel_2003IncomingLinks(view);
 		case UimFieldEditPart.VISUAL_ID:
 			return getUimField_3001IncomingLinks(view);
-		case BuiltInActionEditPart.VISUAL_ID:
-			return getBuiltInAction_3002IncomingLinks(view);
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return getBuiltInActionButton_3018IncomingLinks(view);
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return getHorizontalPanel_3003IncomingLinks(view);
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return getVerticalPanel_3004IncomingLinks(view);
-		case TransitionActionEditPart.VISUAL_ID:
-			return getTransitionAction_3005IncomingLinks(view);
-		case OperationActionEditPart.VISUAL_ID:
-			return getOperationAction_3006IncomingLinks(view);
-		case LinkToOperationEditPart.VISUAL_ID:
-			return getLinkToOperation_3007IncomingLinks(view);
-		case LinkToEntityEditPart.VISUAL_ID:
-			return getLinkToEntity_3008IncomingLinks(view);
+		case TransitionButtonEditPart.VISUAL_ID:
+			return getTransitionButton_3019IncomingLinks(view);
+		case OperationButtonEditPart.VISUAL_ID:
+			return getOperationButton_3020IncomingLinks(view);
+		case LinkToQueryEditPart.VISUAL_ID:
+			return getLinkToQuery_3021IncomingLinks(view);
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return getBuiltInLink_3022IncomingLinks(view);
 		case UimDataTableEditPart.VISUAL_ID:
 			return getUimDataTable_3009IncomingLinks(view);
 		case UimField2EditPart.VISUAL_ID:
 			return getUimField_3010IncomingLinks(view);
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return getLinkToEntity_3011IncomingLinks(view);
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return getBuiltInAction_3012IncomingLinks(view);
-		case OperationAction2EditPart.VISUAL_ID:
-			return getOperationAction_3014IncomingLinks(view);
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return getBuiltInAction_3015IncomingLinks(view);
-		case OperationAction3EditPart.VISUAL_ID:
-			return getOperationAction_3016IncomingLinks(view);
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3023IncomingLinks(view);
+		case OperationButton2EditPart.VISUAL_ID:
+			return getOperationButton_3024IncomingLinks(view);
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3025IncomingLinks(view);
+		case OperationButton3EditPart.VISUAL_ID:
+			return getOperationButton_3026IncomingLinks(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017IncomingLinks(view);
 		}
@@ -370,34 +361,32 @@ public class UimDiagramUpdater{
 			return getVerticalPanel_2003OutgoingLinks(view);
 		case UimFieldEditPart.VISUAL_ID:
 			return getUimField_3001OutgoingLinks(view);
-		case BuiltInActionEditPart.VISUAL_ID:
-			return getBuiltInAction_3002OutgoingLinks(view);
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return getBuiltInActionButton_3018OutgoingLinks(view);
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return getHorizontalPanel_3003OutgoingLinks(view);
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return getVerticalPanel_3004OutgoingLinks(view);
-		case TransitionActionEditPart.VISUAL_ID:
-			return getTransitionAction_3005OutgoingLinks(view);
-		case OperationActionEditPart.VISUAL_ID:
-			return getOperationAction_3006OutgoingLinks(view);
-		case LinkToOperationEditPart.VISUAL_ID:
-			return getLinkToOperation_3007OutgoingLinks(view);
-		case LinkToEntityEditPart.VISUAL_ID:
-			return getLinkToEntity_3008OutgoingLinks(view);
+		case TransitionButtonEditPart.VISUAL_ID:
+			return getTransitionButton_3019OutgoingLinks(view);
+		case OperationButtonEditPart.VISUAL_ID:
+			return getOperationButton_3020OutgoingLinks(view);
+		case LinkToQueryEditPart.VISUAL_ID:
+			return getLinkToQuery_3021OutgoingLinks(view);
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return getBuiltInLink_3022OutgoingLinks(view);
 		case UimDataTableEditPart.VISUAL_ID:
 			return getUimDataTable_3009OutgoingLinks(view);
 		case UimField2EditPart.VISUAL_ID:
 			return getUimField_3010OutgoingLinks(view);
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return getLinkToEntity_3011OutgoingLinks(view);
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return getBuiltInAction_3012OutgoingLinks(view);
-		case OperationAction2EditPart.VISUAL_ID:
-			return getOperationAction_3014OutgoingLinks(view);
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return getBuiltInAction_3015OutgoingLinks(view);
-		case OperationAction3EditPart.VISUAL_ID:
-			return getOperationAction_3016OutgoingLinks(view);
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3023OutgoingLinks(view);
+		case OperationButton2EditPart.VISUAL_ID:
+			return getOperationButton_3024OutgoingLinks(view);
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3025OutgoingLinks(view);
+		case OperationButton3EditPart.VISUAL_ID:
+			return getOperationButton_3026OutgoingLinks(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017OutgoingLinks(view);
 		}
@@ -436,25 +425,7 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3015ContainedLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getOperationAction_3016ContainedLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getGridPanel_3017ContainedLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3002ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3018ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -472,25 +443,25 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getTransitionAction_3005ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getTransitionButton_3019ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getOperationAction_3006ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getOperationButton_3020ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToOperation_3007ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getLinkToQuery_3021ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToEntity_3008ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInLink_3022ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -508,19 +479,31 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToEntity_3011ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3023ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3012ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getOperationButton_3024ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getOperationAction_3014ContainedLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3025ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getOperationButton_3026ContainedLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getGridPanel_3017ContainedLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -550,25 +533,7 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3015IncomingLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getOperationAction_3016IncomingLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getGridPanel_3017IncomingLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3002IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3018IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -586,25 +551,25 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getTransitionAction_3005IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getTransitionButton_3019IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getOperationAction_3006IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getOperationButton_3020IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToOperation_3007IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getLinkToQuery_3021IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToEntity_3008IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInLink_3022IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -622,19 +587,31 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToEntity_3011IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3023IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3012IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getOperationButton_3024IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getOperationAction_3014IncomingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3025IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getOperationButton_3026IncomingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getGridPanel_3017IncomingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -664,25 +641,7 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3015OutgoingLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getOperationAction_3016OutgoingLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getGridPanel_3017OutgoingLinks(View view){
-		return Collections.emptyList();
-	}
-	/**
-	 * @generated
-	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3002OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3018OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -700,25 +659,25 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getTransitionAction_3005OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getTransitionButton_3019OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getOperationAction_3006OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getOperationButton_3020OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToOperation_3007OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getLinkToQuery_3021OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToEntity_3008OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInLink_3022OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
@@ -736,19 +695,31 @@ public class UimDiagramUpdater{
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getLinkToEntity_3011OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3023OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getBuiltInAction_3012OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getOperationButton_3024OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 	/**
 	 * @generated
 	 */
-	public static List<UimLinkDescriptor> getOperationAction_3014OutgoingLinks(View view){
+	public static List<UimLinkDescriptor> getBuiltInActionButton_3025OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getOperationButton_3026OutgoingLinks(View view){
+		return Collections.emptyList();
+	}
+	/**
+	 * @generated
+	 */
+	public static List<UimLinkDescriptor> getGridPanel_3017OutgoingLinks(View view){
 		return Collections.emptyList();
 	}
 }

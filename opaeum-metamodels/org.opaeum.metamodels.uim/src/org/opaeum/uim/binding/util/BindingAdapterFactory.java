@@ -11,7 +11,6 @@ import org.opaeum.uim.binding.*;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
-import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
@@ -77,10 +76,6 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 				return createLookupBindingAdapter();
 			}
 			@Override
-			public Adapter caseNavigationBinding(NavigationBinding object) {
-				return createNavigationBindingAdapter();
-			}
-			@Override
 			public Adapter caseTableBinding(TableBinding object) {
 				return createTableBindingAdapter();
 			}
@@ -131,20 +126,6 @@ public class BindingAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLookupBindingAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.binding.NavigationBinding <em>Navigation Binding</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.binding.NavigationBinding
-	 * @generated
-	 */
-	public Adapter createNavigationBindingAdapter() {
 		return null;
 	}
 

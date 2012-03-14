@@ -22,18 +22,21 @@ import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimCheckBox;
 import org.opaeum.uim.control.UimControl;
 import org.opaeum.uim.control.UimDatePopup;
+import org.opaeum.uim.control.UimDateScroller;
+import org.opaeum.uim.control.UimDateTimePopup;
 import org.opaeum.uim.control.UimDropdown;
+import org.opaeum.uim.control.UimLabel;
+import org.opaeum.uim.control.UimLinkControl;
+import org.opaeum.uim.control.UimListBox;
 import org.opaeum.uim.control.UimLookup;
-import org.opaeum.uim.control.UimMultiSelectListBox;
-import org.opaeum.uim.control.UimMultiSelectPopupSearch;
-import org.opaeum.uim.control.UimMultiSelectTreeView;
 import org.opaeum.uim.control.UimNumberScroller;
-import org.opaeum.uim.control.UimSingleSelectListBox;
-import org.opaeum.uim.control.UimSingleSelectPopupSearch;
-import org.opaeum.uim.control.UimSingleSelectTreeView;
+import org.opaeum.uim.control.UimPopupSearch;
+import org.opaeum.uim.control.UimRadioButton;
+import org.opaeum.uim.control.UimSelectionTable;
 import org.opaeum.uim.control.UimText;
 import org.opaeum.uim.control.UimTextArea;
 import org.opaeum.uim.control.UimToggleButton;
+import org.opaeum.uim.control.UimTreeView;
 import org.opaeum.uim.editor.EditorPackage;
 import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
@@ -70,28 +73,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimSingleSelectPopupSearchEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass uimMultiSelectPopupSearchEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass uimMultiSelectTreeViewEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass uimMultiSelectListBoxEClass = null;
+	private EClass uimPopupSearchEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -140,7 +122,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimSingleSelectListBoxEClass = null;
+	private EClass uimListBoxEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -154,7 +136,49 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uimSingleSelectTreeViewEClass = null;
+	private EClass uimTreeViewEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimLinkControlEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimDateScrollerEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimSelectionTableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimRadioButtonEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimLabelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass uimDateTimePopupEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -276,35 +300,8 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimSingleSelectPopupSearch() {
-		return uimSingleSelectPopupSearchEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getUimMultiSelectPopupSearch() {
-		return uimMultiSelectPopupSearchEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getUimMultiSelectTreeView() {
-		return uimMultiSelectTreeViewEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getUimMultiSelectListBox() {
-		return uimMultiSelectListBoxEClass;
+	public EClass getUimPopupSearch() {
+		return uimPopupSearchEClass;
 	}
 
 	/**
@@ -384,8 +381,8 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimSingleSelectListBox() {
-		return uimSingleSelectListBoxEClass;
+	public EClass getUimListBox() {
+		return uimListBoxEClass;
 	}
 
 	/**
@@ -393,8 +390,8 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getUimSingleSelectListBox_Rows() {
-		return (EAttribute)uimSingleSelectListBoxEClass.getEStructuralFeatures().get(0);
+	public EAttribute getUimListBox_Rows() {
+		return (EAttribute)uimListBoxEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -438,8 +435,71 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUimSingleSelectTreeView() {
-		return uimSingleSelectTreeViewEClass;
+	public EClass getUimTreeView() {
+		return uimTreeViewEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUimLinkControl() {
+		return uimLinkControlEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUimLinkControl_EditorToOpen() {
+		return (EReference)uimLinkControlEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUimDateScroller() {
+		return uimDateScrollerEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUimSelectionTable() {
+		return uimSelectionTableEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUimRadioButton() {
+		return uimRadioButtonEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUimLabel() {
+		return uimLabelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUimDateTimePopup() {
+		return uimDateTimePopupEClass;
 	}
 
 	/**
@@ -483,13 +543,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 
 		uimToggleButtonEClass = createEClass(UIM_TOGGLE_BUTTON);
 
-		uimSingleSelectPopupSearchEClass = createEClass(UIM_SINGLE_SELECT_POPUP_SEARCH);
-
-		uimMultiSelectPopupSearchEClass = createEClass(UIM_MULTI_SELECT_POPUP_SEARCH);
-
-		uimMultiSelectTreeViewEClass = createEClass(UIM_MULTI_SELECT_TREE_VIEW);
-
-		uimMultiSelectListBoxEClass = createEClass(UIM_MULTI_SELECT_LIST_BOX);
+		uimPopupSearchEClass = createEClass(UIM_POPUP_SEARCH);
 
 		uimDropdownEClass = createEClass(UIM_DROPDOWN);
 
@@ -505,15 +559,28 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 
 		uimDatePopupEClass = createEClass(UIM_DATE_POPUP);
 
-		uimSingleSelectListBoxEClass = createEClass(UIM_SINGLE_SELECT_LIST_BOX);
-		createEAttribute(uimSingleSelectListBoxEClass, UIM_SINGLE_SELECT_LIST_BOX__ROWS);
+		uimListBoxEClass = createEClass(UIM_LIST_BOX);
+		createEAttribute(uimListBoxEClass, UIM_LIST_BOX__ROWS);
 
 		uimControlEClass = createEClass(UIM_CONTROL);
 		createEAttribute(uimControlEClass, UIM_CONTROL__MIMUM_WIDTH);
 		createEReference(uimControlEClass, UIM_CONTROL__FIELD);
 		createEAttribute(uimControlEClass, UIM_CONTROL__MINIMUM_HEIGHT);
 
-		uimSingleSelectTreeViewEClass = createEClass(UIM_SINGLE_SELECT_TREE_VIEW);
+		uimTreeViewEClass = createEClass(UIM_TREE_VIEW);
+
+		uimLinkControlEClass = createEClass(UIM_LINK_CONTROL);
+		createEReference(uimLinkControlEClass, UIM_LINK_CONTROL__EDITOR_TO_OPEN);
+
+		uimDateScrollerEClass = createEClass(UIM_DATE_SCROLLER);
+
+		uimSelectionTableEClass = createEClass(UIM_SELECTION_TABLE);
+
+		uimRadioButtonEClass = createEClass(UIM_RADIO_BUTTON);
+
+		uimLabelEClass = createEClass(UIM_LABEL);
+
+		uimDateTimePopupEClass = createEClass(UIM_DATE_TIME_POPUP);
 
 		// Create enums
 		controlKindEEnum = createEEnum(CONTROL_KIND);
@@ -546,6 +613,7 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		BindingPackage theBindingPackage = (BindingPackage)EPackage.Registry.INSTANCE.getEPackage(BindingPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
+		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -554,31 +622,28 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		// Add supertypes to classes
 		uimNumberScrollerEClass.getESuperTypes().add(this.getUimControl());
 		uimToggleButtonEClass.getESuperTypes().add(this.getUimControl());
-		uimSingleSelectPopupSearchEClass.getESuperTypes().add(this.getUimLookup());
-		uimMultiSelectPopupSearchEClass.getESuperTypes().add(this.getUimLookup());
-		uimMultiSelectTreeViewEClass.getESuperTypes().add(this.getUimLookup());
-		uimMultiSelectListBoxEClass.getESuperTypes().add(this.getUimLookup());
+		uimPopupSearchEClass.getESuperTypes().add(this.getUimLookup());
 		uimDropdownEClass.getESuperTypes().add(this.getUimLookup());
 		uimCheckBoxEClass.getESuperTypes().add(this.getUimControl());
 		uimLookupEClass.getESuperTypes().add(this.getUimControl());
 		uimTextAreaEClass.getESuperTypes().add(this.getUimControl());
 		uimTextEClass.getESuperTypes().add(this.getUimControl());
 		uimDatePopupEClass.getESuperTypes().add(this.getUimControl());
-		uimSingleSelectListBoxEClass.getESuperTypes().add(this.getUimLookup());
-		uimSingleSelectTreeViewEClass.getESuperTypes().add(this.getUimLookup());
+		uimListBoxEClass.getESuperTypes().add(this.getUimLookup());
+		uimTreeViewEClass.getESuperTypes().add(this.getUimLookup());
+		uimLinkControlEClass.getESuperTypes().add(this.getUimControl());
+		uimDateScrollerEClass.getESuperTypes().add(this.getUimControl());
+		uimSelectionTableEClass.getESuperTypes().add(this.getUimControl());
+		uimRadioButtonEClass.getESuperTypes().add(this.getUimControl());
+		uimLabelEClass.getESuperTypes().add(this.getUimControl());
+		uimDateTimePopupEClass.getESuperTypes().add(this.getUimControl());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(uimNumberScrollerEClass, UimNumberScroller.class, "UimNumberScroller", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(uimToggleButtonEClass, UimToggleButton.class, "UimToggleButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(uimSingleSelectPopupSearchEClass, UimSingleSelectPopupSearch.class, "UimSingleSelectPopupSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(uimMultiSelectPopupSearchEClass, UimMultiSelectPopupSearch.class, "UimMultiSelectPopupSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(uimMultiSelectTreeViewEClass, UimMultiSelectTreeView.class, "UimMultiSelectTreeView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
-		initEClass(uimMultiSelectListBoxEClass, UimMultiSelectListBox.class, "UimMultiSelectListBox", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(uimPopupSearchEClass, UimPopupSearch.class, "UimPopupSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(uimDropdownEClass, UimDropdown.class, "UimDropdown", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -594,15 +659,28 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 
 		initEClass(uimDatePopupEClass, UimDatePopup.class, "UimDatePopup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(uimSingleSelectListBoxEClass, UimSingleSelectListBox.class, "UimSingleSelectListBox", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getUimSingleSelectListBox_Rows(), theEcorePackage.getEIntegerObject(), "rows", null, 0, 1, UimSingleSelectListBox.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(uimListBoxEClass, UimListBox.class, "UimListBox", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUimListBox_Rows(), theEcorePackage.getEIntegerObject(), "rows", null, 0, 1, UimListBox.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(uimControlEClass, UimControl.class, "UimControl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUimControl_MimumWidth(), ecorePackage.getEString(), "mimumWidth", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUimControl_Field(), theUimPackage.getUimField(), theUimPackage.getUimField_Control(), "field", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUimControl_MinimumHeight(), theEcorePackage.getEIntegerObject(), "minimumHeight", null, 0, 1, UimControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uimSingleSelectTreeViewEClass, UimSingleSelectTreeView.class, "UimSingleSelectTreeView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(uimTreeViewEClass, UimTreeView.class, "UimTreeView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(uimLinkControlEClass, UimLinkControl.class, "UimLinkControl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUimLinkControl_EditorToOpen(), theEditorPackage.getClassEditor(), null, "editorToOpen", null, 0, 1, UimLinkControl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(uimDateScrollerEClass, UimDateScroller.class, "UimDateScroller", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(uimSelectionTableEClass, UimSelectionTable.class, "UimSelectionTable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(uimRadioButtonEClass, UimRadioButton.class, "UimRadioButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(uimLabelEClass, UimLabel.class, "UimLabel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(uimDateTimePopupEClass, UimDateTimePopup.class, "UimDateTimePopup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(controlKindEEnum, ControlKind.class, "ControlKind");
@@ -610,15 +688,18 @@ public class ControlPackageImpl extends EPackageImpl implements ControlPackage {
 		addEEnumLiteral(controlKindEEnum, ControlKind.DROPDOWN);
 		addEEnumLiteral(controlKindEEnum, ControlKind.TEXT);
 		addEEnumLiteral(controlKindEEnum, ControlKind.TEXT_AREA);
-		addEEnumLiteral(controlKindEEnum, ControlKind.SINGLE_SELECT_LIST_BOX);
+		addEEnumLiteral(controlKindEEnum, ControlKind.LIST_BOX);
 		addEEnumLiteral(controlKindEEnum, ControlKind.CHECK_BOX);
 		addEEnumLiteral(controlKindEEnum, ControlKind.NUMBER_SCROLLER);
-		addEEnumLiteral(controlKindEEnum, ControlKind.SINGLE_SELECT_TREE_VIEW);
-		addEEnumLiteral(controlKindEEnum, ControlKind.MULTI_SELECT_TREE_VIEW);
-		addEEnumLiteral(controlKindEEnum, ControlKind.MULTI_SELECT_LIST_BOX);
-		addEEnumLiteral(controlKindEEnum, ControlKind.SINGLE_SELECT_POPUP_SEARCH);
-		addEEnumLiteral(controlKindEEnum, ControlKind.MULTI_SELECT_POPUP_SEARCH);
+		addEEnumLiteral(controlKindEEnum, ControlKind.TREE_VIEW);
+		addEEnumLiteral(controlKindEEnum, ControlKind.POPUP_SEARCH);
 		addEEnumLiteral(controlKindEEnum, ControlKind.TOGGLE_BUTTON);
+		addEEnumLiteral(controlKindEEnum, ControlKind.SELECTION_TABLE);
+		addEEnumLiteral(controlKindEEnum, ControlKind.LINK);
+		addEEnumLiteral(controlKindEEnum, ControlKind.RADIO_BUTTON);
+		addEEnumLiteral(controlKindEEnum, ControlKind.LABEL);
+		addEEnumLiteral(controlKindEEnum, ControlKind.DATE_SCROLLER);
+		addEEnumLiteral(controlKindEEnum, ControlKind.DATE_TIME_POPUP);
 	}
 
 } //ControlPackageImpl

@@ -20,22 +20,21 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartment2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
@@ -157,7 +156,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
@@ -169,19 +168,19 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(TransitionActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(TransitionButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToOperationEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToQueryEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToEntityEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInLinkEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartmentEditPart.VISUAL_ID));
@@ -215,23 +214,19 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToEntity2EditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionButton2EditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInAction2EditPart.VISUAL_ID));
-		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
-		connectedViews = getChildrenByType(Collections.singleton(view),
-				UimVisualIDRegistry.getType(UimDataTableDataTableColumnCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationAction2EditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationButton2EditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInAction3EditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionButton3EditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationAction3EditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationButton3EditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		return result.toArray();
 	}
@@ -249,7 +244,7 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInActionButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));
@@ -261,19 +256,19 @@ public class UimNavigatorContentProvider implements ICommonContentProvider{
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(TransitionActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(TransitionButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationActionEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(OperationButtonEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToOperationEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToQueryEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));
-		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(LinkToEntityEditPart.VISUAL_ID));
+		connectedViews = getChildrenByType(connectedViews, UimVisualIDRegistry.getType(BuiltInLinkEditPart.VISUAL_ID));
 		result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 		connectedViews = getChildrenByType(Collections.singleton(view),
 				UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID));

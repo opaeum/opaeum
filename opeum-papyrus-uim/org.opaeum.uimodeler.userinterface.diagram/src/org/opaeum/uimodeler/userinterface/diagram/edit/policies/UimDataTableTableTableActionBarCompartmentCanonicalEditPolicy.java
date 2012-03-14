@@ -21,8 +21,8 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramUpdater;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimNodeDescriptor;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
@@ -73,7 +73,7 @@ public class UimDataTableTableTableActionBarCompartmentCanonicalEditPolicy exten
 	 */
 	private boolean isMyDiagramElement(View view){
 		int visualID = UimVisualIDRegistry.getVisualID(view);
-		return visualID == BuiltInAction3EditPart.VISUAL_ID || visualID == OperationAction3EditPart.VISUAL_ID;
+		return visualID == BuiltInActionButton3EditPart.VISUAL_ID || visualID == OperationButton3EditPart.VISUAL_ID;
 	}
 	/**
 	 * @generated

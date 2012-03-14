@@ -52,12 +52,12 @@
             href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
         <ownedChild>
           <domainMetaElement
-              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInAction"/>
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInActionButton"/>
           <tool
               xsi:type="gmftool:CreationTool"
               href="userinterface.gmftool#//@palette/@tools.2/@tools.0"/>
           <diagramNode
-              href="userinterface.gmfgraph#BuiltInAction"/>
+              href="userinterface.gmfgraph#BuiltInActionButton"/>
         </ownedChild>
       </children>
       <children
@@ -84,11 +84,11 @@
             href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
         <ownedChild>
           <domainMetaElement
-              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/TransitionAction"/>
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/TransitionButton"/>
           <labelMappings
               xsi:type="gmfmap:FeatureLabelMapping">
             <diagramLabel
-                href="userinterface.gmfgraph#TransitionActionName"/>
+                href="userinterface.gmfgraph#TransitionButtonName"/>
             <features
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
             <editableFeatures
@@ -98,7 +98,7 @@
               xsi:type="gmftool:CreationTool"
               href="userinterface.gmftool#//@palette/@tools.2/@tools.1"/>
           <diagramNode
-              href="userinterface.gmfgraph#TransitionAction"/>
+              href="userinterface.gmfgraph#TransitionButton"/>
         </ownedChild>
       </children>
       <children
@@ -109,12 +109,21 @@
             href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
         <ownedChild>
           <domainMetaElement
-              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/OperationAction"/>
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/OperationButton"/>
+          <labelMappings
+              xsi:type="gmfmap:FeatureLabelMapping">
+            <diagramLabel
+                href="userinterface.gmfgraph#OperationButtonName"/>
+            <features
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+            <editableFeatures
+                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
+          </labelMappings>
           <tool
               xsi:type="gmftool:CreationTool"
               href="userinterface.gmftool#//@palette/@tools.2/@tools.2"/>
           <diagramNode
-              href="userinterface.gmfgraph#OperationAction"/>
+              href="userinterface.gmfgraph#OperationButton"/>
         </ownedChild>
       </children>
       <children
@@ -125,11 +134,11 @@
             href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
         <ownedChild>
           <domainMetaElement
-              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/LinkToOperation"/>
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/LinkToQuery"/>
           <labelMappings
               xsi:type="gmfmap:FeatureLabelMapping">
             <diagramLabel
-                href="userinterface.gmfgraph#LinkToOperationUmlElementUid"/>
+                href="userinterface.gmfgraph#LinkToQueryName"/>
             <features
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
             <editableFeatures
@@ -139,7 +148,7 @@
               xsi:type="gmftool:CreationTool"
               href="userinterface.gmftool#//@palette/@tools.2/@tools.3"/>
           <diagramNode
-              href="userinterface.gmfgraph#LinkToOperation"/>
+              href="userinterface.gmfgraph#LinkToQuery"/>
         </ownedChild>
       </children>
       <children
@@ -150,11 +159,11 @@
             href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
         <ownedChild>
           <domainMetaElement
-              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/LinkToEntity"/>
+              href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInLink"/>
           <labelMappings
               xsi:type="gmfmap:FeatureLabelMapping">
             <diagramLabel
-                href="userinterface.gmfgraph#LinkToEntityUmlElementUid"/>
+                href="userinterface.gmfgraph#BuiltInLinkName"/>
             <features
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UserInteractionElement/name"/>
             <editableFeatures
@@ -164,7 +173,7 @@
               xsi:type="gmftool:CreationTool"
               href="userinterface.gmftool#//@palette/@tools.2/@tools.4"/>
           <diagramNode
-              href="userinterface.gmfgraph#LinkToEntity"/>
+              href="userinterface.gmfgraph#BuiltInLink"/>
         </ownedChild>
       </children>
       <children
@@ -221,28 +230,12 @@
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
             <ownedChild>
               <domainMetaElement
-                  href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/LinkToEntity"/>
-              <tool
-                  xsi:type="gmftool:CreationTool"
-                  href="userinterface.gmftool#//@palette/@tools.2/@tools.4"/>
-              <diagramNode
-                  href="userinterface.gmfgraph#LinkToEntityColumn"/>
-            </ownedChild>
-          </children>
-          <children
-              compartment="//@nodes.0/@ownedChild/@children.10/@ownedChild/@compartments.0">
-            <containmentFeature
-                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
-            <childrenFeature
-                href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
-            <ownedChild>
-              <domainMetaElement
-                  href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInAction"/>
+                  href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/BuiltInActionButton"/>
               <tool
                   xsi:type="gmftool:CreationTool"
                   href="userinterface.gmftool#//@palette/@tools.2/@tools.0"/>
               <diagramNode
-                  href="userinterface.gmfgraph#BuiltInActionColumn"/>
+                  href="userinterface.gmfgraph#BuiltInActionButtonColumn"/>
             </ownedChild>
           </children>
           <children
@@ -254,12 +247,12 @@
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimContainer/children"/>
             <ownedChild>
               <domainMetaElement
-                  href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/OperationAction"/>
+                  href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//action/OperationButton"/>
               <tool
                   xsi:type="gmftool:CreationTool"
                   href="userinterface.gmftool#//@palette/@tools.2/@tools.2"/>
               <diagramNode
-                  href="userinterface.gmfgraph#OperationActionColumn"/>
+                  href="userinterface.gmfgraph#OperationButton"/>
             </ownedChild>
           </children>
           <children
@@ -279,12 +272,12 @@
                 href="../../org.opaeum.metamodels.uim/model/Uim.ecore#//UimDataTable/actionsOnMultipleSelection"/>
           </children>
           <compartments
-              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.1 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.2 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.3">
+              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.0 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.1 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.2">
             <compartment
                 href="userinterface.gmfgraph#DataTableColumnCompartment"/>
           </compartments>
           <compartments
-              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.5 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.4">
+              children="//@nodes.0/@ownedChild/@children.10/@ownedChild/@children.4 //@nodes.0/@ownedChild/@children.10/@ownedChild/@children.3">
             <compartment
                 href="userinterface.gmfgraph#TableTableActionBarCompartment"/>
           </compartments>

@@ -11,18 +11,21 @@ import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimCheckBox;
 import org.opaeum.uim.control.UimControl;
 import org.opaeum.uim.control.UimDatePopup;
+import org.opaeum.uim.control.UimDateScroller;
+import org.opaeum.uim.control.UimDateTimePopup;
 import org.opaeum.uim.control.UimDropdown;
+import org.opaeum.uim.control.UimLabel;
+import org.opaeum.uim.control.UimLinkControl;
+import org.opaeum.uim.control.UimListBox;
 import org.opaeum.uim.control.UimLookup;
-import org.opaeum.uim.control.UimMultiSelectListBox;
-import org.opaeum.uim.control.UimMultiSelectPopupSearch;
-import org.opaeum.uim.control.UimMultiSelectTreeView;
 import org.opaeum.uim.control.UimNumberScroller;
-import org.opaeum.uim.control.UimSingleSelectListBox;
-import org.opaeum.uim.control.UimSingleSelectPopupSearch;
-import org.opaeum.uim.control.UimSingleSelectTreeView;
+import org.opaeum.uim.control.UimPopupSearch;
+import org.opaeum.uim.control.UimRadioButton;
+import org.opaeum.uim.control.UimSelectionTable;
 import org.opaeum.uim.control.UimText;
 import org.opaeum.uim.control.UimTextArea;
 import org.opaeum.uim.control.UimToggleButton;
+import org.opaeum.uim.control.UimTreeView;
 
 /**
  * <!-- begin-user-doc -->
@@ -112,35 +115,11 @@ public class ControlSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ControlPackage.UIM_SINGLE_SELECT_POPUP_SEARCH: {
-				UimSingleSelectPopupSearch uimSingleSelectPopupSearch = (UimSingleSelectPopupSearch)theEObject;
-				T result = caseUimSingleSelectPopupSearch(uimSingleSelectPopupSearch);
-				if (result == null) result = caseUimLookup(uimSingleSelectPopupSearch);
-				if (result == null) result = caseUimControl(uimSingleSelectPopupSearch);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ControlPackage.UIM_MULTI_SELECT_POPUP_SEARCH: {
-				UimMultiSelectPopupSearch uimMultiSelectPopupSearch = (UimMultiSelectPopupSearch)theEObject;
-				T result = caseUimMultiSelectPopupSearch(uimMultiSelectPopupSearch);
-				if (result == null) result = caseUimLookup(uimMultiSelectPopupSearch);
-				if (result == null) result = caseUimControl(uimMultiSelectPopupSearch);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ControlPackage.UIM_MULTI_SELECT_TREE_VIEW: {
-				UimMultiSelectTreeView uimMultiSelectTreeView = (UimMultiSelectTreeView)theEObject;
-				T result = caseUimMultiSelectTreeView(uimMultiSelectTreeView);
-				if (result == null) result = caseUimLookup(uimMultiSelectTreeView);
-				if (result == null) result = caseUimControl(uimMultiSelectTreeView);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ControlPackage.UIM_MULTI_SELECT_LIST_BOX: {
-				UimMultiSelectListBox uimMultiSelectListBox = (UimMultiSelectListBox)theEObject;
-				T result = caseUimMultiSelectListBox(uimMultiSelectListBox);
-				if (result == null) result = caseUimLookup(uimMultiSelectListBox);
-				if (result == null) result = caseUimControl(uimMultiSelectListBox);
+			case ControlPackage.UIM_POPUP_SEARCH: {
+				UimPopupSearch uimPopupSearch = (UimPopupSearch)theEObject;
+				T result = caseUimPopupSearch(uimPopupSearch);
+				if (result == null) result = caseUimLookup(uimPopupSearch);
+				if (result == null) result = caseUimControl(uimPopupSearch);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -187,11 +166,11 @@ public class ControlSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ControlPackage.UIM_SINGLE_SELECT_LIST_BOX: {
-				UimSingleSelectListBox uimSingleSelectListBox = (UimSingleSelectListBox)theEObject;
-				T result = caseUimSingleSelectListBox(uimSingleSelectListBox);
-				if (result == null) result = caseUimLookup(uimSingleSelectListBox);
-				if (result == null) result = caseUimControl(uimSingleSelectListBox);
+			case ControlPackage.UIM_LIST_BOX: {
+				UimListBox uimListBox = (UimListBox)theEObject;
+				T result = caseUimListBox(uimListBox);
+				if (result == null) result = caseUimLookup(uimListBox);
+				if (result == null) result = caseUimControl(uimListBox);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -201,11 +180,53 @@ public class ControlSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ControlPackage.UIM_SINGLE_SELECT_TREE_VIEW: {
-				UimSingleSelectTreeView uimSingleSelectTreeView = (UimSingleSelectTreeView)theEObject;
-				T result = caseUimSingleSelectTreeView(uimSingleSelectTreeView);
-				if (result == null) result = caseUimLookup(uimSingleSelectTreeView);
-				if (result == null) result = caseUimControl(uimSingleSelectTreeView);
+			case ControlPackage.UIM_TREE_VIEW: {
+				UimTreeView uimTreeView = (UimTreeView)theEObject;
+				T result = caseUimTreeView(uimTreeView);
+				if (result == null) result = caseUimLookup(uimTreeView);
+				if (result == null) result = caseUimControl(uimTreeView);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ControlPackage.UIM_LINK_CONTROL: {
+				UimLinkControl uimLinkControl = (UimLinkControl)theEObject;
+				T result = caseUimLinkControl(uimLinkControl);
+				if (result == null) result = caseUimControl(uimLinkControl);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ControlPackage.UIM_DATE_SCROLLER: {
+				UimDateScroller uimDateScroller = (UimDateScroller)theEObject;
+				T result = caseUimDateScroller(uimDateScroller);
+				if (result == null) result = caseUimControl(uimDateScroller);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ControlPackage.UIM_SELECTION_TABLE: {
+				UimSelectionTable uimSelectionTable = (UimSelectionTable)theEObject;
+				T result = caseUimSelectionTable(uimSelectionTable);
+				if (result == null) result = caseUimControl(uimSelectionTable);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ControlPackage.UIM_RADIO_BUTTON: {
+				UimRadioButton uimRadioButton = (UimRadioButton)theEObject;
+				T result = caseUimRadioButton(uimRadioButton);
+				if (result == null) result = caseUimControl(uimRadioButton);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ControlPackage.UIM_LABEL: {
+				UimLabel uimLabel = (UimLabel)theEObject;
+				T result = caseUimLabel(uimLabel);
+				if (result == null) result = caseUimControl(uimLabel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ControlPackage.UIM_DATE_TIME_POPUP: {
+				UimDateTimePopup uimDateTimePopup = (UimDateTimePopup)theEObject;
+				T result = caseUimDateTimePopup(uimDateTimePopup);
+				if (result == null) result = caseUimControl(uimDateTimePopup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -244,62 +265,17 @@ public class ControlSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Single Select Popup Search</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Popup Search</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Single Select Popup Search</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Popup Search</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUimSingleSelectPopupSearch(UimSingleSelectPopupSearch object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Multi Select Popup Search</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Multi Select Popup Search</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUimMultiSelectPopupSearch(UimMultiSelectPopupSearch object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Multi Select Tree View</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Multi Select Tree View</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUimMultiSelectTreeView(UimMultiSelectTreeView object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Multi Select List Box</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Multi Select List Box</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseUimMultiSelectListBox(UimMultiSelectListBox object) {
+	public T caseUimPopupSearch(UimPopupSearch object) {
 		return null;
 	}
 
@@ -394,17 +370,17 @@ public class ControlSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Single Select List Box</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Uim List Box</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Single Select List Box</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Uim List Box</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUimSingleSelectListBox(UimSingleSelectListBox object) {
+	public T caseUimListBox(UimListBox object) {
 		return null;
 	}
 
@@ -424,17 +400,107 @@ public class ControlSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uim Single Select Tree View</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Tree View</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uim Single Select Tree View</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Tree View</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUimSingleSelectTreeView(UimSingleSelectTreeView object) {
+	public T caseUimTreeView(UimTreeView object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Link Control</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Link Control</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimLinkControl(UimLinkControl object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Date Scroller</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Date Scroller</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimDateScroller(UimDateScroller object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Selection Table</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Selection Table</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimSelectionTable(UimSelectionTable object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Radio Button</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Radio Button</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimRadioButton(UimRadioButton object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Label</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Label</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimLabel(UimLabel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Uim Date Time Popup</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Uim Date Time Popup</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUimDateTimePopup(UimDateTimePopup object) {
 		return null;
 	}
 

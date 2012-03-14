@@ -20,16 +20,17 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.uim.AbstractActionBar;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.TransitionButton;
+import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
-import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
@@ -67,10 +68,10 @@ public class UmlUimLinks{
 		}
 		return null;
 	}
-	public Operation getOperation(OperationAction eObject){
+	public Operation getOperation(OperationButton eObject){
 		return (Operation) getUmlElement(eObject);
 	}
-	public Transition getTransition(TransitionAction eObject){
+	public Transition getTransition(TransitionButton eObject){
 		return (Transition) getUmlElement(eObject);
 	}
 	public Operation getOperation(OperationInvocationEditor form){
@@ -103,9 +104,12 @@ public class UmlUimLinks{
 		}
 		return typedElement;
 	}
-	public Classifier getNearestClass(UimComponent uc){
+	public Classifier getNearestClass(EObject uc){
 		UimDataTable nearestTable = getNearestTable(uc);
-		if(nearestTable == null){
+		if(uc instanceof UimAction){
+			UmlReference ae= getNearestForm((UimAction)uc);
+			return getRepresentedClass(ae);
+		}else if(nearestTable == null){
 			UserInterface uf = getNearestForm(uc);
 			return getRepresentedClass(uf);
 		}else if(nearestTable.getBinding() != null && getTypedElement(nearestTable.getBinding()) != null){
@@ -127,7 +131,7 @@ public class UmlUimLinks{
 			return getPropertyType(ref.getNext());
 		}
 	}
-	public UimDataTable getNearestTable(UimComponent uc){
+	public UimDataTable getNearestTable(EObject uc){
 		while(!(uc instanceof UimDataTable)){
 			if(uc.eContainer() == null){
 				return null;
@@ -146,6 +150,13 @@ public class UmlUimLinks{
 			uc = uc.eContainer();
 		}
 		return (UserInterface) uc.eContainer();
+	}
+	public static UmlReference getNearestForm(UimAction ab){
+		EObject uc = ab;
+		while(!(uc.eContainer() instanceof UserInterface || uc.eContainer() instanceof AbstractEditor)){
+			uc = uc.eContainer();
+		}
+		return (UmlReference) uc.eContainer();
 	}
 	public List<Operation> getValidOperationsFor(UserInterface ui){
 		if(ui.eContainer() instanceof ClassEditor){
@@ -177,12 +188,11 @@ public class UmlUimLinks{
 			return ((FieldBinding) pr).getField();
 		}else if(pr instanceof TableBinding){
 			return ((TableBinding) pr).getTable();
-		}else if(pr instanceof NavigationBinding){
-			return ((NavigationBinding) pr).getNavigation();
 		}else if(pr instanceof LookupBinding){
 			return ((LookupBinding) pr).getLookup().getField();
+		}else{
+			return (UimComponent) pr.eContainer();
 		}
-		return null;
 	}
 	private Class delegateToContextIfRequired(Class rc){
 		if((rc instanceof Behavior)){
@@ -193,7 +203,7 @@ public class UmlUimLinks{
 		}
 		return rc;
 	}
-	public Classifier getType(NavigationBinding binding){
+	public Classifier getType(UimBinding binding){
 		if(binding == null || getTypedElement(binding) == null){
 			return null;
 		}else if(binding.getNext() == null || getProperty(binding.getNext()) == null){
@@ -213,7 +223,7 @@ public class UmlUimLinks{
 		Element e = getUmlElement(nearestForm);
 		return EmfPropertyUtil.getOwnedTypedElements(e);
 	}
-	public static UmlUimLinks getCurrentUmlLinks(UserInteractionElement e){
+	public static UmlUimLinks getCurrentUmlLinks(EObject e){
 		return linksMap.get(e.eResource());
 	}
 	public Operation getOperation(QueryInvocationEditor form){
@@ -233,5 +243,8 @@ public class UmlUimLinks{
 			}
 		}
 		return null;
+	}
+	public EmfWorkspace getEmfWorkspace(){
+		return primaryEmfWorkspace;
 	}
 }

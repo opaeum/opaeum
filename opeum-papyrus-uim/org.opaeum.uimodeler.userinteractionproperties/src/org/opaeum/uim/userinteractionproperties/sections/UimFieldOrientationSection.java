@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.opaeum.uim.Orientation;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.userinteractionproperties.core.AbstractEnumerationPropertySection;
 
 public class UimFieldOrientationSection extends AbstractEnumerationPropertySection{
 	@Override

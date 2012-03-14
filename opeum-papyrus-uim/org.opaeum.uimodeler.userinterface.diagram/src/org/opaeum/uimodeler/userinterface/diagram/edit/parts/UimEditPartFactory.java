@@ -39,40 +39,42 @@ public class UimEditPartFactory implements EditPartFactory{
 				return new VerticalPanelEditPart(view);
 			case UimFieldEditPart.VISUAL_ID:
 				return new UimFieldEditPart(view);
-			case BuiltInActionEditPart.VISUAL_ID:
-				return new BuiltInActionEditPart(view);
+			case BuiltInActionButtonEditPart.VISUAL_ID:
+				return new BuiltInActionButtonEditPart(view);
 			case HorizontalPanel2EditPart.VISUAL_ID:
 				return new HorizontalPanel2EditPart(view);
 			case VerticalPanel2EditPart.VISUAL_ID:
 				return new VerticalPanel2EditPart(view);
-			case TransitionActionEditPart.VISUAL_ID:
-				return new TransitionActionEditPart(view);
-			case TransitionActionNameEditPart.VISUAL_ID:
-				return new TransitionActionNameEditPart(view);
-			case OperationActionEditPart.VISUAL_ID:
-				return new OperationActionEditPart(view);
-			case LinkToOperationEditPart.VISUAL_ID:
-				return new LinkToOperationEditPart(view);
-			case LinkToOperationNameEditPart.VISUAL_ID:
-				return new LinkToOperationNameEditPart(view);
-			case LinkToEntityEditPart.VISUAL_ID:
-				return new LinkToEntityEditPart(view);
-			case LinkToEntityNameEditPart.VISUAL_ID:
-				return new LinkToEntityNameEditPart(view);
+			case TransitionButtonEditPart.VISUAL_ID:
+				return new TransitionButtonEditPart(view);
+			case TransitionButtonNameEditPart.VISUAL_ID:
+				return new TransitionButtonNameEditPart(view);
+			case OperationButtonEditPart.VISUAL_ID:
+				return new OperationButtonEditPart(view);
+			case OperationButtonNameEditPart.VISUAL_ID:
+				return new OperationButtonNameEditPart(view);
+			case LinkToQueryEditPart.VISUAL_ID:
+				return new LinkToQueryEditPart(view);
+			case LinkToQueryNameEditPart.VISUAL_ID:
+				return new LinkToQueryNameEditPart(view);
+			case BuiltInLinkEditPart.VISUAL_ID:
+				return new BuiltInLinkEditPart(view);
+			case BuiltInLinkNameEditPart.VISUAL_ID:
+				return new BuiltInLinkNameEditPart(view);
 			case UimDataTableEditPart.VISUAL_ID:
 				return new UimDataTableEditPart(view);
 			case UimField2EditPart.VISUAL_ID:
 				return new UimField2EditPart(view);
-			case LinkToEntity2EditPart.VISUAL_ID:
-				return new LinkToEntity2EditPart(view);
-			case BuiltInAction2EditPart.VISUAL_ID:
-				return new BuiltInAction2EditPart(view);
-			case OperationAction2EditPart.VISUAL_ID:
-				return new OperationAction2EditPart(view);
-			case BuiltInAction3EditPart.VISUAL_ID:
-				return new BuiltInAction3EditPart(view);
-			case OperationAction3EditPart.VISUAL_ID:
-				return new OperationAction3EditPart(view);
+			case BuiltInActionButton2EditPart.VISUAL_ID:
+				return new BuiltInActionButton2EditPart(view);
+			case OperationButton2EditPart.VISUAL_ID:
+				return new OperationButton2EditPart(view);
+			case BuiltInActionButton3EditPart.VISUAL_ID:
+				return new BuiltInActionButton3EditPart(view);
+			case OperationButton3EditPart.VISUAL_ID:
+				return new OperationButton3EditPart(view);
+			case OperationButtonName2EditPart.VISUAL_ID:
+				return new OperationButtonName2EditPart(view);
 			case GridPanel2EditPart.VISUAL_ID:
 				return new GridPanel2EditPart(view);
 			case GridPanelName2EditPart.VISUAL_ID:

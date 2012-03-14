@@ -21,9 +21,8 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramUpdater;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimNodeDescriptor;
@@ -74,14 +73,8 @@ public class UimDataTableDataTableColumnCompartmentCanonicalEditPolicy extends C
 	 */
 	private boolean isMyDiagramElement(View view){
 		int visualID = UimVisualIDRegistry.getVisualID(view);
-		switch(visualID){
-		case UimField2EditPart.VISUAL_ID:
-		case LinkToEntity2EditPart.VISUAL_ID:
-		case BuiltInAction2EditPart.VISUAL_ID:
-		case OperationAction2EditPart.VISUAL_ID:
-			return true;
-		}
-		return false;
+		return visualID == UimField2EditPart.VISUAL_ID || visualID == BuiltInActionButton2EditPart.VISUAL_ID
+				|| visualID == OperationButton2EditPart.VISUAL_ID;
 	}
 	/**
 	 * @generated

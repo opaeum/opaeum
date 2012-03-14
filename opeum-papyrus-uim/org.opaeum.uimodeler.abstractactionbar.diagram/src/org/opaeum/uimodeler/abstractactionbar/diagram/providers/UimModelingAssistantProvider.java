@@ -20,7 +20,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarActionBarChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.Messages;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
 
@@ -33,11 +34,18 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 	 */
 	public List getTypesForPopupBar(IAdaptable host){
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host.getAdapter(IGraphicalEditPart.class);
-		if(editPart instanceof AbstractActionBarEditPart){
-			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
-			types.add(UimElementTypes.BuiltInAction_2001);
-			types.add(UimElementTypes.TransitionAction_2002);
-			types.add(UimElementTypes.OperationAction_2003);
+		if(editPart instanceof AbstractEditorEditPart){
+			ArrayList<IElementType> types = new ArrayList<IElementType>(1);
+			types.add(UimElementTypes.EditorActionBar_2011);
+			return types;
+		}
+		if(editPart instanceof EditorActionBarActionBarChildrenCompartmentEditPart){
+			ArrayList<IElementType> types = new ArrayList<IElementType>(5);
+			types.add(UimElementTypes.BuiltInLink_3001);
+			types.add(UimElementTypes.LinkToQuery_3002);
+			types.add(UimElementTypes.OperationButton_3003);
+			types.add(UimElementTypes.BuiltInActionButton_3004);
+			types.add(UimElementTypes.TransitionButton_3005);
 			return types;
 		}
 		return Collections.EMPTY_LIST;

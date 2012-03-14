@@ -116,95 +116,26 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectPopupSearch} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimPopupSearch} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UimSingleSelectPopupSearchItemProvider uimSingleSelectPopupSearchItemProvider;
+	protected UimPopupSearchItemProvider uimPopupSearchItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectPopupSearch}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimPopupSearch}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createUimSingleSelectPopupSearchAdapter() {
-		if (uimSingleSelectPopupSearchItemProvider == null) {
-			uimSingleSelectPopupSearchItemProvider = new UimSingleSelectPopupSearchItemProvider(this);
+	public Adapter createUimPopupSearchAdapter() {
+		if (uimPopupSearchItemProvider == null) {
+			uimPopupSearchItemProvider = new UimPopupSearchItemProvider(this);
 		}
 
-		return uimSingleSelectPopupSearchItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectPopupSearch} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UimMultiSelectPopupSearchItemProvider uimMultiSelectPopupSearchItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectPopupSearch}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createUimMultiSelectPopupSearchAdapter() {
-		if (uimMultiSelectPopupSearchItemProvider == null) {
-			uimMultiSelectPopupSearchItemProvider = new UimMultiSelectPopupSearchItemProvider(this);
-		}
-
-		return uimMultiSelectPopupSearchItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectTreeView} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UimMultiSelectTreeViewItemProvider uimMultiSelectTreeViewItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectTreeView}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createUimMultiSelectTreeViewAdapter() {
-		if (uimMultiSelectTreeViewItemProvider == null) {
-			uimMultiSelectTreeViewItemProvider = new UimMultiSelectTreeViewItemProvider(this);
-		}
-
-		return uimMultiSelectTreeViewItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimMultiSelectListBox} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected UimMultiSelectListBoxItemProvider uimMultiSelectListBoxItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.control.UimMultiSelectListBox}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createUimMultiSelectListBoxAdapter() {
-		if (uimMultiSelectListBoxItemProvider == null) {
-			uimMultiSelectListBoxItemProvider = new UimMultiSelectListBoxItemProvider(this);
-		}
-
-		return uimMultiSelectListBoxItemProvider;
+		return uimPopupSearchItemProvider;
 	}
 
 	/**
@@ -346,26 +277,26 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectListBox} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimListBox} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UimSingleSelectListBoxItemProvider uimSingleSelectListBoxItemProvider;
+	protected UimListBoxItemProvider uimListBoxItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectListBox}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimListBox}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createUimSingleSelectListBoxAdapter() {
-		if (uimSingleSelectListBoxItemProvider == null) {
-			uimSingleSelectListBoxItemProvider = new UimSingleSelectListBoxItemProvider(this);
+	public Adapter createUimListBoxAdapter() {
+		if (uimListBoxItemProvider == null) {
+			uimListBoxItemProvider = new UimListBoxItemProvider(this);
 		}
 
-		return uimSingleSelectListBoxItemProvider;
+		return uimListBoxItemProvider;
 	}
 
 	/**
@@ -392,26 +323,164 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSingleSelectTreeView} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimTreeView} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UimSingleSelectTreeViewItemProvider uimSingleSelectTreeViewItemProvider;
+	protected UimTreeViewItemProvider uimTreeViewItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSingleSelectTreeView}.
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimTreeView}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createUimSingleSelectTreeViewAdapter() {
-		if (uimSingleSelectTreeViewItemProvider == null) {
-			uimSingleSelectTreeViewItemProvider = new UimSingleSelectTreeViewItemProvider(this);
+	public Adapter createUimTreeViewAdapter() {
+		if (uimTreeViewItemProvider == null) {
+			uimTreeViewItemProvider = new UimTreeViewItemProvider(this);
 		}
 
-		return uimSingleSelectTreeViewItemProvider;
+		return uimTreeViewItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimLinkControl} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UimLinkControlItemProvider uimLinkControlItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimLinkControl}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUimLinkControlAdapter() {
+		if (uimLinkControlItemProvider == null) {
+			uimLinkControlItemProvider = new UimLinkControlItemProvider(this);
+		}
+
+		return uimLinkControlItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimDateScroller} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UimDateScrollerItemProvider uimDateScrollerItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimDateScroller}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUimDateScrollerAdapter() {
+		if (uimDateScrollerItemProvider == null) {
+			uimDateScrollerItemProvider = new UimDateScrollerItemProvider(this);
+		}
+
+		return uimDateScrollerItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimSelectionTable} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UimSelectionTableItemProvider uimSelectionTableItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimSelectionTable}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUimSelectionTableAdapter() {
+		if (uimSelectionTableItemProvider == null) {
+			uimSelectionTableItemProvider = new UimSelectionTableItemProvider(this);
+		}
+
+		return uimSelectionTableItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimRadioButton} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UimRadioButtonItemProvider uimRadioButtonItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimRadioButton}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUimRadioButtonAdapter() {
+		if (uimRadioButtonItemProvider == null) {
+			uimRadioButtonItemProvider = new UimRadioButtonItemProvider(this);
+		}
+
+		return uimRadioButtonItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimLabel} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UimLabelItemProvider uimLabelItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimLabel}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUimLabelAdapter() {
+		if (uimLabelItemProvider == null) {
+			uimLabelItemProvider = new UimLabelItemProvider(this);
+		}
+
+		return uimLabelItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.control.UimDateTimePopup} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected UimDateTimePopupItemProvider uimDateTimePopupItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.control.UimDateTimePopup}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createUimDateTimePopupAdapter() {
+		if (uimDateTimePopupItemProvider == null) {
+			uimDateTimePopupItemProvider = new UimDateTimePopupItemProvider(this);
+		}
+
+		return uimDateTimePopupItemProvider;
 	}
 
 	/**
@@ -515,19 +584,22 @@ public class ControlItemProviderAdapterFactory extends ControlAdapterFactory imp
 	public void dispose() {
 		if (uimNumberScrollerItemProvider != null) uimNumberScrollerItemProvider.dispose();
 		if (uimToggleButtonItemProvider != null) uimToggleButtonItemProvider.dispose();
-		if (uimSingleSelectPopupSearchItemProvider != null) uimSingleSelectPopupSearchItemProvider.dispose();
-		if (uimMultiSelectPopupSearchItemProvider != null) uimMultiSelectPopupSearchItemProvider.dispose();
-		if (uimMultiSelectTreeViewItemProvider != null) uimMultiSelectTreeViewItemProvider.dispose();
-		if (uimMultiSelectListBoxItemProvider != null) uimMultiSelectListBoxItemProvider.dispose();
+		if (uimPopupSearchItemProvider != null) uimPopupSearchItemProvider.dispose();
 		if (uimDropdownItemProvider != null) uimDropdownItemProvider.dispose();
 		if (uimCheckBoxItemProvider != null) uimCheckBoxItemProvider.dispose();
 		if (uimLookupItemProvider != null) uimLookupItemProvider.dispose();
 		if (uimTextAreaItemProvider != null) uimTextAreaItemProvider.dispose();
 		if (uimTextItemProvider != null) uimTextItemProvider.dispose();
 		if (uimDatePopupItemProvider != null) uimDatePopupItemProvider.dispose();
-		if (uimSingleSelectListBoxItemProvider != null) uimSingleSelectListBoxItemProvider.dispose();
+		if (uimListBoxItemProvider != null) uimListBoxItemProvider.dispose();
 		if (uimControlItemProvider != null) uimControlItemProvider.dispose();
-		if (uimSingleSelectTreeViewItemProvider != null) uimSingleSelectTreeViewItemProvider.dispose();
+		if (uimTreeViewItemProvider != null) uimTreeViewItemProvider.dispose();
+		if (uimLinkControlItemProvider != null) uimLinkControlItemProvider.dispose();
+		if (uimDateScrollerItemProvider != null) uimDateScrollerItemProvider.dispose();
+		if (uimSelectionTableItemProvider != null) uimSelectionTableItemProvider.dispose();
+		if (uimRadioButtonItemProvider != null) uimRadioButtonItemProvider.dispose();
+		if (uimLabelItemProvider != null) uimLabelItemProvider.dispose();
+		if (uimDateTimePopupItemProvider != null) uimDateTimePopupItemProvider.dispose();
 	}
 
 }

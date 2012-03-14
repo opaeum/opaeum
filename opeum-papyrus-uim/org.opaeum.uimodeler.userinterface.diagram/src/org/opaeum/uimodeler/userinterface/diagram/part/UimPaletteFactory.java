@@ -36,23 +36,23 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
-	private final static String CREATEBUILTINACTION1CREATIONTOOL = "createBuiltInAction1CreationTool"; //$NON-NLS-1$
+	private final static String CREATEBUILTINACTIONBUTTON1CREATIONTOOL = "createBuiltInActionButton1CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATETRANSITIONACTION2CREATIONTOOL = "createTransitionAction2CreationTool"; //$NON-NLS-1$
+	private final static String CREATETRANSITIONBUTTON2CREATIONTOOL = "createTransitionButton2CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEOPERATIONACTION3CREATIONTOOL = "createOperationAction3CreationTool"; //$NON-NLS-1$
+	private final static String CREATEOPERATIONBUTTON3CREATIONTOOL = "createOperationButton3CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATELINKTOOPERATION4CREATIONTOOL = "createLinkToOperation4CreationTool"; //$NON-NLS-1$
+	private final static String CREATELINKTOQUERY4CREATIONTOOL = "createLinkToQuery4CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATELINKTOENTITY5CREATIONTOOL = "createLinkToEntity5CreationTool"; //$NON-NLS-1$
+	private final static String CREATEBUILTINLINK5CREATIONTOOL = "createBuiltInLink5CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -77,20 +77,20 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 		if(toolId.equals(CREATEHORIZONTALPANEL3CREATIONTOOL)){
 			return createHorizontalPanel3CreationTool();
 		}
-		if(toolId.equals(CREATEBUILTINACTION1CREATIONTOOL)){
-			return createBuiltInAction1CreationTool();
+		if(toolId.equals(CREATEBUILTINACTIONBUTTON1CREATIONTOOL)){
+			return createBuiltInActionButton1CreationTool();
 		}
-		if(toolId.equals(CREATETRANSITIONACTION2CREATIONTOOL)){
-			return createTransitionAction2CreationTool();
+		if(toolId.equals(CREATETRANSITIONBUTTON2CREATIONTOOL)){
+			return createTransitionButton2CreationTool();
 		}
-		if(toolId.equals(CREATEOPERATIONACTION3CREATIONTOOL)){
-			return createOperationAction3CreationTool();
+		if(toolId.equals(CREATEOPERATIONBUTTON3CREATIONTOOL)){
+			return createOperationButton3CreationTool();
 		}
-		if(toolId.equals(CREATELINKTOOPERATION4CREATIONTOOL)){
-			return createLinkToOperation4CreationTool();
+		if(toolId.equals(CREATELINKTOQUERY4CREATIONTOOL)){
+			return createLinkToQuery4CreationTool();
 		}
-		if(toolId.equals(CREATELINKTOENTITY5CREATIONTOOL)){
-			return createLinkToEntity5CreationTool();
+		if(toolId.equals(CREATEBUILTINLINK5CREATIONTOOL)){
+			return createBuiltInLink5CreationTool();
 		}
 		// default return: null
 		return null;
@@ -154,50 +154,49 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
-	private Tool createBuiltInAction1CreationTool(){
+	private Tool createBuiltInActionButton1CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(3);
-		types.add(UimElementTypes.BuiltInAction_3002);
-		types.add(UimElementTypes.BuiltInAction_3012);
-		types.add(UimElementTypes.BuiltInAction_3015);
+		types.add(UimElementTypes.BuiltInActionButton_3018);
+		types.add(UimElementTypes.BuiltInActionButton_3023);
+		types.add(UimElementTypes.BuiltInActionButton_3025);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
 	/**
 	 * @generated
 	 */
-	private Tool createTransitionAction2CreationTool(){
+	private Tool createTransitionButton2CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(UimElementTypes.TransitionAction_3005);
+		types.add(UimElementTypes.TransitionButton_3019);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
 	/**
 	 * @generated
 	 */
-	private Tool createOperationAction3CreationTool(){
+	private Tool createOperationButton3CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(3);
-		types.add(UimElementTypes.OperationAction_3006);
-		types.add(UimElementTypes.OperationAction_3014);
-		types.add(UimElementTypes.OperationAction_3016);
+		types.add(UimElementTypes.OperationButton_3020);
+		types.add(UimElementTypes.OperationButton_3024);
+		types.add(UimElementTypes.OperationButton_3026);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
 	/**
 	 * @generated
 	 */
-	private Tool createLinkToOperation4CreationTool(){
+	private Tool createLinkToQuery4CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
-		types.add(UimElementTypes.LinkToOperation_3007);
+		types.add(UimElementTypes.LinkToQuery_3021);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}
 	/**
 	 * @generated
 	 */
-	private Tool createLinkToEntity5CreationTool(){
-		List<IElementType> types = new ArrayList<IElementType>(2);
-		types.add(UimElementTypes.LinkToEntity_3008);
-		types.add(UimElementTypes.LinkToEntity_3011);
+	private Tool createBuiltInLink5CreationTool(){
+		List<IElementType> types = new ArrayList<IElementType>(1);
+		types.add(UimElementTypes.BuiltInLink_3022);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
 		return tool;
 	}

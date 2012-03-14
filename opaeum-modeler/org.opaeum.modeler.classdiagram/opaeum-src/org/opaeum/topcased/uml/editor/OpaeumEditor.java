@@ -96,7 +96,7 @@ public class OpaeumEditor extends org.topcased.modeler.uml.editor.UMLEditor impl
 			monitor.beginTask("Saving UML Models", 1000);
 			super.doSave(new SubProgressMonitor(monitor, 500));
 			if(getCurrentContext() != null){
-				getCurrentContext().onSave(new SubProgressMonitor(monitor, 500), getEditingDomain().getResourceSet());
+				getCurrentContext().onSave(new SubProgressMonitor(monitor, 500),getUmlFile((IFileEditorInput) getEditorInput()));
 			}
 		}finally{
 			monitor.done();

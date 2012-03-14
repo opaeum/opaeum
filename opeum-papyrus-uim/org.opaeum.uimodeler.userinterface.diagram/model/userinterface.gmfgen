@@ -54,26 +54,26 @@
       </modelFacet>
     </childNodes>
     <childNodes
-        visualID="3002"
-        editPartClassName="BuiltInActionEditPart"
-        itemSemanticEditPolicyClassName="BuiltInActionItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="BuiltInActionCanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="BuiltInActionGraphicalNodeEditPolicy"
-        createCommandClassName="BuiltInActionCreateCommand"
+        visualID="3018"
+        editPartClassName="BuiltInActionButtonEditPart"
+        itemSemanticEditPolicyClassName="BuiltInActionButtonItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="BuiltInActionButtonCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="BuiltInActionButtonGraphicalNodeEditPolicy"
+        createCommandClassName="BuiltInActionButtonCreateCommand"
         containers="//@diagram/@compartments.0 //@diagram/@compartments.3">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType
           xsi:type="gmfgen:MetamodelType"
-          editHelperClassName="BuiltInActionEditHelper"/>
+          editHelperClassName="BuiltInActionButtonEditHelper"/>
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
           layoutType="FLOW_LAYOUT"
-          className="BuiltInActionFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInActionFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInActionNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInActionFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInActionNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInActionNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureBuiltInActionNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInActionNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInActionNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="BuiltInActionButtonFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInActionButtonFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInActionButtonNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInActionButtonFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInActionButtonNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInActionButtonNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureBuiltInActionButtonNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInActionButtonNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInActionButtonNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInAction"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInActionButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
         <childMetaFeature
@@ -135,41 +135,41 @@
       </modelFacet>
     </childNodes>
     <childNodes
-        visualID="3005"
-        editPartClassName="TransitionActionEditPart"
-        itemSemanticEditPolicyClassName="TransitionActionItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="TransitionActionCanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="TransitionActionGraphicalNodeEditPolicy"
-        createCommandClassName="TransitionActionCreateCommand"
+        visualID="3019"
+        editPartClassName="TransitionButtonEditPart"
+        itemSemanticEditPolicyClassName="TransitionButtonItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="TransitionButtonCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="TransitionButtonGraphicalNodeEditPolicy"
+        createCommandClassName="TransitionButtonCreateCommand"
         containers="//@diagram/@compartments.0 //@diagram/@compartments.3">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType
           xsi:type="gmfgen:MetamodelType"
-          editHelperClassName="TransitionActionEditHelper"/>
+          editHelperClassName="TransitionButtonEditHelper"/>
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
           layoutType="FLOW_LAYOUT"
-          className="TransitionActionFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class TransitionActionFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureTransitionActionNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public TransitionActionFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureTransitionActionNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureTransitionActionNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureTransitionActionNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureTransitionActionNameFigure() {&#xA;&#x9;&#x9;return fFigureTransitionActionNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="TransitionButtonFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class TransitionButtonFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureTransitionActionButtonFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public TransitionButtonFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureTransitionActionButtonFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureTransitionActionButtonFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureTransitionActionButtonFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureTransitionActionButtonFigure() {&#xA;&#x9;&#x9;return fFigureTransitionActionButtonFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/TransitionAction"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/TransitionButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
         <childMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
       </modelFacet>
       <labels
-          visualID="5003"
-          editPartClassName="TransitionActionNameEditPart"
-          itemSemanticEditPolicyClassName="TransitionActionNameItemSemanticEditPolicy"
+          visualID="5015"
+          editPartClassName="TransitionButtonNameEditPart"
+          itemSemanticEditPolicyClassName="TransitionButtonNameItemSemanticEditPolicy"
           elementIcon="true">
         <diagramRunTimeClass
             href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap
             xsi:type="gmfgen:ParentAssignedViewmap"
-            getterName="getFigureTransitionActionNameFigure"
+            getterName="getFigureTransitionActionButtonFigure"
             figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet
             xsi:type="gmfgen:FeatureLabelModelFacet"
@@ -182,68 +182,41 @@
       </labels>
     </childNodes>
     <childNodes
-        visualID="3006"
-        editPartClassName="OperationActionEditPart"
-        itemSemanticEditPolicyClassName="OperationActionItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="OperationActionCanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="OperationActionGraphicalNodeEditPolicy"
-        createCommandClassName="OperationActionCreateCommand"
+        visualID="3020"
+        editPartClassName="OperationButtonEditPart"
+        itemSemanticEditPolicyClassName="OperationButtonItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="OperationButtonCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="OperationButtonGraphicalNodeEditPolicy"
+        createCommandClassName="OperationButtonCreateCommand"
         containers="//@diagram/@compartments.0 //@diagram/@compartments.3">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType
           xsi:type="gmfgen:MetamodelType"
-          editHelperClassName="OperationActionEditHelper"/>
+          editHelperClassName="OperationButtonEditHelper"/>
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
           layoutType="FLOW_LAYOUT"
-          className="OperationActionFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class OperationActionFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureOperationActionNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public OperationActionFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureOperationActionNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureOperationActionNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureOperationActionNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureOperationActionNameFigure() {&#xA;&#x9;&#x9;return fFigureOperationActionNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="OperationButtonFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class OperationButtonFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureOperationButtonNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public OperationButtonFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureOperationButtonNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureOperationButtonNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureOperationButtonNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureOperationButtonNameFigure() {&#xA;&#x9;&#x9;return fFigureOperationButtonNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/OperationAction"/>
-        <containmentMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
-        <childMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
-      </modelFacet>
-    </childNodes>
-    <childNodes
-        visualID="3007"
-        editPartClassName="LinkToOperationEditPart"
-        itemSemanticEditPolicyClassName="LinkToOperationItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="LinkToOperationCanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="LinkToOperationGraphicalNodeEditPolicy"
-        createCommandClassName="LinkToOperationCreateCommand"
-        containers="//@diagram/@compartments.0 //@diagram/@compartments.3">
-      <diagramRunTimeClass
-          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
-      <elementType
-          xsi:type="gmfgen:MetamodelType"
-          editHelperClassName="LinkToOperationEditHelper"/>
-      <viewmap
-          xsi:type="gmfgen:InnerClassViewmap"
-          layoutType="FLOW_LAYOUT"
-          className="LinkToOperationFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class LinkToOperationFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureLinkToOperationUmlElementUidFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public LinkToOperationFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureLinkToOperationUmlElementUidFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureLinkToOperationUmlElementUidFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureLinkToOperationUmlElementUidFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureLinkToOperationUmlElementUidFigure() {&#xA;&#x9;&#x9;return fFigureLinkToOperationUmlElementUidFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
-      <modelFacet>
-        <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/LinkToOperation"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/OperationButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
         <childMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
       </modelFacet>
       <labels
-          visualID="5005"
-          editPartClassName="LinkToOperationNameEditPart"
-          itemSemanticEditPolicyClassName="LinkToOperationNameItemSemanticEditPolicy"
+          visualID="5016"
+          editPartClassName="OperationButtonNameEditPart"
+          itemSemanticEditPolicyClassName="OperationButtonNameItemSemanticEditPolicy"
           elementIcon="true">
         <diagramRunTimeClass
             href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap
             xsi:type="gmfgen:ParentAssignedViewmap"
-            getterName="getFigureLinkToOperationUmlElementUidFigure"
+            getterName="getFigureOperationButtonNameFigure"
             figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet
             xsi:type="gmfgen:FeatureLabelModelFacet"
@@ -256,41 +229,88 @@
       </labels>
     </childNodes>
     <childNodes
-        visualID="3008"
-        editPartClassName="LinkToEntityEditPart"
-        itemSemanticEditPolicyClassName="LinkToEntityItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="LinkToEntityCanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="LinkToEntityGraphicalNodeEditPolicy"
-        createCommandClassName="LinkToEntityCreateCommand"
+        visualID="3021"
+        editPartClassName="LinkToQueryEditPart"
+        itemSemanticEditPolicyClassName="LinkToQueryItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="LinkToQueryCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="LinkToQueryGraphicalNodeEditPolicy"
+        createCommandClassName="LinkToQueryCreateCommand"
         containers="//@diagram/@compartments.0 //@diagram/@compartments.3">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType
           xsi:type="gmfgen:MetamodelType"
-          editHelperClassName="LinkToEntityEditHelper"/>
+          editHelperClassName="LinkToQueryEditHelper"/>
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
           layoutType="FLOW_LAYOUT"
-          className="LinkToEntityFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class LinkToEntityFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureLinkToEntityUmlElementUidFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public LinkToEntityFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureLinkToEntityUmlElementUidFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureLinkToEntityUmlElementUidFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureLinkToEntityUmlElementUidFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureLinkToEntityUmlElementUidFigure() {&#xA;&#x9;&#x9;return fFigureLinkToEntityUmlElementUidFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="LinkToQueryFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class LinkToQueryFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureLinkToQueryNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public LinkToQueryFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureLinkToQueryNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureLinkToQueryNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureLinkToQueryNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureLinkToQueryNameFigure() {&#xA;&#x9;&#x9;return fFigureLinkToQueryNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/LinkToEntity"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/LinkToQuery"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
         <childMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
       </modelFacet>
       <labels
-          visualID="5006"
-          editPartClassName="LinkToEntityNameEditPart"
-          itemSemanticEditPolicyClassName="LinkToEntityNameItemSemanticEditPolicy"
+          visualID="5017"
+          editPartClassName="LinkToQueryNameEditPart"
+          itemSemanticEditPolicyClassName="LinkToQueryNameItemSemanticEditPolicy"
           elementIcon="true">
         <diagramRunTimeClass
             href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap
             xsi:type="gmfgen:ParentAssignedViewmap"
-            getterName="getFigureLinkToEntityUmlElementUidFigure"
+            getterName="getFigureLinkToQueryNameFigure"
+            figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
+        <modelFacet
+            xsi:type="gmfgen:FeatureLabelModelFacet"
+            parser="//@labelParsers/@implementations.0">
+          <metaFeatures
+              href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UserInteractionElement/name"/>
+          <editableMetaFeatures
+              href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UserInteractionElement/name"/>
+        </modelFacet>
+      </labels>
+    </childNodes>
+    <childNodes
+        visualID="3022"
+        editPartClassName="BuiltInLinkEditPart"
+        itemSemanticEditPolicyClassName="BuiltInLinkItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="BuiltInLinkCanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="BuiltInLinkGraphicalNodeEditPolicy"
+        createCommandClassName="BuiltInLinkCreateCommand"
+        containers="//@diagram/@compartments.0 //@diagram/@compartments.3">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType
+          xsi:type="gmfgen:MetamodelType"
+          editHelperClassName="BuiltInLinkEditHelper"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          layoutType="FLOW_LAYOUT"
+          className="BuiltInLinkFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInLinkFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInLinkNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInLinkFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInLinkNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInLinkNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureBuiltInLinkNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInLinkNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInLinkNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+      <modelFacet>
+        <metaClass
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInLink"/>
+        <containmentMetaFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
+        <childMetaFeature
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
+      </modelFacet>
+      <labels
+          visualID="5018"
+          editPartClassName="BuiltInLinkNameEditPart"
+          itemSemanticEditPolicyClassName="BuiltInLinkNameItemSemanticEditPolicy"
+          elementIcon="true">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:ParentAssignedViewmap"
+            getterName="getFigureBuiltInLinkNameFigure"
             figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet
             xsi:type="gmfgen:FeatureLabelModelFacet"
@@ -356,38 +376,12 @@
       </modelFacet>
     </childNodes>
     <childNodes
-        visualID="3011"
-        editPartClassName="LinkToEntity2EditPart"
-        itemSemanticEditPolicyClassName="LinkToEntity2ItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="LinkToEntity2CanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="LinkToEntity2GraphicalNodeEditPolicy"
-        createCommandClassName="LinkToEntity2CreateCommand"
-        containers="//@diagram/@compartments.1">
-      <diagramRunTimeClass
-          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
-      <elementType
-          xsi:type="gmfgen:SpecializationType"
-          metamodelType="//@diagram/@childNodes.7/@elementType"/>
-      <viewmap
-          xsi:type="gmfgen:InnerClassViewmap"
-          className="LinkToEntityColumnFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class LinkToEntityColumnFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fLinkToEntityColumnNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public LinkToEntityColumnFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fLinkToEntityColumnNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fLinkToEntityColumnNameFigure.setText(&quot;....&quot;);&#xA;&#xA;this.add(fLinkToEntityColumnNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getLinkToEntityColumnNameFigure() {&#xA;&#x9;&#x9;return fLinkToEntityColumnNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
-      <modelFacet>
-        <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/LinkToEntity"/>
-        <containmentMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
-        <childMetaFeature
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
-      </modelFacet>
-    </childNodes>
-    <childNodes
-        visualID="3012"
-        editPartClassName="BuiltInAction2EditPart"
-        itemSemanticEditPolicyClassName="BuiltInAction2ItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="BuiltInAction2CanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="BuiltInAction2GraphicalNodeEditPolicy"
-        createCommandClassName="BuiltInAction2CreateCommand"
+        visualID="3023"
+        editPartClassName="BuiltInActionButton2EditPart"
+        itemSemanticEditPolicyClassName="BuiltInActionButton2ItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="BuiltInActionButton2CanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="BuiltInActionButton2GraphicalNodeEditPolicy"
+        createCommandClassName="BuiltInActionButton2CreateCommand"
         containers="//@diagram/@compartments.1">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -396,11 +390,11 @@
           metamodelType="//@diagram/@childNodes.1/@elementType"/>
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
-          className="BuiltInActionColumnFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInActionColumnFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInActionColumnNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInActionColumnFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInActionColumnNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInActionColumnNameFigure.setText(&quot;&lt;..>&quot;);&#xA;&#xA;this.add(fFigureBuiltInActionColumnNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInActionColumnNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInActionColumnNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="BuiltInButtonColumnFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInButtonColumnFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInActionColumnNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInButtonColumnFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInActionColumnNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInActionColumnNameFigure.setText(&quot;&lt;..>&quot;);&#xA;&#xA;this.add(fFigureBuiltInActionColumnNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInActionColumnNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInActionColumnNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInAction"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInActionButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
         <childMetaFeature
@@ -408,12 +402,12 @@
       </modelFacet>
     </childNodes>
     <childNodes
-        visualID="3014"
-        editPartClassName="OperationAction2EditPart"
-        itemSemanticEditPolicyClassName="OperationAction2ItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="OperationAction2CanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="OperationAction2GraphicalNodeEditPolicy"
-        createCommandClassName="OperationAction2CreateCommand"
+        visualID="3024"
+        editPartClassName="OperationButton2EditPart"
+        itemSemanticEditPolicyClassName="OperationButton2ItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="OperationButton2CanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="OperationButton2GraphicalNodeEditPolicy"
+        createCommandClassName="OperationButton2CreateCommand"
         containers="//@diagram/@compartments.1">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -421,11 +415,13 @@
           xsi:type="gmfgen:SpecializationType"
           metamodelType="//@diagram/@childNodes.5/@elementType"/>
       <viewmap
-          xsi:type="gmfgen:FigureViewmap"
-          figureQualifiedClassName="org.eclipse.draw2d.RoundedRectangle"/>
+          xsi:type="gmfgen:InnerClassViewmap"
+          layoutType="FLOW_LAYOUT"
+          className="OperationButtonFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class OperationButtonFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureOperationButtonNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public OperationButtonFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureOperationButtonNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureOperationButtonNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureOperationButtonNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureOperationButtonNameFigure() {&#xA;&#x9;&#x9;return fFigureOperationButtonNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/OperationAction"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/OperationButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimContainer/children"/>
         <childMetaFeature
@@ -433,12 +429,12 @@
       </modelFacet>
     </childNodes>
     <childNodes
-        visualID="3015"
-        editPartClassName="BuiltInAction3EditPart"
-        itemSemanticEditPolicyClassName="BuiltInAction3ItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="BuiltInAction3CanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="BuiltInAction3GraphicalNodeEditPolicy"
-        createCommandClassName="BuiltInAction3CreateCommand"
+        visualID="3025"
+        editPartClassName="BuiltInActionButton3EditPart"
+        itemSemanticEditPolicyClassName="BuiltInActionButton3ItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="BuiltInActionButton3CanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="BuiltInActionButton3GraphicalNodeEditPolicy"
+        createCommandClassName="BuiltInActionButton3CreateCommand"
         containers="//@diagram/@compartments.2">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -448,11 +444,11 @@
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
           layoutType="FLOW_LAYOUT"
-          className="BuiltInActionFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInActionFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInActionNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInActionFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInActionNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInActionNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureBuiltInActionNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInActionNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInActionNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="BuiltInActionButtonFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class BuiltInActionButtonFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureBuiltInActionButtonNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public BuiltInActionButtonFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureBuiltInActionButtonNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureBuiltInActionButtonNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureBuiltInActionButtonNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureBuiltInActionButtonNameFigure() {&#xA;&#x9;&#x9;return fFigureBuiltInActionButtonNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInAction"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/BuiltInActionButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimDataTable/actionsOnMultipleSelection"/>
         <childMetaFeature
@@ -460,12 +456,12 @@
       </modelFacet>
     </childNodes>
     <childNodes
-        visualID="3016"
-        editPartClassName="OperationAction3EditPart"
-        itemSemanticEditPolicyClassName="OperationAction3ItemSemanticEditPolicy"
-        canonicalEditPolicyClassName="OperationAction3CanonicalEditPolicy"
-        graphicalNodeEditPolicyClassName="OperationAction3GraphicalNodeEditPolicy"
-        createCommandClassName="OperationAction3CreateCommand"
+        visualID="3026"
+        editPartClassName="OperationButton3EditPart"
+        itemSemanticEditPolicyClassName="OperationButton3ItemSemanticEditPolicy"
+        canonicalEditPolicyClassName="OperationButton3CanonicalEditPolicy"
+        graphicalNodeEditPolicyClassName="OperationButton3GraphicalNodeEditPolicy"
+        createCommandClassName="OperationButton3CreateCommand"
         containers="//@diagram/@compartments.2">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -475,16 +471,36 @@
       <viewmap
           xsi:type="gmfgen:InnerClassViewmap"
           layoutType="FLOW_LAYOUT"
-          className="OperationActionFigure"
-          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class OperationActionFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureOperationActionNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public OperationActionFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureOperationActionNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureOperationActionNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureOperationActionNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureOperationActionNameFigure() {&#xA;&#x9;&#x9;return fFigureOperationActionNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
+          className="OperationButtonFigure"
+          classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class OperationButtonFigure extends org.eclipse.draw2d.RectangleFigure {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureOperationButtonNameFigure; &#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public OperationButtonFigure() {&#xA;&#x9;&#x9;&#xA;&#x9;org.eclipse.draw2d.FlowLayout layoutThis = new org.eclipse.draw2d.FlowLayout();&#xA;&#x9;layoutThis.setStretchMinorAxis(false);&#xA;&#x9;layoutThis.setMinorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#xA;&#x9;layoutThis.setMajorAlignment(org.eclipse.draw2d.FlowLayout.ALIGN_LEFTTOP&#xA;);&#xA;&#x9;layoutThis.setMajorSpacing(5);&#xA;&#x9;layoutThis.setMinorSpacing(5);&#xA;&#x9;layoutThis.setHorizontal(true);&#xA;&#xA;&#x9;this.setLayoutManager(layoutThis);&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureOperationButtonNameFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;fFigureOperationButtonNameFigure.setText(&quot;&lt;...>&quot;);&#xA;&#xA;this.add(fFigureOperationButtonNameFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureOperationButtonNameFigure() {&#xA;&#x9;&#x9;return fFigureOperationButtonNameFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;"/>
       <modelFacet>
         <metaClass
-            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/OperationAction"/>
+            href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/action/OperationButton"/>
         <containmentMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimDataTable/actionsOnMultipleSelection"/>
         <childMetaFeature
             href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UimDataTable/actionsOnMultipleSelection"/>
       </modelFacet>
+      <labels
+          visualID="5019"
+          editPartClassName="OperationButtonName2EditPart"
+          itemSemanticEditPolicyClassName="OperationButtonName2ItemSemanticEditPolicy"
+          elementIcon="true">
+        <diagramRunTimeClass
+            href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap
+            xsi:type="gmfgen:ParentAssignedViewmap"
+            getterName="getFigureOperationButtonNameFigure"
+            figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
+        <modelFacet
+            xsi:type="gmfgen:FeatureLabelModelFacet"
+            parser="//@labelParsers/@implementations.0">
+          <metaFeatures
+              href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UserInteractionElement/name"/>
+          <editableMetaFeatures
+              href="../../org.opaeum.metamodels.uim/model/Uim.genmodel#//uim/UserInteractionElement/name"/>
+        </modelFacet>
+      </labels>
     </childNodes>
     <childNodes
         visualID="3017"
@@ -642,7 +658,7 @@
         editPartClassName="GridPanelGridPanelChildrenCompartmentEditPart"
         itemSemanticEditPolicyClassName="GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy"
         canonicalEditPolicyClassName="GridPanelGridPanelChildrenCompartmentCanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.15"
+        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.14"
         title="GridPanelChildrenCompartment"
         canCollapse="false"
         needsTitle="false"
@@ -660,7 +676,7 @@
         editPartClassName="UimDataTableDataTableColumnCompartmentEditPart"
         itemSemanticEditPolicyClassName="UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy"
         canonicalEditPolicyClassName="UimDataTableDataTableColumnCompartmentCanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.9 //@diagram/@childNodes.10 //@diagram/@childNodes.11 //@diagram/@childNodes.12"
+        childNodes="//@diagram/@childNodes.9 //@diagram/@childNodes.10 //@diagram/@childNodes.11"
         title="DataTableColumnCompartment"
         canCollapse="false"
         needsTitle="false"
@@ -678,7 +694,7 @@
         editPartClassName="UimDataTableTableTableActionBarCompartmentEditPart"
         itemSemanticEditPolicyClassName="UimDataTableTableTableActionBarCompartmentItemSemanticEditPolicy"
         canonicalEditPolicyClassName="UimDataTableTableTableActionBarCompartmentCanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.13 //@diagram/@childNodes.14"
+        childNodes="//@diagram/@childNodes.12 //@diagram/@childNodes.13"
         title="TableTableActionBarCompartment"
         canCollapse="false"
         needsTitle="false"
@@ -696,11 +712,11 @@
         editPartClassName="GridPanelGridPanelChildrenCompartment2EditPart"
         itemSemanticEditPolicyClassName="GridPanelGridPanelChildrenCompartment2ItemSemanticEditPolicy"
         canonicalEditPolicyClassName="GridPanelGridPanelChildrenCompartment2CanonicalEditPolicy"
-        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.15"
+        childNodes="//@diagram/@childNodes.0 //@diagram/@childNodes.1 //@diagram/@childNodes.2 //@diagram/@childNodes.3 //@diagram/@childNodes.4 //@diagram/@childNodes.5 //@diagram/@childNodes.6 //@diagram/@childNodes.7 //@diagram/@childNodes.8 //@diagram/@childNodes.14"
         title="GridPanelChildrenCompartment"
         canCollapse="false"
         needsTitle="false"
-        node="//@diagram/@childNodes.15"
+        node="//@diagram/@childNodes.14"
         listLayout="false">
       <diagramRunTimeClass
           href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
@@ -731,14 +747,6 @@
             xsi:type="gmfgen:ToolEntry"
             title="DetailPanel"
             description="Create new DetailPanel"/>
-        <entries
-            xsi:type="gmfgen:ToolEntry"
-            title="Column"
-            description="Create new Column"/>
-        <entries
-            xsi:type="gmfgen:ToolEntry"
-            title="TableActionBar"
-            description="TableActionBar"/>
       </groups>
       <groups
           title="LayoutPanels"
@@ -748,7 +756,7 @@
             xsi:type="gmfgen:ToolEntry"
             title="GridPanel"
             description="Create new GridPanel"
-            genNodes="//@diagram/@topLevelNodes.0 //@diagram/@childNodes.15"/>
+            genNodes="//@diagram/@topLevelNodes.0 //@diagram/@childNodes.14"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
             title="VerticalPanel"
@@ -761,33 +769,33 @@
             genNodes="//@diagram/@childNodes.2 //@diagram/@topLevelNodes.1"/>
       </groups>
       <groups
-          title="Links and Actions"
+          title="Links and Buttons"
           collapse="true">
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="BuiltInAction"
-            description="Create new BuiltInAction"
-            genNodes="//@diagram/@childNodes.1 //@diagram/@childNodes.11 //@diagram/@childNodes.13"/>
+            title="BuiltInActionButton"
+            description="Create new BuiltInActionButton"
+            genNodes="//@diagram/@childNodes.1 //@diagram/@childNodes.10 //@diagram/@childNodes.12"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="TransitionAction"
-            description="Create new TransitionAction"
+            title="TransitionButton"
+            description="Create new TransitionButton"
             genNodes="//@diagram/@childNodes.4"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="OperationAction"
-            description="Create new OperationAction"
-            genNodes="//@diagram/@childNodes.5 //@diagram/@childNodes.12 //@diagram/@childNodes.14"/>
+            title="OperationButton"
+            description="Create new OperationButton"
+            genNodes="//@diagram/@childNodes.5 //@diagram/@childNodes.11 //@diagram/@childNodes.13"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="LinkToOperation"
-            description="Create new LinkToOperation"
+            title="LinkToQuery"
+            description="Create new LinkToQuery"
             genNodes="//@diagram/@childNodes.6"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="LinkToEntity"
-            description="Create new LinkToEntity"
-            genNodes="//@diagram/@childNodes.7 //@diagram/@childNodes.10"/>
+            title="BuiltInLink"
+            description="Create new BuiltInLink"
+            genNodes="//@diagram/@childNodes.7"/>
       </groups>
     </palette>
     <preferencePages
@@ -871,50 +879,47 @@
         parent="//@diagram/@childNodes.8"
         child="//@diagram/@childNodes.13"/>
     <childReferences
-        parent="//@diagram/@childNodes.8"
+        parent="//@diagram/@topLevelNodes.0"
+        child="//@diagram/@childNodes.8"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.0"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.1"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.2"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.3"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.4"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.5"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.6"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.7"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.3"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.2"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
+        child="//@diagram/@childNodes.8"/>
+    <childReferences
+        parent="//@diagram/@childNodes.14"
         child="//@diagram/@childNodes.14"/>
     <childReferences
         parent="//@diagram/@topLevelNodes.0"
-        child="//@diagram/@childNodes.8"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.0"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.1"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.2"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.3"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.4"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.5"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.6"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.7"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.3"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.2"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.8"/>
-    <childReferences
-        parent="//@diagram/@childNodes.15"
-        child="//@diagram/@childNodes.15"/>
-    <childReferences
-        parent="//@diagram/@topLevelNodes.0"
-        child="//@diagram/@childNodes.15"/>
+        child="//@diagram/@childNodes.14"/>
     <childReferences
         parent="//@diagram"
         child="//@diagram/@topLevelNodes.0"/>
@@ -951,7 +956,7 @@
       extensibleViaService="true">
     <implementations
         xsi:type="gmfgen:PredefinedParser"
-        uses="//@diagram/@childNodes.4/@labels.0/@modelFacet //@diagram/@childNodes.6/@labels.0/@modelFacet //@diagram/@childNodes.7/@labels.0/@modelFacet //@diagram/@childNodes.15/@labels.0/@modelFacet //@diagram/@topLevelNodes.0/@labels.0/@modelFacet"/>
+        uses="//@diagram/@childNodes.4/@labels.0/@modelFacet //@diagram/@childNodes.5/@labels.0/@modelFacet //@diagram/@childNodes.6/@labels.0/@modelFacet //@diagram/@childNodes.7/@labels.0/@modelFacet //@diagram/@childNodes.13/@labels.0/@modelFacet //@diagram/@childNodes.14/@labels.0/@modelFacet //@diagram/@topLevelNodes.0/@labels.0/@modelFacet"/>
   </labelParsers>
   <contextMenus
       context="//@diagram">

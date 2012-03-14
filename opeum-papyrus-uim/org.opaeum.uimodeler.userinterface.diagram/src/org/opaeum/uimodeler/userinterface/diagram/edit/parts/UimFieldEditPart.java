@@ -12,11 +12,9 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.FlowLayoutEditPolicy;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
@@ -30,12 +28,11 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uim.figures.CustomUimFieldFigure;
-import org.opaeum.uim.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uim.figures.UimFieldEventAdapter;
+import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UimFieldItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
-import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
-import org.opaeum.uimodeler.util.UimFigureUtil;
 
 /**
  * @generated

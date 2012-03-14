@@ -15,12 +15,15 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
-import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uim.editor.EditorPackage;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
 
 /**
@@ -47,19 +50,31 @@ public class UimElementTypes{
 	/**
 	 * @generated
 	 */
-	public static final IElementType AbstractActionBar_1000 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.AbstractActionBar_1000"); //$NON-NLS-1$
+	public static final IElementType AbstractEditor_1000 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.AbstractEditor_1000"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType BuiltInAction_2001 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInAction_2001"); //$NON-NLS-1$
+	public static final IElementType EditorActionBar_2011 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.EditorActionBar_2011"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType TransitionAction_2002 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.TransitionAction_2002"); //$NON-NLS-1$
+	public static final IElementType BuiltInLink_3001 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInLink_3001"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType OperationAction_2003 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.OperationAction_2003"); //$NON-NLS-1$
+	public static final IElementType LinkToQuery_3002 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.LinkToQuery_3002"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType OperationButton_3003 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.OperationButton_3003"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType BuiltInActionButton_3004 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInActionButton_3004"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType TransitionButton_3005 = getElementType("org.opaeum.uimodeler.abstractactionbar.diagram.TransitionButton_3005"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -158,10 +173,13 @@ public class UimElementTypes{
 		Object type = hint.getAdapter(IElementType.class);
 		if(elements == null){
 			elements = new IdentityHashMap<IElementType,ENamedElement>();
-			elements.put(AbstractActionBar_1000, UimPackage.eINSTANCE.getAbstractActionBar());
-			elements.put(BuiltInAction_2001, ActionPackage.eINSTANCE.getBuiltInAction());
-			elements.put(TransitionAction_2002, ActionPackage.eINSTANCE.getTransitionAction());
-			elements.put(OperationAction_2003, ActionPackage.eINSTANCE.getOperationAction());
+			elements.put(AbstractEditor_1000, EditorPackage.eINSTANCE.getAbstractEditor());
+			elements.put(EditorActionBar_2011, EditorPackage.eINSTANCE.getEditorActionBar());
+			elements.put(BuiltInLink_3001, ActionPackage.eINSTANCE.getBuiltInLink());
+			elements.put(LinkToQuery_3002, ActionPackage.eINSTANCE.getLinkToQuery());
+			elements.put(OperationButton_3003, ActionPackage.eINSTANCE.getOperationButton());
+			elements.put(BuiltInActionButton_3004, ActionPackage.eINSTANCE.getBuiltInActionButton());
+			elements.put(TransitionButton_3005, ActionPackage.eINSTANCE.getTransitionButton());
 		}
 		return (ENamedElement) elements.get(type);
 	}
@@ -177,10 +195,13 @@ public class UimElementTypes{
 	public static boolean isKnownElementType(IElementType elementType){
 		if(KNOWN_ELEMENT_TYPES == null){
 			KNOWN_ELEMENT_TYPES = new HashSet<IElementType>();
-			KNOWN_ELEMENT_TYPES.add(AbstractActionBar_1000);
-			KNOWN_ELEMENT_TYPES.add(BuiltInAction_2001);
-			KNOWN_ELEMENT_TYPES.add(TransitionAction_2002);
-			KNOWN_ELEMENT_TYPES.add(OperationAction_2003);
+			KNOWN_ELEMENT_TYPES.add(AbstractEditor_1000);
+			KNOWN_ELEMENT_TYPES.add(EditorActionBar_2011);
+			KNOWN_ELEMENT_TYPES.add(BuiltInLink_3001);
+			KNOWN_ELEMENT_TYPES.add(LinkToQuery_3002);
+			KNOWN_ELEMENT_TYPES.add(OperationButton_3003);
+			KNOWN_ELEMENT_TYPES.add(BuiltInActionButton_3004);
+			KNOWN_ELEMENT_TYPES.add(TransitionButton_3005);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
 	}
@@ -189,14 +210,20 @@ public class UimElementTypes{
 	 */
 	public static IElementType getElementType(int visualID){
 		switch(visualID){
-		case AbstractActionBarEditPart.VISUAL_ID:
-			return AbstractActionBar_1000;
-		case BuiltInActionEditPart.VISUAL_ID:
-			return BuiltInAction_2001;
-		case TransitionActionEditPart.VISUAL_ID:
-			return TransitionAction_2002;
-		case OperationActionEditPart.VISUAL_ID:
-			return OperationAction_2003;
+		case AbstractEditorEditPart.VISUAL_ID:
+			return AbstractEditor_1000;
+		case EditorActionBarEditPart.VISUAL_ID:
+			return EditorActionBar_2011;
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return BuiltInLink_3001;
+		case LinkToQueryEditPart.VISUAL_ID:
+			return LinkToQuery_3002;
+		case OperationButtonEditPart.VISUAL_ID:
+			return OperationButton_3003;
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return BuiltInActionButton_3004;
+		case TransitionButtonEditPart.VISUAL_ID:
+			return TransitionButton_3005;
 		}
 		return null;
 	}

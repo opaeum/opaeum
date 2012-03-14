@@ -49,24 +49,6 @@ public interface PanelFactory extends EFactory {
 	HorizontalPanel createHorizontalPanel();
 
 	/**
-	 * Returns a new object of class '<em>Collapsible Panel</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Collapsible Panel</em>'.
-	 * @generated
-	 */
-	CollapsiblePanel createCollapsiblePanel();
-
-	/**
-	 * Returns a new object of class '<em>Outlayable</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Outlayable</em>'.
-	 * @generated
-	 */
-	Outlayable createOutlayable();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

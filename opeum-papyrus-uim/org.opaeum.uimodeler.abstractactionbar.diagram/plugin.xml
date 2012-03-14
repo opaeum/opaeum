@@ -19,102 +19,9 @@
 
 
 	<?gmfgen generated="true"?>
-	<extension
-		id="UimAbstractActionBarPlugin.palettedefinition"
-		name="UimAbstractActionBarPlugin Predefined Entries"
-		point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
-		
-		<?gmfgen generated="true"?>	
-		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
-			<Priority name="Lowest"/>
-      		<contribution
-            	factoryClass="org.opaeum.uimodeler.abstractactionbar.diagram.part.UimPaletteFactory">
-     			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
-				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
-				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
-					<entry
-       defineOnly="true"
-       description="Create new BuiltInAction"
-       id="createBuiltInActionButton1CreationTool"
-       kind="tool"
-       label="BuiltInActionButton"
-       large_icon=""
-       path=""
-       small_icon="">
- 	</entry>
-	<entry
-       defineOnly="true"
-       description="Create new TransitionAction"
-       id="createTransitionButton2CreationTool"
-       kind="tool"
-       label="TransitionButton"
-       large_icon=""
-       path=""
-       small_icon="">
- 	</entry>
-	<entry
-       defineOnly="true"
-       description="Create new OperationAction"
-       id="createOperationButton3CreationTool"
-       kind="tool"
-       label="OperationButton"
-       large_icon=""
-       path=""
-       small_icon="">
- 	</entry>
-
-			</contribution>
-		</paletteProvider>	
-			
-	</extension>
-
+	
 	<?gmfgen generated="true"?>
-	<extension
-		id="UimAbstractActionBarPlugin.standard"
-		name="UimAbstractActionBarPlugin Standard Palette"
-		point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
-		
-		<?gmfgen generated="true"?>	
-		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
-			<Priority name="Low"/>
-      		<contribution
-            	factoryClass="org.opaeum.uimodeler.abstractactionbar.diagram.part.UimPaletteFactory">
-     			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
-				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
-				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
-					<entry
-       description=""
-       id="createActions1Group"
-       kind="drawer"
-       label="Actions"
-       large_icon=""
-       path="/"
-       small_icon="">
-       <expand
-              force="true">
-       </expand>
- 	</entry>
- 	 
- 	 	<predefinedEntry
-          id="createBuiltInActionButton1CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createTransitionButton2CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
- 	<predefinedEntry
-          id="createOperationButton3CreationTool"
-          path="/createActions1Group">
-    </predefinedEntry>
-
-
-			</contribution>
-			<editor id="org.opaeum.uimodeler.abstractactionbar.diagram"/>
-		</paletteProvider>	
-			
-	</extension>
-
+	
    <extension point="org.eclipse.ui.preferencePages" id="prefpages">
       <?gmfgen generated="true"?>
       <page
@@ -207,34 +114,6 @@
 
 
 <?gmfgen generated="true"?>
-<extension point="org.eclipse.ui.preferencePages">
-
-
-		
-	<?gmfgen generated="true"?>
-	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
-			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.BuiltInActionPreferencePage"
-            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.BuiltInActionPreferencePage"
-            name="BuiltInAction Node" />
-	
-		
-	<?gmfgen generated="true"?>
-	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
-			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.OperationActionPreferencePage"
-            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.OperationActionPreferencePage"
-            name="OperationAction Node" />
-	
-		
-	<?gmfgen generated="true"?>
-	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
-			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.TransitionActionPreferencePage"
-            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.TransitionActionPreferencePage"
-            name="TransitionAction Node" />
-	
-
-
-
-</extension>
 
 	<extension point="org.eclipse.core.runtime.preferences">
 		<?gmfgen generated="true"?>
@@ -246,7 +125,7 @@
       <viewProvider class="org.opaeum.uimodeler.abstractactionbar.diagram.providers.UimViewProvider">
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="abstractactionbar"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2001,2002,2003"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2011,3001,3002,3003,3004,3005"/>
       </viewProvider>
    </extension>
 
@@ -258,16 +137,16 @@
             <method name="getType()" value="abstractactionbar"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
-            <method name="getType()" value="2001,2002,2003"/>
+            <method name="getType()" value="2011,3001,3002,3003,3004,3005"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
             <method name="getType()" value=""/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
-            <method name="getType()" value="5001,5002,5003"/>
+            <method name="getType()" value="5016,5011,5012,5013,5014,5015"/>
          </object>
          <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
-            <method name="getType()" value=""/>
+            <method name="getType()" value="7001"/>
          </object>
          <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
       </editpartProvider>
@@ -277,11 +156,9 @@
       <?gmfgen generated="true"?>
       <modelingAssistantProvider class="org.opaeum.uimodeler.abstractactionbar.diagram.providers.UimModelingAssistantProvider">
          <Priority name="Lowest"/>
-         <object class="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart" id="AbstractActionBar_1000"/>
-         <object class="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionEditPart" id="BuiltInAction_2001"/>
-         <object class="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionEditPart" id="TransitionAction_2002"/>
-         <object class="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionEditPart" id="OperationAction_2003"/>
-         <context elements="AbstractActionBar_1000,BuiltInAction_2001,TransitionAction_2002,OperationAction_2003"/>
+         <object class="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart" id="AbstractEditor_1000"/>
+         <object class="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarEditPart" id="EditorActionBar_2011"/>
+         <context elements="AbstractEditor_1000,EditorActionBar_2011"/>
       </modelingAssistantProvider>
    </extension>
 
@@ -301,44 +178,74 @@
 
    <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
       <?gmfgen generated="true"?>
-      <metamodel nsURI="http://opaeum.org/uimetamodel/1.0">
+      <metamodel nsURI="http://opaeum.org/uimetamodel/form/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.abstractactionbar.diagram.AbstractActionBar_1000"
-               name="%metatype.name.AbstractActionBar_1000"
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.AbstractEditor_1000"
+               name="%metatype.name.AbstractEditor_1000"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="AbstractActionBar"
-               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.AbstractActionBarEditHelper">
+               eclass="AbstractEditor"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.AbstractEditorEditHelper">
             <param name="semanticHint" value="1000"/>
          </metamodelType>
       </metamodel>
-      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+      <metamodel nsURI="http://opaeum.org/uimetamodel/form/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInAction_2001"
-               name="%metatype.name.BuiltInAction_2001"
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.EditorActionBar_2011"
+               name="%metatype.name.EditorActionBar_2011"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="BuiltInAction"
-               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.BuiltInActionEditHelper">
-            <param name="semanticHint" value="2001"/>
+               eclass="EditorActionBar"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.EditorActionBarEditHelper">
+            <param name="semanticHint" value="2011"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.abstractactionbar.diagram.TransitionAction_2002"
-               name="%metatype.name.TransitionAction_2002"
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInLink_3001"
+               name="%metatype.name.BuiltInLink_3001"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="TransitionAction"
-               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.TransitionActionEditHelper">
-            <param name="semanticHint" value="2002"/>
+               eclass="BuiltInLink"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.BuiltInLinkEditHelper">
+            <param name="semanticHint" value="3001"/>
          </metamodelType>
       </metamodel>
       <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
          <metamodelType
-               id="org.opaeum.uimodeler.abstractactionbar.diagram.OperationAction_2003"
-               name="%metatype.name.OperationAction_2003"
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.LinkToQuery_3002"
+               name="%metatype.name.LinkToQuery_3002"
                kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
-               eclass="OperationAction"
-               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.OperationActionEditHelper">
-            <param name="semanticHint" value="2003"/>
+               eclass="LinkToQuery"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.LinkToQueryEditHelper">
+            <param name="semanticHint" value="3002"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.OperationButton_3003"
+               name="%metatype.name.OperationButton_3003"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="OperationButton"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.OperationButtonEditHelper">
+            <param name="semanticHint" value="3003"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInActionButton_3004"
+               name="%metatype.name.BuiltInActionButton_3004"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="BuiltInActionButton"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.BuiltInActionButtonEditHelper">
+            <param name="semanticHint" value="3004"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://opaeum.org/uimetamodel/action/1.0">
+         <metamodelType
+               id="org.opaeum.uimodeler.abstractactionbar.diagram.TransitionButton_3005"
+               name="%metatype.name.TransitionButton_3005"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TransitionButton"
+               edithelper="org.opaeum.uimodeler.abstractactionbar.diagram.edit.helpers.TransitionButtonEditHelper">
+            <param name="semanticHint" value="3005"/>
          </metamodelType>
       </metamodel>
    </extension>
@@ -353,10 +260,13 @@
          </enablement>
       </clientContext> 
       <binding context="org.opaeum.uimodeler.abstractactionbar.diagram.TypeContext">
-         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.AbstractActionBar_1000"/>
-         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInAction_2001"/>
-         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.TransitionAction_2002"/>
-         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.OperationAction_2003"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.AbstractEditor_1000"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.EditorActionBar_2011"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInLink_3001"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.LinkToQuery_3002"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.OperationButton_3003"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.BuiltInActionButton_3004"/>
+         <elementType ref="org.opaeum.uimodeler.abstractactionbar.diagram.TransitionButton_3005"/>
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>
@@ -395,7 +305,7 @@
             priority="normal" 
             contentProvider="org.opaeum.uimodeler.abstractactionbar.diagram.navigator.UimNavigatorContentProvider" 
             labelProvider="org.opaeum.uimodeler.abstractactionbar.diagram.navigator.UimNavigatorLabelProvider"
-            icon="icons/obj16/UimDiagramFile.gif"
+            icon="icons/obj16/EditorDiagramFile.gif"
             activeByDefault="true">
          <triggerPoints>
             <or>
@@ -431,7 +341,7 @@
             priority="normal" 
             contentProvider="org.opaeum.uimodeler.abstractactionbar.diagram.navigator.UimDomainNavigatorContentProvider" 
             labelProvider="org.opaeum.uimodeler.abstractactionbar.diagram.navigator.UimDomainNavigatorLabelProvider"
-            icon="icons/obj16/UimDiagramFile.gif"
+            icon="icons/obj16/EditorDiagramFile.gif"
             activeByDefault="true">
          <triggerPoints>
             <or>
@@ -504,7 +414,7 @@
                <and>
                   <with variable="activePartId"><equals value="org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorID"/></with>
                   <with variable="selection"><iterate ifEmpty="false"> 
-                     <instanceof value="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart"/>
+                     <instanceof value="org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart"/>
                   </iterate></with>
                </and>
             </visibleWhen>
@@ -569,4 +479,234 @@
             label="Action Bar Diagram">
       </creationCommand>      
    </extension>
+
+
+
+
+
+
+
+
+
+
+
+
+<extension
+		id="UimActionBarPlugin.palettedefinition"
+		name="UimActionBarPlugin Predefined Entries"
+		point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
+		
+		<?gmfgen generated="true"?>	
+		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+			<Priority name="Lowest"/>
+      		<contribution
+            	factoryClass="org.opaeum.uimodeler.abstractactionbar.diagram.part.UimPaletteFactory">
+     			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
+					<entry
+       defineOnly="true"
+       description="Create new Editor Action Bar"
+       id="createEditorActionBar1CreationTool"
+       kind="tool"
+       label="Editor Action Bar"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new Built-in Action"
+       id="createBuiltinActionButton1CreationTool"
+       kind="tool"
+       label="Built-in Action Button"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new TransitionAction"
+       id="createTransitionButton2CreationTool"
+       kind="tool"
+       label="Transition Button"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new OperationAction"
+       id="createOperationButton3CreationTool"
+       kind="tool"
+       label="Operation Button"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="LinkToQuery"
+       id="createLinkToQuery1CreationTool"
+       kind="tool"
+       label="Link To Query"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+	<entry
+       defineOnly="true"
+       description="Create new Built In Link"
+       id="createBuiltinLink2CreationTool"
+       kind="tool"
+       label="Built-in Link"
+       large_icon=""
+       path=""
+       small_icon="">
+ 	</entry>
+
+			</contribution>
+		</paletteProvider>	
+			
+	</extension>
+
+<extension
+		id="UimActionBarPlugin.standard"
+		name="UimActionBarPlugin Standard Palette"
+		point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders"> 
+		
+		<?gmfgen generated="true"?>	
+		<paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+			<Priority name="Low"/>
+      		<contribution
+            	factoryClass="org.opaeum.uimodeler.abstractactionbar.diagram.part.UimPaletteFactory">
+     			<predefinedEntry id="standardGroup/noteStack/noteTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/textTool" remove="true"/> 
+				<predefinedEntry id="standardGroup/noteStack/noteattachmentTool" remove="true"/>
+					<entry
+       description="Holds top-level non-container tools"
+       id="createDefault1Group"
+       kind="drawer"
+       label="Default"
+       large_icon=""
+       path="/"
+       small_icon="">
+       <expand
+              force="true">
+       </expand>
+ 	</entry>
+ 	 
+ 	 	<predefinedEntry
+          id="createEditorActionBar1CreationTool"
+          path="/createDefault1Group">
+    </predefinedEntry>
+
+	<entry
+       description=""
+       id="createActions2Group"
+       kind="drawer"
+       label="Actions"
+       large_icon=""
+       path="/"
+       small_icon="">
+       <expand
+              force="true">
+       </expand>
+ 	</entry>
+ 	 
+ 	 	<predefinedEntry
+          id="createBuiltinActionButton1CreationTool"
+          path="/createActions2Group">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createTransitionButton2CreationTool"
+          path="/createActions2Group">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createOperationButton3CreationTool"
+          path="/createActions2Group">
+    </predefinedEntry>
+
+	<entry
+       description=""
+       id="createLinks3Group"
+       kind="drawer"
+       label="Links"
+       large_icon=""
+       path="/"
+       small_icon="">
+       <expand
+              force="true">
+       </expand>
+ 	</entry>
+ 	 
+ 	 	<predefinedEntry
+          id="createLinkToQuery1CreationTool"
+          path="/createLinks3Group">
+    </predefinedEntry>
+ 	<predefinedEntry
+          id="createBuiltinLink2CreationTool"
+          path="/createLinks3Group">
+    </predefinedEntry>
+
+
+			</contribution>
+			<editor id="org.opaeum.uimodeler.abstractactionbar.diagram"/>
+		</paletteProvider>	
+			
+	</extension>
+
+<extension point="org.eclipse.ui.preferencePages">
+
+
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
+			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.EditorActionBarPreferencePage"
+            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.EditorActionBarPreferencePage"
+            name="EditorActionBar Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
+			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.BuiltInLinkPreferencePage"
+            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.BuiltInLinkPreferencePage"
+            name="BuiltInLink Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
+			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.LinkToQueryPreferencePage"
+            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.LinkToQueryPreferencePage"
+            name="LinkToQuery Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
+			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.BuiltInActionButtonPreferencePage"
+            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.BuiltInActionButtonPreferencePage"
+            name="BuiltInActionButton Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
+			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.TransitionButtonPreferencePage"
+            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.TransitionButtonPreferencePage"
+            name="TransitionButton Node" />
+	
+		
+	<?gmfgen generated="true"?>
+	<page  	category="org.eclipse.papyrus.infra.gmfdiag.preferences.diagrams.abstractactionbar"
+			class="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.OperationButtonPreferencePage"
+            id="org.opaeum.uimodeler.abstractactionbar.diagram.preferences.OperationButtonPreferencePage"
+            name="OperationButton Node" />
+	
+
+
+
+</extension>
+
+
+
+
 </plugin>

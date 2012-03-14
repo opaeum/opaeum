@@ -46,7 +46,7 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TEXT(3, "text", "text"),
+	TEXT(2, "text", "text"),
 
 	/**
 	 * The '<em><b>Text Area</b></em>' literal object.
@@ -56,19 +56,17 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TEXT_AREA(4, "textArea", "textArea"),
+	TEXT_AREA(3, "textArea", "textArea"),
 
 	/**
-	 * The '<em><b>Single Select List Box</b></em>' literal object.
+	 * The '<em><b>List Box</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SINGLE_SELECT_LIST_BOX_VALUE
+	 * @see #LIST_BOX_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SINGLE_SELECT_LIST_BOX(5, "singleSelectListBox", "singleSelectListBox"),
-
-	/**
+	LIST_BOX(4, "listBox", "listBox"), /**
 	 * The '<em><b>Check Box</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -76,7 +74,7 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CHECK_BOX(7, "checkBox", "checkBox"),
+	CHECK_BOX(5, "checkBox", "checkBox"),
 
 	/**
 	 * The '<em><b>Number Scroller</b></em>' literal object.
@@ -86,59 +84,25 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NUMBER_SCROLLER(9, "numberScroller", "numberScroller"),
+	NUMBER_SCROLLER(6, "numberScroller", "numberScroller"),
 
 	/**
-	 * The '<em><b>Single Select Tree View</b></em>' literal object.
+	 * The '<em><b>Tree View</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #SINGLE_SELECT_TREE_VIEW_VALUE
+	 * @see #TREE_VIEW_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	SINGLE_SELECT_TREE_VIEW(8, "singleSelectTreeView", "singleSelectTreeView"),
-
-	/**
-	 * The '<em><b>Multi Select Tree View</b></em>' literal object.
+	TREE_VIEW(7, "treeView", "treeView"), /**
+	 * The '<em><b>Popup Search</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #MULTI_SELECT_TREE_VIEW_VALUE
+	 * @see #POPUP_SEARCH_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MULTI_SELECT_TREE_VIEW(10, "multiSelectTreeView", "multiSelectTreeView"),
-
-	/**
-	 * The '<em><b>Multi Select List Box</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #MULTI_SELECT_LIST_BOX_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	MULTI_SELECT_LIST_BOX(11, "multiSelectListBox", "multiSelectListBox"),
-
-	/**
-	 * The '<em><b>Single Select Popup Search</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #SINGLE_SELECT_POPUP_SEARCH_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	SINGLE_SELECT_POPUP_SEARCH(13, "singleSelectPopupSearch", "singleSelectPopupSearch"),
-
-	/**
-	 * The '<em><b>Multi Select Popup Search</b></em>' literal object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #MULTI_SELECT_POPUP_SEARCH_VALUE
-	 * @generated
-	 * @ordered
-	 */
-	MULTI_SELECT_POPUP_SEARCH(6, "multiSelectPopupSearch", "multiSelectPopupSearch"),
-
-	/**
+	POPUP_SEARCH(8, "popupSearch", "popupSearch"), /**
 	 * The '<em><b>Toggle Button</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -146,7 +110,55 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TOGGLE_BUTTON(12, "toggleButton", "toggleButton");
+	TOGGLE_BUTTON(9, "toggleButton", "toggleButton"), /**
+	 * The '<em><b>Selection Table</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #SELECTION_TABLE_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	SELECTION_TABLE(10, "selectionTable", "selectionTable"), /**
+	 * The '<em><b>Link</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LINK_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LINK(11, "link", "link"), /**
+	 * The '<em><b>Radio Button</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #RADIO_BUTTON_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	RADIO_BUTTON(12, "radioButton", "radioButton"), /**
+	 * The '<em><b>Label</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #LABEL_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	LABEL(13, "label", "label"), /**
+	 * The '<em><b>Date Scroller</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DATE_SCROLLER_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DATE_SCROLLER(14, "dateScroller", "dateScroller"), /**
+	 * The '<em><b>Date Time Popup</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DATE_TIME_POPUP_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DATE_TIME_POPUP(15, "dateTimePopup", "dateTimePopup");
 
 	/**
 	 * The '<em><b>Date Popup</b></em>' literal value.
@@ -190,7 +202,7 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TEXT_VALUE = 3;
+	public static final int TEXT_VALUE = 2;
 
 	/**
 	 * The '<em><b>Text Area</b></em>' literal value.
@@ -204,22 +216,22 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TEXT_AREA_VALUE = 4;
+	public static final int TEXT_AREA_VALUE = 3;
 
 	/**
-	 * The '<em><b>Single Select List Box</b></em>' literal value.
+	 * The '<em><b>List Box</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Single Select List Box</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>List Box</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #SINGLE_SELECT_LIST_BOX
-	 * @model name="singleSelectListBox"
+	 * @see #LIST_BOX
+	 * @model name="listBox"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SINGLE_SELECT_LIST_BOX_VALUE = 5;
+	public static final int LIST_BOX_VALUE = 4;
 
 	/**
 	 * The '<em><b>Check Box</b></em>' literal value.
@@ -234,7 +246,7 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CHECK_BOX_VALUE = 7;
+	public static final int CHECK_BOX_VALUE = 5;
 
 	/**
 	 * The '<em><b>Number Scroller</b></em>' literal value.
@@ -249,81 +261,37 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NUMBER_SCROLLER_VALUE = 9;
+	public static final int NUMBER_SCROLLER_VALUE = 6;
 
 	/**
-	 * The '<em><b>Single Select Tree View</b></em>' literal value.
+	 * The '<em><b>Tree View</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Single Select Tree View</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Tree View</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #SINGLE_SELECT_TREE_VIEW
-	 * @model name="singleSelectTreeView"
+	 * @see #TREE_VIEW
+	 * @model name="treeView"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int SINGLE_SELECT_TREE_VIEW_VALUE = 8;
+	public static final int TREE_VIEW_VALUE = 7;
 
 	/**
-	 * The '<em><b>Multi Select Tree View</b></em>' literal value.
+	 * The '<em><b>Popup Search</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Multi Select Tree View</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Popup Search</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #MULTI_SELECT_TREE_VIEW
-	 * @model name="multiSelectTreeView"
+	 * @see #POPUP_SEARCH
+	 * @model name="popupSearch"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MULTI_SELECT_TREE_VIEW_VALUE = 10;
-
-	/**
-	 * The '<em><b>Multi Select List Box</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Multi Select List Box</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #MULTI_SELECT_LIST_BOX
-	 * @model name="multiSelectListBox"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int MULTI_SELECT_LIST_BOX_VALUE = 11;
-
-	/**
-	 * The '<em><b>Single Select Popup Search</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Single Select Popup Search</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @see #SINGLE_SELECT_POPUP_SEARCH
-	 * @model name="singleSelectPopupSearch"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int SINGLE_SELECT_POPUP_SEARCH_VALUE = 13;
-
-	/**
-	 * The '<em><b>Multi Select Popup Search</b></em>' literal value.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Displays a dialog box that allows the user to search for matches and select multiple entries
-	 * <!-- end-model-doc -->
-	 * @see #MULTI_SELECT_POPUP_SEARCH
-	 * @model name="multiSelectPopupSearch"
-	 * @generated
-	 * @ordered
-	 */
-	public static final int MULTI_SELECT_POPUP_SEARCH_VALUE = 6;
+	public static final int POPUP_SEARCH_VALUE = 8;
 
 	/**
 	 * The '<em><b>Toggle Button</b></em>' literal value.
@@ -338,7 +306,97 @@ public enum ControlKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TOGGLE_BUTTON_VALUE = 12;
+	public static final int TOGGLE_BUTTON_VALUE = 9;
+
+	/**
+	 * The '<em><b>Selection Table</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Selection Table</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SELECTION_TABLE
+	 * @model name="selectionTable"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SELECTION_TABLE_VALUE = 10;
+
+	/**
+	 * The '<em><b>Link</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Link</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LINK
+	 * @model name="link"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LINK_VALUE = 11;
+
+	/**
+	 * The '<em><b>Radio Button</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Radio Button</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #RADIO_BUTTON
+	 * @model name="radioButton"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int RADIO_BUTTON_VALUE = 12;
+
+	/**
+	 * The '<em><b>Label</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Label</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #LABEL
+	 * @model name="label"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int LABEL_VALUE = 13;
+
+	/**
+	 * The '<em><b>Date Scroller</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Date Scroller</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATE_SCROLLER
+	 * @model name="dateScroller"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DATE_SCROLLER_VALUE = 14;
+
+	/**
+	 * The '<em><b>Date Time Popup</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Date Time Popup</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DATE_TIME_POPUP
+	 * @model name="dateTimePopup"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DATE_TIME_POPUP_VALUE = 15;
 
 	/**
 	 * An array of all the '<em><b>Kind</b></em>' enumerators.
@@ -352,15 +410,18 @@ public enum ControlKind implements Enumerator {
 			DROPDOWN,
 			TEXT,
 			TEXT_AREA,
-			SINGLE_SELECT_LIST_BOX,
+			LIST_BOX,
 			CHECK_BOX,
 			NUMBER_SCROLLER,
-			SINGLE_SELECT_TREE_VIEW,
-			MULTI_SELECT_TREE_VIEW,
-			MULTI_SELECT_LIST_BOX,
-			SINGLE_SELECT_POPUP_SEARCH,
-			MULTI_SELECT_POPUP_SEARCH,
+			TREE_VIEW,
+			POPUP_SEARCH,
 			TOGGLE_BUTTON,
+			SELECTION_TABLE,
+			LINK,
+			RADIO_BUTTON,
+			LABEL,
+			DATE_SCROLLER,
+			DATE_TIME_POPUP,
 		};
 
 	/**
@@ -415,15 +476,18 @@ public enum ControlKind implements Enumerator {
 			case DROPDOWN_VALUE: return DROPDOWN;
 			case TEXT_VALUE: return TEXT;
 			case TEXT_AREA_VALUE: return TEXT_AREA;
-			case SINGLE_SELECT_LIST_BOX_VALUE: return SINGLE_SELECT_LIST_BOX;
+			case LIST_BOX_VALUE: return LIST_BOX;
 			case CHECK_BOX_VALUE: return CHECK_BOX;
 			case NUMBER_SCROLLER_VALUE: return NUMBER_SCROLLER;
-			case SINGLE_SELECT_TREE_VIEW_VALUE: return SINGLE_SELECT_TREE_VIEW;
-			case MULTI_SELECT_TREE_VIEW_VALUE: return MULTI_SELECT_TREE_VIEW;
-			case MULTI_SELECT_LIST_BOX_VALUE: return MULTI_SELECT_LIST_BOX;
-			case SINGLE_SELECT_POPUP_SEARCH_VALUE: return SINGLE_SELECT_POPUP_SEARCH;
-			case MULTI_SELECT_POPUP_SEARCH_VALUE: return MULTI_SELECT_POPUP_SEARCH;
+			case TREE_VIEW_VALUE: return TREE_VIEW;
+			case POPUP_SEARCH_VALUE: return POPUP_SEARCH;
 			case TOGGLE_BUTTON_VALUE: return TOGGLE_BUTTON;
+			case SELECTION_TABLE_VALUE: return SELECTION_TABLE;
+			case LINK_VALUE: return LINK;
+			case RADIO_BUTTON_VALUE: return RADIO_BUTTON;
+			case LABEL_VALUE: return LABEL;
+			case DATE_SCROLLER_VALUE: return DATE_SCROLLER;
+			case DATE_TIME_POPUP_VALUE: return DATE_TIME_POPUP;
 		}
 		return null;
 	}

@@ -15,18 +15,21 @@ import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimCheckBox;
 import org.opaeum.uim.control.UimControl;
 import org.opaeum.uim.control.UimDatePopup;
+import org.opaeum.uim.control.UimDateScroller;
+import org.opaeum.uim.control.UimDateTimePopup;
 import org.opaeum.uim.control.UimDropdown;
+import org.opaeum.uim.control.UimLabel;
+import org.opaeum.uim.control.UimLinkControl;
+import org.opaeum.uim.control.UimListBox;
 import org.opaeum.uim.control.UimLookup;
-import org.opaeum.uim.control.UimMultiSelectListBox;
-import org.opaeum.uim.control.UimMultiSelectPopupSearch;
-import org.opaeum.uim.control.UimMultiSelectTreeView;
 import org.opaeum.uim.control.UimNumberScroller;
-import org.opaeum.uim.control.UimSingleSelectListBox;
-import org.opaeum.uim.control.UimSingleSelectPopupSearch;
-import org.opaeum.uim.control.UimSingleSelectTreeView;
+import org.opaeum.uim.control.UimPopupSearch;
+import org.opaeum.uim.control.UimRadioButton;
+import org.opaeum.uim.control.UimSelectionTable;
 import org.opaeum.uim.control.UimText;
 import org.opaeum.uim.control.UimTextArea;
 import org.opaeum.uim.control.UimToggleButton;
+import org.opaeum.uim.control.UimTreeView;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,19 +77,22 @@ public class ControlFactoryImpl extends EFactoryImpl implements ControlFactory {
 		switch (eClass.getClassifierID()) {
 			case ControlPackage.UIM_NUMBER_SCROLLER: return createUimNumberScroller();
 			case ControlPackage.UIM_TOGGLE_BUTTON: return createUimToggleButton();
-			case ControlPackage.UIM_SINGLE_SELECT_POPUP_SEARCH: return createUimSingleSelectPopupSearch();
-			case ControlPackage.UIM_MULTI_SELECT_POPUP_SEARCH: return createUimMultiSelectPopupSearch();
-			case ControlPackage.UIM_MULTI_SELECT_TREE_VIEW: return createUimMultiSelectTreeView();
-			case ControlPackage.UIM_MULTI_SELECT_LIST_BOX: return createUimMultiSelectListBox();
+			case ControlPackage.UIM_POPUP_SEARCH: return createUimPopupSearch();
 			case ControlPackage.UIM_DROPDOWN: return createUimDropdown();
 			case ControlPackage.UIM_CHECK_BOX: return createUimCheckBox();
 			case ControlPackage.UIM_LOOKUP: return createUimLookup();
 			case ControlPackage.UIM_TEXT_AREA: return createUimTextArea();
 			case ControlPackage.UIM_TEXT: return createUimText();
 			case ControlPackage.UIM_DATE_POPUP: return createUimDatePopup();
-			case ControlPackage.UIM_SINGLE_SELECT_LIST_BOX: return createUimSingleSelectListBox();
+			case ControlPackage.UIM_LIST_BOX: return createUimListBox();
 			case ControlPackage.UIM_CONTROL: return createUimControl();
-			case ControlPackage.UIM_SINGLE_SELECT_TREE_VIEW: return createUimSingleSelectTreeView();
+			case ControlPackage.UIM_TREE_VIEW: return createUimTreeView();
+			case ControlPackage.UIM_LINK_CONTROL: return createUimLinkControl();
+			case ControlPackage.UIM_DATE_SCROLLER: return createUimDateScroller();
+			case ControlPackage.UIM_SELECTION_TABLE: return createUimSelectionTable();
+			case ControlPackage.UIM_RADIO_BUTTON: return createUimRadioButton();
+			case ControlPackage.UIM_LABEL: return createUimLabel();
+			case ControlPackage.UIM_DATE_TIME_POPUP: return createUimDateTimePopup();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -147,39 +153,9 @@ public class ControlFactoryImpl extends EFactoryImpl implements ControlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimSingleSelectPopupSearch createUimSingleSelectPopupSearch() {
-		UimSingleSelectPopupSearchImpl uimSingleSelectPopupSearch = new UimSingleSelectPopupSearchImpl();
-		return uimSingleSelectPopupSearch;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UimMultiSelectPopupSearch createUimMultiSelectPopupSearch() {
-		UimMultiSelectPopupSearchImpl uimMultiSelectPopupSearch = new UimMultiSelectPopupSearchImpl();
-		return uimMultiSelectPopupSearch;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UimMultiSelectTreeView createUimMultiSelectTreeView() {
-		UimMultiSelectTreeViewImpl uimMultiSelectTreeView = new UimMultiSelectTreeViewImpl();
-		return uimMultiSelectTreeView;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public UimMultiSelectListBox createUimMultiSelectListBox() {
-		UimMultiSelectListBoxImpl uimMultiSelectListBox = new UimMultiSelectListBoxImpl();
-		return uimMultiSelectListBox;
+	public UimPopupSearch createUimPopupSearch() {
+		UimPopupSearchImpl uimPopupSearch = new UimPopupSearchImpl();
+		return uimPopupSearch;
 	}
 
 	/**
@@ -247,9 +223,9 @@ public class ControlFactoryImpl extends EFactoryImpl implements ControlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimSingleSelectListBox createUimSingleSelectListBox() {
-		UimSingleSelectListBoxImpl uimSingleSelectListBox = new UimSingleSelectListBoxImpl();
-		return uimSingleSelectListBox;
+	public UimListBox createUimListBox() {
+		UimListBoxImpl uimListBox = new UimListBoxImpl();
+		return uimListBox;
 	}
 
 	/**
@@ -267,9 +243,69 @@ public class ControlFactoryImpl extends EFactoryImpl implements ControlFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UimSingleSelectTreeView createUimSingleSelectTreeView() {
-		UimSingleSelectTreeViewImpl uimSingleSelectTreeView = new UimSingleSelectTreeViewImpl();
-		return uimSingleSelectTreeView;
+	public UimTreeView createUimTreeView() {
+		UimTreeViewImpl uimTreeView = new UimTreeViewImpl();
+		return uimTreeView;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimLinkControl createUimLinkControl() {
+		UimLinkControlImpl uimLinkControl = new UimLinkControlImpl();
+		return uimLinkControl;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimDateScroller createUimDateScroller() {
+		UimDateScrollerImpl uimDateScroller = new UimDateScrollerImpl();
+		return uimDateScroller;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimSelectionTable createUimSelectionTable() {
+		UimSelectionTableImpl uimSelectionTable = new UimSelectionTableImpl();
+		return uimSelectionTable;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimRadioButton createUimRadioButton() {
+		UimRadioButtonImpl uimRadioButton = new UimRadioButtonImpl();
+		return uimRadioButton;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimLabel createUimLabel() {
+		UimLabelImpl uimLabel = new UimLabelImpl();
+		return uimLabel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UimDateTimePopup createUimDateTimePopup() {
+		UimDateTimePopupImpl uimDateTimePopup = new UimDateTimePopupImpl();
+		return uimDateTimePopup;
 	}
 
 	/**

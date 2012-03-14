@@ -1,6 +1,5 @@
 package org.opaeum.uim.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -12,10 +11,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.wb.os.OSSupport;
-import org.opaeum.uimodeler.util.UimFigureUtil;
-import org.opaeum.uimodeler.util.WindowBuilderUtil;
+import org.opaeum.uimodeler.common.figures.ISWTFigure;
+import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
+import org.opaeum.uimodeler.common.figures.WindowBuilderUtil;
 
 /**
  * @generated NOT
@@ -38,7 +38,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 	public CustomUimDataTableFigure(Composite nearestComposit){
 		createContents();
 		this.composite = new UimDataTableComposite(nearestComposit, SWT.BORDER);
-		this.composite.firstRow.setData(UimFigureUtil.FIGURE, this);
+		this.composite.getFirstRow().setData(UimFigureUtil.FIGURE, this);
 	}
 	@Override
 	public void setBounds(Rectangle rect){
@@ -90,7 +90,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(composite);
 			}
-			graphics.drawImage((Image) composite.table.getData("OPAEUM_IMAGE"), 14, 12);
+			graphics.drawImage((Image) composite.getTable().getData("OPAEUM_IMAGE"), 14, 12);
 			super.paintClientArea(graphics);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -118,10 +118,10 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 	public void setLabelText(String string){
 	}
 	public Table getTable(){
-		return composite.table;
+		return composite.getTable();
 	}
 	public Composite getFirstRow(){
-		return composite.firstRow;
+		return composite.getFirstRow();
 	}
 	@Override
 	public void markForRepaint(){

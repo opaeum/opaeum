@@ -93,29 +93,6 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.NavigationBinding} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected NavigationBindingItemProvider navigationBindingItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.binding.NavigationBinding}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createNavigationBindingAdapter() {
-		if (navigationBindingItemProvider == null) {
-			navigationBindingItemProvider = new NavigationBindingItemProvider(this);
-		}
-
-		return navigationBindingItemProvider;
-	}
-
-	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.binding.TableBinding} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -284,7 +261,6 @@ public class BindingItemProviderAdapterFactory extends BindingAdapterFactory imp
 	 */
 	public void dispose() {
 		if (lookupBindingItemProvider != null) lookupBindingItemProvider.dispose();
-		if (navigationBindingItemProvider != null) navigationBindingItemProvider.dispose();
 		if (tableBindingItemProvider != null) tableBindingItemProvider.dispose();
 		if (fieldBindingItemProvider != null) fieldBindingItemProvider.dispose();
 		if (propertyRefItemProvider != null) propertyRefItemProvider.dispose();

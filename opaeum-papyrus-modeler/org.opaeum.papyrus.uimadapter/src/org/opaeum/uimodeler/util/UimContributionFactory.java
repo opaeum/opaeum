@@ -23,6 +23,7 @@ import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Operation;
 import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorActionBar;
 import org.opaeum.uml2uim.OpenUserInterfaceAction;
 import org.opaeum.uml2uim.RegenerateRecursivelyAction;
@@ -54,7 +55,7 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 					if(ss.getFirstElement() instanceof IAdaptable){
 						IAdaptable selection = (IAdaptable) ss.getFirstElement();
 						Object eobject = ((IAdaptable) selection).getAdapter(EObject.class);
-						if(eobject instanceof UserInterface || eobject instanceof EditorActionBar || eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation){
+						if(eobject instanceof UserInterface || eobject instanceof AbstractEditor || eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation){
 							// TODO add SingleScreenTasks
 							return EvaluationResult.TRUE;
 						}
@@ -77,7 +78,8 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 				}
 			});
 		}
-		if(eobject instanceof EditorActionBar){
+		if(eobject instanceof AbstractEditor){
+			System.out.println("UimContributionFactory.createContributionItems()");
 			menuManager.add(new CompoundContributionItem(){
 				@Override
 				protected IContributionItem[] getContributionItems(){
@@ -92,7 +94,6 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 			});
 		}
 		if(eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation){
-			System.out.println("UimContributionFactory.createContributionItems() + class or operation");
 			menuManager.add(new CompoundContributionItem(){
 				@Override
 				protected IContributionItem[] getContributionItems(){

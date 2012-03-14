@@ -20,7 +20,7 @@ import org.opaeum.topcased.propertysections.OpaeumChooserPropertySection;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.provider.UimItemProviderAdapterFactory;
 import org.opaeum.uim.util.UmlUimLinks;
 import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
@@ -37,13 +37,13 @@ public class OperationActionOperationSection extends OpaeumChooserPropertySectio
 	protected Object getFeatureValue(){
 		return UmlUimLinks.getCurrentUmlLinks(getOperationAction()).getOperation(getOperationAction());
 	}
-	private OperationAction getOperationAction(){
-		return (OperationAction) getEObject();
+	private OperationButton getOperationAction(){
+		return (OperationButton) getEObject();
 	}
 	protected Object[] getComboFeatureValues(){
 		Collection<Operation> results = new ArrayList<Operation>();
-		if(getEObject() instanceof OperationAction){
-			OperationAction oa = getOperationAction();
+		if(getEObject() instanceof OperationButton){
+			OperationButton oa = getOperationAction();
 			results.addAll(UmlUimLinks.getCurrentUmlLinks(oa).getNearestClass(oa).getAllOperations());
 		}
 		return getActionOperations(results);

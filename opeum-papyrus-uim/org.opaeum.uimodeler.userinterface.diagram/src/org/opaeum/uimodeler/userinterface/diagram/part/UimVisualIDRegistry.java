@@ -11,12 +11,11 @@ import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.panel.PanelPackage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartment2EditPart;
@@ -25,27 +24,20 @@ import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelName2EditP
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonName2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanelEditPart;
@@ -157,8 +149,8 @@ public class UimVisualIDRegistry{
 			if(UimPackage.eINSTANCE.getUimField().isSuperTypeOf(domainElement.eClass())){
 				return UimFieldEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getBuiltInAction().isSuperTypeOf(domainElement.eClass())){
-				return BuiltInActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getBuiltInActionButton().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInActionButtonEditPart.VISUAL_ID;
 			}
 			if(PanelPackage.eINSTANCE.getHorizontalPanel().isSuperTypeOf(domainElement.eClass())){
 				return HorizontalPanel2EditPart.VISUAL_ID;
@@ -166,17 +158,17 @@ public class UimVisualIDRegistry{
 			if(PanelPackage.eINSTANCE.getVerticalPanel().isSuperTypeOf(domainElement.eClass())){
 				return VerticalPanel2EditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getTransitionAction().isSuperTypeOf(domainElement.eClass())){
-				return TransitionActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getTransitionButton().isSuperTypeOf(domainElement.eClass())){
+				return TransitionButtonEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getOperationAction().isSuperTypeOf(domainElement.eClass())){
-				return OperationActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getOperationButton().isSuperTypeOf(domainElement.eClass())){
+				return OperationButtonEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getLinkToOperation().isSuperTypeOf(domainElement.eClass())){
-				return LinkToOperationEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getLinkToQuery().isSuperTypeOf(domainElement.eClass())){
+				return LinkToQueryEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getLinkToEntity().isSuperTypeOf(domainElement.eClass())){
-				return LinkToEntityEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getBuiltInLink().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInLinkEditPart.VISUAL_ID;
 			}
 			if(UimPackage.eINSTANCE.getUimDataTable().isSuperTypeOf(domainElement.eClass())){
 				return UimDataTableEditPart.VISUAL_ID;
@@ -189,30 +181,27 @@ public class UimVisualIDRegistry{
 			if(UimPackage.eINSTANCE.getUimField().isSuperTypeOf(domainElement.eClass())){
 				return UimField2EditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getLinkToEntity().isSuperTypeOf(domainElement.eClass())){
-				return LinkToEntity2EditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getBuiltInActionButton().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInActionButton2EditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getBuiltInAction().isSuperTypeOf(domainElement.eClass())){
-				return BuiltInAction2EditPart.VISUAL_ID;
-			}
-			if(ActionPackage.eINSTANCE.getOperationAction().isSuperTypeOf(domainElement.eClass())){
-				return OperationAction2EditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getOperationButton().isSuperTypeOf(domainElement.eClass())){
+				return OperationButton2EditPart.VISUAL_ID;
 			}
 			break;
 		case UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID:
-			if(ActionPackage.eINSTANCE.getBuiltInAction().isSuperTypeOf(domainElement.eClass())){
-				return BuiltInAction3EditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getBuiltInActionButton().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInActionButton3EditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getOperationAction().isSuperTypeOf(domainElement.eClass())){
-				return OperationAction3EditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getOperationButton().isSuperTypeOf(domainElement.eClass())){
+				return OperationButton3EditPart.VISUAL_ID;
 			}
 			break;
 		case GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID:
 			if(UimPackage.eINSTANCE.getUimField().isSuperTypeOf(domainElement.eClass())){
 				return UimFieldEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getBuiltInAction().isSuperTypeOf(domainElement.eClass())){
-				return BuiltInActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getBuiltInActionButton().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInActionButtonEditPart.VISUAL_ID;
 			}
 			if(PanelPackage.eINSTANCE.getHorizontalPanel().isSuperTypeOf(domainElement.eClass())){
 				return HorizontalPanel2EditPart.VISUAL_ID;
@@ -220,17 +209,17 @@ public class UimVisualIDRegistry{
 			if(PanelPackage.eINSTANCE.getVerticalPanel().isSuperTypeOf(domainElement.eClass())){
 				return VerticalPanel2EditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getTransitionAction().isSuperTypeOf(domainElement.eClass())){
-				return TransitionActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getTransitionButton().isSuperTypeOf(domainElement.eClass())){
+				return TransitionButtonEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getOperationAction().isSuperTypeOf(domainElement.eClass())){
-				return OperationActionEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getOperationButton().isSuperTypeOf(domainElement.eClass())){
+				return OperationButtonEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getLinkToOperation().isSuperTypeOf(domainElement.eClass())){
-				return LinkToOperationEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getLinkToQuery().isSuperTypeOf(domainElement.eClass())){
+				return LinkToQueryEditPart.VISUAL_ID;
 			}
-			if(ActionPackage.eINSTANCE.getLinkToEntity().isSuperTypeOf(domainElement.eClass())){
-				return LinkToEntityEditPart.VISUAL_ID;
+			if(ActionPackage.eINSTANCE.getBuiltInLink().isSuperTypeOf(domainElement.eClass())){
+				return BuiltInLinkEditPart.VISUAL_ID;
 			}
 			if(UimPackage.eINSTANCE.getUimDataTable().isSuperTypeOf(domainElement.eClass())){
 				return UimDataTableEditPart.VISUAL_ID;
@@ -280,18 +269,23 @@ public class UimVisualIDRegistry{
 				return true;
 			}
 			break;
-		case TransitionActionEditPart.VISUAL_ID:
-			if(TransitionActionNameEditPart.VISUAL_ID == nodeVisualID){
+		case TransitionButtonEditPart.VISUAL_ID:
+			if(TransitionButtonNameEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
-		case LinkToOperationEditPart.VISUAL_ID:
-			if(LinkToOperationNameEditPart.VISUAL_ID == nodeVisualID){
+		case OperationButtonEditPart.VISUAL_ID:
+			if(OperationButtonNameEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
-		case LinkToEntityEditPart.VISUAL_ID:
-			if(LinkToEntityNameEditPart.VISUAL_ID == nodeVisualID){
+		case LinkToQueryEditPart.VISUAL_ID:
+			if(LinkToQueryNameEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			break;
+		case BuiltInLinkEditPart.VISUAL_ID:
+			if(BuiltInLinkNameEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
@@ -300,6 +294,11 @@ public class UimVisualIDRegistry{
 				return true;
 			}
 			if(UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID == nodeVisualID){
+				return true;
+			}
+			break;
+		case OperationButton3EditPart.VISUAL_ID:
+			if(OperationButtonName2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
@@ -315,7 +314,7 @@ public class UimVisualIDRegistry{
 			if(UimFieldEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(BuiltInActionEditPart.VISUAL_ID == nodeVisualID){
+			if(BuiltInActionButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			if(HorizontalPanel2EditPart.VISUAL_ID == nodeVisualID){
@@ -324,16 +323,16 @@ public class UimVisualIDRegistry{
 			if(VerticalPanel2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(TransitionActionEditPart.VISUAL_ID == nodeVisualID){
+			if(TransitionButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(OperationActionEditPart.VISUAL_ID == nodeVisualID){
+			if(OperationButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(LinkToOperationEditPart.VISUAL_ID == nodeVisualID){
+			if(LinkToQueryEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(LinkToEntityEditPart.VISUAL_ID == nodeVisualID){
+			if(BuiltInLinkEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			if(UimDataTableEditPart.VISUAL_ID == nodeVisualID){
@@ -347,21 +346,18 @@ public class UimVisualIDRegistry{
 			if(UimField2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(LinkToEntity2EditPart.VISUAL_ID == nodeVisualID){
+			if(BuiltInActionButton2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(BuiltInAction2EditPart.VISUAL_ID == nodeVisualID){
-				return true;
-			}
-			if(OperationAction2EditPart.VISUAL_ID == nodeVisualID){
+			if(OperationButton2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
 		case UimDataTableTableTableActionBarCompartmentEditPart.VISUAL_ID:
-			if(BuiltInAction3EditPart.VISUAL_ID == nodeVisualID){
+			if(BuiltInActionButton3EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(OperationAction3EditPart.VISUAL_ID == nodeVisualID){
+			if(OperationButton3EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			break;
@@ -369,7 +365,7 @@ public class UimVisualIDRegistry{
 			if(UimFieldEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(BuiltInActionEditPart.VISUAL_ID == nodeVisualID){
+			if(BuiltInActionButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			if(HorizontalPanel2EditPart.VISUAL_ID == nodeVisualID){
@@ -378,16 +374,16 @@ public class UimVisualIDRegistry{
 			if(VerticalPanel2EditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(TransitionActionEditPart.VISUAL_ID == nodeVisualID){
+			if(TransitionButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(OperationActionEditPart.VISUAL_ID == nodeVisualID){
+			if(OperationButtonEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(LinkToOperationEditPart.VISUAL_ID == nodeVisualID){
+			if(LinkToQueryEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
-			if(LinkToEntityEditPart.VISUAL_ID == nodeVisualID){
+			if(BuiltInLinkEditPart.VISUAL_ID == nodeVisualID){
 				return true;
 			}
 			if(UimDataTableEditPart.VISUAL_ID == nodeVisualID){
@@ -445,7 +441,7 @@ public class UimVisualIDRegistry{
 		viewInfo = new BaseViewInfo(3001, ViewInfo.Node, "UimField");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
-		viewInfo = new BaseViewInfo(3002, ViewInfo.Node, "BuiltInAction");
+		viewInfo = new BaseViewInfo(3018, ViewInfo.Node, "BuiltInActionButton");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
 		viewInfo = new BaseViewInfo(3003, ViewInfo.Node, "HorizontalPanel");
@@ -454,16 +450,16 @@ public class UimVisualIDRegistry{
 		viewInfo = new BaseViewInfo(3004, ViewInfo.Node, "VerticalPanel");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
-		viewInfo = new BaseViewInfo(3005, ViewInfo.Node, "TransitionAction");
+		viewInfo = new BaseViewInfo(3019, ViewInfo.Node, "TransitionButton");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
-		viewInfo = new BaseViewInfo(3006, ViewInfo.Node, "OperationAction");
+		viewInfo = new BaseViewInfo(3020, ViewInfo.Node, "OperationButton");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
-		viewInfo = new BaseViewInfo(3007, ViewInfo.Node, "LinkToOperation");
+		viewInfo = new BaseViewInfo(3021, ViewInfo.Node, "LinkToQuery");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
-		viewInfo = new BaseViewInfo(3008, ViewInfo.Node, "LinkToEntity");
+		viewInfo = new BaseViewInfo(3022, ViewInfo.Node, "BuiltInLink");
 		root.addNode(7001, viewInfo);
 		root.addNode(7005, viewInfo);
 		viewInfo = new BaseViewInfo(3009, ViewInfo.Node, "UimDataTable");
@@ -471,15 +467,13 @@ public class UimVisualIDRegistry{
 		root.addNode(7005, viewInfo);
 		viewInfo = new BaseViewInfo(3010, ViewInfo.Node, "UimField");
 		root.addNode(7002, viewInfo);
-		viewInfo = new BaseViewInfo(3011, ViewInfo.Node, "LinkToEntity");
+		viewInfo = new BaseViewInfo(3023, ViewInfo.Node, "BuiltInActionButton");
 		root.addNode(7002, viewInfo);
-		viewInfo = new BaseViewInfo(3012, ViewInfo.Node, "BuiltInAction");
+		viewInfo = new BaseViewInfo(3024, ViewInfo.Node, "OperationButton");
 		root.addNode(7002, viewInfo);
-		viewInfo = new BaseViewInfo(3014, ViewInfo.Node, "OperationAction");
-		root.addNode(7002, viewInfo);
-		viewInfo = new BaseViewInfo(3015, ViewInfo.Node, "BuiltInAction");
+		viewInfo = new BaseViewInfo(3025, ViewInfo.Node, "BuiltInActionButton");
 		root.addNode(7003, viewInfo);
-		viewInfo = new BaseViewInfo(3016, ViewInfo.Node, "OperationAction");
+		viewInfo = new BaseViewInfo(3026, ViewInfo.Node, "OperationButton");
 		root.addNode(7003, viewInfo);
 		viewInfo = new BaseViewInfo(3017, ViewInfo.Node, "GridPanel");
 		root.addNode(7005, viewInfo);

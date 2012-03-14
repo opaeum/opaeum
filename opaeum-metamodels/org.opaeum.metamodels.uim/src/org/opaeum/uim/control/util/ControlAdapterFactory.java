@@ -11,18 +11,21 @@ import org.opaeum.uim.control.ControlPackage;
 import org.opaeum.uim.control.UimCheckBox;
 import org.opaeum.uim.control.UimControl;
 import org.opaeum.uim.control.UimDatePopup;
+import org.opaeum.uim.control.UimDateScroller;
+import org.opaeum.uim.control.UimDateTimePopup;
 import org.opaeum.uim.control.UimDropdown;
+import org.opaeum.uim.control.UimLabel;
+import org.opaeum.uim.control.UimLinkControl;
+import org.opaeum.uim.control.UimListBox;
 import org.opaeum.uim.control.UimLookup;
-import org.opaeum.uim.control.UimMultiSelectListBox;
-import org.opaeum.uim.control.UimMultiSelectPopupSearch;
-import org.opaeum.uim.control.UimMultiSelectTreeView;
 import org.opaeum.uim.control.UimNumberScroller;
-import org.opaeum.uim.control.UimSingleSelectListBox;
-import org.opaeum.uim.control.UimSingleSelectPopupSearch;
-import org.opaeum.uim.control.UimSingleSelectTreeView;
+import org.opaeum.uim.control.UimPopupSearch;
+import org.opaeum.uim.control.UimRadioButton;
+import org.opaeum.uim.control.UimSelectionTable;
 import org.opaeum.uim.control.UimText;
 import org.opaeum.uim.control.UimTextArea;
 import org.opaeum.uim.control.UimToggleButton;
+import org.opaeum.uim.control.UimTreeView;
 
 /**
  * <!-- begin-user-doc -->
@@ -89,20 +92,8 @@ public class ControlAdapterFactory extends AdapterFactoryImpl {
 				return createUimToggleButtonAdapter();
 			}
 			@Override
-			public Adapter caseUimSingleSelectPopupSearch(UimSingleSelectPopupSearch object) {
-				return createUimSingleSelectPopupSearchAdapter();
-			}
-			@Override
-			public Adapter caseUimMultiSelectPopupSearch(UimMultiSelectPopupSearch object) {
-				return createUimMultiSelectPopupSearchAdapter();
-			}
-			@Override
-			public Adapter caseUimMultiSelectTreeView(UimMultiSelectTreeView object) {
-				return createUimMultiSelectTreeViewAdapter();
-			}
-			@Override
-			public Adapter caseUimMultiSelectListBox(UimMultiSelectListBox object) {
-				return createUimMultiSelectListBoxAdapter();
+			public Adapter caseUimPopupSearch(UimPopupSearch object) {
+				return createUimPopupSearchAdapter();
 			}
 			@Override
 			public Adapter caseUimDropdown(UimDropdown object) {
@@ -129,16 +120,40 @@ public class ControlAdapterFactory extends AdapterFactoryImpl {
 				return createUimDatePopupAdapter();
 			}
 			@Override
-			public Adapter caseUimSingleSelectListBox(UimSingleSelectListBox object) {
-				return createUimSingleSelectListBoxAdapter();
+			public Adapter caseUimListBox(UimListBox object) {
+				return createUimListBoxAdapter();
 			}
 			@Override
 			public Adapter caseUimControl(UimControl object) {
 				return createUimControlAdapter();
 			}
 			@Override
-			public Adapter caseUimSingleSelectTreeView(UimSingleSelectTreeView object) {
-				return createUimSingleSelectTreeViewAdapter();
+			public Adapter caseUimTreeView(UimTreeView object) {
+				return createUimTreeViewAdapter();
+			}
+			@Override
+			public Adapter caseUimLinkControl(UimLinkControl object) {
+				return createUimLinkControlAdapter();
+			}
+			@Override
+			public Adapter caseUimDateScroller(UimDateScroller object) {
+				return createUimDateScrollerAdapter();
+			}
+			@Override
+			public Adapter caseUimSelectionTable(UimSelectionTable object) {
+				return createUimSelectionTableAdapter();
+			}
+			@Override
+			public Adapter caseUimRadioButton(UimRadioButton object) {
+				return createUimRadioButtonAdapter();
+			}
+			@Override
+			public Adapter caseUimLabel(UimLabel object) {
+				return createUimLabelAdapter();
+			}
+			@Override
+			public Adapter caseUimDateTimePopup(UimDateTimePopup object) {
+				return createUimDateTimePopupAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -189,58 +204,16 @@ public class ControlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimSingleSelectPopupSearch <em>Uim Single Select Popup Search</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimPopupSearch <em>Uim Popup Search</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.control.UimSingleSelectPopupSearch
+	 * @see org.opaeum.uim.control.UimPopupSearch
 	 * @generated
 	 */
-	public Adapter createUimSingleSelectPopupSearchAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimMultiSelectPopupSearch <em>Uim Multi Select Popup Search</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.control.UimMultiSelectPopupSearch
-	 * @generated
-	 */
-	public Adapter createUimMultiSelectPopupSearchAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimMultiSelectTreeView <em>Uim Multi Select Tree View</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.control.UimMultiSelectTreeView
-	 * @generated
-	 */
-	public Adapter createUimMultiSelectTreeViewAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimMultiSelectListBox <em>Uim Multi Select List Box</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.control.UimMultiSelectListBox
-	 * @generated
-	 */
-	public Adapter createUimMultiSelectListBoxAdapter() {
+	public Adapter createUimPopupSearchAdapter() {
 		return null;
 	}
 
@@ -329,16 +302,16 @@ public class ControlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimSingleSelectListBox <em>Uim Single Select List Box</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimListBox <em>Uim List Box</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.control.UimSingleSelectListBox
+	 * @see org.opaeum.uim.control.UimListBox
 	 * @generated
 	 */
-	public Adapter createUimSingleSelectListBoxAdapter() {
+	public Adapter createUimListBoxAdapter() {
 		return null;
 	}
 
@@ -357,16 +330,100 @@ public class ControlAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimSingleSelectTreeView <em>Uim Single Select Tree View</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimTreeView <em>Uim Tree View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.control.UimSingleSelectTreeView
+	 * @see org.opaeum.uim.control.UimTreeView
 	 * @generated
 	 */
-	public Adapter createUimSingleSelectTreeViewAdapter() {
+	public Adapter createUimTreeViewAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimLinkControl <em>Uim Link Control</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.control.UimLinkControl
+	 * @generated
+	 */
+	public Adapter createUimLinkControlAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimDateScroller <em>Uim Date Scroller</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.control.UimDateScroller
+	 * @generated
+	 */
+	public Adapter createUimDateScrollerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimSelectionTable <em>Uim Selection Table</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.control.UimSelectionTable
+	 * @generated
+	 */
+	public Adapter createUimSelectionTableAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimRadioButton <em>Uim Radio Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.control.UimRadioButton
+	 * @generated
+	 */
+	public Adapter createUimRadioButtonAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimLabel <em>Uim Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.control.UimLabel
+	 * @generated
+	 */
+	public Adapter createUimLabelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.control.UimDateTimePopup <em>Uim Date Time Popup</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.control.UimDateTimePopup
+	 * @generated
+	 */
+	public Adapter createUimDateTimePopupAdapter() {
 		return null;
 	}
 

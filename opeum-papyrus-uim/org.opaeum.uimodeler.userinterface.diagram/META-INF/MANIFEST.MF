@@ -8,7 +8,6 @@ Bundle-Activator: org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEdit
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.opaeum.uim.figures,
- org.opaeum.uim.layouts,
  org.opaeum.uimodeler.userinterface.diagram.edit.commands,
  org.opaeum.uimodeler.userinterface.diagram.edit.helpers,
  org.opaeum.uimodeler.userinterface.diagram.edit.parts,
@@ -57,7 +56,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.papyrus.extensionpoints.editors,
  org.eclipse.papyrus.infra.emf.appearance,
  org.opaeum.uimodeler.editor,
- org.topcased.tabbedproperties;bundle-version="2.5.4"
+ org.topcased.tabbedproperties;bundle-version="2.5.4",
+ org.opaeum.uimodeler.common
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-LazyStart: true

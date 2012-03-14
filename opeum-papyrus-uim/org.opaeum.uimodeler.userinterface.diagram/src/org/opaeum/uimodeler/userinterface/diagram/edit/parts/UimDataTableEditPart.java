@@ -28,11 +28,11 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uim.figures.CustomUimDataTableFigure;
-import org.opaeum.uim.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uim.figures.UimDataTableEventAdapter;
+import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UimDataTableItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
-import org.opaeum.uimodeler.util.UimFigureUtil;
 
 /**
  * @generated

@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.wb.os.OSSupport;
-import org.opaeum.uim.util.UmlUimLinks;
+import org.opaeum.uimodeler.common.figures.ISWTFigure;
 
 public class CustomLinkToEntityFigure extends CustomUimFieldFigure implements ISWTFigure{
 	private Link link;

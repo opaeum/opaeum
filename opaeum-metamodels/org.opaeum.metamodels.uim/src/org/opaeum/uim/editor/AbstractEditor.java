@@ -21,7 +21,7 @@ import org.opaeum.uim.UserInterfaceEntryPoint;
  * </p>
  *
  * @see org.opaeum.uim.editor.EditorPackage#getAbstractEditor()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface AbstractEditor extends UmlReference, UserInterfaceEntryPoint {

@@ -25,7 +25,7 @@ import org.opaeum.uim.panel.PanelPackage;
  *
  * @generated
  */
-public class OutlayableImpl extends EObjectImpl implements Outlayable {
+public abstract class OutlayableImpl extends EObjectImpl implements Outlayable {
 	/**
 	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
 	 * <!-- begin-user-doc -->

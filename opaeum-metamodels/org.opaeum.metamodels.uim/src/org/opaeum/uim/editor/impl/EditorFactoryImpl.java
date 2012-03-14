@@ -63,6 +63,7 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case EditorPackage.ABSTRACT_EDITOR: return createAbstractEditor();
 			case EditorPackage.ACTION_TASK_EDITOR: return createActionTaskEditor();
 			case EditorPackage.CLASS_EDITOR: return createClassEditor();
 			case EditorPackage.RESPONSIBILITY_TASK_EDITOR: return createResponsibilityTaskEditor();
@@ -74,6 +75,16 @@ public class EditorFactoryImpl extends EFactoryImpl implements EditorFactory {
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AbstractEditor createAbstractEditor() {
+		AbstractEditorImpl abstractEditor = new AbstractEditorImpl();
+		return abstractEditor;
 	}
 
 	/**

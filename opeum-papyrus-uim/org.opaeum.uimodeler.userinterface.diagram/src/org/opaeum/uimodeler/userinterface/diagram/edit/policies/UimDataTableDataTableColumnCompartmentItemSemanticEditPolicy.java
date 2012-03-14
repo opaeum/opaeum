@@ -2,9 +2,8 @@ package org.opaeum.uimodeler.userinterface.diagram.edit.policies;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
-import org.opaeum.uimodeler.userinterface.diagram.edit.commands.BuiltInAction2CreateCommand;
-import org.opaeum.uimodeler.userinterface.diagram.edit.commands.LinkToEntity2CreateCommand;
-import org.opaeum.uimodeler.userinterface.diagram.edit.commands.OperationAction2CreateCommand;
+import org.opaeum.uimodeler.userinterface.diagram.edit.commands.BuiltInActionButton2CreateCommand;
+import org.opaeum.uimodeler.userinterface.diagram.edit.commands.OperationButton2CreateCommand;
 import org.opaeum.uimodeler.userinterface.diagram.edit.commands.UimField2CreateCommand;
 import org.opaeum.uimodeler.userinterface.diagram.providers.UimElementTypes;
 
@@ -25,14 +24,11 @@ public class UimDataTableDataTableColumnCompartmentItemSemanticEditPolicy extend
 		if(UimElementTypes.UimField_3010 == req.getElementType()){
 			return getGEFWrapper(new UimField2CreateCommand(req));
 		}
-		if(UimElementTypes.LinkToEntity_3011 == req.getElementType()){
-			return getGEFWrapper(new LinkToEntity2CreateCommand(req));
+		if(UimElementTypes.BuiltInActionButton_3023 == req.getElementType()){
+			return getGEFWrapper(new BuiltInActionButton2CreateCommand(req));
 		}
-		if(UimElementTypes.BuiltInAction_3012 == req.getElementType()){
-			return getGEFWrapper(new BuiltInAction2CreateCommand(req));
-		}
-		if(UimElementTypes.OperationAction_3014 == req.getElementType()){
-			return getGEFWrapper(new OperationAction2CreateCommand(req));
+		if(UimElementTypes.OperationButton_3024 == req.getElementType()){
+			return getGEFWrapper(new OperationButton2CreateCommand(req));
 		}
 		return super.getCreateCommand(req);
 	}

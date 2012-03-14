@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opaeum.uim.panel.PanelPackage#getOutlayable()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface Outlayable extends EObject {

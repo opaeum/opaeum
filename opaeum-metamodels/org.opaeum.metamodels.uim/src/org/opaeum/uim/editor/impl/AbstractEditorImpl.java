@@ -42,7 +42,7 @@ import org.opaeum.uim.impl.UmlReferenceImpl;
  *
  * @generated
  */
-public abstract class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEditor {
+public class AbstractEditorImpl extends UmlReferenceImpl implements AbstractEditor {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->

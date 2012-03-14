@@ -24,10 +24,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.papyrus.editor,
  org.eclipse.papyrus.infra.core,
  org.opaeum.uimodeler.userinterface.diagram,
- org.opaeum.uimodeler.abstractactionbar.diagram,
- org.opaeum.uimodeler.modelexplorer
+ org.opaeum.uimodeler.modelexplorer,
+ org.opaeum.uimodeler.common,
+ org.opaeum.uimodeler.abstractactionbar.diagram
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.uim2uim.actions,
+ org.opaeum.uimodeler.util,
  org.opaeum.uml2uim
 Bundle-Vendor: Opaeum

@@ -8,27 +8,31 @@
   <figures
       name="Default">
     <descriptors
-        name="BuiltInActionFigure">
+        name="BuiltInActionButtonFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="BuiltInActionFigure">
+          name="BuiltInActionButtonFigure">
         <layout
-            xsi:type="gmfgraph:FlowLayout"/>
+            xsi:type="gmfgraph:FlowLayout"
+            majorAlignment="CENTER"
+            minorAlignment="CENTER"/>
         <children
             xsi:type="gmfgraph:Label"
-            name="BuiltInActionNameFigure"
+            name="BuiltInActionButtonNameFigure"
             text="&lt;...>"/>
       </actualFigure>
       <accessors
           figure="//@figures.0/@descriptors.0/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
-        name="TransitionActionFigure">
+        name="TransitionButtonFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="TransitionActionFigure">
+          name="TransitionButtonFigure">
         <layout
-            xsi:type="gmfgraph:FlowLayout"/>
+            xsi:type="gmfgraph:FlowLayout"
+            majorAlignment="CENTER"
+            minorAlignment="CENTER"/>
         <children
             xsi:type="gmfgraph:Label"
             name="TransitionActionNameFigure"
@@ -38,12 +42,14 @@
           figure="//@figures.0/@descriptors.1/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
-        name="OperationActionFigure">
+        name="OperationButtonFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="OperationActionFigure">
+          name="OperationButtonFigure">
         <layout
-            xsi:type="gmfgraph:FlowLayout"/>
+            xsi:type="gmfgraph:FlowLayout"
+            majorAlignment="CENTER"
+            minorAlignment="CENTER"/>
         <children
             xsi:type="gmfgraph:Label"
             name="OperationActionNameFigure"
@@ -52,26 +58,100 @@
       <accessors
           figure="//@figures.0/@descriptors.2/@actualFigure/@children.0"/>
     </descriptors>
+    <descriptors
+        name="LinkToQueryFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="LinkToQueryFigure">
+        <layout
+            xsi:type="gmfgraph:FlowLayout"
+            majorAlignment="CENTER"
+            minorAlignment="CENTER"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="LinkToQueryName"
+            text="&lt;...>"/>
+      </actualFigure>
+      <accessors
+          figure="//@figures.0/@descriptors.3/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors
+        name="BuiltInLinkFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="BuiltInLinkFigure">
+        <layout
+            xsi:type="gmfgraph:FlowLayout"
+            majorAlignment="CENTER"
+            minorAlignment="CENTER"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="BuiltInLinkNameFigure"
+            text="&lt;...>"/>
+      </actualFigure>
+      <accessors
+          figure="//@figures.0/@descriptors.4/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors
+        name="ActionBarFigure">
+      <actualFigure
+          xsi:type="gmfgraph:RoundedRectangle"
+          name="ActionBarFigure"
+          fill="false">
+        <layout
+            xsi:type="gmfgraph:FlowLayout"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="ActionBarNameFigure"
+            text="&lt;...>"/>
+      </actualFigure>
+      <accessors
+          figure="//@figures.0/@descriptors.5/@actualFigure/@children.0"/>
+    </descriptors>
   </figures>
   <nodes
       name="BuiltInActionButton"
-      figure="BuiltInActionFigure"/>
+      figure="BuiltInActionButtonFigure"/>
   <nodes
       name="TransitionButton"
-      figure="TransitionActionFigure"/>
+      figure="TransitionButtonFigure"/>
   <nodes
       name="OperationButton"
-      figure="OperationActionFigure"/>
+      figure="OperationButtonFigure"/>
+  <nodes
+      name="BuiltInLink"
+      figure="BuiltInLinkFigure"/>
+  <nodes
+      name="LinkToQuery"
+      figure="LinkToQueryFigure"/>
+  <nodes
+      name="ActionBar"
+      figure="ActionBarFigure"/>
+  <compartments
+      name="ActionBarChildrenCompartment"
+      figure="ActionBarFigure"/>
   <labels
-      name="BuiltInActionName"
-      figure="BuiltInActionFigure"
+      name="BuiltInActionButtonName"
+      figure="BuiltInActionButtonFigure"
       accessor="//@figures.0/@descriptors.0/@accessors.0"/>
   <labels
-      name="TransitionActionName"
-      figure="TransitionActionFigure"
+      name="TransitionButtonName"
+      figure="TransitionButtonFigure"
       accessor="//@figures.0/@descriptors.1/@accessors.0"/>
   <labels
-      name="OperationActionName"
-      figure="OperationActionFigure"
+      name="OperationButtonName"
+      figure="OperationButtonFigure"
       accessor="//@figures.0/@descriptors.2/@accessors.0"/>
+  <labels
+      name="BuiltInLinkName"
+      figure="BuiltInLinkFigure"
+      accessor="//@figures.0/@descriptors.4/@accessors.0"/>
+  <labels
+      name="LinkToQueryName"
+      figure="LinkToQueryFigure"
+      accessor="//@figures.0/@descriptors.3/@accessors.0"/>
+  <labels
+      name="ActionBarName"
+      figure="ActionBarFigure"
+      accessor="//@figures.0/@descriptors.5/@accessors.0"/>
 </gmfgraph:Canvas>

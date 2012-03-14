@@ -23,8 +23,8 @@ import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
-import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.PropertyRef;
@@ -104,11 +104,11 @@ public abstract class AbstractUserInterfaceCreator{
 				addUserField(table, 0, property);
 			}
 		}
-		BuiltInAction action = ActionFactory.eINSTANCE.createBuiltInAction();
+		BuiltInActionButton action = ActionFactory.eINSTANCE.createBuiltInActionButton();
 		table.getActionsOnMultipleSelection().add(action);
 		action.setKind(ActionKind.DELETE);
 		action.setName("Delete");
-		BuiltInAction action2 = ActionFactory.eINSTANCE.createBuiltInAction();
+		BuiltInActionButton action2 = ActionFactory.eINSTANCE.createBuiltInActionButton();
 		table.getActionsOnMultipleSelection().add(action2);
 		action2.setKind(ActionKind.ADD);
 		action2.setName("Add");
@@ -118,11 +118,11 @@ public abstract class AbstractUserInterfaceCreator{
 	protected void addActionBarTo(UimDataTable table,Classifier type){
 		for(Operation operation:type.getAllOperations()){
 			if(operation.getReturnResult() == null && !operation.isQuery()){
-				OperationAction action = ActionFactory.eINSTANCE.createOperationAction();
+				OperationButton action = ActionFactory.eINSTANCE.createOperationButton();
 				table.getActionsOnMultipleSelection().add(action);
 				action.setUmlElementUid(workspace.getId(operation));
 				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
-				action.setPopup(ActionFactory.eINSTANCE.createOperationActionPopup());
+				action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
 				prepareFormPanel(action.getPopup(),action.getName(), operation.getOwnedParameters());
 			}
 		}

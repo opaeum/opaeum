@@ -39,7 +39,7 @@ import org.osgi.framework.BundleContext;
  */
 public class UimDiagramEditorPlugin extends AbstractUIPlugin{
 	/**
-	 * @generated NOT
+	 * @generated
 	 */
 	public static final String ID = "org.opaeum.uimodeler.userinterface.diagram"; //$NON-NLS-1$
 	/**

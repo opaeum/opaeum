@@ -12,8 +12,8 @@
         description="">
       <tools
           xsi:type="gmftool:CreationTool"
-          title="BuiltInActionButton"
-          description="Create new BuiltInAction">
+          title="Built-in Action Button"
+          description="Create new Built-in Action">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon
@@ -21,7 +21,7 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="TransitionButton"
+          title="Transition Button"
           description="Create new TransitionAction">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
@@ -30,13 +30,45 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="OperationButton"
+          title="Operation Button"
           description="Create new OperationAction">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon
             xsi:type="gmftool:DefaultImage"/>
       </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Links"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Link To Query"
+          description="LinkToQuery">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Built-in Link"
+          description="Create new Built In Link">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:CreationTool"
+        title="Editor Action Bar"
+        description="Create new Editor Action Bar">
+      <smallIcon
+          xsi:type="gmftool:DefaultImage"/>
+      <largeIcon
+          xsi:type="gmftool:DefaultImage"/>
     </tools>
   </palette>
 </gmftool:ToolRegistry>

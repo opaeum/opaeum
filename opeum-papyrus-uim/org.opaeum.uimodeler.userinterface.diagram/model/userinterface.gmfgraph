@@ -49,22 +49,22 @@
           name="DetailPanelFigure"/>
     </descriptors>
     <descriptors
-        name="BuiltInActionFigure">
+        name="BuiltInActionButtonFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="BuiltInActionFigure">
+          name="BuiltInActionButtonFigure">
         <layout
             xsi:type="gmfgraph:FlowLayout"/>
         <children
             xsi:type="gmfgraph:Label"
-            name="BuiltInActionNameFigure"
+            name="BuiltInActionButtonNameFigure"
             text="&lt;...>"/>
       </actualFigure>
       <accessors
           figure="//@figures.0/@descriptors.4/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
-        name="TransitionActionFigure">
+        name="TransitionButtonFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
           name="TransitionActionFigure">
@@ -72,56 +72,41 @@
             xsi:type="gmfgraph:FlowLayout"/>
         <children
             xsi:type="gmfgraph:Label"
-            name="TransitionActionNameFigure"
+            name="TransitionActionButtonFigure"
             text="&lt;...>"/>
       </actualFigure>
       <accessors
           figure="//@figures.0/@descriptors.5/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
-        name="LinkToOperationFigure">
+        name="LinkToQueryFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="LinkToOperationFigure">
+          name="LinkToQueryFigure">
         <layout
             xsi:type="gmfgraph:FlowLayout"/>
         <children
             xsi:type="gmfgraph:Label"
-            name="LinkToOperationUmlElementUidFigure"
+            name="LinkToQueryNameFigure"
             text="&lt;...>"/>
       </actualFigure>
       <accessors
           figure="//@figures.0/@descriptors.6/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
-        name="OperationActionFigure">
+        name="OperationButtonFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="OperationActionFigure">
+          name="OperationButtonFigure">
         <layout
             xsi:type="gmfgraph:FlowLayout"/>
         <children
             xsi:type="gmfgraph:Label"
-            name="OperationActionNameFigure"
+            name="OperationButtonNameFigure"
             text="&lt;...>"/>
       </actualFigure>
       <accessors
           figure="//@figures.0/@descriptors.7/@actualFigure/@children.0"/>
-    </descriptors>
-    <descriptors
-        name="LinkToEntityFigure">
-      <actualFigure
-          xsi:type="gmfgraph:Rectangle"
-          name="LinkToEntityFigure">
-        <layout
-            xsi:type="gmfgraph:FlowLayout"/>
-        <children
-            xsi:type="gmfgraph:Label"
-            name="LinkToEntityUmlElementUidFigure"
-            text="&lt;...>"/>
-      </actualFigure>
-      <accessors
-          figure="//@figures.0/@descriptors.8/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
         name="GridPanelFigure">
@@ -138,7 +123,7 @@
       </actualFigure>
       <accessors
           accessor="getFigureGridPanelNameFigure"
-          figure="//@figures.0/@descriptors.9/@actualFigure/@children.0"/>
+          figure="//@figures.0/@descriptors.8/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
         name="VerticalPanelFigure">
@@ -153,7 +138,7 @@
             text="&lt;...>"/>
       </actualFigure>
       <accessors
-          figure="//@figures.0/@descriptors.10/@actualFigure/@children.0"/>
+          figure="//@figures.0/@descriptors.9/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
         name="HorizontalPanelFigure">
@@ -168,7 +153,7 @@
             text="&lt;...>"/>
       </actualFigure>
       <accessors
-          figure="//@figures.0/@descriptors.11/@actualFigure/@children.0"/>
+          figure="//@figures.0/@descriptors.10/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
         name="FieldColumnFigure">
@@ -182,10 +167,10 @@
       </actualFigure>
       <accessors
           accessor="getColumnNameFigure"
-          figure="//@figures.0/@descriptors.12/@actualFigure/@children.0"/>
+          figure="//@figures.0/@descriptors.11/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
-        name="BuiltInActionColumnFigure">
+        name="BuiltInButtonColumnFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
           name="BuiltInActionColumnFigure">
@@ -196,21 +181,7 @@
       </actualFigure>
       <accessors
           accessor="getFigureBuiltInActionColumnNameFigure"
-          figure="//@figures.0/@descriptors.13/@actualFigure/@children.0"/>
-    </descriptors>
-    <descriptors
-        name="LinkToEntityColumnFigure">
-      <actualFigure
-          xsi:type="gmfgraph:Rectangle"
-          name="LinkToEntityColumnFigure">
-        <children
-            xsi:type="gmfgraph:Label"
-            name="LinkToEntityColumnNameFigure"
-            text="...."/>
-      </actualFigure>
-      <accessors
-          accessor="getLinkToEntityColumnNameFigure"
-          figure="//@figures.0/@descriptors.14/@actualFigure/@children.0"/>
+          figure="//@figures.0/@descriptors.12/@actualFigure/@children.0"/>
     </descriptors>
     <descriptors
         name="TableActionBarFigure">
@@ -219,18 +190,33 @@
           name="EditorActionBarFigure"/>
     </descriptors>
     <descriptors
-        name="OperationActionColumnFigure">
+        name="OperationButtonColumnFigure">
       <actualFigure
           xsi:type="gmfgraph:Rectangle"
-          name="OperationActionColumnFigure">
+          name="OperationButtonColumnFigure">
         <children
             xsi:type="gmfgraph:Label"
-            name="OperationActionColumnNameFigure"
+            name="OperationButtonColumnNameFigure"
             text="...."/>
       </actualFigure>
       <accessors
           accessor="getOperationActionColumnNameFigure"
-          figure="//@figures.0/@descriptors.16/@actualFigure/@children.0"/>
+          figure="//@figures.0/@descriptors.14/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors
+        name="BuiltInLinkFigure">
+      <actualFigure
+          xsi:type="gmfgraph:Rectangle"
+          name="BuiltInLinkFigure">
+        <layout
+            xsi:type="gmfgraph:FlowLayout"/>
+        <children
+            xsi:type="gmfgraph:Label"
+            name="BuiltInLinkNameFigure"
+            text="&lt;...>"/>
+      </actualFigure>
+      <accessors
+          figure="//@figures.0/@descriptors.15/@actualFigure/@children.0"/>
     </descriptors>
   </figures>
   <nodes
@@ -246,20 +232,20 @@
       name="DetailPanel"
       figure="DetailPanelFigure"/>
   <nodes
-      name="BuiltInAction"
-      figure="BuiltInActionFigure"/>
+      name="BuiltInActionButton"
+      figure="BuiltInActionButtonFigure"/>
   <nodes
-      name="TransitionAction"
-      figure="TransitionActionFigure"/>
+      name="TransitionButton"
+      figure="TransitionButtonFigure"/>
   <nodes
-      name="LinkToOperation"
-      figure="LinkToOperationFigure"/>
+      name="LinkToQuery"
+      figure="LinkToQueryFigure"/>
   <nodes
-      name="OperationAction"
-      figure="OperationActionFigure"/>
+      name="OperationButton"
+      figure="OperationButtonFigure"/>
   <nodes
-      name="LinkToEntity"
-      figure="LinkToEntityFigure"/>
+      name="BuiltInLink"
+      figure="BuiltInLinkFigure"/>
   <nodes
       name="GridPanel"
       figure="GridPanelFigure"/>
@@ -273,16 +259,14 @@
       name="FieldColumn"
       figure="FieldColumnFigure"/>
   <nodes
-      name="BuiltInActionColumn"
-      figure="BuiltInActionColumnFigure"/>
-  <nodes
-      name="LinkToEntityColumn"
-      figure="LinkToEntityColumnFigure"/>
+      name="BuiltInActionButtonColumn"
+      figure="BuiltInButtonColumnFigure"/>
   <nodes
       name="TableActionBar"
       figure="TableActionBarFigure"/>
   <nodes
-      name="OperationActionColumn"/>
+      name="OperationButtonColumn"
+      figure="OperationButtonColumnFigure"/>
   <compartments
       name="GridPanelChildrenCompartment"
       figure="GridPanelFigure"/>
@@ -300,53 +284,49 @@
       figure="UimFieldFigure"
       accessor="//@figures.0/@descriptors.0/@accessors.0"/>
   <labels
-      name="BuiltInActionName"
-      figure="BuiltInActionFigure"
+      name="BuiltInActionButtonName"
+      figure="BuiltInActionButtonFigure"
       accessor="//@figures.0/@descriptors.4/@accessors.0"/>
   <labels
-      name="TransitionActionName"
-      figure="TransitionActionFigure"
+      name="TransitionButtonName"
+      figure="TransitionButtonFigure"
       accessor="//@figures.0/@descriptors.5/@accessors.0"/>
   <labels
-      name="LinkToOperationUmlElementUid"
-      figure="LinkToOperationFigure"
+      name="LinkToQueryName"
+      figure="LinkToQueryFigure"
       accessor="//@figures.0/@descriptors.6/@accessors.0"/>
   <labels
-      name="OperationActionName"
-      figure="OperationActionFigure"
+      name="OperationButtonName"
+      figure="OperationButtonFigure"
       accessor="//@figures.0/@descriptors.7/@accessors.0"/>
   <labels
-      name="LinkToEntityUmlElementUid"
-      figure="LinkToEntityFigure"
-      accessor="//@figures.0/@descriptors.8/@accessors.0"/>
+      name="BuiltInLinkName"
+      figure="BuiltInLinkFigure"
+      accessor="//@figures.0/@descriptors.15/@accessors.0"/>
   <labels
       name="GridPanelName"
       figure="GridPanelFigure"
-      accessor="//@figures.0/@descriptors.9/@accessors.0"/>
+      accessor="//@figures.0/@descriptors.8/@accessors.0"/>
   <labels
       name="VerticalPanelName"
       figure="VerticalPanelFigure"
-      accessor="//@figures.0/@descriptors.10/@accessors.0"/>
+      accessor="//@figures.0/@descriptors.9/@accessors.0"/>
   <labels
       name="HorizontalPanelName"
       figure="HorizontalPanelFigure"
-      accessor="//@figures.0/@descriptors.11/@accessors.0"/>
+      accessor="//@figures.0/@descriptors.10/@accessors.0"/>
   <labels
       name="FieldColumnName"
       figure="FieldColumnFigure"
-      accessor="//@figures.0/@descriptors.12/@accessors.0"/>
+      accessor="//@figures.0/@descriptors.11/@accessors.0"/>
   <labels
       name="BuiltInActionColumnName"
-      figure="BuiltInActionColumnFigure"
-      accessor="//@figures.0/@descriptors.13/@accessors.0"/>
-  <labels
-      name="LinkToEntityColumnName"
-      figure="LinkToEntityColumnFigure"
-      accessor="//@figures.0/@descriptors.14/@accessors.0"/>
+      figure="BuiltInButtonColumnFigure"
+      accessor="//@figures.0/@descriptors.12/@accessors.0"/>
   <labels
       name="UimDataTableName"
       figure="UimDataTableFigure"/>
   <labels
-      name="OperationActionColumnName"
-      figure="OperationActionColumnFigure"/>
+      name="OperationButtonColumnName"
+      figure="OperationButtonColumnFigure"/>
 </gmfgraph:Canvas>

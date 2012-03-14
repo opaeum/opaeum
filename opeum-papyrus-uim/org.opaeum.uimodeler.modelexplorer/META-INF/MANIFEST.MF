@@ -25,8 +25,7 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.uimodeler.edit;bundle-version="1.0.0",
  org.opaeum.uimodeler.editor;bundle-version="1.0.0",
  org.opaeum.metamodels.uim;bundle-version="1.0.0",
- org.opaeum.uimodeler.userinterface.diagram,
- org.opaeum.uimodeler.abstractactionbar.diagram
+ org.opaeum.uimodeler.userinterface.diagram
 Export-Package:  org.opaeum.uimodeler.modelexplorer,
  org.opaeum.uimodeler.modelexplorer.factory,
  org.opaeum.uimodeler.modelexplorer.handler,

@@ -5,7 +5,7 @@ import org.opaeum.uim.Page;
 import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.ActionFactory;
-import org.opaeum.uim.action.OperationActionPopup;
+import org.opaeum.uim.action.OperationPopup;
 import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.WizardFactory;
@@ -24,7 +24,7 @@ public class WizardCreator extends AbstractUserInterfaceCreator{
 			((AbstractWizard) pc).getPages().add(page);
 			return page;
 		}else{
-			OperationActionPopup popup = (OperationActionPopup) pc;
+			OperationPopup popup = (OperationPopup) pc;
 			OperationPopupPage page = ActionFactory.eINSTANCE.createOperationPopupPage();
 			popup.getPages().add(page);
 			return page;

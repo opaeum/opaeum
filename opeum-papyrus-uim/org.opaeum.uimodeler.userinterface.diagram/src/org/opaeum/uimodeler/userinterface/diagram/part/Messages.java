@@ -208,7 +208,7 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
-	public static String createLinksandActions3Group_title;
+	public static String createLinksandButtons3Group_title;
 	/**
 	 * @generated
 	 */
@@ -252,43 +252,43 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
-	public static String createBuiltInAction1CreationTool_title;
+	public static String createBuiltInActionButton1CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createBuiltInAction1CreationTool_desc;
+	public static String createBuiltInActionButton1CreationTool_desc;
 	/**
 	 * @generated
 	 */
-	public static String createTransitionAction2CreationTool_title;
+	public static String createTransitionButton2CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createTransitionAction2CreationTool_desc;
+	public static String createTransitionButton2CreationTool_desc;
 	/**
 	 * @generated
 	 */
-	public static String createOperationAction3CreationTool_title;
+	public static String createOperationButton3CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createOperationAction3CreationTool_desc;
+	public static String createOperationButton3CreationTool_desc;
 	/**
 	 * @generated
 	 */
-	public static String createLinkToOperation4CreationTool_title;
+	public static String createLinkToQuery4CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createLinkToOperation4CreationTool_desc;
+	public static String createLinkToQuery4CreationTool_desc;
 	/**
 	 * @generated
 	 */
-	public static String createLinkToEntity5CreationTool_title;
+	public static String createBuiltInLink5CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createLinkToEntity5CreationTool_desc;
+	public static String createBuiltInLink5CreationTool_desc;
 	/**
 	 * @generated
 	 */

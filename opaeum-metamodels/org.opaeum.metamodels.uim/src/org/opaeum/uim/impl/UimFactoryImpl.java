@@ -14,6 +14,7 @@ import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.DetailComponent;
 import org.opaeum.uim.ObjectSelectorTree;
 import org.opaeum.uim.Orientation;
+import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.PanelClass;
 import org.opaeum.uim.ResponsibilityUserInteractionModel;
 import org.opaeum.uim.UimDataTable;

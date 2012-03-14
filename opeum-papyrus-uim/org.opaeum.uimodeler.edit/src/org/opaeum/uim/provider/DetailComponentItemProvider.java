@@ -190,11 +190,6 @@ public class DetailComponentItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.DETAIL_COMPONENT__PANEL,
-				 PanelFactory.eINSTANCE.createCollapsiblePanel()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.DETAIL_COMPONENT__PANEL,
 				 PanelFactory.eINSTANCE.createGridPanel()));
 
 		newChildDescriptors.add

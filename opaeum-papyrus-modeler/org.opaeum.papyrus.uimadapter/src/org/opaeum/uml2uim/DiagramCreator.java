@@ -20,18 +20,17 @@ import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.UserInterfaceEntryPoint;
-import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.action.OperationActionPopup;
+import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.OperationPopup;
 import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.panel.GridPanel;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionNameKindEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
@@ -118,9 +117,8 @@ public class DiagramCreator{
 				populateGridPanel(compartmentDecoration, (GridPanel) uimComponent);
 			}else if(uimComponent instanceof UimDataTable){
 				populateDataTable(compartmentDecoration, (UimDataTable) uimComponent);
-			}else if(uimComponent instanceof BuiltInAction){
-				addComponent(compartmentDecoration, uimComponent, BuiltInActionEditPart.VISUAL_ID + "", BuiltInActionNameKindEditPart.VISUAL_ID
-						+ "");
+			}else if(uimComponent instanceof BuiltInActionButton){
+				addComponent(compartmentDecoration, uimComponent, BuiltInActionButtonEditPart.VISUAL_ID + "", null + "");
 			}else if(uimComponent instanceof UimLink){
 			}
 		}
@@ -130,9 +128,11 @@ public class DiagramCreator{
 		compartmentDecoration.getPersistedChildren().add(fieldShape);
 		fieldShape.setElement(uimComponent);
 		fieldShape.setType(shapeId);
-		DecorationNode fieldLabelNode = NotationFactory.eINSTANCE.createDecorationNode();
-		fieldLabelNode.setType(labelId);
-		fieldShape.getPersistedChildren().add(fieldLabelNode);
+		if(labelId != null){
+			DecorationNode fieldLabelNode = NotationFactory.eINSTANCE.createDecorationNode();
+			fieldLabelNode.setType(labelId);
+			fieldShape.getPersistedChildren().add(fieldLabelNode);
+		}
 	}
 	private void populateDataTable(View diagram,UimDataTable panel){
 		Shape panelShape = NotationFactory.eINSTANCE.createShape();
@@ -165,17 +165,17 @@ public class DiagramCreator{
 			}
 		}
 		for(UimComponent uimComponent:panel.getActionsOnMultipleSelection()){
-			if(uimComponent instanceof BuiltInAction){
+			if(uimComponent instanceof BuiltInActionButton){
 				Shape fieldShape = NotationFactory.eINSTANCE.createShape();
 				actionBarCompartment.getPersistedChildren().add(fieldShape);
 				fieldShape.setElement(uimComponent);
-				fieldShape.setType(BuiltInAction3EditPart.VISUAL_ID + "");
-			}else if(uimComponent instanceof OperationAction){
+				fieldShape.setType(BuiltInActionButton3EditPart.VISUAL_ID + "");
+			}else if(uimComponent instanceof OperationButton){
 				Shape fieldShape = NotationFactory.eINSTANCE.createShape();
 				actionBarCompartment.getPersistedChildren().add(fieldShape);
 				fieldShape.setElement(uimComponent);
-				fieldShape.setType(OperationAction3EditPart.VISUAL_ID + "");
-				OperationActionPopup popup = ((OperationAction) uimComponent).getPopup();
+				fieldShape.setType(OperationButton3EditPart.VISUAL_ID + "");
+				OperationPopup popup = ((OperationButton) uimComponent).getPopup();
 				addPages(popup);
 			}
 		}

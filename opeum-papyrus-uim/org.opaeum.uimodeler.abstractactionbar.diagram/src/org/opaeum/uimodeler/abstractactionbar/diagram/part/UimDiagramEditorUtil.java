@@ -48,9 +48,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
-import org.opaeum.uim.AbstractActionBar;
-import org.opaeum.uim.UimFactory;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
+import org.opaeum.uim.editor.AbstractEditor;
+import org.opaeum.uim.editor.EditorFactory;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
 
 /**
  * @generated
@@ -146,10 +146,10 @@ public class UimDiagramEditorUtil{
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(editingDomain,
 				Messages.UimDiagramEditorUtil_CreateDiagramCommandLabel, Collections.EMPTY_LIST){
 			protected CommandResult doExecuteWithResult(IProgressMonitor monitor,IAdaptable info) throws ExecutionException{
-				AbstractActionBar model = createInitialModel();
+				AbstractEditor model = createInitialModel();
 				attachModelToResource(model, modelResource);
-				Diagram diagram = ViewService.createDiagram(model, AbstractActionBarEditPart.MODEL_ID,
-						UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
+				Diagram diagram = ViewService
+						.createDiagram(model, AbstractEditorEditPart.MODEL_ID, UimDiagramEditorPlugin.DIAGRAM_PREFERENCES_HINT);
 				if(diagram != null){
 					diagramResource.getContents().add(diagram);
 					diagram.setName(diagramName);
@@ -179,8 +179,8 @@ public class UimDiagramEditorUtil{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static AbstractActionBar createInitialModel(){
-		return UimFactory.eINSTANCE.createAbstractActionBar();
+	private static AbstractEditor createInitialModel(){
+		return EditorFactory.eINSTANCE.createAbstractEditor();
 	}
 	/**
 	 * Store model element in the resource.
@@ -188,7 +188,7 @@ public class UimDiagramEditorUtil{
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static void attachModelToResource(AbstractActionBar model,Resource resource){
+	private static void attachModelToResource(AbstractEditor model,Resource resource){
 		resource.getContents().add(model);
 	}
 	/**

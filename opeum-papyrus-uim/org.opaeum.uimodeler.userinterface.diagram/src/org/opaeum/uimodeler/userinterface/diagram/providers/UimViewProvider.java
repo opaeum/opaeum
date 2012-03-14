@@ -39,12 +39,11 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelGridPanelChildrenCompartment2EditPart;
@@ -53,27 +52,20 @@ import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelName2EditP
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonName2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableDataTableColumnCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableTableTableActionBarCompartmentEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanelEditPart;
@@ -180,22 +172,21 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 				switch(visualID){
 				case GridPanelEditPart.VISUAL_ID:
 				case UimFieldEditPart.VISUAL_ID:
-				case BuiltInActionEditPart.VISUAL_ID:
+				case BuiltInActionButtonEditPart.VISUAL_ID:
 				case HorizontalPanel2EditPart.VISUAL_ID:
 				case VerticalPanel2EditPart.VISUAL_ID:
-				case TransitionActionEditPart.VISUAL_ID:
-				case OperationActionEditPart.VISUAL_ID:
-				case LinkToOperationEditPart.VISUAL_ID:
-				case LinkToEntityEditPart.VISUAL_ID:
+				case TransitionButtonEditPart.VISUAL_ID:
+				case OperationButtonEditPart.VISUAL_ID:
+				case LinkToQueryEditPart.VISUAL_ID:
+				case BuiltInLinkEditPart.VISUAL_ID:
 				case UimDataTableEditPart.VISUAL_ID:
 				case HorizontalPanelEditPart.VISUAL_ID:
 				case VerticalPanelEditPart.VISUAL_ID:
 				case UimField2EditPart.VISUAL_ID:
-				case LinkToEntity2EditPart.VISUAL_ID:
-				case BuiltInAction2EditPart.VISUAL_ID:
-				case OperationAction2EditPart.VISUAL_ID:
-				case BuiltInAction3EditPart.VISUAL_ID:
-				case OperationAction3EditPart.VISUAL_ID:
+				case BuiltInActionButton2EditPart.VISUAL_ID:
+				case OperationButton2EditPart.VISUAL_ID:
+				case BuiltInActionButton3EditPart.VISUAL_ID:
+				case OperationButton3EditPart.VISUAL_ID:
 				case GridPanel2EditPart.VISUAL_ID:
 					if(domainElement == null || visualID != UimVisualIDRegistry.getNodeVisualID(op.getContainerView(), domainElement)){
 						return false; // visual id in semantic hint should match visual id for domain element
@@ -208,14 +199,13 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 		}
 		return GridPanelEditPart.VISUAL_ID == visualID || HorizontalPanelEditPart.VISUAL_ID == visualID
 				|| VerticalPanelEditPart.VISUAL_ID == visualID || UimFieldEditPart.VISUAL_ID == visualID
-				|| BuiltInActionEditPart.VISUAL_ID == visualID || HorizontalPanel2EditPart.VISUAL_ID == visualID
-				|| VerticalPanel2EditPart.VISUAL_ID == visualID || TransitionActionEditPart.VISUAL_ID == visualID
-				|| OperationActionEditPart.VISUAL_ID == visualID || LinkToOperationEditPart.VISUAL_ID == visualID
-				|| LinkToEntityEditPart.VISUAL_ID == visualID || UimDataTableEditPart.VISUAL_ID == visualID
-				|| UimField2EditPart.VISUAL_ID == visualID || LinkToEntity2EditPart.VISUAL_ID == visualID
-				|| BuiltInAction2EditPart.VISUAL_ID == visualID || OperationAction2EditPart.VISUAL_ID == visualID
-				|| BuiltInAction3EditPart.VISUAL_ID == visualID || OperationAction3EditPart.VISUAL_ID == visualID
-				|| GridPanel2EditPart.VISUAL_ID == visualID;
+				|| BuiltInActionButtonEditPart.VISUAL_ID == visualID || HorizontalPanel2EditPart.VISUAL_ID == visualID
+				|| VerticalPanel2EditPart.VISUAL_ID == visualID || TransitionButtonEditPart.VISUAL_ID == visualID
+				|| OperationButtonEditPart.VISUAL_ID == visualID || LinkToQueryEditPart.VISUAL_ID == visualID
+				|| BuiltInLinkEditPart.VISUAL_ID == visualID || UimDataTableEditPart.VISUAL_ID == visualID
+				|| UimField2EditPart.VISUAL_ID == visualID || BuiltInActionButton2EditPart.VISUAL_ID == visualID
+				|| OperationButton2EditPart.VISUAL_ID == visualID || BuiltInActionButton3EditPart.VISUAL_ID == visualID
+				|| OperationButton3EditPart.VISUAL_ID == visualID || GridPanel2EditPart.VISUAL_ID == visualID;
 	}
 	/**
 	 * @generated
@@ -268,34 +258,32 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 			return createVerticalPanel_2003(domainElement, containerView, index, persisted, preferencesHint);
 		case UimFieldEditPart.VISUAL_ID:
 			return createUimField_3001(domainElement, containerView, index, persisted, preferencesHint);
-		case BuiltInActionEditPart.VISUAL_ID:
-			return createBuiltInAction_3002(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return createBuiltInActionButton_3018(domainElement, containerView, index, persisted, preferencesHint);
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return createHorizontalPanel_3003(domainElement, containerView, index, persisted, preferencesHint);
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return createVerticalPanel_3004(domainElement, containerView, index, persisted, preferencesHint);
-		case TransitionActionEditPart.VISUAL_ID:
-			return createTransitionAction_3005(domainElement, containerView, index, persisted, preferencesHint);
-		case OperationActionEditPart.VISUAL_ID:
-			return createOperationAction_3006(domainElement, containerView, index, persisted, preferencesHint);
-		case LinkToOperationEditPart.VISUAL_ID:
-			return createLinkToOperation_3007(domainElement, containerView, index, persisted, preferencesHint);
-		case LinkToEntityEditPart.VISUAL_ID:
-			return createLinkToEntity_3008(domainElement, containerView, index, persisted, preferencesHint);
+		case TransitionButtonEditPart.VISUAL_ID:
+			return createTransitionButton_3019(domainElement, containerView, index, persisted, preferencesHint);
+		case OperationButtonEditPart.VISUAL_ID:
+			return createOperationButton_3020(domainElement, containerView, index, persisted, preferencesHint);
+		case LinkToQueryEditPart.VISUAL_ID:
+			return createLinkToQuery_3021(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return createBuiltInLink_3022(domainElement, containerView, index, persisted, preferencesHint);
 		case UimDataTableEditPart.VISUAL_ID:
 			return createUimDataTable_3009(domainElement, containerView, index, persisted, preferencesHint);
 		case UimField2EditPart.VISUAL_ID:
 			return createUimField_3010(domainElement, containerView, index, persisted, preferencesHint);
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return createLinkToEntity_3011(domainElement, containerView, index, persisted, preferencesHint);
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return createBuiltInAction_3012(domainElement, containerView, index, persisted, preferencesHint);
-		case OperationAction2EditPart.VISUAL_ID:
-			return createOperationAction_3014(domainElement, containerView, index, persisted, preferencesHint);
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return createBuiltInAction_3015(domainElement, containerView, index, persisted, preferencesHint);
-		case OperationAction3EditPart.VISUAL_ID:
-			return createOperationAction_3016(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return createBuiltInActionButton_3023(domainElement, containerView, index, persisted, preferencesHint);
+		case OperationButton2EditPart.VISUAL_ID:
+			return createOperationButton_3024(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return createBuiltInActionButton_3025(domainElement, containerView, index, persisted, preferencesHint);
+		case OperationButton3EditPart.VISUAL_ID:
+			return createOperationButton_3026(domainElement, containerView, index, persisted, preferencesHint);
 		case GridPanel2EditPart.VISUAL_ID:
 			return createGridPanel_3017(domainElement, containerView, index, persisted, preferencesHint);
 		}
@@ -389,70 +377,18 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	/**
 	 * @generated
 	 */
-	public Node createBuiltInAction_3015(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
-		Shape node = NotationFactory.eINSTANCE.createShape();
-		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(BuiltInAction3EditPart.VISUAL_ID));
-		ViewUtil.insertChildView(containerView, node, index, persisted);
-		node.setElement(domainElement);
-		// initializeFromPreferences 
-		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInAction");
-		return node;
-	}
-	/**
-	 * @generated
-	 */
-	public Node createOperationAction_3016(EObject domainElement,View containerView,int index,boolean persisted,
+	public Node createBuiltInActionButton_3018(EObject domainElement,View containerView,int index,boolean persisted,
 			PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(OperationAction3EditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(BuiltInActionButtonEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationAction");
-		return node;
-	}
-	/**
-	 * @generated
-	 */
-	public Node createGridPanel_3017(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
-		Shape node = NotationFactory.eINSTANCE.createShape();
-		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(GridPanel2EditPart.VISUAL_ID));
-		ViewUtil.insertChildView(containerView, node, index, persisted);
-		node.setElement(domainElement);
-		// initializeFromPreferences 
-		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "GridPanel");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "GridPanel");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "GridPanel");
-		Node label5014 = createLabel(node, UimVisualIDRegistry.getType(GridPanelName2EditPart.VISUAL_ID));
-		createCompartment(node, UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID), false, false, false,
-				false);
-		PreferenceInitializerForElementHelper.initCompartmentsStatusFromPrefs(node, prefStore, "GridPanel");
-		return node;
-	}
-	/**
-	 * @generated
-	 */
-	public Node createBuiltInAction_3002(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
-		Shape node = NotationFactory.eINSTANCE.createShape();
-		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(BuiltInActionEditPart.VISUAL_ID));
-		ViewUtil.insertChildView(containerView, node, index, persisted);
-		node.setElement(domainElement);
-		// initializeFromPreferences 
-		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInAction");
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInActionButton");
 		return node;
 	}
 	/**
@@ -491,71 +427,71 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	/**
 	 * @generated
 	 */
-	public Node createTransitionAction_3005(EObject domainElement,View containerView,int index,boolean persisted,
+	public Node createTransitionButton_3019(EObject domainElement,View containerView,int index,boolean persisted,
 			PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(TransitionActionEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(TransitionButtonEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "TransitionAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "TransitionAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "TransitionAction");
-		Node label5003 = createLabel(node, UimVisualIDRegistry.getType(TransitionActionNameEditPart.VISUAL_ID));
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "TransitionButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "TransitionButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "TransitionButton");
+		Node label5015 = createLabel(node, UimVisualIDRegistry.getType(TransitionButtonNameEditPart.VISUAL_ID));
 		return node;
 	}
 	/**
 	 * @generated
 	 */
-	public Node createOperationAction_3006(EObject domainElement,View containerView,int index,boolean persisted,
+	public Node createOperationButton_3020(EObject domainElement,View containerView,int index,boolean persisted,
 			PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(OperationActionEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(OperationButtonEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationAction");
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationButton");
+		Node label5016 = createLabel(node, UimVisualIDRegistry.getType(OperationButtonNameEditPart.VISUAL_ID));
 		return node;
 	}
 	/**
 	 * @generated
 	 */
-	public Node createLinkToOperation_3007(EObject domainElement,View containerView,int index,boolean persisted,
-			PreferencesHint preferencesHint){
+	public Node createLinkToQuery_3021(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(LinkToOperationEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(LinkToQueryEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "LinkToOperation");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "LinkToOperation");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "LinkToOperation");
-		Node label5005 = createLabel(node, UimVisualIDRegistry.getType(LinkToOperationNameEditPart.VISUAL_ID));
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "LinkToQuery");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "LinkToQuery");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "LinkToQuery");
+		Node label5017 = createLabel(node, UimVisualIDRegistry.getType(LinkToQueryNameEditPart.VISUAL_ID));
 		return node;
 	}
 	/**
 	 * @generated
 	 */
-	public Node createLinkToEntity_3008(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
+	public Node createBuiltInLink_3022(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(LinkToEntityEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(BuiltInLinkEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "LinkToEntity");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "LinkToEntity");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "LinkToEntity");
-		Node label5006 = createLabel(node, UimVisualIDRegistry.getType(LinkToEntityNameEditPart.VISUAL_ID));
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInLink");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInLink");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInLink");
+		Node label5018 = createLabel(node, UimVisualIDRegistry.getType(BuiltInLinkNameEditPart.VISUAL_ID));
 		return node;
 	}
 	/**
@@ -598,50 +534,90 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	/**
 	 * @generated
 	 */
-	public Node createLinkToEntity_3011(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
-		Shape node = NotationFactory.eINSTANCE.createShape();
-		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(LinkToEntity2EditPart.VISUAL_ID));
-		ViewUtil.insertChildView(containerView, node, index, persisted);
-		node.setElement(domainElement);
-		// initializeFromPreferences 
-		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "LinkToEntity");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "LinkToEntity");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "LinkToEntity");
-		return node;
-	}
-	/**
-	 * @generated
-	 */
-	public Node createBuiltInAction_3012(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
-		Shape node = NotationFactory.eINSTANCE.createShape();
-		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(BuiltInAction2EditPart.VISUAL_ID));
-		ViewUtil.insertChildView(containerView, node, index, persisted);
-		node.setElement(domainElement);
-		// initializeFromPreferences 
-		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInAction");
-		return node;
-	}
-	/**
-	 * @generated
-	 */
-	public Node createOperationAction_3014(EObject domainElement,View containerView,int index,boolean persisted,
+	public Node createBuiltInActionButton_3023(EObject domainElement,View containerView,int index,boolean persisted,
 			PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(OperationAction2EditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(BuiltInActionButton2EditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationAction");
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createOperationButton_3024(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(OperationButton2EditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationButton");
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createBuiltInActionButton_3025(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(BuiltInActionButton3EditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createOperationButton_3026(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(OperationButton3EditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationButton");
+		Node label5019 = createLabel(node, UimVisualIDRegistry.getType(OperationButtonName2EditPart.VISUAL_ID));
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createGridPanel_3017(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(GridPanel2EditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "GridPanel");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "GridPanel");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "GridPanel");
+		Node label5014 = createLabel(node, UimVisualIDRegistry.getType(GridPanelName2EditPart.VISUAL_ID));
+		createCompartment(node, UimVisualIDRegistry.getType(GridPanelGridPanelChildrenCompartment2EditPart.VISUAL_ID), false, false, false,
+				false);
+		PreferenceInitializerForElementHelper.initCompartmentsStatusFromPrefs(node, prefStore, "GridPanel");
 		return node;
 	}
 	/**

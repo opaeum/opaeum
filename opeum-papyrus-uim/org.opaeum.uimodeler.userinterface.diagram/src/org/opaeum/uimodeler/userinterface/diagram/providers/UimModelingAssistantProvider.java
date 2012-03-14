@@ -47,41 +47,40 @@ public class UimModelingAssistantProvider extends ModelingAssistantProvider{
 		if(editPart instanceof GridPanelGridPanelChildrenCompartmentEditPart){
 			ArrayList<IElementType> types = new ArrayList<IElementType>(10);
 			types.add(UimElementTypes.UimField_3001);
-			types.add(UimElementTypes.BuiltInAction_3002);
+			types.add(UimElementTypes.BuiltInActionButton_3018);
 			types.add(UimElementTypes.HorizontalPanel_3003);
 			types.add(UimElementTypes.VerticalPanel_3004);
-			types.add(UimElementTypes.TransitionAction_3005);
-			types.add(UimElementTypes.OperationAction_3006);
-			types.add(UimElementTypes.LinkToOperation_3007);
-			types.add(UimElementTypes.LinkToEntity_3008);
+			types.add(UimElementTypes.TransitionButton_3019);
+			types.add(UimElementTypes.OperationButton_3020);
+			types.add(UimElementTypes.LinkToQuery_3021);
+			types.add(UimElementTypes.BuiltInLink_3022);
 			types.add(UimElementTypes.UimDataTable_3009);
 			types.add(UimElementTypes.GridPanel_3017);
 			return types;
 		}
 		if(editPart instanceof UimDataTableDataTableColumnCompartmentEditPart){
-			ArrayList<IElementType> types = new ArrayList<IElementType>(4);
+			ArrayList<IElementType> types = new ArrayList<IElementType>(3);
 			types.add(UimElementTypes.UimField_3010);
-			types.add(UimElementTypes.LinkToEntity_3011);
-			types.add(UimElementTypes.BuiltInAction_3012);
-			types.add(UimElementTypes.OperationAction_3014);
+			types.add(UimElementTypes.BuiltInActionButton_3023);
+			types.add(UimElementTypes.OperationButton_3024);
 			return types;
 		}
 		if(editPart instanceof UimDataTableTableTableActionBarCompartmentEditPart){
 			ArrayList<IElementType> types = new ArrayList<IElementType>(2);
-			types.add(UimElementTypes.BuiltInAction_3015);
-			types.add(UimElementTypes.OperationAction_3016);
+			types.add(UimElementTypes.BuiltInActionButton_3025);
+			types.add(UimElementTypes.OperationButton_3026);
 			return types;
 		}
 		if(editPart instanceof GridPanelGridPanelChildrenCompartment2EditPart){
 			ArrayList<IElementType> types = new ArrayList<IElementType>(10);
 			types.add(UimElementTypes.UimField_3001);
-			types.add(UimElementTypes.BuiltInAction_3002);
+			types.add(UimElementTypes.BuiltInActionButton_3018);
 			types.add(UimElementTypes.HorizontalPanel_3003);
 			types.add(UimElementTypes.VerticalPanel_3004);
-			types.add(UimElementTypes.TransitionAction_3005);
-			types.add(UimElementTypes.OperationAction_3006);
-			types.add(UimElementTypes.LinkToOperation_3007);
-			types.add(UimElementTypes.LinkToEntity_3008);
+			types.add(UimElementTypes.TransitionButton_3019);
+			types.add(UimElementTypes.OperationButton_3020);
+			types.add(UimElementTypes.LinkToQuery_3021);
+			types.add(UimElementTypes.BuiltInLink_3022);
 			types.add(UimElementTypes.UimDataTable_3009);
 			types.add(UimElementTypes.GridPanel_3017);
 			return types;

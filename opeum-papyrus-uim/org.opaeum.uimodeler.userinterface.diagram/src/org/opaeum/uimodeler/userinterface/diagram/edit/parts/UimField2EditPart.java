@@ -1,11 +1,9 @@
 package org.opaeum.uimodeler.userinterface.diagram.edit.parts;
 
-import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -14,10 +12,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
@@ -30,15 +26,13 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Control;
 import org.opaeum.uim.figures.CustomFieldColumnFigure;
-import org.opaeum.uim.figures.HackedDefaultSizeNodeFigure;
-import org.opaeum.uim.figures.IUimFieldFigure;
 import org.opaeum.uim.figures.UimFieldEventAdapter;
+import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
+import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UimField2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
-import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
-import org.opaeum.uimodeler.util.UimFigureUtil;
 
 /**
  * @generated

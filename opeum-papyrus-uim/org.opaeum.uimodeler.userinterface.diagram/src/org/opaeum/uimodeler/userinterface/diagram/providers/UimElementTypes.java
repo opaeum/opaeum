@@ -18,20 +18,19 @@ import org.eclipse.swt.graphics.Image;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.panel.PanelPackage;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
@@ -84,19 +83,7 @@ public class UimElementTypes{
 	/**
 	 * @generated
 	 */
-	public static final IElementType BuiltInAction_3015 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInAction_3015"); //$NON-NLS-1$
-	/**
-	 * @generated
-	 */
-	public static final IElementType OperationAction_3016 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationAction_3016"); //$NON-NLS-1$
-	/**
-	 * @generated
-	 */
-	public static final IElementType GridPanel_3017 = getElementType("org.opaeum.uimodeler.userinterface.diagram.GridPanel_3017"); //$NON-NLS-1$
-	/**
-	 * @generated
-	 */
-	public static final IElementType BuiltInAction_3002 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInAction_3002"); //$NON-NLS-1$
+	public static final IElementType BuiltInActionButton_3018 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInActionButton_3018"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -108,19 +95,19 @@ public class UimElementTypes{
 	/**
 	 * @generated
 	 */
-	public static final IElementType TransitionAction_3005 = getElementType("org.opaeum.uimodeler.userinterface.diagram.TransitionAction_3005"); //$NON-NLS-1$
+	public static final IElementType TransitionButton_3019 = getElementType("org.opaeum.uimodeler.userinterface.diagram.TransitionButton_3019"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType OperationAction_3006 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationAction_3006"); //$NON-NLS-1$
+	public static final IElementType OperationButton_3020 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationButton_3020"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType LinkToOperation_3007 = getElementType("org.opaeum.uimodeler.userinterface.diagram.LinkToOperation_3007"); //$NON-NLS-1$
+	public static final IElementType LinkToQuery_3021 = getElementType("org.opaeum.uimodeler.userinterface.diagram.LinkToQuery_3021"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType LinkToEntity_3008 = getElementType("org.opaeum.uimodeler.userinterface.diagram.LinkToEntity_3008"); //$NON-NLS-1$
+	public static final IElementType BuiltInLink_3022 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInLink_3022"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -132,15 +119,23 @@ public class UimElementTypes{
 	/**
 	 * @generated
 	 */
-	public static final IElementType LinkToEntity_3011 = getElementType("org.opaeum.uimodeler.userinterface.diagram.LinkToEntity_3011"); //$NON-NLS-1$
+	public static final IElementType BuiltInActionButton_3023 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInActionButton_3023"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType BuiltInAction_3012 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInAction_3012"); //$NON-NLS-1$
+	public static final IElementType OperationButton_3024 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationButton_3024"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	public static final IElementType OperationAction_3014 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationAction_3014"); //$NON-NLS-1$
+	public static final IElementType BuiltInActionButton_3025 = getElementType("org.opaeum.uimodeler.userinterface.diagram.BuiltInActionButton_3025"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType OperationButton_3026 = getElementType("org.opaeum.uimodeler.userinterface.diagram.OperationButton_3026"); //$NON-NLS-1$
+	/**
+	 * @generated
+	 */
+	public static final IElementType GridPanel_3017 = getElementType("org.opaeum.uimodeler.userinterface.diagram.GridPanel_3017"); //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -244,20 +239,19 @@ public class UimElementTypes{
 			elements.put(HorizontalPanel_2002, PanelPackage.eINSTANCE.getHorizontalPanel());
 			elements.put(VerticalPanel_2003, PanelPackage.eINSTANCE.getVerticalPanel());
 			elements.put(UimField_3001, UimPackage.eINSTANCE.getUimField());
-			elements.put(BuiltInAction_3002, ActionPackage.eINSTANCE.getBuiltInAction());
+			elements.put(BuiltInActionButton_3018, ActionPackage.eINSTANCE.getBuiltInActionButton());
 			elements.put(HorizontalPanel_3003, PanelPackage.eINSTANCE.getHorizontalPanel());
 			elements.put(VerticalPanel_3004, PanelPackage.eINSTANCE.getVerticalPanel());
-			elements.put(TransitionAction_3005, ActionPackage.eINSTANCE.getTransitionAction());
-			elements.put(OperationAction_3006, ActionPackage.eINSTANCE.getOperationAction());
-			elements.put(LinkToOperation_3007, ActionPackage.eINSTANCE.getLinkToOperation());
-			elements.put(LinkToEntity_3008, ActionPackage.eINSTANCE.getLinkToEntity());
+			elements.put(TransitionButton_3019, ActionPackage.eINSTANCE.getTransitionButton());
+			elements.put(OperationButton_3020, ActionPackage.eINSTANCE.getOperationButton());
+			elements.put(LinkToQuery_3021, ActionPackage.eINSTANCE.getLinkToQuery());
+			elements.put(BuiltInLink_3022, ActionPackage.eINSTANCE.getBuiltInLink());
 			elements.put(UimDataTable_3009, UimPackage.eINSTANCE.getUimDataTable());
 			elements.put(UimField_3010, UimPackage.eINSTANCE.getUimField());
-			elements.put(LinkToEntity_3011, ActionPackage.eINSTANCE.getLinkToEntity());
-			elements.put(BuiltInAction_3012, ActionPackage.eINSTANCE.getBuiltInAction());
-			elements.put(OperationAction_3014, ActionPackage.eINSTANCE.getOperationAction());
-			elements.put(BuiltInAction_3015, ActionPackage.eINSTANCE.getBuiltInAction());
-			elements.put(OperationAction_3016, ActionPackage.eINSTANCE.getOperationAction());
+			elements.put(BuiltInActionButton_3023, ActionPackage.eINSTANCE.getBuiltInActionButton());
+			elements.put(OperationButton_3024, ActionPackage.eINSTANCE.getOperationButton());
+			elements.put(BuiltInActionButton_3025, ActionPackage.eINSTANCE.getBuiltInActionButton());
+			elements.put(OperationButton_3026, ActionPackage.eINSTANCE.getOperationButton());
 			elements.put(GridPanel_3017, PanelPackage.eINSTANCE.getGridPanel());
 		}
 		return (ENamedElement) elements.get(type);
@@ -279,20 +273,19 @@ public class UimElementTypes{
 			KNOWN_ELEMENT_TYPES.add(HorizontalPanel_2002);
 			KNOWN_ELEMENT_TYPES.add(VerticalPanel_2003);
 			KNOWN_ELEMENT_TYPES.add(UimField_3001);
-			KNOWN_ELEMENT_TYPES.add(BuiltInAction_3002);
+			KNOWN_ELEMENT_TYPES.add(BuiltInActionButton_3018);
 			KNOWN_ELEMENT_TYPES.add(HorizontalPanel_3003);
 			KNOWN_ELEMENT_TYPES.add(VerticalPanel_3004);
-			KNOWN_ELEMENT_TYPES.add(TransitionAction_3005);
-			KNOWN_ELEMENT_TYPES.add(OperationAction_3006);
-			KNOWN_ELEMENT_TYPES.add(LinkToOperation_3007);
-			KNOWN_ELEMENT_TYPES.add(LinkToEntity_3008);
+			KNOWN_ELEMENT_TYPES.add(TransitionButton_3019);
+			KNOWN_ELEMENT_TYPES.add(OperationButton_3020);
+			KNOWN_ELEMENT_TYPES.add(LinkToQuery_3021);
+			KNOWN_ELEMENT_TYPES.add(BuiltInLink_3022);
 			KNOWN_ELEMENT_TYPES.add(UimDataTable_3009);
 			KNOWN_ELEMENT_TYPES.add(UimField_3010);
-			KNOWN_ELEMENT_TYPES.add(LinkToEntity_3011);
-			KNOWN_ELEMENT_TYPES.add(BuiltInAction_3012);
-			KNOWN_ELEMENT_TYPES.add(OperationAction_3014);
-			KNOWN_ELEMENT_TYPES.add(BuiltInAction_3015);
-			KNOWN_ELEMENT_TYPES.add(OperationAction_3016);
+			KNOWN_ELEMENT_TYPES.add(BuiltInActionButton_3023);
+			KNOWN_ELEMENT_TYPES.add(OperationButton_3024);
+			KNOWN_ELEMENT_TYPES.add(BuiltInActionButton_3025);
+			KNOWN_ELEMENT_TYPES.add(OperationButton_3026);
 			KNOWN_ELEMENT_TYPES.add(GridPanel_3017);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
@@ -312,34 +305,32 @@ public class UimElementTypes{
 			return VerticalPanel_2003;
 		case UimFieldEditPart.VISUAL_ID:
 			return UimField_3001;
-		case BuiltInActionEditPart.VISUAL_ID:
-			return BuiltInAction_3002;
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return BuiltInActionButton_3018;
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return HorizontalPanel_3003;
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return VerticalPanel_3004;
-		case TransitionActionEditPart.VISUAL_ID:
-			return TransitionAction_3005;
-		case OperationActionEditPart.VISUAL_ID:
-			return OperationAction_3006;
-		case LinkToOperationEditPart.VISUAL_ID:
-			return LinkToOperation_3007;
-		case LinkToEntityEditPart.VISUAL_ID:
-			return LinkToEntity_3008;
+		case TransitionButtonEditPart.VISUAL_ID:
+			return TransitionButton_3019;
+		case OperationButtonEditPart.VISUAL_ID:
+			return OperationButton_3020;
+		case LinkToQueryEditPart.VISUAL_ID:
+			return LinkToQuery_3021;
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return BuiltInLink_3022;
 		case UimDataTableEditPart.VISUAL_ID:
 			return UimDataTable_3009;
 		case UimField2EditPart.VISUAL_ID:
 			return UimField_3010;
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return LinkToEntity_3011;
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return BuiltInAction_3012;
-		case OperationAction2EditPart.VISUAL_ID:
-			return OperationAction_3014;
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return BuiltInAction_3015;
-		case OperationAction3EditPart.VISUAL_ID:
-			return OperationAction_3016;
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return BuiltInActionButton_3023;
+		case OperationButton2EditPart.VISUAL_ID:
+			return OperationButton_3024;
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return BuiltInActionButton_3025;
+		case OperationButton3EditPart.VISUAL_ID:
+			return OperationButton_3026;
 		case GridPanel2EditPart.VISUAL_ID:
 			return GridPanel_3017;
 		}

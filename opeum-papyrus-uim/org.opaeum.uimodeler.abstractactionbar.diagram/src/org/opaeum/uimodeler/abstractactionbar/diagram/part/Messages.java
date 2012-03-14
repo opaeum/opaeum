@@ -196,19 +196,39 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
-	public static String createActions1Group_title;
+	public static String createDefault1Group_title;
 	/**
 	 * @generated
 	 */
-	public static String createActions1Group_desc;
+	public static String createDefault1Group_desc;
 	/**
 	 * @generated
 	 */
-	public static String createBuiltInActionButton1CreationTool_title;
+	public static String createActions2Group_title;
 	/**
 	 * @generated
 	 */
-	public static String createBuiltInActionButton1CreationTool_desc;
+	public static String createActions2Group_desc;
+	/**
+	 * @generated
+	 */
+	public static String createLinks3Group_title;
+	/**
+	 * @generated
+	 */
+	public static String createEditorActionBar1CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createEditorActionBar1CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String createBuiltinActionButton1CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createBuiltinActionButton1CreationTool_desc;
 	/**
 	 * @generated
 	 */
@@ -225,6 +245,26 @@ public class Messages extends NLS{
 	 * @generated
 	 */
 	public static String createOperationButton3CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String createLinkToQuery1CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createLinkToQuery1CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String createBuiltinLink2CreationTool_title;
+	/**
+	 * @generated
+	 */
+	public static String createBuiltinLink2CreationTool_desc;
+	/**
+	 * @generated
+	 */
+	public static String EditorActionBarActionBarChildrenCompartmentEditPart_title;
 	/**
 	 * @generated
 	 */

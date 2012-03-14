@@ -9,15 +9,12 @@ import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.papyrus.infra.gmfdiag.common.AbstractPapyrusGmfCreateDiagramCommandHandler;
-import org.opaeum.uim.AbstractActionBar;
 import org.opaeum.uim.editor.AbstractEditor;
-import org.opaeum.uim.editor.EditorFactory;
-import org.opaeum.uim.editor.EditorPage;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugin;
 
 public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCreateDiagramCommandHandler{
-	AbstractActionBar editorPage;
+	AbstractEditor editor;
 	private String name;
 	@Override
 	protected String getDefaultDiagramName(){
@@ -25,7 +22,8 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 	}
 	@Override
 	protected String getDiagramNotationID(){
-		return AbstractActionBarEditPart.MODEL_ID;
+		System.out.println("CreateAbstractActionBarDiagramCommand.getDiagramNotationID()");
+		return AbstractEditorEditPart.MODEL_ID;
 	}
 	@Override
 	protected PreferencesHint getPreferenceHint(){
@@ -34,16 +32,15 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 	protected void initializeDiagram(EObject diagram){
 		if(diagram instanceof Diagram){
 			Diagram diag = (Diagram) diagram;
-			if(editorPage != null){
-				diag.setElement(editorPage);
+			if(editor != null){
+				diag.setElement(editor);
 				createView(diag);
 			}
 			diag.setName(getName());
 		}
 	}
 	private void createView(Diagram diagram){
-		ViewService.getInstance().createView(Node.class, new EObjectAdapter(editorPage), diagram, null, ViewUtil.APPEND, true,
-				getPreferenceHint());
+		ViewService.getInstance().createView(Node.class, new EObjectAdapter(editor), diagram, null, ViewUtil.APPEND, true, getPreferenceHint());
 	}
 	/**
 	 * {@inheritDoc}
@@ -53,18 +50,12 @@ public class CreateAbstractActionBarDiagramCommand extends AbstractPapyrusGmfCre
 	@Override
 	protected Diagram createDiagram(Resource diagramResource,EObject owner,String name){
 		Diagram diagram = null;
-		if(owner instanceof AbstractActionBar){
-			editorPage = (AbstractActionBar) owner;
-		}else if( owner instanceof AbstractEditor){
-			editorPage =  EditorFactory.eINSTANCE.createEditorActionBar();
-			((AbstractEditor) owner).getPages().add((EditorPage) editorPage);
-			editorPage.setName("New Action Bar");
-		}
-		diagram = ViewService.createDiagram(editorPage, getDiagramNotationID(), getPreferenceHint());
+		editor = (AbstractEditor) owner;
+		diagram = ViewService.createDiagram(editor, getDiagramNotationID(), getPreferenceHint());
 		// create diagram
 		if(diagram != null){
 			setName(name);
-//			initializeModel(owner);
+			// initializeModel(owner);
 			initializeDiagram(diagram);
 			diagramResource.getContents().add(diagram);
 		}

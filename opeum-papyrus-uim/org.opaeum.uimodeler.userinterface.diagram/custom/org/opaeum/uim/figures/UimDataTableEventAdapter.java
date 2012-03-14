@@ -7,8 +7,9 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
-import org.opaeum.uimodeler.util.UimFigureUtil;
 
 
 public class UimDataTableEventAdapter extends AbstractEventAdapter{

@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Button;
 import org.opaeum.uim.constraint.ConstraintFactory;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
+import org.opaeum.uim.userinteractionproperties.core.AbstractUserInteractionConstraintBooleanFeaturesSection;
 
 public class VisibilityUserInteractionConstraintBooleanFeaturesSection extends AbstractUserInteractionConstraintBooleanFeaturesSection{
 	@Override

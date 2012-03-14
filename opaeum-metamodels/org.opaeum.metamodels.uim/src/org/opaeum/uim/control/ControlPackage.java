@@ -64,7 +64,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimControl()
 	 * @generated
 	 */
-	int UIM_CONTROL = 13;
+	int UIM_CONTROL = 10;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -202,7 +202,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimLookup()
 	 * @generated
 	 */
-	int UIM_LOOKUP = 8;
+	int UIM_LOOKUP = 5;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -250,14 +250,14 @@ public interface ControlPackage extends EPackage {
 	int UIM_LOOKUP_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimSingleSelectPopupSearchImpl <em>Uim Single Select Popup Search</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimPopupSearchImpl <em>Uim Popup Search</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.control.impl.UimSingleSelectPopupSearchImpl
-	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSingleSelectPopupSearch()
+	 * @see org.opaeum.uim.control.impl.UimPopupSearchImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimPopupSearch()
 	 * @generated
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH = 2;
+	int UIM_POPUP_SEARCH = 2;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -266,7 +266,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
+	int UIM_POPUP_SEARCH__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -275,7 +275,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH__FIELD = UIM_LOOKUP__FIELD;
+	int UIM_POPUP_SEARCH__FIELD = UIM_LOOKUP__FIELD;
 
 	/**
 	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
@@ -284,7 +284,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
+	int UIM_POPUP_SEARCH__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -293,181 +293,16 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
+	int UIM_POPUP_SEARCH__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
 
 	/**
-	 * The number of structural features of the '<em>Uim Single Select Popup Search</em>' class.
+	 * The number of structural features of the '<em>Uim Popup Search</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_POPUP_SEARCH_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimMultiSelectPopupSearchImpl <em>Uim Multi Select Popup Search</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.control.impl.UimMultiSelectPopupSearchImpl
-	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimMultiSelectPopupSearch()
-	 * @generated
-	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH = 3;
-
-	/**
-	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
-
-	/**
-	 * The feature id for the '<em><b>Field</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH__FIELD = UIM_LOOKUP__FIELD;
-
-	/**
-	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
-
-	/**
-	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
-
-	/**
-	 * The number of structural features of the '<em>Uim Multi Select Popup Search</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_POPUP_SEARCH_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimMultiSelectTreeViewImpl <em>Uim Multi Select Tree View</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.control.impl.UimMultiSelectTreeViewImpl
-	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimMultiSelectTreeView()
-	 * @generated
-	 */
-	int UIM_MULTI_SELECT_TREE_VIEW = 4;
-
-	/**
-	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_TREE_VIEW__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
-
-	/**
-	 * The feature id for the '<em><b>Field</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_TREE_VIEW__FIELD = UIM_LOOKUP__FIELD;
-
-	/**
-	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_TREE_VIEW__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
-
-	/**
-	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_TREE_VIEW__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
-
-	/**
-	 * The number of structural features of the '<em>Uim Multi Select Tree View</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_TREE_VIEW_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimMultiSelectListBoxImpl <em>Uim Multi Select List Box</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.control.impl.UimMultiSelectListBoxImpl
-	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimMultiSelectListBox()
-	 * @generated
-	 */
-	int UIM_MULTI_SELECT_LIST_BOX = 5;
-
-	/**
-	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_LIST_BOX__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
-
-	/**
-	 * The feature id for the '<em><b>Field</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_LIST_BOX__FIELD = UIM_LOOKUP__FIELD;
-
-	/**
-	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_LIST_BOX__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
-
-	/**
-	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_LIST_BOX__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
-
-	/**
-	 * The number of structural features of the '<em>Uim Multi Select List Box</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UIM_MULTI_SELECT_LIST_BOX_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
+	int UIM_POPUP_SEARCH_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimDropdownImpl <em>Uim Dropdown</em>}' class.
@@ -477,7 +312,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimDropdown()
 	 * @generated
 	 */
-	int UIM_DROPDOWN = 6;
+	int UIM_DROPDOWN = 3;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -532,7 +367,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimCheckBox()
 	 * @generated
 	 */
-	int UIM_CHECK_BOX = 7;
+	int UIM_CHECK_BOX = 4;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -578,7 +413,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimTextArea()
 	 * @generated
 	 */
-	int UIM_TEXT_AREA = 9;
+	int UIM_TEXT_AREA = 6;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -633,7 +468,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimText()
 	 * @generated
 	 */
-	int UIM_TEXT = 10;
+	int UIM_TEXT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -679,7 +514,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimDatePopup()
 	 * @generated
 	 */
-	int UIM_DATE_POPUP = 11;
+	int UIM_DATE_POPUP = 8;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -718,14 +553,14 @@ public interface ControlPackage extends EPackage {
 	int UIM_DATE_POPUP_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimSingleSelectListBoxImpl <em>Uim Single Select List Box</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimListBoxImpl <em>Uim List Box</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.control.impl.UimSingleSelectListBoxImpl
-	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSingleSelectListBox()
+	 * @see org.opaeum.uim.control.impl.UimListBoxImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimListBox()
 	 * @generated
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX = 12;
+	int UIM_LIST_BOX = 9;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -734,7 +569,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
+	int UIM_LIST_BOX__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -743,7 +578,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX__FIELD = UIM_LOOKUP__FIELD;
+	int UIM_LIST_BOX__FIELD = UIM_LOOKUP__FIELD;
 
 	/**
 	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
@@ -752,7 +587,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
+	int UIM_LIST_BOX__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -761,7 +596,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
+	int UIM_LIST_BOX__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
 
 	/**
 	 * The feature id for the '<em><b>Rows</b></em>' attribute.
@@ -770,26 +605,26 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX__ROWS = UIM_LOOKUP_FEATURE_COUNT + 0;
+	int UIM_LIST_BOX__ROWS = UIM_LOOKUP_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Uim Single Select List Box</em>' class.
+	 * The number of structural features of the '<em>Uim List Box</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_LIST_BOX_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 1;
+	int UIM_LIST_BOX_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimSingleSelectTreeViewImpl <em>Uim Single Select Tree View</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimTreeViewImpl <em>Uim Tree View</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.control.impl.UimSingleSelectTreeViewImpl
-	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSingleSelectTreeView()
+	 * @see org.opaeum.uim.control.impl.UimTreeViewImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimTreeView()
 	 * @generated
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW = 14;
+	int UIM_TREE_VIEW = 11;
 
 	/**
 	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
@@ -798,7 +633,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
+	int UIM_TREE_VIEW__MIMUM_WIDTH = UIM_LOOKUP__MIMUM_WIDTH;
 
 	/**
 	 * The feature id for the '<em><b>Field</b></em>' container reference.
@@ -807,7 +642,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW__FIELD = UIM_LOOKUP__FIELD;
+	int UIM_TREE_VIEW__FIELD = UIM_LOOKUP__FIELD;
 
 	/**
 	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
@@ -816,7 +651,7 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
+	int UIM_TREE_VIEW__MINIMUM_HEIGHT = UIM_LOOKUP__MINIMUM_HEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Lookup Source</b></em>' containment reference.
@@ -825,16 +660,301 @@ public interface ControlPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
+	int UIM_TREE_VIEW__LOOKUP_SOURCE = UIM_LOOKUP__LOOKUP_SOURCE;
 
 	/**
-	 * The number of structural features of the '<em>Uim Single Select Tree View</em>' class.
+	 * The number of structural features of the '<em>Uim Tree View</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int UIM_SINGLE_SELECT_TREE_VIEW_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
+	int UIM_TREE_VIEW_FEATURE_COUNT = UIM_LOOKUP_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimLinkControlImpl <em>Uim Link Control</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.control.impl.UimLinkControlImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimLinkControl()
+	 * @generated
+	 */
+	int UIM_LINK_CONTROL = 12;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK_CONTROL__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Field</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK_CONTROL__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK_CONTROL__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
+
+	/**
+	 * The feature id for the '<em><b>Editor To Open</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK_CONTROL__EDITOR_TO_OPEN = UIM_CONTROL_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Uim Link Control</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LINK_CONTROL_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimDateScrollerImpl <em>Uim Date Scroller</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.control.impl.UimDateScrollerImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimDateScroller()
+	 * @generated
+	 */
+	int UIM_DATE_SCROLLER = 13;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_SCROLLER__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Field</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_SCROLLER__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_SCROLLER__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
+
+	/**
+	 * The number of structural features of the '<em>Uim Date Scroller</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_SCROLLER_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimSelectionTableImpl <em>Uim Selection Table</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.control.impl.UimSelectionTableImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSelectionTable()
+	 * @generated
+	 */
+	int UIM_SELECTION_TABLE = 14;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SELECTION_TABLE__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Field</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SELECTION_TABLE__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SELECTION_TABLE__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
+
+	/**
+	 * The number of structural features of the '<em>Uim Selection Table</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_SELECTION_TABLE_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimRadioButtonImpl <em>Uim Radio Button</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.control.impl.UimRadioButtonImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimRadioButton()
+	 * @generated
+	 */
+	int UIM_RADIO_BUTTON = 15;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_RADIO_BUTTON__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Field</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_RADIO_BUTTON__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_RADIO_BUTTON__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
+
+	/**
+	 * The number of structural features of the '<em>Uim Radio Button</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_RADIO_BUTTON_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimLabelImpl <em>Uim Label</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.control.impl.UimLabelImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimLabel()
+	 * @generated
+	 */
+	int UIM_LABEL = 16;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LABEL__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Field</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LABEL__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LABEL__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
+
+	/**
+	 * The number of structural features of the '<em>Uim Label</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_LABEL_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.control.impl.UimDateTimePopupImpl <em>Uim Date Time Popup</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.control.impl.UimDateTimePopupImpl
+	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimDateTimePopup()
+	 * @generated
+	 */
+	int UIM_DATE_TIME_POPUP = 17;
+
+	/**
+	 * The feature id for the '<em><b>Mimum Width</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_TIME_POPUP__MIMUM_WIDTH = UIM_CONTROL__MIMUM_WIDTH;
+
+	/**
+	 * The feature id for the '<em><b>Field</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_TIME_POPUP__FIELD = UIM_CONTROL__FIELD;
+
+	/**
+	 * The feature id for the '<em><b>Minimum Height</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_TIME_POPUP__MINIMUM_HEIGHT = UIM_CONTROL__MINIMUM_HEIGHT;
+
+	/**
+	 * The number of structural features of the '<em>Uim Date Time Popup</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UIM_DATE_TIME_POPUP_FEATURE_COUNT = UIM_CONTROL_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.control.ControlKind <em>Kind</em>}' enum.
@@ -844,7 +964,7 @@ public interface ControlPackage extends EPackage {
 	 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getControlKind()
 	 * @generated
 	 */
-	int CONTROL_KIND = 15;
+	int CONTROL_KIND = 18;
 
 
 	/**
@@ -868,44 +988,14 @@ public interface ControlPackage extends EPackage {
 	EClass getUimToggleButton();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimSingleSelectPopupSearch <em>Uim Single Select Popup Search</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimPopupSearch <em>Uim Popup Search</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Single Select Popup Search</em>'.
-	 * @see org.opaeum.uim.control.UimSingleSelectPopupSearch
+	 * @return the meta object for class '<em>Uim Popup Search</em>'.
+	 * @see org.opaeum.uim.control.UimPopupSearch
 	 * @generated
 	 */
-	EClass getUimSingleSelectPopupSearch();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimMultiSelectPopupSearch <em>Uim Multi Select Popup Search</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Multi Select Popup Search</em>'.
-	 * @see org.opaeum.uim.control.UimMultiSelectPopupSearch
-	 * @generated
-	 */
-	EClass getUimMultiSelectPopupSearch();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimMultiSelectTreeView <em>Uim Multi Select Tree View</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Multi Select Tree View</em>'.
-	 * @see org.opaeum.uim.control.UimMultiSelectTreeView
-	 * @generated
-	 */
-	EClass getUimMultiSelectTreeView();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimMultiSelectListBox <em>Uim Multi Select List Box</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Multi Select List Box</em>'.
-	 * @see org.opaeum.uim.control.UimMultiSelectListBox
-	 * @generated
-	 */
-	EClass getUimMultiSelectListBox();
+	EClass getUimPopupSearch();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimDropdown <em>Uim Dropdown</em>}'.
@@ -990,25 +1080,25 @@ public interface ControlPackage extends EPackage {
 	EClass getUimDatePopup();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimSingleSelectListBox <em>Uim Single Select List Box</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimListBox <em>Uim List Box</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Single Select List Box</em>'.
-	 * @see org.opaeum.uim.control.UimSingleSelectListBox
+	 * @return the meta object for class '<em>Uim List Box</em>'.
+	 * @see org.opaeum.uim.control.UimListBox
 	 * @generated
 	 */
-	EClass getUimSingleSelectListBox();
+	EClass getUimListBox();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.uim.control.UimSingleSelectListBox#getRows <em>Rows</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.control.UimListBox#getRows <em>Rows</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Rows</em>'.
-	 * @see org.opaeum.uim.control.UimSingleSelectListBox#getRows()
-	 * @see #getUimSingleSelectListBox()
+	 * @see org.opaeum.uim.control.UimListBox#getRows()
+	 * @see #getUimListBox()
 	 * @generated
 	 */
-	EAttribute getUimSingleSelectListBox_Rows();
+	EAttribute getUimListBox_Rows();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimControl <em>Uim Control</em>}'.
@@ -1054,14 +1144,85 @@ public interface ControlPackage extends EPackage {
 	EAttribute getUimControl_MinimumHeight();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimSingleSelectTreeView <em>Uim Single Select Tree View</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimTreeView <em>Uim Tree View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Uim Single Select Tree View</em>'.
-	 * @see org.opaeum.uim.control.UimSingleSelectTreeView
+	 * @return the meta object for class '<em>Uim Tree View</em>'.
+	 * @see org.opaeum.uim.control.UimTreeView
 	 * @generated
 	 */
-	EClass getUimSingleSelectTreeView();
+	EClass getUimTreeView();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimLinkControl <em>Uim Link Control</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uim Link Control</em>'.
+	 * @see org.opaeum.uim.control.UimLinkControl
+	 * @generated
+	 */
+	EClass getUimLinkControl();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.uim.control.UimLinkControl#getEditorToOpen <em>Editor To Open</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Editor To Open</em>'.
+	 * @see org.opaeum.uim.control.UimLinkControl#getEditorToOpen()
+	 * @see #getUimLinkControl()
+	 * @generated
+	 */
+	EReference getUimLinkControl_EditorToOpen();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimDateScroller <em>Uim Date Scroller</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uim Date Scroller</em>'.
+	 * @see org.opaeum.uim.control.UimDateScroller
+	 * @generated
+	 */
+	EClass getUimDateScroller();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimSelectionTable <em>Uim Selection Table</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uim Selection Table</em>'.
+	 * @see org.opaeum.uim.control.UimSelectionTable
+	 * @generated
+	 */
+	EClass getUimSelectionTable();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimRadioButton <em>Uim Radio Button</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uim Radio Button</em>'.
+	 * @see org.opaeum.uim.control.UimRadioButton
+	 * @generated
+	 */
+	EClass getUimRadioButton();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimLabel <em>Uim Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uim Label</em>'.
+	 * @see org.opaeum.uim.control.UimLabel
+	 * @generated
+	 */
+	EClass getUimLabel();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.uim.control.UimDateTimePopup <em>Uim Date Time Popup</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Uim Date Time Popup</em>'.
+	 * @see org.opaeum.uim.control.UimDateTimePopup
+	 * @generated
+	 */
+	EClass getUimDateTimePopup();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.control.ControlKind <em>Kind</em>}'.
@@ -1116,44 +1277,14 @@ public interface ControlPackage extends EPackage {
 		EClass UIM_TOGGLE_BUTTON = eINSTANCE.getUimToggleButton();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimSingleSelectPopupSearchImpl <em>Uim Single Select Popup Search</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimPopupSearchImpl <em>Uim Popup Search</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.control.impl.UimSingleSelectPopupSearchImpl
-		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSingleSelectPopupSearch()
+		 * @see org.opaeum.uim.control.impl.UimPopupSearchImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimPopupSearch()
 		 * @generated
 		 */
-		EClass UIM_SINGLE_SELECT_POPUP_SEARCH = eINSTANCE.getUimSingleSelectPopupSearch();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimMultiSelectPopupSearchImpl <em>Uim Multi Select Popup Search</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.control.impl.UimMultiSelectPopupSearchImpl
-		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimMultiSelectPopupSearch()
-		 * @generated
-		 */
-		EClass UIM_MULTI_SELECT_POPUP_SEARCH = eINSTANCE.getUimMultiSelectPopupSearch();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimMultiSelectTreeViewImpl <em>Uim Multi Select Tree View</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.control.impl.UimMultiSelectTreeViewImpl
-		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimMultiSelectTreeView()
-		 * @generated
-		 */
-		EClass UIM_MULTI_SELECT_TREE_VIEW = eINSTANCE.getUimMultiSelectTreeView();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimMultiSelectListBoxImpl <em>Uim Multi Select List Box</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.control.impl.UimMultiSelectListBoxImpl
-		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimMultiSelectListBox()
-		 * @generated
-		 */
-		EClass UIM_MULTI_SELECT_LIST_BOX = eINSTANCE.getUimMultiSelectListBox();
+		EClass UIM_POPUP_SEARCH = eINSTANCE.getUimPopupSearch();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimDropdownImpl <em>Uim Dropdown</em>}' class.
@@ -1232,14 +1363,14 @@ public interface ControlPackage extends EPackage {
 		EClass UIM_DATE_POPUP = eINSTANCE.getUimDatePopup();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimSingleSelectListBoxImpl <em>Uim Single Select List Box</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimListBoxImpl <em>Uim List Box</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.control.impl.UimSingleSelectListBoxImpl
-		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSingleSelectListBox()
+		 * @see org.opaeum.uim.control.impl.UimListBoxImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimListBox()
 		 * @generated
 		 */
-		EClass UIM_SINGLE_SELECT_LIST_BOX = eINSTANCE.getUimSingleSelectListBox();
+		EClass UIM_LIST_BOX = eINSTANCE.getUimListBox();
 
 		/**
 		 * The meta object literal for the '<em><b>Rows</b></em>' attribute feature.
@@ -1247,7 +1378,7 @@ public interface ControlPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute UIM_SINGLE_SELECT_LIST_BOX__ROWS = eINSTANCE.getUimSingleSelectListBox_Rows();
+		EAttribute UIM_LIST_BOX__ROWS = eINSTANCE.getUimListBox_Rows();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimControlImpl <em>Uim Control</em>}' class.
@@ -1284,14 +1415,82 @@ public interface ControlPackage extends EPackage {
 		EAttribute UIM_CONTROL__MINIMUM_HEIGHT = eINSTANCE.getUimControl_MinimumHeight();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimSingleSelectTreeViewImpl <em>Uim Single Select Tree View</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimTreeViewImpl <em>Uim Tree View</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.control.impl.UimSingleSelectTreeViewImpl
-		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSingleSelectTreeView()
+		 * @see org.opaeum.uim.control.impl.UimTreeViewImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimTreeView()
 		 * @generated
 		 */
-		EClass UIM_SINGLE_SELECT_TREE_VIEW = eINSTANCE.getUimSingleSelectTreeView();
+		EClass UIM_TREE_VIEW = eINSTANCE.getUimTreeView();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimLinkControlImpl <em>Uim Link Control</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.control.impl.UimLinkControlImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimLinkControl()
+		 * @generated
+		 */
+		EClass UIM_LINK_CONTROL = eINSTANCE.getUimLinkControl();
+
+		/**
+		 * The meta object literal for the '<em><b>Editor To Open</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference UIM_LINK_CONTROL__EDITOR_TO_OPEN = eINSTANCE.getUimLinkControl_EditorToOpen();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimDateScrollerImpl <em>Uim Date Scroller</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.control.impl.UimDateScrollerImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimDateScroller()
+		 * @generated
+		 */
+		EClass UIM_DATE_SCROLLER = eINSTANCE.getUimDateScroller();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimSelectionTableImpl <em>Uim Selection Table</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.control.impl.UimSelectionTableImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimSelectionTable()
+		 * @generated
+		 */
+		EClass UIM_SELECTION_TABLE = eINSTANCE.getUimSelectionTable();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimRadioButtonImpl <em>Uim Radio Button</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.control.impl.UimRadioButtonImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimRadioButton()
+		 * @generated
+		 */
+		EClass UIM_RADIO_BUTTON = eINSTANCE.getUimRadioButton();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimLabelImpl <em>Uim Label</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.control.impl.UimLabelImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimLabel()
+		 * @generated
+		 */
+		EClass UIM_LABEL = eINSTANCE.getUimLabel();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.uim.control.impl.UimDateTimePopupImpl <em>Uim Date Time Popup</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.control.impl.UimDateTimePopupImpl
+		 * @see org.opaeum.uim.control.impl.ControlPackageImpl#getUimDateTimePopup()
+		 * @generated
+		 */
+		EClass UIM_DATE_TIME_POPUP = eINSTANCE.getUimDateTimePopup();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.control.ControlKind <em>Kind</em>}' enum.

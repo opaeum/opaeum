@@ -29,6 +29,7 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.Shape;
+import org.eclipse.gmf.runtime.notation.TitleStyle;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceConverter;
@@ -37,13 +38,20 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractActionBarEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionNameEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationActionNameEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionEditPart;
-import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionActionNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.AbstractEditorEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInActionButtonNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.BuiltInLinkNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarActionBarChildrenCompartmentEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.EditorActionBarNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.LinkToQueryNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.OperationButtonNameEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonEditPart;
+import org.opaeum.uimodeler.abstractactionbar.diagram.edit.parts.TransitionButtonNameEditPart;
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry;
 
 /**
@@ -100,13 +108,13 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 		 * 
 		 * @return the unique identifier of the diagram for which views are provided.
 		 */
-		return AbstractActionBarEditPart.MODEL_ID;
+		return AbstractEditorEditPart.MODEL_ID;
 	}
 	/**
 	 * @generated
 	 */
 	protected boolean provides(CreateDiagramViewOperation op){
-		return AbstractActionBarEditPart.MODEL_ID.equals(op.getSemanticHint())
+		return AbstractEditorEditPart.MODEL_ID.equals(op.getSemanticHint())
 				&& UimVisualIDRegistry.getDiagramVisualID(getSemanticElement(op.getSemanticAdapter())) != -1;
 	}
 	/**
@@ -141,13 +149,16 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 					return false; // visual id for node EClass should match visual id from element type
 				}
 			}else{
-				if(!AbstractActionBarEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(op.getContainerView()))){
+				if(!AbstractEditorEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(op.getContainerView()))){
 					return false; // foreign diagram
 				}
 				switch(visualID){
-				case BuiltInActionEditPart.VISUAL_ID:
-				case TransitionActionEditPart.VISUAL_ID:
-				case OperationActionEditPart.VISUAL_ID:
+				case EditorActionBarEditPart.VISUAL_ID:
+				case BuiltInLinkEditPart.VISUAL_ID:
+				case LinkToQueryEditPart.VISUAL_ID:
+				case OperationButtonEditPart.VISUAL_ID:
+				case BuiltInActionButtonEditPart.VISUAL_ID:
+				case TransitionButtonEditPart.VISUAL_ID:
 					if(domainElement == null || visualID != UimVisualIDRegistry.getNodeVisualID(op.getContainerView(), domainElement)){
 						return false; // visual id in semantic hint should match visual id for domain element
 					}
@@ -157,8 +168,9 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 				}
 			}
 		}
-		return BuiltInActionEditPart.VISUAL_ID == visualID || TransitionActionEditPart.VISUAL_ID == visualID
-				|| OperationActionEditPart.VISUAL_ID == visualID;
+		return EditorActionBarEditPart.VISUAL_ID == visualID || BuiltInLinkEditPart.VISUAL_ID == visualID
+				|| LinkToQueryEditPart.VISUAL_ID == visualID || OperationButtonEditPart.VISUAL_ID == visualID
+				|| BuiltInActionButtonEditPart.VISUAL_ID == visualID || TransitionButtonEditPart.VISUAL_ID == visualID;
 	}
 	/**
 	 * @generated
@@ -185,7 +197,7 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	public Diagram createDiagram(IAdaptable semanticAdapter,String diagramKind,PreferencesHint preferencesHint){
 		Diagram diagram = NotationFactory.eINSTANCE.createDiagram();
 		diagram.getStyles().add(NotationFactory.eINSTANCE.createDiagramStyle());
-		diagram.setType(AbstractActionBarEditPart.MODEL_ID);
+		diagram.setType(AbstractEditorEditPart.MODEL_ID);
 		diagram.setElement(getSemanticElement(semanticAdapter));
 		diagram.setMeasurementUnit(MeasurementUnit.PIXEL_LITERAL);
 		return diagram;
@@ -203,12 +215,18 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 			visualID = UimVisualIDRegistry.getVisualID(semanticHint);
 		}
 		switch(visualID){
-		case BuiltInActionEditPart.VISUAL_ID:
-			return createBuiltInAction_2001(domainElement, containerView, index, persisted, preferencesHint);
-		case TransitionActionEditPart.VISUAL_ID:
-			return createTransitionAction_2002(domainElement, containerView, index, persisted, preferencesHint);
-		case OperationActionEditPart.VISUAL_ID:
-			return createOperationAction_2003(domainElement, containerView, index, persisted, preferencesHint);
+		case EditorActionBarEditPart.VISUAL_ID:
+			return createEditorActionBar_2011(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return createBuiltInLink_3001(domainElement, containerView, index, persisted, preferencesHint);
+		case LinkToQueryEditPart.VISUAL_ID:
+			return createLinkToQuery_3002(domainElement, containerView, index, persisted, preferencesHint);
+		case OperationButtonEditPart.VISUAL_ID:
+			return createOperationButton_3003(domainElement, containerView, index, persisted, preferencesHint);
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return createBuiltInActionButton_3004(domainElement, containerView, index, persisted, preferencesHint);
+		case TransitionButtonEditPart.VISUAL_ID:
+			return createTransitionButton_3005(domainElement, containerView, index, persisted, preferencesHint);
 		}
 		// can't happen, provided #provides(CreateNodeViewOperation) is correct
 		return null;
@@ -228,67 +246,121 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	/**
 	 * @generated
 	 */
-	public Node createBuiltInAction_2001(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
+	public Node createEditorActionBar_2011(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(BuiltInActionEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(EditorActionBarEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
 		stampShortcut(containerView, node);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInAction");
-		Node label5001 = createLabel(node, UimVisualIDRegistry.getType(BuiltInActionNameEditPart.VISUAL_ID));
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "EditorActionBar");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "EditorActionBar");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "EditorActionBar");
+		Node label5016 = createLabel(node, UimVisualIDRegistry.getType(EditorActionBarNameEditPart.VISUAL_ID));
+		createCompartment(node, UimVisualIDRegistry.getType(EditorActionBarActionBarChildrenCompartmentEditPart.VISUAL_ID), false, false,
+				false, false);
+		PreferenceInitializerForElementHelper.initCompartmentsStatusFromPrefs(node, prefStore, "EditorActionBar");
 		return node;
 	}
 	/**
 	 * @generated
 	 */
-	public Node createTransitionAction_2002(EObject domainElement,View containerView,int index,boolean persisted,
-			PreferencesHint preferencesHint){
+	public Node createBuiltInLink_3001(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(TransitionActionEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(BuiltInLinkEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
-		stampShortcut(containerView, node);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "TransitionAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "TransitionAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "TransitionAction");
-		Node label5002 = createLabel(node, UimVisualIDRegistry.getType(TransitionActionNameEditPart.VISUAL_ID));
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInLink");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInLink");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInLink");
+		Node label5011 = createLabel(node, UimVisualIDRegistry.getType(BuiltInLinkNameEditPart.VISUAL_ID));
 		return node;
 	}
 	/**
 	 * @generated
 	 */
-	public Node createOperationAction_2003(EObject domainElement,View containerView,int index,boolean persisted,
+	public Node createLinkToQuery_3002(EObject domainElement,View containerView,int index,boolean persisted,PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(LinkToQueryEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "LinkToQuery");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "LinkToQuery");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "LinkToQuery");
+		Node label5012 = createLabel(node, UimVisualIDRegistry.getType(LinkToQueryNameEditPart.VISUAL_ID));
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createOperationButton_3003(EObject domainElement,View containerView,int index,boolean persisted,
 			PreferencesHint preferencesHint){
 		Shape node = NotationFactory.eINSTANCE.createShape();
 		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
-		node.setType(UimVisualIDRegistry.getType(OperationActionEditPart.VISUAL_ID));
+		node.setType(UimVisualIDRegistry.getType(OperationButtonEditPart.VISUAL_ID));
 		ViewUtil.insertChildView(containerView, node, index, persisted);
 		node.setElement(domainElement);
-		stampShortcut(containerView, node);
 		// initializeFromPreferences 
 		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
-		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationAction");
-		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationAction");
-		Node label5003 = createLabel(node, UimVisualIDRegistry.getType(OperationActionNameEditPart.VISUAL_ID));
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "OperationButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "OperationButton");
+		Node label5013 = createLabel(node, UimVisualIDRegistry.getType(OperationButtonNameEditPart.VISUAL_ID));
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createBuiltInActionButton_3004(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(BuiltInActionButtonEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "BuiltInActionButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "BuiltInActionButton");
+		Node label5014 = createLabel(node, UimVisualIDRegistry.getType(BuiltInActionButtonNameEditPart.VISUAL_ID));
+		return node;
+	}
+	/**
+	 * @generated
+	 */
+	public Node createTransitionButton_3005(EObject domainElement,View containerView,int index,boolean persisted,
+			PreferencesHint preferencesHint){
+		Shape node = NotationFactory.eINSTANCE.createShape();
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(UimVisualIDRegistry.getType(TransitionButtonEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		PreferenceInitializerForElementHelper.initForegroundFromPrefs(node, prefStore, "TransitionButton");
+		PreferenceInitializerForElementHelper.initFontStyleFromPrefs(node, prefStore, "TransitionButton");
+		PreferenceInitializerForElementHelper.initBackgroundFromPrefs(node, prefStore, "TransitionButton");
+		Node label5015 = createLabel(node, UimVisualIDRegistry.getType(TransitionButtonNameEditPart.VISUAL_ID));
 		return node;
 	}
 	/**
 	 * @generated
 	 */
 	protected void stampShortcut(View containerView,Node target){
-		if(!AbstractActionBarEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(containerView))){
+		if(!AbstractEditorEditPart.MODEL_ID.equals(UimVisualIDRegistry.getModelID(containerView))){
 			EAnnotation shortcutAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
 			shortcutAnnotation.setSource("Shortcut"); //$NON-NLS-1$
-			shortcutAnnotation.getDetails().put("modelID", AbstractActionBarEditPart.MODEL_ID); //$NON-NLS-1$
+			shortcutAnnotation.getDetails().put("modelID", AbstractEditorEditPart.MODEL_ID); //$NON-NLS-1$
 			target.getEAnnotations().add(shortcutAnnotation);
 		}
 	}
@@ -297,6 +369,35 @@ public class UimViewProvider extends AbstractProvider implements IViewProvider{
 	 */
 	protected Node createLabel(View owner,String hint){
 		DecorationNode rv = NotationFactory.eINSTANCE.createDecorationNode();
+		rv.setType(hint);
+		ViewUtil.insertChildView(owner, rv, ViewUtil.APPEND, true);
+		return rv;
+	}
+	/**
+	 * @generated
+	 */
+	protected Node createCompartment(View owner,String hint,boolean canCollapse,boolean hasTitle,boolean canSort,boolean canFilter){
+		//SemanticListCompartment rv = NotationFactory.eINSTANCE.createSemanticListCompartment();
+		//rv.setShowTitle(showTitle);
+		//rv.setCollapsed(isCollapsed);
+		Node rv;
+		if(canCollapse){
+			rv = NotationFactory.eINSTANCE.createBasicCompartment();
+		}else{
+			rv = NotationFactory.eINSTANCE.createDecorationNode();
+		}
+		rv.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		if(hasTitle){
+			TitleStyle ts = NotationFactory.eINSTANCE.createTitleStyle();
+			ts.setShowTitle(true);
+			rv.getStyles().add(ts);
+		}
+		if(canSort){
+			rv.getStyles().add(NotationFactory.eINSTANCE.createSortingStyle());
+		}
+		if(canFilter){
+			rv.getStyles().add(NotationFactory.eINSTANCE.createFilteringStyle());
+		}
 		rv.setType(hint);
 		ViewUtil.insertChildView(owner, rv, ViewUtil.APPEND, true);
 		return rv;

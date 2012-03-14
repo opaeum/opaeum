@@ -790,6 +790,10 @@
 				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.InstanceSpecification" />
 			</propertySection>
+			<propertySection id="org.opaeum.topcased.propertysections.stereotypes.ClassAuditingEnabled" class="org.opaeum.topcased.propertysections.stereotypes.ClassAuditingEnabled"
+				tab="org.opaeum.eclipse.opaeumTab" afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
+				<input type="org.eclipse.uml2.uml.Class" />
+			</propertySection>
 			<propertySection id="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection" class="org.topcased.modeler.uml.internal.properties.sections.slot.SlotDefiningFeatureSection"
 				tab="org.opaeum.eclipse.opaeumTab">
 				<input type="org.eclipse.uml2.uml.Slot" />

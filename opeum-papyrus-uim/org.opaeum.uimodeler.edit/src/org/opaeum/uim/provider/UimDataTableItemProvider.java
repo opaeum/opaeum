@@ -321,32 +321,27 @@ public class UimDataTableItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 ActionFactory.eINSTANCE.createBuiltInAction()));
+				 ActionFactory.eINSTANCE.createBuiltInActionButton()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 ActionFactory.eINSTANCE.createTransitionAction()));
+				 ActionFactory.eINSTANCE.createTransitionButton()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 ActionFactory.eINSTANCE.createLinkToOperation()));
+				 ActionFactory.eINSTANCE.createLinkToQuery()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 ActionFactory.eINSTANCE.createOperationAction()));
+				 ActionFactory.eINSTANCE.createOperationButton()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 ActionFactory.eINSTANCE.createLinkToEntity()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.UIM_CONTAINER__CHILDREN,
-				 PanelFactory.eINSTANCE.createCollapsiblePanel()));
+				 ActionFactory.eINSTANCE.createBuiltInLink()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -371,17 +366,17 @@ public class UimDataTableItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
-				 ActionFactory.eINSTANCE.createBuiltInAction()));
+				 ActionFactory.eINSTANCE.createBuiltInActionButton()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
-				 ActionFactory.eINSTANCE.createTransitionAction()));
+				 ActionFactory.eINSTANCE.createTransitionButton()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.UIM_DATA_TABLE__ACTIONS_ON_MULTIPLE_SELECTION,
-				 ActionFactory.eINSTANCE.createOperationAction()));
+				 ActionFactory.eINSTANCE.createOperationButton()));
 	}
 
 	/**

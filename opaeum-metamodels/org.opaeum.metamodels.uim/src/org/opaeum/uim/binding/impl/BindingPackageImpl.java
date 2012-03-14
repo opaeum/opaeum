@@ -14,7 +14,6 @@ import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
-import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 import org.opaeum.uim.binding.UimBinding;
@@ -45,13 +44,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 	 * @generated
 	 */
 	private EClass lookupBindingEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass navigationBindingEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -194,24 +186,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNavigationBinding() {
-		return navigationBindingEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNavigationBinding_Navigation() {
-		return (EReference)navigationBindingEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTableBinding() {
 		return tableBindingEClass;
 	}
@@ -328,9 +302,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		lookupBindingEClass = createEClass(LOOKUP_BINDING);
 		createEReference(lookupBindingEClass, LOOKUP_BINDING__LOOKUP);
 
-		navigationBindingEClass = createEClass(NAVIGATION_BINDING);
-		createEReference(navigationBindingEClass, NAVIGATION_BINDING__NAVIGATION);
-
 		tableBindingEClass = createEClass(TABLE_BINDING);
 		createEReference(tableBindingEClass, TABLE_BINDING__TABLE);
 
@@ -371,7 +342,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 
 		// Obtain other dependent packages
 		ControlPackage theControlPackage = (ControlPackage)EPackage.Registry.INSTANCE.getEPackage(ControlPackage.eNS_URI);
-		ActionPackage theActionPackage = (ActionPackage)EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI);
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 
 		// Create type parameters
@@ -380,7 +350,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 
 		// Add supertypes to classes
 		lookupBindingEClass.getESuperTypes().add(this.getUimBinding());
-		navigationBindingEClass.getESuperTypes().add(this.getUimBinding());
 		tableBindingEClass.getESuperTypes().add(this.getUimBinding());
 		fieldBindingEClass.getESuperTypes().add(this.getUimBinding());
 		uimBindingEClass.getESuperTypes().add(theUimPackage.getUmlReference());
@@ -389,9 +358,6 @@ public class BindingPackageImpl extends EPackageImpl implements BindingPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(lookupBindingEClass, LookupBinding.class, "LookupBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLookupBinding_Lookup(), theControlPackage.getUimLookup(), theControlPackage.getUimLookup_LookupSource(), "lookup", null, 0, 1, LookupBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(navigationBindingEClass, NavigationBinding.class, "NavigationBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNavigationBinding_Navigation(), theActionPackage.getLinkToEntity(), theActionPackage.getLinkToEntity_Binding(), "navigation", null, 1, 1, NavigationBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(tableBindingEClass, TableBinding.class, "TableBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTableBinding_Table(), theUimPackage.getUimDataTable(), theUimPackage.getUimDataTable_Binding(), "table", null, 1, 1, TableBinding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

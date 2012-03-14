@@ -26,7 +26,7 @@ import org.opaeum.uim.panel.PanelPackage;
  *
  * @generated
  */
-public class CollapsiblePanelImpl extends AbstractPanelImpl implements CollapsiblePanel {
+public abstract class CollapsiblePanelImpl extends AbstractPanelImpl implements CollapsiblePanel {
 	/**
 	 * The default value of the '{@link #getPreferredWidth() <em>Preferred Width</em>}' attribute.
 	 * <!-- begin-user-doc -->

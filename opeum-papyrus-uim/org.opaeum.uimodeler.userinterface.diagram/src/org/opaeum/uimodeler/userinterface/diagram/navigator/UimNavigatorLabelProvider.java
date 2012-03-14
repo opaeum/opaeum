@@ -18,42 +18,33 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.LinkToEntity;
-import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.panel.HorizontalPanel;
 import org.opaeum.uim.panel.VerticalPanel;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInActionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.BuiltInLinkNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelName2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.GridPanelNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.HorizontalPanelEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntity2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToEntityNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToOperationNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationAction3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionName3EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationActionNameEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionActionNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.LinkToQueryNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButton3EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonName2EditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.OperationButtonNameEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonEditPart;
+import org.opaeum.uimodeler.userinterface.diagram.edit.parts.TransitionButtonNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimDataTableEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimField2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldEditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldName2EditPart;
-import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UimFieldNameEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.UserInterfaceEditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanel2EditPart;
 import org.opaeum.uimodeler.userinterface.diagram.edit.parts.VerticalPanelEditPart;
@@ -117,34 +108,35 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getImage("Navigator?TopLevelNode?http://opaeum.org/uimetamodel/panel/1.0?VerticalPanel", UimElementTypes.VerticalPanel_2003); //$NON-NLS-1$
 		case UimFieldEditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/1.0?UimField", UimElementTypes.UimField_3001); //$NON-NLS-1$
-		case BuiltInActionEditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInAction", UimElementTypes.BuiltInAction_3002); //$NON-NLS-1$
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInActionButton", UimElementTypes.BuiltInActionButton_3018); //$NON-NLS-1$
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/panel/1.0?HorizontalPanel", UimElementTypes.HorizontalPanel_3003); //$NON-NLS-1$
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/panel/1.0?VerticalPanel", UimElementTypes.VerticalPanel_3004); //$NON-NLS-1$
-		case TransitionActionEditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?TransitionAction", UimElementTypes.TransitionAction_3005); //$NON-NLS-1$
-		case OperationActionEditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationAction", UimElementTypes.OperationAction_3006); //$NON-NLS-1$
-		case LinkToOperationEditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?LinkToOperation", UimElementTypes.LinkToOperation_3007); //$NON-NLS-1$
-		case LinkToEntityEditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?LinkToEntity", UimElementTypes.LinkToEntity_3008); //$NON-NLS-1$
+		case TransitionButtonEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?TransitionButton", UimElementTypes.TransitionButton_3019); //$NON-NLS-1$
+		case OperationButtonEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationButton", UimElementTypes.OperationButton_3020); //$NON-NLS-1$
+		case LinkToQueryEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?LinkToQuery", UimElementTypes.LinkToQuery_3021); //$NON-NLS-1$
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInLink", UimElementTypes.BuiltInLink_3022); //$NON-NLS-1$
 		case UimDataTableEditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/1.0?UimDataTable", UimElementTypes.UimDataTable_3009); //$NON-NLS-1$
 		case UimField2EditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/1.0?UimField", UimElementTypes.UimField_3010); //$NON-NLS-1$
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?LinkToEntity", UimElementTypes.LinkToEntity_3011); //$NON-NLS-1$
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInAction", UimElementTypes.BuiltInAction_3012); //$NON-NLS-1$
-		case OperationAction2EditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationAction", UimElementTypes.OperationAction_3014); //$NON-NLS-1$
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInAction", UimElementTypes.BuiltInAction_3015); //$NON-NLS-1$
-		case OperationAction3EditPart.VISUAL_ID:
-			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationAction", UimElementTypes.OperationAction_3016); //$NON-NLS-1$
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInActionButton", UimElementTypes.BuiltInActionButton_3023); //$NON-NLS-1$
+		case OperationButton2EditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationButton", UimElementTypes.OperationButton_3024); //$NON-NLS-1$
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return getImage(
+					"Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?BuiltInActionButton", UimElementTypes.BuiltInActionButton_3025); //$NON-NLS-1$
+		case OperationButton3EditPart.VISUAL_ID:
+			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/action/1.0?OperationButton", UimElementTypes.OperationButton_3026); //$NON-NLS-1$
 		case GridPanel2EditPart.VISUAL_ID:
 			return getImage("Navigator?Node?http://opaeum.org/uimetamodel/panel/1.0?GridPanel", UimElementTypes.GridPanel_3017); //$NON-NLS-1$
 		}
@@ -201,34 +193,32 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getVerticalPanel_2003Text(view);
 		case UimFieldEditPart.VISUAL_ID:
 			return getUimField_3001Text(view);
-		case BuiltInActionEditPart.VISUAL_ID:
-			return getBuiltInAction_3002Text(view);
+		case BuiltInActionButtonEditPart.VISUAL_ID:
+			return getBuiltInActionButton_3018Text(view);
 		case HorizontalPanel2EditPart.VISUAL_ID:
 			return getHorizontalPanel_3003Text(view);
 		case VerticalPanel2EditPart.VISUAL_ID:
 			return getVerticalPanel_3004Text(view);
-		case TransitionActionEditPart.VISUAL_ID:
-			return getTransitionAction_3005Text(view);
-		case OperationActionEditPart.VISUAL_ID:
-			return getOperationAction_3006Text(view);
-		case LinkToOperationEditPart.VISUAL_ID:
-			return getLinkToOperation_3007Text(view);
-		case LinkToEntityEditPart.VISUAL_ID:
-			return getLinkToEntity_3008Text(view);
+		case TransitionButtonEditPart.VISUAL_ID:
+			return getTransitionButton_3019Text(view);
+		case OperationButtonEditPart.VISUAL_ID:
+			return getOperationButton_3020Text(view);
+		case LinkToQueryEditPart.VISUAL_ID:
+			return getLinkToQuery_3021Text(view);
+		case BuiltInLinkEditPart.VISUAL_ID:
+			return getBuiltInLink_3022Text(view);
 		case UimDataTableEditPart.VISUAL_ID:
 			return getUimDataTable_3009Text(view);
 		case UimField2EditPart.VISUAL_ID:
 			return getUimField_3010Text(view);
-		case LinkToEntity2EditPart.VISUAL_ID:
-			return getLinkToEntity_3011Text(view);
-		case BuiltInAction2EditPart.VISUAL_ID:
-			return getBuiltInAction_3012Text(view);
-		case OperationAction2EditPart.VISUAL_ID:
-			return getOperationAction_3014Text(view);
-		case BuiltInAction3EditPart.VISUAL_ID:
-			return getBuiltInAction_3015Text(view);
-		case OperationAction3EditPart.VISUAL_ID:
-			return getOperationAction_3016Text(view);
+		case BuiltInActionButton2EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3023Text(view);
+		case OperationButton2EditPart.VISUAL_ID:
+			return getOperationButton_3024Text(view);
+		case BuiltInActionButton3EditPart.VISUAL_ID:
+			return getBuiltInActionButton_3025Text(view);
+		case OperationButton3EditPart.VISUAL_ID:
+			return getOperationButton_3026Text(view);
 		case GridPanel2EditPart.VISUAL_ID:
 			return getGridPanel_3017Text(view);
 		}
@@ -298,49 +288,12 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	/**
 	 * @generated
 	 */
-	private String getBuiltInAction_3015Text(View view){
-		BuiltInAction domainModelElement = (BuiltInAction) view.getElement();
+	private String getBuiltInActionButton_3018Text(View view){
+		BuiltInActionButton domainModelElement = (BuiltInActionButton) view.getElement();
 		if(domainModelElement != null){
 			return domainModelElement.getName();
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3015); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
-		}
-	}
-	/**
-	 * @generated
-	 */
-	private String getOperationAction_3016Text(View view){
-		OperationAction domainModelElement = (OperationAction) view.getElement();
-		if(domainModelElement != null){
-			return domainModelElement.getName();
-		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3016); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
-		}
-	}
-	/**
-	 * @generated
-	 */
-	private String getGridPanel_3017Text(View view){
-		IParser parser = UimParserProvider.getParser(UimElementTypes.GridPanel_3017, view.getElement() != null ? view.getElement() : view,
-				UimVisualIDRegistry.getType(GridPanelName2EditPart.VISUAL_ID));
-		if(parser != null){
-			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
-		}else{
-			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5014); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
-		}
-	}
-	/**
-	 * @generated
-	 */
-	private String getBuiltInAction_3002Text(View view){
-		BuiltInAction domainModelElement = (BuiltInAction) view.getElement();
-		if(domainModelElement != null){
-			return domainModelElement.getName();
-		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3002); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3018); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -371,51 +324,52 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	/**
 	 * @generated
 	 */
-	private String getTransitionAction_3005Text(View view){
-		IParser parser = UimParserProvider.getParser(UimElementTypes.TransitionAction_3005, view.getElement() != null ? view.getElement()
-				: view, UimVisualIDRegistry.getType(TransitionActionNameEditPart.VISUAL_ID));
+	private String getTransitionButton_3019Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.TransitionButton_3019, view.getElement() != null ? view.getElement()
+				: view, UimVisualIDRegistry.getType(TransitionButtonNameEditPart.VISUAL_ID));
 		if(parser != null){
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5003); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5015); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getOperationAction_3006Text(View view){
-		OperationAction domainModelElement = (OperationAction) view.getElement();
-		if(domainModelElement != null){
-			return domainModelElement.getName();
+	private String getOperationButton_3020Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.OperationButton_3020,
+				view.getElement() != null ? view.getElement() : view, UimVisualIDRegistry.getType(OperationButtonNameEditPart.VISUAL_ID));
+		if(parser != null){
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3006); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5016); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getLinkToOperation_3007Text(View view){
-		IParser parser = UimParserProvider.getParser(UimElementTypes.LinkToOperation_3007,
-				view.getElement() != null ? view.getElement() : view, UimVisualIDRegistry.getType(LinkToOperationNameEditPart.VISUAL_ID));
+	private String getLinkToQuery_3021Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.LinkToQuery_3021, view.getElement() != null ? view.getElement() : view,
+				UimVisualIDRegistry.getType(LinkToQueryNameEditPart.VISUAL_ID));
 		if(parser != null){
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5005); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5017); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getLinkToEntity_3008Text(View view){
-		IParser parser = UimParserProvider.getParser(UimElementTypes.LinkToEntity_3008, view.getElement() != null ? view.getElement() : view,
-				UimVisualIDRegistry.getType(LinkToEntityNameEditPart.VISUAL_ID));
+	private String getBuiltInLink_3022Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.BuiltInLink_3022, view.getElement() != null ? view.getElement() : view,
+				UimVisualIDRegistry.getType(BuiltInLinkNameEditPart.VISUAL_ID));
 		if(parser != null){
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5006); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5018); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
@@ -446,36 +400,62 @@ public class UimNavigatorLabelProvider extends LabelProvider implements ICommonL
 	/**
 	 * @generated
 	 */
-	private String getLinkToEntity_3011Text(View view){
-		LinkToEntity domainModelElement = (LinkToEntity) view.getElement();
+	private String getBuiltInActionButton_3023Text(View view){
+		BuiltInActionButton domainModelElement = (BuiltInActionButton) view.getElement();
 		if(domainModelElement != null){
 			return domainModelElement.getName();
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3011); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3023); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getBuiltInAction_3012Text(View view){
-		BuiltInAction domainModelElement = (BuiltInAction) view.getElement();
+	private String getOperationButton_3024Text(View view){
+		OperationButton domainModelElement = (OperationButton) view.getElement();
 		if(domainModelElement != null){
 			return domainModelElement.getName();
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3012); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3024); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}
 	/**
 	 * @generated
 	 */
-	private String getOperationAction_3014Text(View view){
-		OperationAction domainModelElement = (OperationAction) view.getElement();
+	private String getBuiltInActionButton_3025Text(View view){
+		BuiltInActionButton domainModelElement = (BuiltInActionButton) view.getElement();
 		if(domainModelElement != null){
 			return domainModelElement.getName();
 		}else{
-			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3014); //$NON-NLS-1$
+			UimDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 3025); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getOperationButton_3026Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.OperationButton_3026,
+				view.getElement() != null ? view.getElement() : view, UimVisualIDRegistry.getType(OperationButtonName2EditPart.VISUAL_ID));
+		if(parser != null){
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5019); //$NON-NLS-1$
+			return ""; //$NON-NLS-1$
+		}
+	}
+	/**
+	 * @generated
+	 */
+	private String getGridPanel_3017Text(View view){
+		IParser parser = UimParserProvider.getParser(UimElementTypes.GridPanel_3017, view.getElement() != null ? view.getElement() : view,
+				UimVisualIDRegistry.getType(GridPanelName2EditPart.VISUAL_ID));
+		if(parser != null){
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view), ParserOptions.NONE.intValue());
+		}else{
+			UimDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5014); //$NON-NLS-1$
 			return ""; //$NON-NLS-1$
 		}
 	}

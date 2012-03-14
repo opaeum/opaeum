@@ -22,58 +22,49 @@ public interface ActionFactory extends EFactory {
 	ActionFactory eINSTANCE = org.opaeum.uim.action.impl.ActionFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Built In Action</em>'.
+	 * Returns a new object of class '<em>Built In Action Button</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Built In Action</em>'.
+	 * @return a new object of class '<em>Built In Action Button</em>'.
 	 * @generated
 	 */
-	BuiltInAction createBuiltInAction();
+	BuiltInActionButton createBuiltInActionButton();
 
 	/**
-	 * Returns a new object of class '<em>Transition Action</em>'.
+	 * Returns a new object of class '<em>Transition Button</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Transition Action</em>'.
+	 * @return a new object of class '<em>Transition Button</em>'.
 	 * @generated
 	 */
-	TransitionAction createTransitionAction();
+	TransitionButton createTransitionButton();
 
 	/**
-	 * Returns a new object of class '<em>Link To Operation</em>'.
+	 * Returns a new object of class '<em>Link To Query</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Link To Operation</em>'.
+	 * @return a new object of class '<em>Link To Query</em>'.
 	 * @generated
 	 */
-	LinkToOperation createLinkToOperation();
+	LinkToQuery createLinkToQuery();
 
 	/**
-	 * Returns a new object of class '<em>Operation Action</em>'.
+	 * Returns a new object of class '<em>Operation Button</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Action</em>'.
+	 * @return a new object of class '<em>Operation Button</em>'.
 	 * @generated
 	 */
-	OperationAction createOperationAction();
+	OperationButton createOperationButton();
 
 	/**
-	 * Returns a new object of class '<em>Link To Entity</em>'.
+	 * Returns a new object of class '<em>Operation Popup</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Link To Entity</em>'.
+	 * @return a new object of class '<em>Operation Popup</em>'.
 	 * @generated
 	 */
-	LinkToEntity createLinkToEntity();
-
-	/**
-	 * Returns a new object of class '<em>Operation Action Popup</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Action Popup</em>'.
-	 * @generated
-	 */
-	OperationActionPopup createOperationActionPopup();
+	OperationPopup createOperationPopup();
 
 	/**
 	 * Returns a new object of class '<em>Operation Popup Page</em>'.
@@ -83,6 +74,15 @@ public interface ActionFactory extends EFactory {
 	 * @generated
 	 */
 	OperationPopupPage createOperationPopupPage();
+
+	/**
+	 * Returns a new object of class '<em>Built In Link</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Built In Link</em>'.
+	 * @generated
+	 */
+	BuiltInLink createBuiltInLink();
 
 	/**
 	 * Returns the package supported by this factory.

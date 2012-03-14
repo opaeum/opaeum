@@ -79,7 +79,7 @@ public class UimCreationWizard extends Wizard implements INewWizard{
 		this.workbench = workbench;
 		this.selection = selection;
 		setWindowTitle(Messages.UimCreationWizardTitle);
-		setDefaultPageImageDescriptor(UimDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewUimWizard.gif")); //$NON-NLS-1$
+		setDefaultPageImageDescriptor(UimDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewEditorWizard.gif")); //$NON-NLS-1$
 		setNeedsProgressMonitor(true);
 	}
 	/**

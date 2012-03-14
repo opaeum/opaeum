@@ -16,7 +16,7 @@ package org.opaeum.uim.panel;
  * </p>
  *
  * @see org.opaeum.uim.panel.PanelPackage#getCollapsiblePanel()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface CollapsiblePanel extends AbstractPanel, Outlayable {

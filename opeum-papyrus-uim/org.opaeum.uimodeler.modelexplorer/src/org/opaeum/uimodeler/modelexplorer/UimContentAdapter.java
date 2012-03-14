@@ -8,7 +8,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uim.action.OperationAction;
+import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.binding.UimBinding;
 import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uim.util.ControlUtil;
@@ -18,9 +18,9 @@ public class UimContentAdapter extends EContentAdapter{
 	@Override
 	public void notifyChanged(Notification notification){
 		super.notifyChanged(notification);
-		if(notification.getNewValue() instanceof OperationAction && notification.getEventType() == Notification.ADD){
-			OperationAction a=(OperationAction) notification.getNewValue() ;
-			a.setPopup(org.opaeum.uim.action.ActionFactory.eINSTANCE.createOperationActionPopup());
+		if(notification.getNewValue() instanceof OperationButton && notification.getEventType() == Notification.ADD){
+			OperationButton a=(OperationButton) notification.getNewValue() ;
+			a.setPopup(org.opaeum.uim.action.ActionFactory.eINSTANCE.createOperationPopup());
 		}
 		if(notification.getNotifier() instanceof UimField && notification.getEventType() == Notification.SET){
 			UimField field = (UimField) notification.getNotifier();

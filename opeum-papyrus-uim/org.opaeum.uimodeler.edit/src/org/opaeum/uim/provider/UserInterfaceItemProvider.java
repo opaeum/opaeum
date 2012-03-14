@@ -187,11 +187,6 @@ public class UserInterfaceItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UimPackage.Literals.USER_INTERFACE__PANEL,
-				 PanelFactory.eINSTANCE.createCollapsiblePanel()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UimPackage.Literals.USER_INTERFACE__PANEL,
 				 PanelFactory.eINSTANCE.createGridPanel()));
 
 		newChildDescriptors.add

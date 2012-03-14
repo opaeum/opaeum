@@ -6,11 +6,10 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.uim.UimContainer;
 import org.opaeum.uim.UmlReference;
-import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.TransitionButton;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.binding.FieldBinding;
-import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.TableBinding;
 
 @StepDependency(phase = UimSynchronizationPhase.class)
@@ -30,12 +29,7 @@ public class UimCleanup extends AbstractUimSynchronizer{
 					UimContainer parent = fb.getTable().getParent();
 					parent.getChildren().remove(fb.getTable());
 				}
-				if(ur instanceof NavigationBinding){
-					NavigationBinding fb = (NavigationBinding) ur;
-					UimContainer parent = fb.getNavigation().getParent();
-					parent.getChildren().remove(fb.getNavigation());
-				}
-				if(ur instanceof OperationAction || ur instanceof TransitionAction){
+				if(ur instanceof OperationButton || ur instanceof TransitionButton){
 					UimAction oa = (UimAction) ur;
 					UimContainer parent = oa.getParent();
 					parent.getChildren().remove(oa);

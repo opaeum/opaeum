@@ -3,10 +3,8 @@
 package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.opaeum.uim.action.ActionPackage;
 import org.opaeum.uim.action.OperationPopupPage;
-
 import org.opaeum.uim.impl.PageImpl;
 
 /**

@@ -29,12 +29,12 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
-import org.opaeum.uim.figures.CustomGridPanelFigure;
-import org.opaeum.uim.figures.GridPanelEventAdapter;
+import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
+import org.opaeum.uimodeler.common.figures.GridPanelEventAdapter;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
-import org.opaeum.uimodeler.util.UimFigureUtil;
 
 /**
  * @generated

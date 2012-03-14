@@ -20,7 +20,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.draw2d,
  org.opaeum.eclipse.uml.propertysections,
  org.eclipse.uml2.uml.edit,
- org.eclipse.uml2.uml.editor
+ org.eclipse.uml2.uml.editor,
+ org.opaeum.compilation.uim,
+ org.opaeum.transformation.engine
 Eclipse-LazyStart: true
 Export-Package: org.opaeum.uim.userinteractionproperties,
  org.opaeum.uim.userinteractionproperties.providers,

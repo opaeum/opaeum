@@ -12,20 +12,19 @@ import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
-import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.*;
 import org.opaeum.uim.action.ActionPackage;
-import org.opaeum.uim.action.BuiltInAction;
-import org.opaeum.uim.action.LinkToEntity;
-import org.opaeum.uim.action.LinkToOperation;
-import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.action.OperationActionPopup;
-import org.opaeum.uim.action.TransitionAction;
+import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
+import org.opaeum.uim.action.LinkToQuery;
+import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.OperationPopup;
+import org.opaeum.uim.action.OperationPopupPage;
+import org.opaeum.uim.action.TransitionButton;
 import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.constraint.ConstrainedObject;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
-import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.panel.Outlayable;
 
 /**
@@ -85,40 +84,40 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	protected ActionSwitch<Adapter> modelSwitch =
 		new ActionSwitch<Adapter>() {
 			@Override
-			public Adapter caseBuiltInAction(BuiltInAction object) {
-				return createBuiltInActionAdapter();
+			public Adapter caseBuiltInActionButton(BuiltInActionButton object) {
+				return createBuiltInActionButtonAdapter();
 			}
 			@Override
 			public Adapter caseUimAction(UimAction object) {
 				return createUimActionAdapter();
 			}
 			@Override
-			public Adapter caseTransitionAction(TransitionAction object) {
-				return createTransitionActionAdapter();
+			public Adapter caseTransitionButton(TransitionButton object) {
+				return createTransitionButtonAdapter();
 			}
 			@Override
-			public Adapter caseLinkToOperation(LinkToOperation object) {
-				return createLinkToOperationAdapter();
+			public Adapter caseLinkToQuery(LinkToQuery object) {
+				return createLinkToQueryAdapter();
 			}
 			@Override
-			public Adapter caseOperationAction(OperationAction object) {
-				return createOperationActionAdapter();
+			public Adapter caseOperationButton(OperationButton object) {
+				return createOperationButtonAdapter();
 			}
 			@Override
 			public Adapter caseUimLink(UimLink object) {
 				return createUimLinkAdapter();
 			}
 			@Override
-			public Adapter caseLinkToEntity(LinkToEntity object) {
-				return createLinkToEntityAdapter();
-			}
-			@Override
-			public Adapter caseOperationActionPopup(OperationActionPopup object) {
-				return createOperationActionPopupAdapter();
+			public Adapter caseOperationPopup(OperationPopup object) {
+				return createOperationPopupAdapter();
 			}
 			@Override
 			public Adapter caseOperationPopupPage(OperationPopupPage object) {
 				return createOperationPopupPageAdapter();
+			}
+			@Override
+			public Adapter caseBuiltInLink(BuiltInLink object) {
+				return createBuiltInLinkAdapter();
 			}
 			@Override
 			public Adapter caseUserInteractionElement(UserInteractionElement object) {
@@ -177,16 +176,16 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.BuiltInAction <em>Built In Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.BuiltInActionButton <em>Built In Action Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.BuiltInAction
+	 * @see org.opaeum.uim.action.BuiltInActionButton
 	 * @generated
 	 */
-	public Adapter createBuiltInActionAdapter() {
+	public Adapter createBuiltInActionButtonAdapter() {
 		return null;
 	}
 
@@ -205,44 +204,44 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.TransitionAction <em>Transition Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.TransitionButton <em>Transition Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.TransitionAction
+	 * @see org.opaeum.uim.action.TransitionButton
 	 * @generated
 	 */
-	public Adapter createTransitionActionAdapter() {
+	public Adapter createTransitionButtonAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.LinkToOperation <em>Link To Operation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.LinkToQuery <em>Link To Query</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.LinkToOperation
+	 * @see org.opaeum.uim.action.LinkToQuery
 	 * @generated
 	 */
-	public Adapter createLinkToOperationAdapter() {
+	public Adapter createLinkToQueryAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationAction <em>Operation Action</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationButton <em>Operation Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.OperationAction
+	 * @see org.opaeum.uim.action.OperationButton
 	 * @generated
 	 */
-	public Adapter createOperationActionAdapter() {
+	public Adapter createOperationButtonAdapter() {
 		return null;
 	}
 
@@ -261,30 +260,16 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.LinkToEntity <em>Link To Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationPopup <em>Operation Popup</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.LinkToEntity
+	 * @see org.opaeum.uim.action.OperationPopup
 	 * @generated
 	 */
-	public Adapter createLinkToEntityAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.OperationActionPopup <em>Operation Action Popup</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.action.OperationActionPopup
-	 * @generated
-	 */
-	public Adapter createOperationActionPopupAdapter() {
+	public Adapter createOperationPopupAdapter() {
 		return null;
 	}
 
@@ -299,6 +284,20 @@ public class ActionAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOperationPopupPageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.action.BuiltInLink <em>Built In Link</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.uim.action.BuiltInLink
+	 * @generated
+	 */
+	public Adapter createBuiltInLinkAdapter() {
 		return null;
 	}
 

@@ -1,6 +1,8 @@
 package org.opaeum.uim.userinteractionproperties.sections;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.jface.bindings.keys.ParseException;
+import org.eclipse.jface.fieldassist.ContentProposalAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -16,7 +18,7 @@ import org.topcased.tabbedproperties.sections.widgets.IText;
 public class TextControlAdapter extends Composite implements IText{
 	Text text;
 	boolean ctrlDown;
-	public TextControlAdapter(Composite parent,int style){
+	public TextControlAdapter(Composite parent,int style, ITypedElementProvider s){
 		super(parent,style);
         this.setLayout(new FillLayout());
 		text = new Text(this, SWT.BORDER);
@@ -55,6 +57,20 @@ public class TextControlAdapter extends Composite implements IText{
 				}
 			}
 		});
+		// "." and "#" will also activate the content proposals
+		char[] autoActivationCharacters = new char[]{
+			'.'
+		};
+		KeyStroke keyStroke;
+		try{
+			keyStroke = KeyStroke.getInstance("CTRL+SPACE");
+			// assume that myTextControl has already been created in some way
+			new ContentProposalAdapter(text, new TypedElementContentAdaptor(), new TypedElementContentProposalProvider(
+					s), keyStroke, autoActivationCharacters);
+		}catch(ParseException e){
+			e.printStackTrace();
+		}
+
 	}
 	public Control getTextControl(){
 		return text;

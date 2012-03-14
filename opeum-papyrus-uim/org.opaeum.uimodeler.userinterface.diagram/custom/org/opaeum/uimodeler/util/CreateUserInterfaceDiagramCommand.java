@@ -11,8 +11,7 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.papyrus.infra.gmfdiag.common.AbstractPapyrusGmfCreateDiagramCommandHandler;
 import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.action.ActionFactory;
-import org.opaeum.uim.action.OperationAction;
-import org.opaeum.uim.action.OperationActionPopup;
+import org.opaeum.uim.action.OperationPopup;
 import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.editor.AbstractEditor;
 import org.opaeum.uim.editor.EditorFactory;
@@ -64,8 +63,8 @@ public class CreateUserInterfaceDiagramCommand extends AbstractPapyrusGmfCreateD
 			editorPage = (EditorPage) owner;
 		}else if(owner instanceof WizardPage){
 			editorPage = (WizardPage) owner;
-		}else if(owner instanceof OperationActionPopup){
-			OperationActionPopup owner2 = (OperationActionPopup) owner;
+		}else if(owner instanceof OperationPopup){
+			OperationPopup owner2 = (OperationPopup) owner;
 			editorPage = ActionFactory.eINSTANCE.createOperationPopupPage();
 			owner2.getPages().add((OperationPopupPage) editorPage);
 		}else if(owner instanceof AbstractEditor){

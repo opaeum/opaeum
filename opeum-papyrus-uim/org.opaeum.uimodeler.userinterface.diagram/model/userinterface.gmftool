@@ -48,24 +48,6 @@
         <largeIcon
             xsi:type="gmftool:DefaultImage"/>
       </tools>
-      <tools
-          xsi:type="gmftool:CreationTool"
-          title="Column"
-          description="Create new Column">
-        <smallIcon
-            xsi:type="gmftool:DefaultImage"/>
-        <largeIcon
-            xsi:type="gmftool:DefaultImage"/>
-      </tools>
-      <tools
-          xsi:type="gmftool:CreationTool"
-          title="TableActionBar"
-          description="TableActionBar">
-        <smallIcon
-            xsi:type="gmftool:DefaultImage"/>
-        <largeIcon
-            xsi:type="gmftool:DefaultImage"/>
-      </tools>
     </tools>
     <tools
         xsi:type="gmftool:ToolGroup"
@@ -102,12 +84,12 @@
     </tools>
     <tools
         xsi:type="gmftool:ToolGroup"
-        title="Links and Actions"
+        title="Links and Buttons"
         collapsible="true">
       <tools
           xsi:type="gmftool:CreationTool"
-          title="BuiltInAction"
-          description="Create new BuiltInAction">
+          title="BuiltInActionButton"
+          description="Create new BuiltInActionButton">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon
@@ -115,8 +97,8 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="TransitionAction"
-          description="Create new TransitionAction">
+          title="TransitionButton"
+          description="Create new TransitionButton">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon
@@ -124,8 +106,8 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="OperationAction"
-          description="Create new OperationAction">
+          title="OperationButton"
+          description="Create new OperationButton">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon
@@ -133,8 +115,8 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="LinkToOperation"
-          description="Create new LinkToOperation">
+          title="LinkToQuery"
+          description="Create new LinkToQuery">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon
@@ -142,8 +124,8 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="LinkToEntity"
-          description="Create new LinkToEntity">
+          title="BuiltInLink"
+          description="Create new BuiltInLink">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
         <largeIcon

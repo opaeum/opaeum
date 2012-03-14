@@ -11,11 +11,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.wb.os.OSSupport;
+import org.opaeum.uimodeler.common.figures.CustomUimActionFigure;
+import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
 
 public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 	public CustomActionColumnFigure(Composite comp){
 		super((Composite) comp.getChildren()[1]);
-		Table table = ((UimDataTableComposite) comp).table;
+		Table table = ((UimDataTableComposite) comp).getTable();
 		column = new TableColumn(table, SWT.LEFT);
 		getWidget().addDisposeListener(new DisposeListener(){
 			@Override

@@ -37,7 +37,6 @@ import org.opaeum.metamodel.core.internal.NakedInterfaceRealizationImpl;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl;
-import org.opaeum.metamodel.profiles.INakedProfile;
 import org.opaeum.metamodel.usecases.INakedActor;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 
@@ -312,7 +311,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			toChildren.getSubsettedProperties().add(businessEnd);
 			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusiness().findAssociationEnd("businessCollaboration");
 			toRoot.getSubsettedProperties().add(collaborationEnd);
-		}else{
+		}else if(businessCollaboration!=null){
 			INakedProperty actorEnd = (INakedProperty) businessCollaboration.findAssociationEnd("businessActor");
 			toChildren.getSubsettedProperties().add(actorEnd);
 			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusinessActor().findAssociationEnd("businessCollaboration");

@@ -22,6 +22,15 @@ public interface EditorFactory extends EFactory {
 	EditorFactory eINSTANCE = org.opaeum.uim.editor.impl.EditorFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Abstract Editor</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Abstract Editor</em>'.
+	 * @generated
+	 */
+	AbstractEditor createAbstractEditor();
+
+	/**
 	 * Returns a new object of class '<em>Action Task Editor</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

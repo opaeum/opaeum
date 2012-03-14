@@ -78,22 +78,22 @@
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/dropdown"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/text"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/textArea"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/singleSelectListBox"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/listBox"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/checkBox"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/numberScroller"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/singleSelectTreeView"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/multiSelectTreeView"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/multiSelectListBox"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/singleSelectPopupSearch"/>
-        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/multiSelectPopupSearch"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/treeView"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/popupSearch"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/toggleButton"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/selectionTable"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/link"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/radioButton"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/label"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/dateScroller"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//control/ControlKind/dateTimePopup"/>
       </genEnums>
       <genClasses ecoreClass="Uim.ecore#//control/UimNumberScroller"/>
       <genClasses ecoreClass="Uim.ecore#//control/UimToggleButton"/>
-      <genClasses ecoreClass="Uim.ecore#//control/UimSingleSelectPopupSearch"/>
-      <genClasses ecoreClass="Uim.ecore#//control/UimMultiSelectPopupSearch"/>
-      <genClasses ecoreClass="Uim.ecore#//control/UimMultiSelectTreeView"/>
-      <genClasses ecoreClass="Uim.ecore#//control/UimMultiSelectListBox"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimPopupSearch"/>
       <genClasses ecoreClass="Uim.ecore#//control/UimDropdown"/>
       <genClasses ecoreClass="Uim.ecore#//control/UimCheckBox"/>
       <genClasses ecoreClass="Uim.ecore#//control/UimLookup">
@@ -104,15 +104,24 @@
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//control/UimText"/>
       <genClasses ecoreClass="Uim.ecore#//control/UimDatePopup"/>
-      <genClasses ecoreClass="Uim.ecore#//control/UimSingleSelectListBox">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimSingleSelectListBox/rows"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimListBox">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimListBox/rows"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//control/UimControl">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimControl/mimumWidth"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//control/UimControl/field"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//control/UimControl/minimumHeight"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//control/UimSingleSelectTreeView"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimTreeView"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimLinkControl">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference Uim.ecore#//control/UimLinkControl/editorToOpen"/>
+      </genClasses>
+      <genClasses ecoreClass="Uim.ecore#//control/UimDateScroller"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimSelectionTable"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimRadioButton"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimLabel"/>
+      <genClasses ecoreClass="Uim.ecore#//control/UimDateTimePopup"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="Editor" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//editor">
@@ -141,9 +150,6 @@
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//binding">
       <genClasses ecoreClass="Uim.ecore#//binding/LookupBinding">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/LookupBinding/lookup"/>
-      </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//binding/NavigationBinding">
-        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/NavigationBinding/navigation"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//binding/TableBinding">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//binding/TableBinding/table"/>
@@ -200,29 +206,31 @@
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/refresh"/>
         <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/ActionKind/revert"/>
       </genEnums>
-      <genClasses ecoreClass="Uim.ecore#//action/BuiltInAction">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInAction/kind"/>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="Uim.ecore#//action/BuiltInLinkKind">
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/auditTrail"/>
+        <genEnumLiterals ecoreEnumLiteral="Uim.ecore#//action/BuiltInLinkKind/businessIntelligence"/>
+      </genEnums>
+      <genClasses ecoreClass="Uim.ecore#//action/BuiltInActionButton">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInActionButton/kind"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//action/UimAction"/>
-      <genClasses ecoreClass="Uim.ecore#//action/TransitionAction"/>
-      <genClasses ecoreClass="Uim.ecore#//action/LinkToOperation">
+      <genClasses ecoreClass="Uim.ecore#//action/TransitionButton"/>
+      <genClasses ecoreClass="Uim.ecore#//action/LinkToQuery">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference Uim.ecore#//action/LinkToOperation/toForm"/>
+            ecoreFeature="ecore:EReference Uim.ecore#//action/LinkToQuery/toForm"/>
       </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//action/OperationAction">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference Uim.ecore#//action/OperationAction/popup"/>
+      <genClasses ecoreClass="Uim.ecore#//action/OperationButton">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationButton/popup"/>
       </genClasses>
       <genClasses image="false" ecoreClass="Uim.ecore#//action/UimLink"/>
-      <genClasses ecoreClass="Uim.ecore#//action/LinkToEntity">
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/LinkToEntity/binding"/>
-      </genClasses>
-      <genClasses ecoreClass="Uim.ecore#//action/OperationActionPopup">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference Uim.ecore#//action/OperationActionPopup/operationAction"/>
-        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationActionPopup/pages"/>
+      <genClasses ecoreClass="Uim.ecore#//action/OperationPopup">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationPopup/operationAction"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Uim.ecore#//action/OperationPopup/pages"/>
       </genClasses>
       <genClasses ecoreClass="Uim.ecore#//action/OperationPopupPage"/>
+      <genClasses ecoreClass="Uim.ecore#//action/BuiltInLink">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Uim.ecore#//action/BuiltInLink/kind"/>
+      </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="Panel" basePackage="org.opaeum.uim" resource="XML"
         disposableProviderFactory="true" ecorePackage="Uim.ecore#//panel">

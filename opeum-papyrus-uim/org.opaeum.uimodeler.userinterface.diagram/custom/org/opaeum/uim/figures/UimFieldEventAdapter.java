@@ -6,6 +6,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,7 +20,9 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.opaeum.uim.Orientation;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
-import org.opaeum.uimodeler.util.UimFigureUtil;
+import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
+import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 public final class UimFieldEventAdapter extends AbstractEventAdapter{
 	private IUimFieldFigure fig;
@@ -99,13 +102,18 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				fig.setControl(new Button(fig.getComposite(), SWT.CHECK));
 				break;
 			case DATE_POPUP:
+				fig.setControl(new DateTime(fig.getComposite(), SWT.BORDER | SWT.CALENDAR | SWT.DROP_DOWN|SWT.DATE));
+				break;
+			case DATE_TIME_POPUP:
+				fig.setControl(new DateTime(fig.getComposite(), SWT.BORDER | SWT.CALENDAR | SWT.DROP_DOWN | SWT.TIME | SWT.DATE));
+				break;
+			case DATE_SCROLLER:
 				fig.setControl(new DateTime(fig.getComposite(), SWT.BORDER));
 				break;
 			case DROPDOWN:
 				fig.setControl(new CCombo(fig.getComposite(), SWT.BORDER));
 				break;
-			case MULTI_SELECT_LIST_BOX:
-			case SINGLE_SELECT_LIST_BOX:
+			case LIST_BOX:
 				List list = new List(fig.getComposite(), SWT.BORDER | SWT.MULTI);
 				list.add("Item 1");
 				list.add("Item 2");
@@ -113,8 +121,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				list.add("Item 4");
 				fig.setControl(list);
 				break;
-			case MULTI_SELECT_TREE_VIEW:
-			case SINGLE_SELECT_TREE_VIEW:
+			case TREE_VIEW:
 				Tree tree = new Tree(fig.getComposite(), SWT.BORDER | SWT.MULTI);
 				TreeItem root = new TreeItem(tree, SWT.NONE);
 				root.setText("Root");
@@ -135,8 +142,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				tree.showItem(_1_2_2);
 				fig.setControl(tree);
 				break;
-			case MULTI_SELECT_POPUP_SEARCH:
-			case SINGLE_SELECT_POPUP_SEARCH:
+			case POPUP_SEARCH:
 				fig.setControl(new CSingleObjectChooser(fig.getComposite(), SWT.BORDER));
 				break;
 			case NUMBER_SCROLLER:
@@ -147,6 +153,30 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				break;
 			case TEXT_AREA:
 				fig.setControl(new Text(fig.getComposite(), SWT.BORDER | SWT.MULTI));
+				break;
+			case RADIO_BUTTON:
+				Composite radioGroup = new Composite(fig.getComposite(), SWT.BORDER);
+				radioGroup.setLayout(new GridLayout(3,true));
+				new Button(radioGroup, SWT.RADIO).setText("Option 1");
+				new Button(radioGroup, SWT.RADIO).setText("Option 2");
+				new Button(radioGroup, SWT.RADIO).setText("Option 3");
+				fig.setControl(radioGroup);
+				radioGroup.layout();
+				break;
+			case LINK:
+				Composite linkComposite = new LinkComposite(fig.getComposite(), SWT.BORDER);
+				fig.setControl(linkComposite);
+				break;
+			case LABEL:
+				CLabel label = new CLabel(fig.getComposite(), SWT.BORDER);
+				label.setText("<Object Name>");
+				fig.setControl(label);
+				break;
+			case TOGGLE_BUTTON:
+				fig.setControl(new Button(fig.getComposite(), SWT.TOGGLE));
+				break;
+			case SELECTION_TABLE:
+				fig.setControl(new Button(fig.getComposite(), SWT.TOGGLE));
 				break;
 			}
 		}

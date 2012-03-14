@@ -88,7 +88,7 @@ public class StereotypeNames{
 	public static final String NEW_OBJECT_INPUT = "NewObjectInput";
 	public static final String OPAEUM_BPM_PROFILE = "OpaeumBPMProfile.uml";
 	public static final String OPAEUM_BPM_LIBRARY = "OpaeumBPM.library.uml";
-	public static final String OPAEUM_SIMPLE_TYPES = "OpaeumSimpleTypes.library.uml";
+	public static final String OPAEUM_SIMPLE_TYPES = "OpaeumSimpleTypes.papyrus.uml";
 	public static final String OPAEUM_ORGANIZATION_LIBRARY = "OpaeumOrganization.library.uml";
 	public static final String MODEL_LIBRARY = "ModelLibrary";
 	public static final String BUSINESS_GATEWAY = "BusinessGateway";
@@ -111,4 +111,5 @@ public class StereotypeNames{
 	public static final String BUSINESS = "Business";
 	public static final String BUSINESS_DOCUMENT = "BusinessDocument";
 	public static final String ENUMERATION = "Enumeration";
+	public static final String DELEGATION = "Delegation";
 }

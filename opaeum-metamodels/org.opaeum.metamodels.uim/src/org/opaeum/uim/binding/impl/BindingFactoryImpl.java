@@ -12,7 +12,6 @@ import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.BindingPackage;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
-import org.opaeum.uim.binding.NavigationBinding;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.TableBinding;
 
@@ -61,7 +60,6 @@ public class BindingFactoryImpl extends EFactoryImpl implements BindingFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case BindingPackage.LOOKUP_BINDING: return createLookupBinding();
-			case BindingPackage.NAVIGATION_BINDING: return createNavigationBinding();
 			case BindingPackage.TABLE_BINDING: return createTableBinding();
 			case BindingPackage.FIELD_BINDING: return createFieldBinding();
 			case BindingPackage.PROPERTY_REF: return createPropertyRef();
@@ -78,16 +76,6 @@ public class BindingFactoryImpl extends EFactoryImpl implements BindingFactory {
 	public LookupBinding createLookupBinding() {
 		LookupBindingImpl lookupBinding = new LookupBindingImpl();
 		return lookupBinding;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NavigationBinding createNavigationBinding() {
-		NavigationBindingImpl navigationBinding = new NavigationBindingImpl();
-		return navigationBinding;
 	}
 
 	/**

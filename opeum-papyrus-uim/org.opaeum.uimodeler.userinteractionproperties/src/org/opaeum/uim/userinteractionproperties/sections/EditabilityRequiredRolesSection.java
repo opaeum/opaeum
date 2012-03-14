@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.opaeum.uim.constraint.ConstraintPackage;
 import org.opaeum.uim.constraint.EditableConstrainedObject;
 import org.opaeum.uim.constraint.UserInteractionConstraint;
+import org.opaeum.uim.userinteractionproperties.core.AbstractRequiredRolesSection;
 
 public class EditabilityRequiredRolesSection extends AbstractRequiredRolesSection{
 	@Override

@@ -1,11 +1,9 @@
 package org.opaeum.uim.figures;
 
-import java.util.Iterator;
-
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.opaeum.uimodeler.common.figures.AbstractPanelFigure;
+import org.opaeum.uimodeler.common.figures.ISWTFigure;
 
 /**
  * @generated NOT

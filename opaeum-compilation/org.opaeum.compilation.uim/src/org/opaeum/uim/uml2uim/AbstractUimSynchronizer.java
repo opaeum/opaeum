@@ -21,6 +21,10 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 
 	public AbstractUimSynchronizer(){
 	}
+	@Override
+	public void visitOnly(Element o){
+		super.visitOnly(o);
+	}
 	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate){
 		this.workspace = workspace;
 		init(workspace,resourceSet,  regenerate);

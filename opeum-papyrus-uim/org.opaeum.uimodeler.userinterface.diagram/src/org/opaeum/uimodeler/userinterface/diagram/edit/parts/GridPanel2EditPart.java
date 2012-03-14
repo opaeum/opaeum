@@ -29,6 +29,8 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
+import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanel2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
@@ -87,16 +89,16 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 		return lep;
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new GridPanelFigure();
+		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(2,2));
 	}
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
-	public GridPanelFigure getPrimaryShape(){
-		return (GridPanelFigure) primaryShape;
+	public CustomGridPanelFigure getPrimaryShape(){
+		return (CustomGridPanelFigure) primaryShape;
 	}
 	/**
 	 * @generated

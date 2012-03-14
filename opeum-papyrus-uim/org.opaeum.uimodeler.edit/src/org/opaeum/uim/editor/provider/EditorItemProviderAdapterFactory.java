@@ -70,6 +70,29 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.AbstractEditor} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AbstractEditorItemProvider abstractEditorItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.uim.editor.AbstractEditor}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAbstractEditorAdapter() {
+		if (abstractEditorItemProvider == null) {
+			abstractEditorItemProvider = new AbstractEditorItemProvider(this);
+		}
+
+		return abstractEditorItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.editor.ActionTaskEditor} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -352,6 +375,7 @@ public class EditorItemProviderAdapterFactory extends EditorAdapterFactory imple
 	 * @generated
 	 */
 	public void dispose() {
+		if (abstractEditorItemProvider != null) abstractEditorItemProvider.dispose();
 		if (actionTaskEditorItemProvider != null) actionTaskEditorItemProvider.dispose();
 		if (classEditorItemProvider != null) classEditorItemProvider.dispose();
 		if (responsibilityTaskEditorItemProvider != null) responsibilityTaskEditorItemProvider.dispose();

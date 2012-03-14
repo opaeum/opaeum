@@ -3,11 +3,8 @@
 package org.opaeum.uim.impl;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.opaeum.uim.Page;
 import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimPackage;

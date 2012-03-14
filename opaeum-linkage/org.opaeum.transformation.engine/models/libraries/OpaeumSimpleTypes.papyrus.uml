@@ -47,7 +47,7 @@
       <eAnnotations xmi:id="_P5TqsGEfEeGff9Jee87ugA" source="http://www.opaeum.org"/>
     </packagedElement>
     <profileApplication xmi:id="_e8qRkM5VEeC1yrA33E3a4g">
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
   <OpaeumStandardProfile:Model xmi:id="_8D9EgNYvEeCbpsr9qtLjVA" mappedImplementationPackage="org.opaeum.runtime.bpm.opaeumsimpletypes" base_Model="_qb8akM37EdqwVrslYOdUDA" modelType="REFERENCED_LIBRARY"/>

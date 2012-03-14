@@ -19,7 +19,7 @@ import org.eclipse.papyrus.infra.gmfdiag.common.editpart.PapyrusDiagramEditPart;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
 import org.eclipse.papyrus.uml.diagram.common.providers.ViewInfo;
 import org.eclipse.papyrus.uml.diagram.common.util.MDTUtil;
-import org.opaeum.uim.figures.CustomUserInterfaceFigure;
+import org.opaeum.uimodeler.common.figures.CustomDiagramFigure;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UserInterfaceItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimVisualIDRegistry;
 
@@ -108,7 +108,7 @@ public class UserInterfaceEditPart extends PapyrusDiagramEditPart{
 		// to treat this layer (Primary Layer) as if it were opaque.
 		// This is for the grid layer so that it can be seen beneath the
 		// figures.
-		IFigure f = new CustomUserInterfaceFigure();
+		IFigure f = new CustomDiagramFigure();
 		f.setLayoutManager(new FreeFormLayoutEx());
 		f.addLayoutListener(LayoutAnimator.getDefault());
 		return f;
