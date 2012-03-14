@@ -24,11 +24,11 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
-	private final static String CREATETRANSITIONBUTTON2CREATIONTOOL = "createTransitionButton2CreationTool"; //$NON-NLS-1$
+	private final static String CREATETAKETRANSITIONBUTTON2CREATIONTOOL = "createTakeTransitionButton2CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
-	private final static String CREATEOPERATIONBUTTON3CREATIONTOOL = "createOperationButton3CreationTool"; //$NON-NLS-1$
+	private final static String CREATEOPERATIONCALLBUTTON3CREATIONTOOL = "createOperationCallButton3CreationTool"; //$NON-NLS-1$
 	/**
 	 * @generated
 	 */
@@ -52,11 +52,11 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 		if(toolId.equals(CREATEBUILTINACTIONBUTTON1CREATIONTOOL)){
 			return createBuiltinActionButton1CreationTool();
 		}
-		if(toolId.equals(CREATETRANSITIONBUTTON2CREATIONTOOL)){
-			return createTransitionButton2CreationTool();
+		if(toolId.equals(CREATETAKETRANSITIONBUTTON2CREATIONTOOL)){
+			return createTakeTransitionButton2CreationTool();
 		}
-		if(toolId.equals(CREATEOPERATIONBUTTON3CREATIONTOOL)){
-			return createOperationButton3CreationTool();
+		if(toolId.equals(CREATEOPERATIONCALLBUTTON3CREATIONTOOL)){
+			return createOperationCallButton3CreationTool();
 		}
 		if(toolId.equals(CREATELINKTOQUERY1CREATIONTOOL)){
 			return createLinkToQuery1CreationTool();
@@ -95,7 +95,7 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
-	private Tool createTransitionButton2CreationTool(){
+	private Tool createTakeTransitionButton2CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UimElementTypes.TransitionButton_3005);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);
@@ -104,7 +104,7 @@ public class UimPaletteFactory extends PaletteFactory.Adapter{
 	/**
 	 * @generated
 	 */
-	private Tool createOperationButton3CreationTool(){
+	private Tool createOperationCallButton3CreationTool(){
 		List<IElementType> types = new ArrayList<IElementType>(1);
 		types.add(UimElementTypes.OperationButton_3003);
 		Tool tool = new AspectUnspecifiedTypeCreationTool(types);

@@ -1,13 +1,6 @@
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
-TRansformation
-Correct orientation and sizing of labels and controls
-Generate EditorActionBar diagram
-Figures:
-ActionBar diagram
-Link(s) orientation
 PropertySections:
 operation LinkToQuery section
-Remove targetForm from LinkToQuery
 Built in Link kind section
 
 New Tasks:

@@ -87,11 +87,11 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		for(Control control:widget.getChildren()){
 			IFigure f = (IFigure) control.getData(UimFigureUtil.FIGURE);
 			IFigure parent = f.getParent();
-			parent.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
-			f.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
+//			parent.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
+//			f.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
 			// Avoid invalidating the tree at this point VOODOO code!!!! Somehow it works
 			UimFigureUtil.applyBounds(parent.getBounds(), control.getBounds());
-			// UimFigureUtil.applyBounds(f.getBounds(), control.getBounds());
+			 UimFigureUtil.applyBounds(f.getBounds(), control.getBounds());
 			control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		}
 	}

@@ -232,19 +232,19 @@ public class Messages extends NLS{
 	/**
 	 * @generated
 	 */
-	public static String createTransitionButton2CreationTool_title;
+	public static String createTakeTransitionButton2CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createTransitionButton2CreationTool_desc;
+	public static String createTakeTransitionButton2CreationTool_desc;
 	/**
 	 * @generated
 	 */
-	public static String createOperationButton3CreationTool_title;
+	public static String createOperationCallButton3CreationTool_title;
 	/**
 	 * @generated
 	 */
-	public static String createOperationButton3CreationTool_desc;
+	public static String createOperationCallButton3CreationTool_desc;
 	/**
 	 * @generated
 	 */

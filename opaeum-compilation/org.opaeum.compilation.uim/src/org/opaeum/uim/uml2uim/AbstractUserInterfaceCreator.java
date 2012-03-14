@@ -14,6 +14,7 @@ import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.EmfPropertyUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
+import org.opaeum.uim.Orientation;
 import org.opaeum.uim.Page;
 import org.opaeum.uim.PageContainer;
 import org.opaeum.uim.UimContainer;
@@ -40,7 +41,9 @@ public abstract class AbstractUserInterfaceCreator{
 	public AbstractUserInterfaceCreator(EmfWorkspace w){
 		this.workspace = w;
 	}
-	public void prepareFormPanel(PageContainer contaier, String title,Collection<? extends TypedElement> typedElements){
+	protected abstract Page addPage(PageContainer contaier);
+	protected abstract UserInterfaceEntryPoint getUserInterfaceEntryPoint();
+	public void prepareFormPanel(PageContainer contaier,String title,Collection<? extends TypedElement> typedElements){
 		Page page = addPage(contaier);
 		page.setName(title);
 		GridPanel layout = PanelFactory.eINSTANCE.createGridPanel();
@@ -48,15 +51,13 @@ public abstract class AbstractUserInterfaceCreator{
 		page.setPanel(layout);
 		addUserFields(contaier, layout, typedElements);
 	}
-	protected abstract Page addPage(PageContainer contaier);
-	protected abstract UserInterfaceEntryPoint getUserInterfaceEntryPoint();
-	private void addUserFields(PageContainer pc, UimContainer layout, Collection<? extends TypedElement> typedElements){
+	private void addUserFields(PageContainer pc,UimContainer layout,Collection<? extends TypedElement> typedElements){
 		for(TypedElement property:typedElements){
 			if(property instanceof Property && ((Property) property).getOtherEnd() != null && ((Property) property).getOtherEnd().isComposite()){
 			}else if(requiresTableTab(layout, property)){
-				addTableTabForField(pc,property);
+				addTableTabForField(pc, property);
 			}else if(requiresDetailsTab(layout, property)){
-				addDetailsTabForField(pc,property);
+				addDetailsTabForField(pc, property);
 			}else{
 				addUserField(layout, 390, property);
 			}
@@ -98,9 +99,9 @@ public abstract class AbstractUserInterfaceCreator{
 		Classifier type = (Classifier) e.getType();
 		Collection<Property> attrs = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(type);
 		for(Property property:attrs){
-			boolean isCreateParameter = e instanceof Parameter && ((Parameter) e).getEffect()==ParameterEffectKind.CREATE_LITERAL;
+			boolean isCreateParameter = e instanceof Parameter && ((Parameter) e).getEffect() == ParameterEffectKind.CREATE_LITERAL;
 			boolean isNonComposite = property.getOtherEnd() == null || !property.getOtherEnd().isComposite();
-			if((isNonComposite||isCreateParameter) && !EmfPropertyUtil.isMany(property)){
+			if((isNonComposite || isCreateParameter) && !EmfPropertyUtil.isMany(property)){
 				addUserField(table, 0, property);
 			}
 		}
@@ -123,7 +124,7 @@ public abstract class AbstractUserInterfaceCreator{
 				action.setUmlElementUid(workspace.getId(operation));
 				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
 				action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
-				prepareFormPanel(action.getPopup(),action.getName(), operation.getOwnedParameters());
+				prepareFormPanel(action.getPopup(), action.getName(), operation.getOwnedParameters());
 			}
 		}
 	}
@@ -146,16 +147,18 @@ public abstract class AbstractUserInterfaceCreator{
 		return property.getType() instanceof org.eclipse.uml2.uml.Class && !EmfPropertyUtil.isMany(property)
 				&& (!ControlUtil.requiresUserInput(UmlUimLinks.getNearestForm(layout), property) || EmfPropertyUtil.isComposite(property));
 	}
-	int addUserField(UimContainer layout,int labelWidth,TypedElement...properties){
+	void addUserField(UimContainer container,int labelWidth,TypedElement...properties){
 		TypedElement property = properties[properties.length - 1];
 		UimField uf = UimFactory.eINSTANCE.createUimField();
 		uf.setMinimumLabelWidth(labelWidth < 100 ? 0 : labelWidth / 2);
 		uf.setName(NameConverter.separateWords(property.getName()));
-		ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestForm(layout), property);
+		ControlKind controlKind = ControlUtil.getPreferredControlKind(UmlUimLinks.getNearestForm(container), property,
+				container instanceof UimDataTable);
 		uf.setControlKind(controlKind);
 		uf.setControl(ControlUtil.instantiate(uf.getControlKind()));
 		FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
 		uf.setBinding(binding);
+		uf.setFillHorizontally(true);
 		binding.setUmlElementUid(workspace.getId(properties[0]));
 		if(properties.length > 1){
 			PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
@@ -168,9 +171,13 @@ public abstract class AbstractUserInterfaceCreator{
 				prev = next;
 			}
 		}
-		// TODO lookupBinding
-		layout.getChildren().add(uf);
-		int height = ControlUtil.isMultiRow(controlKind) ? 200 : 25;
-		return height;
+		container.getChildren().add(uf);
+		if(ControlUtil.isMultiRow(controlKind)){
+			uf.setPreferredHeight(150);
+			uf.setOrientation(Orientation.VERTICAL);
+		}else{
+			uf.setPreferredHeight(25);
+			uf.setOrientation(Orientation.HORIZONTAL);
+		}
 	}
 }

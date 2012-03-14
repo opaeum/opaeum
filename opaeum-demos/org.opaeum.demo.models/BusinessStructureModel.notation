@@ -251,6 +251,10 @@
           <element xmi:type="uml:Operation" href="BusinessStructureModel.uml#_vaiUUGK1EeGb14EjInbIAA"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_vbCDkWK1EeGb14EjInbIAA"/>
         </children>
+        <children xmi:type="notation:Shape" xmi:id="_Bkcg4G33EeGRLMabaulNTg" type="3013" fontName="Sans" fontHeight="8" lineColor="0">
+          <element xmi:type="uml:Operation" href="BusinessStructureModel.uml#_BkEGYG33EeGRLMabaulNTg"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_Bkcg4W33EeGRLMabaulNTg"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_trNEsWK1EeGb14EjInbIAA"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_trNEsmK1EeGb14EjInbIAA"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_trNEs2K1EeGb14EjInbIAA"/>

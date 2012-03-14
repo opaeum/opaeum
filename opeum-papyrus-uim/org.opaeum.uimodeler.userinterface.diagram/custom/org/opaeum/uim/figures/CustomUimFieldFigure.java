@@ -74,6 +74,7 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		if(size != null){
 			((GridData) getLabel().getLayoutData()).minimumWidth = size;
 			((GridData) getLabel().getLayoutData()).widthHint = size;
+			getComposite().layout();
 		}
 	}
 	public void setMinimumLabelHeigh(Integer size){

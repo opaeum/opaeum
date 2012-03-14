@@ -72,6 +72,12 @@
           <eAnnotations xmi:id="_4vzakGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
         </ownedParameter>
       </ownedOperation>
+      <ownedOperation xmi:id="_BkEGYG33EeGRLMabaulNTg" name="theQuery" isQuery="true">
+        <eAnnotations xmi:id="_BpuCcG33EeGRLMabaulNTg" source="http://www.opaeum.org"/>
+        <ownedParameter xmi:id="_CXfucG33EeGRLMabaulNTg" name="param0" type="_-N6PwGK6EeGNuoaMwaBk1w" direction="return">
+          <eAnnotations xmi:id="_CcWZQG33EeGRLMabaulNTg" source="http://www.opaeum.org"/>
+        </ownedParameter>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_-N6PwGK6EeGNuoaMwaBk1w" clientDependency="_-YXzUGK6EeGNuoaMwaBk1w" name="Supplier">
       <eAnnotations xmi:id="_-RXzcGK6EeGNuoaMwaBk1w" source="http://www.opaeum.org"/>

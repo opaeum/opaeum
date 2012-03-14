@@ -274,7 +274,6 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="An operationNavigation is typically rendered as a menu item of some sort, and takes the user to an operationUserInteraction"/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="toForm" eType="#//editor/QueryInvocationEditor"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationButton" eSuperTypes="#//action/UimAction #//UmlReference">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

@@ -27,7 +27,7 @@ import org.topcased.tabbedproperties.AbstractTabbedPropertySheetPage;
 import org.topcased.tabbedproperties.internal.utils.Messages;
 import org.topcased.tabbedproperties.providers.TabbedPropertiesLabelProvider;
 
-public class OperationActionOperationSection extends OpaeumChooserPropertySection{
+public class OperationButtonOperationSection extends OpaeumChooserPropertySection{
 	protected String getLabelText(){
 		return "Operation:";
 	}

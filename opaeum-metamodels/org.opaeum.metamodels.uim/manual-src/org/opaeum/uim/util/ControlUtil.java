@@ -39,7 +39,7 @@ public class ControlUtil{
 					if(inTable){
 						return new ControlKind[]{ControlKind.SELECTION_TABLE};
 					}else{
-						return new ControlKind[]{ControlKind.LIST_BOX,ControlKind.POPUP_SEARCH,ControlKind.TREE_VIEW};
+						return new ControlKind[]{ControlKind.LIST_BOX,ControlKind.POPUP_SEARCH,ControlKind.TREE_VIEW,ControlKind.SELECTION_TABLE};
 					}
 				}else{
 					if(inTable){
@@ -83,27 +83,12 @@ public class ControlUtil{
 		}
 		return true;// property
 	}
-	public static ControlKind getPreferredControlKind(UserInterface form,TypedElement typedElement){
-		// Use strategy or something
-		if(typedElement == null || typedElement.getType() == null || typedElement.getType().getName()==null){
+	public static ControlKind getPreferredControlKind(UserInterface form,TypedElement typedElement, boolean inTable){
+		ControlKind[] allowedControlKinds = getAllowedControlKinds(form, typedElement, inTable);
+		if(allowedControlKinds.length==0){
 			return ControlKind.TEXT;
 		}else{
-			String typeName = typedElement.getType().getName().toLowerCase();
-			if(typeName.endsWith("boolean")){
-				return ControlKind.CHECK_BOX;
-			}else if(typeName.endsWith("integer")){
-				return ControlKind.NUMBER_SCROLLER;
-			}else if(typeName.endsWith("date") || typeName.endsWith("datetime")){
-				return ControlKind.DATE_POPUP;
-			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Class){
-				if(requiresManySelection(form, typedElement)){
-					return ControlKind.LIST_BOX;
-				}else{
-					return ControlKind.DROPDOWN;
-				}
-			}else{
-				return ControlKind.TEXT;
-			}
+			return allowedControlKinds[0];
 		}
 	}
 	public static UimControl instantiate(ControlKind kind){

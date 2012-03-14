@@ -1,14 +1,25 @@
 package org.opaeum.uimodeler.common.figures;
 
+import java.util.List;
+
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutListener;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
+import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.dnd.TransferDropTargetListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -19,17 +30,133 @@ import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelPackage;
 
-public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener{
+public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,MouseMotionListener,MouseListener{
 	protected ISWTFigure figure;
 	protected GraphicalEditPart editPart;
 	protected UserInteractionElement element;
 	public AbstractEventAdapter(GraphicalEditPart editPart,ISWTFigure figure){
 		super();
+		editPart.getViewer().addDropTargetListener(new TransferDropTargetListener(){
+			@Override
+			public void dropAccept(DropTargetEvent event){
+				System.out.println();
+			}
+			@Override
+			public void drop(DropTargetEvent event){
+				System.out.println();
+			}
+			@Override
+			public void dragOver(DropTargetEvent event){
+				System.out.println();
+			}
+			@Override
+			public void dragOperationChanged(DropTargetEvent event){
+				System.out.println();
+			}
+			@Override
+			public void dragLeave(DropTargetEvent event){
+				System.out.println();
+			}
+			@Override
+			public void dragEnter(DropTargetEvent event){
+				System.out.println();
+			}
+			@Override
+			public boolean isEnabled(DropTargetEvent event){
+				return true;
+			}
+			@Override
+			public Transfer getTransfer(){
+				// TODO Auto-generated method stub
+				return null;
+			}
+		});
+		editPart.getContentPane().addMouseListener(this);
+		editPart.getContentPane().addMouseMotionListener(this);
+		editPart.addEditPartListener(new EditPartListener(){
+
+			@Override
+			public void childAdded(EditPart child,int index){
+				System.out.println();
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void partActivated(EditPart editpart){
+				// TODO Auto-generated method stub
+				System.out.println();
+				
+			}
+
+			@Override
+			public void partDeactivated(EditPart editpart){
+				// TODO Auto-generated method stub
+				System.out.println();
+				
+			}
+
+			@Override
+			public void removingChild(EditPart child,int index){
+				// TODO Auto-generated method stub
+				System.out.println();
+				
+			}
+
+			@Override
+			public void selectedStateChanged(EditPart editpart){
+				// TODO Auto-generated method stub
+				System.out.println("AbstractEventAdapter.AbstractEventAdapter(...).new EditPartListener() {...}.selectedStateChanged()");;
+				
+			}
+			
+		});
 		this.editPart = editPart;
 		this.figure = figure;
 		this.element = (UserInteractionElement) this.editPart.getAdapter(EObject.class);
 		element.eAdapters().add(this);
 		this.figure.addFigureListener(this);
+		this.figure.addMouseMotionListener(this);
+		this.figure.addMouseListener(this);
+		this.figure.getParent().addFigureListener(this);
+		LayoutListener list = new LayoutListener(){
+
+			@Override
+			public void invalidate(IFigure container){
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public boolean layout(IFigure container){
+				System.out.println();
+				return false;
+			}
+
+			@Override
+			public void postLayout(IFigure container){
+				System.out.println();
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void remove(IFigure child){
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void setConstraint(IFigure child,Object constraint){
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		editPart.getContentPane().addLayoutListener(list);
+		this.figure.addLayoutListener(list);
+		this.figure.getParent().addLayoutListener(list);
+		this.figure.getParent().addMouseListener(this);
 		this.figure.addLayoutListener(this);
 		this.figure.getParent().addLayoutListener(this);
 		this.figure.setLabelText(element.getName() == null ? "New" + element.eClass().getName() : element.getName());
@@ -38,8 +165,8 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 			if(this.figure.getWidget() instanceof Control){
 				Control ctl = (Control) this.figure.getWidget();
 				GridData gd = (GridData) ctl.getLayoutData();
-				if(gd==null){
-					gd=new GridData();
+				if(gd == null){
+					gd = new GridData();
 				}
 				Outlayable outlayable = (Outlayable) element;
 				fillHorizontally(gd, outlayable);
@@ -64,13 +191,13 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	private void fillVertically(GridData gd,Outlayable outlayable){
 		if(outlayable.getFillVertically() != null){
 			gd.grabExcessVerticalSpace = outlayable.getFillVertically();
-			gd.verticalAlignment = SWT.FILL;
+			gd.verticalAlignment = outlayable.getFillVertically() ? SWT.FILL : GridData.BEGINNING;
 		}
 	}
 	private void fillHorizontally(GridData gd,Outlayable outlayable){
 		if(outlayable.getFillHorizontally() != null){
 			gd.grabExcessHorizontalSpace = outlayable.getFillHorizontally();
-			gd.horizontalAlignment = SWT.FILL;
+			gd.horizontalAlignment = outlayable.getFillHorizontally() ? SWT.FILL : GridData.BEGINNING;
 		}
 	}
 	@Override
@@ -145,7 +272,6 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	}
 	@Override
 	public void figureMoved(IFigure source){
-		System.out.println("AbstractEventAdapter.figureMoved()");
 	}
 	@Override
 	public void invalidate(IFigure container){
@@ -174,5 +300,48 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	}
 	@Override
 	public void setConstraint(IFigure child,Object constraint){
+	}
+	@Override
+	public void mouseDragged(MouseEvent me){
+	}
+	@Override
+	public void mouseEntered(MouseEvent me){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent me){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseHover(MouseEvent me){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent me){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent me){
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent me){
+		List<GraphicalEditPart> children = editPart.getParent().getChildren();
+		for(GraphicalEditPart editPart:children){
+			Point touchPoint = new Point(me.x - 1, me.y + 1);
+			if(editPart.getFigure().getBounds().contains(touchPoint)){
+				System.out.println(editPart.getFigure());
+			}
+		}
+	}
+	@Override
+	public void mouseDoubleClicked(MouseEvent me){
+		// TODO Auto-generated method stub
+		
 	}
 }

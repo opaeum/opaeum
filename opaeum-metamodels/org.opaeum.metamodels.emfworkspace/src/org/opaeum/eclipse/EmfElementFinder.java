@@ -345,8 +345,6 @@ public class EmfElementFinder{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch(NoSuchMethodException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}catch(IllegalArgumentException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();

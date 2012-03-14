@@ -527,9 +527,9 @@
 	<entry
        defineOnly="true"
        description="Create new TransitionAction"
-       id="createTransitionButton2CreationTool"
+       id="createTakeTransitionButton2CreationTool"
        kind="tool"
-       label="Transition Button"
+       label="Take Transition Button"
        large_icon=""
        path=""
        small_icon="">
@@ -537,9 +537,9 @@
 	<entry
        defineOnly="true"
        description="Create new OperationAction"
-       id="createOperationButton3CreationTool"
+       id="createOperationCallButton3CreationTool"
        kind="tool"
-       label="Operation Button"
+       label="Operation Call Button"
        large_icon=""
        path=""
        small_icon="">
@@ -619,11 +619,11 @@
           path="/createActions2Group">
     </predefinedEntry>
  	<predefinedEntry
-          id="createTransitionButton2CreationTool"
+          id="createTakeTransitionButton2CreationTool"
           path="/createActions2Group">
     </predefinedEntry>
  	<predefinedEntry
-          id="createOperationButton3CreationTool"
+          id="createOperationCallButton3CreationTool"
           path="/createActions2Group">
     </predefinedEntry>
 

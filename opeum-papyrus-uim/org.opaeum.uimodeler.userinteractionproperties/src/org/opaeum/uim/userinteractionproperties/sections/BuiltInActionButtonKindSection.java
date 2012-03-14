@@ -16,7 +16,7 @@ import org.opaeum.uim.editor.ResponsibilityTaskEditor;
 import org.opaeum.uim.userinteractionproperties.core.AbstractEnumerationPropertySection;
 import org.opaeum.uim.util.UmlUimLinks;
 
-public class BuiltInActionKindSection extends AbstractEnumerationPropertySection{
+public class BuiltInActionButtonKindSection extends AbstractEnumerationPropertySection{
 	protected String getLabelText(){
 		return "Kind:";
 	}

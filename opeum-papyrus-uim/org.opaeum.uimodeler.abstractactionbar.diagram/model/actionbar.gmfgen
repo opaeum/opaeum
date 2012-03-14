@@ -346,12 +346,12 @@
             genNodes="//@diagram/@childNodes.3"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="Transition Button"
+            title="Take Transition Button"
             description="Create new TransitionAction"
             genNodes="//@diagram/@childNodes.4"/>
         <entries
             xsi:type="gmfgen:ToolEntry"
-            title="Operation Button"
+            title="Operation Call Button"
             description="Create new OperationAction"
             genNodes="//@diagram/@childNodes.2"/>
       </groups>

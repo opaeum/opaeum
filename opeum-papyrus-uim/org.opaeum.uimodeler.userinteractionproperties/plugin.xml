@@ -83,15 +83,15 @@
 				id="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionKindSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
-				filter="org.opaeum.uim.userinteractionproperties.filters.BuiltInActionFilter"
-				class="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionKindSection">
+				filter="org.opaeum.uim.userinteractionproperties.filters.BuiltInActionButtonFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.BuiltInActionButtonKindSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.OperationActionOperationSection"
 				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
 				tab="org.opaeum.uim.userinteractionproperties.basic"
-				filter="org.opaeum.uim.userinteractionproperties.filters.OperationActionFilter"
-				class="org.opaeum.uim.userinteractionproperties.sections.OperationActionOperationSection">
+				filter="org.opaeum.uim.userinteractionproperties.filters.OperationButtonFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.OperationButtonOperationSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimFieldOrientationSection"
@@ -99,6 +99,20 @@
 				tab="org.opaeum.uim.userinteractionproperties.basic"
 				filter="org.opaeum.uim.userinteractionproperties.filters.FormFieldFilter"
 				class="org.opaeum.uim.userinteractionproperties.sections.UimFieldOrientationSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.LinkToQueryOperationSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.LinkToQueryFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.LinkToQueryOperationSection">
+			</propertySection>
+			<propertySection
+				id="org.opaeum.uim.userinteractionproperties.sections.BuiltInLinkKindSection"
+				afterSection="org.opaeum.uim.userinteractionproperties.sections.UserInteractionElementNameSection"
+				tab="org.opaeum.uim.userinteractionproperties.basic"
+				filter="org.opaeum.uim.userinteractionproperties.filters.BuiltInLinkFilter"
+				class="org.opaeum.uim.userinteractionproperties.sections.BuiltInLinkKindSection">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.uim.userinteractionproperties.sections.UimDataTableBindingSection"

@@ -1,11 +1,11 @@
 package org.opaeum.uim.userinteractionproperties.filters;
 
 import org.opaeum.uim.UserInteractionElement;
-import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.BuiltInLink;
 
-public class BuiltInActionFilter extends AbstractFilter{
+public class BuiltInLinkFilter extends AbstractFilter{
 	@Override
 	public boolean select(UserInteractionElement e){
-		return e instanceof BuiltInActionButton;
+		return e instanceof BuiltInLink;
 	}
 }

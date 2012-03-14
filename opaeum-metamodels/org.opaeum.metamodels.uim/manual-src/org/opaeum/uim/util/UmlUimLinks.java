@@ -26,9 +26,11 @@ import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UmlReference;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.UserInterface;
+import org.opaeum.uim.action.LinkToQuery;
 import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.action.TransitionButton;
 import org.opaeum.uim.action.UimAction;
+import org.opaeum.uim.action.UimLink;
 import org.opaeum.uim.binding.FieldBinding;
 import org.opaeum.uim.binding.LookupBinding;
 import org.opaeum.uim.binding.PropertyRef;
@@ -71,6 +73,9 @@ public class UmlUimLinks{
 	public Operation getOperation(OperationButton eObject){
 		return (Operation) getUmlElement(eObject);
 	}
+	public Operation getOperation(LinkToQuery eObject){
+		return (Operation) getUmlElement(eObject);
+	}
 	public Transition getTransition(TransitionButton eObject){
 		return (Transition) getUmlElement(eObject);
 	}
@@ -107,7 +112,10 @@ public class UmlUimLinks{
 	public Classifier getNearestClass(EObject uc){
 		UimDataTable nearestTable = getNearestTable(uc);
 		if(uc instanceof UimAction){
-			UmlReference ae= getNearestForm((UimAction)uc);
+			UmlReference ae = getNearestForm((UimAction) uc);
+			return getRepresentedClass(ae);
+		}else if(uc instanceof UimLink){
+			UmlReference ae = getNearestForm((UimLink) uc);
 			return getRepresentedClass(ae);
 		}else if(nearestTable == null){
 			UserInterface uf = getNearestForm(uc);
@@ -152,6 +160,13 @@ public class UmlUimLinks{
 		return (UserInterface) uc.eContainer();
 	}
 	public static UmlReference getNearestForm(UimAction ab){
+		EObject uc = ab;
+		while(!(uc.eContainer() instanceof UserInterface || uc.eContainer() instanceof AbstractEditor)){
+			uc = uc.eContainer();
+		}
+		return (UmlReference) uc.eContainer();
+	}
+	public static UmlReference getNearestForm(UimLink ab){
 		EObject uc = ab;
 		while(!(uc.eContainer() instanceof UserInterface || uc.eContainer() instanceof AbstractEditor)){
 			uc = uc.eContainer();

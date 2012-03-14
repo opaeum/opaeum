@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.opaeum.uim.Orientation;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.UimPackage;
+import org.opaeum.uim.control.ControlKind;
 import org.opaeum.uimodeler.common.figures.AbstractEventAdapter;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
@@ -57,6 +58,14 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				Rectangle bnds = fig.getComposite().getBounds();
 				fig.setMinimumSize(new Dimension(bnds.width, bnds.height));
 				fig.setBounds(UimFigureUtil.toDraw2DRectangle(bnds));
+				if(((UimField) super.element).getControlKind() == ControlKind.LINK){
+					fig.getControl().dispose();
+					if(((UimField) super.element).getOrientation() == Orientation.VERTICAL){
+						fig.setControl(new LinkComposite(fig.getComposite(), SWT.BORDER, true));
+					}else{
+						fig.setControl(new LinkComposite(fig.getComposite(), SWT.BORDER));
+					}
+				}
 				super.prepareForRepaint();
 				break;
 			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH + 1000000:// TODO HEIGHT
@@ -102,7 +111,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				fig.setControl(new Button(fig.getComposite(), SWT.CHECK));
 				break;
 			case DATE_POPUP:
-				fig.setControl(new DateTime(fig.getComposite(), SWT.BORDER | SWT.CALENDAR | SWT.DROP_DOWN|SWT.DATE));
+				fig.setControl(new DateTime(fig.getComposite(), SWT.BORDER | SWT.CALENDAR | SWT.DROP_DOWN | SWT.DATE));
 				break;
 			case DATE_TIME_POPUP:
 				fig.setControl(new DateTime(fig.getComposite(), SWT.BORDER | SWT.CALENDAR | SWT.DROP_DOWN | SWT.TIME | SWT.DATE));
@@ -155,17 +164,31 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				fig.setControl(new Text(fig.getComposite(), SWT.BORDER | SWT.MULTI));
 				break;
 			case RADIO_BUTTON:
-				Composite radioGroup = new Composite(fig.getComposite(), SWT.BORDER);
-				radioGroup.setLayout(new GridLayout(3,true));
-				new Button(radioGroup, SWT.RADIO).setText("Option 1");
-				new Button(radioGroup, SWT.RADIO).setText("Option 2");
-				new Button(radioGroup, SWT.RADIO).setText("Option 3");
+				Composite radioGroup = new Composite(fig.getComposite(), SWT.BORDER){
+					{
+						setLayout(new GridLayout(3, true));
+						new Button(this, SWT.RADIO).setText("Option 1");
+						new Button(this, SWT.RADIO).setText("Option 2");
+						new Button(this, SWT.RADIO).setText("Option 3");
+					}
+					public void setVertical(boolean v){
+						if(v){
+							setLayout(new GridLayout(1, true));
+						}else{
+							setLayout(new GridLayout(3, true));
+						}
+						layout();
+					}
+				};
 				fig.setControl(radioGroup);
 				radioGroup.layout();
 				break;
 			case LINK:
-				Composite linkComposite = new LinkComposite(fig.getComposite(), SWT.BORDER);
-				fig.setControl(linkComposite);
+				if(((UimField) super.element).getOrientation() == Orientation.VERTICAL){
+					fig.setControl(new LinkComposite(fig.getComposite(), SWT.BORDER, true));
+				}else{
+					fig.setControl(new LinkComposite(fig.getComposite(), SWT.BORDER));
+				}
 				break;
 			case LABEL:
 				CLabel label = new CLabel(fig.getComposite(), SWT.BORDER);
@@ -180,6 +203,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				break;
 			}
 		}
+		fig.getComposite().layout();
 		fig.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 	public Composite getParent(){

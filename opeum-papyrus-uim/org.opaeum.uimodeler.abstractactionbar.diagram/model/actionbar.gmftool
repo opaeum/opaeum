@@ -21,7 +21,7 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="Transition Button"
+          title="Take Transition Button"
           description="Create new TransitionAction">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
@@ -30,7 +30,7 @@
       </tools>
       <tools
           xsi:type="gmftool:CreationTool"
-          title="Operation Button"
+          title="Operation Call Button"
           description="Create new OperationAction">
         <smallIcon
             xsi:type="gmftool:DefaultImage"/>
