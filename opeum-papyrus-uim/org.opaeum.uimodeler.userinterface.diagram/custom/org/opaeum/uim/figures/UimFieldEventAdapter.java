@@ -12,6 +12,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
@@ -57,7 +58,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				setOrientation(or);
 				Rectangle bnds = fig.getComposite().getBounds();
 				fig.setMinimumSize(new Dimension(bnds.width, bnds.height));
-				fig.setBounds(UimFigureUtil.toDraw2DRectangle(bnds));
+				fig.setBounds(UimFigureUtil.toDraw2DRectangle((Control) this.fig.getWidget()));
 				if(((UimField) super.element).getControlKind() == ControlKind.LINK){
 					fig.getControl().dispose();
 					if(((UimField) super.element).getOrientation() == Orientation.VERTICAL){

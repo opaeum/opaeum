@@ -25,12 +25,9 @@ public class UimFigureUtil{
 		final Shell activeShell = Display.getCurrent().getActiveShell();
 		if(shlChooseElement == null || shlChooseElement.isDisposed()){
 			shlChooseElement = new Shell(SWT.MODELESS | SWT.MIN);
-			StackLayout sl = new StackLayout();
-			shlChooseElement.setLayout(sl);
+			shlChooseElement.setLayout(new StackLayout());
 			shlChooseElement.setVisible(true);
-			shlChooseElement.setLocation(-1000, -1000);
 			shlChooseElement.setSize(1800, 1200);
-			shlChooseElement.moveBelow(activeShell);
 			if(activeShell != null){
 				activeShell.setActive();
 				shlChooseElement.addShellListener(new ShellListener(){
@@ -39,13 +36,13 @@ public class UimFigureUtil{
 					}
 					@Override
 					public void shellDeiconified(ShellEvent e){
-//						Shell[] shells = Display.getCurrent().getShells();
-//						for(int i = 0; i < shells.length-1){
-//							if(shlChooseElement==shells[i]){
-//								shells[i].setActive();
-//							}
-//						}
-//						shlChooseElement.moveBelow(activeShell);
+						// Shell[] shells = Display.getCurrent().getShells();
+						// for(int i = 0; i < shells.length-1){
+						// if(shlChooseElement==shells[i]){
+						// shells[i].setActive();
+						// }
+						// }
+						// shlChooseElement.moveBelow(activeShell);
 					}
 					@Override
 					public void shellDeactivated(ShellEvent e){
@@ -55,7 +52,7 @@ public class UimFigureUtil{
 					}
 					@Override
 					public void shellActivated(ShellEvent e){
-//						shlChooseElement.moveBelow(activeShell);
+						// shlChooseElement.moveBelow(activeShell);
 						// activeShell.setActive();
 					}
 				});
@@ -63,8 +60,25 @@ public class UimFigureUtil{
 		}
 		return shlChooseElement;
 	}
-	public static org.eclipse.draw2d.geometry.Rectangle toDraw2DRectangle(Rectangle r){
-		return new org.eclipse.draw2d.geometry.Rectangle(r.x, r.y, r.width, r.height);
+	public static org.eclipse.draw2d.geometry.Rectangle toDraw2DRectangle(Control ctl){
+		return new org.eclipse.draw2d.geometry.Rectangle(getAbsoluteX(ctl), getAbsoluteY(ctl), ctl.getBounds().width, ctl.getBounds().height);
+	}
+	public static int getAbsoluteY(Control ctl){
+		if(ctl.getParent() instanceof Shell){
+			// Add the offset of the top level grid which is not carried in the SWT shell
+			return ctl.getBounds().y;// + ((Figure) ctl.getData(UimFigureUtil.FIGURE)).getBounds().y;
+		}else{
+			return ctl.getBounds().y;// +getAbsoluteY(ctl.getParent());
+		}
+	}
+	public static int getAbsoluteX(Control ctl){
+		Rectangle bnds = ctl.getBounds();
+		if(ctl.getParent() instanceof Shell){
+			return ctl.getBounds().x;// + ((Figure) ctl.getData(UimFigureUtil.FIGURE)).getBounds().x;
+		}else{
+			int absoluteY = getAbsoluteY(ctl.getParent());
+			return bnds.x;// +absoluteY;
+		}
 	}
 	public static void paint(Control c,Figure f,Graphics g){
 		final Image image = new Image(Display.getDefault(), f.getBounds().width, f.getBounds().height);
@@ -83,12 +97,12 @@ public class UimFigureUtil{
 				control.dispose();
 			}
 			return getFakeShell();
+		}else if(f.getWidget() instanceof GridPanelComposite){
+			return ((GridPanelComposite) f.getWidget()).getContentPane();
 		}else if(f.getWidget() instanceof Composite){
 			return (Composite) f.getWidget();
-		}else if(f.getWidget() instanceof Control){
-			return ((Control) f.getWidget()).getParent();
 		}else{
-			return null;
+			return ((Control) f.getWidget()).getParent();
 		}
 	}
 	private static ISWTFigure getNearestSwtFigure(EditPart parent){
@@ -110,10 +124,9 @@ public class UimFigureUtil{
 		return null;
 	}
 	public static void applyBounds(org.eclipse.draw2d.geometry.Rectangle bounds,org.eclipse.swt.graphics.Rectangle bounds2){
-		bounds.x=bounds2.x;
-		bounds.y=bounds2.y;
-		bounds.width=bounds2.width;
-		bounds.height=bounds2.height;
-		
+		bounds.x = bounds2.x;
+		bounds.y = bounds2.y;
+		bounds.width = bounds2.width;
+		bounds.height = bounds2.height;
 	}
 }

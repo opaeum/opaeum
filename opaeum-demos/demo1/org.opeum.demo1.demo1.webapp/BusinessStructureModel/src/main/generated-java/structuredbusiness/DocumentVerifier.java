@@ -24,7 +24,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -68,8 +67,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="document_verifier",uniqueConstraints=
-	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
+@Table(name="document_verifier")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DocumentVerifier")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -409,31 +407,15 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		DishwashersInc oldValue = this.getDishwashersInc();
-		if ( oldValue==null ) {
-			if ( dishwashersInc!=null ) {
-				DocumentVerifier oldOther = (DocumentVerifier)dishwashersInc.getDocumentVerifier();
-				dishwashersInc.z_internalRemoveFromDocumentVerifier(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-				}
-				dishwashersInc.z_internalAddToDocumentVerifier((DocumentVerifier)this);
-			}
+		if ( this.getDishwashersInc()!=null ) {
+			this.getDishwashersInc().z_internalRemoveFromDocumentVerifier(this);
+		}
+		if ( dishwashersInc!=null ) {
+			dishwashersInc.z_internalAddToDocumentVerifier(this);
 			this.z_internalAddToDishwashersInc(dishwashersInc);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(dishwashersInc) ) {
-				oldValue.z_internalRemoveFromDocumentVerifier(this);
-				z_internalRemoveFromDishwashersInc(oldValue);
-				if ( dishwashersInc!=null ) {
-					DocumentVerifier oldOther = (DocumentVerifier)dishwashersInc.getDocumentVerifier();
-					dishwashersInc.z_internalRemoveFromDocumentVerifier(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-					}
-					dishwashersInc.z_internalAddToDocumentVerifier((DocumentVerifier)this);
-				}
-				this.z_internalAddToDishwashersInc(dishwashersInc);
-			}
+			markDeleted();
 		}
 	}
 	
@@ -499,6 +481,13 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	
 	public void setUid(String newUid) {
 		this.uid=newUid;
+	}
+	
+	@NumlMetaInfo(uuid="914890@_BkEGYG33EeGRLMabaulNTg")
+	public Supplier theQuery() {
+		Supplier result = null;
+		
+		return result;
 	}
 	
 	public String toXmlReferenceString() {

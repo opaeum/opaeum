@@ -14,7 +14,7 @@
           <control xmi:type="ctl:UimDropdown" xmi:id="_8tiV8W3uEeGTzsR5c72aZQ"/>
           <binding xmi:id="_8tiV8m3uEeGTzsR5c72aZQ" umlElementUid="252060@_3lcZgVYuEeGj5_I7bIwNoA"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_8tiV823uEeGTzsR5c72aZQ" name="Initiated requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
+        <children xmi:type="uim:UimField" xmi:id="_8tiV823uEeGTzsR5c72aZQ" name="Initiated requests" preferredWidth="30" preferredHeight="150" fillHorizontally="false" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
           <control xmi:type="ctl:UimListBox" xmi:id="_8tiV9G3uEeGTzsR5c72aZQ"/>
           <binding xmi:id="_8tiV9W3uEeGTzsR5c72aZQ" umlElementUid="252060@_rz7zsI6TEeCne5ArYLDbiA"/>
         </children>
@@ -26,10 +26,6 @@
           <control xmi:type="ctl:UimListBox" xmi:id="_8ti9BG3uEeGTzsR5c72aZQ"/>
           <binding xmi:id="_8ti9BW3uEeGTzsR5c72aZQ" umlElementUid="252060@_7MraII6lEeCFsPOcAnk69Q"/>
         </children>
-        <children xmi:type="uim:UimField" xmi:id="_8ti9Bm3uEeGTzsR5c72aZQ" name="Owned task requests" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
-          <control xmi:type="ctl:UimListBox" xmi:id="_8ti9B23uEeGTzsR5c72aZQ"/>
-          <binding xmi:id="_8ti9CG3uEeGTzsR5c72aZQ" umlElementUid="252060@_NYHP0I6mEeCFsPOcAnk69Q"/>
-        </children>
         <children xmi:type="uim:UimField" xmi:id="_8tjkEG3uEeGTzsR5c72aZQ" name="Participations in tasks" preferredHeight="150" fillHorizontally="true" controlKind="listBox" minimumLabelWidth="195" orientation="vertical">
           <control xmi:type="ctl:UimListBox" xmi:id="_8tjkEW3uEeGTzsR5c72aZQ"/>
           <binding xmi:id="_8tjkEm3uEeGTzsR5c72aZQ" umlElementUid="252060@_DIGv8JBkEeCWM9wKKqKWag"/>
@@ -38,6 +34,10 @@
           <control xmi:type="ctl:UimListBox" xmi:id="_8tjkFG3uEeGTzsR5c72aZQ"/>
           <binding xmi:id="_8tjkFW3uEeGTzsR5c72aZQ" umlElementUid="252060@_TfLFAJBkEeCWM9wKKqKWag"/>
         </children>
+        <children xmi:type="panel:GridPanel" xmi:id="_XDP8cG5SEeG7sNJeHH_Ucg" name="asdfasdfasdfad" preferredWidth="200" preferredHeight="200" fillHorizontally="true" fillVertically="false" numberOfColumns="1">
+          <children xmi:type="uact:BuiltInLink" xmi:id="_Uo0kwG57EeG5O-DgYRTgog" name="lkllllkklklklklk" preferredWidth="100"/>
+        </children>
+        <children xmi:type="uact:BuiltInActionButton" xmi:id="_tsyN8G56EeG5O-DgYRTgog"/>
       </panel>
     </pages><pages xmi:id="_8tjkFm3uEeGTzsR5c72aZQ" name="Participation">
       <panel xmi:type="panel:GridPanel" xmi:id="_8tjkF23uEeGTzsR5c72aZQ">
@@ -49,6 +49,17 @@
           <binding xmi:id="_8tjkGW3uEeGTzsR5c72aZQ" umlElementUid="252060@_3YyGkYoXEeCPduia_-NbFw"/>
           <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_8tkLIG3uEeGTzsR5c72aZQ" name="Delete" kind="delete"/>
           <actionsOnMultipleSelection xmi:type="uact:BuiltInActionButton" xmi:id="_8tkLIW3uEeGTzsR5c72aZQ" name="Add" kind="add"/>
+        </children>
+      </panel>
+    </pages><pages xmi:id="_tTj8AG6CEeGp3JVQPxqj_A" name="NewPage">
+      <panel xmi:type="panel:GridPanel" xmi:id="_vH_HAG6CEeGp3JVQPxqj_A" name="asdfasdfasdfasdfasdfasdfdsa" numberOfColumns="1">
+        <children xmi:type="panel:GridPanel" xmi:id="_V3ftoG6XEeGgUbxU8kUfDg" name="okokokokokokok" preferredHeight="180" fillHorizontally="true" fillVertically="true">
+          <children xmi:type="uim:UimField" xmi:id="_j5BK0G6bEeGSxpXSqRF2og" fillHorizontally="true"/>
+        </children>
+        <children xmi:type="panel:GridPanel" xmi:id="_wrnTkG6bEeGSxpXSqRF2og" name="asdfasdfasdfasdfasdfasdfasdf" preferredHeight="200" fillHorizontally="true" fillVertically="true" numberOfColumns="1">
+          <children xmi:type="uim:UimField" xmi:id="_IaXGMG6vEeGx0OEPgewCQw" fillHorizontally="true"/>
+          <children xmi:type="uim:UimField" xmi:id="_vVNO8G8XEeGx0OEPgewCQw"/>
+          <children xmi:type="uim:UimField" xmi:id="_DMI-UG8yEeGasPn3EcFqDg" name="123413241234"/>
         </children>
       </panel>
     </pages></primaryEditor>

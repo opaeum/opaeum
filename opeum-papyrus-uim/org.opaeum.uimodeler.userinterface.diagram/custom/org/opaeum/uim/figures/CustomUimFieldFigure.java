@@ -6,6 +6,7 @@ import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -15,13 +16,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 /**
  * @generated NOT
  */
 public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFigure{
-	private Control control;
+	private Control widget;
 	/**
 	 * @generated NOT
 	 */
@@ -96,6 +99,14 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		fFigureUimFieldNameFigure.setText("<...>");
 		this.add(fFigureUimFieldNameFigure);
 	}
+	@Override
+	public Rectangle getBounds(){
+		if(!widget.isDisposed()){
+			return UimFigureUtil.toDraw2DRectangle(widget);
+		}else{
+			return super.getBounds();
+		}
+	}
 	/**
 	 * @generated
 	 */
@@ -130,10 +141,10 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		this.composite = composite;
 	}
 	public Control getControl(){
-		return control;
+		return widget;
 	}
 	public void setControl(Control control){
-		this.control = control;
+		this.widget = control;
 	}
 	public Label getLabel(){
 		return label;

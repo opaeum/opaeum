@@ -1,6 +1,7 @@
 package org.opaeum.uimodeler.userinterface.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.LayoutAnimator;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -11,10 +12,13 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.CreationEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DragDropEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
+import org.eclipse.gmf.runtime.diagram.ui.figures.ShapeCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.papyrus.uml.diagram.common.editpolicies.DuplicatePasteEditPolicy;
+import org.eclipse.swt.widgets.Composite;
+import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelGridPanelChildrenCompartmentItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.Messages;
 
@@ -39,11 +43,21 @@ public class GridPanelGridPanelChildrenCompartmentEditPart extends ShapeCompartm
 		return Messages.GridPanelGridPanelChildrenCompartmentEditPart_title;
 	}
 	/**
-	 * @generated 
+	 * @generated NOT
 	 */
 	public IFigure createFigure(){
-		ResizableCompartmentFigure result = (ResizableCompartmentFigure) super.createFigure();
+		final Composite comp = UimFigureUtil.getNearestComposite(getParent());
+		ShapeCompartmentFigure scf = new ShapeCompartmentFigure(getCompartmentName(), getMapMode()){
+			@Override
+			public Rectangle getBounds(){
+				return super.getBounds();
+			}
+		};
+		scf.getContentPane().setLayoutManager(getLayoutManager());
+		    scf.getContentPane().addLayoutListener(LayoutAnimator.getDefault());
+		ResizableCompartmentFigure result = (ResizableCompartmentFigure) scf;
 		result.setTitleVisibility(false);
+		result.setBackgroundColor(org.eclipse.draw2d.ColorConstants.blue);
 		return result;
 	}
 	/**

@@ -10,10 +10,8 @@ import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
-import org.eclipse.gmf.runtime.diagram.ui.figures.ShapeCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.wb.os.OSSupport;
@@ -31,8 +29,24 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		this.setFill(false);
 		this.setLineWidth(3);
 		createContents();
-		widget = new Composite(parent, SWT.NONE);
-		widget.setLayout(new GridLayout(getColumnCount(), false));
+		widget = new GridPanelComposite(parent, SWT.NONE);
+		widget.layout();
+		parent.layout();
+	}
+	@Override
+	public Rectangle getBounds(){
+		if(getParent() instanceof HackedDefaultSizeNodeFigure){
+			if(!widget.isDisposed()){
+				Rectangle rec = UimFigureUtil.toDraw2DRectangle(widget);
+				rec.height -= 10;
+				rec.width -= 10;
+				return rec;
+			}else{
+				return super.getBounds();
+			}
+		}else{
+			return super.getBounds();
+		}
 	}
 	@Override
 	public void setLayoutManager(LayoutManager manager){
@@ -64,36 +78,39 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 	}
 	@Override
 	protected void layout(){
-		Rectangle bnds = getBounds();
-		Rectangle nameBounds = new Rectangle();
-		nameBounds.x = bnds.x;
-		nameBounds.y = bnds.y;
-		nameBounds.width = bnds.width;
-		nameBounds.height = 20;
-		fFigureGridPanelNameFigure.setBounds(nameBounds);
-		List<Figure> children = getChildren();
-		for(Figure figure:children){
-			if(figure instanceof ResizableCompartmentFigure){
-				Rectangle contentBounds = new Rectangle();
-				contentBounds.x = bnds.x;
-				contentBounds.y = bnds.y + 20;
-				contentBounds.width = bnds.width;
-				contentBounds.height = bnds.height - 20;
-				figure.setBounds(contentBounds);
-			}
-		}
-		widget.setBounds(0, 0, bnds.width - 20, getBounds().height - 20);
+		super.layout();
 		widget.layout();
-		for(Control control:widget.getChildren()){
+		Control[] children2 = widget.getChildren();
+		for(Control control:children2){
 			IFigure f = (IFigure) control.getData(UimFigureUtil.FIGURE);
-			IFigure parent = f.getParent();
-//			parent.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
-//			f.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
-			// Avoid invalidating the tree at this point VOODOO code!!!! Somehow it works
-			UimFigureUtil.applyBounds(parent.getBounds(), control.getBounds());
-			 UimFigureUtil.applyBounds(f.getBounds(), control.getBounds());
+			// IFigure parent = f.getParent();
+			// // f.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
+			// // UimFigureUtil.applyBounds(parent.getBounds(), control.getBounds());
+			// parent.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
+			// UimFigureUtil.applyBounds(f.getBounds(), control.getBounds());
 			control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		}
+		List<Figure> childFigures = getChildren();
+		for(Figure figure:childFigures){
+			if(figure instanceof ResizableCompartmentFigure){
+				Rectangle bnds = null;
+				bnds = super.getBounds().getCopy();
+				bnds.y += 25;
+				bnds.height -= 25;
+				figure.setBounds(bnds);
+			}
+		}
+	}
+	public ResizableCompartmentFigure findCompartment(){
+		List<Figure> children = getChildren();
+		ResizableCompartmentFigure compartment = null;
+		for(Figure figure:children){
+			if(figure instanceof ResizableCompartmentFigure){
+				compartment = (ResizableCompartmentFigure) figure;
+				break;
+			}
+		}
+		return compartment;
 	}
 	@Override
 	protected void paintClientArea(Graphics graphics){
@@ -105,9 +122,9 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 			if(WindowBuilderUtil.needsComponentShot(widget)){
 				WindowBuilderUtil.activateRootComposite(widget);
 				long start = System.currentTimeMillis();
-				OSSupport.get().beginShot(widget);
+				// OSSupport.get().beginShot(widget);
 				OSSupport.get().makeShots(widget);
-				OSSupport.get().endShot(widget);
+				// OSSupport.get().endShot(widget);
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(widget);
 			}
@@ -124,7 +141,12 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 	 * @generated NOT
 	 */
 	protected void createContents(){
-		fFigureGridPanelNameFigure = new WrappingLabel();
+		fFigureGridPanelNameFigure = new WrappingLabel(){
+			@Override
+			public void setBounds(Rectangle rect){
+				super.setBounds(rect);
+			}
+		};
 		fFigureGridPanelNameFigure.setText("");
 		this.add(fFigureGridPanelNameFigure, null);
 	}

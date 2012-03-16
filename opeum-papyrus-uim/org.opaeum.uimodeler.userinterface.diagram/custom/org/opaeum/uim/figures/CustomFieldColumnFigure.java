@@ -66,7 +66,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 		graphics.drawImage((Image) getWidget().getData("OPAEUM_IMAGE"), copy.x + 1, copy.y);
 	}
 	@Override
-	public Widget getWidget(){
+	public Control getWidget(){
 		return composite;
 	}
 	@Override

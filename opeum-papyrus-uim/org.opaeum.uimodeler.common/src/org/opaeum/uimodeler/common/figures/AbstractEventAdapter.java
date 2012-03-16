@@ -15,9 +15,12 @@ import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.dnd.TransferDropTargetListener;
+import org.eclipse.jface.util.TransferDragSourceListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
@@ -36,131 +39,15 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	protected UserInteractionElement element;
 	public AbstractEventAdapter(GraphicalEditPart editPart,ISWTFigure figure){
 		super();
-		editPart.getViewer().addDropTargetListener(new TransferDropTargetListener(){
-			@Override
-			public void dropAccept(DropTargetEvent event){
-				System.out.println();
-			}
-			@Override
-			public void drop(DropTargetEvent event){
-				System.out.println();
-			}
-			@Override
-			public void dragOver(DropTargetEvent event){
-				System.out.println();
-			}
-			@Override
-			public void dragOperationChanged(DropTargetEvent event){
-				System.out.println();
-			}
-			@Override
-			public void dragLeave(DropTargetEvent event){
-				System.out.println();
-			}
-			@Override
-			public void dragEnter(DropTargetEvent event){
-				System.out.println();
-			}
-			@Override
-			public boolean isEnabled(DropTargetEvent event){
-				return true;
-			}
-			@Override
-			public Transfer getTransfer(){
-				// TODO Auto-generated method stub
-				return null;
-			}
-		});
-		editPart.getContentPane().addMouseListener(this);
-		editPart.getContentPane().addMouseMotionListener(this);
-		editPart.addEditPartListener(new EditPartListener(){
-
-			@Override
-			public void childAdded(EditPart child,int index){
-				System.out.println();
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void partActivated(EditPart editpart){
-				// TODO Auto-generated method stub
-				System.out.println();
-				
-			}
-
-			@Override
-			public void partDeactivated(EditPart editpart){
-				// TODO Auto-generated method stub
-				System.out.println();
-				
-			}
-
-			@Override
-			public void removingChild(EditPart child,int index){
-				// TODO Auto-generated method stub
-				System.out.println();
-				
-			}
-
-			@Override
-			public void selectedStateChanged(EditPart editpart){
-				// TODO Auto-generated method stub
-				System.out.println("AbstractEventAdapter.AbstractEventAdapter(...).new EditPartListener() {...}.selectedStateChanged()");;
-				
-			}
-			
-		});
 		this.editPart = editPart;
 		this.figure = figure;
 		this.element = (UserInteractionElement) this.editPart.getAdapter(EObject.class);
 		element.eAdapters().add(this);
 		this.figure.addFigureListener(this);
-		this.figure.addMouseMotionListener(this);
-		this.figure.addMouseListener(this);
 		this.figure.getParent().addFigureListener(this);
-		LayoutListener list = new LayoutListener(){
-
-			@Override
-			public void invalidate(IFigure container){
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public boolean layout(IFigure container){
-				System.out.println();
-				return false;
-			}
-
-			@Override
-			public void postLayout(IFigure container){
-				System.out.println();
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void remove(IFigure child){
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void setConstraint(IFigure child,Object constraint){
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-		editPart.getContentPane().addLayoutListener(list);
-		this.figure.addLayoutListener(list);
-		this.figure.getParent().addLayoutListener(list);
-		this.figure.getParent().addMouseListener(this);
 		this.figure.addLayoutListener(this);
 		this.figure.getParent().addLayoutListener(this);
 		this.figure.setLabelText(element.getName() == null ? "New" + element.eClass().getName() : element.getName());
-		figure.getWidget().setData(UimFigureUtil.ELEMENT, element);
 		if(element instanceof Outlayable){
 			if(this.figure.getWidget() instanceof Control){
 				Control ctl = (Control) this.figure.getWidget();
@@ -176,6 +63,7 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 				ctl.setLayoutData(gd);
 			}
 		}
+		figure.getWidget().setData(UimFigureUtil.ELEMENT, element);
 		figure.getWidget().setData(UimFigureUtil.FIGURE, figure);
 	}
 	private void setWidthHint(GridData gd,Outlayable outlayable){
@@ -259,15 +147,15 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		figure.invalidate();
 		if(fig != null){
 			parent.layout();
-			fig.invalidateTree();
+			figure.revalidate();
 			final Figure parentFig = fig;
-			Display.getCurrent().asyncExec(new Runnable(){
-				@Override
-				public void run(){
-					parentFig.validate();
-					parentFig.repaint();
-				}
-			});
+//			Display.getCurrent().asyncExec(new Runnable(){
+//				@Override
+//				public void run(){
+//					parentFig.validate();
+//					parentFig.repaint();
+//				}
+//			});
 		}
 	}
 	@Override
@@ -307,27 +195,22 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	@Override
 	public void mouseEntered(MouseEvent me){
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseExited(MouseEvent me){
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseHover(MouseEvent me){
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseMoved(MouseEvent me){
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mousePressed(MouseEvent me){
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseReleased(MouseEvent me){
@@ -342,6 +225,5 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	@Override
 	public void mouseDoubleClicked(MouseEvent me){
 		// TODO Auto-generated method stub
-		
 	}
 }

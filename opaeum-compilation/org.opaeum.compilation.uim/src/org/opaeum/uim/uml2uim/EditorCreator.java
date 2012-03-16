@@ -36,6 +36,7 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 	public void addButtonBar(ActionKind...updateCurrentEntity){
 		EditorActionBar panel = EditorFactory.eINSTANCE.createEditorActionBar();
 		formPanel.setActionBar(panel);
+		panel.setName("ActionBar");
 		for(ActionKind actionKind:updateCurrentEntity){
 			BuiltInActionButton bia = ActionFactory.eINSTANCE.createBuiltInActionButton();
 			bia.setKind(actionKind);

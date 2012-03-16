@@ -41,7 +41,7 @@ public class CustomLinkFigure extends RectangleFigure implements ISWTFigure{
 		return fFigureBuiltInLinkNameFigure;
 	}
 	@Override
-	public Widget getWidget(){
+	public Control getWidget(){
 		return link;
 	}
 	@Override

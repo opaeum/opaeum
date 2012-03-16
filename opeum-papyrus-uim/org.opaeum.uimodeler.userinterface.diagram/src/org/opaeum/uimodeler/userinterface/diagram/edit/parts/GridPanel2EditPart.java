@@ -29,7 +29,11 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.GradientPreferenceCon
 import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHelper;
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
+import org.opaeum.uim.figures.CustomUimFieldFigure;
+import org.opaeum.uim.figures.UimFieldEventAdapter;
 import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
+import org.opaeum.uimodeler.common.figures.GridPanelEventAdapter;
+import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanel2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
@@ -92,7 +96,7 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(2,2));
+		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(16,16));
 	}
 	/**
 	 * @generated NOT
@@ -162,14 +166,15 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 	 * Body of this method does not depend on settings in generation model
 	 * so you may safely remove <i>generated</i> tag and modify it.
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected NodeFigure createNodeFigure(){
-		NodeFigure figure = createNodePlate();
-		figure.setLayoutManager(new StackLayout());
 		IFigure shape = createNodeShape();
+		NodeFigure figure = new HackedDefaultSizeNodeFigure(getPrimaryShape());
+		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
+		new GridPanelEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
 	/**
