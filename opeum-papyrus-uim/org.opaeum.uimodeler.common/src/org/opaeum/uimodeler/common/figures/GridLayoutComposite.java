@@ -8,10 +8,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 
-public class GridPanelComposite extends Composite{
+public class GridLayoutComposite extends Composite{
 	Label label;
 	Composite contentPane;
-	public GridPanelComposite(Composite parent,int style){
+	public GridLayoutComposite(Composite parent,int style){
 		super(parent, style | SWT.BORDER | SWT.SHADOW_ETCHED_OUT);
 		super.setLayout(new GridLayout(1, false));
 		label=new Label(this,SWT.NONE);

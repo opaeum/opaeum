@@ -32,7 +32,7 @@ import org.eclipse.swt.graphics.Color;
 import org.opaeum.uim.figures.CustomUimFieldFigure;
 import org.opaeum.uim.figures.UimFieldEventAdapter;
 import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
-import org.opaeum.uimodeler.common.figures.GridPanelEventAdapter;
+import org.opaeum.uimodeler.common.figures.PanelEventAdapter;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanel2ItemSemanticEditPolicy;
@@ -96,7 +96,7 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(16,16));
+		return primaryShape = new CustomGridPanelFigure(UimFigureUtil.getNearestComposite(getParent()), new Dimension(0,0));
 	}
 	/**
 	 * @generated NOT
@@ -174,7 +174,7 @@ public class GridPanel2EditPart extends ShapeNodeEditPart{
 		figure.setLayoutManager(new StackLayout());
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new GridPanelEventAdapter(this, getPrimaryShape());
+		new PanelEventAdapter(this, getPrimaryShape());
 		return figure;
 	}
 	/**

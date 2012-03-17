@@ -26,13 +26,17 @@ public class LinkComposite extends Composite{
 		Link link = new Link(this,SWT.NONE);
 		link.setText("<Object1 Name>");
 		link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
+		link.setForeground(ColorConstants.blue);
 		link = new Link(this,SWT.NONE);
 		link.setText("<Object2 Name>");
 		link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
+		link.setForeground(ColorConstants.blue);
 		link = new Link(this,SWT.NONE);
 		link.setText("<Object3 Name>");
 		link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
+		link.setForeground(ColorConstants.blue);
 		link = new Link(this,SWT.NONE);
+		link.setForeground(ColorConstants.blue);
 		link.setText("<Object4 Name>");
 		link.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
 	}

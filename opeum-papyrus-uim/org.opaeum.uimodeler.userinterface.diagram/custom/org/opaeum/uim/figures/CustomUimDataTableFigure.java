@@ -1,5 +1,6 @@
 package org.opaeum.uim.figures;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -41,10 +42,14 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 		this.composite.getFirstRow().setData(UimFigureUtil.FIGURE, this);
 	}
 	@Override
+	public Rectangle getBounds(){
+		return super.getBounds();
+	}
+	@Override
 	public void setBounds(Rectangle rect){
 		super.setBounds(rect);
 		// Here because the GRidPanel will likely print the components before we get to painti
-		composite.prepareForPaint(rect);
+//		composite.prepareForPaint(rect);
 	};
 	protected void layout(){
 		IFigure parent = getParent();
@@ -58,29 +63,30 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 		Rectangle bnds = parent.getBounds();
 		// Convert back to the correct bounds
 		Figure columnCompartment = (Figure) getChildren().get(0);
+		System.out.println("CustomUimDataTableFigure.layout()" + bnds);
 		Rectangle columnCompartmentBounds = new Rectangle();
-		columnCompartmentBounds.x = 8;// TODO find out why - currently trial and error it fluctuates after every regen!!!!
-		int tableHeaderHeight = 27;
-		int actionBarHeight = 38;
-		columnCompartmentBounds.y = tableHeaderHeight;// TODO find out why - currently trial and error
-		columnCompartmentBounds.width = bnds.width + 16;
-		columnCompartmentBounds.height = bnds.height - (tableHeaderHeight + actionBarHeight);
+		columnCompartmentBounds.x = bnds.x-3;
+		columnCompartmentBounds.y = bnds.y+UimDataTableComposite.ROW_HEIGHT-12;
+		columnCompartmentBounds.width = bnds.width+10;
+		columnCompartmentBounds.height = bnds.height - (UimDataTableComposite.ROW_HEIGHT *2);
 		columnCompartment.setBounds(columnCompartmentBounds);
 		IFigure actionBarCompartment = (IFigure) getChildren().get(1);
 		Rectangle actionBarCompartmentBounds = new Rectangle();
-		actionBarCompartmentBounds.x = 8;// TODO why?? trial an error???!
-		actionBarCompartmentBounds.y = tableHeaderHeight + columnCompartmentBounds.height;
-		actionBarCompartmentBounds.width = bnds.width + 16;
-		actionBarCompartmentBounds.height = actionBarHeight;
+		actionBarCompartmentBounds.x = bnds.x-3;
+		actionBarCompartmentBounds.y = bnds.y+UimDataTableComposite.ROW_HEIGHT + columnCompartmentBounds.height;
+		actionBarCompartmentBounds.width = bnds.width;
+		actionBarCompartmentBounds.height = UimDataTableComposite.ROW_HEIGHT+3;
+		actionBarCompartment.setBackgroundColor(ColorConstants.blue);
 		actionBarCompartment.setBounds(actionBarCompartmentBounds);
-		System.out.println("actionBarCompartmentBounds=" + actionBarCompartmentBounds);
 	}
 	@Override
 	protected void paintClientArea(Graphics graphics){
+
 		// Layout is called +- 20 times per redraw, with different values. Call it one last time to ensure the most recent values have been
 		// applied TODO investigate why.
 		// Layout is fairly inexpensive here, but this is not ideal
 		layout();
+		composite.prepareForPaint(getBounds());
 		Rectangle bnds = getBounds();
 		// Prepare as late as possible to avoid accidental resizing and the subsequent repainting
 		try{
@@ -90,7 +96,7 @@ public class CustomUimDataTableFigure extends RectangleFigure implements ISWTFig
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(composite);
 			}
-			graphics.drawImage((Image) composite.getTable().getData("OPAEUM_IMAGE"), 14, 12);
+			graphics.drawImage((Image) composite.getTable().getData("OPAEUM_IMAGE"), 7, 12);
 			super.paintClientArea(graphics);
 		}catch(Exception e){
 			e.printStackTrace();

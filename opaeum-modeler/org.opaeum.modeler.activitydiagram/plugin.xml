@@ -102,6 +102,12 @@
 				indented="true"
 				afterTab="org.opaeum.eclipse.opaeumTab"/>
 			<propertyTab
+				id="org.opaeum.topcased.activitydiagram.sqlTab"
+				label="SQL"
+				category="model"
+				indented="true"
+				afterTab="org.opaeum.eclipse.opaeumTab"/>
+			<propertyTab
 				id="org.topcased.modeler.modelTab.activityGuardTab"
 				label="Guard"
 				category="model"
@@ -130,6 +136,12 @@
 				tab="org.opaeum.eclipse.opaeumTab"
 				afterSection="org.topcased.modeler.uml.internal.properties.sections.NamedElementNameSection">
 				<input type="org.eclipse.uml2.uml.TimeObservation"/>
+			</propertySection>
+			<propertySection
+				id="org.opaeum.eclipse.uml.propertysections.sql.OpaqueActionSqlSection"
+				class="org.opaeum.eclipse.uml.propertysections.sql.OpaqueActionSqlSection"
+				filter="org.opaeum.eclipse.uml.propertysections.sql.SqlActionFilter"
+				tab="org.opaeum.topcased.activitydiagram.sqlTab">
 			</propertySection>
 			<propertySection
 				id="org.opaeum.topcased.activitydiagram.propertysections.DurationObservationFromEventSection"

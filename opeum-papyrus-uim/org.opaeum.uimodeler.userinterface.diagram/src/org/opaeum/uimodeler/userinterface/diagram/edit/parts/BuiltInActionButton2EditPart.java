@@ -29,6 +29,7 @@ import org.eclipse.swt.graphics.Color;
 import org.opaeum.uim.figures.CustomBuiltInActionColumnFigure;
 import org.opaeum.uimodeler.common.figures.ActionButtonEventAdapter;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
+import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.BuiltInActionButton2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
@@ -90,7 +91,7 @@ public class BuiltInActionButton2EditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomBuiltInActionColumnFigure(UimFigureUtil.getNearestComposite(getParent()));
+		return primaryShape = new CustomBuiltInActionColumnFigure((UimDataTableComposite) UimFigureUtil.getNearestComposite(getParent()));
 	}
 	/**
 	 * @generated NOT

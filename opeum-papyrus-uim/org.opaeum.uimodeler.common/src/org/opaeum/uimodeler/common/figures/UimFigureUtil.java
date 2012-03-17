@@ -97,8 +97,8 @@ public class UimFigureUtil{
 				control.dispose();
 			}
 			return getFakeShell();
-		}else if(f.getWidget() instanceof GridPanelComposite){
-			return ((GridPanelComposite) f.getWidget()).getContentPane();
+		}else if(f.getWidget() instanceof GridLayoutComposite){
+			return ((GridLayoutComposite) f.getWidget()).getContentPane();
 		}else if(f.getWidget() instanceof Composite){
 			return (Composite) f.getWidget();
 		}else{

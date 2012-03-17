@@ -31,11 +31,16 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.facet.infra.browser,
  org.eclipse.emf.facet.infra.browser.uicore,
  org.topcased.facilities,
- org.topcased.tabbedproperties
+ org.topcased.tabbedproperties,
+ org.eclipse.datatools.sqltools.sqleditor,
+ org.eclipse.datatools.sqltools.data.core;bundle-version="1.2.0",
+ org.eclipse.datatools.sqltools.editor.core,
+ org.eclipse.datatools.sqltools.common.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.eclipse.uml.propertysections,
  org.opaeum.eclipse.uml.propertysections.common,
+ org.opaeum.eclipse.uml.propertysections.sql,
  org.opaeum.modeler.compositestructures.filters,
  org.opaeum.modeler.compositestructures.propertysections,
  org.opaeum.topcased.activitydiagram.filters,

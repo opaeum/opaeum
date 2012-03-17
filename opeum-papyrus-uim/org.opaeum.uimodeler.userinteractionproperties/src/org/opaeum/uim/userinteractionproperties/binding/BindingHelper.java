@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.TypedElement;
 import org.opaeum.eclipse.EmfElementFinder;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.uim.UimComponent;
+import org.opaeum.uim.UserInterface;
 import org.opaeum.uim.binding.BindingFactory;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.UimBinding;
@@ -26,7 +27,9 @@ public class BindingHelper implements ITypedElementProvider{
 		this.feature = feature;
 	}
 	public Collection<TypedElement> getTypedElements(){
-		return EmfElementFinder.getTypedElementsInScope(UmlUimLinks.getCurrentUmlLinks(getOwner()).getNearestClass(getOwner()));
+		EObject owner = getOwner();
+		UserInterface form = UmlUimLinks.getNearestForm(owner);
+		return EmfElementFinder.getTypedElementsInScope(UmlUimLinks.getCurrentUmlLinks(owner).getUmlElement(form));
 	}
 	public String getFeatureAsString(){
 		StringBuilder sb = new StringBuilder();

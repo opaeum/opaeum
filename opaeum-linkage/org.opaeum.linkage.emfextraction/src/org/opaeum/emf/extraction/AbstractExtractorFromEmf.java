@@ -191,12 +191,12 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		String body = null;
 		for(int i = 0;i < languages.size();i++){
 			String language = languages.get(i);
-			if(language.equals("OCL") && bodies.size() > i){
+			if(language.equalsIgnoreCase("ocl") && bodies.size() > i){
 				body = bodies.get(i);
 				break;
 			}
 		}
-		if(body == null && bodies.size() == 1){
+		if(body == null && languages.isEmpty() && bodies.size() == 1){
 			body = bodies.get(0);
 		}
 		ParsedOclString string = new ParsedOclString(oe.getName() == null ? body : oe.getName(), usage);

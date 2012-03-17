@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.wb.os.OSSupport;
 
 public abstract class AbstractPanelFigure extends RoundedRectangle implements ISWTFigure{
-	protected Composite widget;
+	protected GridLayoutComposite widget;
 	protected abstract int getColumnCount();
 	long lastTimeShotsWereMade = System.currentTimeMillis();
 	private WrappingLabel fFigureGridPanelNameFigure;
@@ -29,7 +29,7 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		this.setFill(false);
 		this.setLineWidth(3);
 		createContents();
-		widget = new GridPanelComposite(parent, SWT.NONE);
+		widget = new GridLayoutComposite(parent, SWT.NONE);
 		widget.layout();
 		parent.layout();
 	}
@@ -38,8 +38,6 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		if(getParent() instanceof HackedDefaultSizeNodeFigure){
 			if(!widget.isDisposed()){
 				Rectangle rec = UimFigureUtil.toDraw2DRectangle(widget);
-				rec.height -= 10;
-				rec.width -= 10;
 				return rec;
 			}else{
 				return super.getBounds();
@@ -80,14 +78,9 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 	protected void layout(){
 		super.layout();
 		widget.layout();
-		Control[] children2 = widget.getChildren();
+		Control[] children2 = widget.getContentPane().getChildren();
 		for(Control control:children2){
 			IFigure f = (IFigure) control.getData(UimFigureUtil.FIGURE);
-			// IFigure parent = f.getParent();
-			// // f.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
-			// // UimFigureUtil.applyBounds(parent.getBounds(), control.getBounds());
-			// parent.setBounds(UimFigureUtil.toDraw2DRectangle(control.getBounds()));
-			// UimFigureUtil.applyBounds(f.getBounds(), control.getBounds());
 			control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		}
 		List<Figure> childFigures = getChildren();
@@ -122,9 +115,9 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 			if(WindowBuilderUtil.needsComponentShot(widget)){
 				WindowBuilderUtil.activateRootComposite(widget);
 				long start = System.currentTimeMillis();
-				// OSSupport.get().beginShot(widget);
+				 OSSupport.get().beginShot(widget);
 				OSSupport.get().makeShots(widget);
-				// OSSupport.get().endShot(widget);
+				 OSSupport.get().endShot(widget);
 				System.out.println("Shot took " + (System.currentTimeMillis() - start));
 				WindowBuilderUtil.clearNeedsImage(widget);
 			}

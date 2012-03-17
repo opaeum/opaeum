@@ -13,20 +13,11 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartListener;
-import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.dnd.TransferDropTargetListener;
-import org.eclipse.jface.util.TransferDragSourceListener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
@@ -37,6 +28,8 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	protected ISWTFigure figure;
 	protected GraphicalEditPart editPart;
 	protected UserInteractionElement element;
+	protected boolean readyForMove = false;
+	private boolean updatingSize;
 	public AbstractEventAdapter(GraphicalEditPart editPart,ISWTFigure figure){
 		super();
 		this.editPart = editPart;
@@ -65,6 +58,7 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		}
 		figure.getWidget().setData(UimFigureUtil.ELEMENT, element);
 		figure.getWidget().setData(UimFigureUtil.FIGURE, figure);
+		figure.getWidget().getParent().layout();
 	}
 	private void setWidthHint(GridData gd,Outlayable outlayable){
 		if(outlayable.getPreferredWidth() != null){
@@ -147,19 +141,31 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		figure.invalidate();
 		if(fig != null){
 			parent.layout();
+			if(parent.getParent() instanceof UimDataTableComposite || parent.getParent() instanceof GridLayoutComposite){
+				parent.getParent().layout();
+			}
 			figure.revalidate();
 			final Figure parentFig = fig;
-//			Display.getCurrent().asyncExec(new Runnable(){
-//				@Override
-//				public void run(){
-//					parentFig.validate();
-//					parentFig.repaint();
-//				}
-//			});
+			// Display.getCurrent().asyncExec(new Runnable(){
+			// @Override
+			// public void run(){
+			// parentFig.validate();
+			// parentFig.repaint();
+			// }
+			// });
 		}
 	}
 	@Override
 	public void figureMoved(IFigure source){
+		if(source == figure && readyForMove && !updatingSize){
+			GridData layoutData = (GridData) figure.getWidget().getLayoutData();
+			if(!updatingSize && (layoutData.heightHint != source.getBounds().height || layoutData.widthHint != source.getBounds().width)){
+				updatingSize = true;
+				System.out.println(layoutData.widthHint + "," + layoutData.heightHint);
+				System.out.println(source.getBounds());
+				updatingSize = false;
+			}
+		}
 	}
 	@Override
 	public void invalidate(IFigure container){
@@ -175,10 +181,16 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 	}
 	@Override
 	public boolean layout(IFigure container){
+		if(container == figure.getParent()){
+			readyForMove = false;
+		}
 		return false;
 	}
 	@Override
 	public void postLayout(IFigure container){
+		if(container == figure.getParent()){
+			readyForMove = true;
+		}
 	}
 	@Override
 	public void remove(IFigure child){

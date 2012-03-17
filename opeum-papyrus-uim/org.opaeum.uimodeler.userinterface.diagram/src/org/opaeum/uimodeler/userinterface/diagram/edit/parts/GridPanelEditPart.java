@@ -30,7 +30,7 @@ import org.eclipse.papyrus.infra.gmfdiag.preferences.utils.PreferenceConstantHel
 import org.eclipse.papyrus.uml.diagram.common.helper.PreferenceInitializerForElementHelper;
 import org.eclipse.swt.graphics.Color;
 import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
-import org.opaeum.uimodeler.common.figures.GridPanelEventAdapter;
+import org.opaeum.uimodeler.common.figures.PanelEventAdapter;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.GridPanelItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
@@ -172,7 +172,7 @@ public class GridPanelEditPart extends ShapeNodeEditPart{
 		IFigure shape = createNodeShape();
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new GridPanelEventAdapter(this, (CustomGridPanelFigure) shape);
+		new PanelEventAdapter(this, (CustomGridPanelFigure) shape);
 		return figure;
 	}
 	/**

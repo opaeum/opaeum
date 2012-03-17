@@ -30,6 +30,7 @@ import org.opaeum.uim.figures.CustomFieldColumnFigure;
 import org.opaeum.uim.figures.UimFieldEventAdapter;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
+import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 import org.opaeum.uimodeler.userinterface.diagram.edit.policies.UimField2ItemSemanticEditPolicy;
 import org.opaeum.uimodeler.userinterface.diagram.part.UimDiagramEditorPlugin;
@@ -91,7 +92,7 @@ public class UimField2EditPart extends ShapeNodeEditPart{
 	 * @generated NOT
 	 */
 	protected IFigure createNodeShape(){
-		return primaryShape = new CustomFieldColumnFigure(UimFigureUtil.getNearestComposite(UimField2EditPart.this.getParent()));
+		return primaryShape = new CustomFieldColumnFigure((UimDataTableComposite) UimFigureUtil.getNearestComposite(UimField2EditPart.this.getParent()));
 	}
 	/**
 	 * @generated NOT

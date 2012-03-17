@@ -1,6 +1,5 @@
 package org.opaeum.uimodeler.common.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -19,7 +18,11 @@ public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 	public Rectangle getBounds(){
 		Control widget = (Control) primaryChild.getWidget();
 		if(!widget.isDisposed()){
-			Rectangle r = UimFigureUtil.toDraw2DRectangle(widget);
+			Rectangle r = UimFigureUtil.toDraw2DRectangle(widget).getCopy();
+			if(widget instanceof UimDataTableComposite){
+				// TODO Find a better place for this
+//				r.height -= ((UimDataTableComposite) widget).getFirstRow().getSize().x;
+			}
 			return r;
 		}else{
 			return super.getBounds();
@@ -31,8 +34,8 @@ public class HackedDefaultSizeNodeFigure extends DefaultSizeNodeFigure{
 	}
 	@Override
 	public void paint(Graphics graphics){
-		if(primaryChild instanceof AbstractPanelFigure||primaryChild.getClass().getSimpleName().equals("CustomUimDataTableFigure")){
-			setBackgroundColor(ColorConstants.black);
+		if(primaryChild instanceof AbstractPanelFigure || primaryChild.getClass().getSimpleName().equals("CustomUimDataTableFigure")){
+			// setBackgroundColor(ColorConstants.black);
 			super.paint(graphics);
 		}else{
 			org.eclipse.swt.graphics.Rectangle bounds2 = primaryChild.getWidget().getBounds();

@@ -3,8 +3,8 @@ package org.opaeum.uimodeler.common.figures;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -16,18 +16,21 @@ import org.eclipse.wb.os.OSSupport;
 public final class UimDataTableComposite extends Composite{
 	private Table table;
 	private Composite firstRow;
-	public Composite actionBar;
-	{
-		;
-		addControlListener(new ControlListener(){
-			@Override
-			public void controlResized(ControlEvent e){
-			}
-			@Override
-			public void controlMoved(ControlEvent e){
-			}
-		});
-		setTable(new Table(this, SWT.CHECK));
+	private Composite actionBar;
+	private Composite displayedContent;
+	public static final int ROW_HEIGHT = 34;
+	public UimDataTableComposite(Composite parent,int style){
+		super(parent, style);
+		setLayout(prepareLayout(1));
+		addFirstRow();
+		addDisplayedContent();
+		// layout();
+	}
+	private void addDisplayedContent(){
+		displayedContent = new Composite(this, SWT.NONE);
+		displayedContent.setLayout(prepareLayout(1));
+		displayedContent.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+		this.table = new Table(displayedContent, SWT.CHECK);
 		getTable().setHeaderVisible(true);
 		getTable().setLinesVisible(true);
 		getTable().addListener(SWT.MeasureItem, new Listener(){
@@ -36,53 +39,56 @@ public final class UimDataTableComposite extends Composite{
 				event.height = 29;
 			}
 		});
-		this.setFirstRow(new Composite(this, SWT.NONE){
-			@Override
-			public void setData(String key,Object value){
-				if(key.equals(OSSupport.WBP_NEED_IMAGE) && Boolean.TRUE.equals(value)){
-					getTable().setData(key, value);
-				}
-				super.setData(key, value);
-			}
-		});
-		this.actionBar = new Composite(this, SWT.BORDER);
-		org.eclipse.swt.layout.GridLayout gl = new org.eclipse.swt.layout.GridLayout(30, false);
-		this.getFirstRow().setLayout(gl);
+		table.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+		this.actionBar = new Composite(displayedContent, SWT.BORDER);
+		this.actionBar.setLayout(prepareLayout(30));
+		actionBar.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+		actionBar.setLayoutData(new GridData(GridData.FILL,GridData.CENTER,true,false));
+		getTable().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+	}
+	private GridLayout prepareLayout(int columns){
+		GridLayout gl = new GridLayout(columns, false);
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
 		gl.verticalSpacing = 0;
 		gl.horizontalSpacing = 0;
-		this.actionBar.setLayout(gl);
-		getFirstRow().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		actionBar.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		getTable().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+		return gl;
 	}
-	public UimDataTableComposite(Composite parent,int style){
-		super(parent, style);
+	private void addFirstRow(){
+		this.firstRow = new Composite(this, SWT.NONE){
+			@Override
+			public void setData(String key,Object value){
+				if(key.equals(OSSupport.WBP_NEED_IMAGE) && Boolean.TRUE.equals(value)){
+//					getTable().setData(key, value);
+				}
+				super.setData(key, value);
+			}
+		};
+		GridData firstRowData = new GridData(10, ROW_HEIGHT);
+		firstRowData.grabExcessHorizontalSpace = true;
+		firstRowData.horizontalAlignment = GridData.FILL;
+		firstRow.setLayoutData(firstRowData);
+		firstRow.setLayout(prepareLayout(30));
+		firstRow.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+
 	}
 	public void prepareForPaint(Rectangle bnds){
-		int tableWidth = bnds.width - 16;
-		int tableHeight = bnds.height - 10;
-		org.eclipse.swt.graphics.Rectangle tableBounds = getTable().getBounds();
-		int rowHeight = 34;
-		if(tableBounds.width != tableWidth && tableBounds.height != tableHeight){
-			int compositeWidth = tableWidth;
-			int compositeHeight = tableHeight + 68;
-			setSize(compositeWidth, compositeHeight);
-			getFirstRow().setBounds(0, 0, getSize().x - 4, rowHeight);
-			getFirstRow().setBackground(ColorConstants.red);
-			getTable().setBounds(0, getFirstRow().getBounds().height, tableWidth, tableHeight-70);
-			actionBar.setBackground(ColorConstants.blue);
-			getTable().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-			for(Control control:getFirstRow().getChildren()){
-				control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-			}
-			for(Control control:actionBar.getChildren()){
-				control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-			}
-		}
-		actionBar.setBounds(0, tableHeight-24/*VOODOO*/, getSize().x - 4, rowHeight);
-		recalculateColumns();
+//		System.out.println("UimDataTableComposite.prepareForPaint()");
+//		int tableWidth = bnds.width;
+//		int tableHeight = bnds.height;
+//		org.eclipse.swt.graphics.Rectangle tableBounds = getTable().getBounds();
+//		if(tableBounds.width != tableWidth && tableBounds.height != tableHeight){
+//			getFirstRow().setBackground(ColorConstants.red);
+//			actionBar.setBackground(ColorConstants.blue);
+//			getTable().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+//			for(Control control:getFirstRow().getChildren()){
+//				control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+//			}
+//			for(Control control:actionBar.getChildren()){
+//				control.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
+//			}
+//		}
+//		recalculateColumns();
 	}
 	public void recalculateColumns(){
 		int i = 0;
@@ -110,13 +116,13 @@ public final class UimDataTableComposite extends Composite{
 	public Composite getFirstRow(){
 		return firstRow;
 	}
-	public void setFirstRow(Composite firstRow){
-		this.firstRow = firstRow;
-	}
 	public Table getTable(){
 		return table;
 	}
-	public void setTable(Table table){
-		this.table = table;
+	public Composite getDisplayedContent(){
+		return displayedContent;
+	}
+	public Composite getActionBar(){
+		return actionBar;
 	}
 }

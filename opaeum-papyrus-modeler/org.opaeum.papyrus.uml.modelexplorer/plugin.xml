@@ -1908,4 +1908,11 @@
             provider="Opaeum">
       </profile>
    </extension>
+      <extension
+         id="jkjhkjhkj.ad.ads.ds.ads.ads.dsa."
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.opaeum.papyrus.preferences.OpaeumPreferenceInitializer">
+      </initializer>
+   </extension>
 </plugin>

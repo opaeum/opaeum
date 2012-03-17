@@ -25,7 +25,7 @@
       </customizedFeatures>
     </references>
   </types>
-  <types metaclassName="uim.action.OperationActionPopup">
+  <types metaclassName="uim.action.OperationPopup">
     <references
         referenceName="operationAction">
       <customizedFeatures>

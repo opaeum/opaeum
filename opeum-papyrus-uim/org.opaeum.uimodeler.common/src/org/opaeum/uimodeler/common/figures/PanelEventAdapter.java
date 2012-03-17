@@ -14,13 +14,13 @@ import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.PanelPackage;
 
-public class GridPanelEventAdapter extends AbstractEventAdapter{
+public class PanelEventAdapter extends AbstractEventAdapter{
 	private AbstractPanelFigure fig;
-	private GridPanelComposite composite;
-	public GridPanelEventAdapter(GraphicalEditPart ed,AbstractPanelFigure fig){
+	private GridLayoutComposite composite;
+	public PanelEventAdapter(GraphicalEditPart ed,AbstractPanelFigure fig){
 		super(ed, fig);
 		this.fig = fig;
-		this.composite = (GridPanelComposite) fig.getWidget();
+		this.composite = (GridLayoutComposite) fig.getWidget();
 		composite.getContentPane().setData(UimFigureUtil.ELEMENT, element);
 		composite.getContentPane().setData(UimFigureUtil.FIGURE, figure);
 
@@ -36,16 +36,10 @@ public class GridPanelEventAdapter extends AbstractEventAdapter{
 	public void figureMoved(IFigure source){
 		super.figureMoved(source);
 		if(source == figure && composite.getParent() instanceof Shell){
+			//IF it is the toplevel panel, resize the shell and root composite
 			Rectangle b = source.getBounds();
 			fig.getWidget().getParent().setSize(b.width, b.height);
 			fig.getWidget().setLayoutData(new GridData(b.width, b.height));
-		}else{
-//			Rectangle b = source.getBounds();
-//			GridData gd = new GridData(b.width - 20, b.height - 30);
-//			gd.verticalIndent = 5;
-//			gd.horizontalIndent = 25;
-//			fig.getWidget().setLayoutData(gd);
-//			fig.getWidget().getParent().layout();
 		}
 	}
 	@Override
@@ -67,12 +61,20 @@ public class GridPanelEventAdapter extends AbstractEventAdapter{
 					composite.getContentPane().layout();
 				}
 				break;
+			case Notification.ADD:
+				switch(msg.getFeatureID(GridPanel.class)){
+				case PanelPackage.ABSTRACT_PANEL__CHILDREN:
+					fig.layout();
+					prepareForRepaint();
+				}
+				break;
 			case Notification.SET:
 				switch(msg.getFeatureID(GridPanel.class)){
 				case PanelPackage.GRID_PANEL__NUMBER_OF_COLUMNS:
 					GridLayout children = (GridLayout) composite.getContentPane().getLayout();
 					children.numColumns = (Integer) msg.getNewValue();
 					composite.getContentPane().layout();
+					fig.layout();
 					prepareForRepaint();
 				}
 			}

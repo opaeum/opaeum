@@ -28,14 +28,19 @@ import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 public final class UimFieldEventAdapter extends AbstractEventAdapter{
 	private IUimFieldFigure fig;
+	private int minimumLabelWidth;
 	public UimFieldEventAdapter(GraphicalEditPart ep,IUimFieldFigure fig){
 		super(ep, fig);
 		this.fig = fig;
 		if(super.element instanceof UimField){
-			fig.setMinimumLabelWidth(((UimField) super.element).getMinimumLabelWidth());
 			populateControl();
 			setOrientation(((UimField) super.element).getOrientation());
+			this.minimumLabelWidth = ((UimField) super.element).getMinimumLabelWidth() == null ? 200 : ((UimField) super.element)
+					.getMinimumLabelWidth();
+			fig.setMinimumLabelWidth(minimumLabelWidth);
 		}
+		fig.getComposite().layout();
+		prepareForRepaint();
 		fig.getComposite().setBackground(ColorConstants.cyan);
 	}
 	@Override
@@ -51,6 +56,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 				break;
 			case UimPackage.UIM_FIELD__MINIMUM_LABEL_WIDTH:
 				fig.setMinimumLabelWidth((Integer) notification.getNewValue());
+				this.minimumLabelWidth = (Integer) notification.getNewValue();
 				super.prepareForRepaint();
 				break;
 			case UimPackage.UIM_FIELD__ORIENTATION:
@@ -88,6 +94,7 @@ public final class UimFieldEventAdapter extends AbstractEventAdapter{
 			fig.getComposite().setLayout(layout);
 			fig.getComposite().getChildren()[0].setLayoutData(new GridData(GridData.FILL, GridData.FILL, false, true));
 			fig.getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+			fig.setMinimumLabelWidth(minimumLabelWidth);
 		}
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;

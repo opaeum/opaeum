@@ -5,7 +5,9 @@ import java.util.Stack;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.ICoolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.papyrus.editor.PapyrusMultiDiagramEditor;
@@ -13,23 +15,25 @@ import org.eclipse.papyrus.infra.core.lifecycleevents.ISaveAndDirtyService;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerPageBookView;
 import org.eclipse.papyrus.views.modelexplorer.ModelExplorerView;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.navigator.CommonViewer;
 import org.opaeum.eclipse.context.EObjectSelectorUI;
 import org.opaeum.eclipse.context.OpaeumEclipseContext;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.papyrus.preferences.OpaeumPreferenceInitializer;
 
 public class OpaeumPageListener implements IStartup{
 	private final class PapyrusEObjectSelectorUI implements EObjectSelectorUI{
@@ -119,6 +123,7 @@ public class OpaeumPageListener implements IStartup{
 				}
 			}
 		});
+		new OpaeumPreferenceInitializer().initializeDefaultPreferences();
 	}
 	private IFile getUmlFile(final IFileEditorInput fe){
 		return fe.getFile().getProject().getFile(fe.getFile().getProjectRelativePath().removeFileExtension().addFileExtension("uml"));
@@ -152,6 +157,24 @@ public class OpaeumPageListener implements IStartup{
 				});
 				result.setCurrentEditContext(e.getEditingDomain(), umlFile, result.geteObjectSelectorUI());
 			}
+		}
+		IWorkbenchWindow window = Workbench.getInstance().getActiveWorkbenchWindow();
+		if(window instanceof WorkbenchWindow){
+			MenuManager menuManager = ((WorkbenchWindow) window).getMenuManager();
+			ICoolBarManager coolBarManager = null;
+			if(((WorkbenchWindow) window).getCoolBarVisible()){
+				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
+			}
+			IContributionItem[] items = coolBarManager.getItems();
+			for(IContributionItem item:items){
+				if(item.getId().toLowerCase().contains("papyrus")){
+					System.out.println(item.getId());
+				}
+				if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
+					coolBarManager.remove(item);
+				}
+			}
+			coolBarManager.update(true);
 		}
 	}
 	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){

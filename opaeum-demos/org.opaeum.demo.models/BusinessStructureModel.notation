@@ -269,7 +269,7 @@
       <element xmi:type="uml:Class" href="BusinessStructureModel.uml#_tq_pUGK1EeGb14EjInbIAA"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_trLPgWK1EeGb14EjInbIAA" x="225" y="290"/>
     </children>
-    <children xmi:type="notation:Shape" xmi:id="_GoLL0GO3EeGodsKwWzy5aw" type="2002" fontName="Sans" fontHeight="8" lineColor="0">
+    <children xmi:type="notation:Shape" xmi:id="_GoLL0GO3EeGodsKwWzy5aw" type="2002" fontName="Sans" fontHeight="8" fillColor="8421504" lineColor="0">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GoTHoGO3EeGodsKwWzy5aw" source="ShadowFigure">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_GoTHoWO3EeGodsKwWzy5aw" key="ShadowFigure_Value" value="false"/>
       </eAnnotations>

@@ -45,11 +45,12 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		this.setLayoutManager(layoutThis);
 		createContents();
 		setComposite(new Composite(parent, SWT.BORDER));
-		getComposite().setData("FIGURE", this);
+		getComposite().setData(UimFigureUtil.FIGURE, this);
 		GridLayout rl = new GridLayout(2, false);
 		rl.marginWidth = 0;
 		rl.marginHeight = 0;
 		rl.horizontalSpacing = 0;
+		
 		getComposite().setLayout(rl);
 		setLabel(new Label(getComposite(), SWT.NONE));
 		setControl(createDefaultControl());
@@ -69,9 +70,13 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 			public void mouseDoubleClicked(MouseEvent me){
 			}
 		});
+		getComposite().layout();
+		
+		setBounds(UimFigureUtil.toDraw2DRectangle(composite));
 	}
 	protected Control createDefaultControl(){
-		return new Text(getComposite(), SWT.NONE);
+		Text text = new Text(getComposite(), SWT.NONE);
+		return text;
 	}
 	public void setMinimumLabelWidth(Integer size){
 		if(size != null){
@@ -101,11 +106,11 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 	}
 	@Override
 	public Rectangle getBounds(){
-		if(!widget.isDisposed()){
-			return UimFigureUtil.toDraw2DRectangle(widget);
-		}else{
+//		if(!widget.isDisposed()){
+//			return UimFigureUtil.toDraw2DRectangle(widget);
+//		}else{
 			return super.getBounds();
-		}
+//		}
 	}
 	/**
 	 * @generated

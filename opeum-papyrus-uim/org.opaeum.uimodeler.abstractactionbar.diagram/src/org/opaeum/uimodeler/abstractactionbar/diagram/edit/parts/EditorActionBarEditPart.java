@@ -41,7 +41,7 @@ import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimDiagramEditorPlugi
 import org.opaeum.uimodeler.abstractactionbar.diagram.part.UimVisualIDRegistry;
 import org.opaeum.uimodeler.abstractactionbar.diagram.providers.UimElementTypes;
 import org.opaeum.uimodeler.common.figures.CustomGridPanelFigure;
-import org.opaeum.uimodeler.common.figures.GridPanelEventAdapter;
+import org.opaeum.uimodeler.common.figures.PanelEventAdapter;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
@@ -176,7 +176,7 @@ public class EditorActionBarEditPart extends ShapeNodeEditPart{
 		IFigure shape = createNodeShape();
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-		new GridPanelEventAdapter(this, (CustomGridPanelFigure) shape);
+		new PanelEventAdapter(this, (CustomGridPanelFigure) shape);
 		return figure;
 	}
 	/**

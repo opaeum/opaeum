@@ -85,6 +85,9 @@
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateWizardPageCommandHandler" 
 		description="Creates a new Wizard Page" id="org.opaeum.uimodeler.modelexplorer.handler.CreateWizardPageCommandHandler" name="Create a new WizardPage">
 	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationPopupPageCommandHandler" 
+		description="Creates a new Operation Popup Page" id="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationPopupPageCommandHandler" name="Create a new OperationPopupPage">
+	</command>
 </extension>
 
 	
@@ -116,6 +119,10 @@
 		</command>
 		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateWizardPageCommandHandler" 
 			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new WizardPage" style="push" tooltip="Create a new WizardPage">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.opaeum.uimodeler.modelexplorer.handler.CreateOperationPopupPageCommandHandler" 
+			icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Class.gif" label="Create a new OperationPopupPage" style="push" tooltip="Create a new OperationPopupPage">
 			<visibleWhen checkEnabled="true"/>
 		</command>
 	</menuContribution>
@@ -154,4 +161,5 @@
             class="org.opaeum.uimodeler.modelexplorer.UimStartup">
       </startup>
    </extension>
+
 </plugin>

@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Widget;
 import org.eclipse.wb.os.OSSupport;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
 import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
@@ -25,12 +24,13 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	private Composite composite;
 	private Control control;
 	private TableColumn column;
-	public CustomFieldColumnFigure(Composite comp){
+	private UimDataTableComposite dataTableComposite;
+	public CustomFieldColumnFigure(UimDataTableComposite comp){
 		createContents();
-		Table table = ((UimDataTableComposite) comp).getTable();
+		this.dataTableComposite=comp;
+		Table table = comp.getTable();
 		column = new TableColumn(table, SWT.LEFT);
-		Composite firstRow = (Composite) comp.getChildren()[1];
-		this.composite = new Composite(firstRow, SWT.NONE){
+		this.composite = new Composite(comp.getFirstRow(), SWT.NONE){
 			@Override
 			public void setData(String key,Object data){
 				super.setData(key, data);
@@ -63,7 +63,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	}
 	public void paint(Graphics graphics){
 		Point copy = ((Figure) getParent()).getLocation().getCopy();
-		graphics.drawImage((Image) getWidget().getData("OPAEUM_IMAGE"), copy.x + 1, copy.y);
+		graphics.drawImage((Image) getWidget().getData("OPAEUM_IMAGE"), copy.x, copy.y);
 	}
 	@Override
 	public Control getWidget(){
@@ -72,7 +72,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	@Override
 	public void setLabelText(String string){
 		column.setText(string);
-		((UimDataTableComposite) column.getParent().getParent()).recalculateColumns();
+		dataTableComposite.recalculateColumns();
 	}
 	@Override
 	public void setMinimumLabelWidth(Integer minimumLabelWidth){
@@ -97,9 +97,8 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 	public void markForRepaint(){
 		column.getParent().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		column.getParent().layout();
-		UimDataTableComposite dtc = (UimDataTableComposite) column.getParent().getParent();
-		Table t = dtc.getTable();
+		Table t = dataTableComposite.getTable();
 		t.setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
-		dtc.recalculateColumns();
+		dataTableComposite.recalculateColumns();
 	}
 }

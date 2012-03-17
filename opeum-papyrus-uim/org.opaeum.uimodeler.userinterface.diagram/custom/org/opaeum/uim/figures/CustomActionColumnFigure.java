@@ -15,9 +15,11 @@ import org.opaeum.uimodeler.common.figures.CustomUimActionFigure;
 import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
 
 public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
-	public CustomActionColumnFigure(Composite comp){
-		super((Composite) comp.getChildren()[1]);
-		Table table = ((UimDataTableComposite) comp).getTable();
+	private UimDataTableComposite dataTableComposite;
+	public CustomActionColumnFigure(UimDataTableComposite comp){
+		super(comp.getFirstRow());
+		this.dataTableComposite =  comp;
+		Table table = dataTableComposite.getTable();
 		column = new TableColumn(table, SWT.LEFT);
 		getWidget().addDisposeListener(new DisposeListener(){
 			@Override
@@ -39,7 +41,7 @@ public abstract class CustomActionColumnFigure extends CustomUimActionFigure{
 		column.getParent().setData(OSSupport.WBP_NEED_IMAGE, Boolean.TRUE);
 		column.getParent().layout();
 		super.setLabelText(string);
-		((UimDataTableComposite)column.getParent().getParent()).recalculateColumns();			
+		dataTableComposite.recalculateColumns();			
 	}
 	@Override
 	protected void createContents(){

@@ -4,6 +4,7 @@ package org.opaeum.uim.action.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.opaeum.uim.action.ActionPackage;
+import org.opaeum.uim.action.OperationPopup;
 import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.impl.PageImpl;
 
@@ -34,6 +35,17 @@ public class OperationPopupPageImpl extends PageImpl implements OperationPopupPa
 	@Override
 	protected EClass eStaticClass() {
 		return ActionPackage.Literals.OPERATION_POPUP_PAGE;
+	}
+
+	@Override
+	public String getUmlElementUid(){
+		return ((OperationPopup)eContainer()).getUmlElementUid();
+	}
+
+	@Override
+	public void setUmlElementUid(String newUmlElementUid){
+		((OperationPopup)eContainer()).setUmlElementUid(newUmlElementUid);
+		super.setUmlElementUid(newUmlElementUid);
 	}
 
 } //OperationPopupPageImpl

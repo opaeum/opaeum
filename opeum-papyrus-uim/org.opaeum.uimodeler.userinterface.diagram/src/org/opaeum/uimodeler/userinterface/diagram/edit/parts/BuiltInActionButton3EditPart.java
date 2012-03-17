@@ -89,7 +89,7 @@ public class BuiltInActionButton3EditPart extends ShapeNodeEditPart{
 	protected IFigure createNodeShape(){
 		UimDataTableComposite comp = (UimDataTableComposite) UimFigureUtil.getNearestComposite(getParent());
 		//TODO change this for this and for uimfieldfigure
-		return primaryShape = new CustomBuiltInActionFigure(comp.actionBar);
+		return primaryShape = new CustomBuiltInActionFigure(comp.getActionBar());
 	}
 	/**
 	 * @generated NOT

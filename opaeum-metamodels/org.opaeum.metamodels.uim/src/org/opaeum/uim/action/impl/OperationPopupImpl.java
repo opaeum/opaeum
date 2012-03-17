@@ -89,18 +89,19 @@ public class OperationPopupImpl extends PageContainerImpl implements OperationPo
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public String getUmlElementUid() {
-		return umlElementUid;
+		return getOperationAction().getUmlElementUid();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setUmlElementUid(String newUmlElementUid) {
+		getOperationAction().setUmlElementUid(newUmlElementUid);
 		String oldUmlElementUid = umlElementUid;
 		umlElementUid = newUmlElementUid;
 		if (eNotificationRequired())
