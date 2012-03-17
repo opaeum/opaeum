@@ -1,14 +1,9 @@
 package org.opaeum.eclipse;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,7 +47,6 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValuePin;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
-import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class EmfElementFinder{
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
@@ -272,7 +266,6 @@ public class EmfElementFinder{
 	public static Collection<Element> getCorrectOwnedElements(Element root){
 		return getCorrectOwnedElementsAndRetryIfFailed(root, 0);
 	}
-	@SuppressWarnings("unchecked")
 	protected static Collection<Element> getCorrectOwnedElementsAndRetryIfFailed(Element root,int count){
 		Collection<Element> elements = new HashSet<Element>(root.getOwnedElements());
 		// Unimplemented containment features, oy

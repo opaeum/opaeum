@@ -78,8 +78,8 @@ public class OpaeumConfig{
 			Class<?> c = getClass(name);
 			return (ISourceFolderStrategy) c.newInstance();
 		}catch(Exception e){
-			Class<?> c = getClass("org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
 			try{
+				Class<?> c = getClass("org.opaeum.pomgeneration.SingleProjectMavenSourceFolderStrategy");
 				return (ISourceFolderStrategy) c.newInstance();
 			}catch(Exception e1){
 				return null;

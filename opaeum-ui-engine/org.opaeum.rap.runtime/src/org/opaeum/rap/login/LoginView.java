@@ -2,6 +2,8 @@ package org.opaeum.rap.login;
 
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Color;
@@ -12,6 +14,7 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.part.ViewPart;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.internal.Activator;
 
@@ -39,6 +42,11 @@ public class LoginView extends ViewPart{
 		if(iterator.hasNext()){
 			IOpaeumApplication next = iterator.next();
 			System.out.println(next.getBusinessNetwork());
+			EmfWorkspace emfWorkspace = next.getEmfWorkspace();
+			EList<Resource> resources = emfWorkspace.getResourceSet().getResources();
+			for(Resource resource:resources){
+				System.out.println(resource.getContents());
+			}
 		}
 		GoogleAuthorizationRequestUrl builder = new GoogleAuthorizationRequestUrl(CLIENT_ID, CALLBACK_URL, SCOPE);
 		String authorizeUrl = builder.build();

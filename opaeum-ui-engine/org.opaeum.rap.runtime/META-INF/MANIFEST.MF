@@ -15,7 +15,11 @@ Require-Bundle: org.eclipse.rap.rms.data,
  org.eclipse.rap.ui,
  org.opaeum.rap.domain,
  org.opaeum.rap.hibernate,
- org.opaeum.rap.jpa
+ org.opaeum.rap.jpa,
+ org.opaeum.metamodels.emfworkspace,
+ org.opaeum.compilation.uim,
+ org.opaeum.transformation.engine,
+ org.eclipse.uml2.uml
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator

@@ -50,23 +50,10 @@ public class EmfWorkspaceLoader{
 			log.endLastStep();
 		}
 		log.startStep("Resolving EMF Proxies");
-		ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(4);
 		for(final Resource r:new ArrayList<Resource>(resourceSet.getResources())){
 			if(r.getURI() != null && r.getURI().fileExtension().equals("uml")){
-				// exec.schedule(new Runnable(){
-				// @Override
-				// public void run(){
 				EcoreUtil.resolveAll(r);
-				// }
-				// }, 1, TimeUnit.MILLISECONDS);
 			}
-		}
-		try{
-			exec.shutdown();
-			exec.awaitTermination(100, TimeUnit.SECONDS);
-		}catch(InterruptedException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		log.endLastStep();
 		System.out.println("UML2ModelLoader.loadDirectory() took " + (System.currentTimeMillis() - time) + " ms");

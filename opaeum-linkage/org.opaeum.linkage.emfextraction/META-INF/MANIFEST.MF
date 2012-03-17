@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.opaeum.linkage.emfextraction;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.uml2.uml;visibility:=reexport,
  org.eclipse.uml2.uml.resources;visibility:=reexport,
- org.junit4,
  org.opaeum.metamodels.opaeum,
  org.opaeum.metamodels.ocl,
  org.opaeum.metamodels.emfworkspace,

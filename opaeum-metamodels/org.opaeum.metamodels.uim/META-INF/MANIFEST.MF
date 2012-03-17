@@ -34,8 +34,7 @@ Export-Package: org.opaeum.uim,
  org.opaeum.uim.wizard,
  org.opaeum.uim.wizard.impl,
  org.opaeum.uim.wizard.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
+Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.opaeum.metamodels.emfworkspace,
  org.eclipse.uml2.uml

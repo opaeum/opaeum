@@ -3,16 +3,13 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.compilation.uim
 Bundle-SymbolicName: org.opaeum.compilation.uim;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.opaeum.uim.uml2uim.Activator
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.metamodels.uim,
  org.opaeum.metamodels.text,
  org.opaeum.transformation.engine,
  org.opaeum.metamodels.opaeum,
  org.opaeum.linkage.emfextraction
-Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .
 Export-Package: org.opaeum.uim.uml2uim

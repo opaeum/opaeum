@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.eclipse.rwt.RWT;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Element;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.Property;
+import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.rap.runtime.IOpaeumApplication;
-import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.runtime.contact.IPersonEMailAddress;
 import org.opaeum.runtime.contact.IPersonPhoneNumber;
 import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.contact.PersonPhoneNumberType;
 import org.opaeum.runtime.domain.IntrospectionUtil;
-import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.organization.IBusinessActorBase;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 import org.opaeum.runtime.organization.IBusinessComponent;
@@ -47,6 +47,11 @@ public class UserRoleAllocationWizardData{
 		this.application = application;
 		this.businessNetwork = application.getBusinessNetwork();
 		this.sb = application.createRootBusinessCollaboration();
+		EmfWorkspace emfWorkspace = application.getEmfWorkspace();
+		EList<Element> ownedElements = emfWorkspace.getOwnedElements();
+		for(Element element:ownedElements){
+			System.out.println(element);
+		}
 	}
 	IBusinessCollaborationBase sb;
 	private Map<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>> multiUserRoleComponentMap = new TreeMap<Class<? extends IBusinessRoleBase>,Class<? extends IBusinessComponent>>(getClassNameComparator());
