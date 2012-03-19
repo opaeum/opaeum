@@ -34,15 +34,15 @@ import org.opaeum.topcased.propertysections.ocl.OpaqueExpressionComposite;
 import org.topcased.tabbedproperties.utils.TextChangeListener;
 
 public class SlotComposite extends Composite{
-	public static int MAX_ROWS=5;
-	public static int DEFAULT_ROW_HEIGHT=25;
+	public static int MAX_ROWS = 5;
+	public static int DEFAULT_ROW_HEIGHT = 25;
 	public final class SlotOclComposite extends OpaqueExpressionComposite{
 		private SlotOclComposite(Composite parent,FormToolkit toolkit){
-			super(parent, toolkit,SWT.NONE);
+			super(parent, toolkit, SWT.NONE);
 			GridLayout layout = new GridLayout(1, false);
 			layout.marginHeight = 0;
 			layout.marginWidth = 0;
-			layout.verticalSpacing=1;
+			layout.verticalSpacing = 1;
 			setLayout(layout);
 		}
 		@Override
@@ -71,51 +71,55 @@ public class SlotComposite extends Composite{
 		for(Control control:getChildren()){
 			control.dispose();
 		}
-		if(EmfPropertyUtil.isMany(slot.getDefiningFeature()) && slot.getOwner() instanceof EnumerationLiteral && slot.getDefiningFeature().getType() instanceof Enumeration){
-			final EList<EnumerationLiteral> ownedLiterals = ((Enumeration) slot.getDefiningFeature().getType()).getOwnedLiterals();
-			for(final EnumerationLiteral enumerationLiteral:ownedLiterals){
-				final Button btn = toolkit.createButton(this, enumerationLiteral.getName(), SWT.CHECK);
-				for(ValueSpecification vs:slot.getValues()){
-					if(vs instanceof InstanceValue && ((InstanceValue) vs).getInstance() instanceof EnumerationLiteral
-							&& enumerationLiteral.equals(((InstanceValue) vs).getInstance())){
-						btn.setSelection(true);
+		if(slot.getDefiningFeature() != null){
+			if(EmfPropertyUtil.isMany(slot.getDefiningFeature()) && slot.getOwner() instanceof EnumerationLiteral
+					&& slot.getDefiningFeature().getType() instanceof Enumeration){
+				final EList<EnumerationLiteral> ownedLiterals = ((Enumeration) slot.getDefiningFeature().getType()).getOwnedLiterals();
+				for(final EnumerationLiteral enumerationLiteral:ownedLiterals){
+					final Button btn = toolkit.createButton(this, enumerationLiteral.getName(), SWT.CHECK);
+					for(ValueSpecification vs:slot.getValues()){
+						if(vs instanceof InstanceValue && ((InstanceValue) vs).getInstance() instanceof EnumerationLiteral
+								&& enumerationLiteral.equals(((InstanceValue) vs).getInstance())){
+							btn.setSelection(true);
+						}
 					}
-				}
-				btn.addSelectionListener(new SelectionListener(){
-					@Override
-					public void widgetSelected(SelectionEvent e){
-						if(btn.getSelection()){
-							final InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
-							iv.setInstance(enumerationLiteral);
-							editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, slot, UMLPackage.eINSTANCE.getSlot_Value(), iv));
-						}else{
-							for(ValueSpecification vs:slot.getValues()){
-								if(vs instanceof InstanceValue && ((InstanceValue) vs).getInstance() instanceof EnumerationLiteral
-										&& enumerationLiteral.equals(((InstanceValue) vs).getInstance())){
-									editingDomain.getCommandStack().execute(RemoveCommand.create(editingDomain, slot, UMLPackage.eINSTANCE.getSlot_Value(), vs));
+					btn.addSelectionListener(new SelectionListener(){
+						@Override
+						public void widgetSelected(SelectionEvent e){
+							if(btn.getSelection()){
+								final InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
+								iv.setInstance(enumerationLiteral);
+								editingDomain.getCommandStack().execute(AddCommand.create(editingDomain, slot, UMLPackage.eINSTANCE.getSlot_Value(), iv));
+							}else{
+								for(ValueSpecification vs:slot.getValues()){
+									if(vs instanceof InstanceValue && ((InstanceValue) vs).getInstance() instanceof EnumerationLiteral
+											&& enumerationLiteral.equals(((InstanceValue) vs).getInstance())){
+										editingDomain.getCommandStack().execute(
+												RemoveCommand.create(editingDomain, slot, UMLPackage.eINSTANCE.getSlot_Value(), vs));
+									}
 								}
 							}
 						}
-					}
-					@Override
-					public void widgetDefaultSelected(SelectionEvent e){
-					}
-				});
+						@Override
+						public void widgetDefaultSelected(SelectionEvent e){
+						}
+					});
+				}
+			}else{
+				for(final ValueSpecification valueSpecification:slot.getValues()){
+					createRow(slot, valueSpecification);
+				}
 			}
-		}else{
-			for(final ValueSpecification valueSpecification:slot.getValues()){
-				createRow(slot, valueSpecification);
-			}
+			GridLayout layout = new GridLayout((int) Math.round(Math.ceil(getChildren().length / (double) MAX_ROWS)), false);
+			layout.marginHeight = 0;
+			layout.marginWidth = 0;
+			layout.verticalSpacing = -2;
+			layout.horizontalSpacing = 8;
+			setLayout(layout);
 		}
-		GridLayout layout = new GridLayout((int)Math.round(Math.ceil(getChildren().length/(double)MAX_ROWS)), false);
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		layout.verticalSpacing=-2;
-		layout.horizontalSpacing=8;
-		setLayout(layout);
 	}
 	public int getBorderWidth(){
-		return getChildren().length>1?1:0;
+		return getChildren().length > 1 ? 1 : 0;
 	}
 	private void createRow(final Slot slot,final ValueSpecification valueSpecification){
 		if(valueSpecification instanceof OpaqueExpression){

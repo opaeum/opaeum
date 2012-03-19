@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.opaeum.metamodels.simulation/src" editDirectory="/org.opaeum.simulation.edit/src"
+    editorDirectory="/org.opaeum.simulation.editor/src" modelPluginID="org.opaeum.metamodels.simulation"
+    modelName="Simulation" editPluginClass="org.opaeum.simulation.simulation.provider.SimulationEditPlugin"
+    editorPluginClass="org.opaeum.simulation.simulation.presentation.SimulationEditorPlugin"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    editPluginID="org.opaeum.simulation.edit" editorPluginID="org.opaeum.simulation.editor"
+    usedGenPackages="Ecore.genmodel#//ecore Types.genmodel#//types UML.genmodel#//uml"
+    runtimePlatform="RAP">
+  <foreignModel>Simulation.ecore</foreignModel>
+  <genPackages prefix="Simulation" basePackage="org.opaeum.metamodels.simulation"
+      resource="XML" disposableProviderFactory="true" ecorePackage="Simulation.ecore#/">
+    <genClasses ecoreClass="Simulation.ecore#//ValueSimulation"/>
+    <genClasses ecoreClass="Simulation.ecore#//NormalDistribution">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NormalDistribution/mean"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NormalDistribution/standardDeviation"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//UniformDistribution">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//UniformDistribution/lowerLimit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//UniformDistribution/upperLimit"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//ExponentialDistribution">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//ExponentialDistribution/mean"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//SimulatedSlot">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//SimulatedSlot/sizeDistribution"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//SimulatedSlot/property"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//NumericValueDistribution"/>
+    <genClasses ecoreClass="Simulation.ecore#//EnumLiteralSimulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//EnumLiteralSimulation/weight"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//ContainedInstanceValueSimulation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedInstanceValueSimulation/values"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//BooleanValueSimulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//BooleanValueSimulation/weight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//BooleanValueSimulation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//NumberRangeDistribution">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NumberRangeDistribution/upperValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NumberRangeDistribution/lowerValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NumberRangeDistribution/weight"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//ReferencedInstanceSimulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//ReferencedInstanceSimulation/weight"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//ReferencedInstanceSimulation/instance"/>
+    </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//StringValueSimulation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//StringValueSimulation/weight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//StringValueSimulation/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

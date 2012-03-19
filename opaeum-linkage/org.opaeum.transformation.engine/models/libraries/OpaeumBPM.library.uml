@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 ../profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpaeumStandardProfile/1.0.0.6 ../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpaeumLibraryForBPM">
     <eAnnotations xmi:id="_VOtz8NfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
       <details xmi:id="_vlGBIODlEeCsDuwu_RQvSA" key="uuid" value="252060"/>
     </eAnnotations>
     <packageImport xmi:id="_bVugcNcDEeCJ0dmaHEVVnw">
       <eAnnotations xmi:id="_Jd0yAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-      <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_qb8akM37EdqwVrslYOdUDA"/>
+      <importedPackage xmi:type="uml:Model" href="OpaeumSimpleTypes.papyrus.uml#_qb8akM37EdqwVrslYOdUDA"/>
     </packageImport>
     <packageImport xmi:id="_xxYMwF98EeGQnpmoOY8nIw">
       <eAnnotations xmi:id="_JjvMwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-      <importedPackage xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
+      <importedPackage xmi:type="uml:Model" href="OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
     </packageImport>
     <packagedElement xmi:type="uml:Package" xmi:id="_g5ShYJTxEeChgI0v02SJHQ" name="events">
       <eAnnotations xmi:id="_Jjmp4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -70,7 +70,7 @@
         </ownedAttribute>
         <ownedAttribute xmi:id="_QLpNoNcDEeCJ0dmaHEVVnw" name="businessHoursPerWeek">
           <eAnnotations xmi:id="_Jluw0GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_szTxoNcDEeCJ0dmaHEVVnw" name="businessDaysPerMonth">
           <eAnnotations xmi:id="_JmEvEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -78,40 +78,40 @@
         </ownedAttribute>
         <ownedAttribute xmi:id="_1Hz-cNcDEeCJ0dmaHEVVnw" name="businessHoursPerDay">
           <eAnnotations xmi:id="_JmIZcGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
         </ownedAttribute>
         <ownedOperation xmi:id="_NTccANcEEeCJ0dmaHEVVnw" name="addTimeTo" isQuery="true">
           <eAnnotations xmi:id="_Jl3TsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_OJSe4NcEEeCJ0dmaHEVVnw" name="fromDateTime">
             <eAnnotations xmi:id="_Jl2FkGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedParameter>
           <ownedParameter xmi:id="_QPwcINcEEeCJ0dmaHEVVnw" name="timeUnit">
             <eAnnotations xmi:id="_Jlx0IGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+            <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
           </ownedParameter>
           <ownedParameter xmi:id="_WfbDYNcEEeCJ0dmaHEVVnw" name="numberOfUnits">
             <eAnnotations xmi:id="_Jl0QYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+            <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
           </ownedParameter>
           <ownedParameter xmi:id="_ZaBMQNcEEeCJ0dmaHEVVnw" name="result" direction="return">
             <eAnnotations xmi:id="_JlzCQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:id="_mOhZgNcEEeCJ0dmaHEVVnw" name="calculateTimeBetween" isQuery="true">
           <eAnnotations xmi:id="_JmC54GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
           <ownedParameter xmi:id="_nlX3sNcEEeCJ0dmaHEVVnw" name="fromDateTIme">
             <eAnnotations xmi:id="_Jl8zQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedParameter>
           <ownedParameter xmi:id="_nm_BQNcEEeCJ0dmaHEVVnw" name="toDateTime">
             <eAnnotations xmi:id="_JmBEsGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+            <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
           </ownedParameter>
           <ownedParameter xmi:id="_nogrQNcEEeCJ0dmaHEVVnw" name="businessTimeUnit">
             <eAnnotations xmi:id="_Jl6-EGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+            <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
           </ownedParameter>
           <ownedParameter xmi:id="_nrLkwNcEEeCJ0dmaHEVVnw" name="result" type="_mkwNcASREeGb9qsDxKJdSA" direction="return">
             <eAnnotations xmi:id="_Jl-ocGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -124,7 +124,7 @@
           </ownedParameter>
           <ownedParameter xmi:id="_ixMxYASTEeGb9qsDxKJdSA" name="toTimeUnit">
             <eAnnotations xmi:id="_JloDIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-            <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+            <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
           </ownedParameter>
           <ownedParameter xmi:id="_oc-ocASTEeGb9qsDxKJdSA" name="result" type="_mkwNcASREeGb9qsDxKJdSA" direction="return">
             <eAnnotations xmi:id="_JlrGcGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -360,15 +360,15 @@
         <eAnnotations xmi:id="_JmygwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedAttribute xmi:id="_sa4TUASREeGb9qsDxKJdSA" name="timeUnit">
           <eAnnotations xmi:id="_Jmu2YGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+          <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_twyWUASREeGb9qsDxKJdSA" name="quantity">
           <eAnnotations xmi:id="_JmwEgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
+          <type xmi:type="uml:PrimitiveType" href="OpaeumSimpleTypes.papyrus.uml#_UjiHwMkJEeCqJJ6VBTMkzg"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_f6z9oASUEeGb9qsDxKJdSA" name="fromDate">
           <eAnnotations xmi:id="_JmxSoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </ownedAttribute>
       </packagedElement>
     </packagedElement>
@@ -783,11 +783,11 @@
         <eAnnotations xmi:id="_JdsPIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedAttribute xmi:id="_RZHMwEt3EeGElKTCe2jfDw" name="fromDate">
           <eAnnotations xmi:id="_JdrBAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_TCe-UEt3EeGElKTCe2jfDw" name="toDate">
           <eAnnotations xmi:id="_JdqZ8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumSimpleTypes.papyrus.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_NRu9QFYjEeGJUqEGX7bKSg" clientDependency="_-dv5oF13EeGKRdKItFLDfg" name="BusinessNetwork">
@@ -1958,7 +1958,7 @@
         </ownedEnd>
         <ownedEnd xmi:id="_84NrDrRZEeCilvbXE8KmHA" name="delegation" association="_84NrCrRZEeCilvbXE8KmHA">
           <eAnnotations xmi:id="_JfkecGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_5lxp4LRZEeCilvbXE8KmHA"/>
+          <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_5lxp4LRZEeCilvbXE8KmHA"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_84NrELRZEeCilvbXE8KmHA" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_84NrD7RZEeCilvbXE8KmHA" value="1"/>
         </ownedEnd>
@@ -2191,7 +2191,7 @@
         <eAnnotations xmi:id="_JjriYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedAttribute xmi:id="_3FqBQF9lEeG3X_yvufTVmw" name="documentType">
           <eAnnotations xmi:id="_Jjn4AGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
+          <type xmi:type="uml:Enumeration" href="OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
         </ownedAttribute>
         <ownedOperation xmi:id="_nx6xcF9lEeG3X_yvufTVmw" name="makeCopy">
           <eAnnotations xmi:id="_JjqUQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2206,18 +2206,18 @@
     </packagedElement>
     <profileApplication xmi:id="_515RUNYKEeCJushKW8isXg">
       <eAnnotations xmi:id="_u94oIGFCEeGkTcsMClexwg" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+        <references xmi:type="ecore:EPackage" href="../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
       </eAnnotations>
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile href="../profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
     <profileApplication xmi:id="_oIbTsNb_EeCJ0dmaHEVVnw">
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile href="../profiles/JavaxValidation.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
     <profileApplication xmi:id="_K6OekGFAEeG5-sRmY0oorQ">
       <eAnnotations xmi:id="_K7UDsGFAEeG5-sRmY0oorQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+        <references xmi:type="ecore:EPackage" href="../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
       </eAnnotations>
-      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile href="../profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
   <JavaxValidation:Max xmi:id="_rHYGMNcBEeCJ0dmaHEVVnw" value="59" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>

@@ -11,11 +11,10 @@ import org.opaeum.runtime.event.ICallEventHandler;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
 import structuredbusiness.DocumentVerifier;
-import structuredbusiness.IdBook;
 
 public class VerifyRequiredDocumentsHandler3618253756675873619 implements ICallEventHandler {
 	private Date firstOccurrenceScheduledFor;
-	private IdBook id;
+	private String id;
 	private boolean isEvent;
 
 	/** Constructor for VerifyRequiredDocumentsHandler3618253756675873619
@@ -23,7 +22,7 @@ public class VerifyRequiredDocumentsHandler3618253756675873619 implements ICallE
 	 * @param id 
 	 * @param isEvent 
 	 */
-	public VerifyRequiredDocumentsHandler3618253756675873619(IdBook id, boolean isEvent) {
+	public VerifyRequiredDocumentsHandler3618253756675873619(String id, boolean isEvent) {
 		this.firstOccurrenceScheduledFor=new Date(System.currentTimeMillis()+1000);
 		setId(id);
 		this.isEvent=isEvent;
@@ -46,7 +45,7 @@ public class VerifyRequiredDocumentsHandler3618253756675873619 implements ICallE
 		return "914890@_vaiUUGK1EeGb14EjInbIAA";
 	}
 	
-	public IdBook getId() {
+	public String getId() {
 		return this.id;
 	}
 	
@@ -79,7 +78,7 @@ public class VerifyRequiredDocumentsHandler3618253756675873619 implements ICallE
 		return new Date(System.currentTimeMillis() + 1000*60*60*24*10);
 	}
 	
-	public void setId(IdBook id) {
+	public void setId(String id) {
 		this.id=id;
 	}
 	
@@ -90,7 +89,7 @@ public class VerifyRequiredDocumentsHandler3618253756675873619 implements ICallE
 	public void unmarshall(Collection<PropertyValue> ps, AbstractPersistence persistence) {
 		for ( PropertyValue p : ps ) {
 			if ( p.getId()==7031023243174406977l ) {
-				this.setId((IdBook)Value.valueOf(p.getValue(),persistence));
+				this.setId((String)Value.valueOf(p.getValue(),persistence));
 			} else {
 			
 			}

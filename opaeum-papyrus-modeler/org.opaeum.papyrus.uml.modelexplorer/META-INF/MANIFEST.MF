@@ -30,7 +30,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.search,
  org.eclipse.jdt.ui,
  org.eclipse.debug.ui,
- org.eclipse.papyrus.infra.gmfdiag.preferences
+ org.eclipse.papyrus.infra.gmfdiag.preferences,
+ org.opaeum.metamodels.simulation
 Export-Package: org.eclipse.papyrus.uml.modelexplorer,
  org.eclipse.papyrus.uml.modelexplorer.factory,
  org.eclipse.papyrus.uml.modelexplorer.queries

@@ -28,6 +28,7 @@ public abstract class NakedSimpleDataTypeImpl extends NakedClassifierImpl implem
 	}
 	private static final long serialVersionUID = 4359784104365005415L;
 	private AbstractStrategyFactory strategyFactory = new NoStrategyFactory();
+	private String runtimeStrategyFactory;
 	public AbstractStrategyFactory getStrategyFactory(){
 		return strategyFactory;
 	}
@@ -71,6 +72,9 @@ public abstract class NakedSimpleDataTypeImpl extends NakedClassifierImpl implem
 	@Override
 	public void addStereotype(INakedInstanceSpecification stereotype){
 		super.addStereotype(stereotype);
+		if(stereotype.hasValueForFeature("runtimeStrategyFactory")){
+			this.runtimeStrategyFactory = stereotype.getFirstValueFor("runtimeStrategyFactory").stringValue();
+		}
 	}
 	@Override
 	public String getMetaClass(){
@@ -79,5 +83,11 @@ public abstract class NakedSimpleDataTypeImpl extends NakedClassifierImpl implem
 	@Override
 	public List<IState> getStates(){
 		return Collections.emptyList();
+	}
+	public String getRuntimeStrategyFactory(){
+		if(this.runtimeStrategyFactory == null && getSupertype() instanceof INakedSimpleType){
+			return ((INakedSimpleType) getSupertype()).getRuntimeStrategyFactory();
+		}
+		return runtimeStrategyFactory;
 	}
 }

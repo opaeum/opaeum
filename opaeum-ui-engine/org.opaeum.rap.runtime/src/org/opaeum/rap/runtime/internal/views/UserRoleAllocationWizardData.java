@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.opaeum.annotation.BusinessComponent;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.runtime.contact.IPersonEMailAddress;
@@ -68,8 +68,8 @@ public class UserRoleAllocationWizardData{
 			if(bc.getAnnotation(BusinessComponent.class).isRoot()){
 				PropertyDescriptor[] properties = IntrospectionUtil.getProperties(bc);
 				for(PropertyDescriptor pd:properties){
-					if(pd.getWriteMethod() != null && pd.getReadMethod().isAnnotationPresent(Property.class)){
-						if(pd.getReadMethod().getAnnotation(Property.class).isComposite()){
+					if(pd.getWriteMethod() != null && pd.getReadMethod().isAnnotationPresent(PropertyMetaInfo.class)){
+						if(pd.getReadMethod().getAnnotation(PropertyMetaInfo.class).isComposite()){
 							if(isMany(pd)){
 								Class<?> type = (Class<?>) ((ParameterizedType) pd.getReadMethod().getGenericReturnType()).getActualTypeArguments()[0];
 								if(IBusinessRoleBase.class.isAssignableFrom(type)){

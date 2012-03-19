@@ -1,9 +1,17 @@
+Reactivate test data generation
+Simulation
+
+Allow configured user to log in with Google Id
+Allow for defaultUser to be looked up for dev purposes to aavoid login
+Read metadata from java, don't load uml model
+populate tree using the composition annotation
+put properties and methods in metainfomap group by class for easy navigation in tree
+implement featureItem and objectitem
+
 TreeConfiguration - show treeview with checkboxes - hidden,visible,hiddenclasses
-PropertySections:
-operation LinkToQuery section
-Built in Link kind section
 
 New Tasks:
+UIM:
 Define UserInteractionElements as Serializable and create a Save listener that deploys objects to the server automatically
 Add RadioButtons and checkboxes lists as control kinds, include their layout in the orientation
 Add a "lastlinkedumlresource" to the modelroot to allow open editors to be reassociated with their uml models
@@ -11,3 +19,8 @@ Add a userModified field to UserInteractionElement and do not overwrite these on
 Introduce an action that automatically creates an operation popup from a button
 Drag and drop uml items from a tree (properties, actions) 
 Add forcedLabelWidth and sameWidth to AbstractPanel
+
+Simulation:
+Task durations distributions
+Calculate resource availability on a 15 minute basis
+

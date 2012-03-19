@@ -40,7 +40,9 @@ public class InstanceSpecificationSlotsSection extends AbstractTabbedPropertySec
 			SlotComposite last = null;
 			SlotComposite first = null;
 			for(Slot slot:is.getSlots()){
-				Label lbl = getWidgetFactory().createLabel(slotsGroup, NameConverter.separateWords(NameConverter.capitalize(slot.getDefiningFeature().getName())));
+				
+				String featureNAme = slot.getDefiningFeature()==null?"NoFeatureSpecified":slot.getDefiningFeature().getName();
+				Label lbl = getWidgetFactory().createLabel(slotsGroup, NameConverter.separateWords(NameConverter.capitalize(featureNAme)));
 				lbl.setAlignment(SWT.TOP|SWT.LEFT);
 				lbl.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 				lbl.setLayoutData(new GridData(STANDARD_LABEL_WIDTH + 55, 25));

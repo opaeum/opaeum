@@ -67,6 +67,26 @@
 
 <!-- Creation command declarations -->
 <extension point="org.eclipse.ui.commands">
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.SimulatedSlotHandler" description="Create a new Simulated Slot" id="org.eclipse.papyrus.uml.modelexplorer.SimulatedSlotCreateCommand" name="Create a new Simulated Slot">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.BooleanValueSimulationHandler" description="Create a new Boolean Value Simulation" id="org.eclipse.papyrus.uml.modelexplorer.BooleanValueSimulationCreateCommand" name="Create a new Boolean Value Simulation">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.ContainedInstanceValueSimulationHandler" description="Create a new ContainedInstanceValueSimulation" id="org.eclipse.papyrus.uml.modelexplorer.ContainedInstanceValueSimulationCreateCommand" name="Create a new ContainedInstanceValueSimulation">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.EnumLiteralSimulationHandler" description="Create a new EnumLiteralSimulation" id="org.eclipse.papyrus.uml.modelexplorer.EnumLiteralSimulationCreateCommand" name="Create a new EnumLiteralSimulation">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.ExponentialDistributionHandler" description="Create a new ExponentialDistribution" id="org.eclipse.papyrus.uml.modelexplorer.ExponentialDistributionCreateCommand" name="Create a new ExponentialDistribution">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.NormalDistributionHandler" description="Create a new NormalDistribution" id="org.eclipse.papyrus.uml.modelexplorer.NormalDistributionCreateCommand" name="Create a new NormalDistribution">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.NumberRangeDistributionHandler" description="Create a new NumberRangeDistribution" id="org.eclipse.papyrus.uml.modelexplorer.NumberRangeDistributionCreateCommand" name="Create a new NumberRangeDistribution">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.UniformDistributionHandler" description="Create a new UniformDistribution" id="org.eclipse.papyrus.uml.modelexplorer.UniformDistributionCreateCommand" name="Create a new UniformDistribution">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.ReferencedInstanceSimulationHandler" description="Create a new ReferencedInstanceSimulation" id="org.eclipse.papyrus.uml.modelexplorer.ReferencedInstanceSimulationCreateCommand" name="Create a new ReferencedInstanceSimulation">
+	</command>
+	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.StringValueSimulationHandler" description="Create a new StringValueSimulation" id="org.eclipse.papyrus.uml.modelexplorer.StringValueSimulationCreateCommand" name="Create a new StringValueSimulation">
+	</command>
 	<!-- Creation command for BusinessProcesses -->
 	<command categoryId="org.eclipse.papyrus.editor.category" defaultHandler="org.opaeum.papyrus.uml.modelexplorer.handler.BusinessProcessHandler" description="Create a new Business Process" id="org.eclipse.papyrus.uml.modelexplorer.BusinessProcessCreateCommand" name="Create a new Business Process">
 	</command>
@@ -868,6 +888,34 @@
 <extension point="org.eclipse.ui.menus">
 
 	<menuContribution locationURI="popup:org.eclipse.papyrus.views.modelexplorer.popupmenu.createchild" allPopups="false">
+
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.SimulatedSlotCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new SimulatedSlot" style="push" tooltip="Create a new SimulatedSlot">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.ContainedInstanceValueSimulationCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/InstanceSpecification.gif" label="Create a new ContainedInstance" style="push" tooltip="Create a new ContainedInstance">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.EnumLiteralSimulationCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/EnumerationLiteral.gif" label="Create a new EnumLiteralSimulation" style="push" tooltip="Create a new Enumeration Literal Similulation">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.ExponentialDistributionCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new ExponentialDistribution" style="push" tooltip="Create a new ExponentialDistribution">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.NormalDistributionCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new Normal Distribution" style="push" tooltip="Create a new Normal Distribution">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.NumberRangeDistributionCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new NumberRangeDistribution" style="push" tooltip="Create a new NumberRangeDistribution">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.UniformDistributionCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new UniformDistribution" style="push" tooltip="Create a new UniformDistribution">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.ReferencedInstanceSimulationCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new ReferencedInstanceSimulation" style="push" tooltip="Create a new ReferencedInstanceSimulation">
+			<visibleWhen checkEnabled="true"/>
+		</command>
+		<command commandId="org.eclipse.papyrus.uml.modelexplorer.StringValueSimulationCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Slot.gif" label="Create a new StringValueSimulation" style="push" tooltip="Create a new StringValueSimulation">
+			<visibleWhen checkEnabled="true"/>
+		</command>
 		<command commandId="org.eclipse.papyrus.uml.modelexplorer.BusinessProcessCreateCommand" icon="platform:/plugin/org.eclipse.uml2.uml.edit/icons/full/obj16/Activity.gif" label="Create a new BusinessProcess" style="push" tooltip="Create a new BusinessProcess">
 			<visibleWhen checkEnabled="true"/>
 		</command>

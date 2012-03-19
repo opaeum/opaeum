@@ -145,7 +145,6 @@ public class MappingInfo{
 	public void setIdInModel(String idInModel){
 		this.idInModel = idInModel;
 	}
-	@Deprecated
 	public Long getOpaeumId(){
 		if(getIdInModel() == null){
 			return 0l;

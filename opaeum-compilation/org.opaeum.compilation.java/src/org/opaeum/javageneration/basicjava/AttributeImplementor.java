@@ -291,10 +291,16 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}else{
 			buildSetter(umlOwner, owner, map);
 		}
+		
 		OJAnnotatedOperation getter = buildGetter(owner, map, false);
-		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.Property"));
+		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
 		ap.putAttribute("isComposite", map.getProperty().isComposite());
-		if(map.getProperty().getOtherEnd()!=null){
+		ap.putAttribute("uuid", map.getProperty().getId());
+		ap.putAttribute("opaeumId", map.getProperty().getMappingInfo().getOpaeumId());
+		if(map.getProperty().getDocumentation() != null){
+			ap.putAttribute("shortDescripion", map.getProperty().getDocumentation());
+		}
+		if(map.getProperty().getOtherEnd() != null){
 			ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
 		}
 		getter.addAnnotationIfNew(ap);
