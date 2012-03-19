@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -24,6 +23,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -33,7 +33,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1;
@@ -45,7 +45,6 @@ import org.opaeum.runtime.bpm.request.RequestParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
-import org.opaeum.runtime.domain.FailedConstraintsException;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -67,7 +66,8 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="document_verifier")
+@Table(name="document_verifier",uniqueConstraints=
+	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DocumentVerifier")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -179,7 +179,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		removeAllFromParticipation(getParticipation());
 	}
 	
-	public boolean consumeVerifyRequiredDocumentsOccurrence(IdBook id) {
+	public boolean consumeVerifyRequiredDocumentsOccurrence(@ParameterMetaInfo(opaeumId=7031023243174406977,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
 		boolean consumed = false;
 		return consumed;
 	}
@@ -206,7 +206,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return false;
 	}
 	
-	public void generateVerifyRequiredDocumentsEvent(IdBook id) {
+	public void generateVerifyRequiredDocumentsEvent(@ParameterMetaInfo(opaeumId=7031023243174406977,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -217,8 +217,8 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false,opposite="documentVerifier")
-	@NumlMetaInfo(uuid="914890@_dBo8AWQWEeGbL9nlXe9lTQ")
+	@PropertyMetaInfo(isComposite=false,opaeumId=304141797839881907,opposite="documentVerifier",uuid="914890@_03qp8XHgEeGus4aKic9sIg")
+	@NumlMetaInfo(uuid="914890@_03qp8XHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
 		
@@ -273,7 +273,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return getDishwashersInc();
 	}
 	
-	@Property(isComposite=false,opposite="participant")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -295,7 +295,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessRole")
+	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -407,15 +407,31 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		if ( this.getDishwashersInc()!=null ) {
-			this.getDishwashersInc().z_internalRemoveFromDocumentVerifier(this);
-		}
-		if ( dishwashersInc!=null ) {
-			dishwashersInc.z_internalAddToDocumentVerifier(this);
+		DishwashersInc oldValue = this.getDishwashersInc();
+		if ( oldValue==null ) {
+			if ( dishwashersInc!=null ) {
+				DocumentVerifier oldOther = (DocumentVerifier)dishwashersInc.getDocumentVerifier();
+				dishwashersInc.z_internalRemoveFromDocumentVerifier(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+				}
+				dishwashersInc.z_internalAddToDocumentVerifier((DocumentVerifier)this);
+			}
 			this.z_internalAddToDishwashersInc(dishwashersInc);
-			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			markDeleted();
+			if ( !oldValue.equals(dishwashersInc) ) {
+				oldValue.z_internalRemoveFromDocumentVerifier(this);
+				z_internalRemoveFromDishwashersInc(oldValue);
+				if ( dishwashersInc!=null ) {
+					DocumentVerifier oldOther = (DocumentVerifier)dishwashersInc.getDocumentVerifier();
+					dishwashersInc.z_internalRemoveFromDocumentVerifier(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+					}
+					dishwashersInc.z_internalAddToDocumentVerifier((DocumentVerifier)this);
+				}
+				this.z_internalAddToDishwashersInc(dishwashersInc);
+			}
 		}
 	}
 	
@@ -484,8 +500,8 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	@NumlMetaInfo(uuid="914890@_BkEGYG33EeGRLMabaulNTg")
-	public Supplier theQuery() {
-		Supplier result = null;
+	public String theQuery() {
+		String result = "";
 		
 		return result;
 	}
@@ -513,15 +529,9 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	@NumlMetaInfo(uuid="914890@_vaiUUGK1EeGb14EjInbIAA")
-	public void verifyRequiredDocuments(IdBook id) throws FailedConstraintsException {
-		List<String> failedConstraints = new ArrayList<String>();
-		if ( !(Stdlib.objectAsSet(id).size() < 50) ) {
-			failedConstraints.add("structuredbusiness::documentverifier::verifyRequiredDocuments::newConstraint");
-		}
-		if ( failedConstraints.size()>0 ) {
-			throw new FailedConstraintsException(true,failedConstraints);
-		}
+	public void verifyRequiredDocuments(@ParameterMetaInfo(opaeumId=7031023243174406977,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
 		generateVerifyRequiredDocumentsEvent(id);
+		(Stdlib.stringAsSet(id).size() < 50);
 	}
 	
 	public void z_internalAddToDishwashersInc(DishwashersInc val) {

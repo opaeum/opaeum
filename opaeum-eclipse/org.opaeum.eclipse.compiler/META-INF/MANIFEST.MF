@@ -32,7 +32,8 @@ Require-Bundle: org.opaeum.eclipse.core,
  org.opaeum.linkage.validation,
  org.eclipse.emf.edit,
  org.eclipse.gef,
- org.eclipse.core.filesystem
+ org.eclipse.core.filesystem,
+ org.opaeum.simulation.actions
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.eclipse.javasync,

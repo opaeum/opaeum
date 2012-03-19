@@ -17,7 +17,6 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 		putMethod(structuredbusiness.DocumentVerifier.class,"914890@_BkEGYG33EeGRLMabaulNTg",7779246390203956904l);
 		putMethod(structuredbusiness.DocumentVerifier.class,"914890@_vaiUUGK1EeGb14EjInbIAA",3618253756675873619l);
 		putClass(structuredbusiness.IdBook.class,"914890@_oiVeEGCfEeG6xvYqJACneg");
-		putClass(structuredbusiness.LulusRole.class,"914890@_urUa8GSDEeG8Es66O6-kpg");
 		putClass(structuredbusiness.Manager.class,"914890@_u7lZEGQWEeGbL9nlXe9lTQ");
 		putClass(structuredbusiness.Online_Customer.class,"914890@_xQY8oGFKEeG2AvOqZt1NZQ");
 		putClass(structuredbusiness.ProductAnnouncement.class,"914890@_o9aQgGCfEeG6xvYqJACneg");

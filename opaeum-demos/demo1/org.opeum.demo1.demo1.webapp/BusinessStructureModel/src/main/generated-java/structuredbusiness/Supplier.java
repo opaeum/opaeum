@@ -30,9 +30,8 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
-import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessActor;
 import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole;
@@ -65,7 +64,6 @@ import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
 @NumlMetaInfo(uuid="914890@_-N6PwGK6EeGNuoaMwaBk1w")
-@BusinessActor
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
@@ -244,7 +242,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessActor")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4147448129438915430,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole result = this.organizationFullfillsActorRole_organization;
@@ -275,7 +273,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return getRoot();
 	}
 	
-	@Property(isComposite=false,opposite="participant")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -297,7 +295,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessActor")
+	@PropertyMetaInfo(isComposite=true,opaeumId=9023075862366939329,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson() {
 		PersonFullfillsActorRole result = this.personFullfillsActorRole_representedPerson;
@@ -321,7 +319,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@Property(isComposite=false,opposite="supplier")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7737100568581358598,opposite="supplier",uuid="914890@_-N6PwGK6EeGNuoaMwaBk1w914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;
@@ -366,16 +364,6 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
-			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4147448129438915430")) ) {
-				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
-				int j = 0;
-				while ( j<propertyValueNodes.getLength() ) {
-					Node currentPropertyValueNode = propertyValueNodes.item(j++);
-					if ( currentPropertyValueNode instanceof Element ) {
-						setOrganizationFullfillsActorRole_organization((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
-					}
-				}
-			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("personFullfillsActorRole_representedPerson") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("9023075862366939329")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -383,6 +371,16 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
 						setPersonFullfillsActorRole_representedPerson((PersonFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("organizationFullfillsActorRole_organization") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("4147448129438915430")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setOrganizationFullfillsActorRole_organization((OrganizationFullfillsActorRole)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
 					}
 				}
 			}
@@ -546,19 +544,19 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		sb.append("className=\"structuredbusiness.Supplier\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		sb.append(">");
-		if ( getOrganizationFullfillsActorRole_organization()==null ) {
-			sb.append("\n<organizationFullfillsActorRole_organization/>");
-		} else {
-			sb.append("\n<organizationFullfillsActorRole_organization propertyId=\"4147448129438915430\">");
-			sb.append("\n" + getOrganizationFullfillsActorRole_organization().toXmlReferenceString());
-			sb.append("\n</organizationFullfillsActorRole_organization>");
-		}
 		if ( getPersonFullfillsActorRole_representedPerson()==null ) {
 			sb.append("\n<personFullfillsActorRole_representedPerson/>");
 		} else {
 			sb.append("\n<personFullfillsActorRole_representedPerson propertyId=\"9023075862366939329\">");
 			sb.append("\n" + getPersonFullfillsActorRole_representedPerson().toXmlReferenceString());
 			sb.append("\n</personFullfillsActorRole_representedPerson>");
+		}
+		if ( getOrganizationFullfillsActorRole_organization()==null ) {
+			sb.append("\n<organizationFullfillsActorRole_organization/>");
+		} else {
+			sb.append("\n<organizationFullfillsActorRole_organization propertyId=\"4147448129438915430\">");
+			sb.append("\n" + getOrganizationFullfillsActorRole_organization().toXmlReferenceString());
+			sb.append("\n</organizationFullfillsActorRole_organization>");
 		}
 		sb.append("\n</Supplier>");
 		return sb.toString();

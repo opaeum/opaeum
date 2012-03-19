@@ -30,7 +30,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -221,7 +221,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return false;
 	}
 	
-	@Property(isComposite=false,opposite="workDay")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1754968245033077063,opposite="workDay",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -237,7 +237,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=true,opposite="workDay")
+	@PropertyMetaInfo(isComposite=true,opaeumId=1916778051938121831,opposite="workDay",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
 		TimeOfDay result = this.endTime;
@@ -249,7 +249,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.id;
 	}
 	
-	@Property(isComposite=false,opposite="workDay")
+	@PropertyMetaInfo(isComposite=false,opaeumId=378853448039264835,opposite="workDay",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
 		WorkDayKind result = this.kind;
@@ -280,7 +280,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getBusinessCalendar();
 	}
 	
-	@Property(isComposite=true,opposite="workDay")
+	@PropertyMetaInfo(isComposite=true,opaeumId=3879474800558390783,opposite="workDay",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
 		TimeOfDay result = this.startTime;

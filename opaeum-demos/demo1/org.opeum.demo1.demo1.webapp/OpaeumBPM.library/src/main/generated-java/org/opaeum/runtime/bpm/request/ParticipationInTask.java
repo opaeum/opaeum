@@ -24,7 +24,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -141,7 +141,7 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false,opposite="participation")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7015815221919899759,opposite="participation",uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_2tlBVI6UEeCne5ArYLDbiA")
 	public TaskParticipationKind getKind() {
 		TaskParticipationKind result = this.kind;
@@ -161,7 +161,7 @@ public class ParticipationInTask extends Participation implements IPersistentObj
 		return getTaskRequest();
 	}
 	
-	@Property(isComposite=false,opposite="participationInTask")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1010997141532452205,opposite="participationInTask",uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_BCPvEY6VEeCne5ArYLDbiA")
 	public TaskRequest getTaskRequest() {
 		TaskRequest result = this.taskRequest;

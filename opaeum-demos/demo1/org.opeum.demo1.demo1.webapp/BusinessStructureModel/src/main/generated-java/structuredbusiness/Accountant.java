@@ -23,6 +23,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -32,7 +33,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1;
@@ -65,7 +66,8 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="accountant")
+@Table(name="accountant",uniqueConstraints=
+	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="Accountant")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -207,8 +209,8 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false,opposite="accountant")
-	@NumlMetaInfo(uuid="914890@_nIu3gWO4EeGodsKwWzy5aw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=766107659375213633,opposite="accountant",uuid="914890@_0mpycXHgEeGus4aKic9sIg")
+	@NumlMetaInfo(uuid="914890@_0mpycXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
 		
@@ -263,7 +265,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return getDishwashersInc();
 	}
 	
-	@Property(isComposite=false,opposite="participant")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -285,7 +287,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessRole")
+	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -397,15 +399,31 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		if ( this.getDishwashersInc()!=null ) {
-			this.getDishwashersInc().z_internalRemoveFromAccountant(this);
-		}
-		if ( dishwashersInc!=null ) {
-			dishwashersInc.z_internalAddToAccountant(this);
+		DishwashersInc oldValue = this.getDishwashersInc();
+		if ( oldValue==null ) {
+			if ( dishwashersInc!=null ) {
+				Accountant oldOther = (Accountant)dishwashersInc.getAccountant();
+				dishwashersInc.z_internalRemoveFromAccountant(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+				}
+				dishwashersInc.z_internalAddToAccountant((Accountant)this);
+			}
 			this.z_internalAddToDishwashersInc(dishwashersInc);
-			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			markDeleted();
+			if ( !oldValue.equals(dishwashersInc) ) {
+				oldValue.z_internalRemoveFromAccountant(this);
+				z_internalRemoveFromDishwashersInc(oldValue);
+				if ( dishwashersInc!=null ) {
+					Accountant oldOther = (Accountant)dishwashersInc.getAccountant();
+					dishwashersInc.z_internalRemoveFromAccountant(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+					}
+					dishwashersInc.z_internalAddToAccountant((Accountant)this);
+				}
+				this.z_internalAddToDishwashersInc(dishwashersInc);
+			}
 		}
 	}
 	

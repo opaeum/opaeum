@@ -348,6 +348,75 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.SimulationModel} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SimulationModelItemProvider simulationModelItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.SimulationModel}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSimulationModelAdapter() {
+		if (simulationModelItemProvider == null) {
+			simulationModelItemProvider = new SimulationModelItemProvider(this);
+		}
+
+		return simulationModelItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected AllInstanceSimulationItemProvider allInstanceSimulationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createAllInstanceSimulationAdapter() {
+		if (allInstanceSimulationItemProvider == null) {
+			allInstanceSimulationItemProvider = new AllInstanceSimulationItemProvider(this);
+		}
+
+		return allInstanceSimulationItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ActualInstanceSimulationItemProvider actualInstanceSimulationItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createActualInstanceSimulationAdapter() {
+		if (actualInstanceSimulationItemProvider == null) {
+			actualInstanceSimulationItemProvider = new ActualInstanceSimulationItemProvider(this);
+		}
+
+		return actualInstanceSimulationItemProvider;
+	}
+
+	/**
 	 * This returns the root adapter factory that contains this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -458,6 +527,9 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 		if (numberRangeDistributionItemProvider != null) numberRangeDistributionItemProvider.dispose();
 		if (referencedInstanceSimulationItemProvider != null) referencedInstanceSimulationItemProvider.dispose();
 		if (stringValueSimulationItemProvider != null) stringValueSimulationItemProvider.dispose();
+		if (simulationModelItemProvider != null) simulationModelItemProvider.dispose();
+		if (allInstanceSimulationItemProvider != null) allInstanceSimulationItemProvider.dispose();
+		if (actualInstanceSimulationItemProvider != null) actualInstanceSimulationItemProvider.dispose();
 	}
 
 }

@@ -130,6 +130,33 @@ public interface SimulationFactory extends EFactory {
 	StringValueSimulation createStringValueSimulation();
 
 	/**
+	 * Returns a new object of class '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model</em>'.
+	 * @generated
+	 */
+	SimulationModel createSimulationModel();
+
+	/**
+	 * Returns a new object of class '<em>All Instance Simulation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>All Instance Simulation</em>'.
+	 * @generated
+	 */
+	AllInstanceSimulation createAllInstanceSimulation();
+
+	/**
+	 * Returns a new object of class '<em>Actual Instance Simulation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Actual Instance Simulation</em>'.
+	 * @generated
+	 */
+	ActualInstanceSimulation createActualInstanceSimulation();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

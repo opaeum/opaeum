@@ -15,17 +15,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.BusinessDocument;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.document.IBusinessDocument;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -46,11 +50,12 @@ import structuredbusiness.util.Stdlib;
 import structuredbusiness.util.StructuredbusinessFormatter;
 
 @NumlMetaInfo(uuid="914890@_oiVeEGCfEeG6xvYqJACneg")
-@BusinessDocument(documentType=org.opaeum.runtime.domain.DocumentType.IMAGE)
+@BusinessDocument(documentType=org.opaeum.runtime.domain.DocumentType.SPREADSHEET)
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="id_book")
+@Table(name="id_book",uniqueConstraints=
+	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="IdBook")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -61,6 +66,10 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Index(columnNames="dishwashers_inc_id",name="idx_id_book_dishwashers_inc_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="dishwashers_inc_id",nullable=true)
+	private DishwashersInc dishwashersInc;
 	@Type(type="org.opaeum.runtime.domain.DocumentTypeResolver")
 	@Column(name="document_type",nullable=true)
 	private DocumentType documentType;
@@ -78,6 +87,15 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	static final private long serialVersionUID = 7267980829799356539l;
 	private String uid;
 
+	/** This constructor is intended for easy initialization in unit tests
+	 * 
+	 * @param owningObject 
+	 */
+	public IdBook(DishwashersInc owningObject) {
+		init(owningObject);
+		addToOwningObject();
+	}
+	
 	/** Default constructor for IdBook
 	 */
 	public IdBook() {
@@ -86,6 +104,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+		getDishwashersInc().z_internalAddToIdBook((IdBook)this);
 	}
 	
 	static public Set<? extends IdBook> allInstances() {
@@ -144,7 +163,15 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=3496196660294374553,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
+	@NumlMetaInfo(uuid="914890@_0EgusXHgEeGus4aKic9sIg")
+	public DishwashersInc getDishwashersInc() {
+		DishwashersInc result = this.dishwashersInc;
+		
+		return result;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=759998593327277107,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType() {
 		DocumentType result = this.documentType;
@@ -169,7 +196,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public CompositionNode getOwningObject() {
-		return null;
+		return getDishwashersInc();
 	}
 	
 	public String getUid() {
@@ -184,6 +211,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void init(CompositionNode owner) {
+		this.z_internalAddToDishwashersInc((DishwashersInc)owner);
 		createComponents();
 	}
 	
@@ -202,6 +230,9 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	public void markDeleted() {
+		if ( getDishwashersInc()!=null ) {
+			getDishwashersInc().z_internalRemoveFromIdBook(this);
+		}
 		setDeletedOn(new Date());
 	}
 	
@@ -228,6 +259,35 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
+	}
+	
+	public void setDishwashersInc(DishwashersInc dishwashersInc) {
+		DishwashersInc oldValue = this.getDishwashersInc();
+		if ( oldValue==null ) {
+			if ( dishwashersInc!=null ) {
+				IdBook oldOther = (IdBook)dishwashersInc.getIdBook();
+				dishwashersInc.z_internalRemoveFromIdBook(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+				}
+				dishwashersInc.z_internalAddToIdBook((IdBook)this);
+			}
+			this.z_internalAddToDishwashersInc(dishwashersInc);
+		} else {
+			if ( !oldValue.equals(dishwashersInc) ) {
+				oldValue.z_internalRemoveFromIdBook(this);
+				z_internalRemoveFromDishwashersInc(oldValue);
+				if ( dishwashersInc!=null ) {
+					IdBook oldOther = (IdBook)dishwashersInc.getIdBook();
+					dishwashersInc.z_internalRemoveFromIdBook(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+					}
+					dishwashersInc.z_internalAddToIdBook((IdBook)this);
+				}
+				this.z_internalAddToDishwashersInc(dishwashersInc);
+			}
+		}
 	}
 	
 	public void setDocumentType(DocumentType documentType) {
@@ -268,8 +328,19 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return sb.toString();
 	}
 	
+	public void z_internalAddToDishwashersInc(DishwashersInc val) {
+		this.dishwashersInc=val;
+	}
+	
 	public void z_internalAddToDocumentType(DocumentType val) {
 		this.documentType=val;
+	}
+	
+	public void z_internalRemoveFromDishwashersInc(DishwashersInc val) {
+		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
+			this.dishwashersInc=null;
+			this.dishwashersInc=null;
+		}
 	}
 	
 	public void z_internalRemoveFromDocumentType(DocumentType val) {

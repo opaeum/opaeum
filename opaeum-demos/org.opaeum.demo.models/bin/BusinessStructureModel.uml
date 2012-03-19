@@ -199,23 +199,4 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vjh1U2SDEeG8Es66O6-kpg" value="1"/>
     </ownedEnd>
   </packagedElement>
-  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_OVQtAHGREeGs54Lb21y13g" name="InstanceSpecification1">
-    <eAnnotations xmi:id="_OVZ28HGREeGs54Lb21y13g" source="http://www.opaeum.org"/>
-    <slot xmi:type="simulation:SimulatedSlot" xmi:id="_PQKPAHGREeGs54Lb21y13g">
-      <value xmi:type="simulation:NormalDistribution" xmi:id="_XI9XQHGREeGs54Lb21y13g" name="">
-        <eAnnotations xmi:id="_XN_oQHGREeGs54Lb21y13g" source="http://www.opaeum.org"/>
-      </value>
-      <value xmi:type="simulation:ContainedInstanceValueSimulation" xmi:id="_8DELMHGUEeGs54Lb21y13g">
-        <eAnnotations xmi:id="_8IDY4HGUEeGs54Lb21y13g" source="http://www.opaeum.org"/>
-        <slot xmi:type="simulation:SimulatedSlot" xmi:id="_JNIYwHGVEeGs54Lb21y13g">
-          <value xmi:type="simulation:ExponentialDistribution" xmi:id="_J8sNcHGVEeGs54Lb21y13g" name="">
-            <eAnnotations xmi:id="_Kf-gsHGVEeGs54Lb21y13g" source="http://www.opaeum.org"/>
-          </value>
-          <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_M7F4QHGVEeGs54Lb21y13g" name="" upperValue="3.0" lowerValue="2.0" weight="0.25">
-            <eAnnotations xmi:id="_PeV4IHGVEeGs54Lb21y13g" source="http://www.opaeum.org"/>
-          </value>
-        </slot>
-      </value>
-    </slot>
-  </packagedElement>
 </uml:Model>

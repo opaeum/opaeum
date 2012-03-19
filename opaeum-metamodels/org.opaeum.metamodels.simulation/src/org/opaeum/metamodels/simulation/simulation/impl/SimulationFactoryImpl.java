@@ -3,6 +3,7 @@
 package org.opaeum.metamodels.simulation.simulation.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -68,8 +69,41 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 			case SimulationPackage.NUMBER_RANGE_DISTRIBUTION: return createNumberRangeDistribution();
 			case SimulationPackage.REFERENCED_INSTANCE_SIMULATION: return createReferencedInstanceSimulation();
 			case SimulationPackage.STRING_VALUE_SIMULATION: return createStringValueSimulation();
+			case SimulationPackage.SIMULATION_MODEL: return createSimulationModel();
+			case SimulationPackage.ALL_INSTANCE_SIMULATION: return createAllInstanceSimulation();
+			case SimulationPackage.ACTUAL_INSTANCE_SIMULATION: return createActualInstanceSimulation();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case SimulationPackage.SIMULATION_STRATEGY:
+				return createSimulationStrategyFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case SimulationPackage.SIMULATION_STRATEGY:
+				return convertSimulationStrategyToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -191,6 +225,56 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	public StringValueSimulation createStringValueSimulation() {
 		StringValueSimulationImpl stringValueSimulation = new StringValueSimulationImpl();
 		return stringValueSimulation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SimulationModel createSimulationModel() {
+		SimulationModelImpl simulationModel = new SimulationModelImpl();
+		return simulationModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AllInstanceSimulation createAllInstanceSimulation() {
+		AllInstanceSimulationImpl allInstanceSimulation = new AllInstanceSimulationImpl();
+		return allInstanceSimulation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActualInstanceSimulation createActualInstanceSimulation() {
+		ActualInstanceSimulationImpl actualInstanceSimulation = new ActualInstanceSimulationImpl();
+		return actualInstanceSimulation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SimulationStrategy createSimulationStrategyFromString(EDataType eDataType, String initialValue) {
+		SimulationStrategy result = SimulationStrategy.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSimulationStrategyToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

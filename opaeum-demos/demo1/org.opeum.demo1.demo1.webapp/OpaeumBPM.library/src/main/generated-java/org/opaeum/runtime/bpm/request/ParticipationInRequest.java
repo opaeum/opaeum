@@ -24,7 +24,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -141,7 +141,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false,opposite="participationInRequest")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3310250841268333114,opposite="participationInRequest",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
 		RequestParticipationKind result = this.kind;
@@ -161,7 +161,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		return getRequest();
 	}
 	
-	@Property(isComposite=false,opposite="participationInRequest")
+	@PropertyMetaInfo(isComposite=false,opaeumId=440094146247750780,opposite="participationInRequest",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	public AbstractRequest getRequest() {
 		AbstractRequest result = this.request;

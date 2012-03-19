@@ -37,6 +37,7 @@ public class OpaeumLibrary{
 	private INakedStateMachine abstractRequest;
 	private INakedInterface business;
 	private INakedInterface businessActor;
+	private INakedEntity businessNetwork;
 	public void setAbstractRequest(INakedStateMachine abstractRequest){
 		this.abstractRequest = abstractRequest;
 	}
@@ -184,5 +185,11 @@ public class OpaeumLibrary{
 	}
 	public void setBusinessActor(INakedInterface businessActor){
 		this.businessActor = businessActor;
+	}
+	public INakedEntity getBusinessNetwork(){
+		return businessNetwork;
+	}
+	public void setBusinessNetwork(INakedEntity businessNetwork){
+		this.businessNetwork = businessNetwork;
 	}
 }

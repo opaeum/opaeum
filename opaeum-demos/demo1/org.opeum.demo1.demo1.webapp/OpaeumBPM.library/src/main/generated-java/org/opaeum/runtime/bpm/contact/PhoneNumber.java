@@ -24,7 +24,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Proxy;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -139,7 +139,7 @@ abstract public class PhoneNumber implements IPersistentObject, IEventGenerator,
 		return "PhoneNumber["+getId()+"]";
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=7568744585392316910,uuid="252060@_EyuuUEtnEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_EyuuUEtnEeGd4cpyhpib9Q")
 	public String getNumber() {
 		String result = this.number;

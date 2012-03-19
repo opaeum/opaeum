@@ -6,8 +6,10 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 
@@ -19,6 +21,7 @@ import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.metamodels.simulation.simulation.impl.EnumLiteralSimulationImpl#getWeight <em>Weight</em>}</li>
+ *   <li>{@link org.opaeum.metamodels.simulation.simulation.impl.EnumLiteralSimulationImpl#getLiteral <em>Literal</em>}</li>
  * </ul>
  * </p>
  *
@@ -44,6 +47,16 @@ public class EnumLiteralSimulationImpl extends ValueSimulationImpl implements En
 	 * @ordered
 	 */
 	protected Double weight = WEIGHT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getLiteral() <em>Literal</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLiteral()
+	 * @generated
+	 * @ordered
+	 */
+	protected EnumerationLiteral literal;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -90,11 +103,52 @@ public class EnumLiteralSimulationImpl extends ValueSimulationImpl implements En
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EnumerationLiteral getLiteral() {
+		if (literal != null && literal.eIsProxy()) {
+			InternalEObject oldLiteral = (InternalEObject)literal;
+			literal = (EnumerationLiteral)eResolveProxy(oldLiteral);
+			if (literal != oldLiteral) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SimulationPackage.ENUM_LITERAL_SIMULATION__LITERAL, oldLiteral, literal));
+			}
+		}
+		return literal;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EnumerationLiteral basicGetLiteral() {
+		return literal;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLiteral(EnumerationLiteral newLiteral) {
+		EnumerationLiteral oldLiteral = literal;
+		literal = newLiteral;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SimulationPackage.ENUM_LITERAL_SIMULATION__LITERAL, oldLiteral, literal));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case SimulationPackage.ENUM_LITERAL_SIMULATION__WEIGHT:
 				return getWeight();
+			case SimulationPackage.ENUM_LITERAL_SIMULATION__LITERAL:
+				if (resolve) return getLiteral();
+				return basicGetLiteral();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -109,6 +163,9 @@ public class EnumLiteralSimulationImpl extends ValueSimulationImpl implements En
 		switch (featureID) {
 			case SimulationPackage.ENUM_LITERAL_SIMULATION__WEIGHT:
 				setWeight((Double)newValue);
+				return;
+			case SimulationPackage.ENUM_LITERAL_SIMULATION__LITERAL:
+				setLiteral((EnumerationLiteral)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -125,6 +182,9 @@ public class EnumLiteralSimulationImpl extends ValueSimulationImpl implements En
 			case SimulationPackage.ENUM_LITERAL_SIMULATION__WEIGHT:
 				setWeight(WEIGHT_EDEFAULT);
 				return;
+			case SimulationPackage.ENUM_LITERAL_SIMULATION__LITERAL:
+				setLiteral((EnumerationLiteral)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -139,6 +199,8 @@ public class EnumLiteralSimulationImpl extends ValueSimulationImpl implements En
 		switch (featureID) {
 			case SimulationPackage.ENUM_LITERAL_SIMULATION__WEIGHT:
 				return WEIGHT_EDEFAULT == null ? weight != null : !WEIGHT_EDEFAULT.equals(weight);
+			case SimulationPackage.ENUM_LITERAL_SIMULATION__LITERAL:
+				return literal != null;
 		}
 		return super.eIsSet(featureID);
 	}

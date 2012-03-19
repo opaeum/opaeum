@@ -107,6 +107,7 @@ public abstract class EmulatedClassifier extends EmulatingElement implements INa
 		t.getMappingInfo().setIdInModel(getId() + in.getId());
 		t.initialize(getId() + in.getId(), "artificalGeneralization", false);
 		generalizations.add(t);
+		in.addSubClass(this);
 		addOwnedElement(t);
 	}
 	public List<IClassifier> getGeneralizations(){
@@ -256,6 +257,7 @@ public abstract class EmulatedClassifier extends EmulatingElement implements INa
 	}
 	public void addInterfaceRealization(INakedInterfaceRealization in){
 		interfaceRealizations.add(in);
+		in.getContract().addImplementingClassifier(this);
 		addOwnedElement(in);
 	}
 	public void addInvariant(IOclContext string){

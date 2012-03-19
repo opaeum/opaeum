@@ -58,6 +58,7 @@ public class EnumLiteralSimulationItemProvider
 			super.getPropertyDescriptors(object);
 
 			addWeightPropertyDescriptor(object);
+			addLiteralPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,6 +81,28 @@ public class EnumLiteralSimulationItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Literal feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLiteralPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_EnumLiteralSimulation_literal_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_EnumLiteralSimulation_literal_feature", "_UI_EnumLiteralSimulation_type"),
+				 SimulationPackage.Literals.ENUM_LITERAL_SIMULATION__LITERAL,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

@@ -57,7 +57,7 @@ import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class OpaeumEclipseContext{
 	public static boolean shouldBeCm1Compatible(){
-		if(getCurrentContext()!=null){
+		if(getCurrentContext() != null){
 			return getCurrentContext().getConfig().shouldBeCm1Compatible();
 		}else{
 			return true;
@@ -143,6 +143,7 @@ public class OpaeumEclipseContext{
 	private LoadEditingDomainJob currentJob;
 	private EObjectSelectorUI eObjectSelectorUI;
 	private TransactionalEditingDomain directoryEditingDomain;
+	private EmfWorkspace directoryEmfWorkspace;
 	public OpaeumEclipseContext(OpaeumConfig cfg,IContainer umlDirectory,boolean newlyCreated){
 		super();
 		isOpen = true;
@@ -150,11 +151,10 @@ public class OpaeumEclipseContext{
 		umlElementCache = new EmfToOpaeumSynchronizer(cfg);
 		umlElementCache.addSynchronizationListener(new OclUpdater(this.openUmlFiles));
 		this.umlDirectory = umlDirectory;
-		if(cfg.getErrorMarker()==null){
-			this.errorMarker=new OpaeumErrorMarker();
+		if(cfg.getErrorMarker() == null){
+			this.errorMarker = new OpaeumErrorMarker();
 		}else{
-			this.errorMarker=(OpaeumErrorMarker) IntrospectionUtil.newInstance(cfg.getErrorMarker());
-			
+			this.errorMarker = (OpaeumErrorMarker) IntrospectionUtil.newInstance(cfg.getErrorMarker());
 		}
 		errorMarker.setContext(this);
 		umlElementCache.addSynchronizationListener(errorMarker);
@@ -273,12 +273,16 @@ public class OpaeumEclipseContext{
 	}
 	public EmfWorkspace getCurrentEmfWorkspace(){
 		if(currentOpenFile == null || !openUmlFiles.containsKey(currentOpenFile) || openUmlFiles.isEmpty()){
-			return null;
+			if(directoryEmfWorkspace != null){
+				return directoryEmfWorkspace;
+			}else{
+				return null;
+			}
 		}else{
 			return this.openUmlFiles.get(currentOpenFile).getEmfWorkspace();
 		}
 	}
-	public void loadDirectory(IProgressMonitor monitor){
+	public EmfWorkspace loadDirectory(IProgressMonitor monitor){
 		this.isLoading = true;
 		try{
 			getEmfToOpaeumSynchronizer().suspend();
@@ -333,6 +337,7 @@ public class OpaeumEclipseContext{
 			}
 			getEmfToOpaeumSynchronizer().resume();
 			errorMarker.maybeSchedule();
+			return directoryEmfWorkspace=dew;
 		}catch(CoreException e){
 			throw new RuntimeException(e);
 		}finally{
@@ -394,12 +399,12 @@ public class OpaeumEclipseContext{
 	public static void setCurrentContext(OpaeumEclipseContext currentContext){
 		OpaeumEclipseContext.currentContext = currentContext;
 	}
-	public static OpaeumEclipseContext findOrCreateContextFor(IContainer umlDir ){
+	public static OpaeumEclipseContext findOrCreateContextFor(IContainer umlDir){
 		OpaeumEclipseContext result = getContextFor(umlDir);
 		if(result == null){
 			OpaeumConfig cfg = null;
 			final IFile propsFile = (IFile) umlDir.findMember("opaeum.properties");
-			boolean newContext = propsFile==null;
+			boolean newContext = propsFile == null;
 			if(newContext){
 				cfg = new OpaeumConfig(new File(umlDir.getLocation().toFile(), "opaeum.properties"));
 				OpaeumConfigDialog dlg = new OpaeumConfigDialog(Display.getDefault().getActiveShell(), cfg);
@@ -468,7 +473,7 @@ public class OpaeumEclipseContext{
 				Object lock = new Object();
 				synchronized(lock){
 					executeInOwnTransaction(command, lock);
-					lock.wait(3*60*1000);
+					lock.wait(3 * 60 * 1000);
 				}
 			}catch(InterruptedException e){
 				throw new RuntimeException(e);

@@ -23,7 +23,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.BusinessTimeUnit;
@@ -119,7 +119,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=6322466500479470605,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	public Date getFromDate() {
 		Date result = this.fromDate;
@@ -139,7 +139,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.objectVersion;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=6914589408308567071,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	public Double getQuantity() {
 		Double result = this.quantity;
@@ -147,7 +147,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return result;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=534845350479709337,uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
 	public BusinessTimeUnit getTimeUnit() {
 		BusinessTimeUnit result = this.timeUnit;

@@ -39,7 +39,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.Participant;
@@ -164,7 +164,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	@NumlMetaInfo(uuid="252060@_v52VoI6SEeCrtavWRHwoHg")
-	public void addTaskRequestParticipant(Participant newParticipant, TaskParticipationKind kind) {
+	public void addTaskRequestParticipant(@ParameterMetaInfo(opaeumId=5015842494571072006,uuid="252060@_v52VoY6SEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(opaeumId=3546049321002453618,uuid="252060@_v52Voo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		ParticipationInTask participation = null;
 		ParticipationInTask resultOnCreatePartipation = null;
 		resultOnCreatePartipation=new ParticipationInTask();
@@ -298,7 +298,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return consumed;
 	}
 	
-	public boolean consumeAddTaskRequestParticipantOccurrence(Participant newParticipant, TaskParticipationKind kind) {
+	public boolean consumeAddTaskRequestParticipantOccurrence(@ParameterMetaInfo(opaeumId=5015842494571072006,uuid="252060@_v52VoY6SEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(opaeumId=3546049321002453618,uuid="252060@_v52Voo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		boolean consumed = false;
 		return consumed;
 	}
@@ -336,7 +336,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return consumed;
 	}
 	
-	public boolean consumeDelegateOccurrence(IBusinessRole delegate) {
+	public boolean consumeDelegateOccurrence(@ParameterMetaInfo(opaeumId=8205705053048523991,uuid="252060@_TsfTcJTyEeChgI0v02SJHQ") IBusinessRole delegate) {
 		boolean consumed = false;
 		if ( getProcessInstance()!=null ) {
 			UmlNodeInstance waitingNode;
@@ -352,7 +352,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return consumed;
 	}
 	
-	public boolean consumeForwardOccurrence(IBusinessRole toPerson) {
+	public boolean consumeForwardOccurrence(@ParameterMetaInfo(opaeumId=3350895467208403091,uuid="252060@_kN7FcJTyEeChgI0v02SJHQ") IBusinessRole toPerson) {
 		boolean consumed = false;
 		if ( getProcessInstance()!=null ) {
 			UmlNodeInstance waitingNode;
@@ -368,7 +368,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return consumed;
 	}
 	
-	public boolean consumeRemoveTaskRequestParticipantOccurrence(Participant participant, TaskParticipationKind kind) {
+	public boolean consumeRemoveTaskRequestParticipantOccurrence(@ParameterMetaInfo(opaeumId=7590474051790031114,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=6120680878221412726,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		boolean consumed = false;
 		return consumed;
 	}
@@ -503,7 +503,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	@NumlMetaInfo(uuid="252060@_0lAQAIoaEeCPduia_-NbFw")
-	public void delegate(IBusinessRole delegate) {
+	public void delegate(@ParameterMetaInfo(opaeumId=8205705053048523991,uuid="252060@_TsfTcJTyEeChgI0v02SJHQ") IBusinessRole delegate) {
 		Participant currentRole = null;
 		if ( (!(this.getOwner() == null)) ) {
 			this.removeTaskRequestParticipant(delegate,TaskParticipationKind.OWNER);
@@ -569,7 +569,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	@NumlMetaInfo(uuid="252060@__6uyIIoaEeCPduia_-NbFw")
-	public void forward(IBusinessRole toPerson) {
+	public void forward(@ParameterMetaInfo(opaeumId=3350895467208403091,uuid="252060@_kN7FcJTyEeChgI0v02SJHQ") IBusinessRole toPerson) {
 		generateForwardEvent(toPerson);
 	}
 	
@@ -581,7 +581,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		this.getOutgoingEvents().add(new OutgoingEvent(this, new ActivateHandler3717858776997870408(true)));
 	}
 	
-	public void generateAddTaskRequestParticipantEvent(Participant newParticipant, TaskParticipationKind kind) {
+	public void generateAddTaskRequestParticipantEvent(@ParameterMetaInfo(opaeumId=5015842494571072006,uuid="252060@_v52VoY6SEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(opaeumId=3546049321002453618,uuid="252060@_v52Voo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 	}
 	
 	public void generateClaimEvent() {
@@ -592,15 +592,15 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		this.getOutgoingEvents().add(new OutgoingEvent(this, new CompleteHandler20843194362239925(true)));
 	}
 	
-	public void generateDelegateEvent(IBusinessRole delegate) {
+	public void generateDelegateEvent(@ParameterMetaInfo(opaeumId=8205705053048523991,uuid="252060@_TsfTcJTyEeChgI0v02SJHQ") IBusinessRole delegate) {
 		this.getOutgoingEvents().add(new OutgoingEvent(this, new DelegateHandler6837298467385087869(delegate,true)));
 	}
 	
-	public void generateForwardEvent(IBusinessRole toPerson) {
+	public void generateForwardEvent(@ParameterMetaInfo(opaeumId=3350895467208403091,uuid="252060@_kN7FcJTyEeChgI0v02SJHQ") IBusinessRole toPerson) {
 		this.getOutgoingEvents().add(new OutgoingEvent(this, new ForwardHandler7251280809563715157(toPerson,true)));
 	}
 	
-	public void generateRemoveTaskRequestParticipantEvent(Participant participant, TaskParticipationKind kind) {
+	public void generateRemoveTaskRequestParticipantEvent(@ParameterMetaInfo(opaeumId=7590474051790031114,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=6120680878221412726,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 	}
 	
 	public void generateResumeEvent() {
@@ -698,7 +698,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return this.currentException;
 	}
 	
-	@Property(isComposite=false,opposite="taskRequest")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4580607342736823288,opposite="taskRequest",uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
 	@NumlMetaInfo(uuid="252060@_84NrDrRZEeCilvbXE8KmHA")
 	public TaskDelegation getDelegation() {
 		TaskDelegation result = this.delegation;
@@ -760,7 +760,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return getTaskObject();
 	}
 	
-	@Property(isComposite=true,opposite="taskRequest")
+	@PropertyMetaInfo(isComposite=true,opaeumId=7631795069536317681,opposite="taskRequest",uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_BB8NEI6VEeCne5ArYLDbiA")
 	public Set<ParticipationInTask> getParticipationInTask() {
 		Set<ParticipationInTask> result = this.participationInTask;
@@ -802,7 +802,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return result;
 	}
 	
-	@Property(isComposite=false,opposite="parentTask")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4881745325393372278,opposite="parentTask",uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_tog08I29EeCrtavWRHwoHg")
 	public Set<AbstractRequest> getSubRequests() {
 		Set<AbstractRequest> result = this.subRequests;
@@ -826,7 +826,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return isStepActive(TaskRequestState.SUSPENDED_RESERVEDBUTSUSPENDED);
 	}
 	
-	@Property(isComposite=false,opposite="taskRequest")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5302390646449487153,opposite="taskRequest",uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_I3guVI3pEeCfQedkc0TCdA")
 	public ITaskObject getTaskObject() {
 		ITaskObject result = (ITaskObject)this.taskObject.getValue(persistence);
@@ -844,6 +844,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	public void init(ProcessContext context) {
+		super.init(context);
 		this.setProcessInstanceId(context.getProcessInstance().getId());
 		((WorkflowProcessImpl)context.getProcessInstance().getProcess()).setAutoComplete(true);
 	}
@@ -1114,7 +1115,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	}
 	
 	@NumlMetaInfo(uuid="252060@_wuzAoI6SEeCrtavWRHwoHg")
-	public void removeTaskRequestParticipant(Participant participant, TaskParticipationKind kind) {
+	public void removeTaskRequestParticipant(@ParameterMetaInfo(opaeumId=7590474051790031114,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=6120680878221412726,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		TaskRequest tgtRemoveParticipation=this;
 		tgtRemoveParticipation.removeAllFromParticipationInTask((select4(participant, kind)));
 	}
@@ -1350,7 +1351,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 	 * @param participant 
 	 * @param kind 
 	 */
-	private Set<ParticipationInTask> select4(Participant participant, TaskParticipationKind kind) {
+	private Set<ParticipationInTask> select4(@ParameterMetaInfo(opaeumId=7590474051790031114,uuid="252060@_wuzAoY6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=6120680878221412726,uuid="252060@_wuzAoo6SEeCrtavWRHwoHg") TaskParticipationKind kind) {
 		Set<ParticipationInTask> result = new HashSet<ParticipationInTask>();
 		for ( ParticipationInTask p : this.getParticipationInTask() ) {
 			if ( (p.getParticipant().equals(participant) && (p.getKind().equals( kind))) ) {

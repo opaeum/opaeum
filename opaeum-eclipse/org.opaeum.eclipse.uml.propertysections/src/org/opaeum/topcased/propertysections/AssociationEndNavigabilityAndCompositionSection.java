@@ -111,7 +111,7 @@ public class AssociationEndNavigabilityAndCompositionSection extends AbstractMul
 	}
 	@Override
 	public void refresh(){
-		if(getEObject() != null){
+		if(getEObject() != null && safeGetProperty()!=null){
 			isNavigable.setSelection(safeGetProperty().isNavigable());
 			isComposite.setSelection(safeGetProperty().isComposite());
 		}

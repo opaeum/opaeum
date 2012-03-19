@@ -4,6 +4,7 @@ package org.opaeum.metamodels.simulation.simulation;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -1019,13 +1020,22 @@ public interface SimulationPackage extends EPackage {
 	int ENUM_LITERAL_SIMULATION__WEIGHT = VALUE_SIMULATION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Literal</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_SIMULATION__LITERAL = VALUE_SIMULATION_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Enum Literal Simulation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 1;
+	int ENUM_LITERAL_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ContainedInstanceValueSimulationImpl <em>Contained Instance Value Simulation</em>}' class.
@@ -1155,58 +1165,22 @@ public interface SimulationPackage extends EPackage {
 	int CONTAINED_INSTANCE_VALUE_SIMULATION__TYPE = VALUE_SIMULATION__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Deployed Element</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__DEPLOYED_ELEMENT = VALUE_SIMULATION_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Deployment</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__DEPLOYMENT = VALUE_SIMULATION_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Classifier</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__CLASSIFIER = VALUE_SIMULATION_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Slot</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__SLOT = VALUE_SIMULATION_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Specification</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__SPECIFICATION = VALUE_SIMULATION_FEATURE_COUNT + 4;
-
-	/**
 	 * The feature id for the '<em><b>Values</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES = VALUE_SIMULATION_FEATURE_COUNT + 5;
+	int CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES = VALUE_SIMULATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Contained Instance</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE = VALUE_SIMULATION_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Contained Instance Value Simulation</em>' class.
@@ -1215,7 +1189,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 6;
+	int CONTAINED_INSTANCE_VALUE_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.BooleanValueSimulationImpl <em>Boolean Value Simulation</em>}' class.
@@ -1844,6 +1818,633 @@ public interface SimulationPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulationModelImpl <em>Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationModelImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulationModel()
+	 * @generated
+	 */
+	int SIMULATION_MODEL = 12;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__EANNOTATIONS = UMLPackage.PACKAGE__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_COMMENT = UMLPackage.PACKAGE__OWNED_COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_ELEMENT = UMLPackage.PACKAGE__OWNED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNER = UMLPackage.PACKAGE__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__CLIENT_DEPENDENCY = UMLPackage.PACKAGE__CLIENT_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__NAME = UMLPackage.PACKAGE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__NAME_EXPRESSION = UMLPackage.PACKAGE__NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__NAMESPACE = UMLPackage.PACKAGE__NAMESPACE;
+
+	/**
+	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__QUALIFIED_NAME = UMLPackage.PACKAGE__QUALIFIED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__VISIBILITY = UMLPackage.PACKAGE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Element Import</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__ELEMENT_IMPORT = UMLPackage.PACKAGE__ELEMENT_IMPORT;
+
+	/**
+	 * The feature id for the '<em><b>Package Import</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__PACKAGE_IMPORT = UMLPackage.PACKAGE__PACKAGE_IMPORT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Rule</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_RULE = UMLPackage.PACKAGE__OWNED_RULE;
+
+	/**
+	 * The feature id for the '<em><b>Owned Member</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_MEMBER = UMLPackage.PACKAGE__OWNED_MEMBER;
+
+	/**
+	 * The feature id for the '<em><b>Imported Member</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__IMPORTED_MEMBER = UMLPackage.PACKAGE__IMPORTED_MEMBER;
+
+	/**
+	 * The feature id for the '<em><b>Member</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__MEMBER = UMLPackage.PACKAGE__MEMBER;
+
+	/**
+	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNING_TEMPLATE_PARAMETER = UMLPackage.PACKAGE__OWNING_TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__TEMPLATE_PARAMETER = UMLPackage.PACKAGE__TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Owned Template Signature</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_TEMPLATE_SIGNATURE = UMLPackage.PACKAGE__OWNED_TEMPLATE_SIGNATURE;
+
+	/**
+	 * The feature id for the '<em><b>Template Binding</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__TEMPLATE_BINDING = UMLPackage.PACKAGE__TEMPLATE_BINDING;
+
+	/**
+	 * The feature id for the '<em><b>URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__URI = UMLPackage.PACKAGE__URI;
+
+	/**
+	 * The feature id for the '<em><b>Nested Package</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__NESTED_PACKAGE = UMLPackage.PACKAGE__NESTED_PACKAGE;
+
+	/**
+	 * The feature id for the '<em><b>Nesting Package</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__NESTING_PACKAGE = UMLPackage.PACKAGE__NESTING_PACKAGE;
+
+	/**
+	 * The feature id for the '<em><b>Owned Stereotype</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_STEREOTYPE = UMLPackage.PACKAGE__OWNED_STEREOTYPE;
+
+	/**
+	 * The feature id for the '<em><b>Package Merge</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__PACKAGE_MERGE = UMLPackage.PACKAGE__PACKAGE_MERGE;
+
+	/**
+	 * The feature id for the '<em><b>Packaged Element</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__PACKAGED_ELEMENT = UMLPackage.PACKAGE__PACKAGED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Profile Application</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__PROFILE_APPLICATION = UMLPackage.PACKAGE__PROFILE_APPLICATION;
+
+	/**
+	 * The feature id for the '<em><b>Owned Type</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL__OWNED_TYPE = UMLPackage.PACKAGE__OWNED_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMULATION_MODEL_FEATURE_COUNT = UMLPackage.PACKAGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl <em>All Instance Simulation</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getAllInstanceSimulation()
+	 * @generated
+	 */
+	int ALL_INSTANCE_SIMULATION = 13;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__EANNOTATIONS = UMLPackage.INSTANCE_SPECIFICATION__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__OWNED_COMMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__OWNED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__OWNER = UMLPackage.INSTANCE_SPECIFICATION__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__CLIENT_DEPENDENCY = UMLPackage.INSTANCE_SPECIFICATION__CLIENT_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__NAME = UMLPackage.INSTANCE_SPECIFICATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__NAME_EXPRESSION = UMLPackage.INSTANCE_SPECIFICATION__NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__NAMESPACE = UMLPackage.INSTANCE_SPECIFICATION__NAMESPACE;
+
+	/**
+	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__QUALIFIED_NAME = UMLPackage.INSTANCE_SPECIFICATION__QUALIFIED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__VISIBILITY = UMLPackage.INSTANCE_SPECIFICATION__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Deployed Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__DEPLOYED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Deployment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__DEPLOYMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__OWNING_TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Classifier</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__CLASSIFIER = UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Slot</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__SLOT = UMLPackage.INSTANCE_SPECIFICATION__SLOT;
+
+	/**
+	 * The feature id for the '<em><b>Specification</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION__SPECIFICATION = UMLPackage.INSTANCE_SPECIFICATION__SPECIFICATION;
+
+	/**
+	 * The number of structural features of the '<em>All Instance Simulation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ALL_INSTANCE_SIMULATION_FEATURE_COUNT = UMLPackage.INSTANCE_SPECIFICATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl <em>Actual Instance Simulation</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getActualInstanceSimulation()
+	 * @generated
+	 */
+	int ACTUAL_INSTANCE_SIMULATION = 14;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__EANNOTATIONS = UMLPackage.INSTANCE_SPECIFICATION__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__OWNED_COMMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__OWNED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__OWNER = UMLPackage.INSTANCE_SPECIFICATION__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__CLIENT_DEPENDENCY = UMLPackage.INSTANCE_SPECIFICATION__CLIENT_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__NAME = UMLPackage.INSTANCE_SPECIFICATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__NAME_EXPRESSION = UMLPackage.INSTANCE_SPECIFICATION__NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__NAMESPACE = UMLPackage.INSTANCE_SPECIFICATION__NAMESPACE;
+
+	/**
+	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__QUALIFIED_NAME = UMLPackage.INSTANCE_SPECIFICATION__QUALIFIED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__VISIBILITY = UMLPackage.INSTANCE_SPECIFICATION__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Deployed Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__DEPLOYED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Deployment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__DEPLOYMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__OWNING_TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Classifier</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__CLASSIFIER = UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER;
+
+	/**
+	 * The feature id for the '<em><b>Slot</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__SLOT = UMLPackage.INSTANCE_SPECIFICATION__SLOT;
+
+	/**
+	 * The feature id for the '<em><b>Specification</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION__SPECIFICATION = UMLPackage.INSTANCE_SPECIFICATION__SPECIFICATION;
+
+	/**
+	 * The number of structural features of the '<em>Actual Instance Simulation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTUAL_INSTANCE_SIMULATION_FEATURE_COUNT = UMLPackage.INSTANCE_SPECIFICATION_FEATURE_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulationStrategy
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulationStrategy()
+	 * @generated
+	 */
+	int SIMULATION_STRATEGY = 15;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ValueSimulation <em>Value Simulation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2002,6 +2603,17 @@ public interface SimulationPackage extends EPackage {
 	EAttribute getEnumLiteralSimulation_Weight();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation#getLiteral <em>Literal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Literal</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation#getLiteral()
+	 * @see #getEnumLiteralSimulation()
+	 * @generated
+	 */
+	EReference getEnumLiteralSimulation_Literal();
+
+	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation <em>Contained Instance Value Simulation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2021,6 +2633,17 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getContainedInstanceValueSimulation_Values();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation#getContainedInstance <em>Contained Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Contained Instance</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation#getContainedInstance()
+	 * @see #getContainedInstanceValueSimulation()
+	 * @generated
+	 */
+	EReference getContainedInstanceValueSimulation_ContainedInstance();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation <em>Boolean Value Simulation</em>}'.
@@ -2160,6 +2783,46 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStringValueSimulation_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.SimulationModel <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulationModel
+	 * @generated
+	 */
+	EClass getSimulationModel();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation <em>All Instance Simulation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>All Instance Simulation</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation
+	 * @generated
+	 */
+	EClass getAllInstanceSimulation();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation <em>Actual Instance Simulation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Actual Instance Simulation</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation
+	 * @generated
+	 */
+	EClass getActualInstanceSimulation();
+
+	/**
+	 * Returns the meta object for enum '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Strategy</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulationStrategy
+	 * @generated
+	 */
+	EEnum getSimulationStrategy();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2318,6 +2981,14 @@ public interface SimulationPackage extends EPackage {
 		EAttribute ENUM_LITERAL_SIMULATION__WEIGHT = eINSTANCE.getEnumLiteralSimulation_Weight();
 
 		/**
+		 * The meta object literal for the '<em><b>Literal</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ENUM_LITERAL_SIMULATION__LITERAL = eINSTANCE.getEnumLiteralSimulation_Literal();
+
+		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ContainedInstanceValueSimulationImpl <em>Contained Instance Value Simulation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2334,6 +3005,14 @@ public interface SimulationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES = eINSTANCE.getContainedInstanceValueSimulation_Values();
+
+		/**
+		 * The meta object literal for the '<em><b>Contained Instance</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE = eINSTANCE.getContainedInstanceValueSimulation_ContainedInstance();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.BooleanValueSimulationImpl <em>Boolean Value Simulation</em>}' class.
@@ -2446,6 +3125,46 @@ public interface SimulationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STRING_VALUE_SIMULATION__VALUE = eINSTANCE.getStringValueSimulation_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulationModelImpl <em>Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationModelImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulationModel()
+		 * @generated
+		 */
+		EClass SIMULATION_MODEL = eINSTANCE.getSimulationModel();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl <em>All Instance Simulation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getAllInstanceSimulation()
+		 * @generated
+		 */
+		EClass ALL_INSTANCE_SIMULATION = eINSTANCE.getAllInstanceSimulation();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl <em>Actual Instance Simulation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getActualInstanceSimulation()
+		 * @generated
+		 */
+		EClass ACTUAL_INSTANCE_SIMULATION = eINSTANCE.getActualInstanceSimulation();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.SimulationStrategy
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulationStrategy()
+		 * @generated
+		 */
+		EEnum SIMULATION_STRATEGY = eINSTANCE.getSimulationStrategy();
 
 	}
 

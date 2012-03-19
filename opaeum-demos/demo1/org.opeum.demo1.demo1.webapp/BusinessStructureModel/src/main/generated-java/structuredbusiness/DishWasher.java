@@ -20,13 +20,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -48,7 +49,8 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="dish_washer")
+@Table(name="dish_washer",uniqueConstraints=
+	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DishWasher")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -140,8 +142,8 @@ public class DishWasher implements IPersistentObject, IEventGenerator, Hibernate
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false,opposite="dishWasher")
-	@NumlMetaInfo(uuid="914890@_m2reMWO4EeGodsKwWzy5aw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=8669346731255087885,opposite="dishWasher",uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
+	@NumlMetaInfo(uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
 		
@@ -230,15 +232,31 @@ public class DishWasher implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		if ( this.getDishwashersInc()!=null ) {
-			this.getDishwashersInc().z_internalRemoveFromDishWasher(this);
-		}
-		if ( dishwashersInc!=null ) {
-			dishwashersInc.z_internalAddToDishWasher(this);
+		DishwashersInc oldValue = this.getDishwashersInc();
+		if ( oldValue==null ) {
+			if ( dishwashersInc!=null ) {
+				DishWasher oldOther = (DishWasher)dishwashersInc.getDishWasher();
+				dishwashersInc.z_internalRemoveFromDishWasher(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+				}
+				dishwashersInc.z_internalAddToDishWasher((DishWasher)this);
+			}
 			this.z_internalAddToDishwashersInc(dishwashersInc);
-			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			markDeleted();
+			if ( !oldValue.equals(dishwashersInc) ) {
+				oldValue.z_internalRemoveFromDishWasher(this);
+				z_internalRemoveFromDishwashersInc(oldValue);
+				if ( dishwashersInc!=null ) {
+					DishWasher oldOther = (DishWasher)dishwashersInc.getDishWasher();
+					dishwashersInc.z_internalRemoveFromDishWasher(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
+					}
+					dishwashersInc.z_internalAddToDishWasher((DishWasher)this);
+				}
+				this.z_internalAddToDishwashersInc(dishwashersInc);
+			}
 		}
 	}
 	

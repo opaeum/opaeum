@@ -28,7 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -143,7 +143,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return false;
 	}
 	
-	@Property(isComposite=false,opposite="organization_iBusinessComponent_1_representedOrganization")
+	@PropertyMetaInfo(isComposite=false,opaeumId=736417380271461952,opposite="organization_iBusinessComponent_1_representedOrganization",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public IBusinessComponent getBusinessComponent() {
 		IBusinessComponent result = (IBusinessComponent)this.businessComponent.getValue(persistence);
@@ -171,7 +171,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return getBusinessComponent();
 	}
 	
-	@Property(isComposite=false,opposite="organization_iBusinessComponent_1_businessComponent")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5468800036735903732,opposite="organization_iBusinessComponent_1_businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = this.representedOrganization;

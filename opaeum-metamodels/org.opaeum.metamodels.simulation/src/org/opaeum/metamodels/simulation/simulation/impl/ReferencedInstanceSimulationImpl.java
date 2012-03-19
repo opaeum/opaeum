@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation;
 import org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
@@ -56,7 +57,7 @@ public class ReferencedInstanceSimulationImpl extends ValueSimulationImpl implem
 	 * @generated
 	 * @ordered
 	 */
-	protected ContainedInstanceValueSimulation instance;
+	protected ActualInstanceSimulation instance;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -103,10 +104,10 @@ public class ReferencedInstanceSimulationImpl extends ValueSimulationImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ContainedInstanceValueSimulation getInstance() {
+	public ActualInstanceSimulation getInstance() {
 		if (instance != null && instance.eIsProxy()) {
 			InternalEObject oldInstance = (InternalEObject)instance;
-			instance = (ContainedInstanceValueSimulation)eResolveProxy(oldInstance);
+			instance = (ActualInstanceSimulation)eResolveProxy(oldInstance);
 			if (instance != oldInstance) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SimulationPackage.REFERENCED_INSTANCE_SIMULATION__INSTANCE, oldInstance, instance));
@@ -120,7 +121,7 @@ public class ReferencedInstanceSimulationImpl extends ValueSimulationImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ContainedInstanceValueSimulation basicGetInstance() {
+	public ActualInstanceSimulation basicGetInstance() {
 		return instance;
 	}
 
@@ -129,8 +130,8 @@ public class ReferencedInstanceSimulationImpl extends ValueSimulationImpl implem
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setInstance(ContainedInstanceValueSimulation newInstance) {
-		ContainedInstanceValueSimulation oldInstance = instance;
+	public void setInstance(ActualInstanceSimulation newInstance) {
+		ActualInstanceSimulation oldInstance = instance;
 		instance = newInstance;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SimulationPackage.REFERENCED_INSTANCE_SIMULATION__INSTANCE, oldInstance, instance));
@@ -165,7 +166,7 @@ public class ReferencedInstanceSimulationImpl extends ValueSimulationImpl implem
 				setWeight((Double)newValue);
 				return;
 			case SimulationPackage.REFERENCED_INSTANCE_SIMULATION__INSTANCE:
-				setInstance((ContainedInstanceValueSimulation)newValue);
+				setInstance((ActualInstanceSimulation)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -183,7 +184,7 @@ public class ReferencedInstanceSimulationImpl extends ValueSimulationImpl implem
 				setWeight(WEIGHT_EDEFAULT);
 				return;
 			case SimulationPackage.REFERENCED_INSTANCE_SIMULATION__INSTANCE:
-				setInstance((ContainedInstanceValueSimulation)null);
+				setInstance((ActualInstanceSimulation)null);
 				return;
 		}
 		super.eUnset(featureID);

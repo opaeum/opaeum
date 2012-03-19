@@ -26,7 +26,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -118,7 +118,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 	}
 	
 	@NumlMetaInfo(uuid="252060@_Nn1XcGIIEeGzlJ4_CwngCw")
-	public void addToBusinessCollaboration(IBusinessCollaborationBase collaboration) {
+	public void addToBusinessCollaboration(@ParameterMetaInfo(opaeumId=8024673565944051013,uuid="252060@_dy7GAGIIEeGzlJ4_CwngCw") IBusinessCollaborationBase collaboration) {
 		BusinessNetwork tgtAddStructuralFeatureValueAction1=this;
 		tgtAddStructuralFeatureValueAction1.addToBusinessCollaboration(((IBusinessCollaboration) collaboration));
 	}
@@ -275,7 +275,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessNetwork")
+	@PropertyMetaInfo(isComposite=true,opaeumId=2189163074731335617,opposite="businessNetwork",uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJETMFYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public Set<BusinessNetworkFacilatatesCollaboration> getBusinessNetworkFacilatatesCollaboration_businessCollaboration() {
 		Set<BusinessNetworkFacilatatesCollaboration> result = this.businessNetworkFacilatatesCollaboration_businessCollaboration;
@@ -312,7 +312,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return this.objectVersion;
 	}
 	
-	@Property(isComposite=true,opposite="businessNetwork")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5972556763473316153,opposite="businessNetwork",uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_4uZ-MEvREeGmqIr8YsFD4g")
 	public Set<OrganizationNode> getOrganization() {
 		Set<OrganizationNode> result = this.organization;
@@ -336,7 +336,7 @@ public class BusinessNetwork implements IBusinessNetwork, IPersistentObject, IEv
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="collaboration")
+	@PropertyMetaInfo(isComposite=true,opaeumId=2470938974911877691,opposite="collaboration",uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_3lOvoEvREeGmqIr8YsFD4g")
 	public Set<PersonNode> getPerson() {
 		Set<PersonNode> result = new HashSet<PersonNode>(this.person.values());

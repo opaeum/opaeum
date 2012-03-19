@@ -33,7 +33,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.organization.Person_iBusinessRole_1;
@@ -209,8 +209,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=false,opposite="manager")
-	@NumlMetaInfo(uuid="914890@_wk1O0WQWEeGbL9nlXe9lTQ")
+	@PropertyMetaInfo(isComposite=false,opaeumId=325738725014330933,opposite="manager",uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
+	@NumlMetaInfo(uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
 		
@@ -265,7 +265,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getDishwashersInc();
 	}
 	
-	@Property(isComposite=false,opposite="participant")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -287,7 +287,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessRole")
+	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;

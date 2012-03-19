@@ -30,7 +30,7 @@ public abstract class OpaqueExpressionComposite extends OclBodyComposite{
 
 	public void setOclContext(NamedElement context,final OpaqueExpression vp){
 		EObject container = context;
-		while(!isOclContext(container)){
+		while(!isOclContext(container) && container !=null){
 			 container= EmfElementFinder.getContainer(container);
 		}
 		setOclContextImpl((NamedElement) container, vp);

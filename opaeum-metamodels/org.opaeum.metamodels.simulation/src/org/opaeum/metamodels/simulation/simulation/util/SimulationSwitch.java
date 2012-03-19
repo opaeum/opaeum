@@ -13,9 +13,11 @@ import org.eclipse.uml2.uml.DeploymentTarget;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.ParameterableElement;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.TemplateableElement;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -177,10 +179,7 @@ public class SimulationSwitch<T> extends Switch<T> {
 				ContainedInstanceValueSimulation containedInstanceValueSimulation = (ContainedInstanceValueSimulation)theEObject;
 				T result = caseContainedInstanceValueSimulation(containedInstanceValueSimulation);
 				if (result == null) result = caseValueSimulation(containedInstanceValueSimulation);
-				if (result == null) result = caseInstanceSpecification(containedInstanceValueSimulation);
 				if (result == null) result = caseValueSpecification(containedInstanceValueSimulation);
-				if (result == null) result = caseDeploymentTarget(containedInstanceValueSimulation);
-				if (result == null) result = caseDeployedArtifact(containedInstanceValueSimulation);
 				if (result == null) result = casePackageableElement(containedInstanceValueSimulation);
 				if (result == null) result = caseTypedElement(containedInstanceValueSimulation);
 				if (result == null) result = caseNamedElement(containedInstanceValueSimulation);
@@ -244,6 +243,48 @@ public class SimulationSwitch<T> extends Switch<T> {
 				if (result == null) result = caseParameterableElement(stringValueSimulation);
 				if (result == null) result = caseElement(stringValueSimulation);
 				if (result == null) result = caseEModelElement(stringValueSimulation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SimulationPackage.SIMULATION_MODEL: {
+				SimulationModel simulationModel = (SimulationModel)theEObject;
+				T result = caseSimulationModel(simulationModel);
+				if (result == null) result = casePackage(simulationModel);
+				if (result == null) result = caseNamespace(simulationModel);
+				if (result == null) result = casePackageableElement(simulationModel);
+				if (result == null) result = caseTemplateableElement(simulationModel);
+				if (result == null) result = caseNamedElement(simulationModel);
+				if (result == null) result = caseParameterableElement(simulationModel);
+				if (result == null) result = caseElement(simulationModel);
+				if (result == null) result = caseEModelElement(simulationModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SimulationPackage.ALL_INSTANCE_SIMULATION: {
+				AllInstanceSimulation allInstanceSimulation = (AllInstanceSimulation)theEObject;
+				T result = caseAllInstanceSimulation(allInstanceSimulation);
+				if (result == null) result = caseInstanceSpecification(allInstanceSimulation);
+				if (result == null) result = caseDeploymentTarget(allInstanceSimulation);
+				if (result == null) result = casePackageableElement(allInstanceSimulation);
+				if (result == null) result = caseDeployedArtifact(allInstanceSimulation);
+				if (result == null) result = caseNamedElement(allInstanceSimulation);
+				if (result == null) result = caseParameterableElement(allInstanceSimulation);
+				if (result == null) result = caseElement(allInstanceSimulation);
+				if (result == null) result = caseEModelElement(allInstanceSimulation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SimulationPackage.ACTUAL_INSTANCE_SIMULATION: {
+				ActualInstanceSimulation actualInstanceSimulation = (ActualInstanceSimulation)theEObject;
+				T result = caseActualInstanceSimulation(actualInstanceSimulation);
+				if (result == null) result = caseInstanceSpecification(actualInstanceSimulation);
+				if (result == null) result = caseDeploymentTarget(actualInstanceSimulation);
+				if (result == null) result = casePackageableElement(actualInstanceSimulation);
+				if (result == null) result = caseDeployedArtifact(actualInstanceSimulation);
+				if (result == null) result = caseNamedElement(actualInstanceSimulation);
+				if (result == null) result = caseParameterableElement(actualInstanceSimulation);
+				if (result == null) result = caseElement(actualInstanceSimulation);
+				if (result == null) result = caseEModelElement(actualInstanceSimulation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -432,6 +473,51 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSimulationModel(SimulationModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>All Instance Simulation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>All Instance Simulation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAllInstanceSimulation(AllInstanceSimulation object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Actual Instance Simulation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Actual Instance Simulation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseActualInstanceSimulation(ActualInstanceSimulation object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EModel Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -548,6 +634,51 @@ public class SimulationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSlot(Slot object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Namespace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Namespace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNamespace(Namespace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Templateable Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Templateable Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTemplateableElement(TemplateableElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Package</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Package</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePackage(org.eclipse.uml2.uml.Package object) {
 		return null;
 	}
 

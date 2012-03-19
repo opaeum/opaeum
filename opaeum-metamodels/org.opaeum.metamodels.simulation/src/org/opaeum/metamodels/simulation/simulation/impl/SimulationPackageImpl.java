@@ -4,6 +4,7 @@ package org.opaeum.metamodels.simulation.simulation.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -14,6 +15,8 @@ import org.eclipse.uml2.types.TypesPackage;
 
 import org.eclipse.uml2.uml.UMLPackage;
 
+import org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation;
+import org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation;
 import org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation;
 import org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation;
@@ -24,7 +27,9 @@ import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
 import org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.SimulatedSlot;
 import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
+import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
+import org.opaeum.metamodels.simulation.simulation.SimulationStrategy;
 import org.opaeum.metamodels.simulation.simulation.StringValueSimulation;
 import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
 import org.opaeum.metamodels.simulation.simulation.ValueSimulation;
@@ -119,6 +124,34 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * @generated
 	 */
 	private EClass stringValueSimulationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass simulationModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass allInstanceSimulationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass actualInstanceSimulationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum simulationStrategyEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -326,6 +359,15 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getEnumLiteralSimulation_Literal() {
+		return (EReference)enumLiteralSimulationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getContainedInstanceValueSimulation() {
 		return containedInstanceValueSimulationEClass;
 	}
@@ -337,6 +379,15 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 */
 	public EReference getContainedInstanceValueSimulation_Values() {
 		return (EReference)containedInstanceValueSimulationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getContainedInstanceValueSimulation_ContainedInstance() {
+		return (EReference)containedInstanceValueSimulationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -461,6 +512,42 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getSimulationModel() {
+		return simulationModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAllInstanceSimulation() {
+		return allInstanceSimulationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getActualInstanceSimulation() {
+		return actualInstanceSimulationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSimulationStrategy() {
+		return simulationStrategyEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SimulationFactory getSimulationFactory() {
 		return (SimulationFactory)getEFactoryInstance();
 	}
@@ -505,9 +592,11 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 
 		enumLiteralSimulationEClass = createEClass(ENUM_LITERAL_SIMULATION);
 		createEAttribute(enumLiteralSimulationEClass, ENUM_LITERAL_SIMULATION__WEIGHT);
+		createEReference(enumLiteralSimulationEClass, ENUM_LITERAL_SIMULATION__LITERAL);
 
 		containedInstanceValueSimulationEClass = createEClass(CONTAINED_INSTANCE_VALUE_SIMULATION);
 		createEReference(containedInstanceValueSimulationEClass, CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES);
+		createEReference(containedInstanceValueSimulationEClass, CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE);
 
 		booleanValueSimulationEClass = createEClass(BOOLEAN_VALUE_SIMULATION);
 		createEAttribute(booleanValueSimulationEClass, BOOLEAN_VALUE_SIMULATION__WEIGHT);
@@ -525,6 +614,15 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		stringValueSimulationEClass = createEClass(STRING_VALUE_SIMULATION);
 		createEAttribute(stringValueSimulationEClass, STRING_VALUE_SIMULATION__WEIGHT);
 		createEAttribute(stringValueSimulationEClass, STRING_VALUE_SIMULATION__VALUE);
+
+		simulationModelEClass = createEClass(SIMULATION_MODEL);
+
+		allInstanceSimulationEClass = createEClass(ALL_INSTANCE_SIMULATION);
+
+		actualInstanceSimulationEClass = createEClass(ACTUAL_INSTANCE_SIMULATION);
+
+		// Create enums
+		simulationStrategyEEnum = createEEnum(SIMULATION_STRATEGY);
 	}
 
 	/**
@@ -567,11 +665,13 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		numericValueDistributionEClass.getESuperTypes().add(this.getValueSimulation());
 		enumLiteralSimulationEClass.getESuperTypes().add(this.getValueSimulation());
 		containedInstanceValueSimulationEClass.getESuperTypes().add(this.getValueSimulation());
-		containedInstanceValueSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
 		booleanValueSimulationEClass.getESuperTypes().add(this.getValueSimulation());
 		numberRangeDistributionEClass.getESuperTypes().add(this.getNumericValueDistribution());
 		referencedInstanceSimulationEClass.getESuperTypes().add(this.getValueSimulation());
 		stringValueSimulationEClass.getESuperTypes().add(this.getValueSimulation());
+		simulationModelEClass.getESuperTypes().add(theUMLPackage.getPackage());
+		allInstanceSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
+		actualInstanceSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(valueSimulationEClass, ValueSimulation.class, "ValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -595,9 +695,11 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 
 		initEClass(enumLiteralSimulationEClass, EnumLiteralSimulation.class, "EnumLiteralSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEnumLiteralSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, EnumLiteralSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEnumLiteralSimulation_Literal(), theUMLPackage.getEnumerationLiteral(), null, "literal", null, 0, 1, EnumLiteralSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(containedInstanceValueSimulationEClass, ContainedInstanceValueSimulation.class, "ContainedInstanceValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getContainedInstanceValueSimulation_Values(), theUMLPackage.getInstanceSpecification(), null, "values", null, 0, -1, ContainedInstanceValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContainedInstanceValueSimulation_ContainedInstance(), this.getActualInstanceSimulation(), null, "containedInstance", null, 0, 1, ContainedInstanceValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(booleanValueSimulationEClass, BooleanValueSimulation.class, "BooleanValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBooleanValueSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", "0.5", 0, 1, BooleanValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -610,11 +712,25 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 
 		initEClass(referencedInstanceSimulationEClass, ReferencedInstanceSimulation.class, "ReferencedInstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReferencedInstanceSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, ReferencedInstanceSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReferencedInstanceSimulation_Instance(), this.getContainedInstanceValueSimulation(), null, "instance", null, 0, 1, ReferencedInstanceSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferencedInstanceSimulation_Instance(), this.getActualInstanceSimulation(), null, "instance", null, 0, 1, ReferencedInstanceSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringValueSimulationEClass, StringValueSimulation.class, "StringValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringValueSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", "0.5", 0, 1, StringValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStringValueSimulation_Value(), theEcorePackage.getEString(), "value", null, 0, 1, StringValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(simulationModelEClass, SimulationModel.class, "SimulationModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(allInstanceSimulationEClass, AllInstanceSimulation.class, "AllInstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(actualInstanceSimulationEClass, ActualInstanceSimulation.class, "ActualInstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		// Initialize enums and add enum literals
+		initEEnum(simulationStrategyEEnum, SimulationStrategy.class, "SimulationStrategy");
+		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.GIVEN_VALUE);
+		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.WEIGHTED_DISTRIBUTION);
+		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.NORMAL_DISTRIBUTION);
+		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.UNIFORM_DISTRIBUTION);
+		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.ALL_INSTANCE_SIMULATION);
 
 		// Create resource
 		createResource(eNS_URI);

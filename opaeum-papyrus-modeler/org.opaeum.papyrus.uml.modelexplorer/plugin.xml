@@ -1951,8 +1951,24 @@
    <extension
          point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
       <profile
-            name="org.opaeum.papyrus.uml.modelexplorer.profile1"
+            name="Opaeum Standard Profile"
             path="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml"
+            provider="Opaeum">
+      </profile>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
+      <profile
+            name="Opaeum BPM Profile"
+            path="pathmap://NAKEDUML_MODELS/profiles/OpaeumBPMProfile.papyrus.uml"
+            provider="Opaeum">
+      </profile>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
+      <profile
+            name="Validation Profile"
+            path="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml"
             provider="Opaeum">
       </profile>
    </extension>

@@ -241,6 +241,9 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 				System.out.println("Type not found: " + type.getQualifiedName());
 			}
 		}
+		if(type==null){
+			System.out.println();
+		}
 		ae.setBaseType(baseType);
 	}
 	protected void populateMultiplicity(MultiplicityElement emfNode,INakedMultiplicityElement ae){

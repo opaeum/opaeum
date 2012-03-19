@@ -77,6 +77,8 @@ public final class MappedTypeLinker extends AbstractModelElementLinker{
 	public void visitEntity(INakedEntity e){
 		if(e.getName().equals("OpaeumPerson")){
 			getLibrary().setOpaeumPerson(e);
+		}else if(e.getName().equals("BusinessNetwork")){
+			getLibrary().setBusinessNetwork(e);
 		}
 	}
 	@SuppressWarnings("deprecation")

@@ -56,12 +56,12 @@ public interface ReferencedInstanceSimulation extends ValueSimulation {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Instance</em>' reference.
-	 * @see #setInstance(ContainedInstanceValueSimulation)
+	 * @see #setInstance(ActualInstanceSimulation)
 	 * @see org.opaeum.metamodels.simulation.simulation.SimulationPackage#getReferencedInstanceSimulation_Instance()
 	 * @model
 	 * @generated
 	 */
-	ContainedInstanceValueSimulation getInstance();
+	ActualInstanceSimulation getInstance();
 
 	/**
 	 * Sets the value of the '{@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation#getInstance <em>Instance</em>}' reference.
@@ -71,6 +71,6 @@ public interface ReferencedInstanceSimulation extends ValueSimulation {
 	 * @see #getInstance()
 	 * @generated
 	 */
-	void setInstance(ContainedInstanceValueSimulation value);
+	void setInstance(ActualInstanceSimulation value);
 
 } // ReferencedInstanceSimulation

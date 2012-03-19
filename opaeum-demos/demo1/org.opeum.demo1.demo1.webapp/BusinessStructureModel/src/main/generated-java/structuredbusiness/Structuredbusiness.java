@@ -27,7 +27,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.BusinessNetwork;
 import org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration;
 import org.opaeum.runtime.bpm.organization.IBusiness;
@@ -284,7 +284,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="businessCollaboration")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4246171799000216537,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork() {
 		BusinessNetworkFacilatatesCollaboration result = this.businessNetworkFacilatatesCollaboration_businessNetwork;
@@ -308,7 +308,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.deletedOn;
 	}
 	
-	@Property(isComposite=true,opposite="root")
+	@PropertyMetaInfo(isComposite=true,opaeumId=2329680291382308507,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_CQTWAGOeEeGwMNo027LgxA")
 	public Set<DishwashersInc> getDishwashersInc() {
 		Set<DishwashersInc> result = this.dishwashersInc;
 		
@@ -327,7 +327,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.objectVersion;
 	}
 	
-	@Property(isComposite=true,opposite="root")
+	@PropertyMetaInfo(isComposite=true,opaeumId=6808203985768568000,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_xQY8oGFKEeG2AvOqZt1NZQ")
 	public Set<Online_Customer> getOnline_Customer() {
 		Set<Online_Customer> result = this.online_Customer;
 		
@@ -342,7 +342,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return null;
 	}
 	
-	@Property(isComposite=true,opposite="root")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4152922492096726072,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_-N6PwGK6EeGNuoaMwaBk1w")
 	public Set<Supplier> getSupplier() {
 		Set<Supplier> result = this.supplier;
 		

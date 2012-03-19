@@ -9,14 +9,14 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://simulation/1.0"
-            class="org.opaeum.metamodels.simulation.simulation.simPackage"
+            class="org.opaeum.metamodels.simulation.simulation.SimulationPackage"
             genModel="models/Simulation.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <parser
             type="sim"
-            class="org.opaeum.metamodels.simulation.simulation.util.simResourceFactoryImpl"/>
+            class="org.opaeum.metamodels.simulation.simulation.util.SimulationResourceFactoryImpl"/>
    </extension>
 
 </plugin>

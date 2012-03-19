@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -21,7 +20,6 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 import org.eclipse.uml2.uml.UMLFactory;
-import org.eclipse.uml2.uml.UMLPackage;
 
 import org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation;
 import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
@@ -62,131 +60,8 @@ public class ContainedInstanceValueSimulationItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addDeployedElementPropertyDescriptor(object);
-			addDeploymentPropertyDescriptor(object);
-			addClassifierPropertyDescriptor(object);
-			addSlotPropertyDescriptor(object);
-			addSpecificationPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Deployed Element feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDeployedElementPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_DeploymentTarget_deployedElement_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DeploymentTarget_deployedElement_feature", "_UI_DeploymentTarget_type"),
-				 UMLPackage.Literals.DEPLOYMENT_TARGET__DEPLOYED_ELEMENT,
-				 false,
-				 false,
-				 false,
-				 null,
-				 null,
-				 new String[] {
-					"org.eclipse.ui.views.properties.expert"
-				 }));
-	}
-
-	/**
-	 * This adds a property descriptor for the Deployment feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addDeploymentPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_DeploymentTarget_deployment_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_DeploymentTarget_deployment_feature", "_UI_DeploymentTarget_type"),
-				 UMLPackage.Literals.DEPLOYMENT_TARGET__DEPLOYMENT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 new String[] {
-					"org.eclipse.ui.views.properties.expert"
-				 }));
-	}
-
-	/**
-	 * This adds a property descriptor for the Classifier feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addClassifierPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_InstanceSpecification_classifier_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_InstanceSpecification_classifier_feature", "_UI_InstanceSpecification_type"),
-				 UMLPackage.Literals.INSTANCE_SPECIFICATION__CLASSIFIER,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Slot feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSlotPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_InstanceSpecification_slot_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_InstanceSpecification_slot_feature", "_UI_InstanceSpecification_type"),
-				 UMLPackage.Literals.INSTANCE_SPECIFICATION__SLOT,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 new String[] {
-					"org.eclipse.ui.views.properties.expert"
-				 }));
-	}
-
-	/**
-	 * This adds a property descriptor for the Specification feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addSpecificationPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_InstanceSpecification_specification_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_InstanceSpecification_specification_feature", "_UI_InstanceSpecification_type"),
-				 UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 new String[] {
-					"org.eclipse.ui.views.properties.expert"
-				 }));
 	}
 
 	/**
@@ -201,10 +76,8 @@ public class ContainedInstanceValueSimulationItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(UMLPackage.Literals.DEPLOYMENT_TARGET__DEPLOYMENT);
-			childrenFeatures.add(UMLPackage.Literals.INSTANCE_SPECIFICATION__SLOT);
-			childrenFeatures.add(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION);
 			childrenFeatures.add(SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES);
+			childrenFeatures.add(SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE);
 		}
 		return childrenFeatures;
 	}
@@ -259,10 +132,8 @@ public class ContainedInstanceValueSimulationItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(ContainedInstanceValueSimulation.class)) {
-			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION__DEPLOYMENT:
-			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION__SLOT:
-			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION__SPECIFICATION:
 			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES:
+			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -282,153 +153,13 @@ public class ContainedInstanceValueSimulationItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(UMLPackage.Literals.DEPLOYMENT_TARGET__DEPLOYMENT,
-				 UMLFactory.eINSTANCE.createDeployment()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SLOT,
-				 SimulationFactory.eINSTANCE.createSimulatedSlot()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SLOT,
-				 UMLFactory.eINSTANCE.createSlot()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createValueSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createNumericValueDistribution()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createNormalDistribution()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createUniformDistribution()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createExponentialDistribution()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createEnumLiteralSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createContainedInstanceValueSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createBooleanValueSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createNumberRangeDistribution()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createReferencedInstanceSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 SimulationFactory.eINSTANCE.createStringValueSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createExpression()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createStringExpression()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createOpaqueExpression()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createDuration()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createInterval()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createDurationInterval()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createInstanceValue()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createLiteralBoolean()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createLiteralInteger()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createLiteralNull()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createLiteralReal()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createLiteralString()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createLiteralUnlimitedNatural()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createTimeInterval()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION,
-				 UMLFactory.eINSTANCE.createTimeExpression()));
+				(SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES,
+				 SimulationFactory.eINSTANCE.createAllInstanceSimulation()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES,
-				 SimulationFactory.eINSTANCE.createContainedInstanceValueSimulation()));
+				 SimulationFactory.eINSTANCE.createActualInstanceSimulation()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -439,6 +170,11 @@ public class ContainedInstanceValueSimulationItemProvider
 			(createChildParameter
 				(SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES,
 				 UMLFactory.eINSTANCE.createEnumerationLiteral()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE,
+				 SimulationFactory.eINSTANCE.createActualInstanceSimulation()));
 	}
 
 	/**
@@ -453,9 +189,8 @@ public class ContainedInstanceValueSimulationItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == UMLPackage.Literals.NAMED_ELEMENT__NAME_EXPRESSION ||
-			childFeature == UMLPackage.Literals.INSTANCE_SPECIFICATION__SPECIFICATION ||
-			childFeature == SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES;
+			childFeature == SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES ||
+			childFeature == SimulationPackage.Literals.CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE;
 
 		if (qualify) {
 			return getString

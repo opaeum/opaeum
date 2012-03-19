@@ -43,7 +43,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -136,7 +136,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	}
 	
 	@NumlMetaInfo(uuid="252060@_Qo338I6QEeCrtavWRHwoHg")
-	public void addRequestParticipant(Participant newParticipant, RequestParticipationKind kind) {
+	public void addRequestParticipant(@ParameterMetaInfo(opaeumId=4174829400602250316,uuid="252060@_TKUhAI6QEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(opaeumId=9084738623180185780,uuid="252060@_TsHmgI6QEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		ParticipationInRequest participation = null;
 		ParticipationInRequest resultOnCreatePartipation = null;
 		resultOnCreatePartipation=new ParticipationInRequest();
@@ -224,7 +224,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return consumed;
 	}
 	
-	public boolean consumeAddRequestParticipantOccurrence(Participant newParticipant, RequestParticipationKind kind) {
+	public boolean consumeAddRequestParticipantOccurrence(@ParameterMetaInfo(opaeumId=4174829400602250316,uuid="252060@_TKUhAI6QEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(opaeumId=9084738623180185780,uuid="252060@_TsHmgI6QEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		boolean consumed = false;
 		return consumed;
 	}
@@ -234,7 +234,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return consumed;
 	}
 	
-	public boolean consumeRemoveRequestParticipantOccurrence(Participant participant, RequestParticipationKind kind) {
+	public boolean consumeRemoveRequestParticipantOccurrence(@ParameterMetaInfo(opaeumId=5904449775692844716,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=5058842751504084224,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		boolean consumed = false;
 		return consumed;
 	}
@@ -310,13 +310,13 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	public void generateActivateEvent() {
 	}
 	
-	public void generateAddRequestParticipantEvent(Participant newParticipant, RequestParticipationKind kind) {
+	public void generateAddRequestParticipantEvent(@ParameterMetaInfo(opaeumId=4174829400602250316,uuid="252060@_TKUhAI6QEeCrtavWRHwoHg") Participant newParticipant, @ParameterMetaInfo(opaeumId=9084738623180185780,uuid="252060@_TsHmgI6QEeCrtavWRHwoHg") RequestParticipationKind kind) {
 	}
 	
 	public void generateCompleteEvent() {
 	}
 	
-	public void generateRemoveRequestParticipantEvent(Participant participant, RequestParticipationKind kind) {
+	public void generateRemoveRequestParticipantEvent(@ParameterMetaInfo(opaeumId=5904449775692844716,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=5058842751504084224,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
 	}
 	
 	public void generateResumeEvent() {
@@ -425,7 +425,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return null;
 	}
 	
-	@Property(isComposite=false,opposite="subRequests")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5501213897228443240,opposite="subRequests",uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_towFgY29EeCrtavWRHwoHg")
 	public TaskRequest getParentTask() {
 		TaskRequest result = this.parentTask;
@@ -433,7 +433,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return result;
 	}
 	
-	@Property(isComposite=true,opposite="request")
+	@PropertyMetaInfo(isComposite=true,opaeumId=3022263813028286216,opposite="request",uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_XLHkUI6NEeCrtavWRHwoHg")
 	public Set<ParticipationInRequest> getParticipationInRequest() {
 		Set<ParticipationInRequest> result = this.participationInRequest;
@@ -597,7 +597,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	}
 	
 	@NumlMetaInfo(uuid="252060@_Nl5kQI6SEeCrtavWRHwoHg")
-	public void removeRequestParticipant(Participant participant, RequestParticipationKind kind) {
+	public void removeRequestParticipant(@ParameterMetaInfo(opaeumId=5904449775692844716,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=5058842751504084224,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		AbstractRequest tgtRemoveParticipation=this;
 		tgtRemoveParticipation.removeAllFromParticipationInRequest((select2(participant, kind)));
 	}
@@ -763,7 +763,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 	 * @param participant 
 	 * @param kind 
 	 */
-	private Set<ParticipationInRequest> select2(Participant participant, RequestParticipationKind kind) {
+	private Set<ParticipationInRequest> select2(@ParameterMetaInfo(opaeumId=5904449775692844716,uuid="252060@_P68JAI6SEeCrtavWRHwoHg") Participant participant, @ParameterMetaInfo(opaeumId=5058842751504084224,uuid="252060@_P8scgI6SEeCrtavWRHwoHg") RequestParticipationKind kind) {
 		Set<ParticipationInRequest> result = new HashSet<ParticipationInRequest>();
 		for ( ParticipationInRequest p : this.getParticipationInRequest() ) {
 			if ( (p.getParticipant().equals(participant) && (p.getKind().equals( kind))) ) {

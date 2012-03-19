@@ -25,6 +25,7 @@ import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
+import org.opaeum.eclipse.simulation.GenerateSimulationModelAction;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
 import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
@@ -67,6 +68,7 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 							actions.add(new ActionContributionItem(new CompileVersionAction(selection)));
 							actions.add(new ActionContributionItem(new GenerateMigrationProjectAction(selection)));
 							actions.add(new ActionContributionItem(new GenerateBusinessIntelligenceSchemaAction(selection)));
+							actions.add(new ActionContributionItem(new GenerateSimulationModelAction(selection)));
 						}
 					}else{
 						action.setText("Convert to  Opaeum Model Directory");

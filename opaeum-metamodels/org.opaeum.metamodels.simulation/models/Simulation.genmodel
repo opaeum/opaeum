@@ -11,6 +11,13 @@
   <foreignModel>Simulation.ecore</foreignModel>
   <genPackages prefix="Simulation" basePackage="org.opaeum.metamodels.simulation"
       resource="XML" disposableProviderFactory="true" ecorePackage="Simulation.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Simulation.ecore#//SimulationStrategy">
+      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/givenValue"/>
+      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/weightedDistribution"/>
+      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/normalDistribution"/>
+      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/uniformDistribution"/>
+      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/allInstanceSimulation"/>
+    </genEnums>
     <genClasses ecoreClass="Simulation.ecore#//ValueSimulation"/>
     <genClasses ecoreClass="Simulation.ecore#//NormalDistribution">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NormalDistribution/mean"/>
@@ -30,9 +37,11 @@
     <genClasses ecoreClass="Simulation.ecore#//NumericValueDistribution"/>
     <genClasses ecoreClass="Simulation.ecore#//EnumLiteralSimulation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//EnumLiteralSimulation/weight"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//EnumLiteralSimulation/literal"/>
     </genClasses>
     <genClasses ecoreClass="Simulation.ecore#//ContainedInstanceValueSimulation">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedInstanceValueSimulation/values"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedInstanceValueSimulation/containedInstance"/>
     </genClasses>
     <genClasses ecoreClass="Simulation.ecore#//BooleanValueSimulation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//BooleanValueSimulation/weight"/>
@@ -51,5 +60,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//StringValueSimulation/weight"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//StringValueSimulation/value"/>
     </genClasses>
+    <genClasses ecoreClass="Simulation.ecore#//SimulationModel"/>
+    <genClasses ecoreClass="Simulation.ecore#//AllInstanceSimulation"/>
+    <genClasses ecoreClass="Simulation.ecore#//ActualInstanceSimulation"/>
   </genPackages>
 </genmodel:GenModel>

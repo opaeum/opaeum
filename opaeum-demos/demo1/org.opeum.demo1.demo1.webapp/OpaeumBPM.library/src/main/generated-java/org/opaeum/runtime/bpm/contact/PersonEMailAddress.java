@@ -24,7 +24,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -164,7 +164,7 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return getPerson();
 	}
 	
-	@Property(isComposite=false,opposite="eMailAddress")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7889195384454107184,opposite="eMailAddress",uuid="252060@_fNvioUtpEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_fNvioUtpEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -172,7 +172,7 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return result;
 	}
 	
-	@Property(isComposite=false,opposite="personEMailAddress")
+	@PropertyMetaInfo(isComposite=false,opaeumId=2816184780881689238,opposite="personEMailAddress",uuid="252060@_NrUNtEtpEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_NrUNtEtpEeGd4cpyhpib9Q")
 	public PersonEMailAddressType getType() {
 		PersonEMailAddressType result = this.type;

@@ -28,7 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -143,7 +143,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return false;
 	}
 	
-	@Property(isComposite=false,opposite="organizationFullfillsActorRole_organization")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7885609895206246713,opposite="organizationFullfillsActorRole_organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
 		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
@@ -167,7 +167,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return this.objectVersion;
 	}
 	
-	@Property(isComposite=false,opposite="organizationFullfillsActorRole_businessActor")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7882025735278420517,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;

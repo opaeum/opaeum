@@ -29,7 +29,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -158,7 +158,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return false;
 	}
 	
-	@Property(isComposite=false,opposite="recurringHoliday")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7899854084172381059,opposite="recurringHoliday",uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -170,7 +170,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.cancelledEvents;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=2528290867262960345,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	public Integer getDay() {
 		Integer result = this.day;
@@ -186,7 +186,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.id;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=660142128285799895,uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	public Month getMonth() {
 		Month result = this.month;
@@ -194,7 +194,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@Property(isComposite=false)
+	@PropertyMetaInfo(isComposite=false,opaeumId=6018749174316171601,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;

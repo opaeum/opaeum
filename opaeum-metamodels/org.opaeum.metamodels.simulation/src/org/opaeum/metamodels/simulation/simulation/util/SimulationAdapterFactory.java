@@ -15,9 +15,11 @@ import org.eclipse.uml2.uml.DeploymentTarget;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.ParameterableElement;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.TemplateableElement;
 import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -128,6 +130,18 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 				return createStringValueSimulationAdapter();
 			}
 			@Override
+			public Adapter caseSimulationModel(SimulationModel object) {
+				return createSimulationModelAdapter();
+			}
+			@Override
+			public Adapter caseAllInstanceSimulation(AllInstanceSimulation object) {
+				return createAllInstanceSimulationAdapter();
+			}
+			@Override
+			public Adapter caseActualInstanceSimulation(ActualInstanceSimulation object) {
+				return createActualInstanceSimulationAdapter();
+			}
+			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -158,6 +172,18 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseSlot(Slot object) {
 				return createSlotAdapter();
+			}
+			@Override
+			public Adapter caseNamespace(Namespace object) {
+				return createNamespaceAdapter();
+			}
+			@Override
+			public Adapter caseTemplateableElement(TemplateableElement object) {
+				return createTemplateableElementAdapter();
+			}
+			@Override
+			public Adapter casePackage(org.eclipse.uml2.uml.Package object) {
+				return createPackageAdapter();
 			}
 			@Override
 			public Adapter caseDeploymentTarget(DeploymentTarget object) {
@@ -360,6 +386,48 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.SimulationModel <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulationModel
+	 * @generated
+	 */
+	public Adapter createSimulationModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation <em>All Instance Simulation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation
+	 * @generated
+	 */
+	public Adapter createAllInstanceSimulationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation <em>Actual Instance Simulation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation
+	 * @generated
+	 */
+	public Adapter createActualInstanceSimulationAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.EModelElement <em>EModel Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -468,6 +536,48 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSlotAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.uml2.uml.Namespace <em>Namespace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.uml2.uml.Namespace
+	 * @generated
+	 */
+	public Adapter createNamespaceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.uml2.uml.TemplateableElement <em>Templateable Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.uml2.uml.TemplateableElement
+	 * @generated
+	 */
+	public Adapter createTemplateableElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.uml2.uml.Package <em>Package</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.uml2.uml.Package
+	 * @generated
+	 */
+	public Adapter createPackageAdapter() {
 		return null;
 	}
 

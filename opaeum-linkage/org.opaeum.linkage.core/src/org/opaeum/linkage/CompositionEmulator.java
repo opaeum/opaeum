@@ -19,6 +19,7 @@ import org.opaeum.metamodel.bpm.INakedResponsibility;
 import org.opaeum.metamodel.bpm.internal.EmbeddedScreenFlowTaskMessageStructure;
 import org.opaeum.metamodel.bpm.internal.EmbeddedSingleScreenTaskMessageStructureImpl;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.DefaultOpaeumComparator;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedAssociation;
@@ -306,6 +307,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		if(p instanceof INakedBusinessComponent){
 			if(getLibrary().getBusiness() != null && !p.getInterfaces().contains(getLibrary().getBusiness())){
 				p.addOwnedElement(new NakedInterfaceRealizationImpl(getLibrary().getBusiness()));
+				getLibrary().getBusiness().addImplementingClassifier((INakedBehavioredClassifier) p);
 			}
 			INakedProperty businessEnd = (INakedProperty) businessCollaboration.findAssociationEnd("business");
 			toChildren.getSubsettedProperties().add(businessEnd);

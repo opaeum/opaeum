@@ -200,7 +200,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 		List<INakedParameter> argumentParameters = o.getArgumentParameters();
 		for(int i = 0;i < argumentParameters.size();i++){
 			if(o.isLongRunning()){
-				//Include return info
+				// Include return info
 				applyStereotypesAsAnnotations(argumentParameters.get(i), (OJAnnotatedElement) oper.getParameters().get(i + 1));
 			}else{
 				applyStereotypesAsAnnotations(argumentParameters.get(i), (OJAnnotatedElement) oper.getParameters().get(i));
@@ -278,7 +278,9 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			}
 			if(elem.getNakedBaseType() instanceof INakedSimpleType){
 				INakedSimpleType e = (INakedSimpleType) elem.getNakedBaseType();
-				ap.putAttribute("strategyFactory", new OJPathName(e.getRuntimeStrategyFactory()));
+				if(e.getRuntimeStrategyFactory() != null){
+					ap.putAttribute("strategyFactory", new OJPathName(e.getRuntimeStrategyFactory()));
+				}
 			}
 			oper.getOwner().addToImports(pMap.javaTypePath());
 		}

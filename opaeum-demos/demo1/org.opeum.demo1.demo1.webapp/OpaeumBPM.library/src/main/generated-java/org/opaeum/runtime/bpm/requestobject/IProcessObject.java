@@ -16,25 +16,25 @@ import org.w3c.dom.Element;
 public interface IProcessObject extends HibernateEntity, CompositionNode, IRequestObject, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
-	public boolean consumeOnCompletedOccurrence(String completedBy);
+	public boolean consumeOnCompletedOccurrence(@ParameterMetaInfo(opaeumId=4095523919410592856,uuid="252060@_yDSYZ0uBEeGElKTCe2jfDw") String completedBy);
 	
 	public boolean consumeOnFailureOccurrence();
 	
-	public boolean consumeOnResumedOccurrence(String resumedBy);
+	public boolean consumeOnResumedOccurrence(@ParameterMetaInfo(opaeumId=787801760248251908,uuid="252060@_xd0650uBEeGElKTCe2jfDw") String resumedBy);
 	
-	public boolean consumeOnStartedOccurrence(String startedBy);
+	public boolean consumeOnStartedOccurrence(@ParameterMetaInfo(opaeumId=8825299842246312,uuid="252060@_v7N4p0uBEeGElKTCe2jfDw") String startedBy);
 	
-	public boolean consumeOnSuspendedOccurrence(String suspendedBy);
+	public boolean consumeOnSuspendedOccurrence(@ParameterMetaInfo(opaeumId=3377686963449892476,uuid="252060@_xCSOZ0uBEeGElKTCe2jfDw") String suspendedBy);
 	
-	public void generateOnCompletedEvent(String completedBy);
+	public void generateOnCompletedEvent(@ParameterMetaInfo(opaeumId=4095523919410592856,uuid="252060@_yDSYZ0uBEeGElKTCe2jfDw") String completedBy);
 	
 	public void generateOnFailureEvent();
 	
-	public void generateOnResumedEvent(String resumedBy);
+	public void generateOnResumedEvent(@ParameterMetaInfo(opaeumId=787801760248251908,uuid="252060@_xd0650uBEeGElKTCe2jfDw") String resumedBy);
 	
-	public void generateOnStartedEvent(String startedBy);
+	public void generateOnStartedEvent(@ParameterMetaInfo(opaeumId=8825299842246312,uuid="252060@_v7N4p0uBEeGElKTCe2jfDw") String startedBy);
 	
-	public void generateOnSuspendedEvent(String suspendedBy);
+	public void generateOnSuspendedEvent(@ParameterMetaInfo(opaeumId=3377686963449892476,uuid="252060@_xCSOZ0uBEeGElKTCe2jfDw") String suspendedBy);
 	
 	@NumlMetaInfo(uuid="252060@_JY15wY3pEeCfQedkc0TCdA")
 	public ProcessRequest getProcessRequest();
@@ -42,19 +42,19 @@ public interface IProcessObject extends HibernateEntity, CompositionNode, IReque
 	public String getUid();
 	
 	@NumlMetaInfo(uuid="252060@_yDSYYEuBEeGElKTCe2jfDw")
-	public void onCompleted(String completedBy);
+	public void onCompleted(@ParameterMetaInfo(opaeumId=4095523919410592856,uuid="252060@_yDSYZ0uBEeGElKTCe2jfDw") String completedBy);
 	
 	@NumlMetaInfo(uuid="252060@_CDJHUEuCEeGElKTCe2jfDw")
 	public void onFailure();
 	
 	@NumlMetaInfo(uuid="252060@_xd064EuBEeGElKTCe2jfDw")
-	public void onResumed(String resumedBy);
+	public void onResumed(@ParameterMetaInfo(opaeumId=787801760248251908,uuid="252060@_xd0650uBEeGElKTCe2jfDw") String resumedBy);
 	
 	@NumlMetaInfo(uuid="252060@_v7N4oEuBEeGElKTCe2jfDw")
-	public void onStarted(String startedBy);
+	public void onStarted(@ParameterMetaInfo(opaeumId=8825299842246312,uuid="252060@_v7N4p0uBEeGElKTCe2jfDw") String startedBy);
 	
 	@NumlMetaInfo(uuid="252060@_xCSOYEuBEeGElKTCe2jfDw")
-	public void onSuspended(String suspendedBy);
+	public void onSuspended(@ParameterMetaInfo(opaeumId=3377686963449892476,uuid="252060@_xCSOZ0uBEeGElKTCe2jfDw") String suspendedBy);
 	
 	public void populateReferencesFromXml(Element xml, Map<String, Object> map);
 	

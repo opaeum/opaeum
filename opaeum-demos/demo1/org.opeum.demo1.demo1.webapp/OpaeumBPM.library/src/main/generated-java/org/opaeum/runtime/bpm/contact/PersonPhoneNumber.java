@@ -24,7 +24,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -164,7 +164,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return getPerson();
 	}
 	
-	@Property(isComposite=false,opposite="phoneNumber")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4171052596734632680,opposite="phoneNumber",uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -172,7 +172,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return result;
 	}
 	
-	@Property(isComposite=false,opposite="personPhoneNumber")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1377242588430375366,opposite="personPhoneNumber",uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	public PersonPhoneNumberType getType() {
 		PersonPhoneNumberType result = this.type;

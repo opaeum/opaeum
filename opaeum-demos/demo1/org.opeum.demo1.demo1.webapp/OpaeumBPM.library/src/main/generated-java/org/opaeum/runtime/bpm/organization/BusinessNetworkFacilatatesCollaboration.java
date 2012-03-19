@@ -29,7 +29,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.CascadingInterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -162,7 +162,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return false;
 	}
 	
-	@Property(isComposite=true,opposite="businessNetworkFacilatatesCollaboration_businessNetwork")
+	@PropertyMetaInfo(isComposite=true,opaeumId=9180074202228577303,opposite="businessNetworkFacilatatesCollaboration_businessNetwork",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = (IBusinessCollaboration)this.businessCollaboration.getValue(persistence);
@@ -170,7 +170,7 @@ public class BusinessNetworkFacilatatesCollaboration implements IPersistentObjec
 		return result;
 	}
 	
-	@Property(isComposite=false,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4534287215016532533,opposite="businessNetworkFacilatatesCollaboration_businessCollaboration",uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcFYjEeGJUqEGX7bKSg252060@_YJETMFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;

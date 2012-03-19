@@ -28,7 +28,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.bpm.util.Stdlib;
@@ -143,7 +143,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return false;
 	}
 	
-	@Property(isComposite=false,opposite="person_iBusinessRole_1_representedPerson")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4277904497685277802,opposite="person_iBusinessRole_1_representedPerson",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lcZgVYuEeGj5_I7bIwNoA")
 	public IBusinessRole getBusinessRole() {
 		IBusinessRole result = (IBusinessRole)this.businessRole.getValue(persistence);
@@ -171,7 +171,7 @@ public class Person_iBusinessRole_1 implements IPersistentObject, HibernateEntit
 		return getBusinessRole();
 	}
 	
-	@Property(isComposite=false,opposite="person_iBusinessRole_1_businessRole")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7968352312603460268,opposite="person_iBusinessRole_1_businessRole",uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgFYuEeGj5_I7bIwNoA252060@_3lakUFYuEeGj5_I7bIwNoA")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = this.representedPerson;

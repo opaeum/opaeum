@@ -20,10 +20,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="NumericValueDistribution" eSuperTypes="#//ValueSimulation"/>
   <eClassifiers xsi:type="ecore:EClass" name="EnumLiteralSimulation" eSuperTypes="#//ValueSimulation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literal" eType="ecore:EClass UML.ecore#//EnumerationLiteral"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ContainedInstanceValueSimulation" eSuperTypes="#//ValueSimulation UML.ecore#//InstanceSpecification">
+  <eClassifiers xsi:type="ecore:EClass" name="ContainedInstanceValueSimulation" eSuperTypes="#//ValueSimulation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
         eType="ecore:EClass UML.ecore#//InstanceSpecification" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="containedInstance" eType="#//ActualInstanceSimulation"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BooleanValueSimulation" eSuperTypes="#//ValueSimulation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
@@ -37,11 +40,21 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ReferencedInstanceSimulation" eSuperTypes="#//ValueSimulation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="instance" eType="#//ContainedInstanceValueSimulation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instance" eType="#//ActualInstanceSimulation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StringValueSimulation" eSuperTypes="#//ValueSimulation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"
         defaultValueLiteral="0.5"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType Ecore.ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimulationModel" eSuperTypes="UML.ecore#//Package"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AllInstanceSimulation" eSuperTypes="UML.ecore#//InstanceSpecification"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActualInstanceSimulation" eSuperTypes="UML.ecore#//InstanceSpecification"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="SimulationStrategy">
+    <eLiterals name="givenValue"/>
+    <eLiterals name="weightedDistribution" value="1"/>
+    <eLiterals name="normalDistribution" value="2"/>
+    <eLiterals name="uniformDistribution" value="3"/>
+    <eLiterals name="allInstanceSimulation" value="4"/>
   </eClassifiers>
 </ecore:EPackage>

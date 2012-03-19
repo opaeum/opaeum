@@ -34,7 +34,6 @@
 		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
 		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
 		<class>org.opaeum.runtime.bpm.contact.PhoneNumber</class>
-		<class>structuredbusiness.LulusRole</class>
 		<class>structuredbusiness.DishwashersInc</class>
 		<class>org.opaeum.runtime.bpm.organization.Leave</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInTask</class>
@@ -49,8 +48,8 @@
 		<class>org.opaeum.runtime.bpm.contact.EMailAddress</class>
 		<class>structuredbusiness.Accountant</class>
 		<class>org.opeum.demo1.util</class>
-<!-- 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class> -->
-<!-- 		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class> -->
+		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
+		<class>org.jbpm.persistence.processinstance.ProcessInstanceEventInfo</class>
 		<class>org.opaeum.hibernate.domain.EventOccurrence</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

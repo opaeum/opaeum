@@ -27,7 +27,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Proxy;
 import org.opaeum.annotation.NumlMetaInfo;
-import org.opaeum.annotation.Property;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.hibernate.domain.InterfaceValue;
 import org.opaeum.runtime.bpm.organization.Participant;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -156,7 +156,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		return null;
 	}
 	
-	@Property(isComposite=false,opposite="participation")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1801402104881341029,opposite="participation",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
 		Participant result = (Participant)this.participant.getValue(persistence);

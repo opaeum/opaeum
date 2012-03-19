@@ -3,7 +3,7 @@
   <eAnnotations xmi:id="_AAAtcI5-EeCrtavWRHwoHg" source="http://www.eclipse.org/uml2/2.0.0/UML">
     <contents xmi:type="ecore:EPackage" xmi:id="_2agDYNfJEeCXQPv0AMhLcg" name="OpaeumBPMProfile" nsURI="http:///schemas/OpaeumBPMProfile/1.0.0.6" nsPrefix="OpaeumBPMProfile">
       <eAnnotations xmi:id="_jYTtIWOoEeGodsKwWzy5aw" source="http://www.eclipse.org/uml2/4.0.0/UML">
-        <references xmi:type="uml:Model" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
+        <references xmi:type="uml:Model" href="../libraries/OpaeumBPMCommon.library.uml#_LgcDYF9mEeG3X_yvufTVmw"/>
       </eAnnotations>
       <eAnnotations xmi:id="_jh2qsGOoEeGodsKwWzy5aw" source="PapyrusVersion">
         <details xmi:id="_jh2qsWOoEeGodsKwWzy5aw" key="Version" value="0.0.2"/>
@@ -99,7 +99,7 @@
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EEnum" xmi:id="_jYTtY2OoEeGodsKwWzy5aw" name="OpaeumBPMCommon_BusinessTimeUnit">
         <eAnnotations xmi:id="_jYTtZGOoEeGodsKwWzy5aw" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+          <references xmi:type="uml:Enumeration" href="../libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
         </eAnnotations>
         <eLiterals xmi:id="_jYTtZWOoEeGodsKwWzy5aw" name="businessMinute"/>
         <eLiterals xmi:id="_jYTtZmOoEeGodsKwWzy5aw" name="actualMinute" value="1"/>
@@ -282,7 +282,7 @@
       </eClassifiers>
       <eClassifiers xmi:type="ecore:EEnum" xmi:id="_jYTt5WOoEeGodsKwWzy5aw" name="OpaeumBPMCommon_DocumentType">
         <eAnnotations xmi:id="_jYTt5mOoEeGodsKwWzy5aw" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
+          <references xmi:type="uml:Enumeration" href="../libraries/OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
         </eAnnotations>
         <eLiterals xmi:id="_jYTt52OoEeGodsKwWzy5aw" name="spreadSheet"/>
         <eLiterals xmi:id="_jYTt6GOoEeGodsKwWzy5aw" name="presentation" value="1"/>
@@ -472,7 +472,7 @@
     </ownedAttribute>
     <ownedAttribute xmi:id="_lJ1M0NfJEeCXQPv0AMhLcg" name="timeUnit">
       <eAnnotations xmi:id="_XPVV8GCDEeG6xvYqJACneg" source="http://www.opaeum.org"/>
-      <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+      <type xmi:type="uml:Enumeration" href="../libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Stereotype" xmi:id="_V_sQ0I5-EeCrtavWRHwoHg" name="AcceptDeadlineAction">
@@ -634,7 +634,7 @@
     </ownedAttribute>
     <ownedAttribute xmi:id="_yKiqENfJEeCXQPv0AMhLcg" name="timeUnit">
       <eAnnotations xmi:id="_XOTbMGCDEeG6xvYqJACneg" source="http://www.opaeum.org"/>
-      <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+      <type xmi:type="uml:Enumeration" href="../libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_wwz3ANfJEeCXQPv0AMhLcg" name="TimeEvent_BusinessTimeEvent" memberEnd="_wwz3AdfJEeCXQPv0AMhLcg _wwz3BNfJEeCXQPv0AMhLcg">
@@ -783,7 +783,7 @@
     </ownedAttribute>
     <ownedAttribute xmi:id="_2oUpoASPEeGb9qsDxKJdSA" name="timeUnit">
       <eAnnotations xmi:id="_XOwuMGCDEeG6xvYqJACneg" source="http://www.opaeum.org"/>
-      <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
+      <type xmi:type="uml:Enumeration" href="../libraries/OpaeumBPMCommon.library.uml#_7zLcgNb-EeCJ0dmaHEVVnw"/>
     </ownedAttribute>
     <ownedAttribute xmi:id="_6gF_4ASkEeGE-ZX-dluNDw" name="businessCalendarToUse">
       <eAnnotations xmi:id="_XOx8UGCDEeG6xvYqJACneg" source="http://www.opaeum.org"/>
@@ -826,7 +826,7 @@
     </ownedAttribute>
     <ownedAttribute xmi:id="_qvoWMF9ZEeG3X_yvufTVmw" name="documentType">
       <eAnnotations xmi:id="_XNx2wGCDEeG6xvYqJACneg" source="http://www.opaeum.org"/>
-      <type xmi:type="uml:Enumeration" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
+      <type xmi:type="uml:Enumeration" href="../libraries/OpaeumBPMCommon.library.uml#_Ckeg4F9ZEeG3X_yvufTVmw"/>
     </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Extension" xmi:id="_BZPc0F9ZEeG3X_yvufTVmw" name="E_BusinessDocument_Class1" memberEnd="_BZPc0V9ZEeG3X_yvufTVmw _BZOOsF9ZEeG3X_yvufTVmw">

@@ -27,14 +27,16 @@
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=IdBook.class,value="7267980829799356539"),name="IBusinessDocument"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="INotification"),
-	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IBusiness"),
+	@AnyMetaDef(idType="long",metaType="integer",metaValues=
+		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),name="IBusiness"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="IBusinessActor"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Supplier.class,value="6592718997733823438"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="IBusinessActorBase"),
-	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IBusinessBase"),
+	@AnyMetaDef(idType="long",metaType="integer",metaValues=
+		@MetaValue(targetEntity=DishwashersInc.class,value="8415961198448241003"),name="IBusinessBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=Structuredbusiness.class,value="7737100568581358598"),name="IBusinessCollaboration"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
@@ -46,13 +48,11 @@
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
 		@MetaValue(targetEntity=DocumentVerifier.class,value="6562910277794880901"),
-		@MetaValue(targetEntity=Manager.class,value="3586662115628447123"),
-		@MetaValue(targetEntity=LulusRole.class,value="6510659660050071725")},name="IBusinessRole"),
+		@MetaValue(targetEntity=Manager.class,value="3586662115628447123")},name="IBusinessRole"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={
 		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
 		@MetaValue(targetEntity=DocumentVerifier.class,value="6562910277794880901"),
-		@MetaValue(targetEntity=Manager.class,value="3586662115628447123"),
-		@MetaValue(targetEntity=LulusRole.class,value="6510659660050071725")},name="IBusinessRoleBase"),
+		@MetaValue(targetEntity=Manager.class,value="3586662115628447123")},name="IBusinessRoleBase"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IBusinessService"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues=
 		@MetaValue(targetEntity=OrganizationNode.class,value="9636702410571466"),name="IOrganizationNode"),
@@ -64,7 +64,6 @@
 		@MetaValue(targetEntity=Accountant.class,value="3718403143352034683"),
 		@MetaValue(targetEntity=DocumentVerifier.class,value="6562910277794880901"),
 		@MetaValue(targetEntity=Manager.class,value="3586662115628447123"),
-		@MetaValue(targetEntity=LulusRole.class,value="6510659660050071725"),
 		@MetaValue(targetEntity=Online_Customer.class,value="3937437504061981510")},name="Participant"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IProcessObject"),
 	@AnyMetaDef(idType="long",metaType="integer",metaValues={},name="IRequestObject"),
@@ -105,7 +104,6 @@ import org.opaeum.runtime.domain.TaskDelegationResolver;
 import org.hibernate.annotations.TypeDefs;
 import org.opaeum.runtime.bpm.contact.PostalAddress;
 import org.opaeum.runtime.bpm.request.AbstractRequestStateResolver;
-import structuredbusiness.LulusRole;
 import structuredbusiness.DishwashersInc;
 import org.opaeum.runtime.contact.PersonPhoneNumberTypeResolver;
 import org.opaeum.runtime.bpm.businesscalendar.WorkDayKindResolver;
