@@ -166,8 +166,19 @@ public class OJUtil{
 		operationMaps=Collections.unmodifiableMap(operationMaps);
 		signalMaps=Collections.unmodifiableMap(signalMaps);
 		statePathnames=Collections.unmodifiableMap(statePathnames);
-		
 	}
+	public static void unlock(){
+		structuralFeatureMaps=new HashMap<INakedTypedElement, NakedStructuralFeatureMap>(structuralFeatureMaps);
+		locallyUniqueFeatureMaps=new HashMap<INakedTypedElement, NakedStructuralFeatureMap>(locallyUniqueFeatureMaps);
+		actionFeatureMaps=new HashMap<INakedAction, NakedStructuralFeatureMap>(actionFeatureMaps);
+		packagePaths=new HashMap<INakedNameSpace, OJPathName>(packagePaths);
+		classifierPaths=new HashMap<INakedClassifier, OJPathName>(classifierPaths);
+		classifierMaps=new HashMap<IClassifier, NakedClassifierMap>(classifierMaps);
+		operationMaps=new HashMap<IParameterOwner, NakedOperationMap>(operationMaps);
+		signalMaps=new HashMap<INakedSignal, SignalMap>(signalMaps);
+		statePathnames=new HashMap<INakedClassifier, OJPathName>(statePathnames);
+	}
+	
 	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
 	}

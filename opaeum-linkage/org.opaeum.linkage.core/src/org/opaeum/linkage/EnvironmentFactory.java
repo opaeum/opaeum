@@ -328,12 +328,4 @@ public class EnvironmentFactory{
 			env.addElement(var.getName(), new VariableDeclaration(var.getName(), var.getType()), false);
 		}
 	}
-	
-	private class ConcreteEmulatedClassifier extends EmulatedClassifier {
-
-		protected ConcreteEmulatedClassifier(INakedNameSpace owner, INakedElement element) {
-			super(owner, element);
-		}
-		
-	}
 }

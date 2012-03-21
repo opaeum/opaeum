@@ -25,7 +25,7 @@ public abstract class AcceptEventAction extends AbstractTriggeredAction {
 	@Override
 	protected Boolean processNextStart() throws NoSuchElementException {
 		Boolean result = super.processNextStart();
-		if (getInFlows().isEmpty()) {
+		if (doAllIncomingFlowsHaveTokens() && hasPreConditionPassed() && hasPostConditionPassed() && isInputPinsSatisfied()) {
 			setNodeStatus(NodeStatus.ENABLED);
 		}
 		return result;

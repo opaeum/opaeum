@@ -51,7 +51,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 			addContructorWithVertex(ojClass, c);
 		}
 	}
-	
+
 	@VisitAfter(matchSubclasses = true)
 	public void visitClass(ICompositionParticipant c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType) && !(c instanceof INakedInterface)) {
@@ -84,7 +84,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		}
 	}
 	
-	private void persistUid(OJAnnotatedClass ojClass) {
+	protected void persistUid(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getUid = (OJAnnotatedOperation) ojClass.findOperation("getUid", Collections.emptyList());
 		getUid.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getUid.getBody().removeAllFromStatements();
@@ -102,7 +102,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToImplementedInterfaces(TinkerGenerationUtil.tinkerCompositionNodePathName);
 	}
 
-	private void addGetSetId(OJAnnotatedClass ojClass) {
+	protected void addGetSetId(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getId = new OJAnnotatedOperation("getId");
 		getId.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		getId.setReturnType(new OJPathName("java.lang.Long"));
@@ -117,7 +117,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToOperations(setId);
 	}
 
-	private void addGetObjectVersion(OJAnnotatedClass ojClass) {
+	protected void addGetObjectVersion(OJAnnotatedClass ojClass) {
 		OJAnnotatedOperation getObjectVersion = new OJAnnotatedOperation("getObjectVersion");
 		TinkerGenerationUtil.addOverrideAnnotation(getObjectVersion);
 		getObjectVersion.setReturnType(new OJPathName("int"));
@@ -126,7 +126,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToOperations(getObjectVersion);
 	}
 
-	private void implementIsRoot(OJAnnotatedClass ojClass, boolean b) {
+	protected void implementIsRoot(OJAnnotatedClass ojClass, boolean b) {
 		OJAnnotatedOperation isRoot = new OJAnnotatedOperation("isTinkerRoot");
 		isRoot.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
 		isRoot.setReturnType(new OJPathName("boolean"));
@@ -134,7 +134,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		ojClass.addToOperations(isRoot);
 	}
 	
-	private void extendsBaseSoftDelete(OJAnnotatedClass ojClass, INakedClassifier c) {
+	protected void extendsBaseSoftDelete(OJAnnotatedClass ojClass, INakedClassifier c) {
 		if (c instanceof INakedBehavioredClassifier && ((INakedBehavioredClassifier) c).getClassifierBehavior()!=null) {
 			ojClass.setSuperclass(TinkerGenerationUtil.BASE_BEHAVIORED_CLASSIFIER);
 		} else {
@@ -142,14 +142,14 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		}
 	}
 	
-	private void addPersistentConstructor(OJAnnotatedClass ojClass) {
+	protected void addPersistentConstructor(OJAnnotatedClass ojClass) {
 		OJConstructor persistentConstructor = new OJConstructor();
 		persistentConstructor.setName(TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_NAME);
 		persistentConstructor.addParam(TinkerGenerationUtil.PERSISTENT_CONSTRUCTOR_PARAM_NAME, new OJPathName("java.lang.Boolean"));
 		ojClass.addToConstructors(persistentConstructor);
 	}
 	
-	private void initialiseVertexInPersistentConstructor(OJAnnotatedClass ojClass, INakedClassifier c) {
+	protected void initialiseVertexInPersistentConstructor(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJConstructor constructor = ojClass.findConstructor(new OJPathName("java.lang.Boolean"));
 		constructor.getBody().addToStatements("this.vertex = " + TinkerGenerationUtil.graphDbAccess + ".addVertex(\"" + TinkerGenerationUtil.getClassMetaId(ojClass) + "\")");
 		if (c instanceof ICompositionParticipant) {
@@ -207,7 +207,7 @@ public class TinkerImplementNodeStep extends StereotypeAnnotator {
 		}
 	}
 
-	private void addContructorWithVertex(OJAnnotatedClass ojClass, INakedClassifier c) {
+	protected void addContructorWithVertex(OJAnnotatedClass ojClass, INakedClassifier c) {
 		OJConstructor constructor = new OJConstructor();
 		constructor.addParam("vertex", new OJPathName("com.tinkerpop.blueprints.pgm.Vertex"));
 		if (c.getGeneralizations().isEmpty()) {

@@ -8,11 +8,14 @@ import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
 import org.opaeum.name.NameConverter;
 
 public class TinkerBehaviorUtil {
+	public static final OJPathName tinkerIEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.IEvent");
 	public static final OJPathName tinkerEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Event");
 	public static final OJPathName tinkerSignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.SignalEvent");
+	public static final OJPathName tinkerISignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ISignalEvent");
 	public static final OJPathName tinkerCallEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.CallEvent");
 	public static final OJPathName tinkerAbstractActivityPathName = new OJPathName("org.nakeduml.runtime.domain.activity.AbstractActivity");
 	public static final OJPathName tinkerActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.ActivityParameterNode");
@@ -23,6 +26,7 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutActivityParameterNode");
 	public static final OJPathName tinkerActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Action");
 	public static final OJPathName tinkerOpaqueActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OpaqueAction");
+	public static final OJPathName tinkerReplyActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReplyAction");
 	public static final OJPathName tinkerJoinNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.JoinNode");
 	public static final OJPathName tinkerJoinNodeControlTokenPathName = new OJPathName("org.nakeduml.runtime.domain.activity.JoinNodeControlToken");
 	public static final OJPathName tinkerJoinNodeObjectTokenKnownPathName = new OJPathName("org.nakeduml.runtime.domain.activity.JoinNodeObjectTokenKnown");
@@ -121,6 +125,9 @@ public class TinkerBehaviorUtil {
 	}
 	public static String pinActionEdgeName(INakedPin pin) {
 		return NameConverter.decapitalize(pin.getAction().getName()) + NameConverter.capitalize(pin.getName());
+	}
+	public static String eventName(INakedMessageEvent callEvent) {
+		return NameConverter.capitalize(callEvent.getName());
 	}
 	
 }

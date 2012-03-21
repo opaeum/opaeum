@@ -18,7 +18,6 @@ public class TestSignalPersistence extends BaseLocalDbTest {
 
 	@Test
 	public void testSignalPersistence() {
-
 		db.startTransaction();
 		Root root = new Root(true);
 		root.setName("THEROOT");

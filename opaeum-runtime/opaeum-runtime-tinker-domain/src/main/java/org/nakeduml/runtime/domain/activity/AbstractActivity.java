@@ -22,7 +22,7 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 //
 //	protected abstract List<? extends ActivityParameterNode<?>> getOutgoingParameters();
 
-	public Set<ActivityNode<? extends Token, ? extends Token>> getEnabledNodesWithMatchingTrigger(Event event) {
+	public Set<ActivityNode<? extends Token, ? extends Token>> getEnabledNodesWithMatchingTrigger(IEvent event) {
 		Set<ActivityNode<? extends Token, ? extends Token>> result = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
 		Set<ActivityNode<? extends Token, ? extends Token>> visited = new HashSet<ActivityNode<? extends Token, ? extends Token>>();
 		for (ActivityNode<? extends Token, ? extends Token> initNode : getInitialNodes()) {
@@ -73,7 +73,7 @@ public abstract class AbstractActivity extends BaseTinkerSoftDelete {
 	}
 
 	private void walkActivity(Set<ActivityNode<? extends Token, ? extends Token>> result, Set<ActivityNode<? extends Token, ? extends Token>> visited,
-			ActivityNode<? extends Token, ? extends Token> currentNode, Event event) {
+			ActivityNode<? extends Token, ? extends Token> currentNode, IEvent event) {
 		if (currentNode.isEnabled() && currentNode instanceof AcceptEventAction && ((AcceptEventAction) currentNode).containsTriggerForEvent(event)) {
 			result.add(currentNode);
 		}

@@ -1,6 +1,8 @@
 package org.nakeduml.tinker.activity;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 import nl.klasse.octopus.model.ParameterDirectionKind;
 import nl.klasse.octopus.stdlib.internal.types.StdlibPrimitiveType;
@@ -14,6 +16,7 @@ import org.opaeum.java.metamodel.OJClass;
 import org.opaeum.java.metamodel.OJConstructor;
 import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
+import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.java.metamodel.OJVisibilityKind;
@@ -28,6 +31,7 @@ import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedAcceptEventAction;
 import org.opaeum.metamodel.actions.INakedOclAction;
 import org.opaeum.metamodel.actions.INakedOpaqueAction;
+import org.opaeum.metamodel.actions.INakedReplyAction;
 import org.opaeum.metamodel.actions.INakedSendSignalAction;
 import org.opaeum.metamodel.activities.ControlNodeType;
 import org.opaeum.metamodel.activities.INakedAction;
@@ -42,10 +46,13 @@ import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.internal.NakedValueSpecificationImpl;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
@@ -100,6 +107,9 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		implementMultiplicity(outputPinClass, oa);
 		implementGetAction(outputPinClass, oa);
 		implementCopyTokensToStart(outputPinClass);
+		
+		removeOutputPinfromActivityClass(oa);
+		
 		super.createTextPath(outputPinClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -145,6 +155,22 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 		addContextObjectField(actionClass, oa.getActivity().getContext());
 		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
 		addGetBodyExpression(actionClass, oa);
+		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+	}
+
+	@VisitBefore(matchSubclasses = true, match = { INakedReplyAction.class })
+	public void visitReplyAction(INakedReplyAction oa) {
+		OJPathName path = OJUtil.packagePathname(oa.getNameSpace());
+		OJPackage pack = findOrCreatePackage(path);
+		OJAnnotatedClass actionClass = new OJAnnotatedClass(NameConverter.capitalize(oa.getName()));
+		actionClass.setMyPackage(pack);
+		actionClass.setSuperclass(TinkerBehaviorUtil.tinkerReplyActionPathName);
+		actionClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+		addActionOperations(actionClass, oa);
+		addInitVertexToDefaultConstructor(actionClass, oa);
+		addContextObjectField(actionClass, oa.getActivity().getContext());
+		addContextObjectToDefaultConstructor(actionClass, oa.getActivity().getContext());
+//		addGetBodyExpression(actionClass, oa);
 		super.createTextPath(actionClass, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 	}
 
@@ -344,10 +370,10 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	private void addTriggersInConstructor(OJConstructor constructor, OJClass actionClass, INakedAcceptEventAction oa) {
 		Collection<INakedTrigger> triggers = oa.getTriggers();
 		for (INakedTrigger trigger : triggers) {
-			if (trigger.getEvent() instanceof INakedSignalEvent) {
-				INakedSignalEvent signalEvent = (INakedSignalEvent) trigger.getEvent();
+			if (trigger.getEvent() instanceof INakedMessageEvent) {
+				INakedMessageEvent signalEvent = (INakedMessageEvent) trigger.getEvent();
 				constructor.getBody().addToStatements("addToTriggers(\"" + trigger.getName() + "\",\"" +signalEvent.getName()+"\")");
-				actionClass.addToImports(OJUtil.classifierPathname(signalEvent.getSignal()));
+//				actionClass.addToImports(OJUtil.classifierPathname(signalEvent.getSignal()));
 			}
 		}
 	}
@@ -1128,17 +1154,18 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 	private void addCopyEventToOutputPin(OJAnnotatedClass actionClass, INakedAcceptEventAction oa) {
 		OJAnnotatedOperation copyEventToOutputPin = new OJAnnotatedOperation("copyEventToOutputPin");
 		TinkerGenerationUtil.addOverrideAnnotation(copyEventToOutputPin);
-		copyEventToOutputPin.addParam("event", TinkerBehaviorUtil.tinkerEventPathName.getCopy());
+		copyEventToOutputPin.addParam("event", TinkerBehaviorUtil.tinkerIEventPathName.getCopy());
 		// TODO think about many triggers here, for now kinda assuming one
 		for (INakedTrigger trigger : oa.getTriggers()) {
 			
-			OJIfStatement ifSignal = new OJIfStatement("event instanceof SignalEvent"); 
-			ifSignal.addToThenPart(TinkerBehaviorUtil.tinkerSignalEventPathName.getLast() + " signalEvent = ("+TinkerBehaviorUtil.tinkerSignalEventPathName.getLast()+")event");
-			actionClass.addToImports(TinkerBehaviorUtil.tinkerSignalEventPathName);
+			OJIfStatement ifSignal = new OJIfStatement("event instanceof " + TinkerBehaviorUtil.tinkerISignalEventPathName.getLast()); 
+			ifSignal.addToThenPart(TinkerBehaviorUtil.tinkerISignalEventPathName.getLast() + " signalEvent = ("+TinkerBehaviorUtil.tinkerISignalEventPathName.getLast()+")event");
+			actionClass.addToImports(TinkerBehaviorUtil.tinkerISignalEventPathName);
 			if (trigger.getEvent() instanceof INakedSignalEvent) {
 				INakedSignalEvent signalEvent = (INakedSignalEvent) trigger.getEvent();
 				INakedSignal signal = signalEvent.getSignal();
 				String signalClassName = OJUtil.classifierPathname(signal).getLast();
+				actionClass.addToImports(OJUtil.classifierPathname(signal));
 				OJIfStatement ifInstanceOf = new OJIfStatement("signalEvent.getSignal() instanceof " + signalClassName);
 				ifInstanceOf.addToThenPart(signalClassName + " tmp  = (" +  signalClassName + ")signalEvent.getSignal()");
 				
@@ -1153,11 +1180,56 @@ public class TinkerActivityNodeGenerator extends StereotypeAnnotator {
 				}
 				ifSignal.addToThenPart(ifInstanceOf);
 				copyEventToOutputPin.getBody().addToStatements(ifSignal);
+			} else {
+				INakedCallEvent callEvent = (INakedCallEvent) trigger.getEvent();
+				INakedOperation operation = callEvent.getOperation();
+				String signalClassName = OJUtil.classifierPathname(signal).getLast();
+				actionClass.addToImports(OJUtil.classifierPathname(signal));
+				OJIfStatement ifInstanceOf = new OJIfStatement("signalEvent.getSignal() instanceof " + signalClassName);
+				ifInstanceOf.addToThenPart(signalClassName + " tmp  = (" +  signalClassName + ")signalEvent.getSignal()");
+				
+				// Correlate signal attributes with output pins
+				int i = 0;
+				for (INakedOutputPin outputPin : oa.getOutput()) {
+					NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(signal.getOwnedAttributes().get(i++));
+					ifInstanceOf.addToThenPart(TinkerBehaviorUtil.outputPinGetterName(outputPin) + "().addOutgoingToken(new ObjectToken<" + map.javaBaseTypePath().getLast() + ">("
+							+ TinkerBehaviorUtil.outputPinGetterName(outputPin) + "().getName(), tmp." + map.getter()
+							+ "()))");
+					actionClass.addToImports(map.javaBaseTypePath());
+				}
+				ifSignal.addToThenPart(ifInstanceOf);
+				copyEventToOutputPin.getBody().addToStatements(ifSignal);
+				
 			}
 
 		}
 		actionClass.addToOperations(copyEventToOutputPin);
 
+	}
+
+	private void removeOutputPinfromActivityClass(INakedOutputPin oa) {
+		NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(oa.getActivity(), oa, true);
+		OJAnnotatedClass activityClass = findJavaClass(oa.getActivity());
+		OJField fieldToRemove = null;
+		OJOperation internalAdderToRemove = null;
+		OJOperation internalRemoverToRemove = null;
+		OJOperation getter = null;
+		OJOperation setter = null;
+		for (OJField field : activityClass.getFields()) {
+			if (field.getName().equals(map.fieldname())) {
+				fieldToRemove = field;
+				internalAdderToRemove = activityClass.findOperation(map.internalAdder(), Arrays.asList(map.javaBaseTypePath()));
+				internalRemoverToRemove = activityClass.findOperation(map.internalRemover(), Arrays.asList(map.javaBaseTypePath()));
+				getter = activityClass.findOperation(map.getter(), Collections.emptyList());
+				setter = activityClass.findOperation(map.setter(), Arrays.asList(map.javaBaseTypePath()));
+				break;
+			}
+		}
+		activityClass.removeFromFields(fieldToRemove);
+		activityClass.removeFromOperations(internalAdderToRemove);
+		activityClass.removeFromOperations(internalRemoverToRemove);
+		activityClass.removeFromOperations(getter);
+		activityClass.removeFromOperations(setter);
 	}
 
 }

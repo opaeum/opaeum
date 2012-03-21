@@ -196,7 +196,7 @@ abstract public class OJClassifierGEN extends OJVisibleElement{
 		if(element == null){
 			return;
 		}
-		z_internalAddToOperations(element);
+		z_internalRemoveFromOperations(element);
 		element.z_internalRemoveFromOwner((OJClassifier) ((OJClassifier) this));
 	}
 	/**

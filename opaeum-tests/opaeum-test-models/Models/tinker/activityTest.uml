@@ -608,12 +608,65 @@
           <weight xmi:type="uml:LiteralInteger" xmi:id="_iaI9kmmvEeGVQMs-h5flNQ" value="1"/>
         </edge>
       </ownedBehavior>
+      <ownedBehavior xmi:type="uml:Activity" xmi:id="_EHyvAGrkEeG6yK3xui0RkA" name="ActivityTestAcceptCallAction">
+        <node xmi:type="uml:InitialNode" xmi:id="_IvtVUGrkEeG6yK3xui0RkA" name="InitialNode1" outgoing="_QT0nAGrkEeG6yK3xui0RkA"/>
+        <node xmi:type="uml:AcceptCallAction" xmi:id="_LWtMwGrkEeG6yK3xui0RkA" name="AcceptCallAction1" incoming="_QT0nAGrkEeG6yK3xui0RkA">
+          <result xmi:id="_Vh088GrkEeG6yK3xui0RkA" name="resultOutputPin1" outgoing="_j4cdMGrkEeG6yK3xui0RkA">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </result>
+          <trigger xmi:id="_aAqDQGrlEeG6yK3xui0RkA" name="testAcceptCallActionTrigger" event="_zqsNkGqaEeGEcsSa1g6DvQ"/>
+          <returnInformation xmi:id="_SIUDcGrkEeG6yK3xui0RkA" name="returnInformationOutputPin1" outgoing="_jkuP8GrkEeG6yK3xui0RkA"/>
+        </node>
+        <node xmi:type="uml:OpaqueAction" xmi:id="_Msy18GrkEeG6yK3xui0RkA" name="OpaqueAction1abc">
+          <inputValue xmi:id="_flD8cGrkEeG6yK3xui0RkA" name="InputPin1" incoming="_j4cdMGrkEeG6yK3xui0RkA">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_flD8cWrkEeG6yK3xui0RkA" value="*"/>
+          </inputValue>
+          <outputValue xmi:id="_gJTR8GrkEeG6yK3xui0RkA" name="OutputPin1" outgoing="_kMk6IGrkEeG6yK3xui0RkA">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <upperBound xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gJTR8WrkEeG6yK3xui0RkA" value="*"/>
+          </outputValue>
+          <body>InputPin1</body>
+        </node>
+        <node xmi:type="uml:ReplyAction" xmi:id="_OKoF4GrkEeG6yK3xui0RkA" name="ReplyAction1" outgoing="_QlkeUGrkEeG6yK3xui0RkA" replyToCall="_aAqDQGrlEeG6yK3xui0RkA">
+          <returnInformation xmi:id="_ZLlR4GrkEeG6yK3xui0RkA" name="returnInformationInputPin1" incoming="_jkuP8GrkEeG6yK3xui0RkA"/>
+          <replyValue xmi:id="_cdKXYGrkEeG6yK3xui0RkA" name="replyInputPin1" incoming="_kMk6IGrkEeG6yK3xui0RkA">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </replyValue>
+        </node>
+        <node xmi:type="uml:ActivityFinalNode" xmi:id="_PlC1cGrkEeG6yK3xui0RkA" name="ActivityFinalNode1" incoming="_QlkeUGrkEeG6yK3xui0RkA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_QT0nAGrkEeG6yK3xui0RkA" name="ControlFlow1" source="_IvtVUGrkEeG6yK3xui0RkA" target="_LWtMwGrkEeG6yK3xui0RkA">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_QT0nAWrkEeG6yK3xui0RkA" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_QT0nAmrkEeG6yK3xui0RkA" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_QlkeUGrkEeG6yK3xui0RkA" name="ControlFlow2" source="_OKoF4GrkEeG6yK3xui0RkA" target="_PlC1cGrkEeG6yK3xui0RkA">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_QlkeUWrkEeG6yK3xui0RkA" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_QlkeUmrkEeG6yK3xui0RkA" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_jkuP8GrkEeG6yK3xui0RkA" name="ObjectFlow1" source="_SIUDcGrkEeG6yK3xui0RkA" target="_ZLlR4GrkEeG6yK3xui0RkA">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_jkuP8WrkEeG6yK3xui0RkA" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_jkuP8mrkEeG6yK3xui0RkA" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_j4cdMGrkEeG6yK3xui0RkA" name="ObjectFlow2" source="_Vh088GrkEeG6yK3xui0RkA" target="_flD8cGrkEeG6yK3xui0RkA">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_j4cdMWrkEeG6yK3xui0RkA" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_j4cdMmrkEeG6yK3xui0RkA" value="1"/>
+        </edge>
+        <edge xmi:type="uml:ObjectFlow" xmi:id="_kMk6IGrkEeG6yK3xui0RkA" name="ObjectFlow3" source="_gJTR8GrkEeG6yK3xui0RkA" target="_cdKXYGrkEeG6yK3xui0RkA">
+          <guard xmi:type="uml:LiteralBoolean" xmi:id="_kMk6IWrkEeG6yK3xui0RkA" value="true"/>
+          <weight xmi:type="uml:LiteralInteger" xmi:id="_kMk6ImrkEeG6yK3xui0RkA" value="1"/>
+        </edge>
+      </ownedBehavior>
       <ownedOperation xmi:id="_61bOEF-mEeGDnrcNgbl2_Q" name="sendAddressAsSignalTest" method="_Bgj8QF-aEeGDnrcNgbl2_Q"/>
       <ownedOperation xmi:id="_UppOQGBQEeG_eaXy4G2_8g" name="testActivity1Operation" method="_m6Hc0F8PEeGM6eee6RfH9g">
         <ownedParameter xmi:id="_Wkua4GBQEeG_eaXy4G2_8g" name="param1">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mOF3kGFwEeGPDqATZmBU0w" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mBEvQGFwEeGPDqATZmBU0w"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_UJYG0GrlEeG6yK3xui0RkA" name="testCallAcceptEvent">
+        <ownedParameter xmi:id="_WyHqsGrlEeG6yK3xui0RkA" name="inParam">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
       </ownedOperation>
       <ownedReception xmi:id="_Xz9A0F_REeGUZPtbxwWnGg" name="AddressSignalReception1" method="_R8Lk4F_AEeGsPb_pxphNGw" signal="_EE4dsF-bEeGDnrcNgbl2_Q"/>
@@ -661,6 +714,6 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FbsbBmT-EeGJ46qUKfXPZg" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_zqsNkGqaEeGEcsSa1g6DvQ" name="testInvokeAcceptCallActionCallEvent1"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_zqsNkGqaEeGEcsSa1g6DvQ" name="testInvokeAcceptCallActionCallEvent1" operation="_UJYG0GrlEeG6yK3xui0RkA"/>
   </packagedElement>
 </uml:Model>

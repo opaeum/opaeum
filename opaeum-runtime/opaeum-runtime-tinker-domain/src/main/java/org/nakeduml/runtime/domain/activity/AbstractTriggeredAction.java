@@ -13,7 +13,7 @@ public abstract class AbstractTriggeredAction extends Action {
 
 	private List<Trigger> triggers = new ArrayList<Trigger>();
 	private boolean triggered = false;
-	private Event event;
+	private IEvent event;
 	
 	public AbstractTriggeredAction() {
 		super();
@@ -27,7 +27,7 @@ public abstract class AbstractTriggeredAction extends Action {
 		super(vertex);
 	}
 	
-	public void setTrigger(Event signal) {
+	public void setTrigger(IEvent signal) {
 		this.triggered = true;
 		this.event = signal;
 	}
@@ -39,17 +39,17 @@ public abstract class AbstractTriggeredAction extends Action {
 		removeEvent(this.event);
 	}	
 
-	public abstract void copyEventToOutputPin(Event event);
+	public abstract void copyEventToOutputPin(IEvent event);
 
-	protected void removeEvent(Event event) {
-		if (event instanceof SignalEvent) {
-			ISignal signal = ((SignalEvent)event).getSignal();
+	protected void removeEvent(IEvent event) {
+		if (event instanceof ISignalEvent) {
+			ISignal signal = ((ISignalEvent)event).getSignal();
 			if (signal instanceof TinkerNode) {
 				GraphDb.getDb().removeVertex(((TinkerNode) signal).getVertex());
 			}
 		}
 		GraphDb.getDb().removeVertex(((TinkerNode)event).getVertex());
-	}
+	}	
 	
 	@Override
 	protected boolean isTriggered() {
@@ -64,9 +64,9 @@ public abstract class AbstractTriggeredAction extends Action {
 		this.triggers.add(new Trigger(name, eventName));
 	}
 	
-	public boolean containsTriggerForEvent(Event event) {
+	public boolean containsTriggerForEvent(IEvent event) {
 		for (Trigger trigger : this.triggers) {
-			if (trigger.getEventName().equals(event.getName())) {
+			if (trigger.getEventName().equals(event.getEventName())) {
 				return true;
 			}
 		}

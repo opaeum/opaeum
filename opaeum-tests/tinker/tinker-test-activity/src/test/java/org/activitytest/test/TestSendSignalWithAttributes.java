@@ -21,7 +21,7 @@ import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 public class TestSendSignalWithAttributes extends BaseLocalDbTest  {
 	
 	@Test
-	public void test() {
+	public void testSendSignalWithAttributes() {
 		db.startTransaction();
 		Root root = new Root(true);
 		root.setName("THEROOT");

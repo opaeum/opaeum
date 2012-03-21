@@ -31,10 +31,10 @@ public class NakedTriggerImpl extends NakedElementImpl implements INakedTrigger{
 	public void setEvent(INakedEvent event){
 		if(!(event instanceof INakedDeadline || this.event == event)){
 			// Deadlines could be reused
-			removeOwnedElement(this.event, true);
-			addOwnedElement(event);
-			event.setOwnerElement(this);
-			getRootObject().addDirectlyAccessibleElement(event);
+//			removeOwnedElement(this.event, true);
+//			addOwnedElement(event);
+//			event.setOwnerElement(this);
+//			getRootObject().addDirectlyAccessibleElement(event);
 		}
 		this.event = event;
 	}

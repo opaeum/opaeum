@@ -31,7 +31,9 @@ import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedInterface;
+import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedSimpleType;
 
 @StepDependency(phase = JavaTransformationPhase.class, replaces = AttributeImplementor.class, after = { TinkerImplementNodeStep.class, ExtendedCompositionSemantics.class,
 		ComponentInitializer.class })
@@ -162,37 +164,41 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean derived) {
 		owner.addToImports(TinkerGenerationUtil.vertexPathName);
 		INakedProperty prop = map.getProperty();
-		OJAnnotatedOperation getter;
-		if (!derived) {
-			if (map.isOne()) {
-				getter = super.buildGetter(owner, map, derived);
-				if ((prop.getBaseType() instanceof INakedEntity)
-						|| (prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly()))) {
-					buildTinkerGetterForOne(owner, map, getter);
-				} else {
-					if (prop.getBaseType() instanceof INakedEnumeration) {
-						buildGetterForToOneEnumeration(map, getter, prop);
+		if (prop.isNavigable()) {
+			OJAnnotatedOperation getter;
+			if (!derived) {
+				if (map.isOne()) {
+					getter = super.buildGetter(owner, map, derived);
+					if (!(prop.getBaseType() instanceof INakedSimpleType || prop.getBaseType() instanceof INakedEnumeration)
+							&& ((prop.getBaseType() instanceof INakedEntity) || (!(prop.getOtherEnd() != null && (prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly()))))) {
+						buildTinkerGetterForOne(owner, map, getter);
 					} else {
-						OJIfStatement ifResultNull = new OJIfStatement("result == null");
-						ifResultNull.addToThenPart("result = (" + map.javaTypePath().getLast() + ") this.vertex.getProperty(\""
-								+ TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
-						ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TinkerGenerationUtil.TINKER_DB_NULL + "\"))?null:result");
-						getter.getBody().addToStatements(ifResultNull);
+						if (prop.getBaseType() instanceof INakedEnumeration) {
+							buildGetterForToOneEnumeration(map, getter, prop);
+						} else {
+							OJIfStatement ifResultNull = new OJIfStatement("result == null");
+							ifResultNull.addToThenPart("result = (" + map.javaTypePath().getLast() + ") this.vertex.getProperty(\""
+									+ TinkerGenerationUtil.tinkeriseUmlName(prop.getMappingInfo().getQualifiedUmlName()) + "\")");
+							ifResultNull.addToThenPart("result = (result==null || result.equals(\"" + TinkerGenerationUtil.TINKER_DB_NULL + "\"))?null:result");
+							getter.getBody().addToStatements(ifResultNull);
+						}
+					}
+				} else {
+					if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
+						getter = buildOrderedSetGetter(owner, map, derived);
+					} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
+						getter = buildBagGetter(owner, map, derived);
+					} else {
+						getter = super.buildGetter(owner, map, derived);
 					}
 				}
 			} else {
-				if (map.getProperty().isOrdered() && map.getProperty().isUnique()) {
-					getter = buildOrderedSetGetter(owner, map, derived);
-				} else if (!map.getProperty().isOrdered() && !map.getProperty().isUnique()) {
-					getter = buildBagGetter(owner, map, derived);
-				} else {
-					getter = super.buildGetter(owner, map, derived);
-				}
+				getter = super.buildGetter(owner, map, derived);
 			}
+			return getter;
 		} else {
-			getter = super.buildGetter(owner, map, derived);
+			return null;
 		}
-		return getter;
 	}
 
 	private OJAnnotatedOperation buildBagGetter(OJAnnotatedClass owner, NakedStructuralFeatureMap map, boolean derived) {
@@ -304,10 +310,13 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		owner.addToImports(TinkerGenerationUtil.TINKER_NODE);
 		INakedProperty prop = map.getProperty();
 		INakedClassifier umlOwner = (INakedClassifier) map.getFeature().getOwner();
-		if (prop.getOwner() instanceof INakedSignal
-				|| (map.isMany() || prop.getOtherEnd() != null && prop.getOtherEnd().isNavigable() && !(prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly()))) {
+		if (!((prop.getBaseType() instanceof INakedSimpleType || prop.getBaseType() instanceof INakedEnumeration) && map.isOne())
+				&& (!(prop.getOtherEnd() != null && (prop.getOtherEnd().isDerived() || prop.getOtherEnd().isReadOnly())))) {
 			if (map.isOne()) {
-				NakedStructuralFeatureMap otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				NakedStructuralFeatureMap otherMap = null;
+				if (prop.getOtherEnd() != null) {
+					otherMap = new NakedStructuralFeatureMap(prop.getOtherEnd());
+				}
 				buildTinkerToOneAdder(umlOwner, map, otherMap, owner, buildBasicAdder(owner, map));
 			} else {
 				builTinkerManyAdder(owner, map);
@@ -396,7 +405,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 		if (umlOwner instanceof ICompositionParticipant) {
 			addEntityToTransactionThreadEntityVar(setter);
 		}
-		if (map.getProperty().getOwner() instanceof INakedSignal || (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null)) {
+		if (map.getProperty().isInverse() || map.getProperty().getOtherEnd() == null || !map.getProperty().getOtherEnd().isNavigable()) {
 			// Create an edge
 			if (map.getProperty().getOtherEnd() != null) {
 				OJField oldValue = new OJField();
@@ -406,7 +415,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 				setter.getBody().addToLocals(oldValue);
 				setter.getBody().addToStatements(map.internalRemover() + "(oldValue)");
 
-				if (!(map.getProperty().getOwner() instanceof INakedSignal)) {
+				if (otherMap != null && map.getProperty().getOtherEnd().isNavigable()) {
 					OJIfStatement ifOldValueNotNull = new OJIfStatement("oldValue != null");
 					ifOldValueNotNull.addToThenPart("oldValue." + otherMap.internalRemover() + "(this)");
 					setter.getBody().addToStatements(ifOldValueNotNull);

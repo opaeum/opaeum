@@ -1,11 +1,10 @@
 package org.nakeduml.tinker.generator;
 
 import java.util.Collection;
-import java.util.Set;
 
+import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
-import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJAnnonymousInnerClass;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJParameter;
@@ -23,17 +22,18 @@ import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedReception;
 import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
-import org.opaeum.metamodel.commonbehaviors.internal.NakedSignalEventImpl;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedNameSpace;
 import org.opaeum.metamodel.core.INakedSimpleType;
+import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
 public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
-	public void visitSignal(INakedBehavioredClassifier c) {
+	public void visitBehavioredClassifier(INakedBehavioredClassifier c) {
 		if (OJUtil.hasOJClass(c) && !(c instanceof INakedSimpleType) && c.getClassifierBehavior() != null) {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			implementReceiveSignal(ojClass, c);
@@ -45,7 +45,7 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 		Collection<INakedReception> receptions = c.getOwnedReceptions();
 		for (INakedReception reception : receptions) {
 			OJAnnotatedOperation receptionOper = new OJAnnotatedOperation(NameConverter.decapitalize(reception.getName()));
-			OJParameter parameter = new OJParameter("event", TinkerBehaviorUtil.tinkerEventPathName.getCopy());
+			OJParameter parameter = new OJParameter("event", TinkerBehaviorUtil.tinkerIEventPathName.getCopy());
 			parameter.setFinal(true);
 			receptionOper.addToParameters(parameter);
 			OJAnnonymousInnerClass classifierSignalEvent = new OJAnnonymousInnerClass(ojClass.getPathName(), "classifierSignalEvent",
@@ -66,7 +66,6 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 						"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
 								+ "<? extends Token, ? extends Token>> nodesToTrigger = getClassifierBehavior().getEnabledNodesWithMatchingTrigger(event)");
 			} else {
-				NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(method.getEndToComposite().getOtherEnd());
 				tryS.getTryPart().addToStatements(OJUtil.classifierPathname(method).getLast() + " m = new " + OJUtil.classifierPathname(method).getLast() + "(" + "this)");
 				tryS.getTryPart().addToStatements(
 						"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
@@ -74,14 +73,8 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 			}
 
 			OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
-			String tokenType;
-			if (reception.getSignal().getAttributes().isEmpty()) {
-				ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
-				tokenType = "ControlToken";
-			} else {
-				ojClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenPathName);
-				tokenType = "ObjectToken";
-			}
+			ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
+			String tokenType = "ControlToken";
 			ifNodesToTrigger.addToThenPart(TinkerBehaviorUtil.tinkerAcceptEventAction.getLast() + " acceptEventAction = (" + TinkerBehaviorUtil.tinkerAcceptEventAction.getLast()
 					+ ")nodesToTrigger.iterator().next()");
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerAcceptEventAction);
@@ -107,13 +100,15 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 
 			ojClass.addToOperations(receptionOper);
 
-			receptionOper.getBody().addToStatements("addToEventPool(event)");
 			receptionOper.getBody().addToStatements(TinkerBehaviorUtil.tinkerClassifierBehaviorExecutorService.getLast() + ".INSTANCE.submit(classifierSignalEvent)");
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerClassifierBehaviorExecutorService);
 		}
 	}
 
 	private void implementReceiveSignal(OJAnnotatedClass ojClass, INakedBehavioredClassifier c) {
+		OJAnnotatedOperation resolveReception = new OJAnnotatedOperation("resolveReception");
+		resolveReception.addParam("event", TinkerBehaviorUtil.tinkerISignalEventPathName);
+
 		OJAnnotatedOperation receiveSignal = new OJAnnotatedOperation("receiveSignal");
 		receiveSignal.addParam("signal", TinkerBehaviorUtil.signalPathName);
 		Collection<INakedReception> receptions = c.getOwnedReceptions();
@@ -134,11 +129,25 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 			}
 			ojClass.addToImports(TinkerBehaviorUtil.tinkerSignalEventPathName.getCopy());
 			OJIfStatement ifHasReception = new OJIfStatement("signal instanceof " + signal.getMappingInfo().getJavaName());
-			ifHasReception.addToThenPart(NameConverter.decapitalize(reception.getName()) + "(new " + TinkerBehaviorUtil.tinkerSignalEventPathName.getLast() + " (("
-					+ signal.getMappingInfo().getJavaName() + ")signal, \"" + event.getName() + "\"))");
+
+			ConcreteEmulatedClassifier concreteEmulatedClassifier = new ConcreteEmulatedClassifier(event.getNameSpace(), event);
+			TypedElementPropertyBridge bridge = new TypedElementPropertyBridge(concreteEmulatedClassifier, new NonInverseArtificialProperty(NameConverter.decapitalize(signal
+					.getName()), signal, false));
+			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(bridge);
+
+			ifHasReception.addToThenPart(event.getMappingInfo().getJavaName() + " " + event.getMappingInfo().getJavaName().getDecapped() + " = new "
+					+ event.getMappingInfo().getJavaName() + "(true)");
+			ifHasReception.addToThenPart(event.getMappingInfo().getJavaName().getDecapped() + "." + map.setter() + "((" + map.javaBaseTypePath().getLast() + ")signal)");
+			ifHasReception.addToThenPart("addToEventPool(" + event.getMappingInfo().getJavaName().getDecapped() + ")");
+			ifHasReception.addToThenPart(NameConverter.decapitalize(reception.getName()) + "(" + event.getMappingInfo().getJavaName().getDecapped() + ")");
 			receiveSignal.getBody().addToStatements(ifHasReception);
+
+			OJIfStatement ifEventOfType = new OJIfStatement("event.getSignal() instanceof " + signal.getMappingInfo().getJavaName());
+			ifEventOfType.addToThenPart(NameConverter.decapitalize(reception.getName()) + "(event)");
+			resolveReception.getBody().addToStatements(ifEventOfType);
 		}
 		ojClass.addToOperations(receiveSignal);
+		ojClass.addToOperations(resolveReception);
 	}
 
 }

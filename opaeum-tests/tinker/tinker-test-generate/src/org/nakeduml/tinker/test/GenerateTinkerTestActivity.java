@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.nakeduml.tinker.activity.TinkerActivityGenerator;
+import org.nakeduml.tinker.activity.TinkerEventGenerator;
 import org.nakeduml.tinker.activity.TinkerOperationGenerator;
 import org.nakeduml.tinker.activity.nullify.TinkerActivityEventConsumptionImplementor;
 import org.nakeduml.tinker.activity.nullify.TinkerActivityProcessImplementor;
@@ -104,6 +105,7 @@ public class GenerateTinkerTestActivity {
 		steps.add(TinkerUmlNameRegenerator.class);
 		steps.add(TinkerOperationGenerator.class);
 		steps.add(TinkerTriggerExtractor.class);
+		steps.add(TinkerEventGenerator.class);
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}
