@@ -156,7 +156,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return "OrganizationEMailAddress["+getId()+"]";
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8005294553343313076,opposite="eMailAddress",uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=8005294553343313076l,opposite="eMailAddress",uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -172,7 +172,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return getOrganization();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=394850772574497840,opposite="organizationEMailAddress",uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=394850772574497840l,opposite="organizationEMailAddress",uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_Ju-ehEtqEeGd4cpyhpib9Q")
 	public OrganizationEMailAddressType getType() {
 		OrganizationEMailAddressType result = this.type;

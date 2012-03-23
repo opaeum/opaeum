@@ -143,7 +143,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=736417380271461952,opposite="organization_iBusinessComponent_1_representedOrganization",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=736417380271461952l,opposite="organization_iBusinessComponent_1_representedOrganization",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf4noVYuEeGj5_I7bIwNoA")
 	public IBusinessComponent getBusinessComponent() {
 		IBusinessComponent result = (IBusinessComponent)this.businessComponent.getValue(persistence);
@@ -171,7 +171,7 @@ public class Organization_iBusinessComponent_1 implements IPersistentObject, Hib
 		return getBusinessComponent();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5468800036735903732,opposite="organization_iBusinessComponent_1_businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5468800036735903732l,opposite="organization_iBusinessComponent_1_businessComponent",uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noFYuEeGj5_I7bIwNoA252060@_vf2LYFYuEeGj5_I7bIwNoA")
 	public OrganizationNode getRepresentedOrganization() {
 		OrganizationNode result = this.representedOrganization;

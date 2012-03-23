@@ -13,7 +13,7 @@ public class NakedBusinessCollaboration extends EmulatedClassifier implements IC
 		id = mappingInfo.getIdInModel();
 	}
 	public boolean hasComposite(){
-		return false;
+		return getEndToComposite()!=null;
 	};
 	public INakedElementOwner getOwnerElement(){
 		return owner;

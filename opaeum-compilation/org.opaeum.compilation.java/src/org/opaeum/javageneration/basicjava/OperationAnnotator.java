@@ -273,6 +273,7 @@ public class OperationAnnotator extends StereotypeAnnotator{
 			param.putAnnotation(ap);
 			ap.putAttribute("uuid", elem.getId());
 			ap.putAttribute("opaeumId", elem.getMappingInfo().getOpaeumId());
+			ap.putAttribute("name", elem.getName());
 			if(elem.getDocumentation() != null){
 				ap.putAttribute("shortDescripion", elem.getDocumentation());
 			}

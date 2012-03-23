@@ -24,11 +24,11 @@ public interface IBusinessCollaboration extends IBusinessCollaborationBase, Hibe
 	@NumlMetaInfo(uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	public Set<IBusinessActor> getBusinessActor();
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8276244440019438797,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(isComposite=false,opaeumId=8276244440019438797l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork();
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4246171799000216537,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork();
 	

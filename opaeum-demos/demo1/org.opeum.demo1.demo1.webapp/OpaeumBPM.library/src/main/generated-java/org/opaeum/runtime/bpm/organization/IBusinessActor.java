@@ -20,19 +20,19 @@ public interface IBusinessActor extends Participant, HibernateEntity, Compositio
 	@NumlMetaInfo(uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	public IBusinessCollaboration getBusinessCollaboration();
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8203889236759279938,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=8203889236759279938l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization();
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4147448129438915430,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization();
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=9023075862366939329,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson();
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=9151265436220545056,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=9151265436220545056l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw")
 	public PersonNode getRepresentedPerson();
 	

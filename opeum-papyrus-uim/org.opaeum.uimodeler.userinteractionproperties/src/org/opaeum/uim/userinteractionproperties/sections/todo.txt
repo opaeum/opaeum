@@ -1,8 +1,10 @@
 Reactivate test data generation
 Simulation
+SimpleDataTypes
+Implement propertySheetProvider that displays a property sheet  per simulation model in the original model
 
 Allow configured user to log in with Google Id
-Allow for defaultUser to be looked up for dev purposes to aavoid login
+Allow for defaultUser to be looked up for dev purposes to avoid login
 Read metadata from java, don't load uml model
 populate tree using the composition annotation
 put properties and methods in metainfomap group by class for easy navigation in tree
@@ -23,4 +25,4 @@ Add forcedLabelWidth and sameWidth to AbstractPanel
 Simulation:
 Task durations distributions
 Calculate resource availability on a 15 minute basis
-
+Allow a specific simulation model to be associated with the current model and display the relevant simulation settings in the property section of simulated elements

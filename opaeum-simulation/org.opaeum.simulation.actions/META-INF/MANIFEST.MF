@@ -12,7 +12,13 @@ Require-Bundle: org.eclipse.ui,
  org.opaeum.metamodels.emfworkspace,
  org.eclipse.gmf.runtime.notation,
  org.eclipse.papyrus.infra.core.sasheditor.di,
- org.opaeum.metamodels.ocl
+ org.opaeum.metamodels.ocl,
+ org.opaeum.linkage.emfextraction,
+ org.opaeum.transformation.engine,
+ org.opaeum.metamodels.text,
+ org.opaeum.metamodels.java,
+ org.opaeum.compilation.java,
+ org.opaeum.compilation.ocltojava
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.opaeum.simulation.actions

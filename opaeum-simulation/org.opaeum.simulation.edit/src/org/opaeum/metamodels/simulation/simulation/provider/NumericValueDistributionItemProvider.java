@@ -25,7 +25,7 @@ import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
  * @generated
  */
 public class NumericValueDistributionItemProvider
-	extends ValueSimulationItemProvider
+	extends SimulatedValueItemProvider
 	implements
 		IEditingDomainItemProvider,
 		IStructuredItemContentProvider,

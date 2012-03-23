@@ -393,7 +393,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2759918346397932051,opposite="organization",uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=2759918346397932051l,opposite="organization",uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_8YsOoFZFEeGj5_I7bIwNoA")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -409,7 +409,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4954312663461917749,opposite="organization",uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4954312663461917749l,opposite="organization",uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_4uxKkUvREeGmqIr8YsFD4g")
 	public BusinessNetwork getBusinessNetwork() {
 		BusinessNetwork result = this.businessNetwork;
@@ -433,7 +433,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6276678134555712740,opposite="organization",uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=true,opaeumId=6276678134555712740l,opposite="organization",uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_JF99wEtqEeGd4cpyhpib9Q")
 	public Set<OrganizationEMailAddress> getEMailAddress() {
 		Set<OrganizationEMailAddress> result = new HashSet<OrganizationEMailAddress>(this.eMailAddress.values());
@@ -445,7 +445,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=286422379505074318,uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=286422379505074318l,uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_OorfwEtnEeGd4cpyhpib9Q")
 	public String getName() {
 		String result = this.name;
@@ -457,7 +457,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5544220265950373323,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5544220265950373323l,opposite="organization",uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0UtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public Set<OrganizationFullfillsActorRole> getOrganizationFullfillsActorRole_businessActor() {
 		Set<OrganizationFullfillsActorRole> result = this.organizationFullfillsActorRole_businessActor;
@@ -474,7 +474,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6254493747225779734,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=6254493747225779734l,opposite="representedOrganization",uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf2LYFYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Set<Organization_iBusinessComponent_1> getOrganization_iBusinessComponent_1_businessComponent() {
 		Set<Organization_iBusinessComponent_1> result = this.organization_iBusinessComponent_1_businessComponent;
@@ -507,7 +507,7 @@ public class OrganizationNode implements IOrganizationNode, IPersistentObject, I
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=1861213202254517122,opposite="organization",uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=true,opaeumId=1861213202254517122l,opposite="organization",uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_HF7DgEtoEeGd4cpyhpib9Q")
 	public Set<OrganizationPhoneNumber> getPhoneNumber() {
 		Set<OrganizationPhoneNumber> result = new HashSet<OrganizationPhoneNumber>(this.phoneNumber.values());

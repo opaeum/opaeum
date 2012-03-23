@@ -155,7 +155,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=803417683337410610,uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=803417683337410610l,uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_l4XFoF-jEeGSPaWW9iQb9Q")
 	public String getComplexName() {
 		String result = this.complexName;
@@ -187,7 +187,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=9050182878831642158,uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=9050182878831642158l,uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_tLfVAF-jEeGSPaWW9iQb9Q")
 	public String getProperty1() {
 		String result = this.property1;
@@ -195,7 +195,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6661262784939673274,uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6661262784939673274l,uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_nqLokF-jEeGSPaWW9iQb9Q")
 	public String getStreetName() {
 		String result = this.streetName;
@@ -203,7 +203,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7701164517031304452,uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7701164517031304452l,uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_rXXsAF-jEeGSPaWW9iQb9Q")
 	public String getStreetNumber() {
 		String result = this.streetNumber;
@@ -218,7 +218,7 @@ public class Address implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=922468094468620152,uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=922468094468620152l,uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_gaGtMF-jEeGSPaWW9iQb9Q")
 	public String getUnitNumber() {
 		String result = this.unitNumber;

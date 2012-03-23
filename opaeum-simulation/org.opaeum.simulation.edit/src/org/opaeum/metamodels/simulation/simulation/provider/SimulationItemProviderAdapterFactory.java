@@ -72,26 +72,26 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ValueSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.SimulatedValue} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ValueSimulationItemProvider valueSimulationItemProvider;
+	protected SimulatedValueItemProvider simulatedValueItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ValueSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.SimulatedValue}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createValueSimulationAdapter() {
-		if (valueSimulationItemProvider == null) {
-			valueSimulationItemProvider = new ValueSimulationItemProvider(this);
+	public Adapter createSimulatedValueAdapter() {
+		if (simulatedValueItemProvider == null) {
+			simulatedValueItemProvider = new SimulatedValueItemProvider(this);
 		}
 
-		return valueSimulationItemProvider;
+		return simulatedValueItemProvider;
 	}
 
 	/**
@@ -164,26 +164,26 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.SimulatedSlot} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.SimulatingSlot} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SimulatedSlotItemProvider simulatedSlotItemProvider;
+	protected SimulatingSlotItemProvider simulatingSlotItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.SimulatedSlot}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.SimulatingSlot}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createSimulatedSlotAdapter() {
-		if (simulatedSlotItemProvider == null) {
-			simulatedSlotItemProvider = new SimulatedSlotItemProvider(this);
+	public Adapter createSimulatingSlotAdapter() {
+		if (simulatingSlotItemProvider == null) {
+			simulatingSlotItemProvider = new SimulatingSlotItemProvider(this);
 		}
 
-		return simulatedSlotItemProvider;
+		return simulatingSlotItemProvider;
 	}
 
 	/**
@@ -210,72 +210,72 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected EnumLiteralSimulationItemProvider enumLiteralSimulationItemProvider;
+	protected WeightedEnumLiteralValueItemProvider weightedEnumLiteralValueItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createEnumLiteralSimulationAdapter() {
-		if (enumLiteralSimulationItemProvider == null) {
-			enumLiteralSimulationItemProvider = new EnumLiteralSimulationItemProvider(this);
+	public Adapter createWeightedEnumLiteralValueAdapter() {
+		if (weightedEnumLiteralValueItemProvider == null) {
+			weightedEnumLiteralValueItemProvider = new WeightedEnumLiteralValueItemProvider(this);
 		}
 
-		return enumLiteralSimulationItemProvider;
+		return weightedEnumLiteralValueItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ContainedActualInstance} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ContainedInstanceValueSimulationItemProvider containedInstanceValueSimulationItemProvider;
+	protected ContainedActualInstanceItemProvider containedActualInstanceItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ContainedActualInstance}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createContainedInstanceValueSimulationAdapter() {
-		if (containedInstanceValueSimulationItemProvider == null) {
-			containedInstanceValueSimulationItemProvider = new ContainedInstanceValueSimulationItemProvider(this);
+	public Adapter createContainedActualInstanceAdapter() {
+		if (containedActualInstanceItemProvider == null) {
+			containedActualInstanceItemProvider = new ContainedActualInstanceItemProvider(this);
 		}
 
-		return containedInstanceValueSimulationItemProvider;
+		return containedActualInstanceItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BooleanValueSimulationItemProvider booleanValueSimulationItemProvider;
+	protected WeightedBooleanValueItemProvider weightedBooleanValueItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createBooleanValueSimulationAdapter() {
-		if (booleanValueSimulationItemProvider == null) {
-			booleanValueSimulationItemProvider = new BooleanValueSimulationItemProvider(this);
+	public Adapter createWeightedBooleanValueAdapter() {
+		if (weightedBooleanValueItemProvider == null) {
+			weightedBooleanValueItemProvider = new WeightedBooleanValueItemProvider(this);
 		}
 
-		return booleanValueSimulationItemProvider;
+		return weightedBooleanValueItemProvider;
 	}
 
 	/**
@@ -302,49 +302,26 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.WeightedStringValue} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ReferencedInstanceSimulationItemProvider referencedInstanceSimulationItemProvider;
+	protected WeightedStringValueItemProvider weightedStringValueItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.WeightedStringValue}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createReferencedInstanceSimulationAdapter() {
-		if (referencedInstanceSimulationItemProvider == null) {
-			referencedInstanceSimulationItemProvider = new ReferencedInstanceSimulationItemProvider(this);
+	public Adapter createWeightedStringValueAdapter() {
+		if (weightedStringValueItemProvider == null) {
+			weightedStringValueItemProvider = new WeightedStringValueItemProvider(this);
 		}
 
-		return referencedInstanceSimulationItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.StringValueSimulation} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected StringValueSimulationItemProvider stringValueSimulationItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.StringValueSimulation}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createStringValueSimulationAdapter() {
-		if (stringValueSimulationItemProvider == null) {
-			stringValueSimulationItemProvider = new StringValueSimulationItemProvider(this);
-		}
-
-		return stringValueSimulationItemProvider;
+		return weightedStringValueItemProvider;
 	}
 
 	/**
@@ -371,49 +348,72 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.InstanceSimulation} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AllInstanceSimulationItemProvider allInstanceSimulationItemProvider;
+	protected InstanceSimulationItemProvider instanceSimulationItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.InstanceSimulation}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createAllInstanceSimulationAdapter() {
-		if (allInstanceSimulationItemProvider == null) {
-			allInstanceSimulationItemProvider = new AllInstanceSimulationItemProvider(this);
+	public Adapter createInstanceSimulationAdapter() {
+		if (instanceSimulationItemProvider == null) {
+			instanceSimulationItemProvider = new InstanceSimulationItemProvider(this);
 		}
 
-		return allInstanceSimulationItemProvider;
+		return instanceSimulationItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.ActualInstance} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ActualInstanceSimulationItemProvider actualInstanceSimulationItemProvider;
+	protected ActualInstanceItemProvider actualInstanceItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation}.
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.ActualInstance}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createActualInstanceSimulationAdapter() {
-		if (actualInstanceSimulationItemProvider == null) {
-			actualInstanceSimulationItemProvider = new ActualInstanceSimulationItemProvider(this);
+	public Adapter createActualInstanceAdapter() {
+		if (actualInstanceItemProvider == null) {
+			actualInstanceItemProvider = new ActualInstanceItemProvider(this);
 		}
 
-		return actualInstanceSimulationItemProvider;
+		return actualInstanceItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected WeightedInstanceValueItemProvider weightedInstanceValueItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createWeightedInstanceValueAdapter() {
+		if (weightedInstanceValueItemProvider == null) {
+			weightedInstanceValueItemProvider = new WeightedInstanceValueItemProvider(this);
+		}
+
+		return weightedInstanceValueItemProvider;
 	}
 
 	/**
@@ -515,21 +515,21 @@ public class SimulationItemProviderAdapterFactory extends SimulationAdapterFacto
 	 * @generated
 	 */
 	public void dispose() {
-		if (valueSimulationItemProvider != null) valueSimulationItemProvider.dispose();
+		if (simulatedValueItemProvider != null) simulatedValueItemProvider.dispose();
 		if (normalDistributionItemProvider != null) normalDistributionItemProvider.dispose();
 		if (uniformDistributionItemProvider != null) uniformDistributionItemProvider.dispose();
 		if (exponentialDistributionItemProvider != null) exponentialDistributionItemProvider.dispose();
-		if (simulatedSlotItemProvider != null) simulatedSlotItemProvider.dispose();
+		if (simulatingSlotItemProvider != null) simulatingSlotItemProvider.dispose();
 		if (numericValueDistributionItemProvider != null) numericValueDistributionItemProvider.dispose();
-		if (enumLiteralSimulationItemProvider != null) enumLiteralSimulationItemProvider.dispose();
-		if (containedInstanceValueSimulationItemProvider != null) containedInstanceValueSimulationItemProvider.dispose();
-		if (booleanValueSimulationItemProvider != null) booleanValueSimulationItemProvider.dispose();
+		if (weightedEnumLiteralValueItemProvider != null) weightedEnumLiteralValueItemProvider.dispose();
+		if (containedActualInstanceItemProvider != null) containedActualInstanceItemProvider.dispose();
+		if (weightedBooleanValueItemProvider != null) weightedBooleanValueItemProvider.dispose();
 		if (numberRangeDistributionItemProvider != null) numberRangeDistributionItemProvider.dispose();
-		if (referencedInstanceSimulationItemProvider != null) referencedInstanceSimulationItemProvider.dispose();
-		if (stringValueSimulationItemProvider != null) stringValueSimulationItemProvider.dispose();
+		if (weightedStringValueItemProvider != null) weightedStringValueItemProvider.dispose();
 		if (simulationModelItemProvider != null) simulationModelItemProvider.dispose();
-		if (allInstanceSimulationItemProvider != null) allInstanceSimulationItemProvider.dispose();
-		if (actualInstanceSimulationItemProvider != null) actualInstanceSimulationItemProvider.dispose();
+		if (instanceSimulationItemProvider != null) instanceSimulationItemProvider.dispose();
+		if (actualInstanceItemProvider != null) actualInstanceItemProvider.dispose();
+		if (weightedInstanceValueItemProvider != null) weightedInstanceValueItemProvider.dispose();
 	}
 
 }

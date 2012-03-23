@@ -154,7 +154,7 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 		return "OrganizationPhoneNumber["+getId()+"]";
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7964194700080601190,opposite="phoneNumber",uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7964194700080601190l,opposite="phoneNumber",uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_HGK7IUtoEeGd4cpyhpib9Q")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -170,7 +170,7 @@ public class OrganizationPhoneNumber extends PhoneNumber implements IPersistentO
 		return getOrganization();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3953173395695543848,opposite="organizationPhoneNumber",uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3953173395695543848l,opposite="organizationPhoneNumber",uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_1i74dEtoEeGd4cpyhpib9Q")
 	public OrganizationPhoneNumberType getType() {
 		OrganizationPhoneNumberType result = this.type;

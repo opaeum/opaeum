@@ -141,7 +141,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3310250841268333114,opposite="participationInRequest",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3310250841268333114l,opposite="participationInRequest",uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_cATKlI6NEeCrtavWRHwoHg")
 	public RequestParticipationKind getKind() {
 		RequestParticipationKind result = this.kind;
@@ -161,7 +161,7 @@ public class ParticipationInRequest extends Participation implements IPersistent
 		return getRequest();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=440094146247750780,opposite="participationInRequest",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
+	@PropertyMetaInfo(isComposite=false,opaeumId=440094146247750780l,opposite="participationInRequest",uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	@NumlMetaInfo(uuid="252060@_XLVmwY6NEeCrtavWRHwoHg")
 	public AbstractRequest getRequest() {
 		AbstractRequest result = this.request;

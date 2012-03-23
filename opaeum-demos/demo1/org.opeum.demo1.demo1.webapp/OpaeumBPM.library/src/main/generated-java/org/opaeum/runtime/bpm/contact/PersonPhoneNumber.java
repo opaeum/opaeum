@@ -164,7 +164,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return getPerson();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4171052596734632680,opposite="phoneNumber",uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4171052596734632680l,opposite="phoneNumber",uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_Gjz08EtoEeGd4cpyhpib9Q")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -172,7 +172,7 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1377242588430375366,opposite="personPhoneNumber",uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1377242588430375366l,opposite="personPhoneNumber",uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	public PersonPhoneNumberType getType() {
 		PersonPhoneNumberType result = this.type;

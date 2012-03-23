@@ -38,9 +38,6 @@ public class InverseArtificialProperty extends AbstractEmulatedProperty implemen
 		initialiseNestedClasifier(type);
 	}
 	private void initialiseNestedClasifier(INakedClassifier type){
-		if(type.getName().equals("Online_Customer")){
-			System.out.println();
-		}
 		this.multiplicity = new NakedMultiplicityImpl(0, Integer.MAX_VALUE);
 		this.name = NameConverter.decapitalize(type.getName());
 		this.mappingInfo.setPersistentName(null);

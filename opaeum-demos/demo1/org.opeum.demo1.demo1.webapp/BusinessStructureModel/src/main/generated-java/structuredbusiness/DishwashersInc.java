@@ -17,7 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -27,7 +26,6 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
-import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
@@ -74,31 +72,17 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Entity(name="DishwashersInc")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class DishwashersInc implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessComponent, IBusiness, Serializable {
-	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
-	@CollectionOfElements(fetch=javax.persistence.FetchType.LAZY,targetElement=String.class)
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc")
-	@JoinTable(joinColumns=
-		@JoinColumn(name="dishwashers_inc_id",nullable=false,unique=false),name="dishwashers_inc_accountant")
 	private Accountant accountant;
-	@Column(name="business_role1")
-	private String businessRole1;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
-	@CollectionOfElements(fetch=javax.persistence.FetchType.LAZY,targetElement=String.class)
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc")
-	@JoinTable(joinColumns=
-		@JoinColumn(name="dishwashers_inc_id",nullable=false,unique=false),name="dishwashers_inc_dish_washer")
-	private DishWasher dishWasher;
-	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
-	@CollectionOfElements(fetch=javax.persistence.FetchType.LAZY,targetElement=String.class)
+	private DishWasherModel dishWasher;
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc")
-	@JoinTable(joinColumns=
-		@JoinColumn(name="dishwashers_inc_id",nullable=false,unique=false),name="dishwashers_inc_document_verifier")
 	private DocumentVerifier documentVerifier;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
@@ -106,8 +90,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc")
 	private IdBook idBook;
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc")
-	@Column(name="manager")
-	private String manager;
+	private Manager manager;
 	static private Set<DishwashersInc> mockedAllInstances;
 	@Version
 	@Column(name="object_version")
@@ -130,8 +113,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@JoinColumn(name="root_id",nullable=true)
 	private Structuredbusiness root;
 	static final private long serialVersionUID = 8415961198448241003l;
-	@Column(name="service_and_repair_person")
-	private String serviceAndRepairPerson;
 	private String uid;
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -148,40 +129,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	public DishwashersInc() {
 	}
 
-	public void addAllToAccountant(Set<String> accountant) {
-		for ( String o : accountant ) {
-			addToAccountant(o);
-		}
-	}
-	
-	public void addAllToDishWasher(Set<String> dishWasher) {
-		for ( String o : dishWasher ) {
-			addToDishWasher(o);
-		}
-	}
-	
-	public void addAllToDocumentVerifier(Set<String> documentVerifier) {
-		for ( String o : documentVerifier ) {
-			addToDocumentVerifier(o);
-		}
-	}
-	
 	public void addAllToParticipation(Set<Participation> participation) {
 		for ( Participation o : participation ) {
 			addToParticipation(o);
 		}
-	}
-	
-	public void addToAccountant(String accountant) {
-		z_internalAddToAccountant(accountant);
-	}
-	
-	public void addToDishWasher(String dishWasher) {
-		z_internalAddToDishWasher(dishWasher);
-	}
-	
-	public void addToDocumentVerifier(String documentVerifier) {
-		z_internalAddToDocumentVerifier(documentVerifier);
 	}
 	
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
@@ -209,30 +160,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("dishWasher").length()>0 ) {
-			for ( String val : xml.getAttribute("dishWasher").split(";") ) {
-				addToDishWasher(StructuredbusinessFormatter.getInstance().parseString(val));
-			}
-		}
-		if ( xml.getAttribute("accountant").length()>0 ) {
-			for ( String val : xml.getAttribute("accountant").split(";") ) {
-				addToAccountant(StructuredbusinessFormatter.getInstance().parseString(val));
-			}
-		}
-		if ( xml.getAttribute("documentVerifier").length()>0 ) {
-			for ( String val : xml.getAttribute("documentVerifier").split(";") ) {
-				addToDocumentVerifier(StructuredbusinessFormatter.getInstance().parseString(val));
-			}
-		}
-		if ( xml.getAttribute("manager").length()>0 ) {
-			setManager(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("manager")));
-		}
-		if ( xml.getAttribute("serviceAndRepairPerson").length()>0 ) {
-			setServiceAndRepairPerson(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("serviceAndRepairPerson")));
-		}
-		if ( xml.getAttribute("businessRole1").length()>0 ) {
-			setBusinessRole1(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("businessRole1")));
-		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -243,7 +170,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						DishWasher curVal;
+						DishWasherModel curVal;
 						try {
 							curVal=IntrospectionUtil.newInstance(((Element)currentPropertyValueNode).getAttribute("className"));
 						} catch (Exception e) {
@@ -348,29 +275,11 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void clearAccountant() {
-		removeAllFromAccountant(getAccountant());
-	}
-	
-	public void clearDishWasher() {
-		removeAllFromDishWasher(getDishWasher());
-	}
-	
-	public void clearDocumentVerifier() {
-		removeAllFromDocumentVerifier(getDocumentVerifier());
-	}
-	
 	public void clearParticipation() {
 		removeAllFromParticipation(getParticipation());
 	}
 	
 	public void copyShallowState(DishwashersInc from, DishwashersInc to) {
-		to.getDishWasher().addAll(from.getDishWasher());
-		to.getAccountant().addAll(from.getAccountant());
-		to.getDocumentVerifier().addAll(from.getDocumentVerifier());
-		to.setManager(from.getManager());
-		to.setServiceAndRepairPerson(from.getServiceAndRepairPerson());
-		to.setBusinessRole1(from.getBusinessRole1());
 		if ( from.getDishWasher()!=null ) {
 			to.setDishWasher(from.getDishWasher().makeShallowCopy());
 		}
@@ -389,12 +298,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void copyState(DishwashersInc from, DishwashersInc to) {
-		to.getDishWasher().addAll(from.getDishWasher());
-		to.getAccountant().addAll(from.getAccountant());
-		to.getDocumentVerifier().addAll(from.getDocumentVerifier());
-		to.setManager(from.getManager());
-		to.setServiceAndRepairPerson(from.getServiceAndRepairPerson());
-		to.setBusinessRole1(from.getBusinessRole1());
 		if ( from.getDishWasher()!=null ) {
 			to.setDishWasher(from.getDishWasher().makeCopy());
 		}
@@ -420,7 +323,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void createComponents() {
 		if ( getDishWasher()==null ) {
-			setDishWasher(new DishWasher());
+			setDishWasher(new DishWasherModel());
 		}
 		if ( getIdBook()==null ) {
 			setIdBook(new IdBook());
@@ -436,8 +339,8 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public DishWasher createDishWasher() {
-		DishWasher newInstance= new DishWasher();
+	public DishWasherModel createDishWasher() {
+		DishWasherModel newInstance= new DishWasherModel();
 		newInstance.init(this);
 		return newInstance;
 	}
@@ -473,7 +376,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=7823994331136448473,opposite="dishwashersInc",uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=true,opaeumId=7823994331136448473l,opposite="dishwashersInc",uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0mn9QHHgEeGus4aKic9sIg")
 	public Accountant getAccountant() {
 		Accountant result = this.accountant;
@@ -490,14 +393,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2298578172604671943,uuid="914890@_vjgnMGSDEeG8Es66O6-kpg")
-	@NumlMetaInfo(uuid="914890@_vjgnMGSDEeG8Es66O6-kpg")
-	public String getBusinessRole1() {
-		String result = this.businessRole1;
-		
-		return result;
-	}
-	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
 	}
@@ -506,15 +401,15 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5940555815826406889,opposite="dishwashersInc",uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5940555815826406889l,opposite="dishwashersInc",uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_z0LMoHHgEeGus4aKic9sIg")
-	public DishWasher getDishWasher() {
-		DishWasher result = this.dishWasher;
+	public DishWasherModel getDishWasher() {
+		DishWasherModel result = this.dishWasher;
 		
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=3418722451639770409,opposite="dishwashersInc",uuid="914890@_03oNsHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=true,opaeumId=3418722451639770409l,opposite="dishwashersInc",uuid="914890@_03oNsHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_03oNsHHgEeGus4aKic9sIg")
 	public DocumentVerifier getDocumentVerifier() {
 		DocumentVerifier result = this.documentVerifier;
@@ -526,7 +421,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=3308359593929749339,opposite="dishwashersInc",uuid="914890@_0EdEUHHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=true,opaeumId=3308359593929749339l,opposite="dishwashersInc",uuid="914890@_0EdEUHHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0EdEUHHgEeGus4aKic9sIg")
 	public IdBook getIdBook() {
 		IdBook result = this.idBook;
@@ -555,10 +450,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=7657659257541105263,uuid="914890@_wkyykGQWEeGbL9nlXe9lTQ")
-	@NumlMetaInfo(uuid="914890@_wkyykGQWEeGbL9nlXe9lTQ")
-	public String getManager() {
-		String result = this.manager;
+	@PropertyMetaInfo(isComposite=true,opaeumId=6644597149462340021l,opposite="dishwashersInc",uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
+	@NumlMetaInfo(uuid="914890@_0XGTgHHgEeGus4aKic9sIg")
+	public Manager getManager() {
+		Manager result = this.manager;
 		
 		return result;
 	}
@@ -571,7 +466,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5756915452752219728,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5756915452752219728l,opposite="businessComponent",uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_vf4noVYuEeGj5_I7bIwNoA252060@_vf4noFYuEeGj5_I7bIwNoA")
 	public Organization_iBusinessComponent_1 getOrganization_iBusinessComponent_1_representedOrganization() {
 		Organization_iBusinessComponent_1 result = this.organization_iBusinessComponent_1_representedOrganization;
@@ -602,7 +497,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return getRoot();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -632,18 +527,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7737100568581358598,opposite="dishwashersInc",uuid="914890@_CQTWAGOeEeGwMNo027LgxA914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7737100568581358598l,opposite="dishwashersInc",uuid="914890@_CQTWAGOeEeGwMNo027LgxA914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;
-		
-		return result;
-	}
-	
-	@PropertyMetaInfo(isComposite=true,opaeumId=7737305102789101846,uuid="914890@_csN_0GR9EeGos671Ig7N3Q")
-	@NumlMetaInfo(uuid="914890@_csN_0GR9EeGos671Ig7N3Q")
-	public String getServiceAndRepairPerson() {
-		String result = this.serviceAndRepairPerson;
 		
 		return result;
 	}
@@ -722,7 +609,7 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 				while ( j<propertyValueNodes.getLength() ) {
 					Node currentPropertyValueNode = propertyValueNodes.item(j++);
 					if ( currentPropertyValueNode instanceof Element ) {
-						((DishWasher)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
+						((DishWasherModel)map.get(((Element)currentPropertyValueNode).getAttribute("uid"))).populateReferencesFromXml((Element)currentPropertyValueNode, map);
 					}
 				}
 			}
@@ -779,41 +666,11 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void removeAllFromAccountant(Set<String> accountant) {
-		Set<String> tmp = new HashSet<String>(accountant);
-		for ( String o : tmp ) {
-			removeFromAccountant(o);
-		}
-	}
-	
-	public void removeAllFromDishWasher(Set<String> dishWasher) {
-		Set<String> tmp = new HashSet<String>(dishWasher);
-		for ( String o : tmp ) {
-			removeFromDishWasher(o);
-		}
-	}
-	
-	public void removeAllFromDocumentVerifier(Set<String> documentVerifier) {
-		Set<String> tmp = new HashSet<String>(documentVerifier);
-		for ( String o : tmp ) {
-			removeFromDocumentVerifier(o);
-		}
-	}
-	
 	public void removeAllFromParticipation(Set<Participation> participation) {
 		Set<Participation> tmp = new HashSet<Participation>(participation);
 		for ( Participation o : tmp ) {
 			removeFromParticipation(o);
 		}
-	}
-	
-	public void removeFromAccountant(String accountant) {
-	}
-	
-	public void removeFromDishWasher(String dishWasher) {
-	}
-	
-	public void removeFromDocumentVerifier(String documentVerifier) {
 	}
 	
 	public void removeFromOwningObject() {
@@ -856,15 +713,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void setAccountant(Set<String> accountant) {
-		this.clearAccountant();
-		this.addAllToAccountant(accountant);
-	}
-	
-	public void setBusinessRole1(String businessRole1) {
-		this.z_internalAddToBusinessRole1(businessRole1);
-	}
-	
 	public void setCancelledEvents(Set<CancelledEvent> cancelledEvents) {
 		this.cancelledEvents=cancelledEvents;
 	}
@@ -873,8 +721,8 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.deletedOn=deletedOn;
 	}
 	
-	public void setDishWasher(DishWasher dishWasher) {
-		DishWasher oldValue = this.getDishWasher();
+	public void setDishWasher(DishWasherModel dishWasher) {
+		DishWasherModel oldValue = this.getDishWasher();
 		if ( oldValue==null ) {
 			if ( dishWasher!=null ) {
 				DishwashersInc oldOther = (DishwashersInc)dishWasher.getDishwashersInc();
@@ -900,11 +748,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 				this.z_internalAddToDishWasher(dishWasher);
 			}
 		}
-	}
-	
-	public void setDishWasher(Set<String> dishWasher) {
-		this.clearDishWasher();
-		this.addAllToDishWasher(dishWasher);
 	}
 	
 	public void setDocumentVerifier(DocumentVerifier documentVerifier) {
@@ -934,11 +777,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 				this.z_internalAddToDocumentVerifier(documentVerifier);
 			}
 		}
-	}
-	
-	public void setDocumentVerifier(Set<String> documentVerifier) {
-		this.clearDocumentVerifier();
-		this.addAllToDocumentVerifier(documentVerifier);
 	}
 	
 	public void setId(Long id) {
@@ -1001,10 +839,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 				this.z_internalAddToManager(manager);
 			}
 		}
-	}
-	
-	public void setManager(String manager) {
-		this.z_internalAddToManager(manager);
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -1076,10 +910,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void setServiceAndRepairPerson(String serviceAndRepairPerson) {
-		this.z_internalAddToServiceAndRepairPerson(serviceAndRepairPerson);
-	}
-	
 	public void setUid(String newUid) {
 		this.uid=newUid;
 	}
@@ -1094,30 +924,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		sb.append("classUuid=\"914890@_CQTWAGOeEeGwMNo027LgxA\" ");
 		sb.append("className=\"structuredbusiness.DishwashersInc\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
-		sb.append("dishWasher=\"");
-		for ( String val : getDishWasher() ) {
-			sb.append(StructuredbusinessFormatter.getInstance().formatString(val) + ";");
-		}
-		sb.append("\" ");
-		sb.append("accountant=\"");
-		for ( String val : getAccountant() ) {
-			sb.append(StructuredbusinessFormatter.getInstance().formatString(val) + ";");
-		}
-		sb.append("\" ");
-		sb.append("documentVerifier=\"");
-		for ( String val : getDocumentVerifier() ) {
-			sb.append(StructuredbusinessFormatter.getInstance().formatString(val) + ";");
-		}
-		sb.append("\" ");
-		if ( getManager()!=null ) {
-			sb.append("manager=\""+ StructuredbusinessFormatter.getInstance().formatString(getManager())+"\" ");
-		}
-		if ( getServiceAndRepairPerson()!=null ) {
-			sb.append("serviceAndRepairPerson=\""+ StructuredbusinessFormatter.getInstance().formatString(getServiceAndRepairPerson())+"\" ");
-		}
-		if ( getBusinessRole1()!=null ) {
-			sb.append("businessRole1=\""+ StructuredbusinessFormatter.getInstance().formatString(getBusinessRole1())+"\" ");
-		}
 		sb.append(">");
 		if ( getDishWasher()==null ) {
 			sb.append("\n<dishWasher/>");
@@ -1169,28 +975,12 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.accountant=val;
 	}
 	
-	public void z_internalAddToAccountant(String val) {
-		this.accountant.add(val);
-	}
-	
-	public void z_internalAddToBusinessRole1(String val) {
-		this.businessRole1=val;
-	}
-	
-	public void z_internalAddToDishWasher(DishWasher val) {
+	public void z_internalAddToDishWasher(DishWasherModel val) {
 		this.dishWasher=val;
-	}
-	
-	public void z_internalAddToDishWasher(String val) {
-		this.dishWasher.add(val);
 	}
 	
 	public void z_internalAddToDocumentVerifier(DocumentVerifier val) {
 		this.documentVerifier=val;
-	}
-	
-	public void z_internalAddToDocumentVerifier(String val) {
-		this.documentVerifier.add(val);
 	}
 	
 	public void z_internalAddToIdBook(IdBook val) {
@@ -1198,10 +988,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void z_internalAddToManager(Manager val) {
-		this.manager=val;
-	}
-	
-	public void z_internalAddToManager(String val) {
 		this.manager=val;
 	}
 	
@@ -1223,10 +1009,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.root=val;
 	}
 	
-	public void z_internalAddToServiceAndRepairPerson(String val) {
-		this.serviceAndRepairPerson=val;
-	}
-	
 	public void z_internalRemoveFromAccountant(Accountant val) {
 		if ( getAccountant()!=null && val!=null && val.equals(getAccountant()) ) {
 			this.accountant=null;
@@ -1234,26 +1016,11 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
-	public void z_internalRemoveFromAccountant(String val) {
-		this.accountant.remove(val);
-	}
-	
-	public void z_internalRemoveFromBusinessRole1(String val) {
-		if ( getBusinessRole1()!=null && val!=null && val.equals(getBusinessRole1()) ) {
-			this.businessRole1=null;
-			this.businessRole1=null;
-		}
-	}
-	
-	public void z_internalRemoveFromDishWasher(DishWasher val) {
+	public void z_internalRemoveFromDishWasher(DishWasherModel val) {
 		if ( getDishWasher()!=null && val!=null && val.equals(getDishWasher()) ) {
 			this.dishWasher=null;
 			this.dishWasher=null;
 		}
-	}
-	
-	public void z_internalRemoveFromDishWasher(String val) {
-		this.dishWasher.remove(val);
 	}
 	
 	public void z_internalRemoveFromDocumentVerifier(DocumentVerifier val) {
@@ -1261,10 +1028,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			this.documentVerifier=null;
 			this.documentVerifier=null;
 		}
-	}
-	
-	public void z_internalRemoveFromDocumentVerifier(String val) {
-		this.documentVerifier.remove(val);
 	}
 	
 	public void z_internalRemoveFromIdBook(IdBook val) {
@@ -1275,13 +1038,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	}
 	
 	public void z_internalRemoveFromManager(Manager val) {
-		if ( getManager()!=null && val!=null && val.equals(getManager()) ) {
-			this.manager=null;
-			this.manager=null;
-		}
-	}
-	
-	public void z_internalRemoveFromManager(String val) {
 		if ( getManager()!=null && val!=null && val.equals(getManager()) ) {
 			this.manager=null;
 			this.manager=null;
@@ -1309,13 +1065,6 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		if ( getRoot()!=null && val!=null && val.equals(getRoot()) ) {
 			this.root=null;
 			this.root=null;
-		}
-	}
-	
-	public void z_internalRemoveFromServiceAndRepairPerson(String val) {
-		if ( getServiceAndRepairPerson()!=null && val!=null && val.equals(getServiceAndRepairPerson()) ) {
-			this.serviceAndRepairPerson=null;
-			this.serviceAndRepairPerson=null;
 		}
 	}
 	

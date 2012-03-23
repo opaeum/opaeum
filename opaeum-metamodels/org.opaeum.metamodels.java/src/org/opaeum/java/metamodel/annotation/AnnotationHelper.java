@@ -2,9 +2,11 @@ package org.opaeum.java.metamodel.annotation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.opaeum.java.metamodel.OJElement;
+import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
 
 /**
@@ -20,6 +22,14 @@ public class AnnotationHelper {
 		for (OJElement v : sources) {
 			if (v instanceof OJAnnotatedElement) {
 				addTypesUsed((OJAnnotatedElement) v, result);
+			}
+			if(v instanceof OJAnnotatedOperation){
+				List<OJParameter> parameters = ((OJAnnotatedOperation) v).getParameters();
+				for(OJParameter ojParameter:parameters){
+					if(ojParameter instanceof OJAnnotatedParameter){
+						addTypesUsed((OJAnnotatedElement) ojParameter, result);
+					}
+				}
 			}
 		}
 		return result;

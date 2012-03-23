@@ -6,6 +6,6 @@ import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 public class BooleanValueSimulationHandler extends AbstractValueSimulationHandler{
 	@Override
 	protected EObject getNewObject(){
-		return SimulationFactory.eINSTANCE.createBooleanValueSimulation();
+		return SimulationFactory.eINSTANCE.createWeightedBooleanValue();
 	}
 }

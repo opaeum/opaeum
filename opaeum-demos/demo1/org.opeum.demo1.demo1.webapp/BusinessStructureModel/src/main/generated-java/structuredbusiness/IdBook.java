@@ -163,7 +163,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3496196660294374553,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3496196660294374553l,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0EgusXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -171,7 +171,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=759998593327277107,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType() {
 		DocumentType result = this.documentType;
@@ -216,7 +216,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	}
 	
 	@NumlMetaInfo(uuid="252060@_nx6xcF9lEeG3X_yvufTVmw")
-	public IBusinessDocument makeCopy() {
+	public IdBook makeCopy() {
 		IdBook result = new IdBook();
 		copyState((IdBook)this,result);
 		return result;

@@ -7,6 +7,6 @@ import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 public class ReferencedInstanceSimulationHandler extends AbstractValueSimulationHandler implements IHandler{
 	@Override
 	protected EObject getNewObject(){
-		return SimulationFactory.eINSTANCE.createReferencedInstanceSimulation();
+		return SimulationFactory.eINSTANCE.createWeightedInstanceValue();
 	}
 }

@@ -6,6 +6,6 @@ import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 public class ContainedInstanceValueSimulationHandler extends AbstractValueSimulationHandler{
 	@Override
 	protected EObject getNewObject(){
-		return SimulationFactory.eINSTANCE.createContainedInstanceValueSimulation();
+		return SimulationFactory.eINSTANCE.createContainedActualInstance();
 	}
 }

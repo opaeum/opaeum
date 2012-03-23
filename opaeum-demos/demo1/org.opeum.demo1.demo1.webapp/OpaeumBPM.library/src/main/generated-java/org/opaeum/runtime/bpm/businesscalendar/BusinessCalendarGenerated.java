@@ -30,6 +30,7 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -129,7 +130,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	@NumlMetaInfo(uuid="252060@_NTccANcEEeCJ0dmaHEVVnw")
-	public Date addTimeTo(@ParameterMetaInfo(opaeumId=5908544747543073361,uuid="252060@_OJSe4NcEEeCJ0dmaHEVVnw") Date fromDateTime, @ParameterMetaInfo(opaeumId=2654263369633975777,uuid="252060@_QPwcINcEEeCJ0dmaHEVVnw") BusinessTimeUnit timeUnit, @ParameterMetaInfo(opaeumId=446023254321750925,uuid="252060@_WfbDYNcEEeCJ0dmaHEVVnw") Double numberOfUnits) {
+	public Date addTimeTo(@ParameterMetaInfo(name="fromDateTime",opaeumId=5908544747543073361l,uuid="252060@_OJSe4NcEEeCJ0dmaHEVVnw") Date fromDateTime, @ParameterMetaInfo(name="timeUnit",opaeumId=2654263369633975777l,uuid="252060@_QPwcINcEEeCJ0dmaHEVVnw") BusinessTimeUnit timeUnit, @ParameterMetaInfo(name="numberOfUnits",opaeumId=446023254321750925l,uuid="252060@_WfbDYNcEEeCJ0dmaHEVVnw") Double numberOfUnits) {
 		Date result = null;
 		
 		return result;
@@ -247,7 +248,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	@NumlMetaInfo(uuid="252060@_mOhZgNcEEeCJ0dmaHEVVnw")
-	public Duration calculateTimeBetween(@ParameterMetaInfo(opaeumId=7202429714693706761,uuid="252060@_nlX3sNcEEeCJ0dmaHEVVnw") Date fromDateTIme, @ParameterMetaInfo(opaeumId=250162200899249375,uuid="252060@_nm_BQNcEEeCJ0dmaHEVVnw") Date toDateTime, @ParameterMetaInfo(opaeumId=5406692947055461229,uuid="252060@_nogrQNcEEeCJ0dmaHEVVnw") BusinessTimeUnit businessTimeUnit) {
+	public Duration calculateTimeBetween(@ParameterMetaInfo(name="fromDateTIme",opaeumId=7202429714693706761l,uuid="252060@_nlX3sNcEEeCJ0dmaHEVVnw") Date fromDateTIme, @ParameterMetaInfo(name="toDateTime",opaeumId=250162200899249375l,uuid="252060@_nm_BQNcEEeCJ0dmaHEVVnw") Date toDateTime, @ParameterMetaInfo(name="businessTimeUnit",opaeumId=5406692947055461229l,uuid="252060@_nogrQNcEEeCJ0dmaHEVVnw") BusinessTimeUnit businessTimeUnit) {
 		Duration result = null;
 		
 		return result;
@@ -270,7 +271,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 	}
 	
 	@NumlMetaInfo(uuid="252060@_dXLYsASTEeGb9qsDxKJdSA")
-	public Duration convertDuration(@ParameterMetaInfo(opaeumId=2105497212461834893,uuid="252060@_e8ABcASTEeGb9qsDxKJdSA") Duration from, @ParameterMetaInfo(opaeumId=8309674443127600973,uuid="252060@_ixMxYASTEeGb9qsDxKJdSA") BusinessTimeUnit toTimeUnit) {
+	public Duration convertDuration(@ParameterMetaInfo(name="from",opaeumId=2105497212461834893l,uuid="252060@_e8ABcASTEeGb9qsDxKJdSA") Duration from, @ParameterMetaInfo(name="toTimeUnit",opaeumId=8309674443127600973l,uuid="252060@_ixMxYASTEeGb9qsDxKJdSA") BusinessTimeUnit toTimeUnit) {
 		Duration result = null;
 		
 		return result;
@@ -335,7 +336,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4593486266796409453,uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4593486266796409453l,uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_szTxoNcDEeCJ0dmaHEVVnw")
 	public Integer getBusinessDaysPerMonth() {
 		Integer result = this.businessDaysPerMonth;
@@ -343,7 +344,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=782414597865687081,uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=782414597865687081l,uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_1Hz-cNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerDay() {
 		Double result = this.businessHoursPerDay;
@@ -351,7 +352,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3032867667035280017,uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3032867667035280017l,uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_QLpNoNcDEeCJ0dmaHEVVnw")
 	public Double getBusinessHoursPerWeek() {
 		Double result = this.businessHoursPerWeek;
@@ -379,7 +380,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5435749030548125197,opposite="businessCalendar",uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5435749030548125197l,opposite="businessCalendar",uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_7UFI4NcCEeCJ0dmaHEVVnw")
 	public Set<OnceOffHoliday> getOnceOffHoliday() {
 		Set<OnceOffHoliday> result = this.onceOffHoliday;
@@ -387,7 +388,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5488709261826613047,opposite="businessCalendar",uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5488709261826613047l,opposite="businessCalendar",uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_8YuD0VZFEeGj5_I7bIwNoA")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;
@@ -403,7 +404,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return getOrganization();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5865908630178342957,opposite="businessCalendar",uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5865908630178342957l,opposite="businessCalendar",uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xucEUNcCEeCJ0dmaHEVVnw")
 	public Set<RecurringHoliday> getRecurringHoliday() {
 		Set<RecurringHoliday> result = this.recurringHoliday;
@@ -426,7 +427,7 @@ public class BusinessCalendarGenerated implements IPersistentObject, IEventGener
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2874459130083887215,opposite="businessCalendar",uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=2874459130083887215l,opposite="businessCalendar",uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_K_mY0Nb-EeCJ0dmaHEVVnw")
 	public Set<WorkDay> getWorkDay() {
 		Set<WorkDay> result = new HashSet<WorkDay>(this.workDay.values());

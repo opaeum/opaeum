@@ -140,6 +140,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 				context = owningBehavior;
 			}
 			edge.getGuard().setValue(replaceSingleParsedOclString(string, context, booleanType, env));
+			maybeAddAffectedImplementations(owningBehavior);
+			if(!owningBehavior.isProcess() && owningBehavior.getContext()!=null){
+				maybeAddAffectedImplementations(owningBehavior.getContext());
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -158,6 +162,10 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			bodyExpression.setContext(ob, ob);
 			Environment env = environmentFactory.createOpaqueBehaviorEnvironment(ob);
 			ob.setBodyExpression(replaceSingleParsedOclString(bodyExpression, ob, returnType, env));
+			maybeAddAffectedImplementations(ob);
+			if(!ob.isProcess() && ob.getContext()!=null){
+				maybeAddAffectedImplementations(ob.getContext());
+			}
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -184,6 +192,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(iv.isValidOclValue() && attr.isDerived()){
 				overridePinType(attr, iv.getOclValue().getExpression().getExpressionType());
 			}
+			maybeAddAffectedImplementations(c);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -288,6 +297,8 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			for(INakedClassifier c:intf.getImplementingClassifiers()){
 				addAffectedElement(c);
 			}
+		}else{
+			addAffectedElement(owner);
 		}
 	}
 	private void replaceParticipants(INakedElement element,INakedClassifier owner,INakedValueSpecification bodyCondition,Environment env){
@@ -357,6 +368,11 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			environmentFactory.addPostEnvironment(inside, a);
 			replaceParsedOclConstraints(ctx, a.getPostConditions(), inside);
 		}
+		maybeAddAffectedImplementations(activity);
+		if(!activity.isProcess() && activity.getContext()!=null){
+			maybeAddAffectedImplementations(activity.getContext());
+		}
+
 	}
 	private void popuateDefinedResponsibility(INakedClassifier owner,Environment outside,INakedDefinedResponsibility e){
 		INakedResponsibilityDefinition taskDefinition = e.getTaskDefinition();
@@ -390,6 +406,12 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			pin.setType(getOclLibrary().lookupStandardType(IOclLibrary.StringTypeName));
 			pin.setMultiplicity(new NakedMultiplicityImpl(0, 1));
 		}
+		INakedActivity activity=pin.getActivity();
+		maybeAddAffectedImplementations(activity);
+		if(!activity.isProcess() && activity.getContext()!=null){
+			maybeAddAffectedImplementations(activity.getContext());
+		}
+		
 	}
 	private void overridePinType(INakedValuePin pin){
 		IClassifier type = null;

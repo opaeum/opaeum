@@ -16,10 +16,10 @@ import org.opaeum.metamodel.core.internal.StereotypeNames;
 public abstract class EmfElementVisitor extends VisitorAdapter<Element,EmfWorkspace>{
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<? extends Element> getChildren(Element root){
+	public Collection<Element> getChildren(Element root){
 		return getChildrenAndRetryIfFailed(root, 0);
 	}
-	protected Collection<? extends Element> getChildrenAndRetryIfFailed(Element root,int count){
+	protected Collection<Element> getChildrenAndRetryIfFailed(Element root,int count){
 		Collection<Element> elements = EmfElementFinder.getCorrectOwnedElements(root);
 		if(!(root instanceof EmfWorkspace) && root.getEAnnotation(StereotypeNames.NUML_ANNOTATION) != null){
 			@SuppressWarnings("rawtypes")

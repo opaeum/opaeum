@@ -59,14 +59,14 @@ public interface SimulationPackage extends EPackage {
 	SimulationPackage eINSTANCE = org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ValueSimulationImpl <em>Value Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulatedValueImpl <em>Simulated Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.ValueSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulatedValueImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulatedValue()
 	 * @generated
 	 */
-	int VALUE_SIMULATION = 0;
+	int SIMULATED_VALUE = 0;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -75,7 +75,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__EANNOTATIONS = UMLPackage.VALUE_SPECIFICATION__EANNOTATIONS;
+	int SIMULATED_VALUE__EANNOTATIONS = UMLPackage.VALUE_SPECIFICATION__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -84,7 +84,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__OWNED_COMMENT = UMLPackage.VALUE_SPECIFICATION__OWNED_COMMENT;
+	int SIMULATED_VALUE__OWNED_COMMENT = UMLPackage.VALUE_SPECIFICATION__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -93,7 +93,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__OWNED_ELEMENT = UMLPackage.VALUE_SPECIFICATION__OWNED_ELEMENT;
+	int SIMULATED_VALUE__OWNED_ELEMENT = UMLPackage.VALUE_SPECIFICATION__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -102,7 +102,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__OWNER = UMLPackage.VALUE_SPECIFICATION__OWNER;
+	int SIMULATED_VALUE__OWNER = UMLPackage.VALUE_SPECIFICATION__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -111,7 +111,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__CLIENT_DEPENDENCY = UMLPackage.VALUE_SPECIFICATION__CLIENT_DEPENDENCY;
+	int SIMULATED_VALUE__CLIENT_DEPENDENCY = UMLPackage.VALUE_SPECIFICATION__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -120,7 +120,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__NAME = UMLPackage.VALUE_SPECIFICATION__NAME;
+	int SIMULATED_VALUE__NAME = UMLPackage.VALUE_SPECIFICATION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -129,7 +129,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__NAME_EXPRESSION = UMLPackage.VALUE_SPECIFICATION__NAME_EXPRESSION;
+	int SIMULATED_VALUE__NAME_EXPRESSION = UMLPackage.VALUE_SPECIFICATION__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -138,7 +138,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__NAMESPACE = UMLPackage.VALUE_SPECIFICATION__NAMESPACE;
+	int SIMULATED_VALUE__NAMESPACE = UMLPackage.VALUE_SPECIFICATION__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -147,7 +147,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__QUALIFIED_NAME = UMLPackage.VALUE_SPECIFICATION__QUALIFIED_NAME;
+	int SIMULATED_VALUE__QUALIFIED_NAME = UMLPackage.VALUE_SPECIFICATION__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -156,7 +156,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__VISIBILITY = UMLPackage.VALUE_SPECIFICATION__VISIBILITY;
+	int SIMULATED_VALUE__VISIBILITY = UMLPackage.VALUE_SPECIFICATION__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -165,7 +165,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER = UMLPackage.VALUE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
+	int SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER = UMLPackage.VALUE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -174,7 +174,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__TEMPLATE_PARAMETER = UMLPackage.VALUE_SPECIFICATION__TEMPLATE_PARAMETER;
+	int SIMULATED_VALUE__TEMPLATE_PARAMETER = UMLPackage.VALUE_SPECIFICATION__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -183,16 +183,16 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION__TYPE = UMLPackage.VALUE_SPECIFICATION__TYPE;
+	int SIMULATED_VALUE__TYPE = UMLPackage.VALUE_SPECIFICATION__TYPE;
 
 	/**
-	 * The number of structural features of the '<em>Value Simulation</em>' class.
+	 * The number of structural features of the '<em>Simulated Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALUE_SIMULATION_FEATURE_COUNT = UMLPackage.VALUE_SPECIFICATION_FEATURE_COUNT + 0;
+	int SIMULATED_VALUE_FEATURE_COUNT = UMLPackage.VALUE_SPECIFICATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.NumericValueDistributionImpl <em>Numeric Value Distribution</em>}' class.
@@ -211,7 +211,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__EANNOTATIONS = VALUE_SIMULATION__EANNOTATIONS;
+	int NUMERIC_VALUE_DISTRIBUTION__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -220,7 +220,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__OWNED_COMMENT = VALUE_SIMULATION__OWNED_COMMENT;
+	int NUMERIC_VALUE_DISTRIBUTION__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -229,7 +229,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__OWNED_ELEMENT = VALUE_SIMULATION__OWNED_ELEMENT;
+	int NUMERIC_VALUE_DISTRIBUTION__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -238,7 +238,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__OWNER = VALUE_SIMULATION__OWNER;
+	int NUMERIC_VALUE_DISTRIBUTION__OWNER = SIMULATED_VALUE__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -247,7 +247,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__CLIENT_DEPENDENCY = VALUE_SIMULATION__CLIENT_DEPENDENCY;
+	int NUMERIC_VALUE_DISTRIBUTION__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -256,7 +256,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__NAME = VALUE_SIMULATION__NAME;
+	int NUMERIC_VALUE_DISTRIBUTION__NAME = SIMULATED_VALUE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -265,7 +265,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__NAME_EXPRESSION = VALUE_SIMULATION__NAME_EXPRESSION;
+	int NUMERIC_VALUE_DISTRIBUTION__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -274,7 +274,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__NAMESPACE = VALUE_SIMULATION__NAMESPACE;
+	int NUMERIC_VALUE_DISTRIBUTION__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -283,7 +283,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__QUALIFIED_NAME = VALUE_SIMULATION__QUALIFIED_NAME;
+	int NUMERIC_VALUE_DISTRIBUTION__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -292,7 +292,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__VISIBILITY = VALUE_SIMULATION__VISIBILITY;
+	int NUMERIC_VALUE_DISTRIBUTION__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -301,7 +301,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__OWNING_TEMPLATE_PARAMETER = VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER;
+	int NUMERIC_VALUE_DISTRIBUTION__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -310,7 +310,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__TEMPLATE_PARAMETER = VALUE_SIMULATION__TEMPLATE_PARAMETER;
+	int NUMERIC_VALUE_DISTRIBUTION__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -319,7 +319,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION__TYPE = VALUE_SIMULATION__TYPE;
+	int NUMERIC_VALUE_DISTRIBUTION__TYPE = SIMULATED_VALUE__TYPE;
 
 	/**
 	 * The number of structural features of the '<em>Numeric Value Distribution</em>' class.
@@ -328,7 +328,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NUMERIC_VALUE_DISTRIBUTION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 0;
+	int NUMERIC_VALUE_DISTRIBUTION_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.NormalDistributionImpl <em>Normal Distribution</em>}' class.
@@ -784,14 +784,14 @@ public interface SimulationPackage extends EPackage {
 	int EXPONENTIAL_DISTRIBUTION_FEATURE_COUNT = NUMERIC_VALUE_DISTRIBUTION_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulatedSlotImpl <em>Simulated Slot</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulatingSlotImpl <em>Simulating Slot</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulatedSlotImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulatedSlot()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulatingSlotImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulatingSlot()
 	 * @generated
 	 */
-	int SIMULATED_SLOT = 4;
+	int SIMULATING_SLOT = 4;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -800,7 +800,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__EANNOTATIONS = UMLPackage.SLOT__EANNOTATIONS;
+	int SIMULATING_SLOT__EANNOTATIONS = UMLPackage.SLOT__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -809,7 +809,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__OWNED_COMMENT = UMLPackage.SLOT__OWNED_COMMENT;
+	int SIMULATING_SLOT__OWNED_COMMENT = UMLPackage.SLOT__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -818,7 +818,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__OWNED_ELEMENT = UMLPackage.SLOT__OWNED_ELEMENT;
+	int SIMULATING_SLOT__OWNED_ELEMENT = UMLPackage.SLOT__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -827,7 +827,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__OWNER = UMLPackage.SLOT__OWNER;
+	int SIMULATING_SLOT__OWNER = UMLPackage.SLOT__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Defining Feature</b></em>' reference.
@@ -836,7 +836,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__DEFINING_FEATURE = UMLPackage.SLOT__DEFINING_FEATURE;
+	int SIMULATING_SLOT__DEFINING_FEATURE = UMLPackage.SLOT__DEFINING_FEATURE;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
@@ -845,7 +845,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__VALUE = UMLPackage.SLOT__VALUE;
+	int SIMULATING_SLOT__VALUE = UMLPackage.SLOT__VALUE;
 
 	/**
 	 * The feature id for the '<em><b>Owning Instance</b></em>' container reference.
@@ -854,44 +854,44 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__OWNING_INSTANCE = UMLPackage.SLOT__OWNING_INSTANCE;
+	int SIMULATING_SLOT__OWNING_INSTANCE = UMLPackage.SLOT__OWNING_INSTANCE;
 
 	/**
-	 * The feature id for the '<em><b>Size Distribution</b></em>' reference.
+	 * The feature id for the '<em><b>Size Distribution</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__SIZE_DISTRIBUTION = UMLPackage.SLOT_FEATURE_COUNT + 0;
+	int SIMULATING_SLOT__SIZE_DISTRIBUTION = UMLPackage.SLOT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Property</b></em>' reference.
+	 * The feature id for the '<em><b>Simulation Strategy</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT__PROPERTY = UMLPackage.SLOT_FEATURE_COUNT + 1;
+	int SIMULATING_SLOT__SIMULATION_STRATEGY = UMLPackage.SLOT_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Simulated Slot</em>' class.
+	 * The number of structural features of the '<em>Simulating Slot</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATED_SLOT_FEATURE_COUNT = UMLPackage.SLOT_FEATURE_COUNT + 2;
+	int SIMULATING_SLOT_FEATURE_COUNT = UMLPackage.SLOT_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.EnumLiteralSimulationImpl <em>Enum Literal Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedEnumLiteralValueImpl <em>Weighted Enum Literal Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.EnumLiteralSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getEnumLiteralSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedEnumLiteralValueImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedEnumLiteralValue()
 	 * @generated
 	 */
-	int ENUM_LITERAL_SIMULATION = 6;
+	int WEIGHTED_ENUM_LITERAL_VALUE = 6;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -900,7 +900,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__EANNOTATIONS = VALUE_SIMULATION__EANNOTATIONS;
+	int WEIGHTED_ENUM_LITERAL_VALUE__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -909,7 +909,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__OWNED_COMMENT = VALUE_SIMULATION__OWNED_COMMENT;
+	int WEIGHTED_ENUM_LITERAL_VALUE__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -918,7 +918,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__OWNED_ELEMENT = VALUE_SIMULATION__OWNED_ELEMENT;
+	int WEIGHTED_ENUM_LITERAL_VALUE__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -927,7 +927,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__OWNER = VALUE_SIMULATION__OWNER;
+	int WEIGHTED_ENUM_LITERAL_VALUE__OWNER = SIMULATED_VALUE__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -936,7 +936,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__CLIENT_DEPENDENCY = VALUE_SIMULATION__CLIENT_DEPENDENCY;
+	int WEIGHTED_ENUM_LITERAL_VALUE__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -945,7 +945,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__NAME = VALUE_SIMULATION__NAME;
+	int WEIGHTED_ENUM_LITERAL_VALUE__NAME = SIMULATED_VALUE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -954,7 +954,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__NAME_EXPRESSION = VALUE_SIMULATION__NAME_EXPRESSION;
+	int WEIGHTED_ENUM_LITERAL_VALUE__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -963,7 +963,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__NAMESPACE = VALUE_SIMULATION__NAMESPACE;
+	int WEIGHTED_ENUM_LITERAL_VALUE__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -972,7 +972,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__QUALIFIED_NAME = VALUE_SIMULATION__QUALIFIED_NAME;
+	int WEIGHTED_ENUM_LITERAL_VALUE__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -981,7 +981,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__VISIBILITY = VALUE_SIMULATION__VISIBILITY;
+	int WEIGHTED_ENUM_LITERAL_VALUE__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -990,7 +990,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__OWNING_TEMPLATE_PARAMETER = VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER;
+	int WEIGHTED_ENUM_LITERAL_VALUE__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -999,7 +999,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__TEMPLATE_PARAMETER = VALUE_SIMULATION__TEMPLATE_PARAMETER;
+	int WEIGHTED_ENUM_LITERAL_VALUE__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -1008,7 +1008,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__TYPE = VALUE_SIMULATION__TYPE;
+	int WEIGHTED_ENUM_LITERAL_VALUE__TYPE = SIMULATED_VALUE__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Weight</b></em>' attribute.
@@ -1017,7 +1017,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__WEIGHT = VALUE_SIMULATION_FEATURE_COUNT + 0;
+	int WEIGHTED_ENUM_LITERAL_VALUE__WEIGHT = SIMULATED_VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Literal</b></em>' reference.
@@ -1026,26 +1026,26 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION__LITERAL = VALUE_SIMULATION_FEATURE_COUNT + 1;
+	int WEIGHTED_ENUM_LITERAL_VALUE__LITERAL = SIMULATED_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Enum Literal Simulation</em>' class.
+	 * The number of structural features of the '<em>Weighted Enum Literal Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ENUM_LITERAL_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
+	int WEIGHTED_ENUM_LITERAL_VALUE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ContainedInstanceValueSimulationImpl <em>Contained Instance Value Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ContainedActualInstanceImpl <em>Contained Actual Instance</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.ContainedInstanceValueSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getContainedInstanceValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.ContainedActualInstanceImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getContainedActualInstance()
 	 * @generated
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION = 7;
+	int CONTAINED_ACTUAL_INSTANCE = 7;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1054,7 +1054,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__EANNOTATIONS = VALUE_SIMULATION__EANNOTATIONS;
+	int CONTAINED_ACTUAL_INSTANCE__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -1063,7 +1063,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__OWNED_COMMENT = VALUE_SIMULATION__OWNED_COMMENT;
+	int CONTAINED_ACTUAL_INSTANCE__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -1072,7 +1072,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__OWNED_ELEMENT = VALUE_SIMULATION__OWNED_ELEMENT;
+	int CONTAINED_ACTUAL_INSTANCE__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -1081,7 +1081,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__OWNER = VALUE_SIMULATION__OWNER;
+	int CONTAINED_ACTUAL_INSTANCE__OWNER = SIMULATED_VALUE__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -1090,7 +1090,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__CLIENT_DEPENDENCY = VALUE_SIMULATION__CLIENT_DEPENDENCY;
+	int CONTAINED_ACTUAL_INSTANCE__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1099,7 +1099,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__NAME = VALUE_SIMULATION__NAME;
+	int CONTAINED_ACTUAL_INSTANCE__NAME = SIMULATED_VALUE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -1108,7 +1108,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__NAME_EXPRESSION = VALUE_SIMULATION__NAME_EXPRESSION;
+	int CONTAINED_ACTUAL_INSTANCE__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -1117,7 +1117,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__NAMESPACE = VALUE_SIMULATION__NAMESPACE;
+	int CONTAINED_ACTUAL_INSTANCE__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -1126,7 +1126,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__QUALIFIED_NAME = VALUE_SIMULATION__QUALIFIED_NAME;
+	int CONTAINED_ACTUAL_INSTANCE__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -1135,7 +1135,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__VISIBILITY = VALUE_SIMULATION__VISIBILITY;
+	int CONTAINED_ACTUAL_INSTANCE__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -1144,7 +1144,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER = VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER;
+	int CONTAINED_ACTUAL_INSTANCE__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -1153,7 +1153,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__TEMPLATE_PARAMETER = VALUE_SIMULATION__TEMPLATE_PARAMETER;
+	int CONTAINED_ACTUAL_INSTANCE__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -1162,7 +1162,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__TYPE = VALUE_SIMULATION__TYPE;
+	int CONTAINED_ACTUAL_INSTANCE__TYPE = SIMULATED_VALUE__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' containment reference list.
@@ -1171,7 +1171,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES = VALUE_SIMULATION_FEATURE_COUNT + 0;
+	int CONTAINED_ACTUAL_INSTANCE__VALUES = SIMULATED_VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Contained Instance</b></em>' containment reference.
@@ -1180,26 +1180,26 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE = VALUE_SIMULATION_FEATURE_COUNT + 1;
+	int CONTAINED_ACTUAL_INSTANCE__CONTAINED_INSTANCE = SIMULATED_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Contained Instance Value Simulation</em>' class.
+	 * The number of structural features of the '<em>Contained Actual Instance</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTAINED_INSTANCE_VALUE_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
+	int CONTAINED_ACTUAL_INSTANCE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.BooleanValueSimulationImpl <em>Boolean Value Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedBooleanValueImpl <em>Weighted Boolean Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.BooleanValueSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getBooleanValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedBooleanValueImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedBooleanValue()
 	 * @generated
 	 */
-	int BOOLEAN_VALUE_SIMULATION = 8;
+	int WEIGHTED_BOOLEAN_VALUE = 8;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1208,7 +1208,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__EANNOTATIONS = VALUE_SIMULATION__EANNOTATIONS;
+	int WEIGHTED_BOOLEAN_VALUE__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -1217,7 +1217,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__OWNED_COMMENT = VALUE_SIMULATION__OWNED_COMMENT;
+	int WEIGHTED_BOOLEAN_VALUE__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -1226,7 +1226,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__OWNED_ELEMENT = VALUE_SIMULATION__OWNED_ELEMENT;
+	int WEIGHTED_BOOLEAN_VALUE__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -1235,7 +1235,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__OWNER = VALUE_SIMULATION__OWNER;
+	int WEIGHTED_BOOLEAN_VALUE__OWNER = SIMULATED_VALUE__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -1244,7 +1244,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__CLIENT_DEPENDENCY = VALUE_SIMULATION__CLIENT_DEPENDENCY;
+	int WEIGHTED_BOOLEAN_VALUE__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1253,7 +1253,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__NAME = VALUE_SIMULATION__NAME;
+	int WEIGHTED_BOOLEAN_VALUE__NAME = SIMULATED_VALUE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -1262,7 +1262,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__NAME_EXPRESSION = VALUE_SIMULATION__NAME_EXPRESSION;
+	int WEIGHTED_BOOLEAN_VALUE__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -1271,7 +1271,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__NAMESPACE = VALUE_SIMULATION__NAMESPACE;
+	int WEIGHTED_BOOLEAN_VALUE__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -1280,7 +1280,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__QUALIFIED_NAME = VALUE_SIMULATION__QUALIFIED_NAME;
+	int WEIGHTED_BOOLEAN_VALUE__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -1289,7 +1289,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__VISIBILITY = VALUE_SIMULATION__VISIBILITY;
+	int WEIGHTED_BOOLEAN_VALUE__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -1298,7 +1298,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER = VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER;
+	int WEIGHTED_BOOLEAN_VALUE__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -1307,7 +1307,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__TEMPLATE_PARAMETER = VALUE_SIMULATION__TEMPLATE_PARAMETER;
+	int WEIGHTED_BOOLEAN_VALUE__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -1316,7 +1316,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__TYPE = VALUE_SIMULATION__TYPE;
+	int WEIGHTED_BOOLEAN_VALUE__TYPE = SIMULATED_VALUE__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Weight</b></em>' attribute.
@@ -1325,7 +1325,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__WEIGHT = VALUE_SIMULATION_FEATURE_COUNT + 0;
+	int WEIGHTED_BOOLEAN_VALUE__WEIGHT = SIMULATED_VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1334,16 +1334,16 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION__VALUE = VALUE_SIMULATION_FEATURE_COUNT + 1;
+	int WEIGHTED_BOOLEAN_VALUE__VALUE = SIMULATED_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>Boolean Value Simulation</em>' class.
+	 * The number of structural features of the '<em>Weighted Boolean Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BOOLEAN_VALUE_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
+	int WEIGHTED_BOOLEAN_VALUE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.NumberRangeDistributionImpl <em>Number Range Distribution</em>}' class.
@@ -1509,14 +1509,14 @@ public interface SimulationPackage extends EPackage {
 	int NUMBER_RANGE_DISTRIBUTION_FEATURE_COUNT = NUMERIC_VALUE_DISTRIBUTION_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ReferencedInstanceSimulationImpl <em>Referenced Instance Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedStringValueImpl <em>Weighted String Value</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.ReferencedInstanceSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getReferencedInstanceSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedStringValueImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedStringValue()
 	 * @generated
 	 */
-	int REFERENCED_INSTANCE_SIMULATION = 10;
+	int WEIGHTED_STRING_VALUE = 10;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1525,7 +1525,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__EANNOTATIONS = VALUE_SIMULATION__EANNOTATIONS;
+	int WEIGHTED_STRING_VALUE__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -1534,7 +1534,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__OWNED_COMMENT = VALUE_SIMULATION__OWNED_COMMENT;
+	int WEIGHTED_STRING_VALUE__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -1543,7 +1543,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__OWNED_ELEMENT = VALUE_SIMULATION__OWNED_ELEMENT;
+	int WEIGHTED_STRING_VALUE__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -1552,7 +1552,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__OWNER = VALUE_SIMULATION__OWNER;
+	int WEIGHTED_STRING_VALUE__OWNER = SIMULATED_VALUE__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -1561,7 +1561,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__CLIENT_DEPENDENCY = VALUE_SIMULATION__CLIENT_DEPENDENCY;
+	int WEIGHTED_STRING_VALUE__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1570,7 +1570,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__NAME = VALUE_SIMULATION__NAME;
+	int WEIGHTED_STRING_VALUE__NAME = SIMULATED_VALUE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -1579,7 +1579,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__NAME_EXPRESSION = VALUE_SIMULATION__NAME_EXPRESSION;
+	int WEIGHTED_STRING_VALUE__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -1588,7 +1588,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__NAMESPACE = VALUE_SIMULATION__NAMESPACE;
+	int WEIGHTED_STRING_VALUE__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -1597,7 +1597,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__QUALIFIED_NAME = VALUE_SIMULATION__QUALIFIED_NAME;
+	int WEIGHTED_STRING_VALUE__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -1606,7 +1606,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__VISIBILITY = VALUE_SIMULATION__VISIBILITY;
+	int WEIGHTED_STRING_VALUE__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -1615,7 +1615,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__OWNING_TEMPLATE_PARAMETER = VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER;
+	int WEIGHTED_STRING_VALUE__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -1624,7 +1624,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__TEMPLATE_PARAMETER = VALUE_SIMULATION__TEMPLATE_PARAMETER;
+	int WEIGHTED_STRING_VALUE__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -1633,7 +1633,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__TYPE = VALUE_SIMULATION__TYPE;
+	int WEIGHTED_STRING_VALUE__TYPE = SIMULATED_VALUE__TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Weight</b></em>' attribute.
@@ -1642,161 +1642,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCED_INSTANCE_SIMULATION__WEIGHT = VALUE_SIMULATION_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Instance</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REFERENCED_INSTANCE_SIMULATION__INSTANCE = VALUE_SIMULATION_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Referenced Instance Simulation</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REFERENCED_INSTANCE_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.StringValueSimulationImpl <em>String Value Simulation</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.StringValueSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getStringValueSimulation()
-	 * @generated
-	 */
-	int STRING_VALUE_SIMULATION = 11;
-
-	/**
-	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__EANNOTATIONS = VALUE_SIMULATION__EANNOTATIONS;
-
-	/**
-	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__OWNED_COMMENT = VALUE_SIMULATION__OWNED_COMMENT;
-
-	/**
-	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__OWNED_ELEMENT = VALUE_SIMULATION__OWNED_ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Owner</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__OWNER = VALUE_SIMULATION__OWNER;
-
-	/**
-	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__CLIENT_DEPENDENCY = VALUE_SIMULATION__CLIENT_DEPENDENCY;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__NAME = VALUE_SIMULATION__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__NAME_EXPRESSION = VALUE_SIMULATION__NAME_EXPRESSION;
-
-	/**
-	 * The feature id for the '<em><b>Namespace</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__NAMESPACE = VALUE_SIMULATION__NAMESPACE;
-
-	/**
-	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__QUALIFIED_NAME = VALUE_SIMULATION__QUALIFIED_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__VISIBILITY = VALUE_SIMULATION__VISIBILITY;
-
-	/**
-	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER = VALUE_SIMULATION__OWNING_TEMPLATE_PARAMETER;
-
-	/**
-	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__TEMPLATE_PARAMETER = VALUE_SIMULATION__TEMPLATE_PARAMETER;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__TYPE = VALUE_SIMULATION__TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Weight</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STRING_VALUE_SIMULATION__WEIGHT = VALUE_SIMULATION_FEATURE_COUNT + 0;
+	int WEIGHTED_STRING_VALUE__WEIGHT = SIMULATED_VALUE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1805,17 +1651,16 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_VALUE_SIMULATION__VALUE = VALUE_SIMULATION_FEATURE_COUNT + 1;
+	int WEIGHTED_STRING_VALUE__VALUE = SIMULATED_VALUE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>String Value Simulation</em>' class.
+	 * The number of structural features of the '<em>Weighted String Value</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STRING_VALUE_SIMULATION_FEATURE_COUNT = VALUE_SIMULATION_FEATURE_COUNT + 2;
-
+	int WEIGHTED_STRING_VALUE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulationModelImpl <em>Model</em>}' class.
@@ -1825,7 +1670,7 @@ public interface SimulationPackage extends EPackage {
 	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulationModel()
 	 * @generated
 	 */
-	int SIMULATION_MODEL = 12;
+	int SIMULATION_MODEL = 11;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -2089,14 +1934,14 @@ public interface SimulationPackage extends EPackage {
 	int SIMULATION_MODEL_FEATURE_COUNT = UMLPackage.PACKAGE_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl <em>All Instance Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.InstanceSimulationImpl <em>Instance Simulation</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getAllInstanceSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.InstanceSimulationImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getInstanceSimulation()
 	 * @generated
 	 */
-	int ALL_INSTANCE_SIMULATION = 13;
+	int INSTANCE_SIMULATION = 12;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -2105,7 +1950,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__EANNOTATIONS = UMLPackage.INSTANCE_SPECIFICATION__EANNOTATIONS;
+	int INSTANCE_SIMULATION__EANNOTATIONS = UMLPackage.INSTANCE_SPECIFICATION__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -2114,7 +1959,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__OWNED_COMMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_COMMENT;
+	int INSTANCE_SIMULATION__OWNED_COMMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -2123,7 +1968,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__OWNED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_ELEMENT;
+	int INSTANCE_SIMULATION__OWNED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -2132,7 +1977,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__OWNER = UMLPackage.INSTANCE_SPECIFICATION__OWNER;
+	int INSTANCE_SIMULATION__OWNER = UMLPackage.INSTANCE_SPECIFICATION__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -2141,7 +1986,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__CLIENT_DEPENDENCY = UMLPackage.INSTANCE_SPECIFICATION__CLIENT_DEPENDENCY;
+	int INSTANCE_SIMULATION__CLIENT_DEPENDENCY = UMLPackage.INSTANCE_SPECIFICATION__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2150,7 +1995,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__NAME = UMLPackage.INSTANCE_SPECIFICATION__NAME;
+	int INSTANCE_SIMULATION__NAME = UMLPackage.INSTANCE_SPECIFICATION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -2159,7 +2004,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__NAME_EXPRESSION = UMLPackage.INSTANCE_SPECIFICATION__NAME_EXPRESSION;
+	int INSTANCE_SIMULATION__NAME_EXPRESSION = UMLPackage.INSTANCE_SPECIFICATION__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -2168,7 +2013,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__NAMESPACE = UMLPackage.INSTANCE_SPECIFICATION__NAMESPACE;
+	int INSTANCE_SIMULATION__NAMESPACE = UMLPackage.INSTANCE_SPECIFICATION__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -2177,7 +2022,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__QUALIFIED_NAME = UMLPackage.INSTANCE_SPECIFICATION__QUALIFIED_NAME;
+	int INSTANCE_SIMULATION__QUALIFIED_NAME = UMLPackage.INSTANCE_SPECIFICATION__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -2186,7 +2031,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__VISIBILITY = UMLPackage.INSTANCE_SPECIFICATION__VISIBILITY;
+	int INSTANCE_SIMULATION__VISIBILITY = UMLPackage.INSTANCE_SPECIFICATION__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Deployed Element</b></em>' reference list.
@@ -2195,7 +2040,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__DEPLOYED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYED_ELEMENT;
+	int INSTANCE_SIMULATION__DEPLOYED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Deployment</b></em>' containment reference list.
@@ -2204,7 +2049,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__DEPLOYMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYMENT;
+	int INSTANCE_SIMULATION__DEPLOYMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -2213,7 +2058,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__OWNING_TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
+	int INSTANCE_SIMULATION__OWNING_TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -2222,7 +2067,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__TEMPLATE_PARAMETER;
+	int INSTANCE_SIMULATION__TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Classifier</b></em>' reference list.
@@ -2231,7 +2076,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__CLASSIFIER = UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER;
+	int INSTANCE_SIMULATION__CLASSIFIER = UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER;
 
 	/**
 	 * The feature id for the '<em><b>Slot</b></em>' containment reference list.
@@ -2240,7 +2085,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__SLOT = UMLPackage.INSTANCE_SPECIFICATION__SLOT;
+	int INSTANCE_SIMULATION__SLOT = UMLPackage.INSTANCE_SPECIFICATION__SLOT;
 
 	/**
 	 * The feature id for the '<em><b>Specification</b></em>' containment reference.
@@ -2249,26 +2094,26 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION__SPECIFICATION = UMLPackage.INSTANCE_SPECIFICATION__SPECIFICATION;
+	int INSTANCE_SIMULATION__SPECIFICATION = UMLPackage.INSTANCE_SPECIFICATION__SPECIFICATION;
 
 	/**
-	 * The number of structural features of the '<em>All Instance Simulation</em>' class.
+	 * The number of structural features of the '<em>Instance Simulation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ALL_INSTANCE_SIMULATION_FEATURE_COUNT = UMLPackage.INSTANCE_SPECIFICATION_FEATURE_COUNT + 0;
+	int INSTANCE_SIMULATION_FEATURE_COUNT = UMLPackage.INSTANCE_SPECIFICATION_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl <em>Actual Instance Simulation</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceImpl <em>Actual Instance</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl
-	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getActualInstanceSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getActualInstance()
 	 * @generated
 	 */
-	int ACTUAL_INSTANCE_SIMULATION = 14;
+	int ACTUAL_INSTANCE = 13;
 
 	/**
 	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -2277,7 +2122,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__EANNOTATIONS = UMLPackage.INSTANCE_SPECIFICATION__EANNOTATIONS;
+	int ACTUAL_INSTANCE__EANNOTATIONS = UMLPackage.INSTANCE_SPECIFICATION__EANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
@@ -2286,7 +2131,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__OWNED_COMMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_COMMENT;
+	int ACTUAL_INSTANCE__OWNED_COMMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_COMMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
@@ -2295,7 +2140,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__OWNED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_ELEMENT;
+	int ACTUAL_INSTANCE__OWNED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__OWNED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owner</b></em>' reference.
@@ -2304,7 +2149,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__OWNER = UMLPackage.INSTANCE_SPECIFICATION__OWNER;
+	int ACTUAL_INSTANCE__OWNER = UMLPackage.INSTANCE_SPECIFICATION__OWNER;
 
 	/**
 	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
@@ -2313,7 +2158,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__CLIENT_DEPENDENCY = UMLPackage.INSTANCE_SPECIFICATION__CLIENT_DEPENDENCY;
+	int ACTUAL_INSTANCE__CLIENT_DEPENDENCY = UMLPackage.INSTANCE_SPECIFICATION__CLIENT_DEPENDENCY;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2322,7 +2167,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__NAME = UMLPackage.INSTANCE_SPECIFICATION__NAME;
+	int ACTUAL_INSTANCE__NAME = UMLPackage.INSTANCE_SPECIFICATION__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
@@ -2331,7 +2176,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__NAME_EXPRESSION = UMLPackage.INSTANCE_SPECIFICATION__NAME_EXPRESSION;
+	int ACTUAL_INSTANCE__NAME_EXPRESSION = UMLPackage.INSTANCE_SPECIFICATION__NAME_EXPRESSION;
 
 	/**
 	 * The feature id for the '<em><b>Namespace</b></em>' reference.
@@ -2340,7 +2185,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__NAMESPACE = UMLPackage.INSTANCE_SPECIFICATION__NAMESPACE;
+	int ACTUAL_INSTANCE__NAMESPACE = UMLPackage.INSTANCE_SPECIFICATION__NAMESPACE;
 
 	/**
 	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
@@ -2349,7 +2194,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__QUALIFIED_NAME = UMLPackage.INSTANCE_SPECIFICATION__QUALIFIED_NAME;
+	int ACTUAL_INSTANCE__QUALIFIED_NAME = UMLPackage.INSTANCE_SPECIFICATION__QUALIFIED_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
@@ -2358,7 +2203,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__VISIBILITY = UMLPackage.INSTANCE_SPECIFICATION__VISIBILITY;
+	int ACTUAL_INSTANCE__VISIBILITY = UMLPackage.INSTANCE_SPECIFICATION__VISIBILITY;
 
 	/**
 	 * The feature id for the '<em><b>Deployed Element</b></em>' reference list.
@@ -2367,7 +2212,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__DEPLOYED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYED_ELEMENT;
+	int ACTUAL_INSTANCE__DEPLOYED_ELEMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Deployment</b></em>' containment reference list.
@@ -2376,7 +2221,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__DEPLOYMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYMENT;
+	int ACTUAL_INSTANCE__DEPLOYMENT = UMLPackage.INSTANCE_SPECIFICATION__DEPLOYMENT;
 
 	/**
 	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
@@ -2385,7 +2230,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__OWNING_TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
+	int ACTUAL_INSTANCE__OWNING_TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__OWNING_TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
@@ -2394,7 +2239,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__TEMPLATE_PARAMETER;
+	int ACTUAL_INSTANCE__TEMPLATE_PARAMETER = UMLPackage.INSTANCE_SPECIFICATION__TEMPLATE_PARAMETER;
 
 	/**
 	 * The feature id for the '<em><b>Classifier</b></em>' reference list.
@@ -2403,7 +2248,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__CLASSIFIER = UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER;
+	int ACTUAL_INSTANCE__CLASSIFIER = UMLPackage.INSTANCE_SPECIFICATION__CLASSIFIER;
 
 	/**
 	 * The feature id for the '<em><b>Slot</b></em>' containment reference list.
@@ -2412,7 +2257,7 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__SLOT = UMLPackage.INSTANCE_SPECIFICATION__SLOT;
+	int ACTUAL_INSTANCE__SLOT = UMLPackage.INSTANCE_SPECIFICATION__SLOT;
 
 	/**
 	 * The feature id for the '<em><b>Specification</b></em>' containment reference.
@@ -2421,17 +2266,170 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION__SPECIFICATION = UMLPackage.INSTANCE_SPECIFICATION__SPECIFICATION;
+	int ACTUAL_INSTANCE__SPECIFICATION = UMLPackage.INSTANCE_SPECIFICATION__SPECIFICATION;
 
 	/**
-	 * The number of structural features of the '<em>Actual Instance Simulation</em>' class.
+	 * The number of structural features of the '<em>Actual Instance</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTUAL_INSTANCE_SIMULATION_FEATURE_COUNT = UMLPackage.INSTANCE_SPECIFICATION_FEATURE_COUNT + 0;
+	int ACTUAL_INSTANCE_FEATURE_COUNT = UMLPackage.INSTANCE_SPECIFICATION_FEATURE_COUNT + 0;
 
+	/**
+	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedInstanceValueImpl <em>Weighted Instance Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedInstanceValueImpl
+	 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedInstanceValue()
+	 * @generated
+	 */
+	int WEIGHTED_INSTANCE_VALUE = 14;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__EANNOTATIONS = SIMULATED_VALUE__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Owned Comment</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__OWNED_COMMENT = SIMULATED_VALUE__OWNED_COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owned Element</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__OWNED_ELEMENT = SIMULATED_VALUE__OWNED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Owner</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__OWNER = SIMULATED_VALUE__OWNER;
+
+	/**
+	 * The feature id for the '<em><b>Client Dependency</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__CLIENT_DEPENDENCY = SIMULATED_VALUE__CLIENT_DEPENDENCY;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__NAME = SIMULATED_VALUE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Name Expression</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__NAME_EXPRESSION = SIMULATED_VALUE__NAME_EXPRESSION;
+
+	/**
+	 * The feature id for the '<em><b>Namespace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__NAMESPACE = SIMULATED_VALUE__NAMESPACE;
+
+	/**
+	 * The feature id for the '<em><b>Qualified Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__QUALIFIED_NAME = SIMULATED_VALUE__QUALIFIED_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__VISIBILITY = SIMULATED_VALUE__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Owning Template Parameter</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__OWNING_TEMPLATE_PARAMETER = SIMULATED_VALUE__OWNING_TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Template Parameter</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__TEMPLATE_PARAMETER = SIMULATED_VALUE__TEMPLATE_PARAMETER;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__TYPE = SIMULATED_VALUE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Weight</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__WEIGHT = SIMULATED_VALUE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Instance</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE__INSTANCE = SIMULATED_VALUE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Weighted Instance Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WEIGHTED_INSTANCE_VALUE_FEATURE_COUNT = SIMULATED_VALUE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}' enum.
@@ -2445,14 +2443,14 @@ public interface SimulationPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ValueSimulation <em>Value Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.SimulatedValue <em>Simulated Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Value Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ValueSimulation
+	 * @return the meta object for class '<em>Simulated Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulatedValue
 	 * @generated
 	 */
-	EClass getValueSimulation();
+	EClass getSimulatedValue();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.NormalDistribution <em>Normal Distribution</em>}'.
@@ -2540,36 +2538,36 @@ public interface SimulationPackage extends EPackage {
 	EAttribute getExponentialDistribution_Mean();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.SimulatedSlot <em>Simulated Slot</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.SimulatingSlot <em>Simulating Slot</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Simulated Slot</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.SimulatedSlot
+	 * @return the meta object for class '<em>Simulating Slot</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulatingSlot
 	 * @generated
 	 */
-	EClass getSimulatedSlot();
+	EClass getSimulatingSlot();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.SimulatedSlot#getSizeDistribution <em>Size Distribution</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.metamodels.simulation.simulation.SimulatingSlot#getSizeDistribution <em>Size Distribution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Size Distribution</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.SimulatedSlot#getSizeDistribution()
-	 * @see #getSimulatedSlot()
+	 * @return the meta object for the containment reference '<em>Size Distribution</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulatingSlot#getSizeDistribution()
+	 * @see #getSimulatingSlot()
 	 * @generated
 	 */
-	EReference getSimulatedSlot_SizeDistribution();
+	EReference getSimulatingSlot_SizeDistribution();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.SimulatedSlot#getProperty <em>Property</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.SimulatingSlot#getSimulationStrategy <em>Simulation Strategy</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Property</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.SimulatedSlot#getProperty()
-	 * @see #getSimulatedSlot()
+	 * @return the meta object for the attribute '<em>Simulation Strategy</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulatingSlot#getSimulationStrategy()
+	 * @see #getSimulatingSlot()
 	 * @generated
 	 */
-	EReference getSimulatedSlot_Property();
+	EAttribute getSimulatingSlot_SimulationStrategy();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.NumericValueDistribution <em>Numeric Value Distribution</em>}'.
@@ -2582,100 +2580,100 @@ public interface SimulationPackage extends EPackage {
 	EClass getNumericValueDistribution();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation <em>Enum Literal Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue <em>Weighted Enum Literal Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Enum Literal Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation
+	 * @return the meta object for class '<em>Weighted Enum Literal Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue
 	 * @generated
 	 */
-	EClass getEnumLiteralSimulation();
+	EClass getWeightedEnumLiteralValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation#getWeight <em>Weight</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue#getWeight <em>Weight</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Weight</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation#getWeight()
-	 * @see #getEnumLiteralSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue#getWeight()
+	 * @see #getWeightedEnumLiteralValue()
 	 * @generated
 	 */
-	EAttribute getEnumLiteralSimulation_Weight();
+	EAttribute getWeightedEnumLiteralValue_Weight();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation#getLiteral <em>Literal</em>}'.
+	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue#getLiteral <em>Literal</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Literal</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation#getLiteral()
-	 * @see #getEnumLiteralSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue#getLiteral()
+	 * @see #getWeightedEnumLiteralValue()
 	 * @generated
 	 */
-	EReference getEnumLiteralSimulation_Literal();
+	EReference getWeightedEnumLiteralValue_Literal();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation <em>Contained Instance Value Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ContainedActualInstance <em>Contained Actual Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Contained Instance Value Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation
+	 * @return the meta object for class '<em>Contained Actual Instance</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.ContainedActualInstance
 	 * @generated
 	 */
-	EClass getContainedInstanceValueSimulation();
+	EClass getContainedActualInstance();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation#getValues <em>Values</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.metamodels.simulation.simulation.ContainedActualInstance#getValues <em>Values</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Values</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation#getValues()
-	 * @see #getContainedInstanceValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.ContainedActualInstance#getValues()
+	 * @see #getContainedActualInstance()
 	 * @generated
 	 */
-	EReference getContainedInstanceValueSimulation_Values();
+	EReference getContainedActualInstance_Values();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation#getContainedInstance <em>Contained Instance</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.opaeum.metamodels.simulation.simulation.ContainedActualInstance#getContainedInstance <em>Contained Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference '<em>Contained Instance</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation#getContainedInstance()
-	 * @see #getContainedInstanceValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.ContainedActualInstance#getContainedInstance()
+	 * @see #getContainedActualInstance()
 	 * @generated
 	 */
-	EReference getContainedInstanceValueSimulation_ContainedInstance();
+	EReference getContainedActualInstance_ContainedInstance();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation <em>Boolean Value Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue <em>Weighted Boolean Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Boolean Value Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation
+	 * @return the meta object for class '<em>Weighted Boolean Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue
 	 * @generated
 	 */
-	EClass getBooleanValueSimulation();
+	EClass getWeightedBooleanValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation#getWeight <em>Weight</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue#getWeight <em>Weight</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Weight</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation#getWeight()
-	 * @see #getBooleanValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue#getWeight()
+	 * @see #getWeightedBooleanValue()
 	 * @generated
 	 */
-	EAttribute getBooleanValueSimulation_Weight();
+	EAttribute getWeightedBooleanValue_Weight();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation#isValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue#isValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation#isValue()
-	 * @see #getBooleanValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue#isValue()
+	 * @see #getWeightedBooleanValue()
 	 * @generated
 	 */
-	EAttribute getBooleanValueSimulation_Value();
+	EAttribute getWeightedBooleanValue_Value();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.NumberRangeDistribution <em>Number Range Distribution</em>}'.
@@ -2721,68 +2719,36 @@ public interface SimulationPackage extends EPackage {
 	EAttribute getNumberRangeDistribution_Weight();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation <em>Referenced Instance Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.WeightedStringValue <em>Weighted String Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Referenced Instance Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation
+	 * @return the meta object for class '<em>Weighted String Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedStringValue
 	 * @generated
 	 */
-	EClass getReferencedInstanceSimulation();
+	EClass getWeightedStringValue();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation#getWeight <em>Weight</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Weight</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation#getWeight()
-	 * @see #getReferencedInstanceSimulation()
-	 * @generated
-	 */
-	EAttribute getReferencedInstanceSimulation_Weight();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation#getInstance <em>Instance</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Instance</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation#getInstance()
-	 * @see #getReferencedInstanceSimulation()
-	 * @generated
-	 */
-	EReference getReferencedInstanceSimulation_Instance();
-
-	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.StringValueSimulation <em>String Value Simulation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>String Value Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.StringValueSimulation
-	 * @generated
-	 */
-	EClass getStringValueSimulation();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.StringValueSimulation#getWeight <em>Weight</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedStringValue#getWeight <em>Weight</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Weight</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.StringValueSimulation#getWeight()
-	 * @see #getStringValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedStringValue#getWeight()
+	 * @see #getWeightedStringValue()
 	 * @generated
 	 */
-	EAttribute getStringValueSimulation_Weight();
+	EAttribute getWeightedStringValue_Weight();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.StringValueSimulation#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedStringValue#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.StringValueSimulation#getValue()
-	 * @see #getStringValueSimulation()
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedStringValue#getValue()
+	 * @see #getWeightedStringValue()
 	 * @generated
 	 */
-	EAttribute getStringValueSimulation_Value();
+	EAttribute getWeightedStringValue_Value();
 
 	/**
 	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.SimulationModel <em>Model</em>}'.
@@ -2795,24 +2761,56 @@ public interface SimulationPackage extends EPackage {
 	EClass getSimulationModel();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation <em>All Instance Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.InstanceSimulation <em>Instance Simulation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>All Instance Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation
+	 * @return the meta object for class '<em>Instance Simulation</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.InstanceSimulation
 	 * @generated
 	 */
-	EClass getAllInstanceSimulation();
+	EClass getInstanceSimulation();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation <em>Actual Instance Simulation</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.ActualInstance <em>Actual Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Actual Instance Simulation</em>'.
-	 * @see org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation
+	 * @return the meta object for class '<em>Actual Instance</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.ActualInstance
 	 * @generated
 	 */
-	EClass getActualInstanceSimulation();
+	EClass getActualInstance();
+
+	/**
+	 * Returns the meta object for class '{@link org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue <em>Weighted Instance Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Weighted Instance Value</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue
+	 * @generated
+	 */
+	EClass getWeightedInstanceValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue#getWeight <em>Weight</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Weight</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue#getWeight()
+	 * @see #getWeightedInstanceValue()
+	 * @generated
+	 */
+	EAttribute getWeightedInstanceValue_Weight();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue#getInstance <em>Instance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Instance</em>'.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue#getInstance()
+	 * @see #getWeightedInstanceValue()
+	 * @generated
+	 */
+	EReference getWeightedInstanceValue_Instance();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}'.
@@ -2847,14 +2845,14 @@ public interface SimulationPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ValueSimulationImpl <em>Value Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulatedValueImpl <em>Simulated Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.ValueSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getValueSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulatedValueImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulatedValue()
 		 * @generated
 		 */
-		EClass VALUE_SIMULATION = eINSTANCE.getValueSimulation();
+		EClass SIMULATED_VALUE = eINSTANCE.getSimulatedValue();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.NormalDistributionImpl <em>Normal Distribution</em>}' class.
@@ -2927,30 +2925,30 @@ public interface SimulationPackage extends EPackage {
 		EAttribute EXPONENTIAL_DISTRIBUTION__MEAN = eINSTANCE.getExponentialDistribution_Mean();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulatedSlotImpl <em>Simulated Slot</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulatingSlotImpl <em>Simulating Slot</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulatedSlotImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulatedSlot()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulatingSlotImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getSimulatingSlot()
 		 * @generated
 		 */
-		EClass SIMULATED_SLOT = eINSTANCE.getSimulatedSlot();
+		EClass SIMULATING_SLOT = eINSTANCE.getSimulatingSlot();
 
 		/**
-		 * The meta object literal for the '<em><b>Size Distribution</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Size Distribution</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SIMULATED_SLOT__SIZE_DISTRIBUTION = eINSTANCE.getSimulatedSlot_SizeDistribution();
+		EReference SIMULATING_SLOT__SIZE_DISTRIBUTION = eINSTANCE.getSimulatingSlot_SizeDistribution();
 
 		/**
-		 * The meta object literal for the '<em><b>Property</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Simulation Strategy</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SIMULATED_SLOT__PROPERTY = eINSTANCE.getSimulatedSlot_Property();
+		EAttribute SIMULATING_SLOT__SIMULATION_STRATEGY = eINSTANCE.getSimulatingSlot_SimulationStrategy();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.NumericValueDistributionImpl <em>Numeric Value Distribution</em>}' class.
@@ -2963,14 +2961,14 @@ public interface SimulationPackage extends EPackage {
 		EClass NUMERIC_VALUE_DISTRIBUTION = eINSTANCE.getNumericValueDistribution();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.EnumLiteralSimulationImpl <em>Enum Literal Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedEnumLiteralValueImpl <em>Weighted Enum Literal Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.EnumLiteralSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getEnumLiteralSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedEnumLiteralValueImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedEnumLiteralValue()
 		 * @generated
 		 */
-		EClass ENUM_LITERAL_SIMULATION = eINSTANCE.getEnumLiteralSimulation();
+		EClass WEIGHTED_ENUM_LITERAL_VALUE = eINSTANCE.getWeightedEnumLiteralValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
@@ -2978,7 +2976,7 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ENUM_LITERAL_SIMULATION__WEIGHT = eINSTANCE.getEnumLiteralSimulation_Weight();
+		EAttribute WEIGHTED_ENUM_LITERAL_VALUE__WEIGHT = eINSTANCE.getWeightedEnumLiteralValue_Weight();
 
 		/**
 		 * The meta object literal for the '<em><b>Literal</b></em>' reference feature.
@@ -2986,17 +2984,17 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ENUM_LITERAL_SIMULATION__LITERAL = eINSTANCE.getEnumLiteralSimulation_Literal();
+		EReference WEIGHTED_ENUM_LITERAL_VALUE__LITERAL = eINSTANCE.getWeightedEnumLiteralValue_Literal();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ContainedInstanceValueSimulationImpl <em>Contained Instance Value Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ContainedActualInstanceImpl <em>Contained Actual Instance</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.ContainedInstanceValueSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getContainedInstanceValueSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.ContainedActualInstanceImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getContainedActualInstance()
 		 * @generated
 		 */
-		EClass CONTAINED_INSTANCE_VALUE_SIMULATION = eINSTANCE.getContainedInstanceValueSimulation();
+		EClass CONTAINED_ACTUAL_INSTANCE = eINSTANCE.getContainedActualInstance();
 
 		/**
 		 * The meta object literal for the '<em><b>Values</b></em>' containment reference list feature.
@@ -3004,7 +3002,7 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES = eINSTANCE.getContainedInstanceValueSimulation_Values();
+		EReference CONTAINED_ACTUAL_INSTANCE__VALUES = eINSTANCE.getContainedActualInstance_Values();
 
 		/**
 		 * The meta object literal for the '<em><b>Contained Instance</b></em>' containment reference feature.
@@ -3012,17 +3010,17 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE = eINSTANCE.getContainedInstanceValueSimulation_ContainedInstance();
+		EReference CONTAINED_ACTUAL_INSTANCE__CONTAINED_INSTANCE = eINSTANCE.getContainedActualInstance_ContainedInstance();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.BooleanValueSimulationImpl <em>Boolean Value Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedBooleanValueImpl <em>Weighted Boolean Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.BooleanValueSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getBooleanValueSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedBooleanValueImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedBooleanValue()
 		 * @generated
 		 */
-		EClass BOOLEAN_VALUE_SIMULATION = eINSTANCE.getBooleanValueSimulation();
+		EClass WEIGHTED_BOOLEAN_VALUE = eINSTANCE.getWeightedBooleanValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
@@ -3030,7 +3028,7 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BOOLEAN_VALUE_SIMULATION__WEIGHT = eINSTANCE.getBooleanValueSimulation_Weight();
+		EAttribute WEIGHTED_BOOLEAN_VALUE__WEIGHT = eINSTANCE.getWeightedBooleanValue_Weight();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -3038,7 +3036,7 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute BOOLEAN_VALUE_SIMULATION__VALUE = eINSTANCE.getBooleanValueSimulation_Value();
+		EAttribute WEIGHTED_BOOLEAN_VALUE__VALUE = eINSTANCE.getWeightedBooleanValue_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.NumberRangeDistributionImpl <em>Number Range Distribution</em>}' class.
@@ -3075,14 +3073,14 @@ public interface SimulationPackage extends EPackage {
 		EAttribute NUMBER_RANGE_DISTRIBUTION__WEIGHT = eINSTANCE.getNumberRangeDistribution_Weight();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ReferencedInstanceSimulationImpl <em>Referenced Instance Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedStringValueImpl <em>Weighted String Value</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.ReferencedInstanceSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getReferencedInstanceSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedStringValueImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedStringValue()
 		 * @generated
 		 */
-		EClass REFERENCED_INSTANCE_SIMULATION = eINSTANCE.getReferencedInstanceSimulation();
+		EClass WEIGHTED_STRING_VALUE = eINSTANCE.getWeightedStringValue();
 
 		/**
 		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
@@ -3090,33 +3088,7 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute REFERENCED_INSTANCE_SIMULATION__WEIGHT = eINSTANCE.getReferencedInstanceSimulation_Weight();
-
-		/**
-		 * The meta object literal for the '<em><b>Instance</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference REFERENCED_INSTANCE_SIMULATION__INSTANCE = eINSTANCE.getReferencedInstanceSimulation_Instance();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.StringValueSimulationImpl <em>String Value Simulation</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.StringValueSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getStringValueSimulation()
-		 * @generated
-		 */
-		EClass STRING_VALUE_SIMULATION = eINSTANCE.getStringValueSimulation();
-
-		/**
-		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STRING_VALUE_SIMULATION__WEIGHT = eINSTANCE.getStringValueSimulation_Weight();
+		EAttribute WEIGHTED_STRING_VALUE__WEIGHT = eINSTANCE.getWeightedStringValue_Weight();
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -3124,7 +3096,7 @@ public interface SimulationPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute STRING_VALUE_SIMULATION__VALUE = eINSTANCE.getStringValueSimulation_Value();
+		EAttribute WEIGHTED_STRING_VALUE__VALUE = eINSTANCE.getWeightedStringValue_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.SimulationModelImpl <em>Model</em>}' class.
@@ -3137,24 +3109,50 @@ public interface SimulationPackage extends EPackage {
 		EClass SIMULATION_MODEL = eINSTANCE.getSimulationModel();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl <em>All Instance Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.InstanceSimulationImpl <em>Instance Simulation</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.AllInstanceSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getAllInstanceSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.InstanceSimulationImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getInstanceSimulation()
 		 * @generated
 		 */
-		EClass ALL_INSTANCE_SIMULATION = eINSTANCE.getAllInstanceSimulation();
+		EClass INSTANCE_SIMULATION = eINSTANCE.getInstanceSimulation();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl <em>Actual Instance Simulation</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceImpl <em>Actual Instance</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceSimulationImpl
-		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getActualInstanceSimulation()
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.ActualInstanceImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getActualInstance()
 		 * @generated
 		 */
-		EClass ACTUAL_INSTANCE_SIMULATION = eINSTANCE.getActualInstanceSimulation();
+		EClass ACTUAL_INSTANCE = eINSTANCE.getActualInstance();
+
+		/**
+		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.impl.WeightedInstanceValueImpl <em>Weighted Instance Value</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.WeightedInstanceValueImpl
+		 * @see org.opaeum.metamodels.simulation.simulation.impl.SimulationPackageImpl#getWeightedInstanceValue()
+		 * @generated
+		 */
+		EClass WEIGHTED_INSTANCE_VALUE = eINSTANCE.getWeightedInstanceValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WEIGHTED_INSTANCE_VALUE__WEIGHT = eINSTANCE.getWeightedInstanceValue_Weight();
+
+		/**
+		 * The meta object literal for the '<em><b>Instance</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference WEIGHTED_INSTANCE_VALUE__INSTANCE = eINSTANCE.getWeightedInstanceValue_Instance();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.metamodels.simulation.simulation.SimulationStrategy <em>Strategy</em>}' enum.

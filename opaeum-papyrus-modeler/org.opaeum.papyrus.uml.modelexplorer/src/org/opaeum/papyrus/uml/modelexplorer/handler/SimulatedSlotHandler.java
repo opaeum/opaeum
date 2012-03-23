@@ -15,6 +15,6 @@ public class SimulatedSlotHandler extends EmfCreateCommandHandler implements IHa
 
 	@Override
 	protected EObject getNewObject(){
-		return SimulationFactory.eINSTANCE.createSimulatedSlot();
+		return SimulationFactory.eINSTANCE.createSimulatingSlot();
 	}
 }

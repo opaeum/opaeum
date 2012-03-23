@@ -12,7 +12,7 @@ import org.opaeum.runtime.environment.SimpleTypeRuntimeStrategyFactory;
 public @interface ParameterMetaInfo{
 	String uuid();
 	long opaeumId();
-	Class<? extends SimpleTypeRuntimeStrategyFactory> strategyFactory();
+	Class<? extends SimpleTypeRuntimeStrategyFactory> strategyFactory() default SimpleTypeRuntimeStrategyFactory.class;
 	String shortDescription() default "";
 	String name();
 }

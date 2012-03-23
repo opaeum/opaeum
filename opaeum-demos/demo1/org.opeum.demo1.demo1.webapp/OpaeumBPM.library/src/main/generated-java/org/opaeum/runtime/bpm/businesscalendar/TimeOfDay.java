@@ -52,15 +52,12 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
-	@DecimalMin(groups={},message="",payload={},value="")
-	@DecimalMax(groups={},message="",payload={},value="")
 	@Column(name="hours")
+	@Max()
 	private Integer hours;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
-	@Min(groups={},message="",payload={},value=0)
-	@Max(groups={},message="",payload={},value=59)
 	@Column(name="minutes")
 	private Integer minutes;
 	static private Set<TimeOfDay> mockedAllInstances;
@@ -118,7 +115,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6786898535260920075,uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6786898535260920075l,uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_WB_50Nb_EeCJ0dmaHEVVnw")
 	public Integer getHours() {
 		Integer result = this.hours;
@@ -137,7 +134,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5836556839916014923,uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5836556839916014923l,uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_XW53QNb_EeCJ0dmaHEVVnw")
 	public Integer getMinutes() {
 		Integer result = this.minutes;

@@ -143,7 +143,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7885609895206246713,opposite="organizationFullfillsActorRole_organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7885609895206246713l,opposite="organizationFullfillsActorRole_organization",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ1EtyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
 		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
@@ -167,7 +167,7 @@ public class OrganizationFullfillsActorRole implements IPersistentObject, Hibern
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7882025735278420517,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7882025735278420517l,opposite="organizationFullfillsActorRole_businessActor",uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ0EtyEeGElKTCe2jfDw252060@_WjvQ0UtyEeGElKTCe2jfDw")
 	public OrganizationNode getOrganization() {
 		OrganizationNode result = this.organization;

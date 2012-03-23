@@ -436,7 +436,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7236993358477623696,uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7236993358477623696l,uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_Bih5IEt4EeGElKTCe2jfDw")
 	public String getAuthenticationToken() {
 		String result = this.authenticationToken;
@@ -464,7 +464,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4065462070317474495,opposite="person",uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4065462070317474495l,opposite="person",uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
 	@NumlMetaInfo(uuid="252060@_3lspsUvREeGmqIr8YsFD4g")
 	public BusinessNetwork getCollaboration() {
 		BusinessNetwork result = this.collaboration;
@@ -484,7 +484,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=399677207222426596,opposite="person",uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=true,opaeumId=399677207222426596l,opposite="person",uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_fNec4EtpEeGd4cpyhpib9Q")
 	public Set<PersonEMailAddress> getEMailAddress() {
 		Set<PersonEMailAddress> result = new HashSet<PersonEMailAddress>(this.eMailAddress.values());
@@ -492,7 +492,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4316964747083058398,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4316964747083058398l,uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_wwPQYEtmEeGd4cpyhpib9Q")
 	public String getFirstName() {
 		String result = this.firstName;
@@ -511,7 +511,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=8728994280524309614,opposite="person",uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=8728994280524309614l,opposite="person",uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_UvAxkEt3EeGElKTCe2jfDw")
 	public Set<Leave> getLeave() {
 		Set<Leave> result = this.leave;
@@ -535,7 +535,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return getCollaboration();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=455318727460481644,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=455318727460481644l,opposite="representedPerson",uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_MgEtyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public Set<PersonFullfillsActorRole> getPersonFullfillsActorRole_businessActor() {
 		Set<PersonFullfillsActorRole> result = this.personFullfillsActorRole_businessActor;
@@ -552,7 +552,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=5291344624570808175,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=5291344624570808175l,opposite="representedPerson",uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lakUFYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Set<Person_iBusinessRole_1> getPerson_iBusinessRole_1_businessRole() {
 		Set<Person_iBusinessRole_1> result = this.person_iBusinessRole_1_businessRole;
@@ -577,7 +577,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=213312905486829476,opposite="person",uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=true,opaeumId=213312905486829476l,opposite="person",uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_GjivMEtoEeGd4cpyhpib9Q")
 	public Set<PersonPhoneNumber> getPhoneNumber() {
 		Set<PersonPhoneNumber> result = new HashSet<PersonPhoneNumber>(this.phoneNumber.values());
@@ -585,7 +585,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3105719662914651808,opposite="person",uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3105719662914651808l,opposite="person",uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_U_gx0F-mEeGSPaWW9iQb9Q")
 	public PhysicalAddress getPhysicalAddress() {
 		PhysicalAddress result = this.physicalAddress;
@@ -593,7 +593,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3364558357702710040,opposite="person",uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3364558357702710040l,opposite="person",uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
 	@NumlMetaInfo(uuid="252060@_Ueg9kF-mEeGSPaWW9iQb9Q")
 	public PostalAddress getPostalAddress() {
 		PostalAddress result = this.postalAddress;
@@ -601,7 +601,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4565578190639246320,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
 		String result = this.surname;
@@ -616,7 +616,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6611446670906621554,uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6611446670906621554l,uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_DNbUsEt4EeGElKTCe2jfDw")
 	public String getUsername() {
 		String result = this.username;

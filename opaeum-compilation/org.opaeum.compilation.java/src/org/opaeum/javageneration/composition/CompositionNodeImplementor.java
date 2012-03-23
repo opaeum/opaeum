@@ -39,6 +39,7 @@ import org.opaeum.metamodel.core.INakedMessageStructure;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
+import org.opaeum.metamodel.core.internal.emulated.NakedBusinessCollaboration;
 import org.opaeum.runtime.domain.CompositionNode;
 
 /**
@@ -246,6 +247,7 @@ public class CompositionNodeImplementor extends AbstractStructureVisitor{
 	}
 	@Override
 	protected void visitComplexStructure(INakedComplexStructure umlOwner){
+
 		if(umlOwner instanceof ICompositionParticipant){
 			visitClass((ICompositionParticipant) umlOwner);
 		}else if(umlOwner instanceof INakedStructuredDataType){

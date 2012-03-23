@@ -83,5 +83,10 @@ public class MockEnvironment extends Environment{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public UmtPersistence getUmtPersistence(){
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

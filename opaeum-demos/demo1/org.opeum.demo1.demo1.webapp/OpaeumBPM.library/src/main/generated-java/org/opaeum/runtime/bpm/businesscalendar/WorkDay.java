@@ -221,7 +221,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1754968245033077063,opposite="workDay",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1754968245033077063l,opposite="workDay",uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_LAOD4db-EeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -237,7 +237,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=1916778051938121831,opposite="workDay",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=1916778051938121831l,opposite="workDay",uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_5xvo4NcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getEndTime() {
 		TimeOfDay result = this.endTime;
@@ -249,7 +249,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=378853448039264835,opposite="workDay",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=378853448039264835l,opposite="workDay",uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_LrAGRNb-EeCJ0dmaHEVVnw")
 	public WorkDayKind getKind() {
 		WorkDayKind result = this.kind;
@@ -280,7 +280,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getBusinessCalendar();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=3879474800558390783,opposite="workDay",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=3879474800558390783l,opposite="workDay",uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xyUUMNcBEeCJ0dmaHEVVnw")
 	public TimeOfDay getStartTime() {
 		TimeOfDay result = this.startTime;

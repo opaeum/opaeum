@@ -37,10 +37,10 @@ public class JpaPersistenceXmlGenerator extends AbstractPersistenceConfigGenerat
 	}
 	@Override
 	protected String getDomainEnvironmentImplementation(){
-		return "org.opaeum.runtime.jpa.JpaEnvironment";
+		return "org.opaeum.runtime.jpa.StandaloneJpaEnvironment";
 	}
 	@Override
 	protected String getAdaptorEnvironmentImplementation(){
-		return "org.opaeum.environment.seam2.Seam2Environment";
+		return "org.opaeum.runtime.jpa.StandaloneJpaEnvironment";
 	}
 }

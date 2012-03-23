@@ -59,14 +59,14 @@ public enum SimulationStrategy implements Enumerator {
 	UNIFORM_DISTRIBUTION(3, "uniformDistribution", "uniformDistribution"),
 
 	/**
-	 * The '<em><b>All Instance Simulation</b></em>' literal object.
+	 * The '<em><b>Instance Simulation</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #ALL_INSTANCE_SIMULATION_VALUE
+	 * @see #INSTANCE_SIMULATION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	ALL_INSTANCE_SIMULATION(4, "allInstanceSimulation", "allInstanceSimulation");
+	INSTANCE_SIMULATION(4, "instanceSimulation", "instanceSimulation");
 
 	/**
 	 * The '<em><b>Given Value</b></em>' literal value.
@@ -129,19 +129,19 @@ public enum SimulationStrategy implements Enumerator {
 	public static final int UNIFORM_DISTRIBUTION_VALUE = 3;
 
 	/**
-	 * The '<em><b>All Instance Simulation</b></em>' literal value.
+	 * The '<em><b>Instance Simulation</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>All Instance Simulation</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>Instance Simulation</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #ALL_INSTANCE_SIMULATION
-	 * @model name="allInstanceSimulation"
+	 * @see #INSTANCE_SIMULATION
+	 * @model name="instanceSimulation"
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ALL_INSTANCE_SIMULATION_VALUE = 4;
+	public static final int INSTANCE_SIMULATION_VALUE = 4;
 
 	/**
 	 * An array of all the '<em><b>Strategy</b></em>' enumerators.
@@ -155,7 +155,7 @@ public enum SimulationStrategy implements Enumerator {
 			WEIGHTED_DISTRIBUTION,
 			NORMAL_DISTRIBUTION,
 			UNIFORM_DISTRIBUTION,
-			ALL_INSTANCE_SIMULATION,
+			INSTANCE_SIMULATION,
 		};
 
 	/**
@@ -210,7 +210,7 @@ public enum SimulationStrategy implements Enumerator {
 			case WEIGHTED_DISTRIBUTION_VALUE: return WEIGHTED_DISTRIBUTION;
 			case NORMAL_DISTRIBUTION_VALUE: return NORMAL_DISTRIBUTION;
 			case UNIFORM_DISTRIBUTION_VALUE: return UNIFORM_DISTRIBUTION;
-			case ALL_INSTANCE_SIMULATION_VALUE: return ALL_INSTANCE_SIMULATION;
+			case INSTANCE_SIMULATION_VALUE: return INSTANCE_SIMULATION;
 		}
 		return null;
 	}

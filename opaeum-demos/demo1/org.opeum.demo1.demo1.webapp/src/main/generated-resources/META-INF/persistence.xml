@@ -24,6 +24,7 @@
 		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
 		<class>structuredbusiness.Manager</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.Duration</class>
+		<class>structuredbusiness.DishWasherModel</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
 		<class>org.opaeum.runtime.bpm.organization.Organization_iBusinessComponent_1</class>
 		<class>org.opaeum.runtime.bpm.contact.OrganizationEMailAddress</class>
@@ -35,9 +36,9 @@
 		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
 		<class>org.opaeum.runtime.bpm.contact.PhoneNumber</class>
 		<class>structuredbusiness.DishwashersInc</class>
+		<class>structuredbusiness.DishWasherComponent</class>
 		<class>org.opaeum.runtime.bpm.organization.Leave</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInTask</class>
-		<class>structuredbusiness.DishWasher</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.TimeOfDay</class>
 		<class>structuredbusiness.Supplier</class>
 		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber</class>

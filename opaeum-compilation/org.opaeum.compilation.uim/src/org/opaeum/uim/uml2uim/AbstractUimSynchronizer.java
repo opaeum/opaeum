@@ -2,6 +2,7 @@ package org.opaeum.uim.uml2uim;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -18,7 +19,6 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	protected boolean regenerate;
 	protected UmlUimLinks links;
 	protected EmfWorkspace workspace;
-
 	public AbstractUimSynchronizer(){
 	}
 	@Override
@@ -27,10 +27,10 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 	}
 	public AbstractUimSynchronizer(EmfWorkspace workspace,ResourceSet resourceSet,boolean regenerate){
 		this.workspace = workspace;
-		init(workspace,resourceSet,  regenerate);
+		init(workspace, resourceSet, regenerate);
 	}
-	public void init(EmfWorkspace workspace,ResourceSet uimRst, boolean b){
-		this.workspace=workspace;
+	public void init(EmfWorkspace workspace,ResourceSet uimRst,boolean b){
+		this.workspace = workspace;
 		this.regenerate = b;
 		this.uimRst = uimRst;
 	}
@@ -47,9 +47,9 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 		visitRecursively(element);
 	}
 	@Override
-	public Collection<? extends Element> getChildren(Element root){
+	public Collection<Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
-			return ((EmfWorkspace) root).getGeneratingModelsOrProfiles();
+			return new HashSet<Element>(((EmfWorkspace) root).getGeneratingModelsOrProfiles());
 		}else{
 			return super.getChildren(root);
 		}
@@ -61,7 +61,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 		formUri = formUri.appendFileExtension(extenstion);
 		Resource resource = null;
 		try{
-			resource = uimRst.getResource(formUri,false);
+			resource = uimRst.getResource(formUri, false);
 			resource.load(new HashMap<Object,Object>());
 		}catch(Exception e){
 			try{
@@ -70,8 +70,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 			}
 			resource = uimRst.createResource(formUri);
 		}
-		links=new UmlUimLinks(resource, workspace);
-
+		links = new UmlUimLinks(resource, workspace);
 		return resource;
 	}
 	@Override
@@ -79,9 +78,7 @@ public class AbstractUimSynchronizer extends EmfElementVisitor implements ITrans
 		return 12;
 	}
 	public void release(){
-		this.uimRst=null;
-		this.workspace=null;
-		
+		this.uimRst = null;
+		this.workspace = null;
 	}
-	
 }

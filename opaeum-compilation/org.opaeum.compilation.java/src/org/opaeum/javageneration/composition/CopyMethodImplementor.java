@@ -73,11 +73,11 @@ public class CopyMethodImplementor extends AbstractStructureVisitor{
 		OJAnnotatedOperation oper = (OJAnnotatedOperation) owner.getUniqueOperation("makeCopy");
 		if(oper == null){
 			oper = new OJAnnotatedOperation("makeCopy");
-			oper.setReturnType(OJUtil.classifierPathname(classifier));
 			owner.addToOperations(oper);
 		}else{
 			oper.setBody(new OJBlock());
 		}
+		oper.setReturnType(OJUtil.classifierPathname(classifier));
 		if(classifier.getIsAbstract() || owner.isAbstract()){
 			// Can NEVER instantiate abstract objects
 			oper.setAbstract(true);

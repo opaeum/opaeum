@@ -6,6 +6,6 @@ import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 public class StringValueSimulationHandler extends AbstractValueSimulationHandler{
 	@Override
 	protected EObject getNewObject(){
-		return SimulationFactory.eINSTANCE.createStringValueSimulation();
+		return SimulationFactory.eINSTANCE.createWeightedStringValue();
 	}
 }

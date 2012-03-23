@@ -36,7 +36,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	private Collection<INakedConstraint> preConditions = new HashSet<INakedConstraint>();
 	private Collection<INakedConstraint> postConditions = new HashSet<INakedConstraint>();
 	private Collection<INakedClassifier> raisedExceptions = new HashSet<INakedClassifier>();
-	private Collection<INakedOperation> redefinedOperations= new HashSet<INakedOperation>();
+	private Collection<INakedOperation> redefinedOperations = new HashSet<INakedOperation>();
 	private INakedParameter returnParameter;
 	private INakedConstraint bodyCondition;
 	private boolean hasClassScope;
@@ -103,9 +103,9 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 	@Override
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
-		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification()!=null){
+		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification() != null){
 			INakedConstraint cnstr = (INakedConstraint) element;
-			IOclContext oc=cnstr.getSpecification().getOclValue();
+			IOclContext oc = cnstr.getSpecification().getOclValue();
 			if(oc.getType().equals(OclUsageType.PRE)){
 				preConditions.remove(cnstr);
 				preConditions.add(cnstr);
@@ -113,7 +113,18 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 				postConditions.remove(cnstr);
 				postConditions.add(cnstr);
 			}else{
-				bodyCondition=cnstr;
+				bodyCondition = cnstr;
+			}
+		}
+	}
+	public void removeOwnedElement(INakedElement element,boolean recursively){
+		super.removeOwnedElement(element, recursively);
+		if(element instanceof INakedConstraint && ((INakedConstraint) element).getSpecification() != null){
+			INakedConstraint cnstr = (INakedConstraint) element;
+			preConditions.remove(cnstr);
+			postConditions.remove(cnstr);
+			if(bodyCondition == element){
+				bodyCondition = null;
 			}
 		}
 	}
@@ -127,9 +138,7 @@ public class NakedOperationImpl extends NakedNameSpaceImpl implements INakedOper
 			return null;
 		}
 	}
-	@SuppressWarnings({
-			"unchecked","rawtypes"
-	})
+	@SuppressWarnings({"unchecked","rawtypes"})
 	public List<IParameter> getParameters(){
 		return (List) getArgumentParameters();
 	}

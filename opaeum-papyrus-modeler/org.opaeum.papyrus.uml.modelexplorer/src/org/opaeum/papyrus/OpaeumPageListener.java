@@ -91,7 +91,7 @@ public class OpaeumPageListener implements IStartup{
 			if(part instanceof PapyrusMultiDiagramEditor){
 				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) part;
 				IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
-				if(!umlFile.getParent().getName().equals("ui")){
+				if(!(umlFile.getParent().getName().equals("ui")||umlFile.getParent().getName().equals("simulation"))){
 					OpaeumEclipseContext result = OpaeumEclipseContext.getContextFor(umlFile.getParent());
 					if(result != null){
 						result.onClose(umlFile);
@@ -131,7 +131,7 @@ public class OpaeumPageListener implements IStartup{
 	private void associateOpaeumContext(PapyrusMultiDiagramEditor e){
 		IEditorPart activeEditor = e.getActiveEditor();
 		final IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
-		if(!umlFile.getParent().getName().equals("ui")){
+		if(!umlFile.getParent().getName().equals("ui") || umlFile.getParent().getName().equals("simulation")){
 			final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
 			((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 			if(result.getEditingContextFor(umlFile) == null){

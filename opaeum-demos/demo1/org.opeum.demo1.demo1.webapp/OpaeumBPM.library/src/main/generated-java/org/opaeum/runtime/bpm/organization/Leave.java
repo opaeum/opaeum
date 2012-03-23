@@ -58,8 +58,9 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="from_date")
-	private String fromDate;
+	private Date fromDate;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
@@ -76,8 +77,9 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	@JoinColumn(name="person_id",nullable=true)
 	private PersonNode person;
 	static final private long serialVersionUID = 5351150154132902312l;
+	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="to_date")
-	private String toDate;
+	private Date toDate;
 	private String uid;
 
 	/** This constructor is intended for easy initialization in unit tests
@@ -112,10 +114,10 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
 		if ( xml.getAttribute("fromDate").length()>0 ) {
-			setFromDate(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("fromDate")));
+			setFromDate(OpaeumLibraryForBPMFormatter.getInstance().parseDateTime(xml.getAttribute("fromDate")));
 		}
 		if ( xml.getAttribute("toDate").length()>0 ) {
-			setToDate(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("toDate")));
+			setToDate(OpaeumLibraryForBPMFormatter.getInstance().parseDateTime(xml.getAttribute("toDate")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -153,10 +155,10 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3694564450390573092,uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3694564450390573092l,uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_RZHMwEt3EeGElKTCe2jfDw")
-	public String getFromDate() {
-		String result = this.fromDate;
+	public Date getFromDate() {
+		Date result = this.fromDate;
 		
 		return result;
 	}
@@ -181,7 +183,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return getPerson();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2100864140378992430,opposite="leave",uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=2100864140378992430l,opposite="leave",uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_UvR3UUt3EeGElKTCe2jfDw")
 	public PersonNode getPerson() {
 		PersonNode result = this.person;
@@ -189,10 +191,10 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7751222380771627172,uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7751222380771627172l,uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_TCe-UEt3EeGElKTCe2jfDw")
-	public String getToDate() {
-		String result = this.toDate;
+	public Date getToDate() {
+		Date result = this.toDate;
 		
 		return result;
 	}
@@ -258,7 +260,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		this.deletedOn=deletedOn;
 	}
 	
-	public void setFromDate(String fromDate) {
+	public void setFromDate(Date fromDate) {
 		this.z_internalAddToFromDate(fromDate);
 	}
 	
@@ -287,7 +289,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		}
 	}
 	
-	public void setToDate(String toDate) {
+	public void setToDate(Date toDate) {
 		this.z_internalAddToToDate(toDate);
 	}
 	
@@ -306,17 +308,17 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		sb.append("className=\"org.opaeum.runtime.bpm.organization.Leave\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getFromDate()!=null ) {
-			sb.append("fromDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getFromDate())+"\" ");
+			sb.append("fromDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDateTime(getFromDate())+"\" ");
 		}
 		if ( getToDate()!=null ) {
-			sb.append("toDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getToDate())+"\" ");
+			sb.append("toDate=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDateTime(getToDate())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n</Leave>");
 		return sb.toString();
 	}
 	
-	public void z_internalAddToFromDate(String val) {
+	public void z_internalAddToFromDate(Date val) {
 		this.fromDate=val;
 	}
 	
@@ -324,11 +326,11 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		this.person=val;
 	}
 	
-	public void z_internalAddToToDate(String val) {
+	public void z_internalAddToToDate(Date val) {
 		this.toDate=val;
 	}
 	
-	public void z_internalRemoveFromFromDate(String val) {
+	public void z_internalRemoveFromFromDate(Date val) {
 		if ( getFromDate()!=null && val!=null && val.equals(getFromDate()) ) {
 			this.fromDate=null;
 			this.fromDate=null;
@@ -342,7 +344,7 @@ public class Leave implements IPersistentObject, IEventGenerator, HibernateEntit
 		}
 	}
 	
-	public void z_internalRemoveFromToDate(String val) {
+	public void z_internalRemoveFromToDate(Date val) {
 		if ( getToDate()!=null && val!=null && val.equals(getToDate()) ) {
 			this.toDate=null;
 			this.toDate=null;

@@ -139,7 +139,7 @@ abstract public class PhoneNumber implements IPersistentObject, IEventGenerator,
 		return "PhoneNumber["+getId()+"]";
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7568744585392316910,uuid="252060@_EyuuUEtnEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7568744585392316910l,uuid="252060@_EyuuUEtnEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_EyuuUEtnEeGd4cpyhpib9Q")
 	public String getNumber() {
 		String result = this.number;

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -33,6 +34,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.PersonNode;
@@ -45,6 +47,7 @@ import org.opaeum.runtime.bpm.request.RequestParticipationKind;
 import org.opaeum.runtime.bpm.request.TaskRequest;
 import org.opaeum.runtime.domain.CancelledEvent;
 import org.opaeum.runtime.domain.CompositionNode;
+import org.opaeum.runtime.domain.FailedConstraintsException;
 import org.opaeum.runtime.domain.HibernateEntity;
 import org.opaeum.runtime.domain.IEventGenerator;
 import org.opaeum.runtime.domain.IPersistentObject;
@@ -179,7 +182,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		removeAllFromParticipation(getParticipation());
 	}
 	
-	public boolean consumeVerifyRequiredDocumentsOccurrence(@ParameterMetaInfo(opaeumId=7031023243174406977,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
+	public boolean consumeVerifyRequiredDocumentsOccurrence(@ParameterMetaInfo(name="id",opaeumId=7031023243174406977l,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
 		boolean consumed = false;
 		return consumed;
 	}
@@ -206,7 +209,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return false;
 	}
 	
-	public void generateVerifyRequiredDocumentsEvent(@ParameterMetaInfo(opaeumId=7031023243174406977,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
+	public void generateVerifyRequiredDocumentsEvent(@ParameterMetaInfo(name="id",opaeumId=7031023243174406977l,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -217,7 +220,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=304141797839881907,opposite="documentVerifier",uuid="914890@_03qp8XHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=false,opaeumId=304141797839881907l,opposite="documentVerifier",uuid="914890@_03qp8XHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_03qp8XHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -273,7 +276,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -295,7 +298,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -529,9 +532,15 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	@NumlMetaInfo(uuid="914890@_vaiUUGK1EeGb14EjInbIAA")
-	public void verifyRequiredDocuments(@ParameterMetaInfo(opaeumId=7031023243174406977,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) {
+	public void verifyRequiredDocuments(@ParameterMetaInfo(name="id",opaeumId=7031023243174406977l,uuid="914890@_4vyzgGK1EeGb14EjInbIAA") String id) throws FailedConstraintsException {
+		List<String> failedConstraints = new ArrayList<String>();
+		if ( !this.getDishwashersInc().getParticipation().isEmpty() ) {
+			failedConstraints.add("structuredbusiness::documentverifier::verifyRequiredDocuments::newConstraint");
+		}
+		if ( failedConstraints.size()>0 ) {
+			throw new FailedConstraintsException(true,failedConstraints);
+		}
 		generateVerifyRequiredDocumentsEvent(id);
-		(Stdlib.stringAsSet(id).size() < 50);
 	}
 	
 	public void z_internalAddToDishwashersInc(DishwashersInc val) {

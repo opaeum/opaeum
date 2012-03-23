@@ -352,6 +352,7 @@ public class NameSpaceExtractor extends AbstractExtractorFromEmf{
 		initializeClassifier(na, a);
 		if(a instanceof AssociationClass){
 			na.setClass(true);
+			na.setAssociationClass(true);
 		}else{
 			for(Property property:memberEnds){
 				boolean isDerived = property.isDerived() || property.isDerivedUnion() || (property.getOtherEnd()!=null && property.getOtherEnd().isDerived())

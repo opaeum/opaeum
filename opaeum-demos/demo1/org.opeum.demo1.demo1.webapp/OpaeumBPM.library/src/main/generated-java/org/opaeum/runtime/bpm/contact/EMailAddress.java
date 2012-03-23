@@ -123,7 +123,7 @@ abstract public class EMailAddress implements IPersistentObject, IEventGenerator
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3020719491733654186,uuid="252060@_FfSSUEtnEeGd4cpyhpib9Q")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3020719491733654186l,uuid="252060@_FfSSUEtnEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_FfSSUEtnEeGd4cpyhpib9Q")
 	public String getAddress() {
 		String result = this.address;

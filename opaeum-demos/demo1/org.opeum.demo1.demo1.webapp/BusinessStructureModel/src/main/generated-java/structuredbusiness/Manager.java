@@ -209,7 +209,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=325738725014330933,opposite="manager",uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(isComposite=false,opaeumId=325738725014330933l,opposite="manager",uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0XIvwXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -265,7 +265,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -287,7 +287,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;

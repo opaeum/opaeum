@@ -57,21 +57,21 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case SimulationPackage.VALUE_SIMULATION: return createValueSimulation();
+			case SimulationPackage.SIMULATED_VALUE: return createSimulatedValue();
 			case SimulationPackage.NORMAL_DISTRIBUTION: return createNormalDistribution();
 			case SimulationPackage.UNIFORM_DISTRIBUTION: return createUniformDistribution();
 			case SimulationPackage.EXPONENTIAL_DISTRIBUTION: return createExponentialDistribution();
-			case SimulationPackage.SIMULATED_SLOT: return createSimulatedSlot();
+			case SimulationPackage.SIMULATING_SLOT: return createSimulatingSlot();
 			case SimulationPackage.NUMERIC_VALUE_DISTRIBUTION: return createNumericValueDistribution();
-			case SimulationPackage.ENUM_LITERAL_SIMULATION: return createEnumLiteralSimulation();
-			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION: return createContainedInstanceValueSimulation();
-			case SimulationPackage.BOOLEAN_VALUE_SIMULATION: return createBooleanValueSimulation();
+			case SimulationPackage.WEIGHTED_ENUM_LITERAL_VALUE: return createWeightedEnumLiteralValue();
+			case SimulationPackage.CONTAINED_ACTUAL_INSTANCE: return createContainedActualInstance();
+			case SimulationPackage.WEIGHTED_BOOLEAN_VALUE: return createWeightedBooleanValue();
 			case SimulationPackage.NUMBER_RANGE_DISTRIBUTION: return createNumberRangeDistribution();
-			case SimulationPackage.REFERENCED_INSTANCE_SIMULATION: return createReferencedInstanceSimulation();
-			case SimulationPackage.STRING_VALUE_SIMULATION: return createStringValueSimulation();
+			case SimulationPackage.WEIGHTED_STRING_VALUE: return createWeightedStringValue();
 			case SimulationPackage.SIMULATION_MODEL: return createSimulationModel();
-			case SimulationPackage.ALL_INSTANCE_SIMULATION: return createAllInstanceSimulation();
-			case SimulationPackage.ACTUAL_INSTANCE_SIMULATION: return createActualInstanceSimulation();
+			case SimulationPackage.INSTANCE_SIMULATION: return createInstanceSimulation();
+			case SimulationPackage.ACTUAL_INSTANCE: return createActualInstance();
+			case SimulationPackage.WEIGHTED_INSTANCE_VALUE: return createWeightedInstanceValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -112,9 +112,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ValueSimulation createValueSimulation() {
-		ValueSimulationImpl valueSimulation = new ValueSimulationImpl();
-		return valueSimulation;
+	public SimulatedValue createSimulatedValue() {
+		SimulatedValueImpl simulatedValue = new SimulatedValueImpl();
+		return simulatedValue;
 	}
 
 	/**
@@ -152,9 +152,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SimulatedSlot createSimulatedSlot() {
-		SimulatedSlotImpl simulatedSlot = new SimulatedSlotImpl();
-		return simulatedSlot;
+	public SimulatingSlot createSimulatingSlot() {
+		SimulatingSlotImpl simulatingSlot = new SimulatingSlotImpl();
+		return simulatingSlot;
 	}
 
 	/**
@@ -172,9 +172,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EnumLiteralSimulation createEnumLiteralSimulation() {
-		EnumLiteralSimulationImpl enumLiteralSimulation = new EnumLiteralSimulationImpl();
-		return enumLiteralSimulation;
+	public WeightedEnumLiteralValue createWeightedEnumLiteralValue() {
+		WeightedEnumLiteralValueImpl weightedEnumLiteralValue = new WeightedEnumLiteralValueImpl();
+		return weightedEnumLiteralValue;
 	}
 
 	/**
@@ -182,9 +182,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ContainedInstanceValueSimulation createContainedInstanceValueSimulation() {
-		ContainedInstanceValueSimulationImpl containedInstanceValueSimulation = new ContainedInstanceValueSimulationImpl();
-		return containedInstanceValueSimulation;
+	public ContainedActualInstance createContainedActualInstance() {
+		ContainedActualInstanceImpl containedActualInstance = new ContainedActualInstanceImpl();
+		return containedActualInstance;
 	}
 
 	/**
@@ -192,9 +192,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BooleanValueSimulation createBooleanValueSimulation() {
-		BooleanValueSimulationImpl booleanValueSimulation = new BooleanValueSimulationImpl();
-		return booleanValueSimulation;
+	public WeightedBooleanValue createWeightedBooleanValue() {
+		WeightedBooleanValueImpl weightedBooleanValue = new WeightedBooleanValueImpl();
+		return weightedBooleanValue;
 	}
 
 	/**
@@ -212,19 +212,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReferencedInstanceSimulation createReferencedInstanceSimulation() {
-		ReferencedInstanceSimulationImpl referencedInstanceSimulation = new ReferencedInstanceSimulationImpl();
-		return referencedInstanceSimulation;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public StringValueSimulation createStringValueSimulation() {
-		StringValueSimulationImpl stringValueSimulation = new StringValueSimulationImpl();
-		return stringValueSimulation;
+	public WeightedStringValue createWeightedStringValue() {
+		WeightedStringValueImpl weightedStringValue = new WeightedStringValueImpl();
+		return weightedStringValue;
 	}
 
 	/**
@@ -242,9 +232,9 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AllInstanceSimulation createAllInstanceSimulation() {
-		AllInstanceSimulationImpl allInstanceSimulation = new AllInstanceSimulationImpl();
-		return allInstanceSimulation;
+	public InstanceSimulation createInstanceSimulation() {
+		InstanceSimulationImpl instanceSimulation = new InstanceSimulationImpl();
+		return instanceSimulation;
 	}
 
 	/**
@@ -252,9 +242,19 @@ public class SimulationFactoryImpl extends EFactoryImpl implements SimulationFac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ActualInstanceSimulation createActualInstanceSimulation() {
-		ActualInstanceSimulationImpl actualInstanceSimulation = new ActualInstanceSimulationImpl();
-		return actualInstanceSimulation;
+	public ActualInstance createActualInstance() {
+		ActualInstanceImpl actualInstance = new ActualInstanceImpl();
+		return actualInstance;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public WeightedInstanceValue createWeightedInstanceValue() {
+		WeightedInstanceValueImpl weightedInstanceValue = new WeightedInstanceValueImpl();
+		return weightedInstanceValue;
 	}
 
 	/**

@@ -160,7 +160,7 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 		}
 		if((cp instanceof INakedActor || cp instanceof INakedBusinessComponent) && !cp.getIsAbstract()){
 			if(cp.getEndToComposite() == null || cp.getEndToComposite().getBaseType().equals(getLibrary().getBusinessCollaboration())){
-				//Need to realize that abstract association to the real BUsinessCollabroation
+				// Need to realize that abstract association to the real BUsinessCollabroation
 				// TODO rethink this - maybe just always create an application root
 				/* The problem is that during modelling the need for an artificial root may arise and then disappear again */
 				if(workspace.getApplicationRoot() == null){
@@ -281,28 +281,27 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			if(rootObjects.isEmpty()){
 				rootObjects.addAll(ws.getPrimaryModels());
 			}
-			NakedBusinessCollaboration root = new NakedBusinessCollaboration(rootObjects.first());
-			ws.putModelElement(root);
-			if(getLibrary().getBusinessCollaboration() != null){
-				root.addInterface(getLibrary().getBusinessCollaboration());
+			String compositeName = "businessNetwork";
+			NakedBusinessCollaboration bc = new NakedBusinessCollaboration(rootObjects.first());
+			ws.putModelElement(bc);
+			rootObjects.first().addOwnedElement(bc);
+			if(getLibrary().getBusinessNetwork() != null){
+				buildCompositionFrom(getLibrary().getBusinessNetwork(), bc, compositeName);
 			}
-			rootObjects.first().addOwnedElement(root);
-			ws.setApplicationRoot(root);
+			if(getLibrary().getBusinessCollaboration() != null){
+				bc.addInterface(getLibrary().getBusinessCollaboration());
+			}
+			rootObjects.first().addOwnedElement(bc);
+			ws.setApplicationRoot(bc);
 			for(ICompositionParticipant p:rootClasses){
-				addCompositionToApplicationRoot(root, p);
+				addCompositionToApplicationRoot(bc, p);
 			}
 		}
 	}
 	private void addCompositionToApplicationRoot(INakedClassifier root,ICompositionParticipant p){
-		NakedAssociationImpl assoc = new NakedAssociationImpl();
-		InverseArtificialProperty toChildren = new InverseArtificialProperty(root, p);
-		NonInverseArtificialProperty toRoot = new NonInverseArtificialProperty(toChildren, "root");
-		toChildren.setOtherEnd(toRoot);
-		assoc.setEnd(0, toRoot);
-		assoc.setEnd(1, toChildren);
-		root.addOwnedElement(toChildren);
-		p.addOwnedElement(toRoot);
-		p.setEndToComposite(toRoot);
+		NakedAssociationImpl assoc = buildCompositionFrom(root, p, "root");
+		INakedProperty toChildren = assoc.getEnd2();
+		INakedProperty toRoot = assoc.getEnd1();
 		INakedInterface businessCollaboration = getLibrary().getBusinessCollaboration();
 		if(p instanceof INakedBusinessComponent){
 			if(getLibrary().getBusiness() != null && !p.getInterfaces().contains(getLibrary().getBusiness())){
@@ -313,11 +312,23 @@ public class CompositionEmulator extends AbstractModelElementLinker{
 			toChildren.getSubsettedProperties().add(businessEnd);
 			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusiness().findAssociationEnd("businessCollaboration");
 			toRoot.getSubsettedProperties().add(collaborationEnd);
-		}else if(businessCollaboration!=null){
+		}else if(businessCollaboration != null){
 			INakedProperty actorEnd = (INakedProperty) businessCollaboration.findAssociationEnd("businessActor");
 			toChildren.getSubsettedProperties().add(actorEnd);
 			INakedProperty collaborationEnd = (INakedProperty) getLibrary().getBusinessActor().findAssociationEnd("businessCollaboration");
 			toRoot.getSubsettedProperties().add(collaborationEnd);
 		}
+	}
+	private NakedAssociationImpl buildCompositionFrom(INakedClassifier root,ICompositionParticipant p,String compositeName){
+		NakedAssociationImpl assoc = new NakedAssociationImpl();
+		InverseArtificialProperty toChildren1 = new InverseArtificialProperty(root, p);
+		NonInverseArtificialProperty toRoot1 = new NonInverseArtificialProperty(toChildren1, compositeName);
+		toChildren1.setOtherEnd(toRoot1);
+		assoc.setEnd(0, toRoot1);
+		assoc.setEnd(1, toChildren1);
+		root.addOwnedElement(toChildren1);
+		p.addOwnedElement(toRoot1);
+		p.setEndToComposite(toRoot1);
+		return assoc;
 	}
 }

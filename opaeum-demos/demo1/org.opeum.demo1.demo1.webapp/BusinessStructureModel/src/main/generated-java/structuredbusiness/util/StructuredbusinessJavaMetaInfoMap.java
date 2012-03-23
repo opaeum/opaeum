@@ -11,7 +11,8 @@ public class StructuredbusinessJavaMetaInfoMap extends JavaMetaInfoMap {
 	public StructuredbusinessJavaMetaInfoMap() {
 		this.importMetaInfo(org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMJavaMetaInfoMap.INSTANCE);
 		putClass(structuredbusiness.Accountant.class,"914890@_mec6wGCfEeG6xvYqJACneg");
-		putClass(structuredbusiness.DishWasher.class,"914890@_nhV7IGCfEeG6xvYqJACneg");
+		putClass(structuredbusiness.DishWasherComponent.class,"914890@_x_4WgHJ6EeG5aYCQXxe9BQ");
+		putClass(structuredbusiness.DishWasherModel.class,"914890@_nhV7IGCfEeG6xvYqJACneg");
 		putClass(structuredbusiness.DishwashersInc.class,"914890@_CQTWAGOeEeGwMNo027LgxA");
 		putClass(structuredbusiness.DocumentVerifier.class,"914890@_tq_pUGK1EeGb14EjInbIAA");
 		putMethod(structuredbusiness.DocumentVerifier.class,"914890@_BkEGYG33EeGRLMabaulNTg",7779246390203956904l);

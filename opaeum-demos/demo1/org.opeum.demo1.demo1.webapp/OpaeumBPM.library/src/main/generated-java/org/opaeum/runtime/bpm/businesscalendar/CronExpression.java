@@ -125,7 +125,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		to.setDayOfWeek(from.getDayOfWeek());
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=9055417578278384593,uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=9055417578278384593l,uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_pCvIQASQEeGb9qsDxKJdSA")
 	public String getDayOfMonth() {
 		String result = this.dayOfMonth;
@@ -133,7 +133,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=708173574190646295,uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=708173574190646295l,uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_sJLUwASQEeGb9qsDxKJdSA")
 	public String getDayOfWeek() {
 		String result = this.dayOfWeek;
@@ -145,7 +145,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=220906512785518639,uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=220906512785518639l,uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_nh_HMASQEeGb9qsDxKJdSA")
 	public String getHours() {
 		String result = this.hours;
@@ -157,7 +157,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=5291683613794914355,uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=5291683613794914355l,uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_m6UqQASQEeGb9qsDxKJdSA")
 	public String getMinutes() {
 		String result = this.minutes;
@@ -165,7 +165,7 @@ public class CronExpression implements IPersistentObject, HibernateEntity, Seria
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7632703191246202423,uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7632703191246202423l,uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_qpRBMASQEeGb9qsDxKJdSA")
 	public String getMonth() {
 		String result = this.month;

@@ -136,4 +136,6 @@ public abstract class Environment{
 	public abstract void sendSignal(IActiveObject target,ISignal s);
 	public abstract UmtPersistence newUmtPersistence();
 	public abstract ConversationalPersistence getPersistence();
+	public abstract UmtPersistence getUmtPersistence();
+
 }

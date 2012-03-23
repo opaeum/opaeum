@@ -7,6 +7,6 @@ import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 public class EnumLiteralSimulationHandler extends AbstractValueSimulationHandler implements IHandler{
 	@Override
 	protected EObject getNewObject(){
-		return SimulationFactory.eINSTANCE.createEnumLiteralSimulation();
+		return SimulationFactory.eINSTANCE.createWeightedEnumLiteralValue();
 	}
 }

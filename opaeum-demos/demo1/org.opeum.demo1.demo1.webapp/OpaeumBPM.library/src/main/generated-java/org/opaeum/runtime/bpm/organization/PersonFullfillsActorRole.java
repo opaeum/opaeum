@@ -143,7 +143,7 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3187089794534318837,opposite="personFullfillsActorRole_representedPerson",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw252060@_X4_Mg0tyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=3187089794534318837l,opposite="personFullfillsActorRole_representedPerson",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw252060@_X4_Mg0tyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4-lcEtyEeGElKTCe2jfDw252060@_X4_Mg0tyEeGElKTCe2jfDw")
 	public IBusinessActor getBusinessActor() {
 		IBusinessActor result = (IBusinessActor)this.businessActor.getValue(persistence);
@@ -171,7 +171,7 @@ public class PersonFullfillsActorRole implements IPersistentObject, HibernateEnt
 		return getRepresentedPerson();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6815035603503332095,opposite="personFullfillsActorRole_businessActor",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw252060@_X4_MgEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6815035603503332095l,opposite="personFullfillsActorRole_businessActor",uuid="252060@_X4-lcEtyEeGElKTCe2jfDw252060@_X4_MgEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4-lcEtyEeGElKTCe2jfDw252060@_X4_MgEtyEeGElKTCe2jfDw")
 	public PersonNode getRepresentedPerson() {
 		PersonNode result = this.representedPerson;

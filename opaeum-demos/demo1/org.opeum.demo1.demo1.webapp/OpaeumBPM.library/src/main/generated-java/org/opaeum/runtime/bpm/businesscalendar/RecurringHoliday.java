@@ -158,7 +158,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7899854084172381059,opposite="recurringHoliday",uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7899854084172381059l,opposite="recurringHoliday",uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_xu4wQdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -170,7 +170,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2528290867262960345,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=2528290867262960345l,uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_DtECgNcCEeCJ0dmaHEVVnw")
 	public Integer getDay() {
 		Integer result = this.day;
@@ -186,7 +186,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=660142128285799895,uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=660142128285799895l,uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_EgnmYNcCEeCJ0dmaHEVVnw")
 	public Month getMonth() {
 		Month result = this.month;
@@ -194,7 +194,7 @@ public class RecurringHoliday implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6018749174316171601,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6018749174316171601l,uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_8kV24NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;

@@ -131,7 +131,7 @@ public class SimulationModelItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createValueSimulation()));
+				 SimulationFactory.eINSTANCE.createSimulatedValue()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -156,17 +156,17 @@ public class SimulationModelItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createEnumLiteralSimulation()));
+				 SimulationFactory.eINSTANCE.createWeightedEnumLiteralValue()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createContainedInstanceValueSimulation()));
+				 SimulationFactory.eINSTANCE.createContainedActualInstance()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createBooleanValueSimulation()));
+				 SimulationFactory.eINSTANCE.createWeightedBooleanValue()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -176,12 +176,7 @@ public class SimulationModelItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createReferencedInstanceSimulation()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createStringValueSimulation()));
+				 SimulationFactory.eINSTANCE.createWeightedStringValue()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -191,12 +186,17 @@ public class SimulationModelItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createAllInstanceSimulation()));
+				 SimulationFactory.eINSTANCE.createInstanceSimulation()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
-				 SimulationFactory.eINSTANCE.createActualInstanceSimulation()));
+				 SimulationFactory.eINSTANCE.createActualInstance()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(UMLPackage.Literals.PACKAGE__PACKAGED_ELEMENT,
+				 SimulationFactory.eINSTANCE.createWeightedInstanceValue()));
 	}
 
 	/**

@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -25,6 +26,7 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
@@ -59,6 +61,10 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Entity(name="Structuredbusiness")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class Structuredbusiness implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessCollaboration, Serializable {
+	@Index(columnNames="business_network_id",name="idx_structuredbusiness_business_network_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="business_network_id",nullable=true)
+	private BusinessNetwork businessNetwork;
 	@OneToOne(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="business_network_facilatates_collaboration_business_network_id",nullable=true)
 	private BusinessNetworkFacilatatesCollaboration businessNetworkFacilatatesCollaboration_businessNetwork;
@@ -94,6 +100,15 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	private Set<Supplier> supplier = new HashSet<Supplier>();
 	private String uid;
 
+	/** This constructor is intended for easy initialization in unit tests
+	 * 
+	 * @param owningObject 
+	 */
+	public Structuredbusiness(BusinessNetwork owningObject) {
+		init(owningObject);
+		addToOwningObject();
+	}
+	
 	/** Default constructor for Structuredbusiness
 	 */
 	public Structuredbusiness() {
@@ -136,6 +151,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	/** Call this method when you want to attach this object to the containment tree. Useful with transitive persistence
 	 */
 	public void addToOwningObject() {
+		getBusinessNetwork().z_internalAddToStructuredbusiness((Structuredbusiness)this);
 	}
 	
 	public void addToSupplier(Supplier supplier) {
@@ -276,28 +292,20 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=2395627898464121473l,opposite="structuredbusiness",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration252060@_NRu9QFYjEeGJUqEGX7bKSg")
+	@NumlMetaInfo(uuid="252060@_NRu9QFYjEeGJUqEGX7bKSg")
 	public BusinessNetwork getBusinessNetwork() {
-		BusinessNetwork result = null;
-		if ( this.businessNetworkFacilatatesCollaboration_businessNetwork!=null ) {
-			result = this.businessNetworkFacilatatesCollaboration_businessNetwork.getBusinessNetwork();
-		}
+		BusinessNetwork result = this.businessNetwork;
+		
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4246171799000216537,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4246171799000216537l,opposite="businessCollaboration",uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_YJGvcVYjEeGJUqEGX7bKSg252060@_YJGvcFYjEeGJUqEGX7bKSg")
 	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetwork() {
 		BusinessNetworkFacilatatesCollaboration result = this.businessNetworkFacilatatesCollaboration_businessNetwork;
 		
 		return result;
-	}
-	
-	public BusinessNetworkFacilatatesCollaboration getBusinessNetworkFacilatatesCollaboration_businessNetworkFor(BusinessNetwork match) {
-		if ( businessNetworkFacilatatesCollaboration_businessNetwork.getBusinessNetwork().equals(match) ) {
-			return businessNetworkFacilatatesCollaboration_businessNetwork;
-		} else {
-			return null;
-		}
 	}
 	
 	public Set<CancelledEvent> getCancelledEvents() {
@@ -308,7 +316,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=2329680291382308507,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_CQTWAGOeEeGwMNo027LgxA")
+	@PropertyMetaInfo(isComposite=true,opaeumId=2329680291382308507l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_CQTWAGOeEeGwMNo027LgxA")
 	public Set<DishwashersInc> getDishwashersInc() {
 		Set<DishwashersInc> result = this.dishwashersInc;
 		
@@ -327,7 +335,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6808203985768568000,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_xQY8oGFKEeG2AvOqZt1NZQ")
+	@PropertyMetaInfo(isComposite=true,opaeumId=6808203985768568000l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_xQY8oGFKEeG2AvOqZt1NZQ")
 	public Set<Online_Customer> getOnline_Customer() {
 		Set<Online_Customer> result = this.online_Customer;
 		
@@ -339,10 +347,10 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public CompositionNode getOwningObject() {
-		return null;
+		return getBusinessNetwork();
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4152922492096726072,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_-N6PwGK6EeGNuoaMwaBk1w")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4152922492096726072l,opposite="root",uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration914890@_-N6PwGK6EeGNuoaMwaBk1w")
 	public Set<Supplier> getSupplier() {
 		Set<Supplier> result = this.supplier;
 		
@@ -361,11 +369,15 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	}
 	
 	public void init(CompositionNode owner) {
+		this.z_internalAddToBusinessNetwork((BusinessNetwork)owner);
 	}
 	
 	public void markDeleted() {
 		if ( getBusinessNetwork()!=null ) {
-			getBusinessNetwork().z_internalRemoveFromBusinessCollaboration(this);
+			getBusinessNetwork().z_internalRemoveFromStructuredbusiness(this);
+		}
+		if ( getBusinessNetwork()!=null ) {
+			getBusinessNetwork().z_internalRemoveFromStructuredbusiness(this);
 		}
 		for ( Supplier child : new ArrayList<Supplier>(getSupplier()) ) {
 			child.markDeleted();
@@ -469,11 +481,14 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 	
 	public void setBusinessNetwork(BusinessNetwork businessNetwork) {
 		if ( this.getBusinessNetwork()!=null ) {
-			this.getBusinessNetwork().z_internalRemoveFromBusinessCollaboration(this);
+			this.getBusinessNetwork().z_internalRemoveFromStructuredbusiness(this);
 		}
 		if ( businessNetwork!=null ) {
-			businessNetwork.z_internalAddToBusinessCollaboration(this);
+			businessNetwork.z_internalAddToStructuredbusiness(this);
 			this.z_internalAddToBusinessNetwork(businessNetwork);
+			setDeletedOn(Stdlib.FUTURE);
+		} else {
+			markDeleted();
 		}
 	}
 	
@@ -575,10 +590,8 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return sb.toString();
 	}
 	
-	public void z_internalAddToBusinessNetwork(BusinessNetwork businessNetwork) {
-		BusinessNetworkFacilatatesCollaboration newOne = new BusinessNetworkFacilatatesCollaboration(this,businessNetwork);
-		this.z_internalAddToBusinessNetworkFacilatatesCollaboration_businessNetwork(newOne);
-		newOne.getBusinessNetwork().z_internalAddToBusinessNetworkFacilatatesCollaboration_businessCollaboration(newOne);
+	public void z_internalAddToBusinessNetwork(BusinessNetwork val) {
+		this.businessNetwork=val;
 	}
 	
 	public void z_internalAddToBusinessNetworkFacilatatesCollaboration_businessNetwork(BusinessNetworkFacilatatesCollaboration val) {
@@ -597,9 +610,10 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		this.supplier.add(val);
 	}
 	
-	public void z_internalRemoveFromBusinessNetwork(BusinessNetwork businessNetwork) {
-		if ( this.businessNetworkFacilatatesCollaboration_businessNetwork!=null ) {
-			this.businessNetworkFacilatatesCollaboration_businessNetwork.clear();
+	public void z_internalRemoveFromBusinessNetwork(BusinessNetwork val) {
+		if ( getBusinessNetwork()!=null && val!=null && val.equals(getBusinessNetwork()) ) {
+			this.businessNetwork=null;
+			this.businessNetwork=null;
 		}
 	}
 	

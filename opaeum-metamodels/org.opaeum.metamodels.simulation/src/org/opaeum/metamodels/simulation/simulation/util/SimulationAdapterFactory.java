@@ -82,8 +82,8 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	protected SimulationSwitch<Adapter> modelSwitch =
 		new SimulationSwitch<Adapter>() {
 			@Override
-			public Adapter caseValueSimulation(ValueSimulation object) {
-				return createValueSimulationAdapter();
+			public Adapter caseSimulatedValue(SimulatedValue object) {
+				return createSimulatedValueAdapter();
 			}
 			@Override
 			public Adapter caseNormalDistribution(NormalDistribution object) {
@@ -98,48 +98,48 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 				return createExponentialDistributionAdapter();
 			}
 			@Override
-			public Adapter caseSimulatedSlot(SimulatedSlot object) {
-				return createSimulatedSlotAdapter();
+			public Adapter caseSimulatingSlot(SimulatingSlot object) {
+				return createSimulatingSlotAdapter();
 			}
 			@Override
 			public Adapter caseNumericValueDistribution(NumericValueDistribution object) {
 				return createNumericValueDistributionAdapter();
 			}
 			@Override
-			public Adapter caseEnumLiteralSimulation(EnumLiteralSimulation object) {
-				return createEnumLiteralSimulationAdapter();
+			public Adapter caseWeightedEnumLiteralValue(WeightedEnumLiteralValue object) {
+				return createWeightedEnumLiteralValueAdapter();
 			}
 			@Override
-			public Adapter caseContainedInstanceValueSimulation(ContainedInstanceValueSimulation object) {
-				return createContainedInstanceValueSimulationAdapter();
+			public Adapter caseContainedActualInstance(ContainedActualInstance object) {
+				return createContainedActualInstanceAdapter();
 			}
 			@Override
-			public Adapter caseBooleanValueSimulation(BooleanValueSimulation object) {
-				return createBooleanValueSimulationAdapter();
+			public Adapter caseWeightedBooleanValue(WeightedBooleanValue object) {
+				return createWeightedBooleanValueAdapter();
 			}
 			@Override
 			public Adapter caseNumberRangeDistribution(NumberRangeDistribution object) {
 				return createNumberRangeDistributionAdapter();
 			}
 			@Override
-			public Adapter caseReferencedInstanceSimulation(ReferencedInstanceSimulation object) {
-				return createReferencedInstanceSimulationAdapter();
-			}
-			@Override
-			public Adapter caseStringValueSimulation(StringValueSimulation object) {
-				return createStringValueSimulationAdapter();
+			public Adapter caseWeightedStringValue(WeightedStringValue object) {
+				return createWeightedStringValueAdapter();
 			}
 			@Override
 			public Adapter caseSimulationModel(SimulationModel object) {
 				return createSimulationModelAdapter();
 			}
 			@Override
-			public Adapter caseAllInstanceSimulation(AllInstanceSimulation object) {
-				return createAllInstanceSimulationAdapter();
+			public Adapter caseInstanceSimulation(InstanceSimulation object) {
+				return createInstanceSimulationAdapter();
 			}
 			@Override
-			public Adapter caseActualInstanceSimulation(ActualInstanceSimulation object) {
-				return createActualInstanceSimulationAdapter();
+			public Adapter caseActualInstance(ActualInstance object) {
+				return createActualInstanceAdapter();
+			}
+			@Override
+			public Adapter caseWeightedInstanceValue(WeightedInstanceValue object) {
+				return createWeightedInstanceValueAdapter();
 			}
 			@Override
 			public Adapter caseEModelElement(EModelElement object) {
@@ -218,16 +218,16 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ValueSimulation <em>Value Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.SimulatedValue <em>Simulated Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.ValueSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulatedValue
 	 * @generated
 	 */
-	public Adapter createValueSimulationAdapter() {
+	public Adapter createSimulatedValueAdapter() {
 		return null;
 	}
 
@@ -274,16 +274,16 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.SimulatedSlot <em>Simulated Slot</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.SimulatingSlot <em>Simulating Slot</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.SimulatedSlot
+	 * @see org.opaeum.metamodels.simulation.simulation.SimulatingSlot
 	 * @generated
 	 */
-	public Adapter createSimulatedSlotAdapter() {
+	public Adapter createSimulatingSlotAdapter() {
 		return null;
 	}
 
@@ -302,44 +302,44 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation <em>Enum Literal Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue <em>Weighted Enum Literal Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue
 	 * @generated
 	 */
-	public Adapter createEnumLiteralSimulationAdapter() {
+	public Adapter createWeightedEnumLiteralValueAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation <em>Contained Instance Value Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ContainedActualInstance <em>Contained Actual Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.ContainedActualInstance
 	 * @generated
 	 */
-	public Adapter createContainedInstanceValueSimulationAdapter() {
+	public Adapter createContainedActualInstanceAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation <em>Boolean Value Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue <em>Weighted Boolean Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue
 	 * @generated
 	 */
-	public Adapter createBooleanValueSimulationAdapter() {
+	public Adapter createWeightedBooleanValueAdapter() {
 		return null;
 	}
 
@@ -358,30 +358,16 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation <em>Referenced Instance Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.WeightedStringValue <em>Weighted String Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedStringValue
 	 * @generated
 	 */
-	public Adapter createReferencedInstanceSimulationAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.StringValueSimulation <em>String Value Simulation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.StringValueSimulation
-	 * @generated
-	 */
-	public Adapter createStringValueSimulationAdapter() {
+	public Adapter createWeightedStringValueAdapter() {
 		return null;
 	}
 
@@ -400,30 +386,44 @@ public class SimulationAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation <em>All Instance Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.InstanceSimulation <em>Instance Simulation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.InstanceSimulation
 	 * @generated
 	 */
-	public Adapter createAllInstanceSimulationAdapter() {
+	public Adapter createInstanceSimulationAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation <em>Actual Instance Simulation</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.ActualInstance <em>Actual Instance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation
+	 * @see org.opaeum.metamodels.simulation.simulation.ActualInstance
 	 * @generated
 	 */
-	public Adapter createActualInstanceSimulationAdapter() {
+	public Adapter createActualInstanceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue <em>Weighted Instance Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue
+	 * @generated
+	 */
+	public Adapter createWeightedInstanceValueAdapter() {
 		return null;
 	}
 

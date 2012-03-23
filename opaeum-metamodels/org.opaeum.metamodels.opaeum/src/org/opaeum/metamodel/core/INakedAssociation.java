@@ -18,6 +18,7 @@ public interface INakedAssociation extends INakedClassifier,IAssociationClass,IC
 	boolean isDerived();
 	void setDerived(boolean t);
 	boolean isClass();
+	boolean isAssociationClass();
 	void setClass(boolean b);
 	void setEnd(int i,INakedProperty np);
 	void setPropertyToEnd1(INakedProperty np);
@@ -25,4 +26,5 @@ public interface INakedAssociation extends INakedClassifier,IAssociationClass,IC
 	INakedProperty getPropertyToEnd1();
 	INakedProperty getPropertyToEnd2();
 	INakedProperty getPropertyToEnd(INakedProperty p);
+	
 }

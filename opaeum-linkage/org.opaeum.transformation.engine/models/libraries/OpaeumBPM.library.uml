@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 ../profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpaeumStandardProfile/1.0.0.6 ../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpaeumLibraryForBPM">
     <eAnnotations xmi:id="_VOtz8NfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
       <details xmi:id="_vlGBIODlEeCsDuwu_RQvSA" key="uuid" value="252060"/>
@@ -783,11 +783,11 @@
         <eAnnotations xmi:id="_JdsPIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedAttribute xmi:id="_RZHMwEt3EeGElKTCe2jfDw" name="fromDate">
           <eAnnotations xmi:id="_JdrBAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_TCe-UEt3EeGElKTCe2jfDw" name="toDate">
           <eAnnotations xmi:id="_JdqZ8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_ZT9jcEt3EeGElKTCe2jfDw"/>
+          <type xmi:type="uml:DataType" href="OpaeumSimpleTypes.papyrus.uml#_w4cZ8MPxEd-SNsUNWzjz5A"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_NRu9QFYjEeGJUqEGX7bKSg" clientDependency="_-dv5oF13EeGKRdKItFLDfg" name="BusinessNetwork">
@@ -2204,20 +2204,17 @@
         <eAnnotations xmi:id="_JjswgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
       </packagedElement>
     </packagedElement>
-    <profileApplication xmi:id="_515RUNYKEeCJushKW8isXg">
-      <eAnnotations xmi:id="_u94oIGFCEeGkTcsMClexwg" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
-      </eAnnotations>
-      <appliedProfile href="../profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-    </profileApplication>
     <profileApplication xmi:id="_oIbTsNb_EeCJ0dmaHEVVnw">
-      <appliedProfile href="../profiles/JavaxValidation.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
-    </profileApplication>
-    <profileApplication xmi:id="_K6OekGFAEeG5-sRmY0oorQ">
-      <eAnnotations xmi:id="_K7UDsGFAEeG5-sRmY0oorQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="../profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      <eAnnotations xmi:id="_oy074HRNEeG1_5E5y7GYlw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw"/>
       </eAnnotations>
-      <appliedProfile href="../profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
+    </profileApplication>
+    <profileApplication xmi:id="_oxYKYHRNEeG1_5E5y7GYlw">
+      <eAnnotations xmi:id="_oy074HRNEeG1_5E5y7GYlw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
   </uml:Model>
   <JavaxValidation:Max xmi:id="_rHYGMNcBEeCJ0dmaHEVVnw" value="59" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>
@@ -2225,8 +2222,6 @@
   <JavaxValidation:Min xmi:id="_M_i6gNcCEeCJ0dmaHEVVnw" value="1" base_DataType="_FvE9kNcCEeCJ0dmaHEVVnw" base_PrimitiveType="_FvE9kNcCEeCJ0dmaHEVVnw"/>
   <JavaxValidation:Min xmi:id="_PHLVYNcCEeCJ0dmaHEVVnw" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:ValueType xmi:id="_rIKT4NcCEeCJ0dmaHEVVnw" base_DataType="_qJQboNcCEeCJ0dmaHEVVnw" mappedImplementationType="java.util.Date"/>
-  <JavaxValidation:DecimalMax xmi:id="_fIu4ANcDEeCJ0dmaHEVVnw" value="" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
-  <JavaxValidation:DecimalMin xmi:id="_fmQhgNcDEeCJ0dmaHEVVnw" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:Entity xmi:id="_iGlYIODmEeCsDuwu_RQvSA" base_Class="_x9fmQNb9EeCJ0dmaHEVVnw" persistentName="" generateAbstractSupertype="true"/>
   <OpaeumStandardProfile:Attribute xmi:id="_Gh93UEtnEeGd4cpyhpib9Q" base_Property="_FfSSUEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_PXUucEtnEeGd4cpyhpib9Q" base_Property="_OorfwEtnEeGd4cpyhpib9Q"/>
@@ -2276,4 +2271,9 @@
   <OpaeumStandardProfile:Enumeration xmi:id="_u8e_EGH0EeG9Du3sLzHVMg" mappedImplementationType="org.opaeum.runtime.contact.PersonPhoneNumberType" base_Enumeration="_Z-VwcEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_OTp7oGIIEeGzlJ4_CwngCw" base_Class="_Nn1XcGIIEeGzlJ4_CwngCw"/>
   <OpaeumStandardProfile:Interface xmi:id="_hO7UcGQZEeGbL9nlXe9lTQ" mappedImplementationType="org.opaeum.runtime.organization.IBusinessRoleBase" base_Interface="_cPyg8GQZEeGbL9nlXe9lTQ"/>
+  <OpaeumStandardProfile:Entity xmi:id="_ozd1EHRNEeG1_5E5y7GYlw" base_Class="_Jn9QcNb-EeCJ0dmaHEVVnw"/>
+  <OpaeumStandardProfile:Entity xmi:id="_5rs9gHRNEeG1_5E5y7GYlw" base_Class="_Pybi0Et3EeGElKTCe2jfDw"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_81YrQHRNEeG1_5E5y7GYlw" base_Property="_RZHMwEt3EeGElKTCe2jfDw"/>
+  <JavaxValidation:Max xmi:id="_cBY30HScEeG1_5E5y7GYlw" value="23" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
+  <JavaxValidation:Min xmi:id="_cBrywHScEeG1_5E5y7GYlw" base_DataType="_bb59wNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_bb59wNb_EeCJ0dmaHEVVnw"/>
 </xmi:XMI>

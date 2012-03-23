@@ -119,7 +119,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6322466500479470605,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6322466500479470605l,uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_f6z9oASUEeGb9qsDxKJdSA")
 	public Date getFromDate() {
 		Date result = this.fromDate;
@@ -139,7 +139,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return this.objectVersion;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6914589408308567071,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6914589408308567071l,uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_twyWUASREeGb9qsDxKJdSA")
 	public Double getQuantity() {
 		Double result = this.quantity;
@@ -147,7 +147,7 @@ public class Duration implements IPersistentObject, HibernateEntity, Serializabl
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=534845350479709337,uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
+	@PropertyMetaInfo(isComposite=false,opaeumId=534845350479709337l,uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
 	@NumlMetaInfo(uuid="252060@_sa4TUASREeGb9qsDxKJdSA")
 	public BusinessTimeUnit getTimeUnit() {
 		BusinessTimeUnit result = this.timeUnit;

@@ -145,7 +145,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return false;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6562992976013110785,opposite="onceOffHoliday",uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=6562992976013110785l,opposite="onceOffHoliday",uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_7Uk4IdcCEeCJ0dmaHEVVnw")
 	public BusinessCalendar getBusinessCalendar() {
 		BusinessCalendar result = this.businessCalendar;
@@ -157,7 +157,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=2042390036019006515,uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=2042390036019006515l,uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@__KuDQNcCEeCJ0dmaHEVVnw")
 	public Date getDate() {
 		Date result = this.date;
@@ -173,7 +173,7 @@ public class OnceOffHoliday implements IPersistentObject, IEventGenerator, Hiber
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4100408756676310359,uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4100408756676310359l,uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
 	@NumlMetaInfo(uuid="252060@_94Gk0NcCEeCJ0dmaHEVVnw")
 	public String getName() {
 		String result = this.name;

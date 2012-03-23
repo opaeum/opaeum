@@ -156,7 +156,7 @@ public class Participation implements IPersistentObject, IEventGenerator, Hibern
 		return null;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1801402104881341029,opposite="participation",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=1801402104881341029l,opposite="participation",uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGlIoXEeCPduia_-NbFw")
 	public Participant getParticipant() {
 		Participant result = (Participant)this.participant.getValue(persistence);

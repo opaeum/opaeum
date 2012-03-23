@@ -15,6 +15,7 @@ public class NakedAssociationImpl extends NakedClassifierImpl implements INakedA
 	public static final String META_CLASS = "association";
 	private boolean isDerived = false;
 	private boolean isClass = false;
+	private boolean isAssociationClass=false;
 	private List<INakedProperty> ends = new ArrayList<INakedProperty>();;
 	{
 		this.ends.add(null);
@@ -125,5 +126,11 @@ public class NakedAssociationImpl extends NakedClassifierImpl implements INakedA
 	@Override
 	public boolean isPersistent(){
 		return isClass();
+	}
+	public boolean isAssociationClass(){
+		return isAssociationClass;
+	}
+	public void setAssociationClass(boolean isAssociationClass){
+		this.isAssociationClass = isAssociationClass;
 	}
 }

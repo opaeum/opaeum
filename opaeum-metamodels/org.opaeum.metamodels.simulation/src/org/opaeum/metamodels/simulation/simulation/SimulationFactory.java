@@ -22,13 +22,13 @@ public interface SimulationFactory extends EFactory {
 	SimulationFactory eINSTANCE = org.opaeum.metamodels.simulation.simulation.impl.SimulationFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Value Simulation</em>'.
+	 * Returns a new object of class '<em>Simulated Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Value Simulation</em>'.
+	 * @return a new object of class '<em>Simulated Value</em>'.
 	 * @generated
 	 */
-	ValueSimulation createValueSimulation();
+	SimulatedValue createSimulatedValue();
 
 	/**
 	 * Returns a new object of class '<em>Normal Distribution</em>'.
@@ -58,13 +58,13 @@ public interface SimulationFactory extends EFactory {
 	ExponentialDistribution createExponentialDistribution();
 
 	/**
-	 * Returns a new object of class '<em>Simulated Slot</em>'.
+	 * Returns a new object of class '<em>Simulating Slot</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Simulated Slot</em>'.
+	 * @return a new object of class '<em>Simulating Slot</em>'.
 	 * @generated
 	 */
-	SimulatedSlot createSimulatedSlot();
+	SimulatingSlot createSimulatingSlot();
 
 	/**
 	 * Returns a new object of class '<em>Numeric Value Distribution</em>'.
@@ -76,31 +76,31 @@ public interface SimulationFactory extends EFactory {
 	NumericValueDistribution createNumericValueDistribution();
 
 	/**
-	 * Returns a new object of class '<em>Enum Literal Simulation</em>'.
+	 * Returns a new object of class '<em>Weighted Enum Literal Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Enum Literal Simulation</em>'.
+	 * @return a new object of class '<em>Weighted Enum Literal Value</em>'.
 	 * @generated
 	 */
-	EnumLiteralSimulation createEnumLiteralSimulation();
+	WeightedEnumLiteralValue createWeightedEnumLiteralValue();
 
 	/**
-	 * Returns a new object of class '<em>Contained Instance Value Simulation</em>'.
+	 * Returns a new object of class '<em>Contained Actual Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Contained Instance Value Simulation</em>'.
+	 * @return a new object of class '<em>Contained Actual Instance</em>'.
 	 * @generated
 	 */
-	ContainedInstanceValueSimulation createContainedInstanceValueSimulation();
+	ContainedActualInstance createContainedActualInstance();
 
 	/**
-	 * Returns a new object of class '<em>Boolean Value Simulation</em>'.
+	 * Returns a new object of class '<em>Weighted Boolean Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Boolean Value Simulation</em>'.
+	 * @return a new object of class '<em>Weighted Boolean Value</em>'.
 	 * @generated
 	 */
-	BooleanValueSimulation createBooleanValueSimulation();
+	WeightedBooleanValue createWeightedBooleanValue();
 
 	/**
 	 * Returns a new object of class '<em>Number Range Distribution</em>'.
@@ -112,22 +112,13 @@ public interface SimulationFactory extends EFactory {
 	NumberRangeDistribution createNumberRangeDistribution();
 
 	/**
-	 * Returns a new object of class '<em>Referenced Instance Simulation</em>'.
+	 * Returns a new object of class '<em>Weighted String Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Referenced Instance Simulation</em>'.
+	 * @return a new object of class '<em>Weighted String Value</em>'.
 	 * @generated
 	 */
-	ReferencedInstanceSimulation createReferencedInstanceSimulation();
-
-	/**
-	 * Returns a new object of class '<em>String Value Simulation</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>String Value Simulation</em>'.
-	 * @generated
-	 */
-	StringValueSimulation createStringValueSimulation();
+	WeightedStringValue createWeightedStringValue();
 
 	/**
 	 * Returns a new object of class '<em>Model</em>'.
@@ -139,22 +130,31 @@ public interface SimulationFactory extends EFactory {
 	SimulationModel createSimulationModel();
 
 	/**
-	 * Returns a new object of class '<em>All Instance Simulation</em>'.
+	 * Returns a new object of class '<em>Instance Simulation</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>All Instance Simulation</em>'.
+	 * @return a new object of class '<em>Instance Simulation</em>'.
 	 * @generated
 	 */
-	AllInstanceSimulation createAllInstanceSimulation();
+	InstanceSimulation createInstanceSimulation();
 
 	/**
-	 * Returns a new object of class '<em>Actual Instance Simulation</em>'.
+	 * Returns a new object of class '<em>Actual Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Actual Instance Simulation</em>'.
+	 * @return a new object of class '<em>Actual Instance</em>'.
 	 * @generated
 	 */
-	ActualInstanceSimulation createActualInstanceSimulation();
+	ActualInstance createActualInstance();
+
+	/**
+	 * Returns a new object of class '<em>Weighted Instance Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Weighted Instance Value</em>'.
+	 * @generated
+	 */
+	WeightedInstanceValue createWeightedInstanceValue();
 
 	/**
 	 * Returns the package supported by this factory.

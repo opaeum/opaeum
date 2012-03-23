@@ -80,16 +80,16 @@ public class SimulationSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case SimulationPackage.VALUE_SIMULATION: {
-				ValueSimulation valueSimulation = (ValueSimulation)theEObject;
-				T result = caseValueSimulation(valueSimulation);
-				if (result == null) result = caseValueSpecification(valueSimulation);
-				if (result == null) result = casePackageableElement(valueSimulation);
-				if (result == null) result = caseTypedElement(valueSimulation);
-				if (result == null) result = caseNamedElement(valueSimulation);
-				if (result == null) result = caseParameterableElement(valueSimulation);
-				if (result == null) result = caseElement(valueSimulation);
-				if (result == null) result = caseEModelElement(valueSimulation);
+			case SimulationPackage.SIMULATED_VALUE: {
+				SimulatedValue simulatedValue = (SimulatedValue)theEObject;
+				T result = caseSimulatedValue(simulatedValue);
+				if (result == null) result = caseValueSpecification(simulatedValue);
+				if (result == null) result = casePackageableElement(simulatedValue);
+				if (result == null) result = caseTypedElement(simulatedValue);
+				if (result == null) result = caseNamedElement(simulatedValue);
+				if (result == null) result = caseParameterableElement(simulatedValue);
+				if (result == null) result = caseElement(simulatedValue);
+				if (result == null) result = caseEModelElement(simulatedValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -97,7 +97,7 @@ public class SimulationSwitch<T> extends Switch<T> {
 				NormalDistribution normalDistribution = (NormalDistribution)theEObject;
 				T result = caseNormalDistribution(normalDistribution);
 				if (result == null) result = caseNumericValueDistribution(normalDistribution);
-				if (result == null) result = caseValueSimulation(normalDistribution);
+				if (result == null) result = caseSimulatedValue(normalDistribution);
 				if (result == null) result = caseValueSpecification(normalDistribution);
 				if (result == null) result = casePackageableElement(normalDistribution);
 				if (result == null) result = caseTypedElement(normalDistribution);
@@ -112,7 +112,7 @@ public class SimulationSwitch<T> extends Switch<T> {
 				UniformDistribution uniformDistribution = (UniformDistribution)theEObject;
 				T result = caseUniformDistribution(uniformDistribution);
 				if (result == null) result = caseNumericValueDistribution(uniformDistribution);
-				if (result == null) result = caseValueSimulation(uniformDistribution);
+				if (result == null) result = caseSimulatedValue(uniformDistribution);
 				if (result == null) result = caseValueSpecification(uniformDistribution);
 				if (result == null) result = casePackageableElement(uniformDistribution);
 				if (result == null) result = caseTypedElement(uniformDistribution);
@@ -127,7 +127,7 @@ public class SimulationSwitch<T> extends Switch<T> {
 				ExponentialDistribution exponentialDistribution = (ExponentialDistribution)theEObject;
 				T result = caseExponentialDistribution(exponentialDistribution);
 				if (result == null) result = caseNumericValueDistribution(exponentialDistribution);
-				if (result == null) result = caseValueSimulation(exponentialDistribution);
+				if (result == null) result = caseSimulatedValue(exponentialDistribution);
 				if (result == null) result = caseValueSpecification(exponentialDistribution);
 				if (result == null) result = casePackageableElement(exponentialDistribution);
 				if (result == null) result = caseTypedElement(exponentialDistribution);
@@ -138,19 +138,19 @@ public class SimulationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.SIMULATED_SLOT: {
-				SimulatedSlot simulatedSlot = (SimulatedSlot)theEObject;
-				T result = caseSimulatedSlot(simulatedSlot);
-				if (result == null) result = caseSlot(simulatedSlot);
-				if (result == null) result = caseElement(simulatedSlot);
-				if (result == null) result = caseEModelElement(simulatedSlot);
+			case SimulationPackage.SIMULATING_SLOT: {
+				SimulatingSlot simulatingSlot = (SimulatingSlot)theEObject;
+				T result = caseSimulatingSlot(simulatingSlot);
+				if (result == null) result = caseSlot(simulatingSlot);
+				if (result == null) result = caseElement(simulatingSlot);
+				if (result == null) result = caseEModelElement(simulatingSlot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SimulationPackage.NUMERIC_VALUE_DISTRIBUTION: {
 				NumericValueDistribution numericValueDistribution = (NumericValueDistribution)theEObject;
 				T result = caseNumericValueDistribution(numericValueDistribution);
-				if (result == null) result = caseValueSimulation(numericValueDistribution);
+				if (result == null) result = caseSimulatedValue(numericValueDistribution);
 				if (result == null) result = caseValueSpecification(numericValueDistribution);
 				if (result == null) result = casePackageableElement(numericValueDistribution);
 				if (result == null) result = caseTypedElement(numericValueDistribution);
@@ -161,45 +161,45 @@ public class SimulationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.ENUM_LITERAL_SIMULATION: {
-				EnumLiteralSimulation enumLiteralSimulation = (EnumLiteralSimulation)theEObject;
-				T result = caseEnumLiteralSimulation(enumLiteralSimulation);
-				if (result == null) result = caseValueSimulation(enumLiteralSimulation);
-				if (result == null) result = caseValueSpecification(enumLiteralSimulation);
-				if (result == null) result = casePackageableElement(enumLiteralSimulation);
-				if (result == null) result = caseTypedElement(enumLiteralSimulation);
-				if (result == null) result = caseNamedElement(enumLiteralSimulation);
-				if (result == null) result = caseParameterableElement(enumLiteralSimulation);
-				if (result == null) result = caseElement(enumLiteralSimulation);
-				if (result == null) result = caseEModelElement(enumLiteralSimulation);
+			case SimulationPackage.WEIGHTED_ENUM_LITERAL_VALUE: {
+				WeightedEnumLiteralValue weightedEnumLiteralValue = (WeightedEnumLiteralValue)theEObject;
+				T result = caseWeightedEnumLiteralValue(weightedEnumLiteralValue);
+				if (result == null) result = caseSimulatedValue(weightedEnumLiteralValue);
+				if (result == null) result = caseValueSpecification(weightedEnumLiteralValue);
+				if (result == null) result = casePackageableElement(weightedEnumLiteralValue);
+				if (result == null) result = caseTypedElement(weightedEnumLiteralValue);
+				if (result == null) result = caseNamedElement(weightedEnumLiteralValue);
+				if (result == null) result = caseParameterableElement(weightedEnumLiteralValue);
+				if (result == null) result = caseElement(weightedEnumLiteralValue);
+				if (result == null) result = caseEModelElement(weightedEnumLiteralValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.CONTAINED_INSTANCE_VALUE_SIMULATION: {
-				ContainedInstanceValueSimulation containedInstanceValueSimulation = (ContainedInstanceValueSimulation)theEObject;
-				T result = caseContainedInstanceValueSimulation(containedInstanceValueSimulation);
-				if (result == null) result = caseValueSimulation(containedInstanceValueSimulation);
-				if (result == null) result = caseValueSpecification(containedInstanceValueSimulation);
-				if (result == null) result = casePackageableElement(containedInstanceValueSimulation);
-				if (result == null) result = caseTypedElement(containedInstanceValueSimulation);
-				if (result == null) result = caseNamedElement(containedInstanceValueSimulation);
-				if (result == null) result = caseParameterableElement(containedInstanceValueSimulation);
-				if (result == null) result = caseElement(containedInstanceValueSimulation);
-				if (result == null) result = caseEModelElement(containedInstanceValueSimulation);
+			case SimulationPackage.CONTAINED_ACTUAL_INSTANCE: {
+				ContainedActualInstance containedActualInstance = (ContainedActualInstance)theEObject;
+				T result = caseContainedActualInstance(containedActualInstance);
+				if (result == null) result = caseSimulatedValue(containedActualInstance);
+				if (result == null) result = caseValueSpecification(containedActualInstance);
+				if (result == null) result = casePackageableElement(containedActualInstance);
+				if (result == null) result = caseTypedElement(containedActualInstance);
+				if (result == null) result = caseNamedElement(containedActualInstance);
+				if (result == null) result = caseParameterableElement(containedActualInstance);
+				if (result == null) result = caseElement(containedActualInstance);
+				if (result == null) result = caseEModelElement(containedActualInstance);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.BOOLEAN_VALUE_SIMULATION: {
-				BooleanValueSimulation booleanValueSimulation = (BooleanValueSimulation)theEObject;
-				T result = caseBooleanValueSimulation(booleanValueSimulation);
-				if (result == null) result = caseValueSimulation(booleanValueSimulation);
-				if (result == null) result = caseValueSpecification(booleanValueSimulation);
-				if (result == null) result = casePackageableElement(booleanValueSimulation);
-				if (result == null) result = caseTypedElement(booleanValueSimulation);
-				if (result == null) result = caseNamedElement(booleanValueSimulation);
-				if (result == null) result = caseParameterableElement(booleanValueSimulation);
-				if (result == null) result = caseElement(booleanValueSimulation);
-				if (result == null) result = caseEModelElement(booleanValueSimulation);
+			case SimulationPackage.WEIGHTED_BOOLEAN_VALUE: {
+				WeightedBooleanValue weightedBooleanValue = (WeightedBooleanValue)theEObject;
+				T result = caseWeightedBooleanValue(weightedBooleanValue);
+				if (result == null) result = caseSimulatedValue(weightedBooleanValue);
+				if (result == null) result = caseValueSpecification(weightedBooleanValue);
+				if (result == null) result = casePackageableElement(weightedBooleanValue);
+				if (result == null) result = caseTypedElement(weightedBooleanValue);
+				if (result == null) result = caseNamedElement(weightedBooleanValue);
+				if (result == null) result = caseParameterableElement(weightedBooleanValue);
+				if (result == null) result = caseElement(weightedBooleanValue);
+				if (result == null) result = caseEModelElement(weightedBooleanValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -207,7 +207,7 @@ public class SimulationSwitch<T> extends Switch<T> {
 				NumberRangeDistribution numberRangeDistribution = (NumberRangeDistribution)theEObject;
 				T result = caseNumberRangeDistribution(numberRangeDistribution);
 				if (result == null) result = caseNumericValueDistribution(numberRangeDistribution);
-				if (result == null) result = caseValueSimulation(numberRangeDistribution);
+				if (result == null) result = caseSimulatedValue(numberRangeDistribution);
 				if (result == null) result = caseValueSpecification(numberRangeDistribution);
 				if (result == null) result = casePackageableElement(numberRangeDistribution);
 				if (result == null) result = caseTypedElement(numberRangeDistribution);
@@ -218,31 +218,17 @@ public class SimulationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.REFERENCED_INSTANCE_SIMULATION: {
-				ReferencedInstanceSimulation referencedInstanceSimulation = (ReferencedInstanceSimulation)theEObject;
-				T result = caseReferencedInstanceSimulation(referencedInstanceSimulation);
-				if (result == null) result = caseValueSimulation(referencedInstanceSimulation);
-				if (result == null) result = caseValueSpecification(referencedInstanceSimulation);
-				if (result == null) result = casePackageableElement(referencedInstanceSimulation);
-				if (result == null) result = caseTypedElement(referencedInstanceSimulation);
-				if (result == null) result = caseNamedElement(referencedInstanceSimulation);
-				if (result == null) result = caseParameterableElement(referencedInstanceSimulation);
-				if (result == null) result = caseElement(referencedInstanceSimulation);
-				if (result == null) result = caseEModelElement(referencedInstanceSimulation);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SimulationPackage.STRING_VALUE_SIMULATION: {
-				StringValueSimulation stringValueSimulation = (StringValueSimulation)theEObject;
-				T result = caseStringValueSimulation(stringValueSimulation);
-				if (result == null) result = caseValueSimulation(stringValueSimulation);
-				if (result == null) result = caseValueSpecification(stringValueSimulation);
-				if (result == null) result = casePackageableElement(stringValueSimulation);
-				if (result == null) result = caseTypedElement(stringValueSimulation);
-				if (result == null) result = caseNamedElement(stringValueSimulation);
-				if (result == null) result = caseParameterableElement(stringValueSimulation);
-				if (result == null) result = caseElement(stringValueSimulation);
-				if (result == null) result = caseEModelElement(stringValueSimulation);
+			case SimulationPackage.WEIGHTED_STRING_VALUE: {
+				WeightedStringValue weightedStringValue = (WeightedStringValue)theEObject;
+				T result = caseWeightedStringValue(weightedStringValue);
+				if (result == null) result = caseSimulatedValue(weightedStringValue);
+				if (result == null) result = caseValueSpecification(weightedStringValue);
+				if (result == null) result = casePackageableElement(weightedStringValue);
+				if (result == null) result = caseTypedElement(weightedStringValue);
+				if (result == null) result = caseNamedElement(weightedStringValue);
+				if (result == null) result = caseParameterableElement(weightedStringValue);
+				if (result == null) result = caseElement(weightedStringValue);
+				if (result == null) result = caseEModelElement(weightedStringValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -260,31 +246,45 @@ public class SimulationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.ALL_INSTANCE_SIMULATION: {
-				AllInstanceSimulation allInstanceSimulation = (AllInstanceSimulation)theEObject;
-				T result = caseAllInstanceSimulation(allInstanceSimulation);
-				if (result == null) result = caseInstanceSpecification(allInstanceSimulation);
-				if (result == null) result = caseDeploymentTarget(allInstanceSimulation);
-				if (result == null) result = casePackageableElement(allInstanceSimulation);
-				if (result == null) result = caseDeployedArtifact(allInstanceSimulation);
-				if (result == null) result = caseNamedElement(allInstanceSimulation);
-				if (result == null) result = caseParameterableElement(allInstanceSimulation);
-				if (result == null) result = caseElement(allInstanceSimulation);
-				if (result == null) result = caseEModelElement(allInstanceSimulation);
+			case SimulationPackage.INSTANCE_SIMULATION: {
+				InstanceSimulation instanceSimulation = (InstanceSimulation)theEObject;
+				T result = caseInstanceSimulation(instanceSimulation);
+				if (result == null) result = caseInstanceSpecification(instanceSimulation);
+				if (result == null) result = caseDeploymentTarget(instanceSimulation);
+				if (result == null) result = casePackageableElement(instanceSimulation);
+				if (result == null) result = caseDeployedArtifact(instanceSimulation);
+				if (result == null) result = caseNamedElement(instanceSimulation);
+				if (result == null) result = caseParameterableElement(instanceSimulation);
+				if (result == null) result = caseElement(instanceSimulation);
+				if (result == null) result = caseEModelElement(instanceSimulation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SimulationPackage.ACTUAL_INSTANCE_SIMULATION: {
-				ActualInstanceSimulation actualInstanceSimulation = (ActualInstanceSimulation)theEObject;
-				T result = caseActualInstanceSimulation(actualInstanceSimulation);
-				if (result == null) result = caseInstanceSpecification(actualInstanceSimulation);
-				if (result == null) result = caseDeploymentTarget(actualInstanceSimulation);
-				if (result == null) result = casePackageableElement(actualInstanceSimulation);
-				if (result == null) result = caseDeployedArtifact(actualInstanceSimulation);
-				if (result == null) result = caseNamedElement(actualInstanceSimulation);
-				if (result == null) result = caseParameterableElement(actualInstanceSimulation);
-				if (result == null) result = caseElement(actualInstanceSimulation);
-				if (result == null) result = caseEModelElement(actualInstanceSimulation);
+			case SimulationPackage.ACTUAL_INSTANCE: {
+				ActualInstance actualInstance = (ActualInstance)theEObject;
+				T result = caseActualInstance(actualInstance);
+				if (result == null) result = caseInstanceSpecification(actualInstance);
+				if (result == null) result = caseDeploymentTarget(actualInstance);
+				if (result == null) result = casePackageableElement(actualInstance);
+				if (result == null) result = caseDeployedArtifact(actualInstance);
+				if (result == null) result = caseNamedElement(actualInstance);
+				if (result == null) result = caseParameterableElement(actualInstance);
+				if (result == null) result = caseElement(actualInstance);
+				if (result == null) result = caseEModelElement(actualInstance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SimulationPackage.WEIGHTED_INSTANCE_VALUE: {
+				WeightedInstanceValue weightedInstanceValue = (WeightedInstanceValue)theEObject;
+				T result = caseWeightedInstanceValue(weightedInstanceValue);
+				if (result == null) result = caseSimulatedValue(weightedInstanceValue);
+				if (result == null) result = caseValueSpecification(weightedInstanceValue);
+				if (result == null) result = casePackageableElement(weightedInstanceValue);
+				if (result == null) result = caseTypedElement(weightedInstanceValue);
+				if (result == null) result = caseNamedElement(weightedInstanceValue);
+				if (result == null) result = caseParameterableElement(weightedInstanceValue);
+				if (result == null) result = caseElement(weightedInstanceValue);
+				if (result == null) result = caseEModelElement(weightedInstanceValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -293,17 +293,17 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Value Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Simulated Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Value Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Simulated Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseValueSimulation(ValueSimulation object) {
+	public T caseSimulatedValue(SimulatedValue object) {
 		return null;
 	}
 
@@ -353,17 +353,17 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Simulated Slot</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Simulating Slot</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Simulated Slot</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Simulating Slot</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSimulatedSlot(SimulatedSlot object) {
+	public T caseSimulatingSlot(SimulatingSlot object) {
 		return null;
 	}
 
@@ -383,47 +383,47 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Enum Literal Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Weighted Enum Literal Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Enum Literal Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Weighted Enum Literal Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEnumLiteralSimulation(EnumLiteralSimulation object) {
+	public T caseWeightedEnumLiteralValue(WeightedEnumLiteralValue object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Contained Instance Value Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Contained Actual Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Contained Instance Value Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Contained Actual Instance</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseContainedInstanceValueSimulation(ContainedInstanceValueSimulation object) {
+	public T caseContainedActualInstance(ContainedActualInstance object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Boolean Value Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Weighted Boolean Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Boolean Value Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Weighted Boolean Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseBooleanValueSimulation(BooleanValueSimulation object) {
+	public T caseWeightedBooleanValue(WeightedBooleanValue object) {
 		return null;
 	}
 
@@ -443,32 +443,17 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Referenced Instance Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Weighted String Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Referenced Instance Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Weighted String Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseReferencedInstanceSimulation(ReferencedInstanceSimulation object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>String Value Simulation</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>String Value Simulation</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseStringValueSimulation(StringValueSimulation object) {
+	public T caseWeightedStringValue(WeightedStringValue object) {
 		return null;
 	}
 
@@ -488,32 +473,47 @@ public class SimulationSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>All Instance Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Instance Simulation</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>All Instance Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Instance Simulation</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAllInstanceSimulation(AllInstanceSimulation object) {
+	public T caseInstanceSimulation(InstanceSimulation object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Actual Instance Simulation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Actual Instance</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Actual Instance Simulation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Actual Instance</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseActualInstanceSimulation(ActualInstanceSimulation object) {
+	public T caseActualInstance(ActualInstance object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Weighted Instance Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Weighted Instance Value</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseWeightedInstanceValue(WeightedInstanceValue object) {
 		return null;
 	}
 

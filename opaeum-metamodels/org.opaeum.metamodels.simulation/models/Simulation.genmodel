@@ -16,9 +16,9 @@
       <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/weightedDistribution"/>
       <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/normalDistribution"/>
       <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/uniformDistribution"/>
-      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/allInstanceSimulation"/>
+      <genEnumLiterals ecoreEnumLiteral="Simulation.ecore#//SimulationStrategy/instanceSimulation"/>
     </genEnums>
-    <genClasses ecoreClass="Simulation.ecore#//ValueSimulation"/>
+    <genClasses ecoreClass="Simulation.ecore#//SimulatedValue"/>
     <genClasses ecoreClass="Simulation.ecore#//NormalDistribution">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NormalDistribution/mean"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NormalDistribution/standardDeviation"/>
@@ -30,38 +30,38 @@
     <genClasses ecoreClass="Simulation.ecore#//ExponentialDistribution">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//ExponentialDistribution/mean"/>
     </genClasses>
-    <genClasses ecoreClass="Simulation.ecore#//SimulatedSlot">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//SimulatedSlot/sizeDistribution"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//SimulatedSlot/property"/>
+    <genClasses ecoreClass="Simulation.ecore#//SimulatingSlot">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//SimulatingSlot/sizeDistribution"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//SimulatingSlot/simulationStrategy"/>
     </genClasses>
     <genClasses ecoreClass="Simulation.ecore#//NumericValueDistribution"/>
-    <genClasses ecoreClass="Simulation.ecore#//EnumLiteralSimulation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//EnumLiteralSimulation/weight"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//EnumLiteralSimulation/literal"/>
+    <genClasses ecoreClass="Simulation.ecore#//WeightedEnumLiteralValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//WeightedEnumLiteralValue/weight"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//WeightedEnumLiteralValue/literal"/>
     </genClasses>
-    <genClasses ecoreClass="Simulation.ecore#//ContainedInstanceValueSimulation">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedInstanceValueSimulation/values"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedInstanceValueSimulation/containedInstance"/>
+    <genClasses ecoreClass="Simulation.ecore#//ContainedActualInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedActualInstance/values"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Simulation.ecore#//ContainedActualInstance/containedInstance"/>
     </genClasses>
-    <genClasses ecoreClass="Simulation.ecore#//BooleanValueSimulation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//BooleanValueSimulation/weight"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//BooleanValueSimulation/value"/>
+    <genClasses ecoreClass="Simulation.ecore#//WeightedBooleanValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//WeightedBooleanValue/weight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//WeightedBooleanValue/value"/>
     </genClasses>
     <genClasses ecoreClass="Simulation.ecore#//NumberRangeDistribution">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NumberRangeDistribution/upperValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NumberRangeDistribution/lowerValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//NumberRangeDistribution/weight"/>
     </genClasses>
-    <genClasses ecoreClass="Simulation.ecore#//ReferencedInstanceSimulation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//ReferencedInstanceSimulation/weight"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//ReferencedInstanceSimulation/instance"/>
-    </genClasses>
-    <genClasses ecoreClass="Simulation.ecore#//StringValueSimulation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//StringValueSimulation/weight"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//StringValueSimulation/value"/>
+    <genClasses ecoreClass="Simulation.ecore#//WeightedStringValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//WeightedStringValue/weight"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//WeightedStringValue/value"/>
     </genClasses>
     <genClasses ecoreClass="Simulation.ecore#//SimulationModel"/>
-    <genClasses ecoreClass="Simulation.ecore#//AllInstanceSimulation"/>
-    <genClasses ecoreClass="Simulation.ecore#//ActualInstanceSimulation"/>
+    <genClasses ecoreClass="Simulation.ecore#//InstanceSimulation"/>
+    <genClasses ecoreClass="Simulation.ecore#//ActualInstance"/>
+    <genClasses ecoreClass="Simulation.ecore#//WeightedInstanceValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Simulation.ecore#//WeightedInstanceValue/weight"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Simulation.ecore#//WeightedInstanceValue/instance"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

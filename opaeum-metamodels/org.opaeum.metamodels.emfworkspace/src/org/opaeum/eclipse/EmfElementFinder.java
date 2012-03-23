@@ -29,6 +29,7 @@ import org.eclipse.uml2.uml.Event;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
@@ -36,6 +37,7 @@ import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.SignalEvent;
+import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Stereotype;
@@ -49,6 +51,7 @@ import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.metamodel.core.internal.StereotypeNames;
 
 public class EmfElementFinder{
+
 	public static List<TypedElement> getTypedElementsInScope(Classifier c){
 		List<TypedElement> result = new ArrayList<TypedElement>(getPropertiesInScope(c));
 		if(c instanceof Behavior){
@@ -331,7 +334,7 @@ public class EmfElementFinder{
 		Method getOwnedNodes;
 		try{
 			getOwnedNodes = node.getClass().getMethod("getOwnedNodes");
-			if(getOwnedNodes!=null){
+			if(getOwnedNodes != null){
 				elements.addAll((Collection<? extends Element>) getOwnedNodes.invoke(node));
 			}
 		}catch(SecurityException e){

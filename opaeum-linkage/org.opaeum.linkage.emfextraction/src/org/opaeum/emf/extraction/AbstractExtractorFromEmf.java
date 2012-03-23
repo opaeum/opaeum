@@ -65,11 +65,11 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 		return 1;
 	}
 	@Override
-	public Collection<? extends Element> getChildren(Element root){
+	public Collection<Element> getChildren(Element root){
 		if(root instanceof EmfWorkspace){
 			return ((EmfWorkspace) root).getOwnedElements();
 		}else{
-			Collection<? extends Element> children = super.getChildren(root);
+			Collection<Element> children = super.getChildren(root);
 			return children;
 		}
 	}
@@ -240,9 +240,6 @@ public abstract class AbstractExtractorFromEmf extends EmfElementVisitor impleme
 			}else{
 				System.out.println("Type not found: " + type.getQualifiedName());
 			}
-		}
-		if(type==null){
-			System.out.println();
 		}
 		ae.setBaseType(baseType);
 	}

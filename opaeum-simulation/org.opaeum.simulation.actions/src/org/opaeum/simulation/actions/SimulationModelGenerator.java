@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.text.TabableView;
+
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IEnumLiteral;
 
@@ -25,13 +27,19 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
+import org.eclipse.uml2.uml.LiteralReal;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuralFeature;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.ICompositionParticipant;
+import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedComplexStructure;
 import org.opaeum.metamodel.core.INakedElement;
@@ -40,32 +48,44 @@ import org.opaeum.metamodel.core.INakedEnumerationLiteral;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedProperty;
+import org.opaeum.metamodel.core.INakedStructuredDataType;
+import org.opaeum.metamodel.core.internal.emulated.EmulatedClassifier;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation;
-import org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation;
-import org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation;
-import org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation;
-import org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation;
+import org.opaeum.metamodels.simulation.simulation.ActualInstance;
+import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
+import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
+import org.opaeum.metamodels.simulation.simulation.NormalDistribution;
 import org.opaeum.metamodels.simulation.simulation.NumberRangeDistribution;
-import org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation;
-import org.opaeum.metamodels.simulation.simulation.SimulatedSlot;
+import org.opaeum.metamodels.simulation.simulation.SimulatingSlot;
 import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 import org.opaeum.metamodels.simulation.simulation.SimulationModel;
-import org.opaeum.metamodels.simulation.simulation.StringValueSimulation;
+import org.opaeum.metamodels.simulation.simulation.SimulationStrategy;
+import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 
 public class SimulationModelGenerator{
 	private EmfWorkspace emfWorkspace = null;
 	private INakedModelWorkspace nws = null;
 	private int numberOfObjectsPerLevel = 3;
-	private Map<INakedClassifier,List<ActualInstanceSimulation>> actualInstances = new HashMap<INakedClassifier,List<ActualInstanceSimulation>>();
-	private Map<INakedClassifier,AllInstanceSimulation> allInstances = new HashMap<INakedClassifier,AllInstanceSimulation>();
+	private Map<INakedClassifier,List<ActualInstance>> actualInstances = new HashMap<INakedClassifier,List<ActualInstance>>();
+	private Map<INakedClassifier,InstanceSimulation> allInstances = new HashMap<INakedClassifier,InstanceSimulation>();
 	private SimulationModel simModel;
+	private Set<INakedClassifier> libClasses;
 	public SimulationModelGenerator(EmfWorkspace emfWorkspace,INakedModelWorkspace nws){
 		super();
 		this.emfWorkspace = emfWorkspace;
 		this.nws = nws;
 	}
-	public void run(){
+	public SimulationModel run(){
+		libClasses = new HashSet<INakedClassifier>();
+		libClasses.add(nws.getOpaeumLibrary().getProcessObject());
+		libClasses.add(nws.getOpaeumLibrary().getProcessRequest());
+		libClasses.add(nws.getOpaeumLibrary().getProcessResponsibilityObject());
+		libClasses.add(nws.getOpaeumLibrary().getTaskObject());
+		libClasses.add(nws.getOpaeumLibrary().getTaskRequest());
+		libClasses.add(nws.getOpaeumLibrary().getTaskResponsibilityObject());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
 		this.simModel = SimulationFactory.eINSTANCE.createSimulationModel();
 		simModel.setName(nws.getName() + "_" + sdf.format(new Date()));
@@ -79,7 +99,7 @@ public class SimulationModelGenerator{
 		if(nws.getApplicationRoot() instanceof ICompositionParticipant){
 			List<? extends INakedProperty> attrs = nws.getApplicationRoot().getEffectiveAttributes();
 			for(INakedProperty p:attrs){
-				if(p.isComposite()){
+				if(p.isComposite() && !libClasses.contains(p.getNakedBaseType())){
 					for(INakedClassifier c:getConcreteImplementationsOf(p)){
 						simModel.getPackagedElements().add(buildActualInstance(c, 1, 3));
 					}
@@ -93,22 +113,25 @@ public class SimulationModelGenerator{
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+		return simModel;
 	}
 	private void setReferenceStrategies(){
-		Collection<List<ActualInstanceSimulation>> values = actualInstances.values();
-		for(List<ActualInstanceSimulation> list:values){
-			for(ActualInstanceSimulation ais:list){
+		Collection<List<ActualInstance>> values = actualInstances.values();
+		for(List<ActualInstance> list:values){
+			for(ActualInstance ais:list){
 				setReferenceStrategies(ais);
 			}
 		}
-		for(AllInstanceSimulation ais:allInstances.values()){
+		for(InstanceSimulation ais:allInstances.values()){
 			setReferenceStrategies(ais);
 		}
 	}
 	private void buildAllInstanceSimulations(){
 		for(INakedElement e:nws.getAllElements()){
-			if(e instanceof INakedComplexStructure && ((INakedComplexStructure) e).isPersistent()){
-				if(!actualInstances.containsKey(e) && emfWorkspace.getElement(e.getId()) != null){
+			boolean isAssociation = e instanceof INakedAssociation && !((INakedAssociation) e).isAssociationClass();
+			if((e instanceof ICompositionParticipant || e instanceof INakedStructuredDataType)
+					&& !(isAssociation || ((IClassifier) e).getIsAbstract()) && !(e instanceof INakedBehavior)){
+				if(!actualInstances.containsKey(e) && emfWorkspace.getElement(e.getId()) != null && !libClasses.contains(e)){
 					buildAllInstanceSimulation((INakedClassifier) e);
 				}
 			}
@@ -120,166 +143,244 @@ public class SimulationModelGenerator{
 			if(slot.getValues().isEmpty()){
 				INakedProperty p = (INakedProperty) nws.getModelElement(EmfWorkspace.getId(slot.getDefiningFeature()));
 				if(p.getNakedBaseType() instanceof INakedComplexStructure){
+					SimulatingSlot ss = (SimulatingSlot) slot;
 					if(actualInstances.containsKey(p.getNakedBaseType())){
-						List<ActualInstanceSimulation> list = actualInstances.get(p.getNakedBaseType());
-						for(ActualInstanceSimulation ais:list){
-							ReferencedInstanceSimulation ris = SimulationFactory.eINSTANCE.createReferencedInstanceSimulation();
-							slot.getValues().add(ris);
+						List<ActualInstance> list = actualInstances.get(p.getNakedBaseType());
+						for(ActualInstance ais:list){
+							WeightedInstanceValue ris = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
+							ss.getValues().add(ris);
 							ris.setInstance(ais);
 							ris.setWeight(1d / list.size());
+							ss.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
 						}
 					}else{
-						InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
-						slot.getValues().add(iv);
-						iv.setInstance(allInstances.get(p.getNakedBaseType()));
-					}
-				}
-			}
-		}
-	}
-	private ActualInstanceSimulation buildActualInstance(INakedClassifier nc,int count,int numberOfLevelsOfActualInstances){
-		Classifier element = (Classifier) emfWorkspace.getElement(nc.getId());
-		ActualInstanceSimulation ais = SimulationFactory.eINSTANCE.createActualInstanceSimulation();
-		List<ActualInstanceSimulation> list = getInstanceSimulationsFOr(nc);
-		list.add(ais);
-		ais.setName(element.getName() + "ActualInstance" + count);
-		ais.getClassifiers().add(element);
-		ais.getSlots().clear();// May have been created automatically
-		for(INakedProperty p:nc.getEffectiveAttributes()){
-			if(!p.isDerived()){
-				StructuralFeature feature = (StructuralFeature) emfWorkspace.getElement(p.getId());
-				if(feature != null){
-					SimulatedSlot slot = SimulationFactory.eINSTANCE.createSimulatedSlot();
-					ais.getSlots().add(slot);
-					slot.setDefiningFeature(feature);
-					if(p.getNakedBaseType() instanceof INakedPrimitiveType){
-						INakedPrimitiveType pt = (INakedPrimitiveType) p.getNakedBaseType();
-						if(pt.conformsTo(nws.getOpaeumLibrary().getBooleanType())){
-							LiteralBoolean b = UMLFactory.eINSTANCE.createLiteralBoolean();
-							slot.getValues().add(b);
-							b.setValue(count % 2 == 0);
-						}else if(pt.conformsTo(nws.getOpaeumLibrary().getIntegerType())){
-							LiteralInteger i = UMLFactory.eINSTANCE.createLiteralInteger();
-							i.setValue(count);
-							slot.getValues().add(i);
-						}else if(pt.conformsTo(nws.getOpaeumLibrary().getRealType())){
-							slot.getValues().add(UMLFactory.eINSTANCE.createLiteralString());
-						}else if(pt.conformsTo(nws.getOpaeumLibrary().getStringType())){
-							LiteralString s = UMLFactory.eINSTANCE.createLiteralString();
-							s.setValue(p.getName() + count);
-							slot.getValues().add(s);
-						}
-					}else if(p.getNakedBaseType() instanceof INakedEnumeration){
-						INakedEnumeration ne = (INakedEnumeration) p.getNakedBaseType();
-						if(ne.getLiterals().size() > 0){
-							INakedEnumerationLiteral firstLiteral = (INakedEnumerationLiteral) ne.getLiterals().get(0);
-							InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
-							iv.setInstance((EnumerationLiteral) emfWorkspace.getElement(firstLiteral.getId()));
-							slot.getValues().add(iv);
-						}
-					}else if(p.getNakedBaseType() instanceof INakedComplexStructure){
-						if(p.isComposite()){
-							if(numberOfLevelsOfActualInstances >= 0){
-								Collection<INakedClassifier> subClasses = getConcreteImplementationsOf(p);
-								if(subClasses.size() > 0){
-									int i = this.numberOfObjectsPerLevel;
-									outer:while(i >= 0){
-										for(IClassifier c:subClasses){
-											if(i < 0){
-												break outer;
-											}else if(emfWorkspace.getElement(((INakedElement) c).getId()) != null){
-													ContainedInstanceValueSimulation civs = SimulationFactory.eINSTANCE.createContainedInstanceValueSimulation();
-													slot.getValues().add(civs);
-													civs.setContainedInstance(this.buildActualInstance((INakedClassifier) c, i + 1,
-															numberOfLevelsOfActualInstances - 1));
-											}
-											i--;
-										}
-									}
+						Collection<INakedClassifier> subclasses = getConcreteImplementationsOf(p);
+						NormalDistribution nd = SimulationFactory.eINSTANCE.createNormalDistribution();
+						ss.setSizeDistribution(nd);
+						nd.setName("NormalDistribution");
+						nd.setMean(4d);
+						nd.setStandardDeviation(1.5d);
+						ss.setSimulationStrategy(SimulationStrategy.INSTANCE_SIMULATION);
+						for(INakedClassifier c:subclasses){
+							WeightedInstanceValue iv = SimulationFactory.eINSTANCE.createWeightedInstanceValue();
+							InstanceSpecification instance = allInstances.get(c);
+							if(instance == null){
+								List<ActualInstance> list = actualInstances.get(c);
+								if(list != null){
+									instance = list.get((int) (Math.floor(Math.random() * list.size())));
 								}
+							}
+							if(instance != null){
+								ss.getValues().add(iv);
+								iv.setInstance(instance);
+								iv.setWeight(1d / subclasses.size());
 							}
 						}
 					}
 				}
 			}
 		}
+	}
+	private ActualInstance buildActualInstance(INakedClassifier nc,int count,int numberOfLevelsOfActualInstances){
+		Classifier element = (Classifier) emfWorkspace.getElement(nc.getId());
+		ActualInstance ais = SimulationFactory.eINSTANCE.createActualInstance();
+		List<ActualInstance> list = getInstanceSimulationsFOr(nc);
+		list.add(ais);
+		ais.setName(element.getName() + "ActualInstance" + count);
+		ais.getClassifiers().add(element);
+		ais.getSlots().clear();// May have been created automatically
+		for(INakedProperty p:nc.getEffectiveAttributes()){
+			if(!p.isDerived() || (p.getOtherEnd() != null && p.getOtherEnd().isComposite())){
+				addSlotForProperty(count, numberOfLevelsOfActualInstances, ais, p);
+			}
+		}
 		return ais;
 	}
-	private List<ActualInstanceSimulation> getInstanceSimulationsFOr(INakedClassifier nc){
-		List<ActualInstanceSimulation> list = actualInstances.get(nc);
+	private void addSlotForProperty(int count,int numberOfLevelsOfActualInstances,ActualInstance ais,INakedProperty p){
+		StructuralFeature feature = (StructuralFeature) emfWorkspace.getElement(p.getId());
+		if(feature != null && !libClasses.contains(p.getNakedBaseType())){
+			SimulatingSlot slot = SimulationFactory.eINSTANCE.createSimulatingSlot();
+			ais.getSlots().add(slot);
+			slot.setDefiningFeature(feature);
+			slot.setSimulationStrategy(SimulationStrategy.GIVEN_VALUE);
+			if(p.getNakedBaseType() instanceof INakedPrimitiveType){
+				addPrimitiveValue(count, p, slot);
+			}else if(p.getNakedBaseType() instanceof INakedEnumeration){
+				addEnumerationValue(p, slot);
+			}else if(p.getNakedBaseType() instanceof INakedComplexStructure){
+				if(p.isComposite() && numberOfLevelsOfActualInstances >= 0){
+					addContainedAtualInstance(numberOfLevelsOfActualInstances, p, slot);
+				}
+			}
+		}
+	}
+	private void addContainedAtualInstance(int numberOfLevelsOfActualInstances,INakedProperty p,SimulatingSlot slot){
+		Collection<INakedClassifier> subClasses = getConcreteImplementationsOf(p);
+		if(subClasses.size() > 0){
+			int i = this.numberOfObjectsPerLevel;
+			outer:while(i >= 0){
+				for(IClassifier c:subClasses){
+					if(i < 0){
+						break outer;
+					}else if(emfWorkspace.getElement(((INakedElement) c).getId()) != null){
+						ContainedActualInstance civs = SimulationFactory.eINSTANCE.createContainedActualInstance();
+						slot.getValues().add(civs);
+						civs.setContainedInstance(this.buildActualInstance((INakedClassifier) c, i + 1, numberOfLevelsOfActualInstances - 1));
+					}
+					i--;
+				}
+			}
+		}
+	}
+	private void addEnumerationValue(INakedProperty p,SimulatingSlot slot){
+		INakedEnumeration ne = (INakedEnumeration) p.getNakedBaseType();
+		if(ne.getLiterals().size() > 0){
+			INakedEnumerationLiteral firstLiteral = (INakedEnumerationLiteral) ne.getLiterals().get(0);
+			InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
+			iv.setInstance((EnumerationLiteral) emfWorkspace.getElement(firstLiteral.getId()));
+			slot.getValues().add(iv);
+		}
+	}
+	private void addPrimitiveValue(int count,INakedProperty p,SimulatingSlot slot){
+		INakedPrimitiveType pt = (INakedPrimitiveType) p.getNakedBaseType();
+		if(pt.conformsTo(nws.getOpaeumLibrary().getBooleanType())){
+			LiteralBoolean b = UMLFactory.eINSTANCE.createLiteralBoolean();
+			slot.getValues().add(b);
+			b.setValue(count % 2 == 0);
+		}else if(pt.conformsTo(nws.getOpaeumLibrary().getIntegerType())){
+			LiteralInteger i = UMLFactory.eINSTANCE.createLiteralInteger();
+			i.setValue(count);
+			slot.getValues().add(i);
+		}else if(pt.conformsTo(nws.getOpaeumLibrary().getRealType())){
+			LiteralReal r = UMLFactory.eINSTANCE.createLiteralReal();
+			slot.getValues().add(r);
+			r.setValue(1d / count);
+		}else if(pt.conformsTo(nws.getOpaeumLibrary().getStringType())){
+			LiteralString s = UMLFactory.eINSTANCE.createLiteralString();
+			s.setValue(p.getName() + count);
+			slot.getValues().add(s);
+		}
+	}
+	private List<ActualInstance> getInstanceSimulationsFOr(INakedClassifier nc){
+		List<ActualInstance> list = actualInstances.get(nc);
 		if(list == null){
-			list = new ArrayList<ActualInstanceSimulation>();
+			list = new ArrayList<ActualInstance>();
 			actualInstances.put(nc, list);
 		}
 		return list;
 	}
-	private AllInstanceSimulation buildAllInstanceSimulation(INakedClassifier nc){
+	private InstanceSimulation buildAllInstanceSimulation(INakedClassifier nc){
 		// TODO specify algorithms for inheritance
 		Classifier element = (Classifier) emfWorkspace.getElement(nc.getId());
-		AllInstanceSimulation ais = SimulationFactory.eINSTANCE.createAllInstanceSimulation();
+		InstanceSimulation ais = SimulationFactory.eINSTANCE.createInstanceSimulation();
 		simModel.getPackagedElements().add(ais);
 		allInstances.put(nc, ais);
-		ais.setName(element.getName() + "AllInstanceSimulation");
+		ais.setName(element.getName() + "InstanceSimulation");
 		ais.getClassifiers().add(element);
 		ais.getSlots().clear();// May have been created automatically
 		for(INakedProperty p:nc.getEffectiveAttributes()){
 			StructuralFeature feature = (StructuralFeature) emfWorkspace.getElement(p.getId());
-			if(feature != null){
-				SimulatedSlot slot = SimulationFactory.eINSTANCE.createSimulatedSlot();
+			if(feature != null && !libClasses.contains(p.getNakedBaseType()) && !p.isReadOnly() && !p.isDerived()){
+				SimulatingSlot slot = SimulationFactory.eINSTANCE.createSimulatingSlot();
 				ais.getSlots().add(slot);
 				slot.setDefiningFeature(feature);
 				if(p.getNakedBaseType() instanceof INakedPrimitiveType){
 					INakedPrimitiveType pt = (INakedPrimitiveType) p.getNakedBaseType();
 					if(pt.conformsTo(nws.getOpaeumLibrary().getBooleanType())){
-						BooleanValueSimulation bvs1 = SimulationFactory.eINSTANCE.createBooleanValueSimulation();
-						bvs1.setWeight(50d);
-						slot.getValues().add(bvs1);
-						BooleanValueSimulation bvs2 = SimulationFactory.eINSTANCE.createBooleanValueSimulation();
-						bvs2.setWeight(50d);
-						slot.getValues().add(bvs2);
+						addWeightedBooleanValues(slot);
 					}else if(pt.conformsTo(nws.getOpaeumLibrary().getIntegerType()) || pt.conformsTo(nws.getOpaeumLibrary().getRealType())){
-						NumberRangeDistribution nrd1 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
-						nrd1.setLowerValue(0d);
-						nrd1.setUpperValue(40d);
-						nrd1.setWeight(33d);
-						slot.getValues().add(nrd1);
-						NumberRangeDistribution nrd2 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
-						nrd2.setLowerValue(40d);
-						nrd2.setUpperValue(80d);
-						nrd2.setWeight(33d);
-						slot.getValues().add(nrd2);
-						NumberRangeDistribution nrd3 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
-						nrd3.setLowerValue(80d);
-						nrd3.setUpperValue(120d);
-						nrd3.setWeight(33d);
-						slot.getValues().add(nrd3);
+						addNumberRangeDistributions(slot);
 					}else if(pt.conformsTo(nws.getOpaeumLibrary().getStringType())){
-						StringValueSimulation svs1 = SimulationFactory.eINSTANCE.createStringValueSimulation();
-						svs1.setValue(p.getName() + 1);
-						svs1.setWeight(33d);
-						slot.getValues().add(svs1);
-						StringValueSimulation svs2 = SimulationFactory.eINSTANCE.createStringValueSimulation();
-						svs2.setValue(p.getName() + 2);
-						svs2.setWeight(33d);
-						slot.getValues().add(svs2);
-						StringValueSimulation svs3 = SimulationFactory.eINSTANCE.createStringValueSimulation();
-						svs3.setValue(p.getName() + 3);
-						svs3.setWeight(33d);
-						slot.getValues().add(svs3);
+						addWeightedStringValues(p, slot);
 					}
 				}else if(p.getNakedBaseType() instanceof INakedEnumeration){
-					INakedEnumeration ne = (INakedEnumeration) p.getNakedBaseType();
-					for(IEnumLiteral l:ne.getLiterals()){
-						InstanceValue iv = UMLFactory.eINSTANCE.createInstanceValue();
-						EnumLiteralSimulation els = SimulationFactory.eINSTANCE.createEnumLiteralSimulation();
-						els.setLiteral((EnumerationLiteral) emfWorkspace.getElement(((INakedEnumerationLiteral) l).getId()));
-						els.setWeight(1d / ne.getLiterals().size());
-						slot.getValues().add(iv);
-					}
+					addWeightedEnumLiteralValues(p, slot);
 				}
 			}
 		}
 		return ais;
+	}
+	private void addWeightedEnumLiteralValues(INakedProperty p,SimulatingSlot slot){
+		INakedEnumeration ne = (INakedEnumeration) p.getNakedBaseType();
+		for(IEnumLiteral l:ne.getLiterals()){
+			WeightedEnumLiteralValue els = SimulationFactory.eINSTANCE.createWeightedEnumLiteralValue();
+			els.setLiteral((EnumerationLiteral) emfWorkspace.getElement(((INakedEnumerationLiteral) l).getId()));
+			els.setWeight(1d / ne.getLiterals().size());
+			slot.getValues().add(els);
+		}
+		slot.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
+	}
+	private void addWeightedStringValues(INakedProperty p,SimulatingSlot slot){
+		WeightedStringValue svs1 = SimulationFactory.eINSTANCE.createWeightedStringValue();
+		svs1.setValue(p.getName() + 1);
+		svs1.setWeight(33d);
+		slot.getValues().add(svs1);
+		WeightedStringValue svs2 = SimulationFactory.eINSTANCE.createWeightedStringValue();
+		svs2.setValue(p.getName() + 2);
+		svs2.setWeight(33d);
+		slot.getValues().add(svs2);
+		WeightedStringValue svs3 = SimulationFactory.eINSTANCE.createWeightedStringValue();
+		svs3.setValue(p.getName() + 3);
+		svs3.setWeight(33d);
+		slot.getValues().add(svs3);
+		slot.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
+	}
+	private void addNumberRangeDistributions(SimulatingSlot slot){
+		Type type = slot.getDefiningFeature().getType();
+		Double max = getNumberValue(type, "DecimalMax");
+		if(max == null){
+			max = getNumberValue(type, "Max");
+		}
+		Double min = getNumberValue(type, "DecimalMin");
+		if(min == null){
+			min = getNumberValue(type, "Min");
+		}
+		if(min == null){
+			min = 0d;
+		}
+		if(max == null){
+			max = 4000d;
+		}
+		double rangeSize = max - min / 3;
+		NumberRangeDistribution nrd0 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
+		nrd0.setUpperValue(max);
+		NumberRangeDistribution nrd1 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
+		nrd1.setLowerValue(min);
+		nrd1.setUpperValue(min + rangeSize);
+		nrd1.setWeight(33d);
+		slot.getValues().add(nrd1);
+		NumberRangeDistribution nrd2 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
+		nrd2.setLowerValue(min + rangeSize);
+		nrd2.setUpperValue(min + rangeSize * 2);
+		nrd2.setWeight(33d);
+		slot.getValues().add(nrd2);
+		NumberRangeDistribution nrd3 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
+		nrd3.setLowerValue(min + rangeSize * 2);
+		nrd3.setUpperValue(min + rangeSize * 3);
+		nrd3.setWeight(33d);
+		slot.getValues().add(nrd3);
+		slot.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
+	}
+	private Double getNumberValue(Type type,String stName){
+		Double max = null;
+		if(StereotypesHelper.hasStereotype(type, stName)){
+			Stereotype st = StereotypesHelper.getStereotype(type, stName);
+			Object value2 = type.getValue(st, "value");
+			if(value2 != null && value2.toString().length() > 0){
+				String value = value2.toString();
+				max = Double.valueOf(value);
+			}
+		}
+		return max;
+	}
+	private void addWeightedBooleanValues(SimulatingSlot slot){
+		WeightedBooleanValue bvs1 = SimulationFactory.eINSTANCE.createWeightedBooleanValue();
+		bvs1.setWeight(50d);
+		slot.getValues().add(bvs1);
+		WeightedBooleanValue bvs2 = SimulationFactory.eINSTANCE.createWeightedBooleanValue();
+		bvs2.setWeight(50d);
+		slot.getValues().add(bvs2);
+		slot.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);
 	}
 	private Collection<INakedClassifier> getConcreteImplementationsOf(INakedProperty p){
 		Set<INakedClassifier> result = new HashSet<INakedClassifier>();

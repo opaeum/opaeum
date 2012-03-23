@@ -15,24 +15,24 @@ import org.eclipse.uml2.types.TypesPackage;
 
 import org.eclipse.uml2.uml.UMLPackage;
 
-import org.opaeum.metamodels.simulation.simulation.ActualInstanceSimulation;
-import org.opaeum.metamodels.simulation.simulation.AllInstanceSimulation;
-import org.opaeum.metamodels.simulation.simulation.BooleanValueSimulation;
-import org.opaeum.metamodels.simulation.simulation.ContainedInstanceValueSimulation;
-import org.opaeum.metamodels.simulation.simulation.EnumLiteralSimulation;
+import org.opaeum.metamodels.simulation.simulation.ActualInstance;
+import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
+import org.opaeum.metamodels.simulation.simulation.InstanceSimulation;
 import org.opaeum.metamodels.simulation.simulation.NormalDistribution;
 import org.opaeum.metamodels.simulation.simulation.NumberRangeDistribution;
 import org.opaeum.metamodels.simulation.simulation.NumericValueDistribution;
-import org.opaeum.metamodels.simulation.simulation.ReferencedInstanceSimulation;
-import org.opaeum.metamodels.simulation.simulation.SimulatedSlot;
+import org.opaeum.metamodels.simulation.simulation.SimulatedValue;
+import org.opaeum.metamodels.simulation.simulation.SimulatingSlot;
 import org.opaeum.metamodels.simulation.simulation.SimulationFactory;
 import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
 import org.opaeum.metamodels.simulation.simulation.SimulationStrategy;
-import org.opaeum.metamodels.simulation.simulation.StringValueSimulation;
 import org.opaeum.metamodels.simulation.simulation.UniformDistribution;
-import org.opaeum.metamodels.simulation.simulation.ValueSimulation;
+import org.opaeum.metamodels.simulation.simulation.WeightedBooleanValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedEnumLiteralValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedInstanceValue;
+import org.opaeum.metamodels.simulation.simulation.WeightedStringValue;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +46,7 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass valueSimulationEClass = null;
+	private EClass simulatedValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,7 +74,7 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass simulatedSlotEClass = null;
+	private EClass simulatingSlotEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -88,21 +88,21 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass enumLiteralSimulationEClass = null;
+	private EClass weightedEnumLiteralValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass containedInstanceValueSimulationEClass = null;
+	private EClass containedActualInstanceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass booleanValueSimulationEClass = null;
+	private EClass weightedBooleanValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -116,14 +116,7 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass referencedInstanceSimulationEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass stringValueSimulationEClass = null;
+	private EClass weightedStringValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -137,14 +130,21 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass allInstanceSimulationEClass = null;
+	private EClass instanceSimulationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass actualInstanceSimulationEClass = null;
+	private EClass actualInstanceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass weightedInstanceValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -224,8 +224,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getValueSimulation() {
-		return valueSimulationEClass;
+	public EClass getSimulatedValue() {
+		return simulatedValueEClass;
 	}
 
 	/**
@@ -305,8 +305,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSimulatedSlot() {
-		return simulatedSlotEClass;
+	public EClass getSimulatingSlot() {
+		return simulatingSlotEClass;
 	}
 
 	/**
@@ -314,8 +314,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSimulatedSlot_SizeDistribution() {
-		return (EReference)simulatedSlotEClass.getEStructuralFeatures().get(0);
+	public EReference getSimulatingSlot_SizeDistribution() {
+		return (EReference)simulatingSlotEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -323,8 +323,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSimulatedSlot_Property() {
-		return (EReference)simulatedSlotEClass.getEStructuralFeatures().get(1);
+	public EAttribute getSimulatingSlot_SimulationStrategy() {
+		return (EAttribute)simulatingSlotEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -341,8 +341,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEnumLiteralSimulation() {
-		return enumLiteralSimulationEClass;
+	public EClass getWeightedEnumLiteralValue() {
+		return weightedEnumLiteralValueEClass;
 	}
 
 	/**
@@ -350,8 +350,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEnumLiteralSimulation_Weight() {
-		return (EAttribute)enumLiteralSimulationEClass.getEStructuralFeatures().get(0);
+	public EAttribute getWeightedEnumLiteralValue_Weight() {
+		return (EAttribute)weightedEnumLiteralValueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -359,8 +359,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEnumLiteralSimulation_Literal() {
-		return (EReference)enumLiteralSimulationEClass.getEStructuralFeatures().get(1);
+	public EReference getWeightedEnumLiteralValue_Literal() {
+		return (EReference)weightedEnumLiteralValueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -368,8 +368,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getContainedInstanceValueSimulation() {
-		return containedInstanceValueSimulationEClass;
+	public EClass getContainedActualInstance() {
+		return containedActualInstanceEClass;
 	}
 
 	/**
@@ -377,8 +377,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getContainedInstanceValueSimulation_Values() {
-		return (EReference)containedInstanceValueSimulationEClass.getEStructuralFeatures().get(0);
+	public EReference getContainedActualInstance_Values() {
+		return (EReference)containedActualInstanceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -386,8 +386,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getContainedInstanceValueSimulation_ContainedInstance() {
-		return (EReference)containedInstanceValueSimulationEClass.getEStructuralFeatures().get(1);
+	public EReference getContainedActualInstance_ContainedInstance() {
+		return (EReference)containedActualInstanceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -395,8 +395,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getBooleanValueSimulation() {
-		return booleanValueSimulationEClass;
+	public EClass getWeightedBooleanValue() {
+		return weightedBooleanValueEClass;
 	}
 
 	/**
@@ -404,8 +404,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBooleanValueSimulation_Weight() {
-		return (EAttribute)booleanValueSimulationEClass.getEStructuralFeatures().get(0);
+	public EAttribute getWeightedBooleanValue_Weight() {
+		return (EAttribute)weightedBooleanValueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -413,8 +413,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBooleanValueSimulation_Value() {
-		return (EAttribute)booleanValueSimulationEClass.getEStructuralFeatures().get(1);
+	public EAttribute getWeightedBooleanValue_Value() {
+		return (EAttribute)weightedBooleanValueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -458,8 +458,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getReferencedInstanceSimulation() {
-		return referencedInstanceSimulationEClass;
+	public EClass getWeightedStringValue() {
+		return weightedStringValueEClass;
 	}
 
 	/**
@@ -467,8 +467,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getReferencedInstanceSimulation_Weight() {
-		return (EAttribute)referencedInstanceSimulationEClass.getEStructuralFeatures().get(0);
+	public EAttribute getWeightedStringValue_Weight() {
+		return (EAttribute)weightedStringValueEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -476,35 +476,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferencedInstanceSimulation_Instance() {
-		return (EReference)referencedInstanceSimulationEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getStringValueSimulation() {
-		return stringValueSimulationEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getStringValueSimulation_Weight() {
-		return (EAttribute)stringValueSimulationEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getStringValueSimulation_Value() {
-		return (EAttribute)stringValueSimulationEClass.getEStructuralFeatures().get(1);
+	public EAttribute getWeightedStringValue_Value() {
+		return (EAttribute)weightedStringValueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -521,8 +494,8 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getAllInstanceSimulation() {
-		return allInstanceSimulationEClass;
+	public EClass getInstanceSimulation() {
+		return instanceSimulationEClass;
 	}
 
 	/**
@@ -530,8 +503,35 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getActualInstanceSimulation() {
-		return actualInstanceSimulationEClass;
+	public EClass getActualInstance() {
+		return actualInstanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getWeightedInstanceValue() {
+		return weightedInstanceValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWeightedInstanceValue_Weight() {
+		return (EAttribute)weightedInstanceValueEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getWeightedInstanceValue_Instance() {
+		return (EReference)weightedInstanceValueEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -571,7 +571,7 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		isCreated = true;
 
 		// Create classes and their features
-		valueSimulationEClass = createEClass(VALUE_SIMULATION);
+		simulatedValueEClass = createEClass(SIMULATED_VALUE);
 
 		normalDistributionEClass = createEClass(NORMAL_DISTRIBUTION);
 		createEAttribute(normalDistributionEClass, NORMAL_DISTRIBUTION__MEAN);
@@ -584,42 +584,42 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		exponentialDistributionEClass = createEClass(EXPONENTIAL_DISTRIBUTION);
 		createEAttribute(exponentialDistributionEClass, EXPONENTIAL_DISTRIBUTION__MEAN);
 
-		simulatedSlotEClass = createEClass(SIMULATED_SLOT);
-		createEReference(simulatedSlotEClass, SIMULATED_SLOT__SIZE_DISTRIBUTION);
-		createEReference(simulatedSlotEClass, SIMULATED_SLOT__PROPERTY);
+		simulatingSlotEClass = createEClass(SIMULATING_SLOT);
+		createEReference(simulatingSlotEClass, SIMULATING_SLOT__SIZE_DISTRIBUTION);
+		createEAttribute(simulatingSlotEClass, SIMULATING_SLOT__SIMULATION_STRATEGY);
 
 		numericValueDistributionEClass = createEClass(NUMERIC_VALUE_DISTRIBUTION);
 
-		enumLiteralSimulationEClass = createEClass(ENUM_LITERAL_SIMULATION);
-		createEAttribute(enumLiteralSimulationEClass, ENUM_LITERAL_SIMULATION__WEIGHT);
-		createEReference(enumLiteralSimulationEClass, ENUM_LITERAL_SIMULATION__LITERAL);
+		weightedEnumLiteralValueEClass = createEClass(WEIGHTED_ENUM_LITERAL_VALUE);
+		createEAttribute(weightedEnumLiteralValueEClass, WEIGHTED_ENUM_LITERAL_VALUE__WEIGHT);
+		createEReference(weightedEnumLiteralValueEClass, WEIGHTED_ENUM_LITERAL_VALUE__LITERAL);
 
-		containedInstanceValueSimulationEClass = createEClass(CONTAINED_INSTANCE_VALUE_SIMULATION);
-		createEReference(containedInstanceValueSimulationEClass, CONTAINED_INSTANCE_VALUE_SIMULATION__VALUES);
-		createEReference(containedInstanceValueSimulationEClass, CONTAINED_INSTANCE_VALUE_SIMULATION__CONTAINED_INSTANCE);
+		containedActualInstanceEClass = createEClass(CONTAINED_ACTUAL_INSTANCE);
+		createEReference(containedActualInstanceEClass, CONTAINED_ACTUAL_INSTANCE__VALUES);
+		createEReference(containedActualInstanceEClass, CONTAINED_ACTUAL_INSTANCE__CONTAINED_INSTANCE);
 
-		booleanValueSimulationEClass = createEClass(BOOLEAN_VALUE_SIMULATION);
-		createEAttribute(booleanValueSimulationEClass, BOOLEAN_VALUE_SIMULATION__WEIGHT);
-		createEAttribute(booleanValueSimulationEClass, BOOLEAN_VALUE_SIMULATION__VALUE);
+		weightedBooleanValueEClass = createEClass(WEIGHTED_BOOLEAN_VALUE);
+		createEAttribute(weightedBooleanValueEClass, WEIGHTED_BOOLEAN_VALUE__WEIGHT);
+		createEAttribute(weightedBooleanValueEClass, WEIGHTED_BOOLEAN_VALUE__VALUE);
 
 		numberRangeDistributionEClass = createEClass(NUMBER_RANGE_DISTRIBUTION);
 		createEAttribute(numberRangeDistributionEClass, NUMBER_RANGE_DISTRIBUTION__UPPER_VALUE);
 		createEAttribute(numberRangeDistributionEClass, NUMBER_RANGE_DISTRIBUTION__LOWER_VALUE);
 		createEAttribute(numberRangeDistributionEClass, NUMBER_RANGE_DISTRIBUTION__WEIGHT);
 
-		referencedInstanceSimulationEClass = createEClass(REFERENCED_INSTANCE_SIMULATION);
-		createEAttribute(referencedInstanceSimulationEClass, REFERENCED_INSTANCE_SIMULATION__WEIGHT);
-		createEReference(referencedInstanceSimulationEClass, REFERENCED_INSTANCE_SIMULATION__INSTANCE);
-
-		stringValueSimulationEClass = createEClass(STRING_VALUE_SIMULATION);
-		createEAttribute(stringValueSimulationEClass, STRING_VALUE_SIMULATION__WEIGHT);
-		createEAttribute(stringValueSimulationEClass, STRING_VALUE_SIMULATION__VALUE);
+		weightedStringValueEClass = createEClass(WEIGHTED_STRING_VALUE);
+		createEAttribute(weightedStringValueEClass, WEIGHTED_STRING_VALUE__WEIGHT);
+		createEAttribute(weightedStringValueEClass, WEIGHTED_STRING_VALUE__VALUE);
 
 		simulationModelEClass = createEClass(SIMULATION_MODEL);
 
-		allInstanceSimulationEClass = createEClass(ALL_INSTANCE_SIMULATION);
+		instanceSimulationEClass = createEClass(INSTANCE_SIMULATION);
 
-		actualInstanceSimulationEClass = createEClass(ACTUAL_INSTANCE_SIMULATION);
+		actualInstanceEClass = createEClass(ACTUAL_INSTANCE);
+
+		weightedInstanceValueEClass = createEClass(WEIGHTED_INSTANCE_VALUE);
+		createEAttribute(weightedInstanceValueEClass, WEIGHTED_INSTANCE_VALUE__WEIGHT);
+		createEReference(weightedInstanceValueEClass, WEIGHTED_INSTANCE_VALUE__INSTANCE);
 
 		// Create enums
 		simulationStrategyEEnum = createEEnum(SIMULATION_STRATEGY);
@@ -657,24 +657,24 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		valueSimulationEClass.getESuperTypes().add(theUMLPackage.getValueSpecification());
+		simulatedValueEClass.getESuperTypes().add(theUMLPackage.getValueSpecification());
 		normalDistributionEClass.getESuperTypes().add(this.getNumericValueDistribution());
 		uniformDistributionEClass.getESuperTypes().add(this.getNumericValueDistribution());
 		exponentialDistributionEClass.getESuperTypes().add(this.getNumericValueDistribution());
-		simulatedSlotEClass.getESuperTypes().add(theUMLPackage.getSlot());
-		numericValueDistributionEClass.getESuperTypes().add(this.getValueSimulation());
-		enumLiteralSimulationEClass.getESuperTypes().add(this.getValueSimulation());
-		containedInstanceValueSimulationEClass.getESuperTypes().add(this.getValueSimulation());
-		booleanValueSimulationEClass.getESuperTypes().add(this.getValueSimulation());
+		simulatingSlotEClass.getESuperTypes().add(theUMLPackage.getSlot());
+		numericValueDistributionEClass.getESuperTypes().add(this.getSimulatedValue());
+		weightedEnumLiteralValueEClass.getESuperTypes().add(this.getSimulatedValue());
+		containedActualInstanceEClass.getESuperTypes().add(this.getSimulatedValue());
+		weightedBooleanValueEClass.getESuperTypes().add(this.getSimulatedValue());
 		numberRangeDistributionEClass.getESuperTypes().add(this.getNumericValueDistribution());
-		referencedInstanceSimulationEClass.getESuperTypes().add(this.getValueSimulation());
-		stringValueSimulationEClass.getESuperTypes().add(this.getValueSimulation());
+		weightedStringValueEClass.getESuperTypes().add(this.getSimulatedValue());
 		simulationModelEClass.getESuperTypes().add(theUMLPackage.getPackage());
-		allInstanceSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
-		actualInstanceSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
+		instanceSimulationEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
+		actualInstanceEClass.getESuperTypes().add(theUMLPackage.getInstanceSpecification());
+		weightedInstanceValueEClass.getESuperTypes().add(this.getSimulatedValue());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(valueSimulationEClass, ValueSimulation.class, "ValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(simulatedValueEClass, SimulatedValue.class, "SimulatedValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(normalDistributionEClass, NormalDistribution.class, "NormalDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNormalDistribution_Mean(), ecorePackage.getEDoubleObject(), "mean", null, 0, 1, NormalDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -687,42 +687,42 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		initEClass(exponentialDistributionEClass, ExponentialDistribution.class, "ExponentialDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExponentialDistribution_Mean(), ecorePackage.getEDoubleObject(), "mean", null, 0, 1, ExponentialDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(simulatedSlotEClass, SimulatedSlot.class, "SimulatedSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSimulatedSlot_SizeDistribution(), this.getNumericValueDistribution(), null, "sizeDistribution", null, 0, 1, SimulatedSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSimulatedSlot_Property(), theUMLPackage.getProperty(), null, "property", null, 0, 1, SimulatedSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(simulatingSlotEClass, SimulatingSlot.class, "SimulatingSlot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSimulatingSlot_SizeDistribution(), this.getNumericValueDistribution(), null, "sizeDistribution", null, 0, 1, SimulatingSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSimulatingSlot_SimulationStrategy(), this.getSimulationStrategy(), "simulationStrategy", "", 0, 1, SimulatingSlot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(numericValueDistributionEClass, NumericValueDistribution.class, "NumericValueDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(enumLiteralSimulationEClass, EnumLiteralSimulation.class, "EnumLiteralSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEnumLiteralSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, EnumLiteralSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEnumLiteralSimulation_Literal(), theUMLPackage.getEnumerationLiteral(), null, "literal", null, 0, 1, EnumLiteralSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(weightedEnumLiteralValueEClass, WeightedEnumLiteralValue.class, "WeightedEnumLiteralValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWeightedEnumLiteralValue_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, WeightedEnumLiteralValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getWeightedEnumLiteralValue_Literal(), theUMLPackage.getEnumerationLiteral(), null, "literal", null, 0, 1, WeightedEnumLiteralValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(containedInstanceValueSimulationEClass, ContainedInstanceValueSimulation.class, "ContainedInstanceValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getContainedInstanceValueSimulation_Values(), theUMLPackage.getInstanceSpecification(), null, "values", null, 0, -1, ContainedInstanceValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getContainedInstanceValueSimulation_ContainedInstance(), this.getActualInstanceSimulation(), null, "containedInstance", null, 0, 1, ContainedInstanceValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(containedActualInstanceEClass, ContainedActualInstance.class, "ContainedActualInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getContainedActualInstance_Values(), theUMLPackage.getInstanceSpecification(), null, "values", null, 0, -1, ContainedActualInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContainedActualInstance_ContainedInstance(), this.getActualInstance(), null, "containedInstance", null, 0, 1, ContainedActualInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(booleanValueSimulationEClass, BooleanValueSimulation.class, "BooleanValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getBooleanValueSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", "0.5", 0, 1, BooleanValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getBooleanValueSimulation_Value(), theEcorePackage.getEBoolean(), "value", null, 0, 1, BooleanValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(weightedBooleanValueEClass, WeightedBooleanValue.class, "WeightedBooleanValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWeightedBooleanValue_Weight(), ecorePackage.getEDoubleObject(), "weight", "0.5", 0, 1, WeightedBooleanValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWeightedBooleanValue_Value(), theEcorePackage.getEBoolean(), "value", null, 0, 1, WeightedBooleanValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(numberRangeDistributionEClass, NumberRangeDistribution.class, "NumberRangeDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNumberRangeDistribution_UpperValue(), ecorePackage.getEDoubleObject(), "upperValue", null, 0, 1, NumberRangeDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNumberRangeDistribution_LowerValue(), ecorePackage.getEDoubleObject(), "lowerValue", null, 0, 1, NumberRangeDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNumberRangeDistribution_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, NumberRangeDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(referencedInstanceSimulationEClass, ReferencedInstanceSimulation.class, "ReferencedInstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getReferencedInstanceSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", null, 0, 1, ReferencedInstanceSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getReferencedInstanceSimulation_Instance(), this.getActualInstanceSimulation(), null, "instance", null, 0, 1, ReferencedInstanceSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(stringValueSimulationEClass, StringValueSimulation.class, "StringValueSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getStringValueSimulation_Weight(), ecorePackage.getEDoubleObject(), "weight", "0.5", 0, 1, StringValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getStringValueSimulation_Value(), theEcorePackage.getEString(), "value", null, 0, 1, StringValueSimulation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(weightedStringValueEClass, WeightedStringValue.class, "WeightedStringValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWeightedStringValue_Weight(), ecorePackage.getEDoubleObject(), "weight", "0.5", 0, 1, WeightedStringValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWeightedStringValue_Value(), theEcorePackage.getEString(), "value", null, 0, 1, WeightedStringValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(simulationModelEClass, SimulationModel.class, "SimulationModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(allInstanceSimulationEClass, AllInstanceSimulation.class, "AllInstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(instanceSimulationEClass, InstanceSimulation.class, "InstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(actualInstanceSimulationEClass, ActualInstanceSimulation.class, "ActualInstanceSimulation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(actualInstanceEClass, ActualInstance.class, "ActualInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(weightedInstanceValueEClass, WeightedInstanceValue.class, "WeightedInstanceValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWeightedInstanceValue_Weight(), theEcorePackage.getEDoubleObject(), "weight", null, 0, 1, WeightedInstanceValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getWeightedInstanceValue_Instance(), theUMLPackage.getInstanceSpecification(), null, "instance", null, 0, 1, WeightedInstanceValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(simulationStrategyEEnum, SimulationStrategy.class, "SimulationStrategy");
@@ -730,7 +730,7 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.WEIGHTED_DISTRIBUTION);
 		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.NORMAL_DISTRIBUTION);
 		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.UNIFORM_DISTRIBUTION);
-		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.ALL_INSTANCE_SIMULATION);
+		addEEnumLiteral(simulationStrategyEEnum, SimulationStrategy.INSTANCE_SIMULATION);
 
 		// Create resource
 		createResource(eNS_URI);

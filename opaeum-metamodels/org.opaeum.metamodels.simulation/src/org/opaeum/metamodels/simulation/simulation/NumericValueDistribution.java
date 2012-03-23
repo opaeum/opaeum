@@ -13,5 +13,5 @@ package org.opaeum.metamodels.simulation.simulation;
  * @model
  * @generated
  */
-public interface NumericValueDistribution extends ValueSimulation {
+public interface NumericValueDistribution extends SimulatedValue {
 } // NumericValueDistribution

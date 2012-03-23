@@ -25,12 +25,14 @@ import org.opaeum.eclipse.javasync.RecompileIntegrationCodeAction;
 import org.opaeum.eclipse.javasync.RecompileModelAction;
 import org.opaeum.eclipse.javasync.RecompileModelDirectoryAction;
 import org.opaeum.eclipse.javasync.ToggleAutomaticSynchronization;
+import org.opaeum.eclipse.simulation.GenerateSimulationCodeAction;
 import org.opaeum.eclipse.simulation.GenerateSimulationModelAction;
 import org.opaeum.eclipse.versioning.CompileVersionAction;
 import org.opaeum.eclipse.versioning.GenerateMigrationProjectAction;
 import org.opaeum.eclipse.versioning.VersionAction;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
 import org.opaeum.feature.OpaeumConfig;
+import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 
 public class DynamicOpaeumMenu extends CompoundContributionItem{
 	private IStructuredSelection selection;
@@ -76,18 +78,22 @@ public class DynamicOpaeumMenu extends CompoundContributionItem{
 				}
 			}
 		}else{
-			firstElement=getElementFrom();
-			if(firstElement instanceof Model && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-				actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
-			}else if((firstElement instanceof Element) && JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-				if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
-					actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
-				}
-			}else if(firstElement instanceof AbstractGraphicalEditPart
-					&& JavaTransformationProcessManager.getCurrentTransformationProcess() != null){
-				AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
-				if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
-					actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+			firstElement = getElementFrom();
+			boolean isJavaActive = JavaTransformationProcessManager.getCurrentTransformationProcess() != null;
+			if(firstElement instanceof SimulationModel){
+				actions.add(new ActionContributionItem(new GenerateSimulationCodeAction(selection)));
+			}else if(isJavaActive){
+				if(firstElement instanceof Model){
+					actions.add(new ActionContributionItem(new RecompileModelAction(selection)));
+				}else if((firstElement instanceof Element)){
+					if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
+						actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+					}
+				}else if(firstElement instanceof AbstractGraphicalEditPart){
+					AbstractGraphicalEditPart a = (AbstractGraphicalEditPart) firstElement;
+					if(a.getModel() instanceof Element && EmfExtractionPhase.canBeProcessedIndividually((EObject) a.getModel())){
+						actions.add(new ActionContributionItem(new RecompileElementAction(selection)));
+					}
 				}
 			}
 		}

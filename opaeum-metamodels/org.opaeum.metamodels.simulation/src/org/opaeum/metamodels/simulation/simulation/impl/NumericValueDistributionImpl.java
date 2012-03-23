@@ -16,7 +16,7 @@ import org.opaeum.metamodels.simulation.simulation.SimulationPackage;
  *
  * @generated
  */
-public class NumericValueDistributionImpl extends ValueSimulationImpl implements NumericValueDistribution {
+public class NumericValueDistributionImpl extends SimulatedValueImpl implements NumericValueDistribution {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

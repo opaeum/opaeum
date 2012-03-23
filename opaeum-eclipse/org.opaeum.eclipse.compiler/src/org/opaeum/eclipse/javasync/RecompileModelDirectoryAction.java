@@ -70,7 +70,6 @@ public class RecompileModelDirectoryAction extends AbstractOpaeumAction{
 							System.out.println(e.getId()+ " collides with " +other.getId() );
 						}
 					}
-					
 					System.out.println("Number of duplicates: " + duplicates + " from " + allElements.size());
 				}catch(Exception e){
 					e.printStackTrace();

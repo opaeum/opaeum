@@ -242,7 +242,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=4147448129438915430,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=4147448129438915430l,opposite="businessActor",uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_WjvQ1EtyEeGElKTCe2jfDw252060@_WjvQ0EtyEeGElKTCe2jfDw")
 	public OrganizationFullfillsActorRole getOrganizationFullfillsActorRole_organization() {
 		OrganizationFullfillsActorRole result = this.organizationFullfillsActorRole_organization;
@@ -273,7 +273,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return getRoot();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -295,7 +295,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=9023075862366939329,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
+	@PropertyMetaInfo(isComposite=true,opaeumId=9023075862366939329l,opposite="businessActor",uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	@NumlMetaInfo(uuid="252060@_X4_Mg0tyEeGElKTCe2jfDw252060@_X4-lcEtyEeGElKTCe2jfDw")
 	public PersonFullfillsActorRole getPersonFullfillsActorRole_representedPerson() {
 		PersonFullfillsActorRole result = this.personFullfillsActorRole_representedPerson;
@@ -319,7 +319,7 @@ public class Supplier implements IPersistentObject, IEventGenerator, HibernateEn
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=7737100568581358598,opposite="supplier",uuid="914890@_-N6PwGK6EeGNuoaMwaBk1w914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
+	@PropertyMetaInfo(isComposite=false,opaeumId=7737100568581358598l,opposite="supplier",uuid="914890@_-N6PwGK6EeGNuoaMwaBk1w914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	@NumlMetaInfo(uuid="914890@_-VLbkE8VEeGA3PFuQY5w7QNakedBusinessCollaborationNakedBusinessCollaboration")
 	public Structuredbusiness getRoot() {
 		Structuredbusiness result = this.root;

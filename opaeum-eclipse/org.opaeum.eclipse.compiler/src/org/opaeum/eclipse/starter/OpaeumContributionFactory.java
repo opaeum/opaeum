@@ -18,12 +18,15 @@ import org.eclipse.ui.services.IServiceLocator;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.opaeum.emf.extraction.EmfExtractionPhase;
+import org.opaeum.metamodels.simulation.simulation.SimulationModel;
 
 public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	public OpaeumContributionFactory(){
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
+		System.out
+				.println("OpaeumContributionFactory.createContributionItems()");
 		MenuManager menuManager = new MenuManager("Opaeum");
 		additions.addContributionItem(menuManager, new Expression(){
 			@Override
@@ -40,7 +43,7 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 						if(!(firstElement instanceof Element) && firstElement instanceof IAdaptable){
 							firstElement = ((IAdaptable) firstElement).getAdapter(EObject.class);
 						}
-						if(firstElement instanceof Model){
+						if(firstElement instanceof SimulationModel || firstElement instanceof Model){
 							return EvaluationResult.TRUE;
 						}else if(firstElement instanceof Element){
 							if(EmfExtractionPhase.canBeProcessedIndividually((EObject) firstElement)){
