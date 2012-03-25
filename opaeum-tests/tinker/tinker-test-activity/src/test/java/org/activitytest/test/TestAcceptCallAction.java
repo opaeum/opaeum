@@ -3,9 +3,9 @@ package org.activitytest.test;
 import org.activitytest.Customer;
 import org.activitytest.Root;
 import org.activitytest.customer.ActivityTestAcceptCallAction;
+import org.apache.commons.lang.time.StopWatch;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService;
 import org.opaeum.test.tinker.BaseLocalDbTest;
 
 import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
@@ -13,7 +13,9 @@ import com.tinkerpop.blueprints.pgm.TransactionalGraph.Conclusion;
 public class TestAcceptCallAction extends BaseLocalDbTest {
 
 	@Test
-	public void testUpper() {
+	public void testAcceptCallAction() {
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
 		db.startTransaction();
 		Root root = new Root(true);
 		root.setName("THEROOT");
@@ -28,8 +30,10 @@ public class TestAcceptCallAction extends BaseLocalDbTest {
 		//11 nodes + activity + 1 token + 19
 		Assert.assertEquals(32, countVertices());
 		db.startTransaction();
-		customer.testCallAcceptEvent("wtf");
+		String result = customer.testCallAcceptEvent("wtf");
 		db.stopTransaction(Conclusion.SUCCESS);
-		TinkerClassifierBehaviorExecutorService.INSTANCE.take();
+		Assert.assertEquals("wtf", result);
+		stopWatch.stop();
+		System.out.println(stopWatch.toString());
 	}
 }

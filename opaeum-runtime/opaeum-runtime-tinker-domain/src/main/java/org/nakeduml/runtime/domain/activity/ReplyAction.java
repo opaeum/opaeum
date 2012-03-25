@@ -1,7 +1,5 @@
 package org.nakeduml.runtime.domain.activity;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import com.tinkerpop.blueprints.pgm.Vertex;
@@ -27,5 +25,9 @@ public abstract class ReplyAction<R> extends Action {
 
 	@Override
 	protected abstract List<? extends OutputPin<?>> getOutputPins();
+	
+	public R getReply(){
+		return null;
+	}
 
 }

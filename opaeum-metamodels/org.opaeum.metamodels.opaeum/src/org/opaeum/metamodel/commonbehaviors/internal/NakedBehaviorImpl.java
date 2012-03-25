@@ -84,6 +84,13 @@ public abstract class NakedBehaviorImpl extends NakedBehavioredClassifierImpl im
 		}
 	}
 	public boolean hasMultipleConcurrentResults(){
+//		int discountContextObject = 0;
+//		for (INakedProperty p : getOwnedAttributes()) {
+//			if (p.getName().equals("contextObject")) {
+//				discountContextObject = 1;
+//				break;
+//			}
+//		}
 		if(getOwnedAttributes().size() > 0){
 			return true;
 		}else{

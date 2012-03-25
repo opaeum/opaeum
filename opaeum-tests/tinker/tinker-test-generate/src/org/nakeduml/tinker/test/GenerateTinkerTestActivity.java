@@ -16,10 +16,11 @@ import org.nakeduml.tinker.activity.nullify.TinkerSpecificationImplementor;
 import org.nakeduml.tinker.emf.extraction.TinkerFeatureExtractor;
 import org.nakeduml.tinker.emf.extraction.TinkerNameSpaceExtractor;
 import org.nakeduml.tinker.emf.extraction.TinkerTriggerExtractor;
-import org.nakeduml.tinker.generator.TinkerClassifierBehaviorGenerator;
+import org.nakeduml.tinker.generator.TinkerBehavioredClassifierGenerator;
 import org.nakeduml.tinker.generator.TinkerCollectionStep;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
 import org.nakeduml.tinker.generator.TinkerQualifierGenerator;
+import org.nakeduml.tinker.javageneration.basicjava.TinkerJava6ModelGenerator;
 import org.nakeduml.tinker.javageneration.basicjava.TinkerOperationAnnotator;
 import org.nakeduml.tinker.javageneration.basicjava.TinkerSimpleActivityMethodImplementor;
 import org.nakeduml.tinker.javageneration.composition.TinkerComponentInitializer;
@@ -99,13 +100,14 @@ public class GenerateTinkerTestActivity {
 		steps.add(TinkerSpecificationImplementor.class);
 		steps.add(TinkerActivityProcessImplementor.class);
 		steps.add(TinkerOperationAnnotator.class);
-		steps.add(TinkerClassifierBehaviorGenerator.class);
+		steps.add(TinkerBehavioredClassifierGenerator.class);
 		steps.add(TinkerCompositionEmulator.class);
 		steps.add(TinkerSimpleActivityMethodImplementor.class);
 		steps.add(TinkerUmlNameRegenerator.class);
 		steps.add(TinkerOperationGenerator.class);
 		steps.add(TinkerTriggerExtractor.class);
 		steps.add(TinkerEventGenerator.class);
+		steps.add(TinkerJava6ModelGenerator.class);
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}

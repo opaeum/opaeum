@@ -6,6 +6,7 @@ import org.nakeduml.tinker.activity.ConcreteEmulatedClassifier;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitAfter;
 import org.opaeum.java.metamodel.OJAnnonymousInnerClass;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
@@ -24,13 +25,14 @@ import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.commonbehaviors.INakedSignalEvent;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedNameSpace;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 import org.opaeum.metamodel.core.internal.NonInverseArtificialProperty;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = JavaTransformationPhase.class, requires = { TinkerImplementNodeStep.class }, after = { TinkerImplementNodeStep.class })
-public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
+public class TinkerBehavioredClassifierGenerator extends StereotypeAnnotator {
 
 	@VisitAfter(matchSubclasses = true)
 	public void visitBehavioredClassifier(INakedBehavioredClassifier c) {
@@ -38,8 +40,35 @@ public class TinkerClassifierBehaviorGenerator extends StereotypeAnnotator {
 			OJAnnotatedClass ojClass = findJavaClass(c);
 			implementReceiveSignal(ojClass, c);
 			implementReception(ojClass, c);
+			implementGetAllActivities(ojClass, c);
 		}
 	}
+	
+	private void implementGetAllActivities(OJAnnotatedClass ojClass, INakedBehavioredClassifier c) {
+		OJAnnotatedOperation getAllActivities = new OJAnnotatedOperation("getAllActivities");
+		TinkerGenerationUtil.addOverrideAnnotation(getAllActivities);
+		OJField result = new OJField();
+		result.setName("result");
+		result.setType(new OJPathName("java.util.List"));
+		result.getType().addToGenerics(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
+		getAllActivities.setReturnType(result.getType());
+		result.setInitExp("new ArrayList<"+TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast()+">()");
+		getAllActivities.getBody().addToLocals(result);
+		
+		for (INakedProperty p : c.getOwnedAttributes()) {
+			if (p.getBaseType() instanceof INakedBehavior) {
+				NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(p);
+				if (p.getBaseType().equals(c.getClassifierBehavior())) {
+					getAllActivities.getBody().addToStatements("result.add(this." + map.fieldname() + ")");
+				} else {
+					getAllActivities.getBody().addToStatements("result.addAll(this." + map.fieldname() + ")");
+				}
+			}
+		}
+		
+		getAllActivities.getBody().addToStatements("return result");
+		ojClass.addToOperations(getAllActivities);
+	}	
 
 	private void implementReception(OJAnnotatedClass ojClass, INakedBehavioredClassifier c) {
 		Collection<INakedReception> receptions = c.getOwnedReceptions();

@@ -24,14 +24,12 @@ import org.opaeum.javageneration.composition.ComponentInitializer;
 import org.opaeum.javageneration.maps.AssociationClassEndMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
-import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.core.ICompositionParticipant;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedEntity;
 import org.opaeum.metamodel.core.INakedEnumeration;
 import org.opaeum.metamodel.core.INakedInterface;
-import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedSimpleType;
 
@@ -62,7 +60,7 @@ public class TinkerAttributeImplementor extends AttributeImplementor {
 	public void setJavaModel(OJWorkspace javaModel) {
 		this.javaModel = javaModel;
 	}
-
+	
 	@Override
 	protected OJOperation buildAdder(OJAnnotatedClass owner, NakedStructuralFeatureMap map) {
 		OJOperation adder = new OJAnnotatedOperation(map.adder());

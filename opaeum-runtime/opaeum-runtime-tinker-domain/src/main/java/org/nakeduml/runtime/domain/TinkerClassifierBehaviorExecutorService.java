@@ -21,8 +21,8 @@ public class TinkerClassifierBehaviorExecutorService {
 		executorService.shutdown();
 	}
 	
-	public void submit(IClassifierSignalEvent cse) {
-		completionService.submit(cse);
+	public Future<Boolean> submit(IClassifierEvent cse) {
+		return completionService.submit(cse);
 	}
 
 	public Boolean take() {

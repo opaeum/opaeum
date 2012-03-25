@@ -27,15 +27,15 @@ import org.opaeum.metamodel.core.internal.emulated.OperationMessageStructureImpl
 public class TinkerCompositionEmulator extends CompositionEmulator {
 
 	@VisitBefore(matchSubclasses = true)
-	public void visitOperation(INakedOperation o) {
+	public void visitOperation(INakedOperation o){
 		INakedMessageStructure b = o.getMessageStructure();
-		if (b == null) {
+		if(b == null){
 			o.initMessageStructure();
 			workspace.putModelElement(o.getMessageStructure());
 			b = (OperationMessageStructureImpl) o.getMessageStructure();
-			if (o instanceof INakedResponsibility) {
+			if(o instanceof INakedResponsibility){
 				// TODO define Responsibility interface
-				if (workspace.getOpaeumLibrary().getTaskObject() != null) {
+				if(workspace.getOpaeumLibrary().getTaskObject() != null){
 					((OperationMessageStructureImpl) b).addInterface(workspace.getOpaeumLibrary().getTaskObject());
 				}
 			}

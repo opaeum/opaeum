@@ -2,16 +2,26 @@ package org.nakeduml.tinker.generator;
 
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
+import org.opaeum.metamodel.actions.INakedCallAction;
+import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
 import org.opaeum.metamodel.activities.INakedInputPin;
 import org.opaeum.metamodel.activities.INakedOutputPin;
 import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
+import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
 import org.opaeum.metamodel.commonbehaviors.INakedMessageEvent;
+import org.opaeum.metamodel.commonbehaviors.INakedTrigger;
 import org.opaeum.name.NameConverter;
 
 public class TinkerBehaviorUtil {
+	
+	
+	public static final OJPathName tinkerAcceptCallEventBlockingQueue = new OJPathName("org.nakeduml.runtime.domain.TinkerAcceptCallEventBlockingQueue");
 	public static final OJPathName tinkerIEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.IEvent");
 	public static final OJPathName tinkerEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Event");
 	public static final OJPathName tinkerSignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.SignalEvent");
@@ -22,6 +32,8 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerInActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.InActivityParameterNode");
 	public static final OJPathName tinkerValuePinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ValuePin");
 	public static final OJPathName tinkerInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.InputPin");
+	public static final OJPathName tinkerReturnInformationInputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReturnInformationInputPin");
+	public static final OJPathName tinkerReturnInformationOutputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ReturnInformationOutputPin");
 	public static final OJPathName tinkerOutputPinPathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutputPin");
 	public static final OJPathName tinkerOutActivityParameterNodePathName = new OJPathName("org.nakeduml.runtime.domain.activity.OutActivityParameterNode");
 	public static final OJPathName tinkerActionPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Action");
@@ -60,14 +72,17 @@ public class TinkerBehaviorUtil {
 	public static final OJPathName tinkerControlTokenPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ControlToken");
 	public static final OJPathName tinkerObjectTokenPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectToken");
 	public static final OJPathName tinkerNodeStatusPathName = new OJPathName("org.nakeduml.runtime.domain.activity.NodeStatus");
-	public static OJPathName signalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
-	public static OJPathName tinkerClassifierSignalEvent = new OJPathName("org.nakeduml.runtime.domain.IClassifierSignalEvent");
-	public static OJPathName tinkerBaseTinkerBehavioredClassifier = new OJPathName("org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier");
-	public static OJPathName tinkerClassifierBehaviorExecutorService = new OJPathName("org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService");
-	public static OJPathName tinkerAcceptEventAction = new OJPathName("org.nakeduml.runtime.domain.activity.AcceptEventAction");
-	public static OJPathName tinkerSendSignalAction = new OJPathName("org.nakeduml.runtime.domain.activity.SendSignalAction");
-	public static OJPathName tinkerSignalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
-	public static OJPathName tinkerObjectTokenInteratorPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectTokenInterator");
+	public static final OJPathName signalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
+	public static final OJPathName tinkerClassifierSignalEvent = new OJPathName("org.nakeduml.runtime.domain.IClassifierSignalEvent");
+	public static final OJPathName tinkerClassifierEvent = new OJPathName("org.nakeduml.runtime.domain.IClassifierEvent");
+	public static final OJPathName tinkerClassifierCallEvent = new OJPathName("org.nakeduml.runtime.domain.IClassifierCallEvent");
+	public static final OJPathName tinkerBaseTinkerBehavioredClassifier = new OJPathName("org.nakeduml.runtime.domain.BaseTinkerBehavioredClassifier");
+	public static final OJPathName tinkerClassifierBehaviorExecutorService = new OJPathName("org.nakeduml.runtime.domain.TinkerClassifierBehaviorExecutorService");
+	public static final OJPathName tinkerAcceptEventAction = new OJPathName("org.nakeduml.runtime.domain.activity.AcceptEventAction");
+	public static final OJPathName tinkerAcceptCallAction = new OJPathName("org.nakeduml.runtime.domain.activity.AcceptCallAction");
+	public static final OJPathName tinkerSendSignalAction = new OJPathName("org.nakeduml.runtime.domain.activity.SendSignalAction");
+	public static final OJPathName tinkerSignalPathName = new OJPathName("org.opaeum.runtime.domain.ISignal");
+	public static final OJPathName tinkerObjectTokenInteratorPathName = new OJPathName("org.nakeduml.runtime.domain.activity.ObjectTokenInterator");
 	
 	
 	public static String edgeGetter(INakedActivityEdge edge) {
@@ -128,6 +143,25 @@ public class TinkerBehaviorUtil {
 	}
 	public static String eventName(INakedMessageEvent callEvent) {
 		return NameConverter.capitalize(callEvent.getName());
+	}
+
+	public static INakedAcceptCallAction findCallActionForEventAndClassifier(INakedCallEvent callEvent, INakedBehavioredClassifier behavioredClassifier) {
+		for (INakedBehavior behavior : behavioredClassifier.getEffectiveBehaviors()) {
+			if (behavior instanceof INakedActivity) {
+				INakedActivity activity = (INakedActivity)behavior;
+				for (INakedActivityNode node : activity.getActivityNodes()) {
+					if (node instanceof INakedAcceptCallAction) {
+						INakedAcceptCallAction acceptCallAction = (INakedAcceptCallAction)node;
+						for (INakedTrigger trigger : acceptCallAction.getTriggers()) {
+							if (trigger.getEvent().equals(callEvent)) {
+								return acceptCallAction;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 }

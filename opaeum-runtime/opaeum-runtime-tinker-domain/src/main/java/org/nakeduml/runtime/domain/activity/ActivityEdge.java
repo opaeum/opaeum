@@ -22,6 +22,7 @@ public abstract class ActivityEdge<T extends Token> extends AbstractPipe<T, Bool
 
 	@Override
 	protected Boolean processNextStart() throws NoSuchElementException {
+		this.tokens.clear();
 		// Take all tokens
 		while (starts.hasNext()) {
 			T token = this.starts.next();

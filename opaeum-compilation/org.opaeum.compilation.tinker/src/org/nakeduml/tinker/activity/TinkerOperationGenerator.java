@@ -3,24 +3,24 @@ package org.nakeduml.tinker.activity;
 import nl.klasse.octopus.model.ParameterDirectionKind;
 
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
-import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
-import org.opaeum.java.metamodel.OJAnnonymousInnerClass;
 import org.opaeum.java.metamodel.OJClass;
+import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJIfStatement;
 import org.opaeum.java.metamodel.OJPackage;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
-import org.opaeum.java.metamodel.OJTryStatement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
+import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
-import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.javageneration.StereotypeAnnotator;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
 import org.opaeum.javageneration.util.OJUtil;
+import org.opaeum.metamodel.actions.INakedAcceptCallAction;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
+import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.commonbehaviors.INakedCallEvent;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedElement;
@@ -29,6 +29,7 @@ import org.opaeum.metamodel.core.INakedOperation;
 import org.opaeum.metamodel.core.INakedParameter;
 import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
+import org.opaeum.textmetamodel.JavaSourceFolderIdentifier;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerActivityNodeGenerator.class }, after = { TinkerActivityNodeGenerator.class })
 public class TinkerOperationGenerator extends StereotypeAnnotator {
@@ -57,73 +58,25 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			addMethodForOperation(oper, owner, operation);
 		} else {
 			addInvokeAcceptCallAction(oper, operation);
-			addInvokeAcceptCallActionInternal(ownerClass, oper);
+			addInvokeAcceptCallActionSync(ownerClass, oper);
 		}
+		
+		removeClassForOperationIfExist(oper);
 
 	}
 
-	private void addInvokeAcceptCallActionInternal(OJAnnotatedClass ojClass, INakedOperation oper) {
-		OJAnnotatedOperation invokeAcceptCallAction = new OJAnnotatedOperation("invokeAcceptCallAction");
-		OJParameter eventParam = new OJParameter("event", TinkerBehaviorUtil.tinkerIEventPathName);
-		eventParam.setFinal(true);
-		invokeAcceptCallAction.addToParameters(eventParam);
-		OJAnnonymousInnerClass classifierSignalEvent = new OJAnnonymousInnerClass(ojClass.getPathName(), "classifierSignalEvent",
-				TinkerBehaviorUtil.tinkerClassifierSignalEvent);
-		invokeAcceptCallAction.getBody().addToLocals(classifierSignalEvent);
-		
-		OJAnnotatedOperation call = new OJAnnotatedOperation("call");
-		call.setReturnType(new OJPathName("java.lang.Boolean"));
-		call.addToThrows(new OJPathName("java.lang.Exception"));
-		call.addAnnotationIfNew(new OJAnnotationValue(new OJPathName("java.lang.Override")));
-		call.getBody().addToStatements("GraphDb.getDb().startTransaction()");
-		OJTryStatement tryS = new OJTryStatement();
-		tryS.getTryPart().addToStatements("removeFromEventPool(event)");
-
-		ojClass.addToImports(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
-		tryS.getTryPart().addToStatements(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast() + " m = getFirstActivityForCallEvent(event)");
-		tryS.getTryPart().addToStatements(
-				"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
-						+ "<? extends Token, ? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(event)");
-
-		OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
-		String tokenType;
-		ojClass.addToImports(TinkerBehaviorUtil.tinkerControlTokenPathName);
-		tokenType = "ControlToken";
-		ifNodesToTrigger.addToThenPart(TinkerBehaviorUtil.tinkerAcceptEventAction.getLast() + " acceptEventAction = (" + TinkerBehaviorUtil.tinkerAcceptEventAction.getLast()
-				+ ")nodesToTrigger.iterator().next()");
-		ojClass.addToImports(TinkerBehaviorUtil.tinkerAcceptEventAction);
-		if (!oper.getArgumentParameters().isEmpty()) {
-			ifNodesToTrigger.addToThenPart("acceptEventAction.setTrigger(event)");
+	private void removeClassForOperationIfExist(INakedOperation oper) {
+		OJClass c = findJavaClass(oper.getMessageStructure());
+		if (c!=null) {
+			super.removeTextPath(c, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
 		}
-		ifNodesToTrigger.addToThenPart("acceptEventAction.setStarts(new SingleIterator<" + tokenType + ">(new " + tokenType + "(acceptEventAction.getName())))");
-		ifNodesToTrigger.addToThenPart("acceptEventAction.next()");
-		tryS.getTryPart().addToStatements(ifNodesToTrigger);
-		ojClass.addToImports(TinkerBehaviorUtil.tinkerActivityNodePathName);
-		ojClass.addToImports(new OJPathName("java.util.Set"));
-		ojClass.addToImports(TinkerBehaviorUtil.tinkerSingleIteratorPathName);
-		ojClass.addToImports(TinkerBehaviorUtil.tinkerTokenPathName);
-
-		tryS.getTryPart().addToStatements("GraphDb.getDb().stopTransaction(Conclusion.SUCCESS)");
-		ojClass.addToImports(TinkerGenerationUtil.tinkerConclusionPathName);
-		tryS.setCatchParam(new OJParameter("e", new OJPathName("java.loang.Exception")));
-		tryS.getCatchPart().addToStatements("GraphDb.getDb().stopTransaction(Conclusion.FAILURE)");
-		tryS.getCatchPart().addToStatements("throw e");
-		call.getBody().addToStatements(tryS);
-		call.getBody().addToStatements("return false; //TODO");
-		classifierSignalEvent.getClassDeclaration().addToOperations(call);
-		
-		ojClass.addToOperations(invokeAcceptCallAction);
-		
-		invokeAcceptCallAction.getBody().addToStatements(TinkerBehaviorUtil.tinkerClassifierBehaviorExecutorService.getLast() + ".INSTANCE.submit(classifierSignalEvent)");
-
 	}
 
-	private void addInvokeAcceptCallAction(INakedOperation oper, OJAnnotatedOperation operation) {
-		// Find events for this call
+	private void addInvokeAcceptCallActionSync(OJAnnotatedClass ownerClass, INakedOperation oper) {
 		INakedCallEvent event = null;
 		INakedNameSpace x = oper.getContext().getParent();
 		for (INakedElement e : x.getOwnedElements()) {
-			if (e instanceof INakedCallEvent) {
+			if (e instanceof INakedCallEvent && ((INakedCallEvent) e).getOperation().equals(oper)) {
 				event = (INakedCallEvent) e;
 				break;
 			}
@@ -131,6 +84,62 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		if (event == null) {
 			throw new IllegalStateException("A call without a method must have a corresponding event in the owning package");
 		}
+		INakedAcceptCallAction callAction = TinkerBehaviorUtil.findCallActionForEventAndClassifier(event, (INakedBehavioredClassifier) oper.getOwner());
+		OJAnnotatedOperation invokeAcceptCallAction = new OJAnnotatedOperation("invoke" + NameConverter.capitalize(callAction.getActivity().getName() + NameConverter.capitalize(callAction.getName())));
+		OJParameter eventParam = new OJParameter("event", TinkerBehaviorUtil.tinkerIEventPathName);
+		eventParam.setFinal(true);
+		invokeAcceptCallAction.addToParameters(eventParam);
+
+		NakedOperationMap operMap = OJUtil.buildOperationMap(oper);
+		if (oper.getReturnParameter() != null) {
+			invokeAcceptCallAction.setReturnType(operMap.javaReturnTypePath());
+		}
+
+		OJAnnotatedField acceptCallActionField = new OJAnnotatedField("acceptCallAction", TinkerBehaviorUtil.activityNodePathName(callAction));
+		acceptCallActionField.setInitExp("null");
+		invokeAcceptCallAction.getBody().addToLocals(acceptCallActionField);
+
+		invokeAcceptCallAction.getBody().addToStatements(TinkerBehaviorUtil.tinkerAbstractActivityPathName.getLast() + " m = getFirstActivityForCallEvent(event)");
+		ownerClass.addToImports(TinkerBehaviorUtil.tinkerAbstractActivityPathName);
+		invokeAcceptCallAction.getBody().addToStatements(
+				"Set<" + TinkerBehaviorUtil.tinkerActivityNodePathName.getLast()
+						+ "<? extends Token, ? extends Token>> nodesToTrigger = m.getEnabledNodesWithMatchingTrigger(event)");
+
+		OJIfStatement ifNodesToTrigger = new OJIfStatement("!nodesToTrigger.isEmpty()");
+		ifNodesToTrigger.addToThenPart("acceptCallAction = (" + TinkerBehaviorUtil.activityNodePathName(callAction).toJavaString() + ")nodesToTrigger.iterator().next()");
+
+		ownerClass.addToImports(TinkerBehaviorUtil.tinkerAcceptCallAction);
+		if (!oper.getArgumentParameters().isEmpty()) {
+			ifNodesToTrigger.addToThenPart("acceptCallAction.setTrigger(event)");
+		}
+		String tokenType = "ControlToken";
+		ifNodesToTrigger.addToThenPart("acceptCallAction.setStarts(new SingleIterator<" + tokenType + ">(new " + tokenType + "(acceptCallAction.getName())))");
+		ifNodesToTrigger.addToThenPart("acceptCallAction.next()");
+		invokeAcceptCallAction.getBody().addToStatements(ifNodesToTrigger);
+		if (oper.getReturnParameter() != null) {
+			invokeAcceptCallAction.getBody().addToStatements("return (" + operMap.javaReturnTypePath().getLast() + ")acceptCallAction.getReplyAction().getReply()");
+		} else {
+			invokeAcceptCallAction.getBody().addToStatements("acceptCallAction.getReplyAction().getReply()");
+		}
+
+		ownerClass.addToOperations(invokeAcceptCallAction);
+	}
+
+	private void addInvokeAcceptCallAction(INakedOperation oper, OJAnnotatedOperation operation) {
+		// Find events for this call
+		INakedCallEvent event = null;
+		INakedNameSpace x = oper.getContext().getParent();
+		for (INakedElement e : x.getOwnedElements()) {
+			if (e instanceof INakedCallEvent && ((INakedCallEvent) e).getOperation().equals(oper)) {
+				event = (INakedCallEvent) e;
+				break;
+			}
+		}
+		if (event == null) {
+			throw new IllegalStateException("A call without a method must have a corresponding event in the owning package");
+		}
+		INakedAcceptCallAction callAction = TinkerBehaviorUtil.findCallActionForEventAndClassifier(event, (INakedBehavioredClassifier) oper.getOwner());
+
 		OJPathName path = OJUtil.packagePathname(event.getNameSpace());
 		OJPackage eventPackage = findOrCreatePackage(path);
 		OJAnnotatedClass eventClass = null;
@@ -149,9 +158,13 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			operation.getBody().addToStatements("event." + paramMap.setter() + "(" + paramMap.fieldname() + ")");
 		}
 
-		operation.getBody().addToStatements("addToEventPool(event)");
-		operation.getBody().addToStatements("invokeAcceptCallAction(event)");
-		
+		// operation.getBody().addToStatements("addToEventPool(event)");
+		if (oper.getReturnParameter() != null) {
+			operation.getBody().addToStatements("return invoke" + NameConverter.capitalize(callAction.getActivity().getName()) + NameConverter.capitalize(callAction.getName()) + "(event)");
+		} else {
+			operation.getBody().addToStatements("invoke" + NameConverter.capitalize(callAction.getActivity().getName()) + NameConverter.capitalize(callAction.getName()) + "(event)");
+		}
+
 	}
 
 	private void addMethodForOperation(INakedOperation oper, INakedClassifier owner, OJAnnotatedOperation operation) {
