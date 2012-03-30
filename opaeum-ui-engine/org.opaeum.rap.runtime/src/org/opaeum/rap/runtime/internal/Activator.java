@@ -73,8 +73,8 @@ public class Activator extends AbstractUIPlugin implements IRegistryChangeListen
 			"Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 	private static Activator plugin;
-	private Map<Class<? extends IOpaeumApplication>, IOpaeumApplication> applications=new HashMap<Class<? extends IOpaeumApplication>,IOpaeumApplication>();
-	public Map<Class<? extends IOpaeumApplication>,IOpaeumApplication> getApplications(){
+	private Map<String, IOpaeumApplication> applications=new HashMap<String, IOpaeumApplication>();
+	public Map<String,IOpaeumApplication> getApplications(){
 		return applications;
 	}
 	public void start(final BundleContext context) throws Exception{
@@ -239,8 +239,7 @@ public class Activator extends AbstractUIPlugin implements IRegistryChangeListen
 		try{
 			for(IConfigurationElement ce:configurationElements){
 				IOpaeumApplication app = (IOpaeumApplication) ce.createExecutableExtension("className");
-				Class<? extends IOpaeumApplication> clz = app.getClass();
-				applications.put(clz, app);
+				applications.put(app.getIdentifier(), app);
 			}
 		}catch(CoreException e){
 			e.printStackTrace();

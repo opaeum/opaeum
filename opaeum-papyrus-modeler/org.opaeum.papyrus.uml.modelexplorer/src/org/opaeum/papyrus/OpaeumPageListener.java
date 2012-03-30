@@ -131,7 +131,7 @@ public class OpaeumPageListener implements IStartup{
 	private void associateOpaeumContext(PapyrusMultiDiagramEditor e){
 		IEditorPart activeEditor = e.getActiveEditor();
 		final IFile umlFile = getUmlFile((IFileEditorInput) e.getEditorInput());
-		if(!umlFile.getParent().getName().equals("ui") || umlFile.getParent().getName().equals("simulation")){
+		if(!(umlFile.getParent().getName().equals("ui") || umlFile.getParent().getName().equals("simulation"))){
 			final OpaeumEclipseContext result = OpaeumEclipseContext.findOrCreateContextFor(umlFile.getParent());
 			((PapyrusErrorMarker) result.getErrorMarker()).setServiceRegistry(e.getServicesRegistry());
 			if(result.getEditingContextFor(umlFile) == null){
@@ -165,16 +165,13 @@ public class OpaeumPageListener implements IStartup{
 			if(((WorkbenchWindow) window).getCoolBarVisible()){
 				coolBarManager = ((WorkbenchWindow) window).getCoolBarManager2();
 			}
-			IContributionItem[] items = coolBarManager.getItems();
-			for(IContributionItem item:items){
-				if(item.getId().toLowerCase().contains("papyrus")){
-					System.out.println(item.getId());
-				}
-				if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
-					coolBarManager.remove(item);
-				}
-			}
-			coolBarManager.update(true);
+//			IContributionItem[] items = coolBarManager.getItems();
+//			for(IContributionItem item:items){
+//				if(item.getId().toLowerCase().contains("org.eclipse.papyrus.uml.diagram.ui.toolbar")){
+//					coolBarManager.remove(item);
+//				}
+//			}
+//			coolBarManager.update(true);
 		}
 	}
 	private ISaveAndDirtyService getSaveAndDirtyService(PapyrusMultiDiagramEditor e){

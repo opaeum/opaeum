@@ -79,7 +79,6 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 			});
 		}
 		if(eobject instanceof AbstractEditor){
-			System.out.println("UimContributionFactory.createContributionItems()");
 			menuManager.add(new CompoundContributionItem(){
 				@Override
 				protected IContributionItem[] getContributionItems(){
@@ -93,7 +92,7 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 				}
 			});
 		}
-		if(eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation){
+		if(eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation || eobject instanceof org.eclipse.uml2.uml.Package ){
 			menuManager.add(new CompoundContributionItem(){
 				@Override
 				protected IContributionItem[] getContributionItems(){

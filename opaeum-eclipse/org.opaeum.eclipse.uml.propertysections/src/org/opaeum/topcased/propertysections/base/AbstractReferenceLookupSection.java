@@ -3,7 +3,12 @@ package org.opaeum.topcased.propertysections.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -11,9 +16,11 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.celleditor.FeatureEditorDialog;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.edit.providers.UMLItemProviderAdapterFactory;
@@ -33,7 +40,8 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 			List<? extends EObject> choiceOfValues = getAvailableChoices();
 			Shell shell = Display.getDefault().getActiveShell();
 			String displayName = "Choose the objects to add";
-			FeatureEditorDialog dialog = new FeatureEditorDialog(shell, (ILabelProvider) getLabelProvider(), getFeatureOwner(), getFeature(), displayName, choiceOfValues);
+			FeatureEditorDialog dialog = new FeatureEditorDialog(shell, (ILabelProvider) getLabelProvider(), getFeatureOwner(), getFeature(),
+					displayName, choiceOfValues);
 			dialog.open();
 			return dialog.getResult();
 		}
@@ -44,6 +52,32 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 	}
 	protected abstract EObject getFeatureOwner();
 	protected abstract List<? extends EObject> getAvailableChoices();
+	protected void removeListener(){
+		super.removeListener();
+		if(getEObject() != null && getFeatureOwner() != null){
+			getFeatureOwner().eAdapters().remove(getModelListener());
+		}
+	}
+	protected void handleModelChanged(Notification msg){
+		Object notifier = msg.getNotifier();
+		EStructuralFeature thisFeature = getFeature();
+		if(notifier.equals(getFeatureOwner()) && thisFeature != null){
+			Object msgFeature = msg.getFeature();
+			if(msg.getFeatureID(getEObject().getClass()) == thisFeature.getFeatureID() || thisFeature.equals(msgFeature)){
+				if(getTable().isDisposed()){
+					((Notifier) notifier).eAdapters().remove(getModelListener());
+				}else{
+					refresh();
+				}
+			}
+		}
+	}
+	protected void addListener(){
+		super.addListener();
+		if(getEObject() != null && getFeatureOwner() != null){
+			getFeatureOwner().eAdapters().add(getModelListener());
+		}
+	}
 	protected final IBaseLabelProvider getLabelProvider(){
 		List<AdapterFactory> f = new ArrayList<AdapterFactory>();
 		f.add(new UMLItemProviderAdapterFactory());
@@ -68,17 +102,23 @@ public abstract class AbstractReferenceLookupSection extends AbstractReferencePr
 			}
 		};
 	}
-	public void refresh(){
+	@Override
+	public void setInput(IWorkbenchPart part,ISelection selection){
+		super.setInput(part, selection);
 		getTable().setInput(getFeatureOwner(), getFeature());
 		getTable().setEditingDomain(getEditingDomain());
+	}
+	public void refresh(){
+		getTable().setInput(getFeatureOwner(), getFeature());
 		getTable().refresh();
-		getTable().pack();
 		getTable().getParent().getParent().getParent().layout();
 	}
+	@Override
+	public boolean shouldUseExtraSpace(){
+		return true;
+	}
 	protected void createWidgets(Composite composite){
-		setTable(new ReferenceViewerComposite(composite, new String[]{
-			getLabelText()
-		}, getWidgetFactory()){
+		setTable(new ReferenceViewerComposite(composite, new String[]{getLabelText()}, getWidgetFactory()){
 			public void updateSelectedItem(Object data){
 				updateSelection(data);
 			}

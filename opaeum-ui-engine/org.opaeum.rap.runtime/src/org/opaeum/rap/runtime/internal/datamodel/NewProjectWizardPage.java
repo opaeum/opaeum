@@ -4,7 +4,6 @@ package org.opaeum.rap.runtime.internal.datamodel;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.rap.rms.data.IPrincipal;
 import org.eclipse.rap.rms.data.IProject;
 import org.eclipse.swt.SWT;
@@ -19,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.wizards.INewEntityPage;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 final class NewProjectWizardPage
   extends WizardPage
@@ -76,7 +76,7 @@ final class NewProjectWizardPage
     return newProject != null;
   }
 
-  public IEntity getEntity() {
+  public IPersistentObject getEntity() {
     return newProject;
   }
 }

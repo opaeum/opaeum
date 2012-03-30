@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -51,8 +50,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="dish_washer_model",uniqueConstraints=
-	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
+@Table(name="dish_washer_model")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DishWasherModel")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -75,11 +73,15 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	static private Set<DishWasherModel> mockedAllInstances;
+	@Column(name="name")
+	private String name;
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
+	@Column(name="part_number")
+	private String partNumber;
 	@Transient
 	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 9167031835761131135l;
@@ -130,6 +132,12 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
+		if ( xml.getAttribute("name").length()>0 ) {
+			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
+		}
+		if ( xml.getAttribute("partNumber").length()>0 ) {
+			setPartNumber(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("partNumber")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -160,12 +168,16 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void copyShallowState(DishWasherModel from, DishWasherModel to) {
+		to.setName(from.getName());
+		to.setPartNumber(from.getPartNumber());
 	}
 	
 	public void copyState(DishWasherModel from, DishWasherModel to) {
 		for ( DishWasherComponent child : from.getComponent() ) {
 			to.addToComponent(child.makeCopy());
 		}
+		to.setName(from.getName());
+		to.setPartNumber(from.getPartNumber());
 	}
 	
 	public DishWasherComponent createComponent() {
@@ -212,8 +224,12 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.id;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	public String getName() {
-		return "DishWasherModel["+getId()+"]";
+		String result = this.name;
+		
+		return result;
 	}
 	
 	public int getObjectVersion() {
@@ -226,6 +242,14 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	
 	public CompositionNode getOwningObject() {
 		return getDishwashersInc();
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
+	public String getPartNumber() {
+		String result = this.partNumber;
+		
+		return result;
 	}
 	
 	public String getUid() {
@@ -321,36 +345,24 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		DishwashersInc oldValue = this.getDishwashersInc();
-		if ( oldValue==null ) {
-			if ( dishwashersInc!=null ) {
-				DishWasherModel oldOther = (DishWasherModel)dishwashersInc.getDishWasher();
-				dishwashersInc.z_internalRemoveFromDishWasher(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-				}
-				dishwashersInc.z_internalAddToDishWasher((DishWasherModel)this);
-			}
+		if ( this.getDishwashersInc()!=null ) {
+			this.getDishwashersInc().z_internalRemoveFromDishWasher(this);
+		}
+		if ( dishwashersInc!=null ) {
+			dishwashersInc.z_internalAddToDishWasher(this);
 			this.z_internalAddToDishwashersInc(dishwashersInc);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(dishwashersInc) ) {
-				oldValue.z_internalRemoveFromDishWasher(this);
-				z_internalRemoveFromDishwashersInc(oldValue);
-				if ( dishwashersInc!=null ) {
-					DishWasherModel oldOther = (DishWasherModel)dishwashersInc.getDishWasher();
-					dishwashersInc.z_internalRemoveFromDishWasher(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-					}
-					dishwashersInc.z_internalAddToDishWasher((DishWasherModel)this);
-				}
-				this.z_internalAddToDishwashersInc(dishwashersInc);
-			}
+			markDeleted();
 		}
 	}
 	
 	public void setId(Long id) {
 		this.id=id;
+	}
+	
+	public void setName(String name) {
+		this.z_internalAddToName(name);
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -359,6 +371,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
 		this.outgoingEvents=outgoingEvents;
+	}
+	
+	public void setPartNumber(String partNumber) {
+		this.z_internalAddToPartNumber(partNumber);
 	}
 	
 	public void setUid(String newUid) {
@@ -375,6 +391,12 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		sb.append("classUuid=\"914890@_nhV7IGCfEeG6xvYqJACneg\" ");
 		sb.append("className=\"structuredbusiness.DishWasherModel\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
+		if ( getName()!=null ) {
+			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
+		}
+		if ( getPartNumber()!=null ) {
+			sb.append("partNumber=\""+ StructuredbusinessFormatter.getInstance().formatString(getPartNumber())+"\" ");
+		}
 		sb.append(">");
 		sb.append("\n<component propertyId=\"6689744676322243651\">");
 		for ( DishWasherComponent component : getComponent() ) {
@@ -393,6 +415,14 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		this.dishwashersInc=val;
 	}
 	
+	public void z_internalAddToName(String val) {
+		this.name=val;
+	}
+	
+	public void z_internalAddToPartNumber(String val) {
+		this.partNumber=val;
+	}
+	
 	public void z_internalRemoveFromComponent(DishWasherComponent val) {
 		this.component.remove(val);
 	}
@@ -401,6 +431,20 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
+		}
+	}
+	
+	public void z_internalRemoveFromName(String val) {
+		if ( getName()!=null && val!=null && val.equals(getName()) ) {
+			this.name=null;
+			this.name=null;
+		}
+	}
+	
+	public void z_internalRemoveFromPartNumber(String val) {
+		if ( getPartNumber()!=null && val!=null && val.equals(getPartNumber()) ) {
+			this.partNumber=null;
+			this.partNumber=null;
 		}
 	}
 

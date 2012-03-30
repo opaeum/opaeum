@@ -17,6 +17,8 @@ import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.datamodel.EntityAdapter.IEntityAdapter;
+import org.opaeum.rap.runtime.internal.views.PersistentObjectTreeItem;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 final class ProjectAdapter implements IEntityAdapter {
 
@@ -42,7 +44,7 @@ final class ProjectAdapter implements IEntityAdapter {
   }
 
   public String getText( final Object element ) {
-    return ( ( IProject )element ).getName();
+    return ( ( PersistentObjectTreeItem )element ).getEntity().getName();
   }
 
   public String getEditorName( final Object element ) {
@@ -138,11 +140,10 @@ final class ProjectAdapter implements IEntityAdapter {
   public FormPage[] getEditorPages( final Object element,
                                     final FormEditor editor )
   {
-    ProjectCopy project = new ProjectCopy( ( IProject )element );
+    IProject project = ( IProject )element ;
     return new FormPage[] {
       new ProjectOverviewPage( editor, project ),
       new ProjectTasksPage( editor, project ),
-      new ProjectGanttPage( editor, project )
     };
   }
 }

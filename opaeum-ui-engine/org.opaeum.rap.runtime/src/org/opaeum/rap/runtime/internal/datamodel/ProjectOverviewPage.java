@@ -3,6 +3,7 @@ package org.opaeum.rap.runtime.internal.datamodel;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.rap.rms.data.IProject;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Text;
@@ -20,19 +21,14 @@ import org.opaeum.rap.runtime.internal.datamodel.PageUtil.Container;
 
 public class ProjectOverviewPage extends FormPage {
   private static final String OVERVIEW = "Overview"; //$NON-NLS-1$
-  private final ProjectCopy project;
+  private final IProject project;
 
 
   public ProjectOverviewPage( final FormEditor editor,
-                              final ProjectCopy project )
+                              final IProject project )
   {
     super( editor, OVERVIEW, RMSMessages.get().ProjectOverviewPage_Title );
     this.project = project;
-    this.project.setDirtyNotificator( new Runnable() {
-      public void run() {
-        ProjectOverviewPage.this.firePropertyChange( PROP_DIRTY );
-      }
-    } );
   }
 
   @Override
@@ -62,24 +58,23 @@ public class ProjectOverviewPage extends FormPage {
     Text txtDesc = PageUtil.createLabelMultiText( cInfo,
                                                   RMSMessages.get().ProjectOverviewPage_Description,
                                                   project.getDescription() );
-    PageUtil.bindText( ctx,project, txtDesc, ProjectCopy.DESCRIPTION );
+    PageUtil.bindText( ctx,project, txtDesc, "description" );
     DateTime dtStart = PageUtil.createLabelDate( cInfo,
                                                  RMSMessages.get().ProjectOverviewPage_StartDate,
                                                  project.getStartDate() );
-    PageUtil.bindDate( ctx, project, dtStart, ProjectCopy.START_DATE );
+    PageUtil.bindDate( ctx, project, dtStart, "startDate" );
     DateTime dtEnd = PageUtil.createLabelDate( cInfo,
                                                RMSMessages.get().ProjectOverviewPage_EndDate,
                                                project.getEndDate() );
-    PageUtil.bindDate( ctx, project, dtEnd, ProjectCopy.END_DATE );
+    PageUtil.bindDate( ctx, project, dtEnd, "endDate" );
   }
 
   @Override
   public void doSave( final IProgressMonitor monitor ) {
-    project.save();
   }
 
   @Override
   public boolean isDirty() {
-    return project.isDirty();
+    return true;
   }
 }

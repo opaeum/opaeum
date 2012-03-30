@@ -178,31 +178,22 @@ public interface PerspectivePackage extends EPackage {
 	int EXPLORER_CONFIGURATION__PERSPECTIVE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Hidden Classes</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Configured Classes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__HIDDEN_CLASSES = 1;
+	int EXPLORER_CONFIGURATION__CONFIGURED_CLASSES = 1;
 
 	/**
-	 * The feature id for the '<em><b>Visible Non Composite Properties</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Configured Properties</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES = 2;
-
-	/**
-	 * The feature id for the '<em><b>Hidden Composite Properties</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES = 3;
+	int EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES = 2;
 
 	/**
 	 * The number of structural features of the '<em>Explorer Configuration</em>' class.
@@ -211,54 +202,17 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXPLORER_CONFIGURATION_FEATURE_COUNT = 4;
+	int EXPLORER_CONFIGURATION_FEATURE_COUNT = 3;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.HiddenClassImpl <em>Hidden Class</em>}' class.
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl <em>Explorer Class Configuration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.HiddenClassImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getHiddenClass()
+	 * @see org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerClassConfiguration()
 	 * @generated
 	 */
-	int HIDDEN_CLASS = 3;
-
-	/**
-	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIDDEN_CLASS__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
-
-	/**
-	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIDDEN_CLASS__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Hidden Class</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HIDDEN_CLASS_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.VisibleNonCompositePropertyImpl <em>Visible Non Composite Property</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.VisibleNonCompositePropertyImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getVisibleNonCompositeProperty()
-	 * @generated
-	 */
-	int VISIBLE_NON_COMPOSITE_PROPERTY = 4;
+	int EXPLORER_CLASS_CONFIGURATION = 3;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -267,7 +221,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VISIBLE_NON_COMPOSITE_PROPERTY__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+	int EXPLORER_CLASS_CONFIGURATION__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
@@ -276,26 +230,35 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VISIBLE_NON_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+	int EXPLORER_CLASS_CONFIGURATION__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Visible Non Composite Property</em>' class.
+	 * The feature id for the '<em><b>Is Visible</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VISIBLE_NON_COMPOSITE_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+	int EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.HiddenCompositePropertyImpl <em>Hidden Composite Property</em>}' class.
+	 * The number of structural features of the '<em>Explorer Class Configuration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.opaeum.uim.perspective.impl.HiddenCompositePropertyImpl
-	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getHiddenCompositeProperty()
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_CLASS_CONFIGURATION_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl <em>Explorer Property Configuration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl
+	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerPropertyConfiguration()
 	 * @generated
 	 */
-	int HIDDEN_COMPOSITE_PROPERTY = 5;
+	int EXPLORER_PROPERTY_CONFIGURATION = 4;
 
 	/**
 	 * The feature id for the '<em><b>Uml Element Uid</b></em>' attribute.
@@ -304,7 +267,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HIDDEN_COMPOSITE_PROPERTY__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
+	int EXPLORER_PROPERTY_CONFIGURATION__UML_ELEMENT_UID = UimPackage.UML_REFERENCE__UML_ELEMENT_UID;
 
 	/**
 	 * The feature id for the '<em><b>Explorer Configuration</b></em>' container reference.
@@ -313,16 +276,25 @@ public interface PerspectivePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HIDDEN_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
+	int EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION = UimPackage.UML_REFERENCE_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of structural features of the '<em>Hidden Composite Property</em>' class.
+	 * The feature id for the '<em><b>Is Visible</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HIDDEN_COMPOSITE_PROPERTY_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+	int EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE = UimPackage.UML_REFERENCE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Explorer Property Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPLORER_PROPERTY_CONFIGURATION_FEATURE_COUNT = UimPackage.UML_REFERENCE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.ViewKind <em>View Kind</em>}' enum.
@@ -332,7 +304,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getViewKind()
 	 * @generated
 	 */
-	int VIEW_KIND = 6;
+	int VIEW_KIND = 5;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.perspective.PositionInPerspective <em>Position In Perspective</em>}' enum.
@@ -342,7 +314,7 @@ public interface PerspectivePackage extends EPackage {
 	 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getPositionInPerspective()
 	 * @generated
 	 */
-	int POSITION_IN_PERSPECTIVE = 7;
+	int POSITION_IN_PERSPECTIVE = 6;
 
 
 	/**
@@ -464,100 +436,90 @@ public interface PerspectivePackage extends EPackage {
 	EReference getExplorerConfiguration_Perspective();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getHiddenClasses <em>Hidden Classes</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredClasses <em>Configured Classes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Hidden Classes</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getHiddenClasses()
+	 * @return the meta object for the containment reference list '<em>Configured Classes</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredClasses()
 	 * @see #getExplorerConfiguration()
 	 * @generated
 	 */
-	EReference getExplorerConfiguration_HiddenClasses();
+	EReference getExplorerConfiguration_ConfiguredClasses();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleNonCompositeProperties <em>Visible Non Composite Properties</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredProperties <em>Configured Properties</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Visible Non Composite Properties</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleNonCompositeProperties()
+	 * @return the meta object for the containment reference list '<em>Configured Properties</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredProperties()
 	 * @see #getExplorerConfiguration()
 	 * @generated
 	 */
-	EReference getExplorerConfiguration_VisibleNonCompositeProperties();
+	EReference getExplorerConfiguration_ConfiguredProperties();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.opaeum.uim.perspective.ExplorerConfiguration#getHiddenCompositeProperties <em>Hidden Composite Properties</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration <em>Explorer Class Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Hidden Composite Properties</em>'.
-	 * @see org.opaeum.uim.perspective.ExplorerConfiguration#getHiddenCompositeProperties()
-	 * @see #getExplorerConfiguration()
+	 * @return the meta object for class '<em>Explorer Class Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerClassConfiguration
 	 * @generated
 	 */
-	EReference getExplorerConfiguration_HiddenCompositeProperties();
+	EClass getExplorerClassConfiguration();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.HiddenClass <em>Hidden Class</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Hidden Class</em>'.
-	 * @see org.opaeum.uim.perspective.HiddenClass
-	 * @generated
-	 */
-	EClass getHiddenClass();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.HiddenClass#getExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getExplorerConfiguration <em>Explorer Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Explorer Configuration</em>'.
-	 * @see org.opaeum.uim.perspective.HiddenClass#getExplorerConfiguration()
-	 * @see #getHiddenClass()
+	 * @see org.opaeum.uim.perspective.ExplorerClassConfiguration#getExplorerConfiguration()
+	 * @see #getExplorerClassConfiguration()
 	 * @generated
 	 */
-	EReference getHiddenClass_ExplorerConfiguration();
+	EReference getExplorerClassConfiguration_ExplorerConfiguration();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.VisibleNonCompositeProperty <em>Visible Non Composite Property</em>}'.
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getIsVisible <em>Is Visible</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Visible Non Composite Property</em>'.
-	 * @see org.opaeum.uim.perspective.VisibleNonCompositeProperty
+	 * @return the meta object for the attribute '<em>Is Visible</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerClassConfiguration#getIsVisible()
+	 * @see #getExplorerClassConfiguration()
 	 * @generated
 	 */
-	EClass getVisibleNonCompositeProperty();
+	EAttribute getExplorerClassConfiguration_IsVisible();
 
 	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.VisibleNonCompositeProperty#getExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration <em>Explorer Property Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Explorer Configuration</em>'.
-	 * @see org.opaeum.uim.perspective.VisibleNonCompositeProperty#getExplorerConfiguration()
-	 * @see #getVisibleNonCompositeProperty()
+	 * @return the meta object for class '<em>Explorer Property Configuration</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerPropertyConfiguration
 	 * @generated
 	 */
-	EReference getVisibleNonCompositeProperty_ExplorerConfiguration();
+	EClass getExplorerPropertyConfiguration();
 
 	/**
-	 * Returns the meta object for class '{@link org.opaeum.uim.perspective.HiddenCompositeProperty <em>Hidden Composite Property</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Hidden Composite Property</em>'.
-	 * @see org.opaeum.uim.perspective.HiddenCompositeProperty
-	 * @generated
-	 */
-	EClass getHiddenCompositeProperty();
-
-	/**
-	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.HiddenCompositeProperty#getExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the meta object for the container reference '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getExplorerConfiguration <em>Explorer Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the container reference '<em>Explorer Configuration</em>'.
-	 * @see org.opaeum.uim.perspective.HiddenCompositeProperty#getExplorerConfiguration()
-	 * @see #getHiddenCompositeProperty()
+	 * @see org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getExplorerConfiguration()
+	 * @see #getExplorerPropertyConfiguration()
 	 * @generated
 	 */
-	EReference getHiddenCompositeProperty_ExplorerConfiguration();
+	EReference getExplorerPropertyConfiguration_ExplorerConfiguration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getIsVisible <em>Is Visible</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Visible</em>'.
+	 * @see org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getIsVisible()
+	 * @see #getExplorerPropertyConfiguration()
+	 * @generated
+	 */
+	EAttribute getExplorerPropertyConfiguration_IsVisible();
 
 	/**
 	 * Returns the meta object for enum '{@link org.opaeum.uim.perspective.ViewKind <em>View Kind</em>}'.
@@ -696,38 +658,30 @@ public interface PerspectivePackage extends EPackage {
 		EReference EXPLORER_CONFIGURATION__PERSPECTIVE = eINSTANCE.getExplorerConfiguration_Perspective();
 
 		/**
-		 * The meta object literal for the '<em><b>Hidden Classes</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Configured Classes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CONFIGURATION__HIDDEN_CLASSES = eINSTANCE.getExplorerConfiguration_HiddenClasses();
+		EReference EXPLORER_CONFIGURATION__CONFIGURED_CLASSES = eINSTANCE.getExplorerConfiguration_ConfiguredClasses();
 
 		/**
-		 * The meta object literal for the '<em><b>Visible Non Composite Properties</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Configured Properties</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES = eINSTANCE.getExplorerConfiguration_VisibleNonCompositeProperties();
+		EReference EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES = eINSTANCE.getExplorerConfiguration_ConfiguredProperties();
 
 		/**
-		 * The meta object literal for the '<em><b>Hidden Composite Properties</b></em>' containment reference list feature.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl <em>Explorer Class Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.opaeum.uim.perspective.impl.ExplorerClassConfigurationImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerClassConfiguration()
 		 * @generated
 		 */
-		EReference EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES = eINSTANCE.getExplorerConfiguration_HiddenCompositeProperties();
-
-		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.HiddenClassImpl <em>Hidden Class</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.HiddenClassImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getHiddenClass()
-		 * @generated
-		 */
-		EClass HIDDEN_CLASS = eINSTANCE.getHiddenClass();
+		EClass EXPLORER_CLASS_CONFIGURATION = eINSTANCE.getExplorerClassConfiguration();
 
 		/**
 		 * The meta object literal for the '<em><b>Explorer Configuration</b></em>' container reference feature.
@@ -735,35 +689,25 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference HIDDEN_CLASS__EXPLORER_CONFIGURATION = eINSTANCE.getHiddenClass_ExplorerConfiguration();
+		EReference EXPLORER_CLASS_CONFIGURATION__EXPLORER_CONFIGURATION = eINSTANCE.getExplorerClassConfiguration_ExplorerConfiguration();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.VisibleNonCompositePropertyImpl <em>Visible Non Composite Property</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.VisibleNonCompositePropertyImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getVisibleNonCompositeProperty()
-		 * @generated
-		 */
-		EClass VISIBLE_NON_COMPOSITE_PROPERTY = eINSTANCE.getVisibleNonCompositeProperty();
-
-		/**
-		 * The meta object literal for the '<em><b>Explorer Configuration</b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Is Visible</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference VISIBLE_NON_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION = eINSTANCE.getVisibleNonCompositeProperty_ExplorerConfiguration();
+		EAttribute EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE = eINSTANCE.getExplorerClassConfiguration_IsVisible();
 
 		/**
-		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.HiddenCompositePropertyImpl <em>Hidden Composite Property</em>}' class.
+		 * The meta object literal for the '{@link org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl <em>Explorer Property Configuration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.opaeum.uim.perspective.impl.HiddenCompositePropertyImpl
-		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getHiddenCompositeProperty()
+		 * @see org.opaeum.uim.perspective.impl.ExplorerPropertyConfigurationImpl
+		 * @see org.opaeum.uim.perspective.impl.PerspectivePackageImpl#getExplorerPropertyConfiguration()
 		 * @generated
 		 */
-		EClass HIDDEN_COMPOSITE_PROPERTY = eINSTANCE.getHiddenCompositeProperty();
+		EClass EXPLORER_PROPERTY_CONFIGURATION = eINSTANCE.getExplorerPropertyConfiguration();
 
 		/**
 		 * The meta object literal for the '<em><b>Explorer Configuration</b></em>' container reference feature.
@@ -771,7 +715,15 @@ public interface PerspectivePackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference HIDDEN_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION = eINSTANCE.getHiddenCompositeProperty_ExplorerConfiguration();
+		EReference EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION = eINSTANCE.getExplorerPropertyConfiguration_ExplorerConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Visible</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE = eINSTANCE.getExplorerPropertyConfiguration_IsVisible();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.perspective.ViewKind <em>View Kind</em>}' enum.

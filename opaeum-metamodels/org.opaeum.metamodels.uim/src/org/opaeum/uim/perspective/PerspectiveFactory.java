@@ -49,31 +49,22 @@ public interface PerspectiveFactory extends EFactory {
 	ExplorerConfiguration createExplorerConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Hidden Class</em>'.
+	 * Returns a new object of class '<em>Explorer Class Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Hidden Class</em>'.
+	 * @return a new object of class '<em>Explorer Class Configuration</em>'.
 	 * @generated
 	 */
-	HiddenClass createHiddenClass();
+	ExplorerClassConfiguration createExplorerClassConfiguration();
 
 	/**
-	 * Returns a new object of class '<em>Visible Non Composite Property</em>'.
+	 * Returns a new object of class '<em>Explorer Property Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Visible Non Composite Property</em>'.
+	 * @return a new object of class '<em>Explorer Property Configuration</em>'.
 	 * @generated
 	 */
-	VisibleNonCompositeProperty createVisibleNonCompositeProperty();
-
-	/**
-	 * Returns a new object of class '<em>Hidden Composite Property</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Hidden Composite Property</em>'.
-	 * @generated
-	 */
-	HiddenCompositeProperty createHiddenCompositeProperty();
+	ExplorerPropertyConfiguration createExplorerPropertyConfiguration();
 
 	/**
 	 * Returns the package supported by this factory.

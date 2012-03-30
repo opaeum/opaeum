@@ -14,9 +14,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.opaeum.uim.perspective.ExplorerConfiguration#getPerspective <em>Perspective</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.ExplorerConfiguration#getHiddenClasses <em>Hidden Classes</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.ExplorerConfiguration#getVisibleNonCompositeProperties <em>Visible Non Composite Properties</em>}</li>
- *   <li>{@link org.opaeum.uim.perspective.ExplorerConfiguration#getHiddenCompositeProperties <em>Hidden Composite Properties</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredClasses <em>Configured Classes</em>}</li>
+ *   <li>{@link org.opaeum.uim.perspective.ExplorerConfiguration#getConfiguredProperties <em>Configured Properties</em>}</li>
  * </ul>
  * </p>
  *
@@ -54,57 +53,39 @@ public interface ExplorerConfiguration extends EObject {
 	void setPerspective(UimPerspective value);
 
 	/**
-	 * Returns the value of the '<em><b>Hidden Classes</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opaeum.uim.perspective.HiddenClass}.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.HiddenClass#getExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the value of the '<em><b>Configured Classes</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.perspective.ExplorerClassConfiguration}.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration#getExplorerConfiguration <em>Explorer Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Hidden Classes</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Configured Classes</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Hidden Classes</em>' containment reference list.
-	 * @see org.opaeum.uim.perspective.PerspectivePackage#getExplorerConfiguration_HiddenClasses()
-	 * @see org.opaeum.uim.perspective.HiddenClass#getExplorerConfiguration
+	 * @return the value of the '<em>Configured Classes</em>' containment reference list.
+	 * @see org.opaeum.uim.perspective.PerspectivePackage#getExplorerConfiguration_ConfiguredClasses()
+	 * @see org.opaeum.uim.perspective.ExplorerClassConfiguration#getExplorerConfiguration
 	 * @model opposite="explorerConfiguration" containment="true"
 	 * @generated
 	 */
-	EList<HiddenClass> getHiddenClasses();
+	EList<ExplorerClassConfiguration> getConfiguredClasses();
 
 	/**
-	 * Returns the value of the '<em><b>Visible Non Composite Properties</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opaeum.uim.perspective.VisibleNonCompositeProperty}.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.VisibleNonCompositeProperty#getExplorerConfiguration <em>Explorer Configuration</em>}'.
+	 * Returns the value of the '<em><b>Configured Properties</b></em>' containment reference list.
+	 * The list contents are of type {@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration}.
+	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getExplorerConfiguration <em>Explorer Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Visible Non Composite Properties</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Configured Properties</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Visible Non Composite Properties</em>' containment reference list.
-	 * @see org.opaeum.uim.perspective.PerspectivePackage#getExplorerConfiguration_VisibleNonCompositeProperties()
-	 * @see org.opaeum.uim.perspective.VisibleNonCompositeProperty#getExplorerConfiguration
+	 * @return the value of the '<em>Configured Properties</em>' containment reference list.
+	 * @see org.opaeum.uim.perspective.PerspectivePackage#getExplorerConfiguration_ConfiguredProperties()
+	 * @see org.opaeum.uim.perspective.ExplorerPropertyConfiguration#getExplorerConfiguration
 	 * @model opposite="explorerConfiguration" containment="true"
 	 * @generated
 	 */
-	EList<VisibleNonCompositeProperty> getVisibleNonCompositeProperties();
-
-	/**
-	 * Returns the value of the '<em><b>Hidden Composite Properties</b></em>' containment reference list.
-	 * The list contents are of type {@link org.opaeum.uim.perspective.HiddenCompositeProperty}.
-	 * It is bidirectional and its opposite is '{@link org.opaeum.uim.perspective.HiddenCompositeProperty#getExplorerConfiguration <em>Explorer Configuration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Hidden Composite Properties</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Hidden Composite Properties</em>' containment reference list.
-	 * @see org.opaeum.uim.perspective.PerspectivePackage#getExplorerConfiguration_HiddenCompositeProperties()
-	 * @see org.opaeum.uim.perspective.HiddenCompositeProperty#getExplorerConfiguration
-	 * @model opposite="explorerConfiguration" containment="true"
-	 * @generated
-	 */
-	EList<HiddenCompositeProperty> getHiddenCompositeProperties();
+	EList<ExplorerPropertyConfiguration> getConfiguredProperties();
 
 } // ExplorerConfiguration

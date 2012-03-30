@@ -5,6 +5,8 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rap.rms.data.IPrincipal;
+import org.eclipse.rap.rms.internal.data.DataModel.Principal;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -24,7 +26,7 @@ import org.opaeum.rap.runtime.internal.datamodel.PageUtil.PhoneNumberValidator;
 
 public class PrincipalOverviewPage extends FormPage {
   private static final String OVERVIEW = "Overview"; //$NON-NLS-1$
-  private final PrincipalCopy principal;
+  private final IPrincipal principal;
   
   private PhoneNumberValidator faxValidator;
   private PhoneNumberValidator mobileValidator;
@@ -36,14 +38,9 @@ public class PrincipalOverviewPage extends FormPage {
   private Text txtEMail;
   
   public PrincipalOverviewPage( final FormEditor editor,
-                                final PrincipalCopy principal ) {
+                                final IPrincipal principal ) {
     super( editor, OVERVIEW, RMSMessages.get().PrincipalOverviewPage_Title );
     this.principal = principal;
-    this.principal.setDirtyNotificator( new Runnable() {
-      public void run() {
-        PrincipalOverviewPage.this.firePropertyChange( PROP_DIRTY );
-      }
-    } );
   }
 
   public void init( final IEditorSite site, final IEditorInput input ) {
@@ -71,22 +68,22 @@ public class PrincipalOverviewPage extends FormPage {
                                                RMSMessages.get().PrincipalOverviewPage_Street, 
                                                principal.getStreet(),
                                                false );
-    PageUtil.bindText( ctx, principal, txtStreet, PrincipalCopy.STREET );
+    PageUtil.bindText( ctx, principal, txtStreet, "street");
     Text txtCity = PageUtil.createLabelText( cInfo,
                                              RMSMessages.get().PrincipalOverviewPage_City,
                                              principal.getCity(),
                                              false );
-    PageUtil.bindText( ctx, principal, txtCity, PrincipalCopy.CITY );
+    PageUtil.bindText( ctx, principal, txtCity, "city" );
     Text txtPostCode = PageUtil.createLabelText( cInfo,
                                                  RMSMessages.get().PrincipalOverviewPage_ZIPPostalCode,
                                                  principal.getPostCode(),
                                                  false );
-    PageUtil.bindText( ctx, principal, txtPostCode, PrincipalCopy.POST_CODE );
+    PageUtil.bindText( ctx, principal, txtPostCode, "postCode");
     CCombo cboCountry = PageUtil.createLabelCombo( cInfo, 
                                                   RMSMessages.get().PrincipalOverviewPage_Country, 
                                                   principal.getCountry(),
                                                   Activator.COUNTRIES );
-    PageUtil.bindCombo( ctx, principal, cboCountry, PrincipalCopy.COUNTRY );
+    PageUtil.bindCombo( ctx, principal, cboCountry, "country" );
 
     // contact person section
     Composite contact
@@ -102,12 +99,12 @@ public class PrincipalOverviewPage extends FormPage {
                                                  RMSMessages.get().PrincipalOverviewPage_Lastname,
                                                  principal.getLastName(),
                                                  false );
-    PageUtil.bindText( ctx, principal, txtLastName, PrincipalCopy.LAST_NAME );
+    PageUtil.bindText( ctx, principal, txtLastName, "lastName" );
     Text txtFirstName = PageUtil.createLabelText( cContact, 
                                                   RMSMessages.get().PrincipalOverviewPage_Firstname, 
                                                   principal.getFirstName(),
                                                   false );
-    PageUtil.bindText( ctx, principal, txtFirstName, PrincipalCopy.FIRST_NAME );
+    PageUtil.bindText( ctx, principal, txtFirstName, "firstName");
     txtEMail = PageUtil.createLabelText( cContact,
                                          RMSMessages.get().PrincipalOverviewPage_EMail,
                                          principal.getEMail(),
@@ -116,7 +113,7 @@ public class PrincipalOverviewPage extends FormPage {
     PageUtil.bindText( ctx,
                        principal,
                        txtEMail,
-                       PrincipalCopy.EMAIL,
+                       "EMail",
                        eMailValidator );
     txtPhone = PageUtil.createLabelText( cContact, 
                                          RMSMessages.get().PrincipalOverviewPage_Phone,
@@ -126,7 +123,7 @@ public class PrincipalOverviewPage extends FormPage {
     PageUtil.bindText( ctx,
                        principal,
                        txtPhone,
-                       PrincipalCopy.PHONE_NUMBER,
+                       "phoneNumber",
                        phoneValidator );
     txtMobile = PageUtil.createLabelText( cContact,
                                           RMSMessages.get().PrincipalOverviewPage_Mobile,
@@ -136,7 +133,7 @@ public class PrincipalOverviewPage extends FormPage {
     PageUtil.bindText( ctx,
                        principal,
                        txtMobile,
-                       PrincipalCopy.MOBILE_NUMBER,
+                       "mobileNumber",
                        mobileValidator );
     txtFax = PageUtil.createLabelText( cContact,
                                        RMSMessages.get().PrincipalOverviewPage_Fax,
@@ -146,13 +143,14 @@ public class PrincipalOverviewPage extends FormPage {
     PageUtil.bindText( ctx,
                        principal,
                        txtFax,
-                       PrincipalCopy.FAX_NUMBER,
+                       "faxNumber",
                        faxValidator );
   }
 
   @Override
   public boolean isDirty() {
-    return principal.isDirty();
+	  //TODO find some good alternative
+    return true;
   }
   
   @Override
@@ -162,7 +160,7 @@ public class PrincipalOverviewPage extends FormPage {
         && phoneValidator.validate( txtPhone.getText() ).isOK()
         && eMailValidator.validate( txtEMail.getText() ).isOK() )
     {
-      principal.save();
+    	//Save
     } else {
       //TODO : [yao]NLS#
               

@@ -23,7 +23,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -66,8 +65,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="manager",uniqueConstraints=
-	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
+@Table(name="manager")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="Manager")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -86,6 +84,8 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	static private Set<Manager> mockedAllInstances;
+	@Column(name="property1")
+	private String name;
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
@@ -150,6 +150,9 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
+		if ( xml.getAttribute("name").length()>0 ) {
+			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -180,9 +183,11 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void copyShallowState(Manager from, Manager to) {
+		to.setName(from.getName());
 	}
 	
 	public void copyState(Manager from, Manager to) {
+		to.setName(from.getName());
 	}
 	
 	public void createComponents() {
@@ -242,8 +247,12 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=1221154963085114366l,uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_hU8D8HphEeGlh5y8zQdYBA")
 	public String getName() {
-		return "Manager["+getId()+"]";
+		String result = this.name;
+		
+		return result;
 	}
 	
 	public int getObjectVersion() {
@@ -399,36 +408,24 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		DishwashersInc oldValue = this.getDishwashersInc();
-		if ( oldValue==null ) {
-			if ( dishwashersInc!=null ) {
-				Manager oldOther = (Manager)dishwashersInc.getManager();
-				dishwashersInc.z_internalRemoveFromManager(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-				}
-				dishwashersInc.z_internalAddToManager((Manager)this);
-			}
+		if ( this.getDishwashersInc()!=null ) {
+			this.getDishwashersInc().z_internalRemoveFromManager(this);
+		}
+		if ( dishwashersInc!=null ) {
+			dishwashersInc.z_internalAddToManager(this);
 			this.z_internalAddToDishwashersInc(dishwashersInc);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(dishwashersInc) ) {
-				oldValue.z_internalRemoveFromManager(this);
-				z_internalRemoveFromDishwashersInc(oldValue);
-				if ( dishwashersInc!=null ) {
-					Manager oldOther = (Manager)dishwashersInc.getManager();
-					dishwashersInc.z_internalRemoveFromManager(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-					}
-					dishwashersInc.z_internalAddToManager((Manager)this);
-				}
-				this.z_internalAddToDishwashersInc(dishwashersInc);
-			}
+			markDeleted();
 		}
 	}
 	
 	public void setId(Long id) {
 		this.id=id;
+	}
+	
+	public void setName(String name) {
+		this.z_internalAddToName(name);
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -501,6 +498,9 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		sb.append("classUuid=\"914890@_u7lZEGQWEeGbL9nlXe9lTQ\" ");
 		sb.append("className=\"structuredbusiness.Manager\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
+		if ( getName()!=null ) {
+			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
+		}
 		sb.append(">");
 		if ( getPerson_iBusinessRole_1_representedPerson()==null ) {
 			sb.append("\n<person_iBusinessRole_1_representedPerson/>");
@@ -515,6 +515,10 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	
 	public void z_internalAddToDishwashersInc(DishwashersInc val) {
 		this.dishwashersInc=val;
+	}
+	
+	public void z_internalAddToName(String val) {
+		this.name=val;
 	}
 	
 	public void z_internalAddToParticipation(Participation val) {
@@ -535,6 +539,13 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
+		}
+	}
+	
+	public void z_internalRemoveFromName(String val) {
+		if ( getName()!=null && val!=null && val.equals(getName()) ) {
+			this.name=null;
+			this.name=null;
 		}
 	}
 	

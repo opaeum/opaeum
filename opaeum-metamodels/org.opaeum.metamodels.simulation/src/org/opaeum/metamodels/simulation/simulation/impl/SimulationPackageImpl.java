@@ -8,13 +8,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
-import org.eclipse.uml2.types.TypesPackage;
-
 import org.eclipse.uml2.uml.UMLPackage;
-
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ExponentialDistribution;
@@ -201,7 +196,6 @@ public class SimulationPackageImpl extends EPackageImpl implements SimulationPac
 
 		// Initialize simple dependencies
 		EcorePackage.eINSTANCE.eClass();
-		TypesPackage.eINSTANCE.eClass();
 		UMLPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects

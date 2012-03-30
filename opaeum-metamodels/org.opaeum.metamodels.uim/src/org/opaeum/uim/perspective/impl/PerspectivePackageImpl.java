@@ -23,7 +23,9 @@ import org.opaeum.uim.editor.impl.EditorPackageImpl;
 import org.opaeum.uim.impl.UimPackageImpl;
 import org.opaeum.uim.panel.PanelPackage;
 import org.opaeum.uim.panel.impl.PanelPackageImpl;
+import org.opaeum.uim.perspective.ExplorerClassConfiguration;
 import org.opaeum.uim.perspective.ExplorerConfiguration;
+import org.opaeum.uim.perspective.ExplorerPropertyConfiguration;
 import org.opaeum.uim.perspective.HiddenClass;
 import org.opaeum.uim.perspective.HiddenCompositeProperty;
 import org.opaeum.uim.perspective.PerspectiveFactory;
@@ -69,21 +71,14 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass hiddenClassEClass = null;
+	private EClass explorerClassConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass visibleNonCompositePropertyEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass hiddenCompositePropertyEClass = null;
+	private EClass explorerPropertyConfigurationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -293,7 +288,7 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExplorerConfiguration_HiddenClasses() {
+	public EReference getExplorerConfiguration_ConfiguredClasses() {
 		return (EReference)explorerConfigurationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -302,7 +297,7 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExplorerConfiguration_VisibleNonCompositeProperties() {
+	public EReference getExplorerConfiguration_ConfiguredProperties() {
 		return (EReference)explorerConfigurationEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -311,8 +306,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExplorerConfiguration_HiddenCompositeProperties() {
-		return (EReference)explorerConfigurationEClass.getEStructuralFeatures().get(3);
+	public EClass getExplorerClassConfiguration() {
+		return explorerClassConfigurationEClass;
 	}
 
 	/**
@@ -320,8 +315,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getHiddenClass() {
-		return hiddenClassEClass;
+	public EReference getExplorerClassConfiguration_ExplorerConfiguration() {
+		return (EReference)explorerClassConfigurationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -329,8 +324,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getHiddenClass_ExplorerConfiguration() {
-		return (EReference)hiddenClassEClass.getEStructuralFeatures().get(0);
+	public EAttribute getExplorerClassConfiguration_IsVisible() {
+		return (EAttribute)explorerClassConfigurationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -338,8 +333,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getVisibleNonCompositeProperty() {
-		return visibleNonCompositePropertyEClass;
+	public EClass getExplorerPropertyConfiguration() {
+		return explorerPropertyConfigurationEClass;
 	}
 
 	/**
@@ -347,8 +342,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getVisibleNonCompositeProperty_ExplorerConfiguration() {
-		return (EReference)visibleNonCompositePropertyEClass.getEStructuralFeatures().get(0);
+	public EReference getExplorerPropertyConfiguration_ExplorerConfiguration() {
+		return (EReference)explorerPropertyConfigurationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -356,17 +351,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getHiddenCompositeProperty() {
-		return hiddenCompositePropertyEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getHiddenCompositeProperty_ExplorerConfiguration() {
-		return (EReference)hiddenCompositePropertyEClass.getEStructuralFeatures().get(0);
+	public EAttribute getExplorerPropertyConfiguration_IsVisible() {
+		return (EAttribute)explorerPropertyConfigurationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -428,18 +414,16 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 
 		explorerConfigurationEClass = createEClass(EXPLORER_CONFIGURATION);
 		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__PERSPECTIVE);
-		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__HIDDEN_CLASSES);
-		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__VISIBLE_NON_COMPOSITE_PROPERTIES);
-		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__HIDDEN_COMPOSITE_PROPERTIES);
+		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__CONFIGURED_CLASSES);
+		createEReference(explorerConfigurationEClass, EXPLORER_CONFIGURATION__CONFIGURED_PROPERTIES);
 
-		hiddenClassEClass = createEClass(HIDDEN_CLASS);
-		createEReference(hiddenClassEClass, HIDDEN_CLASS__EXPLORER_CONFIGURATION);
+		explorerClassConfigurationEClass = createEClass(EXPLORER_CLASS_CONFIGURATION);
+		createEReference(explorerClassConfigurationEClass, EXPLORER_CLASS_CONFIGURATION__EXPLORER_CONFIGURATION);
+		createEAttribute(explorerClassConfigurationEClass, EXPLORER_CLASS_CONFIGURATION__IS_VISIBLE);
 
-		visibleNonCompositePropertyEClass = createEClass(VISIBLE_NON_COMPOSITE_PROPERTY);
-		createEReference(visibleNonCompositePropertyEClass, VISIBLE_NON_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION);
-
-		hiddenCompositePropertyEClass = createEClass(HIDDEN_COMPOSITE_PROPERTY);
-		createEReference(hiddenCompositePropertyEClass, HIDDEN_COMPOSITE_PROPERTY__EXPLORER_CONFIGURATION);
+		explorerPropertyConfigurationEClass = createEClass(EXPLORER_PROPERTY_CONFIGURATION);
+		createEReference(explorerPropertyConfigurationEClass, EXPLORER_PROPERTY_CONFIGURATION__EXPLORER_CONFIGURATION);
+		createEAttribute(explorerPropertyConfigurationEClass, EXPLORER_PROPERTY_CONFIGURATION__IS_VISIBLE);
 
 		// Create enums
 		viewKindEEnum = createEEnum(VIEW_KIND);
@@ -478,9 +462,8 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		hiddenClassEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		visibleNonCompositePropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
-		hiddenCompositePropertyEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		explorerClassConfigurationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
+		explorerPropertyConfigurationEClass.getESuperTypes().add(theUimPackage.getUmlReference());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(uimPerspectiveEClass, UimPerspective.class, "UimPerspective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -496,18 +479,16 @@ public class PerspectivePackageImpl extends EPackageImpl implements PerspectiveP
 
 		initEClass(explorerConfigurationEClass, ExplorerConfiguration.class, "ExplorerConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExplorerConfiguration_Perspective(), this.getUimPerspective(), this.getUimPerspective_ExplorerConfiguration(), "perspective", null, 1, 1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExplorerConfiguration_HiddenClasses(), this.getHiddenClass(), this.getHiddenClass_ExplorerConfiguration(), "hiddenClasses", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExplorerConfiguration_VisibleNonCompositeProperties(), this.getVisibleNonCompositeProperty(), this.getVisibleNonCompositeProperty_ExplorerConfiguration(), "visibleNonCompositeProperties", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExplorerConfiguration_HiddenCompositeProperties(), this.getHiddenCompositeProperty(), this.getHiddenCompositeProperty_ExplorerConfiguration(), "hiddenCompositeProperties", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerConfiguration_ConfiguredClasses(), this.getExplorerClassConfiguration(), this.getExplorerClassConfiguration_ExplorerConfiguration(), "configuredClasses", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExplorerConfiguration_ConfiguredProperties(), this.getExplorerPropertyConfiguration(), this.getExplorerPropertyConfiguration_ExplorerConfiguration(), "configuredProperties", null, 0, -1, ExplorerConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(hiddenClassEClass, HiddenClass.class, "HiddenClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getHiddenClass_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_HiddenClasses(), "explorerConfiguration", null, 1, 1, HiddenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(explorerClassConfigurationEClass, ExplorerClassConfiguration.class, "ExplorerClassConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExplorerClassConfiguration_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_ConfiguredClasses(), "explorerConfiguration", null, 1, 1, ExplorerClassConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExplorerClassConfiguration_IsVisible(), theEcorePackage.getEBooleanObject(), "isVisible", null, 0, 1, ExplorerClassConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(visibleNonCompositePropertyEClass, VisibleNonCompositeProperty.class, "VisibleNonCompositeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getVisibleNonCompositeProperty_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_VisibleNonCompositeProperties(), "explorerConfiguration", null, 1, 1, VisibleNonCompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(hiddenCompositePropertyEClass, HiddenCompositeProperty.class, "HiddenCompositeProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getHiddenCompositeProperty_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_HiddenCompositeProperties(), "explorerConfiguration", null, 1, 1, HiddenCompositeProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(explorerPropertyConfigurationEClass, ExplorerPropertyConfiguration.class, "ExplorerPropertyConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExplorerPropertyConfiguration_ExplorerConfiguration(), this.getExplorerConfiguration(), this.getExplorerConfiguration_ConfiguredProperties(), "explorerConfiguration", null, 1, 1, ExplorerPropertyConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getExplorerPropertyConfiguration_IsVisible(), theEcorePackage.getEBooleanObject(), "isVisible", null, 0, 1, ExplorerPropertyConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(viewKindEEnum, ViewKind.class, "ViewKind");

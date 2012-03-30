@@ -129,29 +129,33 @@ public class SimulationRunnerGenerator extends AbstractSimulationCodeGenerator{
 				if(vs instanceof WeightedInstanceValue){
 					WeightedInstanceValue wiv = (WeightedInstanceValue) vs;
 					InstanceSpecification instance = wiv.getInstance();
-					INakedClassifier nakedPeer = (INakedClassifier) getNakedPeer(instance.getClassifiers().get(0));
-					String methodName;
-					if(nakedPeer instanceof INakedStructuredDataType){
-						methodName = "registerStructInstanceSimulation";
-					}else{
-						methodName = "registerEntityInstanceSimulation";
+					if(instance != null){
+						INakedClassifier nakedPeer = (INakedClassifier) getNakedPeer(instance.getClassifiers().get(0));
+						String methodName;
+						if(nakedPeer instanceof INakedStructuredDataType){
+							methodName = "registerStructInstanceSimulation";
+						}else{
+							methodName = "registerEntityInstanceSimulation";
+						}
+						main.getBody().addToStatements(
+								"SimulationMetaData.getInstance()." + methodName + "(\"" + slot.getOwningInstance().getQualifiedName() + "\", \""
+										+ slot.getDefiningFeature().getName() + "\",new " + dataGeneratorName(nakedPeer, instance) + "(),"
+										+ (wiv.getWeight() == null ? 1 : wiv.getWeight()) + ")");
 					}
-					main.getBody().addToStatements(
-							"SimulationMetaData.getInstance()." + methodName + "(\"" + slot.getOwningInstance().getQualifiedName() + "\", \""
-									+ slot.getDefiningFeature().getName() + "\",new " + dataGeneratorName(nakedPeer, instance) + "(),"
-									+ (wiv.getWeight() == null ? 1 : wiv.getWeight()) + ")");
 				}else if(vs instanceof ContainedActualInstance){
 					InstanceSpecification instance = ((ContainedActualInstance) vs).getContainedInstance();
-					INakedClassifier nakedPeer = (INakedClassifier) getNakedPeer(instance.getClassifiers().get(0));
-					String methodName;
-					if(nakedPeer instanceof INakedStructuredDataType){
-						methodName = "registerStructInstanceSimulation";
-					}else{
-						methodName = "registerEntityInstanceSimulation";
+					if(instance != null){
+						INakedClassifier nakedPeer = (INakedClassifier) getNakedPeer(instance.getClassifiers().get(0));
+						String methodName;
+						if(nakedPeer instanceof INakedStructuredDataType){
+							methodName = "registerStructInstanceSimulation";
+						}else{
+							methodName = "registerEntityInstanceSimulation";
+						}
+						main.getBody().addToStatements(
+								"SimulationMetaData.getInstance()." + methodName + "(\"" + slot.getOwningInstance().getQualifiedName() + "\", \""
+										+ slot.getDefiningFeature().getName() + "\"," + dataGeneratorName(nakedPeer, instance) + ".INSTANCE," + 1 + ")");
 					}
-					main.getBody().addToStatements(
-							"SimulationMetaData.getInstance()." + methodName + "(\"" + slot.getOwningInstance().getQualifiedName() + "\", \""
-									+ slot.getDefiningFeature().getName() + "\"," + dataGeneratorName(nakedPeer, instance) + ".INSTANCE," + 1 + ")");
 				}
 			}
 		}

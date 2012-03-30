@@ -85,16 +85,12 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 				return createExplorerConfigurationAdapter();
 			}
 			@Override
-			public Adapter caseHiddenClass(HiddenClass object) {
-				return createHiddenClassAdapter();
+			public Adapter caseExplorerClassConfiguration(ExplorerClassConfiguration object) {
+				return createExplorerClassConfigurationAdapter();
 			}
 			@Override
-			public Adapter caseVisibleNonCompositeProperty(VisibleNonCompositeProperty object) {
-				return createVisibleNonCompositePropertyAdapter();
-			}
-			@Override
-			public Adapter caseHiddenCompositeProperty(HiddenCompositeProperty object) {
-				return createHiddenCompositePropertyAdapter();
+			public Adapter caseExplorerPropertyConfiguration(ExplorerPropertyConfiguration object) {
+				return createExplorerPropertyConfigurationAdapter();
 			}
 			@Override
 			public Adapter caseUmlReference(UmlReference object) {
@@ -163,44 +159,30 @@ public class PerspectiveAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.HiddenClass <em>Hidden Class</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerClassConfiguration <em>Explorer Class Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.HiddenClass
+	 * @see org.opaeum.uim.perspective.ExplorerClassConfiguration
 	 * @generated
 	 */
-	public Adapter createHiddenClassAdapter() {
+	public Adapter createExplorerClassConfigurationAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.VisibleNonCompositeProperty <em>Visible Non Composite Property</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration <em>Explorer Property Configuration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.VisibleNonCompositeProperty
+	 * @see org.opaeum.uim.perspective.ExplorerPropertyConfiguration
 	 * @generated
 	 */
-	public Adapter createVisibleNonCompositePropertyAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.opaeum.uim.perspective.HiddenCompositeProperty <em>Hidden Composite Property</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.opaeum.uim.perspective.HiddenCompositeProperty
-	 * @generated
-	 */
-	public Adapter createHiddenCompositePropertyAdapter() {
+	public Adapter createExplorerPropertyConfigurationAdapter() {
 		return null;
 	}
 

@@ -13,7 +13,9 @@ package org.opaeum.rap.runtime.internal.chart;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 
 
 public class Gantt extends Composite {

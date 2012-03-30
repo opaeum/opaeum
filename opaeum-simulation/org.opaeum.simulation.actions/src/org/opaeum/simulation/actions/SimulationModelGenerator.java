@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.text.TabableView;
-
 import nl.klasse.octopus.model.IClassifier;
 import nl.klasse.octopus.model.IEnumLiteral;
 
@@ -34,8 +32,10 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.opaeum.emf.extraction.StereotypesHelper;
 import org.opaeum.emf.workspace.EmfWorkspace;
+import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavior;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.ICompositionParticipant;
@@ -49,7 +49,6 @@ import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedPrimitiveType;
 import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedStructuredDataType;
-import org.opaeum.metamodel.core.internal.emulated.EmulatedClassifier;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
 import org.opaeum.metamodels.simulation.simulation.ActualInstance;
 import org.opaeum.metamodels.simulation.simulation.ContainedActualInstance;
@@ -209,18 +208,50 @@ public class SimulationModelGenerator{
 				addEnumerationValue(p, slot);
 			}else if(p.getNakedBaseType() instanceof INakedComplexStructure){
 				if(p.isComposite() && numberOfLevelsOfActualInstances >= 0){
-					addContainedAtualInstance(numberOfLevelsOfActualInstances, p, slot);
+					if(p.getQualifiers().size() == 1 && p.getQualifiers().get(0).getNakedBaseType() instanceof INakedEnumeration){
+						addQualifiedContainedInstance(numberOfLevelsOfActualInstances, p, slot, p.getQualifiers().get(0));
+					}else{
+						addContainedAtualInstance(numberOfLevelsOfActualInstances, p, slot);
+					}
 				}
 			}
+		}
+	}
+	private void addQualifiedContainedInstance(int numberOfLevelsOfActualInstances,INakedProperty p,SimulatingSlot owningSlot,
+			INakedProperty qualifer){
+		INakedEnumeration en = (INakedEnumeration) qualifer.getNakedBaseType();
+		int i = 0;
+		for(INakedEnumerationLiteral l:en.getOwnedLiterals()){
+			Collection<INakedClassifier> subClasses = getConcreteImplementationsOf(p);
+			if(subClasses.size() == 1){// TODO handle polymorphism
+				for(IClassifier c:subClasses){
+					if(emfWorkspace.getElement(((INakedElement) c).getId()) != null){
+						ContainedActualInstance civs = SimulationFactory.eINSTANCE.createContainedActualInstance();
+						owningSlot.getValues().add(civs);
+						ActualInstance actualInstance = this.buildActualInstance((INakedClassifier) c, i + 1, numberOfLevelsOfActualInstances - 1);
+						for(Slot childSlot:actualInstance.getSlots()){
+							if(childSlot.getDefiningFeature().getName().equals(qualifer.getName())){
+								InstanceValue enumInstanceValue = UMLFactory.eINSTANCE.createInstanceValue();
+								EList<ValueSpecification> values = childSlot.getValues();
+								values.clear();
+								values.add(enumInstanceValue);
+								enumInstanceValue.setInstance((EnumerationLiteral) emfWorkspace.getElement(l.getId()));
+							}
+						}
+						civs.setContainedInstance(actualInstance);
+					}
+				}
+			}
+			i++;
 		}
 	}
 	private void addContainedAtualInstance(int numberOfLevelsOfActualInstances,INakedProperty p,SimulatingSlot slot){
 		Collection<INakedClassifier> subClasses = getConcreteImplementationsOf(p);
 		if(subClasses.size() > 0){
-			int i = this.numberOfObjectsPerLevel;
-			outer:while(i >= 0){
+			int i = p.getMultiplicity().isSingleObject() && p.getQualifiers().isEmpty()?1:this.numberOfObjectsPerLevel;
+			outer:while(i >= 1){
 				for(IClassifier c:subClasses){
-					if(i < 0){
+					if(i == 1){
 						break outer;
 					}else if(emfWorkspace.getElement(((INakedElement) c).getId()) != null){
 						ContainedActualInstance civs = SimulationFactory.eINSTANCE.createContainedActualInstance();
@@ -341,7 +372,7 @@ public class SimulationModelGenerator{
 		if(max == null){
 			max = 4000d;
 		}
-		double rangeSize = max - min / 3;
+		double rangeSize = (max - min) / 3;
 		NumberRangeDistribution nrd0 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
 		nrd0.setUpperValue(max);
 		NumberRangeDistribution nrd1 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
@@ -351,12 +382,12 @@ public class SimulationModelGenerator{
 		slot.getValues().add(nrd1);
 		NumberRangeDistribution nrd2 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
 		nrd2.setLowerValue(min + rangeSize);
-		nrd2.setUpperValue(min + rangeSize * 2);
+		nrd2.setUpperValue(min + (rangeSize * 2));
 		nrd2.setWeight(33d);
 		slot.getValues().add(nrd2);
 		NumberRangeDistribution nrd3 = SimulationFactory.eINSTANCE.createNumberRangeDistribution();
-		nrd3.setLowerValue(min + rangeSize * 2);
-		nrd3.setUpperValue(min + rangeSize * 3);
+		nrd3.setLowerValue(min + (rangeSize * 2));
+		nrd3.setUpperValue(min + (rangeSize * 3));
 		nrd3.setWeight(33d);
 		slot.getValues().add(nrd3);
 		slot.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);

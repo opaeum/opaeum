@@ -1,17 +1,13 @@
 package org.opaeum.uimodeler.common.figures;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.opaeum.uim.swt.IUimFieldComposite;
 
 public interface IUimFieldFigure extends ISWTFigure{
 
 	void setMinimumLabelWidth(Integer minimumLabelWidth);
 
-	Composite getComposite();
+	IUimFieldComposite getComposite();
 
 	void setMinimumLabelHeigh(Integer newValue);
 
-	void setControl(Control button);
-
-	Control getControl();
 }

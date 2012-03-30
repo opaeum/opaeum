@@ -15,10 +15,8 @@
    <license url="%licenseURL">
       %license
    </license>   
-   <requires>
-   </requires>
 
-   <plugin
+   <!--plugin
          id="org.opaeum.compilation.filegeneration.source"
          download-size="0"
          install-size="0"
@@ -58,6 +56,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
+         unpack="false"/-->
 
 </feature>

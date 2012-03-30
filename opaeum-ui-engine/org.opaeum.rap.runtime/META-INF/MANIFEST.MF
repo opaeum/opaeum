@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.opaeum.rap.runtime
 Bundle-SymbolicName: org.opaeum.rap.runtime;singleton:=true
 Bundle-Version: 1.0.0
-Require-Bundle: org.eclipse.rap.rms.data,
- org.eclipse.rap.ui.forms,
+Require-Bundle: org.eclipse.rap.ui.forms,
  org.eclipse.core.runtime,
  org.eclipse.rap.ui.views,
  org.eclipse.core.databinding,
@@ -19,13 +18,16 @@ Require-Bundle: org.eclipse.rap.rms.data,
  org.opaeum.metamodels.emfworkspace,
  org.opaeum.compilation.uim,
  org.opaeum.transformation.engine,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml,
+ org.opaeum.rap.dependencies,
+ org.opaeum.metamodels.uim
 Import-Package: javax.servlet;version="[2.3.0,4.0.0)",
  javax.servlet.http;version="[2.3.0,4.0.0)"
 Bundle-Activator: org.opaeum.rap.runtime.internal.Activator
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: lib/gdata-base-1.0.jar,
+Bundle-ClassPath: .,
+ lib/gdata-base-1.0.jar,
  lib/gdata-client-1.0.jar,
  lib/gdata-client-meta-1.0.jar,
  lib/gdata-contacts-3.0.jar,
@@ -39,9 +41,23 @@ Bundle-ClassPath: lib/gdata-base-1.0.jar,
  lib/google-oauth-client-1.6.0-beta.jar,
  lib/google-oauth-client-extensions-1.6.0-beta.jar,
  lib/jsr305.jar,
- .,
+ lib/dependencies/commons-codec-1.3.jar,
+ lib/dependencies/commons-logging-1.1.1.jar,
+ lib/dependencies/google-collections-1.0.jar,
+ lib/dependencies/gson-1.7.1.jar,
+ lib/dependencies/guava-r09.jar,
+ lib/dependencies/httpclient-4.0.3.jar,
+ lib/dependencies/httpcore-4.0.1.jar,
  lib/dependencies/jackson-core-asl-1.9.1.jar,
- lib/dependencies/guava-r09.jar
+ lib/dependencies/jdo2-api-2.3-eb.jar,
+ lib/dependencies/joda-time-1.6.jar,
+ lib/dependencies/jsontoken-1.0.jar,
+ lib/dependencies/jsr305-1.3.9.jar,
+ lib/dependencies/junit-4.8.2.jar,
+ lib/dependencies/protobuf-java-2.2.0.jar,
+ lib/dependencies/transaction-api-1.1.jar,
+ lib/dependencies/xmlParserAPIs-2.6.2.jar,
+ lib/dependencies/xpp3-1.1.4c.jar
 Export-Package: com.google.api.client.auth,
  com.google.api.client.auth.oauth,
  com.google.api.client.auth.oauth2.draft10,
@@ -143,6 +159,8 @@ Export-Package: com.google.api.client.auth,
  org.codehaus.jackson.sym,
  org.codehaus.jackson.type,
  org.codehaus.jackson.util,
+ org.eclipse.rap.rms.data,
+ org.eclipse.rap.rms.internal.data,
  org.opaeum.rap.login,
  org.opaeum.rap.runtime,
  org.opaeum.rap.runtime.internal,

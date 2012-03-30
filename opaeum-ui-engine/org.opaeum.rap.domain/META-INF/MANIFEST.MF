@@ -1,12 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Domain
+Bundle-Name: org.opaeum.rap.domain
 Bundle-SymbolicName: org.opaeum.rap.domain
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.jbpm.flow;bundle-version="1.0.0",
- org.drools.knowledge.api;bundle-version="1.0.0",
- org.hibernate.validator;bundle-version="1.0.0",
- org.jbpm.persistence.jpa;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.apache.commons.math3,
  org.apache.commons.math3.analysis,
@@ -54,7 +50,8 @@ Export-Package: org.apache.commons.math3,
  org.apache.commons.math3.stat.regression,
  org.apache.commons.math3.transform,
  org.apache.commons.math3.util,
- org.opaeum,
+ org.jbpm.persistence,
+ org.jbpm.persistence.processinstance,
  org.opaeum.annotation,
  org.opaeum.name,
  org.opaeum.runtime.contact,
@@ -70,3 +67,4 @@ Export-Package: org.apache.commons.math3,
  org.opaeum.util
 Bundle-ClassPath: lib/commons-math3-3.0.jar,
  .
+Require-Bundle: org.opaeum.rap.dependencies

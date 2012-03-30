@@ -28,6 +28,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import org.eclipse.ui.internal.WorkbenchPage;
 import org.opaeum.rap.login.LoginPerspectiveFactory;
 import org.opaeum.rap.login.LoginView;
+import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 
@@ -43,8 +44,6 @@ import com.google.gdata.client.contacts.ContactsService;
 public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 	private static final HttpTransport TRANSPORT = new NetHttpTransport();
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
-	// FILL THESE IN WITH YOUR VALUES FROM THE API CONSOLE
-	private static final String CLIENT_SECRET = "yRf8aLQhkqvCtINCDoCklgTM";
 	private static final Color COLOR_WHITE = Display.getDefault().getSystemColor(SWT.COLOR_WHITE);
 	private boolean introActive = true;
 	public RMSWorkbenchWindowAdvisor(final IWorkbenchWindowConfigurer configurer){
@@ -114,16 +113,10 @@ public class RMSWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor{
 	private void requestRefreshToken(String code){
 		System.out.println("LoginView.requestRefreshToken()");
 		try{
-			GoogleAuthorizationCodeGrant authRequest = new GoogleAuthorizationCodeGrant(TRANSPORT, JSON_FACTORY, LoginView.CLIENT_ID, CLIENT_SECRET, code, LoginView.CALLBACK_URL);
+			GoogleAuthorizationCodeGrant authRequest = new GoogleAuthorizationCodeGrant(TRANSPORT, JSON_FACTORY, LoginView.CLIENT_ID, OpaeumRapSession.CLIENT_SECRET, code, LoginView.CALLBACK_URL);
 			authRequest.useBasicAuthorization = false;
 			AccessTokenResponse authResponse = authRequest.execute();
-			String accessToken = authResponse.accessToken;
-			RWT.getRequest().getSession(true).setAttribute("authToken", accessToken);
-			GoogleAccessProtectedResource access = new GoogleAccessProtectedResource(accessToken, TRANSPORT, JSON_FACTORY, LoginView.CLIENT_ID, CLIENT_SECRET, authResponse.refreshToken);
-			// System.out.println("Access token: " + authResponse.accessToken);
-			ContactsService service = new ContactsService("asf");
-			service.setHeader("Authorization", "Bearer " + authResponse.accessToken);
-			RWT.getRequest().getSession(true).setAttribute("contactsService", service);
+			RWT.getRequest().getSession(true).setAttribute("authResponse", authResponse);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

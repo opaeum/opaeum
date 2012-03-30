@@ -57,7 +57,6 @@ public class LinkToQueryItemProvider
 			super.getPropertyDescriptors(object);
 
 			addUmlElementUidPropertyDescriptor(object);
-			addToFormPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -80,28 +79,6 @@ public class LinkToQueryItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the To Form feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addToFormPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_LinkToQuery_toForm_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LinkToQuery_toForm_feature", "_UI_LinkToQuery_type"),
-				 ActionPackage.Literals.LINK_TO_QUERY__TO_FORM,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}

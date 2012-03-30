@@ -25,8 +25,6 @@ public class OpaeumContributionFactory extends ExtensionContributionFactory{
 	}
 	@Override
 	public void createContributionItems(IServiceLocator serviceLocator,IContributionRoot additions){
-		System.out
-				.println("OpaeumContributionFactory.createContributionItems()");
 		MenuManager menuManager = new MenuManager("Opaeum");
 		additions.addContributionItem(menuManager, new Expression(){
 			@Override

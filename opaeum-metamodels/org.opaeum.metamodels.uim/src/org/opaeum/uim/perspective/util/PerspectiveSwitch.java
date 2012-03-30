@@ -108,24 +108,17 @@ public class PerspectiveSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.HIDDEN_CLASS: {
-				HiddenClass hiddenClass = (HiddenClass)theEObject;
-				T result = caseHiddenClass(hiddenClass);
-				if (result == null) result = caseUmlReference(hiddenClass);
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION: {
+				ExplorerClassConfiguration explorerClassConfiguration = (ExplorerClassConfiguration)theEObject;
+				T result = caseExplorerClassConfiguration(explorerClassConfiguration);
+				if (result == null) result = caseUmlReference(explorerClassConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case PerspectivePackage.VISIBLE_NON_COMPOSITE_PROPERTY: {
-				VisibleNonCompositeProperty visibleNonCompositeProperty = (VisibleNonCompositeProperty)theEObject;
-				T result = caseVisibleNonCompositeProperty(visibleNonCompositeProperty);
-				if (result == null) result = caseUmlReference(visibleNonCompositeProperty);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case PerspectivePackage.HIDDEN_COMPOSITE_PROPERTY: {
-				HiddenCompositeProperty hiddenCompositeProperty = (HiddenCompositeProperty)theEObject;
-				T result = caseHiddenCompositeProperty(hiddenCompositeProperty);
-				if (result == null) result = caseUmlReference(hiddenCompositeProperty);
+			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION: {
+				ExplorerPropertyConfiguration explorerPropertyConfiguration = (ExplorerPropertyConfiguration)theEObject;
+				T result = caseExplorerPropertyConfiguration(explorerPropertyConfiguration);
+				if (result == null) result = caseUmlReference(explorerPropertyConfiguration);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -179,47 +172,32 @@ public class PerspectiveSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Hidden Class</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Class Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Hidden Class</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Class Configuration</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseHiddenClass(HiddenClass object) {
+	public T caseExplorerClassConfiguration(ExplorerClassConfiguration object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Visible Non Composite Property</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Explorer Property Configuration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Visible Non Composite Property</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Explorer Property Configuration</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseVisibleNonCompositeProperty(VisibleNonCompositeProperty object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Hidden Composite Property</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Hidden Composite Property</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseHiddenCompositeProperty(HiddenCompositeProperty object) {
+	public T caseExplorerPropertyConfiguration(ExplorerPropertyConfiguration object) {
 		return null;
 	}
 

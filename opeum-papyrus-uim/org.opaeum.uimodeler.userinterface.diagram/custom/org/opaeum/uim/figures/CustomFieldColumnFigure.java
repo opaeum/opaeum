@@ -15,14 +15,15 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.os.OSSupport;
+import org.opaeum.uim.swt.ColumnComposite;
+import org.opaeum.uim.swt.IUimFieldComposite;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
 import org.opaeum.uimodeler.common.figures.UimDataTableComposite;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
 
 public class CustomFieldColumnFigure extends RectangleFigure implements IUimFieldFigure{
 	private WrappingLabel fColumnNameFigure;
-	private Composite composite;
-	private Control control;
+	private ColumnComposite composite;
 	private TableColumn column;
 	private UimDataTableComposite dataTableComposite;
 	public CustomFieldColumnFigure(UimDataTableComposite comp){
@@ -30,7 +31,7 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 		this.dataTableComposite=comp;
 		Table table = comp.getTable();
 		column = new TableColumn(table, SWT.LEFT);
-		this.composite = new Composite(comp.getFirstRow(), SWT.NONE){
+		this.composite = new ColumnComposite(comp.getFirstRow(), SWT.NONE){
 			@Override
 			public void setData(String key,Object data){
 				super.setData(key, data);
@@ -43,15 +44,6 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 			}
 		};
 		getComposite().setData(UimFigureUtil.FIGURE, this);
-		GridLayout rl = new GridLayout(1, false);
-		rl.marginWidth = 0;
-		rl.marginHeight = 0;
-		getComposite().setLayout(rl);
-		setControl(createDefaultControl());
-		getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-	}
-	protected Control createDefaultControl(){
-		return new Text(getComposite(), SWT.NONE);
 	}
 	private void createContents(){
 		fColumnNameFigure = new WrappingLabel();
@@ -79,19 +71,11 @@ public class CustomFieldColumnFigure extends RectangleFigure implements IUimFiel
 		// TODO Auto-generated method stub
 	}
 	@Override
-	public Composite getComposite(){
+	public IUimFieldComposite getComposite(){
 		return composite;
 	}
 	@Override
 	public void setMinimumLabelHeigh(Integer newValue){
-	}
-	@Override
-	public void setControl(Control button){
-		this.control = button;
-	}
-	@Override
-	public Control getControl(){
-		return control;
 	}
 	@Override
 	public void markForRepaint(){

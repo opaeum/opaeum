@@ -23,6 +23,7 @@ import org.opaeum.uim.UimPackage;
 import org.opaeum.uim.UserInteractionElement;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.panel.PanelPackage;
+import org.opaeum.uim.swt.GridPanelComposite;
 
 public class AbstractEventAdapter extends AdapterImpl implements FigureListener,LayoutListener,MouseMotionListener,MouseListener{
 	protected ISWTFigure figure;
@@ -141,7 +142,7 @@ public class AbstractEventAdapter extends AdapterImpl implements FigureListener,
 		figure.invalidate();
 		if(fig != null){
 			parent.layout();
-			if(parent.getParent() instanceof UimDataTableComposite || parent.getParent() instanceof GridLayoutComposite){
+			if(parent.getParent() instanceof UimDataTableComposite || parent.getParent() instanceof GridPanelComposite){
 				parent.getParent().layout();
 			}
 			figure.revalidate();

@@ -76,6 +76,7 @@ public class JpaAnnotator extends AbstractJpaAnnotator{
 	 * @return
 	 */
 	private OJAnnotationAttributeValue buildUniqueConstraintAnnotations(INakedEntity entity){
+
 		OJAnnotationAttributeValue uniqueConstraints = new OJAnnotationAttributeValue("uniqueConstraints");
 		for(INakedProperty p:entity.getUniquenessConstraints()){
 			OJAnnotationValue uniquenessConstraint = new OJAnnotationValue(new OJPathName("javax.persistence.UniqueConstraint"));

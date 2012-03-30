@@ -5,7 +5,7 @@
          id="kjljkljlkjlkj"
          point="org.opaeum.rap.runtime.opaeumRAPApplication">
       <opaeumApplication
-            className="org.opaeum.demo.demo1.OpaeumApplication">
+            className="org.opaeum.demo.demo1.Demo1OpaeumApplication">
       </opaeumApplication>
    </extension>
 </plugin>

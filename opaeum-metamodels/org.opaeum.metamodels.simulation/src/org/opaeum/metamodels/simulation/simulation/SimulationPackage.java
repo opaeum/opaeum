@@ -1859,7 +1859,6 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATION_MODEL__URI = UMLPackage.PACKAGE__URI;
 
 	/**
 	 * The feature id for the '<em><b>Nested Package</b></em>' reference list.
@@ -1886,7 +1885,6 @@ public interface SimulationPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SIMULATION_MODEL__OWNED_STEREOTYPE = UMLPackage.PACKAGE__OWNED_STEREOTYPE;
 
 	/**
 	 * The feature id for the '<em><b>Package Merge</b></em>' containment reference list.

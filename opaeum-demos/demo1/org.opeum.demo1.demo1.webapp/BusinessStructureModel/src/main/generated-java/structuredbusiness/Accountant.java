@@ -23,7 +23,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -66,12 +65,13 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="accountant",uniqueConstraints=
-	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
+@Table(name="accountant")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="Accountant")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class Accountant implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessRole, Serializable {
+	@Column(name="property1")
+	private String __name;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
@@ -150,6 +150,9 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
+		if ( xml.getAttribute("__name").length()>0 ) {
+			set__name(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("__name")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -180,9 +183,11 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void copyShallowState(Accountant from, Accountant to) {
+		to.set__name(from.get__name());
 	}
 	
 	public void copyState(Accountant from, Accountant to) {
+		to.set__name(from.get__name());
 	}
 	
 	public void createComponents() {
@@ -318,6 +323,14 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.uid;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=3599544849415905494l,uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
+	public String get__name() {
+		String result = this.__name;
+		
+		return result;
+	}
+	
 	public int hashCode() {
 		return getUid().hashCode();
 	}
@@ -399,31 +412,15 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		DishwashersInc oldValue = this.getDishwashersInc();
-		if ( oldValue==null ) {
-			if ( dishwashersInc!=null ) {
-				Accountant oldOther = (Accountant)dishwashersInc.getAccountant();
-				dishwashersInc.z_internalRemoveFromAccountant(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-				}
-				dishwashersInc.z_internalAddToAccountant((Accountant)this);
-			}
+		if ( this.getDishwashersInc()!=null ) {
+			this.getDishwashersInc().z_internalRemoveFromAccountant(this);
+		}
+		if ( dishwashersInc!=null ) {
+			dishwashersInc.z_internalAddToAccountant(this);
 			this.z_internalAddToDishwashersInc(dishwashersInc);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(dishwashersInc) ) {
-				oldValue.z_internalRemoveFromAccountant(this);
-				z_internalRemoveFromDishwashersInc(oldValue);
-				if ( dishwashersInc!=null ) {
-					Accountant oldOther = (Accountant)dishwashersInc.getAccountant();
-					dishwashersInc.z_internalRemoveFromAccountant(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-					}
-					dishwashersInc.z_internalAddToAccountant((Accountant)this);
-				}
-				this.z_internalAddToDishwashersInc(dishwashersInc);
-			}
+			markDeleted();
 		}
 	}
 	
@@ -491,6 +488,10 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		this.uid=newUid;
 	}
 	
+	public void set__name(String __name) {
+		this.z_internalAddTo__name(__name);
+	}
+	
 	public String toXmlReferenceString() {
 		return "<Accountant uid=\""+getUid() + "\"/>";
 	}
@@ -501,6 +502,9 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		sb.append("classUuid=\"914890@_mec6wGCfEeG6xvYqJACneg\" ");
 		sb.append("className=\"structuredbusiness.Accountant\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
+		if ( get__name()!=null ) {
+			sb.append("__name=\""+ StructuredbusinessFormatter.getInstance().formatString(get__name())+"\" ");
+		}
 		sb.append(">");
 		if ( getPerson_iBusinessRole_1_representedPerson()==null ) {
 			sb.append("\n<person_iBusinessRole_1_representedPerson/>");
@@ -531,6 +535,10 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		newOne.getRepresentedPerson().z_internalAddToPerson_iBusinessRole_1_businessRole(newOne);
 	}
 	
+	public void z_internalAddTo__name(String val) {
+		this.__name=val;
+	}
+	
 	public void z_internalRemoveFromDishwashersInc(DishwashersInc val) {
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
@@ -552,6 +560,13 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 	public void z_internalRemoveFromRepresentedPerson(PersonNode representedPerson) {
 		if ( this.person_iBusinessRole_1_representedPerson!=null ) {
 			this.person_iBusinessRole_1_representedPerson.clear();
+		}
+	}
+	
+	public void z_internalRemoveFrom__name(String val) {
+		if ( get__name()!=null && val!=null && val.equals(get__name()) ) {
+			this.__name=null;
+			this.__name=null;
 		}
 	}
 	

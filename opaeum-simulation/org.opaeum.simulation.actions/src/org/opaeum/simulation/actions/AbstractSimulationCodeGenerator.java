@@ -72,7 +72,7 @@ public class AbstractSimulationCodeGenerator extends AbstractJavaProducingVisito
 	}
 	protected final OJPathName dataGeneratorName(INakedClassifier nc,InstanceSpecification is){
 		OJPathName copy = OJUtil.packagePathname(nc.getNameSpace()).getCopy();
-		copy.append(nc.getName() + NameConverter.capitalize(NameConverter.toJavaVariableName(is.getName())));
+		copy.append(NameConverter.capitalize(NameConverter.toJavaVariableName(is.getName() + is.eResource().getURIFragment(is))));
 		return copy;
 	}
 }

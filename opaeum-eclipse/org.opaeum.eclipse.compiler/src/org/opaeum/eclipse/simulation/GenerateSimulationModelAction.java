@@ -16,7 +16,6 @@ import org.opaeum.eclipse.starter.Activator;
 import org.opaeum.eclipse.starter.MemoryUtil;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.metamodel.workspace.INakedModelWorkspace;
-import org.opaeum.simulation.actions.SimulationModelGenerator;
 import org.opaeum.validation.namegeneration.PersistentNameGenerator;
 
 public class GenerateSimulationModelAction extends AbstractOpaeumAction{
@@ -33,7 +32,7 @@ public class GenerateSimulationModelAction extends AbstractOpaeumAction{
 					monitor.beginTask("Loading All Models", 1000);
 					EmfWorkspace ew = prepareDirectoryForTransformation(folder, monitor);
 					monitor.subTask("Generating Java Code");
-					new SimulationModelGenerator(ew, currentContext.getNakedWorkspace()).run();
+//					new SimulationModelGenerator(ew, currentContext.getNakedWorkspace()).run();
 				}catch(Exception e){
 					e.printStackTrace();
 					return new Status(Status.ERROR, OpaeumEclipsePlugin.getPluginId(), Status.ERROR, e.getMessage(), e);

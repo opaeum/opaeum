@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.opaeum.uim.swt.UimFieldComposite;
 import org.opaeum.uimodeler.common.figures.HackedDefaultSizeNodeFigure;
 import org.opaeum.uimodeler.common.figures.IUimFieldFigure;
 import org.opaeum.uimodeler.common.figures.UimFigureUtil;
@@ -29,8 +30,7 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 	 * @generated NOT
 	 */
 	private WrappingLabel fFigureUimFieldNameFigure;
-	private Composite composite;
-	private Label label;
+	private UimFieldComposite composite;
 	/**
 	 * @generated NOT
 	 */
@@ -43,20 +43,10 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		layoutThis.setMinorSpacing(5);
 		layoutThis.setHorizontal(true);
 		this.setLayoutManager(layoutThis);
-		createContents();
-		setComposite(new Composite(parent, SWT.BORDER));
+		composite=new UimFieldComposite(parent, SWT.NONE);
 		getComposite().setData(UimFigureUtil.FIGURE, this);
-		GridLayout rl = new GridLayout(2, false);
-		rl.marginWidth = 0;
-		rl.marginHeight = 0;
-		rl.horizontalSpacing = 0;
-		
-		getComposite().setLayout(rl);
-		setLabel(new Label(getComposite(), SWT.NONE));
-		setControl(createDefaultControl());
-		getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
-		GridData labelData = new GridData(GridData.CENTER, GridData.FILL, false, false);
-		getLabel().setLayoutData(labelData);
+
+		createContents();
 		fFigureUimFieldNameFigure.addMouseListener(new MouseListener(){
 			@Override
 			public void mousePressed(MouseEvent me){
@@ -73,10 +63,6 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		getComposite().layout();
 		
 		setBounds(UimFigureUtil.toDraw2DRectangle(composite));
-	}
-	protected Control createDefaultControl(){
-		Text text = new Text(getComposite(), SWT.NONE);
-		return text;
 	}
 	public void setMinimumLabelWidth(Integer size){
 		if(size != null){
@@ -139,27 +125,21 @@ public class CustomUimFieldFigure extends RectangleFigure implements IUimFieldFi
 		// TODO Auto-generated method stub
 		return getComposite();
 	}
-	public Composite getComposite(){
+	public UimFieldComposite getComposite(){
 		return composite;
 	}
-	public void setComposite(Composite composite){
-		this.composite = composite;
-	}
 	public Control getControl(){
-		return widget;
+		return composite.getControl();
 	}
 	public void setControl(Control control){
-		this.widget = control;
+		composite.setControl(control);
 	}
 	public Label getLabel(){
-		return label;
-	}
-	public void setLabel(Label label){
-		this.label = label;
+		return composite.getLabel();
 	}
 	@Override
 	public void setLabelText(String string){
-		this.label.setText(string);
+		composite.getLabel().setText(string);
 	}
 	@Override
 	public void markForRepaint(){

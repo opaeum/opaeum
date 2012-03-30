@@ -7,7 +7,6 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.rap.rms.data.DataModelRegistry;
 import org.eclipse.rap.rms.data.IDataModel;
 import org.eclipse.rap.rms.data.IEmployee;
-import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -20,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.wizards.INewEntityPage;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 final class NewEmployeeWizardPage 
   extends WizardPage
@@ -100,7 +100,7 @@ final class NewEmployeeWizardPage
     return newEmployee != null;
   }
 
-  public IEntity getEntity() {
+  public IPersistentObject getEntity() {
     return newEmployee;
   }
 }

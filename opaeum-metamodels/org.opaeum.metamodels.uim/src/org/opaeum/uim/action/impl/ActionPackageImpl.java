@@ -263,15 +263,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLinkToQuery_ToForm() {
-		return (EReference)linkToQueryEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getOperationButton() {
 		return operationButtonEClass;
 	}
@@ -402,7 +393,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		transitionButtonEClass = createEClass(TRANSITION_BUTTON);
 
 		linkToQueryEClass = createEClass(LINK_TO_QUERY);
-		createEReference(linkToQueryEClass, LINK_TO_QUERY__TO_FORM);
 
 		operationButtonEClass = createEClass(OPERATION_BUTTON);
 		createEReference(operationButtonEClass, OPERATION_BUTTON__POPUP);
@@ -449,7 +439,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		// Obtain other dependent packages
 		UimPackage theUimPackage = (UimPackage)EPackage.Registry.INSTANCE.getEPackage(UimPackage.eNS_URI);
 		PanelPackage thePanelPackage = (PanelPackage)EPackage.Registry.INSTANCE.getEPackage(PanelPackage.eNS_URI);
-		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -481,7 +470,6 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		initEClass(transitionButtonEClass, TransitionButton.class, "TransitionButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(linkToQueryEClass, LinkToQuery.class, "LinkToQuery", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLinkToQuery_ToForm(), theEditorPackage.getQueryInvocationEditor(), null, "toForm", null, 0, 1, LinkToQuery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationButtonEClass, OperationButton.class, "OperationButton", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperationButton_Popup(), this.getOperationPopup(), this.getOperationPopup_OperationAction(), "popup", null, 0, 1, OperationButton.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

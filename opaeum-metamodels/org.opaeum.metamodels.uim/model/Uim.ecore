@@ -373,26 +373,21 @@
     <eClassifiers xsi:type="ecore:EClass" name="ExplorerConfiguration">
       <eStructuralFeatures xsi:type="ecore:EReference" name="perspective" lowerBound="1"
           eType="#//perspective/UimPerspective" eOpposite="#//perspective/UimPerspective/explorerConfiguration"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="hiddenClasses" upperBound="-1"
-          eType="#//perspective/HiddenClass" containment="true" eOpposite="#//perspective/HiddenClass/explorerConfiguration"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="visibleNonCompositeProperties"
-          upperBound="-1" eType="#//perspective/VisibleNonCompositeProperty" containment="true"
-          eOpposite="#//perspective/VisibleNonCompositeProperty/explorerConfiguration"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="hiddenCompositeProperties"
-          upperBound="-1" eType="#//perspective/HiddenCompositeProperty" containment="true"
-          eOpposite="#//perspective/HiddenCompositeProperty/explorerConfiguration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="configuredClasses" upperBound="-1"
+          eType="#//perspective/ExplorerClassConfiguration" containment="true" eOpposite="#//perspective/ExplorerClassConfiguration/explorerConfiguration"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="configuredProperties"
+          upperBound="-1" eType="#//perspective/ExplorerPropertyConfiguration" containment="true"
+          eOpposite="#//perspective/ExplorerPropertyConfiguration/explorerConfiguration"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="HiddenClass" eSuperTypes="#//UmlReference">
+    <eClassifiers xsi:type="ecore:EClass" name="ExplorerClassConfiguration" eSuperTypes="#//UmlReference">
       <eStructuralFeatures xsi:type="ecore:EReference" name="explorerConfiguration"
-          lowerBound="1" eType="#//perspective/ExplorerConfiguration" eOpposite="#//perspective/ExplorerConfiguration/hiddenClasses"/>
+          lowerBound="1" eType="#//perspective/ExplorerConfiguration" eOpposite="#//perspective/ExplorerConfiguration/configuredClasses"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="VisibleNonCompositeProperty" eSuperTypes="#//UmlReference">
+    <eClassifiers xsi:type="ecore:EClass" name="ExplorerPropertyConfiguration" eSuperTypes="#//UmlReference">
       <eStructuralFeatures xsi:type="ecore:EReference" name="explorerConfiguration"
-          lowerBound="1" eType="#//perspective/ExplorerConfiguration" eOpposite="#//perspective/ExplorerConfiguration/visibleNonCompositeProperties"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="HiddenCompositeProperty" eSuperTypes="#//UmlReference">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="explorerConfiguration"
-          lowerBound="1" eType="#//perspective/ExplorerConfiguration" eOpposite="#//perspective/ExplorerConfiguration/hiddenCompositeProperties"/>
+          lowerBound="1" eType="#//perspective/ExplorerConfiguration" eOpposite="#//perspective/ExplorerConfiguration/configuredProperties"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isVisible" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBooleanObject"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

@@ -67,9 +67,8 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 			case PerspectivePackage.UIM_PERSPECTIVE: return createUimPerspective();
 			case PerspectivePackage.VIEW_ALLOCATION: return createViewAllocation();
 			case PerspectivePackage.EXPLORER_CONFIGURATION: return createExplorerConfiguration();
-			case PerspectivePackage.HIDDEN_CLASS: return createHiddenClass();
-			case PerspectivePackage.VISIBLE_NON_COMPOSITE_PROPERTY: return createVisibleNonCompositeProperty();
-			case PerspectivePackage.HIDDEN_COMPOSITE_PROPERTY: return createHiddenCompositeProperty();
+			case PerspectivePackage.EXPLORER_CLASS_CONFIGURATION: return createExplorerClassConfiguration();
+			case PerspectivePackage.EXPLORER_PROPERTY_CONFIGURATION: return createExplorerPropertyConfiguration();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -144,9 +143,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public HiddenClass createHiddenClass() {
-		HiddenClassImpl hiddenClass = new HiddenClassImpl();
-		return hiddenClass;
+	public ExplorerClassConfiguration createExplorerClassConfiguration() {
+		ExplorerClassConfigurationImpl explorerClassConfiguration = new ExplorerClassConfigurationImpl();
+		return explorerClassConfiguration;
 	}
 
 	/**
@@ -154,19 +153,9 @@ public class PerspectiveFactoryImpl extends EFactoryImpl implements PerspectiveF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public VisibleNonCompositeProperty createVisibleNonCompositeProperty() {
-		VisibleNonCompositePropertyImpl visibleNonCompositeProperty = new VisibleNonCompositePropertyImpl();
-		return visibleNonCompositeProperty;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public HiddenCompositeProperty createHiddenCompositeProperty() {
-		HiddenCompositePropertyImpl hiddenCompositeProperty = new HiddenCompositePropertyImpl();
-		return hiddenCompositeProperty;
+	public ExplorerPropertyConfiguration createExplorerPropertyConfiguration() {
+		ExplorerPropertyConfigurationImpl explorerPropertyConfiguration = new ExplorerPropertyConfigurationImpl();
+		return explorerPropertyConfiguration;
 	}
 
 	/**

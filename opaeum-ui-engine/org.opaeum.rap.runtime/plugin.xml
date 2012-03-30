@@ -71,7 +71,7 @@
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
-            adaptableType="org.eclipse.rap.rms.data.IEntity"
+            adaptableType="org.opaeum.runtime.domain.IPersistentObject"
             class="org.opaeum.rap.runtime.internal.datamodel.EntityAdapterFactory">
          <adapter
                type="org.eclipse.ui.views.properties.IPropertySource">

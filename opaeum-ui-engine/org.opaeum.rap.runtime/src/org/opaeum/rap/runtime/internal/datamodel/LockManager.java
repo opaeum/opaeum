@@ -4,18 +4,18 @@ package org.opaeum.rap.runtime.internal.datamodel;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.rap.rms.data.IEntity;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 
 class LockManager {
   
-  private final static Set<IEntity> locks = new HashSet<IEntity>();
+  private final static Set<IPersistentObject> locks = new HashSet<IPersistentObject>();
   
   private LockManager() {
     // prevent instance creation
   }
   
-  static boolean lock( final IEntity entity ) {
+  static boolean lock( final IPersistentObject entity ) {
     boolean result = false;
     synchronized( locks ) {
       if( !locks.contains( entity ) ) {
@@ -26,7 +26,7 @@ class LockManager {
     return result;
   }
   
-  static void unLock( final IEntity entity ) {
+  static void unLock( final IPersistentObject entity ) {
     synchronized( locks ) {
       locks.remove( entity );
     }

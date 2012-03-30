@@ -59,7 +59,7 @@ public class HibernateEnvironment extends Environment{
 		}else if(clazz == StatefulKnowledgeSession.class){
 			return (T) getKnowledgeSession();
 		}else if(clazz == ConversationalPersistence.class){
-			return (T) getPersistence();
+			return (T) createConversationalPersistence();
 		}else if(clazz == CmtPersistence.class){
 			return (T) getCmtPersistence();
 		}else if(clazz == UmtPersistence.class){
@@ -147,7 +147,7 @@ public class HibernateEnvironment extends Environment{
 		}
 		return originalClass;
 	}
-	public ConversationalPersistence getPersistence(){
+	public ConversationalPersistence createConversationalPersistence(){
 		if(persistence == null){
 			persistence = new HibernateConversationalPersistence(openHibernateSession());
 		}

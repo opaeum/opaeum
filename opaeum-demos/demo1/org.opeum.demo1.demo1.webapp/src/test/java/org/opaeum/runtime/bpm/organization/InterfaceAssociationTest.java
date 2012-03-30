@@ -13,7 +13,7 @@ import structuredbusiness.Structuredbusiness;
 public class InterfaceAssociationTest{
 	@Test
 	public void testInterfaceMany(){
-		ConversationalPersistence p = StandaloneJpaEnvironment.getInstance().getPersistence();
+		ConversationalPersistence p = StandaloneJpaEnvironment.getInstance().createConversationalPersistence();
 		BusinessNetwork bn = new BusinessNetwork();
 		Structuredbusiness sb = new Structuredbusiness();
 		bn.addToBusinessCollaboration(sb);
@@ -22,7 +22,7 @@ public class InterfaceAssociationTest{
 		System.out.println(sb.getId());
 		p.close();
 		StandaloneJpaEnvironment.getInstance().reset();
-		p = StandaloneJpaEnvironment.getInstance().getPersistence();
+		p = StandaloneJpaEnvironment.getInstance().createConversationalPersistence();
 		bn=p.getReference(BusinessNetwork.class, bn.getId());
 		Set<IBusinessCollaboration> businessCollaboration = bn.getBusinessCollaboration();
 		Assert.assertEquals(1, businessCollaboration.size());

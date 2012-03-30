@@ -13,9 +13,7 @@ import java.util.Set;
 /**
  * This class will become the entry point for the entire transformation process
  */
-@SuppressWarnings({
-		"unchecked","rawtypes"
-})
+@SuppressWarnings({"unchecked","rawtypes"})
 public class TransformationProcess{
 	public static interface TransformationProgressLog{
 		void startTask(String s,int size);
@@ -23,7 +21,7 @@ public class TransformationProcess{
 		boolean isCanceled();
 		void startStep(String s);
 		void endLastStep();
-		void error(String string, Throwable t);
+		void error(String string,Throwable t);
 		void info(String string);
 		void registerInstanceCountMap(Map<Class<?>,Long> instanceCount);
 	}
@@ -32,7 +30,7 @@ public class TransformationProcess{
 	private Phases phases;
 	private OpaeumConfig config;
 	public void integrate(TransformationProgressLog log){
-		TransformationContext context = new TransformationContext(actualClasses, true,log);
+		TransformationContext context = new TransformationContext(actualClasses, true, log);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		log.startTask("Generating Integration Code", getPhases().size());
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
@@ -42,8 +40,8 @@ public class TransformationProcess{
 		}
 		log.endLastTask();
 	}
-	public void executePhase(Class<? extends TransformationPhase<?,?>> phaseClass,boolean isIntegrationPhase, TransformationProgressLog log){
-		TransformationContext context = new TransformationContext(actualClasses, isIntegrationPhase,log);
+	public void executePhase(Class<? extends TransformationPhase<?,?>> phaseClass,boolean isIntegrationPhase,TransformationProgressLog log){
+		TransformationContext context = new TransformationContext(actualClasses, isIntegrationPhase, log);
 		for(TransformationPhase<? extends ITransformationStep,?> phase:getPhases()){
 			if(phaseClass.isInstance(phase)){
 				executePhase(context, phase);
@@ -57,7 +55,8 @@ public class TransformationProcess{
 		phase.release();
 		context.featuresApplied(phase.getSteps());
 	}
-	public void execute(OpaeumConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses,TransformationProgressLog log){
+	public void execute(OpaeumConfig config,Object sourceModel,Set<Class<? extends ITransformationStep>> proposedStepClasses,
+			TransformationProgressLog log){
 		initialize(config, proposedStepClasses);
 		models.add(sourceModel);
 		execute(log);
@@ -74,7 +73,7 @@ public class TransformationProcess{
 		return phases.getExecutionUnits();
 	}
 	public void execute(TransformationProgressLog log){
-		TransformationContext context = new TransformationContext(actualClasses, false,log);
+		TransformationContext context = new TransformationContext(actualClasses, false, log);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 		log.startTask("Executing Transformation Phases", getPhases().size());
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
@@ -85,10 +84,10 @@ public class TransformationProcess{
 		log.endLastTask();
 	}
 	public void executeFrom(Class<? extends TransformationPhase<?,?>> c,TransformationProgressLog log,boolean isRelease){
-		TransformationContext context = new TransformationContext(actualClasses, false,log);
+		TransformationContext context = new TransformationContext(actualClasses, false, log);
 		context.setRelease(isRelease);
 		List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
-		List<TransformationPhase< ?,?>> phases = new ArrayList<TransformationPhase<?,?>>();
+		List<TransformationPhase<?,?>> phases = new ArrayList<TransformationPhase<?,?>>();
 		boolean start = false;
 		for(TransformationPhase<? extends ITransformationStep,?> phase:phaseList){
 			if(start || (start = c.isInstance(phase))){
@@ -103,7 +102,7 @@ public class TransformationProcess{
 	}
 	public void initialize(OpaeumConfig config,Set<Class<? extends ITransformationStep>> proposedStepClasses){
 		this.models.clear();
-		this.config=config;
+		this.config = config;
 		this.actualClasses = new HashSet<Class<? extends ITransformationStep>>();
 		this.phases = new Phases();
 		this.actualClasses = ensurePresenceOfDependencies(proposedStepClasses);
@@ -122,14 +121,14 @@ public class TransformationProcess{
 		if(changes.size() > 0){
 			log.startTask("Processing Individual Elements", getPhases().size());
 			changedElements.addAll(changes);
-			TransformationContext context = new TransformationContext(actualClasses, false,log);
+			TransformationContext context = new TransformationContext(actualClasses, false, log);
 			List<TransformationPhase<? extends ITransformationStep,?>> phaseList = getPhases();
 			boolean start = false;
 			for(TransformationPhase phase:phaseList){
 				if(!log.isCanceled() && (start || (start = fromPhase.isInstance(phase)))){
 					setInputModelsFor(phase);
 					phase.initializeSteps();
-					changedElements.addAll(phase.processElements(context, findElementsFor(phase,changedElements)));
+					changedElements.addAll(phase.processElements(context, findElementsFor(phase, changedElements)));
 					phase.release();
 				}
 			}
@@ -137,7 +136,7 @@ public class TransformationProcess{
 		}
 		return changedElements;
 	}
-	private Collection findElementsFor(TransformationPhase phase, Collection<?> changedElements){
+	private Collection findElementsFor(TransformationPhase phase,Collection<?> changedElements){
 		Collection result = new ArrayList();
 		ParameterizedType typeVariable = (ParameterizedType) phase.getClass().getGenericInterfaces()[0];
 		Class<?> arg1 = (Class<?>) typeVariable.getActualTypeArguments()[1];
@@ -148,8 +147,8 @@ public class TransformationProcess{
 		}
 		return result;
 	}
-	private Set<Class<? extends ITransformationStep>> getStepsForPhase(Class<? extends TransformationPhase<? extends ITransformationStep,?>> phaseClass,
-			Set<Class<? extends ITransformationStep>> stepClasses){
+	private Set<Class<? extends ITransformationStep>> getStepsForPhase(
+			Class<? extends TransformationPhase<? extends ITransformationStep,?>> phaseClass,Set<Class<? extends ITransformationStep>> stepClasses){
 		Set<Class<? extends ITransformationStep>> results = new HashSet<Class<? extends ITransformationStep>>();
 		for(Class<? extends ITransformationStep> stepClass:stepClasses){
 			if(stepClass.getAnnotation(StepDependency.class).phase() == phaseClass){
@@ -158,7 +157,8 @@ public class TransformationProcess{
 		}
 		return results;
 	}
-	private Set<Class<? extends TransformationPhase<? extends ITransformationStep,?>>> getPhaseClassesFor(Set<Class<? extends ITransformationStep>> stepClasses){
+	private Set<Class<? extends TransformationPhase<? extends ITransformationStep,?>>> getPhaseClassesFor(
+			Set<Class<? extends ITransformationStep>> stepClasses){
 		Set<Class<? extends TransformationPhase<? extends ITransformationStep,?>>> phaseClasses = new HashSet<Class<? extends TransformationPhase<? extends ITransformationStep,?>>>();
 		for(Class<? extends ITransformationStep> t:stepClasses){
 			Class<? extends TransformationPhase<? extends ITransformationStep,?>> phaseClass = t.getAnnotation(StepDependency.class).phase();
@@ -196,8 +196,8 @@ public class TransformationProcess{
 			if(implementationClass.length == 1){
 				modelClass = implementationClass[0];
 			}else{
-				throw new IllegalStateException("No existing model found of type " + field.getType() + " to provide input for the phase  " + phase.getClass()
-						+ ". Could not instantiate it because it is an interface. Please use the 'implementationClass' attribute.");
+				throw new IllegalStateException("No existing model found of type " + field.getType() + " to provide input for the phase  "
+						+ phase.getClass() + ". Could not instantiate it because it is an interface. Please use the 'implementationClass' attribute.");
 			}
 		}
 		Object model = modelClass.newInstance();
@@ -233,7 +233,8 @@ public class TransformationProcess{
 			throw new RuntimeException(e);
 		}
 	}
-	private void ensureRequiredDependenciesPresent(Class<? extends ITransformationStep> stepClass) throws IllegalAccessException,InstantiationException{
+	private void ensureRequiredDependenciesPresent(Class<? extends ITransformationStep> stepClass) throws IllegalAccessException,
+			InstantiationException{
 		if(!actualClasses.contains(stepClass)){
 			actualClasses.add(stepClass);
 			stepClass.newInstance();// force static inits
@@ -247,15 +248,18 @@ public class TransformationProcess{
 			}
 		}
 	}
-	public void removeModel(Class<?> class1){
-		Collection<Object> models = new ArrayList<Object>(this.models);
-		for(Object object:models){
-			if(class1.isInstance(object)){
-				this.models.remove(object);
+	public synchronized void removeModel(Class<?> class1){
+		if(this.models.size() > 0){
+			//CHeck for size as there is some weird negative array size problem that emerges
+			Collection<Object> models = new ArrayList<Object>(this.models);
+			for(Object object:models){
+				if(class1.isInstance(object)){
+					this.models.remove(object);
+				}
 			}
 		}
 	}
-	public void replaceModel(Object model){
+	public synchronized void replaceModel(Object model){
 		removeModel(model.getClass());
 		this.models.add(model);
 	}

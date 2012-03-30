@@ -24,7 +24,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -69,8 +68,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="document_verifier",uniqueConstraints=
-	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
+@Table(name="document_verifier")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DocumentVerifier")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -89,6 +87,8 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	static private Set<DocumentVerifier> mockedAllInstances;
+	@Column(name="name")
+	private String name;
 	@Version
 	@Column(name="object_version")
 	private int objectVersion;
@@ -153,6 +153,9 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
+		if ( xml.getAttribute("name").length()>0 ) {
+			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -188,9 +191,11 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void copyShallowState(DocumentVerifier from, DocumentVerifier to) {
+		to.setName(from.getName());
 	}
 	
 	public void copyState(DocumentVerifier from, DocumentVerifier to) {
+		to.setName(from.getName());
 	}
 	
 	public void createComponents() {
@@ -253,8 +258,12 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=8058752859363143598l,uuid="914890@_kRetkHphEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_kRetkHphEeGlh5y8zQdYBA")
 	public String getName() {
-		return "DocumentVerifier["+getId()+"]";
+		String result = this.name;
+		
+		return result;
 	}
 	
 	public int getObjectVersion() {
@@ -410,36 +419,24 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		DishwashersInc oldValue = this.getDishwashersInc();
-		if ( oldValue==null ) {
-			if ( dishwashersInc!=null ) {
-				DocumentVerifier oldOther = (DocumentVerifier)dishwashersInc.getDocumentVerifier();
-				dishwashersInc.z_internalRemoveFromDocumentVerifier(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-				}
-				dishwashersInc.z_internalAddToDocumentVerifier((DocumentVerifier)this);
-			}
+		if ( this.getDishwashersInc()!=null ) {
+			this.getDishwashersInc().z_internalRemoveFromDocumentVerifier(this);
+		}
+		if ( dishwashersInc!=null ) {
+			dishwashersInc.z_internalAddToDocumentVerifier(this);
 			this.z_internalAddToDishwashersInc(dishwashersInc);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(dishwashersInc) ) {
-				oldValue.z_internalRemoveFromDocumentVerifier(this);
-				z_internalRemoveFromDishwashersInc(oldValue);
-				if ( dishwashersInc!=null ) {
-					DocumentVerifier oldOther = (DocumentVerifier)dishwashersInc.getDocumentVerifier();
-					dishwashersInc.z_internalRemoveFromDocumentVerifier(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-					}
-					dishwashersInc.z_internalAddToDocumentVerifier((DocumentVerifier)this);
-				}
-				this.z_internalAddToDishwashersInc(dishwashersInc);
-			}
+			markDeleted();
 		}
 	}
 	
 	public void setId(Long id) {
 		this.id=id;
+	}
+	
+	public void setName(String name) {
+		this.z_internalAddToName(name);
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -519,6 +516,9 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		sb.append("classUuid=\"914890@_tq_pUGK1EeGb14EjInbIAA\" ");
 		sb.append("className=\"structuredbusiness.DocumentVerifier\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
+		if ( getName()!=null ) {
+			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
+		}
 		sb.append(">");
 		if ( getPerson_iBusinessRole_1_representedPerson()==null ) {
 			sb.append("\n<person_iBusinessRole_1_representedPerson/>");
@@ -547,6 +547,10 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		this.dishwashersInc=val;
 	}
 	
+	public void z_internalAddToName(String val) {
+		this.name=val;
+	}
+	
 	public void z_internalAddToParticipation(Participation val) {
 		this.participation.add(val);
 	}
@@ -565,6 +569,13 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
+		}
+	}
+	
+	public void z_internalRemoveFromName(String val) {
+		if ( getName()!=null && val!=null && val.equals(getName()) ) {
+			this.name=null;
+			this.name=null;
 		}
 	}
 	

@@ -144,7 +144,8 @@ public class SimulationMetaData{
 		return object.intValue();
 	}
 	public Object getNextValueForProperty(String simulationName,String propertyName){
-		return propertyObjectValueProviders.get(simulationName + propertyName).getNextValue();
+		ValueProvider valueProvider = propertyObjectValueProviders.get(simulationName + propertyName);
+		return valueProvider.getNextValue();
 	}
 	public Object createNewInstanceForProperty(String simulationName,String propertyName,CompositionNode parent){
 		return entitySimulationProviders.get(simulationName + propertyName).createNewInstance(parent);

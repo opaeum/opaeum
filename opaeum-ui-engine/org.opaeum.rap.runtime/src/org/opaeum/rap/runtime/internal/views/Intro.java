@@ -47,18 +47,22 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.internal.PerspectiveSwitcher;
 import org.eclipse.ui.part.ViewPart;
 import org.opaeum.annotation.BusinessActor;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.BusinessRole;
+import org.opaeum.rap.login.LoginView;
 import org.opaeum.rap.runtime.Constants;
 import org.opaeum.rap.runtime.IOpaeumApplication;
-import org.opaeum.rap.runtime.SelectionForContact;
+import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.actions.NewAction;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.rap.runtime.internal.startup.RMSPerspective;
+import org.opaeum.rap.wizards.contacts.SelectionForContact;
+import org.opaeum.rap.wizards.contacts.UserRoleAllocationWizard;
 import org.opaeum.runtime.contact.IPersonEMailAddress;
 import org.opaeum.runtime.contact.IPersonPhoneNumber;
 import org.opaeum.runtime.contact.PersonEMailAddressType;
@@ -70,6 +74,8 @@ import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 
+import com.google.api.client.auth.oauth2.draft10.AccessTokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.draft10.GoogleAccessProtectedResource;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.extensions.Email;
@@ -78,13 +84,29 @@ import com.google.gdata.data.extensions.PhoneNumber;
 public class Intro extends ViewPart{
 	public static final String ID = "raptest.view";
 	private IOpaeumApplication application;
+	private OpaeumRapSession opaeumRapSession;
 	public void setFocus(){
 		Display display = Display.getCurrent();
-		ContactsService service = (ContactsService) RWT.getRequest().getSession(true).getAttribute("contactsService");
-		if(service != null){
-			UserRoleAllocationWizard wizard = new UserRoleAllocationWizard(service,getApplication());
-			WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
-			if(dlg.open() == Window.OK){
+		AccessTokenResponse accessToken = (AccessTokenResponse) RWT.getRequest().getSession(true).getAttribute("authResponse");
+		if(accessToken != null){
+			opaeumRapSession = new OpaeumRapSession(getApplication(), accessToken);
+			opaeumRapSession.associatePerson();
+			RWT.getRequest().getSession(true).setAttribute("opaeumSession", opaeumRapSession);
+			IBusinessCollaborationBase bc = getApplication().getRootBusinessCollaboration();
+			// TODO Make a bit more sophisticated maybe introduced an
+			// initiliazed flag
+			if(bc == null){
+				UserRoleAllocationWizard wizard = new UserRoleAllocationWizard(opaeumRapSession, getApplication());
+				WizardDialog dlg = new WizardDialog(display.getActiveShell(), wizard);
+				if(dlg.open() == Window.OK){
+				}
+			}else{
+				try{
+					getSite().getWorkbenchWindow().getWorkbench().showPerspective(RMSPerspective.ID, getSite().getWorkbenchWindow());
+				}catch(WorkbenchException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -96,7 +118,6 @@ public class Intro extends ViewPart{
 		}
 		return application;
 	}
-
 	private final class SwitchPerspective extends SelectionAdapter{
 		private static final long serialVersionUID = 7241149101387376500L;
 		private final ISelection selection;
@@ -124,12 +145,12 @@ public class Intro extends ViewPart{
 					boolean editorOpen = false;
 					while(!editorOpen && principals.hasNext()){
 						IPrincipal principal = principals.next();
-						editorOpen = OpenEditorAction.openEditor(principal, false);
+						editorOpen = OpenEditorAction.openEditor(principal, false,opaeumRapSession);
 						if(!editorOpen){
 							Iterator<IProject> projects = principal.getProjects().iterator();
 							while(!editorOpen && projects.hasNext()){
 								IProject project = projects.next();
-								editorOpen = OpenEditorAction.openEditor(project, false);
+								editorOpen = OpenEditorAction.openEditor(project, false,opaeumRapSession);
 							}
 						}
 					}
@@ -233,12 +254,15 @@ public class Intro extends ViewPart{
 		final IPrincipal principal = model.getPrincipals().get(0);
 		IProject project = principal.getProjects().get(0);
 		ISelection selection = new StructuredSelection(project);
-		createImageLabelSection(form, left, RMSMessages.get().Intro_SelectionTitle, RMSMessages.get().Intro_SelectionDesc, Activator.IMG_INTRO_NAVIGATOR, RMSMessages
-				.get().Intro_SelectionContent, new SwitchPerspective(selection, false, null), true);
-		createImageLabelSection(form, left, RMSMessages.get().Intro_EditorTitle, RMSMessages.get().Intro_EditorDesc, Activator.IMG_INTRO_CONTEXT_MENU, RMSMessages.get().Intro_EditorContent, new SwitchPerspective(null, true, null), true);
-		NewAction newAction = new NewAction(principal, IProject.class, "", null); //$NON-NLS-1$
-		createImageLabelSection(form, left, RMSMessages.get().Intro_WizardTitle, RMSMessages.get().Intro_WizardDesc, Activator.IMG_INTRO_NEW_PROJECT, RMSMessages.get().Intro_WizardContent, new SwitchPerspective(null, false, newAction), false);
-		createImageLabelSection(form, left, RMSMessages.get().Intro_RcsTitle, RMSMessages.get().Intro_RcsDesc, Activator.IMG_INTRO_DATE_PICKER, RMSMessages.get().Intro_RcsContent, new SwitchPerspective(null, true, null), false);
+		createImageLabelSection(form, left, RMSMessages.get().Intro_SelectionTitle, RMSMessages.get().Intro_SelectionDesc,
+				Activator.IMG_INTRO_NAVIGATOR, RMSMessages.get().Intro_SelectionContent, new SwitchPerspective(selection, false, null), true);
+		createImageLabelSection(form, left, RMSMessages.get().Intro_EditorTitle, RMSMessages.get().Intro_EditorDesc,
+				Activator.IMG_INTRO_CONTEXT_MENU, RMSMessages.get().Intro_EditorContent, new SwitchPerspective(null, true, null), true);
+		NewAction newAction = new NewAction(principal, IProject.class, "", null,opaeumRapSession); //$NON-NLS-1$
+		createImageLabelSection(form, left, RMSMessages.get().Intro_WizardTitle, RMSMessages.get().Intro_WizardDesc,
+				Activator.IMG_INTRO_NEW_PROJECT, RMSMessages.get().Intro_WizardContent, new SwitchPerspective(null, false, newAction), false);
+		createImageLabelSection(form, left, RMSMessages.get().Intro_RcsTitle, RMSMessages.get().Intro_RcsDesc, Activator.IMG_INTRO_DATE_PICKER,
+				RMSMessages.get().Intro_RcsContent, new SwitchPerspective(null, true, null), false);
 	}
 	private void createContentLayout(final Composite composite){
 		TableWrapLayout layout = new TableWrapLayout();
@@ -252,8 +276,8 @@ public class Intro extends ViewPart{
 		composite.setLayout(layout);
 		composite.setBackground(COLOR_WHITE);
 	}
-	private Composite createImageLabelSection(final ScrolledForm form,final Composite client,final String title,final String desc,final String imageName,
-			final String explanation,final SelectionListener action,final boolean expanded){
+	private Composite createImageLabelSection(final ScrolledForm form,final Composite client,final String title,final String desc,
+			final String imageName,final String explanation,final SelectionListener action,final boolean expanded){
 		Composite result = createSection(form, client, title, desc, 2, expanded);
 		// using a CLabel instead of a Label is a workaround for Safari
 		CLabel image = new CLabel(result, SWT.NONE);
@@ -308,8 +332,8 @@ public class Intro extends ViewPart{
 		Iterator<IOpaeumApplication> iterator = Activator.getDefault().getApplications().values().iterator();
 		if(iterator.hasNext()){
 			IOpaeumApplication app = iterator.next();
-			IBusinessNetwork bn = app.getBusinessNetwork();
-			ConversationalPersistence p = app.getEnvironment().getPersistence();
+			IBusinessNetwork bn = app.getRootBusinessCollaboration().getBusinessNetwork();
+			ConversationalPersistence p = app.getEnvironment().createConversationalPersistence();
 			IBusinessCollaborationBase sb = app.createRootBusinessCollaboration();
 			bn.addToBusinessCollaboration(sb);
 			Set<ContactEntry> singleton = null;

@@ -20,7 +20,6 @@ import org.opaeum.uim.editor.QueryInvocationEditor;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.opaeum.uim.action.impl.LinkToQueryImpl#getUmlElementUid <em>Uml Element Uid</em>}</li>
- *   <li>{@link org.opaeum.uim.action.impl.LinkToQueryImpl#getToForm <em>To Form</em>}</li>
  * </ul>
  * </p>
  *
@@ -46,16 +45,6 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 	 * @ordered
 	 */
 	protected String umlElementUid = UML_ELEMENT_UID_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getToForm() <em>To Form</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getToForm()
-	 * @generated
-	 * @ordered
-	 */
-	protected QueryInvocationEditor toForm;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -102,52 +91,11 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public QueryInvocationEditor getToForm() {
-		if (toForm != null && toForm.eIsProxy()) {
-			InternalEObject oldToForm = (InternalEObject)toForm;
-			toForm = (QueryInvocationEditor)eResolveProxy(oldToForm);
-			if (toForm != oldToForm) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ActionPackage.LINK_TO_QUERY__TO_FORM, oldToForm, toForm));
-			}
-		}
-		return toForm;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public QueryInvocationEditor basicGetToForm() {
-		return toForm;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setToForm(QueryInvocationEditor newToForm) {
-		QueryInvocationEditor oldToForm = toForm;
-		toForm = newToForm;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.LINK_TO_QUERY__TO_FORM, oldToForm, toForm));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				return getUmlElementUid();
-			case ActionPackage.LINK_TO_QUERY__TO_FORM:
-				if (resolve) return getToForm();
-				return basicGetToForm();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -162,9 +110,6 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 		switch (featureID) {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				setUmlElementUid((String)newValue);
-				return;
-			case ActionPackage.LINK_TO_QUERY__TO_FORM:
-				setToForm((QueryInvocationEditor)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -181,9 +126,6 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				setUmlElementUid(UML_ELEMENT_UID_EDEFAULT);
 				return;
-			case ActionPackage.LINK_TO_QUERY__TO_FORM:
-				setToForm((QueryInvocationEditor)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -198,8 +140,6 @@ public class LinkToQueryImpl extends UimLinkImpl implements LinkToQuery {
 		switch (featureID) {
 			case ActionPackage.LINK_TO_QUERY__UML_ELEMENT_UID:
 				return UML_ELEMENT_UID_EDEFAULT == null ? umlElementUid != null : !UML_ELEMENT_UID_EDEFAULT.equals(umlElementUid);
-			case ActionPackage.LINK_TO_QUERY__TO_FORM:
-				return toForm != null;
 		}
 		return super.eIsSet(featureID);
 	}

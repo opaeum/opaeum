@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.impl.EditingDomainManager;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.uml.Element;
@@ -163,6 +162,8 @@ public class OpaeumEclipseContext{
 		return newlyCreated;
 	}
 	public void reinitialize(){
+		this.directoryEmfWorkspace=null;
+		this.directoryEditingDomain=null;
 		resourceSetsStartedButNotLoaded.clear();
 		umlElementCache.reinitializeProcess();
 		ArrayList<OpenUmlFile> arrayList = new ArrayList<OpenUmlFile>(openUmlFiles.values());
@@ -177,7 +178,7 @@ public class OpaeumEclipseContext{
 		errorMarker.maybeSchedule();
 	}
 	public String getId(Element umlElement){
-		return getEmfToOpaeumSynchronizer().getCurrentEmfWorkspace().getId(umlElement);
+		return EmfWorkspace.getId(umlElement);
 	}
 	public Collection<EmfWorkspace> getEmfWorkspaces(){
 		Collection<EmfWorkspace> result = new HashSet<EmfWorkspace>();

@@ -118,9 +118,14 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="postal_address_id",nullable=true)
 	private PostalAddress postalAddress;
+	@Column(name="refresh_token")
+	private String refreshToken;
 	static final private long serialVersionUID = 3517707551286497542l;
 	@Column(name="surname")
 	private String surname;
+	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
+	@Column(name="token_expiry_date_time")
+	private Date tokenExpiryDateTime;
 	private String uid;
 	@Column(name="username")
 	private String username;
@@ -256,6 +261,12 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		if ( xml.getAttribute("username").length()>0 ) {
 			setUsername(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("username")));
 		}
+		if ( xml.getAttribute("refreshToken").length()>0 ) {
+			setRefreshToken(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("refreshToken")));
+		}
+		if ( xml.getAttribute("tokenExpiryDateTime").length()>0 ) {
+			setTokenExpiryDateTime(OpaeumLibraryForBPMFormatter.getInstance().parseDateTime(xml.getAttribute("tokenExpiryDateTime")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -376,6 +387,8 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		to.setSurname(from.getSurname());
 		to.setAuthenticationToken(from.getAuthenticationToken());
 		to.setUsername(from.getUsername());
+		to.setRefreshToken(from.getRefreshToken());
+		to.setTokenExpiryDateTime(from.getTokenExpiryDateTime());
 	}
 	
 	public void copyState(PersonNode from, PersonNode to) {
@@ -392,6 +405,8 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		}
 		to.setAuthenticationToken(from.getAuthenticationToken());
 		to.setUsername(from.getUsername());
+		to.setRefreshToken(from.getRefreshToken());
+		to.setTokenExpiryDateTime(from.getTokenExpiryDateTime());
 	}
 	
 	public void createComponents() {
@@ -601,10 +616,26 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=6339644735992273166l,uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
+	@NumlMetaInfo(uuid="252060@_U9amkHaQEeGv4aLPxieKNg")
+	public String getRefreshToken() {
+		String result = this.refreshToken;
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(isComposite=false,opaeumId=4565578190639246320l,uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_xcB_YEtmEeGd4cpyhpib9Q")
 	public String getSurname() {
 		String result = this.surname;
+		
+		return result;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=3343613060723219152l,uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
+	@NumlMetaInfo(uuid="252060@_WDO_IHaQEeGv4aLPxieKNg")
+	public Date getTokenExpiryDateTime() {
+		Date result = this.tokenExpiryDateTime;
 		
 		return result;
 	}
@@ -914,8 +945,16 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		this.z_internalAddToPostalAddress(postalAddress);
 	}
 	
+	public void setRefreshToken(String refreshToken) {
+		this.z_internalAddToRefreshToken(refreshToken);
+	}
+	
 	public void setSurname(String surname) {
 		this.z_internalAddToSurname(surname);
+	}
+	
+	public void setTokenExpiryDateTime(Date tokenExpiryDateTime) {
+		this.z_internalAddToTokenExpiryDateTime(tokenExpiryDateTime);
 	}
 	
 	public void setUid(String newUid) {
@@ -957,6 +996,12 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		}
 		if ( getUsername()!=null ) {
 			sb.append("username=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getUsername())+"\" ");
+		}
+		if ( getRefreshToken()!=null ) {
+			sb.append("refreshToken=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getRefreshToken())+"\" ");
+		}
+		if ( getTokenExpiryDateTime()!=null ) {
+			sb.append("tokenExpiryDateTime=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatDateTime(getTokenExpiryDateTime())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n<phoneNumber propertyId=\"213312905486829476\">");
@@ -1062,8 +1107,16 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		this.postalAddress=val;
 	}
 	
+	public void z_internalAddToRefreshToken(String val) {
+		this.refreshToken=val;
+	}
+	
 	public void z_internalAddToSurname(String val) {
 		this.surname=val;
+	}
+	
+	public void z_internalAddToTokenExpiryDateTime(Date val) {
+		this.tokenExpiryDateTime=val;
 	}
 	
 	public void z_internalAddToUsername(String val) {
@@ -1147,10 +1200,24 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		}
 	}
 	
+	public void z_internalRemoveFromRefreshToken(String val) {
+		if ( getRefreshToken()!=null && val!=null && val.equals(getRefreshToken()) ) {
+			this.refreshToken=null;
+			this.refreshToken=null;
+		}
+	}
+	
 	public void z_internalRemoveFromSurname(String val) {
 		if ( getSurname()!=null && val!=null && val.equals(getSurname()) ) {
 			this.surname=null;
 			this.surname=null;
+		}
+	}
+	
+	public void z_internalRemoveFromTokenExpiryDateTime(Date val) {
+		if ( getTokenExpiryDateTime()!=null && val!=null && val.equals(getTokenExpiryDateTime()) ) {
+			this.tokenExpiryDateTime=null;
+			this.tokenExpiryDateTime=null;
 		}
 	}
 	

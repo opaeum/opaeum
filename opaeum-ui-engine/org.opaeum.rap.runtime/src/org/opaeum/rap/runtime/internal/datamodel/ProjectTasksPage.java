@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.rap.rms.data.IProject;
 import org.eclipse.rap.rms.data.ITask;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -45,13 +46,13 @@ import org.opaeum.rap.runtime.internal.wizards.NewEntityWizard;
 
 public class ProjectTasksPage extends FormPage {
   private static final String TASKS = "Tasks"; //$NON-NLS-1$
-  private final ProjectCopy project;
+  private final IProject project;
   private Text txtName;
   private Text txtDesc;
   private DateTime dtStart;
   private DateTime dtEnd;
   private DataBindingContext ctx;
-  private TaskCopy currentTask;
+  private ITask currentTask;
   private TableViewer taskViewer;
   
   
@@ -112,7 +113,7 @@ public class ProjectTasksPage extends FormPage {
 
   
   public ProjectTasksPage( final FormEditor editor, 
-                           final ProjectCopy project )
+                           final IProject project )
   {
     super( editor, TASKS, RMSMessages.get().ProjectTasksPage_Title );
     this.project = project;
@@ -186,7 +187,7 @@ public class ProjectTasksPage extends FormPage {
       public void selectionChanged( final SelectionChangedEvent event ) {
         ISelection selection = event.getSelection();
         IStructuredSelection sSelection = ( IStructuredSelection )selection;
-        TaskCopy task = ( TaskCopy )sSelection.getFirstElement();
+        ITask task = ( ITask )sSelection.getFirstElement();
         bindDetailSection( task );
       }
     } );
@@ -203,7 +204,7 @@ public class ProjectTasksPage extends FormPage {
     table.setHeaderVisible( true );
   }
   
-  private void bindDetailSection( final TaskCopy task ) {
+  private void bindDetailSection( final ITask task ) {
     if( currentTask != null ) {
       taskViewer.refresh( currentTask );
     }
@@ -213,9 +214,9 @@ public class ProjectTasksPage extends FormPage {
     }
     ctx = PageUtil.createBindingContext();
     txtName.setText( task.getName() );
-    PageUtil.bindText( ctx, task, txtDesc, TaskCopy.DESCRIPTION );
-    PageUtil.bindDate( ctx, task, dtStart, TaskCopy.START_DATE );
-    PageUtil.bindDate( ctx, task, dtEnd, TaskCopy.END_DATE );
+    PageUtil.bindText( ctx, task, txtDesc, "description" );
+    PageUtil.bindDate( ctx, task, dtStart, "startDate" );
+    PageUtil.bindDate( ctx, task, dtEnd, "endDate" );
   }
 
   private String[] initColumnProperties( final Table table ) {

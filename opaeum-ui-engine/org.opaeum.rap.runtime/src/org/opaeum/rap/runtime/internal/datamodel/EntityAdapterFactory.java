@@ -2,8 +2,8 @@
 package org.opaeum.rap.runtime.internal.datamodel;
 
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.ui.views.properties.IPropertySource;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 
 public class EntityAdapterFactory implements IAdapterFactory {
@@ -27,10 +27,10 @@ public class EntityAdapterFactory implements IAdapterFactory {
     if( adapterType == ILock.class ) {
       result = new ILock() {
         public boolean lock() {
-          return LockManager.lock( ( IEntity )adaptableObject );
+          return LockManager.lock( ( IPersistentObject )adaptableObject );
         }
         public void unLock() {
-          LockManager.unLock( ( IEntity )adaptableObject );
+          LockManager.unLock( ( IPersistentObject )adaptableObject );
         }
       };
     }

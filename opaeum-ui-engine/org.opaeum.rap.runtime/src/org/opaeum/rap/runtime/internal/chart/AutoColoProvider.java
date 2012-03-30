@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.opaeum.rap.runtime.internal.chart;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.swt.SWT;

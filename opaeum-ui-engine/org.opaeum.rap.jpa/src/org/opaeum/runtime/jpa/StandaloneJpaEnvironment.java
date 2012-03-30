@@ -102,7 +102,7 @@ public class StandaloneJpaEnvironment extends Environment{
 		}else if(clazz == StatefulKnowledgeSession.class){
 			return (T) getKnowledgeSession();
 		}else if(clazz == ConversationalPersistence.class){
-			return (T) getPersistence();
+			return (T) createConversationalPersistence();
 		}else if(clazz == CmtPersistence.class){
 			return (T) getCmtPersistence();
 		}else if(clazz == UmtPersistence.class){
@@ -111,7 +111,7 @@ public class StandaloneJpaEnvironment extends Environment{
 			return (T) components.get(clazz);
 		}
 	}
-	public ConversationalPersistence getPersistence(){
+	public ConversationalPersistence createConversationalPersistence(){
 		if(persistence == null){
 			persistence = new StandaloneJpaConversationalPersistence(getEntityManager());
 		}

@@ -20,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -54,14 +53,15 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="id_book",uniqueConstraints=
-	@UniqueConstraint(columnNames={"dishwashers_inc_id","deleted_on"}))
+@Table(name="id_book")
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="IdBook")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class IdBook implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessDocument, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
+	@Column(name="date_of_birth")
+	private Date dateOfBirth;
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
@@ -73,9 +73,13 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	@Type(type="org.opaeum.runtime.domain.DocumentTypeResolver")
 	@Column(name="document_type",nullable=true)
 	private DocumentType documentType;
+	@Column(name="full_names")
+	private String fullNames;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
+	@Column(name="id_number")
+	private String idNumber;
 	static private Set<IdBook> mockedAllInstances;
 	@Version
 	@Column(name="object_version")
@@ -121,6 +125,15 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( xml.getAttribute("documentType").length()>0 ) {
 			setDocumentType(DocumentType.valueOf(xml.getAttribute("documentType")));
 		}
+		if ( xml.getAttribute("idNumber").length()>0 ) {
+			setIdNumber(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("idNumber")));
+		}
+		if ( xml.getAttribute("fullNames").length()>0 ) {
+			setFullNames(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("fullNames")));
+		}
+		if ( xml.getAttribute("dateOfBirth").length()>0 ) {
+			setDateOfBirth(StructuredbusinessFormatter.getInstance().parseDate(xml.getAttribute("dateOfBirth")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -136,10 +149,16 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void copyShallowState(IdBook from, IdBook to) {
 		to.setDocumentType(from.getDocumentType());
+		to.setIdNumber(from.getIdNumber());
+		to.setFullNames(from.getFullNames());
+		to.setDateOfBirth(from.getDateOfBirth());
 	}
 	
 	public void copyState(IdBook from, IdBook to) {
 		to.setDocumentType(from.getDocumentType());
+		to.setIdNumber(from.getIdNumber());
+		to.setFullNames(from.getFullNames());
+		to.setDateOfBirth(from.getDateOfBirth());
 	}
 	
 	public void createComponents() {
@@ -157,6 +176,14 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public Set<CancelledEvent> getCancelledEvents() {
 		return this.cancelledEvents;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=1406233976933179724l,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
+	public Date getDateOfBirth() {
+		Date result = this.dateOfBirth;
+		
+		return result;
 	}
 	
 	public Date getDeletedOn() {
@@ -179,8 +206,24 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
+	public String getFullNames() {
+		String result = this.fullNames;
+		
+		return result;
+	}
+	
 	public Long getId() {
 		return this.id;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
+	@NumlMetaInfo(uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
+	public String getIdNumber() {
+		String result = this.idNumber;
+		
+		return result;
 	}
 	
 	public String getName() {
@@ -257,36 +300,24 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.cancelledEvents=cancelledEvents;
 	}
 	
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.z_internalAddToDateOfBirth(dateOfBirth);
+	}
+	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
 	}
 	
 	public void setDishwashersInc(DishwashersInc dishwashersInc) {
-		DishwashersInc oldValue = this.getDishwashersInc();
-		if ( oldValue==null ) {
-			if ( dishwashersInc!=null ) {
-				IdBook oldOther = (IdBook)dishwashersInc.getIdBook();
-				dishwashersInc.z_internalRemoveFromIdBook(oldOther);
-				if ( oldOther != null ) {
-					oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-				}
-				dishwashersInc.z_internalAddToIdBook((IdBook)this);
-			}
+		if ( this.getDishwashersInc()!=null ) {
+			this.getDishwashersInc().z_internalRemoveFromIdBook(this);
+		}
+		if ( dishwashersInc!=null ) {
+			dishwashersInc.z_internalAddToIdBook(this);
 			this.z_internalAddToDishwashersInc(dishwashersInc);
+			setDeletedOn(Stdlib.FUTURE);
 		} else {
-			if ( !oldValue.equals(dishwashersInc) ) {
-				oldValue.z_internalRemoveFromIdBook(this);
-				z_internalRemoveFromDishwashersInc(oldValue);
-				if ( dishwashersInc!=null ) {
-					IdBook oldOther = (IdBook)dishwashersInc.getIdBook();
-					dishwashersInc.z_internalRemoveFromIdBook(oldOther);
-					if ( oldOther != null ) {
-						oldOther.z_internalRemoveFromDishwashersInc(dishwashersInc);
-					}
-					dishwashersInc.z_internalAddToIdBook((IdBook)this);
-				}
-				this.z_internalAddToDishwashersInc(dishwashersInc);
-			}
+			markDeleted();
 		}
 	}
 	
@@ -294,8 +325,16 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		this.z_internalAddToDocumentType(documentType);
 	}
 	
+	public void setFullNames(String fullNames) {
+		this.z_internalAddToFullNames(fullNames);
+	}
+	
 	public void setId(Long id) {
 		this.id=id;
+	}
+	
+	public void setIdNumber(String idNumber) {
+		this.z_internalAddToIdNumber(idNumber);
 	}
 	
 	public void setObjectVersion(int objectVersion) {
@@ -323,9 +362,22 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( getDocumentType()!=null ) {
 			sb.append("documentType=\""+ getDocumentType().name() + "\" ");
 		}
+		if ( getIdNumber()!=null ) {
+			sb.append("idNumber=\""+ StructuredbusinessFormatter.getInstance().formatString(getIdNumber())+"\" ");
+		}
+		if ( getFullNames()!=null ) {
+			sb.append("fullNames=\""+ StructuredbusinessFormatter.getInstance().formatString(getFullNames())+"\" ");
+		}
+		if ( getDateOfBirth()!=null ) {
+			sb.append("dateOfBirth=\""+ StructuredbusinessFormatter.getInstance().formatDate(getDateOfBirth())+"\" ");
+		}
 		sb.append(">");
 		sb.append("\n</IdBook>");
 		return sb.toString();
+	}
+	
+	public void z_internalAddToDateOfBirth(Date val) {
+		this.dateOfBirth=val;
 	}
 	
 	public void z_internalAddToDishwashersInc(DishwashersInc val) {
@@ -334,6 +386,21 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 	
 	public void z_internalAddToDocumentType(DocumentType val) {
 		this.documentType=val;
+	}
+	
+	public void z_internalAddToFullNames(String val) {
+		this.fullNames=val;
+	}
+	
+	public void z_internalAddToIdNumber(String val) {
+		this.idNumber=val;
+	}
+	
+	public void z_internalRemoveFromDateOfBirth(Date val) {
+		if ( getDateOfBirth()!=null && val!=null && val.equals(getDateOfBirth()) ) {
+			this.dateOfBirth=null;
+			this.dateOfBirth=null;
+		}
 	}
 	
 	public void z_internalRemoveFromDishwashersInc(DishwashersInc val) {
@@ -347,6 +414,20 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		if ( getDocumentType()!=null && val!=null && val.equals(getDocumentType()) ) {
 			this.documentType=null;
 			this.documentType=null;
+		}
+	}
+	
+	public void z_internalRemoveFromFullNames(String val) {
+		if ( getFullNames()!=null && val!=null && val.equals(getFullNames()) ) {
+			this.fullNames=null;
+			this.fullNames=null;
+		}
+	}
+	
+	public void z_internalRemoveFromIdNumber(String val) {
+		if ( getIdNumber()!=null && val!=null && val.equals(getIdNumber()) ) {
+			this.idNumber=null;
+			this.idNumber=null;
 		}
 	}
 

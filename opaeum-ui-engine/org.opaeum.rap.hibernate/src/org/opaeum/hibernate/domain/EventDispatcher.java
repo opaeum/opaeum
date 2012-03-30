@@ -9,7 +9,7 @@ import java.util.WeakHashMap;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.event.internal.AbstractFlushingEventListener;
+import org.hibernate.event.internal.DefaultFlushEventListener;
 import org.hibernate.event.spi.EventSource;
 import org.hibernate.event.spi.FlushEvent;
 import org.hibernate.event.spi.FlushEventListener;
@@ -29,11 +29,13 @@ import org.opaeum.runtime.domain.OutgoingEvent;
 import org.opaeum.runtime.environment.Environment;
 import org.opaeum.runtime.persistence.AbstractPersistence;
 
-public class EventDispatcher extends AbstractFlushingEventListener implements PostLoadEventListener,FlushEventListener,PostInsertEventListener,
+public class EventDispatcher extends DefaultFlushEventListener implements PostLoadEventListener,FlushEventListener,PostInsertEventListener,
 		PersistEventListener{
 	private static final long serialVersionUID = -8583155822068850343L;
-	static Map<EventSource,Set<IEventGenerator>> eventGeneratorMap = Collections.synchronizedMap(new WeakHashMap<EventSource,Set<IEventGenerator>>());
-	static Map<EventSource,Set<IProcessObject>> processObjectMap = Collections.synchronizedMap(new WeakHashMap<EventSource,Set<IProcessObject>>());
+	static Map<EventSource,Set<IEventGenerator>> eventGeneratorMap = Collections
+			.synchronizedMap(new WeakHashMap<EventSource,Set<IEventGenerator>>());
+	static Map<EventSource,Set<IProcessObject>> processObjectMap = Collections
+			.synchronizedMap(new WeakHashMap<EventSource,Set<IProcessObject>>());
 	static Map<EventSource,AbstractHibernatePersistence> persistenceMap = Collections
 			.synchronizedMap(new WeakHashMap<EventSource,AbstractHibernatePersistence>());
 	private AbstractPersistence getPersistence(EventSource session){
@@ -86,11 +88,7 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 	@Override
 	public void onFlush(FlushEvent event) throws HibernateException{
 		final EventSource source = event.getSession();
-		if(source.getPersistenceContext().hasNonReadOnlyEntities()){
-			// Generate Ids, perform flush events, register newly inserted
-			// objects
-			performFlush(event, source);
-		}
+		super.onFlush(event);
 		// NB!! entities may not have changed, but events may have been
 		// generated
 		dispatchEventsAndSaveProcesses(event, source);
@@ -169,11 +167,13 @@ public class EventDispatcher extends AbstractFlushingEventListener implements Po
 		EntityPersister p = event.getSession().getEntityPersister(event.getEntityName(), event.getObject());
 		Object[] propertyValues = p.getPropertyValues(event.getObject());
 		for(Object object2:propertyValues){
-			if(object2 instanceof CascadingInterfaceValue){
-				CascadingInterfaceValue iv = (CascadingInterfaceValue) object2;
+			if(object2 instanceof InterfaceValue){
+				InterfaceValue iv = (InterfaceValue) object2;
 				if(iv.hasValue() && iv.getIdentifier() == null){
 					IPersistentObject value = iv.getValue(getPersistence(event.getSession()));
-					event.getSession().persist(value);
+					if(iv instanceof CascadingInterfaceValue){
+						event.getSession().persist(value);
+					}
 					iv.setValue(value);// Populate the id
 				}
 			}

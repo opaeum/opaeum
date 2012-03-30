@@ -32,12 +32,8 @@ public abstract class EmfCreateCommandHandler extends AbstractCommandHandler{
 		}
 		EObject container = commandContext.getContainer();
 		EReference reference = commandContext.getReference();
-		IElementEditService provider = ElementEditServiceUtils.getCommandProvider(container);
-		if(provider == null){
-			return UnexecutableCommand.INSTANCE;
-		}
 	  TransactionalEditingDomain domain = ServiceUtilsForActionHandlers.getInstance().getTransactionalEditingDomain();
-		Command emfCommand = AddCommand.create(domain, getSelectedElement(), getFeature(), getNewObject());
+		Command emfCommand = AddCommand.create(domain, container, getFeature(), getNewObject());
 		return emfCommand;
 	}
 	protected Command getCommand(){

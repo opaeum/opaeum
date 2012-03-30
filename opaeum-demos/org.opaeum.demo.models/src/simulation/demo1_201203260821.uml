@@ -1,0 +1,1799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation:SimulationModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:simulation="http://simulation/1.0" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xmi:id="_9nG8IHcLEeGQZZare6GR_g" name="demo1_201203260821">
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9ncTUHcLEeGQZZare6GR_g" name="BusinessNetworkActualInstance1">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_NRu9QFYjEeGJUqEGX7bKSg"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTUXcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lOvoEvREeGmqIr8YsFD4g"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTUncLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9ncTU3cLEeGQZZare6GR_g" name="PersonNodeActualInstance4">
+          <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_k23OoEtmEeGd4cpyhpib9Q"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTVHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_wwPQYEtmEeGd4cpyhpib9Q"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncTVXcLEeGQZZare6GR_g" value="firstName4"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTVncLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_xcB_YEtmEeGd4cpyhpib9Q"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncTV3cLEeGQZZare6GR_g" value="surname4"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTWHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GjivMEtoEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTWXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTWncLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTW3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTXHcLEeGQZZare6GR_g" value="number1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTXXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifiHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGkHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTXncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTX3cLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_do3hcEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTYHcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTYXcLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTYncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTY3cLEeGQZZare6GR_g" value="number2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTZHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGkXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGkncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTZXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTZncLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_et7FAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTZ3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTaHcLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance3">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTaXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTancLEeGQZZare6GR_g" value="number3"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTa3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGk3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGlHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTbHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTbXcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_e0fAAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTbncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTb3cLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance4">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTcHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTcXcLEeGQZZare6GR_g" value="number4"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTcncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGlXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGlncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTc3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTdHcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_e4mrAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTdXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fNec4EtpEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTdncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTd3cLEeGQZZare6GR_g" name="PersonEMailAddressActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_LSLzIEtpEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTeHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTeXcLEeGQZZare6GR_g" value="address1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTencLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fNvioUtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQLoHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQLoXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTe3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_NrUNtEtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTfHcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_b0CGwEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTfXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTfncLEeGQZZare6GR_g" name="PersonEMailAddressActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_LSLzIEtpEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTf3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTgHcLEeGQZZare6GR_g" value="address2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTgXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fNvioUtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQLoncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQysHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTgncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_NrUNtEtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTg3cLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_clbHcEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncThHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UvAxkEt3EeGElKTCe2jfDw"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncThXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncThncLEeGQZZare6GR_g" name="LeaveActualInstance4">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Pybi0Et3EeGElKTCe2jfDw"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTh3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_RZHMwEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTiHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TCe-UEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTiXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UvR3UUt3EeGElKTCe2jfDw"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9okUsHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9okUsXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTincLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTi3cLEeGQZZare6GR_g" name="LeaveActualInstance3">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Pybi0Et3EeGElKTCe2jfDw"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTjHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_RZHMwEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTjXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TCe-UEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTjncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UvR3UUt3EeGElKTCe2jfDw"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9okUsncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9okUs3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTj3cLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Bih5IEt4EeGElKTCe2jfDw"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncTkHcLEeGQZZare6GR_g" value="authenticationToken4"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTkXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_DNbUsEt4EeGElKTCe2jfDw"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncTkncLEeGQZZare6GR_g" value="ampieb@gmail.com"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTk3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lakUFYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oWSRXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9n2jBncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oWSRncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9n2jEXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oWSR3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9n18JncLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oWSRHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTlHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ueg9kF-mEeGSPaWW9iQb9Q"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oW5UXcLEeGQZZare6GR_g" weight="1.0" instance="_9oGaoHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oW5UHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTlXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_U_gx0F-mEeGSPaWW9iQb9Q"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oW5U3cLEeGQZZare6GR_g" weight="1.0" instance="_9oJd9XcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oW5UncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTlncLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_U9amkHaQEeGv4aLPxieKNg"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncTl3cLEeGQZZare6GR_g" value="refreshToken4"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTmHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WDO_IHaQEeGv4aLPxieKNg"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTmXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lspsUvREeGmqIr8YsFD4g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oW5VHcLEeGQZZare6GR_g" weight="1.0" instance="_9ncTUHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTmncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X4_MgEtyEeGElKTCe2jfDw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oW5VncLEeGQZZare6GR_g" weight="0.5" instance="_9n3xIHcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oW5V3cLEeGQZZare6GR_g" weight="0.5" instance="_9n3xJXcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oW5VXcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTm3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9ncTnHcLEeGQZZare6GR_g" name="PersonNodeActualInstance3">
+          <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_k23OoEtmEeGd4cpyhpib9Q"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTnXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_wwPQYEtmEeGd4cpyhpib9Q"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncTnncLEeGQZZare6GR_g" value="firstName3"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTn3cLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_xcB_YEtmEeGd4cpyhpib9Q"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncToHcLEeGQZZare6GR_g" value="surname3"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncToXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GjivMEtoEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncToncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTo3cLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTpHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTpXcLEeGQZZare6GR_g" value="number1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTpncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojGl3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojtoHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTp3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTqHcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_do3hcEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTqXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTqncLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTq3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTrHcLEeGQZZare6GR_g" value="number2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTrXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojtoXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojtoncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTrncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTr3cLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_et7FAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTsHcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTsXcLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance3">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTsncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTs3cLEeGQZZare6GR_g" value="number3"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTtHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojto3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojtpHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTtXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTtncLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_e0fAAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTt3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTuHcLEeGQZZare6GR_g" name="PersonPhoneNumberActualInstance4">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3E_9kEtnEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTuXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTuncLEeGQZZare6GR_g" value="number4"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTu3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Gjz08EtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojtpXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ojtpncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTvHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TR9ilEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTvXcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_e4mrAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTvncLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fNec4EtpEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTv3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTwHcLEeGQZZare6GR_g" name="PersonEMailAddressActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_LSLzIEtpEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTwXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTwncLEeGQZZare6GR_g" value="address1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTw3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fNvioUtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQysXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQysncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTxHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_NrUNtEtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTxXcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_b0CGwEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTxncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTx3cLEeGQZZare6GR_g" name="PersonEMailAddressActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_LSLzIEtpEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTyHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9ncTyXcLEeGQZZare6GR_g" value="address2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTyncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fNvioUtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQys3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQytHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTy3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_NrUNtEtpEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9ncTzHcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_clbHcEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncTzXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UvAxkEt3EeGElKTCe2jfDw"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncTzncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncTz3cLEeGQZZare6GR_g" name="LeaveActualInstance4">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Pybi0Et3EeGElKTCe2jfDw"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT0HcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_RZHMwEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT0XcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TCe-UEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT0ncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UvR3UUt3EeGElKTCe2jfDw"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ok7wHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ok7wXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncT03cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9ncT1HcLEeGQZZare6GR_g" name="LeaveActualInstance3">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Pybi0Et3EeGElKTCe2jfDw"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT1XcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_RZHMwEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT1ncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TCe-UEt3EeGElKTCe2jfDw"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT13cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UvR3UUt3EeGElKTCe2jfDw"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ok7wncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ok7w3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT2HcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Bih5IEt4EeGElKTCe2jfDw"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncT2XcLEeGQZZare6GR_g" value="authenticationToken3"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT2ncLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_DNbUsEt4EeGElKTCe2jfDw"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncT23cLEeGQZZare6GR_g" value="username3"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT3HcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lakUFYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oXgYXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oAUQXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oXgYncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9n2jEXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oXgY3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oAUO3cLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oXgYHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT3XcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ueg9kF-mEeGSPaWW9iQb9Q"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oXgZXcLEeGQZZare6GR_g" weight="1.0" instance="_9oGaoHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oXgZHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT3ncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_U_gx0F-mEeGSPaWW9iQb9Q"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oXgZ3cLEeGQZZare6GR_g" weight="1.0" instance="_9oJd9XcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oXgZncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT33cLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_U9amkHaQEeGv4aLPxieKNg"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9ncT4HcLEeGQZZare6GR_g" value="refreshToken3"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT4XcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WDO_IHaQEeGv4aLPxieKNg"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT4ncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lspsUvREeGmqIr8YsFD4g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oXgaHcLEeGQZZare6GR_g" weight="1.0" instance="_9ncTUHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT43cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X4_MgEtyEeGElKTCe2jfDw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYHcXcLEeGQZZare6GR_g" weight="0.5" instance="_9n4YMHcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYHcncLEeGQZZare6GR_g" weight="0.5" instance="_9oBiIHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oYHcHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT5HcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_YJETMFYjEeGJUqEGX7bKSg"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oWSQ3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9ncT5XcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_4uZ-MEvREeGmqIr8YsFD4g"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9ncT5ncLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9ncT53cLEeGQZZare6GR_g" name="OrganizationNodeActualInstance4">
+          <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pZdQEEtmEeGd4cpyhpib9Q"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6YHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_OorfwEtnEeGd4cpyhpib9Q"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9nc6YXcLEeGQZZare6GR_g" value="name4"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6YncLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_HF7DgEtoEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6Y3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6ZHcLEeGQZZare6GR_g" name="OrganizationPhoneNumberActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ca9wQEtoEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6ZXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6ZncLEeGQZZare6GR_g" value="number1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6Z3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_HGK7IUtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKwXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKwncLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6aHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_1i74dEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6aXcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_y2_sEEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6ancLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6a3cLEeGQZZare6GR_g" name="OrganizationPhoneNumberActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ca9wQEtoEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6bHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6bXcLEeGQZZare6GR_g" value="number2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6bncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_HGK7IUtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKw3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKxHcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6b3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_1i74dEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6cHcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_0AOlAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6cXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_JF99wEtqEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6cncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6c3cLEeGQZZare6GR_g" name="OrganizationEMailAddressActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GfviYEtqEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6dHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6dXcLEeGQZZare6GR_g" value="address1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6dncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_JGNOUUtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn6ncLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO8HcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6d3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ju-ehEtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6eHcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_746GkEtpEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6eXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6encLEeGQZZare6GR_g" name="OrganizationEMailAddressActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GfviYEtqEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6e3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6fHcLEeGQZZare6GR_g" value="address2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6fXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_JGNOUUtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO8XcLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO8ncLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6fncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ju-ehEtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6f3cLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_z4RAUFYyEeGj5_I7bIwNoA"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6gHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_vf2LYFYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEKXcLEeGQZZare6GR_g" weight="1.0" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oVEKHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6gXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_8YsOoFZFEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrMHcLEeGQZZare6GR_g" weight="1.0" instance="_9oD-YXcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oVEKncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6gncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_4uxKkUvREeGmqIr8YsFD4g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrMXcLEeGQZZare6GR_g" weight="1.0" instance="_9ncTUHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6g3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WjvQ0UtyEeGElKTCe2jfDw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrM3cLEeGQZZare6GR_g" weight="0.5" instance="_9n3xIHcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrNHcLEeGQZZare6GR_g" weight="0.5" instance="_9oBiIHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oVrMncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6hHcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9nc6hXcLEeGQZZare6GR_g" name="OrganizationNodeActualInstance3">
+          <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pZdQEEtmEeGd4cpyhpib9Q"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6hncLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_OorfwEtnEeGd4cpyhpib9Q"/>
+            <value xmi:type="uml:LiteralString" xmi:id="_9nc6h3cLEeGQZZare6GR_g" value="name3"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6iHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_HF7DgEtoEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6iXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6incLEeGQZZare6GR_g" name="OrganizationPhoneNumberActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ca9wQEtoEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6i3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6jHcLEeGQZZare6GR_g" value="number1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6jXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_HGK7IUtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKxXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKxncLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6jncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_1i74dEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6j3cLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_y2_sEEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6kHcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6kXcLEeGQZZare6GR_g" name="OrganizationPhoneNumberActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ca9wQEtoEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6kncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EyuuUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6k3cLEeGQZZare6GR_g" value="number2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6lHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_HGK7IUtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKx3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obx0HcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6lXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_1i74dEtoEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6lncLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_0AOlAEtnEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6l3cLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_JF99wEtqEeGd4cpyhpib9Q"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6mHcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6mXcLEeGQZZare6GR_g" name="OrganizationEMailAddressActualInstance1">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GfviYEtqEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6mncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6m3cLEeGQZZare6GR_g" value="address1"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6nHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_JGNOUUtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO83cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO9HcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6nXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ju-ehEtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6nncLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_746GkEtpEeGd4cpyhpib9Q"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9nc6n3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9nc6oHcLEeGQZZare6GR_g" name="OrganizationEMailAddressActualInstance2">
+                <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GfviYEtqEeGd4cpyhpib9Q"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6oXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_FfSSUEtnEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9nc6oncLEeGQZZare6GR_g" value="address2"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6o3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_JGNOUUtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO9XcLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oTO9ncLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6pHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Ju-ehEtqEeGd4cpyhpib9Q"/>
+                  <value xmi:type="uml:InstanceValue" xmi:id="_9nc6pXcLEeGQZZare6GR_g">
+                    <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_z4RAUFYyEeGj5_I7bIwNoA"/>
+                  </value>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6pncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_vf2LYFYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrNncLEeGQZZare6GR_g" weight="1.0" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oVrNXcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6p3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_8YsOoFZFEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrOHcLEeGQZZare6GR_g" weight="1.0" instance="_9oD-YXcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oVrN3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6qHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_4uxKkUvREeGmqIr8YsFD4g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVrOXcLEeGQZZare6GR_g" weight="1.0" instance="_9ncTUHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9nc6qXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WjvQ0UtyEeGElKTCe2jfDw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oWSQXcLEeGQZZare6GR_g" weight="0.5" instance="_9n3xIHcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oWSQncLEeGQZZare6GR_g" weight="0.5" instance="_9oBiIHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oWSQHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9n178HcLEeGQZZare6GR_g" name="DishwashersIncActualInstance1">
+    <classifier xmi:type="uml:Component" href="../BusinessStructureModel.uml#_CQTWAGOeEeGwMNo027LgxA"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n178XcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2AHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2AXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2AncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oTO93cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n178ncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_vf4noVYuEeGj5_I7bIwNoA"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2A3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2BHcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n1783cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Rj0oE1YkEeGJUqEGX7bKSg"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oT2BXcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n179HcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_z0LMoHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n179XcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n179ncLEeGQZZare6GR_g" name="DishWasherModelActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_nhV7IGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n1793cLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_SYoHJ6EeG5aYCQXxe9BQ"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n17-HcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9n17-XcLEeGQZZare6GR_g" name="DishWasherComponentActualInstance4">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n17-ncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9n17-3cLEeGQZZare6GR_g" value="partNumber4"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n17_HcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9n17_XcLEeGQZZare6GR_g" value="0.25"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n17_ncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQytXcLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQytncLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQyt3cLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQyuHcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n17_3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9n18AHcLEeGQZZare6GR_g" name="DishWasherComponentActualInstance3">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18AXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9n18AncLEeGQZZare6GR_g" value="partNumber3"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18A3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9n18BHcLEeGQZZare6GR_g" value="0.3333333333333333"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18BXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQyuXcLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oQyuncLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZwHcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZwXcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18BncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_z0NB0XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajsXcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajsncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18B3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n18CHcLEeGQZZare6GR_g" name="DishWasherModelActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_nhV7IGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18CXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_SYoHJ6EeG5aYCQXxe9BQ"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18CncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9n18C3cLEeGQZZare6GR_g" name="DishWasherComponentActualInstance4">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18DHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9n18DXcLEeGQZZare6GR_g" value="partNumber4"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18DncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9n18D3cLEeGQZZare6GR_g" value="0.25"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18EHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZwncLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZw3cLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZxHcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZxXcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18EXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9n18EncLEeGQZZare6GR_g" name="DishWasherComponentActualInstance3">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18E3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9n18FHcLEeGQZZare6GR_g" value="partNumber3"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18FXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9n18FncLEeGQZZare6GR_g" value="0.3333333333333333"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18F3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZxncLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZx3cLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZyHcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZyXcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18GHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_z0NB0XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajs3cLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajtHcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18GXcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0EdEUHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18GncLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n18G3cLEeGQZZare6GR_g" name="IdBookActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_oiVeEGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18HHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3FqBQF9lEeG3X_yvufTVmw"/>
+            <value xmi:type="uml:InstanceValue" xmi:id="_9n18HXcLEeGQZZare6GR_g">
+              <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_FHq2YF9ZEeG3X_yvufTVmw"/>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18HncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0EgusXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOFncLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOF3cLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18H3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n18IHcLEeGQZZare6GR_g" name="IdBookActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_oiVeEGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18IXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3FqBQF9lEeG3X_yvufTVmw"/>
+            <value xmi:type="uml:InstanceValue" xmi:id="_9n18IncLEeGQZZare6GR_g">
+              <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_FHq2YF9ZEeG3X_yvufTVmw"/>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18I3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0EgusXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1IHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1IXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18JHcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0XGTgHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18JXcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n18JncLEeGQZZare6GR_g" name="ManagerActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_u7lZEGQWEeGbL9nlXe9lTQ"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18J3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1J3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ofcMHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ofcMXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oe1JncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18KHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ofcMncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ofcM3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18KXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0XIvwXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ofcNHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ofcNXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n18KncLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n18K3cLEeGQZZare6GR_g" name="ManagerActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_u7lZEGQWEeGbL9nlXe9lTQ"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18LHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDQHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDQXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDQncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9ofcNncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18LXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDQ3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDRHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18LncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0XIvwXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDRXcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogDRncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n18L3cLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0mn9QHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n2jAHcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n2jAXcLEeGQZZare6GR_g" name="AccountantActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_mec6wGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jAncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYHdHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYHdXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYHdncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oYHc3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jA3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYHd3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYugHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jBHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0mpycXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYugXcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYugncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n2jBXcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n2jBncLEeGQZZare6GR_g" name="AccountantActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_mec6wGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jB3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYuhHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYuhXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYuhncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oYug3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jCHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYuh3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oYuiHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jCXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0mpycXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVkHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVkXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jCncLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_03oNsHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n2jC3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n2jDHcLEeGQZZare6GR_g" name="DocumentVerifierActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_tq_pUGK1EeGb14EjInbIAA"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jDXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obx0ncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obx03cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obx1HcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9obx0XcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jDncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obx1XcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY4HcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jD3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_03qp8XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY4XcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY4ncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9n2jEHcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9n2jEXcLEeGQZZare6GR_g" name="DocumentVerifierActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_tq_pUGK1EeGb14EjInbIAA"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jEncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY5HcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY5XcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY5ncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9ocY43cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jE3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY53cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ocY6HcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n2jFHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_03qp8XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oc_8HcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oc_8XcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9n3xIHcLEeGQZZare6GR_g" name="SupplierActualInstance1">
+    <classifier xmi:type="uml:Actor" href="../BusinessStructureModel.uml#_-N6PwGK6EeGNuoaMwaBk1w"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xIXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdFHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdFXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdFncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oUdE3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xIncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WjvQ1EtyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdF3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdGHcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xI3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X4_Mg0tyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdGXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdGncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xJHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pP5QRFYuEeGj5_I7bIwNoA"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oUdG3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9n3xJXcLEeGQZZare6GR_g" name="Online CustomerActualInstance1">
+    <classifier xmi:type="uml:Actor" href="../BusinessStructureModel.uml#_xQY8oGFKEeG2AvOqZt1NZQ"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xJncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4cHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4cXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4cncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9ohRZ3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xJ3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WjvQ1EtyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4c3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4dHcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xKHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X4_Mg0tyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4dXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oh4dncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n3xKXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pP5QRFYuEeGj5_I7bIwNoA"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oh4d3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9n3xKncLEeGQZZare6GR_g" name="BusinessNetworkFacilatatesCollaborationActualInstance1">
+    <classifier xmi:type="uml:Association" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_YJGvcFYjEeGJUqEGX7bKSg"/>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9n4YMHcLEeGQZZare6GR_g" name="SupplierActualInstance1">
+    <classifier xmi:type="uml:Actor" href="../BusinessStructureModel.uml#_-N6PwGK6EeGNuoaMwaBk1w"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n4YMXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEIHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEIXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEIncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oUdHHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n4YMncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WjvQ1EtyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEI3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEJHcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n4YM3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X4_Mg0tyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEJXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oVEJncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9n4YNHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pP5QRFYuEeGj5_I7bIwNoA"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oVEJ3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9oAUAHcLEeGQZZare6GR_g" name="DishwashersIncActualInstance1">
+    <classifier xmi:type="uml:Component" href="../BusinessStructureModel.uml#_CQTWAGOeEeGwMNo027LgxA"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUAXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2B3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2CHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oT2CXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oT2BncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUAncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_vf4noVYuEeGj5_I7bIwNoA"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdEHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oUdEXcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUA3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Rj0oE1YkEeGJUqEGX7bKSg"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oUdEncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUBHcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_z0LMoHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUBXcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUBncLEeGQZZare6GR_g" name="DishWasherModelActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_nhV7IGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUB3cLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_SYoHJ6EeG5aYCQXxe9BQ"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUCHcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9oAUCXcLEeGQZZare6GR_g" name="DishWasherComponentActualInstance4">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUCncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9oAUC3cLEeGQZZare6GR_g" value="partNumber4"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUDHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9oAUDXcLEeGQZZare6GR_g" value="0.25"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUDncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oRZyncLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSA0HcLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSA0XcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSA0ncLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUD3cLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9oAUEHcLEeGQZZare6GR_g" name="DishWasherComponentActualInstance3">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUEXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9oAUEncLEeGQZZare6GR_g" value="partNumber3"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUE3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9oAUFHcLEeGQZZare6GR_g" value="0.3333333333333333"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUFXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSA03cLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSA1HcLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn4HcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn4XcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUFncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_z0NB0XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajtXcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajtncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUF3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUGHcLEeGQZZare6GR_g" name="DishWasherModelActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_nhV7IGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUGXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_SYoHJ6EeG5aYCQXxe9BQ"/>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUGncLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9oAUG3cLEeGQZZare6GR_g" name="DishWasherComponentActualInstance4">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUHHcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9oAUHXcLEeGQZZare6GR_g" value="partNumber4"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUHncLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9oAUH3cLEeGQZZare6GR_g" value="0.25"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUIHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn4ncLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn43cLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn5HcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn5XcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+            <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUIXcLEeGQZZare6GR_g">
+              <containedInstance xmi:id="_9oAUIncLEeGQZZare6GR_g" name="DishWasherComponentActualInstance3">
+                <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_x_4WgHJ6EeG5aYCQXxe9BQ"/>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUI3cLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralString" xmi:id="_9oAUJHcLEeGQZZare6GR_g" value="partNumber3"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUJXcLEeGQZZare6GR_g">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="uml:LiteralReal" xmi:id="_9oAUJncLEeGQZZare6GR_g" value="0.3333333333333333"/>
+                </slot>
+                <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUJ3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+                  <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_4_Vb8HJ6EeG5aYCQXxe9BQ"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn5ncLEeGQZZare6GR_g" weight="0.25" instance="_9n179ncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn53cLEeGQZZare6GR_g" weight="0.25" instance="_9n18CHcLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn6HcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUBncLEeGQZZare6GR_g"/>
+                  <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oSn6XcLEeGQZZare6GR_g" weight="0.25" instance="_9oAUGHcLEeGQZZare6GR_g"/>
+                </slot>
+              </containedInstance>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUKHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_z0NB0XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajt3cLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9obKwHcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUKXcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0EdEUHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUKncLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUK3cLEeGQZZare6GR_g" name="IdBookActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_oiVeEGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAULHcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3FqBQF9lEeG3X_yvufTVmw"/>
+            <value xmi:type="uml:InstanceValue" xmi:id="_9oAULXcLEeGQZZare6GR_g">
+              <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_FHq2YF9ZEeG3X_yvufTVmw"/>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAULncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0EgusXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1IncLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1I3cLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUL3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUMHcLEeGQZZare6GR_g" name="IdBookActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_oiVeEGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUMXcLEeGQZZare6GR_g">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3FqBQF9lEeG3X_yvufTVmw"/>
+            <value xmi:type="uml:InstanceValue" xmi:id="_9oAUMncLEeGQZZare6GR_g">
+              <instance xmi:type="uml:EnumerationLiteral" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_FHq2YF9ZEeG3X_yvufTVmw"/>
+            </value>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUM3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0EgusXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1JHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oe1JXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUNHcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0XGTgHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUNXcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUNncLEeGQZZare6GR_g" name="ManagerActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_u7lZEGQWEeGbL9nlXe9lTQ"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUN3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqUHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqUXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqUncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9ogDR3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUOHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqU3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqVHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUOXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0XIvwXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqVXcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ogqVncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUOncLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUO3cLEeGQZZare6GR_g" name="ManagerActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_u7lZEGQWEeGbL9nlXe9lTQ"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUPHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRYHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRYXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRYncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9ogqV3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUPXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRY3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRZHcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUPncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0XIvwXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRZXcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ohRZncLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUP3cLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0mn9QHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUQHcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUQXcLEeGQZZare6GR_g" name="AccountantActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_mec6wGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUQncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVk3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVlHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVlXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oZVkncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUQ3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVlncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZVl3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAURHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0mpycXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8oHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8oXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAURXcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAURncLEeGQZZare6GR_g" name="AccountantActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_mec6wGCfEeG6xvYqJACneg"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUR3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8o3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8pHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8pXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oZ8oncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUSHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8pncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8p3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUSXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_0mpycXHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oZ8qHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oajsHcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUSncLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_03oNsHHgEeGus4aKic9sIg"/>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUS3cLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUTHcLEeGQZZare6GR_g" name="DocumentVerifierActualInstance4">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_tq_pUGK1EeGb14EjInbIAA"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUTXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oc_83cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnAHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnAXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oc_8ncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUTncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnAncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnA3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUT3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_03qp8XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnBHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnBXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+      <value xmi:type="simulation:ContainedActualInstance" xmi:id="_9oAUUHcLEeGQZZare6GR_g">
+        <containedInstance xmi:id="_9oAUUXcLEeGQZZare6GR_g" name="DocumentVerifierActualInstance3">
+          <classifier xmi:type="uml:Class" href="../BusinessStructureModel.uml#_tq_pUGK1EeGb14EjInbIAA"/>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUUncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9odnB3cLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOEHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOEXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+            <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9odnBncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUU3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3lcZgVYuEeGj5_I7bIwNoA"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOEncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOE3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+          </slot>
+          <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oAUVHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+            <definingFeature xmi:type="uml:Property" href="../BusinessStructureModel.uml#_03qp8XHgEeGus4aKic9sIg"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOFHcLEeGQZZare6GR_g" weight="0.5" instance="_9n178HcLEeGQZZare6GR_g"/>
+            <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oeOFXcLEeGQZZare6GR_g" weight="0.5" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+          </slot>
+        </containedInstance>
+      </value>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:ActualInstance" xmi:id="_9oBiIHcLEeGQZZare6GR_g" name="Online CustomerActualInstance1">
+    <classifier xmi:type="uml:Actor" href="../BusinessStructureModel.uml#_xQY8oGFKEeG2AvOqZt1NZQ"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oBiIXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGkYoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifgHcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oFMhXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifgXcLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oKsFncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifgncLEeGQZZare6GR_g" weight="0.3333333333333333" instance="_9oLTKHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oh4eHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oBiIncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WjvQ1EtyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifg3cLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifhHcLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oBiI3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X4_Mg0tyEeGElKTCe2jfDw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifhXcLEeGQZZare6GR_g" weight="0.5" instance="_9ncTU3cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oifhncLEeGQZZare6GR_g" weight="0.5" instance="_9ncTnHcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oBiJHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pP5QRFYuEeGj5_I7bIwNoA"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oifh3cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oCwQHcLEeGQZZare6GR_g" name="OnceOffHolidayInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_5rW3kNcCEeCJ0dmaHEVVnw"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oDXUHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_94Gk0NcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oDXUXcLEeGQZZare6GR_g" weight="33.0" value="name1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oDXUncLEeGQZZare6GR_g" weight="33.0" value="name2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oDXU3cLEeGQZZare6GR_g" weight="33.0" value="name3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oDXVHcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#__KuDQNcCEeCJ0dmaHEVVnw"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oD-YHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_7Uk4IdcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9onYA3cLEeGQZZare6GR_g" weight="1.0" instance="_9oD-YXcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9onYAncLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oD-YXcLEeGQZZare6GR_g" name="BusinessCalendarInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_x9fmQNb9EeCJ0dmaHEVVnw"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oD-YncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_8YuD0VZFEeGj5_I7bIwNoA"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli1ncLEeGQZZare6GR_g" weight="0.5" instance="_9ncT53cLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli13cLEeGQZZare6GR_g" weight="0.5" instance="_9nc6hXcLEeGQZZare6GR_g"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oD-Y3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_K_mY0Nb-EeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omJ4HcLEeGQZZare6GR_g" weight="1.0" instance="_9oLTIHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oli2HcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oD-ZHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_xucEUNcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omJ4ncLEeGQZZare6GR_g" weight="1.0" instance="_9oL6NHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9omJ4XcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oD-ZXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_7UFI4NcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omJ5HcLEeGQZZare6GR_g" weight="1.0" instance="_9oCwQHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9omJ43cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oD-ZncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_QLpNoNcDEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oElcHcLEeGQZZare6GR_g" upperValue="1333.3333333333333" lowerValue="0.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oElcXcLEeGQZZare6GR_g" upperValue="2666.6666666666665" lowerValue="1333.3333333333333" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oElcncLEeGQZZare6GR_g" upperValue="4000.0" lowerValue="2666.6666666666665" weight="33.0"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oElc3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_szTxoNcDEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oEldHcLEeGQZZare6GR_g" upperValue="1333.3333333333333" lowerValue="0.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oEldXcLEeGQZZare6GR_g" upperValue="2666.6666666666665" lowerValue="1333.3333333333333" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oFMgHcLEeGQZZare6GR_g" upperValue="4000.0" lowerValue="2666.6666666666665" weight="33.0"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oFMgXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_1Hz-cNcDEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oFMgncLEeGQZZare6GR_g" upperValue="1333.3333333333333" lowerValue="0.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oFMg3cLEeGQZZare6GR_g" upperValue="2666.6666666666665" lowerValue="1333.3333333333333" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oFMhHcLEeGQZZare6GR_g" upperValue="4000.0" lowerValue="2666.6666666666665" weight="33.0"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oFMhXcLEeGQZZare6GR_g" name="ParticipationInRequestInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GVhgMI6NEeCrtavWRHwoHg"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oFMhncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGlIoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw9HcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n2jBncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw9XcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9oAUAHcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw9ncLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n4YMHcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw93cLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n2jDHcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw-HcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9oAUNncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9onYAHcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9oBiIHcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9omw83cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oFMh3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_XLVmwY6NEeCrtavWRHwoHg"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9onYAXcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oFMiHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cATKlI6NEeCrtavWRHwoHg"/>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oFzkHcLEeGQZZare6GR_g" weight="0.2">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_2HekQI6MEeCrtavWRHwoHg"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oFzkXcLEeGQZZare6GR_g" weight="0.2">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_2-CY0I6MEeCrtavWRHwoHg"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oFzkncLEeGQZZare6GR_g" weight="0.2">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_4YwDUI6MEeCrtavWRHwoHg"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oFzk3cLEeGQZZare6GR_g" weight="0.2">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_8OBEsI6MEeCrtavWRHwoHg"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oFzlHcLEeGQZZare6GR_g" weight="0.2">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_DQXGEI6NEeCrtavWRHwoHg"/>
+      </value>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oGaoHcLEeGQZZare6GR_g" name="PostalAddressInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_anU2QF-jEeGSPaWW9iQb9Q"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oGaoXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_gaGtMF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oGaoncLEeGQZZare6GR_g" weight="33.0" value="unitNumber1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oGao3cLEeGQZZare6GR_g" weight="33.0" value="unitNumber2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oGapHcLEeGQZZare6GR_g" weight="33.0" value="unitNumber3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oGapXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_l4XFoF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oGapncLEeGQZZare6GR_g" weight="33.0" value="complexName1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oGap3cLEeGQZZare6GR_g" weight="33.0" value="complexName2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oGaqHcLEeGQZZare6GR_g" weight="33.0" value="complexName3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oGaqXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_nqLokF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBsHcLEeGQZZare6GR_g" weight="33.0" value="streetName1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBsXcLEeGQZZare6GR_g" weight="33.0" value="streetName2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBsncLEeGQZZare6GR_g" weight="33.0" value="streetName3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oHBs3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_rXXsAF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBtHcLEeGQZZare6GR_g" weight="33.0" value="streetNumber1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBtXcLEeGQZZare6GR_g" weight="33.0" value="streetNumber2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBtncLEeGQZZare6GR_g" weight="33.0" value="streetNumber3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oHBt3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tLfVAF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBuHcLEeGQZZare6GR_g" weight="33.0" value="Property11"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBuXcLEeGQZZare6GR_g" weight="33.0" value="Property12"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oHBuncLEeGQZZare6GR_g" weight="33.0" value="Property13"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oHBu3cLEeGQZZare6GR_g" name="TimeOfDayInstanceSimulation">
+    <classifier xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_UjTHMNb_EeCJ0dmaHEVVnw"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oHowHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_WB_50Nb_EeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oHowXcLEeGQZZare6GR_g" upperValue="7.666666666666667" lowerValue="0.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oHowncLEeGQZZare6GR_g" upperValue="15.333333333333334" lowerValue="7.666666666666667" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oHow3cLEeGQZZare6GR_g" upperValue="23.0" lowerValue="15.333333333333334" weight="33.0"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oHoxHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_XW53QNb_EeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oIP0HcLEeGQZZare6GR_g" upperValue="19.666666666666668" lowerValue="0.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oIP0XcLEeGQZZare6GR_g" upperValue="39.333333333333336" lowerValue="19.666666666666668" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oIP0ncLEeGQZZare6GR_g" upperValue="59.0" lowerValue="39.333333333333336" weight="33.0"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oIP03cLEeGQZZare6GR_g" name="DurationInstanceSimulation">
+    <classifier xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_mkwNcASREeGb9qsDxKJdSA"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oIP1HcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_sa4TUASREeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oIP1XcLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_9aqXsNb-EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI24HcLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_AADsoNb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI24XcLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_BSwqoNb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI24ncLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_B9jUENb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI243cLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_Cl_0INb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI25HcLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_DolSgNb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI25XcLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_EYj98Nb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI25ncLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_MWLUwNb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI253cLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_NEFjoNb_EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oI26HcLEeGQZZare6GR_g" weight="0.1">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPMCommon.library.uml#_N78YsNb_EeCJ0dmaHEVVnw"/>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oJd8HcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_twyWUASREeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oJd8XcLEeGQZZare6GR_g" upperValue="1333.3333333333333" lowerValue="0.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oJd8ncLEeGQZZare6GR_g" upperValue="2666.6666666666665" lowerValue="1333.3333333333333" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oJd83cLEeGQZZare6GR_g" upperValue="4000.0" lowerValue="2666.6666666666665" weight="33.0"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oJd9HcLEeGQZZare6GR_g">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_f6z9oASUEeGb9qsDxKJdSA"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oJd9XcLEeGQZZare6GR_g" name="PhysicalAddressInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cD7-MF-jEeGSPaWW9iQb9Q"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oJd9ncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_gaGtMF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFAHcLEeGQZZare6GR_g" weight="33.0" value="unitNumber1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFAXcLEeGQZZare6GR_g" weight="33.0" value="unitNumber2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFAncLEeGQZZare6GR_g" weight="33.0" value="unitNumber3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oKFA3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_l4XFoF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFBHcLEeGQZZare6GR_g" weight="33.0" value="complexName1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFBXcLEeGQZZare6GR_g" weight="33.0" value="complexName2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFBncLEeGQZZare6GR_g" weight="33.0" value="complexName3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oKFB3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_nqLokF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFCHcLEeGQZZare6GR_g" weight="33.0" value="streetName1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFCXcLEeGQZZare6GR_g" weight="33.0" value="streetName2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFCncLEeGQZZare6GR_g" weight="33.0" value="streetName3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oKFC3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_rXXsAF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKFDHcLEeGQZZare6GR_g" weight="33.0" value="streetNumber1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKsEHcLEeGQZZare6GR_g" weight="33.0" value="streetNumber2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKsEXcLEeGQZZare6GR_g" weight="33.0" value="streetNumber3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oKsEncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tLfVAF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKsE3cLEeGQZZare6GR_g" weight="33.0" value="Property11"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKsFHcLEeGQZZare6GR_g" weight="33.0" value="Property12"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oKsFXcLEeGQZZare6GR_g" weight="33.0" value="Property13"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oKsFncLEeGQZZare6GR_g" name="ParticipationInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_jRjnII6MEeCrtavWRHwoHg"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oKsF3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGlIoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ok7xXcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9oAUQXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9ok7xncLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n178HcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli0HcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n4YMHcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli0XcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n2jEXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli0ncLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n18JncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli03cLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n3xJXcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9ok7xHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oLTIHcLEeGQZZare6GR_g" name="WorkDayInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Jn9QcNb-EeCJ0dmaHEVVnw"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oLTIXcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_xyUUMNcBEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omJ5ncLEeGQZZare6GR_g" weight="1.0" instance="_9oHBu3cLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9omJ5XcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oLTIncLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_5xvo4NcBEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw8HcLEeGQZZare6GR_g" weight="1.0" instance="_9oHBu3cLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9omJ53cLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oLTI3cLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_LAOD4db-EeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9omw8ncLEeGQZZare6GR_g" weight="1.0" instance="_9oD-YXcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9omw8XcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oLTJHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_LrAGRNb-EeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oLTJXcLEeGQZZare6GR_g" weight="0.3333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_GJQU8Nb-EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oLTJncLEeGQZZare6GR_g" weight="0.3333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_H3nUMNb-EeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oLTJ3cLEeGQZZare6GR_g" weight="0.3333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_IionINb-EeCJ0dmaHEVVnw"/>
+      </value>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oLTKHcLEeGQZZare6GR_g" name="ParticipationInTaskInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_vZOC4I6UEeCne5ArYLDbiA"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oL6MHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_3YyGlIoXEeCPduia_-NbFw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9onYBXcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9oAUQXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9onYBncLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n178HcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9on_EHcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n3xIHcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9on_EXcLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9oAUUXcLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9on_EncLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n18JncLEeGQZZare6GR_g"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9on_E3cLEeGQZZare6GR_g" weight="0.16666666666666666" instance="_9n3xJXcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9onYBHcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oL6MXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_2tlBVI6UEeCne5ArYLDbiA"/>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oL6MncLEeGQZZare6GR_g" weight="0.5">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_plvBUI6UEeCne5ArYLDbiA"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oL6M3cLEeGQZZare6GR_g" weight="0.5">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qJU2kI6UEeCne5ArYLDbiA"/>
+      </value>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oL6NHcLEeGQZZare6GR_g" name="RecurringHolidayInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_TFKVQNb_EeCJ0dmaHEVVnw"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oL6NXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_DtECgNcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oL6NncLEeGQZZare6GR_g" upperValue="11.0" lowerValue="1.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oMhQHcLEeGQZZare6GR_g" upperValue="21.0" lowerValue="11.0" weight="33.0"/>
+      <value xmi:type="simulation:NumberRangeDistribution" xmi:id="_9oMhQXcLEeGQZZare6GR_g" upperValue="31.0" lowerValue="21.0" weight="33.0"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oMhQncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_EgnmYNcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oMhQ3cLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_W2iNwNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oMhRHcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_X8o6MNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oMhRXcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_Z7lTINcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oMhRncLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_am1PkNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oMhR3cLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_bUr0ENcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oMhSHcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_b9WWkNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oNIUHcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_cu7kgNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oNIUXcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_dwKYANcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oNIUncLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_eYqicNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oNIU3cLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_fPv7cNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oNIVHcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_gSa5YNcCEeCJ0dmaHEVVnw"/>
+      </value>
+      <value xmi:type="simulation:WeightedEnumLiteralValue" xmi:id="_9oNIVXcLEeGQZZare6GR_g" weight="0.08333333333333333">
+        <literal href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_hMQrcNcCEeCJ0dmaHEVVnw"/>
+      </value>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oNIVncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_8kV24NcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNIV3cLEeGQZZare6GR_g" weight="33.0" value="name1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNIWHcLEeGQZZare6GR_g" weight="33.0" value="name2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNIWXcLEeGQZZare6GR_g" weight="33.0" value="name3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oNvYHcLEeGQZZare6GR_g" simulationStrategy="instanceSimulation">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_xu4wQdcCEeCJ0dmaHEVVnw"/>
+      <value xmi:type="simulation:WeightedInstanceValue" xmi:id="_9oli1XcLEeGQZZare6GR_g" weight="1.0" instance="_9oD-YXcLEeGQZZare6GR_g"/>
+      <sizeDistribution xmi:type="simulation:NormalDistribution" xmi:id="_9oli1HcLEeGQZZare6GR_g" name="NormalDistribution" mean="4.0" standardDeviation="1.5"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oNvYXcLEeGQZZare6GR_g" name="CronExpressionInstanceSimulation">
+    <classifier xmi:type="uml:DataType" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_hqpgYASQEeGb9qsDxKJdSA"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oNvYncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_m6UqQASQEeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNvY3cLEeGQZZare6GR_g" weight="33.0" value="minutes1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNvZHcLEeGQZZare6GR_g" weight="33.0" value="minutes2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNvZXcLEeGQZZare6GR_g" weight="33.0" value="minutes3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oNvZncLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_nh_HMASQEeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNvZ3cLEeGQZZare6GR_g" weight="33.0" value="hours1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oNvaHcLEeGQZZare6GR_g" weight="33.0" value="hours2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWcHcLEeGQZZare6GR_g" weight="33.0" value="hours3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oOWcXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_pCvIQASQEeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWcncLEeGQZZare6GR_g" weight="33.0" value="dayOfMonth1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWc3cLEeGQZZare6GR_g" weight="33.0" value="dayOfMonth2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWdHcLEeGQZZare6GR_g" weight="33.0" value="dayOfMonth3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oOWdXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_qpRBMASQEeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWdncLEeGQZZare6GR_g" weight="33.0" value="month1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWd3cLEeGQZZare6GR_g" weight="33.0" value="month2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWeHcLEeGQZZare6GR_g" weight="33.0" value="month3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oOWeXcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_sJLUwASQEeGb9qsDxKJdSA"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oOWencLEeGQZZare6GR_g" weight="33.0" value="dayOfWeek1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9gHcLEeGQZZare6GR_g" weight="33.0" value="dayOfWeek2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9gXcLEeGQZZare6GR_g" weight="33.0" value="dayOfWeek3"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="simulation:InstanceSimulation" xmi:id="_9oO9gncLEeGQZZare6GR_g" name="AddressInstanceSimulation">
+    <classifier xmi:type="uml:Class" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_eIdasF-jEeGSPaWW9iQb9Q"/>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oO9g3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_gaGtMF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9hHcLEeGQZZare6GR_g" weight="33.0" value="unitNumber1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9hXcLEeGQZZare6GR_g" weight="33.0" value="unitNumber2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9hncLEeGQZZare6GR_g" weight="33.0" value="unitNumber3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oO9h3cLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_l4XFoF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9iHcLEeGQZZare6GR_g" weight="33.0" value="complexName1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9iXcLEeGQZZare6GR_g" weight="33.0" value="complexName2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oO9incLEeGQZZare6GR_g" weight="33.0" value="complexName3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oPkkHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_nqLokF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkkXcLEeGQZZare6GR_g" weight="33.0" value="streetName1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkkncLEeGQZZare6GR_g" weight="33.0" value="streetName2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkk3cLEeGQZZare6GR_g" weight="33.0" value="streetName3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oPklHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_rXXsAF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPklXcLEeGQZZare6GR_g" weight="33.0" value="streetNumber1"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPklncLEeGQZZare6GR_g" weight="33.0" value="streetNumber2"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkl3cLEeGQZZare6GR_g" weight="33.0" value="streetNumber3"/>
+    </slot>
+    <slot xmi:type="simulation:SimulatingSlot" xmi:id="_9oPkmHcLEeGQZZare6GR_g" simulationStrategy="weightedDistribution">
+      <definingFeature xmi:type="uml:Property" href="pathmap://NAKEDUML_MODELS/libraries/OpaeumBPM.library.uml#_tLfVAF-jEeGSPaWW9iQb9Q"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkmXcLEeGQZZare6GR_g" weight="33.0" value="Property11"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkmncLEeGQZZare6GR_g" weight="33.0" value="Property12"/>
+      <value xmi:type="simulation:WeightedStringValue" xmi:id="_9oPkm3cLEeGQZZare6GR_g" weight="33.0" value="Property13"/>
+    </slot>
+  </packagedElement>
+  <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_O0TT8HfoEeG1qJcwiJJ3ow" name="InstanceSpecification1">
+    <slot xmi:id="_PwBVUHfoEeG1qJcwiJJ3ow">
+      <value xmi:type="uml:LiteralString" xmi:id="_c3jMQHfoEeG1qJcwiJJ3ow" name="LiteralString1"/>
+    </slot>
+  </packagedElement>
+</simulation:SimulationModel>

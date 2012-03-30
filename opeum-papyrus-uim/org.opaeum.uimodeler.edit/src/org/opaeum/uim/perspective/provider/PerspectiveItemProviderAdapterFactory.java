@@ -139,72 +139,49 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.HiddenClass} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerClassConfiguration} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected HiddenClassItemProvider hiddenClassItemProvider;
+	protected ExplorerClassConfigurationItemProvider explorerClassConfigurationItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.HiddenClass}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerClassConfiguration}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createHiddenClassAdapter() {
-		if (hiddenClassItemProvider == null) {
-			hiddenClassItemProvider = new HiddenClassItemProvider(this);
+	public Adapter createExplorerClassConfigurationAdapter() {
+		if (explorerClassConfigurationItemProvider == null) {
+			explorerClassConfigurationItemProvider = new ExplorerClassConfigurationItemProvider(this);
 		}
 
-		return hiddenClassItemProvider;
+		return explorerClassConfigurationItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.VisibleNonCompositeProperty} instances.
+	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VisibleNonCompositePropertyItemProvider visibleNonCompositePropertyItemProvider;
+	protected ExplorerPropertyConfigurationItemProvider explorerPropertyConfigurationItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.VisibleNonCompositeProperty}.
+	 * This creates an adapter for a {@link org.opaeum.uim.perspective.ExplorerPropertyConfiguration}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createVisibleNonCompositePropertyAdapter() {
-		if (visibleNonCompositePropertyItemProvider == null) {
-			visibleNonCompositePropertyItemProvider = new VisibleNonCompositePropertyItemProvider(this);
+	public Adapter createExplorerPropertyConfigurationAdapter() {
+		if (explorerPropertyConfigurationItemProvider == null) {
+			explorerPropertyConfigurationItemProvider = new ExplorerPropertyConfigurationItemProvider(this);
 		}
 
-		return visibleNonCompositePropertyItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link org.opaeum.uim.perspective.HiddenCompositeProperty} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected HiddenCompositePropertyItemProvider hiddenCompositePropertyItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link org.opaeum.uim.perspective.HiddenCompositeProperty}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createHiddenCompositePropertyAdapter() {
-		if (hiddenCompositePropertyItemProvider == null) {
-			hiddenCompositePropertyItemProvider = new HiddenCompositePropertyItemProvider(this);
-		}
-
-		return hiddenCompositePropertyItemProvider;
+		return explorerPropertyConfigurationItemProvider;
 	}
 
 	/**
@@ -309,9 +286,8 @@ public class PerspectiveItemProviderAdapterFactory extends PerspectiveAdapterFac
 		if (uimPerspectiveItemProvider != null) uimPerspectiveItemProvider.dispose();
 		if (viewAllocationItemProvider != null) viewAllocationItemProvider.dispose();
 		if (explorerConfigurationItemProvider != null) explorerConfigurationItemProvider.dispose();
-		if (hiddenClassItemProvider != null) hiddenClassItemProvider.dispose();
-		if (visibleNonCompositePropertyItemProvider != null) visibleNonCompositePropertyItemProvider.dispose();
-		if (hiddenCompositePropertyItemProvider != null) hiddenCompositePropertyItemProvider.dispose();
+		if (explorerClassConfigurationItemProvider != null) explorerClassConfigurationItemProvider.dispose();
+		if (explorerPropertyConfigurationItemProvider != null) explorerPropertyConfigurationItemProvider.dispose();
 	}
 
 }

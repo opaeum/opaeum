@@ -6,12 +6,14 @@ import java.util.Iterator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
@@ -40,6 +42,10 @@ public class RecompileModelAction extends AbstractOpaeumAction{
 	public void run(){
 		for(Iterator<?> it = selection.iterator();it.hasNext();){
 			Object element = it.next();
+			if(element instanceof Model){
+			}else if(element instanceof IAdaptable){
+				element=((IAdaptable) element).getAdapter(EObject.class);
+			}
 			if(element instanceof Model){
 				model = (Model) element;
 				new Job("Recompiling model"){

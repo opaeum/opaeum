@@ -1347,7 +1347,7 @@
    <extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
       <?gmfgen generated="true"?>
       <navigatorContent
-            id="org.eclipse.papyrus.uml.diagram.activity.resourceContent" 
+            id="org.opaeum.papyrus.uml.diagram.activity.resourceContent" 
             name="%navigatorContentName" 
             priority="normal" 
             contentProvider="org.eclipse.papyrus.uml.diagram.activity.navigator.UMLNavigatorContentProvider" 
@@ -1383,7 +1383,7 @@
          </commonSorter>
       </navigatorContent>
       <navigatorContent
-            id="org.eclipse.papyrus.uml.diagram.activity.domainResourceContent" 
+            id="org.opaeum.papyrus.uml.diagram.activity.domainResourceContent" 
             name="%domainNavigatorContentName" 
             priority="normal" 
             contentProvider="org.eclipse.papyrus.uml.diagram.activity.navigator.UMLDomainNavigatorContentProvider" 

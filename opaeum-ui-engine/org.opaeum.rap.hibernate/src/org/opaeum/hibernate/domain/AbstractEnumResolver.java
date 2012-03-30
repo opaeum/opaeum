@@ -21,7 +21,7 @@ public abstract  class AbstractEnumResolver  implements EnumResolver,UserType{
 	}
 	@Override
 	public Object nullSafeGet(ResultSet rs,String[] names,SessionImplementor session,Object owner) throws HibernateException,SQLException{
-		int object = rs.getInt(names[0]);
+		long object = rs.getLong(names[0]);
 		if(rs.wasNull()){
 			return null;
 		}else{

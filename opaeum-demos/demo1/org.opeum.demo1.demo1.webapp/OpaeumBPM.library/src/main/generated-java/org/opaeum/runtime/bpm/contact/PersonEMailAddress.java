@@ -15,9 +15,12 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
@@ -48,7 +51,10 @@ import org.w3c.dom.NodeList;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="person_e_mail_address")
+@Table(name="person_e_mail_address",uniqueConstraints=
+	@UniqueConstraint(columnNames={"person_id","type","deleted_on"}))
+@NamedQueries(value=
+	@NamedQuery(name="QueryPersonEMailAddressWithTypeForPerson",query="from PersonEMailAddress a where a.person = :person and a.type = :type"))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonEMailAddress")
 @DiscriminatorValue(	"person_e_mail_address")

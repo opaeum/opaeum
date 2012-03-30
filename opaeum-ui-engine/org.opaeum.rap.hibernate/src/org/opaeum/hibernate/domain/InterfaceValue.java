@@ -19,7 +19,8 @@ public class InterfaceValue{
 	}
 	public IPersistentObject getValue(AbstractPersistence p){
 		if(hasValue() && (value==null)){
-			value=(IPersistentObject) p.getReference(getImplementationClass(), identifier);
+			Class<?> implementationClass = getImplementationClass();
+			value=(IPersistentObject) p.getReference(implementationClass, identifier);
 		}
 		return value;
 	}

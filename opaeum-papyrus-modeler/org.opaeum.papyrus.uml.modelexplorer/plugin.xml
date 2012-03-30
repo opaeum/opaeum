@@ -7,6 +7,10 @@
  </extension>
     <extension point="org.eclipse.emf.facet.infra.browser.custom.core.registration">
       <browserCustomization file="resource/UMLPapyrusDefaultBrowserCustomization.uiCustom" loadByDefault="true"/>
+      <browserCustomization
+            file="resource/SimulationBrowserCustomization.uiCustom"
+            loadByDefault="true">
+      </browserCustomization>
    </extension>
    <extension point="org.eclipse.emf.facet.infra.query.registration">
       <modelqueryset file="resource/PapyrusBrowserQuery.querySet"/>

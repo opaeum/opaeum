@@ -441,22 +441,13 @@ public interface ActionPackage extends EPackage {
 	int LINK_TO_QUERY__UML_ELEMENT_UID = UIM_LINK_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>To Form</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LINK_TO_QUERY__TO_FORM = UIM_LINK_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>Link To Query</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_TO_QUERY_FEATURE_COUNT = UIM_LINK_FEATURE_COUNT + 2;
+	int LINK_TO_QUERY_FEATURE_COUNT = UIM_LINK_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.opaeum.uim.action.impl.OperationButtonImpl <em>Operation Button</em>}' class.
@@ -815,17 +806,6 @@ public interface ActionPackage extends EPackage {
 	EClass getLinkToQuery();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.opaeum.uim.action.LinkToQuery#getToForm <em>To Form</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>To Form</em>'.
-	 * @see org.opaeum.uim.action.LinkToQuery#getToForm()
-	 * @see #getLinkToQuery()
-	 * @generated
-	 */
-	EReference getLinkToQuery_ToForm();
-
-	/**
 	 * Returns the meta object for class '{@link org.opaeum.uim.action.OperationButton <em>Operation Button</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1008,14 +988,6 @@ public interface ActionPackage extends EPackage {
 		 * @generated
 		 */
 		EClass LINK_TO_QUERY = eINSTANCE.getLinkToQuery();
-
-		/**
-		 * The meta object literal for the '<em><b>To Form</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LINK_TO_QUERY__TO_FORM = eINSTANCE.getLinkToQuery_ToForm();
 
 		/**
 		 * The meta object literal for the '{@link org.opaeum.uim.action.impl.OperationButtonImpl <em>Operation Button</em>}' class.

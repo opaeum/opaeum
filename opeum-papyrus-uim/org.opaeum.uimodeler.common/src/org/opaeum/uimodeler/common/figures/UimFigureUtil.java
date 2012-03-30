@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.opaeum.uim.swt.GridPanelComposite;
 
 public class UimFigureUtil{
 	public static final String FIGURE = "FIGURE";
@@ -97,8 +98,8 @@ public class UimFigureUtil{
 				control.dispose();
 			}
 			return getFakeShell();
-		}else if(f.getWidget() instanceof GridLayoutComposite){
-			return ((GridLayoutComposite) f.getWidget()).getContentPane();
+		}else if(f.getWidget() instanceof GridPanelComposite){
+			return ((GridPanelComposite) f.getWidget()).getContentPane();
 		}else if(f.getWidget() instanceof Composite){
 			return (Composite) f.getWidget();
 		}else{

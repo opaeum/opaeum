@@ -13,14 +13,15 @@ import org.opaeum.uim.editor.EditorActionBar;
 import org.opaeum.uim.panel.AbstractPanel;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.PanelPackage;
+import org.opaeum.uim.swt.GridPanelComposite;
 
 public class PanelEventAdapter extends AbstractEventAdapter{
 	private AbstractPanelFigure fig;
-	private GridLayoutComposite composite;
+	private GridPanelComposite composite;
 	public PanelEventAdapter(GraphicalEditPart ed,AbstractPanelFigure fig){
 		super(ed, fig);
 		this.fig = fig;
-		this.composite = (GridLayoutComposite) fig.getWidget();
+		this.composite = (GridPanelComposite) fig.getWidget();
 		composite.getContentPane().setData(UimFigureUtil.ELEMENT, element);
 		composite.getContentPane().setData(UimFigureUtil.FIGURE, figure);
 

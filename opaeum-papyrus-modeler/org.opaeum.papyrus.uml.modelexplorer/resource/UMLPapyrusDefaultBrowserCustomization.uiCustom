@@ -5485,8 +5485,26 @@
             value="false"/>
       </customizedFeatures>
     </references>
+    <references
+        referenceName="slot">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
+      </customizedFeatures>
+    </references>
   </types>
   <types metaclassName="uml.Slot">
+    <customizedFeatures
+        customizedFeature="label">
+      <defaultValue
+          xsi:type="uicustom:DerivedFeatureValue">
+        <valueCalculator
+            xsi:type="query:OCLModelQuery"
+            href="PapyrusBrowserQuery.querySet#getSlotLabel"/>
+      </defaultValue>
+    </customizedFeatures>
     <references
         referenceName="ownedElement">
       <customizedFeatures>
@@ -5501,6 +5519,15 @@
         <defaultValue
             xsi:type="uicustom:StaticFeatureValue"
             value="false"/>
+      </customizedFeatures>
+    </references>
+    <references
+        referenceName="value">
+      <customizedFeatures
+          customizedFeature="collapseLink">
+        <defaultValue
+            xsi:type="uicustom:StaticFeatureValue"
+            value="true"/>
       </customizedFeatures>
     </references>
   </types>

@@ -6,9 +6,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.rap.rms.data.DataModelRegistry;
-import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.rap.rms.data.IPrincipal;
 import org.eclipse.rap.rms.data.IProject;
+import org.eclipse.rap.rms.internal.data.DataModel.Principal;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
@@ -19,6 +19,7 @@ import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.actions.NewAction;
 import org.opaeum.rap.runtime.internal.datamodel.EntityAdapter.IEntityAdapter;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 final class PrincipalAdapter implements IEntityAdapter {
 
@@ -59,10 +60,10 @@ final class PrincipalAdapter implements IEntityAdapter {
                              final IMenuManager menuManager )
   {
     NewAction newProject
-      = new NewAction( ( IEntity )element,
+      = new NewAction( ( IPersistentObject )element,
                        IProject.class,
                        RMSMessages.get().PrincipalAdapter_NewProject,
-                       getEditorImage( element ) );
+                       getEditorImage( element ),null );
     menuManager.add( newProject );
   }
 
@@ -166,9 +167,9 @@ final class PrincipalAdapter implements IEntityAdapter {
   public FormPage[] getEditorPages( final Object element,
                                     final FormEditor editor )
   {
-    PrincipalCopy principalCopy = new PrincipalCopy( ( IPrincipal )element );
+    IPrincipal principal = (IPrincipal) element;
     return new FormPage[] {
-      new PrincipalOverviewPage( editor, principalCopy )
+      new PrincipalOverviewPage( editor, principal )
     };
   }
 }

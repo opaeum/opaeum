@@ -13,7 +13,10 @@ package org.opaeum.rap.runtime.internal.chart;
 import org.eclipse.rwt.graphics.Graphics;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Layout;
 
 
 final class GanttLayout extends Layout {

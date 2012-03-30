@@ -40,7 +40,7 @@ public class UimStartup implements IStartup {
 				if (er.getEditor(false) instanceof PapyrusMultiDiagramEditor) {
 					PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) er
 							.getEditor(false);
-					if (e.getDiagram().getElement() instanceof UserInteractionElement) {
+					if (e.getDiagram()!=null && e.getDiagram().getElement() instanceof UserInteractionElement) {
 						page.closeEditor(e, true);
 					}
 				}
@@ -122,7 +122,7 @@ public class UimStartup implements IStartup {
 			if (er.getEditor(false) instanceof PapyrusMultiDiagramEditor) {
 				PapyrusMultiDiagramEditor e = (PapyrusMultiDiagramEditor) er
 						.getEditor(false);
-				if (e.getDiagram().getElement() instanceof UserInteractionElement) {
+				if (e.getDiagram() !=null &&  e.getDiagram().getElement() instanceof UserInteractionElement) {
 					if (UmlUimLinks
 							.getCurrentUmlLinks((UserInteractionElement) e
 									.getDiagram().getElement()) == null) {

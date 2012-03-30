@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -48,7 +50,9 @@ import org.w3c.dom.NodeList;
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
 @Table(name="organization_e_mail_address",uniqueConstraints=
-	@UniqueConstraint(columnNames={"type","deleted_on"}))
+	@UniqueConstraint(columnNames={"organization_id","type","deleted_on"}))
+@NamedQueries(value=
+	@NamedQuery(name="QueryOrganizationEMailAddressWithTypeForOrganization",query="from OrganizationEMailAddress a where a.organization = :organization and a.type = :type"))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="OrganizationEMailAddress")
 @DiscriminatorValue(	"organization_e_mail_address")

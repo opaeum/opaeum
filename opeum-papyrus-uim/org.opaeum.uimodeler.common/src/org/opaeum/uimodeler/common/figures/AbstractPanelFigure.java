@@ -15,9 +15,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.wb.os.OSSupport;
+import org.opaeum.uim.swt.GridPanelComposite;
 
 public abstract class AbstractPanelFigure extends RoundedRectangle implements ISWTFigure{
-	protected GridLayoutComposite widget;
+	protected GridPanelComposite widget;
 	protected abstract int getColumnCount();
 	long lastTimeShotsWereMade = System.currentTimeMillis();
 	private WrappingLabel fFigureGridPanelNameFigure;
@@ -29,7 +30,7 @@ public abstract class AbstractPanelFigure extends RoundedRectangle implements IS
 		this.setFill(false);
 		this.setLineWidth(3);
 		createContents();
-		widget = new GridLayoutComposite(parent, SWT.NONE);
+		widget = new GridPanelComposite(parent, SWT.NONE);
 		widget.layout();
 		parent.layout();
 	}

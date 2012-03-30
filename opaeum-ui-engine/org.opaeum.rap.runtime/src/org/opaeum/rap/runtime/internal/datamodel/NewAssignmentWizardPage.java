@@ -15,7 +15,6 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.rap.rms.data.DataModelRegistry;
 import org.eclipse.rap.rms.data.IAssignment;
 import org.eclipse.rap.rms.data.IEmployee;
-import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.rap.rms.data.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -25,6 +24,7 @@ import org.eclipse.swt.widgets.Label;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.wizards.INewEntityPage;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 final class NewAssignmentWizardPage extends WizardPage
   implements INewEntityPage
@@ -108,7 +108,7 @@ final class NewAssignmentWizardPage extends WizardPage
     return newAssignment != null;
   }
 
-  public IEntity getEntity() {
+  public IPersistentObject getEntity() {
     return newAssignment;
   }
 }

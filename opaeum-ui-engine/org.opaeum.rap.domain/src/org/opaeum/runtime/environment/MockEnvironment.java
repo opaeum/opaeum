@@ -79,7 +79,7 @@ public class MockEnvironment extends Environment{
 		return null;
 	}
 	@Override
-	public ConversationalPersistence getPersistence(){
+	public ConversationalPersistence createConversationalPersistence(){
 		// TODO Auto-generated method stub
 		return null;
 	}

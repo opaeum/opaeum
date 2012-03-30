@@ -6,7 +6,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.rap.rms.data.DataModelRegistry;
 import org.eclipse.rap.rms.data.IDataModel;
-import org.eclipse.rap.rms.data.IEntity;
 import org.eclipse.rap.rms.data.IPrincipal;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -20,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.opaeum.rap.runtime.internal.Activator;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.wizards.INewEntityPage;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 final class NewPrincipalWizardPage
   extends WizardPage
@@ -77,7 +77,7 @@ final class NewPrincipalWizardPage
     return newPrincipal != null;
   }
 
-  public IEntity getEntity() {
+  public IPersistentObject getEntity() {
     return newPrincipal;
   }
 }

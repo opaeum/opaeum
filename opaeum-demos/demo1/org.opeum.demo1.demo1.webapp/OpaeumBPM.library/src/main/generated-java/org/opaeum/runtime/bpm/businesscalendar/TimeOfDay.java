@@ -18,8 +18,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -52,12 +50,15 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Min(groups={},message="",payload={},value=0)
+	@Max(groups={},message="",payload={},value=23)
 	@Column(name="hours")
-	@Max()
 	private Integer hours;
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
+	@Min(groups={},message="",payload={},value=0)
+	@Max(groups={},message="",payload={},value=59)
 	@Column(name="minutes")
 	private Integer minutes;
 	static private Set<TimeOfDay> mockedAllInstances;

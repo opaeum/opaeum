@@ -2017,6 +2017,14 @@
           <element xmi:type="uml:Property" href="OpaeumBPM.library.uml#_DNbUsEt4EeGElKTCe2jfDw"/>
           <layoutConstraint xmi:type="notation:Location" xmi:id="_MgmtMVYhEeGJUqEGX7bKSg"/>
         </children>
+        <children xmi:type="notation:Shape" xmi:id="_U9xy8HaQEeGv4aLPxieKNg" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+          <element xmi:type="uml:Property" href="OpaeumBPM.library.uml#_U9amkHaQEeGv4aLPxieKNg"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_U9xy8XaQEeGv4aLPxieKNg"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_WDdBkHaQEeGv4aLPxieKNg" type="3012" fontName="Sans" fontHeight="8" lineColor="0">
+          <element xmi:type="uml:Property" href="OpaeumBPM.library.uml#_WDO_IHaQEeGv4aLPxieKNg"/>
+          <layoutConstraint xmi:type="notation:Location" xmi:id="_WDdBkXaQEeGv4aLPxieKNg"/>
+        </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_DdYOolYgEeGJUqEGX7bKSg"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_DdYOo1YgEeGJUqEGX7bKSg"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_DdYOpFYgEeGJUqEGX7bKSg"/>
@@ -5705,5 +5713,9 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5IQZKGIAEeGe0c_OjwNp9w"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_5IQZKWIAEeGe0c_OjwNp9w"/>
+  </notation:Diagram>
+  <notation:Diagram xmi:id="_H8l1wHaqEeGJmrelahyJag" type="PapyrusUMLClassDiagram" name="OrganizationContact" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_H8l1wXaqEeGJmrelahyJag"/>
+    <element xmi:type="uml:Package" href="OpaeumBPM.library.uml#_NNrJoEvQEeGmqIr8YsFD4g"/>
   </notation:Diagram>
 </xmi:XMI>
