@@ -117,13 +117,13 @@ public class UserRoleAllocationWizardData{
 			for(Email email:emailAddresses){
 				PersonEMailAddressType type = calcType(email);
 				IPersonEMailAddress e = person.createEMailAddress(type);
-				e.setAddress(email.getAddress());
+				e.setEmailAddress(email.getAddress());
 				e.addToOwningObject();
 			}
 			for(PhoneNumber phoneNumber:contact.getPhoneNumbers()){
 				PersonPhoneNumberType type = calcType(phoneNumber);
 				IPersonPhoneNumber pn = person.createPhoneNumber(type);
-				pn.setNumber(phoneNumber.getPhoneNumber());
+				pn.setPhoneNumber(phoneNumber.getPhoneNumber());
 				pn.addToOwningObject();
 			}
 			people.put(userName, person);

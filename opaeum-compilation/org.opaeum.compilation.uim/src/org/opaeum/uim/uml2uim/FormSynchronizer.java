@@ -2,6 +2,7 @@ package org.opaeum.uim.uml2uim;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -38,17 +39,17 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeAction(OpaqueAction a){
-		String resourceUri = workspace.getId(a);
+		String resourceUri = EmfWorkspace.getId(a);
 		ActionTaskEditor editor = (ActionTaskEditor) getResourceRoot(resourceUri, "uml", EditorFactory.eINSTANCE.createActionTaskEditor());
 		if(regenerate || editor.getPages().isEmpty()){
-			editor.setUmlElementUid(workspace.getId(a));
+			editor.setUmlElementUid(EmfWorkspace.getId(a));
 			editor.setName(a.getName());
 			// TODO make input entities editable through inputs tab per entity
 			EditorCreator fc = new EditorCreator(workspace, editor);
 			ArrayList<TypedElement> pins = new ArrayList<TypedElement>(a.getInputs());
 			pins.addAll(a.getOutputs());
 			fc.prepareFormPanel(fc.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(a.getName()), pins);
-			fc.addButtonBar(ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND_TASK);
+			fc.addButtonBar(Collections.<Operation>emptySet(),ActionKind.CLAIM_TASK, ActionKind.DELEGATE_TASK, ActionKind.FORWARD_TASK, ActionKind.SUSPEND_TASK);
 		}
 	}
 	@VisitBefore(matchSubclasses = true)
@@ -61,7 +62,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	@SuppressWarnings({"unchecked","rawtypes"})
 	private void createClassForm(Class c,ActionKind...actionKinds){
-		String resourceUri = workspace.getId(c);
+		String resourceUri = EmfWorkspace.getId(c);
 		ClassUserInteractionModel model = (ClassUserInteractionModel) getResourceRoot(resourceUri, "uml",
 				UimFactory.eINSTANCE.createClassUserInteractionModel());
 		model.setUmlElementUid(resourceUri);
@@ -72,7 +73,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 			EditorCreator ec = new EditorCreator(workspace, model.getPrimaryEditor());
 			Collection<Property> allAttributes = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(c);
 			ec.prepareFormPanel(ec.getUserInterfaceEntryPoint(), "Edit " + NameConverter.separateWords(c.getName()), allAttributes);
-			ec.addButtonBar(actionKinds);
+			ec.addButtonBar(c.getAllOperations(), actionKinds);
 		}
 		if(model.getNewObjectWizard() == null || regenerate){
 			model.setNewObjectWizard(WizardFactory.eINSTANCE.createNewObjectWizard());
@@ -85,7 +86,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 	}
 	@VisitBefore(matchSubclasses = false)
 	public void beforeOperation(Operation o){
-		String resourceUri = workspace.getId(o);
+		String resourceUri = EmfWorkspace.getId(o);
 		if(EmfBehaviorUtil.isTask(o)){
 			ResponsibilityUserInteractionModel model = (ResponsibilityUserInteractionModel) getResourceRoot(resourceUri, "uml",
 					UimPackage.eINSTANCE.getResponsibilityUserInteractionModel());
@@ -95,7 +96,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				model.getTaskEditor().setUmlElementUid(resourceUri);
 				EditorCreator ec = new EditorCreator(workspace, model.getTaskEditor());
 				ec.prepareFormPanel(ec.getUserInterfaceEntryPoint(), "Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
-				ec.addButtonBar(ActionKind.COMPLETE_TASK, ActionKind.SUSPEND_TASK);
+				ec.addButtonBar(Collections.<Operation>emptySet(), ActionKind.COMPLETE_TASK, ActionKind.SUSPEND_TASK);
 			}
 			if(regenerate || model.getInvocationWizard() == null){
 				model.setInvocationWizard(WizardFactory.eINSTANCE.createInvokeResponsibilityWizard());
@@ -113,7 +114,7 @@ public class FormSynchronizer extends AbstractUimSynchronizer{
 				editor.setUmlElementUid(resourceUri);
 				EditorCreator ec = new EditorCreator(workspace, editor);
 				ec.prepareFormPanel(ec.getUserInterfaceEntryPoint(),"Task: " + NameConverter.separateWords(o.getName()), o.getOwnedParameters());
-				ec.addButtonBar(ActionKind.EXECUTE_OPERATION);
+				ec.addButtonBar(Collections.<Operation>emptySet(),ActionKind.EXECUTE_OPERATION);
 			}
 		}
 	}

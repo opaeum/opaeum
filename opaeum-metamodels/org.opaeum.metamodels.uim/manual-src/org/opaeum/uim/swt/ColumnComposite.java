@@ -38,4 +38,9 @@ public class ColumnComposite extends Composite implements IUimFieldComposite{
 	public void setLayout(GridLayout layout){
 		super.setLayout(layout);
 	}
+	@Override
+	public void setMinimumLabelWidth(Integer minimumLabelWidth){
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -8,8 +8,8 @@
 	<persistence-unit name="demo1">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>org.opaeum.runtime.bpm.businesscalendar.WorkDay</class>
-		<class>structuredbusiness.DocumentVerifier</class>
 		<class>structuredbusiness.IdBook</class>
+		<class>structuredbusiness.DocumentVerifier</class>
 		<class>org.opaeum.runtime.bpm.contact.PersonEMailAddress</class>
 		<class>structuredbusiness.Online_Customer</class>
 		<class>structuredbusiness.Structuredbusiness</class>
@@ -17,12 +17,12 @@
 		<class>org.opaeum.runtime.bpm.organization.OrganizationNode</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.BusinessCalendar</class>
 		<class>org.opaeum.runtime.bpm.request.TaskRequest</class>
-		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
 		<class>org.opaeum.runtime.bpm.contact.PhysicalAddress</class>
-		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
+		<class>org.opaeum.runtime.bpm.organization.BusinessNetwork</class>
 		<class>org.opaeum.runtime.bpm.organization.PersonNode</class>
-		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
+		<class>org.opaeum.runtime.bpm.request.AbstractRequest</class>
 		<class>structuredbusiness.Manager</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.OnceOffHoliday</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.Duration</class>
 		<class>structuredbusiness.DishWasherModel</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInRequest</class>
@@ -34,19 +34,17 @@
 		<class>org.opaeum.runtime.bpm.organization.OrganizationFullfillsActorRole</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.CronExpression</class>
 		<class>org.opaeum.runtime.bpm.contact.PostalAddress</class>
-		<class>org.opaeum.runtime.bpm.contact.PhoneNumber</class>
-		<class>structuredbusiness.DishwashersInc</class>
 		<class>structuredbusiness.DishWasherComponent</class>
+		<class>structuredbusiness.DishwashersInc</class>
 		<class>org.opaeum.runtime.bpm.organization.Leave</class>
 		<class>org.opaeum.runtime.bpm.request.ParticipationInTask</class>
-		<class>org.opaeum.runtime.bpm.businesscalendar.TimeOfDay</class>
 		<class>structuredbusiness.Supplier</class>
+		<class>org.opaeum.runtime.bpm.businesscalendar.TimeOfDay</class>
 		<class>org.opaeum.runtime.bpm.contact.OrganizationPhoneNumber</class>
 		<class>org.opaeum.runtime.bpm.request.Participation</class>
 		<class>org.opaeum.runtime.bpm.organization.BusinessNetworkFacilatatesCollaboration</class>
 		<class>org.opaeum.runtime.bpm.contact.Address</class>
 		<class>org.opaeum.runtime.bpm.businesscalendar.RecurringHoliday</class>
-		<class>org.opaeum.runtime.bpm.contact.EMailAddress</class>
 		<class>structuredbusiness.Accountant</class>
 		<class>org.opeum.demo1.util</class>
 		<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
@@ -64,11 +62,16 @@
 			<property name="hibernate.order_inserts" value="true" />
 			<property name="hibernate.jdbc.batch_size" value="20" />
 			<property name="hibernate.max_fetch_depth" value="1" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<!--property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
 			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:file:/tmp/demo1DB" />
 			<property name="hibernate.connection.username" value="sa" />
-			<property name="hibernate.connection.password" value="" />
+			<property name="hibernate.connection.password" value="" /-->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/test" />
+			<property name="hibernate.connection.username" value="postgres" />
+			<property name="hibernate.connection.password" value="postgres" />
 			<property name="hibernate.archive.autodetection" value="false" />
 			<property name="hibernate.ejb.event.post-load" value="org.opaeum.audit.AuditListener" />
 			<property name="hibernate.ejb.event.post-insert"

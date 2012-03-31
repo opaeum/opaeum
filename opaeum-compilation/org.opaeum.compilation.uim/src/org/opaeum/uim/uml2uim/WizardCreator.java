@@ -10,7 +10,6 @@ import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.wizard.AbstractWizard;
 import org.opaeum.uim.wizard.WizardFactory;
 import org.opaeum.uim.wizard.WizardPage;
-import org.opaeum.uim.wizard.impl.AbstractWizardImpl;
 
 public class WizardCreator extends AbstractUserInterfaceCreator{
 	private AbstractWizard wizard;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/JavaxValidation/1.0 pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
+<xmi:XMI xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:HibernateValidation="http:///schemas/HibernateValidation/4.2" xmlns:JavaxValidation="http:///schemas/JavaxValidation/1.0" xmlns:OpaeumStandardProfile="http:///schemas/OpaeumStandardProfile/1.0.0.6" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/4.0.0/UML" xsi:schemaLocation="http:///schemas/HibernateValidation/4.2 pathmap://NAKEDUML_MODELS/profiles/HibernateValidation.profile.uml#_tnOjcHr6EeGX8L_MMRBizg http:///schemas/JavaxValidation/1.0 pathmap://NAKEDUML_MODELS/profiles/JavaxValidation.uml#_DmQsYNcBEeCJ0dmaHEVVnw http:///schemas/OpaeumStandardProfile/1.0.0.6 pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_-K2hoNfGEeCXQPv0AMhLcg">
   <uml:Model xmi:id="_qb8akM37EdqwVrslYOdUDA" name="OpaeumLibraryForBPM">
     <eAnnotations xmi:id="_VOtz8NfJEeCXQPv0AMhLcg" source="http://www.opaeum.org">
       <details xmi:id="_vlGBIODlEeCsDuwu_RQvSA" key="uuid" value="252060"/>
@@ -1974,13 +1974,6 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_NNrJoEvQEeGmqIr8YsFD4g" name="contact">
       <eAnnotations xmi:id="_JlmN8GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_qzasoEtmEeGd4cpyhpib9Q" name="PhoneNumber" isAbstract="true">
-        <eAnnotations xmi:id="_JkezoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <ownedAttribute xmi:id="_EyuuUEtnEeGd4cpyhpib9Q" name="number">
-          <eAnnotations xmi:id="_JkcXYGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedAttribute>
-      </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_YLfSwEtnEeGd4cpyhpib9Q" name="PersonEMailAddressType">
         <eAnnotations xmi:id="_JkokoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         <ownedLiteral xmi:id="_b0CGwEtnEeGd4cpyhpib9Q" name="work">
@@ -2016,18 +2009,18 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_3E_9kEtnEeGd4cpyhpib9Q" clientDependency="_M8vAcF-hEeGSPaWW9iQb9Q" name="PersonPhoneNumber">
         <eAnnotations xmi:id="_Jlh8gGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <generalization xmi:id="_62HewEtnEeGd4cpyhpib9Q" general="_qzasoEtmEeGd4cpyhpib9Q">
-          <eAnnotations xmi:id="_JleSIGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        </generalization>
+        <ownedAttribute xmi:id="_fjrTsHr7EeGX8L_MMRBizg" name="phoneNumber" type="_S-ZOMHr7EeGX8L_MMRBizg">
+          <eAnnotations xmi:id="_fju-EHr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+        </ownedAttribute>
         <interfaceRealization xmi:id="_M8vAcF-hEeGSPaWW9iQb9Q" name="InterfaceRealization1" client="_3E_9kEtnEeGd4cpyhpib9Q" supplier="_DY-LMF-hEeGSPaWW9iQb9Q" contract="_DY-LMF-hEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_JlgHUGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </interfaceRealization>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_Ca9wQEtoEeGd4cpyhpib9Q" name="OrganizationPhoneNumber">
         <eAnnotations xmi:id="_JlJiAGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <generalization xmi:id="_FjyiYEtoEeGd4cpyhpib9Q" general="_qzasoEtmEeGd4cpyhpib9Q">
-          <eAnnotations xmi:id="_JlEpgGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        </generalization>
+        <ownedAttribute xmi:id="_ls8YAHr7EeGX8L_MMRBizg" name="hponeNumber" type="_S-ZOMHr7EeGX8L_MMRBizg">
+          <eAnnotations xmi:id="_ls_bUHr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_GjzN4EtoEeGd4cpyhpib9Q" name="Person PersonPhoneNumber" memberEnd="_Gjz08EtoEeGd4cpyhpib9Q _GjivMEtoEeGd4cpyhpib9Q" navigableOwnedEnd="_Gjz08EtoEeGd4cpyhpib9Q">
         <eAnnotations xmi:id="_JlT6EGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2073,9 +2066,9 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_LSLzIEtpEeGd4cpyhpib9Q" clientDependency="_MnwO8F-hEeGSPaWW9iQb9Q" name="PersonEMailAddress">
         <eAnnotations xmi:id="_Jk9UwGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <generalization xmi:id="_M014sEtpEeGd4cpyhpib9Q" general="_r-4aMEtmEeGd4cpyhpib9Q">
-          <eAnnotations xmi:id="_Jk4cQGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        </generalization>
+        <ownedAttribute xmi:id="_XkOw4Hr7EeGX8L_MMRBizg" name="emailAddress" type="_SvHAkHrxEeGgA7LmG6YzjA">
+          <eAnnotations xmi:id="_XkSbQHr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+        </ownedAttribute>
         <interfaceRealization xmi:id="_MnwO8F-hEeGSPaWW9iQb9Q" name="InterfaceRealization1" client="_LSLzIEtpEeGd4cpyhpib9Q" supplier="_9gswQF-gEeGSPaWW9iQb9Q" contract="_9gswQF-gEeGSPaWW9iQb9Q">
           <eAnnotations xmi:id="_Jk64gGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
         </interfaceRealization>
@@ -2112,9 +2105,9 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_GfviYEtqEeGd4cpyhpib9Q" name="OrganizationEMailAddress">
         <eAnnotations xmi:id="_JkZ7IGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <generalization xmi:id="_IYksQEtqEeGd4cpyhpib9Q" general="_r-4aMEtmEeGd4cpyhpib9Q">
-          <eAnnotations xmi:id="_JkVCoGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        </generalization>
+        <ownedAttribute xmi:id="_jaw6AHr7EeGX8L_MMRBizg" name="emailAddress" type="_SvHAkHrxEeGgA7LmG6YzjA">
+          <eAnnotations xmi:id="_ja1LcHr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_JGNOUEtqEeGd4cpyhpib9Q" name="Organization OrganizationEMailAddress" memberEnd="_JGNOUUtqEeGd4cpyhpib9Q _JF99wEtqEeGd4cpyhpib9Q" navigableOwnedEnd="_JGNOUUtqEeGd4cpyhpib9Q">
         <eAnnotations xmi:id="_Jk2nEGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2136,13 +2129,6 @@
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ju-ehktqEeGd4cpyhpib9Q" value="1"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ju-ehUtqEeGd4cpyhpib9Q" value="1"/>
         </ownedEnd>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_r-4aMEtmEeGd4cpyhpib9Q" name="EMailAddress" isAbstract="true">
-        <eAnnotations xmi:id="_Jk0K0GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-        <ownedAttribute xmi:id="_FfSSUEtnEeGd4cpyhpib9Q" name="address">
-          <eAnnotations xmi:id="_JkxukGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_9gswQF-gEeGSPaWW9iQb9Q" name="IPersonEMailAddress">
         <eAnnotations xmi:id="_JkhP4GFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2192,6 +2178,23 @@
       <packagedElement xmi:type="uml:Interface" xmi:id="_IRdZYGHsEeGz6amjGW5wRQ" name="IPersonPostalAddress">
         <eAnnotations xmi:id="_IRsC4GHsEeGz6amjGW5wRQ" source="http://www.opaeum.org"/>
       </packagedElement>
+      <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_SvHAkHrxEeGgA7LmG6YzjA" name="EMailAddress">
+        <eAnnotations xmi:id="_Sv_KUHrxEeGgA7LmG6YzjA" source="http://www.opaeum.org"/>
+        <ownedComment xmi:id="_WjQAkHrxEeGgA7LmG6YzjA">
+          <eAnnotations xmi:id="_daXpYHrxEeGgA7LmG6YzjA" source="http://www.opaeum.org"/>
+        </ownedComment>
+        <generalization xmi:id="_UaTLgHr7EeGX8L_MMRBizg">
+          <eAnnotations xmi:id="_UfJ2UHr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+          <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </generalization>
+      </packagedElement>
+      <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_S-ZOMHr7EeGX8L_MMRBizg" name="PhoneNumber">
+        <eAnnotations xmi:id="_S-hxEHr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+        <generalization xmi:id="_UJcFAHr7EeGX8L_MMRBizg">
+          <eAnnotations xmi:id="_UOSv0Hr7EeGX8L_MMRBizg" source="http://www.opaeum.org"/>
+          <general xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </generalization>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_XYGqYF9lEeG3X_yvufTVmw" name="document">
       <eAnnotations xmi:id="_Jjt-oGFAEeG5-sRmY0oorQ" source="http://www.opaeum.org"/>
@@ -2224,6 +2227,12 @@
       </eAnnotations>
       <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml#_XkGiwB07Ed-QQ4mYkrb7Gg"/>
     </profileApplication>
+    <profileApplication xmi:id="_9rYcMHr9EeGLG4a8Ss1xJw">
+      <eAnnotations xmi:id="_9sUQUHr9EeGLG4a8Ss1xJw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://NAKEDUML_MODELS/profiles/HibernateValidation.profile.uml#_tnOjcHr6EeGX8L_MMRBizg"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://NAKEDUML_MODELS/profiles/HibernateValidation.profile.uml#_TorQYHryEeGgA7LmG6YzjA"/>
+    </profileApplication>
   </uml:Model>
   <JavaxValidation:Max xmi:id="_rHYGMNcBEeCJ0dmaHEVVnw" value="59" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>
   <JavaxValidation:Max xmi:id="_LS1hENcCEeCJ0dmaHEVVnw" value="31" base_DataType="_FvE9kNcCEeCJ0dmaHEVVnw" base_PrimitiveType="_FvE9kNcCEeCJ0dmaHEVVnw"/>
@@ -2231,13 +2240,10 @@
   <JavaxValidation:Min xmi:id="_PHLVYNcCEeCJ0dmaHEVVnw" base_DataType="_cIJYsNb_EeCJ0dmaHEVVnw" base_PrimitiveType="_cIJYsNb_EeCJ0dmaHEVVnw"/>
   <OpaeumStandardProfile:ValueType xmi:id="_rIKT4NcCEeCJ0dmaHEVVnw" base_DataType="_qJQboNcCEeCJ0dmaHEVVnw" mappedImplementationType="java.util.Date"/>
   <OpaeumStandardProfile:Entity xmi:id="_iGlYIODmEeCsDuwu_RQvSA" base_Class="_x9fmQNb9EeCJ0dmaHEVVnw" persistentName="" generateAbstractSupertype="true"/>
-  <OpaeumStandardProfile:Attribute xmi:id="_Gh93UEtnEeGd4cpyhpib9Q" base_Property="_FfSSUEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_PXUucEtnEeGd4cpyhpib9Q" base_Property="_OorfwEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_nC7LoEtoEeGd4cpyhpib9Q" base_Class="_pZdQEEtmEeGd4cpyhpib9Q" nameProperty="_OorfwEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_pbxSUEtoEeGd4cpyhpib9Q" base_Property="_oRHdEEtoEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Entity xmi:id="_vEfOUEtoEeGd4cpyhpib9Q" base_Class="_k23OoEtmEeGd4cpyhpib9Q" nameProperty="_oRHdEEtoEeGd4cpyhpib9Q"/>
-  <OpaeumStandardProfile:Entity xmi:id="_v5ZdEEtoEeGd4cpyhpib9Q" base_Class="_r-4aMEtmEeGd4cpyhpib9Q" nameProperty="_FfSSUEtnEeGd4cpyhpib9Q"/>
-  <OpaeumStandardProfile:Entity xmi:id="_wYfM0EtoEeGd4cpyhpib9Q" base_Class="_qzasoEtmEeGd4cpyhpib9Q" nameProperty="_EyuuUEtnEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:Attribute xmi:id="_6YJWEEt3EeGElKTCe2jfDw" base_Property="_RZHMwEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_7SNxoEt3EeGElKTCe2jfDw" base_Property="_TCe-UEt3EeGElKTCe2jfDw"/>
   <OpaeumStandardProfile:Attribute xmi:id="_C3oq4Et4EeGElKTCe2jfDw" base_Property="_Bih5IEt4EeGElKTCe2jfDw"/>
@@ -2288,4 +2294,9 @@
   <OpaeumStandardProfile:AssociationEnd xmi:id="_Z0baAHaqEeGJmrelahyJag" base_Property="_fNec4EtpEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_wWHeQHaqEeGJmrelahyJag" base_Property="_HF7DgEtoEeGd4cpyhpib9Q"/>
   <OpaeumStandardProfile:AssociationEnd xmi:id="_8oufYHaqEeGJmrelahyJag" base_Property="_JF99wEtqEeGd4cpyhpib9Q"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_a2NfAHr7EeGX8L_MMRBizg" base_Property="_XkOw4Hr7EeGX8L_MMRBizg"/>
+  <OpaeumStandardProfile:Attribute xmi:id="_lEAvwHr7EeGX8L_MMRBizg" base_Property="_jaw6AHr7EeGX8L_MMRBizg"/>
+  <HibernateValidation:Email xmi:id="_ArVmMHr-EeGLG4a8Ss1xJw" base_DataType="_SvHAkHrxEeGgA7LmG6YzjA" base_PrimitiveType="_SvHAkHrxEeGgA7LmG6YzjA"/>
+  <JavaxValidation:Digits xmi:id="_KnxaIHr-EeGLG4a8Ss1xJw" integer="15" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg"/>
+  <HibernateValidation:Length xmi:id="_KovqgHr-EeGLG4a8Ss1xJw" base_DataType="_S-ZOMHr7EeGX8L_MMRBizg" base_PrimitiveType="_S-ZOMHr7EeGX8L_MMRBizg" max="15" message="Phone number must consist of between  9 and 15 characters" min="8"/>
 </xmi:XMI>

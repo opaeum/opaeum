@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,11 +23,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
+import javax.validation.constraints.Digits;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.PersonNode;
@@ -57,16 +62,21 @@ import org.w3c.dom.NodeList;
 	@NamedQuery(name="QueryPersonPhoneNumberWithTypeForPerson",query="from PersonPhoneNumber a where a.person = :person and a.type = :type"))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonPhoneNumber")
-@DiscriminatorValue(	"person_phone_number")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonPhoneNumber, Serializable {
+public class PersonPhoneNumber implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonPhoneNumber, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Id
+	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
+	private Long id;
 	static private Set<PersonPhoneNumber> mockedAllInstances;
+	@Version
+	@Column(name="object_version")
+	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
@@ -75,10 +85,15 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="person_id",nullable=true)
 	private PersonNode person;
+	@Length(groups={},max=15,message="Phone number must consist of between  9 and 15 characters",min=8,payload={})
+	@Digits(fraction=0,groups={},integer=15,message="",payload={})
+	@Column(name="phone_number")
+	private String phoneNumber;
 	static final private long serialVersionUID = 11888058762954742l;
 	@Type(type="org.opaeum.runtime.contact.PersonPhoneNumberTypeResolver")
 	@Column(name="type",nullable=true)
 	private PersonPhoneNumberType type;
+	private String uid;
 	@Column(name="key_in_pho_num_on_per_nod")
 	private String z_keyOfPhoneNumberOnPersonNode;
 
@@ -115,8 +130,8 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("number").length()>0 ) {
-			setNumber(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("number")));
+		if ( xml.getAttribute("phoneNumber").length()>0 ) {
+			setPhoneNumber(OpaeumLibraryForBPMFormatter.getInstance().parsePhoneNumber(xml.getAttribute("phoneNumber")));
 		}
 		if ( xml.getAttribute("type").length()>0 ) {
 			setType(PersonPhoneNumberType.valueOf(xml.getAttribute("type")));
@@ -130,17 +145,16 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	}
 	
 	public void copyShallowState(PersonPhoneNumber from, PersonPhoneNumber to) {
-		to.setNumber(from.getNumber());
+		to.setPhoneNumber(from.getPhoneNumber());
 		to.setType(from.getType());
 	}
 	
 	public void copyState(PersonPhoneNumber from, PersonPhoneNumber to) {
-		to.setNumber(from.getNumber());
+		to.setPhoneNumber(from.getPhoneNumber());
 		to.setType(from.getType());
 	}
 	
 	public void createComponents() {
-		super.createComponents();
 	}
 	
 	public boolean equals(Object other) {
@@ -158,8 +172,16 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return this.deletedOn;
 	}
 	
+	public Long getId() {
+		return this.id;
+	}
+	
 	public String getName() {
 		return "PersonPhoneNumber["+getId()+"]";
+	}
+	
+	public int getObjectVersion() {
+		return this.objectVersion;
 	}
 	
 	public Set<OutgoingEvent> getOutgoingEvents() {
@@ -178,12 +200,27 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=2490948071546069620l,uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
+	@NumlMetaInfo(uuid="252060@_fjrTsHr7EeGX8L_MMRBizg")
+	public String getPhoneNumber() {
+		String result = this.phoneNumber;
+		
+		return result;
+	}
+	
 	@PropertyMetaInfo(isComposite=false,opaeumId=1377242588430375366l,opposite="personPhoneNumber",uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_TR9ilEtoEeGd4cpyhpib9Q")
 	public PersonPhoneNumberType getType() {
 		PersonPhoneNumberType result = this.type;
 		
 		return result;
+	}
+	
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
 	}
 	
 	public String getZ_keyOfPhoneNumberOnPersonNode() {
@@ -195,7 +232,6 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	}
 	
 	public void init(CompositionNode owner) {
-		super.init(owner);
 		this.z_internalAddToPerson((PersonNode)owner);
 		createComponents();
 	}
@@ -214,7 +250,6 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	}
 	
 	public void markDeleted() {
-		super.markDeleted();
 		if ( getPerson()!=null ) {
 			getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
 		}
@@ -244,7 +279,14 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
-		super.setDeletedOn(deletedOn);
+	}
+	
+	public void setId(Long id) {
+		this.id=id;
+	}
+	
+	public void setObjectVersion(int objectVersion) {
+		this.objectVersion=objectVersion;
 	}
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
@@ -264,6 +306,10 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		}
 	}
 	
+	public void setPhoneNumber(String phoneNumber) {
+		this.z_internalAddToPhoneNumber(phoneNumber);
+	}
+	
 	public void setType(PersonPhoneNumberType type) {
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalRemoveFromPhoneNumber(this.getType(),this);
@@ -272,6 +318,10 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		if ( getPerson()!=null && getType()!=null ) {
 			getPerson().z_internalAddToPhoneNumber(this.getType(),this);
 		}
+	}
+	
+	public void setUid(String newUid) {
+		this.uid=newUid;
 	}
 	
 	public void setZ_keyOfPhoneNumberOnPersonNode(String z_keyOfPhoneNumberOnPersonNode) {
@@ -288,8 +338,8 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		sb.append("classUuid=\"252060@_3E_9kEtnEeGd4cpyhpib9Q\" ");
 		sb.append("className=\"org.opaeum.runtime.bpm.contact.PersonPhoneNumber\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
-		if ( getNumber()!=null ) {
-			sb.append("number=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getNumber())+"\" ");
+		if ( getPhoneNumber()!=null ) {
+			sb.append("phoneNumber=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatPhoneNumber(getPhoneNumber())+"\" ");
 		}
 		if ( getType()!=null ) {
 			sb.append("type=\""+ getType().name() + "\" ");
@@ -303,6 +353,10 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		this.person=val;
 	}
 	
+	public void z_internalAddToPhoneNumber(String val) {
+		this.phoneNumber=val;
+	}
+	
 	public void z_internalAddToType(PersonPhoneNumberType val) {
 		this.type=val;
 	}
@@ -311,6 +365,13 @@ public class PersonPhoneNumber extends PhoneNumber implements IPersistentObject,
 		if ( getPerson()!=null && val!=null && val.equals(getPerson()) ) {
 			this.person=null;
 			this.person=null;
+		}
+	}
+	
+	public void z_internalRemoveFromPhoneNumber(String val) {
+		if ( getPhoneNumber()!=null && val!=null && val.equals(getPhoneNumber()) ) {
+			this.phoneNumber=null;
+			this.phoneNumber=null;
 		}
 	}
 	

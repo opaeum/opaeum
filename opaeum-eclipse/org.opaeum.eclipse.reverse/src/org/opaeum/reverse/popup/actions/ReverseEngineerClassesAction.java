@@ -11,6 +11,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -22,9 +23,11 @@ import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -74,7 +77,7 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 		return null;
 	}
 	protected void execute(IStructuredSelection selection,Shell shell) throws JavaModelException{
-		List<ITypeBinding> types = selectTypeDeclarations(selection);
+		final List<ITypeBinding> types = selectTypeDeclarations(selection);
 		this.selection = (IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().getSelection();
 		Collection<IFile> files = new HashSet<IFile>();
 		for(IWorkbenchWindow w:PlatformUI.getWorkbench().getWorkbenchWindows()){
@@ -84,7 +87,8 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 						if(e.getEditorInput() instanceof FileEditorInput){
 							FileEditorInput editorInput = (FileEditorInput) e.getEditorInput();
 							if(editorInput.getFile().getParent().findMember("opaeum.properties") != null){
-								OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(editorInput.getFile().getParent());
+								OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(editorInput.getFile().getParent());
+								
 								for(IResource r:editorInput.getFile().getParent().members()){
 									if(r.getName().endsWith(".uml")){
 										if(ctx.getEditingContextFor((IFile) r) != null){
@@ -114,20 +118,33 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 		dialog.setMessage("Select the targetmodel:");
 		dialog.open();
 		if(dialog.getFirstResult() != null){
-			IFile file = (IFile) dialog.getFirstResult();
-			OpaeumEclipseContext ctx = OpaeumEclipseContext.getContextFor(file.getParent());
-			try{
-				if(ctx != null){
-					OpenUmlFile eCtx = ctx.getEditingContextFor(file);
-					if(eCtx != null){
-						ctx.getEmfToOpaeumSynchronizer().suspend();
-						new UmlGenerator().generateUml(types, eCtx.getModel());
-						ctx.getEmfToOpaeumSynchronizer().resumeAndCatchUp();
-					}
+			final IFile file = (IFile) dialog.getFirstResult();
+			final OpaeumEclipseContext ctx = OpaeumEclipseContext.findOrCreateContextFor(file.getParent());
+			if(ctx != null){
+				final OpenUmlFile eCtx = ctx.getEditingContextFor(file);
+				if(eCtx != null){
+					ctx.executeAndForget(new AbstractCommand(){
+						@Override
+						public boolean canExecute(){
+							return true;
+						}
+						@Override
+						public void execute(){
+							try{
+								ctx.getEmfToOpaeumSynchronizer().suspend();
+								new UmlGenerator().generateUml(types, eCtx.getModel());
+								ctx.getEmfToOpaeumSynchronizer().resumeAndCatchUp();
+								file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
+							}catch(Exception e){
+								MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed", e.toString());
+								e.printStackTrace();
+							}
+						}
+						@Override
+						public void redo(){
+						}
+					});
 				}
-				file.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-			}catch(Exception e){
-				e.printStackTrace();
 			}
 		}
 	}
@@ -163,6 +180,9 @@ public class ReverseEngineerClassesAction extends AbstractHandler implements IOb
 	public void run(IAction action){
 		try{
 			execute(selection, shell);
+		}catch(IllegalStateException e){
+			MessageDialog.openError(Display.getCurrent().getActiveShell(), "Reverse Engineering Failed",
+					"No source has been attached to the jar in question");
 		}catch(JavaModelException e){
 			// TODO Auto-generated catch block
 			e.printStackTrace();

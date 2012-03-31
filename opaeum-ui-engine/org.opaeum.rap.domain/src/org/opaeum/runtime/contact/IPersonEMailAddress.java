@@ -4,7 +4,7 @@ import org.opaeum.runtime.domain.CompositionNode;
 
 public interface IPersonEMailAddress extends CompositionNode{
 
-	void setAddress(String address);
+	void setEmailAddress(String address);
 
-	String getAddress();
+	String getEmailAddress();
 }

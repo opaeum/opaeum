@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.management.RuntimeErrorException;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -34,6 +35,7 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 	private EmfWorkspace emfWorkspace;
 	// /TODO regularly close and reopen;
 	private ConversationalPersistence applicationPersistence;
+	private Validator validator;
 	public Demo1OpaeumApplication(){
 	}
 	@Override
@@ -44,6 +46,13 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 	public Environment getEnvironment(){
 		Demo1JpaEnvironment i = Demo1JpaEnvironment.getInstance();
 		return i;
+	}
+	@Override
+	public Validator getValidator(){
+		if(validator == null){
+			validator = Validation.buildDefaultValidatorFactory().getValidator();
+		}
+		return validator;
 	}
 	private IBusinessNetwork findOrCreateBusinessNetwork(){
 		Collection<BusinessNetwork> readAll = getApplicationPersistence().readAll(BusinessNetwork.class);
@@ -112,7 +121,7 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 		URI uri = URI.createPlatformPluginURI("/org.opaeum.demo.models/src/ui/" + id + ".uml", true);
 		try{
 			Resource resource = uimResourceSet.getResource(uri, false);
-			if(resource == null||true){
+			if(resource == null || true){
 				if(uimResourceSet.getURIConverter().exists(uri, Collections.emptyMap())){
 					resource = uimResourceSet.createResource(uri);
 					resource.load(uimResourceSet.getURIConverter().createInputStream(uri), null);

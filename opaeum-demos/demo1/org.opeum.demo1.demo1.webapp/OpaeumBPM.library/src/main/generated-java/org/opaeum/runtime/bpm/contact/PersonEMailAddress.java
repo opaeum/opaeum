@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,11 +23,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.PersonNode;
@@ -57,16 +61,24 @@ import org.w3c.dom.NodeList;
 	@NamedQuery(name="QueryPersonEMailAddressWithTypeForPerson",query="from PersonEMailAddress a where a.person = :person and a.type = :type"))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="PersonEMailAddress")
-@DiscriminatorValue(	"person_e_mail_address")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class PersonEMailAddress extends EMailAddress implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonEMailAddress, Serializable {
+public class PersonEMailAddress implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IPersonEMailAddress, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Email(groups={},message="",payload={})
+	@Column(name="email_address")
+	private String emailAddress;
+	@Id
+	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
+	private Long id;
 	static private Set<PersonEMailAddress> mockedAllInstances;
+	@Version
+	@Column(name="object_version")
+	private int objectVersion;
 	@Transient
 	private Set<OutgoingEvent> outgoingEvents = new HashSet<OutgoingEvent>();
 	@Transient
@@ -79,6 +91,7 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	@Type(type="org.opaeum.runtime.contact.PersonEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
 	private PersonEMailAddressType type;
+	private String uid;
 	@Column(name="key_in_e_m_a_on_per_nod")
 	private String z_keyOfEMailAddressOnPersonNode;
 
@@ -115,8 +128,8 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("address").length()>0 ) {
-			setAddress(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("address")));
+		if ( xml.getAttribute("emailAddress").length()>0 ) {
+			setEmailAddress(OpaeumLibraryForBPMFormatter.getInstance().parseEMailAddress(xml.getAttribute("emailAddress")));
 		}
 		if ( xml.getAttribute("type").length()>0 ) {
 			setType(PersonEMailAddressType.valueOf(xml.getAttribute("type")));
@@ -130,17 +143,16 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	}
 	
 	public void copyShallowState(PersonEMailAddress from, PersonEMailAddress to) {
-		to.setAddress(from.getAddress());
+		to.setEmailAddress(from.getEmailAddress());
 		to.setType(from.getType());
 	}
 	
 	public void copyState(PersonEMailAddress from, PersonEMailAddress to) {
-		to.setAddress(from.getAddress());
+		to.setEmailAddress(from.getEmailAddress());
 		to.setType(from.getType());
 	}
 	
 	public void createComponents() {
-		super.createComponents();
 	}
 	
 	public boolean equals(Object other) {
@@ -158,8 +170,24 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return this.deletedOn;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=4200000522195976260l,uuid="252060@_XkOw4Hr7EeGX8L_MMRBizg")
+	@NumlMetaInfo(uuid="252060@_XkOw4Hr7EeGX8L_MMRBizg")
+	public String getEmailAddress() {
+		String result = this.emailAddress;
+		
+		return result;
+	}
+	
+	public Long getId() {
+		return this.id;
+	}
+	
 	public String getName() {
 		return "PersonEMailAddress["+getId()+"]";
+	}
+	
+	public int getObjectVersion() {
+		return this.objectVersion;
 	}
 	
 	public Set<OutgoingEvent> getOutgoingEvents() {
@@ -186,6 +214,13 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return result;
 	}
 	
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
+	}
+	
 	public String getZ_keyOfEMailAddressOnPersonNode() {
 		return this.z_keyOfEMailAddressOnPersonNode;
 	}
@@ -195,7 +230,6 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	}
 	
 	public void init(CompositionNode owner) {
-		super.init(owner);
 		this.z_internalAddToPerson((PersonNode)owner);
 		createComponents();
 	}
@@ -214,7 +248,6 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	}
 	
 	public void markDeleted() {
-		super.markDeleted();
 		if ( getPerson()!=null ) {
 			getPerson().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
@@ -244,7 +277,18 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
-		super.setDeletedOn(deletedOn);
+	}
+	
+	public void setEmailAddress(String emailAddress) {
+		this.z_internalAddToEmailAddress(emailAddress);
+	}
+	
+	public void setId(Long id) {
+		this.id=id;
+	}
+	
+	public void setObjectVersion(int objectVersion) {
+		this.objectVersion=objectVersion;
 	}
 	
 	public void setOutgoingEvents(Set<OutgoingEvent> outgoingEvents) {
@@ -274,6 +318,10 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		}
 	}
 	
+	public void setUid(String newUid) {
+		this.uid=newUid;
+	}
+	
 	public void setZ_keyOfEMailAddressOnPersonNode(String z_keyOfEMailAddressOnPersonNode) {
 		this.z_keyOfEMailAddressOnPersonNode=z_keyOfEMailAddressOnPersonNode;
 	}
@@ -288,8 +336,8 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		sb.append("classUuid=\"252060@_LSLzIEtpEeGd4cpyhpib9Q\" ");
 		sb.append("className=\"org.opaeum.runtime.bpm.contact.PersonEMailAddress\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
-		if ( getAddress()!=null ) {
-			sb.append("address=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getAddress())+"\" ");
+		if ( getEmailAddress()!=null ) {
+			sb.append("emailAddress=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatEMailAddress(getEmailAddress())+"\" ");
 		}
 		if ( getType()!=null ) {
 			sb.append("type=\""+ getType().name() + "\" ");
@@ -299,12 +347,23 @@ public class PersonEMailAddress extends EMailAddress implements IPersistentObjec
 		return sb.toString();
 	}
 	
+	public void z_internalAddToEmailAddress(String val) {
+		this.emailAddress=val;
+	}
+	
 	public void z_internalAddToPerson(PersonNode val) {
 		this.person=val;
 	}
 	
 	public void z_internalAddToType(PersonEMailAddressType val) {
 		this.type=val;
+	}
+	
+	public void z_internalRemoveFromEmailAddress(String val) {
+		if ( getEmailAddress()!=null && val!=null && val.equals(getEmailAddress()) ) {
+			this.emailAddress=null;
+			this.emailAddress=null;
+		}
 	}
 	
 	public void z_internalRemoveFromPerson(PersonNode val) {

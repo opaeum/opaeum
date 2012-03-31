@@ -1,5 +1,8 @@
 package org.opaeum.uim.uml2uim;
 
+import java.util.Collection;
+
+import org.eclipse.uml2.uml.Operation;
 import org.opaeum.emf.workspace.EmfWorkspace;
 import org.opaeum.name.NameConverter;
 import org.opaeum.uim.Page;
@@ -8,6 +11,7 @@ import org.opaeum.uim.UserInterfaceEntryPoint;
 import org.opaeum.uim.action.ActionFactory;
 import org.opaeum.uim.action.ActionKind;
 import org.opaeum.uim.action.BuiltInActionButton;
+import org.opaeum.uim.action.OperationButton;
 import org.opaeum.uim.action.OperationPopup;
 import org.opaeum.uim.action.OperationPopupPage;
 import org.opaeum.uim.editor.AbstractEditor;
@@ -33,7 +37,7 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 			return page;
 		}
 	}
-	public void addButtonBar(ActionKind...updateCurrentEntity){
+	public void addButtonBar(Collection<Operation> operations, ActionKind...updateCurrentEntity){
 		EditorActionBar panel = EditorFactory.eINSTANCE.createEditorActionBar();
 		formPanel.setActionBar(panel);
 		panel.setName("ActionBar");
@@ -42,6 +46,17 @@ public class EditorCreator extends AbstractUserInterfaceCreator{
 			bia.setKind(actionKind);
 			bia.setName(NameConverter.separateWords(NameConverter.capitalize(actionKind.getName())));
 			panel.getChildren().add(bia);
+		}
+		for(Operation operation:operations){
+			if(!operation.isQuery() && operation.getReturnResult()==null){
+				OperationButton button = ActionFactory.eINSTANCE.createOperationButton();
+				button.setUmlElementUid(EmfWorkspace.getId(operation));
+				button.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
+				OperationPopup popup = ActionFactory.eINSTANCE.createOperationPopup();
+				button.setPopup(popup);
+				prepareFormPanel(button.getPopup(), button.getName(), operation.getOwnedParameters());
+				
+			}
 		}
 	}
 	@Override

@@ -1,8 +1,5 @@
 package org.opaeum.runtime.environment;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -10,7 +7,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import org.drools.RuntimeDroolsException;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.name.NameConverter;
 import org.opaeum.runtime.domain.EnumResolver;
@@ -27,18 +23,22 @@ public abstract class JavaMetaInfoMap{
 	private Map<Class<?>,String> classUuidMap = new HashMap<Class<?>,String>();
 	private Map<Class<?>,Map<Class<?>,Object>> secondaryClassMap = new HashMap<Class<?>,Map<Class<?>,Object>>();
 	private Map<String,Class<? extends IEventHandler>> eventHandlersByUuid = new HashMap<String,Class<? extends IEventHandler>>();
+	private Map<String,JavaTypedElementContainer> typedElementContainers = new HashMap<String,JavaTypedElementContainer>();
+	private Map<String,JavaTypedElement> typedElements = new HashMap<String,JavaTypedElement>();
 	public void importMetaInfo(JavaMetaInfoMap other){
 		classUuidMap.putAll(other.classUuidMap);
 		allClasses.addAll(other.allClasses);
 		uuidClassMap.putAll(other.uuidClassMap);
 		secondaryClassMap.putAll(other.secondaryClassMap);
 		eventHandlersByUuid.putAll(other.eventHandlersByUuid);
+		typedElementContainers.putAll(other.typedElementContainers);
+		typedElements.putAll(other.typedElements);
 	}
 	public Collection<Class<?>> getAllClasses(){
 		return allClasses;
 	}
-	public Collection<Class<?>> getClassesByAnnotation(Class<?extends Annotation> a){
-		Collection<Class<?>> result=new HashSet<Class<?>>();
+	public Collection<Class<?>> getClassesByAnnotation(Class<? extends Annotation> a){
+		Collection<Class<?>> result = new HashSet<Class<?>>();
 		for(Class<?> c:getAllClasses()){
 			if(c.isAnnotationPresent(a)){
 				result.add(c);
@@ -47,9 +47,13 @@ public abstract class JavaMetaInfoMap{
 		return result;
 	}
 	@SuppressWarnings("unchecked")
-	public <T> T newInstance(String uuid){
-		return (T)IntrospectionUtil.newInstance(getClass(uuid));
+	public <T>T newInstance(String uuid){
+		return (T) IntrospectionUtil.newInstance(getClass(uuid));
 	}
+	public JavaTypedElement getTypedElement(String uuid){
+		return typedElements.get(uuid);
+	}
+	@SuppressWarnings("unchecked")
 	protected void putMethod(Class<? extends Object> c,String uuid,long nakedUmlId){
 		// Will only be called from the declaring model, so this nakedUmlId
 		// won't be unique, but does serve to identifiy the handler
@@ -57,12 +61,14 @@ public abstract class JavaMetaInfoMap{
 		for(Method method:declaredMethods){
 			if(method.isAnnotationPresent(NumlMetaInfo.class)){
 				if(uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())){
+					JavaTypedElementContainer jtec = new JavaTypedElementContainer(method);
+					typedElementContainers.put(uuid, jtec);
+					typedElements.putAll(jtec.getTypedElements());
 					try{
 						String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
 						Class<? extends IEventHandler> mi = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(handlerName);
 						this.eventHandlersByUuid.put(uuid, mi);
 						allClasses.add(mi);
-						
 					}catch(ClassNotFoundException e){
 					}
 					break;
@@ -76,6 +82,7 @@ public abstract class JavaMetaInfoMap{
 	public void putEventHandler(Class<? extends IEventHandler> handler,String uuid){
 		eventHandlersByUuid.put(uuid, handler);
 	}
+	@SuppressWarnings("unchecked")
 	protected void putClass(Class<? extends Object> c,String uuid){
 		if(ISignal.class.isAssignableFrom(c)){
 			Class<? extends IEventHandler> handler=null;
@@ -85,8 +92,10 @@ public abstract class JavaMetaInfoMap{
 				throw new RuntimeException(e);
 			}
 			putEventHandler(handler, uuid);
-		}else if(IPersistentObject.class.isAssignableFrom(c)){
-			// TODO datagenerator
+		}else if(IPersistentObject.class.isAssignableFrom(c) && !c.isInterface()){
+			JavaTypedElementContainer jtec = new JavaTypedElementContainer(c);
+			typedElementContainers.put(uuid, jtec);
+			typedElements.putAll(jtec.getTypedElements());
 		}else if(IEnum.class.isAssignableFrom(c)){
 			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
 		}

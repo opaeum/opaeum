@@ -179,12 +179,12 @@ public class PageUtil{
 		result.setLayout(layout);
 		return result;
 	}
-	static Composite createGeneralInfoSection(final ScrolledForm form,final FormToolkit toolkit,final Composite body,final String entityName){
+	public static Composite createGeneralInfoSection(final ScrolledForm form,final FormToolkit toolkit,final Composite body,final String entityName){
 		String sectionTitle = RMSMessages.get().PageUtil_GeneralInfo + entityName;
 		String sectionDesc = RMSMessages.get().PageUtil_UsedToEditData;
 		return createSection(form, toolkit, body, sectionTitle, sectionDesc, 3, true);
 	}
-	static Composite createSection(final ScrolledForm form,final FormToolkit toolkit,final Composite body,final String title,
+	public static Composite createSection(final ScrolledForm form,final FormToolkit toolkit,final Composite body,final String title,
 			final String desc,final int numColumns,final boolean expanded){
 		int style = ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR | Section.DESCRIPTION | ExpandableComposite.EXPANDED;
 		Section section = toolkit.createSection(body, style);
@@ -206,7 +206,7 @@ public class PageUtil{
 		});
 		return result;
 	}
-	static Text createLabelText(final Container container,final String labelContent,final String value,final boolean readOnly){
+	public static Text createLabelText(final Container container,final String labelContent,final String value,final boolean readOnly){
 		Composite client = container.client;
 		FormToolkit toolkit = container.toolkit;
 		Label label = toolkit.createLabel(client, labelContent);
@@ -221,7 +221,7 @@ public class PageUtil{
 		result.setLayoutData(gdResult);
 		return result;
 	}
-	static CCombo createLabelCombo(final Container container,final String labelContent,final String value,final String[] items){
+	public static CCombo createLabelCombo(final Container container,final String labelContent,final String value,final String[] items){
 		Composite client = container.client;
 		FormToolkit toolkit = container.toolkit;
 		Label label = toolkit.createLabel(client, labelContent);
@@ -239,7 +239,7 @@ public class PageUtil{
 		result.setLayoutData(gdResult);
 		return result;
 	}
-	static Text createLabelMultiText(final Container container,final String labelContent,final String value){
+	public static Text createLabelMultiText(final Container container,final String labelContent,final String value){
 		Composite client = container.client;
 		FormToolkit toolkit = container.toolkit;
 		Label label = toolkit.createLabel(client, labelContent);
@@ -254,7 +254,7 @@ public class PageUtil{
 		result.setLayoutData(gdResult);
 		return result;
 	}
-	static Text createLabelTextButton(final Container container,final String labelContent,final String value,final String imageName,
+	public static Text createLabelTextButton(final Container container,final String labelContent,final String value,final String imageName,
 			final SelectionListener listener){
 		final Composite client = container.client;
 		final FormToolkit toolkit = container.toolkit;
@@ -274,7 +274,7 @@ public class PageUtil{
 		button.addSelectionListener(listener);
 		return result;
 	}
-	static DateTime createLabelDate(final Container container,final String labelContent,final Date date){
+	public static DateTime createLabelDate(final Container container,final String labelContent,final Date date){
 		Composite client = container.client;
 		FormToolkit toolkit = container.toolkit;
 		Label label = toolkit.createLabel(client, labelContent);
@@ -293,15 +293,15 @@ public class PageUtil{
 		result.setLayoutData(gdResult);
 		return result;
 	}
-	static void bindCombo(final DataBindingContext bindingContext,final IPersistentObject entity,final CCombo combo,final String property){
+	public static void bindCombo(final DataBindingContext bindingContext,final IPersistentObject entity,final CCombo combo,final String property){
 		ISWTObservableValue observeCombo = SWTObservables.observeSelection(combo);
 		IObservableValue observeValue = BeansObservables.observeValue(entity, property);
 		bind(bindingContext, observeCombo, observeValue, null, null);
 	}
-	static void bindText(final DataBindingContext bindingContext,final IPersistentObject entity,final Text text,final String property){
+	public static void bindText(final DataBindingContext bindingContext,final IPersistentObject entity,final Text text,final String property){
 		bindText(bindingContext, entity, text, property, null);
 	}
-	static void bindText(final DataBindingContext bindingContext,final IPersistentObject entity,final Text text,final String property,
+	public static void bindText(final DataBindingContext bindingContext,final IPersistentObject entity,final Text text,final String property,
 			final IValidator validator){
 		ISWTObservableValue observeText = SWTObservables.observeText(text, SWT.Modify);
 		IObservableValue observeValue = BeansObservables.observeValue(entity, property);
@@ -310,18 +310,18 @@ public class PageUtil{
 		UpdateValueStrategy modelToTarget = new UpdateValueStrategy();
 		bind(bindingContext, observeText, observeValue, targetToModel, modelToTarget);
 	}
-	static void bindDate(final DataBindingContext bindingContext,final IPersistentObject entity,final DateTime dateTime,final String property){
+	public static void bindDate(final DataBindingContext bindingContext,final IPersistentObject entity,final DateTime dateTime,final String property){
 		ISWTObservableValue observeSelection = SWTObservables.observeSelection(dateTime);
 		IObservableValue observeValue = BeansObservables.observeValue(entity, property);
 		UpdateValueStrategy targetToModel = new UpdateValueStrategy();
 		UpdateValueStrategy modelToTarget = new UpdateValueStrategy();
 		bind(bindingContext, observeSelection, observeValue, targetToModel, modelToTarget);
 	}
-	private static void bind(final DataBindingContext bindingContext,final ISWTObservableValue observeText,
+	public static void bind(final DataBindingContext bindingContext,final ISWTObservableValue observeText,
 			final IObservableValue observeValue,final UpdateValueStrategy targetToModel,final UpdateValueStrategy modelToTarget){
 		bindingContext.bindValue(observeText, observeValue, targetToModel, modelToTarget);
 	}
-	static DataBindingContext createBindingContext(){
+	public static DataBindingContext createBindingContext(){
 		if(Realm.getDefault() == null){
 			SWTObservables.getRealm(Display.getCurrent());
 		}

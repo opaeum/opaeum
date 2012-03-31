@@ -48,7 +48,13 @@ public class UimFieldComposite extends Composite implements IUimFieldComposite{
 		super.setLayout(layout);
 	}
 	public void setMinimumLabelWidth(Integer minimumLabelWidth){
-		GridData gd = (GridData) getLabel().getLayoutData();
-		gd.minimumWidth = minimumLabelWidth == null ? 150 : minimumLabelWidth;
+		GridData labelData = (GridData) getLabel().getLayoutData();
+		if(minimumLabelWidth == null){
+			labelData.minimumWidth = 150;
+			labelData.widthHint=150;
+		}else{
+			labelData.minimumWidth = minimumLabelWidth;
+			labelData.widthHint=minimumLabelWidth;
+		}
 	}
 }

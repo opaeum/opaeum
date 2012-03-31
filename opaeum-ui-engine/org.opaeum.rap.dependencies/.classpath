@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/postgresql-9.0-801.jdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/android-1.5_r4.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/commons-codec-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/commons-logging-1.1.1.jar"/>
@@ -21,13 +22,13 @@
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/drools-compiler-5.3.1.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/drools-persistence-jpa-5.3.1.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/ecj-3.5.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/hibernate-validator-4.2.0.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/hibernate-validator-4.2.0.Final.jar" sourcepath="/home/ampie/.m2/repository/org/hibernate/hibernate-validator/4.2.0.Final/hibernate-validator-4.2.0.Final-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/hsqldb-j5-2.0.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/jbpm-flow-builder-5.2.0.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/jta-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/stringtemplate-3.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/validation-api-1.0.0.GA.jar" sourcepath="/home/ampie/.m2/repository/javax/validation/validation-api/1.0.0.GA/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/antlr-2.7.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/drools-core-5.3.1.Final.jar" sourcepath="/home/ampie/.m2/repository/org/drools/drools-core/5.3.1.Final/drools-core-5.3.1.Final-sources.jar"/>

@@ -73,6 +73,9 @@
     <availablePage>
       <emfPageIdentifier href="OpaeumBPM.library.notation#_H8l1wHaqEeGJmrelahyJag"/>
     </availablePage>
+    <availablePage>
+      <emfPageIdentifier href="../profiles/HibernateValidation.profile.notation#_TpyqsHryEeGgA7LmG6YzjA"/>
+    </availablePage>
   </pageList>
   <sashModel currentSelection="//@sashModel/@windows.0/@children.0">
     <windows>
@@ -88,6 +91,9 @@
         </children>
         <children>
           <emfPageIdentifier href="OpaeumBPM.library.notation#_XA8fcFYhEeGJUqEGX7bKSg"/>
+        </children>
+        <children>
+          <emfPageIdentifier href="../profiles/HibernateValidation.profile.notation#_TpyqsHryEeGgA7LmG6YzjA"/>
         </children>
       </children>
     </windows>

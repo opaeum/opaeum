@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.hibernate.Session;
+import org.hibernate.ejb.EntityManagerFactoryImpl;
 import org.opaeum.hibernate.domain.EMailNotificationService;
 import org.opaeum.hibernate.domain.EventOccurrence;
 import org.opaeum.runtime.domain.IActiveObject;
@@ -52,7 +53,8 @@ public class StandaloneJpaEnvironment extends Environment{
 	protected EntityManagerFactory getEntityManagerFactory(){
 		if(entityManagerFactory == null){
 			createSchemas();
-			entityManagerFactory = Persistence.createEntityManagerFactory(getProperty(HIBERNATE_CONFIG_NAME));
+			EntityManagerFactoryImpl emf = (EntityManagerFactoryImpl) Persistence.createEntityManagerFactory(getProperty(HIBERNATE_CONFIG_NAME));
+			entityManagerFactory = emf;
 		}
 		return entityManagerFactory;
 	}

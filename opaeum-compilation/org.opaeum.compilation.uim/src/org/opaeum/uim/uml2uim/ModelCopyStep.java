@@ -72,6 +72,7 @@ public class ModelCopyStep extends EmfElementVisitor implements ITransformationS
 				List<String> filePath = new ArrayList<String>(dirPath);
 				filePath.add(file.getName());
 				findOrCreateTextFile(writer, TextSourceFolderIdentifier.WEBAPP_RESOURCE, filePath.toArray(new String[filePath.size()]));
+				reader.close();
 			}
 		}catch(Exception e){
 			throw new RuntimeException(e);

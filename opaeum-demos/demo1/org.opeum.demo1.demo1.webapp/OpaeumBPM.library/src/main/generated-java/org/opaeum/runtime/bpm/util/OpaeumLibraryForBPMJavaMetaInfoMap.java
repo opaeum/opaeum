@@ -26,7 +26,7 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.runtime.bpm.businesscalendar.WorkDay.class,"252060@_Jn9QcNb-EeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.businesscalendar.WorkDayKind.class,"252060@_EnGlsNb-EeCJ0dmaHEVVnw");
 		putClass(org.opaeum.runtime.bpm.contact.Address.class,"252060@_eIdasF-jEeGSPaWW9iQb9Q");
-		putClass(org.opaeum.runtime.bpm.contact.EMailAddress.class,"252060@_r-4aMEtmEeGd4cpyhpib9Q");
+		putClass(java.lang.String.class,"252060@_SvHAkHrxEeGgA7LmG6YzjA");
 		putClass(org.opaeum.runtime.contact.IPersonEMailAddress.class,"252060@_9gswQF-gEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.contact.IPersonPhoneNumber.class,"252060@_DY-LMF-hEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.contact.IPersonPhysicalAddress.class,"252060@_EpwdoF-hEeGSPaWW9iQb9Q");
@@ -39,7 +39,7 @@ public class OpaeumLibraryForBPMJavaMetaInfoMap extends JavaMetaInfoMap {
 		putClass(org.opaeum.runtime.contact.PersonEMailAddressType.class,"252060@_YLfSwEtnEeGd4cpyhpib9Q");
 		putClass(org.opaeum.runtime.bpm.contact.PersonPhoneNumber.class,"252060@_3E_9kEtnEeGd4cpyhpib9Q");
 		putClass(org.opaeum.runtime.contact.PersonPhoneNumberType.class,"252060@_Z-VwcEtnEeGd4cpyhpib9Q");
-		putClass(org.opaeum.runtime.bpm.contact.PhoneNumber.class,"252060@_qzasoEtmEeGd4cpyhpib9Q");
+		putClass(java.lang.String.class,"252060@_S-ZOMHr7EeGX8L_MMRBizg");
 		putClass(org.opaeum.runtime.bpm.contact.PhysicalAddress.class,"252060@_cD7-MF-jEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.bpm.contact.PostalAddress.class,"252060@_anU2QF-jEeGSPaWW9iQb9Q");
 		putClass(org.opaeum.runtime.bpm.document.IBusinessDocument.class,"252060@_cOzTkF9lEeG3X_yvufTVmw");

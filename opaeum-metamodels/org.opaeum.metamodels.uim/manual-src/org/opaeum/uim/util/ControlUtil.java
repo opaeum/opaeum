@@ -25,7 +25,7 @@ public class ControlUtil{
 			}else if(name.endsWith("date") || name.endsWith("datetime")){// TODO make this more sophisticated
 				return new ControlKind[]{ControlKind.DATE_POPUP,ControlKind.TEXT,ControlKind.DATE_SCROLLER,ControlKind.DATE_TIME_POPUP};
 			}else if(name.endsWith("integer")){
-				return new ControlKind[]{ControlKind.NUMBER_SCROLLER};
+				return new ControlKind[]{ControlKind.NUMBER_SCROLLER, ControlKind.TEXT};
 			}else if(typedElement.getType() instanceof org.eclipse.uml2.uml.Enumeration){
 				if(inTable){
 					return new ControlKind[]{ControlKind.DROPDOWN,ControlKind.POPUP_SEARCH,ControlKind.RADIO_BUTTON};

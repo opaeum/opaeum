@@ -73,6 +73,10 @@
           uri="pathmap://UML_PROFILES/StandardL3.profile.uml">
     </profile>
     <profile
+          name="Hibernate Validation"
+          uri="pathmap://NAKEDUML_MODELS/profiles/HibernateValidation.profile.uml">
+    </profile>
+    <profile
           name="Opaeum Standard Profile"
           uri="pathmap://NAKEDUML_MODELS/profiles/OpaeumStandardProfile.papyrus.uml">
     </profile>

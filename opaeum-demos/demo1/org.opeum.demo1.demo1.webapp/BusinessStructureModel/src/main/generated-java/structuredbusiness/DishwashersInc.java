@@ -24,12 +24,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.Digits;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.opaeum.annotation.BusinessComponent;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
@@ -97,6 +100,8 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc",targetEntity=IdBook.class)
 	private Set<IdBook> idBook = new HashSet<IdBook>();
+	@Column(name="initiation_date")
+	private Date initiationDate;
 	@LazyCollection(	org.hibernate.annotations.LazyCollectionOption.TRUE)
 	@Filter(condition="deleted_on > current_timestamp",name="noDeletedObjects")
 	@OneToMany(cascade=javax.persistence.CascadeType.ALL,fetch=javax.persistence.FetchType.LAZY,mappedBy="dishwashersInc",targetEntity=Manager.class)
@@ -125,7 +130,16 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	@JoinColumn(name="root_id",nullable=true)
 	private Structuredbusiness root;
 	static final private long serialVersionUID = 8415961198448241003l;
+	@Email(groups={},message="",payload={})
+	@Column(name="support_e_mail_address")
+	private String supportEMailAddress;
+	@Length(groups={},max=15,message="Phone number must consist of between  9 and 15 characters",min=8,payload={})
+	@Digits(fraction=0,groups={},integer=15,message="",payload={})
+	@Column(name="support_number")
+	private String supportNumber;
 	private String uid;
+	@Column(name="vat_number")
+	private Integer vatNumber;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -244,6 +258,18 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		setUid(xml.getAttribute("uid"));
 		if ( xml.getAttribute("name").length()>0 ) {
 			setName(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("name")));
+		}
+		if ( xml.getAttribute("supportNumber").length()>0 ) {
+			setSupportNumber(StructuredbusinessFormatter.getInstance().parsePhoneNumber(xml.getAttribute("supportNumber")));
+		}
+		if ( xml.getAttribute("supportEMailAddress").length()>0 ) {
+			setSupportEMailAddress(StructuredbusinessFormatter.getInstance().parseEMailAddress(xml.getAttribute("supportEMailAddress")));
+		}
+		if ( xml.getAttribute("initiationDate").length()>0 ) {
+			setInitiationDate(StructuredbusinessFormatter.getInstance().parseDate(xml.getAttribute("initiationDate")));
+		}
+		if ( xml.getAttribute("vatNumber").length()>0 ) {
+			setVatNumber(StructuredbusinessFormatter.getInstance().parseInteger(xml.getAttribute("vatNumber")));
 		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
@@ -386,6 +412,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void copyShallowState(DishwashersInc from, DishwashersInc to) {
 		to.setName(from.getName());
+		to.setSupportNumber(from.getSupportNumber());
+		to.setSupportEMailAddress(from.getSupportEMailAddress());
+		to.setInitiationDate(from.getInitiationDate());
+		to.setVatNumber(from.getVatNumber());
 	}
 	
 	public void copyState(DishwashersInc from, DishwashersInc to) {
@@ -405,6 +435,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 			to.addToDocumentVerifier(child.makeCopy());
 		}
 		to.setName(from.getName());
+		to.setSupportNumber(from.getSupportNumber());
+		to.setSupportEMailAddress(from.getSupportEMailAddress());
+		to.setInitiationDate(from.getInitiationDate());
+		to.setVatNumber(from.getVatNumber());
 	}
 	
 	public Accountant createAccountant() {
@@ -513,6 +547,14 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=2129484770117698232l,uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
+	@NumlMetaInfo(uuid="914890@_rZMyYHsKEeGBGZr9IpIa3A")
+	public Date getInitiationDate() {
+		Date result = this.initiationDate;
+		
+		return result;
+	}
+	
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -616,11 +658,35 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=656426330587139118l,uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
+	@NumlMetaInfo(uuid="914890@_okhEQHsKEeGBGZr9IpIa3A")
+	public String getSupportEMailAddress() {
+		String result = this.supportEMailAddress;
+		
+		return result;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=77118842450650400l,uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
+	@NumlMetaInfo(uuid="914890@_kin8IHsKEeGBGZr9IpIa3A")
+	public String getSupportNumber() {
+		String result = this.supportNumber;
+		
+		return result;
+	}
+	
 	public String getUid() {
 		if ( this.uid==null || this.uid.trim().length()==0 ) {
 			uid=UUID.randomUUID().toString();
 		}
 		return this.uid;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=8454956352695908190l,uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
+	@NumlMetaInfo(uuid="914890@_VSJmQHsLEeGBGZr9IpIa3A")
+	public Integer getVatNumber() {
+		Integer result = this.vatNumber;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -862,6 +928,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.addAllToIdBook(idBook);
 	}
 	
+	public void setInitiationDate(Date initiationDate) {
+		this.z_internalAddToInitiationDate(initiationDate);
+	}
+	
 	public void setManager(Set<Manager> manager) {
 		this.clearManager();
 		this.addAllToManager(manager);
@@ -940,8 +1010,20 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		}
 	}
 	
+	public void setSupportEMailAddress(String supportEMailAddress) {
+		this.z_internalAddToSupportEMailAddress(supportEMailAddress);
+	}
+	
+	public void setSupportNumber(String supportNumber) {
+		this.z_internalAddToSupportNumber(supportNumber);
+	}
+	
 	public void setUid(String newUid) {
 		this.uid=newUid;
+	}
+	
+	public void setVatNumber(Integer vatNumber) {
+		this.z_internalAddToVatNumber(vatNumber);
 	}
 	
 	public String toXmlReferenceString() {
@@ -956,6 +1038,18 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		sb.append("uid=\"" + this.getUid() + "\" ");
 		if ( getName()!=null ) {
 			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
+		}
+		if ( getSupportNumber()!=null ) {
+			sb.append("supportNumber=\""+ StructuredbusinessFormatter.getInstance().formatPhoneNumber(getSupportNumber())+"\" ");
+		}
+		if ( getSupportEMailAddress()!=null ) {
+			sb.append("supportEMailAddress=\""+ StructuredbusinessFormatter.getInstance().formatEMailAddress(getSupportEMailAddress())+"\" ");
+		}
+		if ( getInitiationDate()!=null ) {
+			sb.append("initiationDate=\""+ StructuredbusinessFormatter.getInstance().formatDate(getInitiationDate())+"\" ");
+		}
+		if ( getVatNumber()!=null ) {
+			sb.append("vatNumber=\""+ StructuredbusinessFormatter.getInstance().formatInteger(getVatNumber())+"\" ");
 		}
 		sb.append(">");
 		sb.append("\n<dishWasher propertyId=\"5940555815826406889\">");
@@ -1010,6 +1104,10 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.idBook.add(val);
 	}
 	
+	public void z_internalAddToInitiationDate(Date val) {
+		this.initiationDate=val;
+	}
+	
 	public void z_internalAddToManager(Manager val) {
 		this.manager.add(val);
 	}
@@ -1036,6 +1134,18 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		this.root=val;
 	}
 	
+	public void z_internalAddToSupportEMailAddress(String val) {
+		this.supportEMailAddress=val;
+	}
+	
+	public void z_internalAddToSupportNumber(String val) {
+		this.supportNumber=val;
+	}
+	
+	public void z_internalAddToVatNumber(Integer val) {
+		this.vatNumber=val;
+	}
+	
 	public void z_internalRemoveFromAccountant(Accountant val) {
 		this.accountant.remove(val);
 	}
@@ -1050,6 +1160,13 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 	
 	public void z_internalRemoveFromIdBook(IdBook val) {
 		this.idBook.remove(val);
+	}
+	
+	public void z_internalRemoveFromInitiationDate(Date val) {
+		if ( getInitiationDate()!=null && val!=null && val.equals(getInitiationDate()) ) {
+			this.initiationDate=null;
+			this.initiationDate=null;
+		}
 	}
 	
 	public void z_internalRemoveFromManager(Manager val) {
@@ -1084,6 +1201,27 @@ public class DishwashersInc implements IPersistentObject, IEventGenerator, Hiber
 		if ( getRoot()!=null && val!=null && val.equals(getRoot()) ) {
 			this.root=null;
 			this.root=null;
+		}
+	}
+	
+	public void z_internalRemoveFromSupportEMailAddress(String val) {
+		if ( getSupportEMailAddress()!=null && val!=null && val.equals(getSupportEMailAddress()) ) {
+			this.supportEMailAddress=null;
+			this.supportEMailAddress=null;
+		}
+	}
+	
+	public void z_internalRemoveFromSupportNumber(String val) {
+		if ( getSupportNumber()!=null && val!=null && val.equals(getSupportNumber()) ) {
+			this.supportNumber=null;
+			this.supportNumber=null;
+		}
+	}
+	
+	public void z_internalRemoveFromVatNumber(Integer val) {
+		if ( getVatNumber()!=null && val!=null && val.equals(getVatNumber()) ) {
+			this.vatNumber=null;
+			this.vatNumber=null;
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package org.opaeum.runtime.contact;
 
 import org.opaeum.hibernate.domain.AbstractEnumResolver;
+import org.opaeum.runtime.contact.PersonEMailAddressType;
 import org.opaeum.runtime.domain.EnumResolver;
 import org.opaeum.runtime.domain.IEnum;
 

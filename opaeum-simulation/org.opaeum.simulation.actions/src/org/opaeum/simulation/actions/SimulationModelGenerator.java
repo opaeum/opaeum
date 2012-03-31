@@ -288,8 +288,16 @@ public class SimulationModelGenerator{
 			r.setValue(1d / count);
 		}else if(pt.conformsTo(nws.getOpaeumLibrary().getStringType())){
 			LiteralString s = UMLFactory.eINSTANCE.createLiteralString();
-			s.setValue(p.getName() + count);
+			String name = p.getName();
 			slot.getValues().add(s);
+			//TODO do this with strategies
+			if(pt.hasStereotype("Email")){
+				name="john.doe@gmail.co";
+			}else if(pt.hasStereotype("Digits")){
+				name="0823436840";
+			}
+			s.setValue(name + count);
+
 		}
 	}
 	private List<ActualInstance> getInstanceSimulationsFOr(INakedClassifier nc){
@@ -343,15 +351,23 @@ public class SimulationModelGenerator{
 	}
 	private void addWeightedStringValues(INakedProperty p,SimulatingSlot slot){
 		WeightedStringValue svs1 = SimulationFactory.eINSTANCE.createWeightedStringValue();
-		svs1.setValue(p.getName() + 1);
+		String name = p.getName();
+		//TODO do this with strategies
+		if(p.hasStereotype("EMail")){
+			name="john.doe@gmail.co";
+		}else if(p.hasStereotype("Digits")){
+			name="0823436840";
+		}
+		
+		svs1.setValue(name + 1);
 		svs1.setWeight(33d);
 		slot.getValues().add(svs1);
 		WeightedStringValue svs2 = SimulationFactory.eINSTANCE.createWeightedStringValue();
-		svs2.setValue(p.getName() + 2);
+		svs2.setValue(name + 2);
 		svs2.setWeight(33d);
 		slot.getValues().add(svs2);
 		WeightedStringValue svs3 = SimulationFactory.eINSTANCE.createWeightedStringValue();
-		svs3.setValue(p.getName() + 3);
+		svs3.setValue(name + 3);
 		svs3.setWeight(33d);
 		slot.getValues().add(svs3);
 		slot.setSimulationStrategy(SimulationStrategy.WEIGHTED_DISTRIBUTION);

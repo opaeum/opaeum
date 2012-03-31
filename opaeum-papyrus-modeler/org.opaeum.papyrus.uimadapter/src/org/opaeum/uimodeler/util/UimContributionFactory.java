@@ -55,7 +55,7 @@ public class UimContributionFactory extends ExtensionContributionFactory{
 					if(ss.getFirstElement() instanceof IAdaptable){
 						IAdaptable selection = (IAdaptable) ss.getFirstElement();
 						Object eobject = ((IAdaptable) selection).getAdapter(EObject.class);
-						if(eobject instanceof UserInterface || eobject instanceof AbstractEditor || eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation){
+						if(eobject instanceof UserInterface || eobject instanceof AbstractEditor || eobject instanceof org.eclipse.uml2.uml.Class || eobject instanceof Operation || eobject instanceof org.eclipse.uml2.uml.Package){
 							// TODO add SingleScreenTasks
 							return EvaluationResult.TRUE;
 						}

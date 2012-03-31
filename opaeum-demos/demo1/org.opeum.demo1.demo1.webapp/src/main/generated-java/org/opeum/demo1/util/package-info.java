@@ -10,6 +10,7 @@
 	@TypeDef(name="PersonPhoneNumberTypeResolver",typeClass=PersonPhoneNumberTypeResolver.class),
 	@TypeDef(name="RequestParticipationKindResolver",typeClass=RequestParticipationKindResolver.class),
 	@TypeDef(name="TaskParticipationKindResolver",typeClass=TaskParticipationKindResolver.class),
+	@TypeDef(name="VendorResolver",typeClass=VendorResolver.class),
 	@TypeDef(name="AbstractRequestStateResolver",typeClass=AbstractRequestStateResolver.class),
 	@TypeDef(name="ProcessRequestStateResolver",typeClass=ProcessRequestStateResolver.class),
 	@TypeDef(name="TaskRequestStateResolver",typeClass=TaskRequestStateResolver.class)})
@@ -109,5 +110,6 @@ import org.opaeum.runtime.contact.PersonPhoneNumberTypeResolver;
 import org.opaeum.runtime.bpm.businesscalendar.WorkDayKindResolver;
 import structuredbusiness.Supplier;
 import org.opaeum.runtime.bpm.businesscalendar.MonthResolver;
+import structuredbusiness.VendorResolver;
 import javax.persistence.NamedQueries;
 import structuredbusiness.Accountant;

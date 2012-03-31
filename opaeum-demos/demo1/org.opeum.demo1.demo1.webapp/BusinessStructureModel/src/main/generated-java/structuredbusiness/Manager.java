@@ -84,7 +84,7 @@ public class Manager implements IPersistentObject, IEventGenerator, HibernateEnt
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
 	static private Set<Manager> mockedAllInstances;
-	@Column(name="property1")
+	@Column(name="name")
 	private String name;
 	@Version
 	@Column(name="object_version")

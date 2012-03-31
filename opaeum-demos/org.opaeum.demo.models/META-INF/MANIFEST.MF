@@ -4,3 +4,4 @@ Bundle-Name: Models
 Bundle-SymbolicName: org.opaeum.demo.models
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

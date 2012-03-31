@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uim:ClassUserInteractionModel xmi:version="20110701" xmlns:xmi="http://www.omg.org/spec/XMI/20110701" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ctl="http://opaeum.org/uimetamodel/control/1.0" xmlns:panel="http://opaeum.org/uimetamodel/panel/1.0" xmlns:uact="http://opaeum.org/uimetamodel/action/1.0" xmlns:uim="http://opaeum.org/uimetamodel/1.0" xsi:schemaLocation="http://opaeum.org/uimetamodel/control/1.0 http://opaeum.org/uimetamodel/1.0#//control http://opaeum.org/uimetamodel/panel/1.0 http://opaeum.org/uimetamodel/1.0#//panel http://opaeum.org/uimetamodel/action/1.0 http://opaeum.org/uimetamodel/1.0#//action" xmi:id="_OhXbtXsbEeGCWMn7JkJ9EQ" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+  <primaryEditor xmi:id="_OhXbtnsbEeGCWMn7JkJ9EQ" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ" name="EditDishWasherComponent"><actionBar xmi:id="_OhXbv3sbEeGCWMn7JkJ9EQ" name="ActionBar">
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_OhXbwHsbEeGCWMn7JkJ9EQ" name="Update"/>
+      <children xmi:type="uact:BuiltInActionButton" xmi:id="_OhXbwXsbEeGCWMn7JkJ9EQ" name="Delete" kind="delete"/>
+    </actionBar><pages xmi:id="_OhXbt3sbEeGCWMn7JkJ9EQ" name="Edit Dish washer component">
+      <panel xmi:type="panel:GridPanel" xmi:id="_OhXbuHsbEeGCWMn7JkJ9EQ" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_OhXbuXsbEeGCWMn7JkJ9EQ" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_OhXbunsbEeGCWMn7JkJ9EQ"/>
+          <binding xmi:id="_OhXbu3sbEeGCWMn7JkJ9EQ" umlElementUid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_OhXbvHsbEeGCWMn7JkJ9EQ" name="Price" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_OhXbvXsbEeGCWMn7JkJ9EQ"/>
+          <binding xmi:id="_OhXbvnsbEeGCWMn7JkJ9EQ" umlElementUid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+        </children>
+      </panel>
+    </pages></primaryEditor>
+  <newObjectWizard xmi:id="_OhXbwnsbEeGCWMn7JkJ9EQ" name="CreateDishWasherComponent" umlElementUid="914890@_x_4WgHJ6EeG5aYCQXxe9BQ">
+    <pages xmi:id="_OhXbw3sbEeGCWMn7JkJ9EQ" name="CreateDish washer component">
+      <panel xmi:type="panel:GridPanel" xmi:id="_OhXbxHsbEeGCWMn7JkJ9EQ" numberOfColumns="1">
+        <children xmi:type="uim:UimField" xmi:id="_OhXbxXsbEeGCWMn7JkJ9EQ" name="Part number" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_OhXbxnsbEeGCWMn7JkJ9EQ"/>
+          <binding xmi:id="_OhXbx3sbEeGCWMn7JkJ9EQ" umlElementUid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ"/>
+        </children>
+        <children xmi:type="uim:UimField" xmi:id="_OhXbyHsbEeGCWMn7JkJ9EQ" name="Price" preferredHeight="25" fillHorizontally="true" controlKind="text" minimumLabelWidth="195">
+          <control xmi:type="ctl:UimText" xmi:id="_OhXbyXsbEeGCWMn7JkJ9EQ"/>
+          <binding xmi:id="_OhXbynsbEeGCWMn7JkJ9EQ" umlElementUid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ"/>
+        </children>
+      </panel>
+    </pages>
+  </newObjectWizard>
+</uim:ClassUserInteractionModel>

@@ -70,7 +70,7 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Entity(name="Accountant")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
 public class Accountant implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, IBusinessRole, Serializable {
-	@Column(name="property1")
+	@Column(name="__name")
 	private String __name;
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();

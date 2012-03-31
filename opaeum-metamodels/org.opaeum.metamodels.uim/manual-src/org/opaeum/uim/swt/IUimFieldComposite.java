@@ -17,4 +17,5 @@ public interface IUimFieldComposite{
 	public abstract Rectangle getBounds();
 	public abstract void setLayout(GridLayout layout);
 	public abstract void setData(String figure,Object customFieldColumnFigure);
+	public abstract void setMinimumLabelWidth(Integer minimumLabelWidth);
 }

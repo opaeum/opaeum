@@ -195,6 +195,7 @@
           eOpposite="#//UimField/binding"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UimBinding" abstract="true" eSuperTypes="#//UmlReference">
+      <eOperations name="getLastPropertyUuid" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//binding/PropertyRef"
           containment="true" eOpposite="#//binding/PropertyRef/binding"/>
     </eClassifiers>

@@ -27,6 +27,7 @@ import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.Type;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.domain.CancelledEvent;
@@ -86,6 +87,9 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	private AbstractPersistence persistence;
 	static final private long serialVersionUID = 9167031835761131135l;
 	private String uid;
+	@Type(type="structuredbusiness.VendorResolver")
+	@Column(name="vendor",nullable=true)
+	private Vendor vendor;
 
 	/** This constructor is intended for easy initialization in unit tests
 	 * 
@@ -138,6 +142,9 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		if ( xml.getAttribute("partNumber").length()>0 ) {
 			setPartNumber(StructuredbusinessFormatter.getInstance().parseString(xml.getAttribute("partNumber")));
 		}
+		if ( xml.getAttribute("vendor").length()>0 ) {
+			setVendor(Vendor.valueOf(xml.getAttribute("vendor")));
+		}
 		NodeList propertyNodes = xml.getChildNodes();
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
@@ -170,6 +177,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 	public void copyShallowState(DishWasherModel from, DishWasherModel to) {
 		to.setName(from.getName());
 		to.setPartNumber(from.getPartNumber());
+		to.setVendor(from.getVendor());
 	}
 	
 	public void copyState(DishWasherModel from, DishWasherModel to) {
@@ -178,6 +186,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		}
 		to.setName(from.getName());
 		to.setPartNumber(from.getPartNumber());
+		to.setVendor(from.getVendor());
 	}
 	
 	public DishWasherComponent createComponent() {
@@ -257,6 +266,14 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 			uid=UUID.randomUUID().toString();
 		}
 		return this.uid;
+	}
+	
+	@PropertyMetaInfo(isComposite=false,opaeumId=1278716437618707842l,opposite="dishWasherModel",uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
+	@NumlMetaInfo(uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
+	public Vendor getVendor() {
+		Vendor result = this.vendor;
+		
+		return result;
 	}
 	
 	public int hashCode() {
@@ -381,6 +398,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		this.uid=newUid;
 	}
 	
+	public void setVendor(Vendor vendor) {
+		this.z_internalAddToVendor(vendor);
+	}
+	
 	public String toXmlReferenceString() {
 		return "<DishWasherModel uid=\""+getUid() + "\"/>";
 	}
@@ -396,6 +417,9 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		}
 		if ( getPartNumber()!=null ) {
 			sb.append("partNumber=\""+ StructuredbusinessFormatter.getInstance().formatString(getPartNumber())+"\" ");
+		}
+		if ( getVendor()!=null ) {
+			sb.append("vendor=\""+ getVendor().name() + "\" ");
 		}
 		sb.append(">");
 		sb.append("\n<component propertyId=\"6689744676322243651\">");
@@ -423,6 +447,10 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		this.partNumber=val;
 	}
 	
+	public void z_internalAddToVendor(Vendor val) {
+		this.vendor=val;
+	}
+	
 	public void z_internalRemoveFromComponent(DishWasherComponent val) {
 		this.component.remove(val);
 	}
@@ -445,6 +473,13 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		if ( getPartNumber()!=null && val!=null && val.equals(getPartNumber()) ) {
 			this.partNumber=null;
 			this.partNumber=null;
+		}
+	}
+	
+	public void z_internalRemoveFromVendor(Vendor val) {
+		if ( getVendor()!=null && val!=null && val.equals(getVendor()) ) {
+			this.vendor=null;
+			this.vendor=null;
 		}
 	}
 

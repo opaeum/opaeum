@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,11 +23,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.OrganizationNode;
@@ -55,16 +59,24 @@ import org.w3c.dom.NodeList;
 	@NamedQuery(name="QueryOrganizationEMailAddressWithTypeForOrganization",query="from OrganizationEMailAddress a where a.organization = :organization and a.type = :type"))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="OrganizationEMailAddress")
-@DiscriminatorValue(	"organization_e_mail_address")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
-public class OrganizationEMailAddress extends EMailAddress implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
+public class OrganizationEMailAddress implements IPersistentObject, IEventGenerator, HibernateEntity, CompositionNode, Serializable {
 	@Transient
 	private Set<CancelledEvent> cancelledEvents = new HashSet<CancelledEvent>();
 		// Initialise to 1000 from 1970
 	@Temporal(	javax.persistence.TemporalType.TIMESTAMP)
 	@Column(name="deleted_on")
 	private Date deletedOn = Stdlib.FUTURE;
+	@Email(groups={},message="",payload={})
+	@Column(name="email_address")
+	private String emailAddress;
+	@Id
+	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
+	private Long id;
 	static private Set<OrganizationEMailAddress> mockedAllInstances;
+	@Version
+	@Column(name="object_version")
+	private int objectVersion;
 	@Index(columnNames="organization_id",name="idx_organization_e_mail_address_organization_id")
 	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
 	@JoinColumn(name="organization_id",nullable=true)
@@ -77,6 +89,7 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	@Type(type="org.opaeum.runtime.bpm.contact.OrganizationEMailAddressTypeResolver")
 	@Column(name="type",nullable=true)
 	private OrganizationEMailAddressType type;
+	private String uid;
 	@Column(name="key_in_e_m_a_on_org_nod")
 	private String z_keyOfEMailAddressOnOrganizationNode;
 
@@ -113,8 +126,8 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	
 	public void buildTreeFromXml(Element xml, Map<String, Object> map) {
 		setUid(xml.getAttribute("uid"));
-		if ( xml.getAttribute("address").length()>0 ) {
-			setAddress(OpaeumLibraryForBPMFormatter.getInstance().parseString(xml.getAttribute("address")));
+		if ( xml.getAttribute("emailAddress").length()>0 ) {
+			setEmailAddress(OpaeumLibraryForBPMFormatter.getInstance().parseEMailAddress(xml.getAttribute("emailAddress")));
 		}
 		if ( xml.getAttribute("type").length()>0 ) {
 			setType(OrganizationEMailAddressType.valueOf(xml.getAttribute("type")));
@@ -128,17 +141,16 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	}
 	
 	public void copyShallowState(OrganizationEMailAddress from, OrganizationEMailAddress to) {
-		to.setAddress(from.getAddress());
+		to.setEmailAddress(from.getEmailAddress());
 		to.setType(from.getType());
 	}
 	
 	public void copyState(OrganizationEMailAddress from, OrganizationEMailAddress to) {
-		to.setAddress(from.getAddress());
+		to.setEmailAddress(from.getEmailAddress());
 		to.setType(from.getType());
 	}
 	
 	public void createComponents() {
-		super.createComponents();
 	}
 	
 	public boolean equals(Object other) {
@@ -156,8 +168,24 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return this.deletedOn;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=5531057527551508520l,uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
+	@NumlMetaInfo(uuid="252060@_jaw6AHr7EeGX8L_MMRBizg")
+	public String getEmailAddress() {
+		String result = this.emailAddress;
+		
+		return result;
+	}
+	
+	public Long getId() {
+		return this.id;
+	}
+	
 	public String getName() {
 		return "OrganizationEMailAddress["+getId()+"]";
+	}
+	
+	public int getObjectVersion() {
+		return this.objectVersion;
 	}
 	
 	@PropertyMetaInfo(isComposite=false,opaeumId=8005294553343313076l,opposite="eMailAddress",uuid="252060@_JGNOUUtqEeGd4cpyhpib9Q")
@@ -184,6 +212,13 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return result;
 	}
 	
+	public String getUid() {
+		if ( this.uid==null || this.uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+		}
+		return this.uid;
+	}
+	
 	public String getZ_keyOfEMailAddressOnOrganizationNode() {
 		return this.z_keyOfEMailAddressOnOrganizationNode;
 	}
@@ -193,7 +228,6 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	}
 	
 	public void init(CompositionNode owner) {
-		super.init(owner);
 		this.z_internalAddToOrganization((OrganizationNode)owner);
 		createComponents();
 	}
@@ -212,7 +246,6 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	}
 	
 	public void markDeleted() {
-		super.markDeleted();
 		if ( getOrganization()!=null ) {
 			getOrganization().z_internalRemoveFromEMailAddress(this.getType(),this);
 		}
@@ -242,7 +275,18 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 	
 	public void setDeletedOn(Date deletedOn) {
 		this.deletedOn=deletedOn;
-		super.setDeletedOn(deletedOn);
+	}
+	
+	public void setEmailAddress(String emailAddress) {
+		this.z_internalAddToEmailAddress(emailAddress);
+	}
+	
+	public void setId(Long id) {
+		this.id=id;
+	}
+	
+	public void setObjectVersion(int objectVersion) {
+		this.objectVersion=objectVersion;
 	}
 	
 	public void setOrganization(OrganizationNode organization) {
@@ -272,6 +316,10 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		}
 	}
 	
+	public void setUid(String newUid) {
+		this.uid=newUid;
+	}
+	
 	public void setZ_keyOfEMailAddressOnOrganizationNode(String z_keyOfEMailAddressOnOrganizationNode) {
 		this.z_keyOfEMailAddressOnOrganizationNode=z_keyOfEMailAddressOnOrganizationNode;
 	}
@@ -286,8 +334,8 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		sb.append("classUuid=\"252060@_GfviYEtqEeGd4cpyhpib9Q\" ");
 		sb.append("className=\"org.opaeum.runtime.bpm.contact.OrganizationEMailAddress\" ");
 		sb.append("uid=\"" + this.getUid() + "\" ");
-		if ( getAddress()!=null ) {
-			sb.append("address=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatString(getAddress())+"\" ");
+		if ( getEmailAddress()!=null ) {
+			sb.append("emailAddress=\""+ OpaeumLibraryForBPMFormatter.getInstance().formatEMailAddress(getEmailAddress())+"\" ");
 		}
 		if ( getType()!=null ) {
 			sb.append("type=\""+ getType().name() + "\" ");
@@ -297,12 +345,23 @@ public class OrganizationEMailAddress extends EMailAddress implements IPersisten
 		return sb.toString();
 	}
 	
+	public void z_internalAddToEmailAddress(String val) {
+		this.emailAddress=val;
+	}
+	
 	public void z_internalAddToOrganization(OrganizationNode val) {
 		this.organization=val;
 	}
 	
 	public void z_internalAddToType(OrganizationEMailAddressType val) {
 		this.type=val;
+	}
+	
+	public void z_internalRemoveFromEmailAddress(String val) {
+		if ( getEmailAddress()!=null && val!=null && val.equals(getEmailAddress()) ) {
+			this.emailAddress=null;
+			this.emailAddress=null;
+		}
 	}
 	
 	public void z_internalRemoveFromOrganization(OrganizationNode val) {

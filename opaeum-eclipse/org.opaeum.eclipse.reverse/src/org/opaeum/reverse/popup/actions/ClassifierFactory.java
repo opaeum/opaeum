@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.IMemberValuePairBinding;
 import org.eclipse.jdt.core.dom.ITypeBinding;
@@ -331,7 +332,11 @@ public class ClassifierFactory{
 				return (Model) pi.getImportedPackage();
 			}
 		}
-		Model umlLibrary = (Model) ecoreProfile.eResource().getResourceSet().getResource(uri, true).getContents().get(0);
+		EList<EObject> contents = ecoreProfile.eResource().getResourceSet().getResource(uri, true).getContents();
+		if(contents.size()==0){
+			return null;
+		}
+		Model umlLibrary = (Model) contents.get(0);
 		ecoreProfile.getPackageImport(umlLibrary, true);
 		return umlLibrary;
 	}

@@ -13,11 +13,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPropertyListener;
@@ -36,15 +33,19 @@ import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.PropertyDescriptor;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.rap.runtime.IOpaeumApplication;
 import org.opaeum.rap.runtime.internal.datamodel.EntityEditorInput;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.domain.IntrospectionUtil;
+import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.uim.ClassUserInteractionModel;
 import org.opaeum.uim.UimComponent;
 import org.opaeum.uim.editor.EditorPage;
 
 public class EntityEditor extends SharedHeaderFormEditor implements ISelectionListener{
+	private static final long serialVersionUID = 11231512131231L;
 	private FormPage[] editorPages;
+	ConversationalPersistence persistence;
 	private final class SelectionProvider implements ISelectionProvider{
 		public void addSelectionChangedListener(final ISelectionChangedListener listener){
 		}
@@ -64,6 +65,7 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		setTitleImage(input.getImageDescriptor().createImage());
 		getSite().getPage().addSelectionListener(this);
 		getSite().setSelectionProvider(new SelectionProvider());
+		persistence=getOpaeumApplication().getEnvironment().createConversationalPersistence();
 	}
 	protected void createHeaderContents(IManagedForm headerForm){
 		EObject rootUimObject = getRootUimObject();
@@ -75,8 +77,9 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 			gl.numColumns = 20;
 			ClassUserInteractionModel cuim = (ClassUserInteractionModel) rootUimObject;
 			EList<UimComponent> children = cuim.getPrimaryEditor().getActionBar().getChildren();
+			ComponentTreeBuilder builder = new ComponentTreeBuilder(getEditorInput().getPersistentObject(), getOpaeumApplication().getEnvironment().getMetaInfoMap(),getOpaeumApplication().getValidator());
 			for(UimComponent uimComponent:children){
-				OpaeumPage.addComponent(body2, uimComponent);
+				builder.addComponent(body2, uimComponent);
 			}
 			body2.getParent().layout();
 		}
@@ -117,12 +120,16 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		}
 	}
 	public EObject getRootUimObject(){
-		EntityEditorInput eei = getEditorInput();
-		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(eei.getPersistentObject());
+		IOpaeumApplication opaeumApplication = getOpaeumApplication();
+		Class<IPersistentObject> originalClass = IntrospectionUtil.getOriginalClass(getEditorInput().getPersistentObject());
 		String uuid = originalClass.getAnnotation(NumlMetaInfo.class).uuid();
-		Resource r = eei.getOpaeumSession().getApplication().getUimResource(uuid);
+		Resource r = opaeumApplication.getUimResource(uuid);
 		EObject content = r.getContents().get(0);
 		return content;
+	}
+	public IOpaeumApplication getOpaeumApplication(){
+		IOpaeumApplication opaeumApplication = getEditorInput().getOpaeumSession().getApplication();
+		return opaeumApplication;
 	}
 	public EntityEditorInput getEditorInput(){
 		EntityEditorInput eei = (EntityEditorInput) super.getEditorInput();
@@ -135,15 +142,20 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		}
 	}
 	@Override
+	public boolean isDirty(){
+		return true;
+	}
+	@Override
 	public void doSaveAs(){
+		persistence.flush();
 	}
 	@Override
 	public boolean isSaveAsAllowed(){
-		return true;
+		//TODO deepcopy
+		return false;
 	}
-	@SuppressWarnings("unchecked")//$NON-NLS-1$
 	@Override
-	public Object getAdapter(final Class adapter){
+	public Object getAdapter(@SuppressWarnings("rawtypes") final Class adapter){
 		Object result;
 		if(adapter == IPersistentObject.class){
 			result = getEditorInput().getAdapter(adapter);
@@ -158,7 +170,6 @@ public class EntityEditor extends SharedHeaderFormEditor implements ISelectionLi
 		PropertySheetPage propertySheetPage = new PropertySheetPage();
 		propertySheetPage.setPropertySourceProvider(new IPropertySourceProvider(){
 			public IPropertySource getPropertySource(final Object object){
-				IPropertySource result = null;
 				if(object instanceof IPersistentObject){
 					return new IPropertySource(){
 						public void setPropertyValue(Object id,Object value){

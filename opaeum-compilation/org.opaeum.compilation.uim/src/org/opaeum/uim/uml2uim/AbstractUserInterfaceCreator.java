@@ -1,9 +1,15 @@
 package org.opaeum.uim.uml2uim;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.DataType;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterEffectKind;
@@ -37,19 +43,47 @@ import org.opaeum.uim.util.ControlUtil;
 import org.opaeum.uim.util.UmlUimLinks;
 
 public abstract class AbstractUserInterfaceCreator{
-	private EmfWorkspace workspace;
+	protected EmfWorkspace workspace;
 	public AbstractUserInterfaceCreator(EmfWorkspace w){
 		this.workspace = w;
 	}
-	protected abstract Page addPage(PageContainer contaier);
+	protected abstract Page addPage(PageContainer container);
 	protected abstract UserInterfaceEntryPoint getUserInterfaceEntryPoint();
-	public void prepareFormPanel(PageContainer contaier,String title,Collection<? extends TypedElement> typedElements){
-		Page page = addPage(contaier);
+	public void prepareFormPanel(PageContainer container,String title,Collection<? extends TypedElement> typedElements){
+		Map<Interface,Collection<TypedElement>> interfaces = extractPropertiesByInterface(typedElements);
+		Page page = addPage(container);
 		page.setName(title);
 		GridPanel layout = PanelFactory.eINSTANCE.createGridPanel();
 		layout.setNumberOfColumns(1);
 		page.setPanel(layout);
-		addUserFields(contaier, layout, typedElements);
+		addUserFields(container, layout, typedElements);
+		addInterfaceProperties(container, interfaces, page);
+	}
+	private void addInterfaceProperties(PageContainer contaier,Map<Interface,Collection<TypedElement>> interfaces,@Deprecated Page p){
+		for(Entry<Interface,Collection<TypedElement>> entry:interfaces.entrySet()){
+			Page page2 = addPage(contaier);
+			page2.setName(NameConverter.separateWords(entry.getKey().getName()));
+			GridPanel rootGridPanel = PanelFactory.eINSTANCE.createGridPanel();
+			rootGridPanel.setNumberOfColumns(1);
+			page2.setPanel(rootGridPanel);
+			addUserFields(contaier, rootGridPanel, entry.getValue());
+		}
+	}
+	private Map<Interface,Collection<TypedElement>> extractPropertiesByInterface(Collection<? extends TypedElement> typedElements){
+		Map<Interface,Collection<TypedElement>> interfaces = new HashMap<Interface,Collection<TypedElement>>();
+		for(TypedElement typedElement:new ArrayList<TypedElement>(typedElements)){
+			EObject container = EmfElementFinder.getContainer(typedElement);
+			if(container instanceof Interface){
+				typedElements.remove(typedElement);
+				Collection<TypedElement> collection = interfaces.get(container);
+				if(collection == null){
+					collection = new ArrayList<TypedElement>();
+					interfaces.put((Interface) container, collection);
+				}
+				collection.add(typedElement);
+			}
+		}
+		return interfaces;
 	}
 	private void addUserFields(PageContainer pc,UimContainer layout,Collection<? extends TypedElement> typedElements){
 		for(TypedElement property:typedElements){
@@ -95,7 +129,7 @@ public abstract class AbstractUserInterfaceCreator{
 		table.setFillHorizontally(true);
 		TableBinding binding = BindingFactory.eINSTANCE.createTableBinding();
 		table.setBinding(binding);
-		binding.setUmlElementUid(workspace.getId(e));
+		binding.setUmlElementUid(EmfWorkspace.getId(e));
 		Classifier type = (Classifier) e.getType();
 		Collection<Property> attrs = (Collection<Property>) (Collection) EmfElementFinder.getPropertiesInScope(type);
 		for(Property property:attrs){
@@ -121,7 +155,7 @@ public abstract class AbstractUserInterfaceCreator{
 			if(operation.getReturnResult() == null && !operation.isQuery()){
 				OperationButton action = ActionFactory.eINSTANCE.createOperationButton();
 				table.getActionsOnMultipleSelection().add(action);
-				action.setUmlElementUid(workspace.getId(operation));
+				action.setUmlElementUid(EmfWorkspace.getId(operation));
 				action.setName(NameConverter.separateWords(NameConverter.capitalize(operation.getName())));
 				action.setPopup(ActionFactory.eINSTANCE.createOperationPopup());
 				prepareFormPanel(action.getPopup(), action.getName(), operation.getOwnedParameters());
@@ -159,14 +193,14 @@ public abstract class AbstractUserInterfaceCreator{
 		FieldBinding binding = BindingFactory.eINSTANCE.createFieldBinding();
 		uf.setBinding(binding);
 		uf.setFillHorizontally(true);
-		binding.setUmlElementUid(workspace.getId(properties[0]));
+		binding.setUmlElementUid(EmfWorkspace.getId(properties[0]));
 		if(properties.length > 1){
 			PropertyRef prev = BindingFactory.eINSTANCE.createPropertyRef();
-			prev.setUmlElementUid(workspace.getId(properties[1]));
+			prev.setUmlElementUid(EmfWorkspace.getId(properties[1]));
 			binding.setNext(prev);
 			for(int i = 2;i < properties.length;i++){
 				PropertyRef next = BindingFactory.eINSTANCE.createPropertyRef();
-				next.setUmlElementUid(workspace.getId(properties[i]));
+				next.setUmlElementUid(EmfWorkspace.getId(properties[i]));
 				prev.setNext(next);
 				prev = next;
 			}
@@ -178,6 +212,9 @@ public abstract class AbstractUserInterfaceCreator{
 		}else{
 			uf.setPreferredHeight(25);
 			uf.setOrientation(Orientation.HORIZONTAL);
+		}
+		if(container.getChildren().size() > 6){
+			((GridPanel) container).setNumberOfColumns(2);
 		}
 	}
 }

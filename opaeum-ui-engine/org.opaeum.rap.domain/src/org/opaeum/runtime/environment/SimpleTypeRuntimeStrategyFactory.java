@@ -3,7 +3,7 @@ package org.opaeum.runtime.environment;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class SimpleTypeRuntimeStrategyFactory{
+public class SimpleTypeRuntimeStrategyFactory{
 	public static interface ISimpleTypeRuntimeStrategy{
 	}
 	Map<Class<? extends ISimpleTypeRuntimeStrategy>,ISimpleTypeRuntimeStrategy> strategies = new HashMap<Class<? extends ISimpleTypeRuntimeStrategy>,SimpleTypeRuntimeStrategyFactory.ISimpleTypeRuntimeStrategy>();
@@ -15,6 +15,9 @@ public abstract class SimpleTypeRuntimeStrategyFactory{
 		return typeUuid;
 	}
 	private String typeUuid;
+	public SimpleTypeRuntimeStrategyFactory(){
+		this(String.class);
+	}
 	protected SimpleTypeRuntimeStrategyFactory(Class<?> type,Class<? extends ISimpleTypeRuntimeStrategy>...classes){
 		for(Class<? extends ISimpleTypeRuntimeStrategy> cls:classes){
 			addStrategy(cls);

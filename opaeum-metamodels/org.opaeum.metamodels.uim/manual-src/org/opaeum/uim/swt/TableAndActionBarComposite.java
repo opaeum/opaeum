@@ -23,10 +23,17 @@ public class TableAndActionBarComposite extends Composite{
 		gl.horizontalSpacing = 0;
 		return gl;
 	}
+	@SuppressWarnings("serial")
 	private void addDisplayedContent(){
 		setLayout(prepareLayout(1));
 		setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		this.table = new Table(this, SWT.CHECK);
+		table.addListener(41, new Listener() {
+		   public void handleEvent(Event event) {
+		      // height cannot be per row so simply set
+		      event.height = 67;
+		   }
+		});
 		getTable().setHeaderVisible(true);
 		getTable().setLinesVisible(true);
 		table.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));

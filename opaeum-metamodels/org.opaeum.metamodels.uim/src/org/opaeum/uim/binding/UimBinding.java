@@ -49,4 +49,20 @@ public interface UimBinding extends UmlReference {
 	 */
 	void setNext(PropertyRef value);
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getLastPropertyUuid();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getExpression();
+
 } // UimBinding

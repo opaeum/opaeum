@@ -53,7 +53,7 @@ public class OpenEditorAction extends SelectionProviderAction{
 			boolean found = false;
 			for(int i = 0;!found && i < refs.length;i++){
 				try{
-					found = ((EntityEditorInput) refs[i].getEditorInput()).getPersistentObject().getId().equals(po.getId());
+					found = ((EntityEditorInput) refs[i].getEditorInput()).getPersistentObject().equals(po);
 				}catch(PartInitException e){
 					// TODO Auto-generated catch block
 					e.printStackTrace();

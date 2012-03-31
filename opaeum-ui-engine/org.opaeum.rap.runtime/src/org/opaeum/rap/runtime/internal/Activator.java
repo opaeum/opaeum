@@ -43,6 +43,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin implements IRegistryChangeListener{
+	public static final String ID="org.opaeum.rap.runtime";
 	private static final String IMAGE_REGISTRY = Activator.class.getName() + "#ImageRegistry";
 	public static final String IMG_FORM_BG = "formBg"; //$NON-NLS-1$
 	public static final String IMG_FORM_HEAD_OVERVIEW = "formHeadOverView"; //$NON-NLS-1$

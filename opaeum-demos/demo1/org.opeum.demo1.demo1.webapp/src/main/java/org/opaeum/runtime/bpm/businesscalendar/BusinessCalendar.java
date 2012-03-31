@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.AccessType;
 import org.hibernate.annotations.Filter;
@@ -14,7 +15,6 @@ import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.runtime.domain.BusinessTimeUnit;
 
 //This class is timezone agnostic. It assumes that all the Calendar objects
-// that it is being passed
 // are correctly timezoned.
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Filter(name = "noDeletedObjects")
@@ -23,6 +23,7 @@ import org.opaeum.runtime.domain.BusinessTimeUnit;
 @Inheritance(strategy = javax.persistence.InheritanceType.JOINED)
 @NumlMetaInfo(uuid = "65a77c10_1db1_40f2_9bc5_e3306b228731")
 @AccessType("field")
+@Table(name="business_calendar")
 public class BusinessCalendar extends BusinessCalendarGenerated{
 	private static final long serialVersionUID = -161618913396793066L;
 	private static ThreadLocal<BusinessCalendar> instance = new ThreadLocal<BusinessCalendar>();

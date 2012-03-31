@@ -46,7 +46,8 @@ Bundle-ClassPath: target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/
  target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/junit-4.8.2.jar,
  target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/opengl-api-gl1.1-android-2.1_r1.jar,
  target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/protobuf-java-2.2.0.jar,
- target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/xpp3-1.1.4c.jar
+ target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/xpp3-1.1.4c.jar,
+ target/org.opaeum.rap.dependencies-1.0.0-SNAPSHOT/WEB-INF/lib/postgresql-9.0-801.jdbc4.jar
 Export-Package: android,
  android.app,
  android.appwidget,

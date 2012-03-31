@@ -127,13 +127,7 @@ public class UimSwtUtil{
 		}else{
 			layout = new GridLayout(2, false);
 			fig.setLayout(layout);
-			GridData labelData = new GridData(GridData.FILL, GridData.FILL, false, true);
-			if(minimumLabelWidth == null){
-				labelData.minimumWidth = 150;
-			}else{
-				labelData.minimumWidth = minimumLabelWidth;
-			}
-			fig.getLabel().setLayoutData(labelData);
+			fig.setMinimumLabelWidth(minimumLabelWidth);
 			fig.getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		}
 		layout.marginHeight = 0;

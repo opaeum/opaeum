@@ -1087,7 +1087,7 @@ public class OpaeumElementLinker extends EContentAdapter{
 						if(!p.isNavigable()){
 							p.setIsNavigable(true);
 						}
-						if(!p.getOtherEnd().isNavigable() && p.getOtherEnd().getType() instanceof Class){
+						if(p.getOtherEnd()!=null && !p.getOtherEnd().isNavigable() && p.getOtherEnd().getType() instanceof Class){
 							p.getOtherEnd().setIsNavigable(true);
 						}
 					}
