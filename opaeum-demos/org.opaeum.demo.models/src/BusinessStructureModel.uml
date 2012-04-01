@@ -74,9 +74,30 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_tq_pUGK1EeGb14EjInbIAA" clientDependency="_twrakGK1EeGb14EjInbIAA" name="DocumentVerifier">
       <eAnnotations xmi:id="_trA3cGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
+      <ownedRule xmi:id="_QnQMEHvJEeGIOPhylek76A" name="ManagerSource" constrainedElement="_MwHicHvJEeGIOPhylek76A">
+        <eAnnotations xmi:id="_QsJ6MHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_RHJ0IHvJEeGIOPhylek76A" name="ManagerSource_body">
+          <eAnnotations xmi:id="_RHNegHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+          <language>OCL</language>
+          <body>self.dishwashersInc.manager</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_XjQ78HvJEeGIOPhylek76A" name="nameSizeGreaterThanFour" constrainedElement="_kRetkHphEeGlh5y8zQdYBA">
+        <eAnnotations xmi:id="_XoW3UHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_egHZUHvJEeGIOPhylek76A" name="nameSizeGreaterThanFour_body">
+          <eAnnotations xmi:id="_egKcoHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+          <language>OCL</language>
+          <body>self.name.size()>4</body>
+        </specification>
+      </ownedRule>
       <ownedAttribute xmi:id="_kRetkHphEeGlh5y8zQdYBA" name="name">
         <eAnnotations xmi:id="_kWa38HphEeGlh5y8zQdYBA" source="http://www.opaeum.org"/>
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_MwHicHvJEeGIOPhylek76A" name="manager" type="_u7lZEGQWEeGbL9nlXe9lTQ" association="_MwNCAHvJEeGIOPhylek76A">
+        <eAnnotations xmi:id="_M1d8gHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MwHicXvJEeGIOPhylek76A" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MwHicnvJEeGIOPhylek76A" value="1"/>
       </ownedAttribute>
       <interfaceRealization xmi:id="_twrakGK1EeGb14EjInbIAA" name="isAIBusinessRole" client="_tq_pUGK1EeGb14EjInbIAA">
         <eAnnotations xmi:id="_tyxFQGK1EeGb14EjInbIAA" source="http://www.opaeum.org"/>
@@ -260,6 +281,14 @@
         <eAnnotations xmi:id="_7WNBoHsKEeGBGZr9IpIa3A" source="http://www.opaeum.org"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7RKwonsKEeGBGZr9IpIa3A"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7RKwo3sKEeGBGZr9IpIa3A" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_MwNCAHvJEeGIOPhylek76A" name="documentVerifier_manager_1" memberEnd="_MwNCAXvJEeGIOPhylek76A _MwHicHvJEeGIOPhylek76A" navigableOwnedEnd="_MwNCAXvJEeGIOPhylek76A">
+      <eAnnotations xmi:id="_MwO3MHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+      <ownedEnd xmi:id="_MwNCAXvJEeGIOPhylek76A" name="documentVerifier" type="_tq_pUGK1EeGb14EjInbIAA" association="_MwNCAHvJEeGIOPhylek76A">
+        <eAnnotations xmi:id="_M1fKoHvJEeGIOPhylek76A" source="http://www.opaeum.org"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MwNCAnvJEeGIOPhylek76A"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MwNCA3vJEeGIOPhylek76A" value="1"/>
       </ownedEnd>
     </packagedElement>
     <profileApplication xmi:id="_BMNPoHHfEeGyMMwFc1M9cQ">

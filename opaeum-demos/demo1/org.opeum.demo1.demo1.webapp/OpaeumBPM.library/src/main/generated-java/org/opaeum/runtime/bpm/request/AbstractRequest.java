@@ -460,6 +460,7 @@ abstract public class AbstractRequest implements IPersistentObject, IEventGenera
 		return this.processInstanceId;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=8918582809852333993l,opposite="request",uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_lEGvZI53EeCfQedkc0TCdA")
 	public IRequestObject getRequestObject() {
 		IRequestObject result = null;

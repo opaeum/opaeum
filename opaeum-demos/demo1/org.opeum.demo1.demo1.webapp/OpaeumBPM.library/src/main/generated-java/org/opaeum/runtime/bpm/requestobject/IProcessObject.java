@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.request.ProcessRequest;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -37,6 +38,7 @@ public interface IProcessObject extends HibernateEntity, CompositionNode, IReque
 	
 	public void generateOnSuspendedEvent(@ParameterMetaInfo(name="suspendedBy",opaeumId=3377686963449892476l,uuid="252060@_xCSOZ0uBEeGElKTCe2jfDw") String suspendedBy);
 	
+	@PropertyMetaInfo(isComposite=true,opaeumId=7762966921979730371l,opposite="processObject",uuid="252060@_JY15wY3pEeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_JY15wY3pEeCfQedkc0TCdA")
 	public ProcessRequest getProcessRequest();
 	

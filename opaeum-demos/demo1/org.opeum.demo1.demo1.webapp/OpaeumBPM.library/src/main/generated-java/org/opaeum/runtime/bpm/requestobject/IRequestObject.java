@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.request.AbstractRequest;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
@@ -16,6 +17,7 @@ import org.w3c.dom.Element;
 public interface IRequestObject extends HibernateEntity, CompositionNode, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=6849052820632333237l,opposite="requestObject",uuid="252060@_lEGvYY53EeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_lEGvYY53EeCfQedkc0TCdA")
 	public AbstractRequest getRequest();
 	

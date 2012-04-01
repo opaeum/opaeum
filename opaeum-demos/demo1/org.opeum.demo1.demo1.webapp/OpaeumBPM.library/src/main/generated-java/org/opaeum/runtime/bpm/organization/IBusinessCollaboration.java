@@ -18,9 +18,11 @@ import org.w3c.dom.Element;
 public interface IBusinessCollaboration extends IBusinessCollaborationBase, HibernateEntity, CompositionNode, Serializable, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
+	@PropertyMetaInfo(isComposite=true,opaeumId=675923819432853497l,opposite="businessCollaboration",uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	public Set<IBusiness> getBusiness();
 	
+	@PropertyMetaInfo(isComposite=true,opaeumId=2554691001457309645l,opposite="businessCollaboration",uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	public Set<IBusinessActor> getBusinessActor();
 	

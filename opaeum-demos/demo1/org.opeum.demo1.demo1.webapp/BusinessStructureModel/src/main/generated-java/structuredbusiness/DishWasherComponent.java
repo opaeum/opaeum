@@ -154,7 +154,7 @@ public class DishWasherComponent implements IPersistentObject, IEventGenerator, 
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4751173535218028061l,opposite="component",uuid="914890@_4_Vb8HJ6EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishWasherSourcePopulation",opaeumId=4751173535218028061l,opposite="component",uuid="914890@_4_Vb8HJ6EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_4_Vb8HJ6EeG5aYCQXxe9BQ")
 	public DishWasherModel getDishWasher() {
 		DishWasherModel result = this.dishWasher;
@@ -182,7 +182,7 @@ public class DishWasherComponent implements IPersistentObject, IEventGenerator, 
 		return getDishWasher();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4779184346657477803l,uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getPartNumberSourcePopulation",opaeumId=4779184346657477803l,uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_Fn4Q0HJ7EeG5aYCQXxe9BQ")
 	public String getPartNumber() {
 		String result = this.partNumber;
@@ -190,7 +190,7 @@ public class DishWasherComponent implements IPersistentObject, IEventGenerator, 
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1800320774890339505l,uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getPriceSourcePopulation",opaeumId=1800320774890339505l,uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_HxpZsHJ7EeG5aYCQXxe9BQ")
 	public Double getPrice() {
 		Double result = this.price;

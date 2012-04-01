@@ -1,8 +1,11 @@
 package org.opaeum.javageneration.oclexpressions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import nl.klasse.octopus.codegen.umlToJava.expgenerators.creators.ExpressionCreator;
+import nl.klasse.octopus.model.IClassifier;
+import nl.klasse.octopus.model.ICollectionType;
 import nl.klasse.octopus.oclengine.IOclContext;
 
 import org.opaeum.feature.StepDependency;
@@ -23,17 +26,16 @@ import org.opaeum.linkage.NakedParsedOclStringResolver;
 import org.opaeum.metamodel.commonbehaviors.INakedBehavioredClassifier;
 import org.opaeum.metamodel.core.INakedClassifier;
 import org.opaeum.metamodel.core.INakedConstraint;
+import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedGeneralization;
 import org.opaeum.metamodel.core.INakedInterface;
 import org.opaeum.metamodel.core.INakedInterfaceRealization;
 import org.opaeum.metamodel.core.INakedMultiplicityElement;
+import org.opaeum.metamodel.core.INakedProperty;
 import org.opaeum.metamodel.core.INakedTypedElement;
 
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-		OperationAnnotator.class,NakedParsedOclStringResolver.class,CodeCleanup.class
-},after = {
-	OperationAnnotator.class
-},before = CodeCleanup.class)
+@StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,NakedParsedOclStringResolver.class,
+		CodeCleanup.class},after = {OperationAnnotator.class},before = CodeCleanup.class)
 public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 	@VisitBefore(matchSubclasses = true)
 	public void classBefore(INakedClassifier c){
@@ -61,19 +63,31 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 		for(INakedConstraint rule:c.getOwnedRules()){
 			if(rule.getSpecification().isValidOclValue()){
 				IOclContext cont = rule.getSpecification().getOclValue();
-				if(rule.getConstrainedElement() instanceof INakedMultiplicityElement){
-					String body = ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>());
-					OJOperation oper = new OJOperation();
-					NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap(c, (INakedTypedElement) rule.getConstrainedElement());
-					oper.setName(map.getter() + "SourcePopulation");
-					myClass.addToImports("java.util.Set");
-					myClass.addToImports("java.util.HashSet");
-					OJPathName returnType = new OJPathName();
-					returnType.addToNames("Set");
-					returnType.addToElementTypes(map.javaBaseTypePath());
-					oper.setReturnType(returnType);
-					oper.getBody().addToStatements("return new HashSet<" + map.javaBaseType() + ">(" + body + ")");
-					myClass.addToOperations(oper);
+				IClassifier et = rule.getSpecification().getOclValue().getExpression().getExpressionType();
+				Collection<INakedElement> ce = rule.getConstrainedElements();
+				if(et.isCollectionKind()){
+					if(ce.size() > 0 && ce.iterator().next() instanceof INakedProperty){
+						String body = ec.makeExpression(cont.getExpression(), false, new ArrayList<OJParameter>());
+						OJAnnotatedOperation oper = new OJAnnotatedOperation("get" + rule.getMappingInfo().getJavaName().getCapped());
+						myClass.addToImports("java.util.List");
+						myClass.addToImports("java.util.ArrayList");
+						OJPathName returnType = new OJPathName();
+						returnType.addToNames("List");
+						ICollectionType type = (ICollectionType) et;
+						if(type.getElementType() instanceof INakedClassifier){
+							OJPathName pn = OJUtil.classifierPathname((INakedClassifier) type.getElementType());
+							returnType.addToElementTypes(pn);
+							oper.getBody().addToStatements("return new ArrayList<" + pn.getLast() + ">(" + body + ")");
+						}else{
+							//Primitive - unlikely but possible
+							returnType.addToElementTypes(new OJPathName( "Object"));
+							oper.getBody().addToStatements("return new ArrayList<Object>(" + body + ")");
+						}
+						oper.setReturnType(returnType);
+						myClass.addToOperations(oper);
+					}else{
+						// Invalid
+					}
 				}else{
 					hasConstraints = true;
 					OJAnnotatedOperation oper = new OJAnnotatedOperation(getter(rule));
@@ -104,7 +118,7 @@ public class InvariantsGenerator extends AbstractJavaProducingVisitor{
 		failedConstraints.setInitExp("new HashSet<String>()");
 		oper.getBody().addToLocals(failedConstraints);
 		for(INakedConstraint c:cc.getOwnedRules()){
-			if(c.getSpecification().isValidOclValue() && !(c.getConstrainedElement() instanceof INakedMultiplicityElement)){
+			if(c.getSpecification().isValidOclValue() && !(c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind())){
 				OJIfStatement ifBroken = new OJIfStatement();
 				ifBroken.setCondition("!" + getter(c) + "()");
 				String qname = c.getMappingInfo().getQualifiedJavaName();

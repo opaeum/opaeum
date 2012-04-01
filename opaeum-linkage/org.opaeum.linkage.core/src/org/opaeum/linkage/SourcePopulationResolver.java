@@ -98,7 +98,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 		String ocl = buildOcl(e, p);
 		if(ocl != null){
 			NakedConstraintImpl constraint = ConstraintUtil.buildArtificialConstraint(e, p, ocl, "SourcePopulationFor" + NameConverter.capitalize(p.getName()));
-			constraint.setConstrainedElement(p);
+			constraint.getConstrainedElements().add(p);
 			constr = constraint;
 		}
 		return constr;
@@ -168,7 +168,7 @@ public class SourcePopulationResolver extends AbstractModelElementLinker{
 	}
 	private INakedConstraint getSourcePopulationConstraint(INakedMultiplicityElement t,INakedClassifier owner){
 		for(INakedConstraint n:owner.getOwnedRules()){
-			if(t.equals(n.getConstrainedElement())){
+			if(n.getConstrainedElements().contains(t)){
 				return n;
 			}
 		}

@@ -23,23 +23,10 @@ public class JavaTypedElementContainer{
 			throw new RuntimeException(e);
 		}
 	}
-	public JavaTypedElementContainer(Method c){
-		try{
-			Annotation[][] parameterAnnotations = c.getParameterAnnotations();
-			for(int i = 0;i < parameterAnnotations.length;i++){
-				JavaTypedElement jte = new JavaTypedElement(c.getGenericParameterTypes()[i],c.getParameterTypes()[i], parameterAnnotations[i]);
-				typedElements.put(jte.getUuid(), jte);
-			}
-		}catch(RuntimeException e){
-			throw e;
-		}catch(Exception e){
-			throw new RuntimeException(e);
-		}
-	}
 	public String getUuid(){
 		return uuid;
 	}
-	public Map<? extends String,? extends JavaTypedElement> getTypedElements(){
+	public Map<String,JavaTypedElement> getTypedElements(){
 		return typedElements;
 	}
 }

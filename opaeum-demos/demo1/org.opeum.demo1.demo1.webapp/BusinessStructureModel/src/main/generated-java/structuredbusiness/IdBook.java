@@ -178,7 +178,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1406233976933179724l,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDateOfBirthSourcePopulation",opaeumId=1406233976933179724l,uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_aFhacHpiEeGlh5y8zQdYBA")
 	public Date getDateOfBirth() {
 		Date result = this.dateOfBirth;
@@ -190,7 +190,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3496196660294374553l,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishwashersIncSourcePopulation",opaeumId=3496196660294374553l,opposite="idBook",uuid="914890@_0EgusXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0EgusXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -198,7 +198,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDocumentTypeSourcePopulation",opaeumId=759998593327277107l,uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	@NumlMetaInfo(uuid="252060@_3FqBQF9lEeG3X_yvufTVmw")
 	public DocumentType getDocumentType() {
 		DocumentType result = this.documentType;
@@ -206,7 +206,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getFullNamesSourcePopulation",opaeumId=8379936838922333184l,uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_U5_wwHpiEeGlh5y8zQdYBA")
 	public String getFullNames() {
 		String result = this.fullNames;
@@ -218,7 +218,7 @@ public class IdBook implements IPersistentObject, IEventGenerator, HibernateEnti
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getIdNumberSourcePopulation",opaeumId=3895930087602592634l,uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_SoyjIHpiEeGlh5y8zQdYBA")
 	public String getIdNumber() {
 		String result = this.idNumber;

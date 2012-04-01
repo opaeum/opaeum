@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
 import org.opaeum.runtime.domain.CompositionNode;
 import org.opaeum.runtime.domain.HibernateEntity;
@@ -16,6 +17,7 @@ import org.w3c.dom.Element;
 public interface IBusiness extends IBusinessBase, HibernateEntity, CompositionNode, Serializable, IBusinessComponent, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=2952021989536159761l,opposite="business",uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_Rj0oE1YkEeGJUqEGX7bKSg")
 	public IBusinessCollaboration getBusinessCollaboration();
 	

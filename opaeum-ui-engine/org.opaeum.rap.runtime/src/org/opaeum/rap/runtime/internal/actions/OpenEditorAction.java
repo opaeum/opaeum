@@ -28,6 +28,7 @@ import org.opaeum.rap.runtime.internal.datamodel.EntityAdapter;
 import org.opaeum.rap.runtime.internal.datamodel.EntityEditorInput;
 import org.opaeum.rap.runtime.internal.views.PersistentObjectTreeItem;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 
 public class OpenEditorAction extends SelectionProviderAction{
 	private OpaeumRapSession opaeumSession;
@@ -48,7 +49,7 @@ public class OpenEditorAction extends SelectionProviderAction{
 		if(canOpen(activePage)){
 			IPersistentObject po = ((PersistentObjectTreeItem) entity).getEntity();
 			Image image = Activator.getDefault().getImage(Activator.IMG_PROJECT);
-			IEditorInput input = new EntityEditorInput(po, "Edit " + po.getName(), ImageDescriptor.createFromImage(image),opaeumSession);
+			IEditorInput input = new EntityEditorInput(po, "Edit " + IntrospectionUtil.getOriginalClass(po).getSimpleName() + ": "+  po.getName(), ImageDescriptor.createFromImage(image),opaeumSession);
 			IEditorReference[] refs = activePage.getEditorReferences();
 			boolean found = false;
 			for(int i = 0;!found && i < refs.length;i++){

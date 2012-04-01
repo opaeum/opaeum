@@ -515,6 +515,7 @@ public class PersonNode implements IPersonNode, IPersistentObject, IEventGenerat
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=2959327275138211382l,uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
 	@NumlMetaInfo(uuid="252060@_oRHdEEtoEeGd4cpyhpib9Q")
 	public String getFullName() {
 		String result = (this.getFirstName().concat((" "))).concat(this.getSurname());

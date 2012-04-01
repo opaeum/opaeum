@@ -26,12 +26,14 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
+import org.opaeum.name.NameConverter;
 import org.opaeum.rap.runtime.Constants;
 import org.opaeum.rap.runtime.OpaeumRapSession;
 import org.opaeum.rap.runtime.internal.RMSMessages;
 import org.opaeum.rap.runtime.internal.actions.OpenEditorAction;
 import org.opaeum.rap.runtime.internal.datamodel.EntityAdapter;
 import org.opaeum.runtime.domain.IPersistentObject;
+import org.opaeum.runtime.domain.IntrospectionUtil;
 import org.opaeum.runtime.organization.IPersonNode;
 
 public class Navigator extends ViewPart {
@@ -46,9 +48,10 @@ public class Navigator extends ViewPart {
 			if(element instanceof IPersonNode){
 				return ((IPersonNode) element).getName();
 			}else if(element instanceof PersistentObjectTreeItem){
-				return ((PersistentObjectTreeItem) element).getEntity().getName();
+				IPersistentObject po = ((PersistentObjectTreeItem) element).getEntity();
+				return "<" + IntrospectionUtil.getOriginalClass(po).getSimpleName()+">" + po.getName();
 			}else if(element instanceof PropertyTreeItem){
-				return ((PropertyTreeItem) element).getDescriptor().getName();
+				return NameConverter.capitalize(NameConverter.toPlural(((PropertyTreeItem) element).getDescriptor().getName()));
 			}
 			return "";
 		}

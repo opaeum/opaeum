@@ -16,4 +16,6 @@ public @interface PropertyMetaInfo{
 	long opaeumId();
 	Class<? extends SimpleTypeRuntimeStrategyFactory> strategyFactory() default SimpleTypeRuntimeStrategyFactory.class;
 	String shortDescription() default "";
+	String lookupMethod() default "";
+	PropertyConstraint[] constraints() default {};
 }

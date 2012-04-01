@@ -17,6 +17,7 @@ import org.w3c.dom.Element;
 public interface IBusinessActor extends Participant, HibernateEntity, CompositionNode, Serializable, IBusinessActorBase, IPersistentObject {
 	public void buildTreeFromXml(Element xml, Map<String, Object> map);
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=124417441767574741l,opposite="businessActor",uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	public IBusinessCollaboration getBusinessCollaboration();
 	

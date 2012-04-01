@@ -15,14 +15,24 @@ import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.opaeum.rap.runtime.internal.binding.GenericFromStringConverter;
 import org.opaeum.rap.runtime.internal.binding.GenericToStringConverter;
@@ -39,12 +49,16 @@ import org.opaeum.uim.UimDataTable;
 import org.opaeum.uim.UimField;
 import org.opaeum.uim.action.BuiltInActionButton;
 import org.opaeum.uim.action.OperationButton;
+import org.opaeum.uim.action.UimAction;
 import org.opaeum.uim.binding.PropertyRef;
 import org.opaeum.uim.binding.UimBinding;
+import org.opaeum.uim.control.ControlKind;
+import org.opaeum.uim.control.UimLookup;
 import org.opaeum.uim.panel.GridPanel;
 import org.opaeum.uim.panel.Outlayable;
 import org.opaeum.uim.swt.GridPanelComposite;
 import org.opaeum.uim.swt.NumberScroller;
+import org.opaeum.uim.swt.TableAndActionBarComposite;
 import org.opaeum.uim.swt.UimFieldComposite;
 import org.opaeum.uim.swt.UimSwtUtil;
 
@@ -75,6 +89,49 @@ public class ComponentTreeBuilder{
 			}else{
 				addUimFieldComposite(body, comp);
 			}
+		}else if(comp instanceof UimDataTable){
+			TableAndActionBarComposite table = new TableAndActionBarComposite(body, SWT.BORDER);
+			TableViewer tableViewer = new TableViewer(table.getTable());
+			tableViewer.setContentProvider(new ArrayContentProvider());
+			//TODO complex expressions
+			UimDataTable uimTable = (UimDataTable) comp;
+			JavaTypedElement tableRef = this.javaMetaInfo.getTypedElement(uimTable.getBinding().getUmlElementUid());
+			EList<UimComponent> children = uimTable.getChildren();
+			setLayoutData(table, uimTable);
+			int i = 0;
+			for(UimComponent child:children){
+				if(child instanceof UimField){
+					final TableViewerColumn viewerColumn = new TableViewerColumn(tableViewer, SWT.NONE, i++);
+					final TableColumn column = viewerColumn.getColumn();
+					column.setText(child.getName());
+					UimField uimField = (UimField) child;
+					column.setWidth(uimField.getPreferredWidth()==null?130:uimField.getPreferredWidth());
+					column.setResizable(true);
+					column.setMoveable(true);
+					
+					//TODO complex expressions
+					 final JavaTypedElement te = this.javaMetaInfo.getTypedElement(uimField.getBinding().getUmlElementUid());
+					viewerColumn.setLabelProvider(new ColumnLabelProvider(){
+						@Override
+						public String getText(Object element){
+							//TODO complex expressions
+							Object value = te.invokeGetter(element);
+							if(value instanceof IPersistentObject){
+								return ((IPersistentObject) value).getName();
+							}else if(value instanceof Enum){
+								return ((Enum) value).name();
+							}else{
+								return value.toString();
+							}
+						}
+					});
+				}
+			}
+			EList<UimAction> actionsOnMultipleSelection = uimTable.getActionsOnMultipleSelection();
+			for(UimAction uimAction:actionsOnMultipleSelection){
+				addComponent(table.getActionBar(), uimAction);
+			}
+			tableViewer.setInput(tableRef.invokeGetter(persistentObject));
 		}else if(comp instanceof BuiltInActionButton){
 			BuiltInActionButton btn = (BuiltInActionButton) comp;
 			Button button = new Button(body, SWT.PUSH);
@@ -117,30 +174,17 @@ public class ComponentTreeBuilder{
 		case DATE_TIME_POPUP:
 			observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
 			break;
+		case LIST_BOX:
+			observeText = observeListbox(uimFieldComposite, uimField, typedElement);
+			break;
 		case DROPDOWN:
-			if(typedElement.getBaseType().isEnum()){
-				observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
-				ComboViewer cb = new ComboViewer((Composite) uimFieldComposite.getControl());
-				cb.setLabelProvider(new LabelProvider(){
-					@Override
-					public String getText(Object element){
-						return ((Enum) element).name();
-					}
-				});
-				cb.setContentProvider(new ArrayContentProvider());
-				cb.setInput(typedElement.getBaseType().getEnumConstants());
-			}else if(typedElement.getBaseType().isAnnotationPresent(Entity.class)){
-				// TODO lookup
-			}
+			observeText = observeDropdown(uimFieldComposite, uimField, typedElement);
 			break;
 		case LABEL:
 			observeText = populateTextStrategies(uimFieldComposite, typedElement, targetToModel, modelToTarget);
 			break;
 		case LINK:
 			observeText = populateTextStrategies(uimFieldComposite, typedElement, targetToModel, modelToTarget);
-			break;
-		case LIST_BOX:
-			observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
 			break;
 		case POPUP_SEARCH:
 			observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
@@ -159,9 +203,71 @@ public class ComponentTreeBuilder{
 		}
 		Binding bindValue = bc.bindValue(observeText, observeValue, targetToModel, modelToTarget);
 		ControlDecorationSupport.create(bindValue, SWT.TOP | SWT.LEFT);
-//		IObservableValue errorObservable = WidgetProperties.text().observe(uimFieldComposite.getLabel());
-//		// This one listenes to all changes
-//		bc.bindValue(errorObservable, new AggregateValidationStatus(bc.getBindings(), AggregateValidationStatus.MAX_SEVERITY), null, null);
+		// IObservableValue errorObservable = WidgetProperties.text().observe(uimFieldComposite.getLabel());
+		// // This one listenes to all changes
+		// bc.bindValue(errorObservable, new AggregateValidationStatus(bc.getBindings(), AggregateValidationStatus.MAX_SEVERITY), null, null);
+	}
+	private ISWTObservableValue observeListbox(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
+		ISWTObservableValue observeText;
+		observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
+		if(typedElement.getBaseType().isEnum()){
+		}else if(typedElement.getBaseType().isAnnotationPresent(Entity.class)){
+			ListViewer cb = new ListViewer((List) uimFieldComposite.getControl());
+			cb.setLabelProvider(new LabelProvider(){
+				@Override
+				public String getText(Object element){
+					return ((IPersistentObject) element).getName();
+				}
+			});
+			cb.setContentProvider(new ArrayContentProvider());
+			UimLookup lookup = (UimLookup) uimField.getControl();
+			if(lookup.getLookupSource() == null){
+				if(typedElement.isReadOnly()){
+					//TODO complex expressions
+					cb.setInput(typedElement.invokeGetter(persistentObject));
+				}else{
+					cb.setInput(typedElement.invokeLookupMethod(persistentObject));
+				}
+			}else{
+				// TODO lookup
+			}
+		}
+		return observeText;
+	}
+	private ISWTObservableValue observeDropdown(UimFieldComposite uimFieldComposite,UimField uimField,JavaTypedElement typedElement){
+		ISWTObservableValue observeText;
+		observeText = SWTObservables.observeSelection(uimFieldComposite.getControl());
+		ComboViewer cb = new ComboViewer((Combo) uimFieldComposite.getControl());
+		if(typedElement.getBaseType().isEnum()){
+			cb.setLabelProvider(new LabelProvider(){
+				@Override
+				public String getText(Object element){
+					return ((Enum) element).name();
+				}
+			});
+			cb.setContentProvider(new ArrayContentProvider());
+			cb.setInput(typedElement.getBaseType().getEnumConstants());
+		}else if(IPersistentObject.class.isAssignableFrom(typedElement.getBaseType())){
+			cb.setLabelProvider(new LabelProvider(){
+				@Override
+				public String getText(Object element){
+					return ((IPersistentObject) element).getName();
+				}
+			});
+			cb.setContentProvider(new ArrayContentProvider());
+			UimLookup lookup = (UimLookup) uimField.getControl();
+			if(lookup.getLookupSource() == null){
+				if(typedElement.isReadOnly()){
+					//TODO complex expressions
+					cb.setInput(typedElement.invokeGetter(persistentObject));
+				}else{
+					cb.setInput(typedElement.invokeLookupMethod(persistentObject));
+				}
+			}else{
+				// TODO lookup
+			}
+		}
+		return observeText;
 	}
 	private ISWTObservableValue populateTextStrategies(UimFieldComposite uimFieldComposite,JavaTypedElement typedElement,
 			UpdateValueStrategy targetToModel,UpdateValueStrategy modelToTarget){

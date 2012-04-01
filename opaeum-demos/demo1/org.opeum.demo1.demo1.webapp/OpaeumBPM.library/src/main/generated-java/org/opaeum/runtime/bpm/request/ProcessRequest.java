@@ -34,6 +34,7 @@ import org.jbpm.workflow.instance.NodeInstanceContainer;
 import org.jbpm.workflow.instance.WorkflowProcessInstance;
 import org.jbpm.workflow.instance.impl.NodeInstanceImpl;
 import org.opaeum.annotation.NumlMetaInfo;
+import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.requestobject.IProcessObject;
 import org.opaeum.runtime.bpm.requestobject.IRequestObject;
 import org.opaeum.runtime.bpm.util.OpaeumLibraryForBPMFormatter;
@@ -321,6 +322,7 @@ public class ProcessRequest extends AbstractRequest implements IPersistentObject
 		return this.processInstanceId;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=5083858478754845985l,opposite="processRequest",uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
 	@NumlMetaInfo(uuid="252060@_JY15xI3pEeCfQedkc0TCdA")
 	public IProcessObject getProcessObject() {
 		IProcessObject result = null;

@@ -23,11 +23,7 @@ import org.opaeum.runtime.domain.IInvariantError;
 /**
  * This class implements the Constrained interface on classes that have invariants.
  */
-@StepDependency(phase = JavaTransformationPhase.class,requires = {
-	OperationAnnotator.class,NakedParsedOclStringResolver.class
-},after = {
-	OperationAnnotator.class
-},before = CodeCleanup.class)
+@StepDependency(phase = JavaTransformationPhase.class,requires = {OperationAnnotator.class,NakedParsedOclStringResolver.class},after = {OperationAnnotator.class},before = CodeCleanup.class)
 public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 	private static final OJPathName CONSTRAINED = new OJPathName(IConstrained.class.getName());
 	@VisitBefore()
@@ -50,11 +46,15 @@ public class ConstrainedImplementor extends AbstractJavaProducingVisitor{
 		}
 	}
 	private boolean hasInvariants(INakedClassifier nc){
+		boolean result = false;
 		for(INakedConstraint c:nc.getOwnedRules()){
-			if(!(c.getConstrainedElement() instanceof INakedMultiplicityElement)){
-				return true;
+			if(c.getSpecification().isValidOclValue()
+					&& c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
+				return false;
+			}else{
+				result = true;
 			}
 		}
-		return false;
+		return result;
 	}
 }

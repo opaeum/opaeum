@@ -117,6 +117,7 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 	}
 	protected OJAnnotatedOperation buildGetter(OJAnnotatedClass owner,NakedStructuralFeatureMap map,boolean derived){
+
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(map.getter());
 		getter.setReturnType(map.javaTypePath());
 		owner.addToOperations(getter);
@@ -293,17 +294,6 @@ public class AttributeImplementor extends AbstractStructureVisitor{
 		}
 		
 		OJAnnotatedOperation getter = buildGetter(owner, map, false);
-		OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
-		ap.putAttribute("isComposite", map.getProperty().isComposite());
-		ap.putAttribute("uuid", map.getProperty().getId());
-		ap.putAttribute("opaeumId", map.getProperty().getMappingInfo().getOpaeumId());
-		if(map.getProperty().getDocumentation() != null){
-			ap.putAttribute("shortDescripion", map.getProperty().getDocumentation());
-		}
-		if(map.getProperty().getOtherEnd() != null){
-			ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
-		}
-		getter.addAnnotationIfNew(ap);
 		if(field != null){
 			applyStereotypesAsAnnotations((p), field);
 			INakedClassifier baseType = p.getNakedBaseType();

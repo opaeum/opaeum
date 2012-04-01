@@ -128,6 +128,7 @@ public class TimeOfDay implements IPersistentObject, HibernateEntity, Serializab
 		return this.id;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=3808798176605930566l,uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	@NumlMetaInfo(uuid="252060@_MUFl4NcGEeCOrPzFUqsJFw")
 	public Integer getMinuteOfDay() {
 		Integer result = (this.getHours() * 60) + this.getMinutes();

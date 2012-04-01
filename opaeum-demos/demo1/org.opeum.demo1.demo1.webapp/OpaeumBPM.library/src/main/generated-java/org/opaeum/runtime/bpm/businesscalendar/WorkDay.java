@@ -257,6 +257,7 @@ public class WorkDay implements IPersistentObject, IEventGenerator, HibernateEnt
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=4204288269954036939l,uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	@NumlMetaInfo(uuid="252060@_vEgCENcMEeCnccVVb6bGDQ")
 	public Integer getMinutesPerDay() {
 		Integer result = (this.getEndTime().getMinuteOfDay() - this.getStartTime().getMinuteOfDay());

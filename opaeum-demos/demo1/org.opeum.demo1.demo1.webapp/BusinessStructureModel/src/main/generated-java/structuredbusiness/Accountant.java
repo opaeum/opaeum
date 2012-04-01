@@ -214,7 +214,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=766107659375213633l,opposite="accountant",uuid="914890@_0mpycXHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishwashersIncSourcePopulation",opaeumId=766107659375213633l,opposite="accountant",uuid="914890@_0mpycXHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_0mpycXHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -226,6 +226,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.id;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInitiatedRequestsSourcePopulation",opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
 		Collection<AbstractRequest> result = collect9();
@@ -233,6 +234,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getInterestingRequestsSourcePopulation",opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -240,6 +242,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getManagedRequestsSourcePopulation",opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
 		Collection<AbstractRequest> result = collect4();
@@ -259,6 +262,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.outgoingEvents;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getOwnedTaskRequestsSourcePopulation",opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
 		Collection<TaskRequest> result = collect7();
@@ -270,7 +274,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationSourcePopulation",opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -278,6 +282,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationsInRequestsSourcePopulation",opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
 		Collection<ParticipationInRequest> result = collect6();
@@ -285,6 +290,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getParticipationsInTasksSourcePopulation",opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
 		Collection<ParticipationInTask> result = collect11();
@@ -292,7 +298,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getPerson_iBusinessRole_1_representedPersonSourcePopulation",opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -323,7 +329,7 @@ public class Accountant implements IPersistentObject, IEventGenerator, Hibernate
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=3599544849415905494l,uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="get__nameSourcePopulation",opaeumId=3599544849415905494l,uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_hHSCcHphEeGlh5y8zQdYBA")
 	public String get__name() {
 		String result = this.__name;

@@ -2,24 +2,16 @@ package org.opaeum.runtime.environment;
 
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
-import javax.validation.Configuration;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
-import org.jboss.logging.Param;
 import org.opaeum.annotation.ParameterMetaInfo;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.name.NameConverter;
+import org.opaeum.runtime.domain.IPersistentObject;
 
 public class JavaTypedElement{
 	long opaeumId;
@@ -31,39 +23,16 @@ public class JavaTypedElement{
 	String shortDescription;
 	Class<?> baseType;
 	Class<?> type;
+	private Class<?> declaringClass;
+	private Method readMethod;
+	private Method lookupMethod;
+	private Method writeMethod;
 	// TODO extract method and move to new class
 	public JavaTypedElement(Method getter){
 		super();
 		buildTypedElementOnGetter(getter);
-	}
-	public JavaTypedElement(Type genericType,Class<?> type,Annotation[] parameterAnnotations){
-		for(int i = 0;i < parameterAnnotations.length;i++){
-			Annotation ann = parameterAnnotations[i];
-			if(ann instanceof ParameterMetaInfo){
-				ParameterMetaInfo annotation = (ParameterMetaInfo) ann;
-				this.opaeumId = annotation.opaeumId();
-				this.uuid = annotation.uuid();
-				this.name = annotation.name();
-				this.opposite = null;// ???
-				try{
-					Class<? extends SimpleTypeRuntimeStrategyFactory> strategyFactoryClass = annotation.strategyFactory();
-					if(strategyFactoryClass == SimpleTypeRuntimeStrategyFactory.class){
-						if(type == Integer.class){
-						}
-					}
-					this.strategyFactory = strategyFactoryClass.newInstance();
-				}catch(InstantiationException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}catch(IllegalAccessException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.type = type;
-				calcBaseType(genericType);
-				this.shortDescription = annotation.shortDescription();
-			}
-		}
+		declaringClass = getter.getDeclaringClass();
+		this.readMethod=getter;
 	}
 	protected void buildJavaTypedElement(PropertyDescriptor descriptor){
 		Method readMethod = descriptor.getReadMethod();
@@ -71,9 +40,22 @@ public class JavaTypedElement{
 		buildTypedElementOnGetter(readMethod);
 	}
 	public void buildTypedElementOnGetter(Method readMethod){
+		this.readMethod=readMethod;
+		String setterName = readMethod.getName();
+		setterName = "set" + setterName.substring(3);
+		try{
+			this.writeMethod = readMethod.getDeclaringClass().getMethod(setterName, readMethod.getReturnType());
+		}catch(SecurityException e1){
+		}catch(NoSuchMethodException e1){
+		}
 		Class<PropertyMetaInfo> annotationClass = PropertyMetaInfo.class;
 		PropertyMetaInfo annotation = readMethod.getAnnotation(annotationClass);
 		if(annotation != null){
+			try{
+				lookupMethod = readMethod.getDeclaringClass().getMethod(annotation.lookupMethod());
+			}catch(SecurityException e1){
+			}catch(NoSuchMethodException e1){
+			}
 			this.opaeumId = annotation.opaeumId();
 			this.uuid = annotation.uuid();
 			this.opposite = null;// ???
@@ -88,9 +70,7 @@ public class JavaTypedElement{
 			}
 			this.shortDescription = annotation.shortDescription();
 		}
-		if(name == null){
-			name = NameConverter.decapitalize(readMethod.getName().substring(3));
-		}
+		name = NameConverter.decapitalize(readMethod.getName().substring(3));
 		this.type = readMethod.getReturnType();
 		Type genericReturnType = readMethod.getGenericReturnType();
 		calcBaseType(genericReturnType);
@@ -99,7 +79,21 @@ public class JavaTypedElement{
 		if(Collection.class.isAssignableFrom(type)){
 			if(genericReturnType instanceof ParameterizedType){
 				ParameterizedType type = (ParameterizedType) genericReturnType;
-				baseType = (Class<?>) type.getActualTypeArguments()[0];
+				Type argType = type.getActualTypeArguments()[0];
+				if(argType instanceof Class){
+					baseType = (Class<?>) argType;
+				}else{
+					if(argType instanceof java.lang.reflect.WildcardType){
+						java.lang.reflect.WildcardType wct = (java.lang.reflect.WildcardType) argType;
+						Type[] lowerBounds = wct.getLowerBounds();
+						Type[] upperBounds = wct.getUpperBounds();
+						if(lowerBounds.length == 1){
+							baseType = (Class<?>) lowerBounds[0];
+						}else if(upperBounds.length == 1){
+							baseType = (Class<?>) upperBounds[0];
+						}
+					}
+				}
 			}
 		}
 		if(baseType == null){
@@ -129,5 +123,37 @@ public class JavaTypedElement{
 	}
 	public Class<?> getBaseType(){
 		return baseType;
+	}
+	public Class<?> getDeclaringClass(){
+		return declaringClass;
+	}
+	public boolean isReadOnly(){
+		return writeMethod==null;
+	}
+	public Object invokeGetter(Object target){
+		if(readMethod==null){
+			return null;
+		}else{
+			try{
+				return readMethod.invoke(target);
+			}catch(InvocationTargetException e){
+				throw new RuntimeException(e.getTargetException());
+			}catch(Exception e){
+				return null;
+			}
+		}
+	}
+	public Object invokeLookupMethod(IPersistentObject target){
+		if(lookupMethod==null){
+			return null;
+		}else{
+			try{
+				return lookupMethod.invoke(target);
+			}catch(InvocationTargetException e){
+				throw new RuntimeException(e.getTargetException());
+			}catch(Exception e){
+				return null;
+			}
+		}
 	}
 }

@@ -20,12 +20,14 @@ import org.opaeum.runtime.bpm.organization.IBusinessCollaboration;
 import org.opaeum.runtime.bpm.organization.PersonNode;
 import org.opaeum.runtime.domain.IPersistentObject;
 import org.opaeum.runtime.environment.Environment;
+import org.opaeum.runtime.environment.JavaTypedElement;
 import org.opaeum.runtime.organization.IBusinessCollaborationBase;
 import org.opaeum.runtime.organization.IBusinessNetwork;
 import org.opaeum.runtime.organization.IPersonNode;
 import org.opaeum.runtime.persistence.ConversationalPersistence;
 import org.opaeum.runtime.persistence.Query;
 import org.opaeum.uim.util.UimResourceImpl;
+import org.opeum.demo1.util.Demo1JavaMetaInfoMap;
 
 import structuredbusiness.Structuredbusiness;
 
@@ -137,5 +139,9 @@ public class Demo1OpaeumApplication implements IOpaeumApplication{
 		}catch(IOException e){
 			throw new RuntimeException(e);
 		}
+	}
+	public static void main(String[] args){
+		JavaTypedElement typedElement = new Demo1JavaMetaInfoMap().getTypedElement("914890@_MwHicHvJEeGIOPhylek76A");
+		System.out.println(typedElement.getDeclaringClass());
 	}
 }

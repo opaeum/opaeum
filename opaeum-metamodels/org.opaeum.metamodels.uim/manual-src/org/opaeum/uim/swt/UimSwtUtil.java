@@ -1,11 +1,11 @@
 package org.opaeum.uim.swt;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.List;
@@ -34,7 +34,12 @@ public class UimSwtUtil{
 			fig.setControl(new DateTime((Composite) fig, SWT.BORDER));
 			break;
 		case DROPDOWN:
-			fig.setControl(new CCombo((Composite) fig, SWT.BORDER));
+			Combo c = new Combo((Composite) fig, SWT.BORDER|SWT.READ_ONLY);
+			c.add("Item 1");
+			c.add("Item 2");
+			c.add("Item 3");
+			c.add("Item 4");
+			fig.setControl(c);
 			break;
 		case LIST_BOX:
 			List list = new List((Composite) fig, SWT.BORDER | SWT.MULTI);
@@ -128,6 +133,7 @@ public class UimSwtUtil{
 			layout = new GridLayout(2, false);
 			fig.setLayout(layout);
 			fig.setMinimumLabelWidth(minimumLabelWidth);
+			((GridData)fig.getLabel().getLayoutData()).grabExcessHorizontalSpace=false;
 			fig.getControl().setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		}
 		layout.marginHeight = 0;

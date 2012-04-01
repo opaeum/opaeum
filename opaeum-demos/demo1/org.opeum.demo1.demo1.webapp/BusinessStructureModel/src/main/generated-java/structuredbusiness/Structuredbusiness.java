@@ -277,6 +277,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return false;
 	}
 	
+	@PropertyMetaInfo(isComposite=true,opaeumId=675923819432853497l,opposite="businessCollaboration",uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	@NumlMetaInfo(uuid="252060@_Rj0oEFYkEeGJUqEGX7bKSg")
 	public Set<IBusiness> getBusiness() {
 		Set<IBusiness> result = new HashSet<IBusiness>();
@@ -284,6 +285,7 @@ public class Structuredbusiness implements IPersistentObject, IEventGenerator, H
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=true,opaeumId=2554691001457309645l,opposite="businessCollaboration",uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_pP5QQVYuEeGj5_I7bIwNoA")
 	public Set<IBusinessActor> getBusinessActor() {
 		Set<IBusinessActor> result = new HashSet<IBusinessActor>();

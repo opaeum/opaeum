@@ -1,8 +1,10 @@
 package org.opaeum.emf.extraction;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import nl.klasse.octopus.model.OclUsageType;
 import nl.klasse.octopus.model.internal.parser.parsetree.ParsedOclString;
-import nl.klasse.octopus.oclengine.IOclContext;
 import nl.klasse.octopus.stdlib.IOclLibrary;
 
 import org.eclipse.emf.common.util.EList;
@@ -10,7 +12,6 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Action;
 import org.eclipse.uml2.uml.ActivityEdge;
-import org.eclipse.uml2.uml.ActivityParameterNode;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.ChangeEvent;
 import org.eclipse.uml2.uml.Constraint;
@@ -57,6 +58,14 @@ public class ValueSpecificationExtractor extends AbstractExtractorFromEmf{
 	}
 	@VisitBefore()
 	public void visitConstraint(Constraint c,NakedConstraintImpl nc){
+		EList<Element> constrainedElements = c.getConstrainedElements();
+		Set<INakedElement> ce = new HashSet<INakedElement>();
+		if(constrainedElements.size()>0){
+			for(Element element:constrainedElements){
+				ce.add(getNakedPeer(element));
+			}
+		}
+		nc.setConstrainedElements(ce);
 		addAffectedElement(getNakedPeer(c.getOwner()));
 	}
 	@VisitAfter()

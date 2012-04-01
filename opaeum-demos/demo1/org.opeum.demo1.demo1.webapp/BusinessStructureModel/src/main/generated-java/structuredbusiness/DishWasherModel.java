@@ -209,7 +209,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.cancelledEvents;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=6689744676322243651l,opposite="dishWasher",uuid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ")
+	@PropertyMetaInfo(constraints={},isComposite=true,lookupMethod="getComponentSourcePopulation",opaeumId=6689744676322243651l,opposite="dishWasher",uuid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ")
 	@NumlMetaInfo(uuid="914890@_4_SYoHJ6EeG5aYCQXxe9BQ")
 	public Set<DishWasherComponent> getComponent() {
 		Set<DishWasherComponent> result = this.component;
@@ -221,7 +221,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8669346731255087885l,opposite="dishWasher",uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getDishwashersIncSourcePopulation",opaeumId=8669346731255087885l,opposite="dishWasher",uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_z0NB0XHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -233,7 +233,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.id;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getNameSourcePopulation",opaeumId=8027636478953627954l,uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_ht9n8HphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -253,7 +253,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getPartNumberSourcePopulation",opaeumId=6341938639454514848l,uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_Kid8QHpiEeGlh5y8zQdYBA")
 	public String getPartNumber() {
 		String result = this.partNumber;
@@ -268,7 +268,7 @@ public class DishWasherModel implements IPersistentObject, IEventGenerator, Hibe
 		return this.uid;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=1278716437618707842l,opposite="dishWasherModel",uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getVendorSourcePopulation",opaeumId=1278716437618707842l,opposite="dishWasherModel",uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
 	@NumlMetaInfo(uuid="914890@_7RIUYHsKEeGBGZr9IpIa3A")
 	public Vendor getVendor() {
 		Vendor result = this.vendor;

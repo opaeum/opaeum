@@ -184,6 +184,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return false;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=124417441767574741l,opposite="businessActor",uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_pP5QRFYuEeGj5_I7bIwNoA")
 	public IBusinessCollaboration getBusinessCollaboration() {
 		IBusinessCollaboration result = null;
@@ -205,6 +206,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return this.id;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
 		Collection<AbstractRequest> result = collect11();
@@ -212,6 +214,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -219,6 +222,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
 		Collection<AbstractRequest> result = collect7();
@@ -262,6 +266,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return this.outgoingEvents;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
 		Collection<TaskRequest> result = collect3();
@@ -281,6 +286,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
 		Collection<ParticipationInRequest> result = collect9();
@@ -288,6 +294,7 @@ public class Online_Customer implements IPersistentObject, IEventGenerator, Hibe
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
 		Collection<ParticipationInTask> result = collect5();

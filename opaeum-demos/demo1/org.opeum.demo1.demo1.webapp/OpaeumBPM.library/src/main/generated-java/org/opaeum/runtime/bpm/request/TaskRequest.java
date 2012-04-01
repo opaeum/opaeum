@@ -750,6 +750,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return this.outgoingEvents;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=8552480891737957111l,uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
 	@NumlMetaInfo(uuid="252060@_wy5fAKDREeCi16HgBnUGFw")
 	public Participant getOwner() {
 		Participant result = any1().getParticipant();
@@ -769,6 +770,7 @@ public class TaskRequest extends AbstractRequest implements IPersistentObject, I
 		return result;
 	}
 	
+	@PropertyMetaInfo(isComposite=false,opaeumId=3802915038871319282l,uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
 	@NumlMetaInfo(uuid="252060@_sMysAKDQEeCEB8xJMe8jaA")
 	public Set<Participant> getPotentialOwners() {
 		Set<Participant> result = Stdlib.collectionAsSet(collect3());

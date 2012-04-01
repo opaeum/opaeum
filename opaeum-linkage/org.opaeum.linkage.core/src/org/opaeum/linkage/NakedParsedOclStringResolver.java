@@ -213,11 +213,7 @@ public class NakedParsedOclStringResolver extends AbstractModelElementLinker{
 			if(cont.getSpecification().getOclValue() instanceof ParsedOclString){
 				ParsedOclString holder = (ParsedOclString) cont.getSpecification().getOclValue();
 				holder.setContext(nc, cont.getSpecification());
-				IClassifier basicType = StdlibBasic.getBasicType(IOclLibrary.BooleanTypeName);
-				if(cont.getConstrainedElement() instanceof INakedProperty){
-					basicType = getOclLibrary().lookupCollectionType(CollectionMetaType.SET, ((INakedProperty) cont.getConstrainedElement()).getBaseType());
-				}
-				cont.getSpecification().setValue(replaceSingleParsedOclString(holder, nc, basicType, env));
+				cont.getSpecification().setValue(replaceSingleParsedOclString(holder, nc, null, env));
 			}
 		}
 		if(nc.getOwnedRules().size() > 0){

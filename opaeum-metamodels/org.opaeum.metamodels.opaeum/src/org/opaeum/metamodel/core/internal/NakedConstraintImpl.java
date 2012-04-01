@@ -1,22 +1,16 @@
 package org.opaeum.metamodel.core.internal;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedValueSpecification;
 
 public class NakedConstraintImpl extends NakedElementImpl implements INakedConstraint{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7552731810827480586L;
 	INakedValueSpecification specification;
-	INakedElement constrainedElement;
-	public INakedElement getConstrainedElement(){
-		return constrainedElement;
-	}
-	public void setConstrainedElement(INakedElement constraintElement){
-		this.constrainedElement = constraintElement;
-	}
+	private Collection<INakedElement> constrainedElement = new HashSet<INakedElement>();
 	public INakedValueSpecification getSpecification(){
 		return specification;
 	}
@@ -24,7 +18,7 @@ public class NakedConstraintImpl extends NakedElementImpl implements INakedConst
 	public void addOwnedElement(INakedElement element){
 		super.addOwnedElement(element);
 		if(element instanceof INakedValueSpecification){
-			this.specification=(INakedValueSpecification) element;
+			this.specification = (INakedValueSpecification) element;
 		}
 	}
 	public void setSpecification(INakedValueSpecification specification){
@@ -33,5 +27,11 @@ public class NakedConstraintImpl extends NakedElementImpl implements INakedConst
 	@Override
 	public String getMetaClass(){
 		return "constraint";
+	}
+	public Collection<INakedElement> getConstrainedElements(){
+		return constrainedElement;
+	}
+	public void setConstrainedElements(Collection<INakedElement> constrainedElement){
+		this.constrainedElement = constrainedElement;
 	}
 }

@@ -24,6 +24,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.AccessType;
@@ -34,6 +35,7 @@ import org.hibernate.annotations.Where;
 import org.opaeum.annotation.BusinessRole;
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.annotation.ParameterMetaInfo;
+import org.opaeum.annotation.PropertyConstraint;
 import org.opaeum.annotation.PropertyMetaInfo;
 import org.opaeum.runtime.bpm.organization.IBusinessRole;
 import org.opaeum.runtime.bpm.organization.PersonNode;
@@ -68,7 +70,8 @@ import structuredbusiness.util.StructuredbusinessFormatter;
 @Filter(name="noDeletedObjects")
 @org.hibernate.annotations.Entity(dynamicUpdate=true)
 @AccessType(	"field")
-@Table(name="document_verifier")
+@Table(name="document_verifier",uniqueConstraints=
+	@UniqueConstraint(columnNames={"manager_id","deleted_on"}))
 @Inheritance(strategy=javax.persistence.InheritanceType.JOINED)
 @Entity(name="DocumentVerifier")
 @DiscriminatorColumn(discriminatorType=javax.persistence.DiscriminatorType.STRING,name="type_descriminator")
@@ -86,6 +89,10 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	@Id
 	@GeneratedValue(strategy=javax.persistence.GenerationType.TABLE)
 	private Long id;
+	@Index(columnNames="manager_id",name="idx_document_verifier_manager_id")
+	@ManyToOne(fetch=javax.persistence.FetchType.LAZY)
+	@JoinColumn(name="manager_id",nullable=true)
+	private Manager manager;
 	static private Set<DocumentVerifier> mockedAllInstances;
 	@Column(name="name")
 	private String name;
@@ -225,7 +232,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return this.deletedOn;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=304141797839881907l,opposite="documentVerifier",uuid="914890@_03qp8XHgEeGus4aKic9sIg")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=304141797839881907l,opposite="documentVerifier",uuid="914890@_03qp8XHgEeGus4aKic9sIg")
 	@NumlMetaInfo(uuid="914890@_03qp8XHgEeGus4aKic9sIg")
 	public DishwashersInc getDishwashersInc() {
 		DishwashersInc result = this.dishwashersInc;
@@ -233,10 +240,19 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
+	public Set<String> getFailedInvariants() {
+		Set<String> failedInvariants = new HashSet<String>();
+		if ( !isNameSizeGreaterThanFour() ) {
+			failedInvariants.add("structuredbusiness.DocumentVerifier.nameSizeGreaterThanFour");
+		}
+		return failedInvariants;
+	}
+	
 	public Long getId() {
 		return this.id;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6185666218388591493l,uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	@NumlMetaInfo(uuid="252060@_rz7zsI6TEeCne5ArYLDbiA")
 	public Collection<AbstractRequest> getInitiatedRequests() {
 		Collection<AbstractRequest> result = collect9();
@@ -244,6 +260,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5635486542671558270l,uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_7MraII6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getInterestingRequests() {
 		Collection<AbstractRequest> result = collect2();
@@ -251,6 +268,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=5447021495172291044l,uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_jSstQI6lEeCFsPOcAnk69Q")
 	public Collection<AbstractRequest> getManagedRequests() {
 		Collection<AbstractRequest> result = collect4();
@@ -258,7 +276,20 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=8058752859363143598l,uuid="914890@_kRetkHphEeGlh5y8zQdYBA")
+	@PropertyMetaInfo(constraints={},isComposite=false,lookupMethod="getManagerSource",opaeumId=2563671183423377932l,opposite="documentVerifier",uuid="914890@_MwHicHvJEeGIOPhylek76A")
+	@NumlMetaInfo(uuid="914890@_MwHicHvJEeGIOPhylek76A")
+	public Manager getManager() {
+		Manager result = this.manager;
+		
+		return result;
+	}
+	
+	public List<Manager> getManagerSource() {
+		return new ArrayList<Manager>(this.getDishwashersInc().getManager());
+	}
+	
+	@PropertyMetaInfo(constraints=
+		@PropertyConstraint(message="Name size greater than four",method="isNameSizeGreaterThanFour"),isComposite=false,opaeumId=8058752859363143598l,uuid="914890@_kRetkHphEeGlh5y8zQdYBA")
 	@NumlMetaInfo(uuid="914890@_kRetkHphEeGlh5y8zQdYBA")
 	public String getName() {
 		String result = this.name;
@@ -274,6 +305,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return this.outgoingEvents;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6404162095298970578l,uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	@NumlMetaInfo(uuid="252060@_NYHP0I6mEeCFsPOcAnk69Q")
 	public Collection<TaskRequest> getOwnedTaskRequests() {
 		Collection<TaskRequest> result = collect7();
@@ -285,7 +317,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return getDishwashersInc();
 	}
 	
-	@PropertyMetaInfo(isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=4480510548106225415l,opposite="participant",uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	@NumlMetaInfo(uuid="252060@_3YyGkYoXEeCPduia_-NbFw")
 	public Set<Participation> getParticipation() {
 		Set<Participation> result = this.participation;
@@ -293,6 +325,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=2234431193389771664l,uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_TfLFAJBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInRequest> getParticipationsInRequests() {
 		Collection<ParticipationInRequest> result = collect6();
@@ -300,6 +333,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
+	@PropertyMetaInfo(constraints={},isComposite=false,opaeumId=6858863738991536174l,uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	@NumlMetaInfo(uuid="252060@_DIGv8JBkEeCWM9wKKqKWag")
 	public Collection<ParticipationInTask> getParticipationsInTasks() {
 		Collection<ParticipationInTask> result = collect11();
@@ -307,7 +341,7 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		return result;
 	}
 	
-	@PropertyMetaInfo(isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
+	@PropertyMetaInfo(constraints={},isComposite=true,opaeumId=742593574795479974l,opposite="businessRole",uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	@NumlMetaInfo(uuid="252060@_3lcZgVYuEeGj5_I7bIwNoA252060@_3lcZgFYuEeGj5_I7bIwNoA")
 	public Person_iBusinessRole_1 getPerson_iBusinessRole_1_representedPerson() {
 		Person_iBusinessRole_1 result = this.person_iBusinessRole_1_representedPerson;
@@ -347,6 +381,12 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		createComponents();
 	}
 	
+	public boolean isNameSizeGreaterThanFour() {
+		boolean result = (this.getName().length() > 4);
+		
+		return result;
+	}
+	
 	public DocumentVerifier makeCopy() {
 		DocumentVerifier result = new DocumentVerifier();
 		copyState((DocumentVerifier)this,result);
@@ -364,6 +404,9 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		if ( getRepresentedPerson()!=null ) {
 			getRepresentedPerson().z_internalRemoveFromBusinessRole(this);
 		}
+		if ( getManager()!=null ) {
+			getManager().z_internalRemoveFromDocumentVerifier(this);
+		}
 		if ( getDishwashersInc()!=null ) {
 			getDishwashersInc().z_internalRemoveFromDocumentVerifier(this);
 		}
@@ -379,6 +422,16 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		int i = 0;
 		while ( i<propertyNodes.getLength() ) {
 			Node currentPropertyNode = propertyNodes.item(i++);
+			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("manager") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("2563671183423377932")) ) {
+				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
+				int j = 0;
+				while ( j<propertyValueNodes.getLength() ) {
+					Node currentPropertyValueNode = propertyValueNodes.item(j++);
+					if ( currentPropertyValueNode instanceof Element ) {
+						setManager((Manager)map.get(((Element)currentPropertyValueNode).getAttribute("uid")));
+					}
+				}
+			}
 			if ( currentPropertyNode instanceof Element && (currentPropertyNode.getNodeName().equals("person_iBusinessRole_1_representedPerson") || ((Element)currentPropertyNode).getAttribute("propertyId").equals("742593574795479974")) ) {
 				NodeList propertyValueNodes = currentPropertyNode.getChildNodes();
 				int j = 0;
@@ -433,6 +486,35 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 	
 	public void setId(Long id) {
 		this.id=id;
+	}
+	
+	public void setManager(Manager manager) {
+		Manager oldValue = this.getManager();
+		if ( oldValue==null ) {
+			if ( manager!=null ) {
+				DocumentVerifier oldOther = (DocumentVerifier)manager.getDocumentVerifier();
+				manager.z_internalRemoveFromDocumentVerifier(oldOther);
+				if ( oldOther != null ) {
+					oldOther.z_internalRemoveFromManager(manager);
+				}
+				manager.z_internalAddToDocumentVerifier((DocumentVerifier)this);
+			}
+			this.z_internalAddToManager(manager);
+		} else {
+			if ( !oldValue.equals(manager) ) {
+				oldValue.z_internalRemoveFromDocumentVerifier(this);
+				z_internalRemoveFromManager(oldValue);
+				if ( manager!=null ) {
+					DocumentVerifier oldOther = (DocumentVerifier)manager.getDocumentVerifier();
+					manager.z_internalRemoveFromDocumentVerifier(oldOther);
+					if ( oldOther != null ) {
+						oldOther.z_internalRemoveFromManager(manager);
+					}
+					manager.z_internalAddToDocumentVerifier((DocumentVerifier)this);
+				}
+				this.z_internalAddToManager(manager);
+			}
+		}
 	}
 	
 	public void setName(String name) {
@@ -520,6 +602,13 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 			sb.append("name=\""+ StructuredbusinessFormatter.getInstance().formatString(getName())+"\" ");
 		}
 		sb.append(">");
+		if ( getManager()==null ) {
+			sb.append("\n<manager/>");
+		} else {
+			sb.append("\n<manager propertyId=\"2563671183423377932\">");
+			sb.append("\n" + getManager().toXmlReferenceString());
+			sb.append("\n</manager>");
+		}
 		if ( getPerson_iBusinessRole_1_representedPerson()==null ) {
 			sb.append("\n<person_iBusinessRole_1_representedPerson/>");
 		} else {
@@ -547,6 +636,10 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		this.dishwashersInc=val;
 	}
 	
+	public void z_internalAddToManager(Manager val) {
+		this.manager=val;
+	}
+	
 	public void z_internalAddToName(String val) {
 		this.name=val;
 	}
@@ -569,6 +662,13 @@ public class DocumentVerifier implements IPersistentObject, IEventGenerator, Hib
 		if ( getDishwashersInc()!=null && val!=null && val.equals(getDishwashersInc()) ) {
 			this.dishwashersInc=null;
 			this.dishwashersInc=null;
+		}
+	}
+	
+	public void z_internalRemoveFromManager(Manager val) {
+		if ( getManager()!=null && val!=null && val.equals(getManager()) ) {
+			this.manager=null;
+			this.manager=null;
 		}
 	}
 	

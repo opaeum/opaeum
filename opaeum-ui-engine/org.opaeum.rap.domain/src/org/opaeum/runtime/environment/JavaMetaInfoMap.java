@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.opaeum.annotation.NumlMetaInfo;
 import org.opaeum.name.NameConverter;
@@ -61,9 +63,6 @@ public abstract class JavaMetaInfoMap{
 		for(Method method:declaredMethods){
 			if(method.isAnnotationPresent(NumlMetaInfo.class)){
 				if(uuid.equals(method.getAnnotation(NumlMetaInfo.class).uuid())){
-					JavaTypedElementContainer jtec = new JavaTypedElementContainer(method);
-					typedElementContainers.put(uuid, jtec);
-					typedElements.putAll(jtec.getTypedElements());
 					try{
 						String handlerName = c.getName().toLowerCase() + "." + NameConverter.capitalize(method.getName()) + "Handler" + nakedUmlId;
 						Class<? extends IEventHandler> mi = (Class<? extends IEventHandler>) c.getClassLoader().loadClass(handlerName);
@@ -92,10 +91,10 @@ public abstract class JavaMetaInfoMap{
 				throw new RuntimeException(e);
 			}
 			putEventHandler(handler, uuid);
-		}else if(IPersistentObject.class.isAssignableFrom(c) && !c.isInterface()){
+		}else if(IPersistentObject.class.isAssignableFrom(c)){
 			JavaTypedElementContainer jtec = new JavaTypedElementContainer(c);
 			typedElementContainers.put(uuid, jtec);
-			typedElements.putAll(jtec.getTypedElements());
+			putTypedElements(jtec);
 		}else if(IEnum.class.isAssignableFrom(c)){
 			addSecondaryClass(EnumResolver.class, c, "Resolver", true);
 		}
@@ -105,6 +104,14 @@ public abstract class JavaMetaInfoMap{
 		allClasses.add(c);
 		classUuidMap.put(c, uuid);
 		uuidClassMap.put(uuid, c);
+	}
+	private void putTypedElements(JavaTypedElementContainer jtec){
+		for(Entry<String,JavaTypedElement> entry:jtec.getTypedElements().entrySet()){
+			JavaTypedElement javaTypedElement = typedElements.get(entry.getKey());
+			if(javaTypedElement==null || !javaTypedElement.getDeclaringClass().isInterface()){
+				typedElements.put(entry.getKey(), entry.getValue());
+			}
+		} 
 	}
 	@SuppressWarnings("unchecked")
 	public <T>T getSecondaryObject(Class<T> secondaryClass,Class<?> c){

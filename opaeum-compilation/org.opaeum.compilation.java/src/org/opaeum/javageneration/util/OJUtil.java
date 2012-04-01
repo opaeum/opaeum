@@ -28,9 +28,11 @@ import org.opaeum.java.metamodel.annotation.OJAnnotatedClass;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedElement;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedField;
 import org.opaeum.java.metamodel.annotation.OJAnnotatedOperation;
+import org.opaeum.java.metamodel.annotation.OJAnnotationAttributeValue;
 import org.opaeum.java.metamodel.annotation.OJAnnotationValue;
 import org.opaeum.java.metamodel.annotation.OJEnum;
 import org.opaeum.java.metamodel.annotation.OJEnumLiteral;
+import org.opaeum.java.metamodel.generated.OJElementGEN;
 import org.opaeum.javageneration.maps.NakedClassifierMap;
 import org.opaeum.javageneration.maps.NakedOperationMap;
 import org.opaeum.javageneration.maps.NakedStructuralFeatureMap;
@@ -46,6 +48,7 @@ import org.opaeum.metamodel.commonbehaviors.INakedSignal;
 import org.opaeum.metamodel.compositestructures.INakedCollaboration;
 import org.opaeum.metamodel.core.INakedAssociation;
 import org.opaeum.metamodel.core.INakedClassifier;
+import org.opaeum.metamodel.core.INakedConstraint;
 import org.opaeum.metamodel.core.INakedElement;
 import org.opaeum.metamodel.core.INakedElementOwner;
 import org.opaeum.metamodel.core.INakedEnumerationLiteral;
@@ -157,16 +160,15 @@ public class OJUtil{
 		javaKeyWords.add("return");
 	}
 	public static void lock(){
-		structuralFeatureMaps=Collections.unmodifiableMap(structuralFeatureMaps);
-		locallyUniqueFeatureMaps=Collections.unmodifiableMap(locallyUniqueFeatureMaps);
-		actionFeatureMaps=Collections.unmodifiableMap(actionFeatureMaps);
-		packagePaths=Collections.unmodifiableMap(packagePaths);
-		classifierPaths=Collections.unmodifiableMap(classifierPaths);
-		classifierMaps=Collections.unmodifiableMap(classifierMaps);
-		operationMaps=Collections.unmodifiableMap(operationMaps);
-		signalMaps=Collections.unmodifiableMap(signalMaps);
-		statePathnames=Collections.unmodifiableMap(statePathnames);
-		
+		structuralFeatureMaps = Collections.unmodifiableMap(structuralFeatureMaps);
+		locallyUniqueFeatureMaps = Collections.unmodifiableMap(locallyUniqueFeatureMaps);
+		actionFeatureMaps = Collections.unmodifiableMap(actionFeatureMaps);
+		packagePaths = Collections.unmodifiableMap(packagePaths);
+		classifierPaths = Collections.unmodifiableMap(classifierPaths);
+		classifierMaps = Collections.unmodifiableMap(classifierMaps);
+		operationMaps = Collections.unmodifiableMap(operationMaps);
+		signalMaps = Collections.unmodifiableMap(signalMaps);
+		statePathnames = Collections.unmodifiableMap(statePathnames);
 	}
 	public static boolean isBuiltIn(INakedTypedElement f){
 		return BUILT_IN_ATTRIBUTES.contains(f.getName());
@@ -347,6 +349,40 @@ public class OJUtil{
 			metaInfo.putAttribute("uuid", property.getMappingInfo().getIdInModel());
 			element.putAnnotation(metaInfo);
 		}
+		// TODO move thisS
+		if(property instanceof INakedProperty && element instanceof OJOperation){
+			NakedStructuralFeatureMap map = OJUtil.buildStructuralFeatureMap((INakedProperty) property);
+			OJAnnotationValue ap = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyMetaInfo"));
+			ap.putAttribute("isComposite", map.getProperty().isComposite());
+			ap.putAttribute("uuid", map.getProperty().getId());
+			ap.putAttribute("opaeumId", map.getProperty().getMappingInfo().getOpaeumId());
+			if(map.getProperty().getDocumentation() != null){
+				ap.putAttribute("shortDescripion", map.getProperty().getDocumentation());
+			}
+			if(map.getProperty().getOtherEnd() != null){
+				ap.putAttribute("opposite", map.getProperty().getOtherEnd().getName());
+			}
+			OJAnnotationAttributeValue constraints = new OJAnnotationAttributeValue("constraints");
+			ap.putAttribute(constraints);
+			for(INakedConstraint c:map.getProperty().getOwner().getOwnedRules()){
+				if(c.getSpecification().isValidOclValue() && c.getConstrainedElements().contains(map.getProperty())){
+					if(c.getSpecification().getOclValue().getExpression().getExpressionType().isCollectionKind()){
+						ap.putAttribute("lookupMethod", "get" + c.getMappingInfo().getJavaName().getCapped());
+						// Lookup method
+					}else{
+						// Associated constraint
+						OJAnnotationValue constraint = new OJAnnotationValue(new OJPathName("org.opaeum.annotation.PropertyConstraint"));
+						constraint.putAttribute("method", "is" + c.getMappingInfo().getJavaName().getCapped());
+						constraint.putAttribute("message", c.getMappingInfo().getJavaName().getSeparateWords().getAsIs());
+						constraints.addAnnotationValue(constraint);
+					}
+				}
+			}
+//			if(ap.findAttribute("lookupMethod") == null){
+//				ap.putAttribute("lookupMethod", ((OJOperation) element).getName() + "SourcePopulation");
+//			}
+			element.addAnnotationIfNew(ap);
+		}
 	}
 	public static void addField(OJEnum ojEnum,OJConstructor constr,String name,OJPathName type){
 		OJAnnotatedOperation getter = new OJAnnotatedOperation("get" + NameConverter.capitalize(name), type);
@@ -406,7 +442,8 @@ public class OJUtil{
 	public static OJPathName statePathname(INakedClassifier activity){
 		OJPathName result = statePathnames.get(activity);
 		if(result == null){
-			statePathnames.put(activity, result = new ImmutablePathName(packagePathname(activity.getNameSpace()), activity.getMappingInfo().getJavaName() + "State"));
+			statePathnames.put(activity, result = new ImmutablePathName(packagePathname(activity.getNameSpace()), activity.getMappingInfo()
+					.getJavaName() + "State"));
 		}
 		return result;
 	}
