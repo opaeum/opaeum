@@ -30,7 +30,8 @@ public class TestAcceptCallAction extends BaseLocalDbTest {
 		//11 nodes + activity + 1 token + 19
 		Assert.assertEquals(32, countVertices());
 		db.startTransaction();
-		String result = customer.testCallAcceptEvent("wtf");
+		//TODO fix return parameter
+		String result = customer.testCallAcceptEvent("wtf","");
 		db.stopTransaction(Conclusion.SUCCESS);
 		Assert.assertEquals("wtf", result);
 		stopWatch.stop();

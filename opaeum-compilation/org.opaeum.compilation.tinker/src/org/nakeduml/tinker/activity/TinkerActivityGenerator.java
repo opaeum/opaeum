@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import nl.klasse.octopus.model.ParameterDirectionKind;
+
 import org.nakeduml.tinker.generator.TinkerBehaviorUtil;
 import org.nakeduml.tinker.generator.TinkerGenerationUtil;
 import org.nakeduml.tinker.generator.TinkerImplementNodeStep;
@@ -12,7 +14,6 @@ import org.opaeum.feature.StepDependency;
 import org.opaeum.feature.visit.VisitBefore;
 import org.opaeum.java.metamodel.OJBlock;
 import org.opaeum.java.metamodel.OJClass;
-import org.opaeum.java.metamodel.OJField;
 import org.opaeum.java.metamodel.OJOperation;
 import org.opaeum.java.metamodel.OJParameter;
 import org.opaeum.java.metamodel.OJPathName;
@@ -38,6 +39,7 @@ import org.opaeum.metamodel.activities.INakedParameterNode;
 import org.opaeum.metamodel.activities.INakedPin;
 import org.opaeum.metamodel.activities.INakedValuePin;
 import org.opaeum.metamodel.core.INakedParameter;
+import org.opaeum.metamodel.core.internal.emulated.TypedElementPropertyBridge;
 import org.opaeum.name.NameConverter;
 
 @StepDependency(phase = TinkerActivityPhase.class, requires = { TinkerImplementNodeStep.class, TinkerActivityNodeGenerator.class }, after = { TinkerImplementNodeStep.class })
@@ -55,7 +57,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 			List<String> instantiatedClasses = new ArrayList<String>();
 			List<INakedActivityNode> initNodes = getInitNodes(a);
 			for (INakedActivityNode initNode : initNodes) {
-				visitInitNodes(initNode, execute, actions, instantiatedClasses);
+				visitNodes(initNode, execute, actions, instantiatedClasses);
 			}
 
 			implementGetInitialNode(activityClass, initNodes);
@@ -65,52 +67,30 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 
 			activityClass.addToImports(new OJPathName("java.util.Arrays"));
 
-			// implementGetInOutgoingParameters(activityClass, a);
+			// addOutParameters(instantiatedClasses, activityClass, a);
+			// if (a.getSpecification()!=null) {
+			// addFinalNode(instantiatedClasses, activityClass, a);
+			// }
 		}
 	}
 
-	private void implementGetInOutgoingParameters(OJAnnotatedClass activityClass, INakedActivity a) {
-		List<INakedParameterNode> incomingParameters = new ArrayList<INakedParameterNode>();
-		List<INakedParameterNode> outgoingParameters = new ArrayList<INakedParameterNode>();
-
-		OJAnnotatedOperation getIncomingParameters = new OJAnnotatedOperation("getIncomingParameters");
-		TinkerGenerationUtil.addOverrideAnnotation(getIncomingParameters);
-		OJPathName returnType = new OJPathName("java.util.List");
-		returnType.addToElementTypes(new OJPathName("? extends " + TinkerBehaviorUtil.tinkerActivityParameterNodePathName.getLast() + "<?>"));
-		getIncomingParameters.setReturnType(returnType);
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		for (INakedParameterNode incomingParameter : incomingParameters) {
-			if (!first) {
-				sb.append(", ");
-			}
-			sb.append("get");
-			sb.append(NameConverter.capitalize(incomingParameter.getName()));
-			sb.append("()");
+	private void addFinalNode(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivity a) {
+		OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
+		List<INakedActivityNode> finalNodes = getFinalNodes(a);
+		for (INakedActivityNode finalNode : finalNodes) {
+			addGetterToNode(activityClass, finalNode);
+			addEdgeToInitNode(instantiatedClasses, finalNode, init.getBody());
 		}
-		getIncomingParameters.getBody().addToStatements("return Arrays.asList(" + sb.toString() + ")");
-		activityClass.addToOperations(getIncomingParameters);
-		activityClass.addToImports(TinkerBehaviorUtil.tinkerActivityParameterNodePathName);
-		activityClass.addToImports(new OJPathName("java.util.Arrays"));
 
-		OJAnnotatedOperation getOutgoingParameters = new OJAnnotatedOperation("getOutgoingParameters");
-		TinkerGenerationUtil.addOverrideAnnotation(getOutgoingParameters);
-		returnType = new OJPathName("java.util.List");
-		returnType.addToElementTypes(new OJPathName("? extends " + TinkerBehaviorUtil.tinkerActivityParameterNodePathName.getLast() + "<?>"));
-		getOutgoingParameters.setReturnType(returnType);
-		sb = new StringBuilder();
-		first = true;
-		for (INakedParameterNode incomingParameter : outgoingParameters) {
-			if (!first) {
-				sb.append(", ");
-			}
-			sb.append("get");
-			sb.append(NameConverter.capitalize(incomingParameter.getName()));
-			sb.append("()");
+	}
+
+	private void addOutParameters(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivity a) {
+		OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
+		List<INakedParameterNode> outParameters = getOutParameterNodes(a);
+		for (INakedParameterNode outNakedParameterNode : outParameters) {
+			addGetterToNode(activityClass, outNakedParameterNode);
+			addEdgeToInitNode(instantiatedClasses, outNakedParameterNode, init.getBody());
 		}
-		getOutgoingParameters.getBody().addToStatements("return Arrays.asList(" + sb.toString() + ")");
-		activityClass.addToOperations(getOutgoingParameters);
-
 	}
 
 	private void implementIsFinished(OJAnnotatedClass activityClass, INakedActivity a) {
@@ -152,6 +132,20 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		return result;
 	}
 
+	private List<INakedParameterNode> getOutParameterNodes(INakedActivity a) {
+		List<INakedParameterNode> result = new ArrayList<INakedParameterNode>();
+		Collection<INakedActivityNode> nodes = a.getActivityNodes();
+		for (INakedActivityNode node : nodes) {
+			if (node instanceof INakedParameterNode && node.getOutgoing().isEmpty()) {
+				INakedParameterNode parameterNode = (INakedParameterNode) node;
+				if (parameterNode.getParameter().getDirection() == ParameterDirectionKind.INOUT || parameterNode.getParameter().getDirection() == ParameterDirectionKind.OUT) {
+					result.add(parameterNode);
+				}
+			}
+		}
+		return result;
+	}
+
 	private List<INakedActivityNode> getFinalNodes(INakedActivity a) {
 		List<INakedActivityNode> result = new ArrayList<INakedActivityNode>();
 		Collection<INakedActivityNode> nodes = a.getActivityNodes();
@@ -164,13 +158,13 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		return result;
 	}
 
-	private void visitInitNodes(INakedActivityNode node, OJAnnotatedOperation execute, List<INakedAction> actions, List<String> instantiatedClasses) {
+	private void visitNodes(INakedActivityNode node, OJAnnotatedOperation execute, List<INakedAction> actions, List<String> instantiatedClasses) {
 		INakedActivity activity = node.getActivity();
 		OJAnnotatedClass activityClass = findJavaClass(activity);
-		addInitNode(activityClass, node);
+//		addGetterToNode(activityClass, node);
 		OJOperation init = activityClass.findOperation("init", Arrays.asList(TinkerGenerationUtil.compositionNodePathName));
 		createActivityGraph(activityClass, init.getBody(), node, actions, instantiatedClasses);
-		addEdgeToInitNode(instantiatedClasses, node, init.getBody());
+		// addEdgeToInitNode(instantiatedClasses, node, init.getBody());
 		addPinEdgesToActions(instantiatedClasses, actions, init.getBody());
 		startProcessInExecute(activityClass, node, execute);
 	}
@@ -198,6 +192,9 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		OJSimpleStatement statement1 = new OJSimpleStatement();
 		OJPathName nodePathName;
 		if (node instanceof INakedParameterNode) {
+			INakedParameterNode parameterNode = (INakedParameterNode) node;
+			NakedStructuralFeatureMap map = new NakedStructuralFeatureMap(new TypedElementPropertyBridge(node.getActivity(), parameterNode.getParameter()));
+
 			nodePathName = TinkerBehaviorUtil.tinkerObjectTokenPathName.getCopy();
 			nodePathName.addToGenerics(OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType()));
 			if (((INakedParameterNode) node).getNakedMultiplicity().isMany()) {
@@ -205,16 +202,21 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 						+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType()) + ">(\""
 						+ node.getName() + "\",");
 				if (node.getActivity().getSpecification() == null) {
-					expression += " get" + NameConverter.capitalize(((INakedParameterNode) node).getParameter().getName()) + "().iterator()))";
+					expression += map.getter() + "().iterator()))";
 				} else {
-					NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(node.getActivity(), ((INakedParameterNode) node).getParameter());
-					expression += pMap.fieldname() + ".iterator()))";
+					expression += map.fieldname() + ".iterator()))";
 				}
 				statement1.setExpression(expression);
 			} else {
-				statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
-						+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType()) + ">(\""
-						+ node.getName() + "\", Arrays.asList(get" + NameConverter.capitalize(((INakedParameterNode) node).getParameter().getName()) + "()).iterator()))"));
+				if (node.getActivity().getSpecification() == null) {
+					statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
+							+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
+							+ ">(\"" + node.getName() + "\", Arrays.asList(" + map.getter() + "()).iterator()))"));
+				} else {
+					statement1.setExpression(NameConverter.decapitalize(NameConverter.decapitalize(node.getName()) + ".setStarts(new "
+							+ TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName.getLast() + "<" + OJUtil.classifierPathname(((INakedObjectNode) node).getNakedBaseType())
+							+ ">(\"" + node.getName() + "\", Arrays.asList(" + map.fieldname() + ").iterator()))"));
+				}
 			}
 			activityClass.addToImports(TinkerBehaviorUtil.tinkerObjectTokenInteratorPathName);
 		} else {
@@ -252,6 +254,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 	}
 
 	private void walkActivityForEdges(List<String> instantiatedClasses, OJBlock block, INakedActivityNode node) {
+		addEdgeToInitNode(instantiatedClasses, node, block);
 		for (INakedActivityEdge edge : node.getOutgoing()) {
 			addEdge(instantiatedClasses, edge, block);
 			walkActivityForEdges(instantiatedClasses, block, edge.getTarget());
@@ -328,28 +331,34 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 	}
 
 	private void addEdgeToInitNode(List<String> instantiatedClasses, INakedActivityNode initNode, OJBlock block) {
-		instantiatedClasses.add(TinkerBehaviorUtil.activityNodePathName(initNode).getLast());
-		OJSimpleStatement addEdge1 = new OJSimpleStatement();
-		addEdge1.setExpression("Edge "
-				+ NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast())
-				+ "Edge = GraphDb.getDb().addEdge(null, "
-				+ NameConverter.decapitalize("getVertex(), " + NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + ".getVertex(), " + "\""
-						+ NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + "Edge\")"));
-		block.addToStatements(addEdge1);
+		if (!instantiatedClasses.contains(TinkerBehaviorUtil.activityNodePathName(initNode).getLast())) {
+			instantiatedClasses.add(TinkerBehaviorUtil.activityNodePathName(initNode).getLast());
+			OJSimpleStatement addEdge1 = new OJSimpleStatement();
+			addEdge1.setExpression("Edge "
+					+ NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast())
+					+ "Edge = GraphDb.getDb().addEdge(null, "
+					+ NameConverter.decapitalize("getVertex(), " + NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + ".getVertex(), "
+							+ "\"" + NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + "Edge\")"));
+			block.addToStatements(addEdge1);
 
-		OJSimpleStatement addEdge2 = new OJSimpleStatement();
-		addEdge2.setExpression(NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + "Edge.setProperty(\"inClass\", " + "getClass().getName())");
-		block.addToStatements(addEdge2);
+			OJSimpleStatement addEdge2 = new OJSimpleStatement();
+			addEdge2.setExpression(NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + "Edge.setProperty(\"inClass\", "
+					+ "getClass().getName())");
+			block.addToStatements(addEdge2);
 
-		OJSimpleStatement addEdge3 = new OJSimpleStatement();
-		addEdge3.setExpression(NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + "Edge.setProperty(\"outClass\", "
-				+ NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + ".getClass().getName())");
-		block.addToStatements(addEdge3);
+			OJSimpleStatement addEdge3 = new OJSimpleStatement();
+			addEdge3.setExpression(NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + "Edge.setProperty(\"outClass\", "
+					+ NameConverter.decapitalize(TinkerBehaviorUtil.activityNodePathName(initNode).getLast()) + ".getClass().getName())");
+			block.addToStatements(addEdge3);
+		}
 	}
 
 	private void instantiateNode(List<String> instantiatedClasses, OJAnnotatedClass activityClass, INakedActivityNode node, OJBlock block) {
 		if (!instantiatedClasses.contains(TinkerBehaviorUtil.activityNodePathName(node).toJavaString())) {
 			instantiatedClasses.add(TinkerBehaviorUtil.activityNodePathName(node).toJavaString());
+			
+			addGetterToNode(activityClass, node);
+			
 			if (node instanceof INakedControlNode && ((INakedControlNode) node).getControlNodeType().isInitialNode()
 					|| (node instanceof INakedAcceptEventAction && node.getIncoming().isEmpty())) {
 				OJSimpleStatement instantiateNode = new OJSimpleStatement();
@@ -372,7 +381,7 @@ public class TinkerActivityGenerator extends AbstractJavaProducingVisitor {
 		}
 	}
 
-	private void addInitNode(OJClass activityClass, INakedActivityNode node) {
+	private void addGetterToNode(OJClass activityClass, INakedActivityNode node) {
 		OJAnnotatedOperation getter = new OJAnnotatedOperation(TinkerBehaviorUtil.activityNodeGetter(node));
 		getter.setReturnType(TinkerBehaviorUtil.activityNodePathName(node));
 		getter.getBody().addToStatements(

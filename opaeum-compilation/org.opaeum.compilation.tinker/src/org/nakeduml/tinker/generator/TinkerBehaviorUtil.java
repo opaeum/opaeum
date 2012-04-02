@@ -3,7 +3,6 @@ package org.nakeduml.tinker.generator;
 import org.opaeum.java.metamodel.OJPathName;
 import org.opaeum.javageneration.util.OJUtil;
 import org.opaeum.metamodel.actions.INakedAcceptCallAction;
-import org.opaeum.metamodel.actions.INakedCallAction;
 import org.opaeum.metamodel.activities.INakedActivity;
 import org.opaeum.metamodel.activities.INakedActivityEdge;
 import org.opaeum.metamodel.activities.INakedActivityNode;
@@ -21,7 +20,7 @@ import org.opaeum.name.NameConverter;
 public class TinkerBehaviorUtil {
 	
 	
-	public static final OJPathName tinkerAcceptCallEventBlockingQueue = new OJPathName("org.nakeduml.runtime.domain.TinkerAcceptCallEventBlockingQueue");
+	public static final OJPathName tinkerOperationBlockingQueue = new OJPathName("org.nakeduml.runtime.domain.TinkerOperationBlockingQueue");
 	public static final OJPathName tinkerIEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.IEvent");
 	public static final OJPathName tinkerEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.Event");
 	public static final OJPathName tinkerSignalEventPathName = new OJPathName("org.nakeduml.runtime.domain.activity.SignalEvent");

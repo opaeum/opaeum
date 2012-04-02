@@ -35,5 +35,5 @@ public abstract class InActivityParameterNode<O> extends ActivityParameterNode<O
 		}
 		return result;
 	}	
-
+	
 }

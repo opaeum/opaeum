@@ -76,7 +76,7 @@ public abstract class ObjectNode<O> extends ActivityNode<ObjectToken<O>, ObjectT
 	 * 
 	 * @see org.nakeduml.runtime.domain.activity.ActivityNode#getOutTokens()
 	 * 
-	 * Out tokens count tokens before they are duplicated onto all out flows
+	 * Out tokens tokens before they are duplicated onto all out flows
 	 */
 	@Override
 	public List<ObjectToken<O>> getOutTokens() {

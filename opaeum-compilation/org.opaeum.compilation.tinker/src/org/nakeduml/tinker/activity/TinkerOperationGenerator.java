@@ -44,14 +44,14 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 		ownerClass.addToOperations(operation);
 
 		for (INakedParameter param : oper.getOwnedParameters()) {
-			if (param.getDirection() == ParameterDirectionKind.IN || param.getDirection() == ParameterDirectionKind.INOUT) {
+//			if (param.getDirection() == ParameterDirectionKind.IN || param.getDirection() == ParameterDirectionKind.INOUT) {
 				OJParameter p = new OJParameter();
 				NakedStructuralFeatureMap pMap = OJUtil.buildStructuralFeatureMap(owner, param);
 				p.setName(pMap.fieldname());
 				p.setType(pMap.javaTypePath());
 				operation.addToParameters(p);
 				operation.getOwner().addToImports(pMap.javaTypePath());
-			}
+//			}
 		}
 
 		if (!oper.getMethods().isEmpty()) {
@@ -68,7 +68,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 	private void removeClassForOperationIfExist(INakedOperation oper) {
 		OJClass c = findJavaClass(oper.getMessageStructure());
 		if (c!=null) {
-			super.removeTextPath(c, JavaSourceFolderIdentifier.DOMAIN_GEN_SRC);
+			super.deleteClass(JavaSourceFolderIdentifier.DOMAIN_GEN_SRC, c.getPathName());
 		}
 	}
 
@@ -173,7 +173,7 @@ public class TinkerOperationGenerator extends StereotypeAnnotator {
 			operation.getBody()
 					.addToStatements(activityPathName.getLast() + " " + NameConverter.decapitalize(method.getName()) + " = new " + activityPathName.getLast() + "(this)");
 
-			if (method.getArgumentParameters().size() != oper.getOwnedParameters().size()) {
+			if (method.getArgumentParameters().size() != oper.getArgumentParameters().size()) {
 				throw new IllegalStateException("Operation parameters and behavior parameters do not match up");
 			}
 			String executeParams = "";

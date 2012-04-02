@@ -27,6 +27,7 @@ import org.nakeduml.tinker.javageneration.composition.TinkerComponentInitializer
 import org.nakeduml.tinker.javageneration.composition.TinkerCompositionNodeImplementor;
 import org.nakeduml.tinker.linkage.TinkerCompositionEmulator;
 import org.nakeduml.tinker.linkage.TinkerNakedParsedOclStringResolver;
+import org.nakeduml.tinker.linkage.TinkerProcessIdentifier;
 import org.nakeduml.tinker.linkage.TinkerQualifierLogicCalculator;
 import org.nakeduml.tinker.linkage.TinkerQualifierResolver;
 import org.nakeduml.tinker.validation.namegeneration.TinkerUmlNameRegenerator;
@@ -73,7 +74,7 @@ public class GenerateTinkerTestActivity {
 
 	public void generate(String modelName) throws Exception {
 		long start = System.currentTimeMillis();
-		File modelFile = new File(workspaceRoot + "/nakeduml/opaeum-tests/opaeum-test-models/Models/tinker/" + modelName + ".uml");
+		File modelFile = new File(workspaceRoot + "/nakeduml/opaeum-tests/tinker/tinker-test-activity/model/" + modelName + ".uml");
 		process.replaceModel(EmfWorkspaceLoader.loadSingleModelWorkspace(resourceSet, modelFile, cfg));
 		process.execute(new DefaultTransformationLog());
 		System.out.println(modelName + " took " + (System.currentTimeMillis() - start) + "ms");
@@ -108,6 +109,7 @@ public class GenerateTinkerTestActivity {
 		steps.add(TinkerTriggerExtractor.class);
 		steps.add(TinkerEventGenerator.class);
 		steps.add(TinkerJava6ModelGenerator.class);
+		steps.add(TinkerProcessIdentifier.class);
 		steps.addAll(LinkagePhase.getAllSteps());
 		return steps;
 	}

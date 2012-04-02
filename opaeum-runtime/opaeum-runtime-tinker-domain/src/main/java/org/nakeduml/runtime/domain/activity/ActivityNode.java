@@ -2,6 +2,7 @@ package org.nakeduml.runtime.domain.activity;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.nakeduml.runtime.domain.BaseTinkerSoftDelete;
@@ -45,6 +46,8 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	public abstract List<?> getOutTokens();
 	public abstract List<?> getOutTokens(String outFlowName);
 	protected abstract BaseTinkerSoftDelete getContextObject();
+	
+	protected abstract AbstractActivity getActivity();
 
 	public Vertex getVertex() {
 		return vertex;
@@ -122,6 +125,15 @@ public abstract class ActivityNode<IN extends Token, OUT extends Token> extends 
 	public boolean isInActive() {
 		return getNodeStatus() == NodeStatus.INACTIVE;
 	}
+	
+	public String getUid() {
+		String uid = (String) this.vertex.getProperty("uid");
+		if ( uid==null || uid.trim().length()==0 ) {
+			uid=UUID.randomUUID().toString();
+			this.vertex.setProperty("uid", uid);
+		}
+		return uid;
+	}	
 
 	@Override
 	public String toString() {

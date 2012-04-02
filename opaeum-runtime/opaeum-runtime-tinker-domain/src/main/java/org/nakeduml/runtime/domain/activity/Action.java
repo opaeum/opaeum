@@ -102,11 +102,15 @@ public abstract class Action extends ExecutableNode {
 	protected void transferObjectTokensToAction() {
 		for (InputPin<?> inputPin : this.getInputPins()) {
 			int tokensTransferedCount = 0;
-			for (ObjectToken<?> token : inputPin.getInTokens()) {
-				if (++tokensTransferedCount <= inputPin.getUpperMultiplicity()) {
-					token.removeEdgeFromActivityNode();
-					addToInputPinVariable(inputPin, token.getObject());
-					token.remove();
+			if (inputPin instanceof ValuePin<?>) {
+				addToInputPinVariable(inputPin, ((ValuePin<?>)inputPin).getValue());
+			} else {
+				for (ObjectToken<?> token : inputPin.getInTokens()) {
+					if (++tokensTransferedCount <= inputPin.getUpperMultiplicity()) {
+						token.removeEdgeFromActivityNode();
+						addToInputPinVariable(inputPin, token.getObject());
+						token.remove();
+					}
 				}
 			}
 		}
@@ -114,7 +118,7 @@ public abstract class Action extends ExecutableNode {
 
 	protected boolean isInputPinsSatisfied() {
 		for (InputPin<?> inputPin : this.getInputPins()) {
-			if (!inputPin.mayContinue()) {
+			if (!(inputPin instanceof ValuePin) && !inputPin.mayContinue()) {
 				return false;
 			}
 		}

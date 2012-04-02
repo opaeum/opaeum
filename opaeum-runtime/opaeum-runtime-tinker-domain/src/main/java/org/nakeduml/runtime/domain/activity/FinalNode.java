@@ -4,6 +4,8 @@ package org.nakeduml.runtime.domain.activity;
 import java.util.Collections;
 import java.util.List;
 
+import org.nakeduml.runtime.domain.TinkerActivityFinalNodeBlockingQueue;
+
 import com.tinkerpop.blueprints.pgm.Vertex;
 
 public abstract class FinalNode extends GenericControlNode {
@@ -29,5 +31,12 @@ public abstract class FinalNode extends GenericControlNode {
 	protected boolean mayContinue() {
 		return true;
 	}
-	
+
+	@Override
+	protected Boolean executeNode() {
+		Boolean result = super.executeNode();
+		TinkerActivityFinalNodeBlockingQueue.INSTANCE.complete(getActivity().getUid());
+		return result;
+	}	
+
 }
